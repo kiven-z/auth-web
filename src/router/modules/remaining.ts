@@ -5,7 +5,7 @@ export default [
   {
     path: '/login',
     name: 'Login',
-    component: () => import('@/views/login/index.vue'),
+    component: () => import('@/features/auth/login/index.vue'),
     meta: {
       title: $t('menus.pureLogin'),
       showLink: false,
@@ -15,7 +15,7 @@ export default [
   {
     path: '/access-denied',
     name: 'AccessDenied',
-    component: () => import('@/views/error/403.vue'),
+    component: () => import('@/features/shell/error/403.vue'),
     meta: {
       title: $t('menus.pureAccessDenied'),
       showLink: false,
@@ -25,7 +25,7 @@ export default [
   {
     path: '/server-error',
     name: 'ServerError',
-    component: () => import('@/views/error/500.vue'),
+    component: () => import('@/features/shell/error/500.vue'),
     meta: {
       title: $t('menus.pureServerError'),
       showLink: false,

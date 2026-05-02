@@ -9,7 +9,16 @@
 | `src/api/domains/` | 与后端域对齐的 HTTP API 封装；通过 `http` 发起请求。 |
 | `src/infrastructure/` | 与 **HTTP 拦截器、Pinia 会话、登录态、权限冲突处理** 强耦合的基础设施。 |
 | `src/shared/` | **可复用、边界清晰** 的库与壳层工具（与具体业务页面弱耦合）。 |
+| `src/features/<domain>/` | 按业务域收敛的页面与子模块（例如认证域 `features/auth/login`，路由懒加载指向此处）。 |
 | `src/config/`、`src/layout/`、`src/router/`、`src/store/`、`src/views/`、`src/components/` 等 | 保持原有用途。 |
+
+### `src/features/`（已落地示例）
+
+- **`features/auth/login/`**：登录页及局部 `utils/`，与 [`src/api/domains/auth`](./src/api/domains/auth) 域对齐；路由 `/login` 见 [`src/router/modules/remaining.ts`](./src/router/modules/remaining.ts)。
+- **`features/shell/error/`**：403 / 404 / 500 页面；全屏入口见 `remaining.ts`，菜单内 `/error/*` 见 [`src/router/modules/error.ts`](./src/router/modules/error.ts)，兜底 404 见 [`src/router/utils.ts`](./src/router/utils.ts)。
+- **`features/home/welcome/`**：首页欢迎区；路由 `/welcome` 见 [`src/router/modules/home.ts`](./src/router/modules/home.ts)。
+
+`views/permission` 等业务页仍可由后端动态路由指向；后续若要统一目录约定，可按域迁入 `features/<domain>/` 并替换菜单里的组件路径字符串。
 
 ### `src/infrastructure/`（典型内容）
 
@@ -30,10 +39,6 @@
 - `import { http } from '@/infrastructure/http'`
 - `import { message } from '@/shared/messaging/message'`
 - 会话与权限：`@/infrastructure/session/auth` 等。
-
-## 第二阶段（预告）
-
-后续可引入 `src/features/<domain>/`，将登录等页面按域迁入并同步路由懒加载；待页面规模上升后再做，避免与地基迁移混杂。
 
 ## 本地校验
 
