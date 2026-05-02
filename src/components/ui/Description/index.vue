@@ -103,7 +103,7 @@ import { CopyDocument } from '@element-plus/icons-vue';
 import get from 'lodash/get';
 import { computed } from 'vue';
 import type { DescriptionItemProps } from 'element-plus';
-import { message } from '@/utils/base/message';
+import { message } from '@/shared/messaging/message';
 
 type Row = Record<string, any>;
 type RowKey = string | number;

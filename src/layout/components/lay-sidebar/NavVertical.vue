@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useRoute } from 'vue-router';
-import { emitter } from '@/utils/mitt';
+import { emitter } from '@/shared/messaging/mitt';
 import { useNav } from '@/layout/hooks/useNav';
 import { responsiveStorageNameSpace } from '@/config';
 import { storageLocal, isAllEmpty } from '@pureadmin/utils';

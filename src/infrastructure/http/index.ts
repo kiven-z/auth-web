@@ -1,12 +1,12 @@
 import Axios, { type AxiosInstance, type AxiosRequestConfig, type CustomParamsSerializer } from 'axios';
 import type { PureHttpError, PureHttpRequestConfig, PureHttpResponse, RequestMethods } from './types.d';
 import { stringify } from 'qs';
-import { formatToken, getToken } from '@/utils/auth';
+import { formatToken, getToken } from '@/infrastructure/session/auth';
 import { useUserStoreHook } from '@/store/modules/user';
 import { HTTP_BASE_URL, HTTP_TIMEOUT, isNoAuthRequestPath } from '@/config/http-config';
 import { isApiResultEnvelope } from './apiResult';
 import { ApiBusinessError, ApiConflictError } from './apiError';
-import { handlePermissionVersionConflict } from '@/utils/permissionConflict';
+import { handlePermissionVersionConflict } from '@/infrastructure/permissionConflict';
 
 const defaultConfig: AxiosRequestConfig = {
   baseURL: HTTP_BASE_URL,

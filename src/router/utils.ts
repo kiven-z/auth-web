@@ -10,7 +10,7 @@ import { isProxy, toRaw } from 'vue';
 import { useTimeoutFn } from '@vueuse/core';
 import { isString, cloneDeep, isAllEmpty, intersection, storageLocal, isIncludeAllChildren } from '@pureadmin/utils';
 import { getConfig } from '@/config';
-import { buildHierarchyTree } from '@/utils/tree';
+import { buildHierarchyTree } from '@/shared/lib/tree';
 import { type menuType, routerArrays } from '@/layout/types';
 import { useMultiTagsStoreHook } from '@/store/modules/multiTags';
 import { usePermissionStoreHook } from '@/store/modules/permission';

@@ -11,6 +11,8 @@ alwaysApply: true  # 建议改为 true，确保生成 Commit 时必读
 > - `@/types/` -> 指向 `src/types/`
 > - `@/api/` -> 指向 `src/api/`
 > - `@/store/` -> 指向 `src/store/`
+> - `@/infrastructure/` -> 指向 `src/infrastructure/`（HTTP 客户端、会话/Token、与请求链强耦合的模块）
+> - `@/shared/` -> 指向 `src/shared/`（通用库、消息、存储、启动与壳层工具）
 
 这是一个为您整合了所有项目要求（i18n、API、Store、Router、Types、Views、以及严格的代码规范）的完整 Cursor 规则文件（
 `.cursorrules`）。
@@ -55,7 +57,7 @@ alwaysApply: true  # 建议改为 true，确保生成 Commit 时必读
 ### 4. API 接口规范
 
 - **位置**：`src/api/{module}/`。
-- **调用**：使用从 `@/utils/http` 导出的 `http` 实例。
+- **调用**：使用从 `@/infrastructure/http` 导出的 `http` 实例。
 - **方法封装**：
   - GET 请求：`http.request<T>('get', url, { params })`。
   - POST 请求：`http.request<T>('post', url, { data })`。
@@ -193,7 +195,7 @@ export const columns: TableColumnList = [
 
 ### 3. HTTP 请求调用规范
 
-- **基础工具**：统一使用 `import { http } from '@/utils/http'`。
+- **基础工具**：统一使用 `import { http } from '@/infrastructure/http'`。
 - **BaseURL**：无需在 URL 中手动拼接 `/api`，Axios 实例已配置 `baseURL: '/api'`。
 - **传参逻辑**：
   - **GET 请求**：参数使用 `{ params: { ... } }`。
@@ -223,7 +225,7 @@ export const queryExamplePage = (params: ExampleQuery) => {
 
 > 当你在 `src/api/` 目录下创建或修改代码时：
 >
-> 1. **自动导入**：检测路径，自动从 `@/types/...` 导入关联的类型文件；必须导入 `@/utils/http`。
+> 1. **自动导入**：检测路径，自动从 `@/types/...` 导入关联的类型文件；必须导入 `@/infrastructure/http`。
 > 2. **参数处理**：
      >    - 如果是分页接口，检查是否有 `pageIndex`, `pageSize` 等字段。
      >

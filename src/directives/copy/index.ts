@@ -1,4 +1,4 @@
-import { message } from '@/utils/message';
+import { message } from '@/shared/messaging/message';
 import { useEventListener } from '@vueuse/core';
 import { copyTextToClipboard } from '@pureadmin/utils';
 import type { Directive, DirectiveBinding } from 'vue';

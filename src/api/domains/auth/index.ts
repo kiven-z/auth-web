@@ -1,4 +1,4 @@
-import { http } from '@/utils/http';
+import { http } from '@/infrastructure/http';
 import { AUTH_API_PATHS } from './paths';
 import type {
   EmailLoginRequest,

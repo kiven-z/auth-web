@@ -7,7 +7,7 @@ import { MotionPlugin } from '@vueuse/motion';
 // import { useEcharts } from "@/plugins/echarts";
 import { createApp, type Directive } from 'vue';
 import { useElementPlus } from '@/plugins/elementPlus';
-import { injectResponsiveStorage } from '@/utils/responsive';
+import { injectResponsiveStorage } from '@/shared/app/responsive';
 
 import Table from '@pureadmin/table';
 // import PureDescriptions from "@pureadmin/descriptions";

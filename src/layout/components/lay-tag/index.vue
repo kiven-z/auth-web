@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { $t } from '@/plugins/i18n';
-import { emitter } from '@/utils/mitt';
-import NProgress from '@/utils/progress';
+import { emitter } from '@/shared/messaging/mitt';
+import NProgress from '@/shared/app/progress';
 import { RouteConfigs } from '../../types';
 import { useTags } from '../../hooks/useTag';
 import { routerArrays } from '@/layout/types';

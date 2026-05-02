@@ -2,7 +2,7 @@
 import { useI18n } from 'vue-i18n';
 import Motion from './utils/motion';
 import { useRouter } from 'vue-router';
-import { message } from '@/utils/message';
+import { message } from '@/shared/messaging/message';
 import { loginRules } from './utils/rule';
 import { reactive, ref, toRaw } from 'vue';
 import { debounce } from '@pureadmin/utils';
@@ -13,7 +13,7 @@ import { $t, transformI18n } from '@/plugins/i18n';
 import { useLayout } from '@/layout/hooks/useLayout';
 import { useUserStoreHook } from '@/store/modules/user';
 import { getTopMenu, initRouter } from '@/router/utils';
-import { ApiBusinessError, ApiConflictError } from '@/utils/http/apiError';
+import { ApiBusinessError, ApiConflictError } from '@/infrastructure/http/apiError';
 import { avatar, bg, illustration } from './utils/static';
 import { useRenderIcon } from '@/components/ui/Icon/src/hooks';
 import { useTranslationLang } from '@/layout/hooks/useTranslationLang';
@@ -45,7 +45,7 @@ const { title, getDropdownItemStyle, getDropdownItemClass } = useNav();
 const { locale, translationCh, translationEn } = useTranslationLang();
 
 const ruleForm = reactive({
-  username: 'admin',
+  username: 'Administrator',
   password: 'admin123',
 });
 

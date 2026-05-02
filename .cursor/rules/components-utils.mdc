@@ -33,7 +33,7 @@ alwaysApply: true
 
 ### 1. 核心原则
 
-- **统一封装**：禁止直接从 `element-plus` 导入 `ElMessage` 或 `ElMessageBox`。必须统一使用 `@/utils/message` 提供的封装函数，以保持
+- **统一封装**：禁止直接从 `element-plus` 导入 `ElMessage` 或 `ElMessageBox`。必须统一使用 `@/shared/messaging/message` 提供的封装函数，以保持
   UI 风格（antd 风格）和默认配置（如持续时间）的一致性。
 - **国际化结合**：消息内容应优先配合 `transformI18n` 使用，禁止在消息中直接硬编码中文。
 
@@ -49,7 +49,7 @@ alwaysApply: true
 - **代码示例**：
 
   ```typescript
-  import { message } from "@/utils/message";
+  import { message } from "@/shared/messaging/message";
 
   // 基础用法
   message("操作成功", { type: "success" });
@@ -84,7 +84,7 @@ alwaysApply: true
      >
 - 若是提交等待，使用 `loadMessage('common.tips.loading')`。
 >    - 若是普通成功/警告，使用 `message('...', { type: 'success' })`。
-> 2. **自动导入**：检查并确保从 `@/utils/message` 导入对应函数，而非 `element-plus`。
+> 2. **自动导入**：检查并确保从 `@/shared/messaging/message` 导入对应函数，而非 `element-plus`。
 > 3. **文案处理**：
      >    - 检查消息内容是否已使用 `transformI18n` 或 `t()` 包裹。
      >
@@ -96,7 +96,7 @@ alwaysApply: true
 ### 1. 核心原则
 
 - **严禁单层删除**：针对删除等危险操作，项目强制要求进行**多次确认**（通常为两次），以防止用户误操作。
-- **统一封装**：禁止在业务代码中直接调用 `ElMessageBox.confirm`。必须统一使用 `@/utils/base/dialog` 提供的封装函数。
+- **统一封装**：禁止在业务代码中直接调用 `ElMessageBox.confirm`。多层确认须使用项目内封装的函数（落地后置于 `src/shared/`，导入路径以 `CONTRIBUTING.md` 为准）。
 - **样式一致性**：所有确认框默认开启可拖拽 (`draggable`)、隐藏关闭按钮、并显示警告图标 (`warning`)。
 
 ### 2. 核心函数与场景
@@ -112,7 +112,7 @@ alwaysApply: true
 ### 3. 代码示例
 
 ```typescript
-import {deleteConfirm, multiConfirm} from "@/utils/base/dialog";
+import { deleteConfirm, multiConfirm } from "@/shared/messaging/dialog";
 
 // 场景 1：标准双重删除确认
 const handleDelete = async () => {
@@ -143,7 +143,7 @@ await multiConfirm(
 - 弹出第一次确认框，标题为“确认继续操作吗？”，确认后弹出第二次确认框，标题为“最后一次提醒，是否继续？”。
 - 用户任意一次取消则返回 `false`，全部确认返回 `true`。
 
-**src/utils/base/dialogdialog代码示例**：
+**`src/shared/messaging/dialog` 代码示例**（模块落地后使用）：
 
 ```typescript
 /**

@@ -1,7 +1,7 @@
 import { storeToRefs } from 'pinia';
 import { getConfig } from '@/config';
 import { useRouter } from 'vue-router';
-import { emitter } from '@/utils/mitt';
+import { emitter } from '@/shared/messaging/mitt';
 import Avatar from '@/assets/user.jpg';
 import { getTopMenu } from '@/router/utils';
 import { useFullscreen } from '@vueuse/core';

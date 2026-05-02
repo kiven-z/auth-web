@@ -1,5 +1,5 @@
 import { defineComponent, Fragment } from 'vue';
-import { hasPerms } from '@/utils/auth';
+import { hasPerms } from '@/infrastructure/session/auth';
 
 export default defineComponent({
   name: 'Perms',
