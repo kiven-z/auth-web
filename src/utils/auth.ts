@@ -1,6 +1,6 @@
 import Cookies from 'js-cookie';
 import { useUserStoreHook } from '@/store/modules/user';
-import { storageLocal, isString, isIncludeAllChildren } from '@pureadmin/utils';
+import { isString, storageLocal } from '@pureadmin/utils';
 
 export interface DataInfo<T> {
   /** token */
@@ -50,6 +50,14 @@ export type SessionTokenPayload = {
 
 export const userKey = 'user-info';
 export const TokenKey = 'authorized-token';
+
+/**
+ * 从 localStorage 读取已缓存的用户展示信息（单一读取入口，供 Pinia 初始化等使用）。
+ */
+export function readUserProfileFromStorage(): Partial<DataInfo<number>> {
+  const raw = storageLocal().getItem<DataInfo<number>>(userKey);
+  return raw ?? {};
+}
 /**
  * 通过`multiple-tabs`是否在`cookie`中，判断用户是否已经登录系统，
  * 从而支持多标签页打开已经登录的系统后无需再登录。
@@ -163,6 +171,5 @@ export const hasPerms = (value: string | Array<string>): boolean => {
   const { permissions } = useUserStoreHook();
   if (!permissions) return false;
   if (permissions.length === 1 && permissions[0] === allPerms) return true;
-  const isAuths = isString(value) ? permissions.includes(value) : isIncludeAllChildren(value, permissions);
-  return isAuths ? true : false;
+  return isString(value);
 };

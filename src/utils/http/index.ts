@@ -6,6 +6,7 @@ import { useUserStoreHook } from '@/store/modules/user';
 import { HTTP_BASE_URL, HTTP_TIMEOUT, isNoAuthRequestPath } from '@/config/http-config';
 import { isApiResultEnvelope } from './apiResult';
 import { ApiBusinessError, ApiConflictError } from './apiError';
+import { handlePermissionVersionConflict } from '@/utils/permissionConflict';
 
 const defaultConfig: AxiosRequestConfig = {
   baseURL: HTTP_BASE_URL,
@@ -150,7 +151,11 @@ class PureHttp {
         if (isApiResultEnvelope(raw)) {
           if (raw.code !== 200) {
             const status = response.status;
-            const err = status === 409 ? new ApiConflictError(raw, status) : new ApiBusinessError(raw, status);
+            const isConflict = status === 409 || raw.code === 409;
+            const err = isConflict ? new ApiConflictError(raw, status) : new ApiBusinessError(raw, status);
+            if (isConflict) {
+              handlePermissionVersionConflict(err as ApiConflictError);
+            }
             return Promise.reject(err);
           }
           const payload = raw.data as unknown;
@@ -189,7 +194,11 @@ class PureHttp {
         if (response?.data && isApiResultEnvelope(response.data)) {
           const r = response.data;
           const status = response.status ?? 0;
-          const err = status === 409 ? new ApiConflictError(r, status) : new ApiBusinessError(r, status);
+          const isConflict = status === 409 || r.code === 409;
+          const err = isConflict ? new ApiConflictError(r, status) : new ApiBusinessError(r, status);
+          if (isConflict) {
+            handlePermissionVersionConflict(err as ApiConflictError);
+          }
           return Promise.reject(err);
         }
 

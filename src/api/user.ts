@@ -1,10 +1,21 @@
 import { http } from '@/utils/http';
 
 /**
- * 用户登录响应数据
+ * 认证相关 URL 路径（相对 Axios baseURL `/api`，无首尾斜杠）。
+ * 仅含常量，不引用 http，供 `http-config` 白名单引用，避免循环依赖。
+ *
+ * @see auth-server AuthController — `@RequestMapping("/api/auth")`
  */
+export const AUTH_API_PATHS = {
+  LOGIN_USERNAME: 'auth/login/username',
+  LOGIN_EMAIL: 'auth/login/email',
+  EMAIL_SEND_CODE: 'auth/login/email/send-code',
+  REFRESH_TOKEN: 'auth/refresh-token',
+  LOGOUT: 'auth/logout',
+} as const;
+
+/** 用户登录响应（对齐 auth-server UserLoginResponse） */
 export interface UserLoginResponse {
-  /** 用户 ID（JSON 可能为字符串） */
   id?: string;
   username?: string;
   nickname?: string;
@@ -18,9 +29,7 @@ export interface UserLoginResponse {
   readMeDay?: number;
 }
 
-/**
- * 刷新令牌响应数据
- */
+/** 刷新令牌响应（对齐 RefreshTokenResponse） */
 export interface RefreshTokenResponse {
   accessToken: string;
   refreshToken: string;
@@ -28,64 +37,32 @@ export interface RefreshTokenResponse {
   readMeDay?: number;
 }
 
-/**
- * 用户名密码登录请求数据
- */
 export interface UsernamePasswordLoginRequest {
   username: string;
   password: string;
 }
 
-/**
- * 邮箱验证码登录请求数据
- */
 export interface EmailLoginRequest {
   email: string;
   code: string;
 }
 
-/**
- * 刷新令牌请求数据
- */
 export interface RefreshTokenRequest {
   refreshToken: string;
 }
 
-/**
- * 用户名密码登录
- * @param data 用户名密码登录请求数据
- * @returns 用户登录响应数据
- */
 export const loginByUsernameApi = (data: UsernamePasswordLoginRequest) => {
-  return http.request<UserLoginResponse>('post', 'auth/login/username', { data });
+  return http.request<UserLoginResponse>('post', AUTH_API_PATHS.LOGIN_USERNAME, { data });
 };
 
-/**
- * 邮箱验证码登录
- * @param data 邮箱验证码登录请求数据
- * @returns 用户登录响应数据
- */
 export const loginByEmailApi = (data: EmailLoginRequest) => {
-  return http.request<UserLoginResponse>('post', 'auth/login/email', {
-    data,
-  });
+  return http.request<UserLoginResponse>('post', AUTH_API_PATHS.LOGIN_EMAIL, { data });
 };
 
-/**
- * 刷新访问令牌
- * @param data 刷新令牌请求数据
- * @returns 刷新令牌响应数据
- */
 export const refreshTokenApi = (data: RefreshTokenRequest) => {
-  return http.request<RefreshTokenResponse>('post', 'auth/refresh-token', {
-    data,
-  });
+  return http.request<RefreshTokenResponse>('post', AUTH_API_PATHS.REFRESH_TOKEN, { data });
 };
 
-/**
- * 退出登录（需携带 Access Token，由拦截器附加）
- * @returns 退出登录响应数据
- */
 export const logoutApi = () => {
-  return http.request<void>('post', 'auth/logout');
+  return http.request<void>('post', AUTH_API_PATHS.LOGOUT);
 };

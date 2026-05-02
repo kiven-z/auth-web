@@ -1,9 +1,8 @@
 import { http } from '@/utils/http';
 
-/**
- * 获取异步路由
- * @returns 异步路由数据
- */
+/** 动态路由接口路径（与 system / 网关约定一致时仅改此常量） */
+export const ASYNC_ROUTES_API_PATH = 'get-async-routes';
+
 export const getAsyncRoutes = () => {
-  return http.request<Array<Record<string, unknown>>>('get', 'get-async-routes');
+  return http.request<Array<Record<string, void>>>('get', ASYNC_ROUTES_API_PATH);
 };

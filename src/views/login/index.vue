@@ -13,7 +13,7 @@ import { $t, transformI18n } from '@/plugins/i18n';
 import { useLayout } from '@/layout/hooks/useLayout';
 import { useUserStoreHook } from '@/store/modules/user';
 import { getTopMenu, initRouter } from '@/router/utils';
-import { ApiBusinessError } from '@/utils/http/api-error';
+import { ApiBusinessError, ApiConflictError } from '@/utils/http/apiError';
 import { avatar, bg, illustration } from './utils/static';
 import { useRenderIcon } from '@/components/ui/Icon/src/hooks';
 import { useTranslationLang } from '@/layout/hooks/useTranslationLang';
@@ -71,6 +71,9 @@ const onLogin = async (formEl: FormInstance | undefined) => {
           });
         })
         .catch((err: unknown) => {
+          if (err instanceof ApiConflictError) {
+            return;
+          }
           const text = err instanceof ApiBusinessError ? err.message : t('login.pureLoginFail');
           message(text, { type: 'error' });
         })

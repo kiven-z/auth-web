@@ -1,20 +1,23 @@
 import { defineStore } from 'pinia';
-import { type userType, store, router, resetRouter, routerArrays, storageLocal } from '../utils';
-import { type UserLoginResponse, loginByUsernameApi, refreshTokenApi, logoutApi } from '@/api/user';
+import { resetRouter, router, routerArrays, store, type userType } from '../utils';
+import { loginByUsernameApi, logoutApi, refreshTokenApi, type UserLoginResponse } from '@/api/user';
 import { useMultiTagsStoreHook } from './multiTags';
-import { type DataInfo, setToken, removeToken, userKey } from '@/utils/auth';
+import { readUserProfileFromStorage, removeToken, setToken } from '@/utils/auth';
 
 export const useUserStore = defineStore('pure-user', {
-  state: (): userType => ({
-    avatar: storageLocal().getItem<DataInfo<number>>(userKey)?.avatar ?? '',
-    username: storageLocal().getItem<DataInfo<number>>(userKey)?.username ?? '',
-    nickname: storageLocal().getItem<DataInfo<number>>(userKey)?.nickname ?? '',
-    userId: storageLocal().getItem<DataInfo<number>>(userKey)?.userId ?? '',
-    roles: storageLocal().getItem<DataInfo<number>>(userKey)?.roles ?? [],
-    permissions: storageLocal().getItem<DataInfo<number>>(userKey)?.permissions ?? [],
-    isRemembered: false,
-    loginDay: 7,
-  }),
+  state: (): userType => {
+    const u = readUserProfileFromStorage();
+    return {
+      avatar: u.avatar ?? '',
+      username: u.username ?? '',
+      nickname: u.nickname ?? '',
+      userId: u.userId ?? '',
+      roles: u.roles ?? [],
+      permissions: u.permissions ?? [],
+      isRemembered: false,
+      loginDay: 7,
+    };
+  },
   actions: {
     SET_AVATAR(avatar: string) {
       this.avatar = avatar;
