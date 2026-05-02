@@ -1,33 +1,19 @@
-import {
-  ref,
-  unref,
-  computed,
-  reactive,
-  onMounted,
-  type CSSProperties,
-  getCurrentInstance
-} from "vue";
-import type { tagsViewsType } from "../types";
-import { useRoute, useRouter } from "vue-router";
-import { transformI18n, $t } from "@/plugins/i18n";
-import { responsiveStorageNameSpace } from "@/config";
-import { useSettingStoreHook } from "@/store/modules/settings";
-import { useMultiTagsStoreHook } from "@/store/modules/multiTags";
-import {
-  isEqual,
-  isBoolean,
-  storageLocal,
-  toggleClass,
-  hasClass
-} from "@pureadmin/utils";
+import { ref, unref, computed, reactive, onMounted, type CSSProperties, getCurrentInstance } from 'vue';
+import type { tagsViewsType } from '../types';
+import { useRoute, useRouter } from 'vue-router';
+import { transformI18n, $t } from '@/plugins/i18n';
+import { responsiveStorageNameSpace } from '@/config';
+import { useSettingStoreHook } from '@/store/modules/settings';
+import { useMultiTagsStoreHook } from '@/store/modules/multiTags';
+import { isEqual, isBoolean, storageLocal, toggleClass, hasClass } from '@pureadmin/utils';
 
-import Fullscreen from "~icons/ri/fullscreen-fill";
-import CloseAllTags from "~icons/ri/subtract-line";
-import CloseOtherTags from "~icons/ri/text-spacing";
-import CloseRightTags from "~icons/ri/text-direction-l";
-import CloseLeftTags from "~icons/ri/text-direction-r";
-import RefreshRight from "~icons/ep/refresh-right";
-import Close from "~icons/ep/close";
+import Fullscreen from '~icons/ri/fullscreen-fill';
+import CloseAllTags from '~icons/ri/subtract-line';
+import CloseOtherTags from '~icons/ri/text-spacing';
+import CloseRightTags from '~icons/ri/text-direction-l';
+import CloseLeftTags from '~icons/ri/text-direction-r';
+import RefreshRight from '~icons/ep/refresh-right';
+import Close from '~icons/ep/close';
 
 export function useTags() {
   const route = useRoute();
@@ -46,17 +32,11 @@ export function useTags() {
 
   /** 显示模式，默认灵动模式 */
   const showModel = ref(
-    storageLocal().getItem<StorageConfigs>(
-      `${responsiveStorageNameSpace()}configure`
-    )?.showModel || "smart"
+    storageLocal().getItem<StorageConfigs>(`${responsiveStorageNameSpace()}configure`)?.showModel || 'smart'
   );
   /** 是否隐藏标签页，默认显示 */
   const showTags =
-    ref(
-      storageLocal().getItem<StorageConfigs>(
-        `${responsiveStorageNameSpace()}configure`
-      ).hideTabs
-    ) ?? ref("false");
+    ref(storageLocal().getItem<StorageConfigs>(`${responsiveStorageNameSpace()}configure`).hideTabs) ?? ref('false');
   const multiTags: any = computed(() => {
     return useMultiTagsStoreHook().multiTags;
   });
@@ -64,68 +44,64 @@ export function useTags() {
   const tagsViews = reactive<Array<tagsViewsType>>([
     {
       icon: RefreshRight,
-      text: $t("buttons.pureReload"),
+      text: $t('buttons.pureReload'),
       divided: false,
       disabled: false,
-      show: true
+      show: true,
     },
     {
       icon: Close,
-      text: $t("buttons.pureCloseCurrentTab"),
+      text: $t('buttons.pureCloseCurrentTab'),
       divided: false,
       disabled: multiTags.value.length > 1 ? false : true,
-      show: true
+      show: true,
     },
     {
       icon: CloseLeftTags,
-      text: $t("buttons.pureCloseLeftTabs"),
+      text: $t('buttons.pureCloseLeftTabs'),
       divided: true,
       disabled: multiTags.value.length > 1 ? false : true,
-      show: true
+      show: true,
     },
     {
       icon: CloseRightTags,
-      text: $t("buttons.pureCloseRightTabs"),
+      text: $t('buttons.pureCloseRightTabs'),
       divided: false,
       disabled: multiTags.value.length > 1 ? false : true,
-      show: true
+      show: true,
     },
     {
       icon: CloseOtherTags,
-      text: $t("buttons.pureCloseOtherTabs"),
+      text: $t('buttons.pureCloseOtherTabs'),
       divided: true,
       disabled: multiTags.value.length > 2 ? false : true,
-      show: true
+      show: true,
     },
     {
       icon: CloseAllTags,
-      text: $t("buttons.pureCloseAllTabs"),
+      text: $t('buttons.pureCloseAllTabs'),
       divided: false,
       disabled: multiTags.value.length > 1 ? false : true,
-      show: true
+      show: true,
     },
     {
       icon: Fullscreen,
-      text: $t("buttons.pureContentFullScreen"),
+      text: $t('buttons.pureContentFullScreen'),
       divided: true,
       disabled: false,
-      show: true
-    }
+      show: true,
+    },
   ]);
 
   function conditionHandle(item, previous, next) {
-    const currentName = route.name || "";
-    const itemName = item.name || "";
+    const currentName = route.name || '';
+    const itemName = item.name || '';
 
     if (isBoolean(route?.meta?.showLink) && route?.meta?.showLink === false) {
       if (Object.keys(route.query).length > 0) {
-        return currentName === itemName && isEqual(route.query, item.query)
-          ? previous
-          : next;
+        return currentName === itemName && isEqual(route.query, item.query) ? previous : next;
       } else {
-        return currentName === itemName && isEqual(route.params, item.params)
-          ? previous
-          : next;
+        return currentName === itemName && isEqual(route.params, item.params) ? previous : next;
       }
     } else {
       return currentName === itemName ? previous : next;
@@ -133,7 +109,7 @@ export function useTags() {
   }
 
   const isFixedTag = computed(() => {
-    return item => {
+    return (item) => {
       return isBoolean(item?.meta?.fixedTag) && item?.meta?.fixedTag === true;
     };
   });
@@ -146,26 +122,26 @@ export function useTags() {
   });
 
   const linkIsActive = computed(() => {
-    return item => {
-      return conditionHandle(item, "is-active", "");
+    return (item) => {
+      return conditionHandle(item, 'is-active', '');
     };
   });
 
   const scheduleIsActive = computed(() => {
-    return item => {
-      return conditionHandle(item, "schedule-active", "");
+    return (item) => {
+      return conditionHandle(item, 'schedule-active', '');
     };
   });
 
   const getTabStyle = computed((): CSSProperties => {
     return {
       transform: `translateX(${translateX.value}px)`,
-      transition: isScrolling.value ? "none" : "transform 0.5s ease-in-out"
+      transition: isScrolling.value ? 'none' : 'transform 0.5s ease-in-out',
     };
   });
 
   const getContextMenuStyle = computed((): CSSProperties => {
-    return { left: buttonLeft.value + "px", top: buttonTop.value + "px" };
+    return { left: buttonLeft.value + 'px', top: buttonTop.value + 'px' };
   });
 
   const closeMenu = () => {
@@ -175,49 +151,42 @@ export function useTags() {
   /** 鼠标移入添加激活样式 */
   function onMouseenter(index) {
     if (index) activeIndex.value = index;
-    if (unref(showModel) === "smart") {
-      if (hasClass(instance.refs["schedule" + index][0], "schedule-active"))
-        return;
-      toggleClass(true, "schedule-in", instance.refs["schedule" + index][0]);
-      toggleClass(false, "schedule-out", instance.refs["schedule" + index][0]);
+    if (unref(showModel) === 'smart') {
+      if (hasClass(instance.refs['schedule' + index][0], 'schedule-active')) return;
+      toggleClass(true, 'schedule-in', instance.refs['schedule' + index][0]);
+      toggleClass(false, 'schedule-out', instance.refs['schedule' + index][0]);
     } else {
-      if (hasClass(instance.refs["dynamic" + index][0], "is-active")) return;
-      toggleClass(true, "card-in", instance.refs["dynamic" + index][0]);
-      toggleClass(false, "card-out", instance.refs["dynamic" + index][0]);
+      if (hasClass(instance.refs['dynamic' + index][0], 'is-active')) return;
+      toggleClass(true, 'card-in', instance.refs['dynamic' + index][0]);
+      toggleClass(false, 'card-out', instance.refs['dynamic' + index][0]);
     }
   }
 
   /** 鼠标移出恢复默认样式 */
   function onMouseleave(index) {
     activeIndex.value = -1;
-    if (unref(showModel) === "smart") {
-      if (hasClass(instance.refs["schedule" + index][0], "schedule-active"))
-        return;
-      toggleClass(false, "schedule-in", instance.refs["schedule" + index][0]);
-      toggleClass(true, "schedule-out", instance.refs["schedule" + index][0]);
+    if (unref(showModel) === 'smart') {
+      if (hasClass(instance.refs['schedule' + index][0], 'schedule-active')) return;
+      toggleClass(false, 'schedule-in', instance.refs['schedule' + index][0]);
+      toggleClass(true, 'schedule-out', instance.refs['schedule' + index][0]);
     } else {
-      if (hasClass(instance.refs["dynamic" + index][0], "is-active")) return;
-      toggleClass(false, "card-in", instance.refs["dynamic" + index][0]);
-      toggleClass(true, "card-out", instance.refs["dynamic" + index][0]);
+      if (hasClass(instance.refs['dynamic' + index][0], 'is-active')) return;
+      toggleClass(false, 'card-in', instance.refs['dynamic' + index][0]);
+      toggleClass(true, 'card-out', instance.refs['dynamic' + index][0]);
     }
   }
 
   function onContentFullScreen() {
     pureSetting.hiddenSideBar
-      ? pureSetting.changeSetting({ key: "hiddenSideBar", value: false })
-      : pureSetting.changeSetting({ key: "hiddenSideBar", value: true });
+      ? pureSetting.changeSetting({ key: 'hiddenSideBar', value: false })
+      : pureSetting.changeSetting({ key: 'hiddenSideBar', value: true });
   }
 
   onMounted(() => {
     if (!showModel.value) {
-      const configure = storageLocal().getItem<StorageConfigs>(
-        `${responsiveStorageNameSpace()}configure`
-      );
-      configure.showModel = "card";
-      storageLocal().setItem(
-        `${responsiveStorageNameSpace()}configure`,
-        configure
-      );
+      const configure = storageLocal().getItem<StorageConfigs>(`${responsiveStorageNameSpace()}configure`);
+      configure.showModel = 'card';
+      storageLocal().setItem(`${responsiveStorageNameSpace()}configure`, configure);
     }
   });
 
@@ -250,6 +219,6 @@ export function useTags() {
     onMouseenter,
     onMouseleave,
     transformI18n,
-    onContentFullScreen
+    onContentFullScreen,
   };
 }

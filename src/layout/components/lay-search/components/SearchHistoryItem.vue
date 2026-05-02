@@ -1,28 +1,28 @@
 <script lang="ts" setup>
-import type { optionsItem } from "../types";
-import { transformI18n } from "@/plugins/i18n";
-import { useRenderIcon } from "@/components/ui/Icon/src/hooks";
-import StarIcon from "~icons/ep/star";
-import CloseIcon from "~icons/ep/close";
+import type { optionsItem } from '../types';
+import { transformI18n } from '@/plugins/i18n';
+import { useRenderIcon } from '@/components/ui/Icon/src/hooks';
+import StarIcon from '~icons/ep/star';
+import CloseIcon from '~icons/ep/close';
 
 interface Props {
   item: optionsItem;
 }
 
 interface Emits {
-  (e: "collectItem", val: optionsItem): void;
-  (e: "deleteItem", val: optionsItem): void;
+  (e: 'collectItem', val: optionsItem): void;
+  (e: 'deleteItem', val: optionsItem): void;
 }
 
 const emit = defineEmits<Emits>();
 withDefaults(defineProps<Props>(), {});
 
 function handleCollect(item) {
-  emit("collectItem", item);
+  emit('collectItem', item);
 }
 
 function handleDelete(item) {
-  emit("deleteItem", item);
+  emit('deleteItem', item);
 }
 </script>
 

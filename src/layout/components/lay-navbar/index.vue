@@ -1,17 +1,17 @@
 <script setup lang="ts">
-import { useNav } from "@/layout/hooks/useNav";
-import LaySearch from "../lay-search/index.vue";
-import LayNotice from "../lay-notice/index.vue";
-import LayNavMix from "../lay-sidebar/NavMix.vue";
-import { useTranslationLang } from "@/layout/hooks/useTranslationLang";
-import LaySidebarFullScreen from "../lay-sidebar/components/SidebarFullScreen.vue";
-import LaySidebarBreadCrumb from "../lay-sidebar/components/SidebarBreadCrumb.vue";
-import LaySidebarTopCollapse from "../lay-sidebar/components/SidebarTopCollapse.vue";
+import { useNav } from '@/layout/hooks/useNav';
+import LaySearch from '../lay-search/index.vue';
+import LayNotice from '../lay-notice/index.vue';
+import LayNavMix from '../lay-sidebar/NavMix.vue';
+import { useTranslationLang } from '@/layout/hooks/useTranslationLang';
+import LaySidebarFullScreen from '../lay-sidebar/components/SidebarFullScreen.vue';
+import LaySidebarBreadCrumb from '../lay-sidebar/components/SidebarBreadCrumb.vue';
+import LaySidebarTopCollapse from '../lay-sidebar/components/SidebarTopCollapse.vue';
 
-import GlobalizationIcon from "@/assets/svg/globalization.svg?component";
-import LogoutCircleRLine from "~icons/ri/logout-circle-r-line";
-import Setting from "~icons/ri/settings-3-line";
-import Check from "~icons/ep/check";
+import GlobalizationIcon from '@/assets/svg/globalization.svg?component';
+import LogoutCircleRLine from '~icons/ri/logout-circle-r-line';
+import Setting from '~icons/ri/settings-3-line';
+import Check from '~icons/ep/check';
 
 const {
   layout,
@@ -24,7 +24,7 @@ const {
   avatarsStyle,
   toggleSideBar,
   getDropdownItemStyle,
-  getDropdownItemClass
+  getDropdownItemClass,
 } = useNav();
 
 const { t, locale, translationCh, translationEn } = useTranslationLang();
@@ -39,10 +39,7 @@ const { t, locale, translationCh, translationEn } = useTranslationLang();
       @toggleClick="toggleSideBar"
     />
 
-    <LaySidebarBreadCrumb
-      v-if="layout !== 'mix' && device !== 'mobile'"
-      class="breadcrumb-container"
-    />
+    <LaySidebarBreadCrumb v-if="layout !== 'mix' && device !== 'mobile'" class="breadcrumb-container" />
 
     <LayNavMix v-if="layout === 'mix'" />
 
@@ -51,9 +48,7 @@ const { t, locale, translationCh, translationEn } = useTranslationLang();
       <LaySearch id="header-search" />
       <!-- 国际化 -->
       <el-dropdown id="header-translation" trigger="click">
-        <GlobalizationIcon
-          class="navbar-bg-hover w-[40px] h-[48px] p-[11px] cursor-pointer outline-hidden"
-        />
+        <GlobalizationIcon class="navbar-bg-hover w-[40px] h-[48px] p-[11px] cursor-pointer outline-hidden" />
         <template #dropdown>
           <el-dropdown-menu class="translation">
             <el-dropdown-item
@@ -61,11 +56,7 @@ const { t, locale, translationCh, translationEn } = useTranslationLang();
               :class="['dark:text-white!', getDropdownItemClass(locale, 'zh')]"
               @click="translationCh"
             >
-              <IconifyIconOffline
-                v-show="locale === 'zh'"
-                class="check-zh"
-                :icon="Check"
-              />
+              <IconifyIconOffline v-show="locale === 'zh'" class="check-zh" :icon="Check" />
               简体中文
             </el-dropdown-item>
             <el-dropdown-item
@@ -94,20 +85,13 @@ const { t, locale, translationCh, translationEn } = useTranslationLang();
         <template #dropdown>
           <el-dropdown-menu class="logout">
             <el-dropdown-item @click="logout">
-              <IconifyIconOffline
-                :icon="LogoutCircleRLine"
-                style="margin: 5px"
-              />
-              {{ t("buttons.pureLoginOut") }}
+              <IconifyIconOffline :icon="LogoutCircleRLine" style="margin: 5px" />
+              {{ t('buttons.pureLoginOut') }}
             </el-dropdown-item>
           </el-dropdown-menu>
         </template>
       </el-dropdown>
-      <span
-        class="set-icon navbar-bg-hover"
-        :title="t('buttons.pureOpenSystemSet')"
-        @click="onPanel"
-      >
+      <span class="set-icon navbar-bg-hover" :title="t('buttons.pureOpenSystemSet')" @click="onPanel">
         <IconifyIconOffline :icon="Setting" />
       </span>
     </div>

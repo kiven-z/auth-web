@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import { useI18n } from "vue-i18n";
-import { useRoute } from "vue-router";
-import { ref, unref, watch, onMounted, nextTick } from "vue";
+import { useI18n } from 'vue-i18n';
+import { useRoute } from 'vue-router';
+import { ref, unref, watch, onMounted, nextTick } from 'vue';
 
 defineOptions({
-  name: "LayFrame"
+  name: 'LayFrame',
 });
 
 const props = defineProps<{
@@ -17,7 +17,7 @@ const props = defineProps<{
 const { t } = useI18n();
 const loading = ref(true);
 const currentRoute = useRoute();
-const frameSrc = ref<string>("");
+const frameSrc = ref<string>('');
 const frameRef = ref<HTMLElement | null>(null);
 const fallbackTimer = ref<number | null>(null);
 
@@ -43,7 +43,7 @@ function init() {
     if (!iframe) return;
     const _frame = iframe as any;
     if (_frame.attachEvent) {
-      _frame.attachEvent("onload", hideLoading);
+      _frame.attachEvent('onload', hideLoading);
     } else {
       iframe.onload = hideLoading;
     }
@@ -54,12 +54,8 @@ let isRedirect = false;
 
 watch(
   () => currentRoute.fullPath,
-  path => {
-    if (
-      currentRoute.name === "Redirect" &&
-      props.frameInfo?.fullPath &&
-      path.includes(props.frameInfo.fullPath)
-    ) {
+  (path) => {
+    if (currentRoute.name === 'Redirect' && props.frameInfo?.fullPath && path.includes(props.frameInfo.fullPath)) {
       isRedirect = true;
       loading.value = true;
       return;
@@ -68,7 +64,7 @@ watch(
       loading.value = true;
       clearFallbackTimer();
       const url = new URL(props.frameInfo.frameSrc, window.location.origin);
-      const joinChar = url.search ? "&" : "?";
+      const joinChar = url.search ? '&' : '?';
       frameSrc.value = `${props.frameInfo.frameSrc}${joinChar}t=${Date.now()}`;
       fallbackTimer.value = window.setTimeout(() => {
         if (loading.value) {
@@ -87,11 +83,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div
-    v-loading="loading"
-    class="frame"
-    :element-loading-text="t('status.pureLoad')"
-  >
+  <div v-loading="loading" class="frame" :element-loading-text="t('status.pureLoad')">
     <iframe ref="frameRef" :src="frameSrc" class="frame-iframe" />
   </div>
 </template>

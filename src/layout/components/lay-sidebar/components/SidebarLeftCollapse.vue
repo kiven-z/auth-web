@@ -1,17 +1,17 @@
 <script setup lang="ts">
-import { computed } from "vue";
-import { useI18n } from "vue-i18n";
-import { useGlobal } from "@pureadmin/utils";
-import { useNav } from "@/layout/hooks/useNav";
+import { computed } from 'vue';
+import { useI18n } from 'vue-i18n';
+import { useGlobal } from '@pureadmin/utils';
+import { useNav } from '@/layout/hooks/useNav';
 
-import MenuFold from "~icons/ri/menu-fold-fill";
+import MenuFold from '~icons/ri/menu-fold-fill';
 
 interface Props {
   isActive?: boolean;
 }
 
 withDefaults(defineProps<Props>(), {
-  isActive: false
+  isActive: false,
 });
 
 const { t } = useI18n();
@@ -19,14 +19,14 @@ const { tooltipEffect } = useNav();
 
 const iconClass = computed(() => {
   return [
-    "ml-4",
-    "mb-1",
-    "w-[16px]",
-    "h-[16px]",
-    "inline-block!",
-    "align-middle",
-    "cursor-pointer",
-    "duration-[100ms]"
+    'ml-4',
+    'mb-1',
+    'w-[16px]',
+    'h-[16px]',
+    'inline-block!',
+    'align-middle',
+    'cursor-pointer',
+    'duration-[100ms]',
   ];
 });
 
@@ -34,11 +34,11 @@ const { $storage } = useGlobal<GlobalPropertiesApi>();
 const themeColor = computed(() => $storage.layout?.themeColor);
 
 const emit = defineEmits<{
-  (e: "toggleClick"): void;
+  (e: 'toggleClick'): void;
 }>();
 
 const toggleClick = () => {
-  emit("toggleClick");
+  emit('toggleClick');
 };
 </script>
 
@@ -46,12 +46,10 @@ const toggleClick = () => {
   <div class="left-collapse">
     <IconifyIconOffline
       v-tippy="{
-        content: isActive
-          ? t('buttons.pureClickCollapse')
-          : t('buttons.pureClickExpand'),
+        content: isActive ? t('buttons.pureClickCollapse') : t('buttons.pureClickExpand'),
         theme: tooltipEffect,
         hideOnClick: 'toggle',
-        placement: 'right'
+        placement: 'right',
       }"
       :icon="MenuFold"
       :class="[iconClass, themeColor === 'light' ? '' : 'text-primary']"

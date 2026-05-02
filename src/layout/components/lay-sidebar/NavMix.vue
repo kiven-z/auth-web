@@ -1,27 +1,26 @@
 <script lang="ts" setup>
-import { isAllEmpty } from "@pureadmin/utils";
-import { useNav } from "@/layout/hooks/useNav";
-import { transformI18n } from "@/plugins/i18n";
-import LaySearch from "../lay-search/index.vue";
-import LayNotice from "../lay-notice/index.vue";
-import { nextTick, onMounted, ref, toRaw, watch } from "vue";
-import { useRenderIcon } from "@/components/ui/Icon/src/hooks";
-import { findRouteByPath, getParentPaths } from "@/router/utils";
-import { useTranslationLang } from "../../hooks/useTranslationLang";
-import { usePermissionStoreHook } from "@/store/modules/permission";
-import LaySidebarExtraIcon from "../lay-sidebar/components/SidebarExtraIcon.vue";
-import LaySidebarFullScreen from "../lay-sidebar/components/SidebarFullScreen.vue";
+import { isAllEmpty } from '@pureadmin/utils';
+import { useNav } from '@/layout/hooks/useNav';
+import { transformI18n } from '@/plugins/i18n';
+import LaySearch from '../lay-search/index.vue';
+import LayNotice from '../lay-notice/index.vue';
+import { nextTick, onMounted, ref, toRaw, watch } from 'vue';
+import { useRenderIcon } from '@/components/ui/Icon/src/hooks';
+import { findRouteByPath, getParentPaths } from '@/router/utils';
+import { useTranslationLang } from '../../hooks/useTranslationLang';
+import { usePermissionStoreHook } from '@/store/modules/permission';
+import LaySidebarExtraIcon from '../lay-sidebar/components/SidebarExtraIcon.vue';
+import LaySidebarFullScreen from '../lay-sidebar/components/SidebarFullScreen.vue';
 
-import GlobalizationIcon from "@/assets/svg/globalization.svg?component";
-import LogoutCircleRLine from "~icons/ri/logout-circle-r-line";
-import Setting from "~icons/ri/settings-3-line";
-import Check from "~icons/ep/check";
+import GlobalizationIcon from '@/assets/svg/globalization.svg?component';
+import LogoutCircleRLine from '~icons/ri/logout-circle-r-line';
+import Setting from '~icons/ri/settings-3-line';
+import Check from '~icons/ep/check';
 
 const menuRef = ref();
 const defaultActive = ref(null);
 
-const { t, route, locale, translationCh, translationEn } =
-  useTranslationLang(menuRef);
+const { t, route, locale, translationCh, translationEn } = useTranslationLang(menuRef);
 const {
   device,
   logout,
@@ -32,7 +31,7 @@ const {
   getDivStyle,
   avatarsStyle,
   getDropdownItemStyle,
-  getDropdownItemClass
+  getDropdownItemClass,
 } = useNav();
 
 function getDefaultActive(routePath) {
@@ -80,13 +79,8 @@ watch(
         :index="resolvePath(route) || route.redirect"
       >
         <template #title>
-          <div
-            v-if="toRaw(route.meta.icon)"
-            :class="['sub-menu-icon', route.meta.icon]"
-          >
-            <component
-              :is="useRenderIcon(route.meta && toRaw(route.meta.icon))"
-            />
+          <div v-if="toRaw(route.meta.icon)" :class="['sub-menu-icon', route.meta.icon]">
+            <component :is="useRenderIcon(route.meta && toRaw(route.meta.icon))" />
           </div>
           <div :style="getDivStyle">
             <span class="select-none">
@@ -102,9 +96,7 @@ watch(
       <LaySearch id="header-search" />
       <!-- 国际化 -->
       <el-dropdown id="header-translation" trigger="click">
-        <GlobalizationIcon
-          class="navbar-bg-hover w-[40px] h-[48px] p-[11px] cursor-pointer outline-hidden"
-        />
+        <GlobalizationIcon class="navbar-bg-hover w-[40px] h-[48px] p-[11px] cursor-pointer outline-hidden" />
         <template #dropdown>
           <el-dropdown-menu class="translation">
             <el-dropdown-item
@@ -143,20 +135,13 @@ watch(
         <template #dropdown>
           <el-dropdown-menu class="logout">
             <el-dropdown-item @click="logout">
-              <IconifyIconOffline
-                :icon="LogoutCircleRLine"
-                style="margin: 5px"
-              />
-              {{ t("buttons.pureLoginOut") }}
+              <IconifyIconOffline :icon="LogoutCircleRLine" style="margin: 5px" />
+              {{ t('buttons.pureLoginOut') }}
             </el-dropdown-item>
           </el-dropdown-menu>
         </template>
       </el-dropdown>
-      <span
-        :title="t('buttons.pureOpenSystemSet')"
-        class="set-icon navbar-bg-hover"
-        @click="onPanel"
-      >
+      <span :title="t('buttons.pureOpenSystemSet')" class="set-icon navbar-bg-hover" @click="onPanel">
         <IconifyIconOffline :icon="Setting" />
       </span>
     </div>

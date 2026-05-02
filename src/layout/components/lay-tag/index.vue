@@ -1,29 +1,24 @@
 <script setup lang="ts">
-import { $t } from "@/plugins/i18n";
-import { emitter } from "@/utils/mitt";
-import NProgress from "@/utils/progress";
-import { RouteConfigs } from "../../types";
-import { useTags } from "../../hooks/useTag";
-import { routerArrays } from "@/layout/types";
-import { onClickOutside } from "@vueuse/core";
-import TagChrome from "./components/TagChrome.vue";
-import { handleAliveRoute, getTopMenu } from "@/router/utils";
-import { useSettingStoreHook } from "@/store/modules/settings";
-import { useMultiTagsStoreHook } from "@/store/modules/multiTags";
-import { usePermissionStoreHook } from "@/store/modules/permission";
-import { ref, watch, unref, toRaw, nextTick, onBeforeUnmount } from "vue";
-import {
-  delay,
-  isEqual,
-  isAllEmpty,
-  useResizeObserver
-} from "@pureadmin/utils";
+import { $t } from '@/plugins/i18n';
+import { emitter } from '@/utils/mitt';
+import NProgress from '@/utils/progress';
+import { RouteConfigs } from '../../types';
+import { useTags } from '../../hooks/useTag';
+import { routerArrays } from '@/layout/types';
+import { onClickOutside } from '@vueuse/core';
+import TagChrome from './components/TagChrome.vue';
+import { handleAliveRoute, getTopMenu } from '@/router/utils';
+import { useSettingStoreHook } from '@/store/modules/settings';
+import { useMultiTagsStoreHook } from '@/store/modules/multiTags';
+import { usePermissionStoreHook } from '@/store/modules/permission';
+import { ref, watch, unref, toRaw, nextTick, onBeforeUnmount } from 'vue';
+import { delay, isEqual, isAllEmpty, useResizeObserver } from '@pureadmin/utils';
 
-import ExitFullscreen from "~icons/ri/fullscreen-exit-fill";
-import Fullscreen from "~icons/ri/fullscreen-fill";
-import ArrowDown from "~icons/ri/arrow-down-s-line";
-import ArrowRightSLine from "~icons/ri/arrow-right-s-line";
-import ArrowLeftSLine from "~icons/ri/arrow-left-s-line";
+import ExitFullscreen from '~icons/ri/fullscreen-exit-fill';
+import Fullscreen from '~icons/ri/fullscreen-fill';
+import ArrowDown from '~icons/ri/arrow-down-s-line';
+import ArrowRightSLine from '~icons/ri/arrow-right-s-line';
+import ArrowLeftSLine from '~icons/ri/arrow-left-s-line';
 
 const {
   Close,
@@ -53,7 +48,7 @@ const {
   onMouseenter,
   onMouseleave,
   transformI18n,
-  onContentFullScreen
+  onContentFullScreen,
 } = useTags();
 
 const tabDom = ref();
@@ -63,14 +58,11 @@ const contextmenuRef = ref();
 const isShowArrow = ref(false);
 const topPath = getTopMenu()?.path;
 const { VITE_HIDE_HOME } = import.meta.env;
-const fixedTags = [
-  ...routerArrays,
-  ...usePermissionStoreHook().flatteningRoutes.filter(v => v?.meta?.fixedTag)
-];
+const fixedTags = [...routerArrays, ...usePermissionStoreHook().flatteningRoutes.filter((v) => v?.meta?.fixedTag)];
 
 const dynamicTagView = async () => {
   await nextTick();
-  const index = multiTags.value.findIndex(item => {
+  const index = multiTags.value.findIndex((item) => {
     if (!isAllEmpty(route.query)) {
       return isEqual(route.query, item.query);
     } else if (!isAllEmpty(route.params)) {
@@ -85,21 +77,17 @@ const dynamicTagView = async () => {
 const moveToView = async (index: number): Promise<void> => {
   await nextTick();
   const tabNavPadding = 10;
-  if (!instance.refs["dynamic" + index]) return;
-  const tabItemEl = instance.refs["dynamic" + index][0];
+  if (!instance.refs['dynamic' + index]) return;
+  const tabItemEl = instance.refs['dynamic' + index][0];
   const tabItemElOffsetLeft = (tabItemEl as HTMLElement)?.offsetLeft;
   const tabItemOffsetWidth = (tabItemEl as HTMLElement)?.offsetWidth;
   // 标签页导航栏可视长度（不包含溢出部分）
-  const scrollbarDomWidth = scrollbarDom.value
-    ? scrollbarDom.value?.offsetWidth
-    : 0;
+  const scrollbarDomWidth = scrollbarDom.value ? scrollbarDom.value?.offsetWidth : 0;
 
   // 已有标签页总长度（包含溢出部分）
   const tabDomWidth = tabDom.value ? tabDom.value?.offsetWidth : 0;
 
-  scrollbarDomWidth <= tabDomWidth
-    ? (isShowArrow.value = true)
-    : (isShowArrow.value = false);
+  scrollbarDomWidth <= tabDomWidth ? (isShowArrow.value = true) : (isShowArrow.value = false);
   if (tabDomWidth < scrollbarDomWidth || tabItemElOffsetLeft === 0) {
     translateX.value = 0;
   } else if (tabItemElOffsetLeft < -translateX.value) {
@@ -107,40 +95,25 @@ const moveToView = async (index: number): Promise<void> => {
     translateX.value = -tabItemElOffsetLeft + tabNavPadding;
   } else if (
     tabItemElOffsetLeft > -translateX.value &&
-    tabItemElOffsetLeft + tabItemOffsetWidth <
-      -translateX.value + scrollbarDomWidth
+    tabItemElOffsetLeft + tabItemOffsetWidth < -translateX.value + scrollbarDomWidth
   ) {
     // 标签在可视区域
-    translateX.value = Math.min(
-      0,
-      scrollbarDomWidth -
-        tabItemOffsetWidth -
-        tabItemElOffsetLeft -
-        tabNavPadding
-    );
+    translateX.value = Math.min(0, scrollbarDomWidth - tabItemOffsetWidth - tabItemElOffsetLeft - tabNavPadding);
   } else {
     // 标签在可视区域右侧
-    translateX.value = -(
-      tabItemElOffsetLeft -
-      (scrollbarDomWidth - tabNavPadding - tabItemOffsetWidth)
-    );
+    translateX.value = -(tabItemElOffsetLeft - (scrollbarDomWidth - tabNavPadding - tabItemOffsetWidth));
   }
 };
 
 const handleScroll = (offset: number): void => {
-  const scrollbarDomWidth = scrollbarDom.value
-    ? scrollbarDom.value?.offsetWidth
-    : 0;
+  const scrollbarDomWidth = scrollbarDom.value ? scrollbarDom.value?.offsetWidth : 0;
   const tabDomWidth = tabDom.value ? tabDom.value.offsetWidth : 0;
   if (offset > 0) {
     translateX.value = Math.min(0, translateX.value + offset);
   } else {
     if (scrollbarDomWidth < tabDomWidth) {
       if (translateX.value >= -(tabDomWidth - scrollbarDomWidth)) {
-        translateX.value = Math.max(
-          translateX.value + offset,
-          scrollbarDomWidth - tabDomWidth
-        );
+        translateX.value = Math.max(translateX.value + offset, scrollbarDomWidth - tabDomWidth);
       }
     } else {
       translateX.value = 0;
@@ -181,7 +154,7 @@ const smoothScroll = (offset: number): void => {
 };
 
 function dynamicRouteTag(value: string): void {
-  const hasValue = multiTags.value.some(item => {
+  const hasValue = multiTags.value.some((item) => {
     return item.path === value;
   });
 
@@ -189,10 +162,10 @@ function dynamicRouteTag(value: string): void {
     if (!hasValue) {
       arr.forEach((arrItem: any) => {
         if (arrItem.path === value) {
-          useMultiTagsStoreHook().handleTags("push", {
+          useMultiTagsStoreHook().handleTags('push', {
             path: value,
             meta: arrItem.meta,
-            name: arrItem.name
+            name: arrItem.name,
           });
         } else {
           if (arrItem.children && arrItem.children.length > 0) {
@@ -210,10 +183,10 @@ function onFresh() {
   NProgress.start();
   const { fullPath, query } = unref(route);
   router.replace({
-    path: "/redirect" + fullPath,
-    query
+    path: '/redirect' + fullPath,
+    query,
   });
-  handleAliveRoute(route as ToRouteType, "refresh");
+  handleAliveRoute(route as ToRouteType, 'refresh');
   NProgress.done();
 }
 
@@ -232,42 +205,35 @@ function deleteDynamicTag(obj: any, current: any, tag?: string) {
     }
   });
 
-  const spliceRoute = (
-    startIndex?: number,
-    length?: number,
-    other?: boolean
-  ): void => {
+  const spliceRoute = (startIndex?: number, length?: number, other?: boolean): void => {
     if (other) {
       useMultiTagsStoreHook().handleTags(
-        "equal",
-        [
-          VITE_HIDE_HOME === "false" ? fixedTags : toRaw(getTopMenu()),
-          obj
-        ].flat()
+        'equal',
+        [VITE_HIDE_HOME === 'false' ? fixedTags : toRaw(getTopMenu()), obj].flat()
       );
     } else {
-      useMultiTagsStoreHook().handleTags("splice", "", {
+      useMultiTagsStoreHook().handleTags('splice', '', {
         startIndex,
-        length
+        length,
       }) as any;
     }
     dynamicTagView();
   };
 
-  if (tag === "other") {
+  if (tag === 'other') {
     spliceRoute(1, 1, true);
-  } else if (tag === "left") {
+  } else if (tag === 'left') {
     spliceRoute(fixedTags.length, valueIndex - fixedTags.length);
-  } else if (tag === "right") {
+  } else if (tag === 'right') {
     spliceRoute(valueIndex + 1, multiTags.value.length);
   } else {
     // 从当前匹配到的路径中删除
     spliceRoute(valueIndex, 1);
   }
-  const newRoute = useMultiTagsStoreHook().handleTags("slice");
+  const newRoute = useMultiTagsStoreHook().handleTags('slice');
   if (current === route.path) {
     // 如果删除当前激活tag就自动切换到最后一个tag
-    if (tag === "left") return;
+    if (tag === 'left') return;
     if (newRoute[0]?.query) {
       router.push({ name: newRoute[0].name, query: newRoute[0].query });
     } else if (newRoute[0]?.params) {
@@ -277,7 +243,7 @@ function deleteDynamicTag(obj: any, current: any, tag?: string) {
     }
   } else {
     if (!multiTags.value.length) return;
-    if (multiTags.value.some(item => item.path === route.path)) return;
+    if (multiTags.value.some((item) => item.path === route.path)) return;
     if (newRoute[0]?.query) {
       router.push({ name: newRoute[0].name, query: newRoute[0].query });
     } else if (newRoute[0]?.params) {
@@ -303,7 +269,7 @@ function onClickDrop(key, item, selectRoute?: RouteConfigs) {
       meta: selectRoute.meta,
       name: selectRoute.name,
       query: selectRoute?.query,
-      params: selectRoute?.params
+      params: selectRoute?.params,
     };
   } else {
     selectTagRoute = { path: route.path, meta: route.meta };
@@ -321,21 +287,21 @@ function onClickDrop(key, item, selectRoute?: RouteConfigs) {
       break;
     case 2:
       // 关闭左侧标签页
-      deleteMenu(selectTagRoute, "left");
+      deleteMenu(selectTagRoute, 'left');
       break;
     case 3:
       // 关闭右侧标签页
-      deleteMenu(selectTagRoute, "right");
+      deleteMenu(selectTagRoute, 'right');
       break;
     case 4:
       // 关闭其他标签页
-      deleteMenu(selectTagRoute, "other");
+      deleteMenu(selectTagRoute, 'other');
       break;
     case 5:
       // 关闭全部标签页
-      useMultiTagsStoreHook().handleTags("splice", "", {
+      useMultiTagsStoreHook().handleTags('splice', '', {
         startIndex: fixedTags.length,
-        length: multiTags.value.length
+        length: multiTags.value.length,
       });
       router.push(topPath);
       // router.push(fixedTags[fixedTags.length - 1]?.path);
@@ -347,10 +313,10 @@ function onClickDrop(key, item, selectRoute?: RouteConfigs) {
       setTimeout(() => {
         if (pureSetting.hiddenSideBar) {
           tagsViews[6].icon = ExitFullscreen;
-          tagsViews[6].text = $t("buttons.pureContentExitFullScreen");
+          tagsViews[6].text = $t('buttons.pureContentExitFullScreen');
         } else {
           tagsViews[6].icon = Fullscreen;
-          tagsViews[6].text = $t("buttons.pureContentFullScreen");
+          tagsViews[6].text = $t('buttons.pureContentFullScreen');
         }
       }, 100);
       break;
@@ -372,13 +338,13 @@ function selectTag(key, item) {
 }
 
 function showMenus(value: boolean) {
-  Array.of(1, 2, 3, 4, 5).forEach(v => {
+  Array.of(1, 2, 3, 4, 5).forEach((v) => {
     tagsViews[v].show = value;
   });
 }
 
 function disabledMenus(value: boolean, fixedTag = false) {
-  Array.of(1, 2, 3, 4, 5).forEach(v => {
+  Array.of(1, 2, 3, 4, 5).forEach((v) => {
     tagsViews[v].disabled = value;
   });
   if (fixedTag) {
@@ -388,25 +354,20 @@ function disabledMenus(value: boolean, fixedTag = false) {
 }
 
 /** 检查当前右键的菜单两边是否存在别的菜单，如果左侧的菜单是顶级菜单，则不显示关闭左侧标签页，如果右侧没有菜单，则不显示关闭右侧标签页 */
-function showMenuModel(
-  currentPath: string,
-  query: object = {},
-  params: object = {},
-  refresh = false
-) {
+function showMenuModel(currentPath: string, query: object = {}, params: object = {}, refresh = false) {
   const allRoute = multiTags.value;
   const routeLength = multiTags.value.length;
   let currentIndex = -1;
   if (!isAllEmpty(params)) {
-    currentIndex = allRoute.findIndex(v => isEqual(v.params, params));
+    currentIndex = allRoute.findIndex((v) => isEqual(v.params, params));
   } else if (!isAllEmpty(query)) {
-    currentIndex = allRoute.findIndex(v => isEqual(v.query, query));
+    currentIndex = allRoute.findIndex((v) => isEqual(v.query, query));
   } else {
-    currentIndex = allRoute.findIndex(v => v.path === currentPath);
+    currentIndex = allRoute.findIndex((v) => v.path === currentPath);
   }
   function fixedTagDisabled() {
     if (allRoute[currentIndex]?.meta?.fixedTag) {
-      Array.of(1, 2, 3, 4, 5).forEach(v => {
+      Array.of(1, 2, 3, 4, 5).forEach((v) => {
         tagsViews[v].disabled = true;
       });
     }
@@ -425,7 +386,7 @@ function showMenuModel(
   if (currentIndex === 1 && routeLength !== 2) {
     // 左侧的菜单是顶级菜单，右侧存在别的菜单
     tagsViews[2].show = false;
-    Array.of(1, 3, 4, 5).forEach(v => {
+    Array.of(1, 3, 4, 5).forEach((v) => {
       tagsViews[v].disabled = false;
     });
     tagsViews[2].disabled = true;
@@ -433,7 +394,7 @@ function showMenuModel(
   } else if (currentIndex === 1 && routeLength === 2) {
     disabledMenus(false);
     // 左侧的菜单是顶级菜单，右侧不存在别的菜单
-    Array.of(2, 3, 4).forEach(v => {
+    Array.of(2, 3, 4).forEach((v) => {
       tagsViews[v].show = false;
       tagsViews[v].disabled = true;
     });
@@ -441,7 +402,7 @@ function showMenuModel(
   } else if (routeLength - 1 === currentIndex && currentIndex !== 0) {
     // 当前路由是所有路由中的最后一个
     tagsViews[3].show = false;
-    Array.of(1, 2, 4, 5).forEach(v => {
+    Array.of(1, 2, 4, 5).forEach((v) => {
       tagsViews[v].disabled = false;
     });
     tagsViews[3].disabled = true;
@@ -489,9 +450,7 @@ function openMenu(tag, e) {
   } else {
     buttonLeft.value = left;
   }
-  useSettingStoreHook().hiddenSideBar
-    ? (buttonTop.value = e.clientY)
-    : (buttonTop.value = e.clientY - 40);
+  useSettingStoreHook().hiddenSideBar ? (buttonTop.value = e.clientY) : (buttonTop.value = e.clientY - 40);
   nextTick(() => {
     visible.value = true;
   });
@@ -504,12 +463,12 @@ function tagOnClick(item) {
     if (item.query) {
       router.push({
         name,
-        query: item.query
+        query: item.query,
       });
     } else if (item.params) {
       router.push({
         name,
-        params: item.params
+        params: item.params,
       });
     } else {
       router.push({ name });
@@ -517,11 +476,11 @@ function tagOnClick(item) {
   } else {
     router.push({ path });
   }
-  emitter.emit("tagOnClick", item);
+  emitter.emit('tagOnClick', item);
 }
 
 onClickOutside(contextmenuRef, closeMenu, {
-  detectIframe: true
+  detectIframe: true,
 });
 
 watch(route, () => {
@@ -536,18 +495,18 @@ onMounted(() => {
   showMenuModel(route.fullPath);
 
   // 触发隐藏标签页
-  emitter.on("tagViewsChange", (key: any) => {
+  emitter.on('tagViewsChange', (key: any) => {
     if (unref(showTags as any) === key) return;
     (showTags as any).value = key;
   });
 
   // 改变标签风格
-  emitter.on("tagViewsShowModel", key => {
+  emitter.on('tagViewsShowModel', (key) => {
     showModel.value = key;
   });
 
   //  接收侧边栏切换传递过来的参数
-  emitter.on("changLayoutRoute", indexPath => {
+  emitter.on('changLayoutRoute', (indexPath) => {
     dynamicRouteTag(indexPath);
     setTimeout(() => {
       showMenuModel(indexPath);
@@ -560,9 +519,9 @@ onMounted(() => {
 
 onBeforeUnmount(() => {
   // 解绑`tagViewsChange`、`tagViewsShowModel`、`changLayoutRoute`公共事件，防止多次触发
-  emitter.off("tagViewsChange");
-  emitter.off("tagViewsShowModel");
-  emitter.off("changLayoutRoute");
+  emitter.off('tagViewsChange');
+  emitter.off('tagViewsShowModel');
+  emitter.off('changLayoutRoute');
 });
 </script>
 
@@ -586,7 +545,7 @@ onBeforeUnmount(() => {
             'scroll-item is-closable',
             linkIsActive(item),
             showModel === 'chrome' && 'chrome-item',
-            isFixedTag(item) && 'fixed-tag'
+            isFixedTag(item) && 'fixed-tag',
           ]"
           @contextmenu.prevent="openMenu(item, $event)"
           @mouseenter.prevent="onMouseenter(index)"
@@ -594,28 +553,17 @@ onBeforeUnmount(() => {
           @click="tagOnClick(item)"
         >
           <template v-if="showModel !== 'chrome'">
-            <span
-              class="tag-title dark:text-text_color_primary! dark:hover:text-primary!"
-            >
+            <span class="tag-title dark:text-text_color_primary! dark:hover:text-primary!">
               {{ transformI18n(item.meta.title) }}
             </span>
             <span
-              v-if="
-                isFixedTag(item)
-                  ? false
-                  : iconIsActive(item, index) ||
-                    (index === activeIndex && index !== 0)
-              "
+              v-if="isFixedTag(item) ? false : iconIsActive(item, index) || (index === activeIndex && index !== 0)"
               class="el-icon-close"
               @click.stop="deleteMenu(item)"
             >
               <IconifyIconOffline :icon="Close" />
             </span>
-            <span
-              v-if="showModel !== 'card'"
-              :ref="'schedule' + index"
-              :class="[scheduleIsActive(item)]"
-            />
+            <span v-if="showModel !== 'card'" :ref="'schedule' + index" :class="[scheduleIsActive(item)]" />
           </template>
           <div v-else class="chrome-tab">
             <div class="chrome-tab__bg">
@@ -624,11 +572,7 @@ onBeforeUnmount(() => {
             <span class="tag-title">
               {{ transformI18n(item.meta.title) }}
             </span>
-            <span
-              v-if="isFixedTag(item) ? false : index !== 0"
-              class="chrome-close-btn"
-              @click.stop="deleteMenu(item)"
-            >
+            <span v-if="isFixedTag(item) ? false : index !== 0" class="chrome-close-btn" @click.stop="deleteMenu(item)">
               <IconifyIconOffline :icon="Close" />
             </span>
             <span class="chrome-tab-divider" />
@@ -641,18 +585,8 @@ onBeforeUnmount(() => {
     </span>
     <!-- 右键菜单按钮 -->
     <transition name="el-zoom-in-top">
-      <ul
-        v-show="visible"
-        ref="contextmenuRef"
-        :key="Math.random()"
-        :style="getContextMenuStyle"
-        class="contextmenu"
-      >
-        <div
-          v-for="(item, key) in tagsViews.slice(0, 6)"
-          :key="key"
-          style="display: flex; align-items: center"
-        >
+      <ul v-show="visible" ref="contextmenuRef" :key="Math.random()" :style="getContextMenuStyle" class="contextmenu">
+        <div v-for="(item, key) in tagsViews.slice(0, 6)" :key="key" style="display: flex; align-items: center">
           <li v-if="item.show" @click="selectTag(key, item)">
             <IconifyIconOffline :icon="item.icon" />
             {{ transformI18n(item.text) }}
@@ -661,11 +595,7 @@ onBeforeUnmount(() => {
       </ul>
     </transition>
     <!-- 右侧功能按钮 -->
-    <el-dropdown
-      trigger="click"
-      placement="bottom-end"
-      @command="handleCommand"
-    >
+    <el-dropdown trigger="click" placement="bottom-end" @command="handleCommand">
       <span class="arrow-down">
         <IconifyIconOffline :icon="ArrowDown" class="dark:text-white" />
       </span>
@@ -688,5 +618,5 @@ onBeforeUnmount(() => {
 </template>
 
 <style lang="scss" scoped>
-@import url("./index.scss");
+@import url('./index.scss');
 </style>

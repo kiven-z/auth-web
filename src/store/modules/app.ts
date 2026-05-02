@@ -1,34 +1,24 @@
-import { defineStore } from "pinia";
-import {
-  type appType,
-  store,
-  getConfig,
-  storageLocal,
-  deviceDetection,
-  responsiveStorageNameSpace
-} from "../utils";
+import { defineStore } from 'pinia';
+import { type appType, store, getConfig, storageLocal, deviceDetection, responsiveStorageNameSpace } from '../utils';
 
-export const useAppStore = defineStore("pure-app", {
+export const useAppStore = defineStore('pure-app', {
   state: (): appType => ({
     sidebar: {
       opened:
-        storageLocal().getItem<StorageConfigs>(
-          `${responsiveStorageNameSpace()}layout`
-        )?.sidebarStatus ?? getConfig().SidebarStatus,
+        storageLocal().getItem<StorageConfigs>(`${responsiveStorageNameSpace()}layout`)?.sidebarStatus ??
+        getConfig().SidebarStatus,
       withoutAnimation: false,
-      isClickCollapse: false
+      isClickCollapse: false,
     },
     // 这里的layout用于监听容器拖拉后恢复对应的导航模式
     layout:
-      storageLocal().getItem<StorageConfigs>(
-        `${responsiveStorageNameSpace()}layout`
-      )?.layout ?? getConfig().Layout,
-    device: deviceDetection() ? "mobile" : "desktop",
+      storageLocal().getItem<StorageConfigs>(`${responsiveStorageNameSpace()}layout`)?.layout ?? getConfig().Layout,
+    device: deviceDetection() ? 'mobile' : 'desktop',
     // 浏览器窗口的可视区域大小
     viewportSize: {
       width: document.documentElement.clientWidth,
-      height: document.documentElement.clientHeight
-    }
+      height: document.documentElement.clientHeight,
+    },
   }),
   getters: {
     getSidebarStatus(state) {
@@ -42,13 +32,11 @@ export const useAppStore = defineStore("pure-app", {
     },
     getViewportHeight(state) {
       return state.viewportSize.height;
-    }
+    },
   },
   actions: {
     TOGGLE_SIDEBAR(opened?: boolean, resize?: string) {
-      const layout = storageLocal().getItem<StorageConfigs>(
-        `${responsiveStorageNameSpace()}layout`
-      );
+      const layout = storageLocal().getItem<StorageConfigs>(`${responsiveStorageNameSpace()}layout`);
       if (opened && resize) {
         this.sidebar.withoutAnimation = true;
         this.sidebar.opened = true;
@@ -76,8 +64,8 @@ export const useAppStore = defineStore("pure-app", {
     },
     setViewportSize(size) {
       this.viewportSize = size;
-    }
-  }
+    },
+  },
 });
 
 export function useAppStoreHook() {

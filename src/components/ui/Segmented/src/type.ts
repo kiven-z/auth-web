@@ -1,5 +1,5 @@
-import type { Component, VNode } from "vue";
-import type { iconType } from "@/components/ui/Icon/src/types.ts";
+import type { Component, VNode } from 'vue';
+import type { iconType } from '@/components/ui/Icon/src/types.ts';
 
 export interface OptionsType {
   /** 文字 */

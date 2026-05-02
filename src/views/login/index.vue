@@ -1,32 +1,33 @@
 <script lang="ts" setup>
-import { useI18n } from "vue-i18n";
-import Motion from "./utils/motion";
-import { useRouter } from "vue-router";
-import { message } from "@/utils/message";
-import { loginRules } from "./utils/rule";
-import { reactive, ref, toRaw } from "vue";
-import { debounce } from "@pureadmin/utils";
-import { useNav } from "@/layout/hooks/useNav";
-import { useEventListener } from "@vueuse/core";
-import type { FormInstance } from "element-plus";
-import { $t, transformI18n } from "@/plugins/i18n";
-import { useLayout } from "@/layout/hooks/useLayout";
-import { useUserStoreHook } from "@/store/modules/user";
-import { getTopMenu, initRouter } from "@/router/utils";
-import { avatar, bg, illustration } from "./utils/static";
-import { useRenderIcon } from "@/components/ui/Icon/src/hooks";
-import { useTranslationLang } from "@/layout/hooks/useTranslationLang";
-import { useDataThemeChange } from "@/layout/hooks/useDataThemeChange";
+import { useI18n } from 'vue-i18n';
+import Motion from './utils/motion';
+import { useRouter } from 'vue-router';
+import { message } from '@/utils/message';
+import { loginRules } from './utils/rule';
+import { reactive, ref, toRaw } from 'vue';
+import { debounce } from '@pureadmin/utils';
+import { useNav } from '@/layout/hooks/useNav';
+import { useEventListener } from '@vueuse/core';
+import type { FormInstance } from 'element-plus';
+import { $t, transformI18n } from '@/plugins/i18n';
+import { useLayout } from '@/layout/hooks/useLayout';
+import { useUserStoreHook } from '@/store/modules/user';
+import { getTopMenu, initRouter } from '@/router/utils';
+import { ApiBusinessError } from '@/utils/http/api-error';
+import { avatar, bg, illustration } from './utils/static';
+import { useRenderIcon } from '@/components/ui/Icon/src/hooks';
+import { useTranslationLang } from '@/layout/hooks/useTranslationLang';
+import { useDataThemeChange } from '@/layout/hooks/useDataThemeChange';
 
-import dayIcon from "@/assets/svg/day.svg?component";
-import darkIcon from "@/assets/svg/dark.svg?component";
-import globalization from "@/assets/svg/globalization.svg?component";
-import Lock from "~icons/ri/lock-fill";
-import Check from "~icons/ep/check";
-import User from "~icons/ri/user-3-fill";
+import dayIcon from '@/assets/svg/day.svg?component';
+import darkIcon from '@/assets/svg/dark.svg?component';
+import globalization from '@/assets/svg/globalization.svg?component';
+import Lock from '~icons/ri/lock-fill';
+import Check from '~icons/ep/check';
+import User from '~icons/ri/user-3-fill';
 
 defineOptions({
-  name: "Login"
+  name: 'Login',
 });
 
 const router = useRouter();
@@ -44,53 +45,44 @@ const { title, getDropdownItemStyle, getDropdownItemClass } = useNav();
 const { locale, translationCh, translationEn } = useTranslationLang();
 
 const ruleForm = reactive({
-  username: "admin",
-  password: "admin123"
+  username: 'admin',
+  password: 'admin123',
 });
 
 const onLogin = async (formEl: FormInstance | undefined) => {
   if (!formEl) return;
-  await formEl.validate(valid => {
+  await formEl.validate((valid) => {
     if (valid) {
       loading.value = true;
       useUserStoreHook()
         .loginByUsername({
           username: ruleForm.username,
-          password: ruleForm.password
+          password: ruleForm.password,
         })
-        .then(res => {
-          if (res.success) {
-            // 获取后端路由
-            return initRouter().then(() => {
-              disabled.value = true;
-              router
-                .push(getTopMenu(true).path)
-                .then(() => {
-                  message(t("login.pureLoginSuccess"), { type: "success" });
-                })
-                .finally(() => (disabled.value = false));
-            });
-          } else {
-            message(t("login.pureLoginFail"), { type: "error" });
-          }
+        .then(() => {
+          return initRouter().then(() => {
+            disabled.value = true;
+            router
+              .push(getTopMenu(true).path)
+              .then(() => {
+                message(t('login.pureLoginSuccess'), { type: 'success' });
+              })
+              .finally(() => (disabled.value = false));
+          });
+        })
+        .catch((err: unknown) => {
+          const text = err instanceof ApiBusinessError ? err.message : t('login.pureLoginFail');
+          message(text, { type: 'error' });
         })
         .finally(() => (loading.value = false));
     }
   });
 };
 
-const immediateDebounce: any = debounce(
-  formRef => onLogin(formRef),
-  1000,
-  true
-);
+const immediateDebounce: any = debounce((formRef) => onLogin(formRef), 1000, true);
 
-useEventListener(document, "keydown", ({ code }) => {
-  if (
-    ["Enter", "NumpadEnter"].includes(code) &&
-    !disabled.value &&
-    !loading.value
-  )
+useEventListener(document, 'keydown', ({ code }) => {
+  if (['Enter', 'NumpadEnter'].includes(code) && !disabled.value && !loading.value)
     immediateDebounce(ruleFormRef.value);
 });
 </script>
@@ -119,11 +111,7 @@ useEventListener(document, "keydown", ({ code }) => {
               :style="getDropdownItemStyle(locale, 'zh')"
               @click="translationCh"
             >
-              <IconifyIconOffline
-                v-show="locale === 'zh'"
-                :icon="Check"
-                class="check-zh"
-              />
+              <IconifyIconOffline v-show="locale === 'zh'" :icon="Check" class="check-zh" />
               简体中文
             </el-dropdown-item>
             <el-dropdown-item
@@ -151,20 +139,15 @@ useEventListener(document, "keydown", ({ code }) => {
             <h2 class="outline-hidden">{{ title }}</h2>
           </Motion>
 
-          <el-form
-            ref="ruleFormRef"
-            :model="ruleForm"
-            :rules="loginRules"
-            size="large"
-          >
+          <el-form ref="ruleFormRef" :model="ruleForm" :rules="loginRules" size="large">
             <Motion :delay="100">
               <el-form-item
                 :rules="[
                   {
                     required: true,
                     message: transformI18n($t('login.pureUsernameReg')),
-                    trigger: 'blur'
-                  }
+                    trigger: 'blur',
+                  },
                 ]"
                 prop="username"
               >
@@ -198,7 +181,7 @@ useEventListener(document, "keydown", ({ code }) => {
                 type="primary"
                 @click="onLogin(ruleFormRef)"
               >
-                {{ t("login.pureLogin") }}
+                {{ t('login.pureLogin') }}
               </el-button>
             </Motion>
           </el-form>
@@ -209,7 +192,7 @@ useEventListener(document, "keydown", ({ code }) => {
 </template>
 
 <style scoped>
-@import url("@/style/login.css");
+@import url('@/style/login.css');
 </style>
 
 <style lang="scss" scoped>

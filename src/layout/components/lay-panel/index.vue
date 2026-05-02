@@ -1,28 +1,28 @@
 <script setup lang="ts">
-import { useI18n } from "vue-i18n";
-import { emitter } from "@/utils/mitt";
-import { onClickOutside } from "@vueuse/core";
-import { ref, computed, onMounted, onBeforeUnmount } from "vue";
-import { useDataThemeChange } from "@/layout/hooks/useDataThemeChange";
-import CloseIcon from "~icons/ep/close";
+import { useI18n } from 'vue-i18n';
+import { emitter } from '@/utils/mitt';
+import { onClickOutside } from '@vueuse/core';
+import { ref, computed, onMounted, onBeforeUnmount } from 'vue';
+import { useDataThemeChange } from '@/layout/hooks/useDataThemeChange';
+import CloseIcon from '~icons/ep/close';
 
 const target = ref(null);
 const show = ref<Boolean>(false);
 
 const iconClass = computed(() => {
   return [
-    "w-[22px]",
-    "h-[22px]",
-    "flex",
-    "justify-center",
-    "items-center",
-    "outline-hidden",
-    "rounded-[4px]",
-    "cursor-pointer",
-    "transition-colors",
-    "hover:bg-[#0000000f]",
-    "dark:hover:bg-[#ffffff1f]",
-    "dark:hover:text-[#ffffffd9]"
+    'w-[22px]',
+    'h-[22px]',
+    'flex',
+    'justify-center',
+    'items-center',
+    'outline-hidden',
+    'rounded-[4px]',
+    'cursor-pointer',
+    'transition-colors',
+    'hover:bg-[#0000000f]',
+    'dark:hover:bg-[#ffffff1f]',
+    'dark:hover:text-[#ffffffd9]',
   ];
 });
 
@@ -35,14 +35,14 @@ onClickOutside(target, (event: any) => {
 });
 
 onMounted(() => {
-  emitter.on("openPanel", () => {
+  emitter.on('openPanel', () => {
     show.value = true;
   });
 });
 
 onBeforeUnmount(() => {
   // 解绑`openPanel`公共事件，防止多次触发
-  emitter.off("openPanel");
+  emitter.off('openPanel');
 });
 </script>
 
@@ -50,17 +50,15 @@ onBeforeUnmount(() => {
   <div :class="{ show }">
     <div class="right-panel-background" />
     <div ref="target" class="right-panel bg-bg_color">
-      <div
-        class="project-configuration border-0 border-b-[1px] border-solid border-[var(--pure-border-color)]"
-      >
+      <div class="project-configuration border-0 border-b-[1px] border-solid border-[var(--pure-border-color)]">
         <h4 class="dark:text-white">
-          {{ t("panel.pureSystemSet") }}
+          {{ t('panel.pureSystemSet') }}
         </h4>
         <span
           v-tippy="{
             content: t('panel.pureCloseSystemSet'),
             placement: 'bottom-start',
-            zIndex: 41000
+            zIndex: 41000,
           }"
           :class="iconClass"
         >
@@ -77,21 +75,19 @@ onBeforeUnmount(() => {
         <slot />
       </el-scrollbar>
 
-      <div
-        class="flex justify-end p-3 border-0 border-t-[1px] border-solid border-[var(--pure-border-color)]"
-      >
+      <div class="flex justify-end p-3 border-0 border-t-[1px] border-solid border-[var(--pure-border-color)]">
         <el-button
           v-tippy="{
             content: t('panel.pureClearCacheAndToLogin'),
             placement: 'left-start',
-            zIndex: 41000
+            zIndex: 41000,
           }"
           type="danger"
           text
           bg
           @click="onReset"
         >
-          {{ t("panel.pureClearCache") }}
+          {{ t('panel.pureClearCache') }}
         </el-button>
       </div>
     </div>

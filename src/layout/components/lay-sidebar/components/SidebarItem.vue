@@ -1,75 +1,62 @@
 <script lang="ts" setup>
-import { getConfig } from "@/config";
-import { posix } from "path-browserify";
-import { menuType } from "@/layout/types";
-import { ReText } from "@/components/ui/ReText";
-import { useNav } from "@/layout/hooks/useNav";
-import { transformI18n } from "@/plugins/i18n";
-import SidebarLinkItem from "./SidebarLinkItem.vue";
-import SidebarExtraIcon from "./SidebarExtraIcon.vue";
-import { useRenderIcon } from "@/components/ui/Icon/src/hooks";
-import {
-  computed,
-  type CSSProperties,
-  type PropType,
-  ref,
-  toRaw,
-  useAttrs
-} from "vue";
+import { getConfig } from '@/config';
+import { posix } from 'path-browserify';
+import { menuType } from '@/layout/types';
+import { ReText } from '@/components/ui/ReText';
+import { useNav } from '@/layout/hooks/useNav';
+import { transformI18n } from '@/plugins/i18n';
+import SidebarLinkItem from './SidebarLinkItem.vue';
+import SidebarExtraIcon from './SidebarExtraIcon.vue';
+import { useRenderIcon } from '@/components/ui/Icon/src/hooks';
+import { computed, type CSSProperties, type PropType, ref, toRaw, useAttrs } from 'vue';
 
-import ArrowUp from "~icons/ep/arrow-up-bold";
-import EpArrowDown from "~icons/ep/arrow-down-bold";
-import ArrowLeft from "~icons/ep/arrow-left-bold";
-import ArrowRight from "~icons/ep/arrow-right-bold";
+import ArrowUp from '~icons/ep/arrow-up-bold';
+import EpArrowDown from '~icons/ep/arrow-down-bold';
+import ArrowLeft from '~icons/ep/arrow-left-bold';
+import ArrowRight from '~icons/ep/arrow-right-bold';
 
 const attrs = useAttrs();
 const { layout, isCollapse, tooltipEffect, getDivStyle } = useNav();
 
 const props = defineProps({
   item: {
-    type: Object as PropType<menuType>
+    type: Object as PropType<menuType>,
   },
   isNest: {
     type: Boolean,
-    default: false
+    default: false,
   },
   basePath: {
     type: String,
-    default: ""
-  }
+    default: '',
+  },
 });
 
 const getNoDropdownStyle = computed((): CSSProperties => {
   return {
-    width: "100%",
-    display: "flex",
-    alignItems: "center"
+    width: '100%',
+    display: 'flex',
+    alignItems: 'center',
   };
 });
 
 const getSubMenuIconStyle = computed((): CSSProperties => {
   return {
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    margin:
-      layout.value === "horizontal"
-        ? "0 5px 0 0"
-        : isCollapse.value
-          ? "0 auto"
-          : "0 5px 0 0"
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    margin: layout.value === 'horizontal' ? '0 5px 0 0' : isCollapse.value ? '0 auto' : '0 5px 0 0',
   };
 });
 
 const textClass = computed(() => {
   const item = props.item;
-  const baseClass = "w-full! text-inherit!";
+  const baseClass = 'w-full! text-inherit!';
   if (
-    layout.value !== "horizontal" &&
+    layout.value !== 'horizontal' &&
     isCollapse.value &&
     !toRaw(item.meta.icon) &&
-    ((layout.value === "vertical" && item.parentId === null) ||
-      (layout.value === "mix" && item.pathList.length === 2))
+    ((layout.value === 'vertical' && item.parentId === null) || (layout.value === 'mix' && item.pathList.length === 2))
   ) {
     return `${baseClass} min-w-[54px]! text-center! px-3!`;
   }
@@ -77,12 +64,12 @@ const textClass = computed(() => {
 });
 
 const expandCloseIcon = computed(() => {
-  if (!getConfig()?.MenuArrowIconNoTransition) return "";
+  if (!getConfig()?.MenuArrowIconNoTransition) return '';
   return {
-    "expand-close-icon": useRenderIcon(EpArrowDown),
-    "expand-open-icon": useRenderIcon(ArrowUp),
-    "collapse-close-icon": useRenderIcon(ArrowRight),
-    "collapse-open-icon": useRenderIcon(ArrowLeft)
+    'expand-close-icon': useRenderIcon(EpArrowDown),
+    'expand-open-icon': useRenderIcon(ArrowUp),
+    'collapse-close-icon': useRenderIcon(ArrowRight),
+    'collapse-open-icon': useRenderIcon(ArrowLeft),
   };
 });
 
@@ -103,7 +90,7 @@ function hasOneShowingChild(children: menuType[] = [], parent: menuType) {
   }
 
   if (showingChildren.length === 0) {
-    onlyOneChild.value = { ...parent, path: "", noShowingChildren: true };
+    onlyOneChild.value = { ...parent, path: '', noShowingChildren: true };
     return true;
   }
   return false;
@@ -121,10 +108,7 @@ function resolvePath(routePath) {
 
 <template>
   <SidebarLinkItem
-    v-if="
-      hasOneShowingChild(item.children, item) &&
-      (!onlyOneChild.children || onlyOneChild.noShowingChildren)
-    "
+    v-if="hasOneShowingChild(item.children, item) && (!onlyOneChild.children || onlyOneChild.noShowingChildren)"
     :to="item"
   >
     <el-menu-item
@@ -133,30 +117,13 @@ function resolvePath(routePath) {
       :style="getNoDropdownStyle"
       v-bind="attrs"
     >
-      <div
-        v-if="toRaw(item.meta.icon)"
-        :style="getSubMenuIconStyle"
-        class="sub-menu-icon"
-      >
-        <component
-          :is="
-            useRenderIcon(
-              toRaw(onlyOneChild.meta.icon) ||
-                (item.meta && toRaw(item.meta.icon))
-            )
-          "
-        />
+      <div v-if="toRaw(item.meta.icon)" :style="getSubMenuIconStyle" class="sub-menu-icon">
+        <component :is="useRenderIcon(toRaw(onlyOneChild.meta.icon) || (item.meta && toRaw(item.meta.icon)))" />
       </div>
       <el-text
         v-if="
-          (!item?.meta.icon &&
-            isCollapse &&
-            layout === 'vertical' &&
-            item?.pathList?.length === 1) ||
-          (!onlyOneChild.meta.icon &&
-            isCollapse &&
-            layout === 'mix' &&
-            item?.pathList?.length === 2)
+          (!item?.meta.icon && isCollapse && layout === 'vertical' && item?.pathList?.length === 1) ||
+          (!onlyOneChild.meta.icon && isCollapse && layout === 'mix' && item?.pathList?.length === 2)
         "
         class="w-full! px-3! min-w-[54px]! text-center! text-inherit!"
         truncated
@@ -169,7 +136,7 @@ function resolvePath(routePath) {
           <ReText
             :tippyProps="{
               offset: [0, -10],
-              theme: tooltipEffect
+              theme: tooltipEffect,
             }"
             class="w-full! text-inherit!"
           >
@@ -180,36 +147,21 @@ function resolvePath(routePath) {
       </template>
     </el-menu-item>
   </SidebarLinkItem>
-  <el-sub-menu
-    v-else
-    ref="subMenu"
-    :index="resolvePath(item.path)"
-    teleported
-    v-bind="expandCloseIcon"
-  >
+  <el-sub-menu v-else ref="subMenu" :index="resolvePath(item.path)" teleported v-bind="expandCloseIcon">
     <template #title>
-      <div
-        v-if="toRaw(item.meta.icon)"
-        :style="getSubMenuIconStyle"
-        class="sub-menu-icon"
-      >
+      <div v-if="toRaw(item.meta.icon)" :style="getSubMenuIconStyle" class="sub-menu-icon">
         <component :is="useRenderIcon(item.meta && toRaw(item.meta.icon))" />
       </div>
       <ReText
         v-if="
           layout === 'mix' && toRaw(item.meta.icon)
             ? !isCollapse || item?.pathList?.length !== 2
-            : !(
-                layout === 'vertical' &&
-                isCollapse &&
-                toRaw(item.meta.icon) &&
-                item.parentId === null
-              )
+            : !(layout === 'vertical' && isCollapse && toRaw(item.meta.icon) && item.parentId === null)
         "
         :class="textClass"
         :tippyProps="{
           offset: [0, -10],
-          theme: tooltipEffect
+          theme: tooltipEffect,
         }"
       >
         {{ transformI18n(item.meta.title) }}

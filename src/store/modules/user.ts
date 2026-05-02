@@ -1,107 +1,106 @@
-import { defineStore } from "pinia";
-import {
-  type userType,
-  store,
-  router,
-  resetRouter,
-  routerArrays,
-  storageLocal
-} from "../utils";
-import {
-  type UserResult,
-  type RefreshTokenResult,
-  getLogin,
-  refreshTokenApi
-} from "@/api/user";
-import { useMultiTagsStoreHook } from "./multiTags";
-import { type DataInfo, setToken, removeToken, userKey } from "@/utils/auth";
+import { defineStore } from 'pinia';
+import { type userType, store, router, resetRouter, routerArrays, storageLocal } from '../utils';
+import { type UserLoginResponse, loginByUsernameApi, refreshTokenApi, logoutApi } from '@/api/user';
+import { useMultiTagsStoreHook } from './multiTags';
+import { type DataInfo, setToken, removeToken, userKey } from '@/utils/auth';
 
-export const useUserStore = defineStore("pure-user", {
+export const useUserStore = defineStore('pure-user', {
   state: (): userType => ({
-    // 头像
-    avatar: storageLocal().getItem<DataInfo<number>>(userKey)?.avatar ?? "",
-    // 用户名
-    username: storageLocal().getItem<DataInfo<number>>(userKey)?.username ?? "",
-    // 昵称
-    nickname: storageLocal().getItem<DataInfo<number>>(userKey)?.nickname ?? "",
-    // 页面级别权限
+    avatar: storageLocal().getItem<DataInfo<number>>(userKey)?.avatar ?? '',
+    username: storageLocal().getItem<DataInfo<number>>(userKey)?.username ?? '',
+    nickname: storageLocal().getItem<DataInfo<number>>(userKey)?.nickname ?? '',
+    userId: storageLocal().getItem<DataInfo<number>>(userKey)?.userId ?? '',
     roles: storageLocal().getItem<DataInfo<number>>(userKey)?.roles ?? [],
-    // 按钮级别权限
-    permissions:
-      storageLocal().getItem<DataInfo<number>>(userKey)?.permissions ?? [],
-    // 是否勾选了登录页的免登录
+    permissions: storageLocal().getItem<DataInfo<number>>(userKey)?.permissions ?? [],
     isRemembered: false,
-    // 登录页的免登录存储几天，默认7天
-    loginDay: 7
+    loginDay: 7,
   }),
   actions: {
-    /** 存储头像 */
     SET_AVATAR(avatar: string) {
       this.avatar = avatar;
     },
-    /** 存储用户名 */
     SET_USERNAME(username: string) {
       this.username = username;
     },
-    /** 存储昵称 */
     SET_NICKNAME(nickname: string) {
       this.nickname = nickname;
     },
-    /** 存储角色 */
+    SET_USER_ID(userId: string) {
+      this.userId = userId;
+    },
     SET_ROLES(roles: Array<string>) {
       this.roles = roles;
     },
-    /** 存储按钮级别权限 */
     SET_PERMS(permissions: Array<string>) {
       this.permissions = permissions;
     },
-    /** 存储是否勾选了登录页的免登录 */
     SET_ISREMEMBERED(bool: boolean) {
       this.isRemembered = bool;
     },
-    /** 设置登录页的免登录存储几天 */
     SET_LOGINDAY(value: number) {
       this.loginDay = Number(value);
     },
-    /** 登入 */
-    async loginByUsername(data) {
-      return new Promise<UserResult>((resolve, reject) => {
-        getLogin(data)
-          .then(data => {
-            if (data?.success) setToken(data.data);
-            resolve(data);
-          })
-          .catch(error => {
-            reject(error);
-          });
-      });
+    /**
+     * 用户名密码登录；成功时写入会话（Result 已由 HTTP 拦截器解包为 UserLoginResponse）。
+     */
+    async loginByUsername(data: { username: string; password: string }) {
+      const body = await loginByUsernameApi(data);
+      setToken(this.mapLoginResponseToSession(body));
+      return body;
     },
-    /** 前端登出（不调用接口） */
-    logOut() {
-      this.username = "";
+    mapLoginResponseToSession(res: UserLoginResponse) {
+      return {
+        accessToken: res.accessToken,
+        refreshToken: res.refreshToken,
+        expires: res.expires,
+        avatar: res.avatar,
+        username: res.username,
+        nickname: res.nickname ?? '',
+        roles: res.roles ?? [],
+        permissions: res.permissions ?? [],
+        userId: res.id != null ? String(res.id) : undefined,
+      };
+    },
+    /**
+     * 调用退出接口后清理本地并跳转登录。
+     */
+    async logoutAndClear() {
+      await logoutApi().catch(() => {
+        /* 无效 Token 时后端仍返回成功；网络错误也允许继续清理本地 */
+      });
+      this.username = '';
+      this.userId = '';
       this.roles = [];
       this.permissions = [];
       removeToken();
-      useMultiTagsStoreHook().handleTags("equal", [...routerArrays]);
+      useMultiTagsStoreHook().handleTags('equal', [...routerArrays]);
       resetRouter();
-      router.push("/login");
+      router.push('/login');
     },
-    /** 刷新`token` */
-    async handRefreshToken(data) {
-      return new Promise<RefreshTokenResult>((resolve, reject) => {
-        refreshTokenApi(data)
-          .then(data => {
-            if (data) {
-              setToken(data.data);
-              resolve(data);
-            }
-          })
-          .catch(error => {
-            reject(error);
-          });
+    /** 兼容旧调用名：仅本地清理（不请求后端） */
+    logOut() {
+      this.username = '';
+      this.userId = '';
+      this.roles = [];
+      this.permissions = [];
+      removeToken();
+      useMultiTagsStoreHook().handleTags('equal', [...routerArrays]);
+      resetRouter();
+      router.push('/login');
+    },
+    /**
+     * 刷新 accessToken；成功写入会话（仅 Token 字段时合并本地用户信息）。
+     */
+    async handRefreshToken(data: { refreshToken: string }) {
+      const body = await refreshTokenApi(data);
+      setToken({
+        accessToken: body.accessToken,
+        refreshToken: body.refreshToken,
+        expires: body.expires,
       });
-    }
-  }
+      return body;
+    },
+  },
 });
 
 export function useUserStoreHook() {

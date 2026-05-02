@@ -1,10 +1,9 @@
-import { http } from "@/utils/http";
+import { http } from '@/utils/http';
 
-type Result = {
-  success: boolean;
-  data: Array<any>;
-};
-
+/**
+ * 获取异步路由
+ * @returns 异步路由数据
+ */
 export const getAsyncRoutes = () => {
-  return http.request<Result>("get", "/get-async-routes");
+  return http.request<Array<Record<string, unknown>>>('get', 'get-async-routes');
 };

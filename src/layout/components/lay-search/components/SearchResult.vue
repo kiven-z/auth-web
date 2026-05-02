@@ -1,15 +1,15 @@
 <script lang="ts" setup>
-import type { Props } from "../types";
-import { transformI18n } from "@/plugins/i18n";
-import { useResizeObserver } from "@pureadmin/utils";
-import { useEpThemeStoreHook } from "@/store/modules/epTheme";
-import { useRenderIcon } from "@/components/ui/Icon/src/hooks";
-import { computed, getCurrentInstance, onMounted, ref } from "vue";
-import EnterOutlined from "@/assets/svg/enter_outlined.svg?component";
+import type { Props } from '../types';
+import { transformI18n } from '@/plugins/i18n';
+import { useResizeObserver } from '@pureadmin/utils';
+import { useEpThemeStoreHook } from '@/store/modules/epTheme';
+import { useRenderIcon } from '@/components/ui/Icon/src/hooks';
+import { computed, getCurrentInstance, onMounted, ref } from 'vue';
+import EnterOutlined from '@/assets/svg/enter_outlined.svg?component';
 
 interface Emits {
-  (e: "update:value", val: string): void;
-  (e: "enter"): void;
+  (e: 'update:value', val: string): void;
+  (e: 'enter'): void;
 }
 
 const resultRef = ref();
@@ -19,12 +19,11 @@ const instance = getCurrentInstance()!;
 const props = withDefaults(defineProps<Props>(), {});
 
 const itemStyle = computed(() => {
-  return item => {
+  return (item) => {
     return {
-      background:
-        item?.path === active.value ? useEpThemeStoreHook().epThemeColor : "",
-      color: item.path === active.value ? "#fff" : "",
-      fontSize: item.path === active.value ? "16px" : "14px"
+      background: item?.path === active.value ? useEpThemeStoreHook().epThemeColor : '',
+      color: item.path === active.value ? '#fff' : '',
+      fontSize: item.path === active.value ? '16px' : '14px',
     };
   };
 });
@@ -34,8 +33,8 @@ const active = computed({
     return props.value;
   },
   set(val: string) {
-    emit("update:value", val);
-  }
+    emit('update:value', val);
+  },
 });
 
 /** 鼠标移入 */
@@ -44,7 +43,7 @@ async function handleMouse(item) {
 }
 
 function handleTo() {
-  emit("enter");
+  emit('enter');
 }
 
 function resizeResult() {
