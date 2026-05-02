@@ -3,11 +3,11 @@ declare module "vue" {
    * 自定义全局组件获得 Volar 提示（自定义的全局组件需要在这里声明下才能获得 Volar 类型提示哦）
    */
   export interface GlobalComponents {
-    IconifyIconOffline: (typeof import("../src/components/ReIcon"))["IconifyIconOffline"];
-    IconifyIconOnline: (typeof import("../src/components/ReIcon"))["IconifyIconOnline"];
-    FontIcon: (typeof import("../src/components/ReIcon"))["FontIcon"];
-    Auth: (typeof import("../src/components/ReAuth"))["Auth"];
-    Perms: (typeof import("../src/components/RePerms"))["Perms"];
+    IconifyIconOffline: (typeof import("@/components/ui/Icon"))["IconifyIconOffline"];
+    IconifyIconOnline: (typeof import("@/components/ui/Icon"))["IconifyIconOnline"];
+    FontIcon: (typeof import("@/components/ui/Icon"))["FontIcon"];
+    Auth: (typeof import("@/components/ui/Auth"))["Auth"];
+    Perms: (typeof import("@/components/ui/Perms"))["Perms"];
   }
 }
 

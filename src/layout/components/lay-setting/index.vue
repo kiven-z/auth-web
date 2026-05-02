@@ -1,13 +1,13 @@
-<script setup lang="ts">
+<script lang="ts" setup>
 import {
-  ref,
-  unref,
-  watch,
-  reactive,
   computed,
   nextTick,
+  onBeforeMount,
   onUnmounted,
-  onBeforeMount
+  reactive,
+  ref,
+  unref,
+  watch
 } from "vue";
 import { useI18n } from "vue-i18n";
 import { emitter } from "@/utils/mitt";
@@ -15,9 +15,9 @@ import LayPanel from "../lay-panel/index.vue";
 import { useNav } from "@/layout/hooks/useNav";
 import { useAppStoreHook } from "@/store/modules/app";
 import { useMultiTagsStoreHook } from "@/store/modules/multiTags";
-import Segmented, { type OptionsType } from "@/components/ReSegmented";
+import Segmented, { type OptionsType } from "@/components/ui/Segmented";
 import { useDataThemeChange } from "@/layout/hooks/useDataThemeChange";
-import { useDark, useGlobal, debounce, isNumber } from "@pureadmin/utils";
+import { debounce, isNumber, useDark, useGlobal } from "@pureadmin/utils";
 
 import Check from "~icons/ep/check";
 import LeftArrow from "~icons/ri/arrow-left-s-line?width=20&height=20";
@@ -319,10 +319,10 @@ onUnmounted(() => removeMatchMedia);
     <div class="p-5">
       <p :class="pClass">{{ t("panel.pureOverallStyle") }}</p>
       <Segmented
-        resize
-        class="select-none"
         :modelValue="overallStyle === 'system' ? 2 : dataTheme ? 1 : 0"
         :options="themeOptions"
+        class="select-none"
+        resize
         @change="
           theme => {
             theme.index === 1 && theme.index !== 2
@@ -345,9 +345,9 @@ onUnmounted(() => removeMatchMedia);
           @click="setLayoutThemeColor(item.themeColor)"
         >
           <el-icon
-            style="margin: 0.1em 0.1em 0 0"
-            :size="17"
             :color="getThemeColor(item.themeColor)"
+            :size="17"
+            style="margin: 0.1em 0.1em 0 0"
           >
             <IconifyIconOffline :icon="Check" />
           </el-icon>
@@ -399,17 +399,17 @@ onUnmounted(() => removeMatchMedia);
       <span v-if="useAppStoreHook().getViewportWidth > 1280">
         <p :class="['mt-5!', pClass]">{{ t("panel.pureStretch") }}</p>
         <Segmented
-          resize
-          class="mb-2 select-none"
           :modelValue="isNumber(settings.stretch) ? 1 : 0"
           :options="stretchTypeOptions"
+          class="mb-2 select-none"
+          resize
           @change="stretchTypeChange"
         />
         <el-input-number
           v-if="isNumber(settings.stretch)"
           v-model="settings.stretch as number"
-          :min="1280"
           :max="1600"
+          :min="1280"
           controls-position="right"
           @change="value => setStretch(value)"
         />
@@ -420,8 +420,8 @@ onUnmounted(() => removeMatchMedia);
           @click="setStretch(!settings.stretch)"
         >
           <div
-            class="flex-bc transition-all duration-300"
             :class="[settings.stretch ? 'w-[24%]' : 'w-[50%]']"
+            class="flex-bc transition-all duration-300"
             style="color: var(--el-color-primary)"
           >
             <IconifyIconOffline
@@ -440,10 +440,10 @@ onUnmounted(() => removeMatchMedia);
 
       <p :class="['mt-4!', pClass]">{{ t("panel.pureTagsStyle") }}</p>
       <Segmented
-        resize
-        class="select-none"
         :modelValue="markValue === 'smart' ? 0 : markValue === 'card' ? 1 : 2"
         :options="markOptions"
+        class="select-none"
+        resize
         @change="onChange"
       />
 
@@ -455,9 +455,9 @@ onUnmounted(() => removeMatchMedia);
           <span class="dark:text-white">{{ t("panel.pureGreyModel") }}</span>
           <el-switch
             v-model="settings.greyVal"
-            inline-prompt
             :active-text="t('buttons.pureOpenText')"
             :inactive-text="t('buttons.pureCloseText')"
+            inline-prompt
             @change="greyChange"
           />
         </li>
@@ -465,9 +465,9 @@ onUnmounted(() => removeMatchMedia);
           <span class="dark:text-white">{{ t("panel.pureWeakModel") }}</span>
           <el-switch
             v-model="settings.weakVal"
-            inline-prompt
             :active-text="t('buttons.pureOpenText')"
             :inactive-text="t('buttons.pureCloseText')"
+            inline-prompt
             @change="weekChange"
           />
         </li>
@@ -475,9 +475,9 @@ onUnmounted(() => removeMatchMedia);
           <span class="dark:text-white">{{ t("panel.pureHiddenTags") }}</span>
           <el-switch
             v-model="settings.tabsVal"
-            inline-prompt
             :active-text="t('buttons.pureOpenText')"
             :inactive-text="t('buttons.pureCloseText')"
+            inline-prompt
             @change="tagsChange"
           />
         </li>
@@ -485,9 +485,9 @@ onUnmounted(() => removeMatchMedia);
           <span class="dark:text-white">{{ t("panel.pureHiddenFooter") }}</span>
           <el-switch
             v-model="settings.hideFooter"
-            inline-prompt
             :active-text="t('buttons.pureOpenText')"
             :inactive-text="t('buttons.pureCloseText')"
+            inline-prompt
             @change="hideFooterChange"
           />
         </li>
@@ -495,11 +495,11 @@ onUnmounted(() => removeMatchMedia);
           <span class="dark:text-white">Logo</span>
           <el-switch
             v-model="logoVal"
-            inline-prompt
-            :active-value="true"
-            :inactive-value="false"
             :active-text="t('buttons.pureOpenText')"
+            :active-value="true"
             :inactive-text="t('buttons.pureCloseText')"
+            :inactive-value="false"
+            inline-prompt
             @change="logoChange"
           />
         </li>
@@ -509,9 +509,9 @@ onUnmounted(() => removeMatchMedia);
           </span>
           <el-switch
             v-model="settings.multiTagsCache"
-            inline-prompt
             :active-text="t('buttons.pureOpenText')"
             :inactive-text="t('buttons.pureCloseText')"
+            inline-prompt
             @change="multiTagsCacheChange"
           />
         </li>

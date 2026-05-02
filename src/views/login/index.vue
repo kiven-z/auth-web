@@ -1,10 +1,10 @@
-<script setup lang="ts">
+<script lang="ts" setup>
 import { useI18n } from "vue-i18n";
 import Motion from "./utils/motion";
 import { useRouter } from "vue-router";
 import { message } from "@/utils/message";
 import { loginRules } from "./utils/rule";
-import { ref, reactive, toRaw } from "vue";
+import { reactive, ref, toRaw } from "vue";
 import { debounce } from "@pureadmin/utils";
 import { useNav } from "@/layout/hooks/useNav";
 import { useEventListener } from "@vueuse/core";
@@ -12,9 +12,9 @@ import type { FormInstance } from "element-plus";
 import { $t, transformI18n } from "@/plugins/i18n";
 import { useLayout } from "@/layout/hooks/useLayout";
 import { useUserStoreHook } from "@/store/modules/user";
-import { initRouter, getTopMenu } from "@/router/utils";
-import { bg, avatar, illustration } from "./utils/static";
-import { useRenderIcon } from "@/components/ReIcon/src/hooks";
+import { getTopMenu, initRouter } from "@/router/utils";
+import { avatar, bg, illustration } from "./utils/static";
+import { useRenderIcon } from "@/components/ui/Icon/src/hooks";
 import { useTranslationLang } from "@/layout/hooks/useTranslationLang";
 import { useDataThemeChange } from "@/layout/hooks/useDataThemeChange";
 
@@ -102,9 +102,9 @@ useEventListener(document, "keydown", ({ code }) => {
       <!-- 主题 -->
       <el-switch
         v-model="dataTheme"
-        inline-prompt
         :active-icon="dayIcon"
         :inactive-icon="darkIcon"
+        inline-prompt
         @change="dataThemeChange"
       />
       <!-- 国际化 -->
@@ -115,20 +115,20 @@ useEventListener(document, "keydown", ({ code }) => {
         <template #dropdown>
           <el-dropdown-menu class="translation">
             <el-dropdown-item
-              :style="getDropdownItemStyle(locale, 'zh')"
               :class="['dark:text-white!', getDropdownItemClass(locale, 'zh')]"
+              :style="getDropdownItemStyle(locale, 'zh')"
               @click="translationCh"
             >
               <IconifyIconOffline
                 v-show="locale === 'zh'"
-                class="check-zh"
                 :icon="Check"
+                class="check-zh"
               />
               简体中文
             </el-dropdown-item>
             <el-dropdown-item
-              :style="getDropdownItemStyle(locale, 'en')"
               :class="['dark:text-white!', getDropdownItemClass(locale, 'en')]"
+              :style="getDropdownItemStyle(locale, 'en')"
               @click="translationEn"
             >
               <span v-show="locale === 'en'" class="check-en">
@@ -170,9 +170,9 @@ useEventListener(document, "keydown", ({ code }) => {
               >
                 <el-input
                   v-model="ruleForm.username"
-                  clearable
                   :placeholder="t('login.pureUsername')"
                   :prefix-icon="useRenderIcon(User)"
+                  clearable
                 />
               </el-form-item>
             </Motion>
@@ -181,21 +181,21 @@ useEventListener(document, "keydown", ({ code }) => {
               <el-form-item prop="password">
                 <el-input
                   v-model="ruleForm.password"
-                  clearable
-                  show-password
                   :placeholder="t('login.purePassword')"
                   :prefix-icon="useRenderIcon(Lock)"
+                  clearable
+                  show-password
                 />
               </el-form-item>
             </Motion>
 
             <Motion :delay="250">
               <el-button
+                :disabled="disabled"
+                :loading="loading"
                 class="w-full mt-4!"
                 size="default"
                 type="primary"
-                :loading="loading"
-                :disabled="disabled"
                 @click="onLogin(ruleFormRef)"
               >
                 {{ t("login.pureLogin") }}

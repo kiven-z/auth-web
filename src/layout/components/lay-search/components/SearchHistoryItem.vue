@@ -1,7 +1,7 @@
-<script setup lang="ts">
+<script lang="ts" setup>
 import type { optionsItem } from "../types";
 import { transformI18n } from "@/plugins/i18n";
-import { useRenderIcon } from "@/components/ReIcon/src/hooks";
+import { useRenderIcon } from "@/components/ui/Icon/src/hooks";
 import StarIcon from "~icons/ep/star";
 import CloseIcon from "~icons/ep/close";
 

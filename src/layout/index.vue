@@ -1,7 +1,7 @@
-<script setup lang="ts">
+<script lang="ts" setup>
 import "animate.css";
 // 引入 src/components/ReIcon/src/offlineIcon.ts 文件中所有使用addIcon添加过的本地图标
-import "@/components/ReIcon/src/offlineIcon";
+import "@/components/ui/Icon/src/offlineIcon";
 import { setType } from "./types";
 import { useI18n } from "vue-i18n";
 import { useLayout } from "./hooks/useLayout";
@@ -9,18 +9,18 @@ import { useAppStoreHook } from "@/store/modules/app";
 import { useSettingStoreHook } from "@/store/modules/settings";
 import { useDataThemeChange } from "@/layout/hooks/useDataThemeChange";
 import {
-  h,
-  ref,
-  reactive,
   computed,
-  onMounted,
+  defineComponent,
+  h,
   onBeforeMount,
-  defineComponent
+  onMounted,
+  reactive,
+  ref
 } from "vue";
 import {
+  deviceDetection,
   useDark,
   useGlobal,
-  deviceDetection,
   useResizeObserver
 } from "@pureadmin/utils";
 

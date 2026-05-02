@@ -1,0 +1,473 @@
+---
+description: Vue 3 + TypeScript + Composition API 开发规范
+globs: []
+alwaysApply: true  # 建议改为 true，确保生成 Commit 时必读
+---
+
+# Vue 3 + TypeScript + Composition API 开发规范
+
+> [!TIP]
+>
+> - `@/types/` -> 指向 `src/types/`
+> - `@/api/` -> 指向 `src/api/`
+> - `@/store/` -> 指向 `src/store/`
+
+这是一个为您整合了所有项目要求（i18n、API、Store、Router、Types、Views、以及严格的代码规范）的完整 Cursor 规则文件（
+`.cursorrules`）。
+
+您可以直接将以下内容复制到项目根目录的 `.cursorrules` 文件中。
+
+## 基础规则
+
+### 1. 核心编码原则
+
+- **严禁简写**：所有变量、常量、函数名必须使用完整的单词，严禁使用缩写（例如：使用 `index` 而非 `idx`，`parameter` 而非
+  `param`）。
+- **注释规范**：
+  - **函数/组件**：必须包含 JSDoc 注释，说明功能、参数及返回值。
+  - **Vue 模板**：在 HTML 标签上，若使用了多语言标签（如 `:label="t(...)"`），必须在其上方添加中文业务逻辑注释。
+- **变量声明**：优先使用 `const`，其次 `let`，严禁使用 `var`。
+- **DOM 操作**：严禁直接操作 DOM，必须使用 Vue 模板引用 (`ref`)。
+- **文件命名**：除了 `src/types` 和 `src/router/modules` 使用 **中划线 (kebab-case)**，其余脚本文件（API、Store）统一使用 *
+  *小驼峰 (camelCase)**。
+
+### 2. 国际化 (i18n) 规范
+
+- **禁止硬编码**：所有中文字符串必须通过多语言处理。
+- **工具选择**：
+  - **Vue 文件**：使用 `const { t } = useI18n()`，模板中通过 `t('key')` 调用。
+  - **TS/TSX 文件**：必须从 `@/plugins/i18n` 导入 `transformI18n`。
+  - **路由文件**：必须从 `@/plugins/i18n` 导入 `$t`。
+- **目录结构**：`src/locales/{lang}/{module}.yaml`。Key 格式为 `文件名.属性名`。
+
+### 3. 视图 (Views) 目录规范
+
+- **目录布局**：`src/views/{module}/{page}/`。
+- **拆分准则**：页面超过 500 行必须拆分：
+  - **私有组件**：存放在 `components/` 目录下。
+  - **表格配置**：存放在 `config/` 目录下，命名为 `{page}-columns.tsx`。
+  - **逻辑抽离**：存放在 `hooks/` 目录下，命名为 `use-{name}.ts|tsx`（后缀禁止包含 `hook`）。
+- **特定命名**：
+  - 弹窗：`*-dialog.vue`；详情弹窗：`*-detail-descriptions-dialog.vue`。
+  - 抽屉：`*-drawer.vue`。
+- **CSS 规范**：使用 **BEM** 命名法。
+
+### 4. API 接口规范
+
+- **位置**：`src/api/{module}/`。
+- **调用**：使用从 `@/utils/http` 导出的 `http` 实例。
+- **方法封装**：
+  - GET 请求：`http.request<T>('get', url, { params })`。
+  - POST 请求：`http.request<T>('post', url, { data })`。
+- **命名**：`query{Resource}Page` (分页), `get{Resource}Detail` (详情), `batchDelete{Resource}` (批量删除)。
+
+### 5. Store (Pinia) 规范
+
+- **位置**：`src/store/modules/{module}/`。
+- **ID 命名**：`defineStore('xxxStore', ...)`。
+- **结构约束**：
+  - 必须包含 `datalist`, `form`, `pagination`, `loading`。
+  - 分页接口必须调用 `storePagination.bind(this)(response)` 进行赋值。
+- **导出**：必须额外导出 `useXxxStoreHook()` 供非组件环境调用。
+
+### 6. 类型定义 (Types) 规范
+
+- **位置**：`src/types/{module}/`，文件名使用 **kebab-case**。
+- **命名**：`Result<T>` (通用响应), `ResultPage<T>` (分页结果), `{Resource}Query` (查询参数)。
+
+### 7. AI 行为指令
+
+1. **自动检测逻辑**：生成 API 时自动对应 Types；生成页面时自动对应 Store。
+2. **强制国际化**：发现代码中有中文时，强制提示用户或自动转换为 `t()` 或 `transformI18n()`。
+3. **模板生成**：生成的 Table Columns 必须包含注释，且每个 `label` 必须包裹 `transformI18n`。
+4. **命名审查**：如果我创建了名为 `jobLog.ts` 的路由文件，请纠正我改为 `job-log.ts`。
+
+请务必参考以下模式：
+
+```typescript
+// 使用 JS 文档注释，所有 label 需国际化，禁止缩写
+export const columns: TableColumnList = [
+  { label: transformI18n('common.table.index'), prop: 'index', width: 60 },
+  // 任务分组名称
+  { label: transformI18n('schedule.group.name'), prop: 'groupName', minWidth: 140 }
+];
+```
+
+## 前端国际化 (i18n) 规范
+
+### 1. 核心原则
+
+- **禁止硬编码**：Vue 模板、TS/TSX 文件中的所有展示类中文字符串（如 Label、Placeholder、提示信息等）必须使用国际化函数包裹。
+- **配置优先**：多语言 Key 必须严格对应 `locales/` 目录下 `.yaml` 文件的层级结构。
+
+### 2. 国际化文件组织
+
+- **目录结构**：`src/locales/{lang}/{module}.yaml`（例如：`locales/zh-CN/schedule.yaml`）
+- **模块化命名**：
+  - `common`: 通用按钮、公共提示。
+  - `menus`/`routes`: 菜单与路由。
+  - `enums`: 枚举值翻译。
+  - `{module}`: 业务模块相关（如 `users`, `log`, `system` 等）。
+
+### 3. 调用规范
+
+根据文件类型，必须严格遵守以下调用方式：
+
+#### A. `.vue` 组件中
+
+- **初始化**：必须在 `setup` 中通过 `const { t } = useI18n();` 获取实例。
+- **模板使用**：使用 `:label="t('key')"` 或 `{{ t('key') }}`。
+- **禁止使用**：禁止在模板中直接使用 `$t`（为了代码一致性和类型支持）。
+
+**代码示例：**
+
+代码段
+
+```vue
+<script setup>
+import { useI18n } from "vue-i18n";
+const { t } = useI18n();
+</script>
+
+<template>
+  <el-form-item :label="t('users.user')">
+    <el-input :placeholder="t('users.placeholder.user')" />
+  </el-form-item>
+</template>
+```
+
+#### B. `.ts` / `.tsx` 纯脚本文件中
+
+- **调用函数**：必须从 `@/plugins/i18n` 导入 `transformI18n`。
+- **适用场景**：表格配置 (`columns`)、表单校验规则 (`rules`)、配置文件等。
+
+**代码示例：**
+
+```typescript
+import { transformI18n } from '@/plugins/i18n';
+
+export const columns: TableColumnList = [
+  {
+    label: transformI18n('log.auth.authLogDetail'),
+    prop: 'requestIp'
+  }
+];
+```
+
+### 4. 命名与 Key 规则
+
+- **Key 格式**：`t('{文件名}.{属性名}.{子属性}')`。
+- **示例**：
+  - 访问 `log.yaml` 中的 `auth.requestMethod` -> `t('log.auth.requestMethod')`
+  - 访问 `users.yaml` 中的 `username` -> `t('users.username')`
+
+### 5. AI 行为指令（针对模型执行）
+
+> 当你在本项目中生成代码时，请遵循以下步骤：
+>
+> 1. **识别文案**：识别代码中的中文或展示类文案。
+> 2. **查找/推断 Key**：根据文案所属功能推断其在 `locales/zh-CN/` 下对应的模块名和 Key。
+> 3. **自动包裹**：
+     >    - 若在 `.vue` 文件，检查是否有 `useI18n`，无则自动补全，并使用 `t()`。
+     >
+- 若在 `.ts` 文件，自动导入 `transformI18n` 并包裹文案。
+> 4. **禁止幻觉**：如果无法确定 Key，请优先使用 `{文件名}.{描述}` 的形式命名，并在代码注释中提醒用户去 `.yaml` 中添加对应配置。
+
+## API 接口编写规范
+
+### 1. 目录与命名规范
+
+- **文件位置**：所有接口必须定义在 `src/api/` 目录下。
+- **文件命名**：采用 **小驼峰 (camelCase)** 形式。例如：`system/authLog.ts`, `schedule/taskInfo.ts`。
+- **模块化命名**：接口函数命名应遵循 `动作 + 资源 + 表现形式`：
+  - 查询分页：`query{Resource}Page`
+  - 获取详情：`get{Resource}Detail`
+  - 新增/更新：`add{Resource}` / `update{Resource}`
+  - 删除/批量删除：`delete{Resource}` / `batchDelete{Resource}`
+
+### 2. 类型安全 (TypeScript)
+
+- **必须定义类型**：所有接口必须从 `@/types/` 导入相应的 `Result`（通用响应）、`ResultPage`（分页响应）以及具体的 `Data` 类型。
+- **泛型传参**：必须在 `http.request<T>` 中明确指定返回值的泛型，禁止使用 `any` 作为返回类型。
+- **参数类型**：每个接口的请求参数 `params` 或 `data` 必须有明确的 interface 定义。
+
+### 3. HTTP 请求调用规范
+
+- **基础工具**：统一使用 `import { http } from '@/utils/http'`。
+- **BaseURL**：无需在 URL 中手动拼接 `/api`，Axios 实例已配置 `baseURL: '/api'`。
+- **传参逻辑**：
+  - **GET 请求**：参数使用 `{ params: { ... } }`。
+  - **POST/PUT/PATCH/DELETE 请求**：参数使用 `{ data: { ... } }`。
+  - **文件下载**：必须在配置中显式指定 `responseType: 'blob'`。
+- **路径占位符规范**：在生成的 API 路径中，若涉及 ID，统一使用模板字符串格式：``/system/v1/user/${id}``。
+- **默认导出**：API 文件禁止使用 `export default`，必须使用具名导出（Named Export）。
+- **URL 版本号**：URL 普遍带有版本号（如 `/v1/`），在生成新接口时参考现有路径结构。
+
+### 4. 代码结构示例
+
+生成 API 时，必须包含标准的 JSDoc 注释，便于团队维护：
+
+```typescript
+/**
+ * [资源描述] - [功能描述]
+ * @param params [参数说明]
+ */
+export const queryExamplePage = (params: ExampleQuery) => {
+  return http.request<ResultPage<ExampleItem>>('get', '/system/v1/example', { params });
+};
+```
+
+------
+
+### 5. Cursor AI 行为指令（针对 API 生成）
+
+> 当你在 `src/api/` 目录下创建或修改代码时：
+>
+> 1. **自动导入**：检测路径，自动从 `@/types/...` 导入关联的类型文件；必须导入 `@/utils/http`。
+> 2. **参数处理**：
+     >    - 如果是分页接口，检查是否有 `pageIndex`, `pageSize` 等字段。
+     >
+- 处理时间范围：如果参数包含数组格式的时间，需手动解构为 `startTime` 和 `endTime`（如：`startTime: time?.[0]`）。
+> 3. **路径匹配**：RESTful 风格的详情接口，需正确处理路径变量，例如：`/module/v1/resource/${id}`。
+> 4. **响应结构**：默认包裹 `Result<T>` 或 `ResultPage<T>` 泛型。
+
+## Pinia Store 仓库规范
+
+### 1. 文件组织与命名
+
+- **存放路径**：业务模块 Store 必须放在 `src/store/modules/{moduleName}/` 下。
+- **文件命名**：采用 **小驼峰 (camelCase)** 形式（例如：`jobLog.ts`, `authLog.ts`）。
+- **Store ID 命名**：`defineStore` 的第一个参数（ID）必须是 **文件名 + Store**（例如：`jobLogStore`）。
+- **变量名命名**：Store 实例变量名固定为 `use{FileName}Store`（例如：`useJobLogStore`）。
+
+### 2. 代码结构规范
+
+每个 Store 文件必须包含以下三个部分：
+
+#### A. State 定义
+
+- 必须包含 `datalist` (数组)、`form` (搜索条件对象)、`pagination` (分页对象) 和 `loading` (状态)。
+
+- **分页对象**固定格式：
+
+  ```typescript
+  pagination: { currentPage: 1, pageSize: 30, total: 0, pageSizes }
+  ```
+
+#### B. Actions 逻辑
+
+- **数据请求**：必须使用 `try...catch` 包裹 API 调用。
+- **分页处理**：查询分页必须调用 `storePagination.bind(this)(response)`。
+- **异常处理**：捕获错误后需调用 `errorMessage(e.message)`。
+
+#### C. Hook 导出 (必须)
+
+- 为了支持在非组件环境下（如 TS 文件）使用 Store，必须导出一个以 `Hook` 结尾的辅助函数。
+
+  ```typescript
+  export function use{FileName}StoreHook() {
+    return use{FileName}Store(store);
+  }
+  ```
+
+### 3. API 交互规范
+
+- Store Action 中的函数命名建议：`fetchPage` (分页)、`fetchDetail` (详情)、`removeBatch` (批量删除)。
+- **返回约定**：Action 应当返回 `Promise<boolean>` 或 `Promise<Data | null>`，方便组件逻辑判断。
+
+### 5. Cursor AI 行为指令（针对 Store 生成）
+
+> 当你在 `src/store/modules/` 下创建 Store 时：
+>
+> 1. **自动补全结构**：默认生成包含 `datalist`, `form`, `pagination`, `loading` 的 state。
+> 2. **自动绑定分页**：在 `fetchPage` 动作中，自动生成将 `this.form` 和分页参数合并的代码，并使用
+     `storePagination.bind(this)`。
+> 3. **强约束导出**：文件末尾必须生成 `use...StoreHook` 函数。
+> 4. **类型引用**：自动从 `@/api/...` 导入对应的 API 函数，从 `@/types/...` 导入对应的类型定义。
+> 5. **命名校对**：如果文件名是 `login-log.ts`，转换 ID 为 `loginLogStore`，转换 Hook 为 `useLoginLogStoreHook`。
+
+## 前端路由 (Router) 编写规范
+
+### 1. 文件组织与命名
+
+- **存放路径**：静态路由文件必须放置在 `src/router/modules/` 目录下。
+- **文件命名**：统一采用 **中划线 (kebab-case)** 形式。例如：`error.ts`, `remaining.ts`, `auth-log.ts`。
+- **导出约定**：必须使用 `export default { ... }` 或 `export default [ ... ]` 进行默认导出。
+- **类型约束**：导出对象需使用 `satisfies RouteConfigsTable` 进行类型检查。
+
+### 2. 核心代码结构
+
+- **布局组件**：统一使用 `const Layout = () => import('@/layout/index.vue');`。
+- **多语言处理**：
+  - **禁止**在路由配置文件中使用 `useI18n()`（因为不在 `setup` 环境下）。
+  - **必须**使用从 `@/plugins/i18n` 导入的 `$t` 函数处理 `meta.title`。
+- **示例结构**：
+
+```typescript
+import { $t } from '@/plugins/i18n';
+const Layout = () => import('@/layout/index.vue');
+
+export default {
+  path: '/example',
+  name: 'Example',
+  component: Layout,
+  meta: {
+    title: $t('menus.example'), // 必须使用 $t
+    icon: 'ep/setting',
+    rank: 10
+  },
+  children: [ ... ]
+} satisfies RouteConfigsTable;
+```
+
+### 3. 路由配置逻辑
+
+- **根路由与重定向**：根路径 `/` 通常重定向至 `/welcome`。
+- **环境变量控制**：如需根据配置隐藏路由，应从 `import.meta.env` 获取变量（如 `VITE_HIDE_HOME`）。
+- **组件加载**：子路由组件建议使用动态导入 `() => import('@/views/...')` 以实现路由懒加载。
+
+### 4. Cursor AI 行为指令（针对路由生成）
+
+> 当你在 `src/router/modules/` 下操作时：
+>
+> 1. **多语言自动包裹**：识别 `meta.title` 字段，自动从 `@/plugins/i18n` 导入 `$t` 并包裹中文内容。
+> 2. **自动引用 Layout**：如果生成的路由包含子路由，自动定义 `Layout` 变量指向 `@/layout/index.vue`。
+> 3. **命名检查**：强制检查文件名是否为 `kebab-case`。如果用户输入了 `jobLog.ts`，自动提醒或纠正为 `job-log.ts`。
+> 4. **类型补全**：在导出末尾自动添加 `satisfies RouteConfigsTable`。
+> 5. **层级建议**：提醒用户，虽然可以写本地路由，但大部分业务路由应由数据库（动态路由）驱动，仅在此处配置基础或静态路由。
+
+### 5. `$t` vs `t` vs `transformI18n`
+
+为了防止 Cursor 混淆这三个国际化工具，建议在你的规则总表里明确它们的**应用上下文**：
+
+| **工具函数**               | **适用环境**       | **典型位置**                                |
+|------------------------|----------------|-----------------------------------------|
+| **`t`** (来自 `useI18n`) | Vue 组件 `setup` | `.vue` 文件                               |
+| **`$t`**               | 静态配置文件         | `router/modules/*.ts`                   |
+| **`transformI18n`**    | TS/TSX 工具函数    | `api/*.ts`, `store/*.ts`, `columns.tsx` |
+
+基于你提供的目录结构和命名要求，我们可以为 Cursor 编写一套专门针对 **TypeScript 类型定义 (Types)** 的规则。
+
+这份规则将确保 AI 在生成代码时，能够准确地在 `src/types` 下寻找或创建对应的类型文件，并保持严格的命名规范。
+
+## TypeScript 类型定义 (Types) 规范
+
+### 1. 文件组织与命名
+
+- **统一路径**：所有类型定义文件必须存放在 `src/types/` 目录下。
+- **模块化划分**：根据业务模块创建子目录。
+  - 通用类型存放于 `commons/`（注意复数形式）。
+  - 业务模块（如 `log/`, `schedule/`, `system/`）存放于对应命名的子目录下。
+- **文件命名规范**：统一采用 **中划线 (kebab-case)** 形式。
+  - 正确示例：`src/types/log/login-log.ts`
+  - 错误示例：`src/types/log/loginLog.ts` (camelCase)
+
+### 2. 导出与编写规范
+
+- **显式导出**：所有 interface 和 type 必须使用 `export` 导出。
+- **命名约定**：
+  - **接口/类型名**：使用 **大驼峰 (PascalCase)**。
+  - **分页查询参数**：以 `Query` 结尾（如 `LoginLogQuery`）。
+  - **列表项对象**：以 `Item` 结尾（如 `LoginLogItem`）。
+  - **详情对象**：以 `Detail` 结尾（如 `UserLoginLogDetail`）。
+- **注释要求**：每个字段必须包含 JSDoc 注释，描述字段含义。
+
+### 3. 核心基础类型引用
+
+- **Result 封装**：所有 API 返回类型应引用 `src/types/commons/base.ts`（或对应文件）中的 `Result<T>` 或 `ResultPage<T>`。
+
+  ```typescript
+  import type { ResultPage } from '@/types/commons/base';
+  ```
+
+### 4. Cursor AI 行为指令 (针对类型生成)
+
+> 当你需要创建或引用类型定义时，请遵循以下逻辑：
+>
+> 1. **路径探测**：
+     >    - 如果是全局通用的响应结构（如 `Result`），优先从 `@/types/commons/` 目录下查找。
+     >
+- 如果是业务相关（如 `JobLog`），必须在 `@/types/{moduleName}/` 下查找或创建名为 `{resource-name}.ts` 的文件。
+> 2. **自动转换命名**：
+     >    - 自动将用户描述的模块名转换为 **kebab-case** 文件名。
+     >
+- 示例：用户提到 "任务日志类型"，AI 应定位到 `src/types/schedule/job-log.ts`。
+> 3. **智能关联**：
+     >    - 在生成 `src/api/` 下的接口时，自动根据接口功能生成对应的 `import type` 语句。
+     >
+- 在生成 `src/store/` 下的 state 时，自动引用对应的类型文件以确保类型推导准确。
+> 4. **禁止冗余**：
+     >    - 检查是否存在重复定义的类型，优先复用已有类型而非重新生成。
+
+## 页面视图 (Views) 编写规范
+
+### 1. 目录组织与文件命名
+
+- **统一风格**：`views` 目录下所有**文件夹**和**文件**均使用 **中划线 (kebab-case)**。
+- **模块化结构**：必须按业务模块划分目录（如 `schedule/schedule-log`）。
+- **标准子目录布局**：
+  - `components/`: 存放页面私有组件。
+  - `config/`: 存放表格列配置 `*-columns.tsx`。
+  - `hooks/`: 存放逻辑抽离文件 `use-*.ts`。
+  - `styles/`: 当 CSS 超过 50 行时，需抽离至此。
+
+### 2. 组件命名约定
+
+- **私有组件**：存放于 `components/`，使用功能性描述命名。
+- **特定后缀**：
+  - 弹窗组件：必须以 `-dialog.vue` 结尾。
+  - 详情弹窗：必须以 `-detail-descriptions-dialog.vue` 结尾。
+  - 抽屉组件：必须以 `-drawer.vue` 结尾。
+- **表格配置**：存放于 `config/`，命名为 `{功能名}-columns.tsx`，必须导出 `columns` 变量。
+
+### 3. 逻辑抽离规范 (Hooks)
+
+- **强制拆分**：当 `index.vue` 文件超过 **500行** 时，必须将逻辑拆分至 `hooks/`。
+- **命名格式**：使用 `use-{功能名}.ts` 或 `.tsx`。
+- **禁止词汇**：后缀**禁止**包含 `Hook` 字样（例如：使用 `use-job-log.ts` 而非 `use-job-log-hook.ts`）。
+
+### 4. 代码编写准则
+
+- **CSS 规范**：必须遵循 **BEM (Block-Element-Modifier)** 命名法。
+- **变量声明**：优先使用 `const`，其次 `let`，严禁使用 `var`。
+- **DOM 操作**：严禁使用 `document.querySelector` 等原生 API，必须使用 Vue 的 **Template Refs (`ref`)**。
+- **国际化**：页面中的所有文案必须使用 `t()` 包裹。
+
+### 5. Cursor AI 行为指令（针对 Views 生成）
+
+> 当你在 `src/views/` 目录下生成或修改代码时，请遵循以下自动化逻辑：
+>
+> 1. **结构审计**：
+     >    - 如果生成的 `.vue` 文件预估逻辑较复杂，自动在同级创建 `hooks/` 并抽离逻辑。
+     >
+- 发现弹窗逻辑时，自动在 `components/` 创建对应的 `-dialog.vue`。
+> 2. **自动命名校对**：
+     >    - 自动将 `JobLogDetail` 转换为 `job-log-detail-descriptions.vue`。
+     >
+- 确保 `config` 下的文件名为 `*-columns.tsx` 格式。
+> 3. **BEM 自动生成**：
+     >    - 生成 `<style>` 块时，根据组件名自动初始化 BEM 结构。例如组件 `schedule-log`，基础类名为 `.schedule-log`，子元素为
+     `.schedule-log__header`。
+> 4. **配置关联**：
+     >    - 在 `index.vue` 中引用表格时，自动检查并导入 `config/` 下的 `columns` 配置。
+> 5. **类型注入**：
+     >    - 自动从 `@/types/` 导入与当前模块相关的类型定义。
+> 6. 在处理 **Table** 时自动关联国际化。例如：
+>
+> ```ts
+> // Cursor 在生成 config/*-columns.tsx 时应遵循的模板
+> import { transformI18n } from '@/plugins/i18n';
+>
+> export const useColumns = () => {
+>   const columns: TableColumnList = [
+>     {
+>       label: transformI18n('common.index'), // 自动带入国际化
+>       type: 'index',
+>       width: 70
+>     },
+>     // ...
+>   ];
+>   return { columns };
+> };
+> ```
+
