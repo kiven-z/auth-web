@@ -5,4 +5,5 @@ export const ASYNC_ROUTES_API_PATH = '/system/menu/web-routes';
 
 export const getAsyncRoutes = () => {
   return http.request<Array<Record<string, void>>>('get', ASYNC_ROUTES_API_PATH);
+  // return http.request<Array<Record<string, void>>>('get', 'get-async-routes');
 };

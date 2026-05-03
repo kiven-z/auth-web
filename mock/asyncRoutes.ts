@@ -53,7 +53,7 @@ const permissionRouter = {
 
 export default defineFakeRoute([
   {
-    url: '/get-async-routes',
+    url: '/api/get-async-routes',
     method: 'get',
     response: () => {
       return {

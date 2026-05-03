@@ -1,0 +1,112 @@
+import { isNoAuthRequestPath } from '@/config/http-config';
+import { formatToken, getToken } from '@/infrastructure/session/auth';
+import { useUserStoreHook } from '@/store/modules/user';
+import Axios, { type AxiosInstance } from 'axios';
+import { isApiResultEnvelope, type ApiResult } from '../apiResult';
+import { rejectWithApiEnvelopeError } from '../apiResultErrors';
+import type { PureHttpError, PureHttpRequestConfig, PureHttpResponse } from '../types.d';
+
+type InitConfigGetter = () => PureHttpRequestConfig;
+
+/**
+ * 响应拦截：Result 解包、业务错误与 401 刷新重试。
+ */
+export function attachResponseInterceptors(instance: AxiosInstance, getInitConfig: InitConfigGetter): void {
+  instance.interceptors.response.use(
+    (response: PureHttpResponse) => handleResponseSuccess(response, getInitConfig),
+    (error: PureHttpError) => handleResponseError(instance, error)
+  );
+}
+
+function handleResponseSuccess(response: PureHttpResponse, getInitConfig: InitConfigGetter): unknown {
+  const config = response.config;
+  const raw = response.data;
+
+  if (config.responseType === 'blob' || config.responseType === 'arraybuffer') {
+    if (typeof config.beforeResponseCallback === 'function') {
+      config.beforeResponseCallback(response);
+    }
+    return raw;
+  }
+
+  if (isApiResultEnvelope(raw)) {
+    if (raw.code !== 200) {
+      return rejectWithApiEnvelopeError(raw, response.status);
+    }
+    return unwrapEnvelopePayload(response, raw, getInitConfig);
+  }
+
+  return passthroughRawBody(response, getInitConfig);
+}
+
+function unwrapEnvelopePayload(
+  response: PureHttpResponse,
+  envelope: ApiResult,
+  getInitConfig: InitConfigGetter
+): unknown {
+  const payload = envelope.data as unknown;
+  const synthetic = {
+    ...response,
+    data: envelope,
+  } as PureHttpResponse;
+  const globalCfg = getInitConfig();
+  if (typeof response.config.beforeResponseCallback === 'function') {
+    response.config.beforeResponseCallback(synthetic);
+    return payload;
+  }
+  if (globalCfg.beforeResponseCallback) {
+    globalCfg.beforeResponseCallback(synthetic);
+    return payload;
+  }
+  return payload;
+}
+
+function passthroughRawBody(response: PureHttpResponse, getInitConfig: InitConfigGetter): unknown {
+  const globalCfg = getInitConfig();
+  const config = response.config;
+  if (typeof config.beforeResponseCallback === 'function') {
+    config.beforeResponseCallback(response);
+    return response.data;
+  }
+  if (globalCfg.beforeResponseCallback) {
+    globalCfg.beforeResponseCallback(response);
+    return response.data;
+  }
+  return response.data;
+}
+
+function handleResponseError(instance: AxiosInstance, error: PureHttpError): Promise<unknown> {
+  error.isCancelRequest = Axios.isCancel(error);
+  const { response, config } = error;
+
+  if (response?.data && isApiResultEnvelope(response.data)) {
+    return rejectWithApiEnvelopeError(response.data, response.status ?? 0);
+  }
+
+  if (
+    response?.status === 401 &&
+    config &&
+    !(config as PureHttpRequestConfig)._retry401 &&
+    !isNoAuthRequestPath(config.url)
+  ) {
+    const tokenData = getToken();
+    if (tokenData?.refreshToken) {
+      const cfg = config as PureHttpRequestConfig;
+      cfg._retry401 = true;
+      return useUserStoreHook()
+        .handRefreshToken({ refreshToken: tokenData.refreshToken })
+        .then(() => {
+          const next = getToken();
+          if (!next?.accessToken) {
+            return Promise.reject(error);
+          }
+          if (!cfg.headers) cfg.headers = {};
+          cfg.headers['Authorization'] = formatToken(next.accessToken);
+          return instance.request(cfg);
+        })
+        .catch(() => Promise.reject(error));
+    }
+  }
+
+  return Promise.reject(error);
+}

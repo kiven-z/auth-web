@@ -1,4 +1,5 @@
 import { $t } from '@/plugins/i18n';
+
 const { VITE_HIDE_HOME } = import.meta.env;
 const Layout = () => import('@/layout/index.vue');
 
@@ -19,7 +20,7 @@ export default {
       component: () => import('@/features/home/welcome/index.vue'),
       meta: {
         title: $t('menus.pureHome'),
-        showLink: VITE_HIDE_HOME === 'true' ? false : true,
+        showLink: VITE_HIDE_HOME !== 'true',
       },
     },
   ],

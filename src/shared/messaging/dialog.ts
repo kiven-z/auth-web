@@ -1,5 +1,5 @@
-import { i18n } from "@/plugins/i18n";
-import { ElMessageBox } from "element-plus";
+import { i18n } from '@/plugins/i18n';
+import { ElMessageBox } from 'element-plus';
 
 /** 单层确认文案（标题、正文与按钮文案均可选） */
 export interface ConfirmLayer {
@@ -16,13 +16,13 @@ function t(key: string): string {
 function defaultDeleteLayers(): ConfirmLayer[] {
   return [
     {
-      title: t("common.tips.deleteConfirm"),
-      message: t("common.tips.deleteConfirm")
+      title: t('common.tips.deleteConfirm'),
+      message: t('common.tips.deleteConfirm'),
     },
     {
-      title: t("common.tips.lastTimeConfirmDeleteTitle"),
-      message: t("common.tips.lastTimeConfirmDeleteTitle")
-    }
+      title: t('common.tips.lastTimeConfirmDeleteTitle'),
+      message: t('common.tips.lastTimeConfirmDeleteTitle'),
+    },
   ];
 }
 
@@ -37,12 +37,12 @@ export async function multiConfirm(
   const steps = layers?.length ? layers : defaultDeleteLayers();
   try {
     for (const layer of steps) {
-      await ElMessageBox.confirm(layer.message ?? "", layer.title ?? "", {
-        confirmButtonText: layer.confirmButtonText ?? t("buttons.pureConfirm"),
-        cancelButtonText: layer.cancelButtonText ?? t("buttons.pureClose"),
-        type: "warning",
+      await ElMessageBox.confirm(layer.message ?? '', layer.title ?? '', {
+        confirmButtonText: layer.confirmButtonText ?? t('buttons.pureConfirm'),
+        cancelButtonText: layer.cancelButtonText ?? t('buttons.pureClose'),
+        type: 'warning',
         draggable: true,
-        showClose: false
+        showClose: false,
       });
     }
     if (onConfirmed) {
@@ -63,12 +63,12 @@ export async function deleteConfirm(): Promise<boolean> {
 export async function operationConfirm(): Promise<boolean> {
   return multiConfirm([
     {
-      title: t("common.tips.confirmTitle"),
-      message: t("common.tips.confirmTitle")
+      title: t('common.tips.confirmTitle'),
+      message: t('common.tips.confirmTitle'),
     },
     {
-      title: t("common.tips.confirmTitle"),
-      message: t("common.tips.lastTimeConfirmTitle")
-    }
+      title: t('common.tips.confirmTitle'),
+      message: t('common.tips.lastTimeConfirmTitle'),
+    },
   ]);
 }
