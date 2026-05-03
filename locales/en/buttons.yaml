@@ -1,0 +1,20 @@
+buttons:
+  pureLoginOut: LoginOut
+  pureLogin: Login
+  pureOpenSystemSet: Open System Configs
+  pureReload: Reload
+  pureCloseCurrentTab: Close CurrentTab
+  pureCloseLeftTabs: Close LeftTabs
+  pureCloseRightTabs: Close RightTabs
+  pureCloseOtherTabs: Close OtherTabs
+  pureCloseAllTabs: Close AllTabs
+  pureContentFullScreen: Content FullScreen
+  pureContentExitFullScreen: Content ExitFullScreen
+  pureClickCollapse: Collapse
+  pureClickExpand: Expand
+  pureConfirm: Confirm
+  pureSwitch: Switch
+  pureClose: Close
+  pureBackTop: BackTop
+  pureOpenText: Open
+  pureCloseText: Close
