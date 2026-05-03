@@ -1,5 +1,5 @@
 import { getConfig, responsiveStorageNameSpace } from '@/config';
-import { routerArrays } from '@/layout/types';
+import { routerArrays, type RouteConfigs } from '@/layout/types';
 import { store } from '@/store';
 import { isBoolean, isEqual, isNumber, isUrl, storageLocal } from '@pureadmin/utils';
 import { defineStore } from 'pinia';
@@ -9,9 +9,12 @@ import { usePermissionStoreHook } from './permission';
 export const useMultiTagsStore = defineStore('pure-multiTags', {
   state: () => ({
     // 存储标签页信息（路由信息）
-    multiTags: storageLocal().getItem<StorageConfigs>(`${responsiveStorageNameSpace()}configure`)?.multiTagsCache
+    multiTags: (storageLocal().getItem<StorageConfigs>(`${responsiveStorageNameSpace()}configure`)?.multiTagsCache
       ? storageLocal().getItem<StorageConfigs>(`${responsiveStorageNameSpace()}tags`)
-      : ([...routerArrays, ...usePermissionStoreHook().flatteningRoutes.filter((v) => v?.meta?.fixedTag)] as any),
+      : [
+          ...routerArrays,
+          ...usePermissionStoreHook().flatteningRoutes.filter((v) => v?.meta?.fixedTag),
+        ]) as Array<RouteConfigs>,
     multiTagsCache: storageLocal().getItem<StorageConfigs>(`${responsiveStorageNameSpace()}configure`)?.multiTagsCache,
   }),
   getters: {
@@ -31,10 +34,10 @@ export const useMultiTagsStore = defineStore('pure-multiTags', {
     tagsCache(multiTags) {
       this.getMultiTagsCache && storageLocal().setItem(`${responsiveStorageNameSpace()}tags`, multiTags);
     },
-    handleTags<T>(mode: string, value?: T | multiType, position?: positionType): T {
+    handleTags<T = Array<RouteConfigs>>(mode: string, value?: T | multiType, position?: positionType): T {
       switch (mode) {
         case 'equal':
-          this.multiTags = value;
+          this.multiTags = value as unknown as Array<RouteConfigs>;
           this.tagsCache(this.multiTags);
           break;
         case 'push':
@@ -82,9 +85,9 @@ export const useMultiTagsStore = defineStore('pure-multiTags', {
             this.multiTags.splice(position?.startIndex, position?.length);
           }
           this.tagsCache(this.multiTags);
-          return this.multiTags;
+          return this.multiTags as unknown as T;
         case 'slice':
-          return this.multiTags.slice(-1);
+          return this.multiTags.slice(-1) as unknown as T;
       }
     },
   },

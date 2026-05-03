@@ -9,19 +9,17 @@ export interface ConfirmLayer {
   cancelButtonText?: string;
 }
 
-function t(key: string): string {
-  return i18n.global.t(key);
-}
+const translate = (key: string): string => (i18n.global.t as (key: string) => string)(key);
 
 function defaultDeleteLayers(): ConfirmLayer[] {
   return [
     {
-      title: t('common.tips.deleteConfirm'),
-      message: t('common.tips.deleteConfirm'),
+      title: translate('common.tips.deleteConfirm'),
+      message: translate('common.tips.deleteConfirm'),
     },
     {
-      title: t('common.tips.lastTimeConfirmDeleteTitle'),
-      message: t('common.tips.lastTimeConfirmDeleteTitle'),
+      title: translate('common.tips.lastTimeConfirmDeleteTitle'),
+      message: translate('common.tips.lastTimeConfirmDeleteTitle'),
     },
   ];
 }
@@ -38,8 +36,8 @@ export async function multiConfirm(
   try {
     for (const layer of steps) {
       await ElMessageBox.confirm(layer.message ?? '', layer.title ?? '', {
-        confirmButtonText: layer.confirmButtonText ?? t('buttons.pureConfirm'),
-        cancelButtonText: layer.cancelButtonText ?? t('buttons.pureClose'),
+        confirmButtonText: layer.confirmButtonText ?? translate('buttons.pureConfirm'),
+        cancelButtonText: layer.cancelButtonText ?? translate('buttons.pureClose'),
         type: 'warning',
         draggable: true,
         showClose: false,
@@ -63,12 +61,12 @@ export async function deleteConfirm(): Promise<boolean> {
 export async function operationConfirm(): Promise<boolean> {
   return multiConfirm([
     {
-      title: t('common.tips.confirmTitle'),
-      message: t('common.tips.confirmTitle'),
+      title: translate('common.tips.confirmTitle'),
+      message: translate('common.tips.confirmTitle'),
     },
     {
-      title: t('common.tips.confirmTitle'),
-      message: t('common.tips.lastTimeConfirmTitle'),
+      title: translate('common.tips.confirmTitle'),
+      message: translate('common.tips.lastTimeConfirmTitle'),
     },
   ]);
 }

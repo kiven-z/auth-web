@@ -1,4 +1,4 @@
-import { multipleTabsKey, removeToken, userKey, type DataInfo } from '@/infrastructure/session/auth';
+import { type DataInfo, multipleTabsKey, removeToken, userKey } from '@/infrastructure/session/auth';
 import { isOneOfArray } from '@/router/utils/auth';
 import { getTopMenu } from '@/router/utils/misc';
 import { initRouter } from '@/router/utils/route-registry';
@@ -49,7 +49,7 @@ export function createAuthGuard(router: Router): void {
       } else {
         // 刷新时动态路由初始化
         if (usePermissionStoreHook().wholeMenus.length === 0 && to.path !== '/login') {
-          initRouter().then((routerInstance: Router) => {
+          initRouter().then(async (routerInstance: Router) => {
             if (!useMultiTagsStoreHook().getMultiTagsCache) {
               const { path } = to;
               const route = findRouteByPath(path, routerInstance.options.routes[0].children);
@@ -66,7 +66,7 @@ export function createAuthGuard(router: Router): void {
               }
             }
 
-            if (isAllEmpty(to.name)) routerInstance.push(to.fullPath);
+            if (isAllEmpty(to.name)) await routerInstance.push(to.fullPath);
           });
         }
         toCorrectRoute();

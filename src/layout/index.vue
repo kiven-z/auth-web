@@ -2,27 +2,24 @@
 import 'animate.css';
 // 引入 src/components/ReIcon/src/offlineIcon.ts 文件中所有使用addIcon添加过的本地图标
 import '@/components/ui/Icon/src/offlineIcon';
-import { setType } from './types';
-import { useI18n } from 'vue-i18n';
-import { useLayout } from './hooks/useLayout';
+import { useDataThemeChange } from '@/layout/hooks/useDataThemeChange';
 import { useAppStoreHook } from '@/store/modules/app';
 import { useSettingStoreHook } from '@/store/modules/settings';
-import { useDataThemeChange } from '@/layout/hooks/useDataThemeChange';
-import { computed, defineComponent, h, onBeforeMount, onMounted, reactive, ref } from 'vue';
-import { deviceDetection, useDark, useGlobal, useResizeObserver } from '@pureadmin/utils';
+import { deviceDetection, useGlobal, useResizeObserver } from '@pureadmin/utils';
+import { computed, onBeforeMount, onMounted, reactive, ref } from 'vue';
+import { useI18n } from 'vue-i18n';
+import { useLayout } from './hooks/useLayout';
+import { setType } from './types';
 
-import LayTag from './components/lay-tag/index.vue';
-import LayNavbar from './components/lay-navbar/index.vue';
+import BackTopIcon from '@/assets/svg/back_top.svg?component';
 import LayContent from './components/lay-content/index.vue';
+import LayHeader from './components/lay-header/index.vue';
 import LaySetting from './components/lay-setting/index.vue';
 import NavVertical from './components/lay-sidebar/NavVertical.vue';
-import NavHorizontal from './components/lay-sidebar/NavHorizontal.vue';
-import BackTopIcon from '@/assets/svg/back_top.svg?component';
 
 const { t } = useI18n();
-const appWrapperRef = ref();
-const { isDark } = useDark();
 const { layout } = useLayout();
+const appWrapperRef = ref();
 const isMobile = deviceDetection();
 const pureSetting = useSettingStoreHook();
 const { $storage } = useGlobal<GlobalPropertiesApi>();
@@ -111,34 +108,6 @@ onMounted(() => {
 
 onBeforeMount(() => {
   useDataThemeChange().dataThemeChange($storage.layout?.overallStyle);
-});
-
-const LayHeader = defineComponent({
-  name: 'LayHeader',
-  render() {
-    return h(
-      'div',
-      {
-        class: { 'fixed-header': set.fixedHeader },
-        style: [
-          set.hideTabs && layout.value.includes('horizontal')
-            ? isDark.value
-              ? 'box-shadow: 0 1px 4px #0d0d0d'
-              : 'box-shadow: 0 1px 4px rgba(0, 21, 41, 0.08)'
-            : '',
-        ],
-      },
-      {
-        default: () => [
-          !pureSetting.hiddenSideBar && (layout.value.includes('vertical') || layout.value.includes('mix'))
-            ? h(LayNavbar)
-            : null,
-          !pureSetting.hiddenSideBar && layout.value.includes('horizontal') ? h(NavHorizontal) : null,
-          h(LayTag),
-        ],
-      }
-    );
-  },
 });
 </script>
 

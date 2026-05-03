@@ -1,16 +1,16 @@
 import { isNoAuthRequestPath } from '@/config/http-config';
 import { formatToken, getToken } from '@/infrastructure/session/auth';
 import { useUserStoreHook } from '@/store/modules/user';
-import type { AxiosInstance } from 'axios';
+import type { AxiosInstance, InternalAxiosRequestConfig } from 'axios';
 import type { PureHttpRequestConfig } from '../types.d';
 
 let pendingAuthCallbacks: Array<(token: string) => void> = [];
 let isRefreshingToken = false;
 
-function enqueueRetryWithToken(config: PureHttpRequestConfig): Promise<PureHttpRequestConfig> {
-  return new Promise<PureHttpRequestConfig>((resolve) => {
+function enqueueRetryWithToken(config: InternalAxiosRequestConfig): Promise<InternalAxiosRequestConfig> {
+  return new Promise<InternalAxiosRequestConfig>((resolve) => {
     pendingAuthCallbacks.push((token: string) => {
-      if (!config.headers) config.headers = {};
+      if (!config.headers) config.headers = {} as any;
       config.headers['Authorization'] = formatToken(token);
       resolve(config);
     });
@@ -33,14 +33,16 @@ type InitConfigGetter = () => PureHttpRequestConfig;
  */
 export function attachRequestAuthInterceptor(instance: AxiosInstance, getInitConfig: InitConfigGetter): void {
   instance.interceptors.request.use(
-    async (config: PureHttpRequestConfig): Promise<PureHttpRequestConfig> => {
+    async (
+      config: InternalAxiosRequestConfig & Partial<PureHttpRequestConfig>
+    ): Promise<InternalAxiosRequestConfig & Partial<PureHttpRequestConfig>> => {
       const globalBeforeRequest = getInitConfig().beforeRequestCallback;
-      if (typeof config.beforeRequestCallback === 'function') {
-        config.beforeRequestCallback(config);
+      if (typeof (config as PureHttpRequestConfig).beforeRequestCallback === 'function') {
+        (config as PureHttpRequestConfig).beforeRequestCallback!(config as PureHttpRequestConfig);
         return config;
       }
       if (globalBeforeRequest) {
-        globalBeforeRequest(config);
+        globalBeforeRequest(config as PureHttpRequestConfig);
         return config;
       }
       if (isNoAuthRequestPath(config.url)) {
@@ -52,7 +54,7 @@ export function attachRequestAuthInterceptor(instance: AxiosInstance, getInitCon
   );
 }
 
-function applyAuthHeaderOrRefresh(config: PureHttpRequestConfig): Promise<PureHttpRequestConfig> {
+function applyAuthHeaderOrRefresh(config: InternalAxiosRequestConfig): Promise<InternalAxiosRequestConfig> {
   return new Promise((resolve) => {
     const tokenPayload = getToken();
     if (!tokenPayload) {
@@ -62,7 +64,7 @@ function applyAuthHeaderOrRefresh(config: PureHttpRequestConfig): Promise<PureHt
     const now = Date.now();
     const expired = Number(tokenPayload.expires) - now <= 0;
     if (!expired) {
-      if (!config.headers) config.headers = {};
+      if (!config.headers) config.headers = {} as any;
       config.headers['Authorization'] = formatToken(tokenPayload.accessToken);
       resolve(config);
       return;
@@ -73,7 +75,7 @@ function applyAuthHeaderOrRefresh(config: PureHttpRequestConfig): Promise<PureHt
         .handRefreshToken({ refreshToken: tokenPayload.refreshToken })
         .then((res) => {
           const token = res.accessToken;
-          if (!config.headers) config.headers = {};
+          if (!config.headers) config.headers = {} as any;
           config.headers['Authorization'] = formatToken(token);
           flushPendingWithToken(token);
         })

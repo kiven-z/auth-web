@@ -158,7 +158,7 @@ function dynamicRouteTag(value: string): void {
     return item.path === value;
   });
 
-  function concatPath(arr: object[], value: string) {
+  function concatPath(arr: readonly object[], value: string) {
     if (!hasValue) {
       arr.forEach((arrItem: any) => {
         if (arrItem.path === value) {
@@ -175,7 +175,7 @@ function dynamicRouteTag(value: string): void {
       });
     }
   }
-  concatPath(router.options.routes as any, value);
+  concatPath(router.options.routes, value);
 }
 
 /** 刷新路由 */
@@ -215,7 +215,7 @@ function deleteDynamicTag(obj: any, current: any, tag?: string) {
       useMultiTagsStoreHook().handleTags('splice', '', {
         startIndex,
         length,
-      }) as any;
+      });
     }
     dynamicTagView();
   };
@@ -235,9 +235,9 @@ function deleteDynamicTag(obj: any, current: any, tag?: string) {
     // 如果删除当前激活tag就自动切换到最后一个tag
     if (tag === 'left') return;
     if (newRoute[0]?.query) {
-      router.push({ name: newRoute[0].name, query: newRoute[0].query });
+      router.push({ name: newRoute[0].name, query: newRoute[0].query as any });
     } else if (newRoute[0]?.params) {
-      router.push({ name: newRoute[0].name, params: newRoute[0].params });
+      router.push({ name: newRoute[0].name, params: newRoute[0].params as any });
     } else {
       router.push({ path: newRoute[0].path });
     }
@@ -245,9 +245,9 @@ function deleteDynamicTag(obj: any, current: any, tag?: string) {
     if (!multiTags.value.length) return;
     if (multiTags.value.some((item) => item.path === route.path)) return;
     if (newRoute[0]?.query) {
-      router.push({ name: newRoute[0].name, query: newRoute[0].query });
+      router.push({ name: newRoute[0].name, query: newRoute[0].query as any });
     } else if (newRoute[0]?.params) {
-      router.push({ name: newRoute[0].name, params: newRoute[0].params });
+      router.push({ name: newRoute[0].name, params: newRoute[0].params as any });
     } else {
       router.push({ path: newRoute[0].path });
     }

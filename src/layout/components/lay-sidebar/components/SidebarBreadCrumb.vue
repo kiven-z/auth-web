@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import { isEqual } from '@pureadmin/utils';
 import { transformI18n } from '@/plugins/i18n';
-import { useRoute, useRouter } from 'vue-router';
-import { ref, watch, onMounted, toRaw } from 'vue';
-import { getParentPaths, findRouteByPath } from '@/router/utils';
+import { findRouteByPath, getParentPaths } from '@/router/utils/route-tree';
 import { useMultiTagsStoreHook } from '@/store/modules/multiTags';
+import { isEqual } from '@pureadmin/utils';
+import { onMounted, ref, toRaw, watch } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
 
 const route = useRoute();
 const levelList = ref([]);

@@ -1,7 +1,7 @@
 import { isNoAuthRequestPath } from '@/config/http-config';
 import { formatToken, getToken } from '@/infrastructure/session/auth';
 import { useUserStoreHook } from '@/store/modules/user';
-import Axios, { type AxiosInstance } from 'axios';
+import Axios, { type AxiosInstance, type AxiosResponse } from 'axios';
 import { isApiResultEnvelope, type ApiResult } from '../apiResult';
 import { rejectWithApiEnvelopeError } from '../apiResultErrors';
 import type { PureHttpError, PureHttpRequestConfig, PureHttpResponse } from '../types.d';
@@ -13,13 +13,14 @@ type InitConfigGetter = () => PureHttpRequestConfig;
  */
 export function attachResponseInterceptors(instance: AxiosInstance, getInitConfig: InitConfigGetter): void {
   instance.interceptors.response.use(
-    (response: PureHttpResponse) => handleResponseSuccess(response, getInitConfig),
-    (error: PureHttpError) => handleResponseError(instance, error)
+    (response: AxiosResponse) => handleResponseSuccess(response, getInitConfig) as any,
+    (error: PureHttpError) => handleResponseError(instance, error) as any
   );
 }
 
-function handleResponseSuccess(response: PureHttpResponse, getInitConfig: InitConfigGetter): unknown {
-  const config = response.config;
+function handleResponseSuccess(response: AxiosResponse, getInitConfig: InitConfigGetter): unknown {
+  const config = response.config as PureHttpRequestConfig;
+  const pureResponse = response as PureHttpResponse;
   const raw = response.data;
 
   if (config.responseType === 'blob' || config.responseType === 'arraybuffer') {
@@ -33,10 +34,10 @@ function handleResponseSuccess(response: PureHttpResponse, getInitConfig: InitCo
     if (raw.code !== 200) {
       return rejectWithApiEnvelopeError(raw, response.status);
     }
-    return unwrapEnvelopePayload(response, raw, getInitConfig);
+    return unwrapEnvelopePayload(pureResponse, raw, getInitConfig);
   }
 
-  return passthroughRawBody(response, getInitConfig);
+  return passthroughRawBody(pureResponse, getInitConfig);
 }
 
 function unwrapEnvelopePayload(

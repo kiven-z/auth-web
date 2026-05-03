@@ -30,7 +30,7 @@ function handleAsyncRoutes(routeList) {
     // 所有路由添加完成后统一排序
     ascending(router.options.routes[0].children);
     // 同步路由表：保持 router.options.routes[0].children 与 path="/" 的 children 一致
-    const flattenRouters: any = router.getRoutes().find((n) => n.path === '/');
+    const flattenRouters = router.getRoutes().find((n) => n.path === '/');
     if (flattenRouters) {
       flattenRouters.children = router.options.routes[0].children;
       router.addRoute(flattenRouters);
@@ -51,7 +51,7 @@ function initRouter() {
   if (getConfig()?.CachingAsyncRoutes) {
     // 开启动态路由缓存本地localStorage
     const key = 'async-routes';
-    const asyncRouteList = storageLocal().getItem(key) as any;
+    const asyncRouteList = storageLocal().getItem(key) as Array<unknown> | null;
     if (asyncRouteList && asyncRouteList?.length > 0) {
       return new Promise((resolve) => {
         handleAsyncRoutes(asyncRouteList);

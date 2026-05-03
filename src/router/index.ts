@@ -44,7 +44,7 @@ export const remainingPaths = Object.keys(remainingRouter).map((v) => {
 /** 创建路由实例 */
 export const router: Router = createRouter({
   history: getHistoryMode(import.meta.env.VITE_ROUTER_HISTORY),
-  routes: constantRoutes.concat(...(remainingRouter as any)),
+  routes: constantRoutes.concat(...(remainingRouter as Array<RouteRecordRaw>)),
   strict: true,
   scrollBehavior(to, from, savedPosition) {
     return new Promise((resolve) => {
@@ -69,7 +69,7 @@ createAuthGuard(router);
 /** 重置路由 */
 export function resetRouter() {
   router.clearRoutes();
-  for (const route of initConstantRoutes.concat(...(remainingRouter as any))) {
+  for (const route of initConstantRoutes.concat(...(remainingRouter as Array<RouteRecordRaw>))) {
     router.addRoute(route);
   }
   router.options.routes = formatTwoStageRoutes(
