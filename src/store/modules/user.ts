@@ -1,8 +1,11 @@
-import { defineStore } from 'pinia';
-import { resetRouter, router, routerArrays, store, type userType } from '../utils';
 import { loginByUsernameApi, logoutApi, refreshTokenApi, type UserLoginResponse } from '@/api/domains/auth';
-import { useMultiTagsStoreHook } from './multiTags';
 import { readUserProfileFromStorage, removeToken, setToken } from '@/infrastructure/session/auth';
+import { routerArrays } from '@/layout/types';
+import { resetRouter, router } from '@/router';
+import { store } from '@/store';
+import { defineStore } from 'pinia';
+import type { userType } from '../types';
+import { useMultiTagsStoreHook } from './multiTags';
 
 export const useUserStore = defineStore('pure-user', {
   state: (): userType => {

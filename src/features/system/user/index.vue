@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { hasAuth } from '@/router/utils';
+import { hasAuth } from '@/router/utils/auth';
 </script>
 
 <template>

@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { getTopMenu } from '@/router/utils';
 import { useNav } from '@/layout/hooks/useNav';
+import { getTopMenu } from '@/router/utils/misc';
 
 defineProps({
   collapse: Boolean,

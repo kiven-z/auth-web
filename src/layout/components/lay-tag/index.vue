@@ -1,24 +1,24 @@
 <script setup lang="ts">
-import { $t } from '@/plugins/i18n';
-import { emitter } from '@/shared/messaging/mitt';
-import NProgress from '@/shared/app/progress';
-import { RouteConfigs } from '../../types';
-import { useTags } from '../../hooks/useTag';
 import { routerArrays } from '@/layout/types';
-import { onClickOutside } from '@vueuse/core';
-import TagChrome from './components/TagChrome.vue';
-import { handleAliveRoute, getTopMenu } from '@/router/utils';
-import { useSettingStoreHook } from '@/store/modules/settings';
+import { $t } from '@/plugins/i18n';
+import { getTopMenu, handleAliveRoute } from '@/router/utils/misc';
+import NProgress from '@/shared/app/progress';
+import { emitter } from '@/shared/messaging/mitt';
 import { useMultiTagsStoreHook } from '@/store/modules/multiTags';
 import { usePermissionStoreHook } from '@/store/modules/permission';
-import { ref, watch, unref, toRaw, nextTick, onBeforeUnmount } from 'vue';
-import { delay, isEqual, isAllEmpty, useResizeObserver } from '@pureadmin/utils';
+import { useSettingStoreHook } from '@/store/modules/settings';
+import { delay, isAllEmpty, isEqual, useResizeObserver } from '@pureadmin/utils';
+import { onClickOutside } from '@vueuse/core';
+import { nextTick, onBeforeUnmount, ref, toRaw, unref, watch } from 'vue';
+import { useTags } from '../../hooks/useTag';
+import { RouteConfigs } from '../../types';
+import TagChrome from './components/TagChrome.vue';
 
+import ArrowDown from '~icons/ri/arrow-down-s-line';
+import ArrowLeftSLine from '~icons/ri/arrow-left-s-line';
+import ArrowRightSLine from '~icons/ri/arrow-right-s-line';
 import ExitFullscreen from '~icons/ri/fullscreen-exit-fill';
 import Fullscreen from '~icons/ri/fullscreen-fill';
-import ArrowDown from '~icons/ri/arrow-down-s-line';
-import ArrowRightSLine from '~icons/ri/arrow-right-s-line';
-import ArrowLeftSLine from '~icons/ri/arrow-left-s-line';
 
 const {
   Close,

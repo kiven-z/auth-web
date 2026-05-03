@@ -1,4 +1,4 @@
-import { type ConfigEnv, loadEnv, type UserConfigExport } from 'vite';
+import { loadEnv, type ConfigEnv, type UserConfigExport } from 'vite';
 import { exclude, include } from './build/optimize';
 import { getPluginsList } from './build/plugins';
 import { __APP_INFO__, alias, pathResolve, root, wrapperEnv } from './build/utils';
@@ -45,6 +45,10 @@ export default ({ mode }: ConfigEnv): UserConfigExport => {
       rollupOptions: {
         input: {
           index: pathResolve('./index.html', import.meta.url),
+        },
+        onwarn(warning, warn) {
+          if (warning.message.includes('#__PURE__')) return;
+          warn(warning);
         },
         // 静态资源分类打包
         output: {

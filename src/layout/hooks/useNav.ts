@@ -1,21 +1,21 @@
-import { storeToRefs } from 'pinia';
-import { getConfig } from '@/config';
-import { useRouter } from 'vue-router';
-import { emitter } from '@/shared/messaging/mitt';
 import Avatar from '@/assets/user.jpg';
-import { getTopMenu } from '@/router/utils';
-import { useFullscreen } from '@vueuse/core';
-import type { routeMetaType } from '../types';
+import { getConfig } from '@/config';
 import { transformI18n } from '@/plugins/i18n';
-import { router, remainingPaths } from '@/router';
-import { computed, type CSSProperties } from 'vue';
+import { remainingPaths, router } from '@/router';
+import { getTopMenu } from '@/router/utils/misc';
+import { emitter } from '@/shared/messaging/mitt';
 import { useAppStoreHook } from '@/store/modules/app';
-import { useUserStoreHook } from '@/store/modules/user';
-import { useGlobal, isAllEmpty } from '@pureadmin/utils';
 import { useEpThemeStoreHook } from '@/store/modules/epTheme';
 import { usePermissionStoreHook } from '@/store/modules/permission';
+import { useUserStoreHook } from '@/store/modules/user';
+import { isAllEmpty, useGlobal } from '@pureadmin/utils';
+import { useFullscreen } from '@vueuse/core';
+import { storeToRefs } from 'pinia';
+import { computed, type CSSProperties } from 'vue';
+import { useRouter } from 'vue-router';
 import ExitFullscreen from '~icons/ri/fullscreen-exit-fill';
 import Fullscreen from '~icons/ri/fullscreen-fill';
+import type { routeMetaType } from '../types';
 
 const errorInfo = 'The current routing configuration is incorrect, please check the configuration';
 
