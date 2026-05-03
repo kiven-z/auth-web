@@ -80,6 +80,12 @@ status:
   pureNoMessage: No Message
   pureNoNotify: No Notify
   pureNoTodo: No Todo
+common:
+  tips:
+    deleteConfirm: Are you sure you want to delete?
+    lastTimeConfirmDeleteTitle: Final confirmation
+    confirmTitle: Continue with this operation?
+    lastTimeConfirmTitle: Last reminder — are you sure?
 login:
   pureUsername: Username
   purePassword: Password

@@ -1,34 +1,30 @@
-import {
-  type RouterHistory,
-  type RouteRecordRaw,
-  type RouteComponent,
-  createWebHistory,
-  createWebHashHistory,
-} from 'vue-router';
-import { router } from './index';
-import { isProxy, toRaw } from 'vue';
-import { useTimeoutFn } from '@vueuse/core';
-import { isString, cloneDeep, isAllEmpty, intersection, storageLocal, isIncludeAllChildren } from '@pureadmin/utils';
 import { getConfig } from '@/config';
-import { buildHierarchyTree } from '@/shared/lib/tree';
 import { type menuType, routerArrays } from '@/layout/types';
+import { buildHierarchyTree } from '@/shared/lib/tree';
 import { useMultiTagsStoreHook } from '@/store/modules/multiTags';
 import { usePermissionStoreHook } from '@/store/modules/permission';
 import { useUserStoreHook } from '@/store/modules/user';
-const IFrame = () => import('@/layout/frame.vue');
-// https://cn.vitejs.dev/guide/features.html#glob-import
-const modulesRoutes = import.meta.glob('/src/views/**/*.{vue,tsx}');
-
+import { cloneDeep, intersection, isAllEmpty, isIncludeAllChildren, isString, storageLocal } from '@pureadmin/utils';
+import { useTimeoutFn } from '@vueuse/core';
+import { isProxy, toRaw } from 'vue';
+import {
+  createWebHashHistory,
+  createWebHistory,
+  type RouteComponent,
+  type RouteRecordRaw,
+  type RouterHistory,
+} from 'vue-router';
+import { router } from './index';
 // 动态路由
 import { getAsyncRoutes } from '@/api/routes';
 
+const IFrame = () => import('@/layout/frame.vue');
+// https://cn.vitejs.dev/guide/features.html#glob-import
+const modulesRoutes = import.meta.glob(['/src/features/**/*.{vue,tsx}', '/src/features/**/*.{vue,tsx}']);
+
 function handRank(routeInfo: any) {
   const { name, path, parentId, meta } = routeInfo;
-  return isAllEmpty(parentId)
-    ? isAllEmpty(meta?.rank) || (meta?.rank === 0 && name !== 'Home' && path !== '/')
-      ? true
-      : false
-    : false;
+  return isAllEmpty(parentId) ? isAllEmpty(meta?.rank) || (meta?.rank === 0 && name !== 'Home' && path !== '/') : false;
 }
 
 /** 按照路由中meta下的rank等级升序来排序路由 */
@@ -58,7 +54,7 @@ function filterChildrenTree(data: RouteComponent[]) {
 
 /** 判断两个数组彼此是否存在相同值 */
 function isOneOfArray(a: Array<string>, b: Array<string>) {
-  return Array.isArray(a) && Array.isArray(b) ? (intersection(a, b).length > 0 ? true : false) : true;
+  return Array.isArray(a) && Array.isArray(b) ? intersection(a, b).length > 0 : true;
 }
 
 /** 使用当前用户角色过滤无权限的菜单 */
@@ -170,20 +166,18 @@ function initRouter() {
         resolve(router);
       });
     } else {
-      return new Promise((resolve) => {
-        getAsyncRoutes().then((data) => {
-          handleAsyncRoutes(cloneDeep(data));
-          storageLocal().setItem(key, data);
-          resolve(router);
-        });
+      return new Promise(async (resolve) => {
+        const response = await getAsyncRoutes();
+        handleAsyncRoutes(cloneDeep(response));
+        storageLocal().setItem(key, response);
+        resolve(router);
       });
     }
   } else {
-    return new Promise((resolve) => {
-      getAsyncRoutes().then((data) => {
-        handleAsyncRoutes(cloneDeep(data));
-        resolve(router);
-      });
+    return new Promise(async (resolve) => {
+      const response = await getAsyncRoutes();
+      handleAsyncRoutes(cloneDeep(response));
+      resolve(router);
     });
   }
 }
@@ -326,8 +320,7 @@ function hasAuth(value: string | Array<string>): boolean {
   /** 从当前路由的`meta`字段里获取按钮级别的所有自定义`code`值 */
   const metaAuths = getAuths();
   if (!metaAuths) return false;
-  const isAuths = isString(value) ? metaAuths.includes(value) : isIncludeAllChildren(value, metaAuths);
-  return isAuths ? true : false;
+  return isString(value) ? metaAuths.includes(value) : isIncludeAllChildren(value, metaAuths);
 }
 
 function handleTopMenu(route) {
@@ -350,20 +343,20 @@ function getTopMenu(tag = false): menuType {
 }
 
 export {
-  hasAuth,
-  getAuths,
-  ascending,
-  filterTree,
-  initRouter,
-  getTopMenu,
-  addPathMatch,
-  isOneOfArray,
-  getHistoryMode,
   addAsyncRoutes,
-  getParentPaths,
-  findRouteByPath,
-  handleAliveRoute,
-  formatTwoStageRoutes,
-  formatFlatteningRoutes,
+  addPathMatch,
+  ascending,
   filterNoPermissionTree,
+  filterTree,
+  findRouteByPath,
+  formatFlatteningRoutes,
+  formatTwoStageRoutes,
+  getAuths,
+  getHistoryMode,
+  getParentPaths,
+  getTopMenu,
+  handleAliveRoute,
+  hasAuth,
+  initRouter,
+  isOneOfArray,
 };
