@@ -1,5 +1,5 @@
+import { hasAuth } from '@/shared/permission';
 import { defineComponent, Fragment } from 'vue';
-import { hasPerms } from '@/infrastructure/session/auth';
 
 export default defineComponent({
   name: 'Perms',
@@ -12,7 +12,7 @@ export default defineComponent({
   setup(props, { slots }) {
     return () => {
       if (!slots) return null;
-      return hasPerms(props.value) ? <Fragment>{slots.default?.()}</Fragment> : null;
+      return hasAuth(props.value) ? <Fragment>{slots.default?.()}</Fragment> : null;
     };
   },
 });

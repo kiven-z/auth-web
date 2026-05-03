@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { hasAuth } from '@/router/utils/auth';
+import { hasAuth } from '@/shared/permission';
 </script>
 
 <template>

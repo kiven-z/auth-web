@@ -1,5 +1,5 @@
+import { hasAuth } from '@/shared/permission';
 import { defineComponent, Fragment } from 'vue';
-import { hasAuth } from '@/router/utils';
 
 export default defineComponent({
   name: 'Auth',

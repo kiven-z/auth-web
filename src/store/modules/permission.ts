@@ -1,5 +1,6 @@
 import { constantMenus } from '@/router';
-import { ascending, filterNoPermissionTree, filterTree, formatFlatteningRoutes } from '@/router/utils';
+import { ascending, filterNoPermissionTree, filterTree } from '@/router/utils/menu-sort';
+import { formatFlatteningRoutes } from '@/router/utils/route-tree';
 import { store } from '@/store';
 import { getKeyList } from '@pureadmin/utils';
 import { defineStore } from 'pinia';
