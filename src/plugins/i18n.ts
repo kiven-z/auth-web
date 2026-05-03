@@ -14,10 +14,9 @@ const siphonI18n = (function () {
   const modules = import.meta.glob('../../locales/**/*.y(a)?ml', { eager: true }) as Record<string, any>;
 
   for (const [filePath, module] of Object.entries(modules)) {
-    // 从 "zh-CN/buttons.yaml" 中提取 "zh-CN"
-    // const lang = filePath.match(/([A-Za-z0-9_-]+)\//)?.[1];
-    // 从 "zh-CN/buttons.yaml" 中提取 "zh-CN"
-    const lang = filePath.match(/([A-Za-z0-9_-]+)\/[^/]+\.y(a)?ml$/)?.[1];
+    // 从路径中提取 "locales/" 之后的第一个目录名作为语言标识（支持任意深度嵌套）
+    // 例如: "../../locales/zh-CN/common/buttons.yaml" → "zh-CN"
+    const lang = filePath.match(/locales\/([A-Za-z0-9_-]+)\//)?.[1];
     if (!lang) continue;
 
     if (!cache[lang]) {

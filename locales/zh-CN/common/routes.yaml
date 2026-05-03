@@ -1,0 +1,4 @@
+routes:
+  systemManagement: 系统管理
+  userManagement: 用户管理
+  menuManagement: 菜单管理

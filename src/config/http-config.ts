@@ -1,9 +1,13 @@
 import { AUTH_PUBLIC_API_PATH_SUFFIXES } from '@/api/domains/auth/paths';
 
-/** Axios 实例 baseURL，与 Vite `server.proxy['/api']` 一致 */
+/**
+ * Axios 实例 baseURL，与 Vite `server.proxy['/api']` 一致
+ */
 export const HTTP_BASE_URL = '/api';
 
-/** 请求超时（毫秒） */
+/**
+ *  请求超时（毫秒）
+ */
 export const HTTP_TIMEOUT = 10_000;
 
 /**

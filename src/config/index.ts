@@ -8,6 +8,11 @@ const setConfig = (cfg?: unknown) => {
   config = Object.assign(config, cfg);
 };
 
+/**
+ * 获取配置项的值
+ * @param key 配置项的键
+ * @returns 配置项的值
+ */
 const getConfig = (key?: string): PlatformConfigs => {
   if (typeof key === 'string') {
     const arr = key.split('.');
@@ -26,7 +31,10 @@ const getConfig = (key?: string): PlatformConfigs => {
   return config;
 };
 
-/** 获取项目动态全局配置 */
+/**
+ * 获取项目动态全局配置
+ * @param app Vue 应用实例
+ */
 export const getPlatformConfig = async (app: App): Promise<undefined> => {
   app.config.globalProperties.$config = getConfig();
   return axios({

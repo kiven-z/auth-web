@@ -1,4 +1,6 @@
-/** 支持的语言配置列表 */
+/**
+ * 支持的语言配置列表
+ */
 export const localeOptions = [
   {
     locale: 'zh',
