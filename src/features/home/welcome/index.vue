@@ -1,9 +1,14 @@
-<script setup lang="ts">
+<script lang="ts" setup>
+import { useI18n } from 'vue-i18n';
+
+const { t } = useI18n();
 defineOptions({
   name: 'Welcome',
 });
 </script>
 
 <template>
-  <h1>Pure-Admin-Thin（国际化版本）</h1>
+  <div class="w-full">
+    <h1 class="text-amber-700">Language： {{ t('buttons.pureLoginOut') }}</h1>
+  </div>
 </template>

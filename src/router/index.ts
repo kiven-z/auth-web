@@ -1,26 +1,26 @@
 // import "@/infrastructure/session/sso";
-import Cookies from 'js-cookie';
 import { getConfig } from '@/config';
-import NProgress from '@/shared/app/progress';
+import { multipleTabsKey, removeToken, userKey, type DataInfo } from '@/infrastructure/session/auth';
 import { transformI18n } from '@/plugins/i18n';
+import NProgress from '@/shared/app/progress';
 import { buildHierarchyTree } from '@/shared/lib/tree';
-import remainingRouter from './modules/remaining';
 import { useMultiTagsStoreHook } from '@/store/modules/multiTags';
 import { usePermissionStoreHook } from '@/store/modules/permission';
-import { isUrl, openLink, cloneDeep, isAllEmpty, storageLocal } from '@pureadmin/utils';
+import { cloneDeep, isAllEmpty, isUrl, openLink, storageLocal } from '@pureadmin/utils';
+import Cookies from 'js-cookie';
+import { createRouter, type RouteComponent, type RouteRecordRaw, type Router } from 'vue-router';
+import remainingRouter from './modules/remaining';
 import {
   ascending,
+  findRouteByPath,
+  formatFlatteningRoutes,
+  formatTwoStageRoutes,
+  getHistoryMode,
   getTopMenu,
+  handleAliveRoute,
   initRouter,
   isOneOfArray,
-  getHistoryMode,
-  findRouteByPath,
-  handleAliveRoute,
-  formatTwoStageRoutes,
-  formatFlatteningRoutes,
-} from './utils';
-import { type Router, type RouteRecordRaw, type RouteComponent, createRouter } from 'vue-router';
-import { type DataInfo, userKey, removeToken, multipleTabsKey } from '@/infrastructure/session/auth';
+} from './utils/index';
 
 /** 自动导入全部静态路由，无需再手动引入！匹配 src/router/modules 目录（任何嵌套级别）中具有 .ts 扩展名的所有文件，除了 remaining.ts 文件
  * 如何匹配所有文件请看：https://github.com/mrmlnc/fast-glob#basic-syntax

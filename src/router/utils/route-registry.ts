@@ -1,0 +1,77 @@
+import { getAsyncRoutes } from '@/api/routes';
+import { getConfig } from '@/config';
+import { routerArrays } from '@/layout/types';
+import { useMultiTagsStoreHook } from '@/store/modules/multiTags';
+import { usePermissionStoreHook } from '@/store/modules/permission';
+import { cloneDeep, storageLocal } from '@pureadmin/utils';
+import type { RouteRecordRaw } from 'vue-router';
+import { router } from '../index';
+import { addAsyncRoutes } from './async-routes';
+import { ascending } from './menu-sort';
+import { addPathMatch } from './misc';
+import { formatFlatteningRoutes } from './route-tree';
+
+/** 处理动态路由（后端返回的路由） */
+function handleAsyncRoutes(routeList) {
+  if (routeList.length === 0) {
+    usePermissionStoreHook().handleWholeMenus(routeList);
+  } else {
+    const formattedRoutes = formatFlatteningRoutes(addAsyncRoutes(routeList));
+    // 将所有动态路由逐个注册到根路由中
+    formattedRoutes.forEach((v: RouteRecordRaw) => {
+      // 防止重复添加路由
+      if (router.options.routes[0].children.findIndex((value) => value.path === v.path) !== -1) {
+        return;
+      }
+      // 切记将路由push到routes后还需要使用addRoute，这样路由才能正常跳转
+      router.options.routes[0].children.push(v);
+      if (!router.hasRoute(v?.name)) router.addRoute(v);
+    });
+    // 所有路由添加完成后统一排序
+    ascending(router.options.routes[0].children);
+    // 同步路由表：保持 router.options.routes[0].children 与 path="/" 的 children 一致
+    const flattenRouters: any = router.getRoutes().find((n) => n.path === '/');
+    if (flattenRouters) {
+      flattenRouters.children = router.options.routes[0].children;
+      router.addRoute(flattenRouters);
+    }
+    usePermissionStoreHook().handleWholeMenus(routeList);
+  }
+  if (!useMultiTagsStoreHook().getMultiTagsCache) {
+    useMultiTagsStoreHook().handleTags('equal', [
+      ...routerArrays,
+      ...usePermissionStoreHook().flatteningRoutes.filter((v) => v?.meta?.fixedTag),
+    ]);
+  }
+  addPathMatch();
+}
+
+/** 初始化路由（`new Promise` 写法防止在异步请求中造成无限循环）*/
+function initRouter() {
+  if (getConfig()?.CachingAsyncRoutes) {
+    // 开启动态路由缓存本地localStorage
+    const key = 'async-routes';
+    const asyncRouteList = storageLocal().getItem(key) as any;
+    if (asyncRouteList && asyncRouteList?.length > 0) {
+      return new Promise((resolve) => {
+        handleAsyncRoutes(asyncRouteList);
+        resolve(router);
+      });
+    } else {
+      return new Promise(async (resolve) => {
+        const response = await getAsyncRoutes();
+        handleAsyncRoutes(cloneDeep(response));
+        storageLocal().setItem(key, response);
+        resolve(router);
+      });
+    }
+  } else {
+    return new Promise(async (resolve) => {
+      const response = await getAsyncRoutes();
+      handleAsyncRoutes(cloneDeep(response));
+      resolve(router);
+    });
+  }
+}
+
+export { handleAsyncRoutes, initRouter };
