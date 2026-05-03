@@ -10,7 +10,7 @@ import { useElementPlus } from '@/plugins/elementPlus';
 import { injectResponsiveStorage } from '@/shared/app/responsive';
 
 import Table from '@pureadmin/table';
-// import PureDescriptions from "@pureadmin/descriptions";
+import Description from '@/components/ui/Description';
 // 引入重置样式
 import './style/reset.scss';
 // 导入公共样式
@@ -53,8 +53,7 @@ getPlatformConfig(app).then(async (config) => {
   app.use(router);
   await router.isReady();
   injectResponsiveStorage(app, config);
-  app.use(MotionPlugin).use(useI18n).use(useElementPlus).use(Table);
-  // .use(PureDescriptions)
+  app.use(MotionPlugin).use(useI18n).use(useElementPlus).use(Table).use(Description);
   // .use(useEcharts);
   app.mount('#app');
 });

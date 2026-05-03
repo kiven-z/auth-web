@@ -1,29 +1,29 @@
 <script lang="ts" setup>
-import { useI18n } from 'vue-i18n';
-import Motion from './utils/motion';
-import { useRouter } from 'vue-router';
-import { message } from '@/shared/messaging/message';
-import { loginRules } from './utils/rule';
-import { reactive, ref, toRaw } from 'vue';
-import { debounce } from '@pureadmin/utils';
+import { useRenderIcon } from '@/components/ui/Icon/src/hooks';
+import { ApiBusinessError, ApiConflictError } from '@/infrastructure/http/apiError';
+import { useDataThemeChange } from '@/layout/hooks/useDataThemeChange';
+import { useLayout } from '@/layout/hooks/useLayout';
 import { useNav } from '@/layout/hooks/useNav';
+import { useTranslationLang } from '@/layout/hooks/useTranslationLang';
+import { $t, transformI18n } from '@/plugins/i18n';
+import { getTopMenu, initRouter } from '@/router/utils';
+import { message } from '@/shared/messaging/message';
+import { useUserStoreHook } from '@/store/modules/user';
+import { debounce } from '@pureadmin/utils';
 import { useEventListener } from '@vueuse/core';
 import type { FormInstance } from 'element-plus';
-import { $t, transformI18n } from '@/plugins/i18n';
-import { useLayout } from '@/layout/hooks/useLayout';
-import { useUserStoreHook } from '@/store/modules/user';
-import { getTopMenu, initRouter } from '@/router/utils';
-import { ApiBusinessError, ApiConflictError } from '@/infrastructure/http/apiError';
+import { reactive, ref, toRaw } from 'vue';
+import { useI18n } from 'vue-i18n';
+import { useRouter } from 'vue-router';
+import Motion from './utils/motion';
+import { loginRules } from './utils/rule';
 import { avatar, bg, illustration } from './utils/static';
-import { useRenderIcon } from '@/components/ui/Icon/src/hooks';
-import { useTranslationLang } from '@/layout/hooks/useTranslationLang';
-import { useDataThemeChange } from '@/layout/hooks/useDataThemeChange';
 
-import dayIcon from '@/assets/svg/day.svg?component';
 import darkIcon from '@/assets/svg/dark.svg?component';
+import dayIcon from '@/assets/svg/day.svg?component';
 import globalization from '@/assets/svg/globalization.svg?component';
-import Lock from '~icons/ri/lock-fill';
 import Check from '~icons/ep/check';
+import Lock from '~icons/ri/lock-fill';
 import User from '~icons/ri/user-3-fill';
 
 defineOptions({
@@ -63,7 +63,7 @@ const onLogin = async (formEl: FormInstance | undefined) => {
           return initRouter().then(() => {
             disabled.value = true;
             router
-              .push(getTopMenu(true).path)
+              .push(getTopMenu(true)?.path ?? '/')
               .then(() => {
                 message(t('login.pureLoginSuccess'), { type: 'success' });
               })
@@ -92,7 +92,7 @@ useEventListener(document, 'keydown', ({ code }) => {
 
 <template>
   <div class="select-none">
-    <img :src="bg" class="wave" />
+    <img :src="bg" alt="bg" class="wave" />
     <div class="flex-c absolute right-5 top-3">
       <!-- 主题 -->
       <el-switch
