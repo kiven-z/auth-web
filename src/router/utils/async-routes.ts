@@ -1,10 +1,7 @@
+import { modulesRoutes, modulesRoutesKeys } from '@/config/page-resolver';
 import type { RouteRecordRaw } from 'vue-router';
 
 const IFrame = () => import('@/layout/frame.vue');
-// https://cn.vitejs.dev/guide/features.html#glob-import
-const modulesRoutes = import.meta.glob(['/src/features/**/*.{vue,tsx}', '/src/views/**/*.{vue,tsx}']);
-
-const modulesRoutesKeys = Object.keys(modulesRoutes);
 
 /**
  * 在后端路由中匹配对应的 Vite glob 组件路径

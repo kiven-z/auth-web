@@ -36,7 +36,6 @@
       "element-plus/global",
       "@pureadmin/table/volar",
       "unplugin-icons/types/vue",
-      "@pureadmin/descriptions/volar"
     ]
   },
   "include": [
