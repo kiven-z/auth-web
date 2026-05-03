@@ -1,26 +1,26 @@
 <script lang="ts" setup>
-import { isAllEmpty } from '@pureadmin/utils';
+import { useRenderIcon } from '@/components/ui/Icon/src/hooks';
 import { useNav } from '@/layout/hooks/useNav';
 import { transformI18n } from '@/plugins/i18n';
-import LaySearch from '../lay-search/index.vue';
-import LayNotice from '../lay-notice/index.vue';
-import { nextTick, onMounted, ref, toRaw, watch } from 'vue';
-import { useRenderIcon } from '@/components/ui/Icon/src/hooks';
 import { findRouteByPath, getParentPaths } from '@/router/utils';
-import { useTranslationLang } from '../../hooks/useTranslationLang';
 import { usePermissionStoreHook } from '@/store/modules/permission';
+import { isAllEmpty } from '@pureadmin/utils';
+import { nextTick, onMounted, ref, toRaw, watch } from 'vue';
+import { useTranslationLang } from '../../hooks/useTranslationLang';
+import LayNotice from '../lay-notice/index.vue';
+import LaySearch from '../lay-search/index.vue';
 import LaySidebarExtraIcon from '../lay-sidebar/components/SidebarExtraIcon.vue';
 import LaySidebarFullScreen from '../lay-sidebar/components/SidebarFullScreen.vue';
 
 import GlobalizationIcon from '@/assets/svg/globalization.svg?component';
+import Check from '~icons/ep/check';
 import LogoutCircleRLine from '~icons/ri/logout-circle-r-line';
 import Setting from '~icons/ri/settings-3-line';
-import Check from '~icons/ep/check';
 
 const menuRef = ref();
 const defaultActive = ref(null);
 
-const { t, route, locale, translationCh, translationEn } = useTranslationLang(menuRef);
+const { t, route, locale, translation, localeOptions } = useTranslationLang(menuRef);
 const {
   device,
   logout,
@@ -100,24 +100,16 @@ watch(
         <template #dropdown>
           <el-dropdown-menu class="translation">
             <el-dropdown-item
-              :class="['dark:text-white!', getDropdownItemClass(locale, 'zh')]"
-              :style="getDropdownItemStyle(locale, 'zh')"
-              @click="translationCh"
+              v-for="item in localeOptions"
+              :key="item.locale"
+              :class="['dark:text-white!', getDropdownItemClass(locale, item.locale)]"
+              :style="getDropdownItemStyle(locale, item.locale)"
+              @click="translation(item.locale)"
             >
-              <span v-show="locale === 'zh'" class="check-zh">
+              <span v-show="locale === item.locale" class="check-icon">
                 <IconifyIconOffline :icon="Check" />
               </span>
-              简体中文
-            </el-dropdown-item>
-            <el-dropdown-item
-              :class="['dark:text-white!', getDropdownItemClass(locale, 'en')]"
-              :style="getDropdownItemStyle(locale, 'en')"
-              @click="translationEn"
-            >
-              <span v-show="locale === 'en'" class="check-en">
-                <IconifyIconOffline :icon="Check" />
-              </span>
-              English
+              {{ item.label }}
             </el-dropdown-item>
           </el-dropdown-menu>
         </template>
@@ -158,12 +150,7 @@ watch(
     padding: 5px 40px;
   }
 
-  .check-zh {
-    position: absolute;
-    left: 20px;
-  }
-
-  .check-en {
+  .check-icon {
     position: absolute;
     left: 20px;
   }

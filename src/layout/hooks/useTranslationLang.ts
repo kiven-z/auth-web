@@ -1,22 +1,17 @@
-import { useNav } from './useNav';
+import { localeOptions, type LocaleType } from '@/config/locales';
+import { onBeforeMount, watch, type Ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRoute } from 'vue-router';
-import { watch, onBeforeMount, type Ref } from 'vue';
+import { useNav } from './useNav';
 
 export function useTranslationLang(ref?: Ref) {
   const { $storage, changeTitle, handleResize } = useNav();
   const { locale, t } = useI18n();
   const route = useRoute();
 
-  function translationCh() {
-    $storage.locale = { locale: 'zh' };
-    locale.value = 'zh';
-    ref && handleResize(ref.value);
-  }
-
-  function translationEn() {
-    $storage.locale = { locale: 'en' };
-    locale.value = 'en';
+  function translation(localeValue: LocaleType) {
+    $storage.locale = { locale: localeValue };
+    locale.value = localeValue;
     ref && handleResize(ref.value);
   }
 
@@ -35,7 +30,7 @@ export function useTranslationLang(ref?: Ref) {
     t,
     route,
     locale,
-    translationCh,
-    translationEn,
+    translation,
+    localeOptions,
   };
 }

@@ -1,17 +1,17 @@
 <script setup lang="ts">
 import { useNav } from '@/layout/hooks/useNav';
-import LaySearch from '../lay-search/index.vue';
-import LayNotice from '../lay-notice/index.vue';
-import LayNavMix from '../lay-sidebar/NavMix.vue';
 import { useTranslationLang } from '@/layout/hooks/useTranslationLang';
-import LaySidebarFullScreen from '../lay-sidebar/components/SidebarFullScreen.vue';
+import LayNotice from '../lay-notice/index.vue';
+import LaySearch from '../lay-search/index.vue';
+import LayNavMix from '../lay-sidebar/NavMix.vue';
 import LaySidebarBreadCrumb from '../lay-sidebar/components/SidebarBreadCrumb.vue';
+import LaySidebarFullScreen from '../lay-sidebar/components/SidebarFullScreen.vue';
 import LaySidebarTopCollapse from '../lay-sidebar/components/SidebarTopCollapse.vue';
 
 import GlobalizationIcon from '@/assets/svg/globalization.svg?component';
+import Check from '~icons/ep/check';
 import LogoutCircleRLine from '~icons/ri/logout-circle-r-line';
 import Setting from '~icons/ri/settings-3-line';
-import Check from '~icons/ep/check';
 
 const {
   layout,
@@ -27,7 +27,7 @@ const {
   getDropdownItemClass,
 } = useNav();
 
-const { t, locale, translationCh, translationEn } = useTranslationLang();
+const { t, locale, translation, localeOptions } = useTranslationLang();
 </script>
 
 <template>
@@ -52,22 +52,14 @@ const { t, locale, translationCh, translationEn } = useTranslationLang();
         <template #dropdown>
           <el-dropdown-menu class="translation">
             <el-dropdown-item
-              :style="getDropdownItemStyle(locale, 'zh')"
-              :class="['dark:text-white!', getDropdownItemClass(locale, 'zh')]"
-              @click="translationCh"
+              v-for="item in localeOptions"
+              :key="item.locale"
+              :style="getDropdownItemStyle(locale, item.locale)"
+              :class="['dark:text-white!', getDropdownItemClass(locale, item.locale)]"
+              @click="translation(item.locale)"
             >
-              <IconifyIconOffline v-show="locale === 'zh'" class="check-zh" :icon="Check" />
-              简体中文
-            </el-dropdown-item>
-            <el-dropdown-item
-              :style="getDropdownItemStyle(locale, 'en')"
-              :class="['dark:text-white!', getDropdownItemClass(locale, 'en')]"
-              @click="translationEn"
-            >
-              <span v-show="locale === 'en'" class="check-en">
-                <IconifyIconOffline :icon="Check" />
-              </span>
-              English
+              <IconifyIconOffline v-show="locale === item.locale" class="check-icon" :icon="Check" />
+              {{ item.label }}
             </el-dropdown-item>
           </el-dropdown-menu>
         </template>
@@ -151,12 +143,7 @@ const { t, locale, translationCh, translationEn } = useTranslationLang();
     padding: 5px 40px;
   }
 
-  .check-zh {
-    position: absolute;
-    left: 20px;
-  }
-
-  .check-en {
+  .check-icon {
     position: absolute;
     left: 20px;
   }

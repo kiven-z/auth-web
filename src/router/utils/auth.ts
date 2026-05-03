@@ -3,7 +3,7 @@ import { router } from '../index';
 
 /** 判断两个数组彼此是否存在相同值 */
 function isOneOfArray(a: Array<string>, b: Array<string>) {
-  return Array.isArray(a) && Array.isArray(b) ? intersection(a, b).length > 0 : false;
+  return Array.isArray(a) && Array.isArray(b) ? intersection(a, b).length > 0 : true;
 }
 
 /** 获取当前页面按钮级别的权限 */

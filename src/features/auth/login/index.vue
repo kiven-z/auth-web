@@ -42,7 +42,7 @@ const { t } = useI18n();
 const { dataTheme, overallStyle, dataThemeChange } = useDataThemeChange();
 dataThemeChange(overallStyle.value);
 const { title, getDropdownItemStyle, getDropdownItemClass } = useNav();
-const { locale, translationCh, translationEn } = useTranslationLang();
+const { locale, translation, localeOptions } = useTranslationLang();
 
 const ruleForm = reactive({
   username: 'Administrator',
@@ -110,22 +110,14 @@ useEventListener(document, 'keydown', ({ code }) => {
         <template #dropdown>
           <el-dropdown-menu class="translation">
             <el-dropdown-item
-              :class="['dark:text-white!', getDropdownItemClass(locale, 'zh')]"
-              :style="getDropdownItemStyle(locale, 'zh')"
-              @click="translationCh"
+              v-for="item in localeOptions"
+              :key="item.locale"
+              :class="['dark:text-white!', getDropdownItemClass(locale, item.locale)]"
+              :style="getDropdownItemStyle(locale, item.locale)"
+              @click="translation(item.locale)"
             >
-              <IconifyIconOffline v-show="locale === 'zh'" :icon="Check" class="check-zh" />
-              简体中文
-            </el-dropdown-item>
-            <el-dropdown-item
-              :class="['dark:text-white!', getDropdownItemClass(locale, 'en')]"
-              :style="getDropdownItemStyle(locale, 'en')"
-              @click="translationEn"
-            >
-              <span v-show="locale === 'en'" class="check-en">
-                <IconifyIconOffline :icon="Check" />
-              </span>
-              English
+              <IconifyIconOffline v-show="locale === item.locale" :icon="Check" class="check-icon" />
+              {{ item.label }}
             </el-dropdown-item>
           </el-dropdown-menu>
         </template>
@@ -208,12 +200,7 @@ useEventListener(document, 'keydown', ({ code }) => {
     padding: 5px 40px;
   }
 
-  .check-zh {
-    position: absolute;
-    left: 20px;
-  }
-
-  .check-en {
+  .check-icon {
     position: absolute;
     left: 20px;
   }
