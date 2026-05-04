@@ -1,8 +1,41 @@
-.auth-data-table-pagination {
-  background: #000;
-  z-index: 9999;
+/** 根：宽度由布局占满 */
+.auth-data-table {
+  width: 100%;
 }
 
-.auth-data-table {
-  z-index: 1;
+/** 表格与分页纵向堆叠；min-height 便于嵌入定高 flex 子项时不塌陷 */
+.auth-data-table-inner {
+  width: 100%;
+  min-height: 0;
+}
+
+/** 表格滚动容器：adaptive 下由 JS 写入 height；表体在 ElTable 内滚动 */
+.auth-data-table__table-wrap {
+  width: 100%;
+}
+
+.auth-data-table--adaptive .auth-data-table__table-wrap {
+  min-height: 0;
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+/** 分页外包：对齐用 BEM 修饰符，勿在 ElPagination 根上写 flex */
+.auth-data-table__pagination-wrap {
+  display: flex;
+  flex-shrink: 0;
+  width: 100%;
+  margin-top: 16px;
+}
+
+.auth-data-table__pagination-wrap--left {
+  justify-content: flex-start;
+}
+
+.auth-data-table__pagination-wrap--center {
+  justify-content: center;
+}
+
+.auth-data-table__pagination-wrap--right {
+  justify-content: flex-end;
 }

@@ -2,7 +2,7 @@ import type { App } from 'vue';
 
 import AuthDataTable from './AuthDataTable';
 
-export type { AuthDataTablePagination } from './AuthDataTable';
+export type { AuthDataTablePagination } from './types';
 
 /**
  * 全局注册 `AuthDataTable`、`auth-data-table`。

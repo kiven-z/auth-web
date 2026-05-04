@@ -1,83 +1,20 @@
-import { isBoolean, isFunction } from '@pureadmin/utils';
 import { ElConfigProvider, ElPagination, ElTable, ElTableColumn } from 'element-plus';
 import type { PropType } from 'vue';
+import { computed, defineComponent, mergeProps, ref } from 'vue';
+
+import { columnVisible, renderCellContent } from './columnHelpers';
 import {
-  computed,
-  createVNode,
-  defineComponent,
-  Fragment,
-  mergeProps,
-  nextTick,
-  onBeforeUnmount,
-  onMounted,
-  ref,
-  watch,
-} from 'vue';
+  DEFAULT_ADAPTIVE_DEBOUNCE_MS,
+  DEFAULT_OFFSET_BOTTOM,
+  DEFAULT_PAGE_SIZES,
+  DEFAULT_PAGINATION_LAYOUT,
+  DEFAULT_PAGINATION_RESERVE_PX,
+} from './constants';
 import './index.scss';
+import type { AuthDataTableAdaptiveConfig, AuthDataTablePagination } from './types';
+import { useAdaptiveTableHeight } from './useAdaptiveTableHeight';
 
-/** 分页对象（与角色页 reactive 结构一致，可就地修改） */
-export type AuthDataTablePagination = {
-  total: number;
-  pageSize: number;
-  currentPage: number;
-  background?: boolean;
-  layout?: string;
-  pageSizes?: number[];
-  align?: 'left' | 'center' | 'right';
-  style?: Record<string, string>;
-};
-
-const Renderer = defineComponent({
-  name: 'AuthTableCellRenderer',
-  props: {
-    render: { type: Function as PropType<(params: Record<string, unknown>) => unknown>, required: true },
-    params: { type: Object as PropType<Record<string, unknown>>, required: true },
-  },
-  setup(props) {
-    return () => createVNode(Fragment, null, [props.render(props.params) as any]);
-  },
-});
-
-function renderCellContent(
-  column: TableColumns,
-  scope: { row: any; column: any; $index: number },
-  slots: any,
-  tableProps: Record<string, unknown>
-) {
-  if (column.formatter) {
-    return column.formatter(scope.row, scope.column, scope.row?.[column.prop as string], scope.$index);
-  }
-  if (column.cellRenderer) {
-    return (
-      <Renderer
-        render={column.cellRenderer as (p: Record<string, unknown>) => unknown}
-        params={{
-          ...scope,
-          index: scope.$index,
-          props: tableProps,
-        }}
-      />
-    );
-  }
-  const slotName = column.slot;
-  if (slotName && slots[slotName]) {
-    return slots[slotName](scope);
-  }
-  if (column.prop) {
-    return <span>{scope.row[column.prop as string]}</span>;
-  }
-  return null;
-}
-
-function columnVisible(column: TableColumns) {
-  if (isBoolean(column.hide) && column.hide) {
-    return false;
-  }
-  if (isFunction(column.hide) && (column.hide as () => boolean)()) {
-    return false;
-  }
-  return true;
-}
+export type { AuthDataTablePagination } from './types';
 
 export default defineComponent({
   name: 'AuthDataTable',
@@ -89,8 +26,14 @@ export default defineComponent({
     size: { type: String as PropType<'' | 'default' | 'small' | 'large'>, default: 'default' },
     adaptive: { type: Boolean, default: false },
     adaptiveConfig: {
-      type: Object as PropType<{ offsetBottom?: number; fixHeader?: boolean; timeout?: number; zIndex?: number }>,
-      default: () => ({ offsetBottom: 96, fixHeader: true, timeout: 60, zIndex: 3 }),
+      type: Object as PropType<AuthDataTableAdaptiveConfig>,
+      default: () => ({
+        offsetBottom: DEFAULT_OFFSET_BOTTOM,
+        fixHeader: true,
+        timeout: DEFAULT_ADAPTIVE_DEBOUNCE_MS,
+        zIndex: 3,
+        paginationReserve: DEFAULT_PAGINATION_RESERVE_PX,
+      }),
     },
     alignWhole: { type: String, default: 'left' },
     headerAlign: { type: String, default: '' },
@@ -112,76 +55,21 @@ export default defineComponent({
       return !!(p && p.currentPage != null && p.pageSize != null);
     });
 
-    const paginationStyle = computed(() => {
-      const p = props.pagination;
-      const align = p?.align ?? 'right';
-      return Object.assign(
-        {
-          width: '100%',
-          margin: '16px 0',
-          display: 'flex',
-          flexWrap: 'wrap' as const,
-          justifyContent: align === 'left' ? 'flex-start' : align === 'center' ? 'center' : 'flex-end',
-        },
-        p?.style ?? {}
-      );
-    });
+    const paginationInnerStyle = computed(() => props.pagination?.style ?? {});
 
     const visibleColumns = computed(() => props.columns.filter(columnVisible));
 
-    async function setAdaptive() {
-      await nextTick();
-      const wrap = tableWrapperRef.value;
-      if (!wrap) {
-        return;
-      }
-      const bottom = props.adaptiveConfig?.offsetBottom ?? 96;
-      wrap.style.height = `${window.innerHeight - wrap.getBoundingClientRect().top - bottom}px`;
-    }
-
-    let debounceTimer: ReturnType<typeof setTimeout> | null = null;
-    function debouncedSetAdaptive() {
-      const wait = props.adaptiveConfig?.timeout ?? 60;
-      if (debounceTimer) {
-        clearTimeout(debounceTimer);
-      }
-      debounceTimer = setTimeout(() => {
-        debounceTimer = null;
-        void setAdaptive();
-      }, wait);
-    }
-
-    watch(
-      () => props.columns,
-      () => {
-        if (props.adaptive) {
-          void setAdaptive();
-        }
-      },
-      { deep: true }
+    const { setAdaptive } = useAdaptiveTableHeight(
+      tableWrapperRef,
+      () => ({
+        adaptive: props.adaptive,
+        adaptiveConfig: props.adaptiveConfig,
+        columns: props.columns,
+        pagination: props.pagination,
+        rowHoverBgColor: props.rowHoverBgColor,
+      }),
+      showPagination
     );
-
-    onMounted(() => {
-      if (!props.adaptive) {
-        return;
-      }
-      void nextTick(() => {
-        if (props.rowHoverBgColor && tableWrapperRef.value) {
-          tableWrapperRef.value.style.setProperty('--el-table-row-hover-bg-color', props.rowHoverBgColor, 'important');
-        }
-        void setAdaptive();
-        window.addEventListener('resize', debouncedSetAdaptive);
-      });
-    });
-
-    onBeforeUnmount(() => {
-      if (props.adaptive) {
-        window.removeEventListener('resize', debouncedSetAdaptive);
-      }
-      if (debounceTimer) {
-        clearTimeout(debounceTimer);
-      }
-    });
 
     function handleSizeChange(size: number) {
       if (props.pagination) {
@@ -271,10 +159,16 @@ export default defineComponent({
       getTableRef: () => innerTableRef.value,
     });
 
+    function paginationWrapClass(align?: 'left' | 'center' | 'right') {
+      const suffix = align === 'left' || align === 'center' ? align : 'right';
+      return ['auth-data-table__pagination-wrap', `auth-data-table__pagination-wrap--${suffix}`];
+    }
+
     return () => {
       const p = props.pagination;
+
       const tableVNode = (
-        <div ref={tableWrapperRef} style={{ width: '100%', height: '500px' }}>
+        <div ref={tableWrapperRef} class="auth-data-table__table-wrap">
           <ElTable
             ref={innerTableRef}
             {...mergeProps(attrs, {
@@ -285,6 +179,7 @@ export default defineComponent({
               rowKey: props.rowKey as any,
               tableLayout: props.tableLayout,
               headerCellStyle: props.headerCellStyle,
+              ...(props.adaptive ? { height: '100%' } : {}),
             })}
             onSelection-change={(rows: any[]) => emit('selection-change', rows)}
           >
@@ -299,25 +194,31 @@ export default defineComponent({
 
       const paginationVNode =
         showPagination.value && p ? (
-          <ElPagination
-            class="auth-data-table-pagination"
-            style={paginationStyle.value}
-            layout={p.layout ?? 'total, sizes, prev, pager, next, jumper'}
-            pageSizes={p.pageSizes ?? [10, 20, 30, 50]}
-            total={p.total}
-            currentPage={p.currentPage}
-            pageSize={p.pageSize}
-            background={p.background ?? true}
-            onSizeChange={handleSizeChange}
-            onCurrentChange={handleCurrentChange}
-          />
+          <div class={paginationWrapClass(p.align)} key="pagination">
+            <ElPagination
+              class="auth-data-table-pagination"
+              style={paginationInnerStyle.value}
+              layout={p.layout ?? DEFAULT_PAGINATION_LAYOUT}
+              pageSizes={p.pageSizes ?? DEFAULT_PAGE_SIZES}
+              total={p.total}
+              currentPage={p.currentPage}
+              pageSize={p.pageSize}
+              background={p.background ?? true}
+              onUpdate:pageSize={handleSizeChange}
+              onUpdate:currentPage={handleCurrentChange}
+            />
+          </div>
         ) : null;
 
+      const rootClass = ['auth-data-table', { 'auth-data-table--adaptive': props.adaptive }];
+
       return (
-        <div class="auth-data-table" style={{ width: '100%' }} v-loading={props.loading}>
+        <div class={rootClass} v-loading={props.loading}>
           <ElConfigProvider>
-            {tableVNode}
-            {paginationVNode}
+            <div class="auth-data-table-inner">
+              {tableVNode}
+              {paginationVNode}
+            </div>
           </ElConfigProvider>
         </div>
       );

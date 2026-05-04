@@ -98,7 +98,6 @@ onMounted(() => {
       <template #default="{ size, dynamicColumns }">
         <AuthDataTable
           ref="tableRef"
-          :adaptive-config="{ offsetBottom: 96 }"
           :columns="dynamicColumns"
           :data="tableData"
           :header-cell-style="{ background: 'var(--el-fill-color-light)', color: 'var(--el-text-color-primary)' }"
