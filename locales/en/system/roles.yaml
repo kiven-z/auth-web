@@ -1,0 +1,21 @@
+roles:
+  moduleName: Roles
+  # Page level
+  pageTitle: Role Management
+  # Table headers
+  roleCode: Role Code
+  roleName: Role Name
+  status: Status
+  roleType: Role Type
+  orderNum: Order
+  remark: Remark
+  createTime: Created At
+  # Status enum
+  statusNormal: Normal
+  statusDisabled: Disabled
+  # Role type enum
+  roleTypeSystem: System Role
+  roleTypeMenu: Menu Role
+  roleTypeBusiness: Business Role
+  roleTypeCustom: Custom Role
+

@@ -8,6 +8,6 @@
  *
  * @see https://cn.vitejs.dev/guide/features.html#glob-import
  */
-export const modulesRoutes = import.meta.glob(['/src/features/**/*.{vue,tsx}']);
+export const modulesRoutes = import.meta.glob(['/src/views/**/*.{vue,tsx}']);
 
 export const modulesRoutesKeys = Object.keys(modulesRoutes);

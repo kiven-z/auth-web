@@ -1,11 +1,12 @@
 import { $t } from '@/plugins/i18n';
+
 const Layout = () => import('@/layout/index.vue');
 
 export default [
   {
     path: '/login',
     name: 'Login',
-    component: () => import('@/features/auth/login/index.vue'),
+    component: () => import('@/views/auth/login/index.vue'),
     meta: {
       title: $t('menus.pureLogin'),
       showLink: false,
@@ -15,7 +16,7 @@ export default [
   {
     path: '/access-denied',
     name: 'AccessDenied',
-    component: () => import('@/features/shell/error/403.vue'),
+    component: () => import('@/views/shell/error/403.vue'),
     meta: {
       title: $t('menus.pureAccessDenied'),
       showLink: false,
@@ -25,7 +26,7 @@ export default [
   {
     path: '/server-error',
     name: 'ServerError',
-    component: () => import('@/features/shell/error/500.vue'),
+    component: () => import('@/views/shell/error/500.vue'),
     meta: {
       title: $t('menus.pureServerError'),
       showLink: false,

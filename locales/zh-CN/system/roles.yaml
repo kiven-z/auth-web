@@ -1,0 +1,20 @@
+roles:
+  moduleName: 角色
+  # 页面级别
+  pageTitle: 角色管理
+  # 表头
+  roleCode: 角色编码
+  roleName: 角色名称
+  status: 状态
+  roleType: 角色类型
+  orderNum: 显示顺序
+  remark: 备注说明
+  createTime: 创建时间
+  # 状态枚举
+  statusNormal: 正常
+  statusDisabled: 禁用
+  # 角色类型
+  roleTypeSystem: 系统角色
+  roleTypeMenu: 菜单角色
+  roleTypeBusiness: 业务角色
+  roleTypeCustom: 自定义角色
