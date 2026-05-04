@@ -53,7 +53,7 @@ export interface PageResponse<T> {
  * @param params 查询与分页条件
  */
 export function getRolePage(params: SysRolePageQuery): Promise<PageResponse<SysRolePageRow>> {
-  return http.get<PageResponse<SysRolePageRow>, AxiosRequestConfig<SysRolePageQuery>>('/system/v1/role/page', {
+  return http.get<PageResponse<SysRolePageRow>, AxiosRequestConfig<SysRolePageQuery>>('/system/role/page', {
     params,
   });
 }

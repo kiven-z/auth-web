@@ -1,14 +1,14 @@
 import { transformI18n } from '@/plugins/i18n';
 import { useEpThemeStoreHook } from '@/store/modules/epTheme';
 import { delay } from '@pureadmin/utils';
-import { computed, defineComponent, nextTick, ref, toRef, type PropType } from 'vue';
+import { computed, defineComponent, nextTick, type PropType, ref, toRef } from 'vue';
 import { useI18n } from 'vue-i18n';
 
-import CollapseIcon from '@/assets/table-bar/collapse.svg?component';
-import DragIcon from '@/assets/table-bar/drag.svg?component';
-import ExpandIcon from '@/assets/table-bar/expand.svg?component';
-import RefreshIcon from '@/assets/table-bar/refresh.svg?component';
-import SettingIcon from '@/assets/table-bar/settings.svg?component';
+import CollapseIcon from '@/components/ui/TableBar/src/images/collapse.svg?component';
+import DragIcon from '@/components/ui/TableBar/src/images/drag.svg?component';
+import ExpandIcon from '@/components/ui/TableBar/src/images/expand.svg?component';
+import RefreshIcon from '@/components/ui/TableBar/src/images/refresh.svg?component';
+import SettingIcon from '@/components/ui/TableBar/src/images/settings.svg?component';
 import ExitFullscreen from '~icons/ri/fullscreen-exit-fill';
 import Fullscreen from '~icons/ri/fullscreen-fill';
 

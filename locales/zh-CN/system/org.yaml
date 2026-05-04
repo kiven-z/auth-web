@@ -1,0 +1,16 @@
+system:
+  dept:
+    deptName: 部门名称
+    deptCode: 部门编码
+    isPrimaryDepartment: 是否主部门
+    primaryDepartment: 主部门
+    secondaryDepartment: 兼职部门
+    tips:
+      affiliatedDeptInfo: 所属部门
+  post:
+    postName: 岗位名称
+    postCode: 岗位编码
+    isPrimaryPosition: 是否主岗
+    primaryPosition: 主岗
+    secondaryPosition: 兼岗
+    postList: 岗位列表

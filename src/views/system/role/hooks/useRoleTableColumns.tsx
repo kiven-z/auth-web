@@ -1,13 +1,18 @@
 import type { SysRolePageRow } from '@/api/system/role';
-import { ElTag } from 'element-plus';
+import { ElButton, ElTag } from 'element-plus';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 
+/** 打开用户档案（由页面注入，用于创建人/更新人下钻） */
+export type RoleUserProfileOpener = (userId: string) => void;
+
 /**
  * 角色表格列
+ * @param options.openUserProfile 点击创建人/更新人时打开用户档案弹窗
  */
-function useRoleTableColumns() {
+function useRoleTableColumns(options?: { openUserProfile?: RoleUserProfileOpener }) {
   const { t } = useI18n();
+  const openUserProfile = options?.openUserProfile;
 
   /**
    * 格式化角色类型
@@ -28,6 +33,21 @@ function useRoleTableColumns() {
    */
   function formatStatus(status: number): string {
     return status === 0 ? t('roles.statusNormal') : t('roles.statusDisabled');
+  }
+
+  /**
+   * 可点击用户名（有 userId 且提供 opener 时渲染为链接按钮）
+   */
+  function renderUserLinkCell(row: SysRolePageRow, userId: string | undefined, displayName: string | null | undefined) {
+    const label = displayName && String(displayName).trim() !== '' ? String(displayName) : '-';
+    if (!openUserProfile || !userId) {
+      return <span>{label}</span>;
+    }
+    return (
+      <ElButton type="primary" link onClick={() => openUserProfile(userId)}>
+        {label}
+      </ElButton>
+    );
   }
 
   const columns = computed<TableColumnList>(() => [
@@ -56,8 +76,18 @@ function useRoleTableColumns() {
     { label: t('roles.orderNum'), prop: 'orderNum', width: 100 },
     { label: t('roles.createTime'), prop: 'createTime', minWidth: 120 },
     { label: t('roles.updateTime'), prop: 'updateTime', minWidth: 120 },
-    { label: t('roles.createUsername'), prop: 'createUsername', minWidth: 120 },
-    { label: t('roles.updateUsername'), prop: 'updateUsername', minWidth: 120 },
+    {
+      label: t('roles.createUsername'),
+      prop: 'createUsername',
+      minWidth: 120,
+      formatter: (row: SysRolePageRow) => renderUserLinkCell(row, row.createUser, row.createUsername),
+    },
+    {
+      label: t('roles.updateUsername'),
+      prop: 'updateUsername',
+      minWidth: 120,
+      formatter: (row: SysRolePageRow) => renderUserLinkCell(row, row.updateUser, row.updateUsername),
+    },
     {
       label: t('roles.actions'),
       fixed: 'right' as const,

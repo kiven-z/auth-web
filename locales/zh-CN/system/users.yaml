@@ -1,0 +1,36 @@
+users:
+  loadFailed: 加载用户档案失败
+  username: 用户名
+  nickname: 昵称
+  email: 邮箱
+  phone: 手机号
+  avatarURL: 头像
+  status: 状态
+  gender: 性别
+  birthday: 生日
+  introduction: 个人简介
+  lastLoginIp: 最后登录 IP
+  lastLoginRegion: 最后登录地区
+  lastLoginTime: 最后登录时间
+  userBaseInfo: 用户基本信息
+  profile: 档案
+  dialogUserProfileTitle: 用户档案
+  userPostInfo: 用户岗位信息
+  placeholder:
+    lastLoginIp: 最后登录 IP
+  tips:
+    showUserPostInfoTip: 展示该用户在各岗位上的任职信息
+    currentUserHasNotPostInfo: 该用户暂无岗位信息
+    noDeptInfo: 该用户暂无部门信息
+  accountStatus:
+    normal: 正常
+    disabled: 禁用
+    locked: 锁定
+  genderLabel:
+    unknown: 未知
+    male: 男
+    female: 女
+  relationStatus:
+    normal: 正常
+    transferred: 已调离
+    partTime: 兼职

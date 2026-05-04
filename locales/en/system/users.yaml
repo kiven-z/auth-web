@@ -1,0 +1,36 @@
+users:
+  loadFailed: Failed to load user profile
+  username: Username
+  nickname: Nickname
+  email: Email
+  phone: Phone
+  avatarURL: Avatar
+  status: Status
+  gender: Gender
+  birthday: Birthday
+  introduction: Bio
+  lastLoginIp: Last login IP
+  lastLoginRegion: Last login region
+  lastLoginTime: Last login time
+  userBaseInfo: Basic information
+  profile: Profile
+  dialogUserProfileTitle: User profile
+  userPostInfo: Post assignments
+  placeholder:
+    lastLoginIp: Last login IP
+  tips:
+    showUserPostInfoTip: Post assignments for this user
+    currentUserHasNotPostInfo: No post information for this user
+    noDeptInfo: No department information for this user
+  accountStatus:
+    normal: Active
+    disabled: Disabled
+    locked: Locked
+  genderLabel:
+    unknown: Unknown
+    male: Male
+    female: Female
+  relationStatus:
+    normal: Active
+    transferred: Transferred
+    partTime: Part-time
