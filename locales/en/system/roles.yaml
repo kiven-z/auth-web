@@ -2,6 +2,13 @@ roles:
   moduleName: Roles
   # Page level
   pageTitle: Role Management
+  query: Search
+  reset: Reset
+  actions: Actions
+  actionEdit: Edit
+  actionDelete: Delete
+  actionAssignPermission: Assign permissions
+  loadFailed: Failed to load roles
   # Table headers
   roleCode: Role Code
   roleName: Role Name
@@ -10,6 +17,9 @@ roles:
   orderNum: Order
   remark: Remark
   createTime: Created At
+  updateTime: Updated At
+  createUsername: Created by
+  updateUsername: Updated by
   # Status enum
   statusNormal: Normal
   statusDisabled: Disabled

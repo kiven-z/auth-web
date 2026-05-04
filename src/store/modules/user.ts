@@ -1,4 +1,4 @@
-import { loginByUsernameApi, logoutApi, refreshTokenApi, type UserLoginResponse } from '@/api/domains/auth';
+import { loginByUsernameApi, logoutApi, refreshTokenApi, type UserLoginResponse } from '@/api/auth';
 import { readUserProfileFromStorage, removeToken, setToken } from '@/infrastructure/session/auth';
 import { routerArrays } from '@/layout/types';
 import { resetRouter, router } from '@/router';

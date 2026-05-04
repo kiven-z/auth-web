@@ -1,3 +1,5 @@
+table:
+  idx: 序号
 search:
   pureTotal: 共
   pureHistory: 搜索历史

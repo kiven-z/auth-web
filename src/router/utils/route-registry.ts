@@ -1,4 +1,4 @@
-import { getAsyncRoutes } from '@/api/routes';
+import { getAsyncRoutes } from '@/api/system/routes';
 import { getConfig } from '@/config';
 import { routerArrays } from '@/layout/types';
 import { useMultiTagsStoreHook } from '@/store/modules/multiTags';

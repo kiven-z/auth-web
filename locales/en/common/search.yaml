@@ -1,3 +1,5 @@
+table:
+  idx: Id
 search:
   pureTotal: Total
   pureHistory: History

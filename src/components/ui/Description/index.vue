@@ -17,7 +17,7 @@
           v-bind="getItemProps(item)"
         >
           <template v-if="item.labelRenderer" #label>
-            <component :is="item.labelRenderer({ data: currentData.value })" />
+            <component :is="item.labelRenderer({ data: currentData })" />
           </template>
 
           <!-- 描述项内容 -->
@@ -26,7 +26,7 @@
               :is="
                 item.cellRenderer({
                   value: getValue(row, item),
-                  data: currentData.value,
+                  data: currentData,
                   index: rowIndex,
                   row,
                 })
@@ -59,7 +59,7 @@
         <!-- 描述项 -->
         <template v-if="item.labelRenderer" #label>
           <!-- 描述项标签 -->
-          <component :is="item.labelRenderer({ data: currentData.value })" />
+          <component :is="item.labelRenderer({ data: currentData })" />
         </template>
 
         <!-- 描述项内容 -->
@@ -69,7 +69,7 @@
             :is="
               item.cellRenderer({
                 value: getValue(rows[0], item),
-                data: currentData.value,
+                data: currentData,
                 index: 0,
                 row: rows[0],
               })
@@ -99,11 +99,11 @@
 </template>
 
 <script lang="ts" setup>
+import { message } from '@/shared/messaging/message';
 import { CopyDocument } from '@element-plus/icons-vue';
+import type { DescriptionItemProps } from 'element-plus';
 import get from 'lodash/get';
 import { computed } from 'vue';
-import type { DescriptionItemProps } from 'element-plus';
-import { message } from '@/shared/messaging/message';
 
 type Row = Record<string, any>;
 type RowKey = string | number;

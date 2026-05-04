@@ -1,4 +1,4 @@
-import { AUTH_PUBLIC_API_PATH_SUFFIXES } from '@/api/domains/auth/paths';
+import { AUTH_PUBLIC_API_PATH_SUFFIXES } from '@/api/auth/paths';
 
 /**
  * Axios 实例 baseURL，与 Vite `server.proxy['/api']` 一致
