@@ -2,6 +2,9 @@ import { isBoolean, isFunction } from '@pureadmin/utils';
 
 import TableCellRenderer from './TableCellRenderer';
 
+/**
+ * 判断列是否可见
+ */
 export function columnVisible(column: TableColumns) {
   if (isBoolean(column.hide) && column.hide) {
     return false;
@@ -12,6 +15,9 @@ export function columnVisible(column: TableColumns) {
   return true;
 }
 
+/**
+ * 渲染单元格内容
+ */
 export function renderCellContent(
   column: TableColumns,
   scope: { row: any; column: any; $index: number },

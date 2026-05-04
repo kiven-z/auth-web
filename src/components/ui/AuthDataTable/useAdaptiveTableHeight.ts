@@ -28,6 +28,9 @@ export function useAdaptiveTableHeight(
   let debounceTimer: ReturnType<typeof setTimeout> | null = null;
   const resizeListenerAttached = ref(false);
 
+  /**
+   * 计算分页保留宽度
+   */
   function paginationReservePx(): number {
     if (!showPagination.value) {
       return 0;
@@ -35,6 +38,9 @@ export function useAdaptiveTableHeight(
     return getProps().adaptiveConfig?.paginationReserve ?? DEFAULT_PAGINATION_RESERVE_PX;
   }
 
+  /**
+   * 设置自适应
+   */
   async function setAdaptive() {
     await nextTick();
     const wrap = tableWrapperRef.value;
@@ -48,6 +54,9 @@ export function useAdaptiveTableHeight(
     wrap.style.height = `${Math.max(MIN_ADAPTIVE_TABLE_HEIGHT_PX, window.innerHeight - top - bottom - reserve)}px`;
   }
 
+  /**
+   * 防抖设置自适应
+   */
   function debouncedSetAdaptive() {
     const wait = getProps().adaptiveConfig?.timeout ?? DEFAULT_ADAPTIVE_DEBOUNCE_MS;
     if (debounceTimer) {
@@ -59,6 +68,9 @@ export function useAdaptiveTableHeight(
     }, wait);
   }
 
+  /**
+   * 监听列变化
+   */
   watch(
     () => getProps().columns,
     () => {
@@ -69,6 +81,9 @@ export function useAdaptiveTableHeight(
     { deep: true }
   );
 
+  /**
+   * 监听分页变化
+   */
   watch(
     () => getProps().pagination,
     () => {
@@ -81,6 +96,9 @@ export function useAdaptiveTableHeight(
     { deep: true }
   );
 
+  /**
+   * 挂载时设置自适应
+   */
   onMounted(() => {
     if (!getProps().adaptive) {
       return;
@@ -96,6 +114,9 @@ export function useAdaptiveTableHeight(
     });
   });
 
+  /**
+   * 卸载时移除监听
+   */
   onBeforeUnmount(() => {
     if (resizeListenerAttached.value) {
       window.removeEventListener('resize', debouncedSetAdaptive);

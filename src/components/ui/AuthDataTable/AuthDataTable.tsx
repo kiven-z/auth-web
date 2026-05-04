@@ -19,12 +19,19 @@ export type { AuthDataTablePagination } from './types';
 export default defineComponent({
   name: 'AuthDataTable',
   props: {
+    // 列配置
     columns: { type: Array as PropType<TableColumnList>, default: () => [] },
+    // 数据
     data: { type: Array as PropType<any[]>, default: () => [] },
+    // 加载状态
     loading: { type: Boolean, default: false },
+    // 分页配置
     pagination: { type: Object as PropType<AuthDataTablePagination | null>, default: null },
+    // 尺寸
     size: { type: String as PropType<'' | 'default' | 'small' | 'large'>, default: 'default' },
+    // 自适应
     adaptive: { type: Boolean, default: false },
+    // 自适应配置
     adaptiveConfig: {
       type: Object as PropType<AuthDataTableAdaptiveConfig>,
       default: () => ({
@@ -35,14 +42,23 @@ export default defineComponent({
         paginationReserve: DEFAULT_PAGINATION_RESERVE_PX,
       }),
     },
+    // 整体对齐方式
     alignWhole: { type: String, default: 'left' },
+    // 表头对齐方式
     headerAlign: { type: String, default: '' },
+    // 边框
     border: { type: Boolean, default: false },
+    // 高亮当前行
     highlightCurrentRow: { type: Boolean, default: false },
+    // 行键
     rowKey: { type: [String, Function] as PropType<string | ((row: any) => string)>, default: undefined },
+    // 表格布局
     tableLayout: { type: String as PropType<'fixed' | 'auto'>, default: 'fixed' },
+    // 表头单元格样式
     headerCellStyle: { type: Object as PropType<Record<string, string>>, default: undefined },
+    // 显示溢出提示
     showOverflowTooltip: { type: Boolean, default: false },
+    // 行悬停背景颜色
     rowHoverBgColor: { type: String, default: '' },
   },
   emits: ['page-size-change', 'page-current-change', 'selection-change'],
@@ -71,6 +87,9 @@ export default defineComponent({
       showPagination
     );
 
+    /**
+     * 处理每页条数变化
+     */
     function handleSizeChange(size: number) {
       if (props.pagination) {
         (props.pagination as AuthDataTablePagination).pageSize = size;
@@ -78,6 +97,9 @@ export default defineComponent({
       emit('page-size-change', size);
     }
 
+    /**
+     * 处理当前页变化
+     */
     function handleCurrentChange(page: number) {
       if (props.pagination) {
         (props.pagination as AuthDataTablePagination).currentPage = page;
@@ -85,6 +107,9 @@ export default defineComponent({
       emit('page-current-change', page);
     }
 
+    /**
+     * 渲染列
+     */
     function renderColumn(column: TableColumns, colIndex: number) {
       const alignDefault = (props.alignWhole || 'left') as 'left' | 'center' | 'right';
       const headerAlignVal = (props.headerAlign || column.headerAlign || '') as any;
@@ -116,6 +141,7 @@ export default defineComponent({
 
       const showTip = (column.showOverflowTooltip ?? props.showOverflowTooltip) as any;
 
+      // 渲染单元格插槽
       const cellSlots = {
         default: (scope: { row: any; column: any; $index: number }) =>
           renderCellContent(column, scope, slots, { ...props, ...attrs }),
@@ -123,6 +149,7 @@ export default defineComponent({
 
       const { formatter, cellRenderer, slot, children, hide, type, index: _indexCol, ...rest } = column as any;
 
+      // 渲染组列
       if (children && Array.isArray(children) && children.length > 0) {
         return (
           <ElTableColumn
@@ -159,6 +186,9 @@ export default defineComponent({
       getTableRef: () => innerTableRef.value,
     });
 
+    /**
+     * 分页组件包裹类
+     */
     function paginationWrapClass(align?: 'left' | 'center' | 'right') {
       const suffix = align === 'left' || align === 'center' ? align : 'right';
       return ['auth-data-table__pagination-wrap', `auth-data-table__pagination-wrap--${suffix}`];
@@ -167,6 +197,9 @@ export default defineComponent({
     return () => {
       const p = props.pagination;
 
+      /**
+       * 渲染表格组件
+       */
       const tableVNode = (
         <div ref={tableWrapperRef} class="auth-data-table__table-wrap">
           <ElTable
@@ -192,6 +225,9 @@ export default defineComponent({
         </div>
       );
 
+      /**
+       * 渲染分页组件
+       */
       const paginationVNode =
         showPagination.value && p ? (
           <div class={paginationWrapClass(p.align)} key="pagination">
@@ -210,6 +246,9 @@ export default defineComponent({
           </div>
         ) : null;
 
+      /**
+       * 渲染根组件
+       */
       const rootClass = ['auth-data-table', { 'auth-data-table--adaptive': props.adaptive }];
 
       return (

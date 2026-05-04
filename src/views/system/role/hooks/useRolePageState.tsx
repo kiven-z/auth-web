@@ -25,8 +25,6 @@ function useRolePageState() {
     pageSize: 30,
     currentPage: 1,
     background: true,
-    layout: 'total, sizes, prev, pager, next, jumper',
-    pageSizes: [15, 30, 50, 100, 200, 300],
   });
 
   /**

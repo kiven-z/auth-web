@@ -1,7 +1,9 @@
 import type { PropType } from 'vue';
 import { Fragment, createVNode, defineComponent } from 'vue';
 
-/** 将 cellRenderer 函数包成可挂载的 VNode */
+/**
+ * 将 cellRenderer 函数包成可挂载的 VNode
+ */
 export default defineComponent({
   name: 'AuthTableCellRenderer',
   props: {
