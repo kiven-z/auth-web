@@ -1,5 +1,5 @@
 table:
-  idx: Id
+  idx: No
 search:
   pureTotal: Total
   pureHistory: History

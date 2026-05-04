@@ -5,7 +5,7 @@ import type { ECharts } from 'echarts';
  */
 declare global {
   /**
-   * 表格列定义（原 @pureadmin/table 子集，满足 AuthDataTable 与列工具条）
+   * 表格列定义（AuthDataTable、TableBar 列配置共用）
    */
   interface TableColumns {
     type?: 'selection' | 'index' | 'expand';

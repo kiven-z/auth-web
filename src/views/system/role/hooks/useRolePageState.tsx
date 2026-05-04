@@ -24,7 +24,6 @@ function useRolePageState() {
     total: 0,
     pageSize: 30,
     currentPage: 1,
-    background: true,
   });
 
   /**
