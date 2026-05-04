@@ -5,7 +5,7 @@ roles:
   query: Search
   reset: Reset
   actions: Actions
-  actionEdit: Edit
+  actionView: View
   actionDelete: Delete
   actionAssignPermission: Assign permissions
   actionAdd: Add

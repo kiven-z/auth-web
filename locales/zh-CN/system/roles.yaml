@@ -5,7 +5,7 @@ roles:
   query: 查询
   reset: 重置
   actions: 操作
-  actionEdit: 编辑
+  actionView: 查看
   actionDelete: 删除
   actionAssignPermission: 分配权限
   actionAdd: 新增

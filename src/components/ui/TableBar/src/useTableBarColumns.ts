@@ -2,7 +2,7 @@ import { transformI18n } from '@/plugins/i18n';
 import { cloneDeep, getKeyList, isBoolean, isFunction } from '@pureadmin/utils';
 import Sortable from 'sortablejs';
 import type { Ref } from 'vue';
-import { nextTick, onBeforeUnmount, ref } from 'vue';
+import { onBeforeUnmount, ref, nextTick as vueNextTick } from 'vue';
 
 function filterVisibleColumns(columns: TableColumnList): TableColumns[] {
   return cloneDeep(columns).filter((column) =>
@@ -30,10 +30,10 @@ export function useTableBarColumns(columnsRef: Ref<TableColumnList>) {
   }
 
   /**
-   * 在列设置 Popover 内，将 Sortable 绑定到 CheckboxGroup 子容器。
+   * 在列设置 Popover 打开后绑定 Sortable（勿在 mouseenter 中反复 destroy/create，否则拖拽中 teardown 会触发 Sortable 对 null 调 removeEventListener）。
    */
   function initSortable(columnGroupRoot: HTMLElement | null | undefined) {
-    void nextTick(() => {
+    void vueNextTick(() => {
       destroySortable();
       const wrapper = columnGroupRoot?.firstElementChild as HTMLElement | null | undefined;
       if (!wrapper) {
@@ -42,22 +42,29 @@ export function useTableBarColumns(columnsRef: Ref<TableColumnList>) {
       sortableInstance = Sortable.create(wrapper, {
         animation: 300,
         handle: '.drag-btn',
-        onEnd: ({ newIndex, oldIndex, item }) => {
-          const targetThElem = item;
-          const wrapperElem = targetThElem.parentNode as HTMLElement;
-          const oldColumn = dynamicColumns.value[oldIndex];
-          const newColumn = dynamicColumns.value[newIndex];
-          if (oldColumn?.fixed || newColumn?.fixed) {
-            const oldThElem = wrapperElem.children[oldIndex] as HTMLElement;
-            if (newIndex > oldIndex) {
-              wrapperElem.insertBefore(targetThElem, oldThElem);
-            } else {
-              wrapperElem.insertBefore(targetThElem, oldThElem ? oldThElem.nextElementSibling : oldThElem);
+        onEnd: (evt) => {
+          // 延后修改 Vue 数据，避免 Sortable._onDrop 尚未完成时列表被 patch 替换导致内部解绑读到 null
+          void vueNextTick(() => {
+            const { newIndex, oldIndex, item } = evt;
+            if (newIndex == null || oldIndex == null || !item?.parentNode) {
+              return;
             }
-            return;
-          }
-          const currentRow = dynamicColumns.value.splice(oldIndex, 1)[0];
-          dynamicColumns.value.splice(newIndex, 0, currentRow);
+            const targetThElem = item;
+            const wrapperElem = targetThElem.parentNode as HTMLElement;
+            const oldColumn = dynamicColumns.value[oldIndex];
+            const newColumn = dynamicColumns.value[newIndex];
+            if (oldColumn?.fixed || newColumn?.fixed) {
+              const oldThElem = wrapperElem.children[oldIndex] as HTMLElement;
+              if (newIndex > oldIndex) {
+                wrapperElem.insertBefore(targetThElem, oldThElem);
+              } else {
+                wrapperElem.insertBefore(targetThElem, oldThElem ? oldThElem.nextElementSibling : oldThElem);
+              }
+              return;
+            }
+            const currentRow = dynamicColumns.value.splice(oldIndex, 1)[0];
+            dynamicColumns.value.splice(newIndex, 0, currentRow);
+          });
         },
       });
     });

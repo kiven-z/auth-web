@@ -29,7 +29,7 @@ function useRolePageState() {
   /**
    * 组装分页查询参数：空字符串不传，与后端契约一致。
    */
-  function buildPageQuery(): SysRolePageQuery {
+  const buildPageQuery = (): SysRolePageQuery => {
     const raw = toRaw(searchForm);
     const query: SysRolePageQuery = {
       pageIndex: pagination.currentPage,
@@ -50,20 +50,20 @@ function useRolePageState() {
       query.roleType = raw.roleType;
     }
     return query;
-  }
+  };
 
   /**
    * 条件查询：回到第一页再请求（避免在末页改条件后仍请求空页）。
    */
-  async function onQuery() {
+  const onQuery = async () => {
     pagination.currentPage = 1;
     await onSearch();
-  }
+  };
 
   /**
    * 分页查询（不改变当前页码；分页器事件与重置后调用）。
    */
-  async function onSearch() {
+  const onSearch = async () => {
     loading.value = true;
     const query = buildPageQuery();
     try {
@@ -78,40 +78,40 @@ function useRolePageState() {
     } finally {
       loading.value = false;
     }
-  }
+  };
 
   /**
    * 分页大小变化
    * @param value 分页大小
    */
-  async function onPageSizeChange(value: number) {
+  const onPageSizeChange = async (value: number) => {
     pagination.pageSize = value;
     pagination.currentPage = 1;
     await onSearch();
-  }
+  };
 
   /**
    * 分页当前页变化
    * @param value 分页当前页
    */
-  async function onPageCurrentChange(value: number) {
+  const onPageCurrentChange = async (value: number) => {
     pagination.currentPage = value;
     await onSearch();
-  }
+  };
 
   /**
    * 选择变化
    * @param value 选中行
    */
-  function onSelectionChange(value: SysRolePageRow[]) {
+  const onSelectionChange = (value: SysRolePageRow[]) => {
     selectedRows.value = value.map((item) => item.id);
-  }
+  };
 
   /**
    * 重置筛选并回到第一页再拉取。
    * @param formRef 表单实例；缺省时手动清空 searchForm
    */
-  async function onReset(formRef?: FormInstance) {
+  const onReset = async (formRef?: FormInstance) => {
     pagination.currentPage = 1;
     if (formRef) {
       formRef.resetFields();
@@ -122,7 +122,7 @@ function useRolePageState() {
       searchForm.roleType = undefined;
     }
     await onSearch();
-  }
+  };
 
   return {
     tableData,

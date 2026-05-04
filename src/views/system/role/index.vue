@@ -2,11 +2,12 @@
 import AuthDataTable from '@/components/ui/AuthDataTable';
 import TableBar from '@/components/ui/TableBar';
 import { ROLE_STATUS_FILTER_OPTIONS, ROLE_TYPE_FILTER_OPTIONS } from '@/views/system/role/constants/roleSearchOptions';
+import useRolePageState from '@/views/system/role/hooks/useRolePageState';
+import useRoleTableAction from '@/views/system/role/hooks/useRoleTableAction';
 import useRoleTableColumns from '@/views/system/role/hooks/useRoleTableColumns';
 import type { FormInstance } from 'element-plus';
 import { onMounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
-import useRolePageState from './hooks/useRolePageState';
 
 defineOptions({
   name: 'SystemRole',
@@ -17,6 +18,7 @@ const { t } = useI18n();
 const { columns } = useRoleTableColumns();
 
 const searchFormRef = ref<FormInstance>();
+
 /** 表格实例（含 setAdaptive，供全屏后调用） */
 const tableRef = ref<{ setAdaptive: () => Promise<void> } | null>(null);
 
@@ -32,6 +34,7 @@ const {
   onPageCurrentChange,
   onSelectionChange,
 } = useRolePageState();
+const { onView, onEdit } = useRoleTableAction();
 
 onMounted(() => {
   onSearch();
@@ -116,8 +119,8 @@ onMounted(() => {
         >
           <template #actions>
             <div class="flex justify-center">
-              <el-button link type="primary">{{ t('roles.actionEdit') }}</el-button>
-              <el-button link type="primary">{{ t('roles.actionModify') }}</el-button>
+              <el-button link type="primary" @click="onView">{{ t('roles.actionView') }}</el-button>
+              <el-button link type="primary" @click="onEdit">{{ t('roles.actionModify') }}</el-button>
               <el-button link type="danger">{{ t('roles.actionDelete') }}</el-button>
 
               <el-dropdown class="ml-1">

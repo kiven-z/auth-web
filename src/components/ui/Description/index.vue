@@ -105,6 +105,10 @@ import type { DescriptionItemProps } from 'element-plus';
 import get from 'lodash/get';
 import { computed } from 'vue';
 
+defineOptions({
+  name: 'Description',
+});
+
 type Row = Record<string, any>;
 type RowKey = string | number;
 

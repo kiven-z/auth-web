@@ -1,7 +1,7 @@
 import { transformI18n } from '@/plugins/i18n';
 import { useEpThemeStoreHook } from '@/store/modules/epTheme';
 import { delay } from '@pureadmin/utils';
-import { computed, defineComponent, type PropType, ref, toRef } from 'vue';
+import { computed, defineComponent, nextTick, ref, toRef, type PropType } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 import CollapseIcon from '@/assets/table-bar/collapse.svg?component';
@@ -65,6 +65,7 @@ export default defineComponent({
       handleCheckColumnListChange,
       resetColumns,
       initSortable,
+      destroySortable,
       isFixedColumn,
     } = useTableBarColumns(columnsRef);
 
@@ -130,9 +131,12 @@ export default defineComponent({
       emit('fullscreen', isFullscreen.value);
     }
 
-    function onRowDropAreaEnter(event: { preventDefault: () => void }) {
-      event.preventDefault();
-      initSortable(columnGroupRef.value?.$el);
+    function onColumnPopoverShow() {
+      void nextTick(() => {
+        void nextTick(() => {
+          initSortable(columnGroupRef.value?.$el);
+        });
+      });
     }
 
     const dropdown = {
@@ -213,6 +217,8 @@ export default defineComponent({
                 popper-style={{ padding: 0 }}
                 width="200"
                 trigger="click"
+                onShow={onColumnPopoverShow}
+                onHide={() => destroySortable()}
               >
                 <div class="table-bar__popover-head">
                   <el-checkbox
@@ -245,7 +251,6 @@ export default defineComponent({
                                   'drag-btn mr-2 w-[16px]',
                                   isFixedColumn(item) ? 'cursor-no-drop!' : 'cursor-grab!',
                                 ]}
-                                onMouseenter={(event: { preventDefault: () => void }) => onRowDropAreaEnter(event)}
                               />
                               <el-checkbox
                                 key={index}

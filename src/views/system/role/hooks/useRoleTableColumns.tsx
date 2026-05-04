@@ -3,9 +3,15 @@ import { ElTag } from 'element-plus';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 
+/**
+ * 角色表格列
+ */
 function useRoleTableColumns() {
   const { t } = useI18n();
 
+  /**
+   * 格式化角色类型
+   */
   function formatRoleType(roleType: number): string {
     const keyMap: Record<number, string> = {
       1: 'roles.roleTypeSystem',
@@ -17,6 +23,9 @@ function useRoleTableColumns() {
     return key ? t(key) : String(roleType);
   }
 
+  /**
+   * 格式化状态
+   */
   function formatStatus(status: number): string {
     return status === 0 ? t('roles.statusNormal') : t('roles.statusDisabled');
   }
