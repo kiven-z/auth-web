@@ -1,4 +1,4 @@
-import { loadEnv, type ConfigEnv, type UserConfigExport } from 'vite';
+import { type ConfigEnv, loadEnv, type UserConfigExport } from 'vite';
 import { exclude, include } from './build/optimize';
 import { getPluginsList } from './build/plugins';
 import { __APP_INFO__, alias, pathResolve, root, wrapperEnv } from './build/utils';
@@ -19,11 +19,11 @@ export default ({ mode }: ConfigEnv): UserConfigExport => {
       host: '0.0.0.0',
       // 本地跨域代理 https://cn.vitejs.dev/config/server-options.html#server-proxy
       proxy: {
-        // '/api': {
-        //   target: 'http://localhost:8080',
-        //   changeOrigin: true,
-        //   rewrite: (path: string) => path.replace(/^\/api/, '/api'),
-        // },
+        '/api': {
+          target: 'http://localhost:8080',
+          changeOrigin: true,
+          rewrite: (path: string) => path.replace(/^\/api/, '/api'),
+        },
       },
       // 预热文件以提前转换和缓存结果，降低启动期间的初始页面加载时长并防止转换瀑布
       warmup: {

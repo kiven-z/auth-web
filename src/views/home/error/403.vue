@@ -1,9 +1,9 @@
-<script setup lang="ts">
+<script lang="ts" setup>
 import { useRouter } from 'vue-router';
-import noExist from '@/assets/status/404.svg?component';
+import noAccess from '@/assets/status/403.svg?component';
 
 defineOptions({
-  name: '404',
+  name: '403',
 });
 
 const router = useRouter();
@@ -11,15 +11,10 @@ const router = useRouter();
 
 <template>
   <div class="flex flex-col md:flex-row justify-center items-center min-h-full w-full p-4 md:p-0">
-    <noExist />
+    <noAccess />
     <div class="mt-8 md:ml-12 md:mt-0 text-center md:text-left">
       <p
         v-motion
-        class="font-medium text-4xl mb-4! dark:text-white"
-        :initial="{
-          opacity: 0,
-          y: 100,
-        }"
         :enter="{
           opacity: 1,
           y: 0,
@@ -27,16 +22,16 @@ const router = useRouter();
             delay: 80,
           },
         }"
-      >
-        404
-      </p>
-      <p
-        v-motion
-        class="text-xl mb-4! text-gray-500"
         :initial="{
           opacity: 0,
           y: 100,
         }"
+        class="font-medium text-4xl mb-4! dark:text-white"
+      >
+        403
+      </p>
+      <p
+        v-motion
         :enter="{
           opacity: 1,
           y: 0,
@@ -44,17 +39,16 @@ const router = useRouter();
             delay: 120,
           },
         }"
-      >
-        抱歉，你访问的页面不存在
-      </p>
-      <el-button
-        v-motion
-        type="primary"
-        class="block mx-auto md:inline-block md:mx-0"
         :initial="{
           opacity: 0,
           y: 100,
         }"
+        class="text-xl mb-4! text-gray-500"
+      >
+        抱歉，你无权访问该页面
+      </p>
+      <el-button
+        v-motion
         :enter="{
           opacity: 1,
           y: 0,
@@ -62,6 +56,12 @@ const router = useRouter();
             delay: 160,
           },
         }"
+        :initial="{
+          opacity: 0,
+          y: 100,
+        }"
+        class="block mx-auto md:inline-block md:mx-0"
+        type="primary"
         @click="router.push('/')"
       >
         返回首页
