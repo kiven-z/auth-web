@@ -1,5 +1,5 @@
 import type { SysRolePageRow } from '@/api/system/role';
-import { ElText } from 'element-plus';
+import { ElTag } from 'element-plus';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 
@@ -32,9 +32,9 @@ function useRoleTableColumns() {
       minWidth: 100,
       formatter: (row: SysRolePageRow) => {
         return (
-          <ElText effect="plain" type={row.status === 0 ? 'success' : 'danger'}>
+          <ElTag type={row.status === 0 ? 'success' : 'danger'} effect="plain" size="small">
             {formatStatus(row.status)}
-          </ElText>
+          </ElTag>
         );
       },
     },

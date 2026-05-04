@@ -1,9 +1,10 @@
 <script lang="ts" setup>
 import PureTableBar from '@/components/ui/PureTableBar/src/bar';
+import { ROLE_STATUS_FILTER_OPTIONS, ROLE_TYPE_FILTER_OPTIONS } from '@/views/system/role/constants/roleSearchOptions';
 import useRoleTableColumns from '@/views/system/role/hooks/useRoleTableColumns';
 import PureTable from '@pureadmin/table';
 import '@pureadmin/table/dist/style.css';
-import { FormInstance } from 'element-plus';
+import type { FormInstance } from 'element-plus';
 import { onMounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import useRolePageState from './hooks/useRolePageState';
@@ -25,6 +26,7 @@ const {
   pagination,
   searchForm,
   onSearch,
+  onQuery,
   onReset,
   onPageSizeChange,
   onPageCurrentChange,
@@ -38,61 +40,65 @@ onMounted(() => {
 
 <template>
   <div>
-    <el-form :inline="true" class="bg-bg_color w-[99/100] pl-8 pt-[12px] overflow-auto">
+    <el-form
+      ref="searchFormRef"
+      :inline="true"
+      :model="searchForm"
+      class="bg-bg_color w-[99/100] overflow-auto pl-8 pt-[12px]"
+    >
       <!-- 角色编码 -->
-      <el-form-item :label="t('roles.roleCode')">
+      <el-form-item :label="t('roles.roleCode')" prop="roleCode">
         <el-input v-model="searchForm.roleCode" class="w-[180px]!" clearable />
       </el-form-item>
       <!-- 角色名称 -->
-      <el-form-item :label="t('roles.roleName')">
+      <el-form-item :label="t('roles.roleName')" prop="roleName">
         <el-input v-model="searchForm.roleName" class="w-[180px]!" clearable />
       </el-form-item>
       <!-- 状态 -->
-      <el-form-item :label="t('roles.status')">
+      <el-form-item :label="t('roles.status')" prop="status">
         <el-select v-model="searchForm.status" :placeholder="t('roles.status')" class="w-[140px]!" clearable>
-          <el-option :label="t('roles.statusNormal')" :value="0" />
-          <el-option :label="t('roles.statusDisabled')" :value="1" />
+          <el-option
+            v-for="opt in ROLE_STATUS_FILTER_OPTIONS"
+            :key="opt.value"
+            :label="t(opt.labelKey)"
+            :value="opt.value"
+          />
         </el-select>
       </el-form-item>
       <!-- 角色类型 -->
-
-      <el-form-item :label="t('roles.roleType')">
+      <el-form-item :label="t('roles.roleType')" prop="roleType">
         <el-select v-model="searchForm.roleType" :placeholder="t('roles.roleType')" class="w-[160px]!" clearable>
-          <el-option :label="t('roles.roleTypeSystem')" :value="1" />
-          <el-option :label="t('roles.roleTypeMenu')" :value="2" />
-          <el-option :label="t('roles.roleTypeBusiness')" :value="3" />
-          <el-option :label="t('roles.roleTypeCustom')" :value="4" />
+          <el-option
+            v-for="opt in ROLE_TYPE_FILTER_OPTIONS"
+            :key="opt.value"
+            :label="t(opt.labelKey)"
+            :value="opt.value"
+          />
         </el-select>
       </el-form-item>
 
       <!-- 表单搜索 -->
       <el-form-item>
-        <el-button type="primary" @click="onSearch">{{ t('roles.query') }}</el-button>
-        <el-button @click="onReset(searchFormRef as FormInstance)">{{ t('roles.reset') }}</el-button>
+        <el-button type="primary" @click="onQuery">{{ t('roles.query') }}</el-button>
+        <el-button @click="onReset(searchFormRef)">{{ t('roles.reset') }}</el-button>
       </el-form-item>
     </el-form>
 
-    <PureTableBar
-      :columns="columns"
-      :title="t('roles.pageTitle')"
-      @fullscreen="tableRef.setAdaptive()"
-      @refresh="onSearch"
-    >
+    <PureTableBar :columns="columns" @fullscreen="tableRef.setAdaptive()" @refresh="onSearch">
       <template #title>
-        <div class="w-full flex justify-between">
-          <h3>{{ t('roles.pageTitle') }}</h3>
-
-          <div class="mx-1">
-            <el-button type="primary">新增</el-button>
-            <el-button type="danger">批量删除</el-button>
+        <div class="flex w-full items-center justify-between">
+          <h3 class="m-0 text-base font-semibold">{{ t('roles.pageTitle') }}</h3>
+          <div class="mx-1 flex items-center">
+            <el-button type="primary">{{ t('roles.actionAdd') }}</el-button>
+            <el-button type="danger">{{ t('roles.actionBatchDelete') }}</el-button>
           </div>
         </div>
       </template>
 
-      <template v-slot="{ size, dynamicColumns }">
+      <template #default="{ size, dynamicColumns }">
         <pure-table
           ref="tableRef"
-          :adaptiveConfig="{ offsetBottom: 96 }"
+          :adaptive-config="{ offsetBottom: 96 }"
           :columns="dynamicColumns"
           :data="tableData"
           :header-cell-style="{ background: 'var(--el-fill-color-light)', color: 'var(--el-text-color-primary)' }"
@@ -106,8 +112,8 @@ onMounted(() => {
           row-key="id"
           table-layout="auto"
           @page-size-change="onPageSizeChange"
-          @selection-change="onSelectionChange"
           @page-current-change="onPageCurrentChange"
+          @selection-change="onSelectionChange"
         >
           <template #actions>
             <div class="flex justify-center">

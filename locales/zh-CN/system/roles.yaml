@@ -8,6 +8,8 @@ roles:
   actionEdit: 编辑
   actionDelete: 删除
   actionAssignPermission: 分配权限
+  actionAdd: 新增
+  actionBatchDelete: 批量删除
   loadFailed: 加载角色列表失败
   # 表头
   roleCode: 角色编码

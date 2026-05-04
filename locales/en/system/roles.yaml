@@ -8,6 +8,8 @@ roles:
   actionEdit: Edit
   actionDelete: Delete
   actionAssignPermission: Assign permissions
+  actionAdd: Add
+  actionBatchDelete: Batch delete
   loadFailed: Failed to load roles
   # Table headers
   roleCode: Role Code

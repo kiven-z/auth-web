@@ -1,96 +1,132 @@
-import { SysRolePageQuery, SysRolePageRow, getRolePage } from "@/api/system/role";
-import { message } from "@/shared/messaging/message";
-import { FormInstance } from "element-plus";
-import { reactive, ref, toRaw } from "vue";
-import { useI18n } from "vue-i18n";
+import { getRolePage, type SysRolePageQuery, type SysRolePageRow } from '@/api/system/role';
+import { message } from '@/shared/messaging/message';
+import type { FormInstance } from 'element-plus';
+import { reactive, ref, toRaw } from 'vue';
+import { useI18n } from 'vue-i18n';
 
+/**
+ * 角色分页列表页状态：查询条件、分页、表格数据与请求。
+ */
 function useRolePageState() {
-const { t } = useI18n();
-const selectedRows = ref<string[]>([]);
-const loading = ref(false);
-const tableData = ref<SysRolePageRow[]>([]);
+  const { t } = useI18n();
+  const selectedRows = ref<string[]>([]);
+  const loading = ref(false);
+  const tableData = ref<SysRolePageRow[]>([]);
 
-const searchForm = reactive({ 
-  roleCode: '',
-  roleName: '',
-  status: undefined,
-  roleType: undefined,
-});
+  const searchForm = reactive({
+    roleCode: '',
+    roleName: '',
+    status: undefined as number | undefined,
+    roleType: undefined as number | undefined,
+  });
 
-const pagination = reactive({
-  total: 0,
-  pageSize: 30,
-  currentPage: 1,
-  background: true,
-  layout: 'total, sizes, prev, pager, next, jumper',
-  pageSizes: [15, 30, 50, 100, 200, 300],
-});
+  const pagination = reactive({
+    total: 0,
+    pageSize: 30,
+    currentPage: 1,
+    background: true,
+    layout: 'total, sizes, prev, pager, next, jumper',
+    pageSizes: [15, 30, 50, 100, 200, 300],
+  });
 
-/**
- * 分页查询
- */
-async function onSearch() {
-  loading.value = true;
-
-  const query: SysRolePageQuery = {
-    pageIndex: pagination.currentPage,
-    pageSize: pagination.pageSize,
-    ...toRaw(searchForm),
-  };
-
-  try {
-    const page = await getRolePage(query);
-    tableData.value = page.list ?? [];
-    pagination.total = Number(page.total);
-    pagination.currentPage = Number(page.pageNo);
-    pagination.pageSize = Number(page.pageSize);
-  } catch (error: unknown) {
-    const text = error instanceof Error && error.message ? error.message : t('roles.loadFailed');
-    message(text, { type: 'error' });
-  } finally {
-    loading.value = false;
-  }
-}
-
-/**
- * 分页大小变化
- * @param value 分页大小
- */
-async function onPageSizeChange(value: number) {
-  pagination.pageSize = value;
-  await onSearch();
-}
-
-/**
- * 分页当前页变化
- * @param value 分页当前页
- */
-async function onPageCurrentChange(value: number) {
-  pagination.currentPage = value;
-  await onSearch();
-}
-
-/**
- * 选择变化
- * @param value 选择
- */
-  async function onSelectionChange(value: SysRolePageRow[]) {
-  selectedRows.value = value.map((item) => item.id);
-}
-
-/**
- * 重置筛选并重新拉取第一页
- * @param forEl 表单实例
- */
-async function onReset(forEl: FormInstance | undefined) {
-  if (forEl) {
-    return;
+  /**
+   * 组装分页查询参数：空字符串不传，与后端契约一致。
+   */
+  function buildPageQuery(): SysRolePageQuery {
+    const raw = toRaw(searchForm);
+    const query: SysRolePageQuery = {
+      pageIndex: pagination.currentPage,
+      pageSize: pagination.pageSize,
+    };
+    const roleCode = typeof raw.roleCode === 'string' ? raw.roleCode.trim() : '';
+    const roleName = typeof raw.roleName === 'string' ? raw.roleName.trim() : '';
+    if (roleCode) {
+      query.roleCode = roleCode;
+    }
+    if (roleName) {
+      query.roleName = roleName;
+    }
+    if (raw.status !== undefined && raw.status !== null) {
+      query.status = raw.status;
+    }
+    if (raw.roleType !== undefined && raw.roleType !== null) {
+      query.roleType = raw.roleType;
+    }
+    return query;
   }
 
-  forEl.resetFields();
-  await onSearch();
-}
-  
+  /**
+   * 条件查询：回到第一页再请求（避免在末页改条件后仍请求空页）。
+   */
+  async function onQuery() {
+    pagination.currentPage = 1;
+    await onSearch();
+  }
+
+  /**
+   * 分页查询（不改变当前页码；分页器事件与重置后调用）。
+   */
+  async function onSearch() {
+    loading.value = true;
+    const query = buildPageQuery();
+    try {
+      const page = await getRolePage(query);
+      tableData.value = page.list ?? [];
+      pagination.total = Number(page.total);
+      pagination.currentPage = Number(page.pageNo);
+      pagination.pageSize = Number(page.pageSize);
+    } catch (error: unknown) {
+      const text = error instanceof Error && error.message ? error.message : t('roles.loadFailed');
+      message(text, { type: 'error' });
+    } finally {
+      loading.value = false;
+    }
+  }
+
+  /**
+   * 分页大小变化
+   * @param value 分页大小
+   */
+  async function onPageSizeChange(value: number) {
+    pagination.pageSize = value;
+    pagination.currentPage = 1;
+    await onSearch();
+  }
+
+  /**
+   * 分页当前页变化
+   * @param value 分页当前页
+   */
+  async function onPageCurrentChange(value: number) {
+    pagination.currentPage = value;
+    await onSearch();
+  }
+
+  /**
+   * 选择变化
+   * @param value 选中行
+   */
+  function onSelectionChange(value: SysRolePageRow[]) {
+    selectedRows.value = value.map((item) => item.id);
+  }
+
+  /**
+   * 重置筛选并回到第一页再拉取。
+   * @param formRef 表单实例；缺省时手动清空 searchForm
+   */
+  async function onReset(formRef?: FormInstance) {
+    pagination.currentPage = 1;
+    if (formRef) {
+      formRef.resetFields();
+    } else {
+      searchForm.roleCode = '';
+      searchForm.roleName = '';
+      searchForm.status = undefined;
+      searchForm.roleType = undefined;
+    }
+    await onSearch();
+  }
+
   return {
     tableData,
     loading,
@@ -98,6 +134,7 @@ async function onReset(forEl: FormInstance | undefined) {
     selectedRows,
     searchForm,
     onSearch,
+    onQuery,
     onReset,
     onPageSizeChange,
     onPageCurrentChange,
