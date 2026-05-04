@@ -1,10 +1,32 @@
-import type { ECharts } from "echarts";
-import type { TableColumns } from "@pureadmin/table";
+import type { ECharts } from 'echarts';
 
 /**
  * 全局类型声明，无需引入直接在 `.vue` 、`.ts` 、`.tsx` 文件使用即可获得类型提示
  */
 declare global {
+  /**
+   * 表格列定义（原 @pureadmin/table 子集，满足 AuthDataTable 与列工具条）
+   */
+  interface TableColumns {
+    type?: 'selection' | 'index' | 'expand';
+    label?: string;
+    prop?: string;
+    width?: number | string;
+    minWidth?: number | string;
+    fixed?: boolean | 'left' | 'right';
+    align?: 'left' | 'center' | 'right';
+    headerAlign?: 'left' | 'center' | 'right';
+    hide?: boolean | ((row?: unknown) => boolean);
+    showOverflowTooltip?: boolean | Record<string, unknown>;
+    formatter?: (row: any, column?: any, cellValue?: any, index?: number) => unknown;
+    cellRenderer?: (params: Record<string, unknown>) => unknown;
+    slot?: string;
+    index?: (index: number) => number;
+    children?: TableColumns[];
+    [key: string]: unknown;
+  }
+
+  type TableColumnList = TableColumns[];
   /**
    * 平台的名称、版本、运行所需的`node`和`pnpm`版本、依赖、最后构建时间的类型提示
    */
@@ -50,14 +72,7 @@ declare global {
   /**
    * 打包压缩格式的类型声明
    */
-  type ViteCompression =
-    | "none"
-    | "gzip"
-    | "brotli"
-    | "both"
-    | "gzip-clear"
-    | "brotli-clear"
-    | "both-clear";
+  type ViteCompression = 'none' | 'gzip' | 'brotli' | 'both' | 'gzip-clear' | 'brotli-clear' | 'both-clear';
 
   /**
    * 全局自定义环境变量的类型声明
@@ -71,11 +86,6 @@ declare global {
     VITE_HIDE_HOME: string;
     VITE_COMPRESSION: ViteCompression;
   }
-
-  /**
-   *  继承 `@pureadmin/table` 的 `TableColumns` ，方便全局直接调用
-   */
-  type TableColumnList = Array<TableColumns>;
 
   /**
    * 对应 `public/platform-config.json` 文件的类型声明

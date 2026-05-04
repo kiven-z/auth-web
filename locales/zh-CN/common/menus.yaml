@@ -1,5 +1,6 @@
 menus:
   pureHome: 首页
+  pureTableDemoName: 名称
   pureLogin: 登录
   pureAbnormal: 异常页面
   purePageNotFound: "404"

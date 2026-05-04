@@ -1,9 +1,8 @@
 <script lang="ts" setup>
-import PureTableBar from '@/components/ui/PureTableBar/src/bar';
+import AuthDataTable from '@/components/ui/AuthDataTable';
+import TableBar from '@/components/ui/TableBar/src/bar';
 import { ROLE_STATUS_FILTER_OPTIONS, ROLE_TYPE_FILTER_OPTIONS } from '@/views/system/role/constants/roleSearchOptions';
 import useRoleTableColumns from '@/views/system/role/hooks/useRoleTableColumns';
-import PureTable from '@pureadmin/table';
-import '@pureadmin/table/dist/style.css';
 import type { FormInstance } from 'element-plus';
 import { onMounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
@@ -18,7 +17,8 @@ const { t } = useI18n();
 const { columns } = useRoleTableColumns();
 
 const searchFormRef = ref<FormInstance>();
-const tableRef = ref();
+/** 表格实例（含 setAdaptive，供全屏后调用） */
+const tableRef = ref<{ setAdaptive: () => Promise<void> } | null>(null);
 
 const {
   tableData,
@@ -84,7 +84,7 @@ onMounted(() => {
       </el-form-item>
     </el-form>
 
-    <PureTableBar :columns="columns" @fullscreen="tableRef.setAdaptive()" @refresh="onSearch">
+    <TableBar :columns="columns" @fullscreen="tableRef?.setAdaptive()" @refresh="onSearch">
       <template #title>
         <div class="flex w-full items-center justify-between">
           <h3 class="m-0 text-base font-semibold">{{ t('roles.pageTitle') }}</h3>
@@ -96,7 +96,7 @@ onMounted(() => {
       </template>
 
       <template #default="{ size, dynamicColumns }">
-        <pure-table
+        <AuthDataTable
           ref="tableRef"
           :adaptive-config="{ offsetBottom: 96 }"
           :columns="dynamicColumns"
@@ -118,25 +118,25 @@ onMounted(() => {
           <template #actions>
             <div class="flex justify-center">
               <el-button link type="primary">{{ t('roles.actionEdit') }}</el-button>
-              <el-button link type="primary">修改</el-button>
+              <el-button link type="primary">{{ t('roles.actionModify') }}</el-button>
               <el-button link type="danger">{{ t('roles.actionDelete') }}</el-button>
 
               <el-dropdown class="ml-1">
-                <el-button class="el-dropdown-link" link type="primary">更多</el-button>
+                <el-button class="el-dropdown-link" link type="primary">{{ t('roles.moreActions') }}</el-button>
                 <template #dropdown>
                   <el-dropdown-menu>
                     <el-dropdown-item>{{ t('roles.actionAssignPermission') }}</el-dropdown-item>
-                    <el-dropdown-item>数据范围配置</el-dropdown-item>
-                    <el-dropdown-item>策略绑定</el-dropdown-item>
-                    <el-dropdown-item>授权对象管理（反向）</el-dropdown-item>
-                    <el-dropdown-item>影响分析与刷新</el-dropdown-item>
+                    <el-dropdown-item>{{ t('roles.menuDataScope') }}</el-dropdown-item>
+                    <el-dropdown-item>{{ t('roles.menuPolicyBind') }}</el-dropdown-item>
+                    <el-dropdown-item>{{ t('roles.menuGrantSubjects') }}</el-dropdown-item>
+                    <el-dropdown-item>{{ t('roles.menuImpactAnalysis') }}</el-dropdown-item>
                   </el-dropdown-menu>
                 </template>
               </el-dropdown>
             </div>
           </template>
-        </pure-table>
+        </AuthDataTable>
       </template>
-    </PureTableBar>
+    </TableBar>
   </div>
 </template>

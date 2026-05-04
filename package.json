@@ -44,7 +44,6 @@
     "url": ""
   },
   "dependencies": {
-    "@pureadmin/table": "^3.3.0",
     "@pureadmin/utils": "^2.6.2",
     "@vueuse/core": "^14.0.0",
     "@vueuse/motion": "^3.0.3",

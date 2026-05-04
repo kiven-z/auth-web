@@ -10,6 +10,12 @@ roles:
   actionAssignPermission: Assign permissions
   actionAdd: Add
   actionBatchDelete: Batch delete
+  actionModify: Modify
+  moreActions: More
+  menuDataScope: Data scope
+  menuPolicyBind: Policy binding
+  menuGrantSubjects: Grant subjects (reverse)
+  menuImpactAnalysis: Impact analysis and refresh
   loadFailed: Failed to load roles
   # Table headers
   roleCode: Role Code

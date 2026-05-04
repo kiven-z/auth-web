@@ -1,16 +1,16 @@
-import Sortable from 'sortablejs';
 import { transformI18n } from '@/plugins/i18n';
 import { useEpThemeStoreHook } from '@/store/modules/epTheme';
-import { type PropType, ref, unref, computed, nextTick, defineComponent, getCurrentInstance } from 'vue';
-import { delay, cloneDeep, isBoolean, isFunction, getKeyList } from '@pureadmin/utils';
+import { cloneDeep, delay, getKeyList, isBoolean, isFunction } from '@pureadmin/utils';
+import Sortable from 'sortablejs';
+import { computed, defineComponent, getCurrentInstance, nextTick, type PropType, ref, unref } from 'vue';
 
-import Fullscreen from '~icons/ri/fullscreen-fill';
-import ExitFullscreen from '~icons/ri/fullscreen-exit-fill';
+import CollapseIcon from '@/assets/table-bar/collapse.svg?component';
 import DragIcon from '@/assets/table-bar/drag.svg?component';
 import ExpandIcon from '@/assets/table-bar/expand.svg?component';
 import RefreshIcon from '@/assets/table-bar/refresh.svg?component';
 import SettingIcon from '@/assets/table-bar/settings.svg?component';
-import CollapseIcon from '@/assets/table-bar/collapse.svg?component';
+import ExitFullscreen from '~icons/ri/fullscreen-exit-fill';
+import Fullscreen from '~icons/ri/fullscreen-fill';
 
 const props = {
   /** 头部最左边的标题 */
@@ -38,7 +38,7 @@ const props = {
 };
 
 export default defineComponent({
-  name: 'PureTableBar',
+  name: 'TableBar',
   props,
   emits: ['refresh', 'fullscreen'],
   setup(props, { emit, slots, attrs }) {

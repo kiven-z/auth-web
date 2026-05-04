@@ -1,5 +1,6 @@
 menus:
   pureHome: Home
+  pureTableDemoName: Name
   pureLogin: Login
   pureAbnormal: Abnormal Page
   purePageNotFound: "404"

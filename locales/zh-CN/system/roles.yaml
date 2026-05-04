@@ -10,6 +10,12 @@ roles:
   actionAssignPermission: 分配权限
   actionAdd: 新增
   actionBatchDelete: 批量删除
+  actionModify: 修改
+  moreActions: 更多
+  menuDataScope: 数据范围配置
+  menuPolicyBind: 策略绑定
+  menuGrantSubjects: 授权对象管理（反向）
+  menuImpactAnalysis: 影响分析与刷新
   loadFailed: 加载角色列表失败
   # 表头
   roleCode: 角色编码
