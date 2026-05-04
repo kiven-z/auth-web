@@ -32,9 +32,8 @@
   }
 
   & .peg {
-    box-shadow:
-      0 0 10px var(--el-color-primary),
-      0 0 5px var(--el-color-primary) !important;
+    box-shadow: 0 0 10px var(--el-color-primary),
+    0 0 5px var(--el-color-primary) !important;
   }
 
   & .spinner-icon {
@@ -85,9 +84,8 @@
     height: 24px;
     outline: none;
     border-radius: 4px;
-    transition:
-      background-color 0.2s,
-      color 0.2s;
+    transition: background-color 0.2s,
+    color 0.2s;
 
     &:hover {
       color: rgb(0 0 0 / 88%) !important;
@@ -105,10 +103,9 @@
 .pure-message {
   background: #fff !important;
   border-width: 0 !important;
-  box-shadow:
-    0 3px 6px -4px #0000001f,
-    0 6px 16px #00000014,
-    0 9px 28px 8px #0000000d !important;
+  box-shadow: 0 3px 6px -4px #0000001f,
+  0 6px 16px #00000014,
+  0 9px 28px 8px #0000000d !important;
 
   & .el-message__content {
     color: #000000d9 !important;
@@ -119,9 +116,8 @@
   & .el-message__closeBtn {
     outline: none;
     border-radius: 4px;
-    transition:
-      background-color 0.2s,
-      color 0.2s;
+    transition: background-color 0.2s,
+    color 0.2s;
 
     &:hover {
       background-color: rgb(0 0 0 / 6%);
@@ -155,9 +151,8 @@
     width: calc(100% + 32px);
     padding: 10px 20px;
     margin: auto -16px -16px;
-    box-shadow:
-      0 -1px 0 0 #e0e3e8,
-      0 -3px 6px 0 rgb(69 98 155 / 12%);
+    box-shadow: 0 -1px 0 0 #e0e3e8,
+    0 -3px 6px 0 rgb(69 98 155 / 12%);
   }
 }
 
@@ -186,4 +181,14 @@
   ::-webkit-scrollbar-thumb:hover {
     background: rgb(199 201 203); /* 滑块hover颜色 */
   }
+}
+
+/* 去除 */
+.el-tooltip__trigger:focus-visible {
+  outline: unset;
+}
+
+/* 或者是下面这个 */
+.el-tooltip__trigger:first-child:focus-visible {
+  outline: unset;
 }

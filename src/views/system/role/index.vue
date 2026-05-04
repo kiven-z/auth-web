@@ -15,8 +15,8 @@ defineOptions({
 
 const { t } = useI18n();
 
-const { onView, onEdit, openUserProfile } = useRoleTableAction();
-const { columns } = useRoleTableColumns({ openUserProfile });
+const { onView, onEdit } = useRoleTableAction();
+const { columns } = useRoleTableColumns();
 
 const searchFormRef = ref<FormInstance>();
 
@@ -122,7 +122,7 @@ onMounted(() => {
               <el-button link type="primary" @click="onEdit">{{ t('roles.actionModify') }}</el-button>
               <el-button link type="danger">{{ t('roles.actionDelete') }}</el-button>
 
-              <el-dropdown class="ml-1">
+              <el-dropdown class="ml-1" trigger="click">
                 <el-button class="el-dropdown-link" link type="primary">{{ t('roles.moreActions') }}</el-button>
                 <template #dropdown>
                   <el-dropdown-menu>
@@ -131,6 +131,7 @@ onMounted(() => {
                     <el-dropdown-item>{{ t('roles.menuPolicyBind') }}</el-dropdown-item>
                     <el-dropdown-item>{{ t('roles.menuGrantSubjects') }}</el-dropdown-item>
                     <el-dropdown-item>{{ t('roles.menuImpactAnalysis') }}</el-dropdown-item>
+                    <el-dropdown-item>强制删除</el-dropdown-item>
                   </el-dropdown-menu>
                 </template>
               </el-dropdown>
