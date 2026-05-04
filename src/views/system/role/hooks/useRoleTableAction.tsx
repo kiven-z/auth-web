@@ -13,7 +13,7 @@ function useRoleTableAction() {
     const formRef = ref();
 
     addDialog({
-      title: '查看角色详情',
+      title: t('roles.dialogViewTitle'),
       draggable: true,
       fullscreenIcon: true,
       closeOnPressEscape: false,

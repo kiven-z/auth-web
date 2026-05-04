@@ -17,6 +17,7 @@ roles:
   menuGrantSubjects: Grant subjects (reverse)
   menuImpactAnalysis: Impact analysis and refresh
   loadFailed: Failed to load roles
+  dialogViewTitle: View role details
   # Table headers
   roleCode: Role Code
   roleName: Role Name

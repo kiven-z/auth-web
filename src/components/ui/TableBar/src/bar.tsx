@@ -35,10 +35,6 @@ const props = {
     type: Boolean,
     default: true,
   },
-  tableKey: {
-    type: [String, Number] as PropType<string | number>,
-    default: '0',
-  },
 };
 
 export default defineComponent({

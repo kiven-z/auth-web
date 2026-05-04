@@ -2,7 +2,7 @@ import { transformI18n } from '@/plugins/i18n';
 import { cloneDeep, getKeyList, isBoolean, isFunction } from '@pureadmin/utils';
 import Sortable from 'sortablejs';
 import type { Ref } from 'vue';
-import { onBeforeUnmount, ref, nextTick as vueNextTick } from 'vue';
+import { onBeforeUnmount, ref, nextTick as vueNextTick, watch } from 'vue';
 
 function filterVisibleColumns(columns: TableColumnList): TableColumns[] {
   return cloneDeep(columns).filter((column) =>
@@ -102,6 +102,18 @@ export function useTableBarColumns(columnsRef: Ref<TableColumnList>) {
     const visible = filterVisibleColumns(columnsRef.value);
     checkedColumns.value = getKeyList(cloneDeep(visible), 'label');
   }
+
+  /**
+   * 父级列配置变化时（如切换语言、热更新列定义）与内部状态对齐，并释放 Sortable 以免绑在过期 DOM 上。
+   */
+  watch(
+    columnsRef,
+    () => {
+      resetColumns();
+      destroySortable();
+    },
+    { deep: true }
+  );
 
   function isFixedColumn(label: string): boolean {
     const col = dynamicColumns.value.filter((item) => transformI18n(item.label as string) === transformI18n(label))[0];

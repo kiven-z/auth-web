@@ -17,6 +17,7 @@ roles:
   menuGrantSubjects: 授权对象管理（反向）
   menuImpactAnalysis: 影响分析与刷新
   loadFailed: 加载角色列表失败
+  dialogViewTitle: 查看角色详情
   # 表头
   roleCode: 角色编码
   roleName: 角色名称
