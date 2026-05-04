@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import AuthDataTable from '@/components/ui/AuthDataTable';
-import TableBar from '@/components/ui/TableBar/src/bar';
+import TableBar from '@/components/ui/TableBar';
 import { ROLE_STATUS_FILTER_OPTIONS, ROLE_TYPE_FILTER_OPTIONS } from '@/views/system/role/constants/roleSearchOptions';
 import useRoleTableColumns from '@/views/system/role/hooks/useRoleTableColumns';
 import type { FormInstance } from 'element-plus';

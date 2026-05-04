@@ -1,0 +1,14 @@
+tableBar:
+  defaultTitle: List
+  densityLarge: Relaxed
+  densityDefault: Default
+  densitySmall: Compact
+  tippyColumnSettings: Column settings
+  tippyRefresh: Refresh
+  tippyDensity: Density
+  tippyExpand: Expand
+  tippyCollapse: Collapse
+  tippyFullscreen: Fullscreen
+  tippyExitFullscreen: Exit fullscreen
+  columnShowAll: Columns
+  reset: Reset

@@ -1,0 +1,45 @@
+.table-bar {
+  width: 100%;
+  padding: 0 8px 8px;
+  background: var(--el-bg-color);
+}
+
+.table-bar--fullscreen {
+  position: fixed;
+  inset: 0;
+  z-index: 2002;
+  height: 100% !important;
+}
+
+.table-bar:not(.table-bar--fullscreen) {
+  margin-top: 8px;
+}
+
+.table-bar__toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  height: 60px;
+  padding: 16px;
+}
+
+.table-bar__actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+
+.table-bar__popover-head {
+  display: flex;
+  justify-content: space-between;
+  padding-top: 3px;
+  padding-left: 11px;
+  padding-right: 11px;
+  border-bottom: 1px solid var(--el-border-color);
+}
+
+.table-bar__column-body {
+  padding-top: 6px;
+  padding-left: 11px;
+}
