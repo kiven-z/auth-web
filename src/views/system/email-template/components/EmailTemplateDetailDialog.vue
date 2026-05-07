@@ -18,8 +18,12 @@ const props = defineProps<Props>();
 const { t } = useI18n();
 
 const loading = ref(false);
+
+// 预览 iframe 引用
 const previewFrameRef = ref<HTMLIFrameElement | null>(null);
+// 详情数据
 const detail = ref<EmailTemplateDetailVO[]>([]);
+// 渲染后的 HTML
 const renderedHtml = ref('');
 
 const columns = computed(() => [
@@ -50,6 +54,9 @@ const columns = computed(() => [
   },
 ]);
 
+/**
+ * 初始化数据
+ */
 const onLoadData = async () => {
   loading.value = true;
   try {
@@ -61,20 +68,19 @@ const onLoadData = async () => {
   }
 };
 
+/**
+ * 使用 iframe 渲染 HTML
+ */
 watch(
   () => renderedHtml.value,
   async (html) => {
     await nextTick();
-    applyPreviewToIframe(html);
+    const el = previewFrameRef.value;
+    if (!el) return;
+    el.srcdoc = html;
   },
   { immediate: true }
 );
-
-function applyPreviewToIframe(html: string) {
-  const el = previewFrameRef.value;
-  if (!el) return;
-  el.srcdoc = html;
-}
 
 onMounted(() => {
   onLoadData();

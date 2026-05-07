@@ -2,7 +2,8 @@
   仅编辑模板 HTML：Monaco（动态加载）+ 实时预览；不使用 monaco-editor-vue3，避免 Vite 预构建整包失败。
 -->
 <script lang="ts" setup>
-import { type EmailTemplateFormModel, renderEmailTemplate } from '@/api/system/email-template';
+import { renderEmailTemplate, type EmailTemplateFormModel } from '@/api/system/email-template';
+import { EMAIL_TEMPLATE_EDITOR_OPTIONS } from '@/views/system/email-template/config/monaco-config';
 import type { FormInstance, FormRules } from 'element-plus';
 import debounce from 'lodash/debounce';
 import type { editor } from 'monaco-editor';
@@ -118,22 +119,16 @@ async function mountMonacoEditor() {
   const host = editorHostRef.value;
   if (!host || standaloneEditor) return;
 
-  /** 动态 import，避免 Vue 编译该 SFC 时静态拉取 monaco 依赖链导致 Vite 转换栈溢出或 dev 500 */
+  /** 动态 import，避免静态引入 monaco 大包。 */
   const [{ loadMonacoEditor }, { registerEmailTemplateMonaco }] = await Promise.all([
-    import('@/views/system/email-template/utils/monaco-bootstrap'),
-    import('@/views/system/email-template/hooks/useEmailTemplateMonaco'),
+    import('@/views/system/email-template/monaco/bootstrap'),
+    import('@/views/system/email-template/monaco/register-email-template-monaco'),
   ]);
 
   const monacoApi = await loadMonacoEditor();
   standaloneEditor = monacoApi.editor.create(host, {
+    ...EMAIL_TEMPLATE_EDITOR_OPTIONS,
     value: form.value.content ?? '',
-    language: 'html',
-    theme: 'vs',
-    automaticLayout: true,
-    minimap: { enabled: false },
-    fontSize: 14,
-    scrollBeyondLastLine: false,
-    wordWrap: 'on',
   });
 
   const reg = registerEmailTemplateMonaco(standaloneEditor, monacoApi, () => form.value.requireFields ?? []);

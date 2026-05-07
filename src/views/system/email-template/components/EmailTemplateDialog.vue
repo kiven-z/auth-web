@@ -1,20 +1,8 @@
 <script lang="ts" setup>
 import type { EmailTemplateFormModel } from '@/api/system/email-template';
 import type { FormInstance, FormRules } from 'element-plus';
-import { reactive, ref, watch } from 'vue';
+import { reactive, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
-
-const defaultForm = (): EmailTemplateFormModel => ({
-  id: undefined,
-  templateCode: '',
-  templateName: '',
-  subject: '',
-  description: '',
-  status: true,
-  priority: 5,
-  content: '',
-  requireFields: [],
-});
 
 const props = withDefaults(
   defineProps<{
@@ -27,21 +15,7 @@ const props = withDefaults(
 
 const { t } = useI18n();
 const formRef = ref<FormInstance>();
-const form = ref<EmailTemplateFormModel>({
-  ...defaultForm(),
-  ...props.formInline,
-  requireFields: props.formInline.requireFields ?? [],
-});
-
-watch(
-  () => props.formInline,
-  (v) => {
-    if (v) {
-      form.value = { ...defaultForm(), ...v, requireFields: v.requireFields ?? [] };
-    }
-  },
-  { deep: true }
-);
+const form = ref<EmailTemplateFormModel>(props.formInline as EmailTemplateFormModel);
 
 const rules = reactive<FormRules>({
   templateCode: [
@@ -88,6 +62,7 @@ defineExpose({ formRef, form });
         </el-form-item>
       </el-col>
 
+      <!-- 主题 -->
       <el-col :lg="24" :md="24" :sm="24" :xs="24">
         <el-form-item :label="t('emailTemplate.subject')" prop="subject">
           <el-input
@@ -100,12 +75,14 @@ defineExpose({ formRef, form });
       </el-col>
 
       <el-col :lg="12" :md="12" :sm="12" :xs="24">
+        <!-- 优先级 -->
         <el-form-item :label="t('emailTemplate.priority')" prop="priority">
           <el-input-number v-model="form.priority" :max="10" :min="1" class="w-full" controls-position="right" />
         </el-form-item>
       </el-col>
 
       <el-col :lg="12" :md="12" :sm="12" :xs="24">
+        <!-- 状态 -->
         <el-form-item :label="t('emailTemplate.status')" prop="status">
           <el-switch
             v-model="form.status"
@@ -120,6 +97,7 @@ defineExpose({ formRef, form });
       </el-col>
 
       <el-col :span="24">
+        <!-- 描述 -->
         <el-form-item :label="t('emailTemplate.description')" prop="description">
           <el-input
             v-model="form.description"

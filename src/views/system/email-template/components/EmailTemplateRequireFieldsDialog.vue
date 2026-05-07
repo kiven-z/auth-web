@@ -2,21 +2,15 @@
   维护 require_fields 变量表
 -->
 <script lang="ts" setup>
-import {
-  getEmailTemplateById,
-  updateEmailTemplateRequireFields,
-  type EmailTemplateRequireFieldRow,
-} from '@/api/system/email-template';
+import { getEmailTemplateById, updateEmailTemplateRequireFields } from '@/api/system/email-template';
 import { errorMessage, message } from '@/shared/messaging/message';
+import {
+  toEditableRequireFields,
+  toRequireFieldsPayload,
+  type EditableRequireFieldRow,
+} from '@/views/system/email-template/utils/require-fields';
 import { onMounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
-
-interface EditableRow {
-  _id: number;
-  key: string;
-  description: string;
-  exampleValueJson: string;
-}
 
 interface Props {
   templateId: string;
@@ -26,7 +20,7 @@ const props = defineProps<Props>();
 const { t } = useI18n();
 
 const loading = ref(false);
-const dataList = ref<EditableRow[]>([]);
+const dataList = ref<EditableRequireFieldRow[]>([]);
 let rowSeq = 1;
 
 const onAdd = () => {
@@ -38,49 +32,19 @@ const onAdd = () => {
   });
 };
 
-const onDel = (row: EditableRow) => {
+const onDel = (row: EditableRequireFieldRow) => {
   const i = dataList.value.indexOf(row);
   if (i !== -1) dataList.value.splice(i, 1);
 };
 
-const buildPayload = (): EmailTemplateRequireFieldRow[] | null => {
-  const keys = dataList.value.map((r) => r.key.trim()).filter(Boolean);
-  if (keys.length !== new Set(keys).size) {
-    message(t('emailTemplate.requireFieldKeyDuplicate'), { type: 'warning' });
-    return null;
-  }
-  const rows: EmailTemplateRequireFieldRow[] = [];
-  for (const r of dataList.value) {
-    const k = r.key.trim();
-    if (!k) {
-      message(t('emailTemplate.requireFieldKeyRequired'), { type: 'warning' });
-      return null;
-    }
-    const raw = r.exampleValueJson?.trim() ?? '';
-    if (raw === '') {
-      message(t('emailTemplate.requireFieldExampleRequired'), { type: 'warning' });
-      return null;
-    }
-    let exampleValue: unknown;
-    try {
-      exampleValue = JSON.parse(raw);
-    } catch {
-      exampleValue = raw;
-    }
-    rows.push({
-      key: k,
-      description: r.description?.trim() || undefined,
-      exampleValue,
-    });
-  }
-  return rows;
-};
-
 const submit = async (): Promise<boolean> => {
-  const payload = buildPayload();
-  if (!payload) return false;
+  const transformResult = toRequireFieldsPayload(dataList.value);
+  if (!transformResult.ok) {
+    message(t(transformResult.error.messageKey), { type: 'warning' });
+    return false;
+  }
   try {
-    await updateEmailTemplateRequireFields(props.templateId, { requireFields: payload });
+    await updateEmailTemplateRequireFields(props.templateId, { requireFields: transformResult.payload });
     message(t('tips.editSuccess'), { type: 'success' });
     return true;
   } catch (error: unknown) {
@@ -93,13 +57,7 @@ onMounted(async () => {
   loading.value = true;
   try {
     const detail = await getEmailTemplateById(props.templateId);
-    const list = detail?.requireFields ?? [];
-    dataList.value = list.map((r, i) => ({
-      _id: i + 1,
-      key: r.key,
-      description: r.description ?? '',
-      exampleValueJson: JSON.stringify(r.exampleValue),
-    }));
+    dataList.value = toEditableRequireFields(detail?.requireFields ?? []);
     rowSeq = dataList.value.length + 1;
   } catch (error: unknown) {
     errorMessage(error, { defaultI18nKey: 'emailTemplate.loadFailed' });
@@ -119,7 +77,7 @@ defineExpose({ submit });
         background: 'var(--el-fill-color-light)',
         color: 'var(--el-text-color-primary)',
       }"
-      :row-key="(row: EditableRow) => String(row._id)"
+      :row-key="(row: EditableRequireFieldRow) => String(row._id)"
       border
       class="w-full"
     >

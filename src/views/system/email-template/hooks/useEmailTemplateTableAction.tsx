@@ -4,9 +4,6 @@ import {
   batchUpdateEmailTemplateStatus,
   createEmailTemplate,
   getEmailTemplateById,
-  getEmailTemplatePreviewHtml,
-  testSendEmailTemplate,
-  updateEmailTemplateContent,
   updateEmailTemplateMetadata,
   type EmailTemplateDetailVO,
   type EmailTemplatePageRow,
@@ -16,10 +13,7 @@ import { deleteConfirm } from '@/shared/messaging/dialog';
 import { errorMessage, message } from '@/shared/messaging/message';
 import EmailTemplateDetailDialog from '@/views/system/email-template/components/EmailTemplateDetailDialog.vue';
 import EmailTemplateDialog from '@/views/system/email-template/components/EmailTemplateDialog.vue';
-import EmailTemplateMonacoOnlyDialog from '@/views/system/email-template/components/EmailTemplateMonacoOnlyDialog.vue';
-import EmailTemplatePreviewDialog from '@/views/system/email-template/components/EmailTemplatePreviewDialog.vue';
-import EmailTemplateRequireFieldsDialog from '@/views/system/email-template/components/EmailTemplateRequireFieldsDialog.vue';
-import EmailTemplateTestSendDialog from '@/views/system/email-template/components/EmailTemplateTestSendDialog.vue';
+import { useEmailTemplateTableMoreAction } from '@/views/system/email-template/hooks/useEmailTemplateTableMoreAction';
 import { h, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 
@@ -36,15 +30,6 @@ export interface EmailTemplateTableActionDeps {
 type FormDialogExpose = {
   formRef?: { validate: () => Promise<boolean | undefined> };
   form: EmailTemplateFormModel;
-};
-
-type TestSendExpose = {
-  formRef?: { validate: () => Promise<boolean | undefined> };
-  form: { id: string; email: string };
-};
-
-type RequireFieldsExpose = {
-  submit: () => Promise<boolean>;
 };
 
 function toFormFromDetail(detail: EmailTemplateDetailVO, id: string): EmailTemplateFormModel {
@@ -71,6 +56,7 @@ function toFormFromDetail(detail: EmailTemplateDetailVO, id: string): EmailTempl
 function useEmailTemplateTableAction(deps: EmailTemplateTableActionDeps) {
   const { onSearch } = deps;
   const { t } = useI18n();
+  const moreActions = useEmailTemplateTableMoreAction({ onSearch });
 
   /**
    * 打开添加弹窗
@@ -184,123 +170,6 @@ function useEmailTemplateTableAction(deps: EmailTemplateTableActionDeps) {
   };
 
   /**
-   * 打开预览弹窗
-   * @param row 表格行数据
-   */
-  const openPreview = async (row: EmailTemplatePageRow) => {
-    try {
-      const html = await getEmailTemplatePreviewHtml(row.id);
-      addDialog({
-        title: t('emailTemplate.previewDialogTitle'),
-        props: { html },
-        draggable: true,
-        fullscreenIcon: true,
-        closeOnClickModal: false,
-        closeOnPressEscape: false,
-        contentRenderer: () => h(EmailTemplatePreviewDialog),
-        beforeSure: (done) => done(),
-      });
-    } catch (error: unknown) {
-      errorMessage(error, { defaultI18nKey: 'emailTemplate.loadFailed' });
-    }
-  };
-
-  /**
-   * 打开必填字段弹窗
-   * @param row 表格行数据
-   */
-  const openRequireFields = (row: EmailTemplatePageRow) => {
-    const innerRef = ref<RequireFieldsExpose | null>(null);
-    addDialog({
-      title: t('emailTemplate.requireFieldsDialogTitle'),
-      width: '80%',
-      draggable: true,
-      fullscreenIcon: true,
-      closeOnClickModal: false,
-      closeOnPressEscape: false,
-      contentRenderer: () => h(EmailTemplateRequireFieldsDialog, { ref: innerRef, templateId: row.id }),
-      beforeSure: async (done) => {
-        const ok = await innerRef.value?.submit();
-        if (ok) {
-          await onSearch();
-          done();
-        }
-      },
-    });
-  };
-
-  /**
-   * 打开测试发送弹窗
-   * @param row 表格行数据
-   */
-  const openTestSend = (row: EmailTemplatePageRow) => {
-    const sendFormRef = ref<TestSendExpose | null>(null);
-    addDialog({
-      title: t('emailTemplate.testSendDialogTitle'),
-      props: { formInline: { id: row.id, email: '' } },
-      draggable: true,
-      fullscreenIcon: true,
-      closeOnClickModal: false,
-      closeOnPressEscape: false,
-      contentRenderer: () => h(EmailTemplateTestSendDialog, { ref: sendFormRef }),
-      beforeSure: async (done) => {
-        try {
-          const formInst = sendFormRef.value?.formRef;
-          const valid = await formInst?.validate().catch(() => false);
-          if (!valid) return;
-          const form = sendFormRef.value?.form;
-          if (!form) return;
-          await testSendEmailTemplate({ id: form.id, email: form.email });
-          message(t('tips.operationSuccess'), { type: 'success' });
-          done();
-        } catch (error: unknown) {
-          errorMessage(error, { defaultI18nKey: 'emailTemplate.loadFailed' });
-        }
-      },
-    });
-  };
-
-  /**
-   * 打开模板内容编辑弹窗
-   * @param row 表格行数据
-   */
-  const openTemplateContentEdit = async (row: EmailTemplatePageRow) => {
-    try {
-      const detail = await getEmailTemplateById(row.id);
-      const formInline = toFormFromDetail(detail, row.id);
-      const dlgRef = ref<FormDialogExpose | null>(null);
-
-      addDialog({
-        title: t('emailTemplate.templateEditDialogTitle'),
-        props: { formInline },
-        draggable: true,
-        fullscreenIcon: true,
-        closeOnClickModal: false,
-        closeOnPressEscape: false,
-        width: '92%',
-        contentRenderer: () => h(EmailTemplateMonacoOnlyDialog, { ref: dlgRef }),
-        beforeSure: async (done) => {
-          try {
-            const formInst = dlgRef.value?.formRef;
-            const valid = await formInst?.validate().catch(() => false);
-            if (!valid) return;
-            const f = dlgRef.value?.form;
-            if (!f?.id) return;
-            await updateEmailTemplateContent(String(f.id), { content: f.content ?? '' });
-            message(t('tips.editSuccess'), { type: 'success' });
-            await onSearch();
-            done();
-          } catch (error: unknown) {
-            errorMessage(error, { defaultI18nKey: 'emailTemplate.loadFailed' });
-          }
-        },
-      });
-    } catch (error: unknown) {
-      errorMessage(error, { defaultI18nKey: 'emailTemplate.loadFailed' });
-    }
-  };
-
-  /**
    * 批量删除
    * @param ids 模板 ID 数组
    */
@@ -337,10 +206,7 @@ function useEmailTemplateTableAction(deps: EmailTemplateTableActionDeps) {
     openAdd,
     openEdit,
     openDetail,
-    openPreview,
-    openRequireFields,
-    openTestSend,
-    openTemplateContentEdit,
+    ...moreActions,
     removeBatch,
     batchUpdateStatus,
   };
