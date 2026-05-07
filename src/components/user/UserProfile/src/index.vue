@@ -1,4 +1,4 @@
-<script lang="tsx" setup>
+<script lang="ts" setup>
 import { getUserProfile, type SysUserDeptProfileItem, type SysUserPostProfileItem } from '@/api/system/user-base';
 import ReDescription from '@/components/ui/Description/index';
 import { ApiBusinessError } from '@/infrastructure/http/apiError';

@@ -1,3 +1,26 @@
+## 模拟接口
+
+### 使用方式
+
+```ts
+export default defineFakeRoute([
+  {
+    url: '/api/xxx',
+    method: 'post',
+    response: ({ body }) => {
+      if (body.username === 'Administrator') {
+        return { 你的数据 };
+      } else {
+        return 你的数据;
+      }
+    },
+  }
+]);
+```
+
+### 示例
+
+```ts
 // 根据角色动态生成路由
 import { defineFakeRoute } from 'vite-plugin-fake-server/client';
 
@@ -76,3 +99,5 @@ export default defineFakeRoute([
     },
   },
 ]);
+
+```

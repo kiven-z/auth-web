@@ -8,7 +8,7 @@ export const HTTP_BASE_URL = '/api';
 /**
  *  请求超时（毫秒）
  */
-export const HTTP_TIMEOUT = 10_000;
+export const HTTP_TIMEOUT = 30_000;
 
 export type AuthRecoveryAction = 'refreshToken';
 
