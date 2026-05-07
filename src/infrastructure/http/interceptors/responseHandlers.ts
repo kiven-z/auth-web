@@ -1,4 +1,5 @@
 import {
+  API_SUCCESS_CODE,
   AUTH_RECOVERY_CONFIG,
   isNoAuthRequestPath,
   shouldForceLogoutByStatus,
@@ -36,7 +37,7 @@ function handleResponseSuccess(response: AxiosResponse, getInitConfig: InitConfi
   }
 
   if (isApiResultEnvelope(raw)) {
-    if (raw.code !== 200) {
+    if (raw.code !== API_SUCCESS_CODE) {
       return rejectWithApiEnvelopeError(raw, response.status);
     }
     return unwrapEnvelopePayload(pureResponse, raw, getInitConfig);

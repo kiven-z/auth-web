@@ -1,9 +1,9 @@
 <script lang="ts" setup>
-import { type ButtonProps, closeDialog, type DialogOptions, dialogStore, type EventType } from './index';
-import { computed, ref } from 'vue';
 import { isFunction } from '@pureadmin/utils';
-import Fullscreen from '~icons/ri/fullscreen-fill';
+import { computed, ref } from 'vue';
 import ExitFullscreen from '~icons/ri/fullscreen-exit-fill';
+import Fullscreen from '~icons/ri/fullscreen-fill';
+import { closeDialog, dialogStore, type ButtonProps, type DialogOptions, type EventType } from './index';
 
 defineOptions({
   name: 'ReDialog',
@@ -80,81 +80,83 @@ function handleClose(options: DialogOptions, index: number, args = { command: 'c
 </script>
 
 <template>
-  <el-dialog
-    v-for="(options, index) in dialogStore"
-    :key="index"
-    v-model="options.visible"
-    :fullscreen="fullscreen ? true : options?.fullscreen ? true : false"
-    class="pure-dialog"
-    v-bind="options"
-    @closeAutoFocus="eventsCallBack('closeAutoFocus', options, index)"
-    @closed="handleClose(options, index)"
-    @openAutoFocus="eventsCallBack('openAutoFocus', options, index)"
-    @opened="eventsCallBack('open', options, index)"
-  >
-    <!-- header -->
-    <template v-if="options?.fullscreenIcon || options?.headerRenderer" #header="{ close, titleId, titleClass }">
-      <div v-if="options?.fullscreenIcon" class="flex items-center justify-between">
-        <span :id="titleId" :class="titleClass">{{ options?.title }}</span>
-        <i
-          v-if="!options?.fullscreen"
-          :class="fullscreenClass"
-          @click="
-            () => {
-              fullscreen = !fullscreen;
-              eventsCallBack('fullscreenCallBack', { ...options, fullscreen }, index, true);
-            }
-          "
-        >
-          <IconifyIconOffline
-            :icon="options?.fullscreen ? ExitFullscreen : fullscreen ? ExitFullscreen : Fullscreen"
-            class="pure-dialog-svg"
-          />
-        </i>
-      </div>
-      <component :is="options?.headerRenderer({ close, titleId, titleClass })" v-else />
-    </template>
-    <component
-      :is="options.contentRenderer({ options, index })"
-      v-bind="options?.props"
-      @close="(args) => handleClose(options, index, args)"
-    />
-    <!-- footer -->
-    <template v-if="!options?.hideFooter" #footer>
-      <template v-if="options?.footerRenderer">
-        <component :is="options?.footerRenderer({ options, index })" />
-      </template>
-      <span v-else>
-        <template v-for="(btn, key) in footerButtons(options)" :key="key">
-          <el-popconfirm
-            v-if="btn.popconfirm"
-            v-bind="btn.popconfirm"
-            @confirm="
-              btn.btnClick({
-                dialog: { options, index },
-                button: { btn, index: key },
-              })
-            "
-          >
-            <template #reference>
-              <el-button v-bind="btn">{{ btn?.label }}</el-button>
-            </template>
-          </el-popconfirm>
-          <el-button
-            v-else
-            :loading="key === 1 && sureBtnMap[index]?.loading"
-            v-bind="btn"
+  <div>
+    <el-dialog
+      v-for="(options, index) in dialogStore"
+      :key="index"
+      v-model="options.visible"
+      :fullscreen="fullscreen ? true : options?.fullscreen ? true : false"
+      class="pure-dialog"
+      v-bind="options"
+      @closeAutoFocus="eventsCallBack('closeAutoFocus', options, index)"
+      @closed="handleClose(options, index)"
+      @openAutoFocus="eventsCallBack('openAutoFocus', options, index)"
+      @opened="eventsCallBack('open', options, index)"
+    >
+      <!-- header -->
+      <template v-if="options?.fullscreenIcon || options?.headerRenderer" #header="{ close, titleId, titleClass }">
+        <div v-if="options?.fullscreenIcon" class="flex items-center justify-between">
+          <span :id="titleId" :class="titleClass">{{ options?.title }}</span>
+          <i
+            v-if="!options?.fullscreen"
+            :class="fullscreenClass"
             @click="
-              btn.btnClick({
-                dialog: { options, index },
-                button: { btn, index: key },
-              })
+              () => {
+                fullscreen = !fullscreen;
+                eventsCallBack('fullscreenCallBack', { ...options, fullscreen }, index, true);
+              }
             "
           >
-            {{ btn?.label }}
-          </el-button>
+            <IconifyIconOffline
+              :icon="options?.fullscreen ? ExitFullscreen : fullscreen ? ExitFullscreen : Fullscreen"
+              class="pure-dialog-svg"
+            />
+          </i>
+        </div>
+        <component :is="options?.headerRenderer({ close, titleId, titleClass })" v-else />
+      </template>
+      <component
+        :is="options.contentRenderer({ options, index })"
+        v-bind="options?.props"
+        @close="(args) => handleClose(options, index, args)"
+      />
+      <!-- footer -->
+      <template v-if="!options?.hideFooter" #footer>
+        <template v-if="options?.footerRenderer">
+          <component :is="options?.footerRenderer({ options, index })" />
         </template>
-      </span>
-    </template>
-  </el-dialog>
+        <span v-else>
+          <template v-for="(btn, key) in footerButtons(options)" :key="key">
+            <el-popconfirm
+              v-if="btn.popconfirm"
+              v-bind="btn.popconfirm"
+              @confirm="
+                btn.btnClick({
+                  dialog: { options, index },
+                  button: { btn, index: key },
+                })
+              "
+            >
+              <template #reference>
+                <el-button v-bind="btn">{{ btn?.label }}</el-button>
+              </template>
+            </el-popconfirm>
+            <el-button
+              v-else
+              :loading="key === 1 && sureBtnMap[index]?.loading"
+              v-bind="btn"
+              @click="
+                btn.btnClick({
+                  dialog: { options, index },
+                  button: { btn, index: key },
+                })
+              "
+            >
+              {{ btn?.label }}
+            </el-button>
+          </template>
+        </span>
+      </template>
+    </el-dialog>
+  </div>
 </template>

@@ -1,7 +1,7 @@
 import type { ApiResult } from './apiResult';
 
 /**
- * 业务码非 200 或 HTTP 层失败时的可抛出错误，便于页面展示 message / ext。
+ * 信封业务码非 0（与后端 {@code Result.SUCCESS_CODE} 一致）或 HTTP 层失败时的可抛出错误，便于页面展示 message / ext。
  */
 export class ApiBusinessError extends Error {
   readonly businessCode: number;

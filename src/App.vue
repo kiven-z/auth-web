@@ -1,16 +1,18 @@
 <template>
   <el-config-provider :locale="currentLocale">
-    <router-view />
-    <ReDialog />
+    <div class="app-root">
+      <router-view />
+      <ReDialog />
+    </div>
   </el-config-provider>
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
-import { ElConfigProvider } from 'element-plus';
 import { ReDialog } from '@/components/ui/Dialog';
+import { ElConfigProvider } from 'element-plus';
 import en from 'element-plus/es/locale/lang/en';
 import zhCn from 'element-plus/es/locale/lang/zh-cn';
+import { defineComponent } from 'vue';
 
 export default defineComponent({
   name: 'App',

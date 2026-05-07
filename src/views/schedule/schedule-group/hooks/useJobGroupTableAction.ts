@@ -48,7 +48,7 @@ function useJobGroupTableAction() {
         if (!ok) return;
         const formData: CreateJobGroupRequest = { ...form };
         const res = await createJobGroup(formData);
-        if (!res) return;
+        if (res) return;
         message(t('tips.operationSuccess'), { type: 'success' });
         await onSearch();
         done();
@@ -91,7 +91,7 @@ function useJobGroupTableAction() {
         };
         const res = await updateJobGroup(formData);
         console.log(res);
-        if (!res) return;
+        if (res) return;
         message(t('tips.operationSuccess'), { type: 'success' });
         await onSearch();
         done();

@@ -1,7 +1,11 @@
 /**
  * 对齐后端 {@code com.auth.common.core.model.response.Result}
  * 与 auth 模块错误响应 ext 中的 i18n 元数据。
+ *
+ * 业务成功码单一来源：{@link API_SUCCESS_CODE}（定义于 `@/config/http-config`）。
  */
+export { API_SUCCESS_CODE } from '@/config/http-config';
+
 export type ResultExt = {
   i18nKey?: string;
   i18nArgs?: unknown[];

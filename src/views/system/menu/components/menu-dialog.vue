@@ -1,23 +1,24 @@
 <script lang="ts" setup>
+import { queryMenuList } from '@/api/system/menu';
+import ReAnimateSelector from '@/components/ReAnimateSelector/src/index.vue';
+import IconSelect from '@/components/ReIcon/src/Select.vue';
+import { useRenderIcon } from '@/components/ReIcon/src/hooks';
+import { API_SUCCESS_CODE } from '@/config/http-config';
 import { MenuTypeEnums } from '@/enums/menuEnums';
 import { transformI18n } from '@/plugins/i18n';
 import { useRoleStoreHook } from '@/store/modules/system/role';
 import { FormInline } from '@/types/commons/base';
 import { MenuForm } from '@/types/system';
-import { isEmpty } from 'lodash';
-import { useI18n } from 'vue-i18n';
-import { onMounted, ref } from 'vue';
-import { CascaderProps, FormInstance } from 'element-plus';
-import { queryMenuList } from '@/api/system/menu';
-import ReAnimateSelector from '@/components/ReAnimateSelector/src/index.vue';
-import IconSelect from '@/components/ReIcon/src/Select.vue';
-import { useRenderIcon } from '@/components/ReIcon/src/hooks';
+import { loadMessage, message } from '@/utils/base/message';
+import { handleTree } from '@/utils/tree';
 import MenuTypeIframeDialog from '@/views/system/menu/components/menu-type-iframe-dialog.vue';
 import MenuTypeLinkDialog from '@/views/system/menu/components/menu-type-link-dialog.vue';
 import MenuTypeMenuDialog from '@/views/system/menu/components/menu-type-menu-dialog.vue';
 import { rules } from '@/views/system/menu/utils/menu-columns';
-import { loadMessage, message } from '@/utils/base/message';
-import { handleTree } from '@/utils/tree';
+import { CascaderProps, FormInstance } from 'element-plus';
+import { isEmpty } from 'lodash';
+import { onMounted, ref } from 'vue';
+import { useI18n } from 'vue-i18n';
 
 interface MenuFormInline extends FormInline<MenuForm> {
   isFormDisabled?: boolean;
@@ -172,7 +173,7 @@ const getMenuList = async () => {
   // 获取系统菜单列表
   const result = await queryMenuList({});
 
-  if (result.code !== 200) {
+  if (result.code !== API_SUCCESS_CODE) {
     message(result.message, { type: 'error' });
   }
 

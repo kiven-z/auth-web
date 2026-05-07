@@ -1,5 +1,0 @@
-routes:
-  systemManagement: System Management
-  userManagement: User Management
-  menuManagement: Menu Management
-  roleManagement: Role Management
