@@ -14,7 +14,7 @@ function useJobGroupPageState() {
   const searchForm = reactive({
     groupCode: undefined,
     groupName: undefined,
-    status: undefined as number,
+    status: undefined,
   });
 
   const pagination = reactive({

@@ -5,7 +5,10 @@ import { h, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 export interface RoleTableActionDeps {
-  /** 与页面 `useRolePageState` 同源，编辑/删除等写操作成功后刷新列表（避免在 hook 内再次调用 pageState） */
+  /**
+   * 与页面 `useRolePageState` 同源
+   * 编辑/删除等写操作成功后刷新列表（避免在 hook 内再次调用 pageState）
+   */
   onSearch: () => Promise<void>;
 }
 
@@ -28,9 +31,7 @@ function useRoleTableAction(deps: RoleTableActionDeps) {
       closeOnPressEscape: false,
       closeOnClickModal: false,
       contentRenderer: () => h(RoleDescriptionDialog, { ref: formRef }),
-      beforeSure: (done) => {
-        done();
-      },
+      beforeSure: (done) => done(),
     });
   };
 
@@ -49,7 +50,6 @@ function useRoleTableAction(deps: RoleTableActionDeps) {
     }
     addDialog({
       title: t('users.dialogUserProfileTitle'),
-      width: '720px',
       draggable: true,
       fullscreenIcon: true,
       closeOnPressEscape: true,

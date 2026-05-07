@@ -1,8 +1,8 @@
 <script lang="tsx" setup>
 import {
+  type EmailTemplateDetailVO,
   getEmailTemplateById,
   getEmailTemplatePreviewHtml,
-  type EmailTemplateDetailVO,
 } from '@/api/system/email-template';
 import ReDescription from '@/components/ui/Description/index';
 import { ElTag } from 'element-plus';
@@ -32,8 +32,8 @@ const columns = computed(() => [
     label: t('emailTemplate.status'),
     prop: 'status',
     labelWidth: 120,
-    cellRenderer: ({ value }: { value: number }) =>
-      value === 1 ? (
+    cellRenderer: ({ value }: { value: boolean }) =>
+      value ? (
         <ElTag type="success">{t('emailTemplate.statusEnabled')}</ElTag>
       ) : (
         <ElTag type="danger">{t('emailTemplate.statusDisabled')}</ElTag>
@@ -89,8 +89,8 @@ onMounted(() => {
       <iframe
         ref="previewFrameRef"
         class="w-full h-[420px] border-0 block"
-        title="email-template-preview"
         sandbox="allow-same-origin"
+        title="email-template-preview"
       />
     </div>
   </div>

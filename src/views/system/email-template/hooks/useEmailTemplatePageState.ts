@@ -15,7 +15,7 @@ function useEmailTemplatePageState() {
     templateCode: undefined,
     templateName: undefined,
     subject: undefined,
-    status: undefined as number | undefined,
+    status: undefined as boolean | undefined,
   });
 
   const pagination = reactive({

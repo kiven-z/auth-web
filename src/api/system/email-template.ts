@@ -14,7 +14,7 @@ export interface EmailTemplatePageQuery {
   templateCode?: string;
   templateName?: string;
   subject?: string;
-  status?: number;
+  status?: boolean;
 }
 
 /** 变量声明行（对齐 EmailTemplateRequireFieldRow） */
@@ -32,7 +32,7 @@ export interface EmailTemplatePageRow {
   templateName: string;
   subject: string;
   priority: number;
-  status: number;
+  status: boolean;
   description?: string;
   createTime: string;
   updateTime: string;
@@ -52,7 +52,7 @@ export interface EmailTemplateDetailVO {
   content?: string;
   requireFields?: EmailTemplateRequireFieldRow[];
   priority: number;
-  status: number;
+  status: boolean;
   createTime?: string;
   updateTime?: string;
   createUser?: string;

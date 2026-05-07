@@ -30,8 +30,8 @@ const view = computed(() => {
   const d: SysJobGroupPageRow = props.data || ({} as SysJobGroupPageRow);
   return {
     ...d,
-    statusLabel: d.status === 1 ? t('scheduleGroup.statusEnabled') : t('scheduleGroup.statusDisabled'),
-    isSystemLabel: d.isSystem === 1 ? 'Y' : 'N',
+    statusLabel: d.status ? t('scheduleGroup.statusEnabled') : t('scheduleGroup.statusDisabled'),
+    isSystemLabel: d.isSystem ? 'Y' : 'N',
   };
 });
 </script>

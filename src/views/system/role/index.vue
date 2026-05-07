@@ -64,7 +64,7 @@ onMounted(() => {
         <el-select v-model="searchForm.status" :placeholder="t('roles.status')" class="w-[140px]!" clearable>
           <el-option
             v-for="opt in ROLE_STATUS_FILTER_OPTIONS"
-            :key="opt.value"
+            :key="`${opt.labelKey}:${String(opt.value)}`"
             :label="t(opt.labelKey)"
             :value="opt.value"
           />

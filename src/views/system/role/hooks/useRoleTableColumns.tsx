@@ -24,8 +24,8 @@ function useRoleTableColumns() {
       minWidth: 100,
       formatter: (row: SysRolePageRow) => {
         return (
-          <ElTag type={row.status === 0 ? 'success' : 'danger'} effect="plain" size="small">
-            {row.status === 0 ? t('roles.statusNormal') : t('roles.statusDisabled')}
+          <ElTag type={row.status ? 'success' : 'danger'} effect="plain" size="small">
+            {row.status ? t('roles.statusNormal') : t('roles.statusDisabled')}
           </ElTag>
         );
       },

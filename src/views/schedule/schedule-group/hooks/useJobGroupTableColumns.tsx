@@ -28,8 +28,8 @@ function useJobGroupTableColumns() {
       minWidth: 100,
       formatter: (row: SysJobGroupPageRow) => {
         return (
-          <ElTag type={row.status === 1 ? 'success' : 'danger'} effect="plain" size="small">
-            {row.status === 1 ? t('scheduleGroup.statusEnabled') : t('scheduleGroup.statusDisabled')}
+          <ElTag type={row.status ? 'success' : 'danger'} effect="plain" size="small">
+            {row.status ? t('scheduleGroup.statusEnabled') : t('scheduleGroup.statusDisabled')}
           </ElTag>
         );
       },
@@ -40,7 +40,7 @@ function useJobGroupTableColumns() {
       prop: 'isSystem',
       minWidth: 110,
       formatter: (row: SysJobGroupPageRow) => {
-        return row.isSystem === 1 ? 'Y' : 'N';
+        return row.isSystem ? 'Y' : 'N';
       },
     },
     // 排序号
@@ -52,14 +52,12 @@ function useJobGroupTableColumns() {
       sortable: true,
       minWidth: 160,
     },
-    // 创建时间
     {
       label: t('table.createTime'),
       prop: 'createTime',
       sortable: true,
       minWidth: 160,
     },
-    // 创建人
     {
       label: t('table.createUsername'),
       prop: 'createUser',
@@ -74,7 +72,6 @@ function useJobGroupTableColumns() {
         );
       },
     },
-    // 更新人
     {
       label: t('table.updateUsername'),
       prop: 'updateUser',
@@ -89,7 +86,6 @@ function useJobGroupTableColumns() {
         );
       },
     },
-    // 操作
     {
       label: t('table.actions'),
       fixed: 'right' as const,

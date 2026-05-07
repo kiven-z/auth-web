@@ -14,7 +14,7 @@ export interface SysJobGroupPageQuery {
   sort?: SortSpec[];
   groupCode?: string;
   groupName?: string;
-  status?: number;
+  status?: boolean;
 }
 
 /** 任务分组分页行（对应后端 SysJobGroupPageResponse） */
@@ -23,8 +23,8 @@ export interface SysJobGroupPageRow {
   groupCode: string;
   groupName: string;
   description?: string;
-  status: number;
-  isSystem: number;
+  status: boolean;
+  isSystem: boolean;
   orderNum: number;
   createTime: string;
   updateTime: string;
@@ -39,7 +39,7 @@ export interface CreateJobGroupRequest {
   groupCode: string;
   groupName: string;
   description?: string;
-  status: number;
+  status: boolean;
   orderNum?: number;
 }
 
@@ -48,7 +48,7 @@ export interface UpdateJobGroupRequest {
   id: string;
   groupName: string;
   description?: string;
-  status: number;
+  status: boolean;
   orderNum: number;
 }
 

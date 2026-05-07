@@ -33,8 +33,8 @@ function useEmailTemplateTableColumns() {
       width: 110,
       formatter: (row: EmailTemplatePageRow) => {
         return (
-          <ElTag type={row.status === 1 ? 'success' : 'danger'} effect="plain" size="small">
-            {row.status === 1 ? t('emailTemplate.statusEnabled') : t('emailTemplate.statusDisabled')}
+          <ElTag type={row.status ? 'success' : 'danger'} effect="plain" size="small">
+            {row.status ? t('emailTemplate.statusEnabled') : t('emailTemplate.statusDisabled')}
           </ElTag>
         );
       },

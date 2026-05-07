@@ -18,7 +18,7 @@ const tableRef = ref<{ setAdaptive: () => Promise<void> } | null>(null);
 
 const { tableData, loading, pagination, searchForm, onSearch, onReset, onPageSizeChange, onPageCurrentChange } =
   useJobGroupPageState();
-const { openAdd, openEdit, openDetail, removeOne } = useJobGroupTableAction({ onSearch });
+const { onAdd, onEdit, onView, onRemove } = useJobGroupTableAction({ onSearch });
 
 onMounted(() => {
   onSearch();
@@ -44,8 +44,8 @@ onMounted(() => {
       <!-- 分组状态 -->
       <el-form-item :label="t('scheduleGroup.status')" prop="status">
         <el-select v-model="searchForm.status" :placeholder="t('scheduleGroup.status')" class="w-[160px]!" clearable>
-          <el-option :label="t('scheduleGroup.statusEnabled')" :value="1" />
-          <el-option :label="t('scheduleGroup.statusDisabled')" :value="0" />
+          <el-option :label="t('scheduleGroup.statusEnabled')" :value="true" />
+          <el-option :label="t('scheduleGroup.statusDisabled')" :value="false" />
         </el-select>
       </el-form-item>
 
@@ -66,7 +66,7 @@ onMounted(() => {
     >
       <template #buttons>
         <!-- 添加 -->
-        <el-button type="primary" @click="openAdd">{{ t('buttons.actionAdd') }}</el-button>
+        <el-button type="primary" @click="onAdd">{{ t('buttons.actionAdd') }}</el-button>
       </template>
 
       <template #default="{ size, dynamicColumns }">
@@ -92,11 +92,11 @@ onMounted(() => {
           <template #actions="{ row }">
             <div class="flex justify-center">
               <!-- 查看 -->
-              <el-button link type="primary" @click="openDetail(row)">{{ t('buttons.actionView') }}</el-button>
+              <el-button link type="primary" @click="onView(row)">{{ t('buttons.actionView') }}</el-button>
               <!-- 修改/编辑 -->
-              <el-button link type="primary" @click="openEdit(row)">{{ t('buttons.actionEdit') }}</el-button>
+              <el-button link type="primary" @click="onEdit(row)">{{ t('buttons.actionEdit') }}</el-button>
               <!-- 删除 -->
-              <el-button :disabled="row.isSystem === 1" link type="danger" @click="removeOne(row)">
+              <el-button :disabled="row.isSystem" link type="danger" @click="onRemove(row)">
                 {{ t('buttons.actionDelete') }}
               </el-button>
             </div>

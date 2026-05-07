@@ -14,8 +14,8 @@ function useRolePageState() {
   const searchForm = reactive({
     roleCode: undefined,
     roleName: undefined,
-    status: undefined as number | undefined,
-    roleType: undefined as number | undefined,
+    status: undefined as boolean,
+    roleType: undefined as number,
   });
 
   const pagination = reactive({

@@ -1,7 +1,7 @@
 import type { AxiosRequestConfig } from 'axios';
 
-import { http } from '@/infrastructure/http';
 import type { PageResponse, SortSpec } from '@/api/common';
+import { http } from '@/infrastructure/http';
 
 /** 角色分页查询参数（对齐 {@code SysRoleQuery}） */
 export interface SysRolePageQuery {
@@ -10,7 +10,7 @@ export interface SysRolePageQuery {
   sort?: SortSpec[];
   roleCode?: string;
   roleName?: string;
-  status?: number;
+  status?: boolean;
   roleType?: number;
 }
 
@@ -19,7 +19,7 @@ export interface SysRolePageRow {
   id: string;
   roleCode: string;
   roleName: string;
-  status: number;
+  status: boolean;
   roleType: number;
   orderNum: number;
   remark?: string;

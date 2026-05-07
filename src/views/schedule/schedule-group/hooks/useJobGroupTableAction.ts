@@ -1,9 +1,9 @@
 import {
   createJobGroup,
-  type CreateJobGroupRequest,
   deleteJobGroup,
-  type SysJobGroupPageRow,
   updateJobGroup,
+  type CreateJobGroupRequest,
+  type SysJobGroupPageRow,
 } from '@/api/schedule/job-group';
 import { addDialog } from '@/components/ui/Dialog';
 import { deleteConfirm } from '@/shared/messaging/dialog';
@@ -14,7 +14,10 @@ import { h, reactive, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 export interface JobGroupTableActionDeps {
-  /** 与页面 `useJobGroupPageState` 同源，避免重复调用导致刷新的是另一份 tableData */
+  /**
+   * 与页面 `useJobGroupPageState` 同源
+   * 避免重复调用导致刷新的是另一份 tableData
+   */
   onSearch: () => Promise<void>;
 }
 
@@ -29,12 +32,12 @@ function useJobGroupTableAction(deps: JobGroupTableActionDeps) {
   /**
    * 打开新增任务分组对话框
    */
-  const openAdd = () => {
+  const onAdd = () => {
     const form = reactive<CreateJobGroupRequest>({
       groupCode: '',
       groupName: '',
       description: '',
-      status: 1,
+      status: true,
       orderNum: 0,
     });
     const dialogRef = ref();
@@ -68,7 +71,7 @@ function useJobGroupTableAction(deps: JobGroupTableActionDeps) {
    * 打开编辑任务分组对话框
    * @param row 任务分组数据
    */
-  const openEdit = (row: SysJobGroupPageRow) => {
+  const onEdit = (row: SysJobGroupPageRow) => {
     const form = reactive({
       id: row.id,
       groupCode: row.groupCode,
@@ -108,7 +111,7 @@ function useJobGroupTableAction(deps: JobGroupTableActionDeps) {
    * 打开任务分组详情对话框
    * @param row 任务分组数据
    */
-  const openDetail = (row: SysJobGroupPageRow) => {
+  const onView = (row: SysJobGroupPageRow) => {
     addDialog({
       title: t('scheduleGroup.detailTitle'),
       props: {},
@@ -121,7 +124,7 @@ function useJobGroupTableAction(deps: JobGroupTableActionDeps) {
    * 删除任务分组
    * @param row 任务分组数据
    */
-  const removeOne = async (row: SysJobGroupPageRow) => {
+  const onRemove = async (row: SysJobGroupPageRow) => {
     const confirm = await deleteConfirm();
     if (!confirm) return;
 
@@ -135,10 +138,10 @@ function useJobGroupTableAction(deps: JobGroupTableActionDeps) {
   };
 
   return {
-    openAdd,
-    openEdit,
-    openDetail,
-    removeOne,
+    onAdd,
+    onEdit,
+    onView,
+    onRemove,
   };
 }
 

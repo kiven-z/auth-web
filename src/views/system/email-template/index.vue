@@ -76,7 +76,7 @@ onMounted(() => {
         <el-select v-model="searchForm.status" :placeholder="t('emailTemplate.status')" class="w-[220px]!" clearable>
           <el-option
             v-for="opt in EMAIL_TEMPLATE_STATUS_FILTER_OPTIONS"
-            :key="opt.value"
+            :key="`${opt.labelKey}:${String(opt.value)}`"
             :label="t(opt.labelKey)"
             :value="opt.value"
           />

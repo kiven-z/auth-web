@@ -2,8 +2,8 @@
  * 角色列表筛选项：value 与后端 {@code SysRoleQuery} 一致；labelKey 供 `t(labelKey)` 使用。
  */
 export const ROLE_STATUS_FILTER_OPTIONS = [
-  { value: 0, labelKey: 'roles.statusNormal' },
-  { value: 1, labelKey: 'roles.statusDisabled' },
+  { value: true, labelKey: 'roles.statusNormal' },
+  { value: false, labelKey: 'roles.statusDisabled' },
 ] as const;
 
 export const ROLE_TYPE_FILTER_OPTIONS = [

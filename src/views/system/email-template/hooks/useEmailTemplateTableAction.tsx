@@ -54,7 +54,7 @@ function toFormFromDetail(detail: EmailTemplateDetailVO, id: string): EmailTempl
     templateName: detail.templateName,
     subject: detail.subject,
     description: detail.description,
-    status: detail.status === 1,
+    status: detail.status,
     priority: detail.priority,
     content: detail.content ?? '',
     requireFields: (detail.requireFields ?? []).map((r) => ({

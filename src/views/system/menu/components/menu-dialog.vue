@@ -124,7 +124,7 @@ const props = withDefaults(defineProps<MenuFormInline>(), {
      */
     fixedTag: undefined,
     /**
-     * 状态(0=禁用,1=启用)
+     * 启用状态(true=启用菜单，false=停用)
      */
     status: undefined,
     /**

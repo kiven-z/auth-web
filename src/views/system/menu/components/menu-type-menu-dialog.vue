@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { MenuForm } from '@/types/system';
-import { useI18n } from 'vue-i18n';
 import { computed } from 'vue';
+import { useI18n } from 'vue-i18n';
 
 const props = defineProps({
   form: { type: Object as PropType<MenuForm>, required: true },
@@ -119,10 +119,10 @@ const formModel = computed({
         <el-switch
           v-model="formModel.status"
           :active-text="t('common.buttons.statusActiveText')"
-          :active-value="1"
+          :active-value="true"
           :disabled="formDisabled"
           :inactive-text="t('common.buttons.statusInactiveText')"
-          :inactive-value="0"
+          :inactive-value="false"
           inline-prompt
           style="--el-switch-on-color: var(--el-color-success); --el-switch-off-color: var(--el-color-danger)"
         />
