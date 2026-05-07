@@ -36,6 +36,21 @@ export const FREEMARKER_ROOT_KEYWORDS = new Set([
 ]);
 
 /**
+ * FreeMarker 模板中的局部变量声明模式，匹配变量名用于误报豁免。
+ */
+export const FREEMARKER_LOCAL_VARIABLE_PATTERNS = [
+  /<\s*#list\b[^>]*\bas\s+([a-zA-Z_][a-zA-Z0-9_]*)/g,
+  /<\s*#assign\b\s+([a-zA-Z_][a-zA-Z0-9_]*)\s*=/g,
+  /<\s*#local\b\s+([a-zA-Z_][a-zA-Z0-9_]*)\s*=/g,
+  /<\s*#global\b\s+([a-zA-Z_][a-zA-Z0-9_]*)\s*=/g,
+];
+
+/**
+ * 变量表达式中允许忽略的前缀字符（提升 FreeMarker 表达式兼容性）。
+ */
+export const FREEMARKER_PREFIX_TRIM_PATTERN = /^[(!#@/.\s]+/;
+
+/**
  * 变量标红 marker 来源标识。
  */
 export const EMAIL_TEMPLATE_MARKER_SOURCE = 'email-template-require-fields';

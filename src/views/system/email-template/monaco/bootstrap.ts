@@ -1,5 +1,11 @@
 /**
  * Monaco 按需加载与 worker 初始化。
+ *
+ * 说明：
+ * 1. 即使使用 monaco-editor-vue3，底层也需要明确 worker 解析策略；
+ * 2. 这里使用动态 import + MonacoEnvironment.getWorker，避免静态引入 monaco 大包导致
+ *    Vite 预构建压力过大（历史上常见 dev 500 或栈溢出）；
+ * 3. 该初始化为幂等，仅首次加载时执行。
  */
 let environmentReady = false;
 

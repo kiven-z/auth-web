@@ -63,6 +63,7 @@ let disposeMonacoRegistration: (() => void) | null = null;
 let syncingFromEditor = false;
 
 const renderedHtml = ref('');
+const previewFrameRef = ref<HTMLIFrameElement | null>(null);
 
 const scheduleRender = debounce(async () => {
   try {
@@ -109,6 +110,17 @@ watch(
     }
   },
   { deep: true, flush: 'post' }
+);
+
+watch(
+  () => renderedHtml.value,
+  async (html) => {
+    await nextTick();
+    const frame = previewFrameRef.value;
+    if (!frame) return;
+    frame.srcdoc = html;
+  },
+  { immediate: true }
 );
 
 /**
@@ -170,10 +182,10 @@ defineExpose({ formRef, form });
     <el-row :gutter="16" class="min-h-[62vh]">
       <el-col :lg="14" :md="14" :sm="24" :xs="24">
         <div class="text-sm font-medium mb-2">{{ t('emailTemplate.content') }}</div>
-        <el-form-item class="!mb-0" prop="content">
+        <el-form-item class="mb-0!" prop="content">
           <div
             ref="editorHostRef"
-            class="w-full monaco-only-editor border border-[var(--el-border-color)] rounded overflow-hidden shadow-sm"
+            class="w-full monaco-only-editor border border-(--el-border-color) rounded overflow-hidden shadow-sm"
           />
         </el-form-item>
       </el-col>
@@ -181,9 +193,14 @@ defineExpose({ formRef, form });
       <el-col :lg="10" :md="10" :sm="24" :xs="24">
         <div class="text-sm font-medium mb-2">{{ t('emailTemplate.liveRenderPreview') }}</div>
         <div
-          class="monaco-only-preview border border-[var(--el-border-color)] rounded p-3 overflow-auto bg-[var(--el-fill-color-blank)]"
+          class="monaco-only-preview border border-(--el-border-color) rounded p-3 overflow-auto bg-(--el-fill-color-blank)"
         >
-          <div v-html="renderedHtml" />
+          <iframe
+            ref="previewFrameRef"
+            class="w-full h-full border-0 block"
+            sandbox="allow-same-origin"
+            title="email-template-monaco-preview"
+          />
         </div>
       </el-col>
     </el-row>

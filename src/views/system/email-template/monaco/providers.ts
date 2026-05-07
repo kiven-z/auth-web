@@ -41,13 +41,15 @@ export function registerEmailTemplateProviders(
         }
 
         const inputWord = inner.trim();
+        const lineAfterCursor = line.substring(position.column - 1);
+        const hasClosingBrace = lineAfterCursor.startsWith('}');
         const range = new monacoApi.Range(position.lineNumber, dollarIdx + 3, position.lineNumber, position.column);
         const suggestions = getRequireFields()
           .filter((field) => field.key && field.key.startsWith(inputWord))
           .map((field) => ({
             label: field.key,
             kind: monacoApi.languages.CompletionItemKind.Variable,
-            insertText: `${field.key}}`,
+            insertText: hasClosingBrace ? field.key : `${field.key}}`,
             detail: field.description,
             range,
           }));

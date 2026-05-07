@@ -1,5 +1,7 @@
 import {
   EMAIL_TEMPLATE_MARKER_SOURCE,
+  FREEMARKER_LOCAL_VARIABLE_PATTERNS,
+  FREEMARKER_PREFIX_TRIM_PATTERN,
   FREEMARKER_ROOT_KEYWORDS,
 } from '@/views/system/email-template/config/monaco-config';
 import type { editor } from 'monaco-editor';
@@ -16,7 +18,8 @@ interface VariableIssue {
  * 从 `${...}` 中提取根变量名。
  */
 export function getRootVariableName(inner: string): string | null {
-  const match = inner.trim().match(/^([a-zA-Z_][a-zA-Z0-9_]*)/);
+  const normalized = inner.trim().replace(FREEMARKER_PREFIX_TRIM_PATTERN, '');
+  const match = normalized.match(/^([a-zA-Z_][a-zA-Z0-9_]*)/);
   if (!match) {
     return null;
   }
@@ -28,16 +31,38 @@ export function getRootVariableName(inner: string): string | null {
 }
 
 /**
+ * 提取模板中声明的局部变量（list/assign/local/global）。
+ */
+export function collectFreemarkerLocalVariables(text: string): Set<string> {
+  const localKeys = new Set<string>();
+  for (const pattern of FREEMARKER_LOCAL_VARIABLE_PATTERNS) {
+    pattern.lastIndex = 0;
+    let result: RegExpExecArray | null;
+    while ((result = pattern.exec(text)) !== null) {
+      const alias = result[1];
+      if (alias) {
+        localKeys.add(alias);
+      }
+    }
+  }
+  return localKeys;
+}
+
+/**
  * 收集未在 requireFields 中声明的变量位置。
  */
-export function collectUnknownVariableMarkers(text: string, keys: Set<string>): VariableIssue[] {
+export function collectUnknownVariableMarkers(
+  text: string,
+  keys: Set<string>,
+  ignoredKeys: Set<string> = new Set()
+): VariableIssue[] {
   const issues: VariableIssue[] = [];
   const matcher = /\$\{([^}]*)\}/g;
   let result: RegExpExecArray | null;
 
   while ((result = matcher.exec(text)) !== null) {
     const name = getRootVariableName(result[1]);
-    if (!name || keys.has(name)) {
+    if (!name || keys.has(name) || ignoredKeys.has(name)) {
       continue;
     }
     const openOffset = result.index + 2;
@@ -68,7 +93,8 @@ export function applyRequireFieldsMarkers(
   requireFieldKeys: Set<string>
 ) {
   const text = model.getValue();
-  const issues = collectUnknownVariableMarkers(text, requireFieldKeys);
+  const localKeys = collectFreemarkerLocalVariables(text);
+  const issues = collectUnknownVariableMarkers(text, requireFieldKeys, localKeys);
   const markers: editor.IMarkerData[] = issues.map((issue) => {
     const startPos = offsetToPosition(model, issue.start, monacoApi);
     const endPos = offsetToPosition(model, Math.min(issue.end, text.length), monacoApi);
