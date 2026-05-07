@@ -1,12 +1,12 @@
 <script lang="tsx" setup>
 import {
-  type EmailTemplateDetailVO,
   getEmailTemplateById,
   getEmailTemplatePreviewHtml,
+  type EmailTemplateDetailVO,
 } from '@/api/system/email-template';
 import ReDescription from '@/components/ui/Description/index';
 import { ElTag } from 'element-plus';
-import { computed, onMounted, ref } from 'vue';
+import { computed, nextTick, onMounted, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 interface Props {
@@ -18,6 +18,7 @@ const props = defineProps<Props>();
 const { t } = useI18n();
 
 const loading = ref(false);
+const previewFrameRef = ref<HTMLIFrameElement | null>(null);
 const detail = ref<EmailTemplateDetailVO[]>([]);
 const renderedHtml = ref('');
 
@@ -60,6 +61,21 @@ const onLoadData = async () => {
   }
 };
 
+watch(
+  () => renderedHtml.value,
+  async (html) => {
+    await nextTick();
+    applyPreviewToIframe(html);
+  },
+  { immediate: true }
+);
+
+function applyPreviewToIframe(html: string) {
+  const el = previewFrameRef.value;
+  if (!el) return;
+  el.srcdoc = html;
+}
+
 onMounted(() => {
   onLoadData();
 });
@@ -69,10 +85,13 @@ onMounted(() => {
   <div v-loading="loading">
     <ReDescription :column="2" :columns="columns" :data="detail" border />
     <div class="text-sm font-medium mb-2">{{ t('emailTemplate.renderedEffect') }}</div>
-    <div
-      class="border border-[var(--el-border-color)] rounded p-4 overflow-auto max-h-[50vh] bg-[var(--el-fill-color-blank)]"
-    >
-      <div v-html="renderedHtml" />
+    <div class="border border-(--el-border-color) overflow-auto rounded bg-(--el-fill-color-blank)">
+      <iframe
+        ref="previewFrameRef"
+        class="w-full h-[420px] border-0 block"
+        title="email-template-preview"
+        sandbox="allow-same-origin"
+      />
     </div>
   </div>
 </template>

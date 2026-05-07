@@ -50,7 +50,7 @@ defineExpose({
 <template>
   <el-form ref="formRef" :model="form" :rules="rules" label-width="120px">
     <el-row :gutter="14">
-      <!-- 分组编码 -->
+      <!-- 分组编码 添加可见 -->
       <el-col :lg="12" :md="12" :sm="24" :xs="24">
         <el-form-item v-if="mode === 'add'" :label="t('scheduleGroup.code')" prop="groupCode">
           <el-input v-model="form.groupCode" :placeholder="t('scheduleGroup.placeholder.code')" />

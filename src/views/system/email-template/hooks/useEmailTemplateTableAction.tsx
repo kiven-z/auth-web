@@ -72,6 +72,9 @@ function useEmailTemplateTableAction(deps: EmailTemplateTableActionDeps) {
   const { onSearch } = deps;
   const { t } = useI18n();
 
+  /**
+   * 打开添加弹窗
+   */
   const openAdd = () => {
     const formInline: Partial<EmailTemplateFormModel> = {
       status: true,
@@ -117,6 +120,10 @@ function useEmailTemplateTableAction(deps: EmailTemplateTableActionDeps) {
     });
   };
 
+  /**
+   * 打开编辑弹窗
+   * @param row 表格行数据
+   */
   const openEdit = async (row: EmailTemplatePageRow) => {
     try {
       const detail = await getEmailTemplateById(row.id);
@@ -162,6 +169,10 @@ function useEmailTemplateTableAction(deps: EmailTemplateTableActionDeps) {
     }
   };
 
+  /**
+   * 打开详情弹窗
+   * @param row 表格行数据
+   */
   const openDetail = (row: EmailTemplatePageRow) => {
     addDialog({
       title: t('emailTemplate.detailDialogTitle'),
@@ -175,6 +186,10 @@ function useEmailTemplateTableAction(deps: EmailTemplateTableActionDeps) {
     });
   };
 
+  /**
+   * 打开预览弹窗
+   * @param row 表格行数据
+   */
   const openPreview = async (row: EmailTemplatePageRow) => {
     try {
       const html = await getEmailTemplatePreviewHtml(row.id);
@@ -194,6 +209,10 @@ function useEmailTemplateTableAction(deps: EmailTemplateTableActionDeps) {
     }
   };
 
+  /**
+   * 打开必填字段弹窗
+   * @param row 表格行数据
+   */
   const openRequireFields = (row: EmailTemplatePageRow) => {
     const innerRef = ref<RequireFieldsExpose | null>(null);
     addDialog({
@@ -214,6 +233,10 @@ function useEmailTemplateTableAction(deps: EmailTemplateTableActionDeps) {
     });
   };
 
+  /**
+   * 打开测试发送弹窗
+   * @param row 表格行数据
+   */
   const openTestSend = (row: EmailTemplatePageRow) => {
     const sendFormRef = ref<TestSendExpose | null>(null);
     addDialog({
@@ -242,6 +265,10 @@ function useEmailTemplateTableAction(deps: EmailTemplateTableActionDeps) {
     });
   };
 
+  /**
+   * 打开模板内容编辑弹窗
+   * @param row 表格行数据
+   */
   const openTemplateContentEdit = async (row: EmailTemplatePageRow) => {
     try {
       const detail = await getEmailTemplateById(row.id);
@@ -280,6 +307,10 @@ function useEmailTemplateTableAction(deps: EmailTemplateTableActionDeps) {
     }
   };
 
+  /**
+   * 批量删除
+   * @param ids 模板 ID 数组
+   */
   const removeBatch = async (ids: string[]) => {
     if (ids.length <= 0) return;
     const confirm = await deleteConfirm();
@@ -294,6 +325,11 @@ function useEmailTemplateTableAction(deps: EmailTemplateTableActionDeps) {
     }
   };
 
+  /**
+   * 批量启用或停用
+   * @param ids 模板 ID 数组
+   * @param enabled 是否启用
+   */
   const batchUpdateStatus = async (ids: string[], enabled: boolean) => {
     if (ids.length <= 0) return;
     try {

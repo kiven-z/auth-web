@@ -12,10 +12,11 @@ function useJobGroupPageState() {
   const loading = ref(false);
   const tableData = ref<SysJobGroupPageRow[]>([]);
 
+  // 默认为 undefined 没有值时不会传递
   const searchForm = reactive({
     groupCode: undefined,
     groupName: undefined,
-    status: undefined as number | undefined,
+    status: undefined as number,
   });
 
   const pagination = reactive({
@@ -23,14 +24,6 @@ function useJobGroupPageState() {
     pageSize: 30,
     currentPage: 1,
   });
-
-  /**
-   * 条件查询：回到第一页再请求（避免在末页改条件后仍请求空页）。
-   */
-  const onQuery = async () => {
-    pagination.currentPage = 1;
-    await onSearch();
-  };
 
   /**
    * 分页查询（不改变当前页码；分页器事件与重置后调用）。
@@ -77,13 +70,7 @@ function useJobGroupPageState() {
    */
   const onReset = async (formRef?: FormInstance) => {
     pagination.currentPage = 1;
-    if (formRef) {
-      formRef.resetFields();
-    } else {
-      searchForm.groupCode = '';
-      searchForm.groupName = '';
-      searchForm.status = undefined;
-    }
+    formRef.resetFields();
     await onSearch();
   };
 
@@ -93,7 +80,6 @@ function useJobGroupPageState() {
     pagination,
     searchForm,
     onSearch,
-    onQuery,
     onReset,
     onPageSizeChange,
     onPageCurrentChange,

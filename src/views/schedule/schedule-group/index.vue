@@ -16,17 +16,8 @@ const { columns } = useJobGroupTableColumns();
 const searchFormRef = ref<FormInstance>();
 const tableRef = ref<{ setAdaptive: () => Promise<void> } | null>(null);
 
-const {
-  tableData,
-  loading,
-  pagination,
-  searchForm,
-  onSearch,
-  onQuery,
-  onReset,
-  onPageSizeChange,
-  onPageCurrentChange,
-} = useJobGroupPageState();
+const { tableData, loading, pagination, searchForm, onSearch, onReset, onPageSizeChange, onPageCurrentChange } =
+  useJobGroupPageState();
 const { openAdd, openEdit, openDetail, removeOne } = useJobGroupTableAction({ onSearch });
 
 onMounted(() => {
@@ -44,15 +35,15 @@ onMounted(() => {
     >
       <!-- 分组编码 -->
       <el-form-item :label="t('scheduleGroup.code')" prop="groupCode">
-        <el-input v-model="searchForm.groupCode" class="w-[180px]!" clearable />
+        <el-input v-model="searchForm.groupCode" class="w-[160px]!" clearable />
       </el-form-item>
       <!-- 分组名称 -->
       <el-form-item :label="t('scheduleGroup.name')" prop="groupName">
-        <el-input v-model="searchForm.groupName" class="w-[180px]!" clearable />
+        <el-input v-model="searchForm.groupName" class="w-[160px]!" clearable />
       </el-form-item>
       <!-- 分组状态 -->
       <el-form-item :label="t('scheduleGroup.status')" prop="status">
-        <el-select v-model="searchForm.status" :placeholder="t('scheduleGroup.status')" class="w-[140px]!" clearable>
+        <el-select v-model="searchForm.status" :placeholder="t('scheduleGroup.status')" class="w-[160px]!" clearable>
           <el-option :label="t('scheduleGroup.statusEnabled')" :value="1" />
           <el-option :label="t('scheduleGroup.statusDisabled')" :value="0" />
         </el-select>
@@ -61,7 +52,7 @@ onMounted(() => {
       <!-- 表单搜索 -->
       <el-form-item>
         <!-- 搜索 -->
-        <el-button type="primary" @click="onQuery">{{ t('buttons.actionSearch') }}</el-button>
+        <el-button type="primary" @click="onSearch">{{ t('buttons.actionSearch') }}</el-button>
         <!-- 重置 -->
         <el-button @click="onReset(searchFormRef)">{{ t('buttons.actionReset') }}</el-button>
       </el-form-item>
