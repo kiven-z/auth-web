@@ -1,15 +1,20 @@
-import { isNoAuthRequestPath } from '@/config/http-config';
-import { formatToken, getToken } from '@/infrastructure/session/auth';
+import {
+  AUTH_RECOVERY_CONFIG,
+  isNoAuthRequestPath,
+  shouldForceLogoutByStatus,
+  shouldRefreshTokenByRule,
+} from '@/config/http-config';
+import { replayRequestWithRefreshedToken } from '@/infrastructure/auth/tokenRefreshCoordinator';
 import { useUserStoreHook } from '@/store/modules/user';
 import Axios, { type AxiosInstance, type AxiosResponse } from 'axios';
-import { type ApiResult, isApiResultEnvelope } from '../apiResult';
+import { isApiResultEnvelope, type ApiResult } from '../apiResult';
 import { rejectWithApiEnvelopeError } from '../apiResultErrors';
 import type { PureHttpError, PureHttpRequestConfig, PureHttpResponse } from '../types.d';
 
 type InitConfigGetter = () => PureHttpRequestConfig;
 
 /**
- * 响应拦截：Result 解包、业务错误与 401 刷新重试。
+ * 响应拦截：Result 解包、业务错误与鉴权恢复（401登出 / 409+稳定错误码刷新重放）。
  */
 export function attachResponseInterceptors(instance: AxiosInstance, getInitConfig: InitConfigGetter): void {
   instance.interceptors.response.use(
@@ -80,39 +85,38 @@ function handleResponseError(instance: AxiosInstance, error: PureHttpError): Pro
   error.isCancelRequest = Axios.isCancel(error);
   const { response, config } = error;
 
-  // HTTP 401 优先尝试 refreshToken，避免被业务信封检查抢先拦截
-  if (
-    response?.status === 401 &&
-    config &&
-    !(config as PureHttpRequestConfig)._retry401 &&
-    !isNoAuthRequestPath(config.url)
-  ) {
-    const tokenData = getToken();
-    if (tokenData?.refreshToken) {
-      const cfg = config as PureHttpRequestConfig;
-      cfg._retry401 = true;
-      return useUserStoreHook()
-        .handRefreshToken({ refreshToken: tokenData.refreshToken })
-        .then(() => {
-          const next = getToken();
-          if (!next?.accessToken) {
-            useUserStoreHook().logOut();
-            return Promise.reject(error);
-          }
-          if (!cfg.headers) cfg.headers = {};
-          cfg.headers['Authorization'] = formatToken(next.accessToken);
-          return instance.request(cfg);
-        })
-        .catch(() => {
-          useUserStoreHook().logOut();
-          return Promise.reject(error);
-        });
-    }
+  const status = response?.status;
+  const requestConfig = config as PureHttpRequestConfig | undefined;
+  const isNoAuthPath = requestConfig ? isNoAuthRequestPath(requestConfig.url) : false;
+  const envelope = response?.data && isApiResultEnvelope(response.data) ? response.data : undefined;
+  const errorCode = envelope?.error ?? envelope?.subCode;
+
+  if (!isNoAuthPath && shouldForceLogoutByStatus(status)) {
+    useUserStoreHook().logOut();
+    return Promise.reject(error);
   }
 
-  if (response?.data && isApiResultEnvelope(response.data)) {
-    return rejectWithApiEnvelopeError(response.data, response.status ?? 0);
+  if (
+    !isNoAuthPath &&
+    requestConfig &&
+    shouldRefreshTokenByRule(status, errorCode) &&
+    canReplayForAuthRecovery(requestConfig)
+  ) {
+    requestConfig._authRecoveryRetryCount = (requestConfig._authRecoveryRetryCount ?? 0) + 1;
+    return replayRequestWithRefreshedToken(instance, requestConfig).catch((refreshError) => {
+      useUserStoreHook().logOut();
+      return Promise.reject(refreshError);
+    });
+  }
+
+  if (envelope) {
+    return rejectWithApiEnvelopeError(envelope, status ?? 0);
   }
 
   return Promise.reject(error);
+}
+
+function canReplayForAuthRecovery(config: PureHttpRequestConfig): boolean {
+  const currentRetryCount = config._authRecoveryRetryCount ?? 0;
+  return currentRetryCount < AUTH_RECOVERY_CONFIG.maxRetryTimes;
 }
