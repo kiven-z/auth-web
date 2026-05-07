@@ -1,13 +1,40 @@
+tips:
+  deleteConfirm: Confirm deletion?
+  lastTimeConfirmDeleteTitle: Last confirmation
+  confirmTitle: Confirm to continue?
+  lastTimeConfirmTitle: Last reminder, continue?
+  operationSuccess: Operation successful
+  addSuccess: Added successfully
+  editSuccess: Updated successfully
+  deleteSuccess: Deleted successfully
 buttons:
+  pureLoginOut: Logout
+  pureLogin: Login
+  pureOpenSystemSet: Open system config
+  pureReload: Reload
+  pureCloseCurrentTab: Close current tab
+  pureCloseLeftTabs: Close left tabs
+  pureCloseRightTabs: Close right tabs
+  pureCloseOtherTabs: Close other tabs
+  pureCloseAllTabs: Close all tabs
+  pureContentFullScreen: Full screen
+  pureContentExitFullScreen: Exit full screen
+  pureClickCollapse: Click to collapse
+  pureClickExpand: Click to expand
+  pureConfirm: Confirm
+  pureSwitch: Switch
+  pureClose: Close
+  pureBackTop: Back to top
+  pureOpenText: On
+  pureCloseText: Off
   actionSearch: Search
   actionReset: Reset
   actionAdd: Add
   actionEdit: Edit
   actionView: View
   actionDelete: Delete
-  actionBatchDelete: Batch Delete
+  actionBatchDelete: Batch delete
   actionMore: More
-
 table:
   idx: No
   actions: Actions
@@ -15,6 +42,32 @@ table:
   updateTime: Updated At
   createUsername: Created by
   updateUsername: Updated by
-
-tips:
-  operationSuccess: Operation successful
+search:
+  pureTotal: Total
+  pureHistory: Search history
+  pureCollect: Favorites
+  pureDragSort: (Draggable)
+  pureEmpty: No results
+  purePlaceholder: Search menu (supports pinyin)
+status:
+  pureLoad: Loading...
+  pureMessage: Messages
+  pureNotify: Notifications
+  pureTodo: Todos
+  pureNoMessage: No messages
+  pureNoNotify: No notifications
+  pureNoTodo: No todos
+tableBar:
+  defaultTitle: List
+  densityLarge: Wide
+  densityDefault: Default
+  densitySmall: Compact
+  tippyColumnSettings: Column settings
+  tippyRefresh: Refresh
+  tippyDensity: Density
+  tippyExpand: Expand
+  tippyCollapse: Collapse
+  tippyFullscreen: Fullscreen
+  tippyExitFullscreen: Exit fullscreen
+  columnShowAll: Show all columns
+  reset: Reset

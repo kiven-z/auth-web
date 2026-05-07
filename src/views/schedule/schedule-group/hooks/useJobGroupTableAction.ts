@@ -49,7 +49,7 @@ function useJobGroupTableAction() {
         const formData: CreateJobGroupRequest = { ...form };
         const res = await createJobGroup(formData);
         if (res) return;
-        message(t('tips.operationSuccess'), { type: 'success' });
+        message(t('tips.addSuccess'), { type: 'success' });
         await onSearch();
         done();
       },
@@ -92,7 +92,7 @@ function useJobGroupTableAction() {
         const res = await updateJobGroup(formData);
         console.log(res);
         if (res) return;
-        message(t('tips.operationSuccess'), { type: 'success' });
+        message(t('tips.editSuccess'), { type: 'success' });
         await onSearch();
         done();
       },
@@ -121,7 +121,9 @@ function useJobGroupTableAction() {
     if (!confirm) return;
 
     const result = await deleteJobGroup(String(row.id));
-    if (result) await onSearch();
+    if (result) return;
+    message(t('tips.deleteSuccess'), { type: 'success' });
+    await onSearch();
   };
 
   return {

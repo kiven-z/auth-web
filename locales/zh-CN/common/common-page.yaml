@@ -4,6 +4,9 @@ tips:
   confirmTitle: 确认继续操作吗？
   lastTimeConfirmTitle: 最后一次提醒，是否继续？
   operationSuccess: 操作成功
+  addSuccess: 添加成功
+  editSuccess: 修改成功
+  deleteSuccess: 删除成功
 buttons:
   pureLoginOut: 退出系统
   pureLogin: 登录

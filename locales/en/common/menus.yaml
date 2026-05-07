@@ -11,4 +11,24 @@ menus:
   purePermissionButton: Button Permission
   purePermissionButtonRouter: Route return button permission
   purePermissionButtonLogin: Login interface return button permission
-  schedule: Schedule
+routes:
+  systemManagement: System Management
+  userManagement: User Management
+  roleManagement: Role Management
+  permissionManagement: Permission Management
+  deptManagement: Department Management
+  postManagement: Post Management
+  menuManagement: Menu Management
+  emailTemplate: Email Templates
+  onlineUser: Online Users
+
+  schedule: Task Scheduling
+  scheduleGroup: Schedule Groups
+  scheduleTask: Schedule Tasks
+  scheduleLog: Schedule Logs
+
+  logManagement: Log Management
+  passwordHistory: Password History
+  loginLog: Login Logs
+  operationLog: Operation Logs
+  authLog: Authorization Logs
