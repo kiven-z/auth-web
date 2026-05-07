@@ -1,0 +1,20 @@
+buttons:
+  actionSearch: Search
+  actionReset: Reset
+  actionAdd: Add
+  actionEdit: Edit
+  actionView: View
+  actionDelete: Delete
+  actionBatchDelete: Batch Delete
+  actionMore: More
+
+table:
+  idx: No
+  actions: Actions
+  createTime: Created At
+  updateTime: Updated At
+  createUsername: Created by
+  updateUsername: Updated by
+
+tips:
+  operationSuccess: Operation successful

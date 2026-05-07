@@ -1,6 +1,6 @@
-<script setup lang="ts">
-import { type EventType, type ButtonProps, type DialogOptions, closeDialog, dialogStore } from './index';
-import { ref, computed } from 'vue';
+<script lang="ts" setup>
+import { type ButtonProps, closeDialog, type DialogOptions, dialogStore, type EventType } from './index';
+import { computed, ref } from 'vue';
 import { isFunction } from '@pureadmin/utils';
 import Fullscreen from '~icons/ri/fullscreen-fill';
 import ExitFullscreen from '~icons/ri/fullscreen-exit-fill';
@@ -83,14 +83,14 @@ function handleClose(options: DialogOptions, index: number, args = { command: 'c
   <el-dialog
     v-for="(options, index) in dialogStore"
     :key="index"
-    v-bind="options"
     v-model="options.visible"
-    class="pure-dialog"
     :fullscreen="fullscreen ? true : options?.fullscreen ? true : false"
-    @closed="handleClose(options, index)"
-    @opened="eventsCallBack('open', options, index)"
-    @openAutoFocus="eventsCallBack('openAutoFocus', options, index)"
+    class="pure-dialog"
+    v-bind="options"
     @closeAutoFocus="eventsCallBack('closeAutoFocus', options, index)"
+    @closed="handleClose(options, index)"
+    @openAutoFocus="eventsCallBack('openAutoFocus', options, index)"
+    @opened="eventsCallBack('open', options, index)"
   >
     <!-- header -->
     <template v-if="options?.fullscreenIcon || options?.headerRenderer" #header="{ close, titleId, titleClass }">
@@ -107,16 +107,16 @@ function handleClose(options: DialogOptions, index: number, args = { command: 'c
           "
         >
           <IconifyIconOffline
-            class="pure-dialog-svg"
             :icon="options?.fullscreen ? ExitFullscreen : fullscreen ? ExitFullscreen : Fullscreen"
+            class="pure-dialog-svg"
           />
         </i>
       </div>
       <component :is="options?.headerRenderer({ close, titleId, titleClass })" v-else />
     </template>
     <component
-      v-bind="options?.props"
       :is="options.contentRenderer({ options, index })"
+      v-bind="options?.props"
       @close="(args) => handleClose(options, index, args)"
     />
     <!-- footer -->
@@ -142,8 +142,8 @@ function handleClose(options: DialogOptions, index: number, args = { command: 'c
           </el-popconfirm>
           <el-button
             v-else
-            v-bind="btn"
             :loading="key === 1 && sureBtnMap[index]?.loading"
+            v-bind="btn"
             @click="
               btn.btnClick({
                 dialog: { options, index },

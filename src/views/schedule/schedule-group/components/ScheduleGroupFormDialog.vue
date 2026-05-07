@@ -1,9 +1,9 @@
 <script lang="ts" setup>
+import { FormDialog } from '@/api/common';
+import { CreateJobGroupRequest, UpdateJobGroupRequest } from '@/api/schedule/job-group';
 import type { FormInstance, FormRules } from 'element-plus';
 import { computed, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { CreateJobGroupRequest, UpdateJobGroupRequest } from '@/api/schedule/job-group';
-import { FormDialog } from '@/api/common';
 
 defineOptions({
   name: 'JobGroupFormDialog',
@@ -21,19 +21,19 @@ const formRef = ref<FormInstance>();
 const rules = computed<FormRules>(() => ({
   // 分组编码
   groupCode: [
-    { required: true, message: t('schedule.group.placeholder.code'), trigger: 'blur' },
+    { required: true, message: t('scheduleGroup.placeholder.code'), trigger: 'blur' },
     {
       pattern: /^[A-Z0-9_]+$/,
-      message: t('schedule.group.placeholder.code'),
+      message: t('scheduleGroup.placeholder.code'),
       trigger: 'blur',
     },
   ],
   // 分组名称
-  groupName: [{ required: true, message: t('schedule.group.placeholder.name'), trigger: 'blur' }],
+  groupName: [{ required: true, message: t('scheduleGroup.placeholder.name'), trigger: 'blur' }],
   // 分组状态
-  status: [{ required: true, message: t('schedule.group.placeholder.status'), trigger: 'change' }],
+  status: [{ required: true, message: t('scheduleGroup.placeholder.status'), trigger: 'change' }],
   // 排序号
-  orderNum: [{ required: true, message: t('schedule.group.placeholder.orderNum'), trigger: 'blur' }],
+  orderNum: [{ required: true, message: t('scheduleGroup.placeholder.orderNum'), trigger: 'blur' }],
 }));
 
 watch(
@@ -52,43 +52,43 @@ defineExpose({
     <el-row :gutter="14">
       <!-- 分组编码 -->
       <el-col :lg="12" :md="12" :sm="24" :xs="24">
-        <el-form-item v-if="mode === 'add'" :label="t('schedule.group.code')" prop="groupCode">
-          <el-input v-model="form.groupCode" :placeholder="t('schedule.group.placeholder.code')" />
+        <el-form-item v-if="mode === 'add'" :label="t('scheduleGroup.code')" prop="groupCode">
+          <el-input v-model="form.groupCode" :placeholder="t('scheduleGroup.placeholder.code')" />
         </el-form-item>
-        <el-form-item v-else :label="t('schedule.group.code')">
+        <el-form-item v-else :label="t('scheduleGroup.code')">
           <el-input v-model="form.groupCode" disabled />
         </el-form-item>
       </el-col>
 
       <!-- 分组名称 -->
       <el-col :lg="12" :md="12" :sm="24" :xs="24">
-        <el-form-item :label="t('schedule.group.name')" prop="groupName">
+        <el-form-item :label="t('scheduleGroup.name')" prop="groupName">
           <el-input v-model="form.groupName" />
         </el-form-item>
       </el-col>
 
       <!-- 分组描述 -->
       <el-col :span="24">
-        <el-form-item :label="t('schedule.group.description')" prop="description">
+        <el-form-item :label="t('scheduleGroup.description')" prop="description">
           <el-input v-model="form.description" :rows="2" type="textarea" />
         </el-form-item>
       </el-col>
 
       <!-- 排序号 -->
       <el-col :lg="12" :md="12" :sm="24" :xs="24">
-        <el-form-item :label="t('schedule.group.orderNum')" prop="orderNum">
+        <el-form-item :label="t('scheduleGroup.orderNum')" prop="orderNum">
           <el-input-number v-model="form.orderNum" :min="0" class="w-full!" />
         </el-form-item>
       </el-col>
 
       <!-- 分组状态 -->
       <el-col :lg="12" :md="12" :sm="24" :xs="24">
-        <el-form-item :label="t('schedule.group.status')" prop="status">
+        <el-form-item :label="t('scheduleGroup.status')" prop="status">
           <el-switch
             v-model="form.status"
-            :active-text="t('schedule.status.enabled')"
+            :active-text="t('scheduleGroup.statusEnabled')"
             :active-value="1"
-            :inactive-text="t('schedule.status.disabled')"
+            :inactive-text="t('scheduleGroup.statusDisabled')"
             :inactive-value="0"
           />
         </el-form-item>

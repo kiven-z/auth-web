@@ -3,6 +3,7 @@ tips:
   lastTimeConfirmDeleteTitle: 最后一次确认
   confirmTitle: 确认继续操作吗？
   lastTimeConfirmTitle: 最后一次提醒，是否继续？
+  operationSuccess: 操作成功
 buttons:
   pureLoginOut: 退出系统
   pureLogin: 登录
@@ -23,8 +24,21 @@ buttons:
   pureBackTop: 回到顶部
   pureOpenText: 开
   pureCloseText: 关
+  actionSearch: 搜索
+  actionReset: 重置
+  actionAdd: 添加
+  actionEdit: 修改
+  actionView: 查看
+  actionDelete: 删除
+  actionBatchDelete: 批量删除
+  actionMore: 更多
 table:
   idx: 序号
+  actions: 操作
+  createTime: 创建时间
+  updateTime: 更新时间
+  createUsername: 创建人
+  updateUsername: 更新人
 search:
   pureTotal: 共
   pureHistory: 搜索历史

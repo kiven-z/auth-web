@@ -13,11 +13,13 @@ import ScheduleGroupDescriptionDialog from '@/views/schedule/schedule-group/comp
 import ScheduleGroupFormDialog from '@/views/schedule/schedule-group/components/ScheduleGroupFormDialog.vue';
 import { h, reactive, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
+import useJobGroupPageState from '@/views/schedule/schedule-group/hooks/useJobGroupPageState';
 
 /**
  * 任务分组表格操作：新增、编辑、查看详情、删除
  */
-function useJobGroupTableAction(onSuccess: () => Promise<void>) {
+function useJobGroupTableAction() {
+  const { onSearch } = useJobGroupPageState();
   const { t } = useI18n();
 
   /**
@@ -34,7 +36,7 @@ function useJobGroupTableAction(onSuccess: () => Promise<void>) {
     const dialogRef = ref();
 
     addDialog({
-      title: t('schedule.group.addTitle'),
+      title: t('scheduleGroup.addTitle'),
       props: { form, mode: 'add' },
       draggable: true,
       closeOnPressEscape: false,
@@ -48,8 +50,8 @@ function useJobGroupTableAction(onSuccess: () => Promise<void>) {
         const res = await createJobGroup(formData);
         if (!res) return;
         message(t('tips.operationSuccess'), { type: 'success' });
+        await onSearch();
         done();
-        await onSuccess();
       },
     });
   };
@@ -59,8 +61,9 @@ function useJobGroupTableAction(onSuccess: () => Promise<void>) {
    * @param row 任务分组数据
    */
   const openEdit = (row: SysJobGroupPageRow) => {
-    const form = reactive<UpdateJobGroupRequest>({
+    const form = reactive({
       id: String(row.id),
+      groupCode: row.groupCode,
       groupName: row.groupName,
       description: row.description ?? '',
       status: row.status,
@@ -69,7 +72,7 @@ function useJobGroupTableAction(onSuccess: () => Promise<void>) {
     const dialogRef = ref();
 
     addDialog({
-      title: t('schedule.group.editTitle'),
+      title: t('scheduleGroup.editTitle'),
       props: { form: form, mode: 'edit' },
       draggable: true,
       closeOnPressEscape: false,
@@ -87,10 +90,11 @@ function useJobGroupTableAction(onSuccess: () => Promise<void>) {
           orderNum: form.orderNum,
         };
         const res = await updateJobGroup(formData);
+        console.log(res);
         if (!res) return;
         message(t('tips.operationSuccess'), { type: 'success' });
+        await onSearch();
         done();
-        await onSuccess();
       },
     });
   };
@@ -101,7 +105,7 @@ function useJobGroupTableAction(onSuccess: () => Promise<void>) {
    */
   const openDetail = (row: SysJobGroupPageRow) => {
     addDialog({
-      title: t('schedule.group.detailTitle'),
+      title: t('scheduleGroup.detailTitle'),
       props: {},
       contentRenderer: () => h(ScheduleGroupDescriptionDialog, { data: row }),
       beforeSure: (done) => done(),
@@ -117,7 +121,7 @@ function useJobGroupTableAction(onSuccess: () => Promise<void>) {
     if (!confirm) return;
 
     const result = await deleteJobGroup(String(row.id));
-    if (result) await onSuccess();
+    if (result) await onSearch();
   };
 
   return {

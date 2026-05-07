@@ -85,9 +85,9 @@ onMounted(() => {
       <!-- 表单搜索 -->
       <el-form-item>
         <!-- 搜索 -->
-        <el-button type="primary" @click="onQuery">{{ t('roles.query') }}</el-button>
+        <el-button type="primary" @click="onQuery">{{ t('buttons.actionSearch') }}</el-button>
         <!-- 重置 -->
-        <el-button @click="onReset(searchFormRef)">{{ t('roles.reset') }}</el-button>
+        <el-button @click="onReset(searchFormRef)">{{ t('buttons.actionReset') }}</el-button>
       </el-form-item>
     </el-form>
 
@@ -99,9 +99,9 @@ onMounted(() => {
     >
       <template #buttons>
         <!-- 添加 -->
-        <el-button type="primary">{{ t('roles.actionAdd') }}</el-button>
+        <el-button type="primary">{{ t('buttons.actionAdd') }}</el-button>
         <!-- 批量删除 -->
-        <el-button type="danger">{{ t('roles.actionBatchDelete') }}</el-button>
+        <el-button type="danger">{{ t('buttons.actionBatchDelete') }}</el-button>
       </template>
 
       <template #default="{ size, dynamicColumns }">
@@ -126,15 +126,15 @@ onMounted(() => {
           <template #actions>
             <div class="flex justify-center">
               <!-- 查看 -->
-              <el-button link type="primary" @click="onView">{{ t('roles.actionView') }}</el-button>
+              <el-button link type="primary" @click="onView">{{ t('buttons.actionView') }}</el-button>
               <!-- 修改/编辑 -->
-              <el-button link type="primary" @click="onEdit">{{ t('roles.actionModify') }}</el-button>
+              <el-button link type="primary" @click="onEdit">{{ t('buttons.actionEdit') }}</el-button>
               <!-- 删除 -->
-              <el-button link type="danger">{{ t('roles.actionDelete') }}</el-button>
+              <el-button link type="danger">{{ t('buttons.actionDelete') }}</el-button>
 
               <el-dropdown class="ml-1" trigger="click">
                 <!-- 更多 -->
-                <el-button class="el-dropdown-link" link type="primary">{{ t('roles.moreActions') }}</el-button>
+                <el-button class="el-dropdown-link" link type="primary">{{ t('buttons.actionMore') }}</el-button>
                 <template #dropdown>
                   <el-dropdown-menu>
                     <el-dropdown-item>{{ t('roles.actionAssignPermission') }}</el-dropdown-item>

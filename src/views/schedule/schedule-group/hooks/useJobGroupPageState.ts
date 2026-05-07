@@ -67,7 +67,7 @@ function useJobGroupPageState() {
       pagination.currentPage = Number(page.pageNo);
       pagination.pageSize = Number(page.pageSize);
     } catch (error: unknown) {
-      const text = error instanceof Error && error.message ? error.message : t('schedule.group.loadFailed');
+      const text = error instanceof Error && error.message ? error.message : t('scheduleGroup.loadFailed');
       message(text, { type: 'error' });
     } finally {
       loading.value = false;

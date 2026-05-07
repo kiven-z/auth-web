@@ -13,11 +13,12 @@ import en from 'element-plus/es/locale/lang/en';
 import zhCn from 'element-plus/es/locale/lang/zh-cn';
 
 export default defineComponent({
-  name: 'app',
+  name: 'App',
   components: {
     [ElConfigProvider.name]: ElConfigProvider,
     ReDialog,
   },
+  inheritAttrs: false,
   computed: {
     currentLocale() {
       return this.$storage.locale?.locale === 'zh' ? zhCn : en;

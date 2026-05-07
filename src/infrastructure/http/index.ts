@@ -33,17 +33,16 @@ class PureHttp {
     return this.requestWithConfig<T>(config);
   }
 
-  private async requestWithConfig<T>(config: PureHttpRequestConfig): Promise<T> {
-    const response = await PureHttp.axiosInstance.request(config);
-    return response as T;
-  }
-
   public post<T, P>(url: string, params?: AxiosRequestConfig<P>, config?: PureHttpRequestConfig): Promise<T> {
     return this.request<T>('post', url, params, config);
   }
 
   public get<T, P>(url: string, params?: AxiosRequestConfig<P>, config?: PureHttpRequestConfig): Promise<T> {
     return this.request<T>('get', url, params, config);
+  }
+
+  private requestWithConfig<T>(config: PureHttpRequestConfig): Promise<T> {
+    return PureHttp.axiosInstance.request(config);
   }
 }
 

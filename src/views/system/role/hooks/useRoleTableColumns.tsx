@@ -1,8 +1,8 @@
 import type { SysRolePageRow } from '@/api/system/role';
+import { selectUserinfo } from '@/components/user/UserProfile';
 import { ElButton, ElTag } from 'element-plus';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { selectUserinfo } from '@/components/user/UserProfile';
 
 /**
  * 角色表格列
@@ -55,10 +55,10 @@ function useRoleTableColumns() {
       formatter: (row: SysRolePageRow) => formatRoleType(row.roleType),
     },
     { label: t('roles.orderNum'), prop: 'orderNum', width: 100 },
-    { label: t('roles.createTime'), prop: 'createTime', minWidth: 120 },
-    { label: t('roles.updateTime'), prop: 'updateTime', minWidth: 120 },
+    { label: t('table.createTime'), prop: 'createTime', minWidth: 120 },
+    { label: t('table.updateTime'), prop: 'updateTime', minWidth: 120 },
     {
-      label: t('roles.createUsername'),
+      label: t('table.createUsername'),
       prop: 'createUsername',
       minWidth: 120,
       formatter: (row: SysRolePageRow) => {
@@ -72,7 +72,7 @@ function useRoleTableColumns() {
       },
     },
     {
-      label: t('roles.updateUsername'),
+      label: t('table.updateUsername'),
       prop: 'updateUsername',
       minWidth: 120,
       formatter: (row: SysRolePageRow) => {
@@ -86,7 +86,7 @@ function useRoleTableColumns() {
       },
     },
     {
-      label: t('roles.actions'),
+      label: t('table.actions'),
       fixed: 'right' as const,
       minWidth: 220,
       slot: 'actions',
