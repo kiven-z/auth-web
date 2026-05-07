@@ -23,12 +23,6 @@ export interface AuthRecoveryConfig {
   refreshRules: readonly AuthRecoveryRefreshRule[];
   maxRetryTimes: number;
 }
-
-/**
- * 安全模块稳定错误码：权限版本不一致。
- */
-export const PERMISSION_VERSION_MISMATCH_ERROR_CODE = 'PERMISSION_VERSION_MISMATCH';
-
 /**
  * 鉴权恢复策略：
  * - 401 直接登出
@@ -39,7 +33,8 @@ export const AUTH_RECOVERY_CONFIG: AuthRecoveryConfig = {
   refreshRules: [
     {
       httpStatuses: [409],
-      errorCodes: [PERMISSION_VERSION_MISMATCH_ERROR_CODE],
+      // 安全模块稳定错误码：权限版本不一致
+      errorCodes: ['PERMISSION_VERSION_MISMATCH'],
       action: 'refreshToken',
     },
   ],

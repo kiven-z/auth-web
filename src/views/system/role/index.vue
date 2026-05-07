@@ -1,7 +1,10 @@
 <script lang="ts" setup>
 import AuthDataTable from '@/components/ui/AuthDataTable';
 import TableBar from '@/components/ui/TableBar';
-import { ROLE_STATUS_FILTER_OPTIONS, ROLE_TYPE_FILTER_OPTIONS } from '@/views/system/role/constants/roleSearchOptions';
+import {
+  ROLE_STATUS_FILTER_OPTIONS,
+  ROLE_TYPE_FILTER_OPTIONS,
+} from '@/views/system/role/constants/role-search-options';
 import useRolePageState from '@/views/system/role/hooks/useRolePageState';
 import useRoleTableAction from '@/views/system/role/hooks/useRoleTableAction';
 import useRoleTableColumns from '@/views/system/role/hooks/useRoleTableColumns';
