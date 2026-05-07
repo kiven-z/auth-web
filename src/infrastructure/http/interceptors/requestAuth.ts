@@ -81,6 +81,7 @@ function applyAuthHeaderOrRefresh(config: InternalAxiosRequestConfig): Promise<I
         })
         .catch(() => {
           clearPendingAuthCallbacks();
+          useUserStoreHook().logOut();
         })
         .finally(() => {
           isRefreshingToken = false;

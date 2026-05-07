@@ -2,7 +2,7 @@ import { isNoAuthRequestPath } from '@/config/http-config';
 import { formatToken, getToken } from '@/infrastructure/session/auth';
 import { useUserStoreHook } from '@/store/modules/user';
 import Axios, { type AxiosInstance, type AxiosResponse } from 'axios';
-import { isApiResultEnvelope, type ApiResult } from '../apiResult';
+import { type ApiResult, isApiResultEnvelope } from '../apiResult';
 import { rejectWithApiEnvelopeError } from '../apiResultErrors';
 import type { PureHttpError, PureHttpRequestConfig, PureHttpResponse } from '../types.d';
 
@@ -80,10 +80,7 @@ function handleResponseError(instance: AxiosInstance, error: PureHttpError): Pro
   error.isCancelRequest = Axios.isCancel(error);
   const { response, config } = error;
 
-  if (response?.data && isApiResultEnvelope(response.data)) {
-    return rejectWithApiEnvelopeError(response.data, response.status ?? 0);
-  }
-
+  // HTTP 401 优先尝试 refreshToken，避免被业务信封检查抢先拦截
   if (
     response?.status === 401 &&
     config &&
@@ -99,14 +96,22 @@ function handleResponseError(instance: AxiosInstance, error: PureHttpError): Pro
         .then(() => {
           const next = getToken();
           if (!next?.accessToken) {
+            useUserStoreHook().logOut();
             return Promise.reject(error);
           }
           if (!cfg.headers) cfg.headers = {};
           cfg.headers['Authorization'] = formatToken(next.accessToken);
           return instance.request(cfg);
         })
-        .catch(() => Promise.reject(error));
+        .catch(() => {
+          useUserStoreHook().logOut();
+          return Promise.reject(error);
+        });
     }
+  }
+
+  if (response?.data && isApiResultEnvelope(response.data)) {
+    return rejectWithApiEnvelopeError(response.data, response.status ?? 0);
   }
 
   return Promise.reject(error);
