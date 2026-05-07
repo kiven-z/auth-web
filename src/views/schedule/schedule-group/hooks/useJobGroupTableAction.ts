@@ -1,9 +1,9 @@
 import {
   createJobGroup,
-  type CreateJobGroupRequest,
   deleteJobGroup,
-  type SysJobGroupPageRow,
   updateJobGroup,
+  type CreateJobGroupRequest,
+  type SysJobGroupPageRow,
   type UpdateJobGroupRequest,
 } from '@/api/schedule/job-group';
 import { addDialog } from '@/components/ui/Dialog';
@@ -13,13 +13,18 @@ import ScheduleGroupDescriptionDialog from '@/views/schedule/schedule-group/comp
 import ScheduleGroupFormDialog from '@/views/schedule/schedule-group/components/ScheduleGroupFormDialog.vue';
 import { h, reactive, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
-import useJobGroupPageState from '@/views/schedule/schedule-group/hooks/useJobGroupPageState';
+
+export interface JobGroupTableActionDeps {
+  /** 与页面 `useJobGroupPageState` 同源，避免重复调用导致刷新的是另一份 tableData */
+  onSearch: () => Promise<void>;
+}
 
 /**
  * 任务分组表格操作：新增、编辑、查看详情、删除
+ * @param deps 须传入列表页同一实例的 {@link deps.onSearch}
  */
-function useJobGroupTableAction() {
-  const { onSearch } = useJobGroupPageState();
+function useJobGroupTableAction(deps: JobGroupTableActionDeps) {
+  const { onSearch } = deps;
   const { t } = useI18n();
 
   /**
@@ -43,15 +48,19 @@ function useJobGroupTableAction() {
       closeOnClickModal: false,
       contentRenderer: () => h(ScheduleGroupFormDialog, { ref: dialogRef, form: form as any, mode: 'add' }),
       beforeSure: async (done) => {
-        const f = dialogRef.value?.formRef;
-        const ok = await f?.validate().catch(() => false);
-        if (!ok) return;
-        const formData: CreateJobGroupRequest = { ...form };
-        const res = await createJobGroup(formData);
-        if (res) return;
-        message(t('tips.addSuccess'), { type: 'success' });
-        await onSearch();
-        done();
+        try {
+          const f = dialogRef.value?.formRef;
+          const ok = await f?.validate().catch(() => false);
+          if (!ok) return;
+          const formData: CreateJobGroupRequest = { ...form };
+          await createJobGroup(formData);
+          message(t('tips.addSuccess'), { type: 'success' });
+          await onSearch();
+          done();
+        } catch (error: unknown) {
+          const text = error instanceof Error && error.message ? error.message : t('scheduleGroup.loadFailed');
+          message(text, { type: 'error' });
+        }
       },
     });
   };
@@ -79,22 +88,25 @@ function useJobGroupTableAction() {
       closeOnClickModal: false,
       contentRenderer: () => h(ScheduleGroupFormDialog, { ref: dialogRef, form: form as any, mode: 'edit' }),
       beforeSure: async (done) => {
-        const f = dialogRef.value?.formRef;
-        const valid = await f?.validate().catch(() => false);
-        if (!valid) return;
-        const formData: UpdateJobGroupRequest = {
-          id: form.id,
-          groupName: form.groupName,
-          description: form.description,
-          status: form.status,
-          orderNum: form.orderNum,
-        };
-        const res = await updateJobGroup(formData);
-        console.log(res);
-        if (res) return;
-        message(t('tips.editSuccess'), { type: 'success' });
-        await onSearch();
-        done();
+        try {
+          const f = dialogRef.value?.formRef;
+          const valid = await f?.validate().catch(() => false);
+          if (!valid) return;
+          const formData: UpdateJobGroupRequest = {
+            id: form.id,
+            groupName: form.groupName,
+            description: form.description,
+            status: form.status,
+            orderNum: form.orderNum,
+          };
+          await updateJobGroup(formData);
+          message(t('tips.editSuccess'), { type: 'success' });
+          await onSearch();
+          done();
+        } catch (error: unknown) {
+          const text = error instanceof Error && error.message ? error.message : t('scheduleGroup.loadFailed');
+          message(text, { type: 'error' });
+        }
       },
     });
   };
@@ -120,10 +132,14 @@ function useJobGroupTableAction() {
     const confirm = await deleteConfirm();
     if (!confirm) return;
 
-    const result = await deleteJobGroup(String(row.id));
-    if (result) return;
-    message(t('tips.deleteSuccess'), { type: 'success' });
-    await onSearch();
+    try {
+      await deleteJobGroup(String(row.id));
+      message(t('tips.deleteSuccess'), { type: 'success' });
+      await onSearch();
+    } catch (error: unknown) {
+      const text = error instanceof Error && error.message ? error.message : t('scheduleGroup.loadFailed');
+      message(text, { type: 'error' });
+    }
   };
 
   return {

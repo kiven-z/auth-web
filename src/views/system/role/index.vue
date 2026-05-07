@@ -18,7 +18,6 @@ defineOptions({
 
 const { t } = useI18n();
 
-const { onView, onEdit } = useRoleTableAction();
 const { columns } = useRoleTableColumns();
 
 const searchFormRef = ref<FormInstance>();
@@ -38,6 +37,8 @@ const {
   onPageCurrentChange,
   onSelectionChange,
 } = useRolePageState();
+
+const { onView, onEdit } = useRoleTableAction({ onSearch });
 onMounted(() => {
   onSearch();
 });

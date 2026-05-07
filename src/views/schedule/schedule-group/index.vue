@@ -1,11 +1,11 @@
 <script lang="ts" setup>
 import TableBar from '@/components/ui/TableBar';
-import type { FormInstance } from 'element-plus';
-import { onMounted, ref } from 'vue';
-import { useI18n } from 'vue-i18n';
 import useJobGroupPageState from '@/views/schedule/schedule-group/hooks/useJobGroupPageState';
 import useJobGroupTableAction from '@/views/schedule/schedule-group/hooks/useJobGroupTableAction';
 import useJobGroupTableColumns from '@/views/schedule/schedule-group/hooks/useJobGroupTableColumns';
+import type { FormInstance } from 'element-plus';
+import { onMounted, ref } from 'vue';
+import { useI18n } from 'vue-i18n';
 
 defineOptions({
   name: 'ScheduleJobGroup',
@@ -27,7 +27,7 @@ const {
   onPageSizeChange,
   onPageCurrentChange,
 } = useJobGroupPageState();
-const { openAdd, openEdit, openDetail, removeOne } = useJobGroupTableAction();
+const { openAdd, openEdit, openDetail, removeOne } = useJobGroupTableAction({ onSearch });
 
 onMounted(() => {
   onSearch();
