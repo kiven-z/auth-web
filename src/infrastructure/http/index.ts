@@ -30,16 +30,12 @@ class PureHttp {
       ...axiosConfig,
     } as PureHttpRequestConfig;
 
-    return new Promise((resolve, reject) => {
-      PureHttp.axiosInstance
-        .request(config)
-        .then((response: unknown) => {
-          resolve(response as T);
-        })
-        .catch((requestError) => {
-          reject(requestError);
-        });
-    });
+    return this.requestWithConfig<T>(config);
+  }
+
+  private async requestWithConfig<T>(config: PureHttpRequestConfig): Promise<T> {
+    const response = await PureHttp.axiosInstance.request(config);
+    return response as T;
   }
 
   public post<T, P>(url: string, params?: AxiosRequestConfig<P>, config?: PureHttpRequestConfig): Promise<T> {

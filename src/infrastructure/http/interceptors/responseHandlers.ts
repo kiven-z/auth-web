@@ -81,7 +81,7 @@ function passthroughRawBody(response: PureHttpResponse, getInitConfig: InitConfi
   return response.data;
 }
 
-function handleResponseError(instance: AxiosInstance, error: PureHttpError): Promise<unknown> {
+async function handleResponseError(instance: AxiosInstance, error: PureHttpError): Promise<unknown> {
   error.isCancelRequest = Axios.isCancel(error);
   const { response, config } = error;
 
@@ -89,31 +89,33 @@ function handleResponseError(instance: AxiosInstance, error: PureHttpError): Pro
   const requestConfig = config as PureHttpRequestConfig | undefined;
   const isNoAuthPath = requestConfig ? isNoAuthRequestPath(requestConfig.url) : false;
   const envelope = response?.data && isApiResultEnvelope(response.data) ? response.data : undefined;
-  const errorCode = envelope?.error ?? envelope?.subCode;
+  const authEnvelopeErrorCode = envelope?.error ?? envelope?.subCode;
 
   if (!isNoAuthPath && shouldForceLogoutByStatus(status)) {
     useUserStoreHook().logOut();
-    return Promise.reject(error);
+    throw error;
   }
 
   if (
     !isNoAuthPath &&
     requestConfig &&
-    shouldRefreshTokenByRule(status, errorCode) &&
+    shouldRefreshTokenByRule(status, authEnvelopeErrorCode) &&
     canReplayForAuthRecovery(requestConfig)
   ) {
     requestConfig._authRecoveryRetryCount = (requestConfig._authRecoveryRetryCount ?? 0) + 1;
-    return replayRequestWithRefreshedToken(instance, requestConfig).catch((refreshError) => {
+    try {
+      return await replayRequestWithRefreshedToken(instance, requestConfig);
+    } catch (refreshError) {
       useUserStoreHook().logOut();
-      return Promise.reject(refreshError);
-    });
+      throw refreshError;
+    }
   }
 
   if (envelope) {
-    return rejectWithApiEnvelopeError(envelope, status ?? 0);
+    await rejectWithApiEnvelopeError(envelope, status ?? 0);
   }
 
-  return Promise.reject(error);
+  throw error;
 }
 
 function canReplayForAuthRecovery(config: PureHttpRequestConfig): boolean {

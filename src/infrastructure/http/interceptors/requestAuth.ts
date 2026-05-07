@@ -10,9 +10,9 @@ type InitConfigGetter = () => PureHttpRequestConfig;
  */
 export function attachRequestAuthInterceptor(instance: AxiosInstance, getInitConfig: InitConfigGetter): void {
   instance.interceptors.request.use(
-    async (
+    (
       config: InternalAxiosRequestConfig & Partial<PureHttpRequestConfig>
-    ): Promise<InternalAxiosRequestConfig & Partial<PureHttpRequestConfig>> => {
+    ): InternalAxiosRequestConfig & Partial<PureHttpRequestConfig> => {
       const globalBeforeRequest = getInitConfig().beforeRequestCallback;
       if (typeof (config as PureHttpRequestConfig).beforeRequestCallback === 'function') {
         (config as PureHttpRequestConfig).beforeRequestCallback!(config as PureHttpRequestConfig);
@@ -27,7 +27,9 @@ export function attachRequestAuthInterceptor(instance: AxiosInstance, getInitCon
       }
       return applyAuthHeader(config);
     },
-    (error) => Promise.reject(error)
+    (error) => {
+      throw error;
+    }
   );
 }
 
