@@ -63,9 +63,9 @@ function useJobGroupPageState() {
     try {
       const page = await getJobGroupPage(query);
       tableData.value = page.list ?? [];
-      pagination.total = Number(page.total);
-      pagination.currentPage = Number(page.pageNo);
-      pagination.pageSize = Number(page.pageSize);
+      pagination.total = page.total;
+      pagination.currentPage = page.pageNo;
+      pagination.pageSize = page.pageSize;
     } catch (error: unknown) {
       const text = error instanceof Error && error.message ? error.message : t('scheduleGroup.loadFailed');
       message(text, { type: 'error' });

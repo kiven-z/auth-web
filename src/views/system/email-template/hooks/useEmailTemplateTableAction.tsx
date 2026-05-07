@@ -156,7 +156,7 @@ function useEmailTemplateTableAction(deps: EmailTemplateTableActionDeps) {
             const f = dlgFormRef.value?.form;
             if (!f) return;
             await updateEmailTemplateMetadata({
-              id: Number(f.id),
+              id: f.id,
               templateCode: f.templateCode!,
               templateName: f.templateName!,
               subject: f.subject!,
@@ -248,7 +248,7 @@ function useEmailTemplateTableAction(deps: EmailTemplateTableActionDeps) {
           if (!valid) return;
           const form = sendFormRef.value?.form;
           if (!form) return;
-          await testSendEmailTemplate({ id: Number(form.id), email: form.email });
+          await testSendEmailTemplate({ id: form.id, email: form.email });
           message(t('tips.operationSuccess'), { type: 'success' });
           done();
         } catch (error: unknown) {

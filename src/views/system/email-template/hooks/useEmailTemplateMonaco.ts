@@ -203,6 +203,10 @@ export function registerEmailTemplateMonaco(
 
   let markerTimer: ReturnType<typeof setTimeout> | null = null;
   const markerSource = 'email-template-require-fields';
+  /**
+   * setModelMarkers 在部分版本/场景下会同步再次触发 onDidChangeContent，导致 scheduleMarkers 无限递归直至栈溢出。
+   */
+  let applyingMarkers = false;
 
   const scheduleMarkers = () => {
     if (markerTimer) clearTimeout(markerTimer);
@@ -227,13 +231,30 @@ export function registerEmailTemplateMonaco(
           endColumn: endPos.column,
         };
       });
-      monacoApi.editor.setModelMarkers(model, markerSource, markers);
+      applyingMarkers = true;
+      try {
+        monacoApi.editor.setModelMarkers(model, markerSource, markers);
+      } finally {
+        applyingMarkers = false;
+      }
     }, 200);
   };
 
-  disposables.push(model.onDidChangeContent(() => scheduleMarkers()));
+  disposables.push(
+    model.onDidChangeContent(() => {
+      if (applyingMarkers) {
+        return;
+      }
+      scheduleMarkers();
+    })
+  );
 
-  scheduleMarkers();
+  /** 推迟到当前栈结束后再跑首帧标记，避免与编辑器挂载时的内部变更形成同步递归 */
+  queueMicrotask(() => {
+    if (!model.isDisposed()) {
+      scheduleMarkers();
+    }
+  });
 
   const disposeAll = () => {
     if (markerTimer) clearTimeout(markerTimer);

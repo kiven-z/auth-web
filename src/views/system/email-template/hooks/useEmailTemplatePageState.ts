@@ -1,7 +1,7 @@
 import {
-  getEmailTemplatePage,
   type EmailTemplatePageQuery,
   type EmailTemplatePageRow,
+  getEmailTemplatePage,
 } from '@/api/system/email-template';
 import { message } from '@/shared/messaging/message';
 import type { FormInstance } from 'element-plus';
@@ -74,9 +74,9 @@ function useEmailTemplatePageState() {
     try {
       const page = await getEmailTemplatePage(query);
       tableData.value = page.list ?? [];
-      pagination.total = Number(page.total);
-      pagination.currentPage = Number(page.pageNo);
-      pagination.pageSize = Number(page.pageSize);
+      pagination.total = page.total;
+      pagination.currentPage = page.pageNo;
+      pagination.pageSize = page.pageSize;
     } catch (error: unknown) {
       const text = error instanceof Error && error.message ? error.message : t('emailTemplate.loadFailed');
       message(text, { type: 'error' });

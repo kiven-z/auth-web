@@ -1,12 +1,12 @@
 <script lang="ts" setup>
-import { type EmailTemplateFormModel, renderEmailTemplate } from '@/api/system/email-template';
+import { renderEmailTemplate, type EmailTemplateFormModel } from '@/api/system/email-template';
 import { registerEmailTemplateMonaco } from '@/views/system/email-template/hooks/useEmailTemplateMonaco';
 import type { FormInstance, FormRules } from 'element-plus';
 import { debounce } from 'lodash';
 import type { editor } from 'monaco-editor';
 import * as monaco from 'monaco-editor';
 import { CodeEditor } from 'monaco-editor-vue3';
-import { onUnmounted, reactive, ref, watch } from 'vue';
+import { onUnmounted, reactive, ref, toRaw, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 const defaultForm = (): EmailTemplateFormModel => ({
@@ -31,11 +31,24 @@ const props = withDefaults(
 );
 
 const { t } = useI18n();
+
+/** 与 props 断开引用，避免深层响应式对象与 Monaco / 子组件形成循环触发 */
+function cloneRequireFields(
+  rows: EmailTemplateFormModel['requireFields'] | undefined
+): EmailTemplateFormModel['requireFields'] {
+  if (!rows?.length) return [];
+  return rows.map((r) => ({
+    key: r.key,
+    description: r.description,
+    exampleValue: toRaw(r.exampleValue),
+  }));
+}
+
 const formRef = ref<FormInstance>();
 const form = ref<EmailTemplateFormModel>({
   ...defaultForm(),
   ...props.formInline,
-  requireFields: props.formInline.requireFields ?? [],
+  requireFields: cloneRequireFields(props.formInline?.requireFields),
 });
 
 const rules = reactive<FormRules>({
@@ -66,7 +79,13 @@ const scheduleRender = debounce(async () => {
 }, 400);
 
 watch(
-  () => [form.value.content, form.value.requireFields],
+  () => form.value.content,
+  () => {
+    scheduleRender();
+  }
+);
+watch(
+  () => form.value.requireFields,
   () => {
     scheduleRender();
   },
@@ -95,12 +114,16 @@ watch(
 watch(
   () => props.formInline,
   (v) => {
-    if (v) {
-      form.value = { ...defaultForm(), ...v, requireFields: v.requireFields ?? [] };
+    if (v && Object.keys(v).length > 0) {
+      form.value = {
+        ...defaultForm(),
+        ...v,
+        requireFields: cloneRequireFields(v.requireFields),
+      };
       scheduleRender();
     }
   },
-  { deep: true }
+  { deep: true, flush: 'post' }
 );
 
 onUnmounted(() => {
