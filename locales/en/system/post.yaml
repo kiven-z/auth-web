@@ -1,0 +1,7 @@
+post:
+  postName: Post name
+  postCode: Post code
+  isPrimaryPosition: Primary post
+  primaryPosition: Primary
+  secondaryPosition: Secondary
+  postList: Posts

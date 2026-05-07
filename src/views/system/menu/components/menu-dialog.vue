@@ -417,12 +417,12 @@ defineExpose({ formRef });
 
       <!-- 分配角色 -->
       <el-col :span="24">
-        <el-form-item :label="t('system.role.assignRoleTitle')" prop="roles">
+        <el-form-item :label="t('role.assignRoleTitle')" prop="roles">
           <el-select
             v-model="form.roles"
             :disabled="isFormDisabled"
             :loading="roleListLoading"
-            :placeholder="t('system.role.placeholder.assignRoleTitle')"
+            :placeholder="t('role.placeholder.assignRoleTitle')"
             :remote-method="loadRoleListByKeyword"
             clearable
             filterable

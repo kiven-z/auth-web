@@ -1,6 +1,6 @@
 ---
 description: Vue 3 + TypeScript + Composition API 开发规范
-globs: []
+globs: [ ]
 alwaysApply: true  # 建议改为 true，确保生成 Commit 时必读
 ---
 
@@ -46,13 +46,28 @@ alwaysApply: true  # 建议改为 true，确保生成 Commit 时必读
 
 - **目录布局**：`src/views/{module}/{page}/`。
 - **拆分准则**：页面超过 500 行必须拆分：
-  - **私有组件**：存放在 `components/` 目录下。
-  - **表格配置**：存放在 `config/` 目录下，命名为 `{page}-columns.tsx`。
-  - **逻辑抽离**：存放在 `hooks/` 目录下，命名为 `use-{name}.ts|tsx`（后缀禁止包含 `hook`）。
+  - **私有组件**：存放在 `components/` 目录下，命名为大驼峰`PascalCase.vue`（PascalCase）。
+  - **表格配置**：存放在 `config/` 目录下，命名为 `{page}-columns.tsx`（kebab-case）使用中划线。
+  - **逻辑抽离**：存放在 `hooks/` 目录下，命名为 `use+{camelCase}.ts|tsx`（后缀禁止包含 `hook`）使用小驼峰。
 - **特定命名**：
   - 弹窗：`*-dialog.vue`；详情弹窗：`*-detail-descriptions-dialog.vue`。
   - 抽屉：`*-drawer.vue`。
 - **CSS 规范**：使用 **BEM** 命名法。
+
+views文件目录参考：
+
+```
+views/大模块/小模块/
+├── index.vue                              # 入口组件可保留 index
+├── components/
+│   └── RoleDescriptionDialog.vue          # 原 role-description-dialog.vue
+├── constants/
+│   └── role-search-options.ts             # 可保留中划线（或改小驼峰，都行）
+└── hooks/
+    ├── useRolePageState.ts                # 原 use-role-page-state.tsx
+    ├── useRoleTableAction.ts              # 原 use-role-table-action.tsx
+    └── useRoleTableColumns.ts             # 原 use-role-table-columns.tsx
+```
 
 ### 4. API 接口规范
 
@@ -126,9 +141,11 @@ export const columns: TableColumnList = [
 代码段
 
 ```vue
+
 <script setup>
-import { useI18n } from "vue-i18n";
-const { t } = useI18n();
+  import { useI18n } from "vue-i18n";
+
+  const { t } = useI18n();
 </script>
 
 <template>
@@ -172,7 +189,9 @@ export const columns: TableColumnList = [
 > 3. **自动包裹**：
      >    - 若在 `.vue` 文件，检查是否有 `useI18n`，无则自动补全，并使用 `t()`。
      >
+
 - 若在 `.ts` 文件，自动导入 `transformI18n` 并包裹文案。
+
 > 4. **禁止幻觉**：如果无法确定 Key，请优先使用 `{文件名}.{描述}` 的形式命名，并在代码注释中提醒用户去 `.yaml` 中添加对应配置。
 
 ## API 接口编写规范
@@ -215,8 +234,8 @@ export const columns: TableColumnList = [
  * @param params [参数说明]
  */
 export const queryExamplePage = (params: ExampleQuery) => {
-  return http.request<ResultPage<ExampleItem>>('get', '/system/v1/example', { params });
-};
+    return http.request<ResultPage<ExampleItem>>('get', '/system/v1/example', { params });
+  };
 ```
 
 ------
@@ -229,7 +248,9 @@ export const queryExamplePage = (params: ExampleQuery) => {
 > 2. **参数处理**：
      >    - 如果是分页接口，检查是否有 `pageIndex`, `pageSize` 等字段。
      >
+
 - 处理时间范围：如果参数包含数组格式的时间，需手动解构为 `startTime` 和 `endTime`（如：`startTime: time?.[0]`）。
+
 > 3. **路径匹配**：RESTful 风格的详情接口，需正确处理路径变量，例如：`/module/v1/resource/${id}`。
 > 4. **响应结构**：默认包裹 `Result<T>` 或 `ResultPage<T>` 泛型。
 
@@ -307,6 +328,7 @@ export const queryExamplePage = (params: ExampleQuery) => {
 
 ```typescript
 import { $t } from '@/plugins/i18n';
+
 const Layout = () => import('@/layout/index.vue');
 
 export default {
@@ -318,7 +340,7 @@ export default {
     icon: 'ep/setting',
     rank: 10
   },
-  children: [ ... ]
+  children: [...]
 } satisfies RouteConfigsTable;
 ```
 
@@ -326,7 +348,8 @@ export default {
 
 - **根路由与重定向**：根路径 `/` 通常重定向至 `/welcome`。
 - **环境变量控制**：如需根据配置隐藏路由，应从 `import.meta.env` 获取变量（如 `VITE_HIDE_HOME`）。
-- **组件加载**：子路由组件建议使用动态导入 `() => import('@/features/...')`；若仍存在后端下发的遗留路径，可暂时使用 `() => import('@/views/...')`。
+- **组件加载**：子路由组件建议使用动态导入 `() => import('@/features/...')`；若仍存在后端下发的遗留路径，可暂时使用
+  `() => import('@/views/...')`。
 
 ### 4. Cursor AI 行为指令（针对路由生成）
 
@@ -389,15 +412,21 @@ export default {
 > 1. **路径探测**：
      >    - 如果是全局通用的响应结构（如 `Result`），优先从 `@/types/commons/` 目录下查找。
      >
+
 - 如果是业务相关（如 `JobLog`），必须在 `@/types/{moduleName}/` 下查找或创建名为 `{resource-name}.ts` 的文件。
+
 > 2. **自动转换命名**：
      >    - 自动将用户描述的模块名转换为 **kebab-case** 文件名。
      >
+
 - 示例：用户提到 "任务日志类型"，AI 应定位到 `src/types/schedule/job-log.ts`。
+
 > 3. **智能关联**：
      >    - 在生成 `src/api/` 下的接口时，自动根据接口功能生成对应的 `import type` 语句。
      >
+
 - 在生成 `src/store/` 下的 state 时，自动引用对应的类型文件以确保类型推导准确。
+
 > 4. **禁止冗余**：
      >    - 检查是否存在重复定义的类型，优先复用已有类型而非重新生成。
 
@@ -442,11 +471,15 @@ export default {
 > 1. **结构审计**：
      >    - 如果生成的 `.vue` 文件预估逻辑较复杂，自动在同级创建 `hooks/` 并抽离逻辑。
      >
+
 - 发现弹窗逻辑时，自动在 `components/` 创建对应的 `-dialog.vue`。
+
 > 2. **自动命名校对**：
      >    - 自动将 `JobLogDetail` 转换为 `job-log-detail-descriptions.vue`。
      >
+
 - 确保 `config` 下的文件名为 `*-columns.tsx` 格式。
+
 > 3. **BEM 自动生成**：
      >    - 生成 `<style>` 块时，根据组件名自动初始化 BEM 结构。例如组件 `schedule-log`，基础类名为 `.schedule-log`，子元素为
      `.schedule-log__header`。

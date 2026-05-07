@@ -1,0 +1,8 @@
+dept:
+  deptName: 部门名称
+  deptCode: 部门编码
+  isPrimaryDepartment: 是否主部门
+  primaryDepartment: 主部门
+  secondaryDepartment: 兼职部门
+  tips:
+    affiliatedDeptInfo: 所属部门

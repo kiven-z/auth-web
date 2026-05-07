@@ -46,19 +46,19 @@ function useUserProfileColumns() {
    * 部门列
    */
   const deptColumns = computed(() => [
-    { label: t('system.dept.deptName'), prop: 'deptName', copy: true },
-    { label: t('system.dept.deptCode'), prop: 'deptCode', copy: true },
+    { label: t('dept.deptName'), prop: 'deptName', copy: true },
+    { label: t('dept.deptCode'), prop: 'deptCode', copy: true },
     {
-      label: t('system.dept.isPrimaryDepartment'),
+      label: t('dept.isPrimaryDepartment'),
       prop: 'isPrimary',
       cellRenderer: ({ value }: { value: boolean }) => {
         return value ? (
           <ElCheckTag checked type="danger">
-            {t('system.dept.primaryDepartment')}
+            {t('dept.primaryDepartment')}
           </ElCheckTag>
         ) : (
           <ElCheckTag checked type="primary">
-            {t('system.dept.secondaryDepartment')}
+            {t('dept.secondaryDepartment')}
           </ElCheckTag>
         );
       },
@@ -76,20 +76,20 @@ function useUserProfileColumns() {
    * 岗位列
    */
   const postColumns = computed(() => [
-    { label: t('system.post.postName'), prop: 'postName', copy: true },
-    { label: t('system.post.postCode'), prop: 'postCode', copy: true },
+    { label: t('post.postName'), prop: 'postName', copy: true },
+    { label: t('post.postCode'), prop: 'postCode', copy: true },
     {
-      label: t('system.post.isPrimaryPosition'),
+      label: t('post.isPrimaryPosition'),
       prop: 'isPrimary',
       cellRenderer: ({ value }: { value: boolean | number }) => {
         const primary = value === true || value === 1;
         return primary ? (
           <ElCheckTag checked type="danger">
-            {t('system.post.primaryPosition')}
+            {t('post.primaryPosition')}
           </ElCheckTag>
         ) : (
           <ElCheckTag checked type="primary">
-            {t('system.post.secondaryPosition')}
+            {t('post.secondaryPosition')}
           </ElCheckTag>
         );
       },

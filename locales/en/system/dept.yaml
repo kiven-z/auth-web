@@ -1,0 +1,8 @@
+dept:
+  deptName: Department name
+  deptCode: Department code
+  isPrimaryDepartment: Primary department
+  primaryDepartment: Primary
+  secondaryDepartment: Secondary
+  tips:
+    affiliatedDeptInfo: Departments

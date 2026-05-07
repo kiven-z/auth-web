@@ -89,15 +89,15 @@ onMounted(() => {
       </el-form-item>
     </el-form>
 
-    <TableBar :columns="columns" @fullscreen="tableRef?.setAdaptive()" @refresh="onSearch">
-      <template #title>
-        <div class="flex w-full items-center justify-between">
-          <h3 class="m-0 text-base font-semibold">{{ t('roles.pageTitle') }}</h3>
-          <div class="mx-1 flex items-center">
-            <el-button type="primary">{{ t('roles.actionAdd') }}</el-button>
-            <el-button type="danger">{{ t('roles.actionBatchDelete') }}</el-button>
-          </div>
-        </div>
+    <TableBar
+      :columns="columns"
+      :title="t('roles.pageTitle')"
+      @fullscreen="tableRef?.setAdaptive()"
+      @refresh="onSearch"
+    >
+      <template #actions>
+        <el-button type="primary">{{ t('roles.actionAdd') }}</el-button>
+        <el-button type="danger">{{ t('roles.actionBatchDelete') }}</el-button>
       </template>
 
       <template #default="{ size, dynamicColumns }">
