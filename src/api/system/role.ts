@@ -1,15 +1,7 @@
 import type { AxiosRequestConfig } from 'axios';
 
 import { http } from '@/infrastructure/http';
-
-/** 与后端 {@code SortDirection} 一致 */
-export type SortDirectionApi = 'ASC' | 'DESC';
-
-/** 与后端 {@code SortSpec} 一致 */
-export interface SortSpec {
-  field: string;
-  direction?: SortDirectionApi;
-}
+import type { PageResponse, SortSpec } from '@/api/common';
 
 /** 角色分页查询参数（对齐 {@code SysRoleQuery}） */
 export interface SysRolePageQuery {
@@ -37,15 +29,6 @@ export interface SysRolePageRow {
   updateUser?: string;
   createUsername?: string | null;
   updateUsername?: string | null;
-}
-
-/** 与后端 {@code PageResponse} 一致 */
-export interface PageResponse<T> {
-  pageNo: number;
-  pageSize: number;
-  pages: number;
-  total: number;
-  list: T[];
 }
 
 /**

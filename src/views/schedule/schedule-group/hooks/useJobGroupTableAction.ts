@@ -9,8 +9,8 @@ import {
 import { addDialog } from '@/components/ui/Dialog';
 import { deleteConfirm } from '@/shared/messaging/dialog';
 import { message } from '@/shared/messaging/message';
-import JobGroupDescriptionDialog from '@/views/schedule/schedule-group/components/JobGroupDescriptionDialog.vue';
-import JobGroupFormDialog from '@/views/schedule/schedule-group/components/JobGroupFormDialog.vue';
+import ScheduleGroupDescriptionDialog from '@/views/schedule/schedule-group/components/ScheduleGroupDescriptionDialog.vue';
+import ScheduleGroupFormDialog from '@/views/schedule/schedule-group/components/ScheduleGroupFormDialog.vue';
 import { h, reactive, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 
@@ -24,7 +24,7 @@ function useJobGroupTableAction(onSuccess: () => Promise<void>) {
    * 打开新增任务分组对话框
    */
   const openAdd = () => {
-    const formInline = reactive({
+    const form = reactive<CreateJobGroupRequest>({
       groupCode: '',
       groupName: '',
       description: '',
@@ -35,16 +35,16 @@ function useJobGroupTableAction(onSuccess: () => Promise<void>) {
 
     addDialog({
       title: t('schedule.group.addTitle'),
-      props: { formInline, mode: 'add' },
+      props: { form, mode: 'add' },
       draggable: true,
       closeOnPressEscape: false,
       closeOnClickModal: false,
-      contentRenderer: () => h(JobGroupFormDialog, { ref: dialogRef, formInline, mode: 'add' }),
+      contentRenderer: () => h(ScheduleGroupFormDialog, { ref: dialogRef, form: form as any, mode: 'add' }),
       beforeSure: async (done) => {
         const f = dialogRef.value?.formRef;
         const ok = await f?.validate().catch(() => false);
         if (!ok) return;
-        const formData: CreateJobGroupRequest = { ...formInline };
+        const formData: CreateJobGroupRequest = { ...form };
         const res = await createJobGroup(formData);
         if (!res) return;
         message(t('tips.operationSuccess'), { type: 'success' });
@@ -59,9 +59,8 @@ function useJobGroupTableAction(onSuccess: () => Promise<void>) {
    * @param row 任务分组数据
    */
   const openEdit = (row: SysJobGroupPageRow) => {
-    const formInline = reactive({
+    const form = reactive<UpdateJobGroupRequest>({
       id: String(row.id),
-      groupCode: row.groupCode,
       groupName: row.groupName,
       description: row.description ?? '',
       status: row.status,
@@ -71,21 +70,21 @@ function useJobGroupTableAction(onSuccess: () => Promise<void>) {
 
     addDialog({
       title: t('schedule.group.editTitle'),
-      props: { formInline, mode: 'edit' },
+      props: { form: form, mode: 'edit' },
       draggable: true,
       closeOnPressEscape: false,
       closeOnClickModal: false,
-      contentRenderer: () => h(JobGroupFormDialog, { ref: dialogRef, formInline, mode: 'edit' }),
+      contentRenderer: () => h(ScheduleGroupFormDialog, { ref: dialogRef, form: form as any, mode: 'edit' }),
       beforeSure: async (done) => {
         const f = dialogRef.value?.formRef;
         const valid = await f?.validate().catch(() => false);
         if (!valid) return;
         const formData: UpdateJobGroupRequest = {
-          id: formInline.id,
-          groupName: formInline.groupName,
-          description: formInline.description,
-          status: formInline.status,
-          orderNum: formInline.orderNum,
+          id: form.id,
+          groupName: form.groupName,
+          description: form.description,
+          status: form.status,
+          orderNum: form.orderNum,
         };
         const res = await updateJobGroup(formData);
         if (!res) return;
@@ -104,7 +103,7 @@ function useJobGroupTableAction(onSuccess: () => Promise<void>) {
     addDialog({
       title: t('schedule.group.detailTitle'),
       props: {},
-      contentRenderer: () => h(JobGroupDescriptionDialog, { data: row }),
+      contentRenderer: () => h(ScheduleGroupDescriptionDialog, { data: row }),
       beforeSure: (done) => done(),
     });
   };

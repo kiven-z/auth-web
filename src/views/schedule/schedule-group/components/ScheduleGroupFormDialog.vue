@@ -2,15 +2,18 @@
 import type { FormInstance, FormRules } from 'element-plus';
 import { computed, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
+import { CreateJobGroupRequest, UpdateJobGroupRequest } from '@/api/schedule/job-group';
+import { FormDialog } from '@/api/common';
 
 defineOptions({
   name: 'JobGroupFormDialog',
 });
 
-const props = defineProps<{
-  formInline: Record<string, any>;
+interface ScheduleGroup extends FormDialog<CreateJobGroupRequest & UpdateJobGroupRequest> {
   mode: 'add' | 'edit';
-}>();
+}
+
+const props = withDefaults(defineProps<ScheduleGroup>(), {});
 
 const { t } = useI18n();
 const formRef = ref<FormInstance>();
@@ -34,7 +37,7 @@ const rules = computed<FormRules>(() => ({
 }));
 
 watch(
-  () => props.formInline,
+  () => props.form,
   () => formRef.value?.clearValidate(),
   { deep: true }
 );
@@ -45,36 +48,36 @@ defineExpose({
 </script>
 
 <template>
-  <el-form ref="formRef" :model="formInline" :rules="rules" label-width="120px">
+  <el-form ref="formRef" :model="form" :rules="rules" label-width="120px">
     <el-row :gutter="14">
       <!-- 分组编码 -->
       <el-col :lg="12" :md="12" :sm="24" :xs="24">
         <el-form-item v-if="mode === 'add'" :label="t('schedule.group.code')" prop="groupCode">
-          <el-input v-model="formInline.groupCode" :placeholder="t('schedule.group.placeholder.code')" />
+          <el-input v-model="form.groupCode" :placeholder="t('schedule.group.placeholder.code')" />
         </el-form-item>
         <el-form-item v-else :label="t('schedule.group.code')">
-          <el-input v-model="formInline.groupCode" disabled />
+          <el-input v-model="form.groupCode" disabled />
         </el-form-item>
       </el-col>
 
       <!-- 分组名称 -->
       <el-col :lg="12" :md="12" :sm="24" :xs="24">
         <el-form-item :label="t('schedule.group.name')" prop="groupName">
-          <el-input v-model="formInline.groupName" />
+          <el-input v-model="form.groupName" />
         </el-form-item>
       </el-col>
 
       <!-- 分组描述 -->
       <el-col :span="24">
         <el-form-item :label="t('schedule.group.description')" prop="description">
-          <el-input v-model="formInline.description" :rows="2" type="textarea" />
+          <el-input v-model="form.description" :rows="2" type="textarea" />
         </el-form-item>
       </el-col>
 
       <!-- 排序号 -->
       <el-col :lg="12" :md="12" :sm="24" :xs="24">
         <el-form-item :label="t('schedule.group.orderNum')" prop="orderNum">
-          <el-input-number v-model="formInline.orderNum" :min="0" class="w-full!" />
+          <el-input-number v-model="form.orderNum" :min="0" class="w-full!" />
         </el-form-item>
       </el-col>
 
@@ -82,7 +85,7 @@ defineExpose({
       <el-col :lg="12" :md="12" :sm="24" :xs="24">
         <el-form-item :label="t('schedule.group.status')" prop="status">
           <el-switch
-            v-model="formInline.status"
+            v-model="form.status"
             :active-text="t('schedule.status.enabled')"
             :active-value="1"
             :inactive-text="t('schedule.status.disabled')"

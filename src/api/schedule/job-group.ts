@@ -5,15 +5,7 @@
  */
 import { http } from '@/infrastructure/http';
 import type { AxiosRequestConfig } from 'axios';
-
-/** 排序方向 */
-export type SortDirectionApi = 'ASC' | 'DESC';
-
-/** 排序规格 */
-export interface SortSpec {
-  field: string;
-  direction?: SortDirectionApi;
-}
+import type { PageResponse, SortSpec } from '@/api/common';
 
 /** 任务分组分页查询参数（对应后端 SysJobGroupQuery） */
 export interface SysJobGroupPageQuery {
@@ -40,15 +32,6 @@ export interface SysJobGroupPageRow {
   updateUser?: string;
   createUsername?: string | null;
   updateUsername?: string | null;
-}
-
-/** 与后端 PageResponse<T> 一致 */
-export interface PageResponse<T> {
-  pageNo: number;
-  pageSize: number;
-  pages: number;
-  total: number;
-  list: T[];
 }
 
 /** 新增任务分组请求体（对应后端 SysJobGroupForm） */

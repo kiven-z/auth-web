@@ -2,12 +2,13 @@
 import Description from '@/components/ui/Description/index.vue';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
+import { SysJobGroupPageRow } from '@/api/schedule/job-group';
 
 defineOptions({
   name: 'JobGroupDescriptionDialog',
 });
 
-const props = defineProps<{ data: Record<string, any> }>();
+const props = defineProps<{ data: SysJobGroupPageRow }>();
 const { t } = useI18n();
 
 const columns = computed(() => [
@@ -26,7 +27,7 @@ const columns = computed(() => [
 ]);
 
 const view = computed(() => {
-  const d = props.data || {};
+  const d: SysJobGroupPageRow = props.data || ({} as SysJobGroupPageRow);
   return {
     ...d,
     statusLabel: d.status === 1 ? t('schedule.status.enabled') : t('schedule.status.disabled'),
