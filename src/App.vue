@@ -1,9 +1,7 @@
 <template>
   <el-config-provider :locale="currentLocale">
-    <div class="app-root">
-      <router-view />
-      <ReDialog />
-    </div>
+    <router-view />
+    <ReDialog />
   </el-config-provider>
 </template>
 

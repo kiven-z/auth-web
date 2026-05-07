@@ -21,7 +21,7 @@ function useRoleTableColumns() {
       4: 'roles.roleTypeCustom',
     };
     const key = keyMap[roleType];
-    return key ? t(key) : String(roleType);
+    return key ? t(key) : roleType;
   }
 
   /**

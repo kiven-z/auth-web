@@ -1,12 +1,16 @@
-<script lang="tsx" setup>
-import { EmailTemplateRequireFieldRow } from '@/api/system/email-template';
+<!--
+  维护 require_fields 变量表
+-->
+<script lang="ts" setup>
+import {
+  type EmailTemplateRequireFieldRow,
+  getEmailTemplateById,
+  updateEmailTemplateRequireFields,
+} from '@/api/system/email-template';
 import { message } from '@/shared/messaging/message';
 import { onMounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 
-/**
- * 可编辑行（exampleValue 用 JSON 字符串编辑，提交时解析）
- */
 interface EditableRow {
   _id: number;
   key: string;
@@ -15,93 +19,16 @@ interface EditableRow {
 }
 
 interface Props {
-  /** 模板主键 */
   templateId: string;
 }
 
 const props = defineProps<Props>();
 const { t } = useI18n();
-const emailTemplateStore = useEmailTemplateStoreHook();
 
-/** 加载详情中的 require_fields */
 const loading = ref(false);
-/** 可编辑行数据 */
 const dataList = ref<EditableRow[]>([]);
-/** 行内部 _id 自增，保证 row-key 唯一 */
 let rowSeq = 1;
 
-/**
- * 解析到 dataList 中的真实行，避免表格内部副本导致 v-model 不同步
- * @param row 当前渲染行
- */
-const resolveRow = (row: EditableRow) => dataList.value.find((r) => r._id === row._id) ?? row;
-
-/** 必填变量表格列：内联编辑 + 删除操作槽 */
-const columns: TableColumnList = [
-  {
-    label: t('system.emailTemplate.fieldKey'),
-    prop: 'key',
-    minWidth: 120,
-    cellRenderer: ({ row }) => {
-      const target = resolveRow(row);
-      return (
-        <el-input
-          clearable
-          modelValue={target.key}
-          placeholder={t('system.emailTemplate.placeholder.fieldKey')}
-          onUpdate:modelValue={(v: string) => {
-            target.key = v;
-          }}
-        />
-      );
-    },
-  },
-  {
-    label: t('system.emailTemplate.fieldDescription'),
-    prop: 'description',
-    minWidth: 140,
-    cellRenderer: ({ row }) => {
-      const target = resolveRow(row);
-      return (
-        <el-input
-          clearable
-          modelValue={target.description}
-          placeholder={t('system.emailTemplate.placeholder.fieldDescription')}
-          onUpdate:modelValue={(v: string) => {
-            target.description = v;
-          }}
-        />
-      );
-    },
-  },
-  {
-    label: t('system.emailTemplate.fieldExampleValue'),
-    prop: 'exampleValueJson',
-    minWidth: 200,
-    cellRenderer: ({ row }) => {
-      const target = resolveRow(row);
-      return (
-        <el-input
-          modelValue={target.exampleValueJson}
-          placeholder={t('system.emailTemplate.placeholder.fieldExampleValue')}
-          rows={2}
-          type="textarea"
-          onUpdate:modelValue={(v: string) => {
-            target.exampleValueJson = v;
-          }}
-        />
-      );
-    },
-  },
-  {
-    label: t('common.table.operation'),
-    fixed: 'right',
-    width: 90,
-    slot: 'operation',
-  },
-];
-
-/** 追加一行空变量 */
 const onAdd = () => {
   dataList.value.push({
     _id: rowSeq++,
@@ -111,37 +38,30 @@ const onAdd = () => {
   });
 };
 
-/**
- * 删除一行
- * @param row 要删除的行
- */
 const onDel = (row: EditableRow) => {
   const i = dataList.value.indexOf(row);
   if (i !== -1) dataList.value.splice(i, 1);
 };
 
-/**
- * 构建提交 payload；校验 key 唯一与 JSON 合法性
- */
 const buildPayload = (): EmailTemplateRequireFieldRow[] | null => {
   const keys = dataList.value.map((r) => r.key.trim()).filter(Boolean);
   if (keys.length !== new Set(keys).size) {
-    message(t('system.emailTemplate.requireFieldKeyDuplicate'), { type: 'warning' });
+    message(t('emailTemplate.requireFieldKeyDuplicate'), { type: 'warning' });
     return null;
   }
   const rows: EmailTemplateRequireFieldRow[] = [];
   for (const r of dataList.value) {
     const k = r.key.trim();
     if (!k) {
-      message(t('system.emailTemplate.requireFieldKeyRequired'), { type: 'warning' });
+      message(t('emailTemplate.requireFieldKeyRequired'), { type: 'warning' });
+      return null;
+    }
+    const raw = r.exampleValueJson?.trim() ?? '';
+    if (raw === '') {
+      message(t('emailTemplate.requireFieldExampleRequired'), { type: 'warning' });
       return null;
     }
     let exampleValue: unknown;
-    const raw = r.exampleValueJson?.trim() ?? '';
-    if (raw === '') {
-      message(t('system.emailTemplate.requireFieldExampleRequired'), { type: 'warning' });
-      return null;
-    }
     try {
       exampleValue = JSON.parse(raw);
     } catch {
@@ -156,19 +76,24 @@ const buildPayload = (): EmailTemplateRequireFieldRow[] | null => {
   return rows;
 };
 
-/**
- * 供 ReDialog beforeSure：返回 true 表示已持久化并可关闭
- */
 const submit = async (): Promise<boolean> => {
   const payload = buildPayload();
   if (!payload) return false;
-  return emailTemplateStore.updateRequireFieldsOnly(props.templateId, payload);
+  try {
+    await updateEmailTemplateRequireFields(props.templateId, { requireFields: payload });
+    message(t('tips.editSuccess'), { type: 'success' });
+    return true;
+  } catch (error: unknown) {
+    const text = error instanceof Error && error.message ? error.message : t('emailTemplate.loadFailed');
+    message(text, { type: 'error' });
+    return false;
+  }
 };
 
 onMounted(async () => {
   loading.value = true;
   try {
-    const detail = await emailTemplateStore.fetchEmailTemplateDetail(props.templateId);
+    const detail = await getEmailTemplateById(props.templateId);
     const list = detail?.requireFields ?? [];
     dataList.value = list.map((r, i) => ({
       _id: i + 1,
@@ -177,6 +102,9 @@ onMounted(async () => {
       exampleValueJson: JSON.stringify(r.exampleValue),
     }));
     rowSeq = dataList.value.length + 1;
+  } catch (error: unknown) {
+    const text = error instanceof Error && error.message ? error.message : t('emailTemplate.loadFailed');
+    message(text, { type: 'error' });
   } finally {
     loading.value = false;
   }
@@ -193,7 +121,7 @@ defineExpose({ submit });
         background: 'var(--el-fill-color-light)',
         color: 'var(--el-text-color-primary)',
       }"
-      :row-key="(row: EditableRow) => String(row._id)"
+      :row-key="(row: EditableRow) => row._id"
       border
       class="w-full"
     >

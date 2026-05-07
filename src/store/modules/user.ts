@@ -64,7 +64,7 @@ export const useUserStore = defineStore('pure-user', {
         nickname: res.nickname ?? '',
         roles: res.roles ?? [],
         permissions: res.permissions ?? [],
-        userId: res.id != null ? String(res.id) : undefined,
+        userId: res.id,
       };
     },
     /**

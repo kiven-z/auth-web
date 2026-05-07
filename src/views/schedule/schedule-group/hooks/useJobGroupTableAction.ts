@@ -1,9 +1,9 @@
 import {
   createJobGroup,
-  deleteJobGroup,
-  updateJobGroup,
   type CreateJobGroupRequest,
+  deleteJobGroup,
   type SysJobGroupPageRow,
+  updateJobGroup,
   type UpdateJobGroupRequest,
 } from '@/api/schedule/job-group';
 import { addDialog } from '@/components/ui/Dialog';
@@ -71,7 +71,7 @@ function useJobGroupTableAction(deps: JobGroupTableActionDeps) {
    */
   const openEdit = (row: SysJobGroupPageRow) => {
     const form = reactive({
-      id: String(row.id),
+      id: row.id,
       groupCode: row.groupCode,
       groupName: row.groupName,
       description: row.description ?? '',
@@ -133,7 +133,7 @@ function useJobGroupTableAction(deps: JobGroupTableActionDeps) {
     if (!confirm) return;
 
     try {
-      await deleteJobGroup(String(row.id));
+      await deleteJobGroup(row.id);
       message(t('tips.deleteSuccess'), { type: 'success' });
       await onSearch();
     } catch (error: unknown) {

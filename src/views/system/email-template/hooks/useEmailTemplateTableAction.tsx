@@ -14,14 +14,30 @@ import {
 import { addDialog } from '@/components/ui/Dialog';
 import { deleteConfirm } from '@/shared/messaging/dialog';
 import { message } from '@/shared/messaging/message';
-import EmailTemplateDetailDialog from '@/views/system/email-template/components/EmailTemplateDetailDialog.vue';
-import EmailTemplateDialog from '@/views/system/email-template/components/EmailTemplateDialog.vue';
-import EmailTemplateMonacoOnlyDialog from '@/views/system/email-template/components/EmailTemplateMonacoOnlyDialog.vue';
-import EmailTemplatePreviewDialog from '@/views/system/email-template/components/EmailTemplatePreviewDialog.vue';
-import EmailTemplateRequireFieldsDialog from '@/views/system/email-template/components/EmailTemplateRequireFieldsDialog.vue';
-import EmailTemplateTestSendDialog from '@/views/system/email-template/components/EmailTemplateTestSendDialog.vue';
-import { h, ref } from 'vue';
+import { defineAsyncComponent, h, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
+
+/**
+ * 弹窗组件全部异步注册，避免进入列表页时同步执行 monaco-editor 等大型依赖导致初始化栈过深或异常。
+ */
+const EmailTemplateDialog = defineAsyncComponent(
+  () => import('@/views/system/email-template/components/EmailTemplateDialog.vue')
+);
+const EmailTemplateDetailDialog = defineAsyncComponent(
+  () => import('@/views/system/email-template/components/EmailTemplateDetailDialog.vue')
+);
+const EmailTemplateMonacoOnlyDialog = defineAsyncComponent(
+  () => import('@/views/system/email-template/components/EmailTemplateMonacoOnlyDialog.vue')
+);
+const EmailTemplatePreviewDialog = defineAsyncComponent(
+  () => import('@/views/system/email-template/components/EmailTemplatePreviewDialog.vue')
+);
+const EmailTemplateRequireFieldsDialog = defineAsyncComponent(
+  () => import('@/views/system/email-template/components/EmailTemplateRequireFieldsDialog.vue')
+);
+const EmailTemplateTestSendDialog = defineAsyncComponent(
+  () => import('@/views/system/email-template/components/EmailTemplateTestSendDialog.vue')
+);
 
 export interface EmailTemplateTableActionDeps {
   onSearch: () => Promise<void>;
@@ -32,6 +48,21 @@ export interface EmailTemplateTableActionDeps {
  * @param detail 接口详情
  * @param id 模板 ID 字符串
  */
+/** 与弹窗子组件 defineExpose 对齐，避免 defineAsyncComponent 下 InstanceType 不准确 */
+type FormDialogExpose = {
+  formRef?: { validate: () => Promise<boolean | undefined> };
+  form: EmailTemplateFormModel;
+};
+
+type TestSendExpose = {
+  formRef?: { validate: () => Promise<boolean | undefined> };
+  form: { id: string; email: string };
+};
+
+type RequireFieldsExpose = {
+  submit: () => Promise<boolean>;
+};
+
 function toFormFromDetail(detail: EmailTemplateDetailVO, id: string): EmailTemplateFormModel {
   return {
     id,
@@ -65,7 +96,7 @@ function useEmailTemplateTableAction(deps: EmailTemplateTableActionDeps) {
       content: '',
       requireFields: [],
     };
-    const dlgFormRef = ref<InstanceType<typeof EmailTemplateDialog>>();
+    const dlgFormRef = ref<FormDialogExpose | null>(null);
 
     addDialog({
       title: t('emailTemplate.addDialogTitle'),
@@ -80,7 +111,8 @@ function useEmailTemplateTableAction(deps: EmailTemplateTableActionDeps) {
           const formInst = dlgFormRef.value?.formRef;
           const valid = await formInst?.validate().catch(() => false);
           if (!valid) return;
-          const f = dlgFormRef.value!.form;
+          const f = dlgFormRef.value?.form;
+          if (!f) return;
           await createEmailTemplate({
             templateCode: f.templateCode!,
             templateName: f.templateName!,
@@ -104,9 +136,9 @@ function useEmailTemplateTableAction(deps: EmailTemplateTableActionDeps) {
 
   const openEdit = async (row: EmailTemplatePageRow) => {
     try {
-      const detail = await getEmailTemplateById(String(row.id));
-      const formInline = toFormFromDetail(detail, String(row.id));
-      const dlgFormRef = ref<InstanceType<typeof EmailTemplateDialog>>();
+      const detail = await getEmailTemplateById(row.id);
+      const formInline = toFormFromDetail(detail, row.id);
+      const dlgFormRef = ref<FormDialogExpose | null>(null);
 
       addDialog({
         title: t('emailTemplate.editDialogTitle'),
@@ -121,7 +153,8 @@ function useEmailTemplateTableAction(deps: EmailTemplateTableActionDeps) {
             const formInst = dlgFormRef.value?.formRef;
             const valid = await formInst?.validate().catch(() => false);
             if (!valid) return;
-            const f = dlgFormRef.value!.form;
+            const f = dlgFormRef.value?.form;
+            if (!f) return;
             await updateEmailTemplateMetadata({
               id: Number(f.id),
               templateCode: f.templateCode!,
@@ -149,8 +182,7 @@ function useEmailTemplateTableAction(deps: EmailTemplateTableActionDeps) {
   const openDetail = (row: EmailTemplatePageRow) => {
     addDialog({
       title: t('emailTemplate.detailDialogTitle'),
-      props: { id: String(row.id) },
-      width: '920px',
+      props: { id: row.id },
       draggable: true,
       fullscreenIcon: true,
       closeOnClickModal: false,
@@ -162,7 +194,7 @@ function useEmailTemplateTableAction(deps: EmailTemplateTableActionDeps) {
 
   const openPreview = async (row: EmailTemplatePageRow) => {
     try {
-      const html = await getEmailTemplatePreviewHtml(String(row.id));
+      const html = await getEmailTemplatePreviewHtml(row.id);
       addDialog({
         title: t('emailTemplate.previewDialogTitle'),
         props: { html },
@@ -180,7 +212,7 @@ function useEmailTemplateTableAction(deps: EmailTemplateTableActionDeps) {
   };
 
   const openRequireFields = (row: EmailTemplatePageRow) => {
-    const innerRef = ref<InstanceType<typeof EmailTemplateRequireFieldsDialog>>();
+    const innerRef = ref<RequireFieldsExpose | null>(null);
     addDialog({
       title: t('emailTemplate.requireFieldsDialogTitle'),
       width: '80%',
@@ -188,7 +220,7 @@ function useEmailTemplateTableAction(deps: EmailTemplateTableActionDeps) {
       fullscreenIcon: true,
       closeOnClickModal: false,
       closeOnPressEscape: false,
-      contentRenderer: () => h(EmailTemplateRequireFieldsDialog, { ref: innerRef, templateId: String(row.id) }),
+      contentRenderer: () => h(EmailTemplateRequireFieldsDialog, { ref: innerRef, templateId: row.id }),
       beforeSure: async (done) => {
         const ok = await innerRef.value?.submit();
         if (ok) {
@@ -200,10 +232,10 @@ function useEmailTemplateTableAction(deps: EmailTemplateTableActionDeps) {
   };
 
   const openTestSend = (row: EmailTemplatePageRow) => {
-    const sendFormRef = ref<InstanceType<typeof EmailTemplateTestSendDialog>>();
+    const sendFormRef = ref<TestSendExpose | null>(null);
     addDialog({
       title: t('emailTemplate.testSendDialogTitle'),
-      props: { formInline: { id: String(row.id), email: '' } },
+      props: { formInline: { id: row.id, email: '' } },
       draggable: true,
       fullscreenIcon: true,
       closeOnClickModal: false,
@@ -214,7 +246,8 @@ function useEmailTemplateTableAction(deps: EmailTemplateTableActionDeps) {
           const formInst = sendFormRef.value?.formRef;
           const valid = await formInst?.validate().catch(() => false);
           if (!valid) return;
-          const form = sendFormRef.value!.form;
+          const form = sendFormRef.value?.form;
+          if (!form) return;
           await testSendEmailTemplate({ id: Number(form.id), email: form.email });
           message(t('tips.operationSuccess'), { type: 'success' });
           done();
@@ -228,9 +261,9 @@ function useEmailTemplateTableAction(deps: EmailTemplateTableActionDeps) {
 
   const openTemplateContentEdit = async (row: EmailTemplatePageRow) => {
     try {
-      const detail = await getEmailTemplateById(String(row.id));
-      const formInline = toFormFromDetail(detail, String(row.id));
-      const dlgRef = ref<InstanceType<typeof EmailTemplateMonacoOnlyDialog>>();
+      const detail = await getEmailTemplateById(row.id);
+      const formInline = toFormFromDetail(detail, row.id);
+      const dlgRef = ref<FormDialogExpose | null>(null);
 
       addDialog({
         title: t('emailTemplate.templateEditDialogTitle'),
@@ -246,8 +279,9 @@ function useEmailTemplateTableAction(deps: EmailTemplateTableActionDeps) {
             const formInst = dlgRef.value?.formRef;
             const valid = await formInst?.validate().catch(() => false);
             if (!valid) return;
-            const f = dlgRef.value!.form;
-            await updateEmailTemplateContent(String(f.id), { content: f.content ?? '' });
+            const f = dlgRef.value?.form;
+            if (!f?.id) return;
+            await updateEmailTemplateContent(f.id, { content: f.content ?? '' });
             message(t('tips.editSuccess'), { type: 'success' });
             await onSearch();
             done();
@@ -268,7 +302,7 @@ function useEmailTemplateTableAction(deps: EmailTemplateTableActionDeps) {
     const confirm = await deleteConfirm();
     if (!confirm) return;
     try {
-      await batchDeleteEmailTemplates(ids.map((id) => Number(id)));
+      await batchDeleteEmailTemplates(ids);
       message(t('tips.deleteSuccess'), { type: 'success' });
       await onSearch();
     } catch (error: unknown) {
@@ -285,7 +319,7 @@ function useEmailTemplateTableAction(deps: EmailTemplateTableActionDeps) {
     if (ids.length <= 0) return;
     try {
       await batchUpdateEmailTemplateStatus({
-        ids: ids.map((id) => Number(id)),
+        ids,
         status: enabled,
       });
       message(t('tips.editSuccess'), { type: 'success' });

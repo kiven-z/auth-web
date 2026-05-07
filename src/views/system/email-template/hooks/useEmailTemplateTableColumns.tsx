@@ -71,7 +71,7 @@ function useEmailTemplateTableColumns() {
     {
       label: t('table.actions'),
       fixed: 'right' as const,
-      width: 300,
+      width: 220,
       slot: 'actions',
     },
   ]);

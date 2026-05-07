@@ -234,10 +234,10 @@ const handleCopy = (text: any) => {
     try {
       copyText = JSON.stringify(text);
     } catch {
-      copyText = String(text);
+      copyText = text;
     }
   } else {
-    copyText = String(text);
+    copyText = text;
   }
 
   if (navigator.clipboard?.writeText) {

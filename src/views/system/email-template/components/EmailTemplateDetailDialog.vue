@@ -63,7 +63,7 @@ onMounted(async () => {
 
 <template>
   <div v-loading="loading">
-    <ReDescription :column="2" :columns="columns" :data="detail" border class="mb-4 overflow-x-auto" />
+    <ReDescription :column="2" :columns="columns" :data="detail" border />
     <div class="text-sm font-medium mb-2">{{ t('emailTemplate.renderedEffect') }}</div>
     <div
       class="border border-[var(--el-border-color)] rounded p-4 overflow-auto max-h-[50vh] bg-[var(--el-fill-color-blank)]"
