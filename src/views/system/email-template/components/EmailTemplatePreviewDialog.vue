@@ -10,6 +10,18 @@ interface Props {
 const props = defineProps<Props>();
 const { t } = useI18n();
 const previewFrameRef = ref<HTMLIFrameElement | null>(null);
+const previewHeight = ref(320);
+
+const PREVIEW_MIN_HEIGHT = 220;
+const PREVIEW_MAX_HEIGHT = 640;
+
+const resizePreviewFrame = (frame: HTMLIFrameElement | null) => {
+  if (!frame) return;
+  const doc = frame.contentDocument;
+  if (!doc) return;
+  const nextHeight = Math.max(doc.body?.scrollHeight ?? 0, doc.documentElement?.scrollHeight ?? 0);
+  previewHeight.value = Math.min(PREVIEW_MAX_HEIGHT, Math.max(PREVIEW_MIN_HEIGHT, nextHeight));
+};
 
 watch(
   () => props.html,
@@ -18,6 +30,9 @@ watch(
     const frame = previewFrameRef.value;
     if (!frame) return;
     frame.srcdoc = html;
+    requestAnimationFrame(() => {
+      resizePreviewFrame(frame);
+    });
   },
   { immediate: true }
 );
@@ -29,9 +44,11 @@ watch(
     <div class="border border-(--el-border-color) rounded p-4 overflow-auto" style="max-height: 70vh">
       <iframe
         ref="previewFrameRef"
-        class="w-full h-[420px] border-0 block"
+        class="w-full border-0 block"
         sandbox="allow-same-origin"
         title="email-template-preview-dialog"
+        :style="{ height: `${previewHeight}px` }"
+        @load="resizePreviewFrame(previewFrameRef)"
       />
     </div>
   </div>

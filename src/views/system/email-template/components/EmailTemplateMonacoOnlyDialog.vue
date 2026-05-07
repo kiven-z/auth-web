@@ -1,12 +1,13 @@
 <!--
-  仅编辑模板 HTML：Monaco（动态加载）+ 实时预览；不使用 monaco-editor-vue3，避免 Vite 预构建整包失败。
+  仅编辑模板 HTML：Monaco + 实时预览（iframe 隔离与自适应高度）。
 -->
 <script lang="ts" setup>
 import { renderEmailTemplate, type EmailTemplateFormModel } from '@/api/system/email-template';
+import MonacoEditor, { type MonacoEditorReadyPayload } from '@/components/ui/MonacoEditor';
 import { EMAIL_TEMPLATE_EDITOR_OPTIONS } from '@/views/system/email-template/config/monaco-config';
+import { registerEmailTemplateMonaco } from '@/views/system/email-template/monaco/register-email-template-monaco';
 import type { FormInstance, FormRules } from 'element-plus';
 import debounce from 'lodash/debounce';
-import type { editor } from 'monaco-editor';
 import { nextTick, onUnmounted, reactive, ref, toRaw, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 
@@ -55,15 +56,23 @@ const rules = reactive<FormRules>({
   content: [{ required: true, message: t('emailTemplate.placeholder.content'), trigger: 'blur' }],
 });
 
-const editorHostRef = ref<HTMLElement | null>(null);
-let standaloneEditor: editor.IStandaloneCodeEditor | null = null;
-let editorContentDisposable: { dispose: () => void } | null = null;
 let refreshMonacoMarkers: (() => void) | null = null;
 let disposeMonacoRegistration: (() => void) | null = null;
-let syncingFromEditor = false;
 
 const renderedHtml = ref('');
 const previewFrameRef = ref<HTMLIFrameElement | null>(null);
+const previewHeight = ref(320);
+
+const PREVIEW_MIN_HEIGHT = 220;
+const PREVIEW_MAX_HEIGHT = 560;
+
+const resizePreviewFrame = (frame: HTMLIFrameElement | null) => {
+  if (!frame) return;
+  const doc = frame.contentDocument;
+  if (!doc) return;
+  const nextHeight = Math.max(doc.body?.scrollHeight ?? 0, doc.documentElement?.scrollHeight ?? 0);
+  previewHeight.value = Math.min(PREVIEW_MAX_HEIGHT, Math.max(PREVIEW_MIN_HEIGHT, nextHeight));
+};
 
 const scheduleRender = debounce(async () => {
   try {
@@ -78,13 +87,8 @@ const scheduleRender = debounce(async () => {
 
 watch(
   () => form.value.content,
-  (v) => {
+  () => {
     scheduleRender();
-    if (!standaloneEditor || syncingFromEditor) return;
-    const cur = standaloneEditor.getValue();
-    if (cur !== (v ?? '')) {
-      standaloneEditor.setValue(v ?? '');
-    }
   }
 );
 
@@ -119,58 +123,26 @@ watch(
     const frame = previewFrameRef.value;
     if (!frame) return;
     frame.srcdoc = html;
+    requestAnimationFrame(() => {
+      resizePreviewFrame(frame);
+    });
   },
   { immediate: true }
 );
 
-/**
- * 动态加载 monaco 并创建编辑器（仅本弹窗挂载时执行）
- */
-async function mountMonacoEditor() {
-  await nextTick();
-  const host = editorHostRef.value;
-  if (!host || standaloneEditor) return;
-
-  /** 动态 import，避免静态引入 monaco 大包。 */
-  const [{ loadMonacoEditor }, { registerEmailTemplateMonaco }] = await Promise.all([
-    import('@/views/system/email-template/monaco/bootstrap'),
-    import('@/views/system/email-template/monaco/register-email-template-monaco'),
-  ]);
-
-  const monacoApi = await loadMonacoEditor();
-  standaloneEditor = monacoApi.editor.create(host, {
-    ...EMAIL_TEMPLATE_EDITOR_OPTIONS,
-    value: form.value.content ?? '',
-  });
-
-  const reg = registerEmailTemplateMonaco(standaloneEditor, monacoApi, () => form.value.requireFields ?? []);
+const onMonacoReady = ({ editor, monaco }: MonacoEditorReadyPayload) => {
+  disposeMonacoRegistration?.();
+  const reg = registerEmailTemplateMonaco(editor, monaco, () => form.value.requireFields ?? []);
   disposeMonacoRegistration = reg.dispose;
   refreshMonacoMarkers = reg.refreshMarkers;
-
-  editorContentDisposable = standaloneEditor.onDidChangeModelContent(() => {
-    syncingFromEditor = true;
-    try {
-      form.value.content = standaloneEditor!.getValue();
-    } finally {
-      queueMicrotask(() => {
-        syncingFromEditor = false;
-      });
-    }
-  });
-}
+};
 
 onUnmounted(() => {
   disposeMonacoRegistration?.();
   disposeMonacoRegistration = null;
   refreshMonacoMarkers = null;
-  editorContentDisposable?.dispose();
-  editorContentDisposable = null;
-  standaloneEditor?.dispose();
-  standaloneEditor = null;
   scheduleRender.cancel();
 });
-
-void mountMonacoEditor();
 
 scheduleRender();
 
@@ -183,9 +155,13 @@ defineExpose({ formRef, form });
       <el-col :lg="14" :md="14" :sm="24" :xs="24">
         <div class="text-sm font-medium mb-2">{{ t('emailTemplate.content') }}</div>
         <el-form-item class="mb-0!" prop="content">
-          <div
-            ref="editorHostRef"
+          <MonacoEditor
+            v-model="form.content"
             class="w-full monaco-only-editor border border-(--el-border-color) rounded overflow-hidden shadow-sm"
+            height="min(62vh, 560px)"
+            language="html"
+            :options="EMAIL_TEMPLATE_EDITOR_OPTIONS"
+            @ready="onMonacoReady"
           />
         </el-form-item>
       </el-col>
@@ -197,9 +173,11 @@ defineExpose({ formRef, form });
         >
           <iframe
             ref="previewFrameRef"
-            class="w-full h-full border-0 block"
+            class="w-full border-0 block"
             sandbox="allow-same-origin"
             title="email-template-monaco-preview"
+            :style="{ height: `${previewHeight}px` }"
+            @load="resizePreviewFrame(previewFrameRef)"
           />
         </div>
       </el-col>
@@ -208,7 +186,6 @@ defineExpose({ formRef, form });
 </template>
 
 <style scoped>
-.monaco-only-editor,
 .monaco-only-preview {
   height: min(62vh, 560px);
 }

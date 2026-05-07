@@ -61,14 +61,19 @@ export const EMAIL_TEMPLATE_MARKER_SOURCE = 'email-template-require-fields';
 export const EMAIL_TEMPLATE_MARKER_DEBOUNCE_MS = 200;
 
 /**
- * 模板编辑器默认配置。
+ * Monaco 公共默认配置（跨业务可复用）。
  */
-export const EMAIL_TEMPLATE_EDITOR_OPTIONS: editor.IStandaloneEditorConstructionOptions = {
-  language: 'html',
-  theme: 'vs',
+export const MONACO_COMMON_EDITOR_OPTIONS: editor.IStandaloneEditorConstructionOptions = {
   automaticLayout: true,
   minimap: { enabled: false },
   fontSize: 14,
   scrollBeyondLastLine: false,
   wordWrap: 'on',
+};
+
+/**
+ * 邮件模板编辑器覆盖配置。
+ */
+export const EMAIL_TEMPLATE_EDITOR_OPTIONS: editor.IStandaloneEditorConstructionOptions = {
+  ...MONACO_COMMON_EDITOR_OPTIONS,
 };
