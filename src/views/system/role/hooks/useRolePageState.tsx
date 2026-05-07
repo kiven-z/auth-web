@@ -14,7 +14,7 @@ function useRolePageState() {
   const searchForm = reactive({
     roleCode: undefined,
     roleName: undefined,
-    status: undefined as boolean,
+    status: undefined,
     roleType: undefined as number,
   });
 
@@ -77,14 +77,7 @@ function useRolePageState() {
    */
   const onReset = async (formRef?: FormInstance) => {
     pagination.currentPage = 1;
-    if (formRef) {
-      formRef.resetFields();
-    } else {
-      searchForm.roleCode = '';
-      searchForm.roleName = '';
-      searchForm.status = undefined;
-      searchForm.roleType = undefined;
-    }
+    formRef.resetFields();
     await onSearch();
   };
 
