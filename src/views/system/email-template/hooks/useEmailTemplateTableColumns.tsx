@@ -14,11 +14,11 @@ function useEmailTemplateTableColumns() {
     { type: 'selection', align: 'left' },
     {
       type: 'index',
-      index: (index: number) => index + 1, 
+      index: (index: number) => index + 1,
       label: t('table.idx'),
       minWidth: 60,
     },
-    // 模板编码 
+    // 模板编码
     { label: t('emailTemplate.templateCode'), prop: 'templateCode', minWidth: 160 },
     // 模板名称
     { label: t('emailTemplate.templateName'), prop: 'templateName', minWidth: 160 },

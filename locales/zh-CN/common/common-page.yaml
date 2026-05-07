@@ -1,4 +1,5 @@
 tips:
+  requestFailed: 获取数据失败
   deleteConfirm: 确认删除吗？
   lastTimeConfirmDeleteTitle: 最后一次确认
   confirmTitle: 确认继续操作吗？

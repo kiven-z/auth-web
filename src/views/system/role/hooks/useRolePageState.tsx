@@ -1,14 +1,12 @@
 import { getRolePage, type SysRolePageRow } from '@/api/system/role';
-import { message } from '@/shared/messaging/message';
+import { errorMessage } from '@/shared/messaging/message';
 import type { FormInstance } from 'element-plus';
 import { reactive, ref } from 'vue';
-import { useI18n } from 'vue-i18n';
 
 /**
  * 角色分页列表页状态：查询条件、分页、表格数据与请求。
  */
 function useRolePageState() {
-  const { t } = useI18n();
   const selectedRows = ref<string[]>([]);
   const loading = ref(false);
   const tableData = ref<SysRolePageRow[]>([]);
@@ -40,8 +38,7 @@ function useRolePageState() {
       pagination.currentPage = page.pageNo;
       pagination.pageSize = page.pageSize;
     } catch (error: unknown) {
-      const text = error instanceof Error && error.message ? error.message : t('roles.loadFailed');
-      message(text, { type: 'error' });
+      errorMessage(error, { defaultI18nKey: 'roles.loadFailed' });
     } finally {
       loading.value = false;
     }

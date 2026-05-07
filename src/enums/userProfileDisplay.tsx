@@ -12,7 +12,11 @@ export function renderUserAccountStatus(t: Translate, value: number | undefined 
   }
   const type = value === 0 ? 'success' : value === 1 ? 'danger' : 'warning';
   const labelKey =
-    value === 0 ? 'users.accountStatus.normal' : value === 1 ? 'users.accountStatus.disabled' : 'users.accountStatus.locked';
+    value === 0
+      ? 'users.accountStatus.normal'
+      : value === 1
+        ? 'users.accountStatus.disabled'
+        : 'users.accountStatus.locked';
   return h(ElTag, { type, size: 'small' }, () => t(labelKey));
 }
 

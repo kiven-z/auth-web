@@ -4,11 +4,10 @@ import {
   deleteJobGroup,
   type SysJobGroupPageRow,
   updateJobGroup,
-  type UpdateJobGroupRequest,
 } from '@/api/schedule/job-group';
 import { addDialog } from '@/components/ui/Dialog';
 import { deleteConfirm } from '@/shared/messaging/dialog';
-import { message } from '@/shared/messaging/message';
+import { errorMessage, message } from '@/shared/messaging/message';
 import ScheduleGroupDescriptionDialog from '@/views/schedule/schedule-group/components/ScheduleGroupDescriptionDialog.vue';
 import ScheduleGroupFormDialog from '@/views/schedule/schedule-group/components/ScheduleGroupFormDialog.vue';
 import { h, reactive, ref } from 'vue';
@@ -52,14 +51,14 @@ function useJobGroupTableAction(deps: JobGroupTableActionDeps) {
           const f = dialogRef.value?.formRef;
           const ok = await f?.validate().catch(() => false);
           if (!ok) return;
-          const formData: CreateJobGroupRequest = { ...form };
-          await createJobGroup(formData);
+
+          await createJobGroup(form);
           message(t('tips.addSuccess'), { type: 'success' });
+
           await onSearch();
           done();
         } catch (error: unknown) {
-          const text = error instanceof Error && error.message ? error.message : t('scheduleGroup.loadFailed');
-          message(text, { type: 'error' });
+          errorMessage(error, { defaultI18nKey: 'scheduleGroup.loadFailed' });
         }
       },
     });
@@ -92,20 +91,14 @@ function useJobGroupTableAction(deps: JobGroupTableActionDeps) {
           const f = dialogRef.value?.formRef;
           const valid = await f?.validate().catch(() => false);
           if (!valid) return;
-          const formData: UpdateJobGroupRequest = {
-            id: form.id,
-            groupName: form.groupName,
-            description: form.description,
-            status: form.status,
-            orderNum: form.orderNum,
-          };
-          await updateJobGroup(formData);
+
+          await updateJobGroup(form);
           message(t('tips.editSuccess'), { type: 'success' });
           await onSearch();
+
           done();
         } catch (error: unknown) {
-          const text = error instanceof Error && error.message ? error.message : t('scheduleGroup.loadFailed');
-          message(text, { type: 'error' });
+          errorMessage(error, { defaultI18nKey: 'scheduleGroup.loadFailed' });
         }
       },
     });
@@ -137,8 +130,7 @@ function useJobGroupTableAction(deps: JobGroupTableActionDeps) {
       message(t('tips.deleteSuccess'), { type: 'success' });
       await onSearch();
     } catch (error: unknown) {
-      const text = error instanceof Error && error.message ? error.message : t('scheduleGroup.loadFailed');
-      message(text, { type: 'error' });
+      errorMessage(error, { defaultI18nKey: 'scheduleGroup.loadFailed' });
     }
   };
 

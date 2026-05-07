@@ -3,25 +3,25 @@ import {
   batchDeleteEmailTemplates,
   batchUpdateEmailTemplateStatus,
   createEmailTemplate,
-  type EmailTemplateDetailVO,
-  type EmailTemplatePageRow,
   getEmailTemplateById,
   getEmailTemplatePreviewHtml,
   testSendEmailTemplate,
   updateEmailTemplateContent,
   updateEmailTemplateMetadata,
+  type EmailTemplateDetailVO,
+  type EmailTemplatePageRow,
 } from '@/api/system/email-template';
 import { addDialog } from '@/components/ui/Dialog';
 import { deleteConfirm } from '@/shared/messaging/dialog';
-import { message } from '@/shared/messaging/message';
-import { h, ref } from 'vue';
-import { useI18n } from 'vue-i18n';
-import EmailTemplateDialog from '@/views/system/email-template/components/EmailTemplateDialog.vue';
+import { errorMessage, message } from '@/shared/messaging/message';
 import EmailTemplateDetailDialog from '@/views/system/email-template/components/EmailTemplateDetailDialog.vue';
+import EmailTemplateDialog from '@/views/system/email-template/components/EmailTemplateDialog.vue';
+import EmailTemplateMonacoOnlyDialog from '@/views/system/email-template/components/EmailTemplateMonacoOnlyDialog.vue';
 import EmailTemplatePreviewDialog from '@/views/system/email-template/components/EmailTemplatePreviewDialog.vue';
 import EmailTemplateRequireFieldsDialog from '@/views/system/email-template/components/EmailTemplateRequireFieldsDialog.vue';
 import EmailTemplateTestSendDialog from '@/views/system/email-template/components/EmailTemplateTestSendDialog.vue';
-import EmailTemplateMonacoOnlyDialog from '@/views/system/email-template/components/EmailTemplateMonacoOnlyDialog.vue';
+import { h, ref } from 'vue';
+import { useI18n } from 'vue-i18n';
 
 export interface EmailTemplateTableActionDeps {
   onSearch: () => Promise<void>;
@@ -113,8 +113,7 @@ function useEmailTemplateTableAction(deps: EmailTemplateTableActionDeps) {
           await onSearch();
           done();
         } catch (error: unknown) {
-          const text = error instanceof Error && error.message ? error.message : t('emailTemplate.loadFailed');
-          message(text, { type: 'error' });
+          errorMessage(error, { defaultI18nKey: 'emailTemplate.loadFailed' });
         }
       },
     });
@@ -158,14 +157,12 @@ function useEmailTemplateTableAction(deps: EmailTemplateTableActionDeps) {
             await onSearch();
             done();
           } catch (error: unknown) {
-            const text = error instanceof Error && error.message ? error.message : t('emailTemplate.loadFailed');
-            message(text, { type: 'error' });
+            errorMessage(error, { defaultI18nKey: 'emailTemplate.loadFailed' });
           }
         },
       });
     } catch (error: unknown) {
-      const text = error instanceof Error && error.message ? error.message : t('emailTemplate.loadFailed');
-      message(text, { type: 'error' });
+      errorMessage(error, { defaultI18nKey: 'emailTemplate.loadFailed' });
     }
   };
 
@@ -204,8 +201,7 @@ function useEmailTemplateTableAction(deps: EmailTemplateTableActionDeps) {
         beforeSure: (done) => done(),
       });
     } catch (error: unknown) {
-      const text = error instanceof Error && error.message ? error.message : t('emailTemplate.loadFailed');
-      message(text, { type: 'error' });
+      errorMessage(error, { defaultI18nKey: 'emailTemplate.loadFailed' });
     }
   };
 
@@ -258,8 +254,7 @@ function useEmailTemplateTableAction(deps: EmailTemplateTableActionDeps) {
           message(t('tips.operationSuccess'), { type: 'success' });
           done();
         } catch (error: unknown) {
-          const text = error instanceof Error && error.message ? error.message : t('emailTemplate.loadFailed');
-          message(text, { type: 'error' });
+          errorMessage(error, { defaultI18nKey: 'emailTemplate.loadFailed' });
         }
       },
     });
@@ -296,14 +291,12 @@ function useEmailTemplateTableAction(deps: EmailTemplateTableActionDeps) {
             await onSearch();
             done();
           } catch (error: unknown) {
-            const text = error instanceof Error && error.message ? error.message : t('emailTemplate.loadFailed');
-            message(text, { type: 'error' });
+            errorMessage(error, { defaultI18nKey: 'emailTemplate.loadFailed' });
           }
         },
       });
     } catch (error: unknown) {
-      const text = error instanceof Error && error.message ? error.message : t('emailTemplate.loadFailed');
-      message(text, { type: 'error' });
+      errorMessage(error, { defaultI18nKey: 'emailTemplate.loadFailed' });
     }
   };
 
@@ -320,8 +313,7 @@ function useEmailTemplateTableAction(deps: EmailTemplateTableActionDeps) {
       message(t('tips.deleteSuccess'), { type: 'success' });
       await onSearch();
     } catch (error: unknown) {
-      const text = error instanceof Error && error.message ? error.message : t('emailTemplate.loadFailed');
-      message(text, { type: 'error' });
+      errorMessage(error, { defaultI18nKey: 'emailTemplate.loadFailed' });
     }
   };
 
@@ -337,8 +329,7 @@ function useEmailTemplateTableAction(deps: EmailTemplateTableActionDeps) {
       message(t('tips.editSuccess'), { type: 'success' });
       await onSearch();
     } catch (error: unknown) {
-      const text = error instanceof Error && error.message ? error.message : t('emailTemplate.loadFailed');
-      message(text, { type: 'error' });
+      errorMessage(error, { defaultI18nKey: 'emailTemplate.loadFailed' });
     }
   };
 

@@ -1,14 +1,13 @@
 <script lang="ts" setup>
 import { getUserProfile, type SysUserDeptProfileItem, type SysUserPostProfileItem } from '@/api/system/user-base';
 import ReDescription from '@/components/ui/Description/index';
-import { ApiBusinessError } from '@/infrastructure/http/apiError';
-import { message } from '@/shared/messaging/message';
+import useUserProfileColumns from '@/components/user/UserProfile/src/useUserProfileColumns';
+import { errorMessage } from '@/shared/messaging/message';
 import { QuestionFilled, User } from '@element-plus/icons-vue';
 import { ElTooltip } from 'element-plus';
 import type { PropType } from 'vue';
 import { ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
-import useUserProfileColumns from '@/components/user/UserProfile/src/useUserProfileColumns';
 
 const props = defineProps({
   userId: { type: String as PropType<string | undefined>, required: false },
@@ -42,13 +41,7 @@ const loadUserDetailInfo = async () => {
     deptInfos.value = deptList ?? [];
     postInfos.value = postList ?? [];
   } catch (error: unknown) {
-    const text =
-      error instanceof ApiBusinessError
-        ? error.message
-        : error instanceof Error && error.message
-          ? error.message
-          : t('users.loadFailed');
-    message(text, { type: 'error' });
+    errorMessage(error, { defaultI18nKey: 'users.loadFailed' });
     userDetailInfo.value = [];
     deptInfos.value = [];
     postInfos.value = [];

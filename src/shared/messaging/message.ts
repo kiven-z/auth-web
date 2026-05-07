@@ -1,11 +1,15 @@
-import type { VNode } from 'vue';
+import { transformI18n } from '@/plugins/i18n';
 import { isFunction } from '@pureadmin/utils';
-import { type MessageHandler, ElMessage } from 'element-plus';
+import { ElMessage, type MessageHandler } from 'element-plus';
+import type { VNode } from 'vue';
 
 type messageStyle = 'el' | 'antd';
 type messageTypes = 'info' | 'success' | 'warning' | 'error';
 
-interface MessageParams {
+/** 无显式文案且无法从异常解析时的默认 i18n 键（见 locales `tips.requestFailed`） */
+export const DEFAULT_ERROR_FALLBACK_I18N_KEY = 'tips.requestFailed';
+
+export interface MessageParams {
   /** 消息类型，可选 `info` 、`success` 、`warning` 、`error` ，默认 `info` */
   type?: messageTypes;
   /** 是否纯色，默认 `false` */
@@ -30,6 +34,32 @@ interface MessageParams {
   repeatNum?: number;
   /** 关闭时的回调函数, 参数为被关闭的 `message` 实例 */
   onClose?: Function | null;
+}
+
+/** {@link errorMessage} 专用：可传显式文案与兜底 i18n 键，其余字段透传 {@link MessageParams} */
+export type ErrorMessageParams = Omit<MessageParams, 'type'> & {
+  /** 有非空值时优先展示，不再使用 error 与兜底文案 */
+  message?: string;
+  /** 无显式文案且无法从 error 解析 message 时使用的 i18n 键，默认 `tips.requestFailed` */
+  defaultI18nKey?: string;
+};
+
+/**
+ * 解析 catch 中应展示给用户的错误文案：显式 message → Error.message → 兜底 i18n。
+ */
+export function resolveCaughtErrorText(
+  error: unknown,
+  options?: Pick<ErrorMessageParams, 'message' | 'defaultI18nKey'>
+): string {
+  const explicit = options?.message?.trim();
+  if (explicit) {
+    return explicit;
+  }
+  if (error instanceof Error && error.message?.trim()) {
+    return error.message;
+  }
+  const i18nKey = options?.defaultI18nKey ?? DEFAULT_ERROR_FALLBACK_I18N_KEY;
+  return transformI18n(i18nKey);
 }
 
 /** 用法非常简单，参考 src/views/components/message/index.vue 文件 */
@@ -83,4 +113,13 @@ const message = (message: string | VNode | (() => VNode), params?: MessageParams
  */
 const closeAllMessage = (): void => ElMessage.closeAll();
 
-export { message, closeAllMessage };
+/**
+ * 以 error 类型展示消息：逻辑同 {@link resolveCaughtErrorText}。
+ */
+const errorMessage = (error: unknown, params?: ErrorMessageParams): MessageHandler => {
+  const { message: explicitMessage, defaultI18nKey, ...rest } = params ?? {};
+  const text = resolveCaughtErrorText(error, { message: explicitMessage, defaultI18nKey });
+  return message(text, { type: 'error', ...rest });
+};
+
+export { closeAllMessage, errorMessage, message };

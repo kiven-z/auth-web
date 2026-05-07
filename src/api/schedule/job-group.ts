@@ -3,9 +3,9 @@
  *
  * 对应后端 SysJobGroupController (/api/system/job-group)
  */
+import type { PageResponse, SortSpec } from '@/api/common';
 import { http } from '@/infrastructure/http';
 import type { AxiosRequestConfig } from 'axios';
-import type { PageResponse, SortSpec } from '@/api/common';
 
 /** 任务分组分页查询参数（对应后端 SysJobGroupQuery） */
 export interface SysJobGroupPageQuery {
@@ -75,6 +75,14 @@ export function createJobGroup(data: CreateJobGroupRequest): Promise<string> {
  * @param data 修改表单数据
  */
 export function updateJobGroup(data: UpdateJobGroupRequest): Promise<string> {
+  data = {
+    id: data.id,
+    groupName: data.groupName,
+    description: data.description,
+    status: data.status,
+    orderNum: data.orderNum,
+  };
+
   return http.request<string>('put', '/system/job-group', { data });
 }
 

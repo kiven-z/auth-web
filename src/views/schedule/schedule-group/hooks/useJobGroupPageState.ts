@@ -1,14 +1,12 @@
 import { getJobGroupPage, type SysJobGroupPageRow } from '@/api/schedule/job-group';
-import { message } from '@/shared/messaging/message';
+import { errorMessage } from '@/shared/messaging/message';
 import type { FormInstance } from 'element-plus';
 import { reactive, ref } from 'vue';
-import { useI18n } from 'vue-i18n';
 
 /**
  * 任务分组分页列表页状态：查询条件、分页、表格数据与请求。
  */
 function useJobGroupPageState() {
-  const { t } = useI18n();
   const loading = ref(false);
   const tableData = ref<SysJobGroupPageRow[]>([]);
 
@@ -38,8 +36,7 @@ function useJobGroupPageState() {
       pagination.currentPage = page.pageNo;
       pagination.pageSize = page.pageSize;
     } catch (error: unknown) {
-      const text = error instanceof Error && error.message ? error.message : t('scheduleGroup.loadFailed');
-      message(text, { type: 'error' });
+      errorMessage(error, { defaultI18nKey: 'scheduleGroup.loadFailed' });
     } finally {
       loading.value = false;
     }

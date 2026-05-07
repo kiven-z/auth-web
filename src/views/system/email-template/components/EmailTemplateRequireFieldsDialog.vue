@@ -7,7 +7,7 @@ import {
   updateEmailTemplateRequireFields,
   type EmailTemplateRequireFieldRow,
 } from '@/api/system/email-template';
-import { message } from '@/shared/messaging/message';
+import { errorMessage, message } from '@/shared/messaging/message';
 import { onMounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 
@@ -84,8 +84,7 @@ const submit = async (): Promise<boolean> => {
     message(t('tips.editSuccess'), { type: 'success' });
     return true;
   } catch (error: unknown) {
-    const text = error instanceof Error && error.message ? error.message : t('emailTemplate.loadFailed');
-    message(text, { type: 'error' });
+    errorMessage(error, { defaultI18nKey: 'emailTemplate.loadFailed' });
     return false;
   }
 };
@@ -103,8 +102,7 @@ onMounted(async () => {
     }));
     rowSeq = dataList.value.length + 1;
   } catch (error: unknown) {
-    const text = error instanceof Error && error.message ? error.message : t('emailTemplate.loadFailed');
-    message(text, { type: 'error' });
+    errorMessage(error, { defaultI18nKey: 'emailTemplate.loadFailed' });
   } finally {
     loading.value = false;
   }

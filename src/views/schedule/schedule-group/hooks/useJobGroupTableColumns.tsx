@@ -3,9 +3,9 @@
  */
 import type { SysJobGroupPageRow } from '@/api/schedule/job-group';
 import { selectUserinfo } from '@/components/user/UserProfile';
+import { ElButton, ElTag } from 'element-plus';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { ElButton, ElTag } from 'element-plus';
 
 function useJobGroupTableColumns() {
   const { t } = useI18n();

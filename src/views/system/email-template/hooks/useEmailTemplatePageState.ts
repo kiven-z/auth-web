@@ -1,14 +1,12 @@
-import { type EmailTemplatePageRow, getEmailTemplatePage } from '@/api/system/email-template';
-import { message } from '@/shared/messaging/message';
+import { getEmailTemplatePage, type EmailTemplatePageRow } from '@/api/system/email-template';
+import { errorMessage } from '@/shared/messaging/message';
 import type { FormInstance } from 'element-plus';
 import { reactive, ref } from 'vue';
-import { useI18n } from 'vue-i18n';
 
 /**
  * 邮件模板列表页：查询、分页、表格数据与请求。
  */
 function useEmailTemplatePageState() {
-  const { t } = useI18n();
   const selectedRows = ref<string[]>([]);
   const loading = ref(false);
   const tableData = ref<EmailTemplatePageRow[]>([]);
@@ -39,8 +37,7 @@ function useEmailTemplatePageState() {
       pagination.currentPage = page.pageNo;
       pagination.pageSize = page.pageSize;
     } catch (error: unknown) {
-      const text = error instanceof Error && error.message ? error.message : t('emailTemplate.loadFailed');
-      message(text, { type: 'error' });
+      errorMessage(error, { defaultI18nKey: 'emailTemplate.loadFailed' });
     } finally {
       loading.value = false;
     }
