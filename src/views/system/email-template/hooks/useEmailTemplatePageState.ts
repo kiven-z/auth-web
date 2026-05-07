@@ -1,11 +1,7 @@
-import {
-  type EmailTemplatePageQuery,
-  type EmailTemplatePageRow,
-  getEmailTemplatePage,
-} from '@/api/system/email-template';
+import { type EmailTemplatePageRow, getEmailTemplatePage } from '@/api/system/email-template';
 import { message } from '@/shared/messaging/message';
 import type { FormInstance } from 'element-plus';
-import { reactive, ref, toRaw } from 'vue';
+import { reactive, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 /**
@@ -18,9 +14,9 @@ function useEmailTemplatePageState() {
   const tableData = ref<EmailTemplatePageRow[]>([]);
 
   const searchForm = reactive({
-    templateCode: '',
-    templateName: '',
-    subject: '',
+    templateCode: undefined,
+    templateName: undefined,
+    subject: undefined,
     status: undefined as number | undefined,
   });
 
@@ -31,46 +27,11 @@ function useEmailTemplatePageState() {
   });
 
   /**
-   * 组装分页查询参数：空字符串不传。
-   */
-  const buildPageQuery = (): EmailTemplatePageQuery => {
-    const raw = toRaw(searchForm);
-    const query: EmailTemplatePageQuery = {
-      pageIndex: pagination.currentPage,
-      pageSize: pagination.pageSize,
-    };
-    const templateCode = typeof raw.templateCode === 'string' ? raw.templateCode.trim() : '';
-    const templateName = typeof raw.templateName === 'string' ? raw.templateName.trim() : '';
-    const subject = typeof raw.subject === 'string' ? raw.subject.trim() : '';
-    if (templateCode) {
-      query.templateCode = templateCode;
-    }
-    if (templateName) {
-      query.templateName = templateName;
-    }
-    if (subject) {
-      query.subject = subject;
-    }
-    if (raw.status !== undefined && raw.status !== null) {
-      query.status = raw.status;
-    }
-    return query;
-  };
-
-  /**
-   * 条件查询：回到第一页再请求。
-   */
-  const onQuery = async () => {
-    pagination.currentPage = 1;
-    await onSearch();
-  };
-
-  /**
    * 分页查询。
    */
   const onSearch = async () => {
     loading.value = true;
-    const query = buildPageQuery();
+    const query = { ...searchForm, pageIndex: pagination.currentPage, pageSize: pagination.pageSize };
     try {
       const page = await getEmailTemplatePage(query);
       tableData.value = page.list ?? [];
@@ -136,7 +97,6 @@ function useEmailTemplatePageState() {
     selectedRows,
     searchForm,
     onSearch,
-    onQuery,
     onReset,
     onPageSizeChange,
     onPageCurrentChange,

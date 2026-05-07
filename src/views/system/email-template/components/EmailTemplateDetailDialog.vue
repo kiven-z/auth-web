@@ -49,7 +49,7 @@ const columns = computed(() => [
   },
 ]);
 
-onMounted(async () => {
+const onLoadData = async () => {
   loading.value = true;
   try {
     const response = await getEmailTemplateById(props.id);
@@ -58,6 +58,10 @@ onMounted(async () => {
   } finally {
     loading.value = false;
   }
+};
+
+onMounted(() => {
+  onLoadData();
 });
 </script>
 

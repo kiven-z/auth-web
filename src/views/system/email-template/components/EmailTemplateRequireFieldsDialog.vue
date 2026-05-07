@@ -3,9 +3,9 @@
 -->
 <script lang="ts" setup>
 import {
-  type EmailTemplateRequireFieldRow,
   getEmailTemplateById,
   updateEmailTemplateRequireFields,
+  type EmailTemplateRequireFieldRow,
 } from '@/api/system/email-template';
 import { message } from '@/shared/messaging/message';
 import { onMounted, ref } from 'vue';
@@ -121,7 +121,7 @@ defineExpose({ submit });
         background: 'var(--el-fill-color-light)',
         color: 'var(--el-text-color-primary)',
       }"
-      :row-key="(row: EditableRow) => row._id"
+      :row-key="(row: EditableRow) => String(row._id)"
       border
       class="w-full"
     >

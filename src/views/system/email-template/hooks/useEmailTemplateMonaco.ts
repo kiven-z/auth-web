@@ -1,9 +1,11 @@
 /**
  * 邮件模板 HTML 编辑器：注册 Monaco 补全/Hover，并对未在 require_fields 声明的 `${var}` 标红。
+ * 不在本文件顶层 `import 'monaco-editor'`，由调用方动态加载后传入 monacoApi。
  */
 import type { EmailTemplateRequireFieldRow } from '@/api/system/email-template';
-import type { editor } from 'monaco-editor';
-import * as monaco from 'monaco-editor';
+import type { editor, IPosition } from 'monaco-editor';
+
+export type MonacoModule = typeof import('monaco-editor');
 
 /**
  * FreeMarker 内置/常用关键字：不作为自定义变量校验与补全对象
@@ -40,10 +42,6 @@ const FREEMARKER_ROOT_KEYWORDS = new Set([
   'gte',
 ]);
 
-/**
- * 从 ${ 后未闭合片段中取根变量名（第一段标识符）
- * @param inner ${ 之后的片段
- */
 function getRootVariableName(inner: string): string | null {
   const m = inner.trim().match(/^([a-zA-Z_][a-zA-Z0-9_]*)/);
   if (!m) {
@@ -56,11 +54,6 @@ function getRootVariableName(inner: string): string | null {
   return name;
 }
 
-/**
- * 提取未在 require_fields 中声明的 ${var} 根变量
- * @param text 模板全文
- * @param keys 已声明 key
- */
 function collectUnknownVariableMarkers(
   text: string,
   keys: Set<string>
@@ -80,32 +73,29 @@ function collectUnknownVariableMarkers(
   return out;
 }
 
-/**
- * 光标偏移 → Monaco Position
- */
-function offsetToPosition(model: monaco.editor.ITextModel, offset: number): monaco.Position {
+function offsetToPosition(model: editor.ITextModel, offset: number, monacoApi: MonacoModule): IPosition {
   const pos = model.getPositionAt(offset);
-  return new monaco.Position(pos.lineNumber, pos.column);
+  return new monacoApi.Position(pos.lineNumber, pos.column);
 }
 
 /**
  * 注册邮件模板 Monaco：补全/Hover；未声明变量 setModelMarkers 标红
- * @param editor 编辑器实例
- * @param monacoApi monaco 命名空间
+ * @param editorInstance 编辑器实例
+ * @param monacoApi 动态加载得到的 monaco 命名空间
  * @param getRequireFields 当前模板变量列表
  */
 export function registerEmailTemplateMonaco(
-  editor: editor.IStandaloneCodeEditor,
-  monacoApi: typeof monaco,
+  editorInstance: editor.IStandaloneCodeEditor,
+  monacoApi: MonacoModule,
   getRequireFields: () => EmailTemplateRequireFieldRow[]
 ): { dispose: () => void; refreshMarkers: () => void } {
-  const model = editor.getModel();
+  const model = editorInstance.getModel();
   if (!model) {
     const noop = () => {};
     return { dispose: noop, refreshMarkers: noop };
   }
 
-  const disposables: monaco.IDisposable[] = [];
+  const disposables: Array<{ dispose: () => void }> = [];
 
   const getFieldMap = () => {
     const map = new Map<string, EmailTemplateRequireFieldRow>();
@@ -151,8 +141,8 @@ export function registerEmailTemplateMonaco(
   );
 
   const findHoverAt = (
-    m: monaco.editor.ITextModel,
-    position: monaco.Position,
+    m: editor.ITextModel,
+    position: IPosition,
     fieldMap: Map<string, EmailTemplateRequireFieldRow>
   ) => {
     const off = m.getOffsetAt(position);
@@ -170,8 +160,8 @@ export function registerEmailTemplateMonaco(
       if (!row) continue;
       const openInner = start + 2;
       const range = monacoApi.Range.fromPositions(
-        offsetToPosition(m, openInner),
-        offsetToPosition(m, Math.min(openInner + name.length, text.length))
+        offsetToPosition(m, openInner, monacoApi),
+        offsetToPosition(m, Math.min(openInner + name.length, text.length), monacoApi)
       );
       return { range, row };
     }
@@ -203,9 +193,6 @@ export function registerEmailTemplateMonaco(
 
   let markerTimer: ReturnType<typeof setTimeout> | null = null;
   const markerSource = 'email-template-require-fields';
-  /**
-   * setModelMarkers 在部分版本/场景下会同步再次触发 onDidChangeContent，导致 scheduleMarkers 无限递归直至栈溢出。
-   */
   let applyingMarkers = false;
 
   const scheduleMarkers = () => {
@@ -219,9 +206,9 @@ export function registerEmailTemplateMonaco(
           .filter(Boolean)
       );
       const issues = collectUnknownVariableMarkers(text, keys);
-      const markers: monaco.editor.IMarkerData[] = issues.map((it) => {
-        const startPos = offsetToPosition(model, it.start);
-        const endPos = offsetToPosition(model, Math.min(it.end, text.length));
+      const markers: editor.IMarkerData[] = issues.map((it) => {
+        const startPos = offsetToPosition(model, it.start, monacoApi);
+        const endPos = offsetToPosition(model, Math.min(it.end, text.length), monacoApi);
         return {
           severity: monacoApi.MarkerSeverity.Error,
           message: `变量未在 require_fields 中声明: ${it.name}`,
@@ -249,7 +236,6 @@ export function registerEmailTemplateMonaco(
     })
   );
 
-  /** 推迟到当前栈结束后再跑首帧标记，避免与编辑器挂载时的内部变更形成同步递归 */
   queueMicrotask(() => {
     if (!model.isDisposed()) {
       scheduleMarkers();

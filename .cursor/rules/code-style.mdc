@@ -32,6 +32,7 @@ alwaysApply: true  # 建议改为 true，确保生成 Commit 时必读
 - **DOM 操作**：严禁直接操作 DOM，必须使用 Vue 模板引用 (`ref`)。
 - **文件命名**：除了 `src/types` 和 `src/router/modules` 使用 **中划线 (kebab-case)**，其余脚本文件（API、Store）统一使用 *
   *小驼峰 (camelCase)**。
+- 前端id操作一律不要使用Number(xxx)这种，后端使用的是雪花id，使用Number直接精度丢失！也不需要String()转换！
 
 ### 2. 国际化 (i18n) 规范
 

@@ -28,7 +28,6 @@ const {
   selectedRows,
   searchForm,
   onSearch,
-  onQuery,
   onReset,
   onPageSizeChange,
   onPageCurrentChange,
@@ -43,7 +42,6 @@ const {
   openRequireFields,
   openTestSend,
   openTemplateContentEdit,
-  removeOne,
   removeBatch,
   batchUpdateStatus,
 } = useEmailTemplateTableAction({ onSearch });
@@ -86,7 +84,7 @@ onMounted(() => {
       </el-form-item>
 
       <el-form-item>
-        <el-button :loading="loading" type="primary" @click="onQuery">{{ t('buttons.actionSearch') }}</el-button>
+        <el-button :loading="loading" type="primary" @click="onSearch">{{ t('buttons.actionSearch') }}</el-button>
         <el-button @click="onReset(searchFormRef)">{{ t('buttons.actionReset') }}</el-button>
       </el-form-item>
     </el-form>
@@ -98,13 +96,17 @@ onMounted(() => {
       @refresh="onSearch"
     >
       <template #buttons>
+        <!-- 添加 -->
         <el-button type="primary" @click="openAdd">{{ t('buttons.actionAdd') }}</el-button>
+        <!-- 批量启用 -->
         <el-button :disabled="selectedRows.length <= 0" type="success" @click="batchUpdateStatus(selectedRows, true)">
           {{ t('emailTemplate.batchEnable') }}
         </el-button>
+        <!-- 批量停用 -->
         <el-button :disabled="selectedRows.length <= 0" type="warning" @click="batchUpdateStatus(selectedRows, false)">
           {{ t('emailTemplate.batchDisable') }}
         </el-button>
+        <!-- 批量删除 -->
         <el-button :disabled="selectedRows.length <= 0" type="danger" @click="removeBatch(selectedRows)">
           {{ t('buttons.actionBatchDelete') }}
         </el-button>
@@ -133,20 +135,28 @@ onMounted(() => {
         >
           <template #actions="{ row }">
             <div class="flex justify-center flex-wrap gap-x-1">
+              <!-- 查看 -->
               <el-button link type="primary" @click="openDetail(row)">{{ t('buttons.actionView') }}</el-button>
+              <!-- 编辑 -->
               <el-button link type="primary" @click="openEdit(row)">{{ t('buttons.actionEdit') }}</el-button>
-              <el-button link type="danger" @click="removeOne(row)">{{ t('buttons.actionDelete') }}</el-button>
+              <!-- 删除 -->
+              <el-button link type="danger" @click="removeBatch([row.id])">{{ t('buttons.actionDelete') }}</el-button>
+              <!-- 更多 -->
               <el-dropdown class="ml-1" trigger="click">
                 <el-button class="el-dropdown-link" link type="primary">{{ t('buttons.actionMore') }}</el-button>
                 <template #dropdown>
                   <el-dropdown-menu>
+                    <!-- 预览 -->
                     <el-dropdown-item @click="openPreview(row)">{{ t('emailTemplate.preview') }}</el-dropdown-item>
+                    <!-- 必填字段 -->
                     <el-dropdown-item @click="openRequireFields(row)">
                       {{ t('emailTemplate.requireFieldsMenu') }}
                     </el-dropdown-item>
+                    <!-- 测试发送 -->
                     <el-dropdown-item @click="openTestSend(row)">
                       {{ t('emailTemplate.testSendMenu') }}
                     </el-dropdown-item>
+                    <!-- 模板编辑 -->
                     <el-dropdown-item @click="openTemplateContentEdit(row)">
                       {{ t('emailTemplate.templateEditMenu') }}
                     </el-dropdown-item>

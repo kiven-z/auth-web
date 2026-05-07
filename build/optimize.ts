@@ -5,26 +5,29 @@
  * 温馨提示：如果您使用的第三方库是全局引入，也就是引入到 src/main.ts 文件里，就不需要再添加到 include 里了，因为 vite 会自动将它们缓存到 node_modules/.vite
  */
 const include = [
-  "qs",
-  "mitt",
-  "dayjs",
-  "axios",
-  "pinia",
-  "vue-i18n",
-  "vue-types",
-  "js-cookie",
-  "vue-tippy",
-  "pinyin-pro",
-  "sortablejs",
-  "@vueuse/core",
-  "@pureadmin/utils",
-  "responsive-storage"
+  'qs',
+  'mitt',
+  'dayjs',
+  'axios',
+  'pinia',
+  'vue-i18n',
+  'vue-types',
+  'js-cookie',
+  'vue-tippy',
+  'pinyin-pro',
+  'sortablejs',
+  '@vueuse/core',
+  '@pureadmin/utils',
+  'responsive-storage',
 ];
 
 /**
  * 在预构建中强制排除的依赖项
  * 温馨提示：平台推荐的使用方式是哪里需要哪里引入而且都是单个的引入，不需要预构建，直接让浏览器加载就好
  */
-const exclude = ["@iconify/json"];
+/**
+ * monaco-editor 体量极大，参与 optimizeDeps 预构建时易触发 esbuild 栈溢出或 dev 返回 500；改为排除后按原生 ESM 按需加载。
+ */
+const exclude = ['@iconify/json', 'monaco-editor'];
 
-export { include, exclude };
+export { exclude, include };

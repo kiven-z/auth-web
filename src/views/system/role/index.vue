@@ -31,7 +31,6 @@ const {
   pagination,
   searchForm,
   onSearch,
-  onQuery,
   onReset,
   onPageSizeChange,
   onPageCurrentChange,
@@ -86,7 +85,7 @@ onMounted(() => {
       <!-- 表单搜索 -->
       <el-form-item>
         <!-- 搜索 -->
-        <el-button type="primary" @click="onQuery">{{ t('buttons.actionSearch') }}</el-button>
+        <el-button type="primary" @click="onSearch">{{ t('buttons.actionSearch') }}</el-button>
         <!-- 重置 -->
         <el-button @click="onReset(searchFormRef)">{{ t('buttons.actionReset') }}</el-button>
       </el-form-item>

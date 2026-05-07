@@ -88,7 +88,7 @@ export interface EmailTemplateCreateRequest {
 
 /** 元数据更新（EmailTemplateMetadataForm） */
 export interface EmailTemplateMetadataUpdateRequest {
-  id: number;
+  id: string;
   templateCode: string;
   templateName: string;
   subject: string;
@@ -109,7 +109,7 @@ export interface EmailTemplateRequireFieldsUpdateRequest {
 
 /** 批量启停 */
 export interface EmailTemplateBatchStatusRequest {
-  ids: number[];
+  ids: string[];
   status: boolean;
 }
 
@@ -121,7 +121,7 @@ export interface EmailTemplateRenderRequest {
 
 /** 测试发送 */
 export interface EmailTemplateTestSendRequest {
-  id: number;
+  id: string;
   email: string;
 }
 
@@ -217,6 +217,6 @@ export function batchUpdateEmailTemplateStatus(data: EmailTemplateBatchStatusReq
  * 批量删除
  * @param ids 模板 ID 列表（数值，与后端 Long 一致）
  */
-export function batchDeleteEmailTemplates(ids: number[]): Promise<string> {
+export function batchDeleteEmailTemplates(ids: string[]): Promise<string> {
   return http.request<string>('delete', '/system/email-template', { data: ids });
 }

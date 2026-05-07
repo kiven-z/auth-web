@@ -10,32 +10,14 @@ import { useI18n } from 'vue-i18n';
 function useRoleTableColumns() {
   const { t } = useI18n();
 
-  /**
-   * 格式化角色类型
-   */
-  function formatRoleType(roleType: number): string {
-    const keyMap: Record<number, string> = {
-      1: 'roles.roleTypeSystem',
-      2: 'roles.roleTypeMenu',
-      3: 'roles.roleTypeBusiness',
-      4: 'roles.roleTypeCustom',
-    };
-    const key = keyMap[roleType];
-    return key ? t(key) : roleType;
-  }
-
-  /**
-   * 格式化状态
-   */
-  function formatStatus(status: number): string {
-    return status === 0 ? t('roles.statusNormal') : t('roles.statusDisabled');
-  }
-
   const columns = computed<TableColumnList>(() => [
     { type: 'selection', align: 'left' },
     { type: 'index', index: (index: number) => index + 1, label: t('table.idx'), minWidth: 60 },
+    // 角色编码
     { label: t('roles.roleCode'), prop: 'roleCode', minWidth: 130 },
+    // 角色名称
     { label: t('roles.roleName'), prop: 'roleName', minWidth: 140 },
+    // 状态
     {
       label: t('roles.status'),
       prop: 'status',
@@ -43,17 +25,28 @@ function useRoleTableColumns() {
       formatter: (row: SysRolePageRow) => {
         return (
           <ElTag type={row.status === 0 ? 'success' : 'danger'} effect="plain" size="small">
-            {formatStatus(row.status)}
+            {row.status === 0 ? t('roles.statusNormal') : t('roles.statusDisabled')}
           </ElTag>
         );
       },
     },
+    // 角色类型
     {
       label: t('roles.roleType'),
       prop: 'roleType',
       minWidth: 120,
-      formatter: (row: SysRolePageRow) => formatRoleType(row.roleType),
+      formatter: (row: SysRolePageRow) => {
+        const keyMap: Record<number, string> = {
+          1: 'roles.roleTypeSystem',
+          2: 'roles.roleTypeMenu',
+          3: 'roles.roleTypeBusiness',
+          4: 'roles.roleTypeCustom',
+        };
+        const key = keyMap[row.roleType];
+        return key ? t(key) : row.roleType;
+      },
     },
+    // 排序号
     { label: t('roles.orderNum'), prop: 'orderNum', width: 100 },
     { label: t('table.createTime'), prop: 'createTime', minWidth: 120 },
     { label: t('table.updateTime'), prop: 'updateTime', minWidth: 120 },

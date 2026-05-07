@@ -10,22 +10,23 @@ import { useI18n } from 'vue-i18n';
 function useEmailTemplateTableColumns() {
   const { t } = useI18n();
 
-  function formatStatus(status: number): string {
-    return status === 1 ? t('emailTemplate.statusEnabled') : t('emailTemplate.statusDisabled');
-  }
-
   const columns = computed<TableColumnList>(() => [
     { type: 'selection', align: 'left' },
     {
       type: 'index',
-      index: (index: number) => index + 1,
+      index: (index: number) => index + 1, 
       label: t('table.idx'),
       minWidth: 60,
     },
+    // 模板编码 
     { label: t('emailTemplate.templateCode'), prop: 'templateCode', minWidth: 160 },
+    // 模板名称
     { label: t('emailTemplate.templateName'), prop: 'templateName', minWidth: 160 },
+    // 主题
     { label: t('emailTemplate.subject'), prop: 'subject', minWidth: 220 },
+    // 优先级
     { label: t('emailTemplate.priority'), prop: 'priority', width: 120 },
+    // 状态
     {
       label: t('emailTemplate.status'),
       prop: 'status',
@@ -33,7 +34,7 @@ function useEmailTemplateTableColumns() {
       formatter: (row: EmailTemplatePageRow) => {
         return (
           <ElTag type={row.status === 1 ? 'success' : 'danger'} effect="plain" size="small">
-            {formatStatus(row.status)}
+            {row.status === 1 ? t('emailTemplate.statusEnabled') : t('emailTemplate.statusDisabled')}
           </ElTag>
         );
       },

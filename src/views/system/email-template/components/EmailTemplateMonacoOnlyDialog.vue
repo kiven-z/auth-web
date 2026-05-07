@@ -1,12 +1,12 @@
+<!--
+  仅编辑模板 HTML：Monaco（动态加载）+ 实时预览；不使用 monaco-editor-vue3，避免 Vite 预构建整包失败。
+-->
 <script lang="ts" setup>
-import { renderEmailTemplate, type EmailTemplateFormModel } from '@/api/system/email-template';
-import { registerEmailTemplateMonaco } from '@/views/system/email-template/hooks/useEmailTemplateMonaco';
+import { type EmailTemplateFormModel, renderEmailTemplate } from '@/api/system/email-template';
 import type { FormInstance, FormRules } from 'element-plus';
-import { debounce } from 'lodash';
+import debounce from 'lodash/debounce';
 import type { editor } from 'monaco-editor';
-import * as monaco from 'monaco-editor';
-import { CodeEditor } from 'monaco-editor-vue3';
-import { onUnmounted, reactive, ref, toRaw, watch } from 'vue';
+import { nextTick, onUnmounted, reactive, ref, toRaw, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 const defaultForm = (): EmailTemplateFormModel => ({
@@ -32,7 +32,6 @@ const props = withDefaults(
 
 const { t } = useI18n();
 
-/** 与 props 断开引用，避免深层响应式对象与 Monaco / 子组件形成循环触发 */
 function cloneRequireFields(
   rows: EmailTemplateFormModel['requireFields'] | undefined
 ): EmailTemplateFormModel['requireFields'] {
@@ -55,17 +54,14 @@ const rules = reactive<FormRules>({
   content: [{ required: true, message: t('emailTemplate.placeholder.content'), trigger: 'blur' }],
 });
 
-const editorOptions = {
-  fontSize: 14,
-  minimap: { enabled: false },
-  automaticLayout: true,
-  scrollBeyondLastLine: false,
-  wordWrap: 'on' as const,
-};
+const editorHostRef = ref<HTMLElement | null>(null);
+let standaloneEditor: editor.IStandaloneCodeEditor | null = null;
+let editorContentDisposable: { dispose: () => void } | null = null;
+let refreshMonacoMarkers: (() => void) | null = null;
+let disposeMonacoRegistration: (() => void) | null = null;
+let syncingFromEditor = false;
 
 const renderedHtml = ref('');
-let disposeMonaco: (() => void) | null = null;
-let refreshMonacoMarkers: (() => void) | null = null;
 
 const scheduleRender = debounce(async () => {
   try {
@@ -80,32 +76,20 @@ const scheduleRender = debounce(async () => {
 
 watch(
   () => form.value.content,
-  () => {
+  (v) => {
     scheduleRender();
+    if (!standaloneEditor || syncingFromEditor) return;
+    const cur = standaloneEditor.getValue();
+    if (cur !== (v ?? '')) {
+      standaloneEditor.setValue(v ?? '');
+    }
   }
 );
-watch(
-  () => form.value.requireFields,
-  () => {
-    scheduleRender();
-  },
-  { deep: true }
-);
-
-const onEditorDidMount = (ed: editor.IStandaloneCodeEditor) => {
-  if (disposeMonaco) {
-    disposeMonaco();
-    disposeMonaco = null;
-    refreshMonacoMarkers = null;
-  }
-  const reg = registerEmailTemplateMonaco(ed, monaco, () => form.value.requireFields ?? []);
-  disposeMonaco = reg.dispose;
-  refreshMonacoMarkers = reg.refreshMarkers;
-};
 
 watch(
   () => form.value.requireFields,
   () => {
+    scheduleRender();
     refreshMonacoMarkers?.();
   },
   { deep: true }
@@ -126,12 +110,60 @@ watch(
   { deep: true, flush: 'post' }
 );
 
+/**
+ * 动态加载 monaco 并创建编辑器（仅本弹窗挂载时执行）
+ */
+async function mountMonacoEditor() {
+  await nextTick();
+  const host = editorHostRef.value;
+  if (!host || standaloneEditor) return;
+
+  /** 动态 import，避免 Vue 编译该 SFC 时静态拉取 monaco 依赖链导致 Vite 转换栈溢出或 dev 500 */
+  const [{ loadMonacoEditor }, { registerEmailTemplateMonaco }] = await Promise.all([
+    import('@/views/system/email-template/utils/monaco-bootstrap'),
+    import('@/views/system/email-template/hooks/useEmailTemplateMonaco'),
+  ]);
+
+  const monacoApi = await loadMonacoEditor();
+  standaloneEditor = monacoApi.editor.create(host, {
+    value: form.value.content ?? '',
+    language: 'html',
+    theme: 'vs',
+    automaticLayout: true,
+    minimap: { enabled: false },
+    fontSize: 14,
+    scrollBeyondLastLine: false,
+    wordWrap: 'on',
+  });
+
+  const reg = registerEmailTemplateMonaco(standaloneEditor, monacoApi, () => form.value.requireFields ?? []);
+  disposeMonacoRegistration = reg.dispose;
+  refreshMonacoMarkers = reg.refreshMarkers;
+
+  editorContentDisposable = standaloneEditor.onDidChangeModelContent(() => {
+    syncingFromEditor = true;
+    try {
+      form.value.content = standaloneEditor!.getValue();
+    } finally {
+      queueMicrotask(() => {
+        syncingFromEditor = false;
+      });
+    }
+  });
+}
+
 onUnmounted(() => {
-  disposeMonaco?.();
-  disposeMonaco = null;
+  disposeMonacoRegistration?.();
+  disposeMonacoRegistration = null;
   refreshMonacoMarkers = null;
+  editorContentDisposable?.dispose();
+  editorContentDisposable = null;
+  standaloneEditor?.dispose();
+  standaloneEditor = null;
   scheduleRender.cancel();
 });
+
+void mountMonacoEditor();
 
 scheduleRender();
 
@@ -139,36 +171,28 @@ defineExpose({ formRef, form });
 </script>
 
 <template>
-  <div>
-    <el-form ref="formRef" :model="form" :rules="rules" class="monaco-only-form">
-      <el-row :gutter="16" class="min-h-[62vh]">
-        <el-col :lg="14" :md="14" :sm="24" :xs="24">
-          <div class="text-sm font-medium mb-2">{{ t('emailTemplate.content') }}</div>
-          <el-form-item class="!mb-0" prop="content">
-            <div
-              class="w-full monaco-only-editor border border-[var(--el-border-color)] rounded overflow-hidden shadow-sm"
-            >
-              <CodeEditor
-                v-model:value="form.content"
-                :options="editorOptions"
-                language="html"
-                @editor-did-mount="onEditorDidMount"
-              />
-            </div>
-          </el-form-item>
-        </el-col>
-
-        <el-col :lg="10" :md="10" :sm="24" :xs="24">
-          <div class="text-sm font-medium mb-2">{{ t('emailTemplate.liveRenderPreview') }}</div>
+  <el-form ref="formRef" :model="form" :rules="rules" class="monaco-only-form">
+    <el-row :gutter="16" class="min-h-[62vh]">
+      <el-col :lg="14" :md="14" :sm="24" :xs="24">
+        <div class="text-sm font-medium mb-2">{{ t('emailTemplate.content') }}</div>
+        <el-form-item class="!mb-0" prop="content">
           <div
-            class="monaco-only-preview border border-[var(--el-border-color)] rounded p-3 overflow-auto bg-[var(--el-fill-color-blank)]"
-          >
-            <div v-html="renderedHtml" />
-          </div>
-        </el-col>
-      </el-row>
-    </el-form>
-  </div>
+            ref="editorHostRef"
+            class="w-full monaco-only-editor border border-[var(--el-border-color)] rounded overflow-hidden shadow-sm"
+          />
+        </el-form-item>
+      </el-col>
+
+      <el-col :lg="10" :md="10" :sm="24" :xs="24">
+        <div class="text-sm font-medium mb-2">{{ t('emailTemplate.liveRenderPreview') }}</div>
+        <div
+          class="monaco-only-preview border border-[var(--el-border-color)] rounded p-3 overflow-auto bg-[var(--el-fill-color-blank)]"
+        >
+          <div v-html="renderedHtml" />
+        </div>
+      </el-col>
+    </el-row>
+  </el-form>
 </template>
 
 <style scoped>

@@ -14,30 +14,14 @@ import {
 import { addDialog } from '@/components/ui/Dialog';
 import { deleteConfirm } from '@/shared/messaging/dialog';
 import { message } from '@/shared/messaging/message';
-import { defineAsyncComponent, h, ref } from 'vue';
+import { h, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
-
-/**
- * 弹窗组件全部异步注册，避免进入列表页时同步执行 monaco-editor 等大型依赖导致初始化栈过深或异常。
- */
-const EmailTemplateDialog = defineAsyncComponent(
-  () => import('@/views/system/email-template/components/EmailTemplateDialog.vue')
-);
-const EmailTemplateDetailDialog = defineAsyncComponent(
-  () => import('@/views/system/email-template/components/EmailTemplateDetailDialog.vue')
-);
-const EmailTemplateMonacoOnlyDialog = defineAsyncComponent(
-  () => import('@/views/system/email-template/components/EmailTemplateMonacoOnlyDialog.vue')
-);
-const EmailTemplatePreviewDialog = defineAsyncComponent(
-  () => import('@/views/system/email-template/components/EmailTemplatePreviewDialog.vue')
-);
-const EmailTemplateRequireFieldsDialog = defineAsyncComponent(
-  () => import('@/views/system/email-template/components/EmailTemplateRequireFieldsDialog.vue')
-);
-const EmailTemplateTestSendDialog = defineAsyncComponent(
-  () => import('@/views/system/email-template/components/EmailTemplateTestSendDialog.vue')
-);
+import EmailTemplateDialog from '@/views/system/email-template/components/EmailTemplateDialog.vue';
+import EmailTemplateDetailDialog from '@/views/system/email-template/components/EmailTemplateDetailDialog.vue';
+import EmailTemplatePreviewDialog from '@/views/system/email-template/components/EmailTemplatePreviewDialog.vue';
+import EmailTemplateRequireFieldsDialog from '@/views/system/email-template/components/EmailTemplateRequireFieldsDialog.vue';
+import EmailTemplateTestSendDialog from '@/views/system/email-template/components/EmailTemplateTestSendDialog.vue';
+import EmailTemplateMonacoOnlyDialog from '@/views/system/email-template/components/EmailTemplateMonacoOnlyDialog.vue';
 
 export interface EmailTemplateTableActionDeps {
   onSearch: () => Promise<void>;
@@ -83,7 +67,6 @@ function toFormFromDetail(detail: EmailTemplateDetailVO, id: string): EmailTempl
 
 /**
  * 邮件模板表格操作：弹窗与写接口
- * @param deps 须传入与页面同源的 {@link deps.onSearch}
  */
 function useEmailTemplateTableAction(deps: EmailTemplateTableActionDeps) {
   const { onSearch } = deps;
@@ -281,7 +264,7 @@ function useEmailTemplateTableAction(deps: EmailTemplateTableActionDeps) {
             if (!valid) return;
             const f = dlgRef.value?.form;
             if (!f?.id) return;
-            await updateEmailTemplateContent(f.id, { content: f.content ?? '' });
+            await updateEmailTemplateContent(String(f.id), { content: f.content ?? '' });
             message(t('tips.editSuccess'), { type: 'success' });
             await onSearch();
             done();
@@ -311,17 +294,10 @@ function useEmailTemplateTableAction(deps: EmailTemplateTableActionDeps) {
     }
   };
 
-  const removeOne = async (row: EmailTemplatePageRow) => {
-    await removeBatch([row.id]);
-  };
-
   const batchUpdateStatus = async (ids: string[], enabled: boolean) => {
     if (ids.length <= 0) return;
     try {
-      await batchUpdateEmailTemplateStatus({
-        ids,
-        status: enabled,
-      });
+      await batchUpdateEmailTemplateStatus({ ids, status: enabled });
       message(t('tips.editSuccess'), { type: 'success' });
       await onSearch();
     } catch (error: unknown) {
@@ -338,7 +314,6 @@ function useEmailTemplateTableAction(deps: EmailTemplateTableActionDeps) {
     openRequireFields,
     openTestSend,
     openTemplateContentEdit,
-    removeOne,
     removeBatch,
     batchUpdateStatus,
   };

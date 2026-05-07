@@ -1,7 +1,7 @@
-import { getRolePage, type SysRolePageQuery, type SysRolePageRow } from '@/api/system/role';
+import { getRolePage, type SysRolePageRow } from '@/api/system/role';
 import { message } from '@/shared/messaging/message';
 import type { FormInstance } from 'element-plus';
-import { reactive, ref, toRaw } from 'vue';
+import { reactive, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 /**
@@ -14,8 +14,8 @@ function useRolePageState() {
   const tableData = ref<SysRolePageRow[]>([]);
 
   const searchForm = reactive({
-    roleCode: '',
-    roleName: '',
+    roleCode: undefined,
+    roleName: undefined,
     status: undefined as number | undefined,
     roleType: undefined as number | undefined,
   });
@@ -27,45 +27,12 @@ function useRolePageState() {
   });
 
   /**
-   * 组装分页查询参数：空字符串不传，与后端契约一致。
-   */
-  const buildPageQuery = (): SysRolePageQuery => {
-    const raw = toRaw(searchForm);
-    const query: SysRolePageQuery = {
-      pageIndex: pagination.currentPage,
-      pageSize: pagination.pageSize,
-    };
-    const roleCode = typeof raw.roleCode === 'string' ? raw.roleCode.trim() : '';
-    const roleName = typeof raw.roleName === 'string' ? raw.roleName.trim() : '';
-    if (roleCode) {
-      query.roleCode = roleCode;
-    }
-    if (roleName) {
-      query.roleName = roleName;
-    }
-    if (raw.status !== undefined && raw.status !== null) {
-      query.status = raw.status;
-    }
-    if (raw.roleType !== undefined && raw.roleType !== null) {
-      query.roleType = raw.roleType;
-    }
-    return query;
-  };
-
-  /**
-   * 条件查询：回到第一页再请求（避免在末页改条件后仍请求空页）。
-   */
-  const onQuery = async () => {
-    pagination.currentPage = 1;
-    await onSearch();
-  };
-
-  /**
    * 分页查询（不改变当前页码；分页器事件与重置后调用）。
    */
   const onSearch = async () => {
     loading.value = true;
-    const query = buildPageQuery();
+    const query = { ...searchForm, pageIndex: pagination.currentPage, pageSize: pagination.pageSize };
+
     try {
       const page = await getRolePage(query);
       tableData.value = page.list ?? [];
@@ -131,7 +98,6 @@ function useRolePageState() {
     selectedRows,
     searchForm,
     onSearch,
-    onQuery,
     onReset,
     onPageSizeChange,
     onPageCurrentChange,

@@ -10,13 +10,6 @@ import { ElButton, ElTag } from 'element-plus';
 function useJobGroupTableColumns() {
   const { t } = useI18n();
 
-  /**
-   * 格式化状态
-   */
-  function formatStatus(status: number): string {
-    return status === 1 ? t('scheduleGroup.statusEnabled') : t('scheduleGroup.statusDisabled');
-  }
-
   const columns = computed<TableColumnList>(() => [
     {
       type: 'index',
@@ -36,7 +29,7 @@ function useJobGroupTableColumns() {
       formatter: (row: SysJobGroupPageRow) => {
         return (
           <ElTag type={row.status === 1 ? 'success' : 'danger'} effect="plain" size="small">
-            {formatStatus(row.status)}
+            {row.status === 1 ? t('scheduleGroup.statusEnabled') : t('scheduleGroup.statusDisabled')}
           </ElTag>
         );
       },

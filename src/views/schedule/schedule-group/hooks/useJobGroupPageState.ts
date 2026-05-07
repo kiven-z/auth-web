@@ -1,4 +1,4 @@
-import { getJobGroupPage, type SysJobGroupPageQuery, type SysJobGroupPageRow } from '@/api/schedule/job-group';
+import { getJobGroupPage, type SysJobGroupPageRow } from '@/api/schedule/job-group';
 import { message } from '@/shared/messaging/message';
 import type { FormInstance } from 'element-plus';
 import { reactive, ref } from 'vue';
@@ -13,8 +13,8 @@ function useJobGroupPageState() {
   const tableData = ref<SysJobGroupPageRow[]>([]);
 
   const searchForm = reactive({
-    groupCode: '',
-    groupName: '',
+    groupCode: undefined,
+    groupName: undefined,
     status: undefined as number | undefined,
   });
 
@@ -23,28 +23,6 @@ function useJobGroupPageState() {
     pageSize: 30,
     currentPage: 1,
   });
-
-  /**
-   * 组装分页查询参数：空字符串不传，与后端契约一致。
-   */
-  const buildPageQuery = (): SysJobGroupPageQuery => {
-    const query: SysJobGroupPageQuery = {
-      pageIndex: pagination.currentPage,
-      pageSize: pagination.pageSize,
-    };
-    const groupCode = typeof searchForm.groupCode === 'string' ? searchForm.groupCode.trim() : '';
-    const groupName = typeof searchForm.groupName === 'string' ? searchForm.groupName.trim() : '';
-    if (groupCode) {
-      query.groupCode = groupCode;
-    }
-    if (groupName) {
-      query.groupName = groupName;
-    }
-    if (searchForm.status !== undefined && searchForm.status !== null) {
-      query.status = searchForm.status;
-    }
-    return query;
-  };
 
   /**
    * 条件查询：回到第一页再请求（避免在末页改条件后仍请求空页）。
@@ -59,7 +37,7 @@ function useJobGroupPageState() {
    */
   const onSearch = async () => {
     loading.value = true;
-    const query = buildPageQuery();
+    const query = { ...searchForm, pageIndex: pagination.currentPage, pageSize: pagination.pageSize };
     try {
       const page = await getJobGroupPage(query);
       tableData.value = page.list ?? [];
