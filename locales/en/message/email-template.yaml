@@ -1,0 +1,53 @@
+emailTemplate:
+  name: Email template
+  loadFailed: Failed to load email templates
+  tableTitle: Email templates
+  templateCode: Template code
+  templateName: Template name
+  subject: Email subject
+  description: Description
+  priority: Send priority
+  status: Status
+  content: Template body
+  liveRenderPreview: Live render preview
+  renderedEffect: Rendered output
+  requireFieldsJson: Required variables (JSON)
+  statusEnabled: Enabled
+  statusDisabled: Disabled
+  addDialogTitle: New email template
+  editDialogTitle: Edit email template
+  templateEditDialogTitle: Edit template body
+  detailDialogTitle: Email template detail
+  previewDialogTitle: Email preview
+  requireFieldsDialogTitle: Required variables
+  testSendDialogTitle: Test send
+  batchEnable: Enable selected
+  batchDisable: Disable selected
+  moreActions: More
+  preview: Preview
+  requireFieldsMenu: Variables
+  testSendMenu: Test send
+  templateEditMenu: Edit body
+  previewTips: HTML rendered with sample values; actual emails may differ slightly.
+  fieldKey: Variable name
+  fieldDescription: Description
+  fieldExampleValue: Sample value (JSON)
+  requireFieldKeyDuplicate: Duplicate variable names are not allowed
+  requireFieldKeyRequired: Please enter a variable name
+  requireFieldExampleRequired: Please enter a sample value
+  testSendEmail: Recipient email
+  testSendEmailPlaceholder: Enter recipient email
+  testSendEmailInvalid: Invalid email format
+  placeholder:
+    templateCode: Enter template code
+    templateName: Enter template name
+    subject: Enter email subject
+    status: Select status
+    description: Enter description
+    priority: Select priority
+    content: Enter HTML / FreeMarker body
+    fieldKey: Variable key, e.g. userName
+    fieldDescription: Field description
+    fieldExampleValue: 'JSON, e.g. "text"'
+  rules:
+    templateCodeReg: Only letters, underscore, hyphen; must include at least one letter
