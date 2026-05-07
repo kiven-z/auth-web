@@ -60,7 +60,9 @@ onMounted(() => {
 
       <!-- 表单搜索 -->
       <el-form-item>
+        <!-- 搜索 -->
         <el-button type="primary" @click="onQuery">{{ t('buttons.search') }}</el-button>
+        <!-- 重置 -->
         <el-button @click="onReset(searchFormRef)">{{ t('buttons.reset') }}</el-button>
       </el-form-item>
     </el-form>
@@ -72,6 +74,7 @@ onMounted(() => {
       @refresh="onSearch"
     >
       <template #buttons>
+        <!-- 添加 -->
         <el-button type="primary" @click="openAdd">{{ t('buttons.addText') }}</el-button>
       </template>
 
@@ -97,8 +100,11 @@ onMounted(() => {
         >
           <template #actions="{ row }">
             <div class="flex justify-center">
+              <!-- 查看 -->
               <el-button link type="primary" @click="openDetail(row)">{{ t('buttons.viewText') }}</el-button>
+              <!-- 修改/编辑 -->
               <el-button link type="primary" @click="openEdit(row)">{{ t('buttons.editText') }}</el-button>
+              <!-- 删除 -->
               <el-button :disabled="row.isSystem === 1" link type="danger" @click="removeOne(row)">
                 {{ t('buttons.delete') }}
               </el-button>

@@ -84,7 +84,9 @@ onMounted(() => {
 
       <!-- 表单搜索 -->
       <el-form-item>
+        <!-- 搜索 -->
         <el-button type="primary" @click="onQuery">{{ t('roles.query') }}</el-button>
+        <!-- 重置 -->
         <el-button @click="onReset(searchFormRef)">{{ t('roles.reset') }}</el-button>
       </el-form-item>
     </el-form>
@@ -95,8 +97,10 @@ onMounted(() => {
       @fullscreen="tableRef?.setAdaptive()"
       @refresh="onSearch"
     >
-      <template #actions>
+      <template #buttons>
+        <!-- 添加 -->
         <el-button type="primary">{{ t('roles.actionAdd') }}</el-button>
+        <!-- 批量删除 -->
         <el-button type="danger">{{ t('roles.actionBatchDelete') }}</el-button>
       </template>
 
@@ -121,11 +125,15 @@ onMounted(() => {
         >
           <template #actions>
             <div class="flex justify-center">
+              <!-- 查看 -->
               <el-button link type="primary" @click="onView">{{ t('roles.actionView') }}</el-button>
+              <!-- 修改/编辑 -->
               <el-button link type="primary" @click="onEdit">{{ t('roles.actionModify') }}</el-button>
+              <!-- 删除 -->
               <el-button link type="danger">{{ t('roles.actionDelete') }}</el-button>
 
               <el-dropdown class="ml-1" trigger="click">
+                <!-- 更多 -->
                 <el-button class="el-dropdown-link" link type="primary">{{ t('roles.moreActions') }}</el-button>
                 <template #dropdown>
                   <el-dropdown-menu>

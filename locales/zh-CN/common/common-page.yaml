@@ -1,0 +1,56 @@
+tips:
+  deleteConfirm: 确认删除吗？
+  lastTimeConfirmDeleteTitle: 最后一次确认
+  confirmTitle: 确认继续操作吗？
+  lastTimeConfirmTitle: 最后一次提醒，是否继续？
+buttons:
+  pureLoginOut: 退出系统
+  pureLogin: 登录
+  pureOpenSystemSet: 打开系统配置
+  pureReload: 重新加载
+  pureCloseCurrentTab: 关闭当前标签页
+  pureCloseLeftTabs: 关闭左侧标签页
+  pureCloseRightTabs: 关闭右侧标签页
+  pureCloseOtherTabs: 关闭其他标签页
+  pureCloseAllTabs: 关闭全部标签页
+  pureContentFullScreen: 内容区全屏
+  pureContentExitFullScreen: 内容区退出全屏
+  pureClickCollapse: 点击折叠
+  pureClickExpand: 点击展开
+  pureConfirm: 确认
+  pureSwitch: 切换
+  pureClose: 关闭
+  pureBackTop: 回到顶部
+  pureOpenText: 开
+  pureCloseText: 关
+table:
+  idx: 序号
+search:
+  pureTotal: 共
+  pureHistory: 搜索历史
+  pureCollect: 收藏
+  pureDragSort: （可拖拽排序）
+  pureEmpty: 暂无搜索结果
+  purePlaceholder: 搜索菜单（支持拼音搜索）
+status:
+  pureLoad: 加载中...
+  pureMessage: 消息
+  pureNotify: 通知
+  pureTodo: 待办
+  pureNoMessage: 暂无消息
+  pureNoNotify: 暂无通知
+  pureNoTodo: 暂无待办
+tableBar:
+  defaultTitle: 列表
+  densityLarge: 宽松
+  densityDefault: 默认
+  densitySmall: 紧凑
+  tippyColumnSettings: 列设置
+  tippyRefresh: 刷新
+  tippyDensity: 密度
+  tippyExpand: 展开
+  tippyCollapse: 折叠
+  tippyFullscreen: 全屏
+  tippyExitFullscreen: 退出全屏
+  columnShowAll: 列展示
+  reset: 重置

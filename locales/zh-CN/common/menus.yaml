@@ -11,4 +11,24 @@ menus:
   purePermissionButton: 按钮权限
   purePermissionButtonRouter: 路由返回按钮权限
   purePermissionButtonLogin: 登录接口返回按钮权限
+routes:
+  systemManagement: 系统管理
+  userManagement: 用户管理
+  roleManagement: 角色管理
+  permissionManagement: 权限管理
+  deptManagement: 部门管理
+  postManagement: 岗位管理
+  menuManagement: 菜单管理
+  emailTemplate: 邮件模板
+  onlineUser: 在线用户
+
   schedule: 任务调度
+  scheduleGroup: 任务调度分组
+  scheduleTask: 任务调度任务
+  scheduleLog: 任务调度日志
+
+  logManagement: 日志管理
+  passwordHistory: 密码历史
+  loginLog: 登录日志
+  operationLog: 操作日志
+  authLog: 授权日志

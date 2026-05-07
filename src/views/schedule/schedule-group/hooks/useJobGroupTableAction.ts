@@ -47,7 +47,7 @@ function useJobGroupTableAction(onSuccess: () => Promise<void>) {
         const formData: CreateJobGroupRequest = { ...formInline };
         const res = await createJobGroup(formData);
         if (!res) return;
-        message(t('common.tips.operationSuccess'), { type: 'success' });
+        message(t('tips.operationSuccess'), { type: 'success' });
         done();
         await onSuccess();
       },
@@ -89,7 +89,7 @@ function useJobGroupTableAction(onSuccess: () => Promise<void>) {
         };
         const res = await updateJobGroup(formData);
         if (!res) return;
-        message(t('common.tips.operationSuccess'), { type: 'success' });
+        message(t('tips.operationSuccess'), { type: 'success' });
         done();
         await onSuccess();
       },

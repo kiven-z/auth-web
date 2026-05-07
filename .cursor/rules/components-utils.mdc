@@ -33,7 +33,8 @@ alwaysApply: true
 
 ### 1. 核心原则
 
-- **统一封装**：禁止直接从 `element-plus` 导入 `ElMessage` 或 `ElMessageBox`。必须统一使用 `@/shared/messaging/message` 提供的封装函数，以保持
+- **统一封装**：禁止直接从 `element-plus` 导入 `ElMessage` 或 `ElMessageBox`。必须统一使用 `@/shared/messaging/message`
+  提供的封装函数，以保持
   UI 风格（antd 风格）和默认配置（如持续时间）的一致性。
 - **国际化结合**：消息内容应优先配合 `transformI18n` 使用，禁止在消息中直接硬编码中文。
 
@@ -82,13 +83,17 @@ alwaysApply: true
 > 1. **方法选择**：
      >    - 若是请求失败，使用 `errorMessage(error.message)`。
      >
-- 若是提交等待，使用 `loadMessage('common.tips.loading')`。
->    - 若是普通成功/警告，使用 `message('...', { type: 'success' })`。
+
+- 若是提交等待，使用 `loadMessage('tips.loading')`。
+
+> - 若是普通成功/警告，使用 `message('...', { type: 'success' })`。
 > 2. **自动导入**：检查并确保从 `@/shared/messaging/message` 导入对应函数，而非 `element-plus`。
 > 3. **文案处理**：
      >    - 检查消息内容是否已使用 `transformI18n` 或 `t()` 包裹。
      >
+
 - 如果上下文在 `.ts` 文件，使用 `transformI18n`。
+
 > 4. **清理逻辑**：在涉及 `loadMessage` 的异步操作结束处，提醒或自动补全 `closeAllMessage()` 或实例销毁逻辑。
 
 ## 多层确认弹窗 (Dialog/Confirm) 规范
@@ -96,14 +101,15 @@ alwaysApply: true
 ### 1. 核心原则
 
 - **严禁单层删除**：针对删除等危险操作，项目强制要求进行**多次确认**（通常为两次），以防止用户误操作。
-- **统一封装**：禁止在业务代码中直接调用 `ElMessageBox.confirm`。多层确认须使用项目内封装的函数（落地后置于 `src/shared/`，导入路径以 `CONTRIBUTING.md` 为准）。
+- **统一封装**：禁止在业务代码中直接调用 `ElMessageBox.confirm`。多层确认须使用项目内封装的函数（落地后置于 `src/shared/`
+  ，导入路径以 `CONTRIBUTING.md` 为准）。
 - **样式一致性**：所有确认框默认开启可拖拽 (`draggable`)、隐藏关闭按钮、并显示警告图标 (`warning`)。
 
 ### 2. 核心函数与场景
 
 - **`deleteConfirm()`**：最常用的**两次删除确认**。
-  - 第一层提示：`common.tips.deleteConfirm`（确认删除吗？）。
-  - 第二层提示：`common.tips.lastTimeConfirmDeleteTitle`（最后一次确认）。
+  - 第一层提示：`tips.deleteConfirm`（确认删除吗？）。
+  - 第二层提示：`tips.lastTimeConfirmDeleteTitle`（最后一次确认）。
 - **`operationConfirm()`**：通用的**两次操作确认**，文案通常为“确认执行此操作吗？”及其二次强调。
 - **`multiConfirm(layers, onConfirmed)`**：底层通用函数，支持自定义 N 层确认。
   - `layers`: 确认层配置数组，每一层可配置 `title`, `message`, `confirmText`, `cancelText`。
@@ -157,12 +163,12 @@ const deleteConfirm = async () => multiConfirm();
 const operationConfirm = async () => {
   const layers = [
     {
-      title: transformI18n('common.tips.confirmTitle'),
-      message: transformI18n('common.tips.confirmTitle'),
+      title: transformI18n('tips.confirmTitle'),
+      message: transformI18n('tips.confirmTitle'),
     },
     {
-      title: transformI18n('common.tips.confirmTitle'),
-      message: transformI18n('common.tips.lastTimeConfirmTitle'),
+      title: transformI18n('tips.confirmTitle'),
+      message: transformI18n('tips.lastTimeConfirmTitle'),
     },
   ];
   return multiConfirm(layers);
@@ -177,7 +183,9 @@ const operationConfirm = async () => {
 > 2. **方法替换**：
      >    - 禁止生成 `ElMessageBox.confirm`。
      >
+
 - 如果是简单的两次确认，优先使用 `deleteConfirm` 或 `operationConfirm`。
+
 > 3. **国际化处理**：
      >    - 在 `multiConfirm` 的自定义配置中，确保 `title` 和 `message` 使用 `transformI18n` 进行包裹。
 > 4. **返回处理**：

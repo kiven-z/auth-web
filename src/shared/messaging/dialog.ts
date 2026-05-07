@@ -14,12 +14,12 @@ const translate = (key: string): string => (i18n.global.t as (key: string) => st
 function defaultDeleteLayers(): ConfirmLayer[] {
   return [
     {
-      title: translate('common.tips.deleteConfirm'),
-      message: translate('common.tips.deleteConfirm'),
+      title: translate('tips.deleteConfirm'),
+      message: translate('tips.deleteConfirm'),
     },
     {
-      title: translate('common.tips.lastTimeConfirmDeleteTitle'),
-      message: translate('common.tips.lastTimeConfirmDeleteTitle'),
+      title: translate('tips.lastTimeConfirmDeleteTitle'),
+      message: translate('tips.lastTimeConfirmDeleteTitle'),
     },
   ];
 }
@@ -61,12 +61,12 @@ export async function deleteConfirm(): Promise<boolean> {
 export async function operationConfirm(): Promise<boolean> {
   return multiConfirm([
     {
-      title: translate('common.tips.confirmTitle'),
-      message: translate('common.tips.confirmTitle'),
+      title: translate('tips.confirmTitle'),
+      message: translate('tips.confirmTitle'),
     },
     {
-      title: translate('common.tips.confirmTitle'),
-      message: translate('common.tips.lastTimeConfirmTitle'),
+      title: translate('tips.confirmTitle'),
+      message: translate('tips.lastTimeConfirmTitle'),
     },
   ]);
 }
