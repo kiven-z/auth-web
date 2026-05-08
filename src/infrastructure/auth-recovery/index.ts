@@ -1,3 +1,4 @@
+export { dispatchAuthRecoveryEffects } from './effects';
 export { executeAuthRecovery } from './executor';
 export { findMatchedAuthRecoveryRule } from './matcher';
 export { LOCAL_AUTH_RECOVERY_RULES } from './policy';

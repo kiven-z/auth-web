@@ -1,5 +1,4 @@
 import { isPermissionVersionMismatchError } from '@/config/http-config';
-import { handlePermissionVersionConflict } from '@/infrastructure/permissionConflict';
 import { ApiBusinessError, ApiConflictError } from './apiError';
 import type { ApiResult } from './apiResult';
 
@@ -11,8 +10,5 @@ export function rejectWithApiEnvelopeError(raw: ApiResult, httpStatus?: number):
   const errorCode = raw.error ?? raw.subCode;
   const isConflict = isPermissionVersionMismatchError(httpStatus, errorCode);
   const err = isConflict ? new ApiConflictError(raw, httpStatus) : new ApiBusinessError(raw, httpStatus);
-  if (isConflict) {
-    handlePermissionVersionConflict(err as ApiConflictError);
-  }
   return Promise.reject(err);
 }

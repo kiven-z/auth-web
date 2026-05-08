@@ -1,5 +1,6 @@
 import { API_SUCCESS_CODE, isNoAuthRequestPath } from '@/config/http-config';
 import { executeAuthRecovery } from '@/infrastructure/auth-recovery';
+import { dispatchAuthRecoveryEffects } from '@/infrastructure/auth-recovery/effects';
 import { useUserStoreHook } from '@/store/modules/user';
 import Axios, { type AxiosInstance, type AxiosResponse } from 'axios';
 import { isApiResultEnvelope, type ApiResult } from '../apiResult';
@@ -85,16 +86,22 @@ async function handleResponseError(instance: AxiosInstance, error: PureHttpError
   const isNoAuthPath = requestConfig ? isNoAuthRequestPath(requestConfig.url) : false;
   const envelope = response?.data && isApiResultEnvelope(response.data) ? response.data : undefined;
   const authEnvelopeErrorCode = envelope?.error ?? envelope?.subCode;
+  const authRecoveryContext = {
+    status,
+    errorCode: authEnvelopeErrorCode,
+    requestUrl: requestConfig?.url,
+    isNoAuthPath,
+    retryCount: requestConfig?._authRecoveryRetryCount ?? 0,
+  };
   const authRecoveryResult = await executeAuthRecovery({
     instance,
     requestConfig,
-    context: {
-      status,
-      errorCode: authEnvelopeErrorCode,
-      requestUrl: requestConfig?.url,
-      isNoAuthPath,
-      retryCount: requestConfig?._authRecoveryRetryCount ?? 0,
-    },
+    context: authRecoveryContext,
+  });
+  dispatchAuthRecoveryEffects({
+    context: authRecoveryContext,
+    recoveryResult: authRecoveryResult,
+    envelope,
   });
   if (authRecoveryResult.handled && authRecoveryResult.replayResult !== undefined) {
     return authRecoveryResult.replayResult;
