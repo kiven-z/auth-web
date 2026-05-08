@@ -21,7 +21,7 @@ const monacoEditorPlugin =
   typeof monacoEditorPluginImport === 'function'
     ? monacoEditorPluginImport
     : (monacoEditorPluginImport as { default: typeof monacoEditorPluginImport }).default;
-    
+
 export function getPluginsList(VITE_CDN: boolean, VITE_COMPRESSION: ViteCompression): PluginOption[] {
   const lifecycle = process.env.npm_lifecycle_event;
   return [
@@ -40,6 +40,10 @@ export function getPluginsList(VITE_CDN: boolean, VITE_COMPRESSION: ViteCompress
      * vite-plugin-router-warn只在开发环境下启用，只处理vue-router文件并且只在服务启动或重启时运行一次，性能消耗可忽略不计
      */
     removeNoMatch(),
+    /**
+     * Monaco worker 单一责任：默认由 vite-plugin-monaco-editor 提供。
+     * 运行时仅在极端场景才走 UI bootstrap 的 fallback getWorker。
+     */
     monacoEditorPlugin({
       languageWorkers: ['editorWorkerService', 'css', 'html', 'json', 'typescript'],
       customWorkers: [],

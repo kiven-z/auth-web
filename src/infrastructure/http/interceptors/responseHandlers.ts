@@ -15,7 +15,7 @@ import type { PureHttpError, PureHttpRequestConfig, PureHttpResponse } from '../
 type InitConfigGetter = () => PureHttpRequestConfig;
 
 /**
- * 响应拦截：Result 解包、业务错误与鉴权恢复（401登出 / 409+稳定错误码刷新重放）。
+ * 响应拦截：Result 解包、业务错误与鉴权恢复（优先刷新重放，失败后再登出）。
  */
 export function attachResponseInterceptors(instance: AxiosInstance, getInitConfig: InitConfigGetter): void {
   instance.interceptors.response.use(
@@ -92,11 +92,6 @@ async function handleResponseError(instance: AxiosInstance, error: PureHttpError
   const envelope = response?.data && isApiResultEnvelope(response.data) ? response.data : undefined;
   const authEnvelopeErrorCode = envelope?.error ?? envelope?.subCode;
 
-  if (!isNoAuthPath && shouldForceLogoutByStatus(status)) {
-    useUserStoreHook().logOut();
-    throw error;
-  }
-
   if (
     !isNoAuthPath &&
     requestConfig &&
@@ -110,6 +105,11 @@ async function handleResponseError(instance: AxiosInstance, error: PureHttpError
       useUserStoreHook().logOut();
       throw refreshError;
     }
+  }
+
+  if (!isNoAuthPath && shouldForceLogoutByStatus(status)) {
+    useUserStoreHook().logOut();
+    throw error;
   }
 
   if (envelope) {

@@ -90,6 +90,7 @@ onMounted(() => {
 <template>
   <div v-loading="loading">
     <ReDescription :column="2" :columns="columns" :data="detail" border />
+
     <div class="text-sm font-medium mb-2">{{ t('emailTemplate.renderedEffect') }}</div>
     <div class="border border-(--el-border-color) overflow-auto rounded bg-(--el-fill-color-blank)">
       <iframe

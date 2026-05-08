@@ -31,12 +31,19 @@ export interface AuthRecoveryConfig {
 }
 /**
  * 鉴权恢复策略：
- * - 401 直接登出
+ * - 401 优先尝试刷新并重放一次（兼容仅返回 HTTP 状态码的过期场景）
  * - 409 + PERMISSION_VERSION_MISMATCH 可刷新并重放一次
+ * - 其余状态码按需直接登出（当前无）
  */
 export const AUTH_RECOVERY_CONFIG: AuthRecoveryConfig = {
-  logoutOnStatuses: [401],
+  logoutOnStatuses: [],
   refreshRules: [
+    {
+      httpStatuses: [401],
+      // accessToken 过期：部分后端仅返回 401，不携带稳定错误码
+      errorCodes: [],
+      action: 'refreshToken',
+    },
     {
       httpStatuses: [409],
       // 安全模块稳定错误码：权限版本不一致
@@ -71,16 +78,23 @@ export function shouldForceLogoutByStatus(status: number | undefined): boolean {
 }
 
 /**
- * 是否命中“可刷新恢复”规则（状态码 + 稳定错误码）。
+ * 是否命中“可刷新恢复”规则。
+ * - 当规则 errorCodes 为空时：仅按状态码命中（如 401）。
+ * - 当规则 errorCodes 非空时：要求状态码 + 稳定错误码同时命中（如 409 + PERMISSION_VERSION_MISMATCH）。
  */
 export function shouldRefreshTokenByRule(status: number | undefined, errorCode: string | undefined): boolean {
-  if (status === undefined || !errorCode) {
+  if (status === undefined) {
     return false;
   }
-  return AUTH_RECOVERY_CONFIG.refreshRules.some(
-    (rule) =>
-      rule.action === 'refreshToken' && rule.httpStatuses.includes(status) && rule.errorCodes.includes(errorCode)
-  );
+  return AUTH_RECOVERY_CONFIG.refreshRules.some((rule) => {
+    if (rule.action !== 'refreshToken' || !rule.httpStatuses.includes(status)) {
+      return false;
+    }
+    if (rule.errorCodes.length === 0) {
+      return true;
+    }
+    return errorCode && rule.errorCodes.includes(errorCode);
+  });
 }
 
 /**

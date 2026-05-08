@@ -46,26 +46,28 @@ function cloneRequireFields(
 }
 
 const formRef = ref<FormInstance>();
-const form = ref<EmailTemplateFormModel>({
-  ...defaultForm(),
-  ...props.formInline,
-  requireFields: cloneRequireFields(props.formInline?.requireFields),
-});
+const form = ref<EmailTemplateFormModel>(props.formInline as EmailTemplateFormModel);
 
 const rules = reactive<FormRules>({
+// 内容
   content: [{ required: true, message: t('emailTemplate.placeholder.content'), trigger: 'blur' }],
 });
 
 let refreshMonacoMarkers: (() => void) | null = null;
 let disposeMonacoRegistration: (() => void) | null = null;
 
+// 渲染后的 HTML
 const renderedHtml = ref('');
+// 预览 iframe 引用
 const previewFrameRef = ref<HTMLIFrameElement | null>(null);
+// 预览高度
 const previewHeight = ref(320);
-
+// 预览最小高度
 const PREVIEW_MIN_HEIGHT = 220;
+// 预览最大高度
 const PREVIEW_MAX_HEIGHT = 560;
 
+// 调整预览 iframe 高度
 const resizePreviewFrame = (frame: HTMLIFrameElement | null) => {
   if (!frame) return;
   const doc = frame.contentDocument;

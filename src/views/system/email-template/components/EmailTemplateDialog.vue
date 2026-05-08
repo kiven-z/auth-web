@@ -18,6 +18,7 @@ const formRef = ref<FormInstance>();
 const form = ref<EmailTemplateFormModel>(props.formInline as EmailTemplateFormModel);
 
 const rules = reactive<FormRules>({
+  // 模板编码
   templateCode: [
     { required: true, message: t('emailTemplate.placeholder.templateCode'), trigger: 'blur' },
     {
@@ -26,9 +27,13 @@ const rules = reactive<FormRules>({
       trigger: 'change',
     },
   ],
+  // 模板名称
   templateName: [{ required: true, message: t('emailTemplate.placeholder.templateName'), trigger: 'blur' }],
+  // 主题
   subject: [{ required: true, message: t('emailTemplate.placeholder.subject'), trigger: 'blur' }],
+  // 状态
   status: [{ required: true, message: t('emailTemplate.placeholder.status'), trigger: 'change' }],
+  // 优先级
   priority: [{ required: true, message: t('emailTemplate.placeholder.priority'), trigger: 'change' }],
 });
 
