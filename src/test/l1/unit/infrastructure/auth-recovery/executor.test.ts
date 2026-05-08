@@ -1,6 +1,5 @@
+import { executeAuthRecovery } from '@/infrastructure/auth-recovery/executor';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
-import type { PureHttpRequestConfig } from '../../../infrastructure/http/types';
-import { executeAuthRecovery } from '../../../infrastructure/auth-recovery/executor';
 
 const { replayRequestWithRefreshedTokenMock } = vi.hoisted(() => ({
   replayRequestWithRefreshedTokenMock: vi.fn(),
@@ -17,7 +16,7 @@ describe('executeAuthRecovery', () => {
 
   it('replays request when refresh strategy matches', async () => {
     replayRequestWithRefreshedTokenMock.mockResolvedValue({ data: { ok: true } });
-    const requestConfig = { url: 'system/user/page', headers: {} } as PureHttpRequestConfig;
+    const requestConfig: any = { url: 'system/user/page', headers: {} };
 
     const result = await executeAuthRecovery({
       instance: { request: vi.fn() } as any,
@@ -42,7 +41,7 @@ describe('executeAuthRecovery', () => {
 
     const result = await executeAuthRecovery({
       instance: { request: vi.fn() } as any,
-      requestConfig: { url: 'system/user/page' } as PureHttpRequestConfig,
+      requestConfig: { url: 'system/user/page' } as any,
       context: {
         status: 401,
         errorCode: 'GATEWAY_TOKEN_EXPIRED',
@@ -55,5 +54,22 @@ describe('executeAuthRecovery', () => {
     expect(result.handled).toBe(true);
     expect(result.shouldLogout).toBe(true);
     expect(result.replayError).toBeInstanceOf(Error);
+  });
+
+  it('returns pass-through when request config is missing', async () => {
+    const result = await executeAuthRecovery({
+      instance: { request: vi.fn() } as any,
+      requestConfig: undefined,
+      context: {
+        status: 401,
+        errorCode: 'GATEWAY_TOKEN_EXPIRED',
+        requestUrl: 'system/user/page',
+        isNoAuthPath: false,
+        retryCount: 0,
+      },
+    });
+
+    expect(result.handled).toBe(false);
+    expect(result.action).toBe('pass_through');
   });
 });

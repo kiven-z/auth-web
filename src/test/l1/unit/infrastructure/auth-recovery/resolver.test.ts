@@ -1,5 +1,5 @@
+import { resolveAuthRecoveryDecision } from '@/infrastructure/auth-recovery/resolver';
 import { describe, expect, it } from 'vitest';
-import { resolveAuthRecoveryDecision } from '../../../infrastructure/auth-recovery/resolver';
 
 describe('resolveAuthRecoveryDecision', () => {
   it('matches 401 expired to refresh action', () => {
@@ -14,6 +14,19 @@ describe('resolveAuthRecoveryDecision', () => {
     expect(decision.action).toBe('refresh_and_retry');
     expect(decision.matchedRuleId).toBe('refresh-on-gateway-token-expired');
     expect(decision.retryExhausted).toBe(false);
+  });
+
+  it('switches to logout when 401 refresh retry is exhausted', () => {
+    const decision = resolveAuthRecoveryDecision({
+      status: 401,
+      errorCode: 'TOKEN_EXPIRED',
+      requestUrl: 'system/user/page',
+      isNoAuthPath: false,
+      retryCount: 1,
+    });
+
+    expect(decision.action).toBe('logout');
+    expect(decision.retryExhausted).toBe(true);
   });
 
   it('matches 409 permission mismatch to refresh action', () => {
