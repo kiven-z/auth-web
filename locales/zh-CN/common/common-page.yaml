@@ -36,6 +36,11 @@ buttons:
   actionDelete: 删除
   actionBatchDelete: 批量删除
   actionMore: 更多
+  actionBatchAdd: 批量添加
+  actionBatchStatus: 修改状态
+  actionBatchEnable: 批量启用
+  actionBatchDisable: 批量停用
+  actionAdvanced: 高级功能
 table:
   idx: 序号
   actions: 操作

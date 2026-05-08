@@ -36,6 +36,11 @@ buttons:
   actionDelete: Delete
   actionBatchDelete: Batch delete
   actionMore: More
+  actionBatchAdd: Batch add
+  actionBatchStatus: Change status
+  actionBatchEnable: Enable selected
+  actionBatchDisable: Disable selected
+  actionAdvanced: Advanced
 table:
   idx: No
   actions: Actions

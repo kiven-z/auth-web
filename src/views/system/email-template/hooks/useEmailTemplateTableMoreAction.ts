@@ -59,6 +59,10 @@ export function useEmailTemplateTableMoreAction(options: UseEmailTemplateTableMo
   const { onSearch } = options;
   const { t } = useI18n();
 
+  /**
+   * 打开邮件模板预览对话框。
+   * @param row 邮件模板行数据
+   */
   const openPreview = async (row: EmailTemplatePageRow) => {
     try {
       const html = await getEmailTemplatePreviewHtml(row.id);
@@ -77,6 +81,10 @@ export function useEmailTemplateTableMoreAction(options: UseEmailTemplateTableMo
     }
   };
 
+  /**
+   * 打开邮件模板需求字段对话框。
+   * @param row 邮件模板行数据
+   */
   const openRequireFields = (row: EmailTemplatePageRow) => {
     const dialogRef = ref<RequireFieldsExpose | null>(null);
     addDialog({
@@ -98,6 +106,10 @@ export function useEmailTemplateTableMoreAction(options: UseEmailTemplateTableMo
     });
   };
 
+  /**
+   * 打开邮件模板测试发送对话框。
+   * @param row 邮件模板行数据
+   */
   const openTestSend = (row: EmailTemplatePageRow) => {
     const sendFormRef = ref<TestSendExpose | null>(null);
     addDialog({
@@ -129,6 +141,10 @@ export function useEmailTemplateTableMoreAction(options: UseEmailTemplateTableMo
     });
   };
 
+  /**
+   * 打开邮件模板内容编辑对话框。
+   * @param row 邮件模板行数据
+   */
   const openTemplateContentEdit = async (row: EmailTemplatePageRow) => {
     try {
       const detail = await getEmailTemplateById(row.id);

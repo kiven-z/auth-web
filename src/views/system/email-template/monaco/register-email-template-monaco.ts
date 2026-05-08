@@ -29,6 +29,9 @@ export function registerEmailTemplateMonaco(
   let markerTimer: ReturnType<typeof setTimeout> | null = null;
   let applyingMarkers = false;
 
+  /**
+   * 刷新未声明变量标红。
+   */
   const refreshMarkers = () => {
     if (markerTimer) {
       clearTimeout(markerTimer);
@@ -49,6 +52,9 @@ export function registerEmailTemplateMonaco(
     }, EMAIL_TEMPLATE_MARKER_DEBOUNCE_MS);
   };
 
+  /**
+   * 注册内容变化事件。
+   */
   disposables.push(
     model.onDidChangeContent(() => {
       if (applyingMarkers) {
@@ -58,12 +64,18 @@ export function registerEmailTemplateMonaco(
     })
   );
 
+  /**
+   * 初始化刷新未声明变量标红。
+   */
   queueMicrotask(() => {
     if (!model.isDisposed()) {
       refreshMarkers();
     }
   });
 
+  /**
+   * 释放资源。
+   */
   const dispose = () => {
     if (markerTimer) {
       clearTimeout(markerTimer);

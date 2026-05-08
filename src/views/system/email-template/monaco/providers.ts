@@ -59,6 +59,9 @@ export function registerEmailTemplateProviders(
     })
   );
 
+  /**
+   * 注册模板变量悬浮信息。
+   */
   providerDisposables.push(
     monacoApi.languages.registerHoverProvider('html', {
       provideHover(currentModel, position) {

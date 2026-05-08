@@ -44,6 +44,7 @@ export function toRequireFieldsPayload(rows: EditableRequireFieldRow[]) {
         error: { messageKey: 'emailTemplate.requireFieldKeyRequired' } satisfies RequireFieldsTransformError,
       };
     }
+
     const raw = row.exampleValueJson?.trim() ?? '';
     if (!raw) {
       return {

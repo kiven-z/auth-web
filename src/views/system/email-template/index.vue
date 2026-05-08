@@ -1,16 +1,13 @@
-<!--
-  邮件模板管理：检索、表格、新增/编辑、详情、预览、变量、测试发送、正文编辑、批量启停与删除
--->
 <script lang="ts" setup>
 import AuthDataTable from '@/components/ui/AuthDataTable';
 import TableBar from '@/components/ui/TableBar';
-import { EMAIL_TEMPLATE_STATUS_FILTER_OPTIONS } from '@/views/system/email-template/constants/email-template-search-options';
 import useEmailTemplatePageState from '@/views/system/email-template/hooks/useEmailTemplatePageState';
 import useEmailTemplateTableAction from '@/views/system/email-template/hooks/useEmailTemplateTableAction';
 import useEmailTemplateTableColumns from '@/views/system/email-template/hooks/useEmailTemplateTableColumns';
 import type { FormInstance } from 'element-plus';
 import { onMounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
+import { EMAIL_TEMPLATE_STATUS_FILTER_OPTIONS } from '@/views/system/email-template/constants/email-template-search-options';
 
 defineOptions({
   name: 'SystemEmailTemplate',
@@ -96,35 +93,43 @@ onMounted(() => {
       @refresh="onSearch"
     >
       <template #buttons>
-        <!-- 添加 -->
-        <el-button plain type="primary" @click="openAdd">{{ t('buttons.actionAdd') }}</el-button>
+        <el-button-group type="primary">
+          <!-- 添加 -->
+          <el-button @click="openAdd">{{ t('buttons.actionAdd') }}</el-button>
 
-        <!-- 修改状态 -->
-        <el-dropdown class="ml-1">
-          <el-button plain type="warning">修改状态</el-button>
-          <template #dropdown>
-            <!-- 批量启用 -->
-            <el-dropdown-item :disabled="selectedRows.length <= 0" @click="batchUpdateStatus(selectedRows, true)">
-              {{ t('emailTemplate.batchEnable') }}
-            </el-dropdown-item>
+          <!-- 修改状态 -->
+          <el-dropdown trigger="click">
+            <el-button :disabled="selectedRows.length <= 0" type="warning">
+              {{ t('buttons.actionBatchStatus') }}
+            </el-button>
 
-            <!-- 批量停用 -->
-            <el-dropdown-item :disabled="selectedRows.length <= 0" @click="batchUpdateStatus(selectedRows, false)">
-              {{ t('emailTemplate.batchDisable') }}
-            </el-dropdown-item>
-          </template>
-        </el-dropdown>
+            <template #dropdown>
+              <!-- 批量启用 -->
+              <el-dropdown-item @click="batchUpdateStatus(selectedRows, true)">
+                {{ t('buttons.actionBatchEnable') }}
+              </el-dropdown-item>
 
-        <!-- 高级功能 -->
-        <el-dropdown class="ml-1">
-          <el-button plain type="danger">高级功能</el-button>
-          <template #dropdown>
-            <!-- 批量删除 -->
-            <el-dropdown-item :disabled="selectedRows.length <= 0" type="danger" @click="removeBatch(selectedRows)">
-              {{ t('buttons.actionBatchDelete') }}
-            </el-dropdown-item>
-          </template>
-        </el-dropdown>
+              <!-- 批量停用 -->
+              <el-dropdown-item @click="batchUpdateStatus(selectedRows, false)">
+                {{ t('buttons.actionBatchDisable') }}
+              </el-dropdown-item>
+            </template>
+          </el-dropdown>
+
+          <!-- 高级功能 -->
+          <el-dropdown trigger="click">
+            <el-button type="danger">
+              {{ t('buttons.actionAdvanced') }}
+            </el-button>
+
+            <template #dropdown>
+              <!-- 批量删除 -->
+              <el-dropdown-item :disabled="selectedRows.length <= 0" @click="removeBatch(selectedRows)">
+                {{ t('buttons.actionBatchDelete') }}
+              </el-dropdown-item>
+            </template>
+          </el-dropdown>
+        </el-button-group>
       </template>
 
       <template #default="{ size, dynamicColumns }">
