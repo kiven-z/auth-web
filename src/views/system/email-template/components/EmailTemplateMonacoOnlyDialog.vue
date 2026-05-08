@@ -2,7 +2,7 @@
   仅编辑模板 HTML：Monaco + 实时预览（iframe 隔离与自适应高度）。
 -->
 <script lang="ts" setup>
-import { renderEmailTemplate, type EmailTemplateFormModel } from '@/api/system/email-template';
+import { type EmailTemplateFormModel, renderEmailTemplate } from '@/api/system/email-template';
 import MonacoEditor, { type MonacoEditorReadyPayload } from '@/components/ui/MonacoEditor';
 import { EMAIL_TEMPLATE_EDITOR_OPTIONS } from '@/views/system/email-template/config/monaco-config';
 import { registerEmailTemplateMonaco } from '@/views/system/email-template/monaco/register-email-template-monaco';
@@ -49,7 +49,7 @@ const formRef = ref<FormInstance>();
 const form = ref<EmailTemplateFormModel>(props.formInline as EmailTemplateFormModel);
 
 const rules = reactive<FormRules>({
-// 内容
+  // 内容
   content: [{ required: true, message: t('emailTemplate.placeholder.content'), trigger: 'blur' }],
 });
 
@@ -153,16 +153,15 @@ defineExpose({ formRef, form });
 
 <template>
   <el-form ref="formRef" :model="form" :rules="rules" class="monaco-only-form">
-    <el-row :gutter="16" class="min-h-[62vh]">
+    <el-row :gutter="16">
       <el-col :lg="14" :md="14" :sm="24" :xs="24">
         <div class="text-sm font-medium mb-2">{{ t('emailTemplate.content') }}</div>
         <el-form-item class="mb-0!" prop="content">
           <MonacoEditor
             v-model="form.content"
-            class="w-full monaco-only-editor border border-(--el-border-color) rounded overflow-hidden shadow-sm"
-            height="min(62vh, 560px)"
-            language="html"
             :options="EMAIL_TEMPLATE_EDITOR_OPTIONS"
+            class="w-full min-h-[62vh] monaco-only-editor border border-(--el-border-color) rounded overflow-hidden shadow-sm"
+            language="html"
             @ready="onMonacoReady"
           />
         </el-form-item>
@@ -171,14 +170,14 @@ defineExpose({ formRef, form });
       <el-col :lg="10" :md="10" :sm="24" :xs="24">
         <div class="text-sm font-medium mb-2">{{ t('emailTemplate.liveRenderPreview') }}</div>
         <div
-          class="monaco-only-preview border border-(--el-border-color) rounded p-3 overflow-auto bg-(--el-fill-color-blank)"
+          class="monaco-only-preview min-h-[62vh] border border-(--el-border-color) rounded p-3 overflow-auto bg-(--el-fill-color-blank)"
         >
           <iframe
             ref="previewFrameRef"
+            :style="{ height: `${previewHeight}px` }"
             class="w-full border-0 block"
             sandbox="allow-same-origin"
             title="email-template-monaco-preview"
-            :style="{ height: `${previewHeight}px` }"
             @load="resizePreviewFrame(previewFrameRef)"
           />
         </div>
@@ -186,13 +185,3 @@ defineExpose({ formRef, form });
     </el-row>
   </el-form>
 </template>
-
-<style scoped>
-.monaco-only-preview {
-  height: min(62vh, 560px);
-}
-
-.monaco-only-form :deep(.el-form-item__content) {
-  margin-left: 0 !important;
-}
-</style>

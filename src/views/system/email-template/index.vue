@@ -97,19 +97,34 @@ onMounted(() => {
     >
       <template #buttons>
         <!-- 添加 -->
-        <el-button type="primary" @click="openAdd">{{ t('buttons.actionAdd') }}</el-button>
-        <!-- 批量启用 -->
-        <el-button :disabled="selectedRows.length <= 0" type="success" @click="batchUpdateStatus(selectedRows, true)">
-          {{ t('emailTemplate.batchEnable') }}
-        </el-button>
-        <!-- 批量停用 -->
-        <el-button :disabled="selectedRows.length <= 0" type="warning" @click="batchUpdateStatus(selectedRows, false)">
-          {{ t('emailTemplate.batchDisable') }}
-        </el-button>
-        <!-- 批量删除 -->
-        <el-button :disabled="selectedRows.length <= 0" type="danger" @click="removeBatch(selectedRows)">
-          {{ t('buttons.actionBatchDelete') }}
-        </el-button>
+        <el-button plain type="primary" @click="openAdd">{{ t('buttons.actionAdd') }}</el-button>
+
+        <!-- 修改状态 -->
+        <el-dropdown class="ml-1">
+          <el-button plain type="warning">修改状态</el-button>
+          <template #dropdown>
+            <!-- 批量启用 -->
+            <el-dropdown-item :disabled="selectedRows.length <= 0" @click="batchUpdateStatus(selectedRows, true)">
+              {{ t('emailTemplate.batchEnable') }}
+            </el-dropdown-item>
+
+            <!-- 批量停用 -->
+            <el-dropdown-item :disabled="selectedRows.length <= 0" @click="batchUpdateStatus(selectedRows, false)">
+              {{ t('emailTemplate.batchDisable') }}
+            </el-dropdown-item>
+          </template>
+        </el-dropdown>
+
+        <!-- 高级功能 -->
+        <el-dropdown class="ml-1">
+          <el-button plain type="danger">高级功能</el-button>
+          <template #dropdown>
+            <!-- 批量删除 -->
+            <el-dropdown-item :disabled="selectedRows.length <= 0" type="danger" @click="removeBatch(selectedRows)">
+              {{ t('buttons.actionBatchDelete') }}
+            </el-dropdown-item>
+          </template>
+        </el-dropdown>
       </template>
 
       <template #default="{ size, dynamicColumns }">

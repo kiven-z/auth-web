@@ -61,9 +61,7 @@ const mergedOptions = computed<editor.IStandaloneEditorConstructionOptions>(() =
   ...props.options,
 }));
 
-function onEditorWillMount(monaco: MonacoModule) {
-  monacoApi = monaco;
-}
+function onEditorWillMount() {}
 
 function onEditorDidMount(codeEditor: editor.IStandaloneCodeEditor) {
   if (!monacoApi) {
@@ -75,7 +73,7 @@ function onEditorDidMount(codeEditor: editor.IStandaloneCodeEditor) {
 }
 
 onMounted(async () => {
-  await loadMonacoEditor();
+  monacoApi = await loadMonacoEditor();
   monacoReady.value = true;
 });
 
