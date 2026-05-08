@@ -36,5 +36,7 @@ export function isNoAuthRequestPath(requestUrl: string | undefined): boolean {
  * 权限版本不一致（HTTP 409 + 稳定错误码）的精确判定。
  */
 export function isPermissionVersionMismatchError(status: number | undefined, errorCode: string | undefined): boolean {
-  return status === 409 && errorCode === 'PERMISSION_VERSION_MISMATCH';
+  return (
+    status === 409 && ['PERMISSION_VERSION_MISMATCH', 'GATEWAY_PERMISSION_VERSION_MISMATCH'].includes(errorCode ?? '')
+  );
 }

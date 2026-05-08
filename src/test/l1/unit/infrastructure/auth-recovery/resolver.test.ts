@@ -12,7 +12,7 @@ describe('resolveAuthRecoveryDecision', () => {
     });
 
     expect(decision.action).toBe('refresh_and_retry');
-    expect(decision.matchedRuleId).toBe('refresh-on-gateway-token-expired');
+    expect(decision.matchedRuleId).toBe('refresh-on-token-expired-or-session-missing');
     expect(decision.retryExhausted).toBe(false);
   });
 
@@ -33,6 +33,34 @@ describe('resolveAuthRecoveryDecision', () => {
     const decision = resolveAuthRecoveryDecision({
       status: 409,
       errorCode: 'PERMISSION_VERSION_MISMATCH',
+      requestUrl: 'system/user/page',
+      isNoAuthPath: false,
+      retryCount: 0,
+    });
+
+    expect(decision.action).toBe('refresh_and_retry');
+    expect(decision.matchedRuleId).toBe('refresh-on-permission-version-mismatch');
+    expect(decision.retryExhausted).toBe(false);
+  });
+
+  it('matches 401 session missing to refresh action', () => {
+    const decision = resolveAuthRecoveryDecision({
+      status: 401,
+      errorCode: 'SESSION_MISSING',
+      requestUrl: 'system/user/page',
+      isNoAuthPath: false,
+      retryCount: 0,
+    });
+
+    expect(decision.action).toBe('refresh_and_retry');
+    expect(decision.matchedRuleId).toBe('refresh-on-token-expired-or-session-missing');
+    expect(decision.retryExhausted).toBe(false);
+  });
+
+  it('matches 409 gateway permission mismatch to refresh action', () => {
+    const decision = resolveAuthRecoveryDecision({
+      status: 409,
+      errorCode: 'GATEWAY_PERMISSION_VERSION_MISMATCH',
       requestUrl: 'system/user/page',
       isNoAuthPath: false,
       retryCount: 0,

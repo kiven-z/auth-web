@@ -36,6 +36,27 @@ describe('executeAuthRecovery', () => {
     expect(requestConfig._authRecoveryRetryCount).toBe(1);
   });
 
+  it('replays request when session missing matches refresh strategy', async () => {
+    replayRequestWithRefreshedTokenMock.mockResolvedValue({ data: { ok: true } });
+    const requestConfig: any = { url: 'system/user/page', headers: {} };
+
+    const result = await executeAuthRecovery({
+      instance: { request: vi.fn() } as any,
+      requestConfig,
+      context: {
+        status: 401,
+        errorCode: 'SESSION_MISSING',
+        requestUrl: 'system/user/page',
+        isNoAuthPath: false,
+        retryCount: 0,
+      },
+    });
+
+    expect(result.handled).toBe(true);
+    expect(result.action).toBe('refresh_and_retry');
+    expect(result.replayResult).toEqual({ data: { ok: true } });
+  });
+
   it('requests logout when refresh replay fails', async () => {
     replayRequestWithRefreshedTokenMock.mockRejectedValue(new Error('refresh failed'));
 

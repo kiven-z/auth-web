@@ -58,7 +58,7 @@ describe('responseHandlers auth recovery integration', () => {
     executeAuthRecoveryMock.mockResolvedValue({
       handled: true,
       action: 'refresh_and_retry',
-      matchedRuleId: 'refresh-on-gateway-token-expired',
+      matchedRuleId: 'refresh-on-token-expired-or-session-missing',
       replayResult: { list: [1] },
     });
 
@@ -132,7 +132,7 @@ describe('responseHandlers auth recovery integration', () => {
     executeAuthRecoveryMock.mockResolvedValue({
       handled: true,
       action: 'refresh_and_retry',
-      matchedRuleId: 'refresh-on-gateway-token-expired',
+      matchedRuleId: 'refresh-on-token-expired-or-session-missing',
       shouldLogout: true,
       replayError,
     });
