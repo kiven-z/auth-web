@@ -1,0 +1,59 @@
+import { beforeEach, describe, expect, it, vi } from 'vitest';
+import type { PureHttpRequestConfig } from '../../../infrastructure/http/types';
+import { executeAuthRecovery } from '../../../infrastructure/auth-recovery/executor';
+
+const { replayRequestWithRefreshedTokenMock } = vi.hoisted(() => ({
+  replayRequestWithRefreshedTokenMock: vi.fn(),
+}));
+
+vi.mock('@/infrastructure/auth/tokenRefreshCoordinator', () => ({
+  replayRequestWithRefreshedToken: replayRequestWithRefreshedTokenMock,
+}));
+
+describe('executeAuthRecovery', () => {
+  beforeEach(() => {
+    replayRequestWithRefreshedTokenMock.mockReset();
+  });
+
+  it('replays request when refresh strategy matches', async () => {
+    replayRequestWithRefreshedTokenMock.mockResolvedValue({ data: { ok: true } });
+    const requestConfig = { url: 'system/user/page', headers: {} } as PureHttpRequestConfig;
+
+    const result = await executeAuthRecovery({
+      instance: { request: vi.fn() } as any,
+      requestConfig,
+      context: {
+        status: 401,
+        errorCode: 'GATEWAY_TOKEN_EXPIRED',
+        requestUrl: 'system/user/page',
+        isNoAuthPath: false,
+        retryCount: 0,
+      },
+    });
+
+    expect(result.handled).toBe(true);
+    expect(result.action).toBe('refresh_and_retry');
+    expect(result.replayResult).toEqual({ data: { ok: true } });
+    expect(requestConfig._authRecoveryRetryCount).toBe(1);
+  });
+
+  it('requests logout when refresh replay fails', async () => {
+    replayRequestWithRefreshedTokenMock.mockRejectedValue(new Error('refresh failed'));
+
+    const result = await executeAuthRecovery({
+      instance: { request: vi.fn() } as any,
+      requestConfig: { url: 'system/user/page' } as PureHttpRequestConfig,
+      context: {
+        status: 401,
+        errorCode: 'GATEWAY_TOKEN_EXPIRED',
+        requestUrl: 'system/user/page',
+        isNoAuthPath: false,
+        retryCount: 0,
+      },
+    });
+
+    expect(result.handled).toBe(true);
+    expect(result.shouldLogout).toBe(true);
+    expect(result.replayError).toBeInstanceOf(Error);
+  });
+});

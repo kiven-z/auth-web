@@ -1,11 +1,5 @@
-import {
-  API_SUCCESS_CODE,
-  AUTH_RECOVERY_CONFIG,
-  isNoAuthRequestPath,
-  shouldForceLogoutByStatus,
-  shouldRefreshTokenByRule,
-} from '@/config/http-config';
-import { replayRequestWithRefreshedToken } from '@/infrastructure/auth/tokenRefreshCoordinator';
+import { API_SUCCESS_CODE, isNoAuthRequestPath } from '@/config/http-config';
+import { executeAuthRecovery } from '@/infrastructure/auth-recovery';
 import { useUserStoreHook } from '@/store/modules/user';
 import Axios, { type AxiosInstance, type AxiosResponse } from 'axios';
 import { isApiResultEnvelope, type ApiResult } from '../apiResult';
@@ -91,25 +85,23 @@ async function handleResponseError(instance: AxiosInstance, error: PureHttpError
   const isNoAuthPath = requestConfig ? isNoAuthRequestPath(requestConfig.url) : false;
   const envelope = response?.data && isApiResultEnvelope(response.data) ? response.data : undefined;
   const authEnvelopeErrorCode = envelope?.error ?? envelope?.subCode;
-
-  if (
-    !isNoAuthPath &&
-    requestConfig &&
-    shouldRefreshTokenByRule(status, authEnvelopeErrorCode) &&
-    canReplayForAuthRecovery(requestConfig)
-  ) {
-    requestConfig._authRecoveryRetryCount = (requestConfig._authRecoveryRetryCount ?? 0) + 1;
-    try {
-      return await replayRequestWithRefreshedToken(instance, requestConfig);
-    } catch (refreshError) {
-      useUserStoreHook().logOut();
-      throw refreshError;
-    }
+  const authRecoveryResult = await executeAuthRecovery({
+    instance,
+    requestConfig,
+    context: {
+      status,
+      errorCode: authEnvelopeErrorCode,
+      requestUrl: requestConfig?.url,
+      isNoAuthPath,
+      retryCount: requestConfig?._authRecoveryRetryCount ?? 0,
+    },
+  });
+  if (authRecoveryResult.handled && authRecoveryResult.replayResult !== undefined) {
+    return authRecoveryResult.replayResult;
   }
-
-  if (!isNoAuthPath && shouldForceLogoutByStatus(status)) {
+  if (authRecoveryResult.shouldLogout) {
     useUserStoreHook().logOut();
-    throw error;
+    throw authRecoveryResult.replayError ?? error;
   }
 
   if (envelope) {
@@ -117,9 +109,4 @@ async function handleResponseError(instance: AxiosInstance, error: PureHttpError
   }
 
   throw error;
-}
-
-function canReplayForAuthRecovery(config: PureHttpRequestConfig): boolean {
-  const currentRetryCount = config._authRecoveryRetryCount ?? 0;
-  return currentRetryCount < AUTH_RECOVERY_CONFIG.maxRetryTimes;
 }
