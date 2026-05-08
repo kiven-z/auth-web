@@ -14,7 +14,7 @@ export const AUTH_API_PATHS = {
 
 /**
  * 无需携带 Access Token 的路径后缀（与 {@link AUTH_API_PATHS} 中公开接口一致）。
- * 注意：refresh-token 需要携带当前 access token（即使已过期）参与后端双令牌校验，不在白名单中。
+ * refresh-token 仅依赖 refreshToken，不再要求携带 access token。
  */
 export const AUTH_PUBLIC_API_PATH_SUFFIXES: readonly string[] = [
   AUTH_API_PATHS.LOGIN_USERNAME,

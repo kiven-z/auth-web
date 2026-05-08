@@ -1,5 +1,5 @@
 import { findMatchedAuthRecoveryRule } from './matcher';
-import { LOCAL_AUTH_RECOVERY_RULES } from './policy';
+import { LOCAL_AUTH_RECOVERY_RULES, resolveAuthRecoveryRules } from './policy';
 import type { AuthRecoveryContext, AuthRecoveryDecision, AuthRecoveryRule, RecoveryAction } from './types';
 
 function resolveActionByRetryState(
@@ -25,7 +25,8 @@ export function resolveAuthRecoveryDecision(
   context: AuthRecoveryContext,
   rules: readonly AuthRecoveryRule[] = LOCAL_AUTH_RECOVERY_RULES
 ): AuthRecoveryDecision {
-  const matchedRule = findMatchedAuthRecoveryRule(rules, context);
+  const effectiveRules = resolveAuthRecoveryRules({ overrideRules: rules });
+  const matchedRule = findMatchedAuthRecoveryRule(effectiveRules, context);
   const resolved = resolveActionByRetryState(
     matchedRule.action,
     context.retryCount,

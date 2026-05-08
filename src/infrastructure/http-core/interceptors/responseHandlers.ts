@@ -1,10 +1,9 @@
 import { API_SUCCESS_CODE, isNoAuthRequestPath } from '@/config/http-config';
-import { executeAuthRecovery } from '@/infrastructure/auth-recovery';
-import { dispatchAuthRecoveryEffects } from '@/infrastructure/auth-recovery/effects';
+import { dispatchAuthRecoveryEffects, executeAuthRecovery } from '@/infrastructure/auth-flow/recovery';
 import { useUserStoreHook } from '@/store/modules/user';
 import Axios, { type AxiosInstance, type AxiosResponse } from 'axios';
 import { isApiResultEnvelope, type ApiResult } from '../apiResult';
-import { rejectWithApiEnvelopeError } from '../apiResultErrors';
+import { rejectWithApiEnvelopeError } from '../errorAdapter';
 import type { PureHttpError, PureHttpRequestConfig, PureHttpResponse } from '../types.d';
 
 type InitConfigGetter = () => PureHttpRequestConfig;
@@ -15,7 +14,7 @@ type InitConfigGetter = () => PureHttpRequestConfig;
 export function attachResponseInterceptors(instance: AxiosInstance, getInitConfig: InitConfigGetter): void {
   instance.interceptors.response.use(
     (response: AxiosResponse) => handleResponseSuccess(response, getInitConfig) as any,
-    (error: PureHttpError) => handleResponseError(instance, error) as any
+    (error: PureHttpError) => handleResponseError(instance, error, getInitConfig) as any
   );
 }
 
@@ -77,7 +76,11 @@ function passthroughRawBody(response: PureHttpResponse, getInitConfig: InitConfi
   return response.data;
 }
 
-async function handleResponseError(instance: AxiosInstance, error: PureHttpError): Promise<unknown> {
+async function handleResponseError(
+  instance: AxiosInstance,
+  error: PureHttpError,
+  getInitConfig: InitConfigGetter
+): Promise<unknown> {
   error.isCancelRequest = Axios.isCancel(error);
   const { response, config } = error;
 
@@ -93,10 +96,12 @@ async function handleResponseError(instance: AxiosInstance, error: PureHttpError
     isNoAuthPath,
     retryCount: requestConfig?._authRecoveryRetryCount ?? 0,
   };
+  const authRecoveryRules = requestConfig?.authRecoveryRules ?? getInitConfig().authRecoveryRules;
   const authRecoveryResult = await executeAuthRecovery({
     instance,
     requestConfig,
     context: authRecoveryContext,
+    rules: authRecoveryRules,
   });
   dispatchAuthRecoveryEffects({
     context: authRecoveryContext,

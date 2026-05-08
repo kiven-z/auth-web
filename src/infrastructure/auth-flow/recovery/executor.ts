@@ -1,13 +1,14 @@
-import { replayRequestWithRefreshedToken } from '@/infrastructure/auth/tokenRefreshCoordinator';
+import { replayRequestWithRefreshedToken } from '@/infrastructure/auth-flow/tokenRefreshCoordinator';
+import type { PureHttpRequestConfig } from '@/infrastructure/http-core/types.d';
 import type { AxiosInstance } from 'axios';
-import type { PureHttpRequestConfig } from '../http/types.d';
 import { resolveAuthRecoveryDecision } from './resolver';
-import type { AuthRecoveryContext, RecoveryAction } from './types';
+import type { AuthRecoveryContext, AuthRecoveryRule, RecoveryAction } from './types';
 
 export interface ExecuteAuthRecoveryInput {
   instance: AxiosInstance;
   requestConfig?: PureHttpRequestConfig;
   context: AuthRecoveryContext;
+  rules?: readonly AuthRecoveryRule[];
 }
 
 export interface ExecuteAuthRecoveryResult {
@@ -26,7 +27,7 @@ export interface ExecuteAuthRecoveryResult {
  * - pass_through：不接管，继续原错误处理流程
  */
 export async function executeAuthRecovery(input: ExecuteAuthRecoveryInput): Promise<ExecuteAuthRecoveryResult> {
-  const decision = resolveAuthRecoveryDecision(input.context);
+  const decision = resolveAuthRecoveryDecision(input.context, input.rules);
   if (!input.requestConfig) {
     return {
       handled: false,

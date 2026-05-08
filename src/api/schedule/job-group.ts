@@ -4,7 +4,7 @@
  * 对应后端 SysJobGroupController (/api/system/job-group)
  */
 import type { PageResponse, SortSpec } from '@/api/common';
-import { http } from '@/infrastructure/http';
+import { http } from '@/infrastructure/http-core';
 import type { AxiosRequestConfig } from 'axios';
 
 /** 任务分组分页查询参数（对应后端 SysJobGroupQuery） */

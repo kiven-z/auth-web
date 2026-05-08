@@ -1,4 +1,4 @@
-import { http } from '@/infrastructure/http';
+import { http } from '@/infrastructure/http-core';
 
 /**
  * 获取异步路由

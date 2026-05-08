@@ -4,7 +4,7 @@
 import type { AxiosRequestConfig } from 'axios';
 
 import type { PageResponse, SortSpec } from '@/api/common';
-import { http } from '@/infrastructure/http';
+import { http } from '@/infrastructure/http-core';
 
 /** 分页查询参数（对齐 EmailTemplateQuery） */
 export interface EmailTemplatePageQuery {

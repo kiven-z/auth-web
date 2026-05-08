@@ -1,6 +1,6 @@
 import type { AxiosRequestConfig } from 'axios';
 
-import { http } from '@/infrastructure/http';
+import { http } from '@/infrastructure/http-core';
 
 /** 用户档案-部门项（对齐 {@code SysUserDeptProfileItemResponse}） */
 export interface SysUserDeptProfileItem {

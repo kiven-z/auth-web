@@ -1,11 +1,11 @@
-import { executeAuthRecovery } from '@/infrastructure/auth-recovery/executor';
+import { executeAuthRecovery } from '@/infrastructure/auth-flow/recovery/executor';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 const { replayRequestWithRefreshedTokenMock } = vi.hoisted(() => ({
   replayRequestWithRefreshedTokenMock: vi.fn(),
 }));
 
-vi.mock('@/infrastructure/auth/tokenRefreshCoordinator', () => ({
+vi.mock('@/infrastructure/auth-flow/tokenRefreshCoordinator', () => ({
   replayRequestWithRefreshedToken: replayRequestWithRefreshedTokenMock,
 }));
 

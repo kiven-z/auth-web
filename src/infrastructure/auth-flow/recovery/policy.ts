@@ -20,7 +20,15 @@ export const LOCAL_AUTH_RECOVERY_RULES: readonly AuthRecoveryRule[] = [
     priority: PRIORITY.EXPIRED_REFRESH,
     matcher: {
       statuses: [401],
-      errorCodePatterns: ['GATEWAY_TOKEN_EXPIRED', 'TOKEN_EXPIRED', 'SESSION_MISSING', 'GATEWAY_SESSION_MISSING'],
+      errorCodePatterns: [
+        'TOKEN_EXPIRED',
+        'GATEWAY_TOKEN_EXPIRED',
+        'TOKEN_MISSING',
+        'GATEWAY_TOKEN_MISSING',
+        'SESSION_MISSING',
+        'GATEWAY_SESSION_MISSING',
+        'NOT_AUTHENTICATED',
+      ],
       isNoAuthPath: false,
     },
     action: 'refresh_and_retry',
@@ -44,14 +52,7 @@ export const LOCAL_AUTH_RECOVERY_RULES: readonly AuthRecoveryRule[] = [
     priority: PRIORITY.UNAUTHORIZED_LOGOUT,
     matcher: {
       statuses: [401],
-      errorCodePatterns: [
-        'GATEWAY_TOKEN_INVALID',
-        'GATEWAY_TOKEN_MISSING',
-        'TOKEN_INVALID',
-        'TOKEN_MISSING',
-        'TOKEN_KIND_MISMATCH',
-        'SESSION_DISABLED',
-      ],
+      errorCodePatterns: ['GATEWAY_TOKEN_INVALID', 'TOKEN_INVALID', 'TOKEN_KIND_MISMATCH', 'SESSION_DISABLED'],
       isNoAuthPath: false,
     },
     action: 'logout',
@@ -71,3 +72,14 @@ export const LOCAL_AUTH_RECOVERY_RULES: readonly AuthRecoveryRule[] = [
     action: 'pass_through',
   },
 ];
+
+export interface AuthRecoveryPolicyOptions {
+  overrideRules?: readonly AuthRecoveryRule[];
+}
+
+/**
+ * 获取生效规则集：未提供覆盖规则时使用默认规则。
+ */
+export function resolveAuthRecoveryRules(options?: AuthRecoveryPolicyOptions): readonly AuthRecoveryRule[] {
+  return options?.overrideRules ?? LOCAL_AUTH_RECOVERY_RULES;
+}

@@ -47,3 +47,11 @@ class PureHttp {
 }
 
 export const http = new PureHttp();
+
+export * from './apiError';
+export * from './apiResult';
+export * from './errorAdapter';
+export { createHttpAxiosInstance } from './axiosDefaults';
+export { attachRequestAuthInterceptor } from './interceptors/requestAuth';
+export { attachResponseInterceptors } from './interceptors/responseHandlers';
+export type { PureHttpError, PureHttpRequestConfig, PureHttpResponse, RequestMethods } from './types.d';

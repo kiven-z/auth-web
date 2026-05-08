@@ -1,4 +1,4 @@
-import { attachRequestAuthInterceptor } from '@/infrastructure/http/interceptors/requestAuth';
+import { attachRequestAuthInterceptor } from '@/infrastructure/http-core/interceptors/requestAuth';
 import axios, { type AxiosAdapter, type AxiosRequestConfig } from 'axios';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
@@ -6,7 +6,7 @@ const { getTokenMock } = vi.hoisted(() => ({
   getTokenMock: vi.fn(),
 }));
 
-vi.mock('@/infrastructure/session/auth', () => ({
+vi.mock('@/infrastructure/session', () => ({
   getToken: getTokenMock,
   formatToken: (token: string) => `Bearer ${token}`,
 }));
@@ -19,8 +19,8 @@ function resolvedAdapter(assertFn: (config: AxiosRequestConfig) => void): AxiosA
       status: 200,
       statusText: 'ok',
       headers: {},
-      config,
-    };
+      config: config as any,
+    } as any;
   };
 }
 
@@ -35,7 +35,7 @@ describe('requestAuth interceptor', () => {
     getTokenMock.mockReset();
   });
 
-  it('injects Authorization for refresh-token requests', async () => {
+  it('skips Authorization for refresh-token requests', async () => {
     getTokenMock.mockReturnValue({
       accessToken: 'expired-access-token',
       refreshToken: 'refresh-token',
@@ -47,7 +47,7 @@ describe('requestAuth interceptor', () => {
       url: 'auth/refresh-token',
       method: 'post',
       adapter: resolvedAdapter((config) => {
-        expect((config.headers as any)?.Authorization).toBe('Bearer expired-access-token');
+        expect((config.headers as any)?.Authorization).toBeUndefined();
       }),
     });
   });

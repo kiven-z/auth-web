@@ -1,7 +1,7 @@
-import { formatToken, getToken } from '@/infrastructure/session/auth';
+import { formatToken, getToken } from '@/infrastructure/session';
 import { useUserStoreHook } from '@/store/modules/user';
 import type { AxiosInstance } from 'axios';
-import type { PureHttpRequestConfig } from '../http/types.d';
+import type { PureHttpRequestConfig } from '@/infrastructure/http-core/types.d';
 
 let refreshInFlight: Promise<string> | null = null;
 

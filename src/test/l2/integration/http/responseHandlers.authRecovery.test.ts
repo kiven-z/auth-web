@@ -1,4 +1,4 @@
-import { attachResponseInterceptors } from '@/infrastructure/http/interceptors/responseHandlers';
+import { attachResponseInterceptors } from '@/infrastructure/http-core/interceptors/responseHandlers';
 import axios, { type AxiosAdapter, type AxiosRequestConfig } from 'axios';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
@@ -10,11 +10,8 @@ const { executeAuthRecoveryMock, dispatchAuthRecoveryEffectsMock, logOutMock, re
     rejectWithApiEnvelopeErrorMock: vi.fn(),
   }));
 
-vi.mock('@/infrastructure/auth-recovery', () => ({
+vi.mock('@/infrastructure/auth-flow/recovery', () => ({
   executeAuthRecovery: executeAuthRecoveryMock,
-}));
-
-vi.mock('@/infrastructure/auth-recovery/effects', () => ({
   dispatchAuthRecoveryEffects: dispatchAuthRecoveryEffectsMock,
 }));
 
@@ -24,7 +21,7 @@ vi.mock('@/store/modules/user', () => ({
   }),
 }));
 
-vi.mock('@/infrastructure/http/apiResultErrors', () => ({
+vi.mock('@/infrastructure/http-core/errorAdapter', () => ({
   rejectWithApiEnvelopeError: rejectWithApiEnvelopeErrorMock,
 }));
 

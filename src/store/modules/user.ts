@@ -1,5 +1,5 @@
 import { loginByUsernameApi, logoutApi, refreshTokenApi, type UserLoginResponse } from '@/api/auth';
-import { readUserProfileFromStorage, removeToken, setToken } from '@/infrastructure/session/auth';
+import { readUserProfileFromStorage, removeToken, setToken } from '@/infrastructure/session';
 import { routerArrays } from '@/layout/types';
 import { resetRouter, router } from '@/router';
 import { store } from '@/store';

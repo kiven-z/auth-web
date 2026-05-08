@@ -1,4 +1,4 @@
-import { resolveAuthRecoveryDecision } from '@/infrastructure/auth-recovery/resolver';
+import { resolveAuthRecoveryDecision } from '@/infrastructure/auth-flow/recovery/resolver';
 import { describe, expect, it } from 'vitest';
 
 describe('resolveAuthRecoveryDecision', () => {

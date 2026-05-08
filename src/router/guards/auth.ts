@@ -1,4 +1,4 @@
-import { type DataInfo, multipleTabsKey, removeToken, userKey } from '@/infrastructure/session/auth';
+import { type DataInfo, multipleTabsKey, removeToken, userKey } from '@/infrastructure/session';
 import { isOneOfArray } from '@/router/utils/auth';
 import { getTopMenu } from '@/router/utils/misc';
 import { initRouter } from '@/router/utils/route-registry';

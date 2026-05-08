@@ -1,3 +1,4 @@
+import type { AuthRecoveryRule } from '@/infrastructure/auth-flow/recovery';
 import type { AxiosError, AxiosRequestConfig, AxiosResponse, Method } from 'axios';
 
 export type resultType = {
@@ -19,4 +20,6 @@ export interface PureHttpRequestConfig extends AxiosRequestConfig {
   beforeResponseCallback?: (response: PureHttpResponse) => void;
   /** 鉴权恢复已重放次数，防止刷新重放死循环 */
   _authRecoveryRetryCount?: number;
+  /** 覆盖默认鉴权恢复规则（可选） */
+  authRecoveryRules?: readonly AuthRecoveryRule[];
 }

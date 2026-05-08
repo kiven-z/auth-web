@@ -1,6 +1,6 @@
 import { storageLocal } from '@pureadmin/utils';
 import { message } from '@/shared/messaging/message';
-import type { ApiConflictError } from '@/infrastructure/http/apiError';
+import type { ApiConflictError } from '@/infrastructure/http-core/apiError';
 
 const ASYNC_ROUTES_STORAGE_KEY = 'async-routes';
 

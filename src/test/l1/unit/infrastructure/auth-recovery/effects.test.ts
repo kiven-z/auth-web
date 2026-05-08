@@ -1,4 +1,4 @@
-import { dispatchAuthRecoveryEffects } from '@/infrastructure/auth-recovery/effects';
+import { dispatchAuthRecoveryEffects } from '@/infrastructure/auth-flow/recovery/effects';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 const { handlePermissionVersionConflictMock } = vi.hoisted(() => ({

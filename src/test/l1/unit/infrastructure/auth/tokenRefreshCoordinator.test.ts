@@ -6,7 +6,7 @@ const { mockGetToken, mockFormatToken, mockHandRefreshToken } = vi.hoisted(() =>
   mockHandRefreshToken: vi.fn(),
 }));
 
-vi.mock('@/infrastructure/session/auth', () => ({
+vi.mock('@/infrastructure/session', () => ({
   getToken: mockGetToken,
   formatToken: mockFormatToken,
 }));
@@ -34,7 +34,7 @@ describe('tokenRefreshCoordinator', () => {
       refreshed = true;
     });
 
-    const { refreshAccessTokenSingleFlight } = await import('@/infrastructure/auth/tokenRefreshCoordinator');
+    const { refreshAccessTokenSingleFlight } = await import('@/infrastructure/auth-flow/tokenRefreshCoordinator');
     const [token1, token2] = await Promise.all([refreshAccessTokenSingleFlight(), refreshAccessTokenSingleFlight()]);
 
     expect(token1).toBe('access-token-1');
@@ -44,7 +44,7 @@ describe('tokenRefreshCoordinator', () => {
 
   it('throws when refresh token is missing', async () => {
     mockGetToken.mockReturnValue(undefined);
-    const { refreshAccessTokenSingleFlight } = await import('@/infrastructure/auth/tokenRefreshCoordinator');
+    const { refreshAccessTokenSingleFlight } = await import('@/infrastructure/auth-flow/tokenRefreshCoordinator');
 
     await expect(refreshAccessTokenSingleFlight()).rejects.toThrow('Refresh token is missing.');
     expect(mockHandRefreshToken).not.toHaveBeenCalled();
@@ -61,7 +61,7 @@ describe('tokenRefreshCoordinator', () => {
     });
     mockHandRefreshToken.mockResolvedValue(undefined);
 
-    const { refreshAccessTokenSingleFlight } = await import('@/infrastructure/auth/tokenRefreshCoordinator');
+    const { refreshAccessTokenSingleFlight } = await import('@/infrastructure/auth-flow/tokenRefreshCoordinator');
 
     await expect(refreshAccessTokenSingleFlight()).rejects.toThrow('Access token is missing after refresh.');
   });
@@ -78,7 +78,7 @@ describe('tokenRefreshCoordinator', () => {
       refreshed = true;
     });
     const request = vi.fn().mockResolvedValue({ data: { ok: true } });
-    const { replayRequestWithRefreshedToken } = await import('@/infrastructure/auth/tokenRefreshCoordinator');
+    const { replayRequestWithRefreshedToken } = await import('@/infrastructure/auth-flow/tokenRefreshCoordinator');
     const config: any = { url: 'system/user/page' };
 
     const result = await replayRequestWithRefreshedToken({ request } as any, config);

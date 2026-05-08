@@ -1,7 +1,7 @@
 import { isPermissionVersionMismatchError } from '@/config/http-config';
-import type { ApiConflictError } from '@/infrastructure/http/apiError';
-import { ApiConflictError as ApiConflictErrorCtor } from '@/infrastructure/http/apiError';
-import type { ApiResult } from '@/infrastructure/http/apiResult';
+import type { ApiConflictError } from '@/infrastructure/http-core/apiError';
+import { ApiConflictError as ApiConflictErrorCtor } from '@/infrastructure/http-core/apiError';
+import type { ApiResult } from '@/infrastructure/http-core/apiResult';
 import { handlePermissionVersionConflict } from '@/infrastructure/permissionConflict';
 import type { RecoveryAction } from './types';
 

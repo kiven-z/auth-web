@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { useRenderIcon } from '@/components/ui/Icon/src/hooks';
-import { ApiBusinessError, ApiConflictError } from '@/infrastructure/http/apiError';
+import { ApiBusinessError, ApiConflictError } from '@/infrastructure/http-core';
 import { useDataThemeChange } from '@/layout/hooks/useDataThemeChange';
 import { useLayout } from '@/layout/hooks/useLayout';
 import { useNav } from '@/layout/hooks/useNav';
