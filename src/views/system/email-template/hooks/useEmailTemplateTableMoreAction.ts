@@ -1,11 +1,11 @@
 import type { EmailTemplateFormModel } from '@/api/system/email-template';
 import {
+  type EmailTemplateDetailVO,
+  type EmailTemplatePageRow,
   getEmailTemplateById,
   getEmailTemplatePreviewHtml,
   testSendEmailTemplate,
   updateEmailTemplateContent,
-  type EmailTemplateDetailVO,
-  type EmailTemplatePageRow,
 } from '@/api/system/email-template';
 import { addDialog } from '@/components/ui/Dialog';
 import { errorMessage, message } from '@/shared/messaging/message';
@@ -15,10 +15,7 @@ import EmailTemplateRequireFieldsDialog from '@/views/system/email-template/comp
 import EmailTemplateTestSendDialog from '@/views/system/email-template/components/EmailTemplateTestSendDialog.vue';
 import { h, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
-
-interface UseEmailTemplateTableMoreActionOptions {
-  onSearch: () => Promise<void>;
-}
+import type { TableActionDeps } from '@/api/common';
 
 type FormDialogExpose = {
   formRef?: { validate: () => Promise<boolean | undefined> };
@@ -55,8 +52,8 @@ function toFormFromDetail(detail: EmailTemplateDetailVO, id: string): EmailTempl
 /**
  * 邮件模板表格「更多」菜单相关操作。
  */
-export function useEmailTemplateTableMoreAction(options: UseEmailTemplateTableMoreActionOptions) {
-  const { onSearch } = options;
+export function useEmailTemplateTableMoreAction(options: TableActionDeps) {
+  const { fetchTableData } = options;
   const { t } = useI18n();
 
   /**
@@ -100,7 +97,7 @@ export function useEmailTemplateTableMoreAction(options: UseEmailTemplateTableMo
         if (!ok) {
           return;
         }
-        await onSearch();
+        await fetchTableData();
         done();
       },
     });
@@ -173,7 +170,7 @@ export function useEmailTemplateTableMoreAction(options: UseEmailTemplateTableMo
             }
             await updateEmailTemplateContent(String(formData.id), { content: formData.content ?? '' });
             message(t('tips.editSuccess'), { type: 'success' });
-            await onSearch();
+            await fetchTableData();
             done();
           } catch (error: unknown) {
             errorMessage(error, { defaultI18nKey: 'emailTemplate.loadFailed' });

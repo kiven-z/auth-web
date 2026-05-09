@@ -30,16 +30,16 @@ const {
   loading,
   pagination,
   searchForm,
-  onSearch,
-  onReset,
-  onPageSizeChange,
-  onPageCurrentChange,
-  onSelectionChange,
+  fetchTableData,
+  resetQuery,
+  handlePageSizeChange,
+  handlePageCurrentChange,
+  handleSelectionChange,
 } = useRolePageState();
 
-const { onView, onEdit } = useRoleTableAction({ onSearch });
+const { openDetailDialog, openEditDialog } = useRoleTableAction({ onSearch: fetchTableData });
 onMounted(() => {
-  onSearch();
+  fetchTableData();
 });
 </script>
 
@@ -85,9 +85,9 @@ onMounted(() => {
       <!-- 表单搜索 -->
       <el-form-item>
         <!-- 搜索 -->
-        <el-button type="primary" @click="onSearch">{{ t('buttons.actionSearch') }}</el-button>
+        <el-button type="primary" @click="fetchTableData">{{ t('buttons.actionSearch') }}</el-button>
         <!-- 重置 -->
-        <el-button @click="onReset(searchFormRef)">{{ t('buttons.actionReset') }}</el-button>
+        <el-button @click="resetQuery(searchFormRef)">{{ t('buttons.actionReset') }}</el-button>
       </el-form-item>
     </el-form>
 
@@ -95,7 +95,7 @@ onMounted(() => {
       :columns="columns"
       :title="t('roles.pageTitle')"
       @fullscreen="tableRef?.setAdaptive()"
-      @refresh="onSearch"
+      @refresh="fetchTableData"
     >
       <template #buttons>
         <!-- 添加 -->
@@ -119,16 +119,16 @@ onMounted(() => {
           highlight-current-row
           row-key="id"
           table-layout="auto"
-          @page-size-change="onPageSizeChange"
-          @page-current-change="onPageCurrentChange"
-          @selection-change="onSelectionChange"
+          @page-size-change="handlePageSizeChange"
+          @page-current-change="handlePageCurrentChange"
+          @selection-change="handleSelectionChange"
         >
           <template #actions>
             <div class="flex justify-center">
               <!-- 查看 -->
-              <el-button link type="primary" @click="onView">{{ t('buttons.actionView') }}</el-button>
+              <el-button link type="primary" @click="openDetailDialog">{{ t('buttons.actionView') }}</el-button>
               <!-- 修改/编辑 -->
-              <el-button link type="primary" @click="onEdit">{{ t('buttons.actionEdit') }}</el-button>
+              <el-button link type="primary" @click="openEditDialog">{{ t('buttons.actionEdit') }}</el-button>
               <!-- 删除 -->
               <el-button link type="danger">{{ t('buttons.actionDelete') }}</el-button>
 

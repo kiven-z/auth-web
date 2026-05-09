@@ -3,10 +3,10 @@ import {
   batchDeleteEmailTemplates,
   batchUpdateEmailTemplateStatus,
   createEmailTemplate,
-  getEmailTemplateById,
-  updateEmailTemplateMetadata,
   type EmailTemplateDetailVO,
   type EmailTemplatePageRow,
+  getEmailTemplateById,
+  updateEmailTemplateMetadata,
 } from '@/api/system/email-template';
 import { addDialog } from '@/components/ui/Dialog';
 import { deleteConfirm } from '@/shared/messaging/dialog';
@@ -16,10 +16,7 @@ import EmailTemplateDialog from '@/views/system/email-template/components/EmailT
 import { useEmailTemplateTableMoreAction } from '@/views/system/email-template/hooks/useEmailTemplateTableMoreAction';
 import { h, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
-
-export interface EmailTemplateTableActionDeps {
-  onSearch: () => Promise<void>;
-}
+import type { TableActionDeps } from '@/api/common';
 
 /**
  * 将详情转为表单模型
@@ -53,15 +50,15 @@ function toFormFromDetail(detail: EmailTemplateDetailVO, id: string): EmailTempl
 /**
  * 邮件模板表格操作：弹窗与写接口
  */
-function useEmailTemplateTableAction(deps: EmailTemplateTableActionDeps) {
-  const { onSearch } = deps;
+function useEmailTemplateTableAction(deps: TableActionDeps) {
+  const { fetchTableData } = deps;
   const { t } = useI18n();
-  const moreActions = useEmailTemplateTableMoreAction({ onSearch });
+  const moreActions = useEmailTemplateTableMoreAction({ fetchTableData });
 
   /**
    * 打开添加弹窗
    */
-  const openAdd = () => {
+  const openCreateDialog = () => {
     const formInline: Partial<EmailTemplateFormModel> = {
       status: true,
       priority: 5,
@@ -96,7 +93,7 @@ function useEmailTemplateTableAction(deps: EmailTemplateTableActionDeps) {
             requireFields: f.requireFields ?? [],
           });
           message(t('tips.addSuccess'), { type: 'success' });
-          await onSearch();
+          await fetchTableData();
           done();
         } catch (error: unknown) {
           errorMessage(error, { defaultI18nKey: 'emailTemplate.loadFailed' });
@@ -109,7 +106,7 @@ function useEmailTemplateTableAction(deps: EmailTemplateTableActionDeps) {
    * 打开编辑弹窗
    * @param row 表格行数据
    */
-  const openEdit = async (row: EmailTemplatePageRow) => {
+  const openEditDialog = async (row: EmailTemplatePageRow) => {
     try {
       const detail = await getEmailTemplateById(row.id);
       const formInline = toFormFromDetail(detail, row.id);
@@ -140,7 +137,7 @@ function useEmailTemplateTableAction(deps: EmailTemplateTableActionDeps) {
               priority: f.priority,
             });
             message(t('tips.editSuccess'), { type: 'success' });
-            await onSearch();
+            await fetchTableData();
             done();
           } catch (error: unknown) {
             errorMessage(error, { defaultI18nKey: 'emailTemplate.loadFailed' });
@@ -156,7 +153,7 @@ function useEmailTemplateTableAction(deps: EmailTemplateTableActionDeps) {
    * 打开详情弹窗
    * @param row 表格行数据
    */
-  const openDetail = (row: EmailTemplatePageRow) => {
+  const openDetailDialog = (row: EmailTemplatePageRow) => {
     addDialog({
       title: t('emailTemplate.detailDialogTitle'),
       props: { id: row.id },
@@ -173,14 +170,14 @@ function useEmailTemplateTableAction(deps: EmailTemplateTableActionDeps) {
    * 批量删除
    * @param ids 模板 ID 数组
    */
-  const removeBatch = async (ids: string[]) => {
+  const handleBatchDelete = async (ids: string[]) => {
     if (ids.length <= 0) return;
     const confirm = await deleteConfirm();
     if (!confirm) return;
     try {
       await batchDeleteEmailTemplates(ids);
       message(t('tips.deleteSuccess'), { type: 'success' });
-      await onSearch();
+      await fetchTableData();
     } catch (error: unknown) {
       errorMessage(error, { defaultI18nKey: 'emailTemplate.loadFailed' });
     }
@@ -196,18 +193,18 @@ function useEmailTemplateTableAction(deps: EmailTemplateTableActionDeps) {
     try {
       await batchUpdateEmailTemplateStatus({ ids, status: enabled });
       message(t('tips.editSuccess'), { type: 'success' });
-      await onSearch();
+      await fetchTableData();
     } catch (error: unknown) {
       errorMessage(error, { defaultI18nKey: 'emailTemplate.loadFailed' });
     }
   };
 
   return {
-    openAdd,
-    openEdit,
-    openDetail,
     ...moreActions,
-    removeBatch,
+    openCreateDialog,
+    openEditDialog,
+    openDetailDialog,
+    handleBatchDelete,
     batchUpdateStatus,
   };
 }

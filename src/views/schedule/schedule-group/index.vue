@@ -16,12 +16,20 @@ const { columns } = useJobGroupTableColumns();
 const searchFormRef = ref<FormInstance>();
 const tableRef = ref<{ setAdaptive: () => Promise<void> } | null>(null);
 
-const { tableData, loading, pagination, searchForm, onSearch, onReset, onPageSizeChange, onPageCurrentChange } =
-  useJobGroupPageState();
-const { onAdd, onEdit, onView, onRemove } = useJobGroupTableAction({ onSearch });
+const {
+  tableData,
+  loading,
+  pagination,
+  searchForm,
+  fetchTableData,
+  resetQuery,
+  handlePageSizeChange,
+  handlePageCurrentChange,
+} = useJobGroupPageState();
+const { openCreateDialog, openEditDialog, openDetailDialog, deleteRow } = useJobGroupTableAction({ fetchTableData });
 
 onMounted(() => {
-  onSearch();
+  fetchTableData();
 });
 </script>
 
@@ -52,9 +60,9 @@ onMounted(() => {
       <!-- 表单搜索 -->
       <el-form-item>
         <!-- 搜索 -->
-        <el-button type="primary" @click="onSearch">{{ t('buttons.actionSearch') }}</el-button>
+        <el-button type="primary" @click="fetchTableData">{{ t('buttons.actionSearch') }}</el-button>
         <!-- 重置 -->
-        <el-button @click="onReset(searchFormRef)">{{ t('buttons.actionReset') }}</el-button>
+        <el-button @click="resetQuery(searchFormRef)">{{ t('buttons.actionReset') }}</el-button>
       </el-form-item>
     </el-form>
 
@@ -62,11 +70,11 @@ onMounted(() => {
       :columns="columns"
       :title="t('scheduleGroup.tableTitle')"
       @fullscreen="tableRef?.setAdaptive()"
-      @refresh="onSearch"
+      @refresh="fetchTableData"
     >
       <template #buttons>
         <!-- 添加 -->
-        <el-button type="primary" @click="onAdd">{{ t('buttons.actionAdd') }}</el-button>
+        <el-button type="primary" @click="openCreateDialog">{{ t('buttons.actionAdd') }}</el-button>
       </template>
 
       <template #default="{ size, dynamicColumns }">
@@ -86,17 +94,17 @@ onMounted(() => {
           row-key="id"
           showOverflowTooltip
           table-layout="auto"
-          @page-size-change="onPageSizeChange"
-          @page-current-change="onPageCurrentChange"
+          @page-size-change="handlePageSizeChange"
+          @page-current-change="handlePageCurrentChange"
         >
           <template #actions="{ row }">
             <div class="flex justify-center">
               <!-- 查看 -->
-              <el-button link type="primary" @click="onView(row)">{{ t('buttons.actionView') }}</el-button>
+              <el-button link type="primary" @click="openDetailDialog(row)">{{ t('buttons.actionView') }}</el-button>
               <!-- 修改/编辑 -->
-              <el-button link type="primary" @click="onEdit(row)">{{ t('buttons.actionEdit') }}</el-button>
+              <el-button link type="primary" @click="openEditDialog(row)">{{ t('buttons.actionEdit') }}</el-button>
               <!-- 删除 -->
-              <el-button :disabled="row.isSystem" link type="danger" @click="onRemove(row)">
+              <el-button :disabled="row.isSystem" link type="danger" @click="deleteRow(row)">
                 {{ t('buttons.actionDelete') }}
               </el-button>
             </div>

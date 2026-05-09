@@ -28,4 +28,3 @@ export interface EmailLoginRequest {
   email: string;
   code: string;
 }
-

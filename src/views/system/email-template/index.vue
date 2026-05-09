@@ -24,27 +24,27 @@ const {
   pagination,
   selectedRows,
   searchForm,
-  onSearch,
-  onReset,
-  onPageSizeChange,
-  onPageCurrentChange,
-  onSelectionChange,
+  fetchTableData,
+  resetQuery,
+  handlePageSizeChange,
+  handlePageCurrentChange,
+  handleSelectionChange,
 } = useEmailTemplatePageState();
 
 const {
-  openAdd,
-  openEdit,
-  openDetail,
+  openCreateDialog,
+  openEditDialog,
+  openDetailDialog,
   openPreview,
   openRequireFields,
   openTestSend,
   openTemplateContentEdit,
-  removeBatch,
+  handleBatchDelete,
   batchUpdateStatus,
-} = useEmailTemplateTableAction({ onSearch });
+} = useEmailTemplateTableAction({ fetchTableData });
 
 onMounted(() => {
-  onSearch();
+  fetchTableData();
 });
 </script>
 
@@ -81,8 +81,8 @@ onMounted(() => {
       </el-form-item>
 
       <el-form-item>
-        <el-button :loading="loading" type="primary" @click="onSearch">{{ t('buttons.actionSearch') }}</el-button>
-        <el-button @click="onReset(searchFormRef)">{{ t('buttons.actionReset') }}</el-button>
+        <el-button :loading="loading" type="primary" @click="fetchTableData">{{ t('buttons.actionSearch') }}</el-button>
+        <el-button @click="resetQuery(searchFormRef)">{{ t('buttons.actionReset') }}</el-button>
       </el-form-item>
     </el-form>
 
@@ -90,12 +90,12 @@ onMounted(() => {
       :columns="columns"
       :title="t('emailTemplate.tableTitle')"
       @fullscreen="tableRef?.setAdaptive()"
-      @refresh="onSearch"
+      @refresh="fetchTableData"
     >
       <template #buttons>
         <el-button-group type="primary">
           <!-- 添加 -->
-          <el-button @click="openAdd">{{ t('buttons.actionAdd') }}</el-button>
+          <el-button @click="openCreateDialog">{{ t('buttons.actionAdd') }}</el-button>
 
           <!-- 修改状态 -->
           <el-dropdown trigger="click">
@@ -124,7 +124,7 @@ onMounted(() => {
 
             <template #dropdown>
               <!-- 批量删除 -->
-              <el-dropdown-item :disabled="selectedRows.length <= 0" @click="removeBatch(selectedRows)">
+              <el-dropdown-item :disabled="selectedRows.length <= 0" @click="handleBatchDelete(selectedRows)">
                 {{ t('buttons.actionBatchDelete') }}
               </el-dropdown-item>
             </template>
@@ -149,18 +149,20 @@ onMounted(() => {
           row-key="id"
           show-overflow-tooltip
           table-layout="auto"
-          @page-size-change="onPageSizeChange"
-          @page-current-change="onPageCurrentChange"
-          @selection-change="onSelectionChange"
+          @page-size-change="handlePageSizeChange"
+          @page-current-change="handlePageCurrentChange"
+          @selection-change="handleSelectionChange"
         >
           <template #actions="{ row }">
             <div class="flex justify-center flex-wrap gap-x-1">
               <!-- 查看 -->
-              <el-button link type="primary" @click="openDetail(row)">{{ t('buttons.actionView') }}</el-button>
+              <el-button link type="primary" @click="openDetailDialog(row)">{{ t('buttons.actionView') }}</el-button>
               <!-- 编辑 -->
-              <el-button link type="primary" @click="openEdit(row)">{{ t('buttons.actionEdit') }}</el-button>
+              <el-button link type="primary" @click="openEditDialog(row)">{{ t('buttons.actionEdit') }}</el-button>
               <!-- 删除 -->
-              <el-button link type="danger" @click="removeBatch([row.id])">{{ t('buttons.actionDelete') }}</el-button>
+              <el-button link type="danger" @click="handleBatchDelete([row.id])">
+                {{ t('buttons.actionDelete') }}
+              </el-button>
               <!-- 更多 -->
               <el-dropdown class="ml-1" trigger="click">
                 <el-button class="el-dropdown-link" link type="primary">{{ t('buttons.actionMore') }}</el-button>

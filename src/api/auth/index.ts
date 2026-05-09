@@ -1,19 +1,9 @@
 import { http } from '@/infrastructure/http-core';
 import { AUTH_API_PATHS } from './paths';
-import type {
-  EmailLoginRequest,
-  RefreshTokenResponse,
-  UserLoginResponse,
-  UsernamePasswordLoginRequest,
-} from './types';
+import type { EmailLoginRequest, RefreshTokenResponse, UserLoginResponse, UsernamePasswordLoginRequest } from './types';
 
 export { AUTH_API_PATHS, AUTH_PUBLIC_API_PATH_SUFFIXES } from './paths';
-export type {
-  EmailLoginRequest,
-  RefreshTokenResponse,
-  UserLoginResponse,
-  UsernamePasswordLoginRequest,
-} from './types';
+export type { EmailLoginRequest, RefreshTokenResponse, UserLoginResponse, UsernamePasswordLoginRequest } from './types';
 
 export const loginByUsernameApi = (data: UsernamePasswordLoginRequest) => {
   return http.request<UserLoginResponse>('post', AUTH_API_PATHS.LOGIN_USERNAME, { data });

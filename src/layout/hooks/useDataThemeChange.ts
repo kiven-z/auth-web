@@ -3,12 +3,12 @@ import { getConfig } from '@/config';
 import { useLayout } from './useLayout';
 import { removeToken } from '@/infrastructure/session';
 import { routerArrays } from '@/layout/types';
-import { router, resetRouter } from '@/router';
+import { resetRouter, router } from '@/router';
 import type { themeColorsType } from '../types';
 import { useAppStoreHook } from '@/store/modules/app';
 import { useEpThemeStoreHook } from '@/store/modules/epTheme';
 import { useMultiTagsStoreHook } from '@/store/modules/multiTags';
-import { darken, lighten, useGlobal, storageLocal } from '@pureadmin/utils';
+import { darken, lighten, storageLocal, useGlobal } from '@pureadmin/utils';
 
 export function useDataThemeChange() {
   const { layoutTheme, layout } = useLayout();
@@ -126,7 +126,7 @@ export function useDataThemeChange() {
     overallStyle,
     layoutTheme,
     themeColors,
-    onReset,
+    resetQuery: onReset,
     toggleClass,
     dataThemeChange,
     setEpThemeColor,

@@ -1,4 +1,4 @@
-import { getEmailTemplatePage, type EmailTemplatePageRow } from '@/api/system/email-template';
+import { type EmailTemplatePageRow, getEmailTemplatePage } from '@/api/system/email-template';
 import { errorMessage } from '@/shared/messaging/message';
 import type { FormInstance } from 'element-plus';
 import { reactive, ref } from 'vue';
@@ -27,7 +27,7 @@ function useEmailTemplatePageState() {
   /**
    * 分页查询。
    */
-  const onSearch = async () => {
+  const fetchTableData = async () => {
     loading.value = true;
     const query = { ...searchForm, pageIndex: pagination.currentPage, pageSize: pagination.pageSize };
     try {
@@ -47,26 +47,26 @@ function useEmailTemplatePageState() {
    * 分页大小变化
    * @param value 分页大小
    */
-  const onPageSizeChange = async (value: number) => {
+  const handlePageSizeChange = async (value: number) => {
     pagination.pageSize = value;
     pagination.currentPage = 1;
-    await onSearch();
+    await fetchTableData();
   };
 
   /**
    * 分页当前页变化
    * @param value 当前页
    */
-  const onPageCurrentChange = async (value: number) => {
+  const handlePageCurrentChange = async (value: number) => {
     pagination.currentPage = value;
-    await onSearch();
+    await fetchTableData();
   };
 
   /**
    * 多选变化
    * @param value 选中行
    */
-  const onSelectionChange = (value: EmailTemplatePageRow[]) => {
+  const handleSelectionChange = (value: EmailTemplatePageRow[]) => {
     selectedRows.value = value.map((item) => item.id);
   };
 
@@ -74,7 +74,7 @@ function useEmailTemplatePageState() {
    * 重置筛选并查询
    * @param formRef 表单实例
    */
-  const onReset = async (formRef?: FormInstance) => {
+  const resetQuery = async (formRef?: FormInstance) => {
     pagination.currentPage = 1;
     if (formRef) {
       formRef.resetFields();
@@ -84,7 +84,7 @@ function useEmailTemplatePageState() {
       searchForm.subject = '';
       searchForm.status = undefined;
     }
-    await onSearch();
+    await fetchTableData();
   };
 
   return {
@@ -93,11 +93,11 @@ function useEmailTemplatePageState() {
     pagination,
     selectedRows,
     searchForm,
-    onSearch,
-    onReset,
-    onPageSizeChange,
-    onPageCurrentChange,
-    onSelectionChange,
+    fetchTableData,
+    resetQuery,
+    handlePageSizeChange,
+    handlePageCurrentChange,
+    handleSelectionChange,
   };
 }
 

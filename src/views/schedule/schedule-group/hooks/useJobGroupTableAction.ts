@@ -1,9 +1,9 @@
 import {
   createJobGroup,
-  deleteJobGroup,
-  updateJobGroup,
   type CreateJobGroupRequest,
+  deleteJobGroup,
   type SysJobGroupPageRow,
+  updateJobGroup,
 } from '@/api/schedule/job-group';
 import { addDialog } from '@/components/ui/Dialog';
 import { deleteConfirm } from '@/shared/messaging/dialog';
@@ -12,27 +12,20 @@ import ScheduleGroupDescriptionDialog from '@/views/schedule/schedule-group/comp
 import ScheduleGroupFormDialog from '@/views/schedule/schedule-group/components/ScheduleGroupFormDialog.vue';
 import { h, reactive, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
-
-export interface JobGroupTableActionDeps {
-  /**
-   * 与页面 `useJobGroupPageState` 同源
-   * 避免重复调用导致刷新的是另一份 tableData
-   */
-  onSearch: () => Promise<void>;
-}
+import type { TableActionDeps } from '@/api/common';
 
 /**
  * 任务分组表格操作：新增、编辑、查看详情、删除
- * @param deps 须传入列表页同一实例的 {@link deps.onSearch}
+ * @param deps 须传入列表页同一实例的
  */
-function useJobGroupTableAction(deps: JobGroupTableActionDeps) {
-  const { onSearch } = deps;
+function useJobGroupTableAction(deps: TableActionDeps) {
+  const { fetchTableData } = deps;
   const { t } = useI18n();
 
   /**
    * 打开新增任务分组对话框
    */
-  const onAdd = () => {
+  const openCreateDialog = () => {
     const form = reactive<CreateJobGroupRequest>({
       groupCode: '',
       groupName: '',
@@ -58,7 +51,7 @@ function useJobGroupTableAction(deps: JobGroupTableActionDeps) {
           await createJobGroup(form);
           message(t('tips.addSuccess'), { type: 'success' });
 
-          await onSearch();
+          await fetchTableData();
           done();
         } catch (error: unknown) {
           errorMessage(error, { defaultI18nKey: 'scheduleGroup.loadFailed' });
@@ -71,7 +64,7 @@ function useJobGroupTableAction(deps: JobGroupTableActionDeps) {
    * 打开编辑任务分组对话框
    * @param row 任务分组数据
    */
-  const onEdit = (row: SysJobGroupPageRow) => {
+  const openEditDialog = (row: SysJobGroupPageRow) => {
     const form = reactive({
       id: row.id,
       groupCode: row.groupCode,
@@ -97,7 +90,7 @@ function useJobGroupTableAction(deps: JobGroupTableActionDeps) {
 
           await updateJobGroup(form);
           message(t('tips.editSuccess'), { type: 'success' });
-          await onSearch();
+          await fetchTableData();
 
           done();
         } catch (error: unknown) {
@@ -111,7 +104,7 @@ function useJobGroupTableAction(deps: JobGroupTableActionDeps) {
    * 打开任务分组详情对话框
    * @param row 任务分组数据
    */
-  const onView = (row: SysJobGroupPageRow) => {
+  const openDetailDialog = (row: SysJobGroupPageRow) => {
     addDialog({
       title: t('scheduleGroup.detailTitle'),
       props: {},
@@ -124,24 +117,24 @@ function useJobGroupTableAction(deps: JobGroupTableActionDeps) {
    * 删除任务分组
    * @param row 任务分组数据
    */
-  const onRemove = async (row: SysJobGroupPageRow) => {
+  const deleteRow = async (row: SysJobGroupPageRow) => {
     const confirm = await deleteConfirm();
     if (!confirm) return;
 
     try {
       await deleteJobGroup(row.id);
       message(t('tips.deleteSuccess'), { type: 'success' });
-      await onSearch();
+      await fetchTableData();
     } catch (error: unknown) {
       errorMessage(error, { defaultI18nKey: 'scheduleGroup.loadFailed' });
     }
   };
 
   return {
-    onAdd,
-    onEdit,
-    onView,
-    onRemove,
+    openCreateDialog,
+    openEditDialog,
+    openDetailDialog,
+    deleteRow,
   };
 }
 
