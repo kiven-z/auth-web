@@ -2,7 +2,8 @@ import { handleAliveRoute } from '@/router/utils/misc';
 import type { Router } from 'vue-router';
 
 /**
- * KeepAlive 缓存守卫：管理页面组件的缓存生命周期。
+ * KeepAlive 缓存守卫：管理页面组件的缓存生命周期
+ * @param router 路由
  */
 export function createKeepAliveGuard(router: Router): void {
   router.beforeEach((to, _from, next) => {

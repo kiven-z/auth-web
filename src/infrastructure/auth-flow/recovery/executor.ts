@@ -28,9 +28,9 @@ export interface ExecuteAuthRecoveryResult {
  */
 export async function executeAuthRecovery(input: ExecuteAuthRecoveryInput): Promise<ExecuteAuthRecoveryResult> {
   const decision = resolveAuthRecoveryDecision(input.context, input.rules);
-  // 执行传递函数
   decision.messageFunc?.();
 
+  // 无请求配置时直接透传，不执行任何恢复动作
   if (!input.requestConfig) {
     return {
       handled: false,
@@ -38,38 +38,42 @@ export async function executeAuthRecovery(input: ExecuteAuthRecoveryInput): Prom
       matchedRuleId: decision.matchedRuleId,
     };
   }
-  if (decision.action === 'refresh_and_retry') {
-    input.requestConfig._authRecoveryRetryCount = (input.requestConfig._authRecoveryRetryCount ?? 0) + 1;
 
-    try {
-      const replayResult = await replayRequestWithRefreshedToken(input.instance, input.requestConfig);
-      return {
-        handled: true,
-        action: decision.action,
-        matchedRuleId: decision.matchedRuleId,
-        replayResult,
-      };
-    } catch (replayError) {
+  switch (decision.action) {
+    // 刷新令牌并重试
+    case 'refresh_and_retry': {
+      input.requestConfig._authRecoveryRetryCount = (input.requestConfig._authRecoveryRetryCount ?? 0) + 1;
+      try {
+        const replayResult = await replayRequestWithRefreshedToken(input.instance, input.requestConfig);
+        return {
+          handled: true,
+          action: decision.action,
+          matchedRuleId: decision.matchedRuleId,
+          replayResult,
+        };
+      } catch (replayError) {
+        return {
+          handled: true,
+          action: decision.action,
+          matchedRuleId: decision.matchedRuleId,
+          shouldLogout: true,
+          replayError,
+        };
+      }
+    }
+    // 登出
+    case 'logout':
       return {
         handled: true,
         action: decision.action,
         matchedRuleId: decision.matchedRuleId,
         shouldLogout: true,
-        replayError,
       };
-    }
+    default:
+      return {
+        handled: false,
+        action: decision.action,
+        matchedRuleId: decision.matchedRuleId,
+      };
   }
-  if (decision.action === 'logout') {
-    return {
-      handled: true,
-      action: decision.action,
-      matchedRuleId: decision.matchedRuleId,
-      shouldLogout: true,
-    };
-  }
-  return {
-    handled: false,
-    action: decision.action,
-    matchedRuleId: decision.matchedRuleId,
-  };
 }

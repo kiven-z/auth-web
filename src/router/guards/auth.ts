@@ -33,19 +33,26 @@ async function ensureAccessTokenOnBoot(): Promise<boolean> {
 }
 
 /**
- * 登录态与权限守卫：校验登录状态、角色鉴权、刷新时动态路由初始化。
+ * 登录态与权限守卫：校验登录状态、角色鉴权、刷新时动态路由初始化
+ * @param router 路由
  */
 export function createAuthGuard(router: Router): void {
   router.beforeEach(async (to, _from, next) => {
+    // 获取用户信息
     const userInfo = storageLocal().getItem<DataInfo<number>>(userKey);
+    // 获取是否外部链接
     const externalLink = isUrl(to?.name as string);
 
-    /** 已登录时阻止重复跳转白名单页面 */
+    /**
+     * 已登录时阻止重复跳转白名单页面
+     */
     function toCorrectRoute() {
       whiteList.includes(to.fullPath) ? next(_from.fullPath) : next();
     }
 
+    // 如果多标签页标志存在且用户信息存在，则校验登录状态
     if (Cookies.get(multipleTabsKey) && userInfo) {
+      // 如果路径不是登录页且没有 accessToken，则刷新 accessToken
       if (to.path !== '/login' && !hasAccessToken()) {
         const restored = await ensureAccessTokenOnBoot();
         if (!restored) {

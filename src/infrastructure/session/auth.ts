@@ -82,6 +82,7 @@ export function setToken(data: SessionTokenPayload) {
   const expiresSource = data.expires !== undefined && data.expires !== null ? data.expires : Date.now() + 8 * 3600000;
   const expires = toExpiresTimestamp(expiresSource);
 
+  // 设置多标签页标志
   Cookies.set(
     multipleTabsKey,
     'true',
@@ -92,6 +93,10 @@ export function setToken(data: SessionTokenPayload) {
       : {}
   );
 
+  /**
+   * 设置用户键
+   * @param payload 用户键
+   */
   function setUserKey(payload: {
     avatar: string;
     username: string;
@@ -100,14 +105,21 @@ export function setToken(data: SessionTokenPayload) {
     permissions: Array<string>;
     userId?: string;
   }) {
+    // 设置头像
     useUserStoreHook().SET_AVATAR(payload.avatar);
+    // 设置用户名
     useUserStoreHook().SET_USERNAME(payload.username);
+    // 设置昵称
     useUserStoreHook().SET_NICKNAME(payload.nickname);
+    // 设置角色
     useUserStoreHook().SET_ROLES(payload.roles);
+    // 设置权限
     useUserStoreHook().SET_PERMS(payload.permissions);
+    // 设置用户 ID
     if (payload.userId !== undefined) {
       useUserStoreHook().SET_USER_ID(payload.userId);
     }
+    // 设置用户键
     storageLocal().setItem(userKey, {
       expires,
       avatar: payload.avatar,
@@ -118,7 +130,7 @@ export function setToken(data: SessionTokenPayload) {
       userId: payload.userId,
     });
   }
-
+  // 如果用户名和角色存在，则设置用户键
   if (data.username && data.roles) {
     setUserKey({
       avatar: data?.avatar ?? '',
@@ -129,7 +141,9 @@ export function setToken(data: SessionTokenPayload) {
       userId: data.userId,
     });
   } else {
+    // 获取之前用户键
     const prev = storageLocal().getItem<DataInfo<number>>(userKey);
+    // 设置用户键
     setUserKey({
       avatar: prev?.avatar ?? '',
       username: prev?.username ?? '',
@@ -141,14 +155,23 @@ export function setToken(data: SessionTokenPayload) {
   }
 }
 
-/** 删除`token`以及key值为`user-info`的localStorage信息 */
+/**
+ * 删除`token`以及key值为`user-info`的localStorage信息
+ */
 export function removeToken() {
+  // 清空内存态 accessToken
   memoryAccessToken = '';
+  // 删除多标签页标志
   Cookies.remove(multipleTabsKey);
+  // 删除用户键
   storageLocal().removeItem(userKey);
 }
 
-/** 格式化token（jwt格式） */
+/**
+ * 格式化token（jwt格式）
+ * @param token token
+ * @returns 格式化后的token
+ */
 export const formatToken = (token: string): string => {
   return 'Bearer ' + token;
 };

@@ -1,5 +1,11 @@
 import type { AuthRecoveryContext, AuthRecoveryRule } from './types';
 
+/**
+ * 匹配状态
+ * @param statuses 状态列表
+ * @param status 状态
+ * @returns 是否匹配
+ */
 function matchStatus(statuses: readonly number[] | undefined, status: number | undefined): boolean {
   if (!statuses) {
     return true;
@@ -10,6 +16,12 @@ function matchStatus(statuses: readonly number[] | undefined, status: number | u
   return statuses.includes(status);
 }
 
+/**
+ * 匹配错误码模式
+ * @param pattern 模式
+ * @param errorCode 错误码
+ * @returns 是否匹配
+ */
 function matchErrorCodePattern(pattern: string, errorCode: string): boolean {
   if (pattern === '*') {
     return true;
@@ -21,6 +33,12 @@ function matchErrorCodePattern(pattern: string, errorCode: string): boolean {
   return errorCode === pattern;
 }
 
+/**
+ * 匹配错误码
+ * @param errorCodePatterns 错误码模式列表
+ * @param errorCode 错误码
+ * @returns 是否匹配
+ */
 function matchErrorCode(errorCodePatterns: readonly string[] | undefined, errorCode: string | undefined): boolean {
   if (!errorCodePatterns) {
     return true;
@@ -31,6 +49,12 @@ function matchErrorCode(errorCodePatterns: readonly string[] | undefined, errorC
   return errorCodePatterns.some((pattern) => matchErrorCodePattern(pattern, errorCode));
 }
 
+/**
+ * 匹配无权限路径
+ * @param expectNoAuthPath 期望无权限路径
+ * @param isNoAuthPath 是否无权限路径
+ * @returns 是否匹配
+ */
 function matchNoAuthPath(expectNoAuthPath: boolean | undefined, isNoAuthPath: boolean): boolean {
   if (expectNoAuthPath === undefined) {
     return true;
@@ -38,6 +62,12 @@ function matchNoAuthPath(expectNoAuthPath: boolean | undefined, isNoAuthPath: bo
   return expectNoAuthPath === isNoAuthPath;
 }
 
+/**
+ * 匹配规则
+ * @param rule 规则
+ * @param context 上下文
+ * @returns 是否匹配
+ */
 function matchesRule(rule: AuthRecoveryRule, context: AuthRecoveryContext): boolean {
   const matcher = rule.matcher;
   if (!matcher) {
