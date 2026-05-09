@@ -21,7 +21,7 @@ const { t } = useI18n();
 const { layout } = useLayout();
 const appWrapperRef = ref();
 const isMobile = deviceDetection();
-const pureSetting = useSettingStoreHook();
+const authSetting = useSettingStoreHook();
 const { $storage } = useGlobal<GlobalPropertiesApi>();
 
 const set: setType = reactive({
@@ -34,7 +34,7 @@ const set: setType = reactive({
   }),
 
   fixedHeader: computed(() => {
-    return pureSetting.fixedHeader;
+    return authSetting.fixedHeader;
   }),
 
   classes: computed(() => {
@@ -118,8 +118,8 @@ onBeforeMount(() => {
       class="app-mask"
       @click="useAppStoreHook().toggleSideBar()"
     />
-    <NavVertical v-show="!pureSetting.hiddenSideBar && (layout.includes('vertical') || layout.includes('mix'))" />
-    <div :class="['main-container', pureSetting.hiddenSideBar ? 'main-hidden' : '']">
+    <NavVertical v-show="!authSetting.hiddenSideBar && (layout.includes('vertical') || layout.includes('mix'))" />
+    <div :class="['main-container', authSetting.hiddenSideBar ? 'main-hidden' : '']">
       <div v-if="set.fixedHeader">
         <LayHeader />
         <!-- 主体内容 -->

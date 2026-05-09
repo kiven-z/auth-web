@@ -2,11 +2,11 @@ import { API_SUCCESS_CODE, isNoAuthRequestPath } from '@/config/http-config';
 import { dispatchAuthRecoveryEffects, executeAuthRecovery } from '@/infrastructure/auth-flow/recovery';
 import { useUserStoreHook } from '@/store/modules/user';
 import Axios, { type AxiosInstance, type AxiosResponse } from 'axios';
-import { isApiResultEnvelope, type ApiResult } from '../apiResult';
+import { type ApiResult, isApiResultEnvelope } from '../apiResult';
 import { rejectWithApiEnvelopeError } from '../errorAdapter';
-import type { PureHttpError, PureHttpRequestConfig, PureHttpResponse } from '../types.d';
+import type { AuthHttpError, AuthHttpRequestConfig, AuthHttpResponse } from '../types.d';
 
-type InitConfigGetter = () => PureHttpRequestConfig;
+type InitConfigGetter = () => AuthHttpRequestConfig;
 
 /**
  * 响应拦截：Result 解包、业务错误与鉴权恢复（优先刷新重放，失败后再登出）。
@@ -14,13 +14,13 @@ type InitConfigGetter = () => PureHttpRequestConfig;
 export function attachResponseInterceptors(instance: AxiosInstance, getInitConfig: InitConfigGetter): void {
   instance.interceptors.response.use(
     (response: AxiosResponse) => handleResponseSuccess(response, getInitConfig) as any,
-    (error: PureHttpError) => handleResponseError(instance, error, getInitConfig) as any
+    (error: AuthHttpError) => handleResponseError(instance, error, getInitConfig) as any
   );
 }
 
 function handleResponseSuccess(response: AxiosResponse, getInitConfig: InitConfigGetter): unknown {
-  const config = response.config as PureHttpRequestConfig;
-  const pureResponse = response as PureHttpResponse;
+  const config = response.config as AuthHttpRequestConfig;
+  const pureResponse = response as AuthHttpResponse;
   const raw = response.data;
 
   if (config.responseType === 'blob' || config.responseType === 'arraybuffer') {
@@ -41,7 +41,7 @@ function handleResponseSuccess(response: AxiosResponse, getInitConfig: InitConfi
 }
 
 function unwrapEnvelopePayload(
-  response: PureHttpResponse,
+  response: AuthHttpResponse,
   envelope: ApiResult,
   getInitConfig: InitConfigGetter
 ): unknown {
@@ -49,7 +49,7 @@ function unwrapEnvelopePayload(
   const synthetic = {
     ...response,
     data: envelope,
-  } as PureHttpResponse;
+  } as AuthHttpResponse;
   const globalCfg = getInitConfig();
   if (typeof response.config.beforeResponseCallback === 'function') {
     response.config.beforeResponseCallback(synthetic);
@@ -62,7 +62,7 @@ function unwrapEnvelopePayload(
   return payload;
 }
 
-function passthroughRawBody(response: PureHttpResponse, getInitConfig: InitConfigGetter): unknown {
+function passthroughRawBody(response: AuthHttpResponse, getInitConfig: InitConfigGetter): unknown {
   const globalCfg = getInitConfig();
   const config = response.config;
   if (typeof config.beforeResponseCallback === 'function') {
@@ -78,14 +78,14 @@ function passthroughRawBody(response: PureHttpResponse, getInitConfig: InitConfi
 
 async function handleResponseError(
   instance: AxiosInstance,
-  error: PureHttpError,
+  error: AuthHttpError,
   getInitConfig: InitConfigGetter
 ): Promise<unknown> {
   error.isCancelRequest = Axios.isCancel(error);
   const { response, config } = error;
 
   const status = response?.status;
-  const requestConfig = config as PureHttpRequestConfig | undefined;
+  const requestConfig = config as AuthHttpRequestConfig | undefined;
   const isNoAuthPath = requestConfig ? isNoAuthRequestPath(requestConfig.url) : false;
   const envelope = response?.data && isApiResultEnvelope(response.data) ? response.data : undefined;
   const authEnvelopeErrorCode = envelope?.error ?? envelope?.subCode;

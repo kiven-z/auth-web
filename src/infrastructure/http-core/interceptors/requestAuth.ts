@@ -1,9 +1,9 @@
 import { isNoAuthRequestPath } from '@/config/http-config';
 import { formatToken, getToken } from '@/infrastructure/session';
 import type { AxiosInstance, InternalAxiosRequestConfig } from 'axios';
-import type { PureHttpRequestConfig } from '../types.d';
+import type { AuthHttpRequestConfig } from '../types.d';
 
-type InitConfigGetter = () => PureHttpRequestConfig;
+type InitConfigGetter = () => AuthHttpRequestConfig;
 
 /**
  * 请求拦截：仅注入 Authorization，不在请求阶段执行 refreshToken。
@@ -11,15 +11,15 @@ type InitConfigGetter = () => PureHttpRequestConfig;
 export function attachRequestAuthInterceptor(instance: AxiosInstance, getInitConfig: InitConfigGetter): void {
   instance.interceptors.request.use(
     (
-      config: InternalAxiosRequestConfig & Partial<PureHttpRequestConfig>
-    ): InternalAxiosRequestConfig & Partial<PureHttpRequestConfig> => {
+      config: InternalAxiosRequestConfig & Partial<AuthHttpRequestConfig>
+    ): InternalAxiosRequestConfig & Partial<AuthHttpRequestConfig> => {
       const globalBeforeRequest = getInitConfig().beforeRequestCallback;
-      if (typeof (config as PureHttpRequestConfig).beforeRequestCallback === 'function') {
-        (config as PureHttpRequestConfig).beforeRequestCallback!(config as PureHttpRequestConfig);
+      if (typeof (config as AuthHttpRequestConfig).beforeRequestCallback === 'function') {
+        (config as AuthHttpRequestConfig).beforeRequestCallback!(config as AuthHttpRequestConfig);
         return config;
       }
       if (globalBeforeRequest) {
-        globalBeforeRequest(config as PureHttpRequestConfig);
+        globalBeforeRequest(config as AuthHttpRequestConfig);
         return config;
       }
       if (isNoAuthRequestPath(config.url)) {

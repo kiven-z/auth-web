@@ -20,7 +20,7 @@ import type { routeMetaType } from '../types';
 const errorInfo = 'The current routing configuration is incorrect, please check the configuration';
 
 export function useNav() {
-  const pureApp = useAppStoreHook();
+  const authApp = useAppStoreHook();
   const routers = useRouter().options.routes;
   const { isFullscreen, toggle } = useFullscreen();
   const { wholeMenus } = storeToRefs(usePermissionStoreHook());
@@ -68,11 +68,11 @@ export function useNav() {
   });
 
   const isCollapse = computed(() => {
-    return !pureApp.getSidebarStatus;
+    return !authApp.getSidebarStatus;
   });
 
   const device = computed(() => {
-    return pureApp.getDevice;
+    return authApp.getDevice;
   });
 
   const { $storage, $config } = useGlobal<GlobalPropertiesApi>();
@@ -105,7 +105,7 @@ export function useNav() {
   }
 
   function toggleSideBar() {
-    pureApp.toggleSideBar();
+    authApp.toggleSideBar();
   }
 
   function handleResize(menuRef) {
@@ -159,7 +159,7 @@ export function useNav() {
     resolvePath,
     getLogo,
     isCollapse,
-    pureApp,
+    pureApp: authApp,
     username,
     userAvatar,
     avatarsStyle,

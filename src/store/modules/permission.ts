@@ -7,7 +7,7 @@ import { defineStore } from 'pinia';
 import type { cacheType } from '../types';
 import { useMultiTagsStoreHook } from './multiTags';
 
-export const usePermissionStore = defineStore('pure-permission', {
+export const usePermissionStore = defineStore('auth-permission', {
   state: () => ({
     // 静态路由生成的菜单
     constantMenus,

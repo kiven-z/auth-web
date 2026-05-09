@@ -1,12 +1,12 @@
 import { replayRequestWithRefreshedToken } from '@/infrastructure/auth-flow/tokenRefreshCoordinator';
-import type { PureHttpRequestConfig } from '@/infrastructure/http-core/types.d';
+import type { AuthHttpRequestConfig } from '@/infrastructure/http-core/types.d';
 import type { AxiosInstance } from 'axios';
 import { resolveAuthRecoveryDecision } from './resolver';
 import type { AuthRecoveryContext, AuthRecoveryRule, RecoveryAction } from './types';
 
 export interface ExecuteAuthRecoveryInput {
   instance: AxiosInstance;
-  requestConfig?: PureHttpRequestConfig;
+  requestConfig?: AuthHttpRequestConfig;
   context: AuthRecoveryContext;
   rules?: readonly AuthRecoveryRule[];
 }

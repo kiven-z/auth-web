@@ -3,7 +3,7 @@ import { store } from '@/store';
 import { defineStore } from 'pinia';
 import type { setType } from '../types';
 
-export const useSettingStore = defineStore('pure-setting', {
+export const useSettingStore = defineStore('auth-setting', {
   state: (): setType => ({
     title: getConfig().Title,
     fixedHeader: getConfig().FixedHeader,

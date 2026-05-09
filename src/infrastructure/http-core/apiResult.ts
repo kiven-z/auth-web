@@ -12,6 +12,9 @@ export type ResultExt = {
   [key: string]: unknown;
 };
 
+/**
+ * 接口结果
+ */
 export interface ApiResult<T = unknown> {
   code: number;
   message?: string;

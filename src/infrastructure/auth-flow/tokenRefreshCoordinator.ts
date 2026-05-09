@@ -1,7 +1,7 @@
 import { formatToken, getToken } from '@/infrastructure/session';
 import { useUserStoreHook } from '@/store/modules/user';
 import type { AxiosInstance } from 'axios';
-import type { PureHttpRequestConfig } from '@/infrastructure/http-core/types.d';
+import type { AuthHttpRequestConfig } from '@/infrastructure/http-core/types.d';
 
 let refreshInFlight: Promise<string> | null = null;
 
@@ -23,7 +23,7 @@ export function refreshAccessTokenSingleFlight(): Promise<string> {
  */
 export async function replayRequestWithRefreshedToken(
   instance: AxiosInstance,
-  config: PureHttpRequestConfig
+  config: AuthHttpRequestConfig
 ): Promise<unknown> {
   const accessToken = await refreshAccessTokenSingleFlight();
   if (!config.headers) {
@@ -33,6 +33,9 @@ export async function replayRequestWithRefreshedToken(
   return instance.request(config);
 }
 
+/**
+ * 刷新令牌必须要有 refreshToken
+ */
 async function doRefreshAccessToken(): Promise<string> {
   const tokenData = getToken();
   if (!tokenData?.refreshToken) {
