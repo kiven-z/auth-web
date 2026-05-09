@@ -7,7 +7,6 @@ export interface UserLoginResponse {
   roles?: string[];
   permissions?: string[];
   accessToken: string;
-  refreshToken: string;
   /** 后端 LocalDateTime，格式 yyyy/MM/dd HH:mm:ss */
   expires: string;
   readMeDay?: number;
@@ -16,7 +15,6 @@ export interface UserLoginResponse {
 /** 刷新令牌响应（对齐 RefreshTokenResponse） */
 export interface RefreshTokenResponse {
   accessToken: string;
-  refreshToken: string;
   expires: string;
   readMeDay?: number;
 }
@@ -31,6 +29,3 @@ export interface EmailLoginRequest {
   code: string;
 }
 
-export interface RefreshTokenRequest {
-  refreshToken: string;
-}

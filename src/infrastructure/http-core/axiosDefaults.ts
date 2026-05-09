@@ -9,6 +9,7 @@ export function createHttpAxiosInstance(): AxiosInstance {
   const defaultConfig: AxiosRequestConfig = {
     baseURL: HTTP_BASE_URL,
     timeout: HTTP_TIMEOUT,
+    withCredentials: true,
     headers: {
       Accept: 'application/json, text/plain, */*',
       'Content-Type': 'application/json',

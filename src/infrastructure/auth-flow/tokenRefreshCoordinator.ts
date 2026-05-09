@@ -33,15 +33,8 @@ export async function replayRequestWithRefreshedToken(
   return instance.request(config);
 }
 
-/**
- * 刷新令牌必须要有 refreshToken
- */
 async function doRefreshAccessToken(): Promise<string> {
-  const tokenData = getToken();
-  if (!tokenData?.refreshToken) {
-    throw new Error('Refresh token is missing.');
-  }
-  await useUserStoreHook().handRefreshToken({ refreshToken: tokenData.refreshToken });
+  await useUserStoreHook().handRefreshToken();
   const nextToken = getToken();
   if (!nextToken?.accessToken) {
     throw new Error('Access token is missing after refresh.');

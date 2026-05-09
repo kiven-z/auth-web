@@ -1,15 +1,13 @@
-import { multipleTabsKey, TokenKey, userKey } from '@/config/auth-config';
+import { multipleTabsKey, userKey } from '@/config/auth-config';
 import { useUserStoreHook } from '@/store/modules/user';
 import { storageLocal } from '@pureadmin/utils';
 import Cookies from 'js-cookie';
 
 export interface DataInfo<T> {
   /** token */
-  accessToken: string;
+  accessToken?: string;
   /** `accessToken`的过期时间（时间戳） */
-  expires: T;
-  /** 用于调用刷新accessToken的接口时所需的token */
-  refreshToken: string;
+  expires?: T;
   /** 用户 ID（与后端 Long 字符串化一致） */
   userId?: string;
   /** 头像 */
@@ -36,10 +34,9 @@ export function toExpiresTimestamp(expires: string | number | Date | undefined):
   return Number.isNaN(t) ? 0 : t;
 }
 
-/** 写入会话所需的字段（登录或刷新后）；SSO 等场景可缺省 refreshToken/expires，由默认值补齐 */
+/** 写入会话所需的字段（登录或刷新后）；SSO 等场景可缺省 expires，由默认值补齐 */
 export type SessionTokenPayload = {
   accessToken: string;
-  refreshToken?: string;
   expires?: string | number | Date;
   avatar?: string;
   username?: string;
@@ -57,32 +54,33 @@ export function readUserProfileFromStorage(): Partial<DataInfo<number>> {
   return raw ?? {};
 }
 
+/** 内存中的 accessToken（页面刷新后清空） */
+let memoryAccessToken = '';
+
 /** 获取`token` */
 export function getToken(): DataInfo<number> {
-  // 此处与`TokenKey`相同，此写法解决初始化时`Cookies`中不存在`TokenKey`报错
-  return Cookies.get(TokenKey) ? JSON.parse(Cookies.get(TokenKey)) : storageLocal().getItem(userKey);
+  const profile = storageLocal().getItem<DataInfo<number>>(userKey);
+  return {
+    ...(profile ?? {}),
+    accessToken: memoryAccessToken,
+  };
+}
+
+/** 是否存在内存态 accessToken */
+export function hasAccessToken(): boolean {
+  return memoryAccessToken.length > 0;
 }
 
 /**
  * @description 设置`token`以及一些必要信息并采用无感刷新`token`方案
- * 无感刷新：后端返回`accessToken`（访问接口使用的`token`）、`refreshToken`（用于调用刷新`accessToken`的接口时所需的`token`，`refreshToken`的过期时间（比如30天）应大于`accessToken`的过期时间（比如2小时））、`expires`（`accessToken`的过期时间）
- * 将`accessToken`、`expires`、`refreshToken`这三条信息放在key值为authorized-token的cookie里（过期自动销毁）
- * 将用户信息、`refreshToken`、`expires` 等放在 key 为 `user-info` 的 localStorage 里
+ * 无感刷新：后端返回`accessToken`（访问接口使用的`token`）与`expires`（`accessToken`过期时间）
+ * `accessToken` 仅保存在内存中；用户资料与过期时间保存在 key 为 `user-info` 的 localStorage 里
  */
 export function setToken(data: SessionTokenPayload) {
-  const accessToken = data.accessToken;
-  const refreshToken = data.refreshToken ?? '';
+  memoryAccessToken = data.accessToken;
   const { isRemembered, loginDay } = useUserStoreHook();
   const expiresSource = data.expires !== undefined && data.expires !== null ? data.expires : Date.now() + 8 * 3600000;
   const expires = toExpiresTimestamp(expiresSource);
-  const cookieString = JSON.stringify({ accessToken, expires, refreshToken });
-
-  // 设置浏览器缓存的 token
-  expires > 0
-    ? Cookies.set(TokenKey, cookieString, {
-        expires: (expires - Date.now()) / 86400000,
-      })
-    : Cookies.set(TokenKey, cookieString);
 
   Cookies.set(
     multipleTabsKey,
@@ -111,7 +109,6 @@ export function setToken(data: SessionTokenPayload) {
       useUserStoreHook().SET_USER_ID(payload.userId);
     }
     storageLocal().setItem(userKey, {
-      refreshToken,
       expires,
       avatar: payload.avatar,
       username: payload.username,
@@ -146,7 +143,7 @@ export function setToken(data: SessionTokenPayload) {
 
 /** 删除`token`以及key值为`user-info`的localStorage信息 */
 export function removeToken() {
-  Cookies.remove(TokenKey);
+  memoryAccessToken = '';
   Cookies.remove(multipleTabsKey);
   storageLocal().removeItem(userKey);
 }

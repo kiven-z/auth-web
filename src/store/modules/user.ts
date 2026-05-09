@@ -57,7 +57,6 @@ export const useUserStore = defineStore('pure-user', {
     mapLoginResponseToSession(res: UserLoginResponse) {
       return {
         accessToken: res.accessToken,
-        refreshToken: res.refreshToken,
         expires: res.expires,
         avatar: res.avatar,
         username: res.username,
@@ -97,11 +96,10 @@ export const useUserStore = defineStore('pure-user', {
     /**
      * 刷新 accessToken；成功写入会话（仅 Token 字段时合并本地用户信息）。
      */
-    async handRefreshToken(data: { refreshToken: string }) {
-      const body = await refreshTokenApi(data);
+    async handRefreshToken() {
+      const body = await refreshTokenApi();
       setToken({
         accessToken: body.accessToken,
-        refreshToken: body.refreshToken,
         expires: body.expires,
       });
       return body;

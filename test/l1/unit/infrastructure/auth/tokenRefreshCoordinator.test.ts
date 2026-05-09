@@ -26,9 +26,9 @@ describe('tokenRefreshCoordinator', () => {
     let refreshed = false;
     mockGetToken.mockImplementation(() => {
       if (!refreshed) {
-        return { refreshToken: 'refresh-token-1' };
+        return {};
       }
-      return { accessToken: 'access-token-1', refreshToken: 'refresh-token-1' };
+      return { accessToken: 'access-token-1' };
     });
     mockHandRefreshToken.mockImplementation(async () => {
       refreshed = true;
@@ -42,23 +42,8 @@ describe('tokenRefreshCoordinator', () => {
     expect(mockHandRefreshToken).toHaveBeenCalledTimes(1);
   });
 
-  it('throws when refresh token is missing', async () => {
-    mockGetToken.mockReturnValue(undefined);
-    const { refreshAccessTokenSingleFlight } = await import('@/infrastructure/auth-flow/tokenRefreshCoordinator');
-
-    await expect(refreshAccessTokenSingleFlight()).rejects.toThrow('Refresh token is missing.');
-    expect(mockHandRefreshToken).not.toHaveBeenCalled();
-  });
-
   it('throws when refreshed token payload misses access token', async () => {
-    let callTimes = 0;
-    mockGetToken.mockImplementation(() => {
-      callTimes += 1;
-      if (callTimes === 1) {
-        return { refreshToken: 'refresh-token-2' };
-      }
-      return { refreshToken: 'refresh-token-2' };
-    });
+    mockGetToken.mockReturnValue({});
     mockHandRefreshToken.mockResolvedValue(undefined);
 
     const { refreshAccessTokenSingleFlight } = await import('@/infrastructure/auth-flow/tokenRefreshCoordinator');
@@ -70,9 +55,9 @@ describe('tokenRefreshCoordinator', () => {
     let refreshed = false;
     mockGetToken.mockImplementation(() => {
       if (!refreshed) {
-        return { refreshToken: 'refresh-token-3' };
+        return {};
       }
-      return { accessToken: 'access-token-3', refreshToken: 'refresh-token-3' };
+      return { accessToken: 'access-token-3' };
     });
     mockHandRefreshToken.mockImplementation(async () => {
       refreshed = true;

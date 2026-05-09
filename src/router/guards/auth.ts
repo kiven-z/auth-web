@@ -1,4 +1,5 @@
-import { type DataInfo, removeToken } from '@/infrastructure/session';
+import { refreshAccessTokenSingleFlight } from '@/infrastructure/auth-flow/tokenRefreshCoordinator';
+import { hasAccessToken, type DataInfo, removeToken } from '@/infrastructure/session';
 import { isOneOfArray } from '@/router/utils/auth';
 import { getTopMenu } from '@/router/utils/misc';
 import { initRouter } from '@/router/utils/route-registry';
@@ -14,12 +15,28 @@ import { multipleTabsKey, userKey } from '@/config/auth-config';
 const whiteList = ['/login'];
 
 const { VITE_HIDE_HOME } = import.meta.env;
+let initRefreshPromise: Promise<boolean> | null = null;
+
+async function ensureAccessTokenOnBoot(): Promise<boolean> {
+  if (hasAccessToken()) {
+    return true;
+  }
+  if (!initRefreshPromise) {
+    initRefreshPromise = refreshAccessTokenSingleFlight()
+      .then(() => hasAccessToken())
+      .catch(() => false)
+      .finally(() => {
+        initRefreshPromise = null;
+      });
+  }
+  return initRefreshPromise;
+}
 
 /**
  * 登录态与权限守卫：校验登录状态、角色鉴权、刷新时动态路由初始化。
  */
 export function createAuthGuard(router: Router): void {
-  router.beforeEach((to, _from, next) => {
+  router.beforeEach(async (to, _from, next) => {
     const userInfo = storageLocal().getItem<DataInfo<number>>(userKey);
     const externalLink = isUrl(to?.name as string);
 
@@ -29,6 +46,15 @@ export function createAuthGuard(router: Router): void {
     }
 
     if (Cookies.get(multipleTabsKey) && userInfo) {
+      if (to.path !== '/login' && !hasAccessToken()) {
+        const restored = await ensureAccessTokenOnBoot();
+        if (!restored) {
+          removeToken();
+          next({ path: '/login' });
+          return;
+        }
+      }
+
       // 无权限跳转403页面
       if (to.meta?.roles && !isOneOfArray(to.meta?.roles, userInfo?.roles)) {
         next({ path: '/error/403' });

@@ -38,8 +38,6 @@ describe('requestAuth interceptor', () => {
   it('skips Authorization for refresh-token requests', async () => {
     getTokenMock.mockReturnValue({
       accessToken: 'expired-access-token',
-      refreshToken: 'refresh-token',
-      expires: Date.now() - 1000,
     });
     const client = buildClient();
 
@@ -55,8 +53,6 @@ describe('requestAuth interceptor', () => {
   it('skips Authorization for login username requests', async () => {
     getTokenMock.mockReturnValue({
       accessToken: 'any-token',
-      refreshToken: 'refresh-token',
-      expires: Date.now(),
     });
     const client = buildClient();
 
