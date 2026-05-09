@@ -37,7 +37,7 @@ const {
   handleSelectionChange,
 } = useRolePageState();
 
-const { openDetailDialog, openEditDialog } = useRoleTableAction({ onSearch: fetchTableData });
+const { openDetailDialog, openEditDialog } = useRoleTableAction({ fetchTableData });
 onMounted(() => {
   fetchTableData();
 });
@@ -61,7 +61,7 @@ onMounted(() => {
       </el-form-item>
       <!-- 状态 -->
       <el-form-item :label="t('roles.status')" prop="status">
-        <el-select v-model="searchForm.status" :placeholder="t('roles.status')" class="w-[140px]!" clearable>
+        <el-select v-model="searchForm.status" :placeholder="t('roles.status')" class="w-[180px]!" clearable>
           <el-option
             v-for="opt in ROLE_STATUS_FILTER_OPTIONS"
             :key="`${opt.labelKey}:${String(opt.value)}`"
