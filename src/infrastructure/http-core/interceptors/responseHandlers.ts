@@ -1,5 +1,5 @@
 import { API_SUCCESS_CODE, isNoAuthRequestPath } from '@/config/http-config';
-import { dispatchAuthRecoveryEffects, executeAuthRecovery } from '@/infrastructure/auth-flow/recovery';
+import { executeAuthRecovery } from '@/infrastructure/auth-flow/recovery';
 import { useUserStoreHook } from '@/store/modules/user';
 import Axios, { type AxiosInstance, type AxiosResponse } from 'axios';
 import { type ApiResult, isApiResultEnvelope } from '../apiResult';
@@ -102,11 +102,6 @@ async function handleResponseError(
     requestConfig,
     context: authRecoveryContext,
     rules: authRecoveryRules,
-  });
-  dispatchAuthRecoveryEffects({
-    context: authRecoveryContext,
-    recoveryResult: authRecoveryResult,
-    envelope,
   });
   if (authRecoveryResult.handled && authRecoveryResult.replayResult !== undefined) {
     return authRecoveryResult.replayResult;

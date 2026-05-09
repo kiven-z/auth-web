@@ -10,6 +10,7 @@ import { addAsyncRoutes } from './async-routes';
 import { ascending } from './menu-sort';
 import { addPathMatch } from './misc';
 import { formatFlatteningRoutes } from './route-tree';
+import { ASYNC_ROUTES_STORAGE_KEY } from '@/config/http-config';
 
 /** 处理动态路由（后端返回的路由） */
 function handleAsyncRoutes(routeList) {
@@ -50,8 +51,7 @@ function handleAsyncRoutes(routeList) {
 function initRouter() {
   if (getConfig()?.CachingAsyncRoutes) {
     // 开启动态路由缓存本地localStorage
-    const key = 'async-routes';
-    const asyncRouteList = storageLocal().getItem(key) as Array<unknown> | null;
+    const asyncRouteList = storageLocal().getItem(ASYNC_ROUTES_STORAGE_KEY) as Array<unknown> | null;
     if (asyncRouteList && asyncRouteList?.length > 0) {
       return new Promise((resolve) => {
         handleAsyncRoutes(asyncRouteList);
@@ -61,7 +61,7 @@ function initRouter() {
       return new Promise(async (resolve) => {
         const response = await getAsyncRoutes();
         handleAsyncRoutes(cloneDeep(response));
-        storageLocal().setItem(key, response);
+        storageLocal().setItem(ASYNC_ROUTES_STORAGE_KEY, response);
         resolve(router);
       });
     }

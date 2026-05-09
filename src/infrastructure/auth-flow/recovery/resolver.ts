@@ -38,5 +38,6 @@ export function resolveAuthRecoveryDecision(
     action: resolved.action,
     maxRetryTimes: matchedRule.maxRetryTimes,
     retryExhausted: resolved.retryExhausted,
+    messageFunc: matchedRule.messageFunc,
   };
 }

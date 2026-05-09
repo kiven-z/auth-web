@@ -2,17 +2,14 @@ import { attachResponseInterceptors } from '@/infrastructure/http-core/intercept
 import axios, { type AxiosAdapter, type AxiosRequestConfig } from 'axios';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
-const { executeAuthRecoveryMock, dispatchAuthRecoveryEffectsMock, logOutMock, rejectWithApiEnvelopeErrorMock } =
-  vi.hoisted(() => ({
-    executeAuthRecoveryMock: vi.fn(),
-    dispatchAuthRecoveryEffectsMock: vi.fn(),
-    logOutMock: vi.fn(),
-    rejectWithApiEnvelopeErrorMock: vi.fn(),
-  }));
+const { executeAuthRecoveryMock, logOutMock, rejectWithApiEnvelopeErrorMock } = vi.hoisted(() => ({
+  executeAuthRecoveryMock: vi.fn(),
+  logOutMock: vi.fn(),
+  rejectWithApiEnvelopeErrorMock: vi.fn(),
+}));
 
 vi.mock('@/infrastructure/auth-flow/recovery', () => ({
   executeAuthRecovery: executeAuthRecoveryMock,
-  dispatchAuthRecoveryEffects: dispatchAuthRecoveryEffectsMock,
 }));
 
 vi.mock('@/store/modules/user', () => ({
@@ -53,7 +50,6 @@ function buildClient() {
 describe('responseHandlers auth recovery integration', () => {
   beforeEach(() => {
     executeAuthRecoveryMock.mockReset();
-    dispatchAuthRecoveryEffectsMock.mockReset();
     rejectWithApiEnvelopeErrorMock.mockReset();
     logOutMock.mockReset();
   });
@@ -79,7 +75,6 @@ describe('responseHandlers auth recovery integration', () => {
 
     expect(result).toEqual({ list: [1] });
     expect(logOutMock).not.toHaveBeenCalled();
-    expect(dispatchAuthRecoveryEffectsMock).toHaveBeenCalledTimes(1);
   });
 
   it('logs out on invalid token', async () => {
@@ -104,7 +99,6 @@ describe('responseHandlers auth recovery integration', () => {
       })
     ).rejects.toBeTruthy();
     expect(logOutMock).toHaveBeenCalledTimes(1);
-    expect(dispatchAuthRecoveryEffectsMock).toHaveBeenCalledTimes(1);
   });
 
   it('routes pass-through conflict to envelope error handler', async () => {
@@ -131,7 +125,6 @@ describe('responseHandlers auth recovery integration', () => {
     ).rejects.toThrow('business conflict');
 
     expect(rejectWithApiEnvelopeErrorMock).toHaveBeenCalledTimes(1);
-    expect(dispatchAuthRecoveryEffectsMock).toHaveBeenCalledTimes(1);
   });
 
   it('logs out when refresh replay fails', async () => {
@@ -159,6 +152,5 @@ describe('responseHandlers auth recovery integration', () => {
     ).rejects.toThrow('refresh replay failed');
 
     expect(logOutMock).toHaveBeenCalledTimes(1);
-    expect(dispatchAuthRecoveryEffectsMock).toHaveBeenCalledTimes(1);
   });
 });

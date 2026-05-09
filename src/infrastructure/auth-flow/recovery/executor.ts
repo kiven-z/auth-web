@@ -28,6 +28,9 @@ export interface ExecuteAuthRecoveryResult {
  */
 export async function executeAuthRecovery(input: ExecuteAuthRecoveryInput): Promise<ExecuteAuthRecoveryResult> {
   const decision = resolveAuthRecoveryDecision(input.context, input.rules);
+  // 执行传递函数
+  decision.messageFunc?.();
+
   if (!input.requestConfig) {
     return {
       handled: false,
@@ -37,6 +40,7 @@ export async function executeAuthRecovery(input: ExecuteAuthRecoveryInput): Prom
   }
   if (decision.action === 'refresh_and_retry') {
     input.requestConfig._authRecoveryRetryCount = (input.requestConfig._authRecoveryRetryCount ?? 0) + 1;
+
     try {
       const replayResult = await replayRequestWithRefreshedToken(input.instance, input.requestConfig);
       return {

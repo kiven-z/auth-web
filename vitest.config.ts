@@ -4,13 +4,13 @@ import { defineConfig } from 'vitest/config';
 export default defineConfig({
   resolve: {
     alias: {
-      '@': resolve(__dirname, 'src'),
+      '@': resolve(__dirname, './src'),
       '@build': resolve(__dirname, 'build'),
     },
   },
   test: {
     environment: 'node',
-    include: ['src/test/**/*.test.ts'],
+    include: ['./test/**/*.test.ts'],
     clearMocks: true,
   },
 });

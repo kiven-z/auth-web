@@ -11,6 +11,8 @@ export const API_SUCCESS_CODE = 0;
  */
 export const HTTP_BASE_URL = '/api';
 
+export const ASYNC_ROUTES_STORAGE_KEY = 'async-routes';
+
 /**
  *  请求超时（毫秒）
  */

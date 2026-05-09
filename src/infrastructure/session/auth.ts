@@ -86,6 +86,7 @@ export function setToken(data: SessionTokenPayload) {
   const expires = toExpiresTimestamp(expiresSource);
   const cookieString = JSON.stringify({ accessToken, expires, refreshToken });
 
+  // 设置浏览器缓存的 token
   expires > 0
     ? Cookies.set(TokenKey, cookieString, {
         expires: (expires - Date.now()) / 86400000,

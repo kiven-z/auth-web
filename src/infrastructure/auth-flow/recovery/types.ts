@@ -21,6 +21,7 @@ export interface AuthRecoveryRule {
   action: RecoveryAction;
   maxRetryTimes?: number;
   onRetryExhaustedAction?: RecoveryAction;
+  messageFunc?: Function;
 }
 
 export interface AuthRecoveryDecision {
@@ -28,4 +29,5 @@ export interface AuthRecoveryDecision {
   action: RecoveryAction;
   maxRetryTimes?: number;
   retryExhausted: boolean;
+  messageFunc?: Function;
 }

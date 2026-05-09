@@ -31,7 +31,6 @@
 
 - `http/`：`http` 实例、`ApiResult`/`ApiBusinessError` 等与后端契约相关的类型与错误类。
 - `session/`：Token、用户信息读写、`sso` 等会话侧逻辑。
-- `permissionConflict.ts`：权限版本冲突（如 HTTP 409）时的统一处理。
 
 ### `src/shared/`（典型内容）
 
