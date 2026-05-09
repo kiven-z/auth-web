@@ -1,4 +1,4 @@
-import { type DataInfo, multipleTabsKey, removeToken, userKey } from '@/infrastructure/session';
+import { type DataInfo, removeToken } from '@/infrastructure/session';
 import { isOneOfArray } from '@/router/utils/auth';
 import { getTopMenu } from '@/router/utils/misc';
 import { initRouter } from '@/router/utils/route-registry';
@@ -8,6 +8,7 @@ import { usePermissionStoreHook } from '@/store/modules/permission';
 import { isAllEmpty, isUrl, openLink, storageLocal } from '@pureadmin/utils';
 import Cookies from 'js-cookie';
 import type { Router } from 'vue-router';
+import { multipleTabsKey, userKey } from '@/config/auth-config';
 
 /** 路由白名单 */
 const whiteList = ['/login'];

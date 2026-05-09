@@ -1,3 +1,4 @@
+import { multipleTabsKey, TokenKey, userKey } from '@/config/auth-config';
 import { useUserStoreHook } from '@/store/modules/user';
 import { storageLocal } from '@pureadmin/utils';
 import Cookies from 'js-cookie';
@@ -48,9 +49,6 @@ export type SessionTokenPayload = {
   userId?: string;
 };
 
-export const userKey = 'user-info';
-export const TokenKey = 'authorized-token';
-
 /**
  * 从 localStorage 读取已缓存的用户展示信息（单一读取入口，供 Pinia 初始化等使用）。
  */
@@ -58,13 +56,6 @@ export function readUserProfileFromStorage(): Partial<DataInfo<number>> {
   const raw = storageLocal().getItem<DataInfo<number>>(userKey);
   return raw ?? {};
 }
-/**
- * 通过`multiple-tabs`是否在`cookie`中，判断用户是否已经登录系统，
- * 从而支持多标签页打开已经登录的系统后无需再登录。
- * 浏览器完全关闭后`multiple-tabs`将自动从`cookie`中销毁，
- * 再次打开浏览器需要重新登录系统
- * */
-export const multipleTabsKey = 'multiple-tabs';
 
 /** 获取`token` */
 export function getToken(): DataInfo<number> {
