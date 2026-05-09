@@ -1,7 +1,6 @@
 <script lang="ts" setup>
-import { searchUserByKeyword, type UserSearchOption } from '@/api/log/password-history';
 import TableBar from '@/components/ui/TableBar';
-import { errorMessage } from '@/shared/messaging/message';
+import useRemoteUserSearch from '@/shared/hooks/useRemoteUserSearch';
 import usePasswordHistoryPageState from '@/views/log/password-history/hooks/usePasswordHistoryPageState';
 import usePasswordHistoryTableAction from '@/views/log/password-history/hooks/usePasswordHistoryTableAction';
 import usePasswordHistoryTableColumns from '@/views/log/password-history/hooks/usePasswordHistoryTableColumns';
@@ -31,25 +30,9 @@ const {
 const { selectedRows, handleSelectionChange, openDetailDialog, deleteRow, deleteBatchRows } =
   usePasswordHistoryTableAction({ fetchTableData });
 
-/** 远程搜索用户列表 */
-const userOptions = ref<UserSearchOption[]>([]);
-const userSearchLoading = ref(false);
-
-const loadUserListByKeyword = async (keyword: string) => {
-  if (!keyword || keyword.trim() === '') {
-    userOptions.value = [];
-    return;
-  }
-  userSearchLoading.value = true;
-  try {
-    userOptions.value = await searchUserByKeyword(keyword);
-  } catch (error: unknown) {
-    errorMessage(error, { defaultI18nKey: 'log.passwordHistory.loadFailed' });
-    userOptions.value = [];
-  } finally {
-    userSearchLoading.value = false;
-  }
-};
+const { userOptions, userSearchLoading, loadUserListByKeyword } = useRemoteUserSearch({
+  errorDefaultI18nKey: 'log.passwordHistory.loadFailed',
+});
 
 onMounted(() => {
   fetchTableData();
@@ -119,10 +102,18 @@ onMounted(() => {
       @refresh="fetchTableData"
     >
       <template #buttons>
-        <!-- 批量删除 -->
-        <el-button v-if="selectedRows.length > 0" type="danger" @click="deleteBatchRows">
-          {{ t('buttons.actionBatchDelete') }}
-        </el-button>
+        <el-dropdown trigger="click">
+          <el-button type="danger">
+            {{ t('buttons.actionAdvanced') }}
+          </el-button>
+
+          <template #dropdown>
+            <el-dropdown-item :disabled="selectedRows.length <= 0" type="danger" @click="deleteBatchRows">
+              <!-- 批量删除 -->
+              {{ t('buttons.actionBatchDelete') }}
+            </el-dropdown-item>
+          </template>
+        </el-dropdown>
       </template>
 
       <template #default="{ size, dynamicColumns }">

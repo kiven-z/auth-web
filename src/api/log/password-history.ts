@@ -47,12 +47,6 @@ export interface PasswordHistoryDetailRow {
   updateUsername?: string | null;
 }
 
-/** 用户搜索选项（远程搜索用户使用） */
-export interface UserSearchOption {
-  id: string;
-  username: string;
-}
-
 /**
  * 分页查询密码历史日志
  * @param params 查询与分页条件
@@ -80,12 +74,4 @@ export function getPasswordHistoryDetail(id: string): Promise<PasswordHistoryDet
  */
 export function deletePasswordHistory(ids: string[]): Promise<string> {
   return http.request<string>('delete', '/system/log/password-history', { data: ids });
-}
-
-/**
- * 远程搜索用户（模糊搜索用户名）
- * @param keyword 搜索关键字
- */
-export function searchUserByKeyword(keyword: string): Promise<UserSearchOption[]> {
-  return http.get<UserSearchOption[], AxiosRequestConfig>('/system/user/search', { params: { keyword } });
 }

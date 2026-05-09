@@ -34,18 +34,18 @@ function usePasswordHistoryTableColumns() {
         );
       },
     },
+    // 修改IP地址
+    {
+      label: t('log.passwordHistory.changeIp'),
+      prop: 'changeIp',
+      minWidth: 140,
+    },
     // 修改时间
     {
       label: t('log.passwordHistory.changeTime'),
       prop: 'changeTime',
       sortable: true,
       minWidth: 160,
-    },
-    // 修改IP地址
-    {
-      label: t('log.passwordHistory.changeIp'),
-      prop: 'changeIp',
-      minWidth: 140,
     },
     // 创建时间
     {

@@ -23,6 +23,13 @@ export interface SysUserPostProfileItem {
   status: number;
 }
 
+/** 用户远程搜索选项（对齐 {@code SysUserSearchItemResponse}） */
+export interface UserSearchOption {
+  id: string;
+  username: string;
+  nickname?: string | null;
+}
+
 /** 用户档案（对齐 {@code SysUserProfileResponse}） */
 export interface SysUserProfileResponse {
   id: string;
@@ -48,4 +55,15 @@ export interface SysUserProfileResponse {
  */
 export function getUserProfile(userId: string | undefined): Promise<SysUserProfileResponse> {
   return http.get<SysUserProfileResponse, AxiosRequestConfig>(`/system/user/${userId}/profile`);
+}
+
+/**
+ * 远程搜索用户（关键词匹配用户名、昵称、邮箱、手机、工号）
+ * @param keyword 搜索关键字
+ * @param limit 返回条数上限，默认由后端决定（20），最大 50
+ */
+export function searchUserByKeyword(keyword: string, limit?: number): Promise<UserSearchOption[]> {
+  return http.get<UserSearchOption[], AxiosRequestConfig>('/system/user/search', {
+    params: { keyword, ...(limit != null ? { limit } : {}) },
+  });
 }
