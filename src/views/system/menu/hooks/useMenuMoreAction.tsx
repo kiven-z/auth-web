@@ -1,10 +1,10 @@
 import type { TableActionDeps } from '@/api/common';
 import type { SysMenuRow } from '@/views/system/menu/hooks/useMenuPageState';
 import { h, ref } from 'vue';
-import MenuAssignRoleDrawer from '@/views/system/menu/components/MenuAssignRoleDrawer.vue';
 import MenuAssignPermissionDrawer from '@/views/system/menu/components/MenuAssignPermissionDrawer.vue';
 import { useI18n } from 'vue-i18n';
 import { addDrawer } from '@/components/ui/Drawer';
+import MenuAssignRoleDrawer from '@/views/system/menu/components/MenuAssignRoleDrawer.vue';
 
 export interface MenuTableActionDeps extends TableActionDeps {
   fetchTreeData: () => Promise<void>;
@@ -24,10 +24,12 @@ function useMenuMoreAction(deps: MenuTableActionDeps) {
     const drawerRef = ref<AssignSaveExpose | null>(null);
     addDrawer({
       title: t('sysMenu.assignRoleTitle'),
-      draggable: true,
-      fullscreenIcon: true,
+      size: '100%',
+      direction: 'btt',
+      resizable: true,
       closeOnClickModal: false,
       closeOnPressEscape: false,
+      showClose: true,
       contentRenderer: () =>
         h(MenuAssignRoleDrawer, {
           ref: drawerRef,
@@ -49,9 +51,8 @@ function useMenuMoreAction(deps: MenuTableActionDeps) {
     const drawerRef = ref<AssignSaveExpose | null>(null);
     addDrawer({
       title: t('sysMenu.assignPermissionTitle'),
-      width: '880px',
-      draggable: true,
-      fullscreenIcon: true,
+      direction: 'ttb',
+      size: '100%',
       closeOnClickModal: false,
       closeOnPressEscape: false,
       contentRenderer: () =>

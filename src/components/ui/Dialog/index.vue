@@ -6,7 +6,7 @@ import Fullscreen from '~icons/ri/fullscreen-fill';
 import { type ButtonProps, closeDialog, type DialogOptions, dialogStore, type EventType } from './index';
 
 defineOptions({
-  name: 'ReDialog',
+  name: 'AuthDialog',
 });
 
 const sureBtnMap = ref({});

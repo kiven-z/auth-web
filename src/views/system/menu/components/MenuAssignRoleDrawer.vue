@@ -1,10 +1,12 @@
-<script lang="tsx" setup>
+<script lang="ts" setup>
 import { getMenuRoles, putMenuRoles } from '@/api/system/menu';
 import { getRolePage } from '@/api/system/role';
-import { errorMessage, message } from '@/shared/messaging/message';
-import { computed, onMounted, ref } from 'vue';
-import { useI18n } from 'vue-i18n';
+import AssignManagePanel from '@/components/business/AssignManagePanel/index.vue';
+import type { AssignManagePageQuery, AssignManageSeedItem } from '@/components/business/AssignManagePanel/types';
 import { transformI18n } from '@/plugins/i18n';
+import { errorMessage, message } from '@/shared/messaging/message';
+import { onMounted, ref } from 'vue';
+import { useI18n } from 'vue-i18n';
 import useMenuTableColumns from '../hooks/useMenuTableColumns';
 
 defineOptions({ name: 'MenuAssignRoleDrawer' });
@@ -16,55 +18,45 @@ const props = defineProps<{
 }>();
 
 const { t } = useI18n();
-const loading = ref(false);
 const saving = ref(false);
-const keyword = ref('');
+const seedLoading = ref(true);
+const seedReady = ref(false);
+const seed = ref<AssignManageSeedItem[]>([]);
+const panelRef = ref<InstanceType<typeof AssignManagePanel> | null>(null);
 
-const { roleDrawerColumns } = useMenuTableColumns();
-
-type Row = { roleCode: string; roleName: string; assigned: boolean };
-const rows = ref<Row[]>([]);
-
-/**
- * 过滤数据
- */
-const filteredRows = computed(() => {
-  const k = keyword.value.trim().toLowerCase();
-  if (!k) {
-    return rows.value;
-  }
-  return rows.value.filter((r) => r.roleCode.toLowerCase().includes(k) || r.roleName.toLowerCase().includes(k));
-});
+const { roleDrawerDataColumns } = useMenuTableColumns();
 
 /**
- * 加载数据
+ * 角色分页：关键词按角色名称模糊查询（与列表页条件一致；编码搜索需后端 keyword 能力后再扩展）。
  */
-const loadData = async () => {
-  loading.value = true;
+async function fetchRolePage(query: AssignManagePageQuery) {
+  return getRolePage({
+    pageIndex: query.pageIndex,
+    pageSize: query.pageSize,
+    roleName: query.keyword || undefined,
+  });
+}
+
+onMounted(async () => {
+  seedLoading.value = true;
   try {
-    const assignedList = await getMenuRoles(props.menuId);
-    const assignedCodes = new Set(assignedList.filter((r) => r.assigned).map((r) => r.roleCode));
-    const page = await getRolePage({ pageIndex: 1, pageSize: 500 });
-    const list = page.list ?? [];
-    rows.value = list.map((r) => ({
-      roleCode: r.roleCode,
-      roleName: r.roleName,
-      assigned: assignedCodes.has(r.roleCode),
-    }));
+    const list = await getMenuRoles(props.menuId);
+    seed.value = list.map((r) => ({ key: r.roleCode, label: r.roleName }));
   } catch (e: unknown) {
     errorMessage(e, { defaultI18nKey: 'sysMenu.assignLoadFailed' });
   } finally {
-    loading.value = false;
+    seedLoading.value = false;
+    seedReady.value = true;
   }
-};
+});
 
 /**
- * 保存分配
+ * 保存分配（由抽屉 footer 调用）
  */
 const saveData = async (): Promise<boolean> => {
   saving.value = true;
   try {
-    const roleCodes = rows.value.filter((r) => r.assigned).map((r) => r.roleCode);
+    const roleCodes = panelRef.value?.getSelectedKeys() ?? [];
     await putMenuRoles(props.menuId, { roleCodes });
     message(t('sysMenu.assignSaveSuccess'), { type: 'success' });
     return true;
@@ -76,23 +68,24 @@ const saveData = async (): Promise<boolean> => {
   }
 };
 
-onMounted(() => {
-  void loadData();
-});
-
 defineExpose({ saveData });
 </script>
 
 <template>
-  <div v-loading="loading" class="flex flex-col gap-4 md:flex-row">
-    <div class="md:w-56 shrink-0 rounded border border-(--el-border-color) p-3">
-      <div class="text-sm font-semibold">{{ t('sysMenu.assignCurrentMenu') }}</div>
-      <div class="mt-2 text-sm">{{ transformI18n(menuTitle) }}</div>
-      <div class="text-xs text-(--el-text-color-secondary)">{{ menuName }}</div>
-    </div>
-    <div class="min-w-0 flex-1">
-      <el-input v-model="keyword" :placeholder="t('sysMenu.assignRoleSearch')" class="mb-2" clearable />
-      <AuthDataTable :columns="roleDrawerColumns" :data="filteredRows" border max-height="420" row-key="roleCode" />
-    </div>
+  <div v-loading="seedLoading" class="h-full min-h-0 flex flex-col">
+    <AssignManagePanel
+      v-if="seedReady"
+      ref="panelRef"
+      mode="page"
+      class="min-h-0 flex-1"
+      :left-title="t('sysMenu.assignCurrentMenu')"
+      :left-subtitle="`${transformI18n(menuTitle)} (${menuName})`"
+      :search-placeholder="t('sysMenu.assignRoleSearch')"
+      :columns="roleDrawerDataColumns"
+      row-key="roleCode"
+      :assigned-seed="seed"
+      :fetch-page="fetchRolePage"
+      :saving="saving"
+    />
   </div>
 </template>

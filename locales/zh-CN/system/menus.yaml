@@ -11,13 +11,14 @@ sysMenu:
   assignRoleTitle: 分配角色
   assignPermissionTitle: 分配权限
   assignCurrentMenu: 当前菜单
-  assignRoleSearch: 搜索角色编码或名称
+  assignRoleSearch: 搜索角色名称（模糊，分页）
   assignPermissionSearch: 搜索权限码或名称
   roleCode: 角色编码
   roleName: 角色名称
   permissionCode: 权限码
   permissionName: 权限名称
   assigned: 已分配
+  assignEmptySelected: 暂无已选项，请在右侧勾选
   routeName: 路由名称
   menuTitle: 菜单标题
   menuType: 菜单类型

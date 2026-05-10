@@ -5,7 +5,7 @@ import { useI18n } from 'vue-i18n';
 import { computed, ref } from 'vue';
 
 defineOptions({
-  name: 'ReDrawer',
+  name: 'AuthDrawer',
 });
 
 const { t } = useI18n();
@@ -18,7 +18,7 @@ const footerButtons = computed(() => {
       ? options.footerButtons
       : ([
           {
-            label: t('common.buttons.cancel'),
+            label: t('buttons.pureClose'),
             text: true,
             bg: true,
             btnClick: ({ drawer: { options, index } }) => {
@@ -31,7 +31,7 @@ const footerButtons = computed(() => {
             },
           },
           {
-            label: t('common.buttons.confirm'),
+            label: t('buttons.pureConfirm'),
             type: 'primary',
             text: true,
             bg: true,

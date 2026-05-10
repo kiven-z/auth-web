@@ -1,4 +1,7 @@
 export const userKey = 'user-info';
+/**
+ * 开发环境（`import.meta.env.DEV`）下用于在 Cookie 中持久化 accessToken 的键名；生产构建不会写入该 Cookie。
+ */
 export const TokenKey = 'authorized-token';
 /**
  * 通过`multiple-tabs`是否在`cookie`中，判断用户是否已经登录系统，

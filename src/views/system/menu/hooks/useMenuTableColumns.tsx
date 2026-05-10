@@ -3,7 +3,7 @@
  */
 import { transformI18n } from '@/plugins/i18n';
 import type { SysMenuRow } from '@/views/system/menu/hooks/useMenuPageState';
-import { ElCheckbox, ElTag, ElText } from 'element-plus';
+import { ElTag, ElText } from 'element-plus';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 
@@ -17,9 +17,9 @@ const MENU_TYPE_TAG_MAP: Record<number, { type: 'primary' | 'success' | 'warning
 function useMenuTableColumns() {
   const { t } = useI18n();
 
-/**
- * 表格视图列（含多选、序号）
- */
+  /**
+   * 表格视图列（含多选、序号）
+   */
   const tableColumns = computed<TableColumnList>(() => [
     { type: 'selection', align: 'left', width: 48 },
     {
@@ -101,9 +101,9 @@ function useMenuTableColumns() {
     },
   ]);
 
-/**
- * 树形视图列（不含多选/序号，菜单标题列带缩进层级）
- */
+  /**
+   * 树形视图列（不含多选/序号，菜单标题列带缩进层级）
+   */
   const treeColumns = computed<TableColumnList>(() => [
     // 菜单名称（标题），树形缩进由 el-table tree-props 自动处理
     { label: t('sysMenu.menuTitle'), prop: 'title', minWidth: 200 },
@@ -170,31 +170,23 @@ function useMenuTableColumns() {
   ]);
 
   /**
-   * 角色分配表格列
+   * 角色分配：数据列（勾选列由 AssignManagePanel 统一追加）
    */
-  const roleDrawerColumns = computed<TableColumnList>(() => [
+  const roleDrawerDataColumns = computed<TableColumnList>(() => [
     {
       label: t('sysMenu.roleCode'),
       prop: 'roleCode',
     },
     {
       label: t('sysMenu.roleName'),
-      prop: 'roleCode',
-    },
-    {
-      label: t('sysMenu.assigned'),
-      prop: 'assigned',
-      align: 'center',
-      formatter: (row) => {
-        return <ElCheckbox model-value={row.assigned} onChange={() => (row.assigned = !row.assigned)} />;
-      },
+      prop: 'roleName',
     },
   ]);
 
   /**
-   * 权限分配表格列
+   * 权限分配：数据列（勾选列由 AssignManagePanel 统一追加）
    */
-  const permissionDrawerColumns = computed<TableColumnList>(() => [
+  const permissionDrawerDataColumns = computed<TableColumnList>(() => [
     {
       label: t('sysMenu.permissionName'),
       prop: 'permissionName',
@@ -203,16 +195,8 @@ function useMenuTableColumns() {
       label: t('sysMenu.permissionCode'),
       prop: 'permissionCode',
     },
-    {
-      label: t('sysMenu.assigned'),
-      prop: 'assigned',
-      align: 'center',
-      formatter: (row) => {
-        return <ElCheckbox model-value={row.assigned} onChange={() => (row.assigned = !row.assigned)} />;
-      },
-    },
   ]);
-  return { tableColumns, treeColumns, roleDrawerColumns, permissionDrawerColumns };
+  return { tableColumns, treeColumns, roleDrawerDataColumns, permissionDrawerDataColumns };
 }
 
 export default useMenuTableColumns;

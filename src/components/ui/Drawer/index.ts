@@ -44,7 +44,7 @@ const closeAllDrawer = () => {
   drawerStore.value = [];
 };
 
-const ReDrawer = withInstall(reDrawer);
+const AuthDrawer = withInstall(reDrawer);
 
 export type { EventType, ArgsType, DrawerOptions, DrawerProps, ButtonProps };
-export { ReDrawer, drawerStore, addDrawer, closeDrawer, updateDrawer, closeAllDrawer };
+export { AuthDrawer, drawerStore, addDrawer, closeDrawer, updateDrawer, closeAllDrawer };
