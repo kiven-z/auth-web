@@ -70,10 +70,3 @@ export const MONACO_COMMON_EDITOR_OPTIONS: editor.IStandaloneEditorConstructionO
   scrollBeyondLastLine: false,
   wordWrap: 'on',
 };
-
-/**
- * 邮件模板编辑器覆盖配置。
- */
-export const EMAIL_TEMPLATE_EDITOR_OPTIONS: editor.IStandaloneEditorConstructionOptions = {
-  ...MONACO_COMMON_EDITOR_OPTIONS,
-};

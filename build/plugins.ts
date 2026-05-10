@@ -41,11 +41,11 @@ export function getPluginsList(VITE_CDN: boolean, VITE_COMPRESSION: ViteCompress
      */
     removeNoMatch(),
     /**
-     * Monaco worker 单一责任：默认由 vite-plugin-monaco-editor 提供。
-     * 运行时仅在极端场景才走 UI bootstrap 的 fallback getWorker。
+     * Monaco：在 index.html 注入 MonacoEnvironment.getWorkerUrl，并在构建产物中写入 monacoeditorwork/。
+     * 勿在业务里再挂 getWorker（会覆盖 getWorkerUrl）。参见 src/components/ui/MonacoEditor/bootstrap.ts。
      */
     monacoEditorPlugin({
-      languageWorkers: ['editorWorkerService',  'html', 'json'],
+      languageWorkers: ['html', 'json'],
       customWorkers: [],
       publicPath: 'monacoeditorwork',
       globalAPI: false,

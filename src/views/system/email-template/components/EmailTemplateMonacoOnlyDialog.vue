@@ -1,24 +1,13 @@
 <script lang="ts" setup>
 import { type EmailTemplateFormModel, renderEmailTemplate } from '@/api/system/email-template';
-import MonacoEditor, { type MonacoEditorReadyPayload } from '@/components/ui/MonacoEditor';
-import { EMAIL_TEMPLATE_EDITOR_OPTIONS } from '@/views/system/email-template/config/monaco-config';
-import { registerEmailTemplateMonaco } from '@/views/system/email-template/monaco/register-email-template-monaco';
 import type { FormInstance, FormRules } from 'element-plus';
 import debounce from 'lodash/debounce';
 import { nextTick, onUnmounted, reactive, ref, toRaw, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
-
-const defaultForm = (): EmailTemplateFormModel => ({
-  id: undefined,
-  templateCode: '',
-  templateName: '',
-  subject: '',
-  description: '',
-  status: true,
-  priority: 5,
-  content: '',
-  requireFields: [],
-});
+import { CodeEditor } from 'monaco-editor-vue3';
+import { MONACO_COMMON_EDITOR_OPTIONS } from '@/views/system/email-template/config/monaco-config';
+import { registerEmailTemplateMonaco } from '@/views/system/email-template/monaco/register-email-template-monaco';
+import * as monaco from 'monaco-editor';
 
 const props = withDefaults(
   defineProps<{
@@ -100,20 +89,22 @@ watch(
   { deep: true }
 );
 
-watch(
-  () => props.formInline,
-  (v) => {
-    if (v && Object.keys(v).length > 0) {
-      form.value = {
-        ...defaultForm(),
-        ...v,
-        requireFields: cloneRequireFields(v.requireFields),
-      };
-      scheduleRender();
-    }
-  },
-  { deep: true, flush: 'post' }
-);
+// watch(
+//   () => props.formInline,
+//   (value) => {
+//     // if (v && Object.keys(v).length > 0) {
+//     //   form.value = {
+//     //     ...defaultForm(),
+//     //     ...v,
+//     //     requireFields: cloneRequireFields(v.requireFields),
+//     //   };
+//     // }
+//
+//     // scheduleRender();
+//     console.log(value);
+//   },
+//   { deep: true, flush: 'post' }
+// );
 
 watch(
   () => renderedHtml.value,
@@ -129,7 +120,7 @@ watch(
   { immediate: true }
 );
 
-const onMonacoReady = ({ editor, monaco }: MonacoEditorReadyPayload) => {
+const onMonacoReady = (editor) => {
   disposeMonacoRegistration?.();
   const reg = registerEmailTemplateMonaco(editor, monaco, () => form.value.requireFields ?? []);
   disposeMonacoRegistration = reg.dispose;
@@ -153,14 +144,14 @@ defineExpose({ formRef, form });
     <el-row :gutter="16">
       <el-col :lg="14" :md="14" :sm="24" :xs="24">
         <div class="mb-2">{{ t('emailTemplate.content') }}</div>
-        <el-form-item class="mb-0!" prop="content">
-          <MonacoEditor
-            v-model="form.content"
-            :height="588"
-            :options="EMAIL_TEMPLATE_EDITOR_OPTIONS"
-            class="border"
+        <el-form-item prop="content">
+          <CodeEditor
+            v-model:value="form.content"
+            :options="MONACO_COMMON_EDITOR_OPTIONS"
+            class="min-h-[65vh] border"
             language="html"
-            @ready="onMonacoReady"
+            theme="vs"
+            @editor-did-mount="onMonacoReady"
           />
         </el-form-item>
       </el-col>
