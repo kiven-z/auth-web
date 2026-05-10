@@ -1,6 +1,7 @@
 /**
  * 菜单管理 API（对齐 SysMenuController：`/api/system/menu` → 网关后 `/system/menu`）
  */
+import type { PageResponse, SortSpec } from '@/api/common';
 import type { MenuSaveRequest } from '@/types/system';
 import type { AxiosRequestConfig } from 'axios';
 
@@ -35,6 +36,16 @@ export interface SysMenuListVO {
   updateUser?: string;
   createUsername?: string | null;
   updateUsername?: string | null;
+}
+
+/** 前端树节点（对扁平列表执行 `handleTree` 后带 `children`，类型仅作 TS 辅助） */
+export type SysMenuTreeNode = SysMenuListVO & { children?: SysMenuTreeNode[] };
+
+/** 表格分页查询（字段需与后端分页接口一致，见 {@link getMenuPage}） */
+export interface SysMenuPageQuery extends SysMenuListQuery {
+  pageIndex?: number;
+  pageSize?: number;
+  sort?: SortSpec[];
 }
 
 /** 详情 VO（含扩展字段，供表单回填） */
@@ -92,6 +103,15 @@ export function getMenuList(params?: SysMenuListQuery): Promise<SysMenuListVO[]>
 }
 
 /**
+ * 分页查询菜单（表格视图；后端需实现 `GET /system/menu/page`，返回与 {@link PageResponse} 一致的分页结构）
+ */
+export function getMenuPage(params: SysMenuPageQuery): Promise<PageResponse<SysMenuListVO>> {
+  return http.get<PageResponse<SysMenuListVO>, AxiosRequestConfig<SysMenuPageQuery>>('/system/menu/page', {
+    params,
+  });
+}
+
+/**
  * 菜单详情
  */
 export function getMenuDetail(id: string): Promise<SysMenuDetailVO> {
@@ -141,7 +161,7 @@ export function putMenuRoles(id: string, data: SysMenuAssignRoleRequest): Promis
 }
 
 /**
- * 查询菜单权限分配情况
+ * 查询菜单权限分配情况：返回 `sys_permission` 中启用且未删除的全量行，并以 `assigned` 标记是否已写入 `sys_menu_permission`。
  */
 export function getMenuPermissions(id: string): Promise<SysMenuAssignedPermissionRow[]> {
   return http.get<SysMenuAssignedPermissionRow[], AxiosRequestConfig>(`/system/menu/${id}/permissions`);

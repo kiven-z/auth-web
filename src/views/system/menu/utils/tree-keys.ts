@@ -1,12 +1,9 @@
-import type { SysMenuListVO } from '@/api/system/menu';
-
-/** 前端树节点（`handleTree` 后带 `children`） */
-export type SysMenuTreeNode = SysMenuListVO & { children?: SysMenuTreeNode[] };
+import type { SysMenuTreeNode } from '@/api/system/menu';
 
 /**
- * 递归收集树节点 id（含根与所有子节点），供 `el-tree` 的 `setExpandedKeys` 使用。
+ * 递归收集树节点 id（含根与所有子节点），供 `el-tree` 的 `default-expanded-keys` 使用。
  *
- * @param nodes 树形数据根列表
+ * @param nodes 树形数据根列表（由 `@/shared/lib/tree` 的 `handleTree` 生成）
  */
 export function collectTreeNodeIds(nodes: SysMenuTreeNode[] | undefined): string[] {
   if (!nodes?.length) {

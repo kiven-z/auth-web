@@ -1,7 +1,7 @@
 <script lang="ts" setup>
+import type { SysMenuTreeNode } from '@/api/system/menu';
 import TableBar from '@/components/ui/TableBar';
 import type { SysMenuRow } from '@/views/system/menu/hooks/useMenuPageState';
-import type { SysMenuTreeNode } from '@/views/system/menu/utils/tree-keys';
 import { ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 

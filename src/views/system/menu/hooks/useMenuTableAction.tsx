@@ -1,26 +1,19 @@
-import {
-    createMenu,
-    deleteMenus,
-    getMenuDetail,
-    updateMenu,
-    updateMenuBatchStatus,
-} from '@/api/system/menu';
+import { createMenu, deleteMenus, getMenuDetail, updateMenu, updateMenuBatchStatus } from '@/api/system/menu';
 import { addDialog } from '@/components/ui/Dialog';
 import { deleteConfirm, operationConfirm } from '@/shared/messaging/dialog';
 import { errorMessage, message } from '@/shared/messaging/message';
 import type { MenuForm } from '@/types/system';
-import MenuAssignPermissionDrawer from '@/views/system/menu/components/MenuAssignPermissionDrawer.vue';
-import MenuAssignRoleDrawer from '@/views/system/menu/components/MenuAssignRoleDrawer.vue';
 import MenuDialog from '@/views/system/menu/components/MenuDialog.vue';
 import type { MenuViewMode, SysMenuRow } from '@/views/system/menu/hooks/useMenuPageState';
 import { createEmptyMenuForm, detailToForm, formToSaveRequest } from '@/views/system/menu/utils/menu-form-mapper';
 import type { Ref } from 'vue';
 import { h, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
+import type { TableActionDeps } from '@/api/common';
 
-export interface MenuTableActionDeps {
-  fetchTableData: () => Promise<void>;
+export interface MenuTableActionDeps extends TableActionDeps {
   fetchTreeData: () => Promise<void>;
+  refresh: () => Promise<void>;
   viewMode: Ref<MenuViewMode>;
   selectedRows: Ref<string[]>;
 }
@@ -30,20 +23,10 @@ type MenuDialogExpose = {
   form: MenuForm;
 };
 
-type AssignSaveExpose = {
-  save: () => Promise<boolean>;
-};
-
 function useMenuTableAction(deps: MenuTableActionDeps) {
   const { t } = useI18n();
 
-  const refresh = async () => {
-    if (deps.viewMode.value === 'table') {
-      await deps.fetchTableData();
-    } else {
-      await deps.fetchTreeData();
-    }
-  };
+  const { refresh } = deps;
 
   const openCreateDialog = () => {
     const dlgRef = ref<MenuDialogExpose | null>(null);
@@ -188,52 +171,6 @@ function useMenuTableAction(deps: MenuTableActionDeps) {
     await batchUpdateStatus(deps.selectedRows.value, false);
   };
 
-  const openAssignRoleDrawer = (row: SysMenuRow) => {
-    const drawerRef = ref<AssignSaveExpose | null>(null);
-    addDialog({
-      title: t('sysMenu.assignRoleTitle'),
-      width: '920px',
-      draggable: true,
-      fullscreenIcon: true,
-      closeOnClickModal: false,
-      closeOnPressEscape: false,
-      contentRenderer: () =>
-        h(MenuAssignRoleDrawer, {
-          ref: drawerRef,
-          menuId: row.id,
-          menuTitle: row.title,
-          menuName: row.name,
-        }),
-      beforeSure: async (done) => {
-        const ok = await drawerRef.value?.save();
-        if (ok) {
-          await refresh();
-          done();
-        }
-      },
-    });
-  };
-
-  const openAssignPermissionDrawer = (row: SysMenuRow) => {
-    const drawerRef = ref<AssignSaveExpose | null>(null);
-    addDialog({
-      title: t('sysMenu.assignPermissionTitle'),
-      width: '880px',
-      draggable: true,
-      fullscreenIcon: true,
-      closeOnClickModal: false,
-      closeOnPressEscape: false,
-      contentRenderer: () => h(MenuAssignPermissionDrawer, { ref: drawerRef, menuId: row.id }),
-      beforeSure: async (done) => {
-        const ok = await drawerRef.value?.save();
-        if (ok) {
-          await refresh();
-          done();
-        }
-      },
-    });
-  };
-
   return {
     openCreateDialog,
     openEditDialog,
@@ -242,8 +179,6 @@ function useMenuTableAction(deps: MenuTableActionDeps) {
     batchUpdateStatus,
     confirmBatchEnable,
     confirmBatchDisable,
-    openAssignRoleDrawer,
-    openAssignPermissionDrawer,
   };
 }
 

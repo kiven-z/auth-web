@@ -5,9 +5,9 @@
 import { getEmailTemplateById, updateEmailTemplateRequireFields } from '@/api/system/email-template';
 import { errorMessage, message } from '@/shared/messaging/message';
 import {
+  type EditableRequireFieldRow,
   toEditableRequireFields,
   toRequireFieldsPayload,
-  type EditableRequireFieldRow,
 } from '@/views/system/email-template/utils/require-fields';
 import { onMounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';

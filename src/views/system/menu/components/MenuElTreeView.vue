@@ -1,7 +1,8 @@
 <script lang="ts" setup>
+import type { SysMenuTreeNode } from '@/api/system/menu';
 import TableBar from '@/components/ui/TableBar';
 import type { SysMenuRow } from '@/views/system/menu/hooks/useMenuPageState';
-import { collectTreeNodeIds, type SysMenuTreeNode } from '@/views/system/menu/utils/tree-keys';
+import { collectTreeNodeIds } from '@/views/system/menu/utils/tree-keys';
 import type { TreeInstance } from 'element-plus';
 import { nextTick, ref, unref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';

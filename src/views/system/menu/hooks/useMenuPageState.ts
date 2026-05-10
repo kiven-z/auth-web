@@ -1,8 +1,7 @@
-import type { SysMenuListQuery, SysMenuListVO } from '@/api/system/menu';
-import { getMenuList } from '@/api/system/menu';
+import type { SysMenuListQuery, SysMenuListVO, SysMenuTreeNode } from '@/api/system/menu';
+import { getMenuList, getMenuPage } from '@/api/system/menu';
 import { handleTree } from '@/shared/lib/tree';
 import { errorMessage } from '@/shared/messaging/message';
-import type { SysMenuTreeNode } from '@/views/system/menu/utils/tree-keys';
 import type { FormInstance } from 'element-plus';
 import { reactive, ref } from 'vue';
 
@@ -12,17 +11,16 @@ export type SysMenuRow = SysMenuListVO;
 export type MenuViewMode = 'table' | 'tableTree' | 'tree';
 
 /**
- * 菜单页：全量 list 接口 + 表格前端筛选（无分页）
+ * 菜单页：表格走服务端分页；树视图走全量 list + `handleTree`（与 `@/shared/lib/tree` 一致，不另包一层树构建）。
  */
 function useMenuPageState() {
   const selectedRows = ref<string[]>([]);
   const loading = ref(false);
 
-  /** 接口返回的原始扁平列表（最近一次请求） */
-  const rawList = ref<SysMenuRow[]>([]);
-
   const tableData = ref<SysMenuRow[]>([]);
   const treeData = ref<SysMenuTreeNode[]>([]);
+
+  const viewMode = ref<MenuViewMode>('table');
 
   const searchForm = reactive<SysMenuListQuery>({
     name: undefined,
@@ -32,56 +30,63 @@ function useMenuPageState() {
     component: undefined,
   });
 
-  /**
-   * 按搜索条件过滤（表格视图）
-   */
-  const applyTableFilters = (list: SysMenuRow[]): SysMenuRow[] => {
-    let out = [...list];
-    if (searchForm.name) {
-      const q = searchForm.name.toLowerCase();
-      out = out.filter((m) => m.name.toLowerCase().includes(q));
-    }
-    if (searchForm.title) {
-      out = out.filter((m) => m.title.includes(searchForm.title!));
-    }
-    if (searchForm.menuType !== undefined) {
-      out = out.filter((m) => m.menuType === searchForm.menuType);
-    }
-    if (searchForm.status !== undefined) {
-      out = out.filter((m) => m.status === searchForm.status);
-    }
-    if (searchForm.component) {
-      out = out.filter((m) => (m.component ?? '').includes(searchForm.component!));
-    }
-    return out;
-  };
+  const pagination = reactive({
+    total: 0,
+    pageSize: 10,
+    currentPage: 1,
+  });
 
   /**
-   * 拉取全量列表并刷新表格数据
+   * 按当前页码与筛选条件拉取表格（不改变页码）
    */
   const fetchTableData = async () => {
     loading.value = true;
     try {
-      const list = await getMenuList({});
-      rawList.value = list ?? [];
-      tableData.value = applyTableFilters(rawList.value);
+      const res = await getMenuPage({
+        ...searchForm,
+        pageIndex: pagination.currentPage,
+        pageSize: pagination.pageSize,
+      });
+      tableData.value = res.list ?? [];
+      pagination.total = res.total ?? 0;
+      if (typeof res.pageNo === 'number' && res.pageNo >= 1) {
+        pagination.currentPage = res.pageNo;
+      }
     } catch (e: unknown) {
       errorMessage(e, { defaultI18nKey: 'sysMenu.loadFailed' });
-      rawList.value = [];
       tableData.value = [];
+      pagination.total = 0;
     } finally {
       loading.value = false;
     }
   };
 
   /**
-   * 拉取全量列表并构建树（不带表格搜索条件，保证结构完整）
+   * 条件查询：回到第一页再请求（搜索 / 重置后使用）
+   */
+  const submitTableSearch = async () => {
+    pagination.currentPage = 1;
+    await fetchTableData();
+  };
+
+  const handlePageSizeChange = async (value: number) => {
+    pagination.pageSize = value;
+    pagination.currentPage = 1;
+    await fetchTableData();
+  };
+
+  const handlePageCurrentChange = async (value: number) => {
+    pagination.currentPage = value;
+    await fetchTableData();
+  };
+
+  /**
+   * 拉取全量列表并构建树（不带表格筛选，保证结构完整）
    */
   const fetchTreeData = async () => {
     loading.value = true;
     try {
       const list = await getMenuList({});
-      rawList.value = list ?? [];
       treeData.value = handleTree([...(list ?? [])], 'id', 'parentId') as SysMenuTreeNode[];
     } catch (e: unknown) {
       errorMessage(e, { defaultI18nKey: 'sysMenu.loadFailed' });
@@ -105,20 +110,33 @@ function useMenuPageState() {
       searchForm.status = undefined;
       searchForm.component = undefined;
     }
-    await fetchTableData();
+    await submitTableSearch();
+  };
+
+  const refresh = async () => {
+    if (viewMode.value === 'table') {
+      await fetchTableData();
+    } else {
+      await fetchTreeData();
+    }
   };
 
   return {
     loading,
     selectedRows,
-    rawList,
     tableData,
     treeData,
     searchForm,
+    pagination,
+    viewMode,
     fetchTableData,
+    submitTableSearch,
     fetchTreeData,
     resetQuery,
+    handlePageSizeChange,
+    handlePageCurrentChange,
     handleSelectionChange,
+    refresh,
   };
 }
 

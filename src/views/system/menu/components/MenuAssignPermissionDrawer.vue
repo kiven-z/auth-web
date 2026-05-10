@@ -3,11 +3,15 @@ import { getMenuPermissions, putMenuPermissions } from '@/api/system/menu';
 import { errorMessage, message } from '@/shared/messaging/message';
 import { computed, onMounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
+import useMenuTableColumns from '../hooks/useMenuTableColumns';
+import { transformI18n } from '@/plugins/i18n';
 
 defineOptions({ name: 'MenuAssignPermissionDrawer' });
 
 const props = defineProps<{
   menuId: string;
+  menuTitle: string;
+  menuName: string;
 }>();
 
 const { t } = useI18n();
@@ -17,6 +21,8 @@ const keyword = ref('');
 
 type Row = { permissionCode: string; permissionName: string; assigned: boolean };
 const rows = ref<Row[]>([]);
+
+const { permissionDrawerColumns } = useMenuTableColumns();
 
 const filteredRows = computed(() => {
   const k = keyword.value.trim().toLowerCase();
@@ -28,7 +34,7 @@ const filteredRows = computed(() => {
   );
 });
 
-const load = async () => {
+const loadData = async () => {
   loading.value = true;
   try {
     rows.value = await getMenuPermissions(props.menuId);
@@ -39,11 +45,7 @@ const load = async () => {
   }
 };
 
-const toggle = (row: Row) => {
-  row.assigned = !row.assigned;
-};
-
-const save = async (): Promise<boolean> => {
+const saveData = async (): Promise<boolean> => {
   saving.value = true;
   try {
     const permissionCodes = rows.value.filter((r) => r.assigned).map((r) => r.permissionCode);
@@ -59,23 +61,26 @@ const save = async (): Promise<boolean> => {
 };
 
 onMounted(() => {
-  void load();
+  void loadData();
 });
 
-defineExpose({ save });
+defineExpose({ saveData });
 </script>
 
 <template>
   <div v-loading="loading">
+    <div class="md:w-56 shrink-0 rounded border border-(--el-border-color) p-3">
+      <div class="text-sm font-semibold">{{ t('sysMenu.assignCurrentMenu') }}</div>
+      <div class="mt-2 text-sm">{{ transformI18n(props.menuTitle) }}</div>
+      <div class="text-xs text-(--el-text-color-secondary)">{{ props.menuName }}</div>
+    </div>
     <el-input v-model="keyword" :placeholder="t('sysMenu.assignPermissionSearch')" class="mb-2" clearable />
-    <el-table :data="filteredRows" border max-height="480" row-key="permissionCode" size="small">
-      <el-table-column :label="t('sysMenu.permissionName')" prop="permissionName" min-width="160" />
-      <el-table-column :label="t('sysMenu.permissionCode')" prop="permissionCode" min-width="160" />
-      <el-table-column :label="t('sysMenu.assigned')" width="100" align="center">
-        <template #default="{ row }">
-          <el-checkbox :model-value="row.assigned" @change="() => toggle(row)" />
-        </template>
-      </el-table-column>
-    </el-table>
+    <AuthDataTable
+      :columns="permissionDrawerColumns"
+      :data="filteredRows"
+      border
+      max-height="480"
+      row-key="permissionCode"
+    />
   </div>
 </template>

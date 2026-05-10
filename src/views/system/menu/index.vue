@@ -2,11 +2,12 @@
 import MenuElTreeView from '@/views/system/menu/components/MenuElTreeView.vue';
 import MenuTableTreeView from '@/views/system/menu/components/MenuTableTreeView.vue';
 import MenuTableView from '@/views/system/menu/components/MenuTableView.vue';
-import useMenuPageState, { type MenuViewMode } from '@/views/system/menu/hooks/useMenuPageState';
+import useMenuPageState from '@/views/system/menu/hooks/useMenuPageState';
 import useMenuTableAction from '@/views/system/menu/hooks/useMenuTableAction';
 import useMenuTableColumns from '@/views/system/menu/hooks/useMenuTableColumns';
-import { computed, onMounted, ref, watch } from 'vue';
+import { computed, onMounted, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
+import useMenuMoreAction from '@/views/system/menu/hooks/useMenuMoreAction';
 
 defineOptions({
   name: 'SystemMenu',
@@ -14,7 +15,6 @@ defineOptions({
 
 const { t } = useI18n();
 const { tableColumns, treeColumns } = useMenuTableColumns();
-const viewMode = ref<MenuViewMode>('table');
 
 const segmentedOptions = computed(() => [
   { label: t('sysMenu.viewTableTitle'), value: 'table' as const },
@@ -27,27 +27,32 @@ const {
   selectedRows,
   tableData,
   searchForm,
+  pagination,
+  viewMode,
   fetchTableData,
+  submitTableSearch,
   resetQuery,
+  handlePageSizeChange,
+  handlePageCurrentChange,
   handleSelectionChange,
   treeData,
   fetchTreeData,
+  refresh,
 } = useMenuPageState();
 
-const {
-  openCreateDialog,
-  openEditDialog,
-  openDetailDialog,
-  handleDelete,
-  confirmBatchEnable,
-  confirmBatchDisable,
-  openAssignRoleDrawer,
-  openAssignPermissionDrawer,
-} = useMenuTableAction({
+const { openCreateDialog, openEditDialog, openDetailDialog, handleDelete, confirmBatchEnable, confirmBatchDisable } =
+  useMenuTableAction({
+    fetchTableData,
+    fetchTreeData,
+    refresh,
+    viewMode,
+    selectedRows,
+  });
+
+const { openAssignRoleDrawer, openAssignPermissionDrawer } = useMenuMoreAction({
   fetchTableData,
   fetchTreeData,
-  viewMode,
-  selectedRows,
+  refresh,
 });
 
 watch(viewMode, (mode) => {
@@ -65,7 +70,7 @@ onMounted(() => {
 
 <template>
   <div>
-    <div class="flex justify-center pt-3 pb-1">
+    <div class="flex justify-center -mt-[20px] pb-1">
       <el-segmented v-model="viewMode" :options="segmentedOptions" />
     </div>
 
@@ -73,6 +78,8 @@ onMounted(() => {
       v-if="viewMode === 'table'"
       :columns="tableColumns"
       :fetch-table-data="fetchTableData"
+      :handle-page-current-change="handlePageCurrentChange"
+      :handle-page-size-change="handlePageSizeChange"
       :handle-selection-change="handleSelectionChange"
       :loading="loading"
       :on-add="openCreateDialog"
@@ -84,9 +91,11 @@ onMounted(() => {
       :on-delete="(row) => handleDelete([row.id])"
       :on-edit="openEditDialog"
       :on-view="openDetailDialog"
+      :pagination="pagination"
       :reset-query="resetQuery"
       :search-form="searchForm"
       :selected-row-ids="selectedRows"
+      :submit-table-search="submitTableSearch"
       :table-data="tableData"
     />
 

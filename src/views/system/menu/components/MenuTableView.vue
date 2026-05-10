@@ -15,6 +15,7 @@ defineProps<{
   columns: TableColumnList;
   loading: boolean;
   tableData: SysMenuRow[];
+  pagination: { total: number; pageSize: number; currentPage: number };
   searchForm: {
     name?: string;
     title?: string;
@@ -24,7 +25,10 @@ defineProps<{
   };
   selectedRowIds: string[];
   fetchTableData: () => Promise<void>;
+  submitTableSearch: () => Promise<void>;
   resetQuery: (formRef?: FormInstance) => Promise<void>;
+  handlePageSizeChange: (value: number) => Promise<void>;
+  handlePageCurrentChange: (value: number) => Promise<void>;
   handleSelectionChange: (value: SysMenuRow[]) => void;
   onAdd: () => void;
   onView: (row: SysMenuRow) => void;
@@ -41,9 +45,7 @@ const { t } = useI18n();
 const searchFormRef = ref<FormInstance>();
 const tableRef = ref<{ setAdaptive: () => Promise<void> } | null>(null);
 
-defineExpose({
-  tableRef,
-});
+defineExpose({ tableRef });
 </script>
 
 <template>
@@ -114,7 +116,7 @@ defineExpose({
       </el-form-item>
 
       <el-form-item>
-        <el-button :loading="loading" type="primary" @click="fetchTableData">
+        <el-button :loading="loading" type="primary" @click="submitTableSearch">
           {{ t('buttons.actionSearch') }}
         </el-button>
         <el-button @click="resetQuery(searchFormRef)">{{ t('buttons.actionReset') }}</el-button>
@@ -160,6 +162,7 @@ defineExpose({
           :data="tableData"
           :header-cell-style="{ background: 'var(--el-fill-color-light)', color: 'var(--el-text-color-primary)' }"
           :loading="loading"
+          :pagination="pagination"
           :size="size"
           adaptive
           align-whole="center"
@@ -168,6 +171,8 @@ defineExpose({
           row-key="id"
           show-overflow-tooltip
           table-layout="auto"
+          @page-current-change="handlePageCurrentChange"
+          @page-size-change="handlePageSizeChange"
           @selection-change="handleSelectionChange"
         >
           <template #actions="{ row }">

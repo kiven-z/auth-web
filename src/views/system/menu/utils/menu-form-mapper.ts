@@ -64,7 +64,7 @@ export function detailToForm(d: SysMenuDetailVO): MenuForm {
 export function createEmptyMenuForm(): MenuForm {
   return {
     parentId: null,
-    menuType: MenuTypeEnums.菜单,
+    menuType: MenuTypeEnums.MENU,
     path: '',
     name: '',
     title: '',
@@ -84,7 +84,7 @@ export function createEmptyMenuForm(): MenuForm {
  * 表单 → 保存请求体
  */
 export function formToSaveRequest(f: MenuForm): MenuSaveRequest {
-  const menuType = f.menuType ?? MenuTypeEnums.菜单;
+  const menuType = f.menuType ?? MenuTypeEnums.MENU;
   return {
     id: f.id,
     parentId: f.parentId ?? null,

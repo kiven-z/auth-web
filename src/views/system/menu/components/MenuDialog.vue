@@ -151,7 +151,11 @@ defineExpose({ formRef, form });
       </el-col>
 
       <el-col :lg="8" :md="12" :sm="12" :xs="24">
-        <el-form-item v-if="form.menuType === MenuTypeEnums.外链" :label="t('menus.outsideChainName')" prop="name">
+        <el-form-item
+          v-if="form.menuType === MenuTypeEnums.EXTERNAL_LINK"
+          :label="t('menus.outsideChainName')"
+          prop="name"
+        >
           <el-input
             v-model="form.name"
             :disabled="isFormDisabled"
@@ -240,19 +244,19 @@ defineExpose({ formRef, form });
       </el-col>
 
       <menu-type-menu-dialog
-        v-show="form.menuType === MenuTypeEnums.菜单"
+        v-show="form.menuType === MenuTypeEnums.MENU"
         v-model:form="form"
         :formDisabled="isFormDisabled"
       />
 
       <menu-type-iframe-dialog
-        v-show="form.menuType === MenuTypeEnums.Iframe"
+        v-show="form.menuType === MenuTypeEnums.IFRAME"
         v-model:form="form"
         :formDisabled="isFormDisabled"
       />
 
       <menu-type-link-dialog
-        v-show="form.menuType === MenuTypeEnums.外链"
+        v-show="form.menuType === MenuTypeEnums.EXTERNAL_LINK"
         v-model:form="form"
         :formDisabled="isFormDisabled"
       />

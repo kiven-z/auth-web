@@ -1,0 +1,32 @@
+log:
+  loginLog:
+    user: 用户
+    userId: 用户ID
+    username: 登录名
+    loginResult: 登录结果
+    loginTime: 登录时间
+    loginTimeStart: 开始时间
+    loginTimeEnd: 结束时间
+    loginRegion: 登录地区
+    loginType: 登录方式
+    loginIp: 登录IP
+    failureReason: 失败原因
+    userAgent: 用户代理
+    tableTitle: 登录日志
+    detailTitle: 登录日志详情
+    loadFailed: 获取登录日志失败
+    placeholder:
+      userId: 请输入关键字搜索用户
+      loginResult: 全部结果
+      loginType: 全部方式
+    loginResultEnum:
+      '0': 成功
+      '1': 密码或凭证错误
+      '2': 账号锁定
+      '3': 验证码错误
+      '4': 账号禁用
+    loginTypeEnum:
+      LOGIN_EMAIL: 邮箱登录
+      LOGIN_PASSWORD: 密码登录
+      REFRESH_TOKEN: 刷新令牌
+      LOGOUT: 登出

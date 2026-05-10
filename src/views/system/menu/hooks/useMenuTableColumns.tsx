@@ -1,8 +1,9 @@
 /**
  * 菜单管理表格列定义（表格视图与树形视图共用）
  */
+import { transformI18n } from '@/plugins/i18n';
 import type { SysMenuRow } from '@/views/system/menu/hooks/useMenuPageState';
-import { ElTag } from 'element-plus';
+import { ElCheckbox, ElTag, ElText } from 'element-plus';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 
@@ -16,7 +17,9 @@ const MENU_TYPE_TAG_MAP: Record<number, { type: 'primary' | 'success' | 'warning
 function useMenuTableColumns() {
   const { t } = useI18n();
 
-  /** 表格视图列（含多选、序号） */
+/**
+ * 表格视图列（含多选、序号）
+ */
   const tableColumns = computed<TableColumnList>(() => [
     { type: 'selection', align: 'left', width: 48 },
     {
@@ -26,7 +29,14 @@ function useMenuTableColumns() {
       width: 60,
     },
     // 菜单名称（标题）
-    { label: t('sysMenu.menuTitle'), prop: 'title', minWidth: 160 },
+    {
+      label: t('sysMenu.menuTitle'),
+      prop: 'title',
+      formatter: (row: SysMenuRow) => {
+        return <ElText>{transformI18n(row.title)}</ElText>;
+      },
+      minWidth: 160,
+    },
     // 路由名称
     { label: t('sysMenu.routeName'), prop: 'name', minWidth: 160 },
     // 路由路径
@@ -91,7 +101,9 @@ function useMenuTableColumns() {
     },
   ]);
 
-  /** 树形视图列（不含多选/序号，菜单标题列带缩进层级） */
+/**
+ * 树形视图列（不含多选/序号，菜单标题列带缩进层级）
+ */
   const treeColumns = computed<TableColumnList>(() => [
     // 菜单名称（标题），树形缩进由 el-table tree-props 自动处理
     { label: t('sysMenu.menuTitle'), prop: 'title', minWidth: 200 },
@@ -157,7 +169,50 @@ function useMenuTableColumns() {
     },
   ]);
 
-  return { tableColumns, treeColumns };
+  /**
+   * 角色分配表格列
+   */
+  const roleDrawerColumns = computed<TableColumnList>(() => [
+    {
+      label: t('sysMenu.roleCode'),
+      prop: 'roleCode',
+    },
+    {
+      label: t('sysMenu.roleName'),
+      prop: 'roleCode',
+    },
+    {
+      label: t('sysMenu.assigned'),
+      prop: 'assigned',
+      align: 'center',
+      formatter: (row) => {
+        return <ElCheckbox model-value={row.assigned} onChange={() => (row.assigned = !row.assigned)} />;
+      },
+    },
+  ]);
+
+  /**
+   * 权限分配表格列
+   */
+  const permissionDrawerColumns = computed<TableColumnList>(() => [
+    {
+      label: t('sysMenu.permissionName'),
+      prop: 'permissionName',
+    },
+    {
+      label: t('sysMenu.permissionCode'),
+      prop: 'permissionCode',
+    },
+    {
+      label: t('sysMenu.assigned'),
+      prop: 'assigned',
+      align: 'center',
+      formatter: (row) => {
+        return <ElCheckbox model-value={row.assigned} onChange={() => (row.assigned = !row.assigned)} />;
+      },
+    },
+  ]);
+  return { tableColumns, treeColumns, roleDrawerColumns, permissionDrawerColumns };
 }
 
 export default useMenuTableColumns;
