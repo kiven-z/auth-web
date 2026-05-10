@@ -1,38 +1,22 @@
 <script lang="ts" setup>
+import { FormDialog } from '@/api/common';
 import { type EmailTemplateFormModel, renderEmailTemplate } from '@/api/system/email-template';
-import type { FormInstance, FormRules } from 'element-plus';
-import debounce from 'lodash/debounce';
-import { nextTick, onUnmounted, reactive, ref, toRaw, watch } from 'vue';
-import { useI18n } from 'vue-i18n';
-import { CodeEditor } from 'monaco-editor-vue3';
 import { MONACO_COMMON_EDITOR_OPTIONS } from '@/views/system/email-template/config/monaco-config';
 import { registerEmailTemplateMonaco } from '@/views/system/email-template/monaco/register-email-template-monaco';
+import type { FormInstance, FormRules } from 'element-plus';
+import debounce from 'lodash/debounce';
+import type { editor } from 'monaco-editor';
 import * as monaco from 'monaco-editor';
+import { CodeEditor } from 'monaco-editor-vue3';
+import { nextTick, onMounted, onUnmounted, reactive, ref, watch } from 'vue';
+import { useI18n } from 'vue-i18n';
 
-const props = withDefaults(
-  defineProps<{
-    formInline?: Partial<EmailTemplateFormModel>;
-  }>(),
-  {
-    formInline: () => ({}),
-  }
-);
+const props = withDefaults(defineProps<FormDialog<EmailTemplateFormModel>>(), {});
 
 const { t } = useI18n();
 
-function cloneRequireFields(
-  rows: EmailTemplateFormModel['requireFields'] | undefined
-): EmailTemplateFormModel['requireFields'] {
-  if (!rows?.length) return [];
-  return rows.map((r) => ({
-    key: r.key,
-    description: r.description,
-    exampleValue: toRaw(r.exampleValue),
-  }));
-}
-
 const formRef = ref<FormInstance>();
-const form = ref<EmailTemplateFormModel>(props.formInline as EmailTemplateFormModel);
+const form = ref(props.form);
 
 const rules = reactive<FormRules>({
   // 内容
@@ -53,7 +37,10 @@ const PREVIEW_MIN_HEIGHT = 360;
 // 预览最大高度
 const PREVIEW_MAX_HEIGHT = 560;
 
-// 调整预览 iframe 高度
+/**
+ * 调整预览 iframe 高度
+ * @param frame - 预览 iframe 元素
+ */
 const resizePreviewFrame = (frame: HTMLIFrameElement | null) => {
   if (!frame) return;
   const doc = frame.contentDocument;
@@ -62,6 +49,9 @@ const resizePreviewFrame = (frame: HTMLIFrameElement | null) => {
   previewHeight.value = Math.min(PREVIEW_MAX_HEIGHT, Math.max(PREVIEW_MIN_HEIGHT, nextHeight));
 };
 
+/**
+ * 定时渲染 HTML
+ */
 const scheduleRender = debounce(async () => {
   try {
     renderedHtml.value = await renderEmailTemplate({
@@ -73,39 +63,20 @@ const scheduleRender = debounce(async () => {
   }
 }, 400);
 
+/**
+ * 监听表单数据变化
+ */
 watch(
-  () => form.value.content,
+  () => props.form,
   () => {
     scheduleRender();
-  }
-);
-
-watch(
-  () => form.value.requireFields,
-  () => {
-    scheduleRender();
-    refreshMonacoMarkers?.();
   },
-  { deep: true }
+  { deep: true, flush: 'post' }
 );
 
-// watch(
-//   () => props.formInline,
-//   (value) => {
-//     // if (v && Object.keys(v).length > 0) {
-//     //   form.value = {
-//     //     ...defaultForm(),
-//     //     ...v,
-//     //     requireFields: cloneRequireFields(v.requireFields),
-//     //   };
-//     // }
-//
-//     // scheduleRender();
-//     console.log(value);
-//   },
-//   { deep: true, flush: 'post' }
-// );
-
+/**
+ * 监听渲染后的 HTML 变化
+ */
 watch(
   () => renderedHtml.value,
   async (html) => {
@@ -120,12 +91,21 @@ watch(
   { immediate: true }
 );
 
-const onMonacoReady = (editor) => {
+/**
+ * 当 Monaco 编辑器准备就绪时调用
+ * @param editor - Monaco 编辑器实例
+ */
+const onMonacoReady = (editor: editor.IStandaloneCodeEditor) => {
   disposeMonacoRegistration?.();
   const reg = registerEmailTemplateMonaco(editor, monaco, () => form.value.requireFields ?? []);
   disposeMonacoRegistration = reg.dispose;
   refreshMonacoMarkers = reg.refreshMarkers;
 };
+
+onMounted(() => {
+  scheduleRender();
+  refreshMonacoMarkers?.();
+});
 
 onUnmounted(() => {
   disposeMonacoRegistration?.();
@@ -133,8 +113,6 @@ onUnmounted(() => {
   refreshMonacoMarkers = null;
   scheduleRender.cancel();
 });
-
-scheduleRender();
 
 defineExpose({ formRef, form });
 </script>

@@ -45,8 +45,7 @@ export function getPluginsList(VITE_CDN: boolean, VITE_COMPRESSION: ViteCompress
      * 勿在业务里再挂 getWorker（会覆盖 getWorkerUrl）。参见 src/components/ui/MonacoEditor/bootstrap.ts。
      */
     monacoEditorPlugin({
-      languageWorkers: ['html', 'json'],
-      customWorkers: [],
+      customWorkers: [], languageWorkers: ['editorWorkerService', 'html', 'json'],
       publicPath: 'monacoeditorwork',
       globalAPI: false,
     }),

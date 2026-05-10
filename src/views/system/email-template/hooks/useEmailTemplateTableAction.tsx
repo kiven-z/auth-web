@@ -59,7 +59,7 @@ function useEmailTemplateTableAction(deps: TableActionDeps) {
    * 打开添加弹窗
    */
   const openCreateDialog = () => {
-    const formInline: Partial<EmailTemplateFormModel> = {
+    const form: Partial<EmailTemplateFormModel> = {
       status: true,
       priority: 5,
       content: '',
@@ -69,12 +69,12 @@ function useEmailTemplateTableAction(deps: TableActionDeps) {
 
     addDialog({
       title: t('emailTemplate.addDialogTitle'),
-      props: { formInline },
+      props: { form },
       draggable: true,
       fullscreenIcon: true,
       closeOnClickModal: false,
       closeOnPressEscape: false,
-      contentRenderer: () => h(EmailTemplateDialog, { ref: dlgFormRef }),
+      contentRenderer: () => h(EmailTemplateDialog, { ref: dlgFormRef, form: form as any }),
       beforeSure: async (done) => {
         try {
           const formInst = dlgFormRef.value?.formRef;
@@ -109,17 +109,17 @@ function useEmailTemplateTableAction(deps: TableActionDeps) {
   const openEditDialog = async (row: EmailTemplatePageRow) => {
     try {
       const detail = await getEmailTemplateById(row.id);
-      const formInline = toFormFromDetail(detail, row.id);
+      const form = toFormFromDetail(detail, row.id);
       const dlgFormRef = ref<FormDialogExpose | null>(null);
 
       addDialog({
         title: t('emailTemplate.editDialogTitle'),
-        props: { formInline },
+        props: { form },
         draggable: true,
         fullscreenIcon: true,
         closeOnClickModal: false,
         closeOnPressEscape: false,
-        contentRenderer: () => h(EmailTemplateDialog, { ref: dlgFormRef }),
+        contentRenderer: () => h(EmailTemplateDialog, { ref: dlgFormRef, form: form as any }),
         beforeSure: async (done) => {
           try {
             const formInst = dlgFormRef.value?.formRef;

@@ -145,18 +145,18 @@ export function useEmailTemplateTableMoreAction(options: TableActionDeps) {
   const openTemplateContentEdit = async (row: EmailTemplatePageRow) => {
     try {
       const detail = await getEmailTemplateById(row.id);
-      const formInline = toFormFromDetail(detail, row.id);
+      const form = toFormFromDetail(detail, row.id);
       const dialogRef = ref<FormDialogExpose | null>(null);
 
       addDialog({
         title: t('emailTemplate.templateEditDialogTitle'),
-        props: { formInline },
+        props: { form },
         draggable: true,
         fullscreenIcon: true,
         closeOnClickModal: false,
         closeOnPressEscape: false,
         width: '92%',
-        contentRenderer: () => h(EmailTemplateMonacoOnlyDialog, { ref: dialogRef }),
+        contentRenderer: () => h(EmailTemplateMonacoOnlyDialog, { ref: dialogRef, form: form as any }),
         beforeSure: async (done) => {
           try {
             const formInstance = dialogRef.value?.formRef;
