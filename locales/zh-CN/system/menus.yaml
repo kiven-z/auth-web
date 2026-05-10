@@ -22,6 +22,7 @@ sysMenu:
   keepAliveYes: 缓存
   keepAliveNo: 不缓存
   viewTableTitle: 表格视图
+  viewTableTreeTitle: 表格树形
   viewTreeTitle: 树形视图
   expandAll: 展开全部
   collapseAll: 折叠全部

@@ -40,7 +40,7 @@ async function installFallbackWorkerEnvironment() {
   fallbackInstalled = true;
 }
 
-export async function loadMonacoEditor(options?: LoadMonacoEditorOptions): Promise<unknown> {
+export async function loadMonacoEditor(options?: LoadMonacoEditorOptions) {
   // const monaco = await import('monaco-editor');
   const monaco = await import('monaco-editor/esm/vs/editor/editor.api.js');
   const target = globalThis as typeof globalThis & { MonacoEnvironment?: MonacoEnvironment };

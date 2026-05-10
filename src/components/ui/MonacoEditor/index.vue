@@ -101,7 +101,7 @@ watch(
 );
 
 onMounted(async () => {
-  monacoApi = await loadMonacoEditor();
+  monacoApi = (await loadMonacoEditor()) as unknown as MonacoModule;
   await nextTick();
   const root = editorContainerRef.value;
   if (!root || !monacoApi) {
