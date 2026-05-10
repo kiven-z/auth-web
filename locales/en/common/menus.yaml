@@ -11,6 +11,64 @@ menus:
   purePermissionButton: Button Permission
   purePermissionButtonRouter: Route return button permission
   purePermissionButtonLogin: Login interface return button permission
+  menuType: Menu type
+  parentId: Parent menu
+  dialogTitle: Menu title
+  outsideChainName: External link name
+  dialogName: Route name
+  dialogPath: Route path
+  menuRank: Sort order
+  icon: Icon
+  rightExtraIcon: Right extra icon
+  remark: Remark
+  frameSrc: Iframe URL
+  frameLoading: Iframe first-load animation
+  component: Component path
+  redirect: Redirect
+  activePath: Active menu path
+  showLink: Visible in menu
+  showParent: Show parent
+  keepAlive: Keep alive
+  hiddenTag: Tab behavior
+  fixedTag: Fixed tab
+  status: Status
+  dynamicLevel: Max tab count
+  enterTransition: Enter transition
+  leaveTransition: Leave transition
+  transitionName: Page transition
+  rules:
+    menuType: Please select menu type
+    title: Please enter menu title
+    name: Please enter route name
+    path: Please enter route path
+  placeholder:
+    parentId: Select parent menu
+    title: Enter menu title
+    outsideChainName: Enter external link name
+    routerName: Enter route name
+    path: Enter route path
+    icon: Icon name or Iconify id
+    rightExtraIcon: Right side icon
+    remark: Enter remark
+    frameSrc: Enter iframe URL
+    component: e.g. layout/routerView/default
+    redirect: Enter redirect path
+    activePath: Highlight menu path
+    enterTransition: animate.css enter class
+    leaveTransition: animate.css leave class
+    transitionName: Built-in Vue transition name
+  tips:
+    switchInputMethod: Switch input mode
+    openIconOnline: Icon library
+    simpleAnimation: Simple
+    detailAnimation: Detailed
+    useAnimationCautionaryNotes: Please read before enabling transitions
+    displayProblem: Display
+    displayProblemTips: Some transitions may flicker on low-end devices or heavy pages.
+    performanceProblem: Performance
+    performanceProblemTips: Heavy animation may increase GPU and layout cost.
+    functionException: Compatibility
+    functionExceptionTips: Verify with keep-alive and route cache on a small page first.
 routes:
   systemManagement: System Management
   userManagement: User Management

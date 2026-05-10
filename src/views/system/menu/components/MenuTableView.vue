@@ -15,7 +15,6 @@ defineProps<{
   columns: TableColumnList;
   loading: boolean;
   tableData: SysMenuRow[];
-  pagination: { total: number; pageSize: number; currentPage: number };
   searchForm: {
     name?: string;
     title?: string;
@@ -26,9 +25,16 @@ defineProps<{
   selectedRowIds: string[];
   fetchTableData: () => Promise<void>;
   resetQuery: (formRef?: FormInstance) => Promise<void>;
-  handlePageSizeChange: (value: number) => Promise<void>;
-  handlePageCurrentChange: (value: number) => Promise<void>;
   handleSelectionChange: (value: SysMenuRow[]) => void;
+  onAdd: () => void;
+  onView: (row: SysMenuRow) => void;
+  onEdit: (row: SysMenuRow) => void;
+  onDelete: (row: SysMenuRow) => void;
+  onAssignRole: (row: SysMenuRow) => void;
+  onAssignPermission: (row: SysMenuRow) => void;
+  onBatchEnable: () => void;
+  onBatchDisable: () => void;
+  onBatchDelete: () => void;
 }>();
 
 const { t } = useI18n();
@@ -123,22 +129,22 @@ defineExpose({
     >
       <template #buttons>
         <el-button-group type="primary">
-          <el-button type="primary">{{ t('buttons.actionAdd') }}</el-button>
+          <el-button type="primary" @click="onAdd">{{ t('buttons.actionAdd') }}</el-button>
 
           <el-dropdown trigger="click">
             <el-button :disabled="selectedRowIds.length <= 0" type="warning">
               {{ t('buttons.actionBatchStatus') }}
             </el-button>
             <template #dropdown>
-              <el-dropdown-item>{{ t('buttons.actionBatchEnable') }}</el-dropdown-item>
-              <el-dropdown-item>{{ t('buttons.actionBatchDisable') }}</el-dropdown-item>
+              <el-dropdown-item @click="onBatchEnable">{{ t('buttons.actionBatchEnable') }}</el-dropdown-item>
+              <el-dropdown-item @click="onBatchDisable">{{ t('buttons.actionBatchDisable') }}</el-dropdown-item>
             </template>
           </el-dropdown>
 
           <el-dropdown trigger="click">
             <el-button type="danger">{{ t('buttons.actionAdvanced') }}</el-button>
             <template #dropdown>
-              <el-dropdown-item :disabled="selectedRowIds.length <= 0">
+              <el-dropdown-item :disabled="selectedRowIds.length <= 0" @click="onBatchDelete">
                 {{ t('buttons.actionBatchDelete') }}
               </el-dropdown-item>
             </template>
@@ -154,7 +160,6 @@ defineExpose({
           :data="tableData"
           :header-cell-style="{ background: 'var(--el-fill-color-light)', color: 'var(--el-text-color-primary)' }"
           :loading="loading"
-          :pagination="pagination"
           :size="size"
           adaptive
           align-whole="center"
@@ -163,21 +168,21 @@ defineExpose({
           row-key="id"
           show-overflow-tooltip
           table-layout="auto"
-          @page-size-change="handlePageSizeChange"
-          @page-current-change="handlePageCurrentChange"
           @selection-change="handleSelectionChange"
         >
           <template #actions="{ row }">
             <div class="flex justify-center flex-wrap gap-x-1">
-              <el-button link type="primary">{{ t('buttons.actionView') }}</el-button>
-              <el-button link type="primary">{{ t('buttons.actionEdit') }}</el-button>
-              <el-button link type="danger">{{ t('buttons.actionDelete') }}</el-button>
+              <el-button link type="primary" @click="onView(row)">{{ t('buttons.actionView') }}</el-button>
+              <el-button link type="primary" @click="onEdit(row)">{{ t('buttons.actionEdit') }}</el-button>
+              <el-button link type="danger" @click="onDelete(row)">{{ t('buttons.actionDelete') }}</el-button>
               <el-dropdown class="ml-1" trigger="click">
                 <el-button class="el-dropdown-link" link type="primary">{{ t('buttons.actionMore') }}</el-button>
                 <template #dropdown>
                   <el-dropdown-menu>
-                    <el-dropdown-item>{{ t('sysMenu.assignRole') }}</el-dropdown-item>
-                    <el-dropdown-item>{{ t('sysMenu.assignPermission') }}</el-dropdown-item>
+                    <el-dropdown-item @click="onAssignRole(row)">{{ t('sysMenu.assignRole') }}</el-dropdown-item>
+                    <el-dropdown-item @click="onAssignPermission(row)">
+                      {{ t('sysMenu.assignPermission') }}
+                    </el-dropdown-item>
                   </el-dropdown-menu>
                 </template>
               </el-dropdown>

@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import TableBar from '@/components/ui/TableBar';
 import type { SysMenuRow } from '@/views/system/menu/hooks/useMenuPageState';
-import { collectTreeNodeIds } from '@/views/system/menu/utils/tree-keys';
+import { collectTreeNodeIds, type SysMenuTreeNode } from '@/views/system/menu/utils/tree-keys';
 import type { TreeInstance } from 'element-plus';
 import { nextTick, ref, unref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
@@ -12,8 +12,14 @@ defineOptions({
 
 const props = defineProps<{
   loading: boolean;
-  treeData: SysMenuRow[];
+  treeData: SysMenuTreeNode[];
   fetchTreeData: () => Promise<void>;
+  onAdd: () => void;
+  onView: (row: SysMenuRow) => void;
+  onEdit: (row: SysMenuRow) => void;
+  onDelete: (row: SysMenuRow) => void;
+  onAssignRole: (row: SysMenuRow) => void;
+  onAssignPermission: (row: SysMenuRow) => void;
 }>();
 
 const { t } = useI18n();
@@ -72,7 +78,7 @@ const collapseAll = async () => {
   <TableBar :columns="[]" :title="t('sysMenu.tableTitle')" @refresh="fetchTreeData">
     <template #buttons>
       <el-button-group type="primary">
-        <el-button type="primary">{{ t('buttons.actionAdd') }}</el-button>
+        <el-button type="primary" @click="onAdd">{{ t('buttons.actionAdd') }}</el-button>
         <el-button type="info" @click="expandAll">{{ t('sysMenu.expandAll') }}</el-button>
         <el-button type="info" @click="collapseAll">{{ t('sysMenu.collapseAll') }}</el-button>
       </el-button-group>
@@ -84,6 +90,7 @@ const collapseAll = async () => {
           ref="treeRef"
           :data="treeData"
           :default-expanded-keys="expandedKeys"
+          :expand-on-click-node="false"
           :props="treeProps"
           class="menu-el-tree"
           highlight-current
@@ -101,18 +108,26 @@ const collapseAll = async () => {
               <el-tag :type="data.status === 0 ? 'success' : 'danger'" effect="plain" size="small">
                 {{ data.status === 0 ? t('sysMenu.statusEnabled') : t('sysMenu.statusDisabled') }}
               </el-tag>
-              <div class="ml-auto flex flex-wrap items-center gap-x-1">
-                <el-button link size="small" type="primary">{{ t('buttons.actionView') }}</el-button>
-                <el-button link size="small" type="primary">{{ t('buttons.actionEdit') }}</el-button>
-                <el-button link size="small" type="danger">{{ t('buttons.actionDelete') }}</el-button>
-                <el-dropdown class="ml-1" trigger="click">
+              <div class="ml-auto flex flex-wrap items-center gap-x-1" @click.stop>
+                <el-button link size="small" type="primary" @click="onView(data)">
+                  {{ t('buttons.actionView') }}
+                </el-button>
+                <el-button link size="small" type="primary" @click="onEdit(data)">
+                  {{ t('buttons.actionEdit') }}
+                </el-button>
+                <el-button link size="small" type="danger" @click="onDelete(data)">
+                  {{ t('buttons.actionDelete') }}
+                </el-button>
+                <el-dropdown class="ml-1" trigger="click" @click.stop>
                   <el-button class="el-dropdown-link" link size="small" type="primary">
                     {{ t('buttons.actionMore') }}
                   </el-button>
                   <template #dropdown>
                     <el-dropdown-menu>
-                      <el-dropdown-item>{{ t('sysMenu.assignRole') }}</el-dropdown-item>
-                      <el-dropdown-item>{{ t('sysMenu.assignPermission') }}</el-dropdown-item>
+                      <el-dropdown-item @click="onAssignRole(data)">{{ t('sysMenu.assignRole') }}</el-dropdown-item>
+                      <el-dropdown-item @click="onAssignPermission(data)">
+                        {{ t('sysMenu.assignPermission') }}
+                      </el-dropdown-item>
                     </el-dropdown-menu>
                   </template>
                 </el-dropdown>

@@ -11,6 +11,64 @@ menus:
   purePermissionButton: 按钮权限
   purePermissionButtonRouter: 路由返回按钮权限
   purePermissionButtonLogin: 登录接口返回按钮权限
+  menuType: 菜单类型
+  parentId: 父级菜单
+  dialogTitle: 菜单标题
+  outsideChainName: 外链名称
+  dialogName: 路由名称
+  dialogPath: 路由路径
+  menuRank: 排序
+  icon: 图标
+  rightExtraIcon: 右侧额外图标
+  remark: 备注
+  frameSrc: 内嵌地址
+  frameLoading: 内嵌首次加载动画
+  component: 组件路径
+  redirect: 重定向
+  activePath: 激活路径
+  showLink: 是否显示
+  showParent: 显示父级
+  keepAlive: 缓存页面
+  hiddenTag: 标签页
+  fixedTag: 固定标签
+  status: 状态
+  dynamicLevel: 标签最大数量
+  enterTransition: 进场动画
+  leaveTransition: 离场动画
+  transitionName: 页面过渡
+  rules:
+    menuType: 请选择菜单类型
+    title: 请输入菜单标题
+    name: 请输入路由名称
+    path: 请输入路由路径
+  placeholder:
+    parentId: 请选择父级菜单
+    title: 请输入菜单标题
+    outsideChainName: 请输入外链名称
+    routerName: 请输入路由名称
+    path: 请输入路由路径
+    icon: 请输入图标名或 Iconify 标识
+    rightExtraIcon: 请输入右侧图标
+    remark: 请输入备注
+    frameSrc: 请输入 iframe 地址
+    component: 例如 layout/routerView/default
+    redirect: 请输入重定向路径
+    activePath: 高亮菜单 path
+    enterTransition: animate.css 进场类名
+    leaveTransition: animate.css 离场类名
+    transitionName: Vue 内置 transition 名称
+  tips:
+    switchInputMethod: 切换输入方式
+    openIconOnline: 在线图标库
+    simpleAnimation: 简单动画
+    detailAnimation: 详细动画
+    useAnimationCautionaryNotes: 使用页面过渡动画前请阅读以下说明
+    displayProblem: 显示问题
+    displayProblemTips: 部分动画在低端设备或复杂页面上可能导致闪烁或布局异常。
+    performanceProblem: 性能影响
+    performanceProblemTips: 频繁或重度动画可能增加 GPU 与重排开销。
+    functionException: 功能异常
+    functionExceptionTips: 若与 keep-alive、路由缓存组合使用，请先在小范围页面验证。
 routes:
   systemManagement: 系统管理
   userManagement: 用户管理

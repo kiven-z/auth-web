@@ -1,5 +1,6 @@
 <script lang="ts" setup>
-import { MenuForm } from '@/types/system';
+import type { MenuForm } from '@/types/system';
+import type { PropType } from 'vue';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 
@@ -35,7 +36,7 @@ const formModel = computed({
 
     <!-- 开关组 -->
     <el-col :lg="8" :md="12" :sm="12" :xs="24">
-      <el-form-item :label="t('menus.keepAlive')" prop="keepAlive">
+      <el-form-item :label="t('menus.frameLoading')" prop="frameLoading">
         <el-switch
           v-model="formModel.frameLoading"
           :active-text="t('common.status.open')"
