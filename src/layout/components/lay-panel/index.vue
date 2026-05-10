@@ -27,7 +27,7 @@ const iconClass = computed(() => {
 });
 
 const { t } = useI18n();
-const { onReset } = useDataThemeChange();
+const { resetQuery: onReset } = useDataThemeChange();
 
 onClickOutside(target, (event: any) => {
   if (event.clientX > target.value.offsetLeft) return;

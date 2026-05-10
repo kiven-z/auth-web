@@ -45,7 +45,7 @@ export function getPluginsList(VITE_CDN: boolean, VITE_COMPRESSION: ViteCompress
      * 运行时仅在极端场景才走 UI bootstrap 的 fallback getWorker。
      */
     monacoEditorPlugin({
-      languageWorkers: ['editorWorkerService', 'css', 'html', 'json', 'typescript'],
+      languageWorkers: ['editorWorkerService',  'html', 'json'],
       customWorkers: [],
       publicPath: 'monacoeditorwork',
       globalAPI: false,

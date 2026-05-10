@@ -1,0 +1,38 @@
+sysMenu:
+  name: Menu management
+  tableTitle: Menu list
+  loadFailed: Failed to load menu data
+  routeName: Route name
+  menuTitle: Menu title
+  menuType: Menu type
+  menuTypeMenu: Menu
+  menuTypeIframe: Iframe
+  menuTypeLink: External link
+  status: Status
+  statusEnabled: Enabled
+  statusDisabled: Disabled
+  component: Component path
+  path: Route path
+  menuRank: Sort
+  showLink: Visible
+  keepAlive: Keep alive
+  fixedTag: Fixed tag
+  showLinkYes: Visible
+  showLinkNo: Hidden
+  keepAliveYes: Cached
+  keepAliveNo: Not cached
+  viewTableTitle: Table view
+  viewTreeTitle: Tree view
+  expandAll: Expand all
+  collapseAll: Collapse all
+  addDialogTitle: New menu
+  editDialogTitle: Edit menu
+  detailDialogTitle: Menu detail
+  assignRole: Assign roles
+  assignPermission: Assign permissions
+  placeholder:
+    routeName: Enter route name
+    menuTitle: Enter menu title
+    menuType: Select menu type
+    status: Select status
+    component: Enter component path

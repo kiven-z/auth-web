@@ -19,34 +19,30 @@ async function installFallbackWorkerEnvironment() {
   }
   const EditorWorker = (await import('monaco-editor/esm/vs/editor/editor.worker.js?worker')).default;
   const HtmlWorker = (await import('monaco-editor/esm/vs/language/html/html.worker.js?worker')).default;
-  const CssWorker = (await import('monaco-editor/esm/vs/language/css/css.worker.js?worker')).default;
   const JsonWorker = (await import('monaco-editor/esm/vs/language/json/json.worker.js?worker')).default;
-  const TsWorker = (await import('monaco-editor/esm/vs/language/typescript/ts.worker.js?worker')).default;
 
   const target = globalThis as typeof globalThis & { MonacoEnvironment?: MonacoEnvironment };
   target.MonacoEnvironment = {
     ...target.MonacoEnvironment,
     getWorker(_moduleId: string, label: string) {
-      if (label === 'html' || label === 'handlebars' || label === 'razor') {
-        return new HtmlWorker();
+      switch (label) {
+        case 'html':
+        case 'handlebars':
+        case 'razor':
+          return new HtmlWorker();
+        case 'json':
+          return new JsonWorker();
+        default:
+          return new EditorWorker();
       }
-      if (label === 'css' || label === 'scss' || label === 'less') {
-        return new CssWorker();
-      }
-      if (label === 'json') {
-        return new JsonWorker();
-      }
-      if (label === 'typescript' || label === 'javascript') {
-        return new TsWorker();
-      }
-      return new EditorWorker();
     },
   };
   fallbackInstalled = true;
 }
 
-export async function loadMonacoEditor(options?: LoadMonacoEditorOptions): Promise<typeof import('monaco-editor')> {
-  const monaco = await import('monaco-editor');
+export async function loadMonacoEditor(options?: LoadMonacoEditorOptions): Promise<unknown> {
+  // const monaco = await import('monaco-editor');
+  const monaco = await import('monaco-editor/esm/vs/editor/editor.api.js');
   const target = globalThis as typeof globalThis & { MonacoEnvironment?: MonacoEnvironment };
   const shouldInstallFallback = options?.forceFallbackWorker || !target.MonacoEnvironment?.getWorker;
   if (shouldInstallFallback) {

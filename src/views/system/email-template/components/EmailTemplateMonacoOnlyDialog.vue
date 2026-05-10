@@ -1,6 +1,3 @@
-<!--
-  仅编辑模板 HTML：Monaco + 实时预览（iframe 隔离与自适应高度）。
--->
 <script lang="ts" setup>
 import { type EmailTemplateFormModel, renderEmailTemplate } from '@/api/system/email-template';
 import MonacoEditor, { type MonacoEditorReadyPayload } from '@/components/ui/MonacoEditor';
@@ -63,7 +60,7 @@ const previewFrameRef = ref<HTMLIFrameElement | null>(null);
 // 预览高度
 const previewHeight = ref(320);
 // 预览最小高度
-const PREVIEW_MIN_HEIGHT = 220;
+const PREVIEW_MIN_HEIGHT = 360;
 // 预览最大高度
 const PREVIEW_MAX_HEIGHT = 560;
 
@@ -152,15 +149,16 @@ defineExpose({ formRef, form });
 </script>
 
 <template>
-  <el-form ref="formRef" :model="form" :rules="rules" class="monaco-only-form">
+  <el-form ref="formRef" :model="form" :rules="rules">
     <el-row :gutter="16">
       <el-col :lg="14" :md="14" :sm="24" :xs="24">
-        <div class="text-sm font-medium mb-2">{{ t('emailTemplate.content') }}</div>
+        <div class="mb-2">{{ t('emailTemplate.content') }}</div>
         <el-form-item class="mb-0!" prop="content">
           <MonacoEditor
             v-model="form.content"
+            :height="588"
             :options="EMAIL_TEMPLATE_EDITOR_OPTIONS"
-            class="w-full min-h-[62vh] monaco-only-editor border border-(--el-border-color) rounded overflow-hidden shadow-sm"
+            class="border"
             language="html"
             @ready="onMonacoReady"
           />
@@ -168,15 +166,12 @@ defineExpose({ formRef, form });
       </el-col>
 
       <el-col :lg="10" :md="10" :sm="24" :xs="24">
-        <div class="text-sm font-medium mb-2">{{ t('emailTemplate.liveRenderPreview') }}</div>
-        <div
-          class="monaco-only-preview min-h-[62vh] border border-(--el-border-color) rounded p-3 overflow-auto bg-(--el-fill-color-blank)"
-        >
+        <div class="font-medium mb-2">{{ t('emailTemplate.liveRenderPreview') }}</div>
+        <div class="border p-3 overflow-auto">
           <iframe
             ref="previewFrameRef"
-            :style="{ height: `${previewHeight}px` }"
-            class="w-full border-0 block"
-            sandbox="allow-same-origin"
+            class="w-full min-h-[62vh] border-0 block"
+            sandbox="allow-scripts"
             title="email-template-monaco-preview"
             @load="resizePreviewFrame(previewFrameRef)"
           />

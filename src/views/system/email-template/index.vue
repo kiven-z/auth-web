@@ -7,7 +7,7 @@ import useEmailTemplateTableColumns from '@/views/system/email-template/hooks/us
 import type { FormInstance } from 'element-plus';
 import { onMounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { EMAIL_TEMPLATE_STATUS_FILTER_OPTIONS } from '@/views/system/email-template/constants/email-template-search-options';
+import { emailTemplateStatusFilterOptions } from '@/views/system/email-template/constants/email-template-search-options';
 
 defineOptions({
   name: 'SystemEmailTemplate',
@@ -72,7 +72,7 @@ onMounted(() => {
       <el-form-item :label="t('emailTemplate.status')" prop="status">
         <el-select v-model="searchForm.status" :placeholder="t('emailTemplate.status')" class="w-[220px]!" clearable>
           <el-option
-            v-for="opt in EMAIL_TEMPLATE_STATUS_FILTER_OPTIONS"
+            v-for="opt in emailTemplateStatusFilterOptions"
             :key="`${opt.labelKey}:${String(opt.value)}`"
             :label="t(opt.labelKey)"
             :value="opt.value"
