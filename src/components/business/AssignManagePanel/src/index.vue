@@ -6,7 +6,7 @@ import { ElCheckbox, ElInput, ElTag, ElTooltip } from 'element-plus';
 import { computed, nextTick, onMounted, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import type { AuthAssignFetchPage, AuthAssignSeedItem } from './types';
-import { useAssignState } from './useAssignState';
+import { useAssignPage } from './useAssignPage';
 
 defineOptions({ name: 'AuthAssignManage' });
 
@@ -54,7 +54,7 @@ const {
   handlePageSizeChange,
   handlePageCurrentChange,
   getSelectedKeys,
-} = useAssignState({
+} = useAssignPage({
   rowKey: props.rowKey,
   fetchPage: props.fetchPage,
   seed: props.assignedSeed,
@@ -130,22 +130,22 @@ defineExpose({ getSelectedKeys });
 
 <template>
   <div ref="rootRef" class="assign-manage-panel">
-    <el-row :gutter="16" class="assign-manage-panel__row">
-      <el-col :span="leftSpan" class="assign-manage-panel__col assign-manage-panel__col--left">
-        <el-card class="assign-manage-panel__card" shadow="never">
+    <el-row :gutter="16">
+      <el-col :span="leftSpan">
+        <el-card shadow="never">
           <template #header>
-            <div class="assign-manage-panel__context">
-              <div v-if="leftTitle" class="assign-manage-panel__context-title">
+            <div>
+              <div v-if="leftTitle" class="font-semibold">
                 {{ leftTitle }}
               </div>
-              <div v-if="leftSubtitle" class="assign-manage-panel__context-sub">
+              <div v-if="leftSubtitle" class="text-[13px] text-[var(--el-text-color-secondary)]">
                 {{ leftSubtitle }}
               </div>
             </div>
           </template>
 
-          <div class="assign-manage-panel__section-head">
-            <div class="assign-manage-panel__section-label">
+          <div class="flex justify-between">
+            <div class="text-xs font-semibold text-[var(--el-text-color-secondary)]">
               {{ assignedSectionLabel || t('sysMenu.assigned') }}
             </div>
             <el-button :disabled="saving || !hasRemovableSelection" link type="danger" @click="clearRemovableSelection">
@@ -158,18 +158,16 @@ defineExpose({ getSelectedKeys });
               v-for="tag in assignedTags"
               :key="tag.key"
               :closable="tag.closable && !saving"
-              class="assign-manage-panel__tag"
               effect="light"
-              round
               type="success"
               @close="onTagClose(tag.key)"
             >
               <el-tooltip :content="tag.key" :show-after="400" placement="top">
-                <span class="assign-manage-panel__tag-text">{{ tag.label }}</span>
+                <span>{{ tag.label }}</span>
               </el-tooltip>
             </el-tag>
           </div>
-          <div v-else class="assign-manage-panel__tags assign-manage-panel__tags-empty">
+          <div v-else class="assign-manage-panel__tags flex items-center justify-center">
             <el-text type="info">
               {{ t('sysMenu.assignEmptySelected') }}
             </el-text>
@@ -177,17 +175,11 @@ defineExpose({ getSelectedKeys });
         </el-card>
       </el-col>
 
-      <el-col :span="24 - leftSpan" class="assign-manage-panel__col assign-manage-panel__col--right">
-        <div class="assign-manage-panel__search">
-          <el-input
-            v-model="keyword"
-            :placeholder="searchPlaceholder"
-            :prefix-icon="Search"
-            class="assign-manage-panel__search-input"
-            clearable
-          />
+      <el-col :span="24 - leftSpan">
+        <div class="shrink-0 mb-3">
+          <el-input v-model="keyword" :placeholder="searchPlaceholder" :prefix-icon="Search" clearable />
         </div>
-        <div class="assign-manage-panel__table-host">
+        <div>
           <AuthDataTable
             ref="dataTableRef"
             :adaptive-config="{ offsetBottom: ADAPTIVE_OFFSET_BOTTOM, paginationReserve: 72 }"
