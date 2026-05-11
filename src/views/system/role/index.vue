@@ -22,7 +22,7 @@ const { columns } = useRoleTableColumns();
 
 const searchFormRef = ref<FormInstance>();
 
-/** 表格实例（含 setAdaptive，供全屏后调用） */
+// 表格实例（含 setAdaptive，供全屏后调用）
 const tableRef = ref<{ setAdaptive: () => Promise<void> } | null>(null);
 
 const {
@@ -38,6 +38,7 @@ const {
 } = useRolePageState();
 
 const { openDetailDialog, openEditDialog } = useRoleTableAction({ fetchTableData });
+
 onMounted(() => {
   fetchTableData();
 });

@@ -7,7 +7,7 @@ import { ElTag, ElText } from 'element-plus';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 
-/** 菜单类型标签样式映射 */
+// 菜单类型标签样式映射
 const MENU_TYPE_TAG_MAP: Record<number, { type: 'primary' | 'success' | 'warning'; labelKey: string }> = {
   0: { type: 'primary', labelKey: 'sysMenu.menuTypeMenu' },
   1: { type: 'warning', labelKey: 'sysMenu.menuTypeIframe' },
@@ -17,9 +17,7 @@ const MENU_TYPE_TAG_MAP: Record<number, { type: 'primary' | 'success' | 'warning
 function useMenuTableColumns() {
   const { t } = useI18n();
 
-  /**
-   * 表格视图列（含多选、序号）
-   */
+  // 表格视图列（含多选、序号）
   const tableColumns = computed<TableColumnList>(() => [
     { type: 'selection', align: 'left', width: 48 },
     {

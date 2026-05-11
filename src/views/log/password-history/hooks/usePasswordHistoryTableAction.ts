@@ -19,6 +19,7 @@ function usePasswordHistoryTableAction(deps: TableActionDeps) {
   const { fetchTableData } = deps;
   const { t } = useI18n();
 
+  // 选中的行
   const selectedRows = ref<PasswordHistoryPageRow[]>([]);
 
   /**

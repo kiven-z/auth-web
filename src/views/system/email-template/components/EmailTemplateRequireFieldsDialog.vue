@@ -20,9 +20,14 @@ const props = defineProps<Props>();
 const { t } = useI18n();
 
 const loading = ref(false);
+// 数据列表
 const dataList = ref<EditableRequireFieldRow[]>([]);
+// 行序号
 let rowSeq = 1;
 
+/**
+ * 添加行
+ */
 const onAdd = () => {
   dataList.value.push({
     _id: rowSeq++,
@@ -32,11 +37,20 @@ const onAdd = () => {
   });
 };
 
+/**
+ * 删除行
+ * @param row 删除行
+ * @returns 删除行后，更新行序号
+ */
 const onDel = (row: EditableRequireFieldRow) => {
   const i = dataList.value.indexOf(row);
   if (i !== -1) dataList.value.splice(i, 1);
 };
 
+/**
+ * 提交
+ * @returns 提交后，更新行序号
+ */
 const submit = async (): Promise<boolean> => {
   const transformResult = toRequireFieldsPayload(dataList.value);
   if (!transformResult.ok) {

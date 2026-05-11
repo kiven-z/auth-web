@@ -1,8 +1,8 @@
 <script lang="ts" setup>
 import { getMenuRoles, putMenuRoles } from '@/api/system/menu';
 import { getRolePage } from '@/api/system/role';
-import AssignManagePanel from '@/components/business/AssignManagePanel/index.vue';
-import type { AssignManagePageQuery, AssignManageSeedItem } from '@/components/business/AssignManagePanel/types';
+import AssignManagePanel from '@/components/business/AssignManagePanel/index';
+import type { AuthAssignPageQuery, AuthAssignSeedItem } from '@/components/business/AssignManagePanel/src/types';
 import { transformI18n } from '@/plugins/i18n';
 import { errorMessage, message } from '@/shared/messaging/message';
 import { onMounted, ref } from 'vue';
@@ -21,15 +21,17 @@ const { t } = useI18n();
 const saving = ref(false);
 const seedLoading = ref(true);
 const seedReady = ref(false);
-const seed = ref<AssignManageSeedItem[]>([]);
-const panelRef = ref<InstanceType<typeof AssignManagePanel> | null>(null);
+const seed = ref<AuthAssignSeedItem[]>([]);
+const assignRef = ref<InstanceType<typeof AssignManagePanel> | null>(null);
 
 const { roleDrawerDataColumns } = useMenuTableColumns();
 
 /**
- * 角色分页：关键词按角色名称模糊查询（与列表页条件一致；编码搜索需后端 keyword 能力后再扩展）。
+ * 角色分页：关键词按角色名称模糊查询
+ * @param query 分页查询参数
+ * @returns 角色分页数据
  */
-async function fetchRolePage(query: AssignManagePageQuery) {
+async function fetchRolePage(query: AuthAssignPageQuery) {
   return getRolePage({
     pageIndex: query.pageIndex,
     pageSize: query.pageSize,
@@ -56,7 +58,7 @@ onMounted(async () => {
 const saveData = async (): Promise<boolean> => {
   saving.value = true;
   try {
-    const roleCodes = panelRef.value?.getSelectedKeys() ?? [];
+    const roleCodes = assignRef.value?.getSelectedKeys() ?? [];
     await putMenuRoles(props.menuId, { roleCodes });
     message(t('sysMenu.assignSaveSuccess'), { type: 'success' });
     return true;
@@ -75,17 +77,16 @@ defineExpose({ saveData });
   <div v-loading="seedLoading" class="h-full min-h-0 flex flex-col">
     <AssignManagePanel
       v-if="seedReady"
-      ref="panelRef"
-      mode="page"
-      class="min-h-0 flex-1"
-      :left-title="t('sysMenu.assignCurrentMenu')"
-      :left-subtitle="`${transformI18n(menuTitle)} (${menuName})`"
-      :search-placeholder="t('sysMenu.assignRoleSearch')"
-      :columns="roleDrawerDataColumns"
-      row-key="roleCode"
+      ref="assignRef"
       :assigned-seed="seed"
+      :columns="roleDrawerDataColumns"
       :fetch-page="fetchRolePage"
+      :left-subtitle="`${transformI18n(menuTitle)} (${menuName})`"
+      :left-title="t('sysMenu.assignCurrentMenu')"
       :saving="saving"
+      :search-placeholder="t('sysMenu.assignRoleSearch')"
+      mode="page"
+      row-key="roleCode"
     />
   </div>
 </template>

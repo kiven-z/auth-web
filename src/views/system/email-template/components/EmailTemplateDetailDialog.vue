@@ -10,7 +10,7 @@ import { computed, nextTick, onMounted, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 interface Props {
-  /** 模板 ID */
+  // 模板 ID
   id: string;
 }
 
@@ -55,7 +55,8 @@ const columns = computed(() => [
 ]);
 
 /**
- * 初始化数据
+ * 加载数据
+ * @returns 加载数据后，更新详情数据、渲染后的 HTML
  */
 const onLoadData = async () => {
   loading.value = true;
@@ -69,7 +70,8 @@ const onLoadData = async () => {
 };
 
 /**
- * 使用 iframe 渲染 HTML
+ * 监听渲染后的 HTML 变化，更新 iframe 的 srcdoc
+ * @param html 渲染后的 HTML
  */
 watch(
   () => renderedHtml.value,

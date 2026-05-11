@@ -5,7 +5,9 @@ import { errorMessage } from '@/shared/messaging/message';
 import type { FormInstance } from 'element-plus';
 import { reactive, ref } from 'vue';
 
-/** 列表行（与后端 SysMenuListVO 一致） */
+/**
+ * 列表行（与后端 SysMenuListVO 一致）
+ */
 export type SysMenuRow = SysMenuListVO;
 
 export type MenuViewMode = 'table' | 'tableTree' | 'tree';

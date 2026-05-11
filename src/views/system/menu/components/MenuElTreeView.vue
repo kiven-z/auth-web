@@ -31,9 +31,7 @@ const { openAssignRoleDrawer, openAssignPermissionDrawer } = useMenuMoreAction({
   refresh,
 });
 
-/**
- * 与 `el-tree` 的 `default-expanded-keys` 同步，数据变更时由 watch 维护
- */
+// 与 `el-tree` 的 `default-expanded-keys` 同步，数据变更时由 watch 维护
 const expandedKeys = ref<string[]>([]);
 
 const treeProps = {
@@ -41,7 +39,7 @@ const treeProps = {
   children: 'children',
 } as const;
 
-/** 菜单类型 → Tag 展示 */
+// 菜单类型 → Tag 展示
 const menuTypeTag = (menuType: number) => {
   const map: Record<number, { type: 'primary' | 'success' | 'warning'; key: string }> = {
     0: { type: 'primary', key: 'sysMenu.menuTypeMenu' },

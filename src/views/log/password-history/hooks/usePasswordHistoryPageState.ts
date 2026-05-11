@@ -7,9 +7,12 @@ import { reactive, ref } from 'vue';
  * 密码历史日志分页列表页状态：查询条件、分页、表格数据与请求。
  */
 function usePasswordHistoryPageState() {
+  // 加载状态
   const loading = ref(false);
+  // 表格数据
   const tableData = ref<any[]>([]);
 
+  // 搜索表单
   const searchForm = reactive({
     userId: undefined as string | undefined,
     changeTimeStart: undefined as string | undefined,
@@ -17,6 +20,7 @@ function usePasswordHistoryPageState() {
     changeIp: undefined as string | undefined,
   });
 
+  // 分页
   const pagination = reactive({
     total: 0,
     pageSize: 30,
@@ -24,7 +28,8 @@ function usePasswordHistoryPageState() {
   });
 
   /**
-   * 分页查询密码历史日志
+   * 获取表格数据
+   * @returns 获取表格数据后，更新表格数据
    */
   const fetchTableData = async () => {
     loading.value = true;

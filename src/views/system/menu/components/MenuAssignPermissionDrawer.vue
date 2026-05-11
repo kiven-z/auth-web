@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { getMenuPermissions, putMenuPermissions } from '@/api/system/menu';
-import AssignManagePanel from '@/components/business/AssignManagePanel/index.vue';
 import { transformI18n } from '@/plugins/i18n';
+import AssignManagePanel from '@/components/business/AssignManagePanel/index';
 import { errorMessage, message } from '@/shared/messaging/message';
 import { ref } from 'vue';
 import { useI18n } from 'vue-i18n';
@@ -17,7 +17,7 @@ const props = defineProps<{
 
 const { t } = useI18n();
 const saving = ref(false);
-const panelRef = ref<InstanceType<typeof AssignManagePanel> | null>(null);
+const assignRef = ref<InstanceType<typeof AssignManagePanel> | null>(null);
 
 const { permissionDrawerDataColumns } = useMenuTableColumns();
 
@@ -29,7 +29,7 @@ const fetchAllPermissions = () => getMenuPermissions(props.menuId);
 const saveData = async (): Promise<boolean> => {
   saving.value = true;
   try {
-    const permissionCodes = panelRef.value?.getSelectedKeys() ?? [];
+    const permissionCodes = assignRef.value?.getSelectedKeys() ?? [];
     await putMenuPermissions(props.menuId, { permissionCodes });
     message(t('sysMenu.assignSaveSuccess'), { type: 'success' });
     return true;
@@ -46,15 +46,14 @@ defineExpose({ saveData });
 
 <template>
   <AssignManagePanel
-    ref="panelRef"
-    mode="all"
-    class="h-full min-h-0 flex flex-col"
-    :left-title="t('sysMenu.assignCurrentMenu')"
-    :left-subtitle="`${transformI18n(menuTitle)} (${menuName})`"
-    :search-placeholder="t('sysMenu.assignPermissionSearch')"
+    ref="assignRef"
     :columns="permissionDrawerDataColumns"
-    row-key="permissionCode"
     :fetch-all-rows="fetchAllPermissions"
+    :left-subtitle="`${transformI18n(menuTitle)} (${menuName})`"
+    :left-title="t('sysMenu.assignCurrentMenu')"
     :saving="saving"
+    :search-placeholder="t('sysMenu.assignPermissionSearch')"
+    mode="all"
+    row-key="permissionCode"
   />
 </template>
