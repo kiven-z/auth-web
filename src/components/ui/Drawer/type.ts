@@ -151,6 +151,7 @@ interface DrawerOptions extends DrawerProps {
   hideFooter?: boolean;
   /** 确认按钮的 `PopConfirm` 气泡确认框相关配置 */
   popConfirm?: PopConfirm;
+  resizable?: boolean;
   /** 点击确定按钮后是否开启 `loading` 加载动画 */
   sureBtnLoading?: boolean;
   /**

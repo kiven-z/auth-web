@@ -1,10 +1,10 @@
 import type { TableActionDeps } from '@/api/common';
+import { addDrawer } from '@/components/ui/Drawer';
+import MenuAssignPermissionDrawer from '@/views/system/menu/components/MenuAssignPermissionDrawer.vue';
+import MenuAssignRoleDrawer from '@/views/system/menu/components/MenuAssignRoleDrawer.vue';
 import type { SysMenuRow } from '@/views/system/menu/hooks/useMenuPageState';
 import { h, ref } from 'vue';
-import MenuAssignPermissionDrawer from '@/views/system/menu/components/MenuAssignPermissionDrawer.vue';
 import { useI18n } from 'vue-i18n';
-import { addDrawer } from '@/components/ui/Drawer';
-import MenuAssignRoleDrawer from '@/views/system/menu/components/MenuAssignRoleDrawer.vue';
 
 export interface MenuTableActionDeps extends TableActionDeps {
   fetchTreeData: () => Promise<void>;
@@ -20,6 +20,10 @@ function useMenuMoreAction(deps: MenuTableActionDeps) {
 
   const { t } = useI18n();
 
+  /**
+   * 打开分配角色抽屉
+   * @param row 行数据
+   */
   const openAssignRoleDrawer = (row: SysMenuRow) => {
     const drawerRef = ref<AssignSaveExpose | null>(null);
     addDrawer({
@@ -47,6 +51,10 @@ function useMenuMoreAction(deps: MenuTableActionDeps) {
     });
   };
 
+  /**
+   * 打开分配权限抽屉
+   * @param row 行数据
+   */
   const openAssignPermissionDrawer = (row: SysMenuRow) => {
     const drawerRef = ref<AssignSaveExpose | null>(null);
     addDrawer({

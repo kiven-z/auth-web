@@ -7,10 +7,14 @@ import { reactive, ref } from 'vue';
  * 角色分页列表页状态：查询条件、分页、表格数据与请求。
  */
 function useRolePageState() {
+  // 选中的行ID列表
   const selectedRows = ref<string[]>([]);
+  // 加载状态
   const loading = ref(false);
+  // 表格数据
   const tableData = ref<SysRolePageRow[]>([]);
 
+  // 搜索表单
   const searchForm = reactive({
     roleCode: undefined,
     roleName: undefined,
@@ -18,6 +22,7 @@ function useRolePageState() {
     roleType: undefined as number,
   });
 
+  // 分页
   const pagination = reactive({
     total: 0,
     pageSize: 30,

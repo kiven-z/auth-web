@@ -14,12 +14,21 @@ function useLoginLogTableAction(deps: TableActionDeps) {
   const { fetchTableData } = deps;
   const { t } = useI18n();
 
+  // 选中的行
   const selectedRows = ref<LoginLogPageRow[]>([]);
 
+  /**
+   * 多选变化
+   * @param rows 选中行
+   */
   const handleSelectionChange = (rows: LoginLogPageRow[]) => {
     selectedRows.value = rows;
   };
 
+  /**
+   * 打开详情对话框
+   * @param row 行数据
+   */
   const openDetailDialog = async (row: LoginLogPageRow) => {
     let detailData: any = row;
     try {
@@ -37,6 +46,10 @@ function useLoginLogTableAction(deps: TableActionDeps) {
     });
   };
 
+  /**
+   * 删除
+   * @param row 行数据
+   */
   const deleteRow = async (row: LoginLogPageRow) => {
     const confirm = await deleteConfirm();
     if (!confirm) return;
@@ -50,6 +63,9 @@ function useLoginLogTableAction(deps: TableActionDeps) {
     }
   };
 
+  /**
+   * 批量删除
+   */
   const deleteBatchRows = async () => {
     const confirm = await deleteConfirm();
     if (!confirm) return;

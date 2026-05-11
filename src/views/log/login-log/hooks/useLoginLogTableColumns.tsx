@@ -35,6 +35,7 @@ function useLoginLogTableColumns() {
       label: t('table.idx'),
       minWidth: 60,
     },
+    // 用户
     {
       label: t('log.loginLog.user'),
       prop: 'username',
@@ -51,23 +52,27 @@ function useLoginLogTableColumns() {
         );
       },
     },
+    // 登录结果
     {
       label: t('log.loginLog.loginResult'),
       prop: 'loginResult',
       minWidth: 140,
       formatter: (row: LoginLogPageRow) => loginResultLabel(row.loginResult),
     },
+    // 登录时间
     {
       label: t('log.loginLog.loginTime'),
       prop: 'loginTime',
       sortable: true,
       minWidth: 170,
     },
+    // 登录地区
     {
       label: t('log.loginLog.loginRegion'),
       prop: 'loginRegion',
       minWidth: 140,
     },
+    // 登录类型
     {
       label: t('log.loginLog.loginType'),
       prop: 'loginType',

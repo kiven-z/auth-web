@@ -28,6 +28,9 @@ function useMenuTableAction(deps: MenuTableActionDeps) {
 
   const { refresh } = deps;
 
+  /**
+   * 打开创建对话框
+   */
   const openCreateDialog = () => {
     const dlgRef = ref<MenuDialogExpose | null>(null);
     addDialog({
@@ -60,6 +63,10 @@ function useMenuTableAction(deps: MenuTableActionDeps) {
     });
   };
 
+  /**
+   * 打开编辑对话框
+   * @param row 行数据
+   */
   const openEditDialog = async (row: SysMenuRow) => {
     try {
       const detail = await getMenuDetail(row.id);
@@ -98,6 +105,10 @@ function useMenuTableAction(deps: MenuTableActionDeps) {
     }
   };
 
+  /**
+   * 打开详情对话框
+   * @param row 行数据
+   */
   const openDetailDialog = async (row: SysMenuRow) => {
     try {
       const detail = await getMenuDetail(row.id);
@@ -118,6 +129,10 @@ function useMenuTableAction(deps: MenuTableActionDeps) {
     }
   };
 
+  /**
+   * 删除
+   * @param ids 行ID列表
+   */
   const handleDelete = async (ids: string[]) => {
     if (ids.length <= 0) {
       return;
@@ -136,6 +151,11 @@ function useMenuTableAction(deps: MenuTableActionDeps) {
     }
   };
 
+  /**
+   * 批量更新状态
+   * @param ids 行ID列表
+   * @param enabled 是否启用
+   */
   const batchUpdateStatus = async (ids: string[], enabled: boolean) => {
     if (ids.length <= 0) {
       return;
@@ -149,6 +169,9 @@ function useMenuTableAction(deps: MenuTableActionDeps) {
     }
   };
 
+  /**
+   * 确认批量启用
+   */
   const confirmBatchEnable = async () => {
     if (deps.selectedRows.value.length <= 0) {
       return;
@@ -160,6 +183,9 @@ function useMenuTableAction(deps: MenuTableActionDeps) {
     await batchUpdateStatus(deps.selectedRows.value, true);
   };
 
+  /**
+   * 确认批量禁用
+   */
   const confirmBatchDisable = async () => {
     if (deps.selectedRows.value.length <= 0) {
       return;

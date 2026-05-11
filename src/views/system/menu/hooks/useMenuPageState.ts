@@ -14,14 +14,17 @@ export type MenuViewMode = 'table' | 'tableTree' | 'tree';
  * 菜单页：表格走服务端分页；树视图走全量 list + `handleTree`（与 `@/shared/lib/tree` 一致，不另包一层树构建）。
  */
 function useMenuPageState() {
+  // 选中的行ID列表
   const selectedRows = ref<string[]>([]);
+  // 加载状态
   const loading = ref(false);
-
+  // 表格数据
   const tableData = ref<SysMenuRow[]>([]);
+  // 树数据
   const treeData = ref<SysMenuTreeNode[]>([]);
-
+  // 查看展示模式
   const viewMode = ref<MenuViewMode>('table');
-
+  // 搜索表单
   const searchForm = reactive<SysMenuListQuery>({
     name: undefined,
     title: undefined,
@@ -29,7 +32,7 @@ function useMenuPageState() {
     status: undefined,
     component: undefined,
   });
-
+  // 分页
   const pagination = reactive({
     total: 0,
     pageSize: 10,
@@ -69,12 +72,20 @@ function useMenuPageState() {
     await fetchTableData();
   };
 
+  /**
+   * 分页大小变化
+   * @param value 分页大小
+   */
   const handlePageSizeChange = async (value: number) => {
     pagination.pageSize = value;
     pagination.currentPage = 1;
     await fetchTableData();
   };
 
+  /**
+   * 分页当前页变化
+   * @param value 分页当前页
+   */
   const handlePageCurrentChange = async (value: number) => {
     pagination.currentPage = value;
     await fetchTableData();
@@ -96,10 +107,18 @@ function useMenuPageState() {
     }
   };
 
+  /**
+   * 多选变化
+   * @param value 选中行
+   */
   const handleSelectionChange = (value: SysMenuRow[]) => {
     selectedRows.value = value.map((item) => item.id);
   };
 
+  /**
+   * 重置筛选并查询
+   * @param formRef 表单实例
+   */
   const resetQuery = async (formRef?: FormInstance) => {
     if (formRef) {
       formRef.resetFields();
@@ -113,6 +132,9 @@ function useMenuPageState() {
     await submitTableSearch();
   };
 
+  /**
+   * 刷新
+   */
   const refresh = async () => {
     if (viewMode.value === 'table') {
       await fetchTableData();
