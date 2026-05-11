@@ -20,6 +20,7 @@ export function useAssignPage(params: AuthAssignPageParams) {
     rememberRowLabels,
     toggleRow,
     onTagClose,
+    clearRemovableSelection,
     getSelectedKeys,
   } = useAssignBase(params);
 
@@ -108,6 +109,7 @@ export function useAssignPage(params: AuthAssignPageParams) {
     isRowSelected,
     toggleRow,
     onTagClose,
+    clearRemovableSelection,
     handlePageSizeChange,
     handlePageCurrentChange,
     getSelectedKeys,

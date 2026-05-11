@@ -117,6 +117,13 @@ export function useAssignBase(params: AuthAssignBaseParams) {
   }
 
   /**
+   * 清空所有可移除的已选项，保留种子中 `removable: false` 的项。
+   */
+  function clearRemovableSelection() {
+    selectedKeys.value = selectedKeys.value.filter((k) => nonRemovableKeys.value.has(k));
+  }
+
+  /**
    * 获取当前已选 key 列表（浅拷贝副本）
    * @returns 已选 key 列表
    */
@@ -137,6 +144,7 @@ export function useAssignBase(params: AuthAssignBaseParams) {
     rememberRowLabels,
     toggleRow,
     onTagClose,
+    clearRemovableSelection,
     getSelectedKeys,
   };
 }

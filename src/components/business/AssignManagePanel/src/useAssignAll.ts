@@ -19,6 +19,7 @@ export function useAssignAll(params: AuthAssignAllParams) {
     rememberRowLabels,
     toggleRow,
     onTagClose,
+    clearRemovableSelection,
     getSelectedKeys,
   } = useAssignBase(params);
 
@@ -75,6 +76,7 @@ export function useAssignAll(params: AuthAssignAllParams) {
     isRowSelected,
     toggleRow,
     onTagClose,
+    clearRemovableSelection,
     getSelectedKeys,
     // 分页事件空处理
     handlePageSizeChange: (_size: number) => {},

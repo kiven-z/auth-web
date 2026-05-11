@@ -20,6 +20,7 @@ export function useAssignTree(params: AuthAssignTreeParams) {
     rememberRowLabels,
     toggleRow,
     onTagClose,
+    clearRemovableSelection,
     getSelectedKeys,
   } = useAssignBase(params);
 
@@ -72,6 +73,7 @@ export function useAssignTree(params: AuthAssignTreeParams) {
     isRowSelected,
     toggleRow,
     onTagClose,
+    clearRemovableSelection,
     getSelectedKeys,
     // 分页事件空处理
     handlePageSizeChange: (_size: number) => {},

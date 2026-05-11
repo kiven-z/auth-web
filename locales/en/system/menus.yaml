@@ -19,6 +19,7 @@ sysMenu:
   permissionName: Permission name
   assigned: Assigned
   assignEmptySelected: No items selected. Use the table on the right.
+  assignClearAll: Clear all
   routeName: Route name
   menuTitle: Menu title
   menuType: Menu type

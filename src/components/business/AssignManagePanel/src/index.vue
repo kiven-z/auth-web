@@ -52,6 +52,7 @@ const {
   nonRemovableKeys,
   toggleRow,
   onTagClose,
+  clearRemovableSelection,
   handlePageSizeChange,
   handlePageCurrentChange,
   getSelectedKeys,
@@ -137,6 +138,18 @@ watch([() => assignedTags.value.length, () => tableRows.value.length, pagination
   deep: true,
 });
 
+/** 是否存在可一键清空的已选项（不含种子锁定项） */
+const hasRemovableSelection = computed(() => assignedTags.value.some((tag) => tag.closable));
+
+/**
+ * 表格行双击：与勾选列行为一致，切换选中（种子锁定行不可取消）。
+ * @param row 当前行
+ */
+function onTableRowDblclick(row: Record<string, unknown>) {
+  if (props.saving) return;
+  toggleRow(row);
+}
+
 const columnsWithCheckbox = computed<TableColumnList>(() => [
   {
     label: t('sysMenu.assigned'),
@@ -171,8 +184,13 @@ defineExpose({ getSelectedKeys });
             </div>
           </template>
 
-          <div class="assign-manage-panel__section-label">
-            {{ assignedSectionLabel || t('sysMenu.assigned') }}
+          <div class="assign-manage-panel__section-head">
+            <div class="assign-manage-panel__section-label">
+              {{ assignedSectionLabel || t('sysMenu.assigned') }}
+            </div>
+            <el-button :disabled="saving || !hasRemovableSelection" link type="danger" @click="clearRemovableSelection">
+              {{ t('sysMenu.assignClearAll') }}
+            </el-button>
           </div>
 
           <div v-if="assignedTags.length" class="assign-manage-panel__tags">
@@ -192,7 +210,7 @@ defineExpose({ getSelectedKeys });
             </el-tag>
           </div>
           <div v-else class="assign-manage-panel__tags assign-manage-panel__tags-empty">
-            <el-text size="small" type="info">
+            <el-text type="info">
               {{ t('sysMenu.assignEmptySelected') }}
             </el-text>
           </div>
@@ -226,6 +244,7 @@ defineExpose({ getSelectedKeys });
             table-layout="auto"
             @page-current-change="handlePageCurrentChange"
             @page-size-change="handlePageSizeChange"
+            @row-dblclick="onTableRowDblclick"
           />
         </div>
       </el-col>

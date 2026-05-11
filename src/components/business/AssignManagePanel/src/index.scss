@@ -67,8 +67,15 @@
   word-break: break-word;
 }
 
-.assign-manage-panel__section-label {
+.assign-manage-panel__section-head {
+  display: flex;
   flex-shrink: 0;
+  gap: 8px;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.assign-manage-panel__section-label {
   font-size: 12px;
   font-weight: 600;
   letter-spacing: 0.02em;
@@ -131,6 +138,11 @@
   flex: 1;
   flex-direction: column;
   min-height: 0;
+
+  /** 提示可双击行切换选中 */
+  :deep(.el-table__body-wrapper .el-table__row) {
+    cursor: pointer;
+  }
 
   :deep(.auth-data-table) {
     display: flex;
