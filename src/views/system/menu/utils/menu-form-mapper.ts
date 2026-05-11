@@ -78,14 +78,30 @@ export function createEmptyMenuForm(): MenuForm {
 }
 
 /**
- * 表单 → 保存请求体
+ * 规范化父级 ID：空串视为 null，与后端 Long 可空对齐。
+ */
+function normalizeParentId(v: string | null | undefined): string | null {
+  if (v === undefined || v === null || v === '') {
+    return null;
+  }
+  return String(v);
+}
+
+/**
+ * 表单 → 保存请求体（数值字段强制为 JSON 数字，ID 为字符串以兼容雪花精度）
  */
 export function formToSaveRequest(f: MenuForm): MenuSaveRequest {
-  const menuType = f.menuType ?? MenuTypeEnums.MENU;
+  const rawType = f.menuType ?? MenuTypeEnums.MENU;
+  const menuType = typeof rawType === 'string' ? Number.parseInt(rawType, 10) : Number(rawType);
+  const rankRaw = f.menuRank ?? 0;
+  const menuRank = typeof rankRaw === 'string' ? Number.parseInt(rankRaw, 10) : Number(rankRaw);
+  const safeMenuType = Number.isFinite(menuType) ? menuType : MenuTypeEnums.MENU;
+  const safeMenuRank = Number.isFinite(menuRank) ? Math.trunc(menuRank) : 0;
+
   return {
-    id: f.id,
-    parentId: f.parentId ?? null,
-    menuType,
+    id: f.id !== undefined && f.id !== null && String(f.id) !== '' ? String(f.id) : undefined,
+    parentId: normalizeParentId(f.parentId ?? undefined),
+    menuType: safeMenuType,
     path: f.path,
     name: (f.name ?? '').trim(),
     redirect: f.redirect,
@@ -93,7 +109,7 @@ export function formToSaveRequest(f: MenuForm): MenuSaveRequest {
     title: (f.title ?? '').trim(),
     icon: f.icon,
     showLink: boolToFlag(f.showLink, true),
-    menuRank: f.menuRank ?? 0,
+    menuRank: safeMenuRank,
     extraIcon: f.extraIcon,
     showParent: boolToFlag(f.showParent, true),
     keepAlive: boolToFlag(f.keepAlive, false),
@@ -103,7 +119,13 @@ export function formToSaveRequest(f: MenuForm): MenuSaveRequest {
     enterTransition: f.enterTransition,
     leaveTransition: f.leaveTransition,
     hiddenTag: boolToFlag(f.hiddenTag, false),
-    dynamicLevel: f.dynamicLevel,
+    dynamicLevel: (() => {
+      if (f.dynamicLevel === undefined || f.dynamicLevel === null) {
+        return undefined;
+      }
+      const n = typeof f.dynamicLevel === 'string' ? Number.parseInt(f.dynamicLevel, 10) : Number(f.dynamicLevel);
+      return Number.isFinite(n) ? Math.trunc(n) : undefined;
+    })(),
     activePath: f.activePath,
     fixedTag: boolToFlag(f.fixedTag, false),
     status: boolToStatus(f.status),

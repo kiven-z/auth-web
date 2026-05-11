@@ -19,6 +19,9 @@ menus:
   dialogPath: Route path
   menuRank: Sort order
   icon: Icon
+  iconPickerBuiltin: Built-in search
+  iconPickerManual: Manual input
+  iconifyLibrary: Iconify icon sets
   rightExtraIcon: Right extra icon
   remark: Remark
   frameSrc: Iframe URL
@@ -48,7 +51,9 @@ menus:
     routerName: Enter route name
     path: Enter route path
     icon: Icon name or Iconify id
+    iconManual: Paste from Iconify, e.g. ep:edit or grommet-icons:system
     rightExtraIcon: Right side icon
+    rightExtraIconManual: Paste from Iconify as collection:icon-name
     remark: Enter remark
     frameSrc: Enter iframe URL
     component: e.g. layout/routerView/default

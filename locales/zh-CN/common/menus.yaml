@@ -19,6 +19,9 @@ menus:
   dialogPath: 路由路径
   menuRank: 排序
   icon: 图标
+  iconPickerBuiltin: 内置搜索
+  iconPickerManual: 手动输入
+  iconifyLibrary: Iconify 图标库
   rightExtraIcon: 右侧额外图标
   remark: 备注
   frameSrc: 内嵌地址
@@ -48,7 +51,9 @@ menus:
     routerName: 请输入路由名称
     path: 请输入路由路径
     icon: 请输入图标名或 Iconify 标识
+    iconManual: 从 Iconify 复制，例如 ep:edit、grommet-icons:system
     rightExtraIcon: 请输入右侧图标
+    rightExtraIconManual: 从 Iconify 复制，格式为 集合名:图标名
     remark: 请输入备注
     frameSrc: 请输入 iframe 地址
     component: 例如 layout/routerView/default

@@ -20,6 +20,22 @@ import type { CascaderProps, FormInstance } from 'element-plus';
 import { computed, onMounted, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 
+/** IconSelect 内置 Tab 前缀；其它 Iconify 集合默认走手动输入模式 */
+const BUILTIN_ICON_PREFIXES = ['ep:', 'ri:', 'fa-solid:'] as const;
+
+const ICONIFY_ICON_SETS_URL = 'https://icon-sets.iconify.design/';
+
+type IconInputMode = 'select' | 'manual';
+
+function deriveIconInputMode(icon: string | undefined | null): IconInputMode {
+  const v = (icon ?? '').trim();
+  if (!v) {
+    return 'select';
+  }
+  const lower = v.toLowerCase();
+  return BUILTIN_ICON_PREFIXES.some((p) => lower.startsWith(p)) ? 'select' : 'manual';
+}
+
 interface MenuFormInline extends FormInline<MenuForm> {
   isFormDisabled?: boolean;
 }
@@ -72,11 +88,16 @@ watch(parentIdPath, (path) => {
   }
 });
 
+const iconInputMode = ref<IconInputMode>(deriveIconInputMode(form.value.icon));
+const extraIconInputMode = ref<IconInputMode>(deriveIconInputMode(form.value.extraIcon));
+
 watch(
   () => props.formInline,
   (v) => {
     form.value = { ...createEmptyMenuForm(), ...(v ?? {}) };
     syncParentPath();
+    iconInputMode.value = deriveIconInputMode(form.value.icon);
+    extraIconInputMode.value = deriveIconInputMode(form.value.extraIcon);
   },
   { deep: true }
 );
@@ -107,6 +128,11 @@ onMounted(() => {
 });
 
 const animationType = ref<'all' | 'detail'>('all');
+
+const iconModeSegmentOptions = computed(() => [
+  { label: t('menus.iconPickerBuiltin'), value: 'select' as const },
+  { label: t('menus.iconPickerManual'), value: 'manual' as const },
+]);
 
 defineExpose({ formRef, form });
 </script>
@@ -201,18 +227,56 @@ defineExpose({ formRef, form });
 
       <el-col :lg="8" :md="12" :sm="12" :xs="24">
         <el-form-item :label="t('menus.icon')" prop="icon">
-          <div class="w-full flex items-center gap-2">
-            <component :is="useRenderIcon(form.icon)" v-if="form.icon" class="shrink-0 text-lg" />
-            <IconSelect v-model="form.icon" class="flex-1!" />
+          <div class="flex w-full flex-col gap-2">
+            <div class="flex flex-wrap items-center gap-2">
+              <component :is="useRenderIcon(form.icon)" v-if="form.icon" class="shrink-0 text-lg" />
+              <el-link
+                :href="ICONIFY_ICON_SETS_URL"
+                rel="noopener noreferrer"
+                target="_blank"
+                type="primary"
+                :underline="false"
+              >
+                {{ t('menus.iconifyLibrary') }}
+              </el-link>
+              <el-segmented v-model="iconInputMode" :options="iconModeSegmentOptions" size="small" />
+            </div>
+            <IconSelect v-if="iconInputMode === 'select'" v-model="form.icon" class="w-full!" />
+            <el-input
+              v-else
+              v-model="form.icon"
+              :disabled="isFormDisabled"
+              :placeholder="t('menus.placeholder.iconManual')"
+              clearable
+            />
           </div>
         </el-form-item>
       </el-col>
 
       <el-col :lg="8" :md="12" :sm="12" :xs="24">
         <el-form-item :label="t('menus.rightExtraIcon')" prop="extraIcon">
-          <div class="w-full flex items-center gap-2">
-            <component :is="useRenderIcon(form.extraIcon)" v-if="form.extraIcon" class="shrink-0 text-lg" />
-            <IconSelect v-model="form.extraIcon" class="flex-1!" />
+          <div class="flex w-full flex-col gap-2">
+            <div class="flex flex-wrap items-center gap-2">
+              <component :is="useRenderIcon(form.extraIcon)" v-if="form.extraIcon" class="shrink-0 text-lg" />
+              <el-link
+                :href="ICONIFY_ICON_SETS_URL"
+                rel="noopener noreferrer"
+                target="_blank"
+                type="primary"
+                :underline="false"
+              >
+                {{ t('menus.iconifyLibrary') }}
+              </el-link>
+              <el-segmented v-model="extraIconInputMode" :options="iconModeSegmentOptions" size="small" />
+            </div>
+            <IconSelect v-if="extraIconInputMode === 'select'" v-model="form.extraIcon" class="w-full!" />
+            <el-input
+              v-else
+              v-model="form.extraIcon"
+              :disabled="isFormDisabled"
+              :placeholder="t('menus.placeholder.rightExtraIconManual')"
+              clearable
+            />
           </div>
         </el-form-item>
       </el-col>

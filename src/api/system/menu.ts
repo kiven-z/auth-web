@@ -130,7 +130,7 @@ export function createMenu(data: MenuSaveRequest): Promise<string> {
  * 修改菜单
  */
 export function updateMenu(data: MenuSaveRequest & { id: string }): Promise<string> {
-  return http.request<string>('put', '/system/menu', { data });
+  return http.put<string, MenuSaveRequest & { id: string }>('/system/menu', { data });
 }
 
 /**

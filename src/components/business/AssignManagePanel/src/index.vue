@@ -3,7 +3,6 @@ import AuthDataTable from '@/components/ui/AuthDataTable';
 import { ElCheckbox, ElInput, ElTag, ElTooltip } from 'element-plus';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
-import './index.scss';
 import type { AuthAssignFetchAll, AuthAssignFetchPage, AuthAssignMode, AuthAssignSeedItem } from './types';
 import { useAssignState } from './useAssignState';
 
@@ -91,24 +90,24 @@ defineExpose({ getSelectedKeys });
 </script>
 
 <template>
-  <el-row :gutter="12" class="auth-assign-manage">
+  <el-row :gutter="12">
     <!-- 左侧：已分配区域 -->
-    <el-col :span="leftSpan" class="auth-assign-manage__col">
-      <el-card class="auth-assign-manage__card" shadow="never">
+    <el-col :span="leftSpan">
+      <el-card shadow="never">
         <template #header>
-          <div class="auth-assign-manage__card-header">
+          <div>
             <el-text size="large" tag="b">{{ leftTitle }}</el-text>
-            <el-text v-if="leftSubtitle" class="auth-assign-manage__subtitle" size="small" type="info">
+            <el-text v-if="leftSubtitle" type="info">
               {{ leftSubtitle }}
             </el-text>
           </div>
         </template>
 
-        <el-text class="auth-assign-manage__section-label" size="small" type="info">
+        <el-text size="small" type="info">
           {{ assignedSectionLabel || t('sysMenu.assigned') }}
         </el-text>
 
-        <div class="auth-assign-manage__tags">
+        <div>
           <template v-if="assignedTags.length">
             <el-tag
               v-for="tag in assignedTags"
@@ -119,7 +118,104 @@ defineExpose({ getSelectedKeys });
               @close="onTagClose(tag.key)"
             >
               <el-tooltip :content="tag.key" placement="top">
-                <span class="auth-assign-manage__tag-label">{{ tag.label }}</span>
+                <span>{{ tag.label }}</span>
+              </el-tooltip>
+            </el-tag>
+
+            <el-tag
+              v-for="tag in assignedTags"
+              :key="tag.key"
+              :closable="tag.closable && !saving"
+              effect="plain"
+              type="success"
+              @close="onTagClose(tag.key)"
+            >
+              <el-tooltip :content="tag.key" placement="top">
+                <span>{{ tag.label }}</span>
+              </el-tooltip>
+            </el-tag>
+            <el-tag
+              v-for="tag in assignedTags"
+              :key="tag.key"
+              :closable="tag.closable && !saving"
+              effect="plain"
+              type="success"
+              @close="onTagClose(tag.key)"
+            >
+              <el-tooltip :content="tag.key" placement="top">
+                <span>{{ tag.label }}</span>
+              </el-tooltip>
+            </el-tag>
+            <el-tag
+              v-for="tag in assignedTags"
+              :key="tag.key"
+              :closable="tag.closable && !saving"
+              effect="plain"
+              type="success"
+              @close="onTagClose(tag.key)"
+            >
+              <el-tooltip :content="tag.key" placement="top">
+                <span>{{ tag.label }}</span>
+              </el-tooltip>
+            </el-tag>
+            <el-tag
+              v-for="tag in assignedTags"
+              :key="tag.key"
+              :closable="tag.closable && !saving"
+              effect="plain"
+              type="success"
+              @close="onTagClose(tag.key)"
+            >
+              <el-tooltip :content="tag.key" placement="top">
+                <span>{{ tag.label }}</span>
+              </el-tooltip>
+            </el-tag>
+            <el-tag
+              v-for="tag in assignedTags"
+              :key="tag.key"
+              :closable="tag.closable && !saving"
+              effect="plain"
+              type="success"
+              @close="onTagClose(tag.key)"
+            >
+              <el-tooltip :content="tag.key" placement="top">
+                <span>{{ tag.label }}</span>
+              </el-tooltip>
+            </el-tag>
+            <el-tag
+              v-for="tag in assignedTags"
+              :key="tag.key"
+              :closable="tag.closable && !saving"
+              effect="plain"
+              type="success"
+              @close="onTagClose(tag.key)"
+            >
+              <el-tooltip :content="tag.key" placement="top">
+                <span>{{ tag.label }}</span>
+              </el-tooltip>
+            </el-tag>
+            <el-tag
+              v-for="tag in assignedTags"
+              :key="tag.key"
+              :closable="tag.closable && !saving"
+              effect="plain"
+              type="success"
+              @close="onTagClose(tag.key)"
+            >
+              <el-tooltip :content="tag.key" placement="top">
+                <span>{{ tag.label }}</span>
+              </el-tooltip>
+            </el-tag>
+            <el-tag
+              v-for="tag in assignedTags"
+              :key="tag.key"
+              :closable="tag.closable && !saving"
+              effect="plain"
+              type="success"
+              @close="onTagClose(tag.key)"
+            >
+              <el-tooltip :content="tag.key" placement="top">
+                <span>{{ tag.label }}</span>
               </el-tooltip>
             </el-tag>
           </template>
@@ -131,20 +227,25 @@ defineExpose({ getSelectedKeys });
     </el-col>
 
     <!-- 右侧：候选列表 -->
-    <el-col :span="24 - leftSpan" class="auth-assign-manage__col">
-      <el-input v-model="keyword" :placeholder="searchPlaceholder" class="auth-assign-manage__search" clearable />
-      <div :style="{ maxHeight: maxHeight }" class="auth-assign-manage__table-wrap">
-        <AuthDataTable
-          :columns="columnsWithCheckbox"
-          :data="tableRows"
-          :loading="tableLoading"
-          :pagination="mode === 'page' ? pagination : null"
-          :row-key="rowKey"
-          border
-          @page-current-change="handlePageCurrentChange"
-          @page-size-change="handlePageSizeChange"
-        />
-      </div>
+    <el-col :span="24 - leftSpan">
+      <el-input v-model="keyword" :placeholder="searchPlaceholder" clearable />
+      <AuthDataTable
+        ref="tableRef"
+        :adaptive-config="{ offsetBottom: 96 }"
+        :columns="columnsWithCheckbox"
+        :data="tableRows"
+        :header-cell-style="{ background: 'var(--el-fill-color-light)', color: 'var(--el-text-color-primary)' }"
+        :loading="tableLoading"
+        :pagination="mode === 'page' ? pagination : null"
+        :row-key="rowKey"
+        adaptive
+        align-whole="center"
+        border
+        highlight-current-row
+        table-layout="auto"
+        @page-current-change="handlePageCurrentChange"
+        @page-size-change="handlePageSizeChange"
+      />
     </el-col>
   </el-row>
 </template>

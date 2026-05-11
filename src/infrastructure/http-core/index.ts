@@ -37,6 +37,10 @@ class PureHttp {
     return this.request<T>('post', url, params, config);
   }
 
+  public put<T, P>(url: string, params?: AxiosRequestConfig<P>, config?: AuthHttpRequestConfig): Promise<T> {
+    return this.request<T>('put', url, params, config);
+  }
+
   public get<T, P>(url: string, params?: AxiosRequestConfig<P>, config?: AuthHttpRequestConfig): Promise<T> {
     return this.request<T>('get', url, params, config);
   }
@@ -50,8 +54,8 @@ export const http = new PureHttp();
 
 export * from './apiError';
 export * from './apiResult';
-export * from './errorAdapter';
 export { createHttpAxiosInstance } from './axiosDefaults';
+export * from './errorAdapter';
 export { attachRequestAuthInterceptor } from './interceptors/requestAuth';
 export { attachResponseInterceptors } from './interceptors/responseHandlers';
 export type { AuthHttpError, AuthHttpRequestConfig, AuthHttpResponse, RequestMethods } from './types.d';

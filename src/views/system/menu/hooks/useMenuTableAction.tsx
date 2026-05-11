@@ -10,6 +10,7 @@ import { createEmptyMenuForm, detailToForm, formToSaveRequest } from '@/views/sy
 import type { Ref } from 'vue';
 import { h, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
+import { addDrawer } from '@/components/ui/Drawer';
 
 interface MenuTableActionDeps extends TableActionDeps {
   fetchTreeData: () => Promise<void>;
@@ -33,13 +34,14 @@ function useMenuTableAction(deps: MenuTableActionDeps) {
    */
   const openCreateDialog = () => {
     const dlgRef = ref<MenuDialogExpose | null>(null);
-    addDialog({
+    addDrawer({
       title: t('sysMenu.addDialogTitle'),
-      width: '920px',
-      draggable: true,
-      fullscreenIcon: true,
+      size: '50%',
+      direction: 'ltr',
+      resizable: true,
       closeOnClickModal: false,
       closeOnPressEscape: false,
+      showClose: true,
       props: { formInline: createEmptyMenuForm(), isFormDisabled: false },
       contentRenderer: () => h(MenuDialog, { ref: dlgRef }),
       beforeSure: async (done) => {
@@ -72,13 +74,13 @@ function useMenuTableAction(deps: MenuTableActionDeps) {
       const detail = await getMenuDetail(row.id);
       const formInline = detailToForm(detail);
       const dlgRef = ref<MenuDialogExpose | null>(null);
-      addDialog({
+      addDrawer({
         title: t('sysMenu.editDialogTitle'),
-        width: '920px',
-        draggable: true,
-        fullscreenIcon: true,
+        size: '50%',
+        resizable: true,
         closeOnClickModal: false,
         closeOnPressEscape: false,
+        showClose: true,
         props: { formInline, isFormDisabled: false },
         contentRenderer: () => h(MenuDialog, { ref: dlgRef }),
         beforeSure: async (done) => {
