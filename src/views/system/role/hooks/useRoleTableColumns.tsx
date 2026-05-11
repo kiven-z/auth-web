@@ -1,5 +1,5 @@
 import type { SysRolePageRow } from '@/api/system/role';
-import { selectUserinfo } from '@/components/user/UserProfile';
+import { selectUserinfo } from '@/components/business/UserProfile';
 import { ElButton, ElTag } from 'element-plus';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';

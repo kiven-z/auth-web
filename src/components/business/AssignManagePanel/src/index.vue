@@ -3,9 +3,9 @@ import AuthDataTable from '@/components/ui/AuthDataTable';
 import { ElCheckbox, ElInput, ElTag, ElTooltip } from 'element-plus';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
+import './index.scss';
 import type { AuthAssignFetchAll, AuthAssignFetchPage, AuthAssignMode, AuthAssignSeedItem } from './types';
 import { useAssignState } from './useAssignState';
-import './index.scss';
 
 defineOptions({ name: 'AuthAssignManage' });
 

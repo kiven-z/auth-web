@@ -2,7 +2,7 @@
  * 邮件模板表格列
  */
 import type { EmailTemplatePageRow } from '@/api/system/email-template';
-import { selectUserinfo } from '@/components/user/UserProfile';
+import { selectUserinfo } from '@/components/business/UserProfile';
 import { ElButton, ElTag } from 'element-plus';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';

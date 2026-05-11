@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { getUserProfile, type SysUserDeptProfileItem, type SysUserPostProfileItem } from '@/api/system/user-base';
 import ReDescription from '@/components/ui/Description/index';
-import useUserProfileColumns from '@/components/user/UserProfile/src/useUserProfileColumns';
+import useUserProfileColumns from '@/components/business/UserProfile/src/useUserProfileColumns';
 import { errorMessage } from '@/shared/messaging/message';
 import { QuestionFilled, User } from '@element-plus/icons-vue';
 import { ElTooltip } from 'element-plus';
@@ -134,5 +134,5 @@ watch(
 </template>
 
 <style lang="scss" scoped>
-@use './index';
+@use 'index';
 </style>

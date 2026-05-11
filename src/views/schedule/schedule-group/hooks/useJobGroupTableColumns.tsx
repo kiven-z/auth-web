@@ -2,7 +2,7 @@
  * 任务分组表格列定义
  */
 import type { SysJobGroupPageRow } from '@/api/schedule/job-group';
-import { selectUserinfo } from '@/components/user/UserProfile';
+import { selectUserinfo } from '@/components/business/UserProfile';
 import { ElButton, ElTag } from 'element-plus';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';

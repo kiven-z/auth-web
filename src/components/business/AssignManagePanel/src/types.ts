@@ -8,7 +8,7 @@ export interface AuthAssignSeedItem {
   removable?: boolean;
 }
 
-export type AuthAssignMode = 'page' | 'all';
+export type AuthAssignMode = 'page' | 'all' | 'tree';
 
 // 分页查询参数
 export interface AuthAssignPageQuery {
@@ -21,3 +21,29 @@ export type AuthAssignFetchPage<T = unknown> = (query: AuthAssignPageQuery) => P
 
 // 全量拉取候选项（mode=all 时必填）
 export type AuthAssignFetchAll<T = unknown> = () => Promise<T[]>;
+
+// 树形拉取候选项（mode=tree 时必填）
+export type AuthAssignFetchTree<T = unknown> = () => Promise<T[]>;
+
+// 共享配置：选中 / 标签相关
+export interface AuthAssignBaseParams {
+  rowKey: string;
+  seed?: AuthAssignSeedItem[];
+  getRowLabel?: (row: Record<string, unknown>) => string;
+}
+
+// 分页模式专属配置
+export interface AuthAssignPageParams extends AuthAssignBaseParams {
+  fetchPage: AuthAssignFetchPage;
+  initialPageSize?: number;
+}
+
+// 全量模式专属配置
+export interface AuthAssignAllParams extends AuthAssignBaseParams {
+  fetchAllRows: AuthAssignFetchAll;
+}
+
+// 树形模式专属配置
+export interface AuthAssignTreeParams extends AuthAssignBaseParams {
+  fetchTree: AuthAssignFetchTree;
+}

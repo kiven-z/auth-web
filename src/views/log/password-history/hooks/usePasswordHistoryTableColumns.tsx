@@ -2,7 +2,7 @@
  * 密码历史日志表格列定义
  */
 import type { PasswordHistoryPageRow } from '@/api/log/password-history';
-import { selectUserinfo } from '@/components/user/UserProfile';
+import { selectUserinfo } from '@/components/business/UserProfile';
 import { ElButton } from 'element-plus';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';

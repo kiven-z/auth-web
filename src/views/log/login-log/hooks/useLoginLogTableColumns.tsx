@@ -2,7 +2,7 @@
  * 登录日志表格列
  */
 import type { LoginLogPageRow } from '@/api/log/login-log';
-import { selectUserinfo } from '@/components/user/UserProfile';
+import { selectUserinfo } from '@/components/business/UserProfile';
 import { ElButton } from 'element-plus';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
