@@ -118,6 +118,7 @@ onMounted(() => {
           :expand-on-click-node="false"
           :props="treeProps"
           class="menu-el-tree"
+          default-expand-all
           highlight-current
           node-key="id"
         >

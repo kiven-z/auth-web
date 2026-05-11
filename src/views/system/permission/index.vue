@@ -104,10 +104,20 @@ onMounted(() => {
       @refresh="fetchTableData"
     >
       <template #buttons>
-        <!-- 添加（后续补充） -->
-        <el-button type="primary">{{ t('buttons.actionAdd') }}</el-button>
-        <!-- 批量删除（后续补充） -->
-        <el-button type="danger">{{ t('buttons.actionBatchDelete') }}</el-button>
+        <el-button-group type="primary">
+          <!-- 添加（后续补充） -->
+          <el-button type="primary">{{ t('buttons.actionAdd') }}</el-button>
+
+          <el-dropdown trigger="click">
+            <el-button type="danger">
+              {{ t('buttons.actionAdvanced') }}
+            </el-button>
+
+            <template #dropdown>
+              <el-dropdown-item>批量删除</el-dropdown-item>
+            </template>
+          </el-dropdown>
+        </el-button-group>
       </template>
 
       <template #default="{ size, dynamicColumns }">

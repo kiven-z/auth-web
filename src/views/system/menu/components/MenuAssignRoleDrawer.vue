@@ -35,11 +35,15 @@ async function fetchRolePage(query: AuthAssignPageQuery) {
   return getRolePage({
     pageIndex: query.pageIndex,
     pageSize: query.pageSize,
+    roleType: 2,
     roleName: query.keyword || undefined,
   });
 }
 
-onMounted(async () => {
+/**
+ * 获取角色列表
+ */
+const fetchTableData = async () => {
   seedLoading.value = true;
   try {
     const list = await getMenuRoles(props.menuId);
@@ -50,7 +54,7 @@ onMounted(async () => {
     seedLoading.value = false;
     seedReady.value = true;
   }
-});
+};
 
 /**
  * 保存分配（由抽屉 footer 调用）
@@ -69,6 +73,10 @@ const saveData = async (): Promise<boolean> => {
     saving.value = false;
   }
 };
+
+onMounted(() => {
+  fetchTableData();
+});
 
 defineExpose({ saveData });
 </script>

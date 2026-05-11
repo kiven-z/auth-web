@@ -143,14 +143,14 @@ defineExpose({ tableRef });
           <el-button type="primary" @click="openCreateDialog">{{ t('buttons.actionAdd') }}</el-button>
 
           <el-dropdown trigger="click">
-            <el-button :disabled="selectedRows.length <= 0" type="warning">
+            <el-button type="warning">
               {{ t('buttons.actionBatchStatus') }}
             </el-button>
             <template #dropdown>
-              <el-dropdown-item @click="batchUpdateStatus(selectedRows, true)">
+              <el-dropdown-item :disabled="selectedRows.length <= 0" @click="batchUpdateStatus(selectedRows, true)">
                 {{ t('buttons.actionBatchEnable') }}
               </el-dropdown-item>
-              <el-dropdown-item @click="batchUpdateStatus(selectedRows, false)">
+              <el-dropdown-item :disabled="selectedRows.length <= 0" @click="batchUpdateStatus(selectedRows, false)">
                 {{ t('buttons.actionBatchDisable') }}
               </el-dropdown-item>
             </template>
@@ -188,6 +188,9 @@ defineExpose({ tableRef });
           @page-size-change="handlePageSizeChange"
           @selection-change="handleSelectionChange"
         >
+          <!-- <template #icon="{ row }"> -->
+          <!--   <component :is="useRenderIcon(row.icon)" /> -->
+          <!-- </template> -->
           <template #actions="{ row }">
             <div class="flex justify-center flex-wrap gap-x-1">
               <el-button link type="primary" @click="openDetailDialog(row)">{{ t('buttons.actionView') }}</el-button>

@@ -1,6 +1,6 @@
+import { FontIcon, IconifyIconOffline, IconifyIconOnline } from '../index';
 import type { iconType } from './types';
-import { h, defineComponent, type Component } from 'vue';
-import { FontIcon, IconifyIconOnline, IconifyIconOffline } from '../index';
+import { type Component, defineComponent, h } from 'vue';
 
 /**
  * 支持 `iconfont`、自定义 `svg` 以及 `iconify` 中所有的图标

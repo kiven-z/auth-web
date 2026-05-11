@@ -4,8 +4,9 @@
 import { transformI18n } from '@/plugins/i18n';
 import type { SysMenuRow } from '@/views/system/menu/hooks/useMenuPageState';
 import { ElTag, ElText } from 'element-plus';
-import { computed } from 'vue';
+import { computed, h } from 'vue';
 import { useI18n } from 'vue-i18n';
+import { useRenderIcon } from '@/components/ui/Icon/src/hooks';
 
 // 菜单类型标签样式映射
 const MENU_TYPE_TAG_MAP: Record<number, { type: 'primary' | 'success' | 'warning'; labelKey: string }> = {
@@ -56,6 +57,15 @@ function useMenuTableColumns() {
     },
     // 排序
     { label: t('sysMenu.menuRank'), prop: 'menuRank', width: 80 },
+    // 图标
+    {
+      label: t('menus.icon'),
+      prop: 'icon',
+      width: 80,
+      formatter: (row: SysMenuRow) => {
+        return <span className="flex justify-center text-xl">{h(useRenderIcon(row.icon))}</span>;
+      },
+    },
     // 状态
     {
       label: t('sysMenu.status'),

@@ -30,6 +30,7 @@ export interface SysMenuListVO {
   fixedTag: boolean;
   component?: string;
   path?: string;
+  icon?: string;
   createTime?: string;
   updateTime?: string;
   createUser?: string;

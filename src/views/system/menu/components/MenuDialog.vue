@@ -2,7 +2,7 @@
 import { getMenuList } from '@/api/system/menu';
 import AnimateSelector from '@/components/ui/AnimateSelecto/src/index.vue';
 import { useRenderIcon } from '@/components/ui/Icon/src/hooks';
-import IconSelect from '@/components/ui/ReIcon/src/Select.vue';
+import IconSelect from '@/components/ui/Icon/src/Select.vue';
 import { MenuTypeEnums } from '@/enums/menuEnums';
 import { transformI18n } from '@/plugins/i18n';
 import { handleTree } from '@/shared/lib/tree';
