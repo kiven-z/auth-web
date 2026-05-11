@@ -3,9 +3,9 @@ import AuthDataTable from '@/components/ui/AuthDataTable';
 import { Search } from '@element-plus/icons-vue';
 import { useDebounceFn, useResizeObserver } from '@vueuse/core';
 import { ElCheckbox, ElInput, ElTag, ElTooltip } from 'element-plus';
-import { computed, nextTick, onBeforeUnmount, onMounted, ref, watch } from 'vue';
+import { computed, nextTick, onMounted, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
-import type { AuthAssignFetchAll, AuthAssignFetchPage, AuthAssignMode, AuthAssignSeedItem } from './types';
+import type { AuthAssignFetchPage, AuthAssignSeedItem } from './types';
 import { useAssignState } from './useAssignState';
 
 defineOptions({ name: 'AuthAssignManage' });
@@ -15,7 +15,6 @@ const ADAPTIVE_OFFSET_BOTTOM = 128;
 
 const props = withDefaults(
   defineProps<{
-    mode: AuthAssignMode;
     leftTitle?: string;
     leftSubtitle?: string;
     assignedSectionLabel?: string;
@@ -25,8 +24,7 @@ const props = withDefaults(
     loading?: boolean;
     saving?: boolean;
     assignedSeed?: AuthAssignSeedItem[];
-    fetchPage?: AuthAssignFetchPage;
-    fetchAllRows?: AuthAssignFetchAll;
+    fetchPage: AuthAssignFetchPage;
     initialPageSize?: number;
     /** 左侧卡片 el-col 的 span 值，默认 7 */
     leftSpan?: number;
@@ -57,10 +55,8 @@ const {
   handlePageCurrentChange,
   getSelectedKeys,
 } = useAssignState({
-  mode: props.mode,
   rowKey: props.rowKey,
   fetchPage: props.fetchPage,
-  fetchAllRows: props.fetchAllRows,
   seed: props.assignedSeed,
   getRowLabel: props.getRowLabel,
   initialPageSize: props.initialPageSize,
@@ -71,12 +67,9 @@ const tableLoading = computed(() => props.loading || internalLoading.value);
 const rootRef = ref<HTMLElement | null>(null);
 const dataTableRef = ref<{ setAdaptive?: () => Promise<void> } | null>(null);
 
-/** 分阶段延迟重算用的定时器，卸载时清理 */
-const relayoutStaggerIds: number[] = [];
-
 /**
  * 通知表格按当前容器重新计算自适应高度。
- * 抽屉打开瞬间 DOM 位置可能仍在过渡中，需多帧后再读 getBoundingClientRect。
+ * 抽屉打开瞬间 DOM 位置可能仍在过渡中，延迟后再读 getBoundingClientRect。
  */
 async function relayoutTable() {
   await nextTick();
@@ -85,52 +78,19 @@ async function relayoutTable() {
 
 const debouncedRelayout = useDebounceFn(() => void relayoutTable(), 100);
 
-/**
- * 立即 + rAF + 多次延迟重算，覆盖抽屉动画与首屏数据渲染完成后的布局。
- */
-function scheduleAdaptiveRelayout() {
-  for (const id of relayoutStaggerIds) {
-    window.clearTimeout(id);
-  }
-  relayoutStaggerIds.length = 0;
-
-  void relayoutTable();
-
-  requestAnimationFrame(() => {
-    void relayoutTable();
-    requestAnimationFrame(() => {
-      void relayoutTable();
-    });
-  });
-
-  for (const ms of [80, 200, 380, 560]) {
-    relayoutStaggerIds.push(
-      window.setTimeout(() => {
-        void relayoutTable();
-      }, ms)
-    );
-  }
-}
-
 useResizeObserver(rootRef, () => {
   debouncedRelayout();
 });
 
 onMounted(() => {
-  scheduleAdaptiveRelayout();
+  void relayoutTable();
+  requestAnimationFrame(() => void relayoutTable());
 });
 
-onBeforeUnmount(() => {
-  for (const id of relayoutStaggerIds) {
-    window.clearTimeout(id);
-  }
-  relayoutStaggerIds.length = 0;
-});
-
-/** 数据加载结束后表格区域高度才稳定，必须再算一次 */
+/** 数据加载 / 已选标签变化后表格高度可能变化，触发自适应 */
 watch(tableLoading, (loading) => {
   if (!loading) {
-    scheduleAdaptiveRelayout();
+    requestAnimationFrame(() => void relayoutTable());
   }
 });
 
@@ -235,7 +195,7 @@ defineExpose({ getSelectedKeys });
             :data="tableRows"
             :header-cell-style="{ background: 'var(--el-fill-color-light)', color: 'var(--el-text-color-primary)' }"
             :loading="tableLoading"
-            :pagination="mode === 'page' ? pagination : null"
+            :pagination="pagination"
             :row-key="rowKey"
             adaptive
             align-whole="center"
