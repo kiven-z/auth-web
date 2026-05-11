@@ -1,0 +1,21 @@
+permissions:
+  moduleName: 权限
+  # 页面级别
+  pageTitle: 权限管理
+  loadFailed: 加载权限列表失败
+  # 表头
+  permissionCode: 权限编码
+  permissionName: 权限名称
+  permissionType: 权限类型
+  status: 状态
+  orderNum: 显示顺序
+  createTime: 创建时间
+  updateTime: 更新时间
+  createUsername: 创建人
+  updateUsername: 更新人
+  # 状态枚举
+  statusNormal: 启用
+  statusDisabled: 禁用
+  # 权限类型枚举
+  typeButton: 按钮权限
+  typeApi: API 权限

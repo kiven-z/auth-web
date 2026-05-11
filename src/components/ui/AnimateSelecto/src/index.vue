@@ -122,9 +122,3 @@ function onMouseleave() {
     </template>
   </el-select>
 </template>
-
-<style>
-.pure-animate-popper {
-  min-width: 0 !important;
-}
-</style>

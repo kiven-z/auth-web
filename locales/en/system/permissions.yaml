@@ -1,0 +1,21 @@
+permissions:
+  moduleName: Permissions
+  # Page level
+  pageTitle: Permission Management
+  loadFailed: Failed to load permissions
+  # Table headers
+  permissionCode: Permission Code
+  permissionName: Permission Name
+  permissionType: Permission Type
+  status: Status
+  orderNum: Order
+  createTime: Created At
+  updateTime: Updated At
+  createUsername: Created by
+  updateUsername: Updated by
+  # Status enum
+  statusNormal: Enabled
+  statusDisabled: Disabled
+  # Permission type enum
+  typeButton: Button Permission
+  typeApi: API Permission

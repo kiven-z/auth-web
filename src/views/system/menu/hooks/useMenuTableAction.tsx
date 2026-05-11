@@ -11,7 +11,7 @@ import { h, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import type { TableActionDeps } from '@/api/common';
 
-export interface MenuTableActionDeps extends TableActionDeps {
+interface MenuTableActionDeps extends TableActionDeps {
   fetchTreeData: () => Promise<void>;
   refresh: () => Promise<void>;
   viewMode: Ref<MenuViewMode>;
