@@ -2,27 +2,24 @@ import type { SysMenuDetailVO } from '@/api/system/menu';
 import { MenuTypeEnums } from '@/enums/menuEnums';
 import type { MenuForm, MenuSaveRequest } from '@/types/system';
 
-/** 0/1 → boolean（展示用） */
-export function oneAsTrue(v: number | undefined | null): boolean {
-  return v === 1;
+/** Boolean → boolean（展示用，后端 true=是） */
+export function oneAsTrue(v: boolean | undefined | null): boolean {
+  return v ?? false;
 }
 
-/** boolean → 0/1 */
-export function boolToFlag(b: boolean | undefined, defaultTrue = false): number {
-  if (b === undefined) {
-    return defaultTrue ? 1 : 0;
-  }
-  return b ? 1 : 0;
+/** boolean → Boolean（后端 Boolean 类型，true=是） */
+export function boolToFlag(b: boolean | undefined, defaultTrue = false): boolean {
+  return b ?? defaultTrue;
 }
 
-/** 后端 status：0 启用 → UI true */
-export function statusToBool(status: number | undefined | null): boolean {
-  return status === 0;
+/** 后端 Boolean status (true=启用) → UI boolean */
+export function statusToBool(status: boolean | undefined | null): boolean {
+  return status ?? true;
 }
 
-/** UI true=启用 → 后端 0 */
-export function boolToStatus(b: boolean | undefined): number {
-  return b === false ? 1 : 0;
+/** UI boolean → 后端 Boolean (true=启用) */
+export function boolToStatus(b: boolean | undefined): boolean {
+  return b ?? true;
 }
 
 /**

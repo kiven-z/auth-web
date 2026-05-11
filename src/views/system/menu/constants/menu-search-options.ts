@@ -11,6 +11,6 @@ export const menuTypeFilterOptions: ReadonlyArray<{ value: number; labelKey: str
 
 /** 状态选项 */
 export const menuStatusFilterOptions: ReadonlyArray<{ value: number; labelKey: string }> = [
-  { value: 0, labelKey: 'sysMenu.statusEnabled' },
-  { value: 1, labelKey: 'sysMenu.statusDisabled' },
+  { value: 1, labelKey: 'sysMenu.statusEnabled' },
+  { value: 0, labelKey: 'sysMenu.statusDisabled' },
 ];

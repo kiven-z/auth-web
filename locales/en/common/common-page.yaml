@@ -8,6 +8,7 @@ tips:
   addSuccess: Added successfully
   editSuccess: Updated successfully
   deleteSuccess: Deleted successfully
+  animationIsNotExist: That animation doesn’t exist
 buttons:
   pureLoginOut: Logout
   pureLogin: Login
@@ -41,6 +42,13 @@ buttons:
   actionBatchEnable: Enable selected
   actionBatchDisable: Disable selected
   actionAdvanced: Advanced
+  forbidText: Forbid
+  permitText: Allow
+  fixedText: Fixed
+  unFixedText: Unfixed
+  statusActiveText: Enabled
+  statusInactiveText: Disabled
+
 table:
   idx: No
   actions: Actions
@@ -63,6 +71,12 @@ status:
   pureNoMessage: No messages
   pureNoNotify: No notifications
   pureNoTodo: No todos
+  open: On
+  close: Off
+  show: Show
+  hide: Hide
+  cache: Cache
+  unCache: No Cache
 tableBar:
   defaultTitle: List
   densityLarge: Wide

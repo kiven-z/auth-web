@@ -3,7 +3,7 @@
  */
 import type { MenuTypeValue } from '@/enums/menuEnums';
 
-/** 菜单弹窗/编辑表单（与 MenuDialog 字段对齐；部分字段 UI 用 boolean，提交前经 mapper 转 0/1） */
+/** 菜单弹窗/编辑表单（与 MenuDialog 字段对齐；Boolean 字段直接用 boolean，提交前经 mapper 转换） */
 export interface MenuForm {
   id?: string;
   parentId?: string | null;
@@ -41,7 +41,7 @@ export interface MenuForm {
   remark?: string;
 }
 
-/** 创建/更新请求体（camelCase，与后端约定对齐） */
+/** 创建/更新请求体（camelCase，与后端约定对齐；Boolean 字段直接传 true/false） */
 export interface MenuSaveRequest {
   id?: string;
   parentId?: string | null;
@@ -52,20 +52,20 @@ export interface MenuSaveRequest {
   component?: string;
   title: string;
   icon?: string;
-  showLink: number;
+  showLink: boolean;
   menuRank: number;
   extraIcon?: string;
-  showParent?: number;
-  keepAlive: number;
+  showParent?: boolean;
+  keepAlive: boolean;
   frameSrc?: string;
-  frameLoading?: number;
+  frameLoading?: boolean;
   transitionName?: string;
   enterTransition?: string;
   leaveTransition?: string;
-  hiddenTag?: number;
+  hiddenTag?: boolean;
   dynamicLevel?: number;
   activePath?: string;
-  fixedTag?: number;
-  status: number;
+  fixedTag?: boolean;
+  status: boolean;
   remark?: string;
 }

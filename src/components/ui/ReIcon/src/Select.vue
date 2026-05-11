@@ -2,7 +2,7 @@
 import { cloneDeep, isAllEmpty } from '@pureadmin/utils';
 import Search from '~icons/ri/search-eye-line';
 import { computed, CSSProperties, ref, watch } from 'vue';
-import { IconJson } from '@/components/ReIcon/data';
+import { IconJson } from '@/components/ui/ReIcon/data';
 
 type ParameterCSSProperties = (item?: string) => CSSProperties | undefined;
 

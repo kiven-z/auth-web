@@ -100,8 +100,6 @@ onMounted(() => {
       <template #buttons>
         <!-- 添加 -->
         <el-button type="primary">{{ t('buttons.actionAdd') }}</el-button>
-        <!-- 批量删除 -->
-        <el-button type="danger">{{ t('buttons.actionBatchDelete') }}</el-button>
       </template>
 
       <template #default="{ size, dynamicColumns }">

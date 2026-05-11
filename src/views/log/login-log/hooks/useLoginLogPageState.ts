@@ -49,7 +49,7 @@ function useLoginLogPageState() {
       pagination.currentPage = page.pageNo;
       pagination.pageSize = page.pageSize;
     } catch (error: unknown) {
-      errorMessage(error, { defaultI18nKey: 'log.loginLog.loadFailed' });
+      errorMessage(error, { defaultI18nKey: 'loginLog.loadFailed' });
     } finally {
       loading.value = false;
     }

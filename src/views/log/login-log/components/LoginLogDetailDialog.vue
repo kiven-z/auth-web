@@ -12,30 +12,42 @@ const props = defineProps<{ data: LoginLogDetailRow }>();
 const { t } = useI18n();
 
 const columns = computed(() => [
-  { label: t('log.loginLog.userId'), prop: 'userId', labelWidth: 120, copy: true },
-  { label: t('log.loginLog.username'), prop: 'username', labelWidth: 120, copy: true },
-  { label: t('log.loginLog.loginResult'), prop: 'loginResultLabel', labelWidth: 120 },
-  { label: t('log.loginLog.failureReason'), prop: 'failureReason', labelWidth: 120, copy: true },
-  { label: t('log.loginLog.loginTime'), prop: 'loginTime', copy: true },
-  { label: t('log.loginLog.loginIp'), prop: 'loginIp', copy: true },
-  { label: t('log.loginLog.loginRegion'), prop: 'loginRegion' },
-  { label: t('log.loginLog.userAgent'), prop: 'userAgent' },
-  { label: t('log.loginLog.loginType'), prop: 'loginTypeLabel', labelWidth: 120 },
+  { label: t('loginLog.userId'), prop: 'userId', labelWidth: 120, copy: true },
+  { label: t('loginLog.username'), prop: 'username', labelWidth: 120, copy: true },
+  { label: t('loginLog.loginResult'), prop: 'loginResultLabel', labelWidth: 120 },
+  { label: t('loginLog.failureReason'), prop: 'failureReason', labelWidth: 120, copy: true },
+  { label: t('loginLog.loginTime'), prop: 'loginTime', copy: true },
+  { label: t('loginLog.loginIp'), prop: 'loginIp', copy: true },
+  { label: t('loginLog.loginRegion'), prop: 'loginRegion' },
+  { label: t('loginLog.userAgent'), prop: 'userAgent' },
+  { label: t('loginLog.deviceType'), prop: 'deviceTypeLabel', labelWidth: 120 },
+  { label: t('loginLog.osType'), prop: 'osType' },
+  { label: t('loginLog.browserType'), prop: 'browserType' },
+  { label: t('loginLog.loginType'), prop: 'loginTypeLabel', labelWidth: 120 },
+  { label: t('loginLog.sessionId'), prop: 'sessionId', copy: true },
   { label: t('table.createTime'), prop: 'createTime' },
   { label: t('table.updateTime'), prop: 'updateTime' },
 ]);
 
+const formatEnumLabel = (key: string, value: string | null | undefined): string => {
+  if (!value) return '';
+  const label = t(key);
+  return label === key ? value : label;
+};
+
 const view = computed(() => {
   const d: LoginLogDetailRow = props.data || ({} as LoginLogDetailRow);
   const rc = d.loginResult;
-  const resultKey = `log.loginLog.loginResultEnum.${rc}`;
+  const resultKey = `loginLog.loginResultEnum.${rc}`;
   const rawResult = t(resultKey);
-  const typeKey = d.loginType ? `log.loginLog.loginTypeEnum.${d.loginType}` : '';
-  const rawType = typeKey ? t(typeKey) : '';
+  const typeKey = d.loginType ? `loginLog.loginTypeEnum.${d.loginType}` : '';
   return {
     ...d,
     loginResultLabel: rawResult === resultKey ? String(rc ?? '') : rawResult,
-    loginTypeLabel: !d.loginType ? '' : rawType === typeKey ? d.loginType : rawType,
+    loginTypeLabel: formatEnumLabel(typeKey, d.loginType),
+    deviceTypeLabel: d.deviceType ?? '',
+    osType: d.osType ?? '',
+    browserType: d.browserType ?? '',
   };
 });
 </script>

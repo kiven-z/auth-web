@@ -87,7 +87,6 @@ function onMouseleave() {
     :placeholder="placeholder"
     clearable
     filterable
-    popper-class="pure-animate-popper"
     @clear="onClear"
   >
     <template #empty>
@@ -114,7 +113,7 @@ function onMouseleave() {
           </ul>
           <el-empty
             v-show="animatesList.length === 0"
-            :description="`${searchVal} ${t('common.tips.animationIsNotExist')}`"
+            :description="`${searchVal} ${t('tips.animationIsNotExist')}`"
             :image-size="60"
           />
         </el-scrollbar>

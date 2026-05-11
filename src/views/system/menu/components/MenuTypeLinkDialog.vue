@@ -25,9 +25,9 @@ const formModel = computed({
       <el-form-item :label="t('menus.showLink')" prop="showLink">
         <el-switch
           v-model="formModel.showLink"
-          :active-text="t('common.status.show')"
+          :active-text="t('status.show')"
           :disabled="formDisabled"
-          :inactive-text="t('common.status.hide')"
+          :inactive-text="t('status.hide')"
           inline-prompt
         />
       </el-form-item>
@@ -37,9 +37,9 @@ const formModel = computed({
       <el-form-item :label="t('menus.showParent')" prop="showParent">
         <el-switch
           v-model="formModel.showParent"
-          :active-text="t('common.status.show')"
+          :active-text="t('status.show')"
           :disabled="formDisabled"
-          :inactive-text="t('common.status.hide')"
+          :inactive-text="t('status.hide')"
           inline-prompt
         />
       </el-form-item>
@@ -49,10 +49,10 @@ const formModel = computed({
       <el-form-item :label="t('menus.status')" prop="status">
         <el-switch
           v-model="formModel.status"
-          :active-text="t('common.buttons.statusActiveText')"
+          :active-text="t('buttons.statusActiveText')"
           :active-value="true"
           :disabled="formDisabled"
-          :inactive-text="t('common.buttons.statusInactiveText')"
+          :inactive-text="t('buttons.statusInactiveText')"
           :inactive-value="false"
           inline-prompt
           style="--el-switch-on-color: var(--el-color-success); --el-switch-off-color: var(--el-color-danger)"

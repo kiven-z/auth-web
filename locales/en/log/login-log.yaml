@@ -1,32 +1,35 @@
-log:
-  loginLog:
-    user: User
-    userId: User ID
-    username: Username
-    loginResult: Result
-    loginTime: Login time
-    loginTimeStart: Start time
-    loginTimeEnd: End time
-    loginRegion: Region
-    loginType: Login type
-    loginIp: Login IP
-    failureReason: Failure reason
-    userAgent: User agent
-    tableTitle: Login logs
-    detailTitle: Login log detail
-    loadFailed: Failed to load login logs
-    placeholder:
-      userId: Search user by keyword
-      loginResult: All results
-      loginType: All types
-    loginResultEnum:
-      '0': Success
-      '1': Bad password or credential
-      '2': Account locked
-      '3': Captcha error
-      '4': Account disabled
-    loginTypeEnum:
-      LOGIN_EMAIL: Email login
-      LOGIN_PASSWORD: Password login
-      REFRESH_TOKEN: Refresh token
-      LOGOUT: Logout
+loginLog:
+  user: User
+  userId: User ID
+  username: Username
+  loginResult: Result
+  loginTime: Login time
+  loginTimeStart: Start time
+  loginTimeEnd: End time
+  loginRegion: Region
+  loginType: Login type
+  loginIp: Login IP
+  failureReason: Failure reason
+  userAgent: User agent
+  deviceType: Device type
+  osType: Operating system
+  browserType: Browser
+  sessionId: Session ID
+  tableTitle: Login logs
+  detailTitle: Login log detail
+  loadFailed: Failed to load login logs
+  placeholder:
+    userId: Search user by keyword
+    loginResult: All results
+    loginType: All types
+  loginResultEnum:
+    '0': Success
+    '1': Bad password or credential
+    '2': Account locked
+    '3': Captcha error
+    '4': Account disabled
+  loginTypeEnum:
+    LOGIN_EMAIL: Email login
+    LOGIN_PASSWORD: Password login
+    REFRESH_TOKEN: Refresh token
+    LOGOUT: Logout

@@ -51,7 +51,11 @@ export interface LoginLogDetailRow {
   loginIp?: string;
   loginRegion?: string | null;
   userAgent?: string | null;
+  deviceType?: string | null;
+  osType?: string | null;
+  browserType?: string | null;
   loginType?: string | null;
+  sessionId?: string | null;
   createTime: string;
   updateTime: string;
   createUser?: string;

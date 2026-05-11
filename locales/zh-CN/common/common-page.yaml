@@ -8,6 +8,7 @@ tips:
   addSuccess: 添加成功
   editSuccess: 修改成功
   deleteSuccess: 删除成功
+  animationIsNotExist: 动画不存在
 buttons:
   pureLoginOut: 退出系统
   pureLogin: 登录
@@ -41,6 +42,12 @@ buttons:
   actionBatchEnable: 批量启用
   actionBatchDisable: 批量停用
   actionAdvanced: 高级功能
+  forbidText: 禁止
+  permitText: 允许
+  fixedText: 固定
+  unFixedText: 不固定
+  statusActiveText: 启用
+  statusInactiveText: 停用
 table:
   idx: 序号
   actions: 操作
@@ -63,6 +70,12 @@ status:
   pureNoMessage: 暂无消息
   pureNoNotify: 暂无通知
   pureNoTodo: 暂无待办
+  open: 开启
+  close: 关闭
+  show: 显示
+  hide: 隐藏
+  cache: 缓存
+  unCache: 不缓存
 tableBar:
   defaultTitle: 列表
   densityLarge: 宽松

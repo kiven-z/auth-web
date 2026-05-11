@@ -4,7 +4,7 @@ import TableBar from '@/components/ui/TableBar';
 import { menuStatusFilterOptions, menuTypeFilterOptions } from '@/views/system/menu/constants/menu-search-options';
 import useMenuPageState from '@/views/system/menu/hooks/useMenuPageState';
 import type { FormInstance } from 'element-plus';
-import { ref } from 'vue';
+import { onMounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import useMenuTableColumns from '@/views/system/menu/hooks/useMenuTableColumns';
 import useMenuTableAction from '@/views/system/menu/hooks/useMenuTableAction';
@@ -48,6 +48,10 @@ const { openAssignRoleDrawer, openAssignPermissionDrawer } = useMenuMoreAction({
   fetchTableData,
   fetchTreeData,
   refresh,
+});
+
+onMounted(() => {
+  fetchTableData();
 });
 
 defineExpose({ tableRef });

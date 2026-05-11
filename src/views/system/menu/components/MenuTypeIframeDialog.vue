@@ -39,9 +39,9 @@ const formModel = computed({
       <el-form-item :label="t('menus.frameLoading')" prop="frameLoading">
         <el-switch
           v-model="formModel.frameLoading"
-          :active-text="t('common.status.open')"
+          :active-text="t('status.open')"
           :disabled="formDisabled"
-          :inactive-text="t('common.status.close')"
+          :inactive-text="t('status.close')"
           inline-prompt
         />
       </el-form-item>
@@ -51,9 +51,9 @@ const formModel = computed({
       <el-form-item :label="t('menus.showLink')" prop="showLink">
         <el-switch
           v-model="formModel.showLink"
-          :active-text="t('common.status.show')"
+          :active-text="t('status.show')"
           :disabled="formDisabled"
-          :inactive-text="t('common.status.hide')"
+          :inactive-text="t('status.hide')"
           inline-prompt
         />
       </el-form-item>
@@ -61,11 +61,12 @@ const formModel = computed({
 
     <el-col :lg="8" :md="12" :sm="12" :xs="24">
       <el-form-item :label="t('menus.showParent')" prop="showParent">
+        <!-- 显示隐藏 -->
         <el-switch
           v-model="formModel.showParent"
-          :active-text="t('common.status.show')"
+          :active-text="t('status.show')"
           :disabled="formDisabled"
-          :inactive-text="t('common.status.hide')"
+          :inactive-text="t('status.hide')"
           inline-prompt
         />
       </el-form-item>
@@ -74,11 +75,12 @@ const formModel = computed({
     <!-- 第四行 - 开关组 -->
     <el-col :lg="8" :md="12" :sm="12" :xs="24">
       <el-form-item :label="t('menus.keepAlive')" prop="keepAlive">
+        <!-- 缓存、不缓存 -->
         <el-switch
           v-model="formModel.keepAlive"
-          :active-text="t('common.status.cache')"
+          :active-text="t('status.cache')"
           :disabled="formDisabled"
-          :inactive-text="t('common.status.unCache')"
+          :inactive-text="t('status.unCache')"
           inline-prompt
         />
       </el-form-item>
@@ -88,9 +90,9 @@ const formModel = computed({
       <el-form-item :label="t('menus.hiddenTag')" prop="hiddenTag">
         <el-switch
           v-model="formModel.hiddenTag"
-          :active-text="t('common.buttons.forbidText')"
+          :active-text="t('buttons.forbidText')"
           :disabled="formDisabled"
-          :inactive-text="t('common.buttons.permitText')"
+          :inactive-text="t('buttons.permitText')"
           inline-prompt
         />
       </el-form-item>
@@ -100,9 +102,9 @@ const formModel = computed({
       <el-form-item :label="t('menus.fixedTag')" prop="fixedTag">
         <el-switch
           v-model="formModel.fixedTag"
-          :active-text="t('common.buttons.fixedText')"
+          :active-text="t('buttons.fixedText')"
           :disabled="formDisabled"
-          :inactive-text="t('common.buttons.unFixedText')"
+          :inactive-text="t('buttons.unFixedText')"
           inline-prompt
         />
       </el-form-item>
@@ -113,10 +115,10 @@ const formModel = computed({
       <el-form-item :label="t('menus.status')" prop="status">
         <el-switch
           v-model="formModel.status"
-          :active-text="t('common.buttons.statusActiveText')"
+          :active-text="t('buttons.statusActiveText')"
           :active-value="true"
           :disabled="formDisabled"
-          :inactive-text="t('common.buttons.statusInactiveText')"
+          :inactive-text="t('buttons.statusInactiveText')"
           :inactive-value="false"
           inline-prompt
           style="--el-switch-on-color: var(--el-color-success); --el-switch-off-color: var(--el-color-danger)"

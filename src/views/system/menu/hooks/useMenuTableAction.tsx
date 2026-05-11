@@ -1,3 +1,4 @@
+import type { TableActionDeps } from '@/api/common';
 import { createMenu, deleteMenus, getMenuDetail, updateMenu, updateMenuBatchStatus } from '@/api/system/menu';
 import { addDialog } from '@/components/ui/Dialog';
 import { deleteConfirm } from '@/shared/messaging/dialog';
@@ -9,7 +10,6 @@ import { createEmptyMenuForm, detailToForm, formToSaveRequest } from '@/views/sy
 import type { Ref } from 'vue';
 import { h, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
-import type { TableActionDeps } from '@/api/common';
 
 interface MenuTableActionDeps extends TableActionDeps {
   fetchTreeData: () => Promise<void>;
@@ -161,7 +161,7 @@ function useMenuTableAction(deps: MenuTableActionDeps) {
       return;
     }
     try {
-      await updateMenuBatchStatus({ ids, status: enabled ? 0 : 1 });
+      await updateMenuBatchStatus({ ids, status: enabled });
       message(t('tips.editSuccess'), { type: 'success' });
       await refresh();
     } catch (e: unknown) {

@@ -12,22 +12,22 @@ export interface SysMenuListQuery {
   name?: string;
   title?: string;
   menuType?: number;
-  status?: number;
+  status?: boolean;
   component?: string;
 }
 
-/** 列表行 / 扁平 VO */
+/** 列表行 / 扁平 VO（Boolean 字段后端直接返回 true/false） */
 export interface SysMenuListVO {
   id: string;
   parentId: string | null;
   name: string;
   title: string;
   menuType: number;
-  status: number;
-  showLink: number;
+  status: boolean;
+  showLink: boolean;
   menuRank: number;
-  keepAlive: number;
-  fixedTag: number;
+  keepAlive: boolean;
+  fixedTag: boolean;
   component?: string;
   path?: string;
   createTime?: string;
@@ -48,27 +48,27 @@ export interface SysMenuPageQuery extends SysMenuListQuery {
   sort?: SortSpec[];
 }
 
-/** 详情 VO（含扩展字段，供表单回填） */
+/** 详情 VO（含扩展字段，供表单回填；Boolean 字段后端直接返回 true/false） */
 export interface SysMenuDetailVO extends SysMenuListVO {
   redirect?: string;
   icon?: string;
   extraIcon?: string;
-  showParent?: number;
+  showParent?: boolean;
   frameSrc?: string;
-  frameLoading?: number;
+  frameLoading?: boolean;
   transitionName?: string;
   enterTransition?: string;
   leaveTransition?: string;
-  hiddenTag?: number;
+  hiddenTag?: boolean;
   dynamicLevel?: number;
   activePath?: string;
   remark?: string;
 }
 
-/** 批量修改状态：status 0=启用 1=禁用 */
+/** 批量修改状态：status=true 启用，false 禁用 */
 export interface SysMenuBatchStatusRequest {
   ids: string[];
-  status: number;
+  status: boolean;
 }
 
 /** 分配角色 */

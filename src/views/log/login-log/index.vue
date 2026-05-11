@@ -33,7 +33,7 @@ const { selectedRows, handleSelectionChange, openDetailDialog, deleteRow, delete
 });
 
 const { userOptions, userSearchLoading, loadUserListByKeyword } = useRemoteUserSearch({
-  errorDefaultI18nKey: 'log.loginLog.loadFailed',
+  errorDefaultI18nKey: 'loginLog.loadFailed',
 });
 
 onMounted(() => {
@@ -49,11 +49,11 @@ onMounted(() => {
       :model="searchForm"
       class="bg-bg_color w-[99/100] overflow-auto pl-8 pt-[12px]"
     >
-      <el-form-item :label="t('log.loginLog.user')" prop="userId">
+      <el-form-item :label="t('loginLog.user')" prop="userId">
         <el-select
           v-model="searchForm.userId"
           :loading="userSearchLoading"
-          :placeholder="t('log.loginLog.placeholder.userId')"
+          :placeholder="t('loginLog.placeholder.userId')"
           :remote-method="loadUserListByKeyword"
           class="w-[200px]!"
           clearable
@@ -64,26 +64,26 @@ onMounted(() => {
         </el-select>
       </el-form-item>
 
-      <el-form-item :label="t('log.loginLog.loginResult')" prop="loginResult">
+      <el-form-item :label="t('loginLog.loginResult')" prop="loginResult">
         <el-select
           v-model="searchForm.loginResult"
+          :placeholder="t('loginLog.placeholder.loginResult')"
           class="w-[180px]!"
           clearable
-          :placeholder="t('log.loginLog.placeholder.loginResult')"
         >
           <el-option
             v-for="code in LOGIN_LOG_RESULT_CODES"
             :key="code"
-            :label="t(`log.loginLog.loginResultEnum.${code}`)"
+            :label="t(`loginLog.loginResultEnum.${code}`)"
             :value="code"
           />
         </el-select>
       </el-form-item>
 
-      <el-form-item :label="t('log.loginLog.loginTime')" prop="loginTime">
+      <el-form-item :label="t('loginLog.loginTime')" prop="loginTime">
         <el-date-picker
           v-model="searchForm.loginTimeStart"
-          :placeholder="t('log.loginLog.loginTimeStart')"
+          :placeholder="t('loginLog.loginTimeStart')"
           class="w-[160px]!"
           type="datetime"
           value-format="YYYY-MM-DD HH:mm:ss"
@@ -91,24 +91,24 @@ onMounted(() => {
         <span class="mx-2">-</span>
         <el-date-picker
           v-model="searchForm.loginTimeEnd"
-          :placeholder="t('log.loginLog.loginTimeEnd')"
+          :placeholder="t('loginLog.loginTimeEnd')"
           class="w-[160px]!"
           type="datetime"
           value-format="YYYY-MM-DD HH:mm:ss"
         />
       </el-form-item>
 
-      <el-form-item :label="t('log.loginLog.loginType')" prop="loginType">
+      <el-form-item :label="t('loginLog.loginType')" prop="loginType">
         <el-select
           v-model="searchForm.loginType"
+          :placeholder="t('loginLog.placeholder.loginType')"
           class="w-[180px]!"
           clearable
-          :placeholder="t('log.loginLog.placeholder.loginType')"
         >
           <el-option
             v-for="lt in LOGIN_LOG_TYPE_CODES"
             :key="lt"
-            :label="t(`log.loginLog.loginTypeEnum.${lt}`)"
+            :label="t(`loginLog.loginTypeEnum.${lt}`)"
             :value="lt"
           />
         </el-select>
@@ -122,7 +122,7 @@ onMounted(() => {
 
     <TableBar
       :columns="columns"
-      :title="t('log.loginLog.tableTitle')"
+      :title="t('loginLog.tableTitle')"
       @fullscreen="tableRef?.setAdaptive()"
       @refresh="fetchTableData"
     >

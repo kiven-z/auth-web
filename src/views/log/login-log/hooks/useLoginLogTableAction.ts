@@ -34,12 +34,12 @@ function useLoginLogTableAction(deps: TableActionDeps) {
     try {
       detailData = await getLoginLogDetail(row.id);
     } catch (error: unknown) {
-      errorMessage(error, { defaultI18nKey: 'log.loginLog.loadFailed' });
+      errorMessage(error, { defaultI18nKey: 'loginLog.loadFailed' });
       return;
     }
 
     addDialog({
-      title: t('log.loginLog.detailTitle'),
+      title: t('loginLog.detailTitle'),
       props: {},
       contentRenderer: () => h(LoginLogDetailDialog, { data: detailData }),
       beforeSure: (done) => done(),
@@ -59,7 +59,7 @@ function useLoginLogTableAction(deps: TableActionDeps) {
       message(t('tips.deleteSuccess'), { type: 'success' });
       await fetchTableData();
     } catch (error: unknown) {
-      errorMessage(error, { defaultI18nKey: 'log.loginLog.loadFailed' });
+      errorMessage(error, { defaultI18nKey: 'loginLog.loadFailed' });
     }
   };
 
@@ -77,7 +77,7 @@ function useLoginLogTableAction(deps: TableActionDeps) {
       selectedRows.value = [];
       await fetchTableData();
     } catch (error: unknown) {
-      errorMessage(error, { defaultI18nKey: 'log.loginLog.loadFailed' });
+      errorMessage(error, { defaultI18nKey: 'loginLog.loadFailed' });
     }
   };
 

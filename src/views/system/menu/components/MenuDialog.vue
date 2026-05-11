@@ -1,6 +1,8 @@
 <script lang="ts" setup>
 import { getMenuList } from '@/api/system/menu';
+import AnimateSelector from '@/components/ui/AnimateSelecto/src/index.vue';
 import { useRenderIcon } from '@/components/ui/Icon/src/hooks';
+import IconSelect from '@/components/ui/ReIcon/src/Select.vue';
 import { MenuTypeEnums } from '@/enums/menuEnums';
 import { transformI18n } from '@/plugins/i18n';
 import { handleTree } from '@/shared/lib/tree';
@@ -199,46 +201,18 @@ defineExpose({ formRef, form });
 
       <el-col :lg="8" :md="12" :sm="12" :xs="24">
         <el-form-item :label="t('menus.icon')" prop="icon">
-          <div class="w-full">
-            <el-input
-              v-model="form.icon"
-              :disabled="isFormDisabled"
-              :placeholder="t('menus.placeholder.icon')"
-              clearable
-            >
-              <template #prepend>
-                <component :is="useRenderIcon(form.icon)" v-if="form.icon" />
-              </template>
-
-              <template #append>
-                <el-link :underline="false" href="https://icon-sets.iconify.design/" target="_blank" type="primary">
-                  {{ t('menus.tips.openIconOnline') }}
-                </el-link>
-              </template>
-            </el-input>
+          <div class="w-full flex items-center gap-2">
+            <component :is="useRenderIcon(form.icon)" v-if="form.icon" class="shrink-0 text-lg" />
+            <IconSelect v-model="form.icon" class="flex-1!" />
           </div>
         </el-form-item>
       </el-col>
 
       <el-col :lg="8" :md="12" :sm="12" :xs="24">
         <el-form-item :label="t('menus.rightExtraIcon')" prop="extraIcon">
-          <div class="w-full">
-            <el-input
-              v-model="form.extraIcon"
-              :disabled="isFormDisabled"
-              :placeholder="t('menus.placeholder.rightExtraIcon')"
-              clearable
-            >
-              <template #prepend>
-                <component :is="useRenderIcon(form.extraIcon)" v-if="form.extraIcon" />
-              </template>
-
-              <template #append>
-                <el-link :underline="false" href="https://icon-sets.iconify.design/" target="_blank" type="primary">
-                  {{ t('menus.tips.openIconOnline') }}
-                </el-link>
-              </template>
-            </el-input>
+          <div class="w-full flex items-center gap-2">
+            <component :is="useRenderIcon(form.extraIcon)" v-if="form.extraIcon" class="shrink-0 text-lg" />
+            <IconSelect v-model="form.extraIcon" class="flex-1!" />
           </div>
         </el-form-item>
       </el-col>
@@ -320,21 +294,19 @@ defineExpose({ formRef, form });
         <el-row v-show="animationType === 'detail'" :gutter="16">
           <el-col :sm="12" :xs="24">
             <el-form-item :label="t('menus.enterTransition')" prop="enterTransition">
-              <el-input
+              <AnimateSelector
                 v-model="form.enterTransition"
-                :disabled="isFormDisabled"
                 :placeholder="t('menus.placeholder.enterTransition')"
-                clearable
+                class="w-[320px]!"
               />
             </el-form-item>
           </el-col>
           <el-col :sm="12" :xs="24">
             <el-form-item :label="t('menus.leaveTransition')" prop="leaveTransition">
-              <el-input
+              <AnimateSelector
                 v-model="form.leaveTransition"
-                :disabled="isFormDisabled"
                 :placeholder="t('menus.placeholder.leaveTransition')"
-                clearable
+                class="w-[320px]!"
               />
             </el-form-item>
           </el-col>

@@ -12,14 +12,14 @@ function useLoginLogTableColumns() {
 
   const loginResultLabel = (code: number | undefined) => {
     if (code === undefined || code === null) return '';
-    const key = `log.loginLog.loginResultEnum.${code}` as const;
+    const key = `loginLog.loginResultEnum.${code}` as const;
     const label = t(key);
     return label === key ? String(code) : label;
   };
 
   const loginTypeLabel = (type: string | null | undefined) => {
     if (!type) return '';
-    const key = `log.loginLog.loginTypeEnum.${type}` as const;
+    const key = `loginLog.loginTypeEnum.${type}` as const;
     const label = t(key);
     return label === key ? type : label;
   };
@@ -37,7 +37,7 @@ function useLoginLogTableColumns() {
     },
     // 用户
     {
-      label: t('log.loginLog.user'),
+      label: t('loginLog.user'),
       prop: 'username',
       minWidth: 130,
       formatter: (row: LoginLogPageRow) => {
@@ -54,27 +54,27 @@ function useLoginLogTableColumns() {
     },
     // 登录结果
     {
-      label: t('log.loginLog.loginResult'),
+      label: t('loginLog.loginResult'),
       prop: 'loginResult',
       minWidth: 140,
       formatter: (row: LoginLogPageRow) => loginResultLabel(row.loginResult),
     },
     // 登录时间
     {
-      label: t('log.loginLog.loginTime'),
+      label: t('loginLog.loginTime'),
       prop: 'loginTime',
       sortable: true,
       minWidth: 170,
     },
     // 登录地区
     {
-      label: t('log.loginLog.loginRegion'),
+      label: t('loginLog.loginRegion'),
       prop: 'loginRegion',
       minWidth: 140,
     },
     // 登录类型
     {
-      label: t('log.loginLog.loginType'),
+      label: t('loginLog.loginType'),
       prop: 'loginType',
       minWidth: 130,
       formatter: (row: LoginLogPageRow) => loginTypeLabel(row.loginType),
