@@ -2,48 +2,53 @@
 import AuthDataTable from '@/components/ui/AuthDataTable';
 import TableBar from '@/components/ui/TableBar';
 import { menuStatusFilterOptions, menuTypeFilterOptions } from '@/views/system/menu/constants/menu-search-options';
-import type { SysMenuRow } from '@/views/system/menu/hooks/useMenuPageState';
+import useMenuPageState from '@/views/system/menu/hooks/useMenuPageState';
 import type { FormInstance } from 'element-plus';
 import { ref } from 'vue';
 import { useI18n } from 'vue-i18n';
+import useMenuTableColumns from '@/views/system/menu/hooks/useMenuTableColumns';
+import useMenuTableAction from '@/views/system/menu/hooks/useMenuTableAction';
+import useMenuMoreAction from '@/views/system/menu/hooks/useMenuMoreAction';
 
 defineOptions({
   name: 'MenuTableView',
 });
 
-defineProps<{
-  columns: TableColumnList;
-  loading: boolean;
-  tableData: SysMenuRow[];
-  pagination: { total: number; pageSize: number; currentPage: number };
-  searchForm: {
-    name?: string;
-    title?: string;
-    menuType?: number;
-    status?: number;
-    component?: string;
-  };
-  selectedRowIds: string[];
-  fetchTableData: () => Promise<void>;
-  submitTableSearch: () => Promise<void>;
-  resetQuery: (formRef?: FormInstance) => Promise<void>;
-  handlePageSizeChange: (value: number) => Promise<void>;
-  handlePageCurrentChange: (value: number) => Promise<void>;
-  handleSelectionChange: (value: SysMenuRow[]) => void;
-  onAdd: () => void;
-  onView: (row: SysMenuRow) => void;
-  onEdit: (row: SysMenuRow) => void;
-  onDelete: (row: SysMenuRow) => void;
-  onAssignRole: (row: SysMenuRow) => void;
-  onAssignPermission: (row: SysMenuRow) => void;
-  onBatchEnable: () => void;
-  onBatchDisable: () => void;
-  onBatchDelete: () => void;
-}>();
-
 const { t } = useI18n();
 const searchFormRef = ref<FormInstance>();
 const tableRef = ref<{ setAdaptive: () => Promise<void> } | null>(null);
+
+const { tableColumns } = useMenuTableColumns();
+const {
+  loading,
+  selectedRows,
+  tableData,
+  searchForm,
+  pagination,
+  viewMode,
+  fetchTableData,
+  submitTableSearch,
+  fetchTreeData,
+  resetQuery,
+  handlePageSizeChange,
+  handlePageCurrentChange,
+  handleSelectionChange,
+  refresh,
+} = useMenuPageState();
+
+const { openCreateDialog, openEditDialog, openDetailDialog, handleDelete, batchUpdateStatus } = useMenuTableAction({
+  fetchTableData,
+  fetchTreeData,
+  refresh,
+  viewMode,
+  selectedRows,
+});
+
+const { openAssignRoleDrawer, openAssignPermissionDrawer } = useMenuMoreAction({
+  fetchTableData,
+  fetchTreeData,
+  refresh,
+});
 
 defineExpose({ tableRef });
 </script>
@@ -124,29 +129,33 @@ defineExpose({ tableRef });
     </el-form>
 
     <TableBar
-      :columns="columns"
+      :columns="tableColumns"
       :title="t('sysMenu.tableTitle')"
       @fullscreen="tableRef?.setAdaptive()"
       @refresh="fetchTableData"
     >
       <template #buttons>
         <el-button-group type="primary">
-          <el-button type="primary" @click="onAdd">{{ t('buttons.actionAdd') }}</el-button>
+          <el-button type="primary" @click="openCreateDialog">{{ t('buttons.actionAdd') }}</el-button>
 
           <el-dropdown trigger="click">
-            <el-button :disabled="selectedRowIds.length <= 0" type="warning">
+            <el-button :disabled="selectedRows.length <= 0" type="warning">
               {{ t('buttons.actionBatchStatus') }}
             </el-button>
             <template #dropdown>
-              <el-dropdown-item @click="onBatchEnable">{{ t('buttons.actionBatchEnable') }}</el-dropdown-item>
-              <el-dropdown-item @click="onBatchDisable">{{ t('buttons.actionBatchDisable') }}</el-dropdown-item>
+              <el-dropdown-item @click="batchUpdateStatus(selectedRows, true)">
+                {{ t('buttons.actionBatchEnable') }}
+              </el-dropdown-item>
+              <el-dropdown-item @click="batchUpdateStatus(selectedRows, false)">
+                {{ t('buttons.actionBatchDisable') }}
+              </el-dropdown-item>
             </template>
           </el-dropdown>
 
           <el-dropdown trigger="click">
             <el-button type="danger">{{ t('buttons.actionAdvanced') }}</el-button>
             <template #dropdown>
-              <el-dropdown-item :disabled="selectedRowIds.length <= 0" @click="onBatchDelete">
+              <el-dropdown-item :disabled="selectedRows.length <= 0" @click="handleDelete(selectedRows)">
                 {{ t('buttons.actionBatchDelete') }}
               </el-dropdown-item>
             </template>
@@ -177,15 +186,17 @@ defineExpose({ tableRef });
         >
           <template #actions="{ row }">
             <div class="flex justify-center flex-wrap gap-x-1">
-              <el-button link type="primary" @click="onView(row)">{{ t('buttons.actionView') }}</el-button>
-              <el-button link type="primary" @click="onEdit(row)">{{ t('buttons.actionEdit') }}</el-button>
-              <el-button link type="danger" @click="onDelete(row)">{{ t('buttons.actionDelete') }}</el-button>
+              <el-button link type="primary" @click="openDetailDialog(row)">{{ t('buttons.actionView') }}</el-button>
+              <el-button link type="primary" @click="openEditDialog(row)">{{ t('buttons.actionEdit') }}</el-button>
+              <el-button link type="danger" @click="handleDelete([row.id])">{{ t('buttons.actionDelete') }}</el-button>
               <el-dropdown class="ml-1" trigger="click">
                 <el-button class="el-dropdown-link" link type="primary">{{ t('buttons.actionMore') }}</el-button>
                 <template #dropdown>
                   <el-dropdown-menu>
-                    <el-dropdown-item @click="onAssignRole(row)">{{ t('sysMenu.assignRole') }}</el-dropdown-item>
-                    <el-dropdown-item @click="onAssignPermission(row)">
+                    <el-dropdown-item @click="openAssignRoleDrawer(row)">
+                      {{ t('sysMenu.assignRole') }}
+                    </el-dropdown-item>
+                    <el-dropdown-item @click="openAssignPermissionDrawer(row)">
                       {{ t('sysMenu.assignPermission') }}
                     </el-dropdown-item>
                   </el-dropdown-menu>

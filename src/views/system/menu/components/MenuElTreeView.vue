@@ -1,30 +1,34 @@
 <script lang="ts" setup>
-import type { SysMenuTreeNode } from '@/api/system/menu';
 import TableBar from '@/components/ui/TableBar';
-import type { SysMenuRow } from '@/views/system/menu/hooks/useMenuPageState';
-import { collectTreeNodeIds } from '@/views/system/menu/utils/tree-keys';
+import useMenuPageState from '@/views/system/menu/hooks/useMenuPageState';
 import type { TreeInstance } from 'element-plus';
-import { nextTick, ref, unref, watch } from 'vue';
+import { ref } from 'vue';
 import { useI18n } from 'vue-i18n';
+import useMenuTableAction from '@/views/system/menu/hooks/useMenuTableAction';
+import useMenuMoreAction from '@/views/system/menu/hooks/useMenuMoreAction';
 
 defineOptions({
   name: 'MenuElTreeView',
 });
 
-const props = defineProps<{
-  loading: boolean;
-  treeData: SysMenuTreeNode[];
-  fetchTreeData: () => Promise<void>;
-  onAdd: () => void;
-  onView: (row: SysMenuRow) => void;
-  onEdit: (row: SysMenuRow) => void;
-  onDelete: (row: SysMenuRow) => void;
-  onAssignRole: (row: SysMenuRow) => void;
-  onAssignPermission: (row: SysMenuRow) => void;
-}>();
-
 const { t } = useI18n();
 const treeRef = ref<TreeInstance>();
+
+const { loading, selectedRows, treeData, viewMode, fetchTableData, fetchTreeData, refresh } = useMenuPageState();
+
+const { openCreateDialog, openEditDialog, openDetailDialog, handleDelete } = useMenuTableAction({
+  fetchTableData,
+  fetchTreeData,
+  refresh,
+  viewMode,
+  selectedRows,
+});
+
+const { openAssignRoleDrawer, openAssignPermissionDrawer } = useMenuMoreAction({
+  fetchTableData,
+  fetchTreeData,
+  refresh,
+});
 
 /** 与 `el-tree` 的 `default-expanded-keys` 同步，数据变更时由 watch 维护 */
 const expandedKeys = ref<string[]>([]);
@@ -44,42 +48,22 @@ const menuTypeTag = (menuType: number) => {
   return map[menuType];
 };
 
-watch(
-  () => props.treeData,
-  (data) => {
-    expandedKeys.value = collectTreeNodeIds(data);
-  },
-  { deep: true, immediate: true }
-);
+/**
+ * 展开全部
+ */
+const expandAll = () => {};
 
 /**
- * 展开全部节点（依赖 `default-expanded-keys` 的 watch 触发 store 展开）
+ * 收起全部
  */
-const expandAll = () => {
-  expandedKeys.value = collectTreeNodeIds(props.treeData);
-};
-
-/**
- * 折叠全部节点（仅清空 keys 不会收起已展开节点，需对 store 内节点逐个 collapse）
- */
-const collapseAll = async () => {
-  expandedKeys.value = [];
-  await nextTick();
-  const store = treeRef.value?.store;
-  if (!store) return;
-  unref(store)
-    ._getAllNodes()
-    .forEach((node) => {
-      node.collapse();
-    });
-};
+const collapseAll = () => {};
 </script>
 
 <template>
   <TableBar :columns="[]" :title="t('sysMenu.tableTitle')" @refresh="fetchTreeData">
     <template #buttons>
       <el-button-group type="primary">
-        <el-button type="primary" @click="onAdd">{{ t('buttons.actionAdd') }}</el-button>
+        <el-button type="primary" @click="openCreateDialog">{{ t('buttons.actionAdd') }}</el-button>
         <el-button type="info" @click="expandAll">{{ t('sysMenu.expandAll') }}</el-button>
         <el-button type="info" @click="collapseAll">{{ t('sysMenu.collapseAll') }}</el-button>
       </el-button-group>
@@ -110,13 +94,13 @@ const collapseAll = async () => {
                 {{ data.status === 0 ? t('sysMenu.statusEnabled') : t('sysMenu.statusDisabled') }}
               </el-tag>
               <div class="ml-auto flex flex-wrap items-center gap-x-1" @click.stop>
-                <el-button link size="small" type="primary" @click="onView(data)">
+                <el-button link size="small" type="primary" @click="openDetailDialog(data)">
                   {{ t('buttons.actionView') }}
                 </el-button>
-                <el-button link size="small" type="primary" @click="onEdit(data)">
+                <el-button link size="small" type="primary" @click="openEditDialog(data)">
                   {{ t('buttons.actionEdit') }}
                 </el-button>
-                <el-button link size="small" type="danger" @click="onDelete(data)">
+                <el-button link size="small" type="danger" @click="handleDelete([data.id])">
                   {{ t('buttons.actionDelete') }}
                 </el-button>
                 <el-dropdown class="ml-1" trigger="click" @click.stop>
@@ -125,8 +109,10 @@ const collapseAll = async () => {
                   </el-button>
                   <template #dropdown>
                     <el-dropdown-menu>
-                      <el-dropdown-item @click="onAssignRole(data)">{{ t('sysMenu.assignRole') }}</el-dropdown-item>
-                      <el-dropdown-item @click="onAssignPermission(data)">
+                      <el-dropdown-item @click="openAssignRoleDrawer(data)">
+                        {{ t('sysMenu.assignRole') }}
+                      </el-dropdown-item>
+                      <el-dropdown-item @click="openAssignPermissionDrawer(data)">
                         {{ t('sysMenu.assignPermission') }}
                       </el-dropdown-item>
                     </el-dropdown-menu>

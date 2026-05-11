@@ -102,74 +102,6 @@ function useMenuTableColumns() {
   ]);
 
   /**
-   * 树形视图列（不含多选/序号，菜单标题列带缩进层级）
-   */
-  const treeColumns = computed<TableColumnList>(() => [
-    // 菜单名称（标题），树形缩进由 el-table tree-props 自动处理
-    { label: t('sysMenu.menuTitle'), prop: 'title', minWidth: 200 },
-    // 路由名称
-    { label: t('sysMenu.routeName'), prop: 'name', minWidth: 160 },
-    // 路由路径
-    { label: t('sysMenu.path'), prop: 'path', minWidth: 180, showOverflowTooltip: true },
-    // 菜单类型
-    {
-      label: t('sysMenu.menuType'),
-      prop: 'menuType',
-      width: 100,
-      formatter: (row: SysMenuRow) => {
-        const cfg = MENU_TYPE_TAG_MAP[row.menuType];
-        if (!cfg) return '-';
-        return (
-          <ElTag type={cfg.type} effect="plain" size="small">
-            {t(cfg.labelKey)}
-          </ElTag>
-        );
-      },
-    },
-    // 排序
-    { label: t('sysMenu.menuRank'), prop: 'menuRank', width: 80 },
-    // 状态
-    {
-      label: t('sysMenu.status'),
-      prop: 'status',
-      width: 90,
-      formatter: (row: SysMenuRow) => (
-        <ElTag type={row.status === 0 ? 'success' : 'danger'} effect="plain" size="small">
-          {row.status === 0 ? t('sysMenu.statusEnabled') : t('sysMenu.statusDisabled')}
-        </ElTag>
-      ),
-    },
-    // 显示
-    {
-      label: t('sysMenu.showLink'),
-      prop: 'showLink',
-      width: 80,
-      formatter: (row: SysMenuRow) => (
-        <ElTag type={row.showLink === 1 ? 'success' : 'info'} effect="plain" size="small">
-          {row.showLink === 1 ? t('sysMenu.showLinkYes') : t('sysMenu.showLinkNo')}
-        </ElTag>
-      ),
-    },
-    // 缓存
-    {
-      label: t('sysMenu.keepAlive'),
-      prop: 'keepAlive',
-      width: 90,
-      formatter: (row: SysMenuRow) => (
-        <ElTag type={row.keepAlive === 1 ? 'success' : 'info'} effect="plain" size="small">
-          {row.keepAlive === 1 ? t('sysMenu.keepAliveYes') : t('sysMenu.keepAliveNo')}
-        </ElTag>
-      ),
-    },
-    {
-      label: t('table.actions'),
-      fixed: 'right' as const,
-      width: 240,
-      slot: 'actions',
-    },
-  ]);
-
-  /**
    * 角色分配：数据列（勾选列由 AssignManagePanel 统一追加）
    */
   const roleDrawerDataColumns = computed<TableColumnList>(() => [
@@ -196,7 +128,7 @@ function useMenuTableColumns() {
       prop: 'permissionCode',
     },
   ]);
-  return { tableColumns, treeColumns, roleDrawerDataColumns, permissionDrawerDataColumns };
+  return { tableColumns, roleDrawerDataColumns, permissionDrawerDataColumns };
 }
 
 export default useMenuTableColumns;

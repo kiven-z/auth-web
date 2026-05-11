@@ -1,6 +1,6 @@
 import { createMenu, deleteMenus, getMenuDetail, updateMenu, updateMenuBatchStatus } from '@/api/system/menu';
 import { addDialog } from '@/components/ui/Dialog';
-import { deleteConfirm, operationConfirm } from '@/shared/messaging/dialog';
+import { deleteConfirm } from '@/shared/messaging/dialog';
 import { errorMessage, message } from '@/shared/messaging/message';
 import type { MenuForm } from '@/types/system';
 import MenuDialog from '@/views/system/menu/components/MenuDialog.vue';
@@ -169,42 +169,12 @@ function useMenuTableAction(deps: MenuTableActionDeps) {
     }
   };
 
-  /**
-   * 确认批量启用
-   */
-  const confirmBatchEnable = async () => {
-    if (deps.selectedRows.value.length <= 0) {
-      return;
-    }
-    const ok = await operationConfirm();
-    if (!ok) {
-      return;
-    }
-    await batchUpdateStatus(deps.selectedRows.value, true);
-  };
-
-  /**
-   * 确认批量禁用
-   */
-  const confirmBatchDisable = async () => {
-    if (deps.selectedRows.value.length <= 0) {
-      return;
-    }
-    const ok = await operationConfirm();
-    if (!ok) {
-      return;
-    }
-    await batchUpdateStatus(deps.selectedRows.value, false);
-  };
-
   return {
     openCreateDialog,
     openEditDialog,
     openDetailDialog,
     handleDelete,
     batchUpdateStatus,
-    confirmBatchEnable,
-    confirmBatchDisable,
   };
 }
 

@@ -1,6 +1,5 @@
 <script lang="ts" setup>
 import MenuElTreeView from '@/views/system/menu/components/MenuElTreeView.vue';
-import MenuTableTreeView from '@/views/system/menu/components/MenuTableTreeView.vue';
 import MenuTableView from '@/views/system/menu/components/MenuTableView.vue';
 import useMenuPageState from '@/views/system/menu/hooks/useMenuPageState';
 import useMenuTableAction from '@/views/system/menu/hooks/useMenuTableAction';
@@ -18,7 +17,6 @@ const { tableColumns, treeColumns } = useMenuTableColumns();
 
 const segmentedOptions = computed(() => [
   { label: t('sysMenu.viewTableTitle'), value: 'table' as const },
-  { label: t('sysMenu.viewTableTreeTitle'), value: 'tableTree' as const },
   { label: t('sysMenu.viewTreeTitle'), value: 'tree' as const },
 ]);
 
@@ -74,44 +72,7 @@ onMounted(() => {
       <el-segmented v-model="viewMode" :options="segmentedOptions" />
     </div>
 
-    <MenuTableView
-      v-if="viewMode === 'table'"
-      :columns="tableColumns"
-      :fetch-table-data="fetchTableData"
-      :handle-page-current-change="handlePageCurrentChange"
-      :handle-page-size-change="handlePageSizeChange"
-      :handle-selection-change="handleSelectionChange"
-      :loading="loading"
-      :on-add="openCreateDialog"
-      :on-assign-permission="openAssignPermissionDrawer"
-      :on-assign-role="openAssignRoleDrawer"
-      :on-batch-delete="() => handleDelete(selectedRows)"
-      :on-batch-disable="confirmBatchDisable"
-      :on-batch-enable="confirmBatchEnable"
-      :on-delete="(row) => handleDelete([row.id])"
-      :on-edit="openEditDialog"
-      :on-view="openDetailDialog"
-      :pagination="pagination"
-      :reset-query="resetQuery"
-      :search-form="searchForm"
-      :selected-row-ids="selectedRows"
-      :submit-table-search="submitTableSearch"
-      :table-data="tableData"
-    />
-
-    <MenuTableTreeView
-      v-else-if="viewMode === 'tableTree'"
-      :columns="treeColumns"
-      :fetch-tree-data="fetchTreeData"
-      :loading="loading"
-      :on-add="openCreateDialog"
-      :on-assign-permission="openAssignPermissionDrawer"
-      :on-assign-role="openAssignRoleDrawer"
-      :on-delete="(row) => handleDelete([row.id])"
-      :on-edit="openEditDialog"
-      :on-view="openDetailDialog"
-      :tree-data="treeData"
-    />
+    <MenuTableView v-if="viewMode === 'table'" />
 
     <MenuElTreeView
       v-else
