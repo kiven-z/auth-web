@@ -35,6 +35,7 @@ async function fetchPermissionPage(query: AuthAssignPageQuery) {
   return getPermissionPage({
     pageIndex: query.pageIndex,
     pageSize: query.pageSize,
+    status: 1,
     permissionType: 0,
     permissionName: query.keyword || undefined,
   });
@@ -82,7 +83,7 @@ defineExpose({ saveData });
 </script>
 
 <template>
-  <div v-loading="seedLoading" class="h-full min-h-0 flex flex-col">
+  <div v-loading="seedLoading" class="flex min-h-0 w-full flex-1 flex-col">
     <AssignManagePanel
       v-if="seedReady"
       ref="assignRef"
