@@ -235,7 +235,7 @@ defineExpose({ formRef, form });
                 rel="noopener noreferrer"
                 target="_blank"
                 type="primary"
-                :underline="false"
+                underline="never"
               >
                 {{ t('menus.iconifyLibrary') }}
               </el-link>
@@ -263,7 +263,7 @@ defineExpose({ formRef, form });
                 rel="noopener noreferrer"
                 target="_blank"
                 type="primary"
-                :underline="false"
+                underline="never"
               >
                 {{ t('menus.iconifyLibrary') }}
               </el-link>

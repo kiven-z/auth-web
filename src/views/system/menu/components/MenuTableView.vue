@@ -188,9 +188,6 @@ defineExpose({ tableRef });
           @page-size-change="handlePageSizeChange"
           @selection-change="handleSelectionChange"
         >
-          <!-- <template #icon="{ row }"> -->
-          <!--   <component :is="useRenderIcon(row.icon)" /> -->
-          <!-- </template> -->
           <template #actions="{ row }">
             <div class="flex justify-center flex-wrap gap-x-1">
               <el-button link type="primary" @click="openDetailDialog(row)">{{ t('buttons.actionView') }}</el-button>
