@@ -85,21 +85,6 @@ function useJobLogTableColumns() {
         );
       },
     },
-    // 更新人
-    {
-      label: t('table.updateUsername'),
-      prop: 'updateUser',
-      minWidth: 130,
-      formatter: (row: JobLogPageRow) => {
-        return (
-          row.updateUser && (
-            <ElButton link type="primary" onClick={() => selectUserinfo(row.updateUser!, row.updateUsername ?? '')}>
-              {row.updateUsername}
-            </ElButton>
-          )
-        );
-      },
-    },
     {
       label: t('table.actions'),
       fixed: 'right' as const,

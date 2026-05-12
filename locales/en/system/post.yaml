@@ -27,3 +27,5 @@ post:
   # Status enum
   statusNormal: Normal
   statusDisabled: Disabled
+  tips:
+    affiliatedPostInfo: Posts

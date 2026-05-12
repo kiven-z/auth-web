@@ -23,7 +23,7 @@ function usePasswordHistoryTableColumns() {
     },
     // 用户
     {
-      label: t('log.passwordHistory.userId'),
+      label: t('passwordHistory.userId'),
       prop: 'username',
       minWidth: 130,
       formatter: (row: PasswordHistoryPageRow) => {
@@ -36,13 +36,13 @@ function usePasswordHistoryTableColumns() {
     },
     // 修改IP地址
     {
-      label: t('log.passwordHistory.changeIp'),
+      label: t('passwordHistory.changeIp'),
       prop: 'changeIp',
       minWidth: 140,
     },
     // 修改时间
     {
-      label: t('log.passwordHistory.changeTime'),
+      label: t('passwordHistory.changeTime'),
       prop: 'changeTime',
       sortable: true,
       minWidth: 160,

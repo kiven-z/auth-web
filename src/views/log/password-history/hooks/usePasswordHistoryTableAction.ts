@@ -39,12 +39,12 @@ function usePasswordHistoryTableAction(deps: TableActionDeps) {
     try {
       detailData = await getPasswordHistoryDetail(row.id);
     } catch (error: unknown) {
-      errorMessage(error, { defaultI18nKey: 'log.passwordHistory.loadFailed' });
+      errorMessage(error, { defaultI18nKey: 'passwordHistory.loadFailed' });
       return;
     }
 
     addDialog({
-      title: t('log.passwordHistory.detailTitle'),
+      title: t('passwordHistory.detailTitle'),
       props: {},
       contentRenderer: () => h(PasswordHistoryDescriptionDialog, { data: detailData }),
       beforeSure: (done) => done(),
@@ -64,7 +64,7 @@ function usePasswordHistoryTableAction(deps: TableActionDeps) {
       message(t('tips.deleteSuccess'), { type: 'success' });
       await fetchTableData();
     } catch (error: unknown) {
-      errorMessage(error, { defaultI18nKey: 'log.passwordHistory.loadFailed' });
+      errorMessage(error, { defaultI18nKey: 'passwordHistory.loadFailed' });
     }
   };
 
@@ -82,7 +82,7 @@ function usePasswordHistoryTableAction(deps: TableActionDeps) {
       selectedRows.value = [];
       await fetchTableData();
     } catch (error: unknown) {
-      errorMessage(error, { defaultI18nKey: 'log.passwordHistory.loadFailed' });
+      errorMessage(error, { defaultI18nKey: 'passwordHistory.loadFailed' });
     }
   };
 

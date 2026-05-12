@@ -14,10 +14,10 @@ function usePasswordHistoryPageState() {
 
   // 搜索表单
   const searchForm = reactive({
-    userId: undefined as string | undefined,
-    changeTimeStart: undefined as string | undefined,
-    changeTimeEnd: undefined as string | undefined,
-    changeIp: undefined as string | undefined,
+    userId: undefined,
+    changeTimeStart: undefined,
+    changeTimeEnd: undefined,
+    changeIp: undefined,
   });
 
   // 分页
@@ -38,19 +38,14 @@ function usePasswordHistoryPageState() {
       pageIndex: pagination.currentPage,
       pageSize: pagination.pageSize,
     };
-    Object.keys(query).forEach((key) => {
-      if (query[key] === undefined || query[key] === '' || (Array.isArray(query[key]) && query[key].length === 0)) {
-        delete query[key];
-      }
-    });
     try {
-      const page = await getPasswordHistoryPage(query as any);
+      const page = await getPasswordHistoryPage(query);
       tableData.value = page.list ?? [];
       pagination.total = page.total;
       pagination.currentPage = page.pageNo;
       pagination.pageSize = page.pageSize;
     } catch (error: unknown) {
-      errorMessage(error, { defaultI18nKey: 'log.passwordHistory.loadFailed' });
+      errorMessage(error, { defaultI18nKey: 'passwordHistory.loadFailed' });
     } finally {
       loading.value = false;
     }

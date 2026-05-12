@@ -32,9 +32,7 @@ const {
   handlePageCurrentChange,
 } = useAuthorizationAuditPageState();
 const { selectedRows, handleSelectionChange, openDetailDialog, deleteRow, deleteBatchRows } =
-  useAuthorizationAuditTableAction({
-    fetchTableData,
-  });
+  useAuthorizationAuditTableAction({ fetchTableData });
 
 const { userOptions, userSearchLoading, loadUserListByKeyword } = useRemoteUserSearch({
   errorDefaultI18nKey: 'authorizationAudit.loadFailed',
@@ -167,5 +165,3 @@ onMounted(() => {
     </TableBar>
   </div>
 </template>
-
-<style lang="scss" scoped></style>

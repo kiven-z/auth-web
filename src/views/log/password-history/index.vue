@@ -31,7 +31,7 @@ const { selectedRows, handleSelectionChange, openDetailDialog, deleteRow, delete
   usePasswordHistoryTableAction({ fetchTableData });
 
 const { userOptions, userSearchLoading, loadUserListByKeyword } = useRemoteUserSearch({
-  errorDefaultI18nKey: 'log.passwordHistory.loadFailed',
+  errorDefaultI18nKey: 'passwordHistory.loadFailed',
 });
 
 onMounted(() => {
@@ -49,11 +49,11 @@ onMounted(() => {
       class="bg-bg_color w-[99/100] overflow-auto pl-8 pt-[12px]"
     >
       <!-- 用户 -->
-      <el-form-item :label="t('log.passwordHistory.userId')" prop="userId">
+      <el-form-item :label="t('passwordHistory.userId')" prop="userId">
         <el-select
           v-model="searchForm.userId"
           :loading="userSearchLoading"
-          :placeholder="t('log.passwordHistory.placeholder.userId')"
+          :placeholder="t('passwordHistory.placeholder.userId')"
           :remote-method="loadUserListByKeyword"
           class="w-[200px]!"
           clearable
@@ -64,10 +64,10 @@ onMounted(() => {
         </el-select>
       </el-form-item>
       <!-- 修改时间 -->
-      <el-form-item :label="t('log.passwordHistory.changeTime')" prop="changeTime">
+      <el-form-item :label="t('passwordHistory.changeTime')" prop="changeTime">
         <el-date-picker
           v-model="searchForm.changeTimeStart"
-          :placeholder="t('log.passwordHistory.placeholder.changeTimeStart')"
+          :placeholder="t('passwordHistory.placeholder.changeTimeStart')"
           class="w-[160px]!"
           type="datetime"
           value-format="YYYY-MM-DDTHH:mm:ss"
@@ -75,14 +75,14 @@ onMounted(() => {
         <span class="mx-2">-</span>
         <el-date-picker
           v-model="searchForm.changeTimeEnd"
-          :placeholder="t('log.passwordHistory.placeholder.changeTimeEnd')"
+          :placeholder="t('passwordHistory.placeholder.changeTimeEnd')"
           class="w-[160px]!"
           type="datetime"
           value-format="YYYY-MM-DDTHH:mm:ss"
         />
       </el-form-item>
       <!-- 修改IP地址 -->
-      <el-form-item :label="t('log.passwordHistory.changeIp')" prop="changeIp">
+      <el-form-item :label="t('passwordHistory.changeIp')" prop="changeIp">
         <el-input v-model="searchForm.changeIp" class="w-[160px]!" clearable />
       </el-form-item>
 
@@ -97,7 +97,7 @@ onMounted(() => {
 
     <TableBar
       :columns="columns"
-      :title="t('log.passwordHistory.tableTitle')"
+      :title="t('passwordHistory.tableTitle')"
       @fullscreen="tableRef?.setAdaptive()"
       @refresh="fetchTableData"
     >

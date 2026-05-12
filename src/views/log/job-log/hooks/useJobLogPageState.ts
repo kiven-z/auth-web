@@ -35,11 +35,6 @@ function useJobLogPageState() {
       pageIndex: pagination.currentPage,
       pageSize: pagination.pageSize,
     };
-    Object.keys(query).forEach((key) => {
-      if (query[key] === undefined || query[key] === '' || (Array.isArray(query[key]) && query[key].length === 0)) {
-        delete query[key];
-      }
-    });
     try {
       const page = await getJobLogPage(query as any);
       tableData.value = page.list ?? [];

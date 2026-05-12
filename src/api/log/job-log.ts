@@ -1,8 +1,3 @@
-/**
- * 任务调度日志 API
- *
- * 约定后端 LogJobController：/api/system/job-log（前端 baseURL 已含前缀时路径为 /system/job-log）
- */
 import type { PageResponse, SortSpec } from '@/api/common';
 import { http } from '@/infrastructure/http-core';
 import type { AxiosRequestConfig } from 'axios';

@@ -13,11 +13,11 @@ const { t } = useI18n();
 
 const columns = computed(() => [
   // 用户
-  { label: t('log.passwordHistory.userId'), prop: 'username', labelWidth: 120, copy: true },
+  { label: t('passwordHistory.userId'), prop: 'username', labelWidth: 120, copy: true },
   // 修改时间
-  { label: t('log.passwordHistory.changeTime'), prop: 'changeTime', copy: true },
+  { label: t('passwordHistory.changeTime'), prop: 'changeTime', copy: true },
   // 修改IP地址
-  { label: t('log.passwordHistory.changeIp'), prop: 'changeIp' },
+  { label: t('passwordHistory.changeIp'), prop: 'changeIp' },
   // 创建时间
   { label: t('table.createTime'), prop: 'createTime' },
   // 更新时间

@@ -10,6 +10,7 @@ import AuthorizationAuditDetailDialog from '@/views/log/authorization-audit-log/
 import { h, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { addDialog } from '@/components/ui/Dialog';
+import { useDebounceFn } from '@vueuse/core';
 
 /**
  * 权限决策审计日志表格操作：查看详情、删除、批量删除（标准两次删除确认）
@@ -33,7 +34,7 @@ function useAuthorizationAuditTableAction(deps: TableActionDeps) {
    * 打开详情对话框
    * @param row 行数据
    */
-  const openDetailDialog = async (row: AuthorizationAuditPageRow) => {
+  const openDetailDialog = useDebounceFn(async (row: AuthorizationAuditPageRow) => {
     let detailData: any = row;
     try {
       detailData = await getAuthorizationAuditDetail(row.id);
@@ -53,7 +54,7 @@ function useAuthorizationAuditTableAction(deps: TableActionDeps) {
         done();
       },
     });
-  };
+  }, 500);
 
   /**
    * 删除单行

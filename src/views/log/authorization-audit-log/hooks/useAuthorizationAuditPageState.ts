@@ -13,11 +13,11 @@ function useAuthorizationAuditPageState() {
   const tableData = ref<any[]>([]);
   // 搜索表单
   const searchForm = reactive({
-    eventType: undefined as string | undefined,
-    decisionReason: undefined as string | undefined,
-    className: undefined as string | undefined,
-    createUserId: undefined as number | undefined,
-    operatorUsername: undefined as string | undefined,
+    eventType: undefined,
+    decisionReason: undefined,
+    className: undefined,
+    createUserId: undefined,
+    operatorUsername: undefined,
   });
 
   // 分页
@@ -37,13 +37,9 @@ function useAuthorizationAuditPageState() {
       pageIndex: pagination.currentPage,
       pageSize: pagination.pageSize,
     };
-    Object.keys(query).forEach((key) => {
-      if (query[key] === undefined || query[key] === '' || (Array.isArray(query[key]) && query[key].length === 0)) {
-        delete query[key];
-      }
-    });
+
     try {
-      const page = await getAuthorizationAuditPage(query as any);
+      const page = await getAuthorizationAuditPage(query);
       tableData.value = page.list ?? [];
       pagination.total = page.total;
       pagination.currentPage = page.pageNo;

@@ -27,3 +27,5 @@ post:
   # 状态枚举
   statusNormal: 正常
   statusDisabled: 禁用
+  tips:
+    affiliatedPostInfo: 所属岗位

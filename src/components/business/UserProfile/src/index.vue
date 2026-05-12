@@ -114,7 +114,7 @@ watch(
 
     <div class="section">
       <div class="section-header">
-        <h4 class="section-subtitle">{{ t('post.postList') }}</h4>
+        <h4 class="section-subtitle">{{ t('post.tips.affiliatedPostInfo') }}</h4>
         <el-badge :value="postInfos.length" class="badge" type="warning" />
       </div>
 
