@@ -1,7 +1,29 @@
 post:
-  postName: 岗位名称
+  moduleName: 岗位
+  # 页面级别
+  pageTitle: 岗位管理
+  query: 查询
+  reset: 重置
+  actions: 操作
+  actionView: 查看
+  actionDelete: 删除
+  actionAdd: 新增
+  actionBatchDelete: 批量删除
+  loadFailed: 加载岗位列表失败
+  dialogCreateTitle: 新增岗位
+  dialogEditTitle: 编辑岗位
+  dialogViewTitle: 查看岗位详情
+  # 表头
   postCode: 岗位编码
-  isPrimaryPosition: 是否主岗
-  primaryPosition: 主岗
-  secondaryPosition: 兼岗
-  postList: 岗位列表
+  postName: 岗位名称
+  deptName: 所属部门
+  status: 状态
+  orderNum: 显示顺序
+  remark: 备注
+  createTime: 创建时间
+  updateTime: 更新时间
+  createUsername: 创建人
+  updateUsername: 更新人
+  # 状态枚举
+  statusNormal: 正常
+  statusDisabled: 禁用
