@@ -13,6 +13,10 @@ export interface JobLogPageQuery {
   jobName?: string;
   // 任务分组
   jobGroup?: string;
+  // 调用目标（模糊搜索）
+  invokeTarget?: string;
+  // 耗时(ms)，精确匹配
+  elapsedTime?: number;
   // 执行状态(0成功 1失败)
   status?: number;
 }
@@ -75,7 +79,7 @@ export interface JobLogDetailRow {
  * @returns 任务调度日志分页行
  */
 export function getJobLogPage(params: JobLogPageQuery): Promise<PageResponse<JobLogPageRow>> {
-  return http.get<PageResponse<JobLogPageRow>, AxiosRequestConfig<JobLogPageQuery>>('/system/job-log', {
+  return http.get<PageResponse<JobLogPageRow>, AxiosRequestConfig<JobLogPageQuery>>('/system/job-log/page', {
     params,
   });
 }

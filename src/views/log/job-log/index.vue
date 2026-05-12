@@ -62,6 +62,24 @@ onMounted(() => {
         />
       </el-form-item>
 
+      <el-form-item :label="t('logJob.invokeTarget')" prop="invokeTarget">
+        <el-input
+          v-model="searchForm.invokeTarget"
+          :placeholder="t('logJob.placeholder.invokeTarget')"
+          class="w-[220px]!"
+          clearable
+        />
+      </el-form-item>
+
+      <el-form-item :label="t('logJob.elapsedTime')" prop="elapsedTime">
+        <el-input-number
+          v-model="searchForm.elapsedTime"
+          :placeholder="t('logJob.placeholder.elapsedTime')"
+          class="w-[160px]!"
+          clearable
+        />
+      </el-form-item>
+
       <el-form-item :label="t('logJob.status')" prop="status">
         <el-select
           v-model="searchForm.status"

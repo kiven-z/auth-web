@@ -1,4 +1,4 @@
-import { getJobLogPage } from '@/api/log/job-log';
+import { getJobLogPage, type JobLogPageQuery, type JobLogPageRow } from '@/api/log/job-log';
 import { errorMessage } from '@/shared/messaging/message';
 import type { FormInstance } from 'element-plus';
 import { reactive, ref } from 'vue';
@@ -10,11 +10,13 @@ function useJobLogPageState() {
   // 加载状态
   const loading = ref(false);
   // 表格数据
-  const tableData = ref<any[]>([]);
+  const tableData = ref<JobLogPageRow[]>([]);
   // 搜索表单
   const searchForm = reactive({
     jobName: undefined,
     jobGroup: undefined,
+    invokeTarget: undefined,
+    elapsedTime: undefined,
     status: undefined,
   });
 
@@ -30,13 +32,13 @@ function useJobLogPageState() {
    */
   const fetchTableData = async () => {
     loading.value = true;
-    const query: Record<string, any> = {
+    const query: JobLogPageQuery = {
       ...searchForm,
       pageIndex: pagination.currentPage,
       pageSize: pagination.pageSize,
     };
     try {
-      const page = await getJobLogPage(query as any);
+      const page = await getJobLogPage(query);
       tableData.value = page.list ?? [];
       pagination.total = page.total;
       pagination.currentPage = page.pageNo;

@@ -13,6 +13,8 @@ logJob:
   placeholder:
     jobName: 请输入任务名称
     jobGroup: 请输入任务分组
+    invokeTarget: 请输入调用目标
+    elapsedTime: 耗时(ms)
     status: 全部状态
   statusEnum:
     '0': 成功

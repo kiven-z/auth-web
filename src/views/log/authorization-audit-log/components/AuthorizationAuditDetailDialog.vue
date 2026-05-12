@@ -13,7 +13,7 @@ const { t } = useI18n();
 
 const columns = computed(() => [
   // 事件类型
-  { label: t('authorizationAudit.eventType'), prop: 'eventTypeLabel', labelWidth: 120 },
+  { label: t('authorizationAudit.eventType'), prop: 'eventType', labelWidth: 120 },
   // 会话 ID
   { label: t('authorizationAudit.sessionId'), prop: 'sessionId', labelWidth: 120, copy: true },
   // 所需权限码
@@ -25,7 +25,7 @@ const columns = computed(() => [
   // 请求 IP
   { label: t('authorizationAudit.requestIp'), prop: 'requestIp', labelWidth: 120, copy: true },
   // 决策原因
-  { label: t('authorizationAudit.decisionReason'), prop: 'decisionReasonLabel', labelWidth: 120 },
+  { label: t('authorizationAudit.decisionReason'), prop: 'decisionReason', labelWidth: 120 },
   // 决策详情
   { label: t('authorizationAudit.decisionDetail'), prop: 'decisionDetail', labelWidth: 120, copy: true },
   // 用户权限摘要
@@ -33,7 +33,7 @@ const columns = computed(() => [
   // 策略编码
   { label: t('authorizationAudit.policyCode'), prop: 'policyCode', labelWidth: 120, copy: true },
   // 策略决策结果
-  { label: t('authorizationAudit.policyDecision'), prop: 'policyDecisionLabel', labelWidth: 120 },
+  { label: t('authorizationAudit.policyDecision'), prop: 'policyDecision', labelWidth: 120 },
   // Controller 类名
   { label: t('authorizationAudit.className'), prop: 'className', labelWidth: 120, copy: true },
   // 方法名

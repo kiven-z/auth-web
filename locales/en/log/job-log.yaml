@@ -13,6 +13,8 @@ logJob:
   placeholder:
     jobName: Enter job name
     jobGroup: Enter job group
+    invokeTarget: Enter invoke target
+    elapsedTime: Elapsed ms
     status: All status
   statusEnum:
     '0': Success

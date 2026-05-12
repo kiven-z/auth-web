@@ -12,6 +12,9 @@ authorizationAudit:
   userPermissionsSummary: 用户权限摘要
   policyCode: 策略编码
   policyDecision: 策略决策
+  policyDecisionEnum:
+    'true': 是
+    'false': 否
   methodParams: 方法参数
   exceptionMessage: 异常信息
   remark: 备注
