@@ -40,6 +40,8 @@ function useLoginLogTableAction(deps: TableActionDeps) {
 
     addDialog({
       title: t('loginLog.detailTitle'),
+      width: '100%',
+      draggable: false,
       props: {},
       contentRenderer: () => h(LoginLogDetailDialog, { data: detailData }),
       beforeSure: (done) => done(),

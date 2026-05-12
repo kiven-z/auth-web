@@ -1,0 +1,19 @@
+logJob:
+  jobName: 任务名称
+  jobGroup: 任务分组
+  invokeTarget: 调用目标
+  jobMessage: 执行报告
+  status: 执行状态
+  elapsedTime: 耗时(ms)
+  exceptionInfo: 异常信息
+  createTime: 记录时间
+  tableTitle: 任务调度日志
+  detailTitle: 任务调度日志详情
+  loadFailed: 获取任务调度日志失败
+  placeholder:
+    jobName: 请输入任务名称
+    jobGroup: 请输入任务分组
+    status: 全部状态
+  statusEnum:
+    '0': 成功
+    '1': 失败
