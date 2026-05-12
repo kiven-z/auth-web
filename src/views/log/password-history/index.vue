@@ -70,7 +70,7 @@ onMounted(() => {
           :placeholder="t('log.passwordHistory.placeholder.changeTimeStart')"
           class="w-[160px]!"
           type="datetime"
-          value-format="YYYY-MM-DD HH:mm:ss"
+          value-format="YYYY-MM-DDTHH:mm:ss"
         />
         <span class="mx-2">-</span>
         <el-date-picker
@@ -78,7 +78,7 @@ onMounted(() => {
           :placeholder="t('log.passwordHistory.placeholder.changeTimeEnd')"
           class="w-[160px]!"
           type="datetime"
-          value-format="YYYY-MM-DD HH:mm:ss"
+          value-format="YYYY-MM-DDTHH:mm:ss"
         />
       </el-form-item>
       <!-- 修改IP地址 -->

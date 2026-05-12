@@ -86,7 +86,7 @@ onMounted(() => {
           :placeholder="t('loginLog.loginTimeStart')"
           class="w-[160px]!"
           type="datetime"
-          value-format="YYYY-MM-DD HH:mm:ss"
+          value-format="YYYY-MM-DDTHH:mm:ss"
         />
         <span class="mx-2">-</span>
         <el-date-picker
@@ -94,7 +94,7 @@ onMounted(() => {
           :placeholder="t('loginLog.loginTimeEnd')"
           class="w-[160px]!"
           type="datetime"
-          value-format="YYYY-MM-DD HH:mm:ss"
+          value-format="YYYY-MM-DDTHH:mm:ss"
         />
       </el-form-item>
 
