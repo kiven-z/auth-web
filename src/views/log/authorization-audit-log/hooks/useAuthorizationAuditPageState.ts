@@ -17,7 +17,6 @@ function useAuthorizationAuditPageState() {
     decisionReason: undefined,
     className: undefined,
     createUserId: undefined,
-    operatorUsername: undefined,
   });
 
   // 分页

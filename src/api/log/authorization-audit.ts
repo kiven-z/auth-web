@@ -15,10 +15,8 @@ export interface AuthorizationAuditQuery {
   decisionReason?: string;
   //Controller 类全名（模糊匹配 LIKE %...%）
   className?: string;
-  //操作人用户 ID（对应 create_user，精确匹配）
-  createUserId?: number;
-  //操作人登录名（关联 sys_user.username 模糊匹配）
-  operatorUsername?: string;
+  //操作人用户 ID（对应 create_user，精确匹配；与 Snowflake 一致用 string）
+  createUserId?: string;
 }
 
 /**

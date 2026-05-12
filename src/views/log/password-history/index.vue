@@ -83,7 +83,12 @@ onMounted(() => {
       </el-form-item>
       <!-- 修改IP地址 -->
       <el-form-item :label="t('passwordHistory.changeIp')" prop="changeIp">
-        <el-input v-model="searchForm.changeIp" class="w-[160px]!" clearable />
+        <el-input
+          v-model="searchForm.changeIp"
+          :placeholder="t('passwordHistory.placeholder.changeIp')"
+          class="w-[160px]!"
+          clearable
+        />
       </el-form-item>
 
       <!-- 表单搜索 -->

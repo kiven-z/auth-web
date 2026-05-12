@@ -1,10 +1,7 @@
 <script lang="ts" setup>
 import TableBar from '@/components/ui/TableBar';
 import useRemoteUserSearch from '@/shared/hooks/useRemoteUserSearch';
-import {
-  AUDIT_DECISION_REASONS,
-  AUDIT_EVENT_TYPES,
-} from '@/views/log/authorization-audit-log/constants/authorization-audit-enums';
+import { AUDIT_EVENT_TYPES } from '@/views/log/authorization-audit-log/constants/authorization-audit-enums';
 import useAuthorizationAuditPageState from '@/views/log/authorization-audit-log/hooks/useAuthorizationAuditPageState';
 import useAuthorizationAuditTableAction from '@/views/log/authorization-audit-log/hooks/useAuthorizationAuditTableAction';
 import useAuthorizationAuditTableColumns from '@/views/log/authorization-audit-log/hooks/useAuthorizationAuditTableColumns';
@@ -68,19 +65,12 @@ onMounted(() => {
       </el-form-item>
 
       <el-form-item :label="t('authorizationAudit.decisionReason')" prop="decisionReason">
-        <el-select
+        <el-input
           v-model="searchForm.decisionReason"
           :placeholder="t('authorizationAudit.placeholder.decisionReason')"
-          class="w-[180px]!"
+          class="w-[200px]!"
           clearable
-        >
-          <el-option
-            v-for="reason in AUDIT_DECISION_REASONS"
-            :key="reason"
-            :label="t(`authorizationAudit.decisionReasonEnum.${reason}`)"
-            :value="reason"
-          />
-        </el-select>
+        />
       </el-form-item>
 
       <el-form-item :label="t('authorizationAudit.className')" prop="className">

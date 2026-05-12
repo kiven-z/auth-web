@@ -29,10 +29,3 @@ authorizationAudit:
   eventTypeEnum:
     GRANTED: Granted
     DENIED: Denied
-  decisionReasonEnum:
-    MATCHED: Matched
-    ACCESS_DENIED: Access Denied
-    UNAUTHENTICATED: Unauthenticated
-    FORBIDDEN: Forbidden
-    METHOD_NOT_ALLOWED: Method Not Allowed
-    NOT_FOUND: Not Found
