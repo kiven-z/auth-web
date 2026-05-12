@@ -1,8 +1,23 @@
 dept:
-  deptName: Department name
-  deptCode: Department code
-  isPrimaryDepartment: Primary department
-  primaryDepartment: Primary
-  secondaryDepartment: Secondary
+  moduleName: Departments
+  pageTitle: Department Management
+  loadFailed: Failed to load departments
+  viewTableTitle: Table View
+  viewTreeTitle: Tree View
+  expandAll: Expand All
+  collapseAll: Collapse All
+  # Table headers
+  deptName: Department Name
+  deptCode: Department Code
+  status: Status
+  orderNum: Order
+  remark: Remark
+  createTime: Created At
+  updateTime: Updated At
+  createUsername: Created by
+  updateUsername: Updated by
+  # Status enum
+  statusNormal: Normal
+  statusDisabled: Disabled
   tips:
     affiliatedDeptInfo: Departments
