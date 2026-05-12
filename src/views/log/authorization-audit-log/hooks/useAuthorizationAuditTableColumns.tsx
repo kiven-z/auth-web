@@ -1,0 +1,93 @@
+/**
+ * 权限决策审计日志表格列
+ */
+import { ElButton } from 'element-plus';
+import { computed } from 'vue';
+import { useI18n } from 'vue-i18n';
+import { selectUserinfo } from '@/components/business/UserProfile';
+import type { AuthorizationAuditPageRow } from '@/api/log/authorization-audit';
+
+function useAuthorizationAuditTableColumns() {
+  const { t } = useI18n();
+
+  const columns = computed<TableColumnList>(() => [
+    {
+      type: 'selection',
+      width: 50,
+    },
+    {
+      type: 'index',
+      index: (index: number) => index + 1,
+      label: t('table.idx'),
+      minWidth: 60,
+    },
+    // 事件类型
+    {
+      label: t('authorizationAudit.eventType'),
+      prop: 'eventType',
+      minWidth: 110,
+    },
+    // 决策原因
+    {
+      label: t('authorizationAudit.decisionReason'),
+      prop: 'decisionReason',
+      minWidth: 140,
+    },
+    // 类名
+    {
+      label: t('authorizationAudit.className'),
+      prop: 'className',
+      minWidth: 200,
+    },
+    // 方法名
+    {
+      label: t('authorizationAudit.methodName'),
+      prop: 'methodName',
+      minWidth: 160,
+    },
+    {
+      label: t('table.createTime'),
+      prop: 'createTime',
+      sortable: true,
+      minWidth: 170,
+    },
+    {
+      label: t('table.createUsername'),
+      prop: 'createUser',
+      minWidth: 130,
+      formatter: (row: AuthorizationAuditPageRow) => {
+        return (
+          row.createUser && (
+            <ElButton link type="primary" onClick={() => selectUserinfo(row.createUser!, row.createUsername ?? '')}>
+              {row.createUsername}
+            </ElButton>
+          )
+        );
+      },
+    },
+    {
+      label: t('table.updateUsername'),
+      prop: 'updateUser',
+      minWidth: 130,
+      formatter: (row: AuthorizationAuditPageRow) => {
+        return (
+          row.updateUser && (
+            <ElButton link type="primary" onClick={() => selectUserinfo(row.updateUser!, row.updateUsername ?? '')}>
+              {row.updateUsername}
+            </ElButton>
+          )
+        );
+      },
+    },
+    {
+      label: t('table.actions'),
+      fixed: 'right' as const,
+      width: 120,
+      slot: 'actions',
+    },
+  ]);
+
+  return { columns };
+}
+
+export default useAuthorizationAuditTableColumns;

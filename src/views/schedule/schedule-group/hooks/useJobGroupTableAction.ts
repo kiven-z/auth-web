@@ -39,6 +39,7 @@ function useJobGroupTableAction(deps: TableActionDeps) {
       title: t('scheduleGroup.addTitle'),
       props: { form, mode: 'add' },
       draggable: true,
+      fullscreenIcon: true,
       closeOnPressEscape: false,
       closeOnClickModal: false,
       contentRenderer: () => h(ScheduleGroupFormDialog, { ref: dialogRef, form: form as any, mode: 'add' }),

@@ -88,9 +88,10 @@ routes:
   schedule: 任务调度
   scheduleGroup: 任务调度分组
   scheduleTask: 任务调度任务
-  scheduleLog: 任务调度日志
 
+  authorizationAudit: 授权审核
   logManagement: 日志管理
+  scheduleLog: 任务调度日志
   passwordHistory: 密码历史
   loginLog: 登录日志
   operationLog: 操作日志

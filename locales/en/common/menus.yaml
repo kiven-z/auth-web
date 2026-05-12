@@ -88,9 +88,10 @@ routes:
   schedule: Task Scheduling
   scheduleGroup: Schedule Groups
   scheduleTask: Schedule Tasks
-  scheduleLog: Schedule Logs
 
+  authorizationAudit: Authorization Audit
   logManagement: Log Management
+  scheduleLog: Schedule Logs
   passwordHistory: Password History
   loginLog: Login Logs
   operationLog: Operation Logs

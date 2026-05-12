@@ -1,0 +1,35 @@
+authorizationAudit:
+  eventType: Event Type
+  decisionReason: Decision Reason
+  className: Controller
+  methodName: Method
+  sessionId: Session ID
+  requiredPermission: Required Permission
+  requestMethod: HTTP Method
+  requestUri: Request URI
+  requestIp: Request IP
+  decisionDetail: Decision Detail
+  userPermissionsSummary: User Permissions
+  policyCode: Policy Code
+  policyDecision: Policy Decision
+  methodParams: Method Params
+  exceptionMessage: Exception
+  remark: Remark
+  tableTitle: Authorization Audit Logs
+  detailTitle: Authorization Audit Detail
+  loadFailed: Failed to load authorization audit logs
+  placeholder:
+    eventType: All types
+    decisionReason: All reasons
+    className: Enter class name
+    createUserId: Search user by keyword
+  eventTypeEnum:
+    GRANTED: Granted
+    DENIED: Denied
+  decisionReasonEnum:
+    MATCHED: Matched
+    ACCESS_DENIED: Access Denied
+    UNAUTHENTICATED: Unauthenticated
+    FORBIDDEN: Forbidden
+    METHOD_NOT_ALLOWED: Method Not Allowed
+    NOT_FOUND: Not Found

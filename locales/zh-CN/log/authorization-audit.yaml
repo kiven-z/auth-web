@@ -1,0 +1,35 @@
+authorizationAudit:
+  eventType: 事件类型
+  decisionReason: 决策原因
+  className: 类名
+  methodName: 方法名
+  sessionId: 会话ID
+  requiredPermission: 所需权限
+  requestMethod: HTTP方法
+  requestUri: 请求URI
+  requestIp: 请求IP
+  decisionDetail: 决策详情
+  userPermissionsSummary: 用户权限摘要
+  policyCode: 策略编码
+  policyDecision: 策略决策
+  methodParams: 方法参数
+  exceptionMessage: 异常信息
+  remark: 备注
+  tableTitle: 权限决策审计日志
+  detailTitle: 权限决策审计详情
+  loadFailed: 获取权限决策审计日志失败
+  placeholder:
+    eventType: 全部类型
+    decisionReason: 全部原因
+    className: 请输入类名
+    createUserId: 请输入关键字搜索用户
+  eventTypeEnum:
+    GRANTED: 授权通过
+    DENIED: 拒绝访问
+  decisionReasonEnum:
+    MATCHED: 权限匹配
+    ACCESS_DENIED: 拒绝访问
+    UNAUTHENTICATED: 未认证
+    FORBIDDEN: 禁止访问
+    METHOD_NOT_ALLOWED: 方法不允许
+    NOT_FOUND: 未找到
