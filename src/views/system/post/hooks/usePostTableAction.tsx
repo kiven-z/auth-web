@@ -53,14 +53,7 @@ function usePostTableAction(deps: TableActionDeps) {
           if (!valid) return;
           const f = dlgFormRef.value?.form;
           if (!f) return;
-          await createPost({
-            deptId: f.deptId,
-            postCode: f.postCode,
-            postName: f.postName,
-            status: f.status,
-            orderNum: f.orderNum,
-            remark: f.remark,
-          });
+          await createPost(f);
           message(t('tips.addSuccess'), { type: 'success' });
           await fetchTableData();
           done();

@@ -80,14 +80,6 @@ export function createJobGroup(data: CreateJobGroupRequest): Promise<string> {
  * @param data 修改表单数据
  */
 export function updateJobGroup(data: UpdateJobGroupRequest): Promise<string> {
-  data = {
-    id: data.id,
-    groupName: data.groupName,
-    description: data.description,
-    status: data.status,
-    orderNum: data.orderNum,
-  };
-
   return http.request<string>('put', '/system/job-group', { data });
 }
 
