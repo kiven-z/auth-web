@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import type { AuthorizationAuditDetailRow } from '@/api/log/authorization-audit';
-import Description from '@/components/ui/Description/index.vue';
+import Description from '@/components/ui/Description';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 
@@ -56,5 +56,5 @@ const view = computed(() => {
 </script>
 
 <template>
-  <Description :column="2" :columns="columns" :data="[view]" border class="overflow-x-auto" />
+  <Description :column="2" :columns="columns" :data="[view]" />
 </template>

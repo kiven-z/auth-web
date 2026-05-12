@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import Description from '@/components/ui/Description/index.vue';
+import Description from '@/components/ui/Description';
 </script>
 
 <template>

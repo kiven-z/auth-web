@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import type { SysPostPageRow } from '@/api/system/post';
-import Description from '@/components/ui/Description/index.vue';
+import Description from '@/components/ui/Description';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 
@@ -10,24 +10,21 @@ const props = defineProps<{
 
 const { t } = useI18n();
 
-const descriptionColumns = computed(() => [
-  { label: t('post.postCode'), value: props.row.postCode },
-  { label: t('post.postName'), value: props.row.postName },
-  { label: t('post.deptName'), value: props.row.deptName },
-  {
-    label: t('post.status'),
-    value: props.row.status === 1 ? t('post.statusNormal') : t('post.statusDisabled'),
-  },
-  { label: t('post.orderNum'), value: props.row.orderNum },
-  { label: t('table.createTime'), value: props.row.createTime },
-  { label: t('table.updateTime'), value: props.row.updateTime },
-  { label: t('table.createUsername'), value: props.row.createUsername ?? '-' },
-  { label: t('table.updateUsername'), value: props.row.updateUsername ?? '-' },
+const columns = computed(() => [
+  { label: t('post.postCode'), prop: 'postCode', labelWidth: 120 },
+  { label: t('post.postName'), prop: 'postName', labelWidth: 120 },
+  { label: t('post.deptName'), prop: 'deptName', labelWidth: 120 },
+  { label: t('post.status'), prop: 'status', labelWidth: 120 },
+  { label: t('post.orderNum'), prop: 'orderNum', labelWidth: 120 },
+  { label: t('table.createTime'), prop: 'createTime', labelWidth: 120 },
+  { label: t('table.updateTime'), prop: 'updateTime', labelWidth: 120 },
+  { label: t('table.createUsername'), prop: 'createUsername', labelWidth: 120 },
+  { label: t('table.updateUsername'), prop: 'updateUsername', labelWidth: 120 },
 ]);
 </script>
 
 <template>
   <div>
-    <Description :columns="descriptionColumns" />
+    <Description :column="2" :columns="columns" :data="[{}]" />
   </div>
 </template>
