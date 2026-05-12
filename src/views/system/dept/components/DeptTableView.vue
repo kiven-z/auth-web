@@ -100,7 +100,21 @@ onMounted(() => {
           @page-current-change="handlePageCurrentChange"
           @page-size-change="handlePageSizeChange"
           @selection-change="handleSelectionChange"
-        />
+        >
+          <template #actions="{ row }">
+            <el-button link type="primary">查看</el-button>
+            <el-button link type="primary">修改</el-button>
+            <el-button link type="danger">删除</el-button>
+
+            <el-dropdown class="ml-1" trigger="click">
+              <el-button link type="primary">更多</el-button>
+              <template #dropdown>
+                <el-dropdown-item>分配角色</el-dropdown-item>
+                <el-dropdown-item>分配岗位</el-dropdown-item>
+              </template>
+            </el-dropdown>
+          </template>
+        </AuthDataTable>
       </template>
     </TableBar>
   </div>

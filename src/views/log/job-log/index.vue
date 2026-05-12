@@ -1,12 +1,14 @@
 <script lang="ts" setup>
+import { getJobLogPage } from '@/api/log/job-log';
+import AuthDataTable from '@/components/ui/AuthDataTable';
 import TableBar from '@/components/ui/TableBar';
-import { LOG_JOB_STATUS_CODES } from '@/views/log/job-log/constants/job-log-enums';
-import useJobLogPageState from '@/views/log/job-log/hooks/useJobLogPageState';
+import { usePaginationState } from '@/shared/hooks/usePaginationState';
 import useJobLogTableAction from '@/views/log/job-log/hooks/useJobLogTableAction';
 import useJobLogTableColumns from '@/views/log/job-log/hooks/useJobLogTableColumns';
 import type { FormInstance } from 'element-plus';
-import { onMounted, ref } from 'vue';
+import { onMounted, reactive, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
+import { LOG_JOB_STATUS_CODES } from '@/views/log/job-log/constants/job-log-enums';
 
 defineOptions({
   name: 'LogJobLog',
@@ -19,6 +21,7 @@ const tableRef = ref<{ setAdaptive: () => Promise<void> } | null>(null);
 
 const {
   tableData,
+  selectedRows,
   loading,
   pagination,
   searchForm,
@@ -26,9 +29,22 @@ const {
   resetQuery,
   handlePageSizeChange,
   handlePageCurrentChange,
-} = useJobLogPageState();
-const { selectedRows, handleSelectionChange, openDetailDialog, deleteRow, deleteBatchRows } = useJobLogTableAction({
+  handleSelectionChange,
+} = usePaginationState({
+  fetchApi: getJobLogPage,
+  searchForm: reactive({
+    jobName: undefined as string | undefined,
+    jobGroup: undefined as string | undefined,
+    invokeTarget: undefined as string | undefined,
+    elapsedTime: undefined as number | undefined,
+    status: undefined as string | undefined,
+  }),
+  errorI18nKey: 'logJob.loadFailed',
+});
+
+const { openDetailDialog, deleteRow, deleteBatchRows } = useJobLogTableAction({
   fetchTableData,
+  selectedRows,
 });
 
 onMounted(() => {
@@ -44,6 +60,7 @@ onMounted(() => {
       :model="searchForm"
       class="bg-bg_color w-[99/100] overflow-auto pl-8 pt-[12px]"
     >
+      <!-- 任务名称 -->
       <el-form-item :label="t('logJob.jobName')" prop="jobName">
         <el-input
           v-model="searchForm.jobName"
@@ -52,7 +69,7 @@ onMounted(() => {
           clearable
         />
       </el-form-item>
-
+      <!-- 任务分组 -->
       <el-form-item :label="t('logJob.jobGroup')" prop="jobGroup">
         <el-input
           v-model="searchForm.jobGroup"
@@ -61,7 +78,7 @@ onMounted(() => {
           clearable
         />
       </el-form-item>
-
+      <!-- 调用目标 -->
       <el-form-item :label="t('logJob.invokeTarget')" prop="invokeTarget">
         <el-input
           v-model="searchForm.invokeTarget"
@@ -70,7 +87,7 @@ onMounted(() => {
           clearable
         />
       </el-form-item>
-
+      <!-- 执行耗时(ms) -->
       <el-form-item :label="t('logJob.elapsedTime')" prop="elapsedTime">
         <el-input-number
           v-model="searchForm.elapsedTime"
@@ -79,7 +96,7 @@ onMounted(() => {
           clearable
         />
       </el-form-item>
-
+      <!-- 状态 -->
       <el-form-item :label="t('logJob.status')" prop="status">
         <el-select
           v-model="searchForm.status"
@@ -115,7 +132,7 @@ onMounted(() => {
           </el-button>
 
           <template #dropdown>
-            <el-dropdown-item :disabled="selectedRows.length <= 0" type="danger" @click="deleteBatchRows">
+            <el-dropdown-item :disabled="selectedRows.length <= 0" @click="deleteBatchRows">
               {{ t('buttons.actionBatchDelete') }}
             </el-dropdown-item>
           </template>
@@ -125,7 +142,6 @@ onMounted(() => {
       <template #default="{ size, dynamicColumns }">
         <AuthDataTable
           ref="tableRef"
-          :adaptiveConfig="{ offsetBottom: 96 }"
           :columns="dynamicColumns"
           :data="tableData"
           :header-cell-style="{ background: 'var(--el-fill-color-light)', color: 'var(--el-text-color-primary)' }"

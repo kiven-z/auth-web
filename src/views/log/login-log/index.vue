@@ -1,12 +1,14 @@
 <script lang="ts" setup>
+import { getLoginLogPage } from '@/api/log/login-log';
+import AuthDataTable from '@/components/ui/AuthDataTable';
 import TableBar from '@/components/ui/TableBar';
+import { usePaginationState } from '@/shared/hooks/usePaginationState';
 import useRemoteUserSearch from '@/shared/hooks/useRemoteUserSearch';
 import { LOGIN_LOG_RESULT_CODES, LOGIN_LOG_TYPE_CODES } from '@/views/log/login-log/constants/login-log-enums';
-import useLoginLogPageState from '@/views/log/login-log/hooks/useLoginLogPageState';
 import useLoginLogTableAction from '@/views/log/login-log/hooks/useLoginLogTableAction';
 import useLoginLogTableColumns from '@/views/log/login-log/hooks/useLoginLogTableColumns';
 import type { FormInstance } from 'element-plus';
-import { onMounted, ref } from 'vue';
+import { onMounted, reactive, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 defineOptions({
@@ -27,7 +29,18 @@ const {
   resetQuery,
   handlePageSizeChange,
   handlePageCurrentChange,
-} = useLoginLogPageState();
+} = usePaginationState({
+  fetchApi: getLoginLogPage,
+  searchForm: reactive({
+    userId: undefined as string | undefined,
+    loginTimeStart: undefined as string | undefined,
+    loginTimeEnd: undefined as string | undefined,
+    loginResult: undefined as number | undefined,
+    loginType: undefined as string | undefined,
+  }),
+  errorI18nKey: 'loginLog.loadFailed',
+});
+
 const { selectedRows, handleSelectionChange, openDetailDialog, deleteRow, deleteBatchRows } = useLoginLogTableAction({
   fetchTableData,
 });
@@ -143,7 +156,6 @@ onMounted(() => {
       <template #default="{ size, dynamicColumns }">
         <AuthDataTable
           ref="tableRef"
-          :adaptiveConfig="{ offsetBottom: 96 }"
           :columns="dynamicColumns"
           :data="tableData"
           :header-cell-style="{ background: 'var(--el-fill-color-light)', color: 'var(--el-text-color-primary)' }"
@@ -172,5 +184,3 @@ onMounted(() => {
     </TableBar>
   </div>
 </template>
-
-<style lang="scss" scoped></style>

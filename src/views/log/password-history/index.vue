@@ -1,11 +1,13 @@
 <script lang="ts" setup>
+import { getPasswordHistoryPage } from '@/api/log/password-history';
+import AuthDataTable from '@/components/ui/AuthDataTable';
 import TableBar from '@/components/ui/TableBar';
+import { usePaginationState } from '@/shared/hooks/usePaginationState';
 import useRemoteUserSearch from '@/shared/hooks/useRemoteUserSearch';
-import usePasswordHistoryPageState from '@/views/log/password-history/hooks/usePasswordHistoryPageState';
 import usePasswordHistoryTableAction from '@/views/log/password-history/hooks/usePasswordHistoryTableAction';
 import usePasswordHistoryTableColumns from '@/views/log/password-history/hooks/usePasswordHistoryTableColumns';
 import type { FormInstance } from 'element-plus';
-import { onMounted, ref } from 'vue';
+import { onMounted, reactive, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 defineOptions({
@@ -26,7 +28,17 @@ const {
   resetQuery,
   handlePageSizeChange,
   handlePageCurrentChange,
-} = usePasswordHistoryPageState();
+} = usePaginationState({
+  fetchApi: getPasswordHistoryPage,
+  searchForm: reactive({
+    userId: undefined as string | undefined,
+    changeTimeStart: undefined as string | undefined,
+    changeTimeEnd: undefined as string | undefined,
+    changeIp: undefined as string | undefined,
+  }),
+  errorI18nKey: 'passwordHistory.loadFailed',
+});
+
 const { selectedRows, handleSelectionChange, openDetailDialog, deleteRow, deleteBatchRows } =
   usePasswordHistoryTableAction({ fetchTableData });
 
@@ -124,7 +136,6 @@ onMounted(() => {
       <template #default="{ size, dynamicColumns }">
         <AuthDataTable
           ref="tableRef"
-          :adaptiveConfig="{ offsetBottom: 96 }"
           :columns="dynamicColumns"
           :data="tableData"
           :header-cell-style="{ background: 'var(--el-fill-color-light)', color: 'var(--el-text-color-primary)' }"

@@ -1,15 +1,16 @@
 <script lang="ts" setup>
+import { getRolePage } from '@/api/system/role';
 import AuthDataTable from '@/components/ui/AuthDataTable';
 import TableBar from '@/components/ui/TableBar';
+import { usePaginationState } from '@/shared/hooks/usePaginationState';
 import {
   ROLE_STATUS_FILTER_OPTIONS,
   ROLE_TYPE_FILTER_OPTIONS,
 } from '@/views/system/role/constants/role-search-options';
-import useRolePageState from '@/views/system/role/hooks/useRolePageState';
 import useRoleTableAction from '@/views/system/role/hooks/useRoleTableAction';
 import useRoleTableColumns from '@/views/system/role/hooks/useRoleTableColumns';
 import type { FormInstance } from 'element-plus';
-import { onMounted, ref } from 'vue';
+import { onMounted, reactive, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 defineOptions({
@@ -35,7 +36,16 @@ const {
   handlePageSizeChange,
   handlePageCurrentChange,
   handleSelectionChange,
-} = useRolePageState();
+} = usePaginationState({
+  fetchApi: getRolePage,
+  searchForm: reactive({
+    roleCode: undefined as string | undefined,
+    roleName: undefined as string | undefined,
+    status: undefined as boolean | undefined,
+    roleType: undefined as number | undefined,
+  }),
+  errorI18nKey: 'roles.loadFailed',
+});
 
 const { openDetailDialog, openEditDialog } = useRoleTableAction({ fetchTableData });
 

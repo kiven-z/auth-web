@@ -1,13 +1,15 @@
 <script lang="ts" setup>
+import { getAuthorizationAuditPage } from '@/api/log/authorization-audit';
+import AuthDataTable from '@/components/ui/AuthDataTable';
 import TableBar from '@/components/ui/TableBar';
-import useRemoteUserSearch from '@/shared/hooks/useRemoteUserSearch';
-import { AUDIT_EVENT_TYPES } from '@/views/log/authorization-audit-log/constants/authorization-audit-enums';
-import useAuthorizationAuditPageState from '@/views/log/authorization-audit-log/hooks/useAuthorizationAuditPageState';
+import { usePaginationState } from '@/shared/hooks/usePaginationState';
 import useAuthorizationAuditTableAction from '@/views/log/authorization-audit-log/hooks/useAuthorizationAuditTableAction';
 import useAuthorizationAuditTableColumns from '@/views/log/authorization-audit-log/hooks/useAuthorizationAuditTableColumns';
 import type { FormInstance } from 'element-plus';
-import { onMounted, ref } from 'vue';
+import { onMounted, reactive, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
+import { AUDIT_EVENT_TYPES } from '@/views/log/authorization-audit-log/constants/authorization-audit-enums';
+import useRemoteUserSearch from '@/shared/hooks/useRemoteUserSearch';
 
 defineOptions({
   name: 'LogAuthorizationAudit',
@@ -27,7 +29,17 @@ const {
   resetQuery,
   handlePageSizeChange,
   handlePageCurrentChange,
-} = useAuthorizationAuditPageState();
+} = usePaginationState({
+  fetchApi: getAuthorizationAuditPage,
+  searchForm: reactive({
+    eventType: undefined,
+    decisionReason: undefined,
+    className: undefined,
+    createUserId: undefined,
+  }),
+  errorI18nKey: 'authorizationAudit.loadFailed',
+});
+
 const { selectedRows, handleSelectionChange, openDetailDialog, deleteRow, deleteBatchRows } =
   useAuthorizationAuditTableAction({ fetchTableData });
 
@@ -48,6 +60,7 @@ onMounted(() => {
       :model="searchForm"
       class="bg-bg_color w-[99/100] overflow-auto pl-8 pt-[12px]"
     >
+      <!-- 事件类型 -->
       <el-form-item :label="t('authorizationAudit.eventType')" prop="eventType">
         <el-select
           v-model="searchForm.eventType"
@@ -116,7 +129,7 @@ onMounted(() => {
           </el-button>
 
           <template #dropdown>
-            <el-dropdown-item :disabled="selectedRows.length <= 0" type="danger" @click="deleteBatchRows">
+            <el-dropdown-item :disabled="selectedRows.length <= 0" @click="deleteBatchRows">
               {{ t('buttons.actionBatchDelete') }}
             </el-dropdown-item>
           </template>
@@ -126,7 +139,6 @@ onMounted(() => {
       <template #default="{ size, dynamicColumns }">
         <AuthDataTable
           ref="tableRef"
-          :adaptiveConfig="{ offsetBottom: 96 }"
           :columns="dynamicColumns"
           :data="tableData"
           :header-cell-style="{ background: 'var(--el-fill-color-light)', color: 'var(--el-text-color-primary)' }"
@@ -146,7 +158,9 @@ onMounted(() => {
         >
           <template #actions="{ row }">
             <div class="flex justify-center">
+              <!-- 查看 -->
               <el-button link type="primary" @click="openDetailDialog(row)">{{ t('buttons.actionView') }}</el-button>
+              <!-- 删除 -->
               <el-button link type="danger" @click="deleteRow(row)">{{ t('buttons.actionDelete') }}</el-button>
             </div>
           </template>

@@ -1,12 +1,13 @@
 <script lang="ts" setup>
+import { getPostPage } from '@/api/system/post';
 import AuthDataTable from '@/components/ui/AuthDataTable';
 import TableBar from '@/components/ui/TableBar';
+import { usePaginationState } from '@/shared/hooks/usePaginationState';
 import { POST_STATUS_FILTER_OPTIONS } from '@/views/system/post/constants/post-search-options';
-import usePostPageState from '@/views/system/post/hooks/usePostPageState';
 import usePostTableAction from '@/views/system/post/hooks/usePostTableAction';
 import usePostTableColumns from '@/views/system/post/hooks/usePostTableColumns';
 import type { FormInstance } from 'element-plus';
-import { onMounted, ref } from 'vue';
+import { onMounted, reactive, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 defineOptions({
@@ -33,7 +34,17 @@ const {
   handlePageSizeChange,
   handlePageCurrentChange,
   handleSelectionChange,
-} = usePostPageState();
+} = usePaginationState({
+  fetchApi: getPostPage,
+  searchForm: reactive({
+    postCode: undefined as string | undefined,
+    postName: undefined as string | undefined,
+    deptName: undefined as string | undefined,
+    status: undefined as boolean | undefined,
+  }),
+  errorI18nKey: 'post.loadFailed',
+  selection: true,
+});
 
 const { openCreateDialog, openDetailDialog, handleDelete } = usePostTableAction({ fetchTableData });
 

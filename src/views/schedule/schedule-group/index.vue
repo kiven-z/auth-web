@@ -1,10 +1,12 @@
 <script lang="ts" setup>
+import { getJobGroupPage } from '@/api/schedule/job-group';
+import AuthDataTable from '@/components/ui/AuthDataTable';
 import TableBar from '@/components/ui/TableBar';
-import useJobGroupPageState from '@/views/schedule/schedule-group/hooks/useJobGroupPageState';
+import { usePaginationState } from '@/shared/hooks/usePaginationState';
 import useJobGroupTableAction from '@/views/schedule/schedule-group/hooks/useJobGroupTableAction';
 import useJobGroupTableColumns from '@/views/schedule/schedule-group/hooks/useJobGroupTableColumns';
 import type { FormInstance } from 'element-plus';
-import { onMounted, ref } from 'vue';
+import { onMounted, reactive, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 defineOptions({
@@ -25,7 +27,16 @@ const {
   resetQuery,
   handlePageSizeChange,
   handlePageCurrentChange,
-} = useJobGroupPageState();
+} = usePaginationState({
+  fetchApi: getJobGroupPage,
+  searchForm: reactive({
+    groupCode: undefined as string | undefined,
+    groupName: undefined as string | undefined,
+    status: undefined as boolean | undefined,
+  }),
+  errorI18nKey: 'scheduleGroup.loadFailed',
+});
+
 const { openCreateDialog, openEditDialog, openDetailDialog, deleteRow } = useJobGroupTableAction({ fetchTableData });
 
 onMounted(() => {

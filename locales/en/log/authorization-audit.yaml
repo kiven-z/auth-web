@@ -21,6 +21,7 @@ authorizationAudit:
   tableTitle: Authorization Audit Logs
   detailTitle: Authorization Audit Detail
   loadFailed: Failed to load authorization audit logs
+  createUser: Operator
   placeholder:
     eventType: All types
     decisionReason: All reasons

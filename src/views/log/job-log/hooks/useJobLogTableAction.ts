@@ -4,26 +4,18 @@ import { addDialog } from '@/components/ui/Dialog';
 import { deleteConfirm } from '@/shared/messaging/dialog';
 import { errorMessage, message } from '@/shared/messaging/message';
 import JobLogDetailDialog from '@/views/log/job-log/components/JobLogDetailDialog.vue';
-import { h, ref } from 'vue';
+import { h, type Ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 
+interface JobLogTableActionDeps extends TableActionDeps {
+  selectedRows: Ref<string[]>;
+}
 /**
  * 任务调度日志表格操作：查看详情、删除、批量删除（使用标准两次删除确认）
  */
-function useJobLogTableAction(deps: TableActionDeps) {
-  const { fetchTableData } = deps;
+function useJobLogTableAction(deps: JobLogTableActionDeps) {
+  const { fetchTableData, selectedRows } = deps;
   const { t } = useI18n();
-
-  // 选中的行
-  const selectedRows = ref<JobLogPageRow[]>([]);
-
-  /**
-   * 多选变化
-   * @param rows 选中行
-   */
-  const handleSelectionChange = (rows: JobLogPageRow[]) => {
-    selectedRows.value = rows;
-  };
 
   /**
    * 打开详情对话框
@@ -72,7 +64,7 @@ function useJobLogTableAction(deps: TableActionDeps) {
     const confirm = await deleteConfirm();
     if (!confirm) return;
 
-    const ids = selectedRows.value.map((row) => row.id);
+    const ids = selectedRows.value;
     try {
       await deleteJobLog(ids);
       message(t('tips.deleteSuccess'), { type: 'success' });
@@ -84,8 +76,6 @@ function useJobLogTableAction(deps: TableActionDeps) {
   };
 
   return {
-    selectedRows,
-    handleSelectionChange,
     openDetailDialog,
     deleteRow,
     deleteBatchRows,

@@ -21,6 +21,7 @@ authorizationAudit:
   tableTitle: 权限决策审计日志
   detailTitle: 权限决策审计详情
   loadFailed: 获取权限决策审计日志失败
+  createUser: 操作人
   placeholder:
     eventType: 全部类型
     decisionReason: 全部原因

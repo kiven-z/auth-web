@@ -1,15 +1,16 @@
 <script lang="ts" setup>
+import { getPermissionPage } from '@/api/system/permission';
 import AuthDataTable from '@/components/ui/AuthDataTable';
 import TableBar from '@/components/ui/TableBar';
+import { usePaginationState } from '@/shared/hooks/usePaginationState';
 import {
   PERMISSION_STATUS_FILTER_OPTIONS,
   PERMISSION_TYPE_FILTER_OPTIONS,
 } from '@/views/system/permission/constants/permission-search-options';
-import usePermissionPageState from '@/views/system/permission/hooks/usePermissionPageState';
 import usePermissionTableAction from '@/views/system/permission/hooks/usePermissionTableAction';
 import usePermissionTableColumns from '@/views/system/permission/hooks/usePermissionTableColumns';
 import type { FormInstance } from 'element-plus';
-import { onMounted, ref } from 'vue';
+import { onMounted, reactive, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 defineOptions({
@@ -35,7 +36,16 @@ const {
   handlePageSizeChange,
   handlePageCurrentChange,
   handleSelectionChange,
-} = usePermissionPageState();
+} = usePaginationState({
+  fetchApi: getPermissionPage,
+  searchForm: reactive({
+    permissionCode: undefined as string | undefined,
+    permissionName: undefined as string | undefined,
+    permissionType: undefined as number | undefined,
+    status: undefined as boolean | undefined,
+  }),
+  errorI18nKey: 'permissions.loadFailed',
+});
 
 const {} = usePermissionTableAction({ fetchTableData });
 

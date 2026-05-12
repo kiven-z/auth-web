@@ -54,7 +54,7 @@ function useAuthorizationAuditTableAction(deps: TableActionDeps) {
         done();
       },
     });
-  }, 500);
+  });
 
   /**
    * 删除单行
