@@ -1,13 +1,10 @@
-/**
- * 定时任务分组 API
- *
- * 对应后端 SysJobGroupController (/api/system/job-group)
- */
 import type { PageResponse, SortSpec } from '@/api/common';
 import { http } from '@/infrastructure/http-core';
 import type { AxiosRequestConfig } from 'axios';
 
-/** 任务分组分页查询参数（对应后端 SysJobGroupQuery） */
+/**
+ * 任务分组分页查询参数（对应后端 SysJobGroupQuery）
+ */
 export interface SysJobGroupPageQuery {
   pageIndex?: number;
   pageSize?: number;
@@ -17,7 +14,9 @@ export interface SysJobGroupPageQuery {
   status?: boolean;
 }
 
-/** 任务分组分页行（对应后端 SysJobGroupPageResponse） */
+/**
+ * 任务分组分页行（对应后端 SysJobGroupPageResponse）
+ */
 export interface SysJobGroupPageRow {
   id: string;
   groupCode: string;
@@ -34,7 +33,9 @@ export interface SysJobGroupPageRow {
   updateUsername?: string | null;
 }
 
-/** 新增任务分组请求体（对应后端 SysJobGroupForm） */
+/**
+ * 新增任务分组请求体（对应后端 SysJobGroupForm）
+ */
 export interface CreateJobGroupRequest {
   groupCode: string;
   groupName: string;
@@ -43,7 +44,9 @@ export interface CreateJobGroupRequest {
   orderNum?: number;
 }
 
-/** 修改任务分组请求体（对应后端 SysJobGroupUpdateForm，不含 groupCode） */
+/**
+ * 修改任务分组请求体（对应后端 SysJobGroupUpdateForm，不含 groupCode）
+ */
 export interface UpdateJobGroupRequest {
   id: string;
   groupName: string;
@@ -54,7 +57,8 @@ export interface UpdateJobGroupRequest {
 
 /**
  * 分页查询任务分组
- * @param params 查询与分页条件
+ * @param params 任务分组分页查询参数
+ * @returns 任务分组分页行
  */
 export function getJobGroupPage(params: SysJobGroupPageQuery): Promise<PageResponse<SysJobGroupPageRow>> {
   return http.get<PageResponse<SysJobGroupPageRow>, AxiosRequestConfig<SysJobGroupPageQuery>>('/system/job-group', {
@@ -65,6 +69,7 @@ export function getJobGroupPage(params: SysJobGroupPageQuery): Promise<PageRespo
 /**
  * 新增任务分组
  * @param data 新增表单数据
+ * @returns 新增任务分组响应
  */
 export function createJobGroup(data: CreateJobGroupRequest): Promise<string> {
   return http.post<string, CreateJobGroupRequest>('/system/job-group', { data });

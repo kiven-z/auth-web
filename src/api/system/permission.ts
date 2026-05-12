@@ -3,7 +3,9 @@ import type { AxiosRequestConfig } from 'axios';
 import type { PageResponse, SortSpec } from '@/api/common';
 import { http } from '@/infrastructure/http-core';
 
-/** 权限分页查询参数（对齐 {@code SysPermissionQuery}） */
+/**
+ * 权限分页查询参数（对齐 {@code SysPermissionQuery}）
+ */
 export interface SysPermissionPageQuery {
   pageIndex?: number;
   pageSize?: number;
@@ -14,7 +16,9 @@ export interface SysPermissionPageQuery {
   status?: boolean;
 }
 
-/** 分页行（对齐 {@code SysPermissionPageResponse} + BaseResponse，Long ID 为 string） */
+/**
+ * 分页行（对齐 {@code SysPermissionPageResponse} + BaseResponse，Long ID 为 string）
+ */
 export interface SysPermissionPageRow {
   id: string;
   permissionCode: string;
@@ -33,7 +37,8 @@ export interface SysPermissionPageRow {
 
 /**
  * 分页查询权限列表
- * @param params 查询与分页条件
+ * @param params 权限分页查询参数
+ * @returns 权限分页行
  */
 export function getPermissionPage(params: SysPermissionPageQuery): Promise<PageResponse<SysPermissionPageRow>> {
   return http.get<PageResponse<SysPermissionPageRow>, AxiosRequestConfig<SysPermissionPageQuery>>(

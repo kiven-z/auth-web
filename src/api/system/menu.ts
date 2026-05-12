@@ -1,13 +1,12 @@
-/**
- * 菜单管理 API（对齐 SysMenuController：`/api/system/menu` → 网关后 `/system/menu`）
- */
 import type { PageResponse, SortSpec } from '@/api/common';
 import type { MenuSaveRequest } from '@/types/system';
 import type { AxiosRequestConfig } from 'axios';
 
 import { http } from '@/infrastructure/http-core';
 
-/** 列表查询条件（与文档查询字段一致） */
+/**
+ * 列表查询条件（与文档查询字段一致）
+ */
 export interface SysMenuListQuery {
   name?: string;
   title?: string;
@@ -16,7 +15,9 @@ export interface SysMenuListQuery {
   component?: string;
 }
 
-/** 列表行 / 扁平 VO（Boolean 字段后端直接返回 true/false） */
+/**
+ * 列表行 / 扁平 VO（Boolean 字段后端直接返回 true/false）
+ */
 export interface SysMenuListVO {
   id: string;
   parentId: string | null;
@@ -39,17 +40,23 @@ export interface SysMenuListVO {
   updateUsername?: string | null;
 }
 
-/** 前端树节点（对扁平列表执行 `handleTree` 后带 `children`，类型仅作 TS 辅助） */
+/**
+ * 前端树节点（对扁平列表执行 `handleTree` 后带 `children`，类型仅作 TS 辅助）
+ */
 export type SysMenuTreeNode = SysMenuListVO & { children?: SysMenuTreeNode[] };
 
-/** 表格分页查询（字段需与后端分页接口一致，见 {@link getMenuPage}） */
+/**
+ * 表格分页查询（字段需与后端分页接口一致，见 {@link getMenuPage}）
+ */
 export interface SysMenuPageQuery extends SysMenuListQuery {
   pageIndex?: number;
   pageSize?: number;
   sort?: SortSpec[];
 }
 
-/** 详情 VO（含扩展字段，供表单回填；Boolean 字段后端直接返回 true/false） */
+/**
+ * 详情 VO（含扩展字段，供表单回填；Boolean 字段后端直接返回 true/false）
+ */
 export interface SysMenuDetailVO extends SysMenuListVO {
   redirect?: string;
   icon?: string;
@@ -66,30 +73,40 @@ export interface SysMenuDetailVO extends SysMenuListVO {
   remark?: string;
 }
 
-/** 批量修改状态：status=true 启用，false 禁用 */
+/**
+ * 批量修改状态：status=true 启用，false 禁用
+ */
 export interface SysMenuBatchStatusRequest {
   ids: string[];
   status: boolean;
 }
 
-/** 分配角色 */
+/**
+ * 分配角色
+ */
 export interface SysMenuAssignRoleRequest {
   roleCodes: string[];
 }
 
-/** 分配权限 */
+/**
+ * 分配权限
+ */
 export interface SysMenuAssignPermissionRequest {
   permissionCodes: string[];
 }
 
-/** 菜单已关联角色行（抽屉表格） */
+/**
+ * 菜单已关联角色行（抽屉表格）
+ */
 export interface SysMenuAssignedRoleRow {
   roleCode: string;
   roleName: string;
   assigned: boolean;
 }
 
-/** 菜单已关联权限行（抽屉表格） */
+/**
+ * 菜单已关联权限行（抽屉表格）
+ */
 export interface SysMenuAssignedPermissionRow {
   permissionCode: string;
   permissionName: string;
@@ -149,6 +166,8 @@ export function updateMenuBatchStatus(data: SysMenuBatchStatusRequest): Promise<
 
 /**
  * 查询菜单已分配角色（含未分配行时由后端一并返回并带 assigned 标记）
+ * @param id 菜单ID
+ * @returns 菜单已分配角色行
  */
 export function getMenuRoles(id: string): Promise<SysMenuAssignedRoleRow[]> {
   return http.get<SysMenuAssignedRoleRow[], AxiosRequestConfig>(`/system/menu/${id}/roles`);
@@ -156,6 +175,9 @@ export function getMenuRoles(id: string): Promise<SysMenuAssignedRoleRow[]> {
 
 /**
  * 分配角色
+ * @param id 菜单ID
+ * @param data 分配角色请求
+ * @returns 分配角色响应
  */
 export function putMenuRoles(id: string, data: SysMenuAssignRoleRequest): Promise<string> {
   return http.request<string>('put', `/system/menu/${id}/roles`, { data });
@@ -163,6 +185,8 @@ export function putMenuRoles(id: string, data: SysMenuAssignRoleRequest): Promis
 
 /**
  * 查询菜单权限分配情况：返回 `sys_permission` 中启用且未删除的全量行，并以 `assigned` 标记是否已写入 `sys_menu_permission`。
+ * @param id 菜单ID
+ * @returns 菜单已分配权限行
  */
 export function getMenuPermissions(id: string): Promise<SysMenuAssignedPermissionRow[]> {
   return http.get<SysMenuAssignedPermissionRow[], AxiosRequestConfig>(`/system/menu/${id}/permissions`);
@@ -170,6 +194,9 @@ export function getMenuPermissions(id: string): Promise<SysMenuAssignedPermissio
 
 /**
  * 分配权限
+ * @param id 菜单ID
+ * @param data 分配权限请求
+ * @returns 分配权限响应
  */
 export function putMenuPermissions(id: string, data: SysMenuAssignPermissionRequest): Promise<string> {
   return http.request<string>('put', `/system/menu/${id}/permissions`, { data });

@@ -1,12 +1,11 @@
-/**
- * 邮件模板 API（对齐 {@code EmailTemplateController} /api/system/email-template）
- */
 import type { AxiosRequestConfig } from 'axios';
 
 import type { PageResponse, SortSpec } from '@/api/common';
 import { http } from '@/infrastructure/http-core';
 
-/** 分页查询参数（对齐 EmailTemplateQuery） */
+/**
+ * 分页查询参数（对齐 EmailTemplateQuery）
+ */
 export interface EmailTemplatePageQuery {
   pageIndex?: number;
   pageSize?: number;
@@ -17,15 +16,19 @@ export interface EmailTemplatePageQuery {
   status?: boolean;
 }
 
-/** 变量声明行（对齐 EmailTemplateRequireFieldRow） */
+/**
+ * 变量声明行（对齐 EmailTemplateRequireFieldRow）
+ */
 export interface EmailTemplateRequireFieldRow {
   key: string;
   description?: string;
-  /** 与后端 JsonNode 一致，可为任意 JSON 可序列化值 */
+  // 与后端 JsonNode 一致，可为任意 JSON 可序列化值
   exampleValue: unknown;
 }
 
-/** 分页行（EmailTemplatePageResponse + BaseResponse） */
+/**
+ * 分页行（EmailTemplatePageResponse + BaseResponse）
+ */
 export interface EmailTemplatePageRow {
   id: string;
   templateCode: string;
@@ -42,7 +45,9 @@ export interface EmailTemplatePageRow {
   updateUsername?: string | null;
 }
 
-/** 详情（EmailTemplateDetailVO） */
+/**
+ * 详情（EmailTemplateDetailVO）
+ */
 export interface EmailTemplateDetailVO {
   id: string;
   templateCode: string;
@@ -61,7 +66,9 @@ export interface EmailTemplateDetailVO {
   updateUsername?: string | null;
 }
 
-/** 弹窗/编辑器表单模型（前端） */
+/**
+ * 弹窗/编辑器表单模型（前端）
+ */
 export interface EmailTemplateFormModel {
   id?: string;
   templateCode?: string;
@@ -74,7 +81,9 @@ export interface EmailTemplateFormModel {
   requireFields: EmailTemplateRequireFieldRow[];
 }
 
-/** 新建（EmailTemplateForm 创建组） */
+/**
+ * 新建（EmailTemplateForm 创建组）
+ */
 export interface EmailTemplateCreateRequest {
   templateCode: string;
   templateName: string;
@@ -86,7 +95,9 @@ export interface EmailTemplateCreateRequest {
   requireFields: EmailTemplateRequireFieldRow[];
 }
 
-/** 元数据更新（EmailTemplateMetadataForm） */
+/**
+ * 元数据更新（EmailTemplateMetadataForm）
+ */
 export interface EmailTemplateMetadataUpdateRequest {
   id: string;
   templateCode: string;
@@ -97,29 +108,39 @@ export interface EmailTemplateMetadataUpdateRequest {
   priority: number;
 }
 
-/** 正文更新 */
+/**
+ * 正文更新
+ */
 export interface EmailTemplateContentUpdateRequest {
   content: string;
 }
 
-/** 变量列表更新 */
+/**
+ * 变量列表更新
+ */
 export interface EmailTemplateRequireFieldsUpdateRequest {
   requireFields: EmailTemplateRequireFieldRow[];
 }
 
-/** 批量启停 */
+/**
+ * 批量启停
+ */
 export interface EmailTemplateBatchStatusRequest {
   ids: string[];
   status: boolean;
 }
 
-/** 离线渲染 */
+/**
+ * 离线渲染
+ */
 export interface EmailTemplateRenderRequest {
   content: string;
   requireFields: EmailTemplateRequireFieldRow[];
 }
 
-/** 测试发送 */
+/**
+ * 测试发送
+ */
 export interface EmailTemplateTestSendRequest {
   id: string;
   email: string;
@@ -127,7 +148,8 @@ export interface EmailTemplateTestSendRequest {
 
 /**
  * 分页查询邮件模板
- * @param params 查询条件
+ * @param params 邮件模板分页查询参数
+ * @returns 邮件模板分页行
  */
 export function getEmailTemplatePage(params: EmailTemplatePageQuery): Promise<PageResponse<EmailTemplatePageRow>> {
   return http.get<PageResponse<EmailTemplatePageRow>, AxiosRequestConfig<EmailTemplatePageQuery>>(
@@ -138,7 +160,8 @@ export function getEmailTemplatePage(params: EmailTemplatePageQuery): Promise<Pa
 
 /**
  * 邮件模板详情
- * @param id 模板 ID
+ * @param id 邮件模板ID
+ * @returns 邮件模板详情
  */
 export function getEmailTemplateById(id: string): Promise<EmailTemplateDetailVO> {
   return http.get<EmailTemplateDetailVO, AxiosRequestConfig>(`/system/email-template/${id}`);
@@ -146,7 +169,8 @@ export function getEmailTemplateById(id: string): Promise<EmailTemplateDetailVO>
 
 /**
  * 预览已渲染 HTML
- * @param id 模板 ID
+ * @param id 邮件模板ID
+ * @returns 已渲染 HTML
  */
 export function getEmailTemplatePreviewHtml(id: string): Promise<string> {
   return http.get<string, AxiosRequestConfig>(`/system/email-template/${id}/preview`);
@@ -155,6 +179,7 @@ export function getEmailTemplatePreviewHtml(id: string): Promise<string> {
 /**
  * 离线渲染模板
  * @param data 内容与变量声明
+ * @returns 离线渲染模板响应
  */
 export function renderEmailTemplate(data: EmailTemplateRenderRequest): Promise<string> {
   return http.post<string, EmailTemplateRenderRequest>('/system/email-template/render', { data });
@@ -162,7 +187,8 @@ export function renderEmailTemplate(data: EmailTemplateRenderRequest): Promise<s
 
 /**
  * 测试发送
- * @param data 模板 ID 与邮箱
+ * @param data 邮件模板ID与邮箱
+ * @returns 测试发送响应
  */
 export function testSendEmailTemplate(data: EmailTemplateTestSendRequest): Promise<string> {
   return http.post<string, EmailTemplateTestSendRequest>('/system/email-template/test-send', { data });
@@ -170,7 +196,8 @@ export function testSendEmailTemplate(data: EmailTemplateTestSendRequest): Promi
 
 /**
  * 新建邮件模板
- * @param data 表单
+ * @param data 新建邮件模板请求
+ * @returns 新建邮件模板响应
  */
 export function createEmailTemplate(data: EmailTemplateCreateRequest): Promise<string> {
   return http.post<string, EmailTemplateCreateRequest>('/system/email-template', { data });
@@ -178,7 +205,8 @@ export function createEmailTemplate(data: EmailTemplateCreateRequest): Promise<s
 
 /**
  * 更新元数据
- * @param data 表单
+ * @param data 更新元数据请求
+ * @returns 更新元数据响应
  */
 export function updateEmailTemplateMetadata(data: EmailTemplateMetadataUpdateRequest): Promise<string> {
   return http.request<string>('put', '/system/email-template', { data });
@@ -186,7 +214,7 @@ export function updateEmailTemplateMetadata(data: EmailTemplateMetadataUpdateReq
 
 /**
  * 仅更新正文
- * @param id 模板 ID
+ * @param id 邮件模板ID
  * @param data 正文
  */
 export function updateEmailTemplateContent(id: string, data: EmailTemplateContentUpdateRequest): Promise<string> {
@@ -196,7 +224,8 @@ export function updateEmailTemplateContent(id: string, data: EmailTemplateConten
 /**
  * 仅更新 require_fields
  * @param id 模板 ID
- * @param data 变量列表
+ * @param data 变量列表更新请求
+ * @returns 变量列表更新响应
  */
 export function updateEmailTemplateRequireFields(
   id: string,
@@ -207,7 +236,8 @@ export function updateEmailTemplateRequireFields(
 
 /**
  * 批量启用/禁用
- * @param data ID 列表与目标状态
+ * @param data ID 列表与目标状态请求
+ * @returns 批量启用/禁用响应
  */
 export function batchUpdateEmailTemplateStatus(data: EmailTemplateBatchStatusRequest): Promise<string> {
   return http.request<string>('put', '/system/email-template/status', { data });
@@ -215,7 +245,8 @@ export function batchUpdateEmailTemplateStatus(data: EmailTemplateBatchStatusReq
 
 /**
  * 批量删除
- * @param ids 模板 ID 列表（数值，与后端 Long 一致）
+ * @param ids 邮件模板ID列表（数值，与后端 Long 一致）
+ * @returns 批量删除响应
  */
 export function batchDeleteEmailTemplates(ids: string[]): Promise<string> {
   return http.request<string>('delete', '/system/email-template', { data: ids });

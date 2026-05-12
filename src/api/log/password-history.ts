@@ -1,13 +1,10 @@
-/**
- * 密码历史日志 API
- *
- * 对应后端 LogUserPasswordHistoryController (/api/system/log/password-history)
- */
 import type { PageResponse, SortSpec } from '@/api/common';
 import { http } from '@/infrastructure/http-core';
 import type { AxiosRequestConfig } from 'axios';
 
-/** 密码历史日志分页查询参数（对应后端 LogUserPasswordHistoryQuery） */
+/**
+ * 密码历史日志分页查询参数（对应后端 LogUserPasswordHistoryQuery）
+ */
 export interface PasswordHistoryPageQuery {
   pageIndex?: number;
   pageSize?: number;
@@ -18,7 +15,9 @@ export interface PasswordHistoryPageQuery {
   changeIp?: string;
 }
 
-/** 密码历史日志分页行（对应后端 LogUserPasswordHistoryPageVO） */
+/**
+ * 密码历史日志分页行（对应后端 LogUserPasswordHistoryPageVO）
+ */
 export interface PasswordHistoryPageRow {
   id: string;
   userId: string;
@@ -33,7 +32,9 @@ export interface PasswordHistoryPageRow {
   updateUsername?: string | null;
 }
 
-/** 密码历史日志详情（对应后端 LogUserPasswordHistoryDetailVO） */
+/**
+ * 密码历史日志详情（对应后端 LogUserPasswordHistoryDetailVO）
+ */
 export interface PasswordHistoryDetailRow {
   id: string;
   username: string;
@@ -49,7 +50,8 @@ export interface PasswordHistoryDetailRow {
 
 /**
  * 分页查询密码历史日志
- * @param params 查询与分页条件
+ * @param params 密码历史日志分页查询参数
+ * @returns 密码历史日志分页行
  */
 export function getPasswordHistoryPage(
   params: PasswordHistoryPageQuery
@@ -62,7 +64,8 @@ export function getPasswordHistoryPage(
 
 /**
  * 查询密码历史日志详情
- * @param id 日志ID
+ * @param id 密码历史日志ID
+ * @returns 密码历史日志详情
  */
 export function getPasswordHistoryDetail(id: string): Promise<PasswordHistoryDetailRow> {
   return http.get<PasswordHistoryDetailRow, AxiosRequestConfig>(`/system/log/password-history/${id}`);
@@ -70,7 +73,8 @@ export function getPasswordHistoryDetail(id: string): Promise<PasswordHistoryDet
 
 /**
  * 批量删除密码历史日志
- * @param ids 日志ID 数组
+ * @param ids 密码历史日志ID数组
+ * @returns 删除密码历史日志响应
  */
 export function deletePasswordHistory(ids: string[]): Promise<string> {
   return http.request<string>('delete', '/system/log/password-history', { data: ids });
