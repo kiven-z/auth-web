@@ -35,7 +35,7 @@ async function fetchPermissionPage(query: AuthAssignPageQuery) {
   return getPermissionPage({
     pageIndex: query.pageIndex,
     pageSize: query.pageSize,
-    status: 1,
+    status: true,
     permissionType: 0,
     permissionName: query.keyword || undefined,
   });

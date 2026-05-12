@@ -5,8 +5,8 @@ export const menuTypeFilterOptions: ReadonlyArray<{ value: number; labelKey: str
   { value: 2, labelKey: 'sysMenu.menuTypeLink' },
 ];
 
-// 状态选项
-export const menuStatusFilterOptions: ReadonlyArray<{ value: number; labelKey: string }> = [
-  { value: 1, labelKey: 'sysMenu.statusEnabled' },
-  { value: 0, labelKey: 'sysMenu.statusDisabled' },
+// 状态选项（与后端 SysMenuQuery.status Boolean 一致）
+export const menuStatusFilterOptions: ReadonlyArray<{ value: boolean; labelKey: string }> = [
+  { value: true, labelKey: 'sysMenu.statusEnabled' },
+  { value: false, labelKey: 'sysMenu.statusDisabled' },
 ];

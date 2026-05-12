@@ -67,13 +67,6 @@ defineExpose({
         </el-form-item>
       </el-col>
 
-      <!-- 分组描述 -->
-      <el-col :span="24">
-        <el-form-item :label="t('scheduleGroup.description')" prop="description">
-          <el-input v-model="form.description" :rows="2" type="textarea" />
-        </el-form-item>
-      </el-col>
-
       <!-- 排序号 -->
       <el-col :lg="12" :md="12" :sm="24" :xs="24">
         <el-form-item :label="t('scheduleGroup.orderNum')" prop="orderNum">
@@ -91,6 +84,13 @@ defineExpose({
             :inactive-text="t('scheduleGroup.statusDisabled')"
             :inactive-value="false"
           />
+        </el-form-item>
+      </el-col>
+
+      <!-- 分组描述 -->
+      <el-col :span="24">
+        <el-form-item :label="t('scheduleGroup.description')" prop="description">
+          <el-input v-model="form.description" :rows="2" type="textarea" />
         </el-form-item>
       </el-col>
     </el-row>

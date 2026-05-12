@@ -16,10 +16,10 @@ function usePostPageState() {
 
   // 搜索表单
   const searchForm = reactive({
-    postCode: undefined as string | undefined,
-    postName: undefined as string | undefined,
-    deptName: undefined as string | undefined,
-    status: undefined as number | undefined,
+    postCode: undefined,
+    postName: undefined,
+    deptName: undefined,
+    status: undefined,
   });
 
   // 分页

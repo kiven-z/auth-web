@@ -13,7 +13,7 @@ export interface SysPostPageQuery {
   postCode?: string;
   postName?: string;
   deptName?: string;
-  status?: number;
+  status?: boolean;
 }
 
 /**
@@ -25,7 +25,7 @@ export interface SysPostPageRow {
   deptName: string;
   postCode: string;
   postName: string;
-  status: number;
+  status: boolean;
   orderNum: number;
   createTime: string;
   updateTime: string;
@@ -42,7 +42,7 @@ export interface SysPostCreateForm {
   deptId: string;
   postCode: string;
   postName: string;
-  status: number;
+  status: boolean;
   orderNum?: number;
   remark?: string;
 }

@@ -35,7 +35,7 @@ async function fetchRolePage(query: AuthAssignPageQuery) {
   return getRolePage({
     pageIndex: query.pageIndex,
     pageSize: query.pageSize,
-    status: 1,
+    status: true,
     roleType: 2,
     roleName: query.keyword || undefined,
   });

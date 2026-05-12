@@ -32,7 +32,7 @@ function usePostTableAction(deps: TableActionDeps) {
       deptId: '',
       postCode: '',
       postName: '',
-      status: 1,
+      status: true,
       orderNum: 0,
       remark: '',
     };

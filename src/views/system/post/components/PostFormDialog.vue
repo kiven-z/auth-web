@@ -52,8 +52,8 @@ defineExpose({ formRef, form });
       <el-col :lg="12" :md="12" :sm="12" :xs="24">
         <el-form-item :label="t('post.status')" prop="status">
           <el-radio-group v-model="form.status">
-            <el-radio :value="1">{{ t('post.statusNormal') }}</el-radio>
-            <el-radio :value="0">{{ t('post.statusDisabled') }}</el-radio>
+            <el-radio :value="true">{{ t('post.statusNormal') }}</el-radio>
+            <el-radio :value="false">{{ t('post.statusDisabled') }}</el-radio>
           </el-radio-group>
         </el-form-item>
       </el-col>

@@ -2,13 +2,13 @@
 import AuthDataTable from '@/components/ui/AuthDataTable';
 import TableBar from '@/components/ui/TableBar';
 import { menuStatusFilterOptions, menuTypeFilterOptions } from '@/views/system/menu/constants/menu-search-options';
+import useMenuMoreAction from '@/views/system/menu/hooks/useMenuMoreAction';
 import useMenuPageState from '@/views/system/menu/hooks/useMenuPageState';
+import useMenuTableAction from '@/views/system/menu/hooks/useMenuTableAction';
+import useMenuTableColumns from '@/views/system/menu/hooks/useMenuTableColumns';
 import type { FormInstance } from 'element-plus';
 import { onMounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
-import useMenuTableColumns from '@/views/system/menu/hooks/useMenuTableColumns';
-import useMenuTableAction from '@/views/system/menu/hooks/useMenuTableAction';
-import useMenuMoreAction from '@/views/system/menu/hooks/useMenuMoreAction';
 
 defineOptions({
   name: 'MenuTableView',
@@ -108,7 +108,7 @@ defineExpose({ tableRef });
         >
           <el-option
             v-for="opt in menuStatusFilterOptions"
-            :key="opt.value"
+            :key="`${opt.labelKey}:${String(opt.value)}`"
             :label="t(opt.labelKey)"
             :value="opt.value"
           />

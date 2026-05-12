@@ -25,7 +25,7 @@ function usePostTableColumns() {
       prop: 'status',
       minWidth: 100,
       formatter: (row: SysPostPageRow) => {
-        const isNormal = row.status === 1;
+        const isNormal = row.status === true;
         return (
           <ElTag type={isNormal ? 'success' : 'danger'} effect="plain" size="small">
             {isNormal ? t('post.statusNormal') : t('post.statusDisabled')}
