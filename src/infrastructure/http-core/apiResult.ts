@@ -6,7 +6,7 @@
  */
 export { API_SUCCESS_CODE } from '@/config/http-config';
 
-export type ResultExt = {
+type ResultExt = {
   i18nKey?: string;
   i18nArgs?: unknown[];
   [key: string]: unknown;

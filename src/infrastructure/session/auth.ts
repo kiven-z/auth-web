@@ -1,31 +1,32 @@
-import { multipleTabsKey, TokenKey, userKey } from '@/config/auth-config';
+import { multipleTabsKey, userKey } from '@/config/auth-config';
+import { getAccessTokenStore } from '@/infrastructure/session/accessTokenReadWriter';
 import { useUserStoreHook } from '@/store/modules/user';
 import { storageLocal } from '@pureadmin/utils';
 import Cookies from 'js-cookie';
 
 export interface DataInfo<T> {
-  /** token */
+  // token
   accessToken?: string;
-  /** `accessToken`的过期时间（时间戳） */
+  // `accessToken`的过期时间（时间戳）
   expires?: T;
-  /** 用户 ID（与后端 Long 字符串化一致） */
+  // 用户 ID（与后端 Long 字符串化一致）
   userId?: string;
-  /** 头像 */
+  // 头像
   avatar?: string;
-  /** 用户名 */
+  // 用户名
   username?: string;
-  /** 昵称 */
+  // 昵称
   nickname?: string;
-  /** 当前登录用户的角色 */
+  // 当前登录用户的角色
   roles?: Array<string>;
-  /** 当前登录用户的按钮级别权限 */
+  // 当前登录用户的按钮级别权限
   permissions?: Array<string>;
 }
 
 /**
  * 将后端返回的过期时间转为毫秒时间戳（兼容 yyyy/MM/dd HH:mm:ss）。
  */
-export function toExpiresTimestamp(expires: string | number | Date | undefined): number {
+function toExpiresTimestamp(expires: string | number | Date | undefined): number {
   if (expires === undefined || expires === null) return 0;
   if (typeof expires === 'number') return expires;
   if (expires instanceof Date) return expires.getTime();
@@ -34,8 +35,10 @@ export function toExpiresTimestamp(expires: string | number | Date | undefined):
   return Number.isNaN(t) ? 0 : t;
 }
 
-/** 写入会话所需的字段（登录或刷新后）；SSO 等场景可缺省 expires，由默认值补齐 */
-export type SessionTokenPayload = {
+/**
+ * 写入会话所需的字段（登录或刷新后）；SSO 等场景可缺省 expires，由默认值补齐
+ */
+type SessionTokenPayload = {
   accessToken: string;
   expires?: string | number | Date;
   avatar?: string;
@@ -54,80 +57,45 @@ export function readUserProfileFromStorage(): Partial<DataInfo<number>> {
   return raw ?? {};
 }
 
-/** 内存中的 accessToken（页面刷新后清空；生产环境仅依赖此项） */
-let memoryAccessToken = '';
-
 /**
- * 开发环境从 Cookie 读取 accessToken；非开发或解析失败返回空串。
+ * 获取 token
+ * @returns token
  */
-function readDevAccessTokenFromCookie(): string {
-  if (!import.meta.env.DEV) {
-    return '';
-  }
-  const raw = Cookies.get(TokenKey);
-  if (!raw) {
-    return '';
-  }
-  try {
-    const parsed = JSON.parse(raw) as { accessToken?: string };
-    const token = parsed.accessToken;
-    return typeof token === 'string' ? token : '';
-  } catch {
-    return '';
-  }
-}
-
-/** 获取`token` */
 export function getToken(): DataInfo<number> {
   const profile = storageLocal().getItem<DataInfo<number>>(userKey);
-  const accessToken = memoryAccessToken || readDevAccessTokenFromCookie();
+  const accessToken = getAccessTokenStore().get();
   return {
     ...(profile ?? {}),
     accessToken,
   };
 }
 
-/** 是否存在可用 accessToken（开发环境含 Cookie 持久化） */
+/**
+ * 是否存在可用 accessToken（开发环境由 DevLocalStorageAccessTokenStore 提供持久化）
+ * @returns 是否存在可用 accessToken
+ */
 export function hasAccessToken(): boolean {
-  return memoryAccessToken.length > 0 || (import.meta.env.DEV && readDevAccessTokenFromCookie().length > 0);
+  return getAccessTokenStore().has();
 }
 
 /**
- * @description 设置`token`以及一些必要信息并采用无感刷新`token`方案
- * 无感刷新：后端返回`accessToken`（访问接口使用的`token`）与`expires`（`accessToken`过期时间）
- * 生产环境：`accessToken` 仅保存在内存中；开发环境额外写入 `TokenKey` Cookie 以便热更新/刷新后恢复。
- * 用户资料与过期时间保存在 key 为 `user-info` 的 localStorage 里
+ * 设置 token 以及一些必要信息并采用无感刷新 token 方案
+ * 无感刷新：后端返回 accessToken（访问接口使用的 token）与 expires（accessToken 过期时间）
+ * accessToken 的存放介质由 `getAccessTokenStore()` 按环境决定（生产内存 / 开发 localStorage）。
+ * 用户资料与过期时间保存在 key 为 userKey 的 localStorage 里
  */
 export function setToken(data: SessionTokenPayload) {
-  memoryAccessToken = data.accessToken;
   const { isRemembered, loginDay } = useUserStoreHook();
   const expiresSource = data.expires !== undefined && data.expires !== null ? data.expires : Date.now() + 8 * 3600000;
   const expires = toExpiresTimestamp(expiresSource);
 
-  // 开发环境设置 Token
-  if (import.meta.env.DEV) {
-    const cookieString = JSON.stringify({ accessToken: data.accessToken, expires });
-    if (expires > 0) {
-      Cookies.set(TokenKey, cookieString, {
-        expires: (expires - Date.now()) / 86400000,
-      });
-    } else {
-      Cookies.set(TokenKey, cookieString);
-    }
-  } else {
-    Cookies.remove(TokenKey);
-  }
+  getAccessTokenStore().set({
+    accessToken: data.accessToken,
+    expires,
+  });
 
   // 设置多标签页标志
-  Cookies.set(
-    multipleTabsKey,
-    'true',
-    isRemembered
-      ? {
-          expires: loginDay,
-        }
-      : {}
-  );
+  Cookies.set(multipleTabsKey, 'true', isRemembered ? { expires: loginDay } : {});
 
   /**
    * 设置用户键
@@ -195,9 +163,7 @@ export function setToken(data: SessionTokenPayload) {
  * 删除`token`以及key值为`user-info`的localStorage信息
  */
 export function removeToken() {
-  // 清空内存态 accessToken
-  memoryAccessToken = '';
-  Cookies.remove(TokenKey);
+  getAccessTokenStore().clear();
   // 删除多标签页标志
   Cookies.remove(multipleTabsKey);
   // 删除用户键

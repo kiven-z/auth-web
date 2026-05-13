@@ -4,14 +4,20 @@ import type { AxiosInstance } from 'axios';
 import { resolveAuthRecoveryDecision } from './resolver';
 import type { AuthRecoveryContext, AuthRecoveryRule, RecoveryAction } from './types';
 
-export interface ExecuteAuthRecoveryInput {
+/**
+ * 执行鉴权恢复输入
+ */
+interface ExecuteAuthRecoveryInput {
   instance: AxiosInstance;
   requestConfig?: AuthHttpRequestConfig;
   context: AuthRecoveryContext;
   rules?: readonly AuthRecoveryRule[];
 }
 
-export interface ExecuteAuthRecoveryResult {
+/**
+ * 执行鉴权恢复结果
+ */
+interface ExecuteAuthRecoveryResult {
   handled: boolean;
   action: RecoveryAction;
   matchedRuleId: string;
@@ -39,6 +45,7 @@ export async function executeAuthRecovery(input: ExecuteAuthRecoveryInput): Prom
     };
   }
 
+  // 决策动作
   switch (decision.action) {
     // 刷新令牌并重试
     case 'refresh_and_retry': {
