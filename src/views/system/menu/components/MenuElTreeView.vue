@@ -1,11 +1,12 @@
 <script lang="ts" setup>
 import TableBar from '@/components/ui/TableBar';
 import { transformI18n } from '@/plugins/i18n';
+import { useElTreeExpandCollapse } from '@/shared/hooks/useElTreeExpandCollapse';
 import useMenuMoreAction from '@/views/system/menu/hooks/useMenuMoreAction';
 import useMenuPageState from '@/views/system/menu/hooks/useMenuPageState';
 import useMenuTableAction from '@/views/system/menu/hooks/useMenuTableAction';
 import type { TreeInstance } from 'element-plus';
-import { nextTick, onMounted, ref, unref } from 'vue';
+import { onMounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 defineOptions({
@@ -13,9 +14,13 @@ defineOptions({
 });
 
 const { t } = useI18n();
-const treeRef = ref<TreeInstance>();
-
 const { loading, selectedRows, treeData, viewMode, fetchTableData, fetchTreeData, refresh } = useMenuPageState();
+
+const treeRef = ref<TreeInstance>();
+const { expandedKeys, expandAll, collapseAll } = useElTreeExpandCollapse({
+  treeRef,
+  treeData,
+});
 
 const { openCreateDialog, openEditDialog, openDetailDialog, handleDelete } = useMenuTableAction({
   fetchTableData,
@@ -31,9 +36,6 @@ const { openAssignRoleDrawer, openAssignPermissionDrawer } = useMenuMoreAction({
   refresh,
 });
 
-// 与 `el-tree` 的 `default-expanded-keys` 同步，数据变更时由 watch 维护
-const expandedKeys = ref<string[]>([]);
-
 const treeProps = {
   label: 'title',
   children: 'children',
@@ -47,47 +49,6 @@ const menuTypeTag = (menuType: number) => {
     2: { type: 'success', key: 'sysMenu.menuTypeLink' },
   };
   return map[menuType];
-};
-
-/**
- * 收集树中所有非叶子节点的 id，用于展开/折叠
- */
-const collectAllNodeIds = (nodes: any[]): string[] => {
-  const ids: string[] = [];
-  const walk = (list: any[]) => {
-    for (const item of list) {
-      ids.push(item.id);
-      if (item.children?.length) {
-        walk(item.children);
-      }
-    }
-  };
-  walk(nodes);
-  return ids;
-};
-
-/**
- * 展开全部
- */
-const expandAll = () => {
-  const tree = treeRef.value;
-  if (!tree) return;
-  expandedKeys.value = collectAllNodeIds(treeData.value ?? []);
-};
-
-/**
- * 收起全部
- */
-const collapseAll = async () => {
-  expandedKeys.value = [];
-  await nextTick();
-  const store = treeRef.value?.store;
-  if (!store) return;
-  unref(store)
-    ._getAllNodes()
-    .forEach((node) => {
-      node.collapse();
-    });
 };
 
 onMounted(() => {

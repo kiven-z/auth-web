@@ -43,7 +43,6 @@ const {
     status: undefined as boolean | undefined,
   }),
   errorI18nKey: 'post.loadFailed',
-  selection: true,
 });
 
 const { openCreateDialog, openDetailDialog, handleDelete } = usePostTableAction({ fetchTableData });

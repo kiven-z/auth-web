@@ -3,12 +3,12 @@ import { getJobLogPage } from '@/api/log/job-log';
 import AuthDataTable from '@/components/ui/AuthDataTable';
 import TableBar from '@/components/ui/TableBar';
 import { usePaginationState } from '@/shared/hooks/usePaginationState';
+import { LOG_JOB_STATUS_CODES } from '@/views/log/job-log/constants/job-log-enums';
 import useJobLogTableAction from '@/views/log/job-log/hooks/useJobLogTableAction';
 import useJobLogTableColumns from '@/views/log/job-log/hooks/useJobLogTableColumns';
 import type { FormInstance } from 'element-plus';
 import { onMounted, reactive, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { LOG_JOB_STATUS_CODES } from '@/views/log/job-log/constants/job-log-enums';
 
 defineOptions({
   name: 'LogJobLog',

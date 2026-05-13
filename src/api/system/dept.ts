@@ -1,5 +1,6 @@
 import type { PageResponse, SortSpec } from '@/api/common';
 import { http } from '@/infrastructure/http-core';
+import type { AxiosRequestConfig } from 'axios';
 
 /**
  * 部门列表查询条件（与文档查询字段一致）
@@ -47,12 +48,14 @@ export interface SysDeptPageQuery extends SysDeptListQuery {
  * 查询部门扁平列表（全量，前端建树）
  */
 export function getDeptList(params?: SysDeptListQuery): Promise<SysDeptListVO[]> {
-  return http.get<SysDeptListVO[]>('/system/dept/list', { params });
+  return http.get<SysDeptListVO[], AxiosRequestConfig<SysDeptListQuery>>('/system/dept/list', { params });
 }
 
 /**
  * 分页查询部门（表格视图）
  */
 export function getDeptPage(params: SysDeptPageQuery): Promise<PageResponse<SysDeptListVO>> {
-  return http.get<PageResponse<SysDeptListVO>>('/system/dept/page', { params });
+  return http.get<PageResponse<SysDeptListVO>, AxiosRequestConfig<SysDeptPageQuery>>('/system/dept/page', {
+    params,
+  });
 }

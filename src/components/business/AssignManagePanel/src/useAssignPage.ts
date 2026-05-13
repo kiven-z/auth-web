@@ -49,9 +49,13 @@ export function useAssignPage(params: AuthAssignPageParams) {
       });
       const list = (page.list ?? []) as Record<string, unknown>[];
       tableData.value = list;
-      pagination.total = page.total;
-      pagination.currentPage = page.pageNo ?? page.pageIndex ?? pagination.currentPage;
-      pagination.pageSize = page.pageSize;
+      pagination.total = page.total ?? 0;
+      if (typeof page.pageNo === 'number' && page.pageNo >= 1) {
+        pagination.currentPage = page.pageNo;
+      }
+      if (typeof page.pageSize === 'number' && page.pageSize >= 1) {
+        pagination.pageSize = page.pageSize;
+      }
       rememberRowLabels(list);
     } finally {
       internalLoading.value = false;

@@ -3,13 +3,13 @@ import { getAuthorizationAuditPage } from '@/api/log/authorization-audit';
 import AuthDataTable from '@/components/ui/AuthDataTable';
 import TableBar from '@/components/ui/TableBar';
 import { usePaginationState } from '@/shared/hooks/usePaginationState';
+import useRemoteUserSearch from '@/shared/hooks/useRemoteUserSearch';
+import { AUDIT_EVENT_TYPES } from '@/views/log/authorization-audit-log/constants/authorization-audit-enums';
 import useAuthorizationAuditTableAction from '@/views/log/authorization-audit-log/hooks/useAuthorizationAuditTableAction';
 import useAuthorizationAuditTableColumns from '@/views/log/authorization-audit-log/hooks/useAuthorizationAuditTableColumns';
 import type { FormInstance } from 'element-plus';
 import { onMounted, reactive, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { AUDIT_EVENT_TYPES } from '@/views/log/authorization-audit-log/constants/authorization-audit-enums';
-import useRemoteUserSearch from '@/shared/hooks/useRemoteUserSearch';
 
 defineOptions({
   name: 'LogAuthorizationAudit',
