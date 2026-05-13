@@ -24,7 +24,6 @@ const {
   searchForm,
   pagination,
   fetchTableData,
-  submitTableSearch,
   resetQuery,
   handlePageSizeChange,
   handlePageCurrentChange,
@@ -67,7 +66,7 @@ onMounted(() => {
       </el-form-item>
 
       <el-form-item>
-        <el-button :loading="loading" type="primary" @click="submitTableSearch">
+        <el-button :loading="loading" type="primary" @click="fetchTableData">
           {{ t('buttons.actionSearch') }}
         </el-button>
         <el-button @click="resetQuery(searchFormRef)">{{ t('buttons.actionReset') }}</el-button>

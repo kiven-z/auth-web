@@ -2,7 +2,7 @@ import type { PageResponse } from '@/api/common';
 import type { FormInstance } from 'element-plus';
 import { reactive, ref } from 'vue';
 
-import { runPagedTableFetch } from '@/shared/hooks/paginationQueryUtils';
+import { runPagedTableFetch } from '@/shared/utils/pagination';
 
 export interface UsePaginationStateOptions<TData = unknown> {
   /**
@@ -23,7 +23,6 @@ export interface UsePaginationStateOptions<TData = unknown> {
  *
  * 封装了表格分页查询的核心状态与逻辑：
  * - loading / tableData / pagination / selectedRows / searchForm 等响应式状态
- * - fetchTableData / submitTableSearch / handlePageSizeChange / handlePageCurrentChange
  * - handleSelectionChange / resetQuery
  *
  * @example

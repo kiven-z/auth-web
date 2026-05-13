@@ -1,7 +1,7 @@
 import type { PageResponse } from '@/api/common';
-import { runPagedTableFetch } from '@/shared/hooks/paginationQueryUtils';
 import { handleTree } from '@/shared/lib/tree';
 import { errorMessage } from '@/shared/messaging/message';
+import { runPagedTableFetch } from '@/shared/utils/pagination';
 import type { FormInstance } from 'element-plus';
 import { reactive, ref, type Ref } from 'vue';
 
@@ -71,14 +71,6 @@ export function createModuleTableTreePageState<
   };
 
   /**
-   * 条件查询：回到第一页再请求（搜索 / 重置后使用）。
-   */
-  const submitTableSearch = async () => {
-    pagination.currentPage = 1;
-    await fetchTableData();
-  };
-
-  /**
    * 分页大小变化。
    */
   const handlePageSizeChange = async (value: number) => {
@@ -127,7 +119,8 @@ export function createModuleTableTreePageState<
     } else {
       config.resetSearchFormWithoutRef?.();
     }
-    await submitTableSearch();
+    pagination.currentPage = 1;
+    await fetchTableData();
   };
 
   /**
@@ -148,10 +141,9 @@ export function createModuleTableTreePageState<
       tableData,
       treeData,
       searchForm: config.searchForm,
-      pagination,
       viewMode,
+      pagination,
       fetchTableData,
-      submitTableSearch,
       fetchTreeData,
       resetQuery,
       handlePageSizeChange,

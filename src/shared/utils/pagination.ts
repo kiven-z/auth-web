@@ -1,3 +1,7 @@
+import type { PageResponse } from '@/api/common';
+import { errorMessage } from '@/shared/messaging/message';
+import type { Ref } from 'vue';
+
 /**
  * 组装分页查询参数，并剔除空查询条件（undefined / 空字符串 / 空数组）。
  */
@@ -33,5 +37,32 @@ export function applyPaginationFromPageResponse(
   }
   if (typeof page.pageSize === 'number' && page.pageSize >= 1) {
     pagination.pageSize = page.pageSize;
+  }
+}
+
+/**
+ * 执行表格分页请求（失败清空列表与 total）。
+ */
+export async function runPagedTableFetch<TRow>(options: {
+  loading: Ref<boolean>;
+  searchForm: Record<string, unknown>;
+  pagination: { total: number; pageSize: number; currentPage: number };
+  tableData: Ref<unknown>;
+  fetchApi: (query: Record<string, unknown>) => Promise<PageResponse<TRow>>;
+  errorI18nKey: string;
+}): Promise<void> {
+  options.loading.value = true;
+  const query = buildPaginationQuery(options.searchForm, options.pagination.currentPage, options.pagination.pageSize);
+  const rows = options.tableData as Ref<TRow[]>;
+  try {
+    const page = await options.fetchApi(query);
+    rows.value = page.list ?? [];
+    applyPaginationFromPageResponse(options.pagination, page);
+  } catch (error: unknown) {
+    errorMessage(error, { defaultI18nKey: options.errorI18nKey });
+    rows.value = [];
+    options.pagination.total = 0;
+  } finally {
+    options.loading.value = false;
   }
 }
