@@ -1,0 +1,47 @@
+operationLog:
+  user: User
+  userId: User
+  module: Module
+  operationType: Operation Type
+  targetType: Target Type
+  targetId: Target ID
+  requestMethod: HTTP Method
+  requestUri: Request URI
+  requestParams: Request Params
+  responseStatus: Response Status
+  responseMessage: Response Message
+  executionTimeMs: Execution Time (ms)
+  ipAddress: IP Address
+  userAgent: User Agent
+  remark: Remark
+  tableTitle: Operation Logs
+  detailTitle: Operation Log Detail
+  loadFailed: Failed to load operation logs
+  placeholder:
+    userId: Search user by keyword
+    operationType: All types
+    module: All modules
+    targetType: All targets
+    targetId: Enter target ID
+    requestMethod: All methods
+  moduleEnum:
+    SYSTEM:USER: System - User
+    SYSTEM:ROLE: System - Role
+    SYSTEM:DEPT: System - Dept
+    SYSTEM:PROJECT: System - Project
+    SYSTEM:SECURITY_CONFIG: System - Security Config
+    SYSTEM:MENU: System - Menu
+    SYSTEM:POST: System - Post
+    SYSTEM:JOB: System - Job
+  operationTypeEnum:
+    CREATE: Create
+    UPDATE: Update
+    DELETE: Delete
+    QUERY: Query
+    EXPORT: Export
+  targetTypeEnum:
+    User: User
+    Dept: Dept
+    Role: Role
+    Menu: Menu
+    Post: Post

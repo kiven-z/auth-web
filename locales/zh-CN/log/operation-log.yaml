@@ -1,0 +1,47 @@
+operationLog:
+  user: 操作用户
+  userId: 操作用户
+  module: 操作模块
+  operationType: 操作类型
+  targetType: 目标类型
+  targetId: 目标ID
+  requestMethod: HTTP方法
+  requestUri: 请求URI
+  requestParams: 请求参数
+  responseStatus: 响应状态码
+  responseMessage: 响应消息
+  executionTimeMs: 执行耗时(ms)
+  ipAddress: 请求IP
+  userAgent: 用户代理
+  remark: 备注
+  tableTitle: 操作日志
+  detailTitle: 操作日志详情
+  loadFailed: 获取操作日志失败
+  placeholder:
+    userId: 请输入关键字搜索用户
+    operationType: 全部类型
+    module: 全部模块
+    targetType: 全部对象
+    targetId: 请输入目标ID
+    requestMethod: 全部方法
+  moduleEnum:
+    SYSTEM:USER: 系统管理-用户
+    SYSTEM:ROLE: 系统管理-角色
+    SYSTEM:DEPT: 系统管理-部门
+    SYSTEM:PROJECT: 系统管理-项目
+    SYSTEM:SECURITY_CONFIG: 系统管理-安全配置
+    SYSTEM:MENU: 系统管理-菜单
+    SYSTEM:POST: 系统管理-岗位
+    SYSTEM:JOB: 系统管理-定时任务
+  operationTypeEnum:
+    CREATE: 新增
+    UPDATE: 更新
+    DELETE: 删除
+    QUERY: 查询
+    EXPORT: 导出
+  targetTypeEnum:
+    User: 用户
+    Dept: 部门
+    Role: 角色
+    Menu: 菜单
+    Post: 岗位
