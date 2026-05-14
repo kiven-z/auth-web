@@ -6,6 +6,9 @@ dept:
   viewTreeTitle: Tree View
   expandAll: Expand All
   collapseAll: Collapse All
+  isPrimaryDepartment: Primary department
+  primaryDepartment: Primary
+  secondaryDepartment: Secondary
   # Table headers
   deptName: Department Name
   deptCode: Department Code
