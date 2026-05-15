@@ -1,12 +1,13 @@
 <script lang="ts" setup>
 import { useRenderIcon } from '@/components/ui/Icon/src/hooks';
 import { $t, transformI18n } from '@/plugins/i18n';
+import { useUserStoreHook } from '@/store/modules/user';
 import type { FormInstance } from 'element-plus';
 import { reactive, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { loginRules } from '../utils/rule';
-import Motion from './Motion';
 import type { LoginFormEmits, LoginFormProps } from '../utils/types';
+import Motion from './Motion';
 
 import Lock from '~icons/ri/lock-fill';
 import User from '~icons/ri/user-3-fill';
@@ -18,6 +19,7 @@ const emit = defineEmits<LoginFormEmits>();
 
 const { t } = useI18n();
 const formRef = ref<FormInstance>();
+const loading = ref(false);
 
 const formData = reactive({
   username: 'Administrator',
@@ -26,9 +28,16 @@ const formData = reactive({
 
 const handleSubmit = async () => {
   if (!formRef.value) return;
-  await formRef.value.validate((valid) => {
-    if (valid) {
-      emit('login', { ...formData });
+  await formRef.value.validate(async (valid) => {
+    if (!valid) return;
+    loading.value = true;
+    try {
+      await useUserStoreHook().loginByUsername({ ...formData });
+      emit('login-success');
+    } catch {
+      // 错误由 HTTP 拦截器或 Pinia action 处理
+    } finally {
+      loading.value = false;
     }
   });
 };
@@ -71,14 +80,7 @@ defineExpose({ formRef, handleSubmit });
     </Motion>
 
     <Motion :delay="250">
-      <el-button
-        :disabled="props.disabled"
-        :loading="props.loading"
-        class="w-full mt-4!"
-        size="default"
-        type="primary"
-        @click="handleSubmit"
-      >
+      <el-button :loading="loading" class="w-full mt-4!" size="default" type="primary" @click="handleSubmit">
         {{ t('login.authLogin') }}
       </el-button>
     </Motion>

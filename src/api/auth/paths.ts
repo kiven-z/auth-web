@@ -7,7 +7,7 @@
 export const AUTH_API_PATHS = {
   LOGIN_USERNAME: 'auth/login/username',
   LOGIN_EMAIL: 'auth/login/email',
-  EMAIL_SEND_CODE: 'auth/login/email/send-code',
+  EMAIL_SEND_CODE: 'auth/message/login/email/send-code',
   REFRESH_TOKEN: 'auth/refresh-token',
   LOGOUT: 'auth/logout',
 } as const;

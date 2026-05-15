@@ -1,4 +1,4 @@
-import { LoginMode, type LoginModeMeta } from './types';
+import { LoginMode, type LoginModeMeta } from '@/views/home/login/constants/types';
 
 /**
  * 登录方式切换按钮元数据

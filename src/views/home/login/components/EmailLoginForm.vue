@@ -1,10 +1,13 @@
 <script lang="ts" setup>
+import { sendEmailCodeApi } from '@/api/auth';
 import { useRenderIcon } from '@/components/ui/Icon/src/hooks';
+import { message } from '@/shared/messaging/message';
+import { useUserStoreHook } from '@/store/modules/user';
 import type { FormInstance } from 'element-plus';
 import { onUnmounted, reactive, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
-import Motion from './Motion';
 import type { LoginFormEmits, LoginFormProps } from '../utils/types';
+import Motion from './Motion';
 
 import EmailIcon from '~icons/ri/mail-fill';
 import CodeIcon from '~icons/ri/message-3-fill';
@@ -16,10 +19,11 @@ const emit = defineEmits<LoginFormEmits>();
 
 const { t } = useI18n();
 const formRef = ref<FormInstance>();
+const loading = ref(false);
 
 const formData = reactive({
-  email: '',
-  code: '',
+  email: 'naxim94886@lxbeta.com',
+  code: '467738',
 });
 
 // 发送验证码倒计时（秒），0 表示可发送
@@ -41,18 +45,29 @@ const startCountdown = () => {
   }, 1000);
 };
 
-const handleSendCode = () => {
+const handleSendCode = async () => {
   if (isCounting() || !formData.email) return;
-  // TODO: 调用后端发送邮件验证码接口
-  // await sendEmailCodeApi({ email: formData.email });
-  startCountdown();
+  try {
+    await sendEmailCodeApi({ email: formData.email });
+    message(t('login.authSendCodeSuccess'), { type: 'success' });
+    startCountdown();
+  } catch {
+    message(t('login.authSendCodeFail'), { type: 'error' });
+  }
 };
 
 const handleSubmit = async () => {
   if (!formRef.value) return;
-  await formRef.value.validate((valid) => {
-    if (valid) {
-      emit('login', { ...formData });
+  await formRef.value.validate(async (valid) => {
+    if (!valid) return;
+    loading.value = true;
+    try {
+      await useUserStoreHook().loginByEmail({ ...formData });
+      emit('login-success');
+    } catch {
+      // 错误由 HTTP 拦截器或 Pinia action 处理
+    } finally {
+      loading.value = false;
     }
   });
 };
@@ -121,14 +136,7 @@ onUnmounted(() => {
     </Motion>
 
     <Motion :delay="250">
-      <el-button
-        :disabled="props.disabled"
-        :loading="props.loading"
-        class="w-full mt-4!"
-        size="default"
-        type="primary"
-        @click="handleSubmit"
-      >
+      <el-button :loading="loading" class="w-full mt-4!" size="default" type="primary" @click="handleSubmit">
         {{ t('login.authLogin') }}
       </el-button>
     </Motion>

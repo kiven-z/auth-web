@@ -24,6 +24,15 @@ export const loginByEmailApi = (data: EmailLoginRequest) => {
 };
 
 /**
+ * 发送邮箱验证码
+ * @param params 邮箱地址
+ * @returns 发送结果
+ */
+export const sendEmailCodeApi = (params: { email: string }) => {
+  return http.request<string>('post', AUTH_API_PATHS.EMAIL_SEND_CODE, { params });
+};
+
+/**
  * 刷新令牌
  * @returns 刷新令牌响应
  */

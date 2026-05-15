@@ -15,3 +15,5 @@ login:
   authCode: Verification Code
   authCodeReg: Please enter verification code
   authSendCode: Send Code
+  authSendCodeSuccess: Verification code has been sent
+  authSendCodeFail: Failed to send verification code
