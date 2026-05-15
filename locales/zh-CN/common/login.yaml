@@ -1,9 +1,17 @@
 login:
-  pureUsername: 账号
-  purePassword: 密码
-  pureLogin: 登录
-  pureLoginSuccess: 登录成功
-  pureLoginFail: 登录失败
-  pureUsernameReg: 请输入账号
-  purePassWordReg: 请输入密码
-  purePassWordRuleReg: 密码格式应为8-18位数字、字母、符号的任意两种组合
+  authUsername: 账号
+  authPassword: 密码
+  authLogin: 登录
+  authLoginSuccess: 登录成功
+  authLoginFail: 登录失败
+  authUsernameReg: 请输入账号
+  authPassWordReg: 请输入密码
+  authPassWordRuleReg: 密码格式应为8-18位数字、字母、符号的任意两种组合
+  authEmailLogin: 邮箱登录
+  authUsernamePasswordLogin: 账号密码登录
+  authEmail: 邮箱
+  authEmailReg: 请输入邮箱
+  authEmailFormatReg: 邮箱格式不正确
+  authCode: 验证码
+  authCodeReg: 请输入验证码
+  authSendCode: 发送验证码

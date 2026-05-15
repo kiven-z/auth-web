@@ -1,4 +1,4 @@
-import { loginByUsernameApi, logoutApi, refreshTokenApi, type UserLoginResponse } from '@/api/auth';
+import { loginByEmailApi, loginByUsernameApi, logoutApi, refreshTokenApi, type UserLoginResponse } from '@/api/auth';
 import { readUserProfileFromStorage, removeToken, setToken } from '@/infrastructure/session';
 import { routerArrays } from '@/layout/types';
 import { resetRouter, router } from '@/router';
@@ -93,6 +93,15 @@ export const useUserStore = defineStore('pure-user', {
       resetRouter();
       router.push('/login');
     },
+    /**
+     * 邮箱验证码登录；成功时写入会话。
+     */
+    async loginByEmail(data: { email: string; code: string }) {
+      const body = await loginByEmailApi(data);
+      setToken(this.mapLoginResponseToSession(body));
+      return body;
+    },
+
     /**
      * 刷新 accessToken；成功写入会话（仅 Token 字段时合并本地用户信息）。
      */

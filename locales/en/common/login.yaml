@@ -1,9 +1,17 @@
 login:
-  pureUsername: Username
-  purePassword: Password
-  pureLogin: Login
-  pureLoginSuccess: Login Success
-  pureLoginFail: Login Fail
-  pureUsernameReg: Please enter username
-  purePassWordReg: Please enter password
-  purePassWordRuleReg: The password format should be any combination of 8-18 digits, letters, and symbols
+  authUsername: Username
+  authPassword: Password
+  authLogin: Login
+  authLoginSuccess: Login Success
+  authLoginFail: Login Fail
+  authUsernameReg: Please enter username
+  authPassWordReg: Please enter password
+  authPassWordRuleReg: The password format should be any combination of 8-18 digits, letters, and symbols
+  authEmailLogin: Email Login
+  authUsernamePasswordLogin: Password Login
+  authEmail: Email
+  authEmailReg: Please enter email
+  authEmailFormatReg: Incorrect email format
+  authCode: Verification Code
+  authCodeReg: Please enter verification code
+  authSendCode: Send Code
