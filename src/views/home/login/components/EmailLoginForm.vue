@@ -10,11 +10,10 @@ import Motion from './Motion';
 
 import EmailIcon from '~icons/ri/mail-fill';
 import CodeIcon from '~icons/ri/message-3-fill';
-import { LoginFormEmits, LoginFormProps } from '@/views/home/login/constants/types';
+import { LoginFormEmits } from '@/views/home/login/constants/types';
 
 defineOptions({ name: 'EmailLoginForm' });
 
-const props = defineProps<LoginFormProps>();
 const emit = defineEmits<LoginFormEmits>();
 
 const { t } = useI18n();

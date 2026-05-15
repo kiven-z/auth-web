@@ -1,21 +1,11 @@
 <script lang="ts" setup>
-import { ApiBusinessError, ApiConflictError } from '@/infrastructure/http-core';
 import { useDataThemeChange } from '@/layout/hooks/useDataThemeChange';
 import { useLayout } from '@/layout/hooks/useLayout';
 import { useNav } from '@/layout/hooks/useNav';
 import { useTranslationLang } from '@/layout/hooks/useTranslationLang';
-import { getTopMenu } from '@/router/utils/misc';
-import { initRouter } from '@/router/utils/route-registry';
-import { LoginMode, loginModes } from '@/shared/login';
-import { message } from '@/shared/messaging/message';
-import { useUserStoreHook } from '@/store/modules/user';
-import { debounce } from '@pureadmin/utils';
-import { useEventListener } from '@vueuse/core';
-import { type Component, computed, defineAsyncComponent, markRaw, reactive, ref, toRaw } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { useRouter } from 'vue-router';
-import Motion from './components/Motion';
-import type { LoginFormProps } from './utils/types';
+import useComponentMap from './hooks/useComponentMap';
+import useLogin from './hooks/useLogin';
 
 import avatar from '@/assets/login/avatar.svg?component';
 import bg from '@/assets/login/bg.png';
@@ -25,24 +15,14 @@ import dayIcon from '@/assets/svg/day.svg?component';
 import globalization from '@/assets/svg/globalization.svg?component';
 import Check from '~icons/ep/check';
 
+import Motion from './components/Motion';
+import LoginModeSwitcher from './components/LoginModeSwitcher.vue';
+import { computed } from 'vue';
+import { LoginFormProps } from '@/views/home/login/constants/types';
+
 defineOptions({
   name: 'AuthLogin',
 });
-
-// 登录方式 → 表单组件的懒加载映射（登录组件路径与该视图耦合，保持本地引用）
-const formComponentMap: Record<LoginMode, Component> = {
-  [LoginMode.UsernamePassword]: markRaw(defineAsyncComponent(() => import('./components/UsernamePasswordForm.vue'))),
-  [LoginMode.Email]: markRaw(defineAsyncComponent(() => import('./components/EmailLoginForm.vue'))),
-  // 未来： [LoginMode.Mobile]: () => import('./components/MobileLoginForm.vue'),
-};
-
-const router = useRouter();
-const loading = ref(false);
-const disabled = ref(false);
-const currentMode = ref<LoginMode>(LoginMode.UsernamePassword);
-// 用于切换动画时触发 key 变化，让组件重新挂载获得入场动画
-const formKey = ref(0);
-const formRef = ref<{ handleSubmit: () => void } | null>(null);
 
 const { t } = useI18n();
 const { initStorage } = useLayout();
@@ -52,67 +32,17 @@ dataThemeChange(overallStyle.value);
 const { title, getDropdownItemStyle, getDropdownItemClass } = useNav();
 const { locale, translation, localeOptions } = useTranslationLang();
 
-// 当前激活的表单组件
-const activeFormComponent = computed(() => formComponentMap[currentMode.value]);
+const { formComponentMap } = useComponentMap();
+const { loading, disabled, currentMode, formKey, formRef, switchMode, onLoginSuccess, onLoginError } = useLogin();
 
 // 注入给子表单的通用 props
-const formProps = reactive<LoginFormProps>({
-  get loading() {
-    return loading.value;
-  },
-  get disabled() {
-    return disabled.value;
-  },
-});
+const formProps = computed<LoginFormProps>(() => ({
+  loading: loading.value,
+  disabled: disabled.value,
+}));
 
-const switchMode = (mode: LoginMode) => {
-  if (mode === currentMode.value) return;
-  currentMode.value = mode;
-  // 改变 key 让组件销毁重建，从而触发 Motion 入场动画
-  formKey.value++;
-};
-
-const onLogin = async (formData: Record<string, unknown>) => {
-  loading.value = true;
-  const store = useUserStoreHook();
-
-  try {
-    if (currentMode.value === LoginMode.UsernamePassword) {
-      await store.loginByUsername(formData as { username: string; password: string });
-    } else if (currentMode.value === LoginMode.Email) {
-      await store.loginByEmail(formData as { email: string; code: string });
-    } else {
-      throw new Error(`unsupported login mode: ${currentMode.value}`);
-    }
-
-    await initRouter();
-    disabled.value = true;
-    try {
-      await router.push(getTopMenu(true)?.path ?? '/');
-      message(t('login.authLoginSuccess'), { type: 'success' });
-    } finally {
-      disabled.value = false;
-    }
-  } catch (err: unknown) {
-    if (err instanceof ApiConflictError) {
-      return;
-    }
-    const text = err instanceof ApiBusinessError ? err.message : t('login.authLoginFail');
-    message(text, { type: 'error' });
-  } finally {
-    loading.value = false;
-  }
-};
-
-const loginButtonClick = () => {
-  formRef.value?.handleSubmit();
-};
-
-const immediateDebounce: any = debounce(loginButtonClick, 1000, true);
-
-useEventListener(document, 'keydown', ({ code }) => {
-  if (['Enter', 'NumpadEnter'].includes(code) && !disabled.value && !loading.value) immediateDebounce();
-});
+// 当前表单组件
+const activeFormComponent = computed(() => formComponentMap[currentMode.value]);
 </script>
 
 <template>
@@ -130,7 +60,7 @@ useEventListener(document, 'keydown', ({ code }) => {
       <!-- 国际化 -->
       <el-dropdown trigger="click">
         <globalization
-          class="hover:text-primary hover:bg-[transparent]! w-[20px] h-[20px] ml-1.5 cursor-pointer outline-hidden duration-300"
+          class="hover:text-primary hover:bg-transparent! w-[20px] h-[20px] ml-1.5 cursor-pointer outline-hidden duration-300"
         />
         <template #dropdown>
           <el-dropdown-menu class="translation">
@@ -150,7 +80,7 @@ useEventListener(document, 'keydown', ({ code }) => {
     </div>
     <div class="login-container">
       <div class="img">
-        <component :is="toRaw(illustration)" />
+        <component :is="illustration" />
       </div>
       <div class="login-box">
         <div class="login-form">
@@ -161,23 +91,17 @@ useEventListener(document, 'keydown', ({ code }) => {
 
           <!-- 动态切换表单组件，:key 变化时 Vue 销毁重建触发入场动画 -->
           <Motion :delay="50">
-            <component :is="activeFormComponent" :key="formKey" ref="formRef" v-bind="formProps" @login="onLogin" />
+            <component
+              :is="activeFormComponent"
+              :key="formKey"
+              ref="formRef"
+              v-bind="formProps"
+              @login-success="onLoginSuccess"
+            />
           </Motion>
 
           <!-- 登录方式切换按钮 -->
-          <Motion :delay="350">
-            <el-button-group class="mt-2">
-              <el-button
-                v-for="item in loginModes"
-                :key="item.mode"
-                :type="currentMode === item.mode ? 'primary' : ''"
-                class="flex-1"
-                @click="switchMode(item.mode)"
-              >
-                {{ t(item.labelKey) }}
-              </el-button>
-            </el-button-group>
-          </Motion>
+          <LoginModeSwitcher :current-mode="currentMode" @switch="switchMode" />
         </div>
       </div>
     </div>

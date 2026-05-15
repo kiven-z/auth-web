@@ -6,7 +6,7 @@ import type { FormInstance } from 'element-plus';
 import { reactive, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { loginRules } from '../utils/rule';
-import { LoginFormEmits, LoginFormProps } from '@/views/home/login/constants/types';
+import { LoginFormEmits } from '@/views/home/login/constants/types';
 
 import Motion from './Motion';
 
@@ -15,7 +15,6 @@ import User from '~icons/ri/user-3-fill';
 
 defineOptions({ name: 'UsernamePasswordForm' });
 
-const props = defineProps<LoginFormProps>();
 const emit = defineEmits<LoginFormEmits>();
 
 const { t } = useI18n();

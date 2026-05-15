@@ -1,7 +1,5 @@
 import { type Component, defineAsyncComponent, markRaw } from 'vue';
-import { LoginFormProps, LoginMode } from '@/views/home/login/constants/types';
-
-export type { LoginFormProps };
+import { LoginMode } from '@/views/home/login/constants/types';
 
 function useComponentMap() {
   // 登录方式 → 表单组件的懒加载映射（登录组件路径与该视图耦合，保持本地引用）
