@@ -6,7 +6,8 @@ import type { FormInstance } from 'element-plus';
 import { reactive, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { loginRules } from '../utils/rule';
-import type { LoginFormEmits, LoginFormProps } from '../utils/types';
+import { LoginFormEmits, LoginFormProps } from '@/views/home/login/constants/types';
+
 import Motion from './Motion';
 
 import Lock from '~icons/ri/lock-fill';

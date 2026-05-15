@@ -1,6 +1,5 @@
 import { type Component, defineAsyncComponent, markRaw } from 'vue';
-import type { LoginFormProps } from '../utils/types';
-import { LoginMode } from '@/views/home/login/constants/types';
+import { LoginFormProps, LoginMode } from '@/views/home/login/constants/types';
 
 export type { LoginFormProps };
 

@@ -6,11 +6,11 @@ import { useUserStoreHook } from '@/store/modules/user';
 import type { FormInstance } from 'element-plus';
 import { onUnmounted, reactive, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
-import type { LoginFormEmits, LoginFormProps } from '../utils/types';
 import Motion from './Motion';
 
 import EmailIcon from '~icons/ri/mail-fill';
 import CodeIcon from '~icons/ri/message-3-fill';
+import { LoginFormEmits, LoginFormProps } from '@/views/home/login/constants/types';
 
 defineOptions({ name: 'EmailLoginForm' });
 
