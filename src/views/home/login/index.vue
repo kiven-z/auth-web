@@ -3,7 +3,6 @@ import { useDataThemeChange } from '@/layout/hooks/useDataThemeChange';
 import { useLayout } from '@/layout/hooks/useLayout';
 import { useNav } from '@/layout/hooks/useNav';
 import { useTranslationLang } from '@/layout/hooks/useTranslationLang';
-import useComponentMap from './hooks/useComponentMap';
 import useLogin from './hooks/useLogin';
 
 import avatar from '@/assets/login/avatar.svg?component';
@@ -14,11 +13,11 @@ import dayIcon from '@/assets/svg/day.svg?component';
 import globalization from '@/assets/svg/globalization.svg?component';
 import Check from '~icons/ep/check';
 
+import { formComponentMap, loginModes } from '@/views/home/login/constants/login-registry';
 import { LoginFormProps } from '@/views/home/login/constants/types';
 import { computed } from 'vue';
-import Motion from './components/Motion';
-import { loginModes } from '@/views/home/login/constants/login-config';
 import { useI18n } from 'vue-i18n';
+import Motion from './components/Motion';
 
 defineOptions({
   name: 'AuthLogin',
@@ -32,7 +31,6 @@ const { dataTheme, overallStyle, dataThemeChange } = useDataThemeChange();
 const { title, getDropdownItemStyle, getDropdownItemClass } = useNav();
 const { locale, translation, localeOptions } = useTranslationLang();
 
-const { formComponentMap } = useComponentMap();
 const { loading, disabled, currentMode, formKey, formRef, switchMode, onLoginSuccess } = useLogin();
 
 // 注入给子表单的通用 props

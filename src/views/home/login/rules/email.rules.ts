@@ -5,22 +5,8 @@ import type { FormRules } from 'element-plus';
  */
 export const emailLoginRules: FormRules = {
   email: [
-    {
-      required: true,
-      message: 'login.authEmailReg',
-      trigger: 'blur',
-    },
-    {
-      type: 'email',
-      message: 'login.authEmailFormatReg',
-      trigger: 'blur',
-    },
+    { required: true, message: 'login.authEmailReg', trigger: 'blur' },
+    { type: 'email', message: 'login.authEmailFormatReg', trigger: 'blur' },
   ],
-  code: [
-    {
-      required: true,
-      message: 'login.authCodeReg',
-      trigger: 'blur',
-    },
-  ],
+  code: [{ required: true, message: 'login.authCodeReg', trigger: 'blur' }],
 };

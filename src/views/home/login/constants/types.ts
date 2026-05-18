@@ -1,3 +1,5 @@
+import type { Component } from 'vue';
+
 /**
  * 登录方式枚举
  * 新增登录方式时在此处添加枚举值即可，
@@ -11,13 +13,16 @@ export enum LoginMode {
 }
 
 /**
- * 登录方式的元数据描述，用于动态渲染切换按钮列表。
+ * 登录方式注册项：切换按钮文案 + 对应表单组件（懒加载）。
+ * 新增登录方式时在 {@link loginModeRegistry} 追加一条即可。
  */
 export interface LoginModeMeta {
-  // 枚举值
+  /** 枚举值 */
   mode: LoginMode;
-  // 按钮显示的文案 key（i18n）
+  /** 切换按钮 i18n key */
   labelKey: string;
+  /** 表单组件懒加载函数 */
+  component: () => Promise<{ default: Component }>;
 }
 
 /**

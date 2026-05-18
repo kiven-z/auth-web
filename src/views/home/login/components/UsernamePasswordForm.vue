@@ -12,6 +12,7 @@ import Motion from './Motion';
 
 import Lock from '~icons/ri/lock-fill';
 import User from '~icons/ri/user-3-fill';
+import { message } from '@/shared/messaging/message';
 
 defineOptions({ name: 'UsernamePasswordForm' });
 
@@ -38,8 +39,8 @@ const handleSubmit = async () => {
     try {
       await establishSessionFromLogin(() => loginByUsernameApi({ ...formData }));
       emit('login-success');
-    } catch {
-      // 错误由 HTTP 拦截器或 Pinia action 处理
+    } catch (e) {
+      message(e.message, { type: 'error' });
     } finally {
       loading.value = false;
     }

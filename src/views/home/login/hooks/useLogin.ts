@@ -2,10 +2,11 @@ import { ApiBusinessError, ApiConflictError } from '@/infrastructure/http-core';
 import { getTopMenu } from '@/router/utils/misc';
 import { initRouter } from '@/router/utils/route-registry';
 import { message } from '@/shared/messaging/message';
+import { defaultLoginMode } from '@/views/home/login/constants/login-registry';
+import type { LoginMode } from '@/views/home/login/constants/types';
 import { ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
-import { LoginMode } from '@/views/home/login/constants/types';
 
 function useLogin() {
   const router = useRouter();
@@ -13,7 +14,7 @@ function useLogin() {
 
   const loading = ref(false);
   const disabled = ref(false);
-  const currentMode = ref<LoginMode>(LoginMode.UsernamePassword);
+  const currentMode = ref<LoginMode>(defaultLoginMode);
 
   // 用于切换动画时触发 key 变化，让组件重新挂载获得入场动画
   const formKey = ref(0);
