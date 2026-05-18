@@ -13,6 +13,7 @@ import dayIcon from '@/assets/svg/day.svg?component';
 import globalization from '@/assets/svg/globalization.svg?component';
 import Check from '~icons/ep/check';
 
+import Segmented from '@/components/ui/Segmented';
 import { formComponentMap, loginModes } from '@/views/home/login/constants/login-registry';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
@@ -88,18 +89,15 @@ dataThemeChange(overallStyle.value);
             <component :is="activeFormComponent" :key="formKey" @login-success="onLoginSuccess" />
           </Motion>
 
-          <!-- 登录方式切换按钮 -->
-          <el-button-group class="mt-2">
-            <el-button
-              v-for="item in loginModes"
-              :key="item.mode"
-              :type="currentMode === item.mode ? 'primary' : ''"
-              class="flex-1"
-              @click="switchMode(item.mode)"
-            >
-              {{ t(item.labelKey) }}
-            </el-button>
-          </el-button-group>
+          <!-- 登录方式切换 — Segmented 分段控制器 -->
+          <Segmented
+            :model-value="loginModes.findIndex((item) => item.mode === currentMode)"
+            :options="loginModes.map((item) => ({ label: t(item.labelKey), value: item.mode }))"
+            block
+            class="mt-2"
+            size="default"
+            @change="({ option }) => switchMode(option.value)"
+          />
         </div>
       </div>
     </div>
