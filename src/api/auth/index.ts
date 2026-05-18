@@ -1,9 +1,21 @@
 import { http } from '@/infrastructure/http-core';
 import { AUTH_API_PATHS } from './paths';
-import type { EmailLoginRequest, RefreshTokenResponse, UserLoginResponse, UsernamePasswordLoginRequest } from './types';
+import type {
+  EmailLoginRequest,
+  RefreshTokenResponse,
+  SmsLoginRequest,
+  UserLoginResponse,
+  UsernamePasswordLoginRequest,
+} from './types';
 
 export { AUTH_API_PATHS, AUTH_PUBLIC_API_PATH_SUFFIXES } from './paths';
-export type { EmailLoginRequest, RefreshTokenResponse, UserLoginResponse, UsernamePasswordLoginRequest } from './types';
+export type {
+  EmailLoginRequest,
+  RefreshTokenResponse,
+  SmsLoginRequest,
+  UserLoginResponse,
+  UsernamePasswordLoginRequest,
+} from './types';
 
 /**
  * 用户名密码登录
@@ -30,6 +42,24 @@ export const loginByEmailApi = (data: EmailLoginRequest) => {
  */
 export const sendEmailCodeApi = (params: { email: string }) => {
   return http.request<string>('post', AUTH_API_PATHS.EMAIL_SEND_CODE, { params });
+};
+
+/**
+ * 短信登录
+ * @param data 短信登录请求
+ * @returns 用户登录响应
+ */
+export const loginBySmsApi = (data: SmsLoginRequest) => {
+  return http.request<UserLoginResponse>('post', AUTH_API_PATHS.LOGIN_SMS, { data });
+};
+
+/**
+ * 发送短信验证码
+ * @param params 手机号
+ * @returns 发送结果
+ */
+export const sendSmsCodeApi = (params: { phone: string }) => {
+  return http.request<string>('post', AUTH_API_PATHS.SMS_SEND_CODE, { params });
 };
 
 /**

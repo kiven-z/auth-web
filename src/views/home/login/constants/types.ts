@@ -9,7 +9,8 @@ export enum LoginMode {
   UsernamePassword = 'username-password',
   // 邮箱
   Email = 'email',
-  // 未来可追加：Mobile = 'mobile', QrCode = 'qrcode', etc.
+  // 短信
+  Sms = 'sms',
 }
 
 /**

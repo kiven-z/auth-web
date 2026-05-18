@@ -9,9 +9,13 @@ login:
   authPassWordRuleReg: The password format should be any combination of 8-18 digits, letters, and symbols
   authEmailLogin: Email Login
   authUsernamePasswordLogin: Password Login
+  authSmsLogin: SMS Login
   authEmail: Email
   authEmailReg: Please enter email
   authEmailFormatReg: Incorrect email format
+  authPhone: Phone
+  authPhoneReg: Please enter phone number
+  authPhoneFormatReg: Incorrect phone number format
   authCode: Verification Code
   authCodeReg: Please enter verification code
   authSendCode: Send Code

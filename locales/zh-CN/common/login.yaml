@@ -9,9 +9,13 @@ login:
   authPassWordRuleReg: 密码格式应为8-18位数字、字母、符号的任意两种组合
   authEmailLogin: 邮箱登录
   authUsernamePasswordLogin: 账号密码登录
+  authSmsLogin: 短信登录
   authEmail: 邮箱
   authEmailReg: 请输入邮箱
   authEmailFormatReg: 邮箱格式不正确
+  authPhone: 手机号
+  authPhoneReg: 请输入手机号
+  authPhoneFormatReg: 手机号格式不正确
   authCode: 验证码
   authCodeReg: 请输入验证码
   authSendCode: 发送验证码

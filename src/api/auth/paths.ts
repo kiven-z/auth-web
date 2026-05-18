@@ -7,7 +7,9 @@
 export const AUTH_API_PATHS = {
   LOGIN_USERNAME: 'auth/login/username',
   LOGIN_EMAIL: 'auth/login/email',
+  LOGIN_SMS: 'auth/login/sms',
   EMAIL_SEND_CODE: 'auth/message/login/email/send-code',
+  SMS_SEND_CODE: 'auth/message/login/sms/send-code',
   REFRESH_TOKEN: 'auth/refresh-token',
   LOGOUT: 'auth/logout',
 } as const;
@@ -19,6 +21,8 @@ export const AUTH_API_PATHS = {
 export const AUTH_PUBLIC_API_PATH_SUFFIXES: readonly string[] = [
   AUTH_API_PATHS.LOGIN_USERNAME,
   AUTH_API_PATHS.LOGIN_EMAIL,
+  AUTH_API_PATHS.LOGIN_SMS,
   AUTH_API_PATHS.EMAIL_SEND_CODE,
+  AUTH_API_PATHS.SMS_SEND_CODE,
   AUTH_API_PATHS.REFRESH_TOKEN,
 ];

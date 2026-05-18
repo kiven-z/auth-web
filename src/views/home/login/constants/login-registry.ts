@@ -16,8 +16,11 @@ export const loginModeRegistry: LoginModeMeta[] = [
     labelKey: 'login.authEmailLogin',
     component: () => import('../components/EmailLoginForm.vue'),
   },
-  // 未来：
-  // { mode: LoginMode.Mobile, labelKey: 'login.authMobileLogin', component: () => import('...') },
+  {
+    mode: LoginMode.Sms,
+    labelKey: 'login.authSmsLogin',
+    component: () => import('../components/SmsLoginForm.vue'),
+  },
 ];
 
 /** 默认登录方式（注册表第一项） */

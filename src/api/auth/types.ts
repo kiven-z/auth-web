@@ -36,3 +36,11 @@ export interface EmailLoginRequest {
   email: string;
   code: string;
 }
+
+/**
+ * 短信登录请求
+ */
+export interface SmsLoginRequest {
+  phone: string;
+  code: string;
+}
