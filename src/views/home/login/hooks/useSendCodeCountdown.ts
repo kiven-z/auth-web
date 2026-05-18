@@ -9,8 +9,7 @@ const DEFAULT_SEND_CODE_COUNTDOWN_SECONDS = 60;
  * 组件卸载时由 VueUse（useIntervalFn）自动清理定时器。
  */
 export function useSendCodeCountdown(seconds = DEFAULT_SEND_CODE_COUNTDOWN_SECONDS) {
-  const { remaining, start } = useCountdown(0, { immediate: false });
-
+  const { remaining, start } = useCountdown(0);
   const isCounting = computed(() => remaining.value > 0);
 
   const startCountdown = () => start(seconds);

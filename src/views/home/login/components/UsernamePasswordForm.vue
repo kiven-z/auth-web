@@ -3,16 +3,16 @@ import { loginByUsernameApi } from '@/api/auth';
 import { useRenderIcon } from '@/components/ui/Icon/src/hooks';
 import { establishSessionFromLogin } from '@/infrastructure/session';
 import { LoginFormEmits } from '@/views/home/login/constants/types';
+import { usernamePasswordRules } from '@/views/home/login/rules/username-password.rules';
 import type { FormInstance } from 'element-plus';
 import { reactive, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { usernamePasswordRules } from '@/views/home/login/rules/username-password.rules';
 
 import Motion from './Motion';
 
+import { message } from '@/shared/messaging/message';
 import Lock from '~icons/ri/lock-fill';
 import User from '~icons/ri/user-3-fill';
-import { message } from '@/shared/messaging/message';
 
 defineOptions({ name: 'UsernamePasswordForm' });
 
@@ -22,17 +22,20 @@ const { t } = useI18n();
 const formRef = ref<FormInstance>();
 const loading = ref(false);
 
-// 表单
+// 登录表单
 const formData = reactive({
   username: 'Administrator',
   password: 'admin123',
 });
 
 /**
- * 提交表单
+ * 提交登录
  */
 const handleSubmit = async () => {
+  // 表单未初始化
   if (!formRef.value) return;
+
+  // 验证表单
   await formRef.value.validate(async (valid) => {
     if (!valid) return;
     loading.value = true;
@@ -47,7 +50,7 @@ const handleSubmit = async () => {
   });
 };
 
-defineExpose({ formRef, handleSubmit });
+defineExpose({ handleSubmit });
 </script>
 
 <template>

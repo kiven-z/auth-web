@@ -14,7 +14,6 @@ import globalization from '@/assets/svg/globalization.svg?component';
 import Check from '~icons/ep/check';
 
 import { formComponentMap, loginModes } from '@/views/home/login/constants/login-registry';
-import { LoginFormProps } from '@/views/home/login/constants/types';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import Motion from './components/Motion';
@@ -31,15 +30,8 @@ const { dataTheme, overallStyle, dataThemeChange } = useDataThemeChange();
 const { title, getDropdownItemStyle, getDropdownItemClass } = useNav();
 const { locale, translation, localeOptions } = useTranslationLang();
 
-const { loading, disabled, currentMode, formKey, formRef, switchMode, onLoginSuccess } = useLogin();
+const { currentMode, formKey, switchMode, onLoginSuccess } = useLogin();
 
-// 注入给子表单的通用 props
-const formProps = computed<LoginFormProps>(() => ({
-  loading: loading.value,
-  disabled: disabled.value,
-}));
-
-// 当前表单组件
 const activeFormComponent = computed(() => formComponentMap[currentMode.value]);
 
 initStorage();
@@ -93,13 +85,7 @@ dataThemeChange(overallStyle.value);
 
           <!-- 动态切换表单组件，:key 变化时 Vue 销毁重建触发入场动画 -->
           <Motion :delay="50">
-            <component
-              :is="activeFormComponent"
-              :key="formKey"
-              ref="formRef"
-              v-bind="formProps"
-              @login-success="onLoginSuccess"
-            />
+            <component :is="activeFormComponent" :key="formKey" @login-success="onLoginSuccess" />
           </Motion>
 
           <!-- 登录方式切换按钮 -->

@@ -12,8 +12,6 @@ function useLogin() {
   const router = useRouter();
   const { t } = useI18n();
 
-  const loading = ref(false);
-  const disabled = ref(false);
   const currentMode = ref<LoginMode>(defaultLoginMode);
 
   // 用于切换动画时触发 key 变化，让组件重新挂载获得入场动画
@@ -21,7 +19,7 @@ function useLogin() {
 
   /**
    * 切换登录模式
-   * @param mode 模登录
+   * @param mode 登录模式
    */
   const switchMode = (mode: LoginMode) => {
     if (mode === currentMode.value) return;
@@ -34,7 +32,6 @@ function useLogin() {
    * 统一处理：加载路由、跳转首页。
    */
   const onLoginSuccess = async () => {
-    disabled.value = true;
     try {
       await initRouter();
       await router.push(getTopMenu(true)?.path ?? '/');
@@ -45,36 +42,14 @@ function useLogin() {
       }
       const text = err instanceof ApiBusinessError ? err.message : t('login.authLoginFail');
       message(text, { type: 'error' });
-    } finally {
-      disabled.value = false;
     }
   };
-
-  /**
-   * 表单组件内部登录失败时调用的回调。
-   */
-  const onLoginError = (err: unknown) => {
-    if (err instanceof ApiConflictError) {
-      return;
-    }
-    const text = err instanceof ApiBusinessError ? err.message : t('login.authLoginFail');
-    message(text, { type: 'error' });
-  };
-
-  /**
-   * 支持父级从外部触发表单提交（Enter 键统一处理）
-   */
-  const formRef = ref<{ handleSubmit: () => void } | null>(null);
 
   return {
-    loading,
-    disabled,
     currentMode,
     formKey,
-    formRef,
     switchMode,
     onLoginSuccess,
-    onLoginError,
   };
 }
 

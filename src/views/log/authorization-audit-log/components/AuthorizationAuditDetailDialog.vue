@@ -8,7 +8,7 @@ defineOptions({
   name: 'AuthorizationAuditDetailDialog',
 });
 
-const props = defineProps<{ data: AuthorizationAuditDetailRow }>();
+defineProps<{ data: AuthorizationAuditDetailRow }>();
 const { t } = useI18n();
 
 const columns = computed(() => [
@@ -49,12 +49,8 @@ const columns = computed(() => [
   // 更新时间
   { label: t('table.updateTime'), prop: 'updateTime' },
 ]);
-
-const view = computed(() => {
-  return props.data || ({} as AuthorizationAuditDetailRow);
-});
 </script>
 
 <template>
-  <Description :column="2" :columns="columns" :data="[view]" />
+  <Description :column="2" :columns="columns" :data="data" />
 </template>

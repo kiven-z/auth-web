@@ -2,15 +2,15 @@
 import { loginBySmsApi, sendSmsCodeApi } from '@/api/auth';
 import { useRenderIcon } from '@/components/ui/Icon/src/hooks';
 import { establishSessionFromLogin } from '@/infrastructure/session';
-import { useSendCodeCountdown } from '@/shared/hooks/useSendCodeCountdown';
 import { message } from '@/shared/messaging/message';
+import { LoginFormEmits } from '@/views/home/login/constants/types';
+import { useSendCodeCountdown } from '@/views/home/login/hooks/useSendCodeCountdown';
 import { smsLoginRules } from '@/views/home/login/rules/sms.rules';
 import type { FormInstance } from 'element-plus';
 import { reactive, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import Motion from './Motion';
 
-import { LoginFormEmits } from '@/views/home/login/constants/types';
 import CodeIcon from '~icons/ri/message-3-fill';
 import PhoneIcon from '~icons/ri/phone-fill';
 
@@ -22,21 +22,27 @@ const { t } = useI18n();
 const formRef = ref<FormInstance>();
 const loading = ref(false);
 
+// 登录表单
 const formData = reactive({
   phone: '',
   code: '',
 });
 
-const { remaining, isCounting, startCountdown } = useSendCodeCountdown();
+const { countdown, isCounting, startCountdown } = useSendCodeCountdown();
 
 /**
  * 发送验证码
  */
 const handleSendCode = async () => {
+  // 倒计时未结束或手机号未输入
   if (isCounting.value || !formData.phone) return;
+
   try {
+    // 发送验证码
     await sendSmsCodeApi({ phone: formData.phone });
     message(t('login.authSendCodeSuccess'), { type: 'success' });
+
+    // 开始倒计时
     startCountdown();
   } catch {
     message(t('login.authSendCodeFail'), { type: 'error' });
@@ -44,15 +50,20 @@ const handleSendCode = async () => {
 };
 
 /**
- * 提交表单
+ * 提交登录
  */
 const handleSubmit = async () => {
+  // 表单未初始化
   if (!formRef.value) return;
+
+  // 验证表单
   await formRef.value.validate(async (valid) => {
     if (!valid) return;
     loading.value = true;
     try {
+      // 登录
       await establishSessionFromLogin(() => loginBySmsApi({ ...formData }));
+
       emit('login-success');
     } catch (e) {
       message(e.message, { type: 'error' });
@@ -62,7 +73,7 @@ const handleSubmit = async () => {
   });
 };
 
-defineExpose({ formRef, handleSubmit });
+defineExpose({ handleSubmit });
 </script>
 
 <template>
@@ -88,7 +99,7 @@ defineExpose({ formRef, handleSubmit });
         >
           <template #append>
             <el-button :disabled="isCounting || !formData.phone" class="w-[120px]" @click="handleSendCode">
-              {{ isCounting ? `${remaining}s` : t('login.authSendCode') }}
+              {{ isCounting ? `${countdown}s` : t('login.authSendCode') }}
             </el-button>
           </template>
         </el-input>

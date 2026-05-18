@@ -2,15 +2,15 @@
 import { loginByEmailApi, sendEmailCodeApi } from '@/api/auth';
 import { useRenderIcon } from '@/components/ui/Icon/src/hooks';
 import { establishSessionFromLogin } from '@/infrastructure/session';
-import { useSendCodeCountdown } from '@/shared/hooks/useSendCodeCountdown';
 import { message } from '@/shared/messaging/message';
+import { LoginFormEmits } from '@/views/home/login/constants/types';
+import { useSendCodeCountdown } from '@/views/home/login/hooks/useSendCodeCountdown';
 import { emailLoginRules } from '@/views/home/login/rules/email.rules';
 import type { FormInstance } from 'element-plus';
 import { reactive, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import Motion from './Motion';
 
-import { LoginFormEmits } from '@/views/home/login/constants/types';
 import EmailIcon from '~icons/ri/mail-fill';
 import CodeIcon from '~icons/ri/message-3-fill';
 
@@ -25,25 +25,23 @@ const loading = ref(false);
 // 登录表单
 const formData = reactive({
   email: '14x_hbt58i3x1a@dingtalk.com',
-  code: '467738',
+  code: '',
 });
 
-const { remaining, isCounting, startCountdown } = useSendCodeCountdown();
+const { countdown, isCounting, startCountdown } = useSendCodeCountdown();
 
 /**
  * 发送验证码
  */
 const handleSendCode = async () => {
   // 倒计时未结束或邮箱未输入
-  if (isCounting.value || !formData.email) {
-    return;
-  }
+  if (isCounting.value || !formData.email) return;
 
   try {
     // 发送验证码
     await sendEmailCodeApi({ email: formData.email });
-    // 提示成功
     message(t('login.authSendCodeSuccess'), { type: 'success' });
+
     // 开始倒计时
     startCountdown();
   } catch {
@@ -52,23 +50,19 @@ const handleSendCode = async () => {
 };
 
 /**
- * 提交表单
+ * 提交登录
  */
 const handleSubmit = async () => {
   // 表单未初始化
-  if (!formRef.value) {
-    return;
-  }
+  if (!formRef.value) return;
 
   // 验证表单
   await formRef.value.validate(async (valid) => {
-    // 表单验证失败
     if (!valid) return;
-    // 设置加载状态
     loading.value = true;
 
-    // 登录
     try {
+      // 登录
       await establishSessionFromLogin(() => loginByEmailApi({ ...formData }));
       emit('login-success');
     } catch (e) {
@@ -79,7 +73,7 @@ const handleSubmit = async () => {
   });
 };
 
-defineExpose({ formRef, handleSubmit });
+defineExpose({ handleSubmit });
 </script>
 
 <template>
@@ -105,7 +99,7 @@ defineExpose({ formRef, handleSubmit });
         >
           <template #append>
             <el-button :disabled="isCounting || !formData.email" class="w-[120px]" @click="handleSendCode">
-              {{ isCounting ? `${remaining}s` : t('login.authSendCode') }}
+              {{ isCounting ? `${countdown}s` : t('login.authSendCode') }}
             </el-button>
           </template>
         </el-input>
