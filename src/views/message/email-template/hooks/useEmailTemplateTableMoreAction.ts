@@ -31,6 +31,12 @@ type RequireFieldsExpose = {
   submit: () => Promise<boolean>;
 };
 
+/**
+ * 转换为表单模型
+ * @param detail 详情
+ * @param id 模板 ID
+ * @returns 表单模型
+ */
 function toFormFromDetail(detail: EmailTemplateDetailVO, id: string): EmailTemplateFormModel {
   return {
     id,
@@ -51,6 +57,8 @@ function toFormFromDetail(detail: EmailTemplateDetailVO, id: string): EmailTempl
 
 /**
  * 邮件模板表格「更多」菜单相关操作。
+ * @param options 表格操作依赖
+ * @returns 邮件模板表格「更多」菜单相关操作
  */
 export function useEmailTemplateTableMoreAction(options: TableActionDeps) {
   const { fetchTableData } = options;

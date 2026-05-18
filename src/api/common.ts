@@ -22,11 +22,20 @@ export interface PageResponse<T> {
   list: T[];
 }
 
+import type { Ref } from 'vue';
+
 /**
  * 与后端 PageRequest 一致
  */
 export interface TableActionDeps {
   fetchTableData: () => Promise<void>;
+}
+
+/**
+ * 表格操作依赖（含 {@link usePaginationState} 提供的多选 ID 列表）
+ */
+export interface TableActionWithSelectionDeps extends TableActionDeps {
+  selectedRows: Ref<string[]>;
 }
 
 export interface FormDialog<T> {

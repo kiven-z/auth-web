@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { FormDialog } from '@/api/common';
-import { type EmailTemplateFormModel, renderEmailTemplate } from '@/api/system/email-template';
+import { renderEmailTemplate, type EmailTemplateFormModel } from '@/api/system/email-template';
 import { MONACO_COMMON_EDITOR_OPTIONS } from '@/views/message/email-template/config/monaco-config';
 import { registerEmailTemplateMonaco } from '@/views/message/email-template/monaco/register-email-template-monaco';
 import type { FormInstance, FormRules } from 'element-plus';
@@ -54,6 +54,7 @@ const resizePreviewFrame = (frame: HTMLIFrameElement | null) => {
  */
 const scheduleRender = debounce(async () => {
   try {
+    // 渲染 HTML
     renderedHtml.value = await renderEmailTemplate({
       content: form.value.content ?? '',
       requireFields: form.value.requireFields ?? [],
@@ -84,6 +85,8 @@ watch(
     const frame = previewFrameRef.value;
     if (!frame) return;
     frame.srcdoc = html;
+
+    // 调整预览框高度
     requestAnimationFrame(() => {
       resizePreviewFrame(frame);
     });

@@ -1,29 +1,18 @@
-import type { TableActionDeps } from '@/api/common';
+import type { TableActionWithSelectionDeps } from '@/api/common';
 import { deleteLoginLog, getLoginLogDetail, type LoginLogPageRow } from '@/api/log/login-log';
 import { addDialog } from '@/components/ui/Dialog';
 import { deleteConfirm } from '@/shared/messaging/dialog';
 import { errorMessage, message } from '@/shared/messaging/message';
 import LoginLogDetailDialog from '@/views/log/login-log/components/LoginLogDetailDialog.vue';
-import { h, ref } from 'vue';
+import { h } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 /**
  * 登录日志表格操作：查看详情、删除、批量删除（使用标准两次删除确认）
  */
-function useLoginLogTableAction(deps: TableActionDeps) {
-  const { fetchTableData } = deps;
+function useLoginLogTableAction(deps: TableActionWithSelectionDeps) {
+  const { fetchTableData, selectedRows } = deps;
   const { t } = useI18n();
-
-  // 选中的行
-  const selectedRows = ref<LoginLogPageRow[]>([]);
-
-  /**
-   * 多选变化
-   * @param rows 选中行
-   */
-  const handleSelectionChange = (rows: LoginLogPageRow[]) => {
-    selectedRows.value = rows;
-  };
 
   /**
    * 打开详情对话框
@@ -72,7 +61,7 @@ function useLoginLogTableAction(deps: TableActionDeps) {
     const confirm = await deleteConfirm();
     if (!confirm) return;
 
-    const ids = selectedRows.value.map((row) => row.id);
+    const ids = selectedRows.value;
     try {
       await deleteLoginLog(ids);
       message(t('tips.deleteSuccess'), { type: 'success' });
@@ -84,8 +73,6 @@ function useLoginLogTableAction(deps: TableActionDeps) {
   };
 
   return {
-    selectedRows,
-    handleSelectionChange,
     openDetailDialog,
     deleteRow,
     deleteBatchRows,

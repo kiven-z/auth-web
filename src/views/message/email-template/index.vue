@@ -41,6 +41,7 @@ const {
   errorI18nKey: 'emailTemplate.loadFailed',
 });
 
+// 表格操作事件
 const {
   openCreateDialog,
   openEditDialog,
@@ -60,7 +61,7 @@ onMounted(() => {
 
 <template>
   <div>
-    <el-alert class="mb-3" closable show-icon type="warning">
+    <el-alert class="mb-3" closable show-icon type="primary">
       数据表 sys_message_template，仅管理与发送渠道 EMAIL 对应的行；下列「场景编码」即库字段 scene_code，与发送接口
       templateCode 一致。
     </el-alert>

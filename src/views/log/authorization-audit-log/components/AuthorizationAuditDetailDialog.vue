@@ -52,5 +52,5 @@ const columns = computed(() => [
 </script>
 
 <template>
-  <Description :column="2" :columns="columns" :data="data" />
+  <Description :column="2" :columns="columns" :data="[data]" />
 </template>

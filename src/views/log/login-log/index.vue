@@ -22,6 +22,7 @@ const tableRef = ref<{ setAdaptive: () => Promise<void> } | null>(null);
 
 const {
   tableData,
+  selectedRows,
   loading,
   pagination,
   searchForm,
@@ -29,6 +30,7 @@ const {
   resetQuery,
   handlePageSizeChange,
   handlePageCurrentChange,
+  handleSelectionChange,
 } = usePaginationState({
   fetchApi: getLoginLogPage,
   searchForm: reactive({
@@ -41,10 +43,13 @@ const {
   errorI18nKey: 'loginLog.loadFailed',
 });
 
-const { selectedRows, handleSelectionChange, openDetailDialog, deleteRow, deleteBatchRows } = useLoginLogTableAction({
+// 操作列按钮事件
+const { openDetailDialog, deleteRow, deleteBatchRows } = useLoginLogTableAction({
   fetchTableData,
+  selectedRows,
 });
 
+// 用户搜索
 const { userOptions, userSearchLoading, loadUserListByKeyword } = useRemoteUserSearch({
   errorDefaultI18nKey: 'loginLog.loadFailed',
 });

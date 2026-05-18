@@ -24,8 +24,11 @@ const PREVIEW_MAX_HEIGHT = 640;
  * @returns 调整预览框高度后，更新预览框高度
  */
 const resizePreviewFrame = (frame: HTMLIFrameElement | null) => {
+  // 预览框未初始化
   if (!frame) return;
   const doc = frame.contentDocument;
+
+  // 文档未加载
   if (!doc) return;
   const nextHeight = Math.max(doc.body?.scrollHeight ?? 0, doc.documentElement?.scrollHeight ?? 0);
   previewHeight.value = Math.min(PREVIEW_MAX_HEIGHT, Math.max(PREVIEW_MIN_HEIGHT, nextHeight));

@@ -21,6 +21,7 @@ const tableRef = ref<{ setAdaptive: () => Promise<void> } | null>(null);
 
 const {
   tableData,
+  selectedRows,
   loading,
   pagination,
   searchForm,
@@ -28,6 +29,7 @@ const {
   resetQuery,
   handlePageSizeChange,
   handlePageCurrentChange,
+  handleSelectionChange,
 } = usePaginationState({
   fetchApi: getPasswordHistoryPage,
   searchForm: reactive({
@@ -39,9 +41,13 @@ const {
   errorI18nKey: 'passwordHistory.loadFailed',
 });
 
-const { selectedRows, handleSelectionChange, openDetailDialog, deleteRow, deleteBatchRows } =
-  usePasswordHistoryTableAction({ fetchTableData });
+// 操作列按钮事件
+const { openDetailDialog, deleteRow, deleteBatchRows } = usePasswordHistoryTableAction({
+  fetchTableData,
+  selectedRows,
+});
 
+// 用户搜索
 const { userOptions, userSearchLoading, loadUserListByKeyword } = useRemoteUserSearch({
   errorDefaultI18nKey: 'passwordHistory.loadFailed',
 });

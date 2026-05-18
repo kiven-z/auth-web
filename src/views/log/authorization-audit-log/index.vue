@@ -22,6 +22,7 @@ const tableRef = ref<{ setAdaptive: () => Promise<void> } | null>(null);
 
 const {
   tableData,
+  selectedRows,
   loading,
   pagination,
   searchForm,
@@ -29,6 +30,7 @@ const {
   resetQuery,
   handlePageSizeChange,
   handlePageCurrentChange,
+  handleSelectionChange,
 } = usePaginationState({
   fetchApi: getAuthorizationAuditPage,
   searchForm: reactive({
@@ -40,8 +42,10 @@ const {
   errorI18nKey: 'authorizationAudit.loadFailed',
 });
 
-const { selectedRows, handleSelectionChange, openDetailDialog, deleteRow, deleteBatchRows } =
-  useAuthorizationAuditTableAction({ fetchTableData });
+const { openDetailDialog, deleteRow, deleteBatchRows } = useAuthorizationAuditTableAction({
+  fetchTableData,
+  selectedRows,
+});
 
 const { userOptions, userSearchLoading, loadUserListByKeyword } = useRemoteUserSearch({
   errorDefaultI18nKey: 'authorizationAudit.loadFailed',

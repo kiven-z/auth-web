@@ -1,9 +1,5 @@
 <script lang="tsx" setup>
-import {
-  type EmailTemplateDetailVO,
-  getEmailTemplateById,
-  getEmailTemplatePreviewHtml,
-} from '@/api/system/email-template';
+import { getEmailTemplateById, getEmailTemplatePreviewHtml } from '@/api/system/email-template';
 import ReDescription from '@/components/ui/Description/index';
 import { ElTag } from 'element-plus';
 import { computed, nextTick, onMounted, ref, watch } from 'vue';
@@ -22,7 +18,7 @@ const loading = ref(false);
 // 预览 iframe 引用
 const previewFrameRef = ref<HTMLIFrameElement | null>(null);
 // 详情数据
-const detail = ref<EmailTemplateDetailVO[]>([]);
+const detail = ref({});
 // 渲染后的 HTML
 const renderedHtml = ref('');
 
@@ -61,8 +57,7 @@ const columns = computed(() => [
 const onLoadData = async () => {
   loading.value = true;
   try {
-    const response = await getEmailTemplateById(props.id);
-    detail.value = [response];
+    detail.value = await getEmailTemplateById(props.id);
     renderedHtml.value = await getEmailTemplatePreviewHtml(props.id);
   } finally {
     loading.value = false;
@@ -91,7 +86,7 @@ onMounted(() => {
 
 <template>
   <div v-loading="loading">
-    <ReDescription :column="2" :columns="columns" :data="detail" border />
+    <ReDescription :column="2" :columns="columns" :data="[detail]" border />
 
     <div class="text-sm font-medium mb-2">{{ t('emailTemplate.renderedEffect') }}</div>
     <div class="border border-(--el-border-color) overflow-auto rounded bg-(--el-fill-color-blank)">

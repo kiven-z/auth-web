@@ -5,9 +5,9 @@
 import { getEmailTemplateById, updateEmailTemplateRequireFields } from '@/api/system/email-template';
 import { errorMessage, message } from '@/shared/messaging/message';
 import {
-  type EditableRequireFieldRow,
   toEditableRequireFields,
   toRequireFieldsPayload,
+  type EditableRequireFieldRow,
 } from '@/views/message/email-template/utils/require-fields';
 import { onMounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
@@ -52,12 +52,16 @@ const onDel = (row: EditableRequireFieldRow) => {
  * @returns 提交后，更新行序号
  */
 const submit = async (): Promise<boolean> => {
+  // 转换为请求体
   const transformResult = toRequireFieldsPayload(dataList.value);
+  // 转换失败
   if (!transformResult.ok) {
     message(t(transformResult.error.messageKey), { type: 'warning' });
     return false;
   }
+
   try {
+    // 更新 require_fields
     await updateEmailTemplateRequireFields(props.templateId, { requireFields: transformResult.payload });
     message(t('tips.editSuccess'), { type: 'success' });
     return true;
@@ -69,9 +73,13 @@ const submit = async (): Promise<boolean> => {
 
 onMounted(async () => {
   loading.value = true;
+
   try {
+    // 获取详情
     const detail = await getEmailTemplateById(props.templateId);
+    // 转换为可编辑行
     dataList.value = toEditableRequireFields(detail?.requireFields ?? []);
+    // 更新行序号
     rowSeq = dataList.value.length + 1;
   } catch (error: unknown) {
     errorMessage(error, { defaultI18nKey: 'emailTemplate.loadFailed' });

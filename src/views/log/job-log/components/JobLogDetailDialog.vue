@@ -8,7 +8,7 @@ defineOptions({
   name: 'JobLogDetailDialog',
 });
 
-const props = defineProps<{ data: JobLogDetailRow }>();
+defineProps<{ data: JobLogDetailRow }>();
 const { t } = useI18n();
 
 const columns = computed(() => [
@@ -29,19 +29,8 @@ const columns = computed(() => [
   // 记录时间
   { label: t('logJob.createTime'), prop: 'createTime' },
 ]);
-
-const view = computed(() => {
-  const d: JobLogDetailRow = props.data || ({} as JobLogDetailRow);
-  const code = d.status;
-  const key = `logJob.statusEnum.${code}` as const;
-  const raw = t(key);
-  return {
-    ...d,
-    statusLabel: raw === key ? String(code ?? '') : raw,
-  };
-});
 </script>
 
 <template>
-  <Description :column="2" :columns="columns" :data="[view]" />
+  <Description :column="2" :columns="columns" :data="[data]" />
 </template>

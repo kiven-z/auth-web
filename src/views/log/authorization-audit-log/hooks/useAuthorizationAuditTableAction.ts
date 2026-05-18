@@ -1,34 +1,23 @@
-import type { TableActionDeps } from '@/api/common';
+import type { TableActionWithSelectionDeps } from '@/api/common';
 import {
-  type AuthorizationAuditPageRow,
   deleteAuthorizationAudit,
   getAuthorizationAuditDetail,
+  type AuthorizationAuditPageRow,
 } from '@/api/log/authorization-audit';
+import { addDialog } from '@/components/ui/Dialog';
 import { deleteConfirm } from '@/shared/messaging/dialog';
 import { errorMessage, message } from '@/shared/messaging/message';
 import AuthorizationAuditDetailDialog from '@/views/log/authorization-audit-log/components/AuthorizationAuditDetailDialog.vue';
-import { h, ref } from 'vue';
-import { useI18n } from 'vue-i18n';
-import { addDialog } from '@/components/ui/Dialog';
 import { useDebounceFn } from '@vueuse/core';
+import { h } from 'vue';
+import { useI18n } from 'vue-i18n';
 
 /**
  * 权限决策审计日志表格操作：查看详情、删除、批量删除（标准两次删除确认）
  */
-function useAuthorizationAuditTableAction(deps: TableActionDeps) {
-  const { fetchTableData } = deps;
+function useAuthorizationAuditTableAction(deps: TableActionWithSelectionDeps) {
+  const { fetchTableData, selectedRows } = deps;
   const { t } = useI18n();
-
-  // 选中的行
-  const selectedRows = ref<AuthorizationAuditPageRow[]>([]);
-
-  /**
-   * 多选变化
-   * @param rows 选中行
-   */
-  const handleSelectionChange = (rows: AuthorizationAuditPageRow[]) => {
-    selectedRows.value = rows;
-  };
 
   /**
    * 打开详情对话框
@@ -80,7 +69,7 @@ function useAuthorizationAuditTableAction(deps: TableActionDeps) {
     const confirm = await deleteConfirm();
     if (!confirm) return;
 
-    const ids = selectedRows.value.map((row) => row.id);
+    const ids = selectedRows.value;
     try {
       await deleteAuthorizationAudit(ids);
       message(t('tips.deleteSuccess'), { type: 'success' });
@@ -92,8 +81,6 @@ function useAuthorizationAuditTableAction(deps: TableActionDeps) {
   };
 
   return {
-    selectedRows,
-    handleSelectionChange,
     openDetailDialog,
     deleteRow,
     deleteBatchRows,

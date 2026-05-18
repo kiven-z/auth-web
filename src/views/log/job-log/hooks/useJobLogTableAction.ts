@@ -1,19 +1,16 @@
-import type { TableActionDeps } from '@/api/common';
+import type { TableActionWithSelectionDeps } from '@/api/common';
 import { deleteJobLog, getJobLogDetail, type JobLogPageRow } from '@/api/log/job-log';
 import { addDialog } from '@/components/ui/Dialog';
 import { deleteConfirm } from '@/shared/messaging/dialog';
 import { errorMessage, message } from '@/shared/messaging/message';
 import JobLogDetailDialog from '@/views/log/job-log/components/JobLogDetailDialog.vue';
-import { h, type Ref } from 'vue';
+import { h } from 'vue';
 import { useI18n } from 'vue-i18n';
 
-interface JobLogTableActionDeps extends TableActionDeps {
-  selectedRows: Ref<string[]>;
-}
 /**
  * 任务调度日志表格操作：查看详情、删除、批量删除（使用标准两次删除确认）
  */
-function useJobLogTableAction(deps: JobLogTableActionDeps) {
+function useJobLogTableAction(deps: TableActionWithSelectionDeps) {
   const { fetchTableData, selectedRows } = deps;
   const { t } = useI18n();
 

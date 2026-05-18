@@ -42,6 +42,7 @@ const {
   errorI18nKey: 'logJob.loadFailed',
 });
 
+// 操作列按钮事件
 const { openDetailDialog, deleteRow, deleteBatchRows } = useJobLogTableAction({
   fetchTableData,
   selectedRows,

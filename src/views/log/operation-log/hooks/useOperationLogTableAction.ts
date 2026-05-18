@@ -1,30 +1,19 @@
-import type { TableActionDeps } from '@/api/common';
+import type { TableActionWithSelectionDeps } from '@/api/common';
 import { deleteOperationLog, getOperationLogDetail, type OperationLogPageRow } from '@/api/log/operation-log';
 import { addDialog } from '@/components/ui/Dialog';
 import { deleteConfirm } from '@/shared/messaging/dialog';
 import { errorMessage, message } from '@/shared/messaging/message';
 import OperationLogDetailDialog from '@/views/log/operation-log/components/OperationLogDetailDialog.vue';
 import { useDebounceFn } from '@vueuse/core';
-import { h, ref } from 'vue';
+import { h } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 /**
  * 操作日志表格操作：查看详情、删除、批量删除（标准两次删除确认）
  */
-function useOperationLogTableAction(deps: TableActionDeps) {
-  const { fetchTableData } = deps;
+function useOperationLogTableAction(deps: TableActionWithSelectionDeps) {
+  const { fetchTableData, selectedRows } = deps;
   const { t } = useI18n();
-
-  // 选中的行
-  const selectedRows = ref<OperationLogPageRow[]>([]);
-
-  /**
-   * 多选变化
-   * @param rows 选中行
-   */
-  const handleSelectionChange = (rows: OperationLogPageRow[]) => {
-    selectedRows.value = rows;
-  };
 
   /**
    * 打开详情对话框
@@ -76,7 +65,7 @@ function useOperationLogTableAction(deps: TableActionDeps) {
     const confirm = await deleteConfirm();
     if (!confirm) return;
 
-    const ids = selectedRows.value.map((row) => row.id);
+    const ids = selectedRows.value;
     try {
       await deleteOperationLog(ids);
       message(t('tips.deleteSuccess'), { type: 'success' });
@@ -88,8 +77,6 @@ function useOperationLogTableAction(deps: TableActionDeps) {
   };
 
   return {
-    selectedRows,
-    handleSelectionChange,
     openDetailDialog,
     deleteRow,
     deleteBatchRows,

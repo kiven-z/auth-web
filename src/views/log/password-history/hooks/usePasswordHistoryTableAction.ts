@@ -1,4 +1,4 @@
-import type { TableActionDeps } from '@/api/common';
+import type { TableActionWithSelectionDeps } from '@/api/common';
 import {
   deletePasswordHistory,
   getPasswordHistoryDetail,
@@ -8,27 +8,15 @@ import { addDialog } from '@/components/ui/Dialog';
 import { deleteConfirm } from '@/shared/messaging/dialog';
 import { errorMessage, message } from '@/shared/messaging/message';
 import PasswordHistoryDescriptionDialog from '@/views/log/password-history/components/PasswordHistoryDescriptionDialog.vue';
-import { h, ref } from 'vue';
+import { h } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 /**
  * 密码历史日志表格操作：查看详情、删除、批量删除
- * @param deps 须传入列表页同一实例的 fetchTableData
  */
-function usePasswordHistoryTableAction(deps: TableActionDeps) {
-  const { fetchTableData } = deps;
+function usePasswordHistoryTableAction(deps: TableActionWithSelectionDeps) {
+  const { fetchTableData, selectedRows } = deps;
   const { t } = useI18n();
-
-  // 选中的行
-  const selectedRows = ref<PasswordHistoryPageRow[]>([]);
-
-  /**
-   * 选中行变化
-   * @param rows 选中的行
-   */
-  const handleSelectionChange = (rows: PasswordHistoryPageRow[]) => {
-    selectedRows.value = rows;
-  };
 
   /**
    * 打开密码历史日志详情对话框
@@ -75,7 +63,7 @@ function usePasswordHistoryTableAction(deps: TableActionDeps) {
     const confirm = await deleteConfirm();
     if (!confirm) return;
 
-    const ids = selectedRows.value.map((row) => row.id);
+    const ids = selectedRows.value;
     try {
       await deletePasswordHistory(ids);
       message(t('tips.deleteSuccess'), { type: 'success' });
@@ -87,8 +75,6 @@ function usePasswordHistoryTableAction(deps: TableActionDeps) {
   };
 
   return {
-    selectedRows,
-    handleSelectionChange,
     openDetailDialog,
     deleteRow,
     deleteBatchRows,
