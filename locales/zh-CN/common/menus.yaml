@@ -82,8 +82,10 @@ routes:
   deptManagement: 部门管理
   postManagement: 岗位管理
   menuManagement: 菜单管理
-  emailTemplate: 邮件消息模板
   onlineUser: 在线用户
+
+  messageManagement: 消息管理
+  emailTemplate: 邮件消息模板
 
   schedule: 任务调度
   scheduleGroup: 任务调度分组

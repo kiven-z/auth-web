@@ -60,6 +60,11 @@ onMounted(() => {
 
 <template>
   <div>
+    <el-alert class="mb-3" closable show-icon type="warning">
+      数据表 sys_message_template，仅管理与发送渠道 EMAIL 对应的行；下列「场景编码」即库字段 scene_code，与发送接口
+      templateCode 一致。
+    </el-alert>
+
     <el-form
       ref="searchFormRef"
       :inline="true"
@@ -95,8 +100,6 @@ onMounted(() => {
         <el-button @click="resetQuery(searchFormRef)">{{ t('buttons.actionReset') }}</el-button>
       </el-form-item>
     </el-form>
-
-    <el-alert :closable="false" :title="t('emailTemplate.pageScopeHint')" class="mb-3 ml-8" type="info" />
 
     <TableBar
       :columns="columns"

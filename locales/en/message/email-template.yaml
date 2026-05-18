@@ -2,7 +2,6 @@ emailTemplate:
   name: Email message template
   loadFailed: Failed to load email templates
   tableTitle: Email templates (EMAIL)
-  pageScopeHint: Rows from sys_message_template with channel EMAIL. "Scene code" is column scene_code and matches send API templateCode.
   templateCode: Scene code
   templateName: Template name
   subject: Email subject

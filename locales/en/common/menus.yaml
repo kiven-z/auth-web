@@ -82,8 +82,10 @@ routes:
   deptManagement: Department Management
   postManagement: Post Management
   menuManagement: Menu Management
-  emailTemplate: Email message templates
   onlineUser: Online Users
+
+  messageManagement: Message Management
+  emailTemplate: Email message templates
 
   schedule: Task Scheduling
   scheduleGroup: Schedule Groups
