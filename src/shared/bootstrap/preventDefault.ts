@@ -7,7 +7,9 @@ function isImgElement(element) {
     : element.tagName.toLowerCase() === 'img';
 }
 
-// 在 src/main.ts 引入并调用即可 import { addPreventDefault } from "@/shared/bootstrap/preventDefault"; addPreventDefault();
+/**
+ * 添加阻止默认行为
+ */
 export const addPreventDefault = () => {
   // 阻止通过键盘F12快捷键打开浏览器开发者工具面板
   useEventListener(window.document, 'keydown', (ev) => ev.key === 'F12' && ev.preventDefault());

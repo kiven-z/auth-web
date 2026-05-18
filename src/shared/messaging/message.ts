@@ -6,46 +6,53 @@ import type { VNode } from 'vue';
 type messageStyle = 'el' | 'antd';
 type messageTypes = 'info' | 'success' | 'warning' | 'error';
 
-/** 无显式文案且无法从异常解析时的默认 i18n 键（见 locales `tips.requestFailed`） */
+// 无显式文案且无法从异常解析时的默认 i18n 键（见 locales `tips.requestFailed`
 export const DEFAULT_ERROR_FALLBACK_I18N_KEY = 'tips.requestFailed';
 
 export interface MessageParams {
-  /** 消息类型，可选 `info` 、`success` 、`warning` 、`error` ，默认 `info` */
+  // 消息类型，可选 `info` 、`success` 、`warning` 、`error` ，默认 `info`
   type?: messageTypes;
-  /** 是否纯色，默认 `false` */
+  // 是否纯色，默认 `false`
   plain?: boolean;
-  /** 自定义图标，该属性会覆盖 `type` 的图标 */
+  // 自定义图标，该属性会覆盖 `type` 的图标
   icon?: any;
-  /** 是否将 `message` 属性作为 `HTML` 片段处理，默认 `false` */
+  // 是否将 `message` 属性作为 `HTML` 片段处理，默认 `false`
   dangerouslyUseHTMLString?: boolean;
-  /** 消息风格，可选 `el` 、`antd` ，默认 `antd` */
+  // 消息风格，可选 `el` 、`antd` ，默认 `antd`
   customClass?: messageStyle;
-  /** 显示时间，单位为毫秒。设为 `0` 则不会自动关闭，`element-plus` 默认是 `3000` ，平台改成默认 `2000` */
+  // 显示时间，单位为毫秒。设为 `0` 则不会自动关闭，`element-plus` 默认是 `3000` ，平台改成默认 `2000`
   duration?: number;
-  /** 是否显示关闭按钮，默认值 `false` */
+  // 是否显示关闭按钮，默认值 `false`
   showClose?: boolean;
-  /** `Message` 距离窗口顶部的偏移量，默认 `16` */
+  // `Message` 距离窗口顶部的偏移量，默认 `16`
   offset?: number;
-  /** 设置组件的根元素，默认 `document.body` */
+  // 设置组件的根元素，默认 `document.body`
   appendTo?: string | HTMLElement;
-  /** 合并内容相同的消息，不支持 `VNode` 类型的消息，默认值 `false` */
+  // 合并内容相同的消息，不支持 `VNode` 类型的消息，默认值 `false`
   grouping?: boolean;
-  /** 重复次数，类似于 `Badge` 。当和 `grouping` 属性一起使用时作为初始数量使用，默认值 `1` */
+  // 重复次数，类似于 `Badge` 。当和 `grouping` 属性一起使用时作为初始数量使用，默认值 `1`
   repeatNum?: number;
-  /** 关闭时的回调函数, 参数为被关闭的 `message` 实例 */
+  // 关闭时的回调函数, 参数为被关闭的 `message` 实例
   onClose?: Function | null;
 }
 
-/** {@link errorMessage} 专用：可传显式文案与兜底 i18n 键，其余字段透传 {@link MessageParams} */
+/**
+ * {@link errorMessage} 专用：可传显式文案与兜底 i18n 键，其余字段透传 {@link MessageParams}
+ * @param message 消息
+ * @param defaultI18nKey 默认 i18n 键
+ */
 export type ErrorMessageParams = Omit<MessageParams, 'type'> & {
-  /** 有非空值时优先展示，不再使用 error 与兜底文案 */
+    // 有非空值时优先展示，不再使用 error 与兜底文案
   message?: string;
-  /** 无显式文案且无法从 error 解析 message 时使用的 i18n 键，默认 `tips.requestFailed` */
+  // 无显式文案且无法从 error 解析 message 时使用的 i18n 键，默认 `tips.requestFailed`
   defaultI18nKey?: string;
 };
 
 /**
  * 解析 catch 中应展示给用户的错误文案：显式 message → Error.message → 兜底 i18n。
+ * @param error 错误
+ * @param options 选项
+ * @returns 错误文案
  */
 export function resolveCaughtErrorText(
   error: unknown,
@@ -62,10 +69,11 @@ export function resolveCaughtErrorText(
   return transformI18n(i18nKey);
 }
 
-/** 用法非常简单，参考 src/views/components/message/index.vue 文件 */
-
 /**
  * `Message` 消息提示函数
+ * @param message 消息
+ * @param params 参数
+ * @returns 消息提示函数
  */
 const message = (message: string | VNode | (() => VNode), params?: MessageParams): MessageHandler => {
   if (!params) {

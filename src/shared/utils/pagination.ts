@@ -4,6 +4,10 @@ import type { Ref } from 'vue';
 
 /**
  * 组装分页查询参数，并剔除空查询条件（undefined / 空字符串 / 空数组）。
+ * @param searchForm 搜索表单
+ * @param currentPage 当前页码
+ * @param pageSize 每页条数
+ * @returns 分页查询参数
  */
 export function buildPaginationQuery(
   searchForm: Record<string, unknown>,
@@ -26,6 +30,8 @@ export function buildPaginationQuery(
 
 /**
  * 将后端分页字段安全写回前端分页状态（避免非法 pageNo 破坏 el-pagination）。
+ * @param pagination 分页状态
+ * @param page 分页响应
  */
 export function applyPaginationFromPageResponse(
   pagination: { total: number; pageSize: number; currentPage: number },
@@ -42,6 +48,8 @@ export function applyPaginationFromPageResponse(
 
 /**
  * 执行表格分页请求（失败清空列表与 total）。
+ * @param options 选项
+ * @returns 分页请求
  */
 export async function runPagedTableFetch<TRow>(options: {
   loading: Ref<boolean>;
