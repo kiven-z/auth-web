@@ -1,3 +1,4 @@
+import { wireSessionUserProfileSync } from '@/bootstrap/sessionStoreBridge';
 import { useI18n } from '@/plugins/i18n';
 import { setupStore } from '@/store';
 import { MotionPlugin } from '@vueuse/motion';
@@ -50,6 +51,7 @@ app.use(VueTippy);
 
 getPlatformConfig(app).then(async (config) => {
   setupStore(app);
+  wireSessionUserProfileSync();
   app.use(router);
   await router.isReady();
   injectResponsiveStorage(app, config);

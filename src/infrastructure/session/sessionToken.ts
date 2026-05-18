@@ -1,7 +1,7 @@
 import { multipleTabsKey } from '@/config/auth-config';
 import { getAccessTokenStore } from '@/infrastructure/session/accessTokenReadWriter';
-import { useUserStoreHook } from '@/store/modules/user';
 import Cookies from 'js-cookie';
+import { clearSessionPreferences, readSessionPreferences } from './sessionPreferences';
 import { resolveSessionExpires } from './sessionTime';
 import type { DataInfo, SessionTokenPayload, UserProfileSnapshot } from './types';
 import {
@@ -77,7 +77,7 @@ function resolveProfileForSetToken(data: SessionTokenPayload): UserProfileSnapsh
  * @param data 会话所需载荷
  */
 export function setToken(data: SessionTokenPayload): void {
-  const { isRemembered, loginDay } = useUserStoreHook();
+  const { isRemembered, loginDay } = readSessionPreferences();
   const expires = resolveSessionExpires(data.expires);
 
   getAccessTokenStore().set({
@@ -99,4 +99,5 @@ export function removeToken(): void {
   getAccessTokenStore().clear();
   Cookies.remove(multipleTabsKey);
   clearUserProfileFromStorage();
+  clearSessionPreferences();
 }

@@ -1,5 +1,10 @@
 import { logoutApi } from '@/api/auth';
-import { readUserProfileFromStorage, removeToken } from '@/infrastructure/session';
+import {
+  readSessionPreferences,
+  readUserProfileFromStorage,
+  removeToken,
+  writeSessionPreferences,
+} from '@/infrastructure/session';
 import { routerArrays } from '@/layout/types';
 import { resetRouter, router } from '@/router';
 import { store } from '@/store';
@@ -10,6 +15,7 @@ import { useMultiTagsStoreHook } from './multiTags';
 export const useUserStore = defineStore('pure-user', {
   state: (): userType => {
     const u = readUserProfileFromStorage();
+    const prefs = readSessionPreferences();
     return {
       avatar: u.avatar ?? '',
       username: u.username ?? '',
@@ -17,8 +23,8 @@ export const useUserStore = defineStore('pure-user', {
       userId: u.userId ?? '',
       roles: u.roles ?? [],
       permissions: u.permissions ?? [],
-      isRemembered: false,
-      loginDay: 7,
+      isRemembered: prefs.isRemembered,
+      loginDay: prefs.loginDay,
     };
   },
   actions: {
@@ -39,6 +45,15 @@ export const useUserStore = defineStore('pure-user', {
     },
     SET_PERMS(permissions: Array<string>) {
       this.permissions = permissions;
+    },
+
+    /**
+     * 更新「记住登录」偏好（同步写入 session 层 localStorage）。
+     */
+    SET_LOGIN_PREFERENCES(isRemembered: boolean, loginDay: number) {
+      this.isRemembered = isRemembered;
+      this.loginDay = loginDay;
+      writeSessionPreferences({ isRemembered, loginDay });
     },
 
     /**

@@ -1,15 +1,13 @@
 import { refreshAccessTokenSingleFlight } from '@/infrastructure/auth-flow/tokenRefreshCoordinator';
-import { hasAccessToken, type DataInfo, removeToken } from '@/infrastructure/session';
+import { hasAccessToken, isLoggedIn, readUserProfileFromStorage, removeToken } from '@/infrastructure/session';
 import { isOneOfArray } from '@/router/utils/auth';
 import { getTopMenu } from '@/router/utils/misc';
 import { initRouter } from '@/router/utils/route-registry';
 import { findRouteByPath } from '@/router/utils/route-tree';
 import { useMultiTagsStoreHook } from '@/store/modules/multiTags';
 import { usePermissionStoreHook } from '@/store/modules/permission';
-import { isAllEmpty, isUrl, openLink, storageLocal } from '@pureadmin/utils';
-import Cookies from 'js-cookie';
+import { isAllEmpty, isUrl, openLink } from '@pureadmin/utils';
 import type { Router } from 'vue-router';
-import { multipleTabsKey, userKey } from '@/config/auth-config';
 
 /** 路由白名单 */
 const whiteList = ['/login'];
@@ -38,9 +36,7 @@ async function ensureAccessTokenOnBoot(): Promise<boolean> {
  */
 export function createAuthGuard(router: Router): void {
   router.beforeEach(async (to, _from, next) => {
-    // 获取用户信息
-    const userInfo = storageLocal().getItem<DataInfo<number>>(userKey);
-    // 获取是否外部链接
+    const userInfo = readUserProfileFromStorage();
     const externalLink = isUrl(to?.name as string);
 
     /**
@@ -50,9 +46,7 @@ export function createAuthGuard(router: Router): void {
       whiteList.includes(to.fullPath) ? next(_from.fullPath) : next();
     }
 
-    // 如果多标签页标志存在且用户信息存在，则校验登录状态
-    if (Cookies.get(multipleTabsKey) && userInfo) {
-      // 如果路径不是登录页且没有 accessToken，则刷新 accessToken
+    if (isLoggedIn()) {
       if (to.path !== '/login' && !hasAccessToken()) {
         const restored = await ensureAccessTokenOnBoot();
         if (!restored) {
@@ -62,13 +56,11 @@ export function createAuthGuard(router: Router): void {
         }
       }
 
-      // 无权限跳转403页面
       if (to.meta?.roles && !isOneOfArray(to.meta?.roles, userInfo?.roles)) {
         next({ path: '/error/403' });
         return;
       }
 
-      // 开启隐藏首页后手动输入 welcome 跳转 404
       if (VITE_HIDE_HOME === 'true' && to.fullPath === '/welcome') {
         next({ path: '/error/404' });
         return;
@@ -81,7 +73,6 @@ export function createAuthGuard(router: Router): void {
         }
         toCorrectRoute();
       } else {
-        // 刷新时动态路由初始化
         if (usePermissionStoreHook().wholeMenus.length === 0 && to.path !== '/login') {
           initRouter().then(async (routerInstance: Router) => {
             if (!useMultiTagsStoreHook().getMultiTagsCache) {
