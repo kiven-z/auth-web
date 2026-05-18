@@ -1,3 +1,4 @@
+import { runAuthRecoverySideEffect } from '@/config/auth-recovery-effects';
 import { replayRequestWithRefreshedToken } from '@/infrastructure/auth-flow/tokenRefreshCoordinator';
 import type { AuthHttpRequestConfig } from '@/infrastructure/http-core/types.d';
 import type { AxiosInstance } from 'axios';
@@ -34,7 +35,6 @@ interface ExecuteAuthRecoveryResult {
  */
 export async function executeAuthRecovery(input: ExecuteAuthRecoveryInput): Promise<ExecuteAuthRecoveryResult> {
   const decision = resolveAuthRecoveryDecision(input.context, input.rules);
-  decision.onRecoveryStart?.();
 
   // 无请求配置时直接透传，不执行任何恢复动作
   if (!input.requestConfig) {
@@ -44,6 +44,8 @@ export async function executeAuthRecovery(input: ExecuteAuthRecoveryInput): Prom
       matchedRuleId: decision.matchedRuleId,
     };
   }
+
+  runAuthRecoverySideEffect(decision.matchedRuleId);
 
   // 决策动作
   switch (decision.action) {

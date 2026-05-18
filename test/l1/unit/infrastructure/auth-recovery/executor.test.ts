@@ -9,6 +9,10 @@ vi.mock('@/infrastructure/auth-flow/tokenRefreshCoordinator', () => ({
   replayRequestWithRefreshedToken: replayRequestWithRefreshedTokenMock,
 }));
 
+vi.mock('@/config/auth-recovery-effects', () => ({
+  runAuthRecoverySideEffect: vi.fn(),
+}));
+
 describe('executeAuthRecovery', () => {
   beforeEach(() => {
     replayRequestWithRefreshedTokenMock.mockReset();

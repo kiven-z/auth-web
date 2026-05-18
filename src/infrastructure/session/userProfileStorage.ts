@@ -3,20 +3,19 @@ import { storageLocal } from '@pureadmin/utils';
 import type { DataInfo, UserProfileSnapshot } from './types';
 
 /**
- * 从 localStorage 读取已缓存的用户展示信息（单一读取入口，供 Pinia 初始化等使用）。
- * @returns 用户展示信息
- */
-export function readUserProfileFromStorage(): Partial<DataInfo<number>> {
-  const raw = storageLocal().getItem<DataInfo<number>>(userKey);
-  return raw ?? {};
-}
-
-/**
  * 读取 localStorage 中的完整用户资料条目。
  * @returns 用户资料条目，不存在时返回 null
  */
 export function readStoredUserProfileEntry(): DataInfo<number> | null {
   return storageLocal().getItem<DataInfo<number>>(userKey);
+}
+
+/**
+ * 从 localStorage 读取已缓存的用户展示信息（单一读取入口，供 Pinia 初始化等使用）。
+ * @returns 用户展示信息
+ */
+export function readUserProfileFromStorage(): Partial<DataInfo<number>> {
+  return readStoredUserProfileEntry() ?? {};
 }
 
 /**

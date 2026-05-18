@@ -26,7 +26,7 @@ function resolvedAdapter(assertFn: (config: AxiosRequestConfig) => void): AxiosA
 
 function buildClient() {
   const instance = axios.create();
-  attachRequestAuthInterceptor(instance, () => ({}) as any);
+  attachRequestAuthInterceptor(instance);
   return instance;
 }
 

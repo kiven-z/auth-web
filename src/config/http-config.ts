@@ -1,4 +1,5 @@
 import { AUTH_PUBLIC_API_PATH_SUFFIXES } from '@/api/auth/paths';
+import { PERMISSION_VERSION_MISMATCH_CODES } from '@/config/auth-error-codes';
 
 /**
  * 与后端 {@code com.auth.common.core.model.response.Result.SUCCESS_CODE} 一致。
@@ -38,7 +39,5 @@ export function isNoAuthRequestPath(requestUrl: string | undefined): boolean {
  * 权限版本不一致（HTTP 409 + 稳定错误码）的精确判定。
  */
 export function isPermissionVersionMismatchError(status: number | undefined, errorCode: string | undefined): boolean {
-  return (
-    status === 409 && ['PERMISSION_VERSION_MISMATCH', 'GATEWAY_PERMISSION_VERSION_MISMATCH'].includes(errorCode ?? '')
-  );
+  return status === 409 && PERMISSION_VERSION_MISMATCH_CODES.includes(errorCode ?? '');
 }

@@ -1,6 +1,7 @@
 import type { AuthHttpRequestConfig } from '@/infrastructure/http-core/types.d';
-import { formatToken, getToken, refreshAccessToken } from '@/infrastructure/session';
+import { formatToken, getToken } from '@/infrastructure/session';
 import type { AxiosInstance } from 'axios';
+import { refreshAccessToken } from './refreshAccessToken';
 
 let refreshInFlight: Promise<string> | null = null;
 

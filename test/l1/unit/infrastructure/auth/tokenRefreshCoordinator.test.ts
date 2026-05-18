@@ -9,6 +9,9 @@ const { mockGetToken, mockFormatToken, mockRefreshAccessToken } = vi.hoisted(() 
 vi.mock('@/infrastructure/session', () => ({
   getToken: mockGetToken,
   formatToken: mockFormatToken,
+}));
+
+vi.mock('@/infrastructure/auth-flow/refreshAccessToken', () => ({
   refreshAccessToken: mockRefreshAccessToken,
 }));
 

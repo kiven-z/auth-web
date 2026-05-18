@@ -5,12 +5,11 @@ import { attachResponseInterceptors } from './interceptors/responseHandlers';
 import type { AuthHttpRequestConfig, RequestMethods } from './types.d';
 
 class PureHttp {
-  private static initConfig: AuthHttpRequestConfig = {};
   private static axiosInstance: AxiosInstance = createHttpAxiosInstance();
 
   constructor() {
-    attachRequestAuthInterceptor(PureHttp.axiosInstance, () => PureHttp.initConfig);
-    attachResponseInterceptors(PureHttp.axiosInstance, () => PureHttp.initConfig);
+    attachRequestAuthInterceptor(PureHttp.axiosInstance);
+    attachResponseInterceptors(PureHttp.axiosInstance);
   }
 
   static getAxiosInstance(): AxiosInstance {
@@ -54,8 +53,5 @@ export const http = new PureHttp();
 
 export * from './apiError';
 export * from './apiResult';
-export { createHttpAxiosInstance } from './axiosDefaults';
 export * from './errorAdapter';
-export { attachRequestAuthInterceptor } from './interceptors/requestAuth';
-export { attachResponseInterceptors } from './interceptors/responseHandlers';
 export type { AuthHttpError, AuthHttpRequestConfig, AuthHttpResponse, RequestMethods } from './types.d';

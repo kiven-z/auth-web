@@ -1,4 +1,4 @@
-import { refreshTokenApi, type UserLoginResponse } from '@/api/auth';
+import type { UserLoginResponse } from '@/api/auth/types';
 import { setToken } from './sessionToken';
 import type { SessionTokenPayload } from './types';
 
@@ -30,18 +30,5 @@ export async function establishSessionFromLogin(
 ): Promise<UserLoginResponse> {
   const body = await fetchLogin();
   setToken(mapLoginResponseToSession(body));
-  return body;
-}
-
-/**
- * 刷新 accessToken；成功时合并写入会话（仅 Token 字段时保留本地用户信息）。
- * @returns 刷新后的响应
- */
-export async function refreshAccessToken() {
-  const body = await refreshTokenApi();
-  setToken({
-    accessToken: body.accessToken,
-    expires: body.expires,
-  });
   return body;
 }

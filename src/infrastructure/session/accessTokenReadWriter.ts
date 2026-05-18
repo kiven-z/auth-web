@@ -74,10 +74,6 @@ export class MemoryAccessTokenStore implements AccessTokenReadWriter {
   }
 }
 
-/**
- * 开发环境：accessToken 持久化到 localStorage，减轻 Vite HMR 清空内存导致的误登出。
- * 若仍存在旧版 `TokenKey` Cookie，首次读取时迁移到 localStorage 并删除 Cookie。
- */
 type DevPersistedShape = {
   // access token
   accessToken?: string;

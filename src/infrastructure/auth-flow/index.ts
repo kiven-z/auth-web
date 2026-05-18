@@ -1,2 +1,3 @@
-export * from './tokenRefreshCoordinator';
 export * from './recovery';
+export * from './refreshAccessToken';
+export * from './tokenRefreshCoordinator';

@@ -1,4 +1,4 @@
-import type { AuthRecoveryRule } from '@/infrastructure/auth-flow/recovery';
+import type { AuthRecoveryRule } from '@/infrastructure/auth-flow/recovery/types';
 import type { AxiosError, AxiosRequestConfig, AxiosResponse, Method } from 'axios';
 
 /**

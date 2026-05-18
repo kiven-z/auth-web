@@ -43,7 +43,7 @@ function rejectedAdapter(status: number, data: unknown): AxiosAdapter {
 
 function buildClient() {
   const instance = axios.create();
-  attachResponseInterceptors(instance, () => ({}));
+  attachResponseInterceptors(instance);
   return instance;
 }
 

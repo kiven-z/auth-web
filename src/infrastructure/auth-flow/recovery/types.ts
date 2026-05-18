@@ -36,7 +36,6 @@ export interface AuthRecoveryRuleMatcher {
  * @param action 动作
  * @param maxRetryTimes 最大重试次数
  * @param onRetryExhaustedAction 重试 exhausted 动作
- * @param onRecoveryStart 恢复流程开始时的回调
  */
 export interface AuthRecoveryRule {
   id: string;
@@ -45,7 +44,6 @@ export interface AuthRecoveryRule {
   action: RecoveryAction;
   maxRetryTimes?: number;
   onRetryExhaustedAction?: RecoveryAction;
-  onRecoveryStart?: () => void;
 }
 
 /**
@@ -53,13 +51,11 @@ export interface AuthRecoveryRule {
  * @param matchedRuleId 匹配的规则ID
  * @param action 动作
  * @param maxRetryTimes 最大重试次数
- * @param retryExhausted 重试 exhausted
- * @param onRecoveryStart 恢复流程开始时的回调
+ * @param retryExhausted 重试是否已耗尽
  */
 export interface AuthRecoveryDecision {
   matchedRuleId: string;
   action: RecoveryAction;
   maxRetryTimes?: number;
   retryExhausted: boolean;
-  onRecoveryStart?: () => void;
 }

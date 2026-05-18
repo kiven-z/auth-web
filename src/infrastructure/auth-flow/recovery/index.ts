@@ -1,7 +1,4 @@
 export { executeAuthRecovery } from './executor';
-export { findMatchedAuthRecoveryRule } from './matcher';
-export { LOCAL_AUTH_RECOVERY_RULES, resolveAuthRecoveryRules } from './policy';
-export { resolveAuthRecoveryDecision } from './resolver';
 export type {
   AuthRecoveryContext,
   AuthRecoveryDecision,
