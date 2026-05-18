@@ -2,11 +2,12 @@
 import { loginByEmailApi, sendEmailCodeApi } from '@/api/auth';
 import { useRenderIcon } from '@/components/ui/Icon/src/hooks';
 import { establishSessionFromLogin } from '@/infrastructure/session';
+import { useSendCodeCountdown } from '@/shared/hooks/useSendCodeCountdown';
 import { message } from '@/shared/messaging/message';
-import type { FormInstance } from 'element-plus';
-import { onUnmounted, reactive, ref } from 'vue';
-import { useI18n } from 'vue-i18n';
 import { emailLoginRules } from '@/views/home/login/rules/email.rules';
+import type { FormInstance } from 'element-plus';
+import { reactive, ref } from 'vue';
+import { useI18n } from 'vue-i18n';
 import Motion from './Motion';
 
 import { LoginFormEmits } from '@/views/home/login/constants/types';
@@ -21,41 +22,29 @@ const { t } = useI18n();
 const formRef = ref<FormInstance>();
 const loading = ref(false);
 
+// 登录表单
 const formData = reactive({
   email: '14x_hbt58i3x1a@dingtalk.com',
   code: '467738',
 });
 
-// 发送验证码倒计时（秒），0 表示可发送
-const countdown = ref(0);
-let countdownTimer: ReturnType<typeof setInterval> | null = null;
-
-const isCounting = () => countdown.value > 0;
-
-/**
- * 开始倒计时
- */
-const startCountdown = () => {
-  countdown.value = 60;
-  countdownTimer = setInterval(() => {
-    countdown.value--;
-    if (countdown.value <= 0) {
-      if (countdownTimer) {
-        clearInterval(countdownTimer);
-        countdownTimer = null;
-      }
-    }
-  }, 1000);
-};
+const { remaining, isCounting, startCountdown } = useSendCodeCountdown();
 
 /**
  * 发送验证码
  */
 const handleSendCode = async () => {
-  if (isCounting() || !formData.email) return;
+  // 倒计时未结束或邮箱未输入
+  if (isCounting.value || !formData.email) {
+    return;
+  }
+
   try {
+    // 发送验证码
     await sendEmailCodeApi({ email: formData.email });
+    // 提示成功
     message(t('login.authSendCodeSuccess'), { type: 'success' });
+    // 开始倒计时
     startCountdown();
   } catch {
     message(t('login.authSendCodeFail'), { type: 'error' });
@@ -66,10 +55,19 @@ const handleSendCode = async () => {
  * 提交表单
  */
 const handleSubmit = async () => {
-  if (!formRef.value) return;
+  // 表单未初始化
+  if (!formRef.value) {
+    return;
+  }
+
+  // 验证表单
   await formRef.value.validate(async (valid) => {
+    // 表单验证失败
     if (!valid) return;
+    // 设置加载状态
     loading.value = true;
+
+    // 登录
     try {
       await establishSessionFromLogin(() => loginByEmailApi({ ...formData }));
       emit('login-success');
@@ -82,13 +80,6 @@ const handleSubmit = async () => {
 };
 
 defineExpose({ formRef, handleSubmit });
-
-onUnmounted(() => {
-  if (countdownTimer) {
-    clearInterval(countdownTimer);
-    countdownTimer = null;
-  }
-});
 </script>
 
 <template>
@@ -113,8 +104,8 @@ onUnmounted(() => {
           clearable
         >
           <template #append>
-            <el-button :disabled="isCounting() || !formData.email" class="w-[120px]" @click="handleSendCode">
-              {{ isCounting() ? `${countdown}s` : t('login.authSendCode') }}
+            <el-button :disabled="isCounting || !formData.email" class="w-[120px]" @click="handleSendCode">
+              {{ isCounting ? `${remaining}s` : t('login.authSendCode') }}
             </el-button>
           </template>
         </el-input>
