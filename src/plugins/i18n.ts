@@ -8,6 +8,10 @@ import { createI18n, type I18n } from 'vue-i18n';
 import enLocale from 'element-plus/es/locale/lang/en';
 import zhLocale from 'element-plus/es/locale/lang/zh-cn';
 
+/**
+ * 扫描子目录（如 zh-CN/buttons.yaml, en/panel.yaml）
+ * @returns 国际化配置
+ */
 const siphonI18n = (function () {
   // 仅初始化一次国际化配置，递归扫描子目录（如 zh-CN/buttons.yaml, en/panel.yaml）
   const cache: Record<string, Record<string, any>> = {};
@@ -42,7 +46,11 @@ export const localesConfigs = {
   },
 };
 
-/** 获取对象中所有嵌套对象的key键，并将它们用点号分割组成字符串 */
+/**
+ * 获取对象中所有嵌套对象的key键，并将它们用点号分割组成字符串
+ * @param obj 对象
+ * @returns 所有嵌套对象的key键
+ */
 function getObjectKeys(obj) {
   const stack = [];
   const keys: Set<string> = new Set();
@@ -66,7 +74,11 @@ function getObjectKeys(obj) {
   return keys;
 }
 
-/** 将展开的key缓存 */
+/**
+ * 将展开的key缓存
+ * @param prefix 前缀
+ * @returns 展开的key缓存
+ */
 const keysCache: Map<string, Set<string>> = new Map();
 const flatI18n = (prefix = 'zh-CN') => {
   let cache = keysCache.get(prefix);
@@ -105,7 +117,11 @@ export function transformI18n(message: any = '') {
   }
 }
 
-/** 此函数只是配合i18n Ally插件来进行国际化智能提示，并无实际意义（只对提示起作用），如果不需要国际化可删除 */
+/**
+ * 此函数只是配合i18n Ally插件来进行国际化智能提示，并无实际意义（只对提示起作用），如果不需要国际化可删除
+ * @param key 键
+ * @returns 键
+ */
 export const $t = (key: string) => key;
 
 export const i18n: I18n = createI18n({

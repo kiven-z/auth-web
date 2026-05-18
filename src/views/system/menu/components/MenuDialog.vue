@@ -1,14 +1,14 @@
 <script lang="ts" setup>
+import type { FormDialog } from '@/api/common';
+import type { MenuForm } from '@/api/system/menu';
 import { getMenuList } from '@/api/system/menu';
 import AnimateSelector from '@/components/ui/AnimateSelecto/src/index.vue';
-import { useRenderIcon } from '@/components/ui/Icon/src/hooks';
 import IconSelect from '@/components/ui/Icon/src/Select.vue';
+import { useRenderIcon } from '@/components/ui/Icon/src/hooks';
 import { MenuTypeEnums } from '@/enums/menuEnums';
 import { transformI18n } from '@/plugins/i18n';
 import { handleTree } from '@/shared/lib/tree';
 import { errorMessage } from '@/shared/messaging/message';
-import type { FormInline } from '@/types/commons/base';
-import type { MenuForm } from '@/types/system';
 import MenuTypeIframeDialog from '@/views/system/menu/components/MenuTypeIframeDialog.vue';
 import MenuTypeLinkDialog from '@/views/system/menu/components/MenuTypeLinkDialog.vue';
 import MenuTypeMenuDialog from '@/views/system/menu/components/MenuTypeMenuDialog.vue';
@@ -36,19 +36,19 @@ function deriveIconInputMode(icon: string | undefined | null): IconInputMode {
   return BUILTIN_ICON_PREFIXES.some((p) => lower.startsWith(p)) ? 'select' : 'manual';
 }
 
-interface MenuFormInline extends FormInline<MenuForm> {
+interface MenuDialogProps extends FormDialog<MenuForm> {
   isFormDisabled?: boolean;
 }
 
-const props = withDefaults(defineProps<MenuFormInline>(), {
+const props = withDefaults(defineProps<MenuDialogProps>(), {
   isFormDisabled: false,
-  formInline: () => createEmptyMenuForm(),
+  form: () => createEmptyMenuForm(),
 });
 
 const { t } = useI18n();
 
 const formRef = ref<FormInstance>();
-const form = ref<MenuForm>({ ...createEmptyMenuForm(), ...props.formInline });
+const form = ref<MenuForm>({ ...createEmptyMenuForm(), ...props.form });
 
 const rules = computed(() => createMenuFormRules(t));
 
@@ -92,7 +92,7 @@ const iconInputMode = ref<IconInputMode>(deriveIconInputMode(form.value.icon));
 const extraIconInputMode = ref<IconInputMode>(deriveIconInputMode(form.value.extraIcon));
 
 watch(
-  () => props.formInline,
+  () => props.form,
   (v) => {
     form.value = { ...createEmptyMenuForm(), ...(v ?? {}) };
     syncParentPath();

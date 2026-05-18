@@ -44,7 +44,13 @@ function formatTwoStageRoutes(routesList: RouteRecordRaw[]) {
   return newRoutesList;
 }
 
-/** 通过指定 `key` 获取父级路径集合，默认 `key` 为 `path` */
+/**
+ * 通过指定 `key` 获取父级路径集合，默认 `key` 为 `path`
+ * @param value 值
+ * @param routes 路由
+ * @param key 键
+ * @returns 父级路径集合
+ */
 function getParentPaths(value: string, routes: RouteRecordRaw[], key = 'path') {
   // 深度遍历查找
   function dfs(routes: RouteRecordRaw[], value: string, parents: string[]) {
@@ -68,7 +74,12 @@ function getParentPaths(value: string, routes: RouteRecordRaw[], key = 'path') {
   return dfs(routes, value, []);
 }
 
-/** 查找对应 `path` 的路由信息 */
+/**
+ * 查找对应 `path` 的路由信息
+ * @param path 路径
+ * @param routes 路由
+ * @returns 路由信息
+ */
 function findRouteByPath(path: string, routes: RouteRecordRaw[]) {
   let res = routes.find((item: { path: string }) => item.path == path);
   if (res) {

@@ -40,7 +40,7 @@ export type userType = {
   avatar?: string;
   username?: string;
   nickname?: string;
-  /** 与后端用户主键一致（字符串化 Long） */
+  // 与后端用户主键一致（字符串化 Long）
   userId?: string;
   roles?: Array<string>;
   permissions?: Array<string>;

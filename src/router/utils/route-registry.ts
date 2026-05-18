@@ -12,7 +12,10 @@ import { addPathMatch } from './misc';
 import { formatFlatteningRoutes } from './route-tree';
 import { ASYNC_ROUTES_STORAGE_KEY } from '@/config/http-config';
 
-/** 处理动态路由（后端返回的路由） */
+/**
+ * 处理动态路由（后端返回的路由）
+ * @param routeList 路由列表
+ */
 function handleAsyncRoutes(routeList) {
   if (routeList.length === 0) {
     usePermissionStoreHook().handleWholeMenus(routeList);
@@ -47,7 +50,10 @@ function handleAsyncRoutes(routeList) {
   addPathMatch();
 }
 
-/** 初始化路由（`new Promise` 写法防止在异步请求中造成无限循环）*/
+/**
+ * 初始化路由（`new Promise` 写法防止在异步请求中造成无限循环）
+ * @returns 路由
+ */
 function initRouter() {
   if (getConfig()?.CachingAsyncRoutes) {
     // 开启动态路由缓存本地localStorage

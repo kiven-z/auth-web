@@ -18,30 +18,40 @@ const modules: Record<string, any> = import.meta.glob(['./modules/**/*.ts', '!./
   eager: true,
 });
 
-/** 原始静态路由（未做任何处理） */
+// 原始静态路由（未做任何处理）
 const routes = [];
 
 Object.keys(modules).forEach((key) => {
   routes.push(modules[key].default);
 });
 
-/** 导出处理后的静态路由（三级及以上的路由全部拍成二级） */
+/**
+ * 导出处理后的静态路由（三级及以上的路由全部拍成二级）
+ * @returns 处理后的静态路由
+ */
 export const constantRoutes: Array<RouteRecordRaw> = formatTwoStageRoutes(
   formatFlatteningRoutes(buildHierarchyTree(ascending(routes.flat(Infinity))))
 );
 
-/** 初始的静态路由，用于退出登录时重置路由 */
+// 初始的静态路由，用于退出登录时重置路由
 const initConstantRoutes: Array<RouteRecordRaw> = cloneDeep(constantRoutes);
 
-/** 用于渲染菜单，保持原始层级 */
+// 用于渲染菜单，保持原始层级
 export const constantMenus: Array<RouteComponent> = ascending(routes.flat(Infinity)).concat(...remainingRouter);
 
-/** 不参与菜单的路由 */
+/**
+ * 不参与菜单的路由
+ * @param v 路由
+ * @returns 路由路径
+ */
 export const remainingPaths = Object.keys(remainingRouter).map((v) => {
   return remainingRouter[v].path;
 });
 
-/** 创建路由实例 */
+/**
+ * 创建路由实例
+ * @returns 路由实例
+ */
 export const router: Router = createRouter({
   history: getHistoryMode(import.meta.env.VITE_ROUTER_HISTORY),
   routes: constantRoutes.concat(...(remainingRouter as Array<RouteRecordRaw>)),
@@ -60,13 +70,16 @@ export const router: Router = createRouter({
   },
 });
 
-/** 注册所有路由守卫 */
+// 注册所有路由守卫
 createProgressGuard(router);
 createTitleGuard(router);
 createKeepAliveGuard(router);
 createAuthGuard(router);
 
-/** 重置路由 */
+/**
+ * 重置路由
+ * @returns 路由实例
+ */
 export function resetRouter() {
   router.clearRoutes();
   for (const route of initConstantRoutes.concat(...(remainingRouter as Array<RouteRecordRaw>))) {

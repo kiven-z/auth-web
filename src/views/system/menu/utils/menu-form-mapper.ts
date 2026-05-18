@@ -1,6 +1,5 @@
-import type { SysMenuDetailVO } from '@/api/system/menu';
+import type { MenuForm, MenuSaveRequest, SysMenuDetailVO } from '@/api/system/menu';
 import { MenuTypeEnums } from '@/enums/menuEnums';
-import type { MenuForm, MenuSaveRequest } from '@/types/system';
 
 /** Boolean → boolean（展示用，后端 true=是） */
 export function oneAsTrue(v: boolean | undefined | null): boolean {

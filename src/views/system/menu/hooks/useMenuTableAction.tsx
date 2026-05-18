@@ -1,16 +1,16 @@
 import type { TableActionDeps } from '@/api/common';
+import type { MenuForm } from '@/api/system/menu';
 import { createMenu, deleteMenus, getMenuDetail, updateMenu, updateMenuBatchStatus } from '@/api/system/menu';
 import { addDialog } from '@/components/ui/Dialog';
+import { addDrawer } from '@/components/ui/Drawer';
 import { deleteConfirm } from '@/shared/messaging/dialog';
 import { errorMessage, message } from '@/shared/messaging/message';
-import type { MenuForm } from '@/types/system';
 import MenuDialog from '@/views/system/menu/components/MenuDialog.vue';
 import type { MenuViewMode, SysMenuRow } from '@/views/system/menu/hooks/useMenuPageState';
 import { createEmptyMenuForm, detailToForm, formToSaveRequest } from '@/views/system/menu/utils/menu-form-mapper';
 import type { Ref } from 'vue';
 import { h, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { addDrawer } from '@/components/ui/Drawer';
 
 interface MenuTableActionDeps extends TableActionDeps {
   fetchTreeData: () => Promise<void>;
@@ -42,7 +42,7 @@ function useMenuTableAction(deps: MenuTableActionDeps) {
       closeOnClickModal: false,
       closeOnPressEscape: false,
       showClose: true,
-      props: { formInline: createEmptyMenuForm(), isFormDisabled: false },
+      props: { form: createEmptyMenuForm(), isFormDisabled: false },
       contentRenderer: () => h(MenuDialog, { ref: dlgRef }),
       beforeSure: async (done) => {
         try {
@@ -72,7 +72,7 @@ function useMenuTableAction(deps: MenuTableActionDeps) {
   const openEditDialog = async (row: SysMenuRow) => {
     try {
       const detail = await getMenuDetail(row.id);
-      const formInline = detailToForm(detail);
+      const form = detailToForm(detail);
       const dlgRef = ref<MenuDialogExpose | null>(null);
       addDrawer({
         title: t('sysMenu.editDialogTitle'),
@@ -81,7 +81,7 @@ function useMenuTableAction(deps: MenuTableActionDeps) {
         closeOnClickModal: false,
         closeOnPressEscape: false,
         showClose: true,
-        props: { formInline, isFormDisabled: false },
+        props: { form, isFormDisabled: false },
         contentRenderer: () => h(MenuDialog, { ref: dlgRef }),
         beforeSure: async (done) => {
           try {
@@ -114,7 +114,7 @@ function useMenuTableAction(deps: MenuTableActionDeps) {
   const openDetailDialog = async (row: SysMenuRow) => {
     try {
       const detail = await getMenuDetail(row.id);
-      const formInline = detailToForm(detail);
+      const form = detailToForm(detail);
       addDialog({
         title: t('sysMenu.detailDialogTitle'),
         width: '920px',
@@ -123,7 +123,7 @@ function useMenuTableAction(deps: MenuTableActionDeps) {
         closeOnClickModal: false,
         closeOnPressEscape: false,
         hideFooter: true,
-        props: { formInline, isFormDisabled: true },
+        props: { form, isFormDisabled: true },
         contentRenderer: () => h(MenuDialog),
       });
     } catch (e: unknown) {

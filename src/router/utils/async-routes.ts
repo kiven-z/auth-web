@@ -23,7 +23,11 @@ function resolveComponent(v: RouteRecordRaw): boolean {
   return true;
 }
 
-/** 过滤后端传来的动态路由 重新生成规范路由 */
+/**
+ * 过滤后端传来的动态路由 重新生成规范路由
+ * @param arrRoutes 后端传来的动态路由
+ * @returns 规范路由
+ */
 function addAsyncRoutes(arrRoutes: Array<RouteRecordRaw>) {
   if (!arrRoutes || !arrRoutes.length) return;
   arrRoutes.forEach((v: RouteRecordRaw) => {

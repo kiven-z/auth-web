@@ -5,7 +5,9 @@ import { useTimeoutFn } from '@vueuse/core';
 import { createWebHashHistory, createWebHistory, type RouterHistory } from 'vue-router';
 import { router } from '../index';
 
-/** 动态路由注册完成后，再添加全屏404（页面不存在）页面，避免刷新动态路由页面时误跳转到404页面 */
+/**
+ * 动态路由注册完成后，再添加全屏404（页面不存在）页面，避免刷新动态路由页面时误跳转到404页面
+ */
 function addPathMatch() {
   if (!router.hasRoute('pathMatch')) {
     router.addRoute({
@@ -20,7 +22,11 @@ function addPathMatch() {
   }
 }
 
-/** 处理缓存路由（添加、删除、刷新） */
+/**
+ * 处理缓存路由（添加、删除、刷新）
+ * @param name 路由名称
+ * @param mode 模式
+ */
 function handleAliveRoute({ name }: ToRouteType, mode?: string) {
   switch (mode) {
     case 'add':
@@ -55,6 +61,11 @@ function handleAliveRoute({ name }: ToRouteType, mode?: string) {
   }
 }
 
+/**
+ * 处理顶部菜单
+ * @param route 路由
+ * @returns 顶部菜单
+ */
 function handleTopMenu(route) {
   if (route?.children && route.children.length > 1) {
     if (route.redirect) {
@@ -67,7 +78,11 @@ function handleTopMenu(route) {
   }
 }
 
-/** 获取所有菜单中的第一个菜单（顶级菜单）*/
+/**
+ * 获取所有菜单中的第一个菜单（顶级菜单）
+ * @param tag 是否添加到标签页
+ * @returns 顶级菜单
+ */
 function getTopMenu(tag = false): menuType | undefined {
   const wholeMenus = usePermissionStoreHook().wholeMenus;
   if (!wholeMenus?.length) return undefined;
@@ -77,7 +92,11 @@ function getTopMenu(tag = false): menuType | undefined {
   return topMenu;
 }
 
-/** 获取路由历史模式 https://next.router.vuejs.org/zh/guide/essentials/history-mode.html */
+/**
+ * 获取路由历史模式 https://next.router.vuejs.org/zh/guide/essentials/history-mode.html
+ * @param routerHistory 路由历史模式
+ * @returns 路由历史模式
+ */
 function getHistoryMode(routerHistory): RouterHistory {
   // len为1 代表只有历史模式 为2 代表历史模式中存在base参数 https://next.router.vuejs.org/zh/api/#%E5%8F%82%E6%95%B0-1
   const historyMode = routerHistory.split(',');
