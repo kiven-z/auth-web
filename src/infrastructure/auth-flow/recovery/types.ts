@@ -51,11 +51,9 @@ export interface AuthRecoveryRule {
  * @param matchedRuleId 匹配的规则ID
  * @param action 动作
  * @param maxRetryTimes 最大重试次数
- * @param retryExhausted 重试是否已耗尽
  */
 export interface AuthRecoveryDecision {
   matchedRuleId: string;
   action: RecoveryAction;
   maxRetryTimes?: number;
-  retryExhausted: boolean;
 }

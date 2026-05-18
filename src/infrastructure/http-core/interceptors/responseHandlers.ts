@@ -1,11 +1,10 @@
+import { runSessionLogout } from '@/config/auth-session-effects';
 import { API_SUCCESS_CODE, isNoAuthRequestPath } from '@/config/http-config';
 import { executeAuthRecovery } from '@/infrastructure/auth-flow/recovery';
-import { useUserStoreHook } from '@/store/modules/user';
 import Axios, { type AxiosInstance, type AxiosResponse } from 'axios';
-import { isApiResultEnvelope, type ApiResult } from '../apiResult';
+import { isApiResultEnvelope } from '../apiResult';
 import { rejectWithApiEnvelopeError } from '../errorAdapter';
-import { runBeforeResponseCallback } from '../interceptorCallbacks';
-import type { AuthHttpError, AuthHttpRequestConfig, AuthHttpResponse } from '../types.d';
+import type { AuthHttpError, AuthHttpRequestConfig } from '../types.d';
 
 /**
  * 响应拦截：Result 解包、业务错误与鉴权恢复（优先刷新重放，失败后再登出）。
@@ -13,7 +12,7 @@ import type { AuthHttpError, AuthHttpRequestConfig, AuthHttpResponse } from '../
  */
 export function attachResponseInterceptors(instance: AxiosInstance): void {
   instance.interceptors.response.use(
-    (response: AxiosResponse) => handleResponseSuccess(response) as unknown,
+    (response: AxiosResponse) => handleResponseSuccess(response),
     (error: AuthHttpError) => handleResponseError(instance, error) as unknown
   );
 }
@@ -23,13 +22,11 @@ export function attachResponseInterceptors(instance: AxiosInstance): void {
  * @param response 响应
  * @returns 结果
  */
-function handleResponseSuccess(response: AxiosResponse): unknown {
+function handleResponseSuccess(response: AxiosResponse) {
   const config = response.config as AuthHttpRequestConfig;
-  const pureResponse = response as AuthHttpResponse;
   const raw = response.data;
 
   if (config.responseType === 'blob' || config.responseType === 'arraybuffer') {
-    runBeforeResponseCallback(pureResponse);
     return raw;
   }
 
@@ -37,38 +34,10 @@ function handleResponseSuccess(response: AxiosResponse): unknown {
     if (raw.code !== API_SUCCESS_CODE) {
       return rejectWithApiEnvelopeError(raw, response.status);
     }
-    return unwrapEnvelopePayload(pureResponse, raw);
+    return raw.data as unknown;
   }
 
-  return passthroughRawBody(pureResponse);
-}
-
-/**
- * 解包 Result 信封并返回 data 载荷
- * @param response 响应
- * @param envelope 信封
- * @returns data 载荷
- */
-function unwrapEnvelopePayload(response: AuthHttpResponse, envelope: ApiResult): unknown {
-  const payload = envelope.data as unknown;
-  const synthetic = {
-    ...response,
-    data: envelope,
-  } as AuthHttpResponse;
-  if (runBeforeResponseCallback(synthetic)) {
-    return payload;
-  }
-  return payload;
-}
-
-/**
- * 透传非信封响应体
- * @param response 响应
- * @returns 响应体
- */
-function passthroughRawBody(response: AuthHttpResponse): unknown {
-  runBeforeResponseCallback(response);
-  return response.data;
+  return raw;
 }
 
 /**
@@ -97,14 +66,13 @@ async function handleResponseError(instance: AxiosInstance, error: AuthHttpError
       isNoAuthPath,
       retryCount: requestConfig?._authRecoveryRetryCount ?? 0,
     },
-    rules: requestConfig?.authRecoveryRules,
   });
 
   if (authRecoveryResult.handled && authRecoveryResult.replayResult !== undefined) {
     return authRecoveryResult.replayResult;
   }
   if (authRecoveryResult.shouldLogout) {
-    useUserStoreHook().logOut();
+    await runSessionLogout();
     throw authRecoveryResult.replayError ?? error;
   }
   if (envelope) {

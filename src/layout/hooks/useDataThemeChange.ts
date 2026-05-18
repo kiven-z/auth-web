@@ -1,14 +1,12 @@
-import { ref } from 'vue';
 import { getConfig } from '@/config';
-import { useLayout } from './useLayout';
-import { removeToken } from '@/infrastructure/session';
-import { routerArrays } from '@/layout/types';
-import { resetRouter, router } from '@/router';
-import type { themeColorsType } from '../types';
 import { useAppStoreHook } from '@/store/modules/app';
 import { useEpThemeStoreHook } from '@/store/modules/epTheme';
 import { useMultiTagsStoreHook } from '@/store/modules/multiTags';
+import { useUserStoreHook } from '@/store/modules/user';
 import { darken, lighten, storageLocal, useGlobal } from '@pureadmin/utils';
+import { ref } from 'vue';
+import type { themeColorsType } from '../types';
+import { useLayout } from './useLayout';
 
 export function useDataThemeChange() {
   const { layoutTheme, layout } = useLayout();
@@ -105,9 +103,8 @@ export function useDataThemeChange() {
     }
   }
 
-  /** 清空缓存并返回登录页 */
-  function onReset() {
-    removeToken();
+  /** 清空缓存并返回登录页（布局偏好全清 + 走统一会话清理） */
+  async function onReset() {
     storageLocal().clear();
     const { Grey, Weak, MultiTagsCache, EpThemeColor, Layout } = getConfig();
     useAppStoreHook().setLayout(Layout);
@@ -115,9 +112,7 @@ export function useDataThemeChange() {
     useMultiTagsStoreHook().multiTagsCacheChange(MultiTagsCache);
     toggleClass(Grey, 'html-grey', document.querySelector('html'));
     toggleClass(Weak, 'html-weakness', document.querySelector('html'));
-    router.push('/login');
-    useMultiTagsStoreHook().handleTags('equal', [...routerArrays]);
-    resetRouter();
+    await useUserStoreHook().clearLocalSession();
   }
 
   return {

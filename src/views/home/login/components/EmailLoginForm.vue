@@ -4,11 +4,13 @@ import { useRenderIcon } from '@/components/ui/Icon/src/hooks';
 import { establishSessionFromLogin } from '@/infrastructure/session';
 import { message } from '@/shared/messaging/message';
 import { LoginFormEmits } from '@/views/home/login/constants/types';
+import { useLoginRemember } from '@/views/home/login/hooks/useLoginRemember';
 import { useSendCodeCountdown } from '@/views/home/login/hooks/useSendCodeCountdown';
 import { emailLoginRules } from '@/views/home/login/rules/email.rules';
 import type { FormInstance } from 'element-plus';
 import { reactive, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
+import LoginRememberRow from './LoginRememberRow.vue';
 import Motion from './Motion';
 
 import EmailIcon from '~icons/ri/mail-fill';
@@ -21,6 +23,7 @@ const emit = defineEmits<LoginFormEmits>();
 const { t } = useI18n();
 const formRef = ref<FormInstance>();
 const loading = ref(false);
+const { isRemembered, applyLoginRememberPreference } = useLoginRemember();
 
 // 登录表单
 const formData = reactive({
@@ -62,7 +65,7 @@ const handleSubmit = async () => {
     loading.value = true;
 
     try {
-      // 登录
+      applyLoginRememberPreference();
       await establishSessionFromLogin(() => loginByEmailApi({ ...formData }));
       emit('login-success');
     } catch (e) {
@@ -104,6 +107,10 @@ defineExpose({ handleSubmit });
           </template>
         </el-input>
       </el-form-item>
+    </Motion>
+
+    <Motion :delay="200">
+      <LoginRememberRow v-model:is-remembered="isRemembered" />
     </Motion>
 
     <Motion :delay="250">

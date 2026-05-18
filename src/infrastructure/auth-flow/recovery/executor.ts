@@ -3,7 +3,7 @@ import { replayRequestWithRefreshedToken } from '@/infrastructure/auth-flow/toke
 import type { AuthHttpRequestConfig } from '@/infrastructure/http-core/types.d';
 import type { AxiosInstance } from 'axios';
 import { resolveAuthRecoveryDecision } from './resolver';
-import type { AuthRecoveryContext, AuthRecoveryRule, RecoveryAction } from './types';
+import type { AuthRecoveryContext, RecoveryAction } from './types';
 
 /**
  * 执行鉴权恢复输入
@@ -12,7 +12,6 @@ interface ExecuteAuthRecoveryInput {
   instance: AxiosInstance;
   requestConfig?: AuthHttpRequestConfig;
   context: AuthRecoveryContext;
-  rules?: readonly AuthRecoveryRule[];
 }
 
 /**
@@ -34,7 +33,7 @@ interface ExecuteAuthRecoveryResult {
  * - pass_through：不接管，继续原错误处理流程
  */
 export async function executeAuthRecovery(input: ExecuteAuthRecoveryInput): Promise<ExecuteAuthRecoveryResult> {
-  const decision = resolveAuthRecoveryDecision(input.context, input.rules);
+  const decision = resolveAuthRecoveryDecision(input.context);
 
   // 无请求配置时直接透传，不执行任何恢复动作
   if (!input.requestConfig) {

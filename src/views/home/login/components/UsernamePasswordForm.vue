@@ -8,6 +8,8 @@ import type { FormInstance } from 'element-plus';
 import { reactive, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 
+import { useLoginRemember } from '@/views/home/login/hooks/useLoginRemember';
+import LoginRememberRow from './LoginRememberRow.vue';
 import Motion from './Motion';
 
 import { message } from '@/shared/messaging/message';
@@ -21,6 +23,7 @@ const emit = defineEmits<LoginFormEmits>();
 const { t } = useI18n();
 const formRef = ref<FormInstance>();
 const loading = ref(false);
+const { isRemembered, applyLoginRememberPreference } = useLoginRemember();
 
 // 登录表单
 const formData = reactive({
@@ -40,6 +43,7 @@ const handleSubmit = async () => {
     if (!valid) return;
     loading.value = true;
     try {
+      applyLoginRememberPreference();
       await establishSessionFromLogin(() => loginByUsernameApi({ ...formData }));
       emit('login-success');
     } catch (e) {
@@ -76,6 +80,10 @@ defineExpose({ handleSubmit });
           show-password
         />
       </el-form-item>
+    </Motion>
+
+    <Motion :delay="200">
+      <LoginRememberRow v-model:is-remembered="isRemembered" />
     </Motion>
 
     <Motion :delay="250">

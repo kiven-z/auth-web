@@ -12,10 +12,8 @@ vi.mock('@/infrastructure/auth-flow/recovery', () => ({
   executeAuthRecovery: executeAuthRecoveryMock,
 }));
 
-vi.mock('@/store/modules/user', () => ({
-  useUserStoreHook: () => ({
-    logOut: logOutMock,
-  }),
+vi.mock('@/config/auth-session-effects', () => ({
+  runSessionLogout: logOutMock,
 }));
 
 vi.mock('@/infrastructure/http-core/errorAdapter', () => ({

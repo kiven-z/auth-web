@@ -15,18 +15,15 @@ function resolveActionByRetryState(
   retryCount: number,
   maxRetryTimes: number | undefined,
   onRetryExhaustedAction: RecoveryAction | undefined
-): { action: RecoveryAction; retryExhausted: boolean } {
+): RecoveryAction {
   if (action !== 'refresh_and_retry') {
-    return { action, retryExhausted: false };
+    return action;
   }
   const retryLimit = maxRetryTimes ?? 1;
   if (retryCount < retryLimit) {
-    return { action, retryExhausted: false };
+    return action;
   }
-  return {
-    action: onRetryExhaustedAction ?? 'pass_through',
-    retryExhausted: true,
-  };
+  return onRetryExhaustedAction ?? 'pass_through';
 }
 
 /**
@@ -44,16 +41,14 @@ export function resolveAuthRecoveryDecision(
   // 匹配规则
   const matchedRule = findMatchedAuthRecoveryRule(effectiveRules, context);
   // 解析恢复动作
-  const resolved = resolveActionByRetryState(
-    matchedRule.action,
-    context.retryCount,
-    matchedRule.maxRetryTimes,
-    matchedRule.onRetryExhaustedAction
-  );
   return {
     matchedRuleId: matchedRule.id,
-    action: resolved.action,
+    action: resolveActionByRetryState(
+      matchedRule.action,
+      context.retryCount,
+      matchedRule.maxRetryTimes,
+      matchedRule.onRetryExhaustedAction
+    ),
     maxRetryTimes: matchedRule.maxRetryTimes,
-    retryExhausted: resolved.retryExhausted,
   };
 }

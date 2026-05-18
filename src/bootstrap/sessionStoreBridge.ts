@@ -1,12 +1,13 @@
+import { registerSessionLogout } from '@/config/auth-session-effects';
 import { registerUserProfileSync } from '@/infrastructure/session/userProfileSync';
 import { store } from '@/store';
 import { useUserStore } from '@/store/modules/user';
 
 /**
- * 将 infrastructure 层会话用户资料同步桥接到 Pinia User Store。
+ * 将 infrastructure 层会话能力桥接到 Pinia（用户资料同步、登出）。
  * 须在 {@link setupStore} 之后、首次 {@link setToken} 之前调用。
  */
-export function wireSessionUserProfileSync(): void {
+export function wireSessionStoreBridge(): void {
   registerUserProfileSync((profile) => {
     const userStore = useUserStore(store);
     userStore.SET_AVATAR(profile.avatar);
@@ -18,4 +19,6 @@ export function wireSessionUserProfileSync(): void {
       userStore.SET_USER_ID(profile.userId);
     }
   });
+
+  registerSessionLogout(() => useUserStore(store).logOut());
 }

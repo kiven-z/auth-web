@@ -21,3 +21,4 @@ login:
   authSendCode: Send Code
   authSendCodeSuccess: Verification code has been sent
   authSendCodeFail: Failed to send verification code
+  authRememberMe: Remember me

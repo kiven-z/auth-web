@@ -1,21 +1,13 @@
 import { isNoAuthRequestPath } from '@/config/http-config';
 import { formatToken, getToken } from '@/infrastructure/session';
 import type { AxiosInstance, InternalAxiosRequestConfig } from 'axios';
-import { runBeforeRequestCallback } from '../interceptorCallbacks';
-import type { AuthHttpRequestConfig } from '../types.d';
 
 /**
  * 请求拦截：仅注入 Authorization，不在请求阶段执行 refreshAccessToken。
  */
 export function attachRequestAuthInterceptor(instance: AxiosInstance): void {
   instance.interceptors.request.use(
-    (
-      config: InternalAxiosRequestConfig & Partial<AuthHttpRequestConfig>
-    ): InternalAxiosRequestConfig & Partial<AuthHttpRequestConfig> => {
-      const authConfig = config as AuthHttpRequestConfig;
-      if (runBeforeRequestCallback(authConfig)) {
-        return config;
-      }
+    (config: InternalAxiosRequestConfig): InternalAxiosRequestConfig => {
       if (isNoAuthRequestPath(config.url)) {
         return config;
       }
