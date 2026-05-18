@@ -89,19 +89,17 @@ dataThemeChange(overallStyle.value);
           </Motion>
 
           <!-- 登录方式切换按钮 -->
-          <Motion :delay="300">
-            <el-button-group class="mt-2">
-              <el-button
-                v-for="item in loginModes"
-                :key="item.mode"
-                :type="currentMode === item.mode ? 'primary' : ''"
-                class="flex-1"
-                @click="switchMode(item.mode)"
-              >
-                {{ t(item.labelKey) }}
-              </el-button>
-            </el-button-group>
-          </Motion>
+          <el-button-group class="mt-2">
+            <el-button
+              v-for="item in loginModes"
+              :key="item.mode"
+              :type="currentMode === item.mode ? 'primary' : ''"
+              class="flex-1"
+              @click="switchMode(item.mode)"
+            >
+              {{ t(item.labelKey) }}
+            </el-button>
+          </el-button-group>
         </div>
       </div>
     </div>

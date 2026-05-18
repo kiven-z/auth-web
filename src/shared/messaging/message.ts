@@ -42,7 +42,7 @@ export interface MessageParams {
  * @param defaultI18nKey 默认 i18n 键
  */
 export type ErrorMessageParams = Omit<MessageParams, 'type'> & {
-    // 有非空值时优先展示，不再使用 error 与兜底文案
+  // 有非空值时优先展示，不再使用 error 与兜底文案
   message?: string;
   // 无显式文案且无法从 error 解析 message 时使用的 i18n 键，默认 `tips.requestFailed`
   defaultI18nKey?: string;

@@ -1,7 +1,7 @@
-import type { AuthRecoveryRule } from './types';
-import { storageLocal } from '@pureadmin/utils';
 import { ASYNC_ROUTES_STORAGE_KEY } from '@/config/http-config';
 import { message } from '@/shared/messaging/message';
+import { storageLocal } from '@pureadmin/utils';
+import type { AuthRecoveryRule } from './types';
 
 const PRIORITY = {
   EXPIRED_REFRESH: 100,
@@ -38,7 +38,7 @@ export const LOCAL_AUTH_RECOVERY_RULES: readonly AuthRecoveryRule[] = [
     action: 'refresh_and_retry',
     maxRetryTimes: 1,
     onRetryExhaustedAction: 'logout',
-    messageFunc: () => {
+    onRecoveryStart: () => {
       message('访问令牌过期或失效，若尝试刷新失败，请重新登录后重试', {
         type: 'warning',
         duration: 5000,
@@ -57,7 +57,7 @@ export const LOCAL_AUTH_RECOVERY_RULES: readonly AuthRecoveryRule[] = [
     action: 'refresh_and_retry',
     maxRetryTimes: 1,
     onRetryExhaustedAction: 'pass_through',
-    messageFunc: () => {
+    onRecoveryStart: () => {
       storageLocal().removeItem(ASYNC_ROUTES_STORAGE_KEY);
       message('权限已更新，若刷新失败，请重新登录后重试', {
         type: 'warning',

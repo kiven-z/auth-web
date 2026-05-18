@@ -34,7 +34,7 @@ interface ExecuteAuthRecoveryResult {
  */
 export async function executeAuthRecovery(input: ExecuteAuthRecoveryInput): Promise<ExecuteAuthRecoveryResult> {
   const decision = resolveAuthRecoveryDecision(input.context, input.rules);
-  decision.messageFunc?.();
+  decision.onRecoveryStart?.();
 
   // 无请求配置时直接透传，不执行任何恢复动作
   if (!input.requestConfig) {

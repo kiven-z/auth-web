@@ -49,8 +49,10 @@
 }
 
 .avatar {
-  width: 350px;
-  height: 80px;
+  display: block;
+  height: 48px;
+  scale: 150%;
+  margin: 0 auto;
 }
 
 @media screen and (max-width: 1180px) {
