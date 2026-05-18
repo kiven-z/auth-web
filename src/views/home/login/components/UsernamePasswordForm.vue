@@ -1,11 +1,12 @@
 <script lang="ts" setup>
+import { loginByUsernameApi } from '@/api/auth';
 import { useRenderIcon } from '@/components/ui/Icon/src/hooks';
-import { useUserStoreHook } from '@/store/modules/user';
+import { establishSessionFromLogin } from '@/infrastructure/session';
 import { LoginFormEmits } from '@/views/home/login/constants/types';
 import type { FormInstance } from 'element-plus';
 import { reactive, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { usernamePasswordRules } from '../constants/rules/username-password.rules';
+import { usernamePasswordRules } from '@/views/home/login/rules/username-password.rules';
 
 import Motion from './Motion';
 
@@ -20,8 +21,7 @@ const { t } = useI18n();
 const formRef = ref<FormInstance>();
 const loading = ref(false);
 
-const userStoreHook = useUserStoreHook();
-
+// 表单
 const formData = reactive({
   username: 'Administrator',
   password: 'admin123',
@@ -36,7 +36,7 @@ const handleSubmit = async () => {
     if (!valid) return;
     loading.value = true;
     try {
-      await userStoreHook.loginByUsername({ ...formData });
+      await establishSessionFromLogin(() => loginByUsernameApi({ ...formData }));
       emit('login-success');
     } catch {
       // 错误由 HTTP 拦截器或 Pinia action 处理

@@ -2,8 +2,6 @@ import { ApiBusinessError, ApiConflictError } from '@/infrastructure/http-core';
 import { getTopMenu } from '@/router/utils/misc';
 import { initRouter } from '@/router/utils/route-registry';
 import { message } from '@/shared/messaging/message';
-import { debounce } from '@pureadmin/utils';
-import { useEventListener } from '@vueuse/core';
 import { ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
@@ -20,6 +18,10 @@ function useLogin() {
   // 用于切换动画时触发 key 变化，让组件重新挂载获得入场动画
   const formKey = ref(0);
 
+  /**
+   * 切换登录模式
+   * @param mode 模登录
+   */
   const switchMode = (mode: LoginMode) => {
     if (mode === currentMode.value) return;
     currentMode.value = mode;
@@ -62,18 +64,6 @@ function useLogin() {
    * 支持父级从外部触发表单提交（Enter 键统一处理）
    */
   const formRef = ref<{ handleSubmit: () => void } | null>(null);
-
-  const triggerFormSubmit = () => {
-    formRef.value?.handleSubmit();
-  };
-
-  const immediateDebounce = debounce(triggerFormSubmit, 1000, true);
-
-  useEventListener(document, 'keydown', ({ code }) => {
-    if (['Enter', 'NumpadEnter'].includes(code) && !disabled.value && !loading.value) {
-      immediateDebounce();
-    }
-  });
 
   return {
     loading,

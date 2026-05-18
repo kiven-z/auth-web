@@ -7,7 +7,7 @@ import {
   testSendEmailTemplate,
   updateEmailTemplateContent,
 } from '@/api/system/email-template';
-import { addDialog } from '@/components/ui/Dialog/index';
+import { addDialog } from '@/components/ui/Dialog';
 import { errorMessage, message } from '@/shared/messaging/message';
 import EmailTemplateMonacoOnlyDialog from '@/views/message/email-template/components/EmailTemplateMonacoOnlyDialog.vue';
 import EmailTemplatePreviewDialog from '@/views/message/email-template/components/EmailTemplatePreviewDialog.vue';

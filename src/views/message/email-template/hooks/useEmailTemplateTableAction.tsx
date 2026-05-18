@@ -8,7 +8,7 @@ import {
   getEmailTemplateById,
   updateEmailTemplateMetadata,
 } from '@/api/system/email-template';
-import { addDialog } from '@/components/ui/Dialog/index';
+import { addDialog } from '@/components/ui/Dialog';
 import { deleteConfirm } from '@/shared/messaging/dialog';
 import { errorMessage, message } from '@/shared/messaging/message';
 import EmailTemplateDetailDialog from '@/views/message/email-template/components/EmailTemplateDetailDialog.vue';

@@ -1,3 +1,4 @@
+import { refreshTokenApi, type UserLoginResponse } from '@/api/auth';
 import { multipleTabsKey, userKey } from '@/config/auth-config';
 import { getAccessTokenStore } from '@/infrastructure/session/accessTokenReadWriter';
 import { useUserStoreHook } from '@/store/modules/user';
@@ -38,7 +39,7 @@ function toExpiresTimestamp(expires: string | number | Date | undefined): number
 /**
  * 写入会话所需的字段（登录或刷新后）；SSO 等场景可缺省 expires，由默认值补齐
  */
-type SessionTokenPayload = {
+export type SessionTokenPayload = {
   accessToken: string;
   expires?: string | number | Date;
   avatar?: string;
@@ -48,6 +49,45 @@ type SessionTokenPayload = {
   permissions?: Array<string>;
   userId?: string;
 };
+
+/**
+ * 将登录响应映射为 {@link setToken} 所需载荷（后端 `id` → 会话 `userId`）。
+ */
+export function mapLoginResponseToSession(res: UserLoginResponse): SessionTokenPayload {
+  return {
+    accessToken: res.accessToken,
+    expires: res.expires,
+    avatar: res.avatar,
+    username: res.username,
+    nickname: res.nickname ?? '',
+    roles: res.roles ?? [],
+    permissions: res.permissions ?? [],
+    userId: res.id,
+  };
+}
+
+/**
+ * 执行登录请求并建立本地会话（供各登录表单复用）。
+ */
+export async function establishSessionFromLogin(
+  fetchLogin: () => Promise<UserLoginResponse>
+): Promise<UserLoginResponse> {
+  const body = await fetchLogin();
+  setToken(mapLoginResponseToSession(body));
+  return body;
+}
+
+/**
+ * 刷新 accessToken；成功时合并写入会话（仅 Token 字段时保留本地用户信息）。
+ */
+export async function refreshAccessToken() {
+  const body = await refreshTokenApi();
+  setToken({
+    accessToken: body.accessToken,
+    expires: body.expires,
+  });
+  return body;
+}
 
 /**
  * 从 localStorage 读取已缓存的用户展示信息（单一读取入口，供 Pinia 初始化等使用）。

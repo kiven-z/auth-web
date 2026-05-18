@@ -1,12 +1,12 @@
 <script lang="ts" setup>
-import { sendEmailCodeApi } from '@/api/auth';
+import { loginByEmailApi, sendEmailCodeApi } from '@/api/auth';
 import { useRenderIcon } from '@/components/ui/Icon/src/hooks';
+import { establishSessionFromLogin } from '@/infrastructure/session';
 import { message } from '@/shared/messaging/message';
-import { useUserStoreHook } from '@/store/modules/user';
 import type { FormInstance } from 'element-plus';
 import { onUnmounted, reactive, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { emailLoginRules } from '../constants/rules/email.rules';
+import { emailLoginRules } from '@/views/home/login/rules/email.rules';
 import Motion from './Motion';
 
 import { LoginFormEmits } from '@/views/home/login/constants/types';
@@ -20,8 +20,6 @@ const emit = defineEmits<LoginFormEmits>();
 const { t } = useI18n();
 const formRef = ref<FormInstance>();
 const loading = ref(false);
-
-const userStoreHook = useUserStoreHook();
 
 const formData = reactive({
   email: '14x_hbt58i3x1a@dingtalk.com',
@@ -73,7 +71,7 @@ const handleSubmit = async () => {
     if (!valid) return;
     loading.value = true;
     try {
-      await userStoreHook.loginByEmail({ ...formData });
+      await establishSessionFromLogin(() => loginByEmailApi({ ...formData }));
       emit('login-success');
     } catch (e) {
       message(e.message, { type: 'error' });

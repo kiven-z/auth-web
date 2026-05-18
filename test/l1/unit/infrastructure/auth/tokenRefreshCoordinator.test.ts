@@ -1,20 +1,15 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
-const { mockGetToken, mockFormatToken, mockHandRefreshToken } = vi.hoisted(() => ({
+const { mockGetToken, mockFormatToken, mockRefreshAccessToken } = vi.hoisted(() => ({
   mockGetToken: vi.fn(),
   mockFormatToken: vi.fn((token: string) => `Bearer ${token}`),
-  mockHandRefreshToken: vi.fn(),
+  mockRefreshAccessToken: vi.fn(),
 }));
 
 vi.mock('@/infrastructure/session', () => ({
   getToken: mockGetToken,
   formatToken: mockFormatToken,
-}));
-
-vi.mock('@/store/modules/user', () => ({
-  useUserStoreHook: () => ({
-    handRefreshToken: mockHandRefreshToken,
-  }),
+  refreshAccessToken: mockRefreshAccessToken,
 }));
 
 describe('tokenRefreshCoordinator', () => {
@@ -30,7 +25,7 @@ describe('tokenRefreshCoordinator', () => {
       }
       return { accessToken: 'access-token-1' };
     });
-    mockHandRefreshToken.mockImplementation(async () => {
+    mockRefreshAccessToken.mockImplementation(async () => {
       refreshed = true;
     });
 
@@ -39,12 +34,12 @@ describe('tokenRefreshCoordinator', () => {
 
     expect(token1).toBe('access-token-1');
     expect(token2).toBe('access-token-1');
-    expect(mockHandRefreshToken).toHaveBeenCalledTimes(1);
+    expect(mockRefreshAccessToken).toHaveBeenCalledTimes(1);
   });
 
   it('throws when refreshed token payload misses access token', async () => {
     mockGetToken.mockReturnValue({});
-    mockHandRefreshToken.mockResolvedValue(undefined);
+    mockRefreshAccessToken.mockResolvedValue(undefined);
 
     const { refreshAccessTokenSingleFlight } = await import('@/infrastructure/auth-flow/tokenRefreshCoordinator');
 
@@ -59,7 +54,7 @@ describe('tokenRefreshCoordinator', () => {
       }
       return { accessToken: 'access-token-3' };
     });
-    mockHandRefreshToken.mockImplementation(async () => {
+    mockRefreshAccessToken.mockImplementation(async () => {
       refreshed = true;
     });
     const request = vi.fn().mockResolvedValue({ data: { ok: true } });

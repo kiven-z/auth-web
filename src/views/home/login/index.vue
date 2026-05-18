@@ -16,17 +16,19 @@ import Check from '~icons/ep/check';
 
 import { LoginFormProps } from '@/views/home/login/constants/types';
 import { computed } from 'vue';
-import LoginModeSwitcher from './components/LoginModeSwitcher.vue';
 import Motion from './components/Motion';
+import { loginModes } from '@/views/home/login/constants/login-config';
+import { useI18n } from 'vue-i18n';
 
 defineOptions({
   name: 'AuthLogin',
 });
 
+const { t } = useI18n();
+
 const { initStorage } = useLayout();
-initStorage();
+
 const { dataTheme, overallStyle, dataThemeChange } = useDataThemeChange();
-dataThemeChange(overallStyle.value);
 const { title, getDropdownItemStyle, getDropdownItemClass } = useNav();
 const { locale, translation, localeOptions } = useTranslationLang();
 
@@ -41,6 +43,9 @@ const formProps = computed<LoginFormProps>(() => ({
 
 // 当前表单组件
 const activeFormComponent = computed(() => formComponentMap[currentMode.value]);
+
+initStorage();
+dataThemeChange(overallStyle.value);
 </script>
 
 <template>
@@ -100,110 +105,25 @@ const activeFormComponent = computed(() => formComponentMap[currentMode.value]);
           </Motion>
 
           <!-- 登录方式切换按钮 -->
-          <LoginModeSwitcher :current-mode="currentMode" @switch="switchMode" />
+          <Motion :delay="300">
+            <el-button-group class="mt-2">
+              <el-button
+                v-for="item in loginModes"
+                :key="item.mode"
+                :type="currentMode === item.mode ? 'primary' : ''"
+                class="flex-1"
+                @click="switchMode(item.mode)"
+              >
+                {{ t(item.labelKey) }}
+              </el-button>
+            </el-button-group>
+          </Motion>
         </div>
       </div>
     </div>
   </div>
 </template>
 
-<style scoped lang="scss">
-.wave {
-  position: fixed;
-  height: 100%;
-  width: 80%;
-  left: 0;
-  bottom: 0;
-  z-index: -1;
-}
-
-.login-container {
-  width: 100vw;
-  height: 100vh;
-  max-width: 100%;
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  grid-gap: 18rem;
-  padding: 0 2rem;
-}
-
-.img {
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-
-  img {
-    width: 500px;
-  }
-}
-
-.login-box {
-  display: flex;
-  align-items: center;
-  text-align: center;
-  overflow: hidden;
-}
-
-.login-form {
-  width: 360px;
-
-  h2 {
-    text-transform: uppercase;
-    margin: 15px 0;
-    color: #999;
-    font:
-      bold 200% Consolas,
-      Monaco,
-      monospace;
-  }
-}
-
-.avatar {
-  width: 350px;
-  height: 80px;
-}
-
-@media screen and (max-width: 1180px) {
-  .login-container {
-    grid-gap: 9rem;
-  }
-
-  .login-form {
-    width: 290px;
-
-    h2 {
-      font-size: 2.4rem;
-      margin: 8px 0;
-    }
-  }
-
-  .img {
-    img {
-      width: 360px;
-    }
-  }
-
-  .avatar {
-    width: 280px;
-    height: 80px;
-  }
-}
-
-@media screen and (max-width: 968px) {
-  .wave {
-    display: none;
-  }
-
-  .img {
-    display: none;
-  }
-
-  .login-container {
-    grid-template-columns: 1fr;
-  }
-
-  .login-box {
-    justify-content: center;
-  }
-}
+<style lang="scss" scoped>
+@use './styles/login';
 </style>

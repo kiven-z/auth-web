@@ -1,7 +1,6 @@
-import { formatToken, getToken } from '@/infrastructure/session';
-import { useUserStoreHook } from '@/store/modules/user';
-import type { AxiosInstance } from 'axios';
 import type { AuthHttpRequestConfig } from '@/infrastructure/http-core/types.d';
+import { formatToken, getToken, refreshAccessToken } from '@/infrastructure/session';
+import type { AxiosInstance } from 'axios';
 
 let refreshInFlight: Promise<string> | null = null;
 
@@ -44,7 +43,7 @@ export async function replayRequestWithRefreshedToken(
  * @returns accessToken
  */
 async function doRefreshAccessToken(): Promise<string> {
-  await useUserStoreHook().handRefreshToken();
+  await refreshAccessToken();
   // 获取 accessToken
   const nextToken = getToken();
   // 如果 accessToken 为空，则抛出错误

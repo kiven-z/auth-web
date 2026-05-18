@@ -1,5 +1,5 @@
-import { loginByEmailApi, loginByUsernameApi, logoutApi, refreshTokenApi, type UserLoginResponse } from '@/api/auth';
-import { readUserProfileFromStorage, removeToken, setToken } from '@/infrastructure/session';
+import { logoutApi } from '@/api/auth';
+import { readUserProfileFromStorage, removeToken } from '@/infrastructure/session';
 import { routerArrays } from '@/layout/types';
 import { resetRouter, router } from '@/router';
 import { store } from '@/store';
@@ -40,33 +40,21 @@ export const useUserStore = defineStore('pure-user', {
     SET_PERMS(permissions: Array<string>) {
       this.permissions = permissions;
     },
-    /**
-     * 用户名密码登录；成功时写入会话（Result 已由 HTTP 拦截器解包为 UserLoginResponse）。
-     * @param data 用户名密码
-     * @returns 登录响应
-     */
-    async loginByUsername(data: { username: string; password: string }) {
-      const body = await loginByUsernameApi(data);
-      setToken(this.mapLoginResponseToSession(body));
-      return body;
-    },
 
     /**
-     * 将登录响应映射为会话
-     * @param res 登录响应
-     * @returns 会话
+     * 清理本地用户态、Token、标签与动态路由，并跳转登录页。
      */
-    mapLoginResponseToSession(res: UserLoginResponse) {
-      return {
-        accessToken: res.accessToken,
-        expires: res.expires,
-        avatar: res.avatar,
-        username: res.username,
-        nickname: res.nickname ?? '',
-        roles: res.roles ?? [],
-        permissions: res.permissions ?? [],
-        userId: res.id,
-      };
+    async clearLocalSession() {
+      this.avatar = '';
+      this.username = '';
+      this.nickname = '';
+      this.userId = '';
+      this.roles = [];
+      this.permissions = [];
+      removeToken();
+      useMultiTagsStoreHook().handleTags('equal', [...routerArrays]);
+      resetRouter();
+      await router.push('/login');
     },
 
     /**
@@ -74,51 +62,16 @@ export const useUserStore = defineStore('pure-user', {
      */
     async logoutAndClear() {
       await logoutApi().catch(() => {
-        /* 无效 Token 时后端仍返回成功；网络错误也允许继续清理本地 */
+        // 无效 Token 时后端仍返回成功；网络错误也允许继续清理本地
       });
-      this.username = '';
-      this.userId = '';
-      this.roles = [];
-      this.permissions = [];
-      removeToken();
-      useMultiTagsStoreHook().handleTags('equal', [...routerArrays]);
-      resetRouter();
-      router.push('/login');
+      await this.clearLocalSession();
     },
 
     /**
-     * 兼容旧调用名：仅本地清理（不请求后端）
+     * 仅本地清理（不请求后端），用于 Token 失效等场景
      */
-    logOut() {
-      this.username = '';
-      this.userId = '';
-      this.roles = [];
-      this.permissions = [];
-      removeToken();
-      useMultiTagsStoreHook().handleTags('equal', [...routerArrays]);
-      resetRouter();
-      router.push('/login');
-    },
-
-    /**
-     * 邮箱验证码登录；成功时写入会话。
-     */
-    async loginByEmail(data: { email: string; code: string }) {
-      const body = await loginByEmailApi(data);
-      setToken(this.mapLoginResponseToSession(body));
-      return body;
-    },
-
-    /**
-     * 刷新 accessToken；成功写入会话（仅 Token 字段时合并本地用户信息）。
-     */
-    async handRefreshToken() {
-      const body = await refreshTokenApi();
-      setToken({
-        accessToken: body.accessToken,
-        expires: body.expires,
-      });
-      return body;
+    async logOut() {
+      await this.clearLocalSession();
     },
   },
 });
