@@ -1,13 +1,20 @@
 import { message } from '@/shared/messaging/message';
-import { useEventListener } from '@vueuse/core';
 import { copyTextToClipboard } from '@pureadmin/utils';
+import { useEventListener } from '@vueuse/core';
 import type { Directive, DirectiveBinding } from 'vue';
 
+/**
+ * 复制元素
+ */
 export interface CopyEl extends HTMLElement {
   copyValue: string;
 }
 
-/** 文本复制指令（默认双击复制） */
+/**
+ * 文本复制指令（默认双击复制）
+ * @param el 元素
+ * @param binding 绑定
+ */
 export const copy: Directive = {
   mounted(el: CopyEl, binding: DirectiveBinding<string>) {
     const { value } = binding;

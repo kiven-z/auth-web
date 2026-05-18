@@ -1,7 +1,12 @@
+import { isFunction, subAfter, subBefore } from '@pureadmin/utils';
 import { useEventListener } from '@vueuse/core';
 import type { Directive, DirectiveBinding } from 'vue';
-import { subBefore, subAfter, isFunction } from '@pureadmin/utils';
 
+/**
+ * 长按指令
+ * @param el 元素
+ * @param binding 绑定
+ */
 export const longpress: Directive = {
   mounted(el: HTMLElement, binding: DirectiveBinding<Function>) {
     const cb = binding.value;

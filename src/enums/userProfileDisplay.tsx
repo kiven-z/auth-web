@@ -5,6 +5,9 @@ type Translate = (key: string) => string;
 
 /**
  * 用户账号状态（sys_user.status）
+ * @param t 翻译函数
+ * @param value 值
+ * @returns 用户账号状态
  */
 export function renderUserAccountStatus(t: Translate, value: number | undefined | null) {
   if (value === undefined || value === null) {
@@ -22,6 +25,9 @@ export function renderUserAccountStatus(t: Translate, value: number | undefined 
 
 /**
  * 用户性别（sys_user.gender）
+ * @param t 翻译函数
+ * @param value 值
+ * @returns 用户性别
  */
 export function renderUserGender(t: Translate, value: number | undefined | null) {
   if (value === undefined || value === null) {
@@ -34,6 +40,9 @@ export function renderUserGender(t: Translate, value: number | undefined | null)
 
 /**
  * user_dept / user_post 关联状态
+ * @param t 翻译函数
+ * @param value 值
+ * @returns user_dept / user_post 关联状态
  */
 export function renderRelationStatus(t: Translate, value: number | undefined | null) {
   if (value === undefined || value === null) {

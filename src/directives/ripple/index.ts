@@ -2,14 +2,23 @@ import './index.scss';
 import { isObject } from '@pureadmin/utils';
 import type { Directive, DirectiveBinding } from 'vue';
 
+/**
+ * ripple 选项
+ * @param class 自定义`ripple`颜色，支持`tailwindcss`
+ * @param center 是否从中心扩散
+ * @param circle 是否为圆形
+ */
 export interface RippleOptions {
-  /** 自定义`ripple`颜色，支持`tailwindcss` */
   class?: string;
-  /** 是否从中心扩散 */
   center?: boolean;
   circle?: boolean;
 }
 
+/**
+ * ripple 指令绑定
+ * @param value 值
+ * @param modifiers 修饰符
+ */
 export interface RippleDirectiveBinding extends Omit<DirectiveBinding, 'modifiers' | 'value'> {
   value?: boolean | { class: string };
   modifiers: {
@@ -18,11 +27,23 @@ export interface RippleDirectiveBinding extends Omit<DirectiveBinding, 'modifier
   };
 }
 
+/**
+ * 变换元素
+ * @param el 元素
+ * @param value 值
+ */
 function transform(el: HTMLElement, value: string) {
   el.style.transform = value;
   el.style.webkitTransform = value;
 }
 
+/**
+ * 计算 ripple 位置
+ * @param e 事件
+ * @param el 元素
+ * @param value 选项
+ * @returns ripple 位置
+ */
 const calculate = (e: PointerEvent, el: HTMLElement, value: RippleOptions = {}) => {
   const offset = el.getBoundingClientRect();
 
@@ -30,7 +51,7 @@ const calculate = (e: PointerEvent, el: HTMLElement, value: RippleOptions = {}) 
   const localX = e.clientX - offset.left;
   const localY = e.clientY - offset.top;
 
-  let radius = 0;
+  let radius: number;
   let scale = 0.3;
   // 计算点击位置到 el 顶点最远距离，即为圆的最大半径（勾股定理）
   if (el._ripple?.circle) {
