@@ -8,7 +8,7 @@ import {
   type EditableRequireFieldRow,
   toEditableRequireFields,
   toRequireFieldsPayload,
-} from '@/views/system/email-template/utils/require-fields';
+} from '@/views/message/email-template/utils/require-fields';
 import { onMounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 

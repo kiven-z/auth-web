@@ -1,11 +1,11 @@
 import type { EmailTemplateRequireFieldRow } from '@/api/system/email-template';
-import { EMAIL_TEMPLATE_MARKER_DEBOUNCE_MS } from '@/views/system/email-template/config/monaco-config';
-import { registerEmailTemplateProviders } from '@/views/system/email-template/monaco/providers';
+import { EMAIL_TEMPLATE_MARKER_DEBOUNCE_MS } from '@/views/message/email-template/config/monaco-config';
+import { registerEmailTemplateProviders } from '@/views/message/email-template/monaco/providers';
 import {
   applyRequireFieldsMarkers,
   clearRequireFieldsMarkers,
   type MonacoModule,
-} from '@/views/system/email-template/monaco/validator';
+} from '@/views/message/email-template/monaco/validator';
 import type { editor } from 'monaco-editor';
 
 /**

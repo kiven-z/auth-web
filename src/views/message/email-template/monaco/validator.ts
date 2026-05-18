@@ -3,7 +3,7 @@ import {
   FREEMARKER_LOCAL_VARIABLE_PATTERNS,
   FREEMARKER_PREFIX_TRIM_PATTERN,
   FREEMARKER_ROOT_KEYWORDS,
-} from '@/views/system/email-template/config/monaco-config';
+} from '@/views/message/email-template/config/monaco-config';
 import type { editor } from 'monaco-editor';
 
 export type MonacoModule = typeof import('monaco-editor');

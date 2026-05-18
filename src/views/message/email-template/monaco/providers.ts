@@ -1,5 +1,5 @@
 import type { EmailTemplateRequireFieldRow } from '@/api/system/email-template';
-import { getRootVariableName, type MonacoModule } from '@/views/system/email-template/monaco/validator';
+import { getRootVariableName, type MonacoModule } from '@/views/message/email-template/monaco/validator';
 import type { editor, IPosition } from 'monaco-editor';
 
 /**

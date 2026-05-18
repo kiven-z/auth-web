@@ -1,12 +1,11 @@
 <script lang="ts" setup>
 import { useRenderIcon } from '@/components/ui/Icon/src/hooks';
-import { $t, transformI18n } from '@/plugins/i18n';
 import { useUserStoreHook } from '@/store/modules/user';
+import { LoginFormEmits } from '@/views/home/login/constants/types';
 import type { FormInstance } from 'element-plus';
 import { reactive, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { loginRules } from '../utils/rule';
-import { LoginFormEmits } from '@/views/home/login/constants/types';
+import { usernamePasswordRules } from '../constants/rules/username-password.rules';
 
 import Motion from './Motion';
 
@@ -21,18 +20,23 @@ const { t } = useI18n();
 const formRef = ref<FormInstance>();
 const loading = ref(false);
 
+const userStoreHook = useUserStoreHook();
+
 const formData = reactive({
   username: 'Administrator',
   password: 'admin123',
 });
 
+/**
+ * 提交表单
+ */
 const handleSubmit = async () => {
   if (!formRef.value) return;
   await formRef.value.validate(async (valid) => {
     if (!valid) return;
     loading.value = true;
     try {
-      await useUserStoreHook().loginByUsername({ ...formData });
+      await userStoreHook.loginByUsername({ ...formData });
       emit('login-success');
     } catch {
       // 错误由 HTTP 拦截器或 Pinia action 处理
@@ -46,18 +50,9 @@ defineExpose({ formRef, handleSubmit });
 </script>
 
 <template>
-  <el-form ref="formRef" :model="formData" :rules="loginRules" size="large">
+  <el-form ref="formRef" :model="formData" :rules="usernamePasswordRules" size="large">
     <Motion :delay="100">
-      <el-form-item
-        :rules="[
-          {
-            required: true,
-            message: transformI18n($t('login.authUsernameReg')),
-            trigger: 'blur',
-          },
-        ]"
-        prop="username"
-      >
+      <el-form-item prop="username">
         <el-input
           v-model="formData.username"
           :placeholder="t('login.authUsername')"

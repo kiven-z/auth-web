@@ -3,9 +3,9 @@ import { getEmailTemplatePage } from '@/api/system/email-template';
 import AuthDataTable from '@/components/ui/AuthDataTable';
 import TableBar from '@/components/ui/TableBar';
 import { usePaginationState } from '@/shared/hooks/usePaginationState';
-import { emailTemplateStatusFilterOptions } from '@/views/system/email-template/constants/email-template-search-options';
-import useEmailTemplateTableAction from '@/views/system/email-template/hooks/useEmailTemplateTableAction';
-import useEmailTemplateTableColumns from '@/views/system/email-template/hooks/useEmailTemplateTableColumns';
+import { emailTemplateStatusFilterOptions } from '@/views/message/email-template/constants/email-template-search-options';
+import useEmailTemplateTableAction from '@/views/message/email-template/hooks/useEmailTemplateTableAction';
+import useEmailTemplateTableColumns from '@/views/message/email-template/hooks/useEmailTemplateTableColumns';
 import type { FormInstance } from 'element-plus';
 import { onMounted, reactive, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
@@ -96,7 +96,7 @@ onMounted(() => {
       </el-form-item>
     </el-form>
 
-    <el-alert :closable="false" class="mb-3 ml-8" type="info" :title="t('emailTemplate.pageScopeHint')" />
+    <el-alert :closable="false" :title="t('emailTemplate.pageScopeHint')" class="mb-3 ml-8" type="info" />
 
     <TableBar
       :columns="columns"

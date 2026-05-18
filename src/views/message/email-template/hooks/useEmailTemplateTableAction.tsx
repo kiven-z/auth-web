@@ -8,12 +8,12 @@ import {
   getEmailTemplateById,
   updateEmailTemplateMetadata,
 } from '@/api/system/email-template';
-import { addDialog } from '@/components/ui/Dialog';
+import { addDialog } from '@/components/ui/Dialog/index';
 import { deleteConfirm } from '@/shared/messaging/dialog';
 import { errorMessage, message } from '@/shared/messaging/message';
-import EmailTemplateDetailDialog from '@/views/system/email-template/components/EmailTemplateDetailDialog.vue';
-import EmailTemplateDialog from '@/views/system/email-template/components/EmailTemplateDialog.vue';
-import { useEmailTemplateTableMoreAction } from '@/views/system/email-template/hooks/useEmailTemplateTableMoreAction';
+import EmailTemplateDetailDialog from '@/views/message/email-template/components/EmailTemplateDetailDialog.vue';
+import EmailTemplateDialog from '@/views/message/email-template/components/EmailTemplateDialog.vue';
+import { useEmailTemplateTableMoreAction } from '@/views/message/email-template/hooks/useEmailTemplateTableMoreAction';
 import { h, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import type { TableActionDeps } from '@/api/common';

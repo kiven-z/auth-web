@@ -40,20 +40,22 @@ export const useUserStore = defineStore('pure-user', {
     SET_PERMS(permissions: Array<string>) {
       this.permissions = permissions;
     },
-    SET_ISREMEMBERED(bool: boolean) {
-      this.isRemembered = bool;
-    },
-    SET_LOGINDAY(value: number) {
-      this.loginDay = Number(value);
-    },
     /**
      * 用户名密码登录；成功时写入会话（Result 已由 HTTP 拦截器解包为 UserLoginResponse）。
+     * @param data 用户名密码
+     * @returns 登录响应
      */
     async loginByUsername(data: { username: string; password: string }) {
       const body = await loginByUsernameApi(data);
       setToken(this.mapLoginResponseToSession(body));
       return body;
     },
+
+    /**
+     * 将登录响应映射为会话
+     * @param res 登录响应
+     * @returns 会话
+     */
     mapLoginResponseToSession(res: UserLoginResponse) {
       return {
         accessToken: res.accessToken,
@@ -66,6 +68,7 @@ export const useUserStore = defineStore('pure-user', {
         userId: res.id,
       };
     },
+
     /**
      * 调用退出接口后清理本地并跳转登录。
      */
@@ -82,7 +85,10 @@ export const useUserStore = defineStore('pure-user', {
       resetRouter();
       router.push('/login');
     },
-    /** 兼容旧调用名：仅本地清理（不请求后端） */
+
+    /**
+     * 兼容旧调用名：仅本地清理（不请求后端）
+     */
     logOut() {
       this.username = '';
       this.userId = '';
@@ -93,6 +99,7 @@ export const useUserStore = defineStore('pure-user', {
       resetRouter();
       router.push('/login');
     },
+
     /**
      * 邮箱验证码登录；成功时写入会话。
      */

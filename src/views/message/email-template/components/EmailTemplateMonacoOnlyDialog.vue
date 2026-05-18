@@ -1,8 +1,8 @@
 <script lang="ts" setup>
 import { FormDialog } from '@/api/common';
 import { type EmailTemplateFormModel, renderEmailTemplate } from '@/api/system/email-template';
-import { MONACO_COMMON_EDITOR_OPTIONS } from '@/views/system/email-template/config/monaco-config';
-import { registerEmailTemplateMonaco } from '@/views/system/email-template/monaco/register-email-template-monaco';
+import { MONACO_COMMON_EDITOR_OPTIONS } from '@/views/message/email-template/config/monaco-config';
+import { registerEmailTemplateMonaco } from '@/views/message/email-template/monaco/register-email-template-monaco';
 import type { FormInstance, FormRules } from 'element-plus';
 import debounce from 'lodash/debounce';
 import type { editor } from 'monaco-editor';

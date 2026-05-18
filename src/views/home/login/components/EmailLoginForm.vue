@@ -6,11 +6,12 @@ import { useUserStoreHook } from '@/store/modules/user';
 import type { FormInstance } from 'element-plus';
 import { onUnmounted, reactive, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
+import { emailLoginRules } from '../constants/rules/email.rules';
 import Motion from './Motion';
 
+import { LoginFormEmits } from '@/views/home/login/constants/types';
 import EmailIcon from '~icons/ri/mail-fill';
 import CodeIcon from '~icons/ri/message-3-fill';
-import { LoginFormEmits } from '@/views/home/login/constants/types';
 
 defineOptions({ name: 'EmailLoginForm' });
 
@@ -19,6 +20,8 @@ const emit = defineEmits<LoginFormEmits>();
 const { t } = useI18n();
 const formRef = ref<FormInstance>();
 const loading = ref(false);
+
+const userStoreHook = useUserStoreHook();
 
 const formData = reactive({
   email: '14x_hbt58i3x1a@dingtalk.com',
@@ -31,6 +34,9 @@ let countdownTimer: ReturnType<typeof setInterval> | null = null;
 
 const isCounting = () => countdown.value > 0;
 
+/**
+ * 开始倒计时
+ */
 const startCountdown = () => {
   countdown.value = 60;
   countdownTimer = setInterval(() => {
@@ -44,6 +50,9 @@ const startCountdown = () => {
   }, 1000);
 };
 
+/**
+ * 发送验证码
+ */
 const handleSendCode = async () => {
   if (isCounting() || !formData.email) return;
   try {
@@ -55,13 +64,16 @@ const handleSendCode = async () => {
   }
 };
 
+/**
+ * 提交表单
+ */
 const handleSubmit = async () => {
   if (!formRef.value) return;
   await formRef.value.validate(async (valid) => {
     if (!valid) return;
     loading.value = true;
     try {
-      await useUserStoreHook().loginByEmail({ ...formData });
+      await userStoreHook.loginByEmail({ ...formData });
       emit('login-success');
     } catch (e) {
       message(e.message, { type: 'error' });
@@ -82,23 +94,9 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <el-form ref="formRef" :model="formData" size="large">
+  <el-form ref="formRef" :model="formData" :rules="emailLoginRules" size="large">
     <Motion :delay="100">
-      <el-form-item
-        :rules="[
-          {
-            required: true,
-            message: t('login.authEmailReg'),
-            trigger: 'blur',
-          },
-          {
-            type: 'email',
-            message: t('login.authEmailFormatReg'),
-            trigger: 'blur',
-          },
-        ]"
-        prop="email"
-      >
+      <el-form-item prop="email">
         <el-input
           v-model="formData.email"
           :placeholder="t('login.authEmail')"
@@ -109,16 +107,7 @@ onUnmounted(() => {
     </Motion>
 
     <Motion :delay="150">
-      <el-form-item
-        :rules="[
-          {
-            required: true,
-            message: t('login.authCodeReg'),
-            trigger: 'blur',
-          },
-        ]"
-        prop="code"
-      >
+      <el-form-item prop="code">
         <el-input
           v-model="formData.code"
           :placeholder="t('login.authCode')"
