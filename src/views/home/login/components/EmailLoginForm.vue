@@ -21,7 +21,7 @@ const formRef = ref<FormInstance>();
 const loading = ref(false);
 
 const formData = reactive({
-  email: 'naxim94886@lxbeta.com',
+  email: '14x_hbt58i3x1a@dingtalk.com',
   code: '467738',
 });
 
@@ -63,8 +63,8 @@ const handleSubmit = async () => {
     try {
       await useUserStoreHook().loginByEmail({ ...formData });
       emit('login-success');
-    } catch {
-      // 错误由 HTTP 拦截器或 Pinia action 处理
+    } catch (e) {
+      message(e.message, { type: 'error' });
     } finally {
       loading.value = false;
     }

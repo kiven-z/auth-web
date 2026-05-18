@@ -1,8 +1,9 @@
 emailTemplate:
-  name: Email template
+  name: Email message template
   loadFailed: Failed to load email templates
-  tableTitle: Email templates
-  templateCode: Template code
+  tableTitle: Email templates (EMAIL)
+  pageScopeHint: Rows from sys_message_template with channel EMAIL. "Scene code" is column scene_code and matches send API templateCode.
+  templateCode: Scene code
   templateName: Template name
   subject: Email subject
   description: Description
@@ -39,7 +40,7 @@ emailTemplate:
   testSendEmailPlaceholder: Enter recipient email
   testSendEmailInvalid: Invalid email format
   placeholder:
-    templateCode: Enter template code
+    templateCode: e.g. login-email-code (scene_code)
     templateName: Enter template name
     subject: Enter email subject
     status: Select status

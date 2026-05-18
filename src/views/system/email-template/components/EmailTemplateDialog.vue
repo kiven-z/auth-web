@@ -43,7 +43,7 @@ defineExpose({ formRef, form });
 <template>
   <el-form ref="formRef" :model="form" :rules="rules" label-width="auto">
     <el-row :gutter="14">
-      <!-- 模板编码 -->
+      <!-- 场景编码（scene_code） -->
       <el-col :lg="12" :md="12" :sm="12" :xs="24">
         <el-form-item :label="t('emailTemplate.templateCode')" prop="templateCode">
           <el-input

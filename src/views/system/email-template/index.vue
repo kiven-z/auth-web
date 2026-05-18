@@ -66,7 +66,7 @@ onMounted(() => {
       :model="searchForm"
       class="bg-bg_color w-[99/100] overflow-auto pl-8 pt-[12px]"
     >
-      <!-- 模板编码 -->
+      <!-- 场景编码（scene_code） -->
       <el-form-item :label="t('emailTemplate.templateCode')" prop="templateCode">
         <el-input v-model="searchForm.templateCode" class="w-[220px]!" clearable />
       </el-form-item>
@@ -95,6 +95,8 @@ onMounted(() => {
         <el-button @click="resetQuery(searchFormRef)">{{ t('buttons.actionReset') }}</el-button>
       </el-form-item>
     </el-form>
+
+    <el-alert :closable="false" class="mb-3 ml-8" type="info" :title="t('emailTemplate.pageScopeHint')" />
 
     <TableBar
       :columns="columns"

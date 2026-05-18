@@ -4,7 +4,9 @@ import type { PageResponse, SortSpec } from '@/api/common';
 import { http } from '@/infrastructure/http-core';
 
 /**
- * 分页查询参数（对齐 EmailTemplateQuery）
+ * 邮件模板管理 API（后端 `/api/system/email-template`）。
+ * 持久化表：sys_message_template；本模块仅 channel = EMAIL 的行。
+ * 请求/响应中的 `templateCode` 与库字段 scene_code 一致（与统一发送命令 templateCode 一致）。
  */
 export interface EmailTemplatePageQuery {
   pageIndex?: number;
@@ -31,6 +33,7 @@ export interface EmailTemplateRequireFieldRow {
  */
 export interface EmailTemplatePageRow {
   id: string;
+  /** 场景编码，对应 sys_message_template.scene_code */
   templateCode: string;
   templateName: string;
   subject: string;
@@ -50,6 +53,7 @@ export interface EmailTemplatePageRow {
  */
 export interface EmailTemplateDetailVO {
   id: string;
+  /** 场景编码，对应 sys_message_template.scene_code */
   templateCode: string;
   templateName: string;
   description?: string;
@@ -71,6 +75,7 @@ export interface EmailTemplateDetailVO {
  */
 export interface EmailTemplateFormModel {
   id?: string;
+  /** 场景编码 → scene_code */
   templateCode?: string;
   templateName?: string;
   subject?: string;
@@ -85,6 +90,7 @@ export interface EmailTemplateFormModel {
  * 新建（EmailTemplateForm 创建组）
  */
 export interface EmailTemplateCreateRequest {
+  /** 场景编码 → scene_code */
   templateCode: string;
   templateName: string;
   subject: string;
@@ -100,6 +106,7 @@ export interface EmailTemplateCreateRequest {
  */
 export interface EmailTemplateMetadataUpdateRequest {
   id: string;
+  /** 场景编码 → scene_code */
   templateCode: string;
   templateName: string;
   subject: string;
@@ -109,7 +116,7 @@ export interface EmailTemplateMetadataUpdateRequest {
 }
 
 /**
- * 正文更新
+ * 正文对应库字段 body_content（FreeMarker / HTML）
  */
 export interface EmailTemplateContentUpdateRequest {
   content: string;

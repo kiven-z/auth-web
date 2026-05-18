@@ -82,7 +82,7 @@ routes:
   deptManagement: Department Management
   postManagement: Post Management
   menuManagement: Menu Management
-  emailTemplate: Email Templates
+  emailTemplate: Email message templates
   onlineUser: Online Users
 
   schedule: Task Scheduling
