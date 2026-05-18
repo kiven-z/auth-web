@@ -4,10 +4,11 @@ import Description from '@/components/ui/Description';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 
-const props = defineProps<{
-  row: SysPostPageRow;
-}>();
+defineOptions({
+  name: 'PostDetailDialog',
+});
 
+defineProps<{ data: SysPostPageRow }>();
 const { t } = useI18n();
 
 const columns = computed(() => [
@@ -24,7 +25,5 @@ const columns = computed(() => [
 </script>
 
 <template>
-  <div>
-    <Description :column="2" :columns="columns" :data="[{}]" />
-  </div>
+  <Description :column="2" :columns="columns" :data="[data]" />
 </template>

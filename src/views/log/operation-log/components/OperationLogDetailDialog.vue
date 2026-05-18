@@ -8,7 +8,7 @@ defineOptions({
   name: 'OperationLogDetailDialog',
 });
 
-const props = defineProps<{ data: OperationLogDetailRow }>();
+defineProps<{ data: OperationLogDetailRow }>();
 const { t } = useI18n();
 
 const columns = computed(() => [
@@ -45,12 +45,8 @@ const columns = computed(() => [
   // 更新时间
   { label: t('table.updateTime'), prop: 'updateTime' },
 ]);
-
-const view = computed(() => {
-  return props.data || ({} as OperationLogDetailRow);
-});
 </script>
 
 <template>
-  <Description :column="2" :columns="columns" :data="[view]" />
+  <Description :column="2" :columns="columns" :data="[data]" />
 </template>

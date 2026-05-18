@@ -3,19 +3,13 @@
  */
 import type { JobLogPageRow } from '@/api/log/job-log';
 import { selectUserinfo } from '@/components/business/UserProfile';
+import { resolveI18nEnumLabel } from '@/shared/utils/i18n-display';
 import { ElButton, ElTag } from 'element-plus';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 function useJobLogTableColumns() {
   const { t } = useI18n();
-
-  const statusLabel = (code: number | undefined) => {
-    if (code === undefined || code === null) return '';
-    const key = `logJob.statusEnum.${code}` as const;
-    const label = t(key);
-    return label === key ? String(code) : label;
-  };
 
   const columns = computed<TableColumnList>(() => [
     {
@@ -52,7 +46,7 @@ function useJobLogTableColumns() {
       prop: 'status',
       minWidth: 100,
       formatter: (row: JobLogPageRow) => {
-        const label = statusLabel(row.status);
+        const label = resolveI18nEnumLabel(t, 'logJob.statusEnum', row.status);
         const type = row.status === 0 ? 'success' : 'danger';
         return <ElTag type={type}>{label}</ElTag>;
       },

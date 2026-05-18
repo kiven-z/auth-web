@@ -8,7 +8,7 @@ defineOptions({
   name: 'PasswordHistoryDescriptionDialog',
 });
 
-const props = defineProps<{ data: PasswordHistoryDetailRow }>();
+defineProps<{ data: PasswordHistoryDetailRow }>();
 const { t } = useI18n();
 
 const columns = computed(() => [
@@ -23,15 +23,8 @@ const columns = computed(() => [
   // 更新时间
   { label: t('table.updateTime'), prop: 'updateTime' },
 ]);
-
-const view = computed(() => {
-  const d: PasswordHistoryDetailRow = props.data || ({} as PasswordHistoryDetailRow);
-  return {
-    ...d,
-  };
-});
 </script>
 
 <template>
-  <Description :column="2" :columns="columns" :data="[view]" />
+  <Description :column="2" :columns="columns" :data="[data]" />
 </template>

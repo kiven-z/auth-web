@@ -1,6 +1,8 @@
 <script lang="ts" setup>
 import { SysJobGroupPageRow } from '@/api/schedule/job-group';
 import Description from '@/components/ui/Description';
+import { useDescriptionDetailView } from '@/shared/hooks/useDescriptionDetailView';
+import { resolveBooleanI18nLabel } from '@/shared/utils/i18n-display';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 
@@ -26,14 +28,14 @@ const columns = computed(() => [
   { label: t('scheduleGroup.orderNum'), prop: 'orderNum' },
 ]);
 
-const view = computed(() => {
-  const d: SysJobGroupPageRow = props.data || ({} as SysJobGroupPageRow);
-  return {
+const view = useDescriptionDetailView(
+  () => props.data,
+  (d) => ({
     ...d,
-    statusLabel: d.status ? t('scheduleGroup.statusEnabled') : t('scheduleGroup.statusDisabled'),
+    statusLabel: resolveBooleanI18nLabel(t, d.status, 'scheduleGroup.statusEnabled', 'scheduleGroup.statusDisabled'),
     isSystemLabel: d.isSystem ? 'Y' : 'N',
-  };
-});
+  })
+);
 </script>
 
 <template>

@@ -1,6 +1,8 @@
 <script lang="ts" setup>
 import type { LoginLogDetailRow } from '@/api/log/login-log';
 import Description from '@/components/ui/Description';
+import { useDescriptionDetailView } from '@/shared/hooks/useDescriptionDetailView';
+import { resolveI18nEnumLabel } from '@/shared/utils/i18n-display';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 
@@ -44,33 +46,14 @@ const columns = computed(() => [
   { label: t('table.updateTime'), prop: 'updateTime' },
 ]);
 
-/**
- * 格式化枚举标签
- * @param key 枚举键
- * @param value 枚举值
- * @returns 格式化后的枚举标签
- */
-const formatEnumLabel = (key: string, value: string | null | undefined): string => {
-  if (!value) return '';
-  const label = t(key);
-  return label === key ? value : label;
-};
-
-const view = computed(() => {
-  const d: LoginLogDetailRow = props.data || ({} as LoginLogDetailRow);
-  const rc = d.loginResult;
-  const resultKey = `loginLog.loginResultEnum.${rc}`;
-  const rawResult = t(resultKey);
-  const typeKey = d.loginType ? `loginLog.loginTypeEnum.${d.loginType}` : '';
-  return {
+const view = useDescriptionDetailView(
+  () => props.data,
+  (d) => ({
     ...d,
-    loginResultLabel: rawResult === resultKey ? String(rc ?? '') : rawResult,
-    loginTypeLabel: formatEnumLabel(typeKey, d.loginType),
-    deviceTypeLabel: d.deviceType ?? '',
-    osType: d.osType ?? '',
-    browserType: d.browserType ?? '',
-  };
-});
+    loginResultLabel: resolveI18nEnumLabel(t, 'loginLog.loginResultEnum', d.loginResult),
+    loginTypeLabel: resolveI18nEnumLabel(t, 'loginLog.loginTypeEnum', d.loginType),
+  })
+);
 </script>
 
 <template>
