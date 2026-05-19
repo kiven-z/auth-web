@@ -1,4 +1,4 @@
-import { multipleTabsKey } from '@/config/auth-config';
+import { multipleTabsKey } from '@/config/auth/auth-config';
 import Cookies from 'js-cookie';
 import { readStoredUserProfileEntry } from './userProfileStorage';
 

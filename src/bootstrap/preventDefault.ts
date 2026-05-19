@@ -1,6 +1,9 @@
 import { useEventListener } from '@vueuse/core';
 
-/** 是否为`img`标签 */
+/**
+ * 是否为`img`标签
+ * @param element DOM 元素
+ */
 function isImgElement(element) {
   return typeof HTMLImageElement !== 'undefined'
     ? element instanceof HTMLImageElement

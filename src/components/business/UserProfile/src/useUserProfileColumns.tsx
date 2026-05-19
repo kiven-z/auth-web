@@ -1,6 +1,10 @@
 import { computed } from 'vue';
 import { ElAvatar, ElCheckTag } from 'element-plus';
-import { renderRelationStatus, renderUserAccountStatus, renderUserGender } from '@/enums/userProfileDisplay';
+import {
+  renderRelationStatus,
+  renderUserAccountStatus,
+  renderUserGender,
+} from '@/components/business/UserProfile/src/constants/userProfileDisplay';
 import { useI18n } from 'vue-i18n';
 
 function useUserProfileColumns() {

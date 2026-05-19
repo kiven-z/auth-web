@@ -1,5 +1,5 @@
 import type { PageResponse, SortSpec } from '@/api/common';
-import type { MenuTypeValue } from '@/enums/menuEnums';
+import type { MenuTypeValue } from '@/views/system/menu/constants/menuEnums';
 import type { AxiosRequestConfig } from 'axios';
 
 import { http } from '@/infrastructure/http-core';

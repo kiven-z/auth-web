@@ -1,4 +1,4 @@
-import { multipleTabsKey } from '@/config/auth-config';
+import { multipleTabsKey } from '@/config/auth/auth-config';
 import { getAccessTokenStore } from '@/infrastructure/session/accessTokenReadWriter';
 import Cookies from 'js-cookie';
 import { clearSessionPreferences, readSessionPreferences } from './sessionPreferences';

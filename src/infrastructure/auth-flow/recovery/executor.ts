@@ -1,4 +1,4 @@
-import { runAuthRecoverySideEffect } from '@/config/auth-recovery-effects';
+import { runAuthRecoverySideEffect } from '@/config/auth/auth-recovery-effects';
 import { replayRequestWithRefreshedToken } from '@/infrastructure/auth-flow/tokenRefreshCoordinator';
 import type { AuthHttpRequestConfig } from '@/infrastructure/http-core/types.d';
 import type { AxiosInstance } from 'axios';

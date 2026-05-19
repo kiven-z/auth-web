@@ -1,4 +1,4 @@
-import { AUTH_ERROR_CODES } from '@/config/auth-error-codes';
+import { AUTH_ERROR_CODES } from '@/config/auth/auth-error-codes';
 import type { AuthRecoveryRule } from './types';
 
 const PRIORITY = {

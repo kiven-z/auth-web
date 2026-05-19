@@ -1,5 +1,5 @@
 import type { MenuForm, MenuSaveRequest, SysMenuDetailVO } from '@/api/system/menu';
-import { MenuTypeEnums } from '@/enums/menuEnums';
+import { MenuTypeEnums } from '@/views/system/menu/constants/menuEnums';
 
 /** Boolean → boolean（展示用，后端 true=是） */
 export function oneAsTrue(v: boolean | undefined | null): boolean {

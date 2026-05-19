@@ -1,4 +1,4 @@
-import { userKey } from '@/config/auth-config';
+import { userKey } from '@/config/auth/auth-config';
 import { storageLocal } from '@pureadmin/utils';
 import type { DataInfo, UserProfileSnapshot } from './types';
 

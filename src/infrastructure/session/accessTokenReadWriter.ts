@@ -1,4 +1,4 @@
-import { TokenKey } from '@/config/auth-config';
+import { TokenKey } from '@/config/auth/auth-config';
 import { storageLocal } from '@pureadmin/utils';
 import Cookies from 'js-cookie';
 

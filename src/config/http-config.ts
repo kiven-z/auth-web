@@ -1,5 +1,5 @@
 import { AUTH_PUBLIC_API_PATH_SUFFIXES } from '@/api/auth/paths';
-import { PERMISSION_VERSION_MISMATCH_CODES } from '@/config/auth-error-codes';
+import { PERMISSION_VERSION_MISMATCH_CODES } from '@/config/auth/auth-error-codes';
 
 /**
  * 与后端 {@code com.auth.common.core.model.response.Result.SUCCESS_CODE} 一致。

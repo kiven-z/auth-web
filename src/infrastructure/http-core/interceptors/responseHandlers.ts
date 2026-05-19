@@ -1,4 +1,4 @@
-import { runSessionLogout } from '@/config/auth-session-effects';
+import { runSessionLogout } from '@/config/auth/auth-session-effects';
 import { API_SUCCESS_CODE, isNoAuthRequestPath } from '@/config/http-config';
 import { executeAuthRecovery } from '@/infrastructure/auth-flow/recovery';
 import Axios, { type AxiosInstance, type AxiosResponse } from 'axios';
