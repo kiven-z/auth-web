@@ -25,9 +25,7 @@ export function mapLoginResponseToSession(response: UserLoginResponse): SessionT
  * @param fetchLogin 登录请求
  * @returns 登录响应
  */
-export async function establishSessionFromLogin(
-  fetchLogin: () => Promise<UserLoginResponse>
-): Promise<UserLoginResponse> {
+export async function establishSessionFromLogin(fetchLogin: () => Promise<UserLoginResponse>) {
   const body = await fetchLogin();
   setToken(mapLoginResponseToSession(body));
   return body;

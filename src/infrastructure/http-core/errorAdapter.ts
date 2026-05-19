@@ -1,6 +1,6 @@
 import { isPermissionVersionMismatchError } from '@/config/http-config';
-import { ApiBusinessError, ApiConflictError } from './apiError';
-import type { ApiResult } from './apiResult';
+import { ApiBusinessError, ApiConflictError } from './response/apiError';
+import type { ApiResult } from './response/apiResult';
 
 /**
  * 根据后端 {@link ApiResult} 构造业务错误；
