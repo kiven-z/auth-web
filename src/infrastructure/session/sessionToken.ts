@@ -13,6 +13,15 @@ import {
 import { syncUserProfileToStore } from './userProfileSync';
 
 /**
+ * 格式化 token（JWT 格式，供 Authorization 头使用）。
+ * @param token token
+ * @returns 格式化后的 token
+ */
+export function formatToken(token: string): string {
+  return `Bearer ${token}`;
+}
+
+/**
  * 是否存在可用 accessToken（开发环境由 DevLocalStorageAccessTokenStore 提供持久化）
  * @returns 是否存在可用 accessToken
  */
