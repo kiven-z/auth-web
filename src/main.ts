@@ -1,4 +1,4 @@
-import { wireSessionStoreBridge } from '@/bootstrap/sessionStoreBridge';
+import { wireSessionStoreBridge } from '@/bootstrap';
 import { useI18n } from '@/plugins/i18n';
 import { setupStore } from '@/store';
 import { MotionPlugin } from '@vueuse/motion';

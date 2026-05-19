@@ -56,7 +56,7 @@ describe('refreshAccessToken', () => {
     });
 
     const { refreshAccessToken } = await import('@/infrastructure/auth-flow/refreshAccessToken');
-    const { ApiBusinessError } = await import('@/infrastructure/http-core/response/apiError');
+    const { ApiBusinessError } = await import('@/infrastructure/http-core/apiError');
 
     await expect(refreshAccessToken()).rejects.toBeInstanceOf(ApiBusinessError);
     expect(mockSetToken).not.toHaveBeenCalled();

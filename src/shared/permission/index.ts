@@ -42,4 +42,11 @@ function hasAuth(value: string | Array<string>, source?: 'route' | 'user'): bool
   return false;
 }
 
-export { hasAuth, isOneOfArray };
+/**
+ * 获取当前页面按钮级别的权限（从路由 meta 获取）。
+ */
+function getAuths(): Array<string> {
+  return router.currentRoute.value.meta.auths as Array<string>;
+}
+
+export { getAuths, hasAuth, isOneOfArray };

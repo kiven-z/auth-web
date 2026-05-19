@@ -9,7 +9,7 @@ vi.mock('@/infrastructure/auth-flow/tokenRefreshCoordinator', () => ({
   replayRequestWithRefreshedToken: replayRequestWithRefreshedTokenMock,
 }));
 
-vi.mock('@/config/auth-recovery-effects', () => ({
+vi.mock('@/config/auth/auth-recovery-effects', () => ({
   runAuthRecoverySideEffect: vi.fn(),
 }));
 

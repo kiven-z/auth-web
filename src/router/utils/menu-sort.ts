@@ -1,7 +1,7 @@
+import { isOneOfArray } from '@/shared/permission';
 import { useUserStoreHook } from '@/store/modules/user';
 import { cloneDeep, isAllEmpty } from '@pureadmin/utils';
 import type { RouteComponent } from 'vue-router';
-import { isOneOfArray } from './auth';
 
 function handRank(routeInfo: any) {
   const { name, path, parentId, meta } = routeInfo;

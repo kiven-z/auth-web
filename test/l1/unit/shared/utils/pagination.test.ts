@@ -1,6 +1,10 @@
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 
-import { applyPaginationFromPageResponse, buildPaginationQuery } from '@/shared/hooks/paginationQueryBuild';
+vi.mock('@/shared/messaging/message', () => ({
+  errorMessage: vi.fn(),
+}));
+
+import { applyPaginationFromPageResponse, buildPaginationQuery } from '@/shared/utils/pagination';
 
 describe('buildPaginationQuery', () => {
   it('merges search form with pageIndex/pageSize and strips empty filters', () => {

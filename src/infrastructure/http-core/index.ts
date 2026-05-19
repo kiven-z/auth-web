@@ -51,7 +51,7 @@ class AuthHttp {
 
 export const http = new AuthHttp();
 
-export * from './response/apiError';
-export * from './response/apiResult';
+export * from './apiError';
+export * from './apiResult';
 export * from './errorAdapter';
 export type { AuthHttpError, AuthHttpRequestConfig, AuthHttpResponse, RequestMethods } from './types.d';

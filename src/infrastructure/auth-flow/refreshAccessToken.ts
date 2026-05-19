@@ -1,8 +1,8 @@
 import { AUTH_API_PATHS } from '@/api/auth/paths';
 import type { RefreshTokenResponse } from '@/api/auth/types';
 import { API_SUCCESS_CODE } from '@/config/http-config';
-import { ApiBusinessError } from '@/infrastructure/http-core/response/apiError';
-import { isApiResultEnvelope } from '@/infrastructure/http-core/response/apiResult';
+import { ApiBusinessError } from '@/infrastructure/http-core/apiError';
+import { isApiResultEnvelope } from '@/infrastructure/http-core/apiResult';
 import { createHttpAxiosInstance } from '@/infrastructure/http-core/axiosDefaults';
 import { setToken } from '@/infrastructure/session/sessionToken';
 import type { AxiosInstance } from 'axios';

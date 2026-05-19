@@ -1,0 +1,1 @@
+export { wireSessionStoreBridge } from './sessionStoreBridge';

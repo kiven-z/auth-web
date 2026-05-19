@@ -2,7 +2,7 @@ import { runSessionLogout } from '@/config/auth/auth-session-effects';
 import { API_SUCCESS_CODE, isNoAuthRequestPath } from '@/config/http-config';
 import { executeAuthRecovery } from '@/infrastructure/auth-flow/recovery';
 import Axios, { type AxiosInstance, type AxiosResponse } from 'axios';
-import { isApiResultEnvelope } from '../response/apiResult';
+import { isApiResultEnvelope } from '../apiResult';
 import { rejectWithApiEnvelopeError } from '../errorAdapter';
 import type { AuthHttpError, AuthHttpRequestConfig } from '../types.d';
 

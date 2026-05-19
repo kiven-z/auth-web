@@ -1,9 +1,9 @@
 import { refreshAccessTokenSingleFlight } from '@/infrastructure/auth-flow/tokenRefreshCoordinator';
 import { hasAccessToken, isLoggedIn, readUserProfileFromStorage, removeToken } from '@/infrastructure/session';
-import { isOneOfArray } from '@/router/utils/auth';
 import { getTopMenu } from '@/router/utils/misc';
 import { initRouter } from '@/router/utils/route-registry';
 import { findRouteByPath } from '@/router/utils/route-tree';
+import { isOneOfArray } from '@/shared/permission';
 import { useMultiTagsStoreHook } from '@/store/modules/multiTags';
 import { usePermissionStoreHook } from '@/store/modules/permission';
 import { isAllEmpty, isUrl, openLink } from '@pureadmin/utils';

@@ -12,7 +12,7 @@ vi.mock('@/infrastructure/auth-flow/recovery', () => ({
   executeAuthRecovery: executeAuthRecoveryMock,
 }));
 
-vi.mock('@/config/auth-session-effects', () => ({
+vi.mock('@/config/auth/auth-session-effects', () => ({
   runSessionLogout: logOutMock,
 }));
 
