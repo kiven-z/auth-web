@@ -1,12 +1,14 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
-const { mockReadSessionPreferences, mockSetLoginPreferences } = vi.hoisted(() => ({
+const { mockReadSessionPreferences, mockSetLoginPreferences, mockEstablishSessionFromLogin } = vi.hoisted(() => ({
   mockReadSessionPreferences: vi.fn(),
   mockSetLoginPreferences: vi.fn(),
+  mockEstablishSessionFromLogin: vi.fn(),
 }));
 
 vi.mock('@/infrastructure/session', () => ({
   readSessionPreferences: mockReadSessionPreferences,
+  establishSessionFromLogin: mockEstablishSessionFromLogin,
 }));
 
 vi.mock('@/store/modules/user', () => ({
@@ -18,7 +20,9 @@ vi.mock('@/store/modules/user', () => ({
 describe('useLoginRemember', () => {
   beforeEach(() => {
     vi.clearAllMocks();
+    vi.resetModules();
     mockReadSessionPreferences.mockReturnValue({ isRemembered: false, loginDay: 7 });
+    mockEstablishSessionFromLogin.mockImplementation(async (fetchLogin) => fetchLogin());
   });
 
   it('initializes checkbox from session preferences', async () => {
@@ -29,13 +33,20 @@ describe('useLoginRemember', () => {
     expect(isRemembered.value).toBe(true);
   });
 
-  it('persists preference before establishing session', async () => {
+  it('loginAndEstablishSession passes rememberMe flow and syncs store', async () => {
+    mockReadSessionPreferences
+      .mockReturnValueOnce({ isRemembered: false, loginDay: 7 })
+      .mockReturnValueOnce({ isRemembered: true, loginDay: 14 });
+
     const { useLoginRemember } = await import('@/views/home/login/hooks/useLoginRemember');
-    const { isRemembered, applyLoginRememberPreference } = useLoginRemember();
+    const { isRemembered, loginAndEstablishSession } = useLoginRemember();
 
     isRemembered.value = true;
-    applyLoginRememberPreference();
+    const fetchLogin = vi.fn().mockResolvedValue({ accessToken: 't', expires: 'x', readMeDay: 14 });
+    await loginAndEstablishSession(fetchLogin);
 
-    expect(mockSetLoginPreferences).toHaveBeenCalledWith(true, 7);
+    expect(fetchLogin).toHaveBeenCalled();
+    expect(mockEstablishSessionFromLogin).toHaveBeenCalledWith(fetchLogin, { isRemembered: true });
+    expect(mockSetLoginPreferences).toHaveBeenCalledWith(true, 14);
   });
 });

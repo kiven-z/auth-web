@@ -4,10 +4,11 @@ import { API_SUCCESS_CODE } from '@/config/http-config';
 import { ApiBusinessError } from '@/infrastructure/http-core/apiError';
 import { isApiResultEnvelope } from '@/infrastructure/http-core/apiResult';
 import { createHttpAxiosInstance } from '@/infrastructure/http-core/axiosDefaults';
+import { applyRememberPreferencesFromResponse, readSessionPreferences } from '@/infrastructure/session';
 import { setToken } from '@/infrastructure/session/sessionToken';
 import type { AxiosInstance } from 'axios';
 
-/** 刷新专用客户端（无鉴权/恢复拦截器），避免 refresh 走 http 封装形成模块环依赖 */
+// 刷新专用客户端（无鉴权/恢复拦截器），避免 refresh 走 http 封装形成模块环依赖
 let refreshAxiosClient: AxiosInstance | null = null;
 
 /**
@@ -39,6 +40,11 @@ export async function refreshAccessToken(): Promise<RefreshTokenResponse> {
   const body = raw.data as RefreshTokenResponse;
   if (!body?.accessToken) {
     throw new Error('Refresh token response is missing accessToken.');
+  }
+
+  const { isRemembered } = readSessionPreferences();
+  if (body.readMeDay !== undefined) {
+    applyRememberPreferencesFromResponse(isRemembered, body.readMeDay);
   }
 
   setToken({

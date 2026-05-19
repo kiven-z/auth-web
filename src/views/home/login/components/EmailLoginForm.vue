@@ -1,7 +1,6 @@
 <script lang="ts" setup>
 import { loginByEmailApi, sendEmailCodeApi } from '@/api/auth';
 import { useRenderIcon } from '@/components/ui/Icon/src/hooks';
-import { establishSessionFromLogin } from '@/infrastructure/session';
 import { message } from '@/shared/messaging/message';
 import { LoginFormEmits } from '@/views/home/login/constants/types';
 import { useLoginRemember } from '@/views/home/login/hooks/useLoginRemember';
@@ -23,7 +22,7 @@ const emit = defineEmits<LoginFormEmits>();
 const { t } = useI18n();
 const formRef = ref<FormInstance>();
 const loading = ref(false);
-const { isRemembered, applyLoginRememberPreference } = useLoginRemember();
+const { isRemembered, loginAndEstablishSession } = useLoginRemember();
 
 // 登录表单
 const formData = reactive({
@@ -65,8 +64,7 @@ const handleSubmit = async () => {
     loading.value = true;
 
     try {
-      applyLoginRememberPreference();
-      await establishSessionFromLogin(() => loginByEmailApi({ ...formData }));
+      await loginAndEstablishSession(() => loginByEmailApi({ ...formData, rememberMe: isRemembered.value }));
       emit('login-success');
     } catch (e) {
       message(e.message, { type: 'error' });

@@ -1,6 +1,7 @@
 export * from './accessTokenReadWriter';
 export * from './loginSession';
 export * from './sessionAuth';
+export * from './rememberPreferences';
 export * from './sessionPreferences';
 export * from './sessionToken';
 export * from './types';

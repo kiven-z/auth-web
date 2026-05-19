@@ -1,7 +1,6 @@
 <script lang="ts" setup>
 import { loginByUsernameApi } from '@/api/auth';
 import { useRenderIcon } from '@/components/ui/Icon/src/hooks';
-import { establishSessionFromLogin } from '@/infrastructure/session';
 import { LoginFormEmits } from '@/views/home/login/constants/types';
 import { usernamePasswordRules } from '@/views/home/login/rules/username-password.rules';
 import type { FormInstance } from 'element-plus';
@@ -23,7 +22,7 @@ const emit = defineEmits<LoginFormEmits>();
 const { t } = useI18n();
 const formRef = ref<FormInstance>();
 const loading = ref(false);
-const { isRemembered, applyLoginRememberPreference } = useLoginRemember();
+const { isRemembered, loginAndEstablishSession } = useLoginRemember();
 
 // 登录表单
 const formData = reactive({
@@ -43,8 +42,7 @@ const handleSubmit = async () => {
     if (!valid) return;
     loading.value = true;
     try {
-      applyLoginRememberPreference();
-      await establishSessionFromLogin(() => loginByUsernameApi({ ...formData }));
+      await loginAndEstablishSession(() => loginByUsernameApi({ ...formData, rememberMe: isRemembered.value }));
       emit('login-success');
     } catch (e) {
       message(e.message, { type: 'error' });

@@ -27,6 +27,8 @@ export interface RefreshTokenResponse {
 export interface UsernamePasswordLoginRequest {
   username: string;
   password: string;
+  // 是否记住登录（天数由后端 readMeDay 下发）
+  rememberMe?: boolean;
 }
 
 /**
@@ -35,6 +37,7 @@ export interface UsernamePasswordLoginRequest {
 export interface EmailLoginRequest {
   email: string;
   code: string;
+  rememberMe?: boolean;
 }
 
 /**
@@ -43,4 +46,5 @@ export interface EmailLoginRequest {
 export interface SmsLoginRequest {
   phone: string;
   code: string;
+  rememberMe?: boolean;
 }

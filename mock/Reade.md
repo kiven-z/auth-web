@@ -14,7 +14,7 @@ export default defineFakeRoute([
         return 你的数据;
       }
     },
-  }
+  },
 ]);
 ```
 
@@ -35,7 +35,7 @@ const admin = {
       'eyJhbGciOiJIUzI1NiJ9.eyJqdGkiOiI4MWJlYWNlNi0wYjY5LTRhYWMtOTJhOC1mYzk0ZDkwNTVjNGQiLCJpc3MiOiJhdXRoLXNlcnZpY2UiLCJzdWIiOiIxIiwiaWF0IjoxNzc3Nzk3MDMyLCJwZXJtX3ZlcnNpb24iOjAsInRva2VuX3R5cGUiOiJFWFRFUk5BTF9BQ0NFU1MiLCJleHAiOjE3Nzc4MDA2MzJ9.Ri0Nwf2DJ5MUjaue0Aro6wCq3g05_ukiRGSZTueU044',
     refreshToken:
       'eyJhbGciOiJIUzI1NiJ9.eyJqdGkiOiI4MWJlYWNlNi0wYjY5LTRhYWMtOTJhOC1mYzk0ZDkwNTVjNGQiLCJpc3MiOiJhdXRoLXNlcnZpY2UiLCJzdWIiOiIxIiwiaWF0IjoxNzc3Nzk3MDMyLCJ0b2tlbl90eXBlIjoiRVhURVJOQUxfUkVGUkVTSCIsImV4cCI6MTc3ODQwMTgzMn0._YuwcjKULsFzI8DgEtR5niu7ZqgnH83nYtmyCtVR23g',
-    readMeDay: null,
+    readMeDay: 7,
     expires: '2026/05/03 17:30:32',
     id: '1',
     username: 'Administrator',
@@ -58,7 +58,7 @@ const system = {
       'eyJhbGciOiJIUzI1NiJ9.eyJqdGkiOiIzZDNjNjdhYS1lYzBmLTQ1NmQtODQ4NC02Mzg0MjA2MmUxODEiLCJpc3MiOiJhdXRoLXNlcnZpY2UiLCJzdWIiOiI0IiwiaWF0IjoxNzc3Nzk3MTE0LCJwZXJtX3ZlcnNpb24iOjAsInRva2VuX3R5cGUiOiJFWFRFUk5BTF9BQ0NFU1MiLCJleHAiOjE3Nzc4MDA3MTR9.G6Vljejj5rnKivV8S0H3pgbPqVti_yeH9W4Ic4PFEEg',
     refreshToken:
       'eyJhbGciOiJIUzI1NiJ9.eyJqdGkiOiIzZDNjNjdhYS1lYzBmLTQ1NmQtODQ4NC02Mzg0MjA2MmUxODEiLCJpc3MiOiJhdXRoLXNlcnZpY2UiLCJzdWIiOiI0IiwiaWF0IjoxNzc3Nzk3MTE0LCJ0b2tlbl90eXBlIjoiRVhURVJOQUxfUkVGUkVTSCIsImV4cCI6MTc3ODQwMTkxNH0.ZhxA72-znpJV2NkRTaDgSNs6rvFT3I7bKBTy7Tuvfv8',
-    readMeDay: null,
+    readMeDay: 7,
     expires: '2026/05/03 17:31:54',
     id: '4',
     username: 'system',
@@ -99,5 +99,4 @@ export default defineFakeRoute([
     },
   },
 ]);
-
 ```
