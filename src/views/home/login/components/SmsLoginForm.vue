@@ -9,7 +9,6 @@ import { smsLoginRules } from '@/views/home/login/rules/sms.rules';
 import type { FormInstance } from 'element-plus';
 import { reactive, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
-import LoginRememberRow from './LoginRememberRow.vue';
 import Motion from './Motion';
 
 import CodeIcon from '~icons/ri/message-3-fill';
@@ -108,7 +107,9 @@ defineExpose({ handleSubmit });
     </Motion>
 
     <Motion :delay="200">
-      <LoginRememberRow v-model:is-remembered="isRemembered" />
+      <el-checkbox v-model="isRemembered">
+        {{ t('login.authRememberMe') }}
+      </el-checkbox>
     </Motion>
 
     <Motion :delay="250">

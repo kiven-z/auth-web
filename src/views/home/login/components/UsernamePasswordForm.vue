@@ -8,7 +8,6 @@ import { reactive, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 import { useLoginRemember } from '@/views/home/login/hooks/useLoginRemember';
-import LoginRememberRow from './LoginRememberRow.vue';
 import Motion from './Motion';
 
 import { message } from '@/shared/messaging/message';
@@ -81,7 +80,9 @@ defineExpose({ handleSubmit });
     </Motion>
 
     <Motion :delay="200">
-      <LoginRememberRow v-model:is-remembered="isRemembered" />
+      <el-checkbox v-model="isRemembered">
+        {{ t('login.authRememberMe') }}
+      </el-checkbox>
     </Motion>
 
     <Motion :delay="250">

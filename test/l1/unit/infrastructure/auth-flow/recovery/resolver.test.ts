@@ -1,7 +1,17 @@
+import { AUTH_RECOVERY_RULE_IDS } from '@/config/auth/auth-recovery-rule-ids';
+import { LOCAL_AUTH_RECOVERY_RULES } from '@/infrastructure/auth-flow/recovery/policy';
 import { resolveAuthRecoveryDecision } from '@/infrastructure/auth-flow/recovery/resolver';
 import { describe, expect, it } from 'vitest';
 
 describe('resolveAuthRecoveryDecision', () => {
+  it('uses only registered rule ids in default policy', () => {
+    const registeredIds = new Set(Object.values(AUTH_RECOVERY_RULE_IDS));
+
+    for (const rule of LOCAL_AUTH_RECOVERY_RULES) {
+      expect(registeredIds.has(rule.id)).toBe(true);
+    }
+  });
+
   it('matches 401 expired to refresh action', () => {
     const decision = resolveAuthRecoveryDecision({
       status: 401,
@@ -12,7 +22,7 @@ describe('resolveAuthRecoveryDecision', () => {
     });
 
     expect(decision.action).toBe('refresh_and_retry');
-    expect(decision.matchedRuleId).toBe('refresh-on-token-expired-or-session-missing');
+    expect(decision.matchedRuleId).toBe(AUTH_RECOVERY_RULE_IDS.TOKEN_EXPIRED_REFRESH);
   });
 
   it('switches to logout when 401 refresh retry is exhausted', () => {
@@ -37,7 +47,7 @@ describe('resolveAuthRecoveryDecision', () => {
     });
 
     expect(decision.action).toBe('refresh_and_retry');
-    expect(decision.matchedRuleId).toBe('refresh-on-permission-version-mismatch');
+    expect(decision.matchedRuleId).toBe(AUTH_RECOVERY_RULE_IDS.PERMISSION_MISMATCH_REFRESH);
   });
 
   it('matches 401 session missing to refresh action', () => {
@@ -50,7 +60,7 @@ describe('resolveAuthRecoveryDecision', () => {
     });
 
     expect(decision.action).toBe('refresh_and_retry');
-    expect(decision.matchedRuleId).toBe('refresh-on-token-expired-or-session-missing');
+    expect(decision.matchedRuleId).toBe(AUTH_RECOVERY_RULE_IDS.TOKEN_EXPIRED_REFRESH);
   });
 
   it('matches 409 gateway permission mismatch to refresh action', () => {
@@ -63,7 +73,7 @@ describe('resolveAuthRecoveryDecision', () => {
     });
 
     expect(decision.action).toBe('refresh_and_retry');
-    expect(decision.matchedRuleId).toBe('refresh-on-permission-version-mismatch');
+    expect(decision.matchedRuleId).toBe(AUTH_RECOVERY_RULE_IDS.PERMISSION_MISMATCH_REFRESH);
   });
 
   it('falls back to pass-through when 409 refresh retry is exhausted', () => {
@@ -88,6 +98,6 @@ describe('resolveAuthRecoveryDecision', () => {
     });
 
     expect(decision.action).toBe('logout');
-    expect(decision.matchedRuleId).toBe('logout-on-unknown-401');
+    expect(decision.matchedRuleId).toBe(AUTH_RECOVERY_RULE_IDS.UNKNOWN_401_LOGOUT);
   });
 });

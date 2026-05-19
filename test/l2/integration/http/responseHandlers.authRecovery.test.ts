@@ -1,3 +1,4 @@
+import { AUTH_RECOVERY_RULE_IDS } from '@/config/auth/auth-recovery-rule-ids';
 import { attachResponseInterceptors } from '@/infrastructure/http-core/interceptors/responseHandlers';
 import axios, { type AxiosAdapter, type AxiosRequestConfig } from 'axios';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
@@ -56,7 +57,7 @@ describe('responseHandlers auth recovery integration', () => {
     executeAuthRecoveryMock.mockResolvedValue({
       handled: true,
       action: 'refresh_and_retry',
-      matchedRuleId: 'refresh-on-token-expired-or-session-missing',
+      matchedRuleId: AUTH_RECOVERY_RULE_IDS.TOKEN_EXPIRED_REFRESH,
       replayResult: { list: [1] },
     });
 
@@ -79,7 +80,7 @@ describe('responseHandlers auth recovery integration', () => {
     executeAuthRecoveryMock.mockResolvedValue({
       handled: true,
       action: 'logout',
-      matchedRuleId: 'logout-on-unauthorized-invalid-token',
+      matchedRuleId: AUTH_RECOVERY_RULE_IDS.UNAUTHORIZED_LOGOUT,
       shouldLogout: true,
     });
 
@@ -104,7 +105,7 @@ describe('responseHandlers auth recovery integration', () => {
     executeAuthRecoveryMock.mockResolvedValue({
       handled: false,
       action: 'pass_through',
-      matchedRuleId: 'refresh-on-permission-version-mismatch',
+      matchedRuleId: AUTH_RECOVERY_RULE_IDS.PERMISSION_MISMATCH_REFRESH,
     });
     rejectWithApiEnvelopeErrorMock.mockRejectedValue(envelopeError);
 
@@ -130,7 +131,7 @@ describe('responseHandlers auth recovery integration', () => {
     executeAuthRecoveryMock.mockResolvedValue({
       handled: true,
       action: 'refresh_and_retry',
-      matchedRuleId: 'refresh-on-token-expired-or-session-missing',
+      matchedRuleId: AUTH_RECOVERY_RULE_IDS.TOKEN_EXPIRED_REFRESH,
       shouldLogout: true,
       replayError,
     });

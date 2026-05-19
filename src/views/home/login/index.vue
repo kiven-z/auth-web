@@ -81,7 +81,7 @@ dataThemeChange(overallStyle.value);
         <div class="login-form">
           <avatar class="avatar" />
           <Motion>
-            <h2 class="outline-hidden">{{ title }}</h2>
+            <h2 class="text-center outline-hidden">{{ title }}</h2>
           </Motion>
 
           <!-- 动态切换表单组件，:key 变化时 Vue 销毁重建触发入场动画 -->

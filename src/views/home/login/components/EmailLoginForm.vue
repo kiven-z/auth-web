@@ -9,7 +9,6 @@ import { emailLoginRules } from '@/views/home/login/rules/email.rules';
 import type { FormInstance } from 'element-plus';
 import { reactive, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
-import LoginRememberRow from './LoginRememberRow.vue';
 import Motion from './Motion';
 
 import EmailIcon from '~icons/ri/mail-fill';
@@ -108,7 +107,9 @@ defineExpose({ handleSubmit });
     </Motion>
 
     <Motion :delay="200">
-      <LoginRememberRow v-model:is-remembered="isRemembered" />
+      <el-checkbox v-model="isRemembered">
+        {{ t('login.authRememberMe') }}
+      </el-checkbox>
     </Motion>
 
     <Motion :delay="250">

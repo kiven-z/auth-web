@@ -1,5 +1,6 @@
 import { AUTH_ERROR_CODES } from '@/config/auth/auth-error-codes';
 import type { AuthRecoveryRule } from './types';
+import { AUTH_RECOVERY_RULE_IDS } from '@/config/auth/auth-recovery-rule-ids';
 
 const PRIORITY = {
   EXPIRED_REFRESH: 100,
@@ -17,7 +18,7 @@ const PRIORITY = {
  */
 export const LOCAL_AUTH_RECOVERY_RULES: readonly AuthRecoveryRule[] = [
   {
-    id: 'refresh-on-token-expired-or-session-missing',
+    id: AUTH_RECOVERY_RULE_IDS.TOKEN_EXPIRED_REFRESH,
     priority: PRIORITY.EXPIRED_REFRESH,
     matcher: {
       statuses: [401],
@@ -37,7 +38,7 @@ export const LOCAL_AUTH_RECOVERY_RULES: readonly AuthRecoveryRule[] = [
     onRetryExhaustedAction: 'logout',
   },
   {
-    id: 'refresh-on-permission-version-mismatch',
+    id: AUTH_RECOVERY_RULE_IDS.PERMISSION_MISMATCH_REFRESH,
     priority: PRIORITY.VERSION_CONFLICT_REFRESH,
     matcher: {
       statuses: [409],
@@ -52,7 +53,7 @@ export const LOCAL_AUTH_RECOVERY_RULES: readonly AuthRecoveryRule[] = [
     onRetryExhaustedAction: 'pass_through',
   },
   {
-    id: 'logout-on-unauthorized-invalid-token',
+    id: AUTH_RECOVERY_RULE_IDS.UNAUTHORIZED_LOGOUT,
     priority: PRIORITY.UNAUTHORIZED_LOGOUT,
     matcher: {
       statuses: [401],
@@ -67,7 +68,7 @@ export const LOCAL_AUTH_RECOVERY_RULES: readonly AuthRecoveryRule[] = [
     action: 'logout',
   },
   {
-    id: 'logout-on-unknown-401',
+    id: AUTH_RECOVERY_RULE_IDS.UNKNOWN_401_LOGOUT,
     priority: PRIORITY.UNKNOWN_401_LOGOUT,
     matcher: {
       statuses: [401],
@@ -76,7 +77,7 @@ export const LOCAL_AUTH_RECOVERY_RULES: readonly AuthRecoveryRule[] = [
     action: 'logout',
   },
   {
-    id: 'fallback-pass-through',
+    id: AUTH_RECOVERY_RULE_IDS.FALLBACK_PASS,
     priority: PRIORITY.FALLBACK_PASS,
     action: 'pass_through',
   },
