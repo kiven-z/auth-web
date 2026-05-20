@@ -30,6 +30,7 @@ loginLog:
     '4': Account disabled
   loginTypeEnum:
     LOGIN_EMAIL: Email login
+    LOGIN_SMS: SMS login
     LOGIN_PASSWORD: Password login
     REFRESH_TOKEN: Refresh token
     LOGOUT: Logout

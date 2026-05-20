@@ -30,6 +30,7 @@ loginLog:
     '4': 账号禁用
   loginTypeEnum:
     LOGIN_EMAIL: 邮箱登录
+    LOGIN_SMS: 短信登录
     LOGIN_PASSWORD: 密码登录
     REFRESH_TOKEN: 刷新令牌
     LOGOUT: 登出
