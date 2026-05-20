@@ -1,12 +1,14 @@
+import type { TableActionDeps } from '@/api/common';
 import type { EmailTemplateFormModel } from '@/api/system/email-template';
 import {
   batchDeleteEmailTemplates,
   batchUpdateEmailTemplateStatus,
   createEmailTemplate,
+  getEmailTemplateById,
+  updateEmailTemplateContent,
+  updateEmailTemplateMetadata,
   type EmailTemplateDetailVO,
   type EmailTemplatePageRow,
-  getEmailTemplateById,
-  updateEmailTemplateMetadata,
 } from '@/api/system/email-template';
 import { addDialog } from '@/components/ui/Dialog';
 import { deleteConfirm } from '@/shared/messaging/dialog';
@@ -16,7 +18,6 @@ import EmailTemplateDialog from '@/views/message/email-template/components/Email
 import { useEmailTemplateTableMoreAction } from '@/views/message/email-template/hooks/useEmailTemplateTableMoreAction';
 import { h, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
-import type { TableActionDeps } from '@/api/common';
 
 /**
  * 将详情转为表单模型
@@ -128,7 +129,7 @@ function useEmailTemplateTableAction(deps: TableActionDeps) {
             const f = dlgFormRef.value?.form;
             if (!f) return;
             await updateEmailTemplateMetadata({
-              id: f.id,
+              id: f.id!,
               templateCode: f.templateCode!,
               templateName: f.templateName!,
               subject: f.subject!,
@@ -136,6 +137,7 @@ function useEmailTemplateTableAction(deps: TableActionDeps) {
               status: f.status,
               priority: f.priority,
             });
+            await updateEmailTemplateContent(f.id!, { content: f.content ?? '' });
             message(t('tips.editSuccess'), { type: 'success' });
             await fetchTableData();
             done();

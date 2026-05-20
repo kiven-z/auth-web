@@ -1,21 +1,39 @@
 <script lang="ts" setup>
 import type { EmailTemplateFormModel } from '@/api/system/email-template';
 import type { FormInstance, FormRules } from 'element-plus';
-import { reactive, ref } from 'vue';
+import { reactive, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
+import { CodeEditor } from 'monaco-editor-vue3';
 
-const props = withDefaults(
-  defineProps<{
-    formInline?: Partial<EmailTemplateFormModel>;
-  }>(),
-  {
-    formInline: () => ({}),
-  }
-);
+const props = defineProps<{
+  form?: Partial<EmailTemplateFormModel>;
+}>();
 
 const { t } = useI18n();
 const formRef = ref<FormInstance>();
-const form = ref<EmailTemplateFormModel>(props.formInline as EmailTemplateFormModel);
+
+/**
+ * 默认值与父级传入字段合并（编辑时含 content、requireFields 等）
+ */
+function mergeFormModel() {
+  return {
+    status: true,
+    priority: 5,
+    content: '',
+    requireFields: [],
+    ...(props.form ?? {}),
+  } as EmailTemplateFormModel;
+}
+
+const formData = ref(mergeFormModel());
+
+watch(
+  () => props.form,
+  () => {
+    Object.assign(formData.value, mergeFormModel());
+  },
+  { deep: true }
+);
 
 const rules = reactive<FormRules>({
   // 模板编码
@@ -37,17 +55,17 @@ const rules = reactive<FormRules>({
   priority: [{ required: true, message: t('emailTemplate.placeholder.priority'), trigger: 'change' }],
 });
 
-defineExpose({ formRef, form });
+defineExpose({ formRef, form: formData });
 </script>
 
 <template>
-  <el-form ref="formRef" :model="form" :rules="rules" label-width="auto">
+  <el-form ref="formRef" :model="formData" :rules="rules" label-width="auto">
     <el-row :gutter="14">
       <!-- 场景编码（scene_code） -->
       <el-col :lg="12" :md="12" :sm="12" :xs="24">
         <el-form-item :label="t('emailTemplate.templateCode')" prop="templateCode">
           <el-input
-            v-model="form.templateCode"
+            v-model="formData.templateCode"
             :placeholder="t('emailTemplate.placeholder.templateCode')"
             autocomplete="off"
             clearable
@@ -59,7 +77,7 @@ defineExpose({ formRef, form });
       <el-col :lg="12" :md="12" :sm="12" :xs="24">
         <el-form-item :label="t('emailTemplate.templateName')" prop="templateName">
           <el-input
-            v-model="form.templateName"
+            v-model="formData.templateName"
             :placeholder="t('emailTemplate.placeholder.templateName')"
             autocomplete="off"
             clearable
@@ -71,7 +89,7 @@ defineExpose({ formRef, form });
       <el-col :lg="24" :md="24" :sm="24" :xs="24">
         <el-form-item :label="t('emailTemplate.subject')" prop="subject">
           <el-input
-            v-model="form.subject"
+            v-model="formData.subject"
             :placeholder="t('emailTemplate.placeholder.subject')"
             autocomplete="off"
             clearable
@@ -82,7 +100,7 @@ defineExpose({ formRef, form });
       <el-col :lg="12" :md="12" :sm="12" :xs="24">
         <!-- 优先级 -->
         <el-form-item :label="t('emailTemplate.priority')" prop="priority">
-          <el-input-number v-model="form.priority" :max="10" :min="1" class="w-full" controls-position="right" />
+          <el-input-number v-model="formData.priority" :max="10" :min="1" class="w-full" controls-position="right" />
         </el-form-item>
       </el-col>
 
@@ -90,7 +108,7 @@ defineExpose({ formRef, form });
         <!-- 状态 -->
         <el-form-item :label="t('emailTemplate.status')" prop="status">
           <el-switch
-            v-model="form.status"
+            v-model="formData.status"
             :active-text="t('emailTemplate.statusEnabled')"
             :active-value="true"
             :inactive-text="t('emailTemplate.statusDisabled')"
@@ -105,13 +123,20 @@ defineExpose({ formRef, form });
         <!-- 描述 -->
         <el-form-item :label="t('emailTemplate.description')" prop="description">
           <el-input
-            v-model="form.description"
+            v-model="formData.description"
             :placeholder="t('emailTemplate.placeholder.description')"
             autocomplete="off"
             maxlength="500"
             show-word-limit
             type="textarea"
           />
+        </el-form-item>
+      </el-col>
+
+      <el-col :span="24">
+        <!-- 模板正文（body_content）；复杂编辑可用「更多 → 模板编辑」 -->
+        <el-form-item :label="t('emailTemplate.content')" prop="content">
+          <CodeEditor v-model:value="formData.content" class="min-h-[65vh] border" language="html" theme="vs" />
         </el-form-item>
       </el-col>
     </el-row>

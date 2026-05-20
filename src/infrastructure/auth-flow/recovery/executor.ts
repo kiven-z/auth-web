@@ -44,6 +44,7 @@ export async function executeAuthRecovery(input: ExecuteAuthRecoveryInput): Prom
     };
   }
 
+  // 鉴权恢复流程开始时的应用层副作用
   runAuthRecoverySideEffect(decision.matchedRuleId);
 
   // 决策动作
