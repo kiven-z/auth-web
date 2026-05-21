@@ -124,7 +124,7 @@ onMounted(() => {
             </el-button>
 
             <template #dropdown>
-              <el-dropdown-item>批量删除</el-dropdown-item>
+              <el-dropdown-item>{{ t('buttons.actionBatchDelete') }}</el-dropdown-item>
             </template>
           </el-dropdown>
         </el-button-group>

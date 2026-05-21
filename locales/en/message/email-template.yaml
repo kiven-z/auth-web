@@ -12,8 +12,6 @@ emailTemplate:
   liveRenderPreview: Live render preview
   renderedEffect: Rendered output
   requireFieldsJson: Required variables (JSON)
-  statusEnabled: Enabled
-  statusDisabled: Disabled
   addDialogTitle: New email template
   editDialogTitle: Edit email template
   templateEditDialogTitle: Edit template body
@@ -21,9 +19,6 @@ emailTemplate:
   previewDialogTitle: Email preview
   requireFieldsDialogTitle: Required variables
   testSendDialogTitle: Test send
-  batchEnable: Enable selected
-  batchDisable: Disable selected
-  moreActions: More
   preview: Preview
   requireFieldsMenu: Variables
   testSendMenu: Test send

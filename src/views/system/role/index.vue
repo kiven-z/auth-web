@@ -119,7 +119,7 @@ onMounted(() => {
             </el-button>
 
             <template #dropdown>
-              <el-dropdown-item>批量删除</el-dropdown-item>
+              <el-dropdown-item>{{ t('buttons.actionBatchDelete') }}</el-dropdown-item>
             </template>
           </el-dropdown>
         </el-button-group>
@@ -163,7 +163,7 @@ onMounted(() => {
                     <el-dropdown-item>{{ t('roles.menuPolicyBind') }}</el-dropdown-item>
                     <el-dropdown-item>{{ t('roles.menuGrantSubjects') }}</el-dropdown-item>
                     <el-dropdown-item>{{ t('roles.menuImpactAnalysis') }}</el-dropdown-item>
-                    <el-dropdown-item>强制删除</el-dropdown-item>
+                    <el-dropdown-item>{{ t('roles.actionForceDelete') }}</el-dropdown-item>
                   </el-dropdown-menu>
                 </template>
               </el-dropdown>

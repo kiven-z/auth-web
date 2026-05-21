@@ -10,8 +10,6 @@ scheduleGroup:
   editTitle: Edit Schedule Group
   detailTitle: View Schedule Group Details
   loadFailed: Failed to load schedule groups
-  statusEnabled: Enabled
-  statusDisabled: Disabled
   placeholder:
     code: Enter group code (uppercase, digits, underscore)
     name: Enter group name

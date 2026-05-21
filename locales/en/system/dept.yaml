@@ -6,20 +6,16 @@ dept:
   viewTreeTitle: Tree View
   expandAll: Expand All
   collapseAll: Collapse All
+  assignRole: Assign roles
+  assignPost: Assign posts
   isPrimaryDepartment: Primary department
   primaryDepartment: Primary
   secondaryDepartment: Secondary
-  # Table headers
   deptName: Department Name
   deptCode: Department Code
   status: Status
   orderNum: Order
   remark: Remark
-  createTime: Created At
-  updateTime: Updated At
-  createUsername: Created by
-  updateUsername: Updated by
-  # Status enum
   statusNormal: Normal
   statusDisabled: Disabled
   tips:

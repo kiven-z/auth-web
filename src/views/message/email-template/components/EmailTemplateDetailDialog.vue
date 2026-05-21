@@ -34,9 +34,9 @@ const columns = computed(() => [
     labelWidth: 120,
     cellRenderer: ({ value }: { value: boolean }) =>
       value ? (
-        <ElTag type="success">{t('emailTemplate.statusEnabled')}</ElTag>
+        <ElTag type="success">{t('buttons.statusActiveText')}</ElTag>
       ) : (
-        <ElTag type="danger">{t('emailTemplate.statusDisabled')}</ElTag>
+        <ElTag type="danger">{t('buttons.statusInactiveText')}</ElTag>
       ),
   },
   {

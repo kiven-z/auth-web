@@ -1,24 +1,14 @@
 roles:
   moduleName: 角色
-  # 页面级别
   pageTitle: 角色管理
-  query: 查询
-  reset: 重置
-  actions: 操作
-  actionView: 查看
-  actionDelete: 删除
   actionAssignPermission: 分配权限
-  actionAdd: 新增
-  actionBatchDelete: 批量删除
-  actionModify: 修改
-  moreActions: 更多
+  actionForceDelete: 强制删除
   menuDataScope: 数据范围配置
   menuPolicyBind: 策略绑定
   menuGrantSubjects: 授权对象管理（反向）
   menuImpactAnalysis: 影响分析与刷新
   loadFailed: 加载角色列表失败
   dialogViewTitle: 查看角色详情
-  # 表头
   dialogCreateTitle: 新增角色
   roleCode: 角色编码
   roleName: 角色名称
@@ -26,14 +16,8 @@ roles:
   roleType: 角色类型
   orderNum: 显示顺序
   remark: 备注说明
-  createTime: 创建时间
-  updateTime: 更新时间
-  createUsername: 创建人
-  updateUsername: 更新人
-  # 状态枚举
   statusNormal: 正常
   statusDisabled: 禁用
-  # 角色类型
   roleTypeSystem: 系统角色
   roleTypeMenu: 菜单角色
   roleTypeBusiness: 业务角色

@@ -91,9 +91,9 @@ defineExpose({ formRef, form });
         <el-form-item :label="t('emailTemplate.status')" prop="status">
           <el-switch
             v-model="form.status"
-            :active-text="t('emailTemplate.statusEnabled')"
+            :active-text="t('buttons.statusActiveText')"
             :active-value="true"
-            :inactive-text="t('emailTemplate.statusDisabled')"
+            :inactive-text="t('buttons.statusInactiveText')"
             :inactive-value="false"
             inline-prompt
             style="--el-switch-on-color: #13ce66; --el-switch-off-color: #ff4949"

@@ -7,6 +7,6 @@ export const menuTypeFilterOptions: ReadonlyArray<{ value: number; labelKey: str
 
 // 状态选项（与后端 SysMenuQuery.status Boolean 一致）
 export const menuStatusFilterOptions: ReadonlyArray<{ value: boolean; labelKey: string }> = [
-  { value: true, labelKey: 'sysMenu.statusEnabled' },
-  { value: false, labelKey: 'sysMenu.statusDisabled' },
+  { value: true, labelKey: 'buttons.statusActiveText' },
+  { value: false, labelKey: 'buttons.statusInactiveText' },
 ];

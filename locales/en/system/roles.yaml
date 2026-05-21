@@ -1,24 +1,14 @@
 roles:
   moduleName: Roles
-  # Page level
   pageTitle: Role Management
-  query: Search
-  reset: Reset
-  actions: Actions
-  actionView: View
-  actionDelete: Delete
   actionAssignPermission: Assign permissions
-  actionAdd: Add
-  actionBatchDelete: Batch delete
-  actionModify: Modify
-  moreActions: More
+  actionForceDelete: Force delete
   menuDataScope: Data scope
   menuPolicyBind: Policy binding
   menuGrantSubjects: Grant subjects (reverse)
   menuImpactAnalysis: Impact analysis and refresh
   loadFailed: Failed to load roles
   dialogViewTitle: View role details
-  # Table headers
   dialogCreateTitle: Add Role
   roleCode: Role Code
   roleName: Role Name
@@ -26,14 +16,8 @@ roles:
   roleType: Role Type
   orderNum: Order
   remark: Remark
-  createTime: Created At
-  updateTime: Updated At
-  createUsername: Created by
-  updateUsername: Updated by
-  # Status enum
   statusNormal: Normal
   statusDisabled: Disabled
-  # Role type enum
   roleTypeSystem: System Role
   roleTypeMenu: Menu Role
   roleTypeBusiness: Business Role

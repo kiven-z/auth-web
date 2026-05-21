@@ -82,9 +82,9 @@ defineExpose({
         <el-form-item :label="t('scheduleGroup.status')" prop="status">
           <el-switch
             v-model="form.status"
-            :active-text="t('scheduleGroup.statusEnabled')"
+            :active-text="t('buttons.statusActiveText')"
             :active-value="true"
-            :inactive-text="t('scheduleGroup.statusDisabled')"
+            :inactive-text="t('buttons.statusInactiveText')"
             :inactive-value="false"
           />
         </el-form-item>

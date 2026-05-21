@@ -6,20 +6,16 @@ dept:
   viewTreeTitle: 树形视图
   expandAll: 展开全部
   collapseAll: 收起全部
+  assignRole: 分配角色
+  assignPost: 分配岗位
   isPrimaryDepartment: 是否主部门
   primaryDepartment: 主部门
   secondaryDepartment: 兼职部门
-  # 表头
   deptName: 部门名称
   deptCode: 部门编码
   status: 状态
   orderNum: 显示顺序
   remark: 备注
-  createTime: 创建时间
-  updateTime: 更新时间
-  createUsername: 创建人
-  updateUsername: 更新人
-  # 状态枚举
   statusNormal: 正常
   statusDisabled: 禁用
   tips:

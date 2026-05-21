@@ -27,8 +27,6 @@ sysMenu:
   menuTypeIframe: Iframe
   menuTypeLink: External link
   status: Status
-  statusEnabled: Enabled
-  statusDisabled: Disabled
   component: Component path
   path: Route path
   menuRank: Sort

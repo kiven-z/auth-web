@@ -12,8 +12,6 @@ emailTemplate:
   liveRenderPreview: 实时渲染预览
   renderedEffect: 渲染效果
   requireFieldsJson: 必填变量（JSON）
-  statusEnabled: 启用
-  statusDisabled: 禁用
   addDialogTitle: 新增邮件模板
   editDialogTitle: 编辑邮件模板
   templateEditDialogTitle: 编辑模板正文
@@ -21,9 +19,6 @@ emailTemplate:
   previewDialogTitle: 邮件预览
   requireFieldsDialogTitle: 维护必填变量
   testSendDialogTitle: 测试发送
-  batchEnable: 批量启用
-  batchDisable: 批量禁用
-  moreActions: 更多
   preview: 预览
   requireFieldsMenu: 必填变量
   testSendMenu: 测试发送

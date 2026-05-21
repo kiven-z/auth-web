@@ -1,12 +1,12 @@
 /**
  * 菜单管理表格列定义（表格视图与树形视图共用）
  */
+import { useRenderIcon } from '@/components/ui/Icon/src/hooks';
 import { transformI18n } from '@/plugins/i18n';
 import type { SysMenuRow } from '@/views/system/menu/hooks/useMenuPageState';
 import { ElTag, ElText } from 'element-plus';
 import { computed, h } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { useRenderIcon } from '@/components/ui/Icon/src/hooks';
 
 // 菜单类型标签样式映射
 const MENU_TYPE_TAG_MAP: Record<number, { type: 'primary' | 'success' | 'warning'; labelKey: string }> = {
@@ -73,7 +73,7 @@ function useMenuTableColumns() {
       width: 90,
       formatter: (row: SysMenuRow) => (
         <ElTag type={row.status ? 'success' : 'danger'} effect="plain" size="small">
-          {row.status ? t('sysMenu.statusEnabled') : t('sysMenu.statusDisabled')}
+          {row.status ? t('buttons.statusActiveText') : t('buttons.statusInactiveText')}
         </ElTag>
       ),
     },

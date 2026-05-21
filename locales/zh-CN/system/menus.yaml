@@ -27,8 +27,6 @@ sysMenu:
   menuTypeIframe: Iframe
   menuTypeLink: 外链
   status: 状态
-  statusEnabled: 启用
-  statusDisabled: 禁用
   component: 组件路径
   path: 路由路径
   menuRank: 排序

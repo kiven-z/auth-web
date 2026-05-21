@@ -35,7 +35,7 @@ const view = useDescriptionDetailView(
   () => props.data,
   (d) => ({
     ...d,
-    statusLabel: resolveBooleanI18nLabel(t, d.status, 'scheduleGroup.statusEnabled', 'scheduleGroup.statusDisabled'),
+    statusLabel: resolveBooleanI18nLabel(t, d.status, 'buttons.statusActiveText', 'buttons.statusInactiveText'),
     isSystemLabel: d.isSystem ? 'Y' : 'N',
   })
 );

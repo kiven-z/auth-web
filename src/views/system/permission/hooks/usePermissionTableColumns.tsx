@@ -46,7 +46,7 @@ function usePermissionTableColumns() {
       formatter: (row: SysPermissionPageRow) => {
         return (
           <ElTag type={row.status ? 'success' : 'danger'} effect="plain" size="small">
-            {row.status ? t('permissions.statusNormal') : t('permissions.statusDisabled')}
+            {row.status ? t('buttons.statusActiveText') : t('buttons.statusInactiveText')}
           </ElTag>
         );
       },

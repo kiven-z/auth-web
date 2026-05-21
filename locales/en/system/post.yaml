@@ -1,30 +1,15 @@
 post:
   moduleName: Posts
-  # Page level
   pageTitle: Post Management
-  query: Search
-  reset: Reset
-  actions: Actions
-  actionView: View
-  actionDelete: Delete
-  actionAdd: Add
-  actionBatchDelete: Batch delete
   loadFailed: Failed to load posts
   dialogCreateTitle: Add Post
-  dialogEditTitle: Edit Post
   dialogViewTitle: View Post Details
-  # Table headers
   postCode: Post Code
   postName: Post Name
   deptName: Department
   status: Status
   orderNum: Order
   remark: Remark
-  createTime: Created At
-  updateTime: Updated At
-  createUsername: Created by
-  updateUsername: Updated by
-  # Status enum
   statusNormal: Normal
   statusDisabled: Disabled
   tips:
