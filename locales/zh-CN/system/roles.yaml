@@ -2,7 +2,6 @@ roles:
   moduleName: 角色
   pageTitle: 角色管理
   actionAssignPermission: 分配权限
-  actionForceDelete: 强制删除
   menuDataScope: 数据范围配置
   menuPolicyBind: 策略绑定
   menuGrantSubjects: 授权对象管理（反向）

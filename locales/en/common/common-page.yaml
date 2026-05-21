@@ -35,6 +35,7 @@ buttons:
   actionEdit: Edit
   actionView: View
   actionDelete: Delete
+  actionForceDelete: Force delete
   actionBatchDelete: Batch delete
   actionMore: More
   actionBatchAdd: Batch add

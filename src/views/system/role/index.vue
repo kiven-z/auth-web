@@ -163,7 +163,7 @@ onMounted(() => {
                     <el-dropdown-item>{{ t('roles.menuPolicyBind') }}</el-dropdown-item>
                     <el-dropdown-item>{{ t('roles.menuGrantSubjects') }}</el-dropdown-item>
                     <el-dropdown-item>{{ t('roles.menuImpactAnalysis') }}</el-dropdown-item>
-                    <el-dropdown-item>{{ t('roles.actionForceDelete') }}</el-dropdown-item>
+                    <el-dropdown-item>{{ t('buttons.actionForceDelete') }}</el-dropdown-item>
                   </el-dropdown-menu>
                 </template>
               </el-dropdown>

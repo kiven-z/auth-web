@@ -35,6 +35,7 @@ buttons:
   actionEdit: 修改
   actionView: 查看
   actionDelete: 删除
+  actionForceDelete: 强制删除
   actionBatchDelete: 批量删除
   actionMore: 更多
   actionBatchAdd: 批量添加

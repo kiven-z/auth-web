@@ -2,7 +2,6 @@ roles:
   moduleName: Roles
   pageTitle: Role Management
   actionAssignPermission: Assign permissions
-  actionForceDelete: Force delete
   menuDataScope: Data scope
   menuPolicyBind: Policy binding
   menuGrantSubjects: Grant subjects (reverse)
