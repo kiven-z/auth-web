@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import type { DetailDialog } from '@/api/common';
 import type { JobLogDetailRow } from '@/api/log/job-log';
 import Description from '@/components/ui/Description';
 import { computed } from 'vue';
@@ -8,7 +9,9 @@ defineOptions({
   name: 'JobLogDetailDialog',
 });
 
-defineProps<{ data: JobLogDetailRow }>();
+interface JobLogDetailDialogProps extends DetailDialog<JobLogDetailRow> {}
+
+defineProps<JobLogDetailDialogProps>();
 const { t } = useI18n();
 
 const columns = computed(() => [

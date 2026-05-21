@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import type { DetailDialog } from '@/api/common';
 import type { PasswordHistoryDetailRow } from '@/api/log/password-history';
 import Description from '@/components/ui/Description';
 import { computed } from 'vue';
@@ -8,7 +9,9 @@ defineOptions({
   name: 'PasswordHistoryDescriptionDialog',
 });
 
-defineProps<{ data: PasswordHistoryDetailRow }>();
+interface PasswordHistoryDescriptionDialogProps extends DetailDialog<PasswordHistoryDetailRow> {}
+
+defineProps<PasswordHistoryDescriptionDialogProps>();
 const { t } = useI18n();
 
 const columns = computed(() => [

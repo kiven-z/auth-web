@@ -31,8 +31,8 @@ function useLoginLogTableAction(deps: TableActionWithSelectionDeps) {
       title: t('loginLog.detailTitle'),
       width: '100%',
       draggable: false,
-      props: {},
-      contentRenderer: () => h(LoginLogDetailDialog, { data: detailData }),
+      props: { data: detailData },
+      contentRenderer: () => h(LoginLogDetailDialog),
       beforeSure: (done) => done(),
     });
   };

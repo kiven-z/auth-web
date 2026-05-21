@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import type { DetailDialog } from '@/api/common';
 import type { AuthorizationAuditDetailRow } from '@/api/log/authorization-audit';
 import Description from '@/components/ui/Description';
 import { computed } from 'vue';
@@ -8,7 +9,9 @@ defineOptions({
   name: 'AuthorizationAuditDetailDialog',
 });
 
-defineProps<{ data: AuthorizationAuditDetailRow }>();
+interface AuthorizationAuditDetailDialogProps extends DetailDialog<AuthorizationAuditDetailRow> {}
+
+defineProps<AuthorizationAuditDetailDialogProps>();
 const { t } = useI18n();
 
 const columns = computed(() => [

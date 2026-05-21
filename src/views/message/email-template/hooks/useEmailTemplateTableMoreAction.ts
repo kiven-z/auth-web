@@ -1,11 +1,12 @@
+import type { TableActionDeps } from '@/api/common';
 import type { EmailTemplateFormModel } from '@/api/system/email-template';
 import {
-  type EmailTemplateDetailVO,
-  type EmailTemplatePageRow,
   getEmailTemplateById,
   getEmailTemplatePreviewHtml,
   testSendEmailTemplate,
   updateEmailTemplateContent,
+  type EmailTemplateDetailVO,
+  type EmailTemplatePageRow,
 } from '@/api/system/email-template';
 import { addDialog } from '@/components/ui/Dialog';
 import { errorMessage, message } from '@/shared/messaging/message';
@@ -15,7 +16,6 @@ import EmailTemplateRequireFieldsDialog from '@/views/message/email-template/com
 import EmailTemplateTestSendDialog from '@/views/message/email-template/components/EmailTemplateTestSendDialog.vue';
 import { h, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
-import type { TableActionDeps } from '@/api/common';
 
 type FormDialogExpose = {
   formRef?: { validate: () => Promise<boolean | undefined> };
@@ -119,7 +119,7 @@ export function useEmailTemplateTableMoreAction(options: TableActionDeps) {
     const sendFormRef = ref<TestSendExpose | null>(null);
     addDialog({
       title: t('emailTemplate.testSendDialogTitle'),
-      props: { formInline: { id: row.id, email: '' } },
+      props: { form: { id: row.id, email: '' } },
       draggable: true,
       fullscreenIcon: true,
       closeOnClickModal: false,
@@ -164,7 +164,7 @@ export function useEmailTemplateTableMoreAction(options: TableActionDeps) {
         closeOnClickModal: false,
         closeOnPressEscape: false,
         width: '92%',
-        contentRenderer: () => h(EmailTemplateMonacoOnlyDialog, { ref: dialogRef, form: form as any }),
+        contentRenderer: () => h(EmailTemplateMonacoOnlyDialog, { ref: dialogRef }),
         beforeSure: async (done) => {
           try {
             const formInstance = dialogRef.value?.formRef;

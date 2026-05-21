@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import type { DetailDialog } from '@/api/common';
 import type { LoginLogDetailRow } from '@/api/log/login-log';
 import Description from '@/components/ui/Description';
 import { useDescriptionDetailView } from '@/shared/hooks/useDescriptionDetailView';
@@ -10,7 +11,9 @@ defineOptions({
   name: 'LoginLogDetailDialog',
 });
 
-const props = defineProps<{ data: LoginLogDetailRow }>();
+interface LoginLogDetailDialogProps extends DetailDialog<LoginLogDetailRow> {}
+
+const props = defineProps<LoginLogDetailDialogProps>();
 const { t } = useI18n();
 
 const columns = computed(() => [
@@ -46,10 +49,14 @@ const columns = computed(() => [
   { label: t('table.updateTime'), prop: 'updateTime' },
 ]);
 
+/**
+ * 详情视图
+ */
 const view = useDescriptionDetailView(
   () => props.data,
   (d) => ({
     ...d,
+    // TODO 待修改，优化枚举显示
     loginResultLabel: resolveI18nEnumLabel(t, 'loginLog.loginResultEnum', d.loginResult),
     loginTypeLabel: resolveI18nEnumLabel(t, 'loginLog.loginTypeEnum', d.loginType),
   })

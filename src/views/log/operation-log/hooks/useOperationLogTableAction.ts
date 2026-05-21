@@ -33,8 +33,8 @@ function useOperationLogTableAction(deps: TableActionWithSelectionDeps) {
       width: '100%',
       fullscreenIcon: true,
       draggable: false,
-      props: {},
-      contentRenderer: () => h(OperationLogDetailDialog, { data: detailData }),
+      props: { data: detailData },
+      contentRenderer: () => h(OperationLogDetailDialog),
       beforeSure: async (done) => {
         done();
       },

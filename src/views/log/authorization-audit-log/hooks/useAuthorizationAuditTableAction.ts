@@ -1,8 +1,8 @@
 import type { TableActionWithSelectionDeps } from '@/api/common';
 import {
+  type AuthorizationAuditPageRow,
   deleteAuthorizationAudit,
   getAuthorizationAuditDetail,
-  type AuthorizationAuditPageRow,
 } from '@/api/log/authorization-audit';
 import { addDialog } from '@/components/ui/Dialog';
 import { deleteConfirm } from '@/shared/messaging/dialog';
@@ -24,8 +24,9 @@ function useAuthorizationAuditTableAction(deps: TableActionWithSelectionDeps) {
    * @param row 行数据
    */
   const openDetailDialog = useDebounceFn(async (row: AuthorizationAuditPageRow) => {
-    let detailData: any = row;
+    let detailData = row;
     try {
+      // 获取详情数据
       detailData = await getAuthorizationAuditDetail(row.id);
     } catch (error: unknown) {
       errorMessage(error, { defaultI18nKey: 'authorizationAudit.loadFailed' });
@@ -37,8 +38,8 @@ function useAuthorizationAuditTableAction(deps: TableActionWithSelectionDeps) {
       width: '100%',
       fullscreenIcon: true,
       draggable: false,
-      props: {},
-      contentRenderer: () => h(AuthorizationAuditDetailDialog, { data: detailData }),
+      props: { data: detailData },
+      contentRenderer: () => h(AuthorizationAuditDetailDialog),
       beforeSure: async (done) => {
         done();
       },

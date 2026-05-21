@@ -33,8 +33,8 @@ function usePasswordHistoryTableAction(deps: TableActionWithSelectionDeps) {
 
     addDialog({
       title: t('passwordHistory.detailTitle'),
-      props: {},
-      contentRenderer: () => h(PasswordHistoryDescriptionDialog, { data: detailData }),
+      props: { data: detailData },
+      contentRenderer: () => h(PasswordHistoryDescriptionDialog),
       beforeSure: (done) => done(),
     });
   };

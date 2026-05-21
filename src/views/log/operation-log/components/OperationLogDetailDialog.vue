@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import type { DetailDialog } from '@/api/common';
 import type { OperationLogDetailRow } from '@/api/log/operation-log';
 import Description from '@/components/ui/Description';
 import { computed } from 'vue';
@@ -8,7 +9,9 @@ defineOptions({
   name: 'OperationLogDetailDialog',
 });
 
-defineProps<{ data: OperationLogDetailRow }>();
+interface OperationLogDetailDialogProps extends DetailDialog<OperationLogDetailRow> {}
+
+defineProps<OperationLogDetailDialogProps>();
 const { t } = useI18n();
 
 const columns = computed(() => [

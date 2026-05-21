@@ -42,7 +42,16 @@ export interface FormDialog<T> {
   form?: T;
 }
 
-/** 详情弹窗/抽屉只读数据契约 */
+/**
+ * 详情弹窗/抽屉只读数据契约
+ */
 export interface DetailDialog<T> {
   data?: T;
+}
+
+/**
+ * 弹窗内按主键异步拉取详情（无预置 data）
+ */
+export interface IdDetailDialog {
+  id?: string;
 }

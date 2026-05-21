@@ -31,37 +31,22 @@ function useJobLogTableAction(deps: TableActionWithSelectionDeps) {
       title: t('logJob.detailTitle'),
       width: '100%',
       draggable: false,
-      props: {},
-      contentRenderer: () => h(JobLogDetailDialog, { data: detailData }),
-      beforeSure: (done) => done(),
+      props: { data: detailData },
+      contentRenderer: () => h(JobLogDetailDialog),
+      beforeSure: (done) => {
+        done();
+      },
     });
-  };
-
-  /**
-   * 删除
-   * @param row 行数据
-   */
-  const deleteRow = async (row: JobLogPageRow) => {
-    const confirm = await deleteConfirm();
-    if (!confirm) return;
-
-    try {
-      await deleteJobLog([row.id]);
-      message(t('tips.deleteSuccess'), { type: 'success' });
-      await fetchTableData();
-    } catch (error: unknown) {
-      errorMessage(error, { defaultI18nKey: 'logJob.loadFailed' });
-    }
   };
 
   /**
    * 批量删除
    */
-  const deleteBatchRows = async () => {
+  const deleteBatchRows = async (ids?: string[]) => {
     const confirm = await deleteConfirm();
     if (!confirm) return;
 
-    const ids = selectedRows.value;
+    ids = ids || selectedRows.value;
     try {
       await deleteJobLog(ids);
       message(t('tips.deleteSuccess'), { type: 'success' });
@@ -74,7 +59,6 @@ function useJobLogTableAction(deps: TableActionWithSelectionDeps) {
 
   return {
     openDetailDialog,
-    deleteRow,
     deleteBatchRows,
   };
 }

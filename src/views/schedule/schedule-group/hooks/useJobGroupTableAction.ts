@@ -1,22 +1,27 @@
+import type { TableActionDeps } from '@/api/common';
 import {
   createJobGroup,
-  type CreateJobGroupRequest,
   deleteJobGroup,
-  type SysJobGroupPageRow,
   updateJobGroup,
+  type CreateJobGroupRequest,
+  type SysJobGroupPageRow,
 } from '@/api/schedule/job-group';
 import { addDialog } from '@/components/ui/Dialog';
 import { deleteConfirm } from '@/shared/messaging/dialog';
 import { errorMessage, message } from '@/shared/messaging/message';
 import ScheduleGroupDescriptionDialog from '@/views/schedule/schedule-group/components/ScheduleGroupDescriptionDialog.vue';
 import ScheduleGroupFormDialog from '@/views/schedule/schedule-group/components/ScheduleGroupFormDialog.vue';
-import { h, reactive, ref } from 'vue';
+import { createEmptyJobGroupForm } from '@/views/schedule/schedule-group/utils/job-group-form-mapper';
+import { h, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
-import type { TableActionDeps } from '@/api/common';
+
+type JobGroupFormDialogExpose = {
+  formRef?: { validate: () => Promise<boolean | undefined> };
+  form: CreateJobGroupRequest & { id?: string };
+};
 
 /**
  * 任务分组表格操作：新增、编辑、查看详情、删除
- * @param deps 须传入列表页同一实例的
  */
 function useJobGroupTableAction(deps: TableActionDeps) {
   const { fetchTableData } = deps;
@@ -26,14 +31,8 @@ function useJobGroupTableAction(deps: TableActionDeps) {
    * 打开新增任务分组对话框
    */
   const openCreateDialog = () => {
-    const form = reactive<CreateJobGroupRequest>({
-      groupCode: '',
-      groupName: '',
-      description: '',
-      status: true,
-      orderNum: 0,
-    });
-    const dialogRef = ref();
+    const form = createEmptyJobGroupForm();
+    const dialogRef = ref<JobGroupFormDialogExpose | null>(null);
 
     addDialog({
       title: t('scheduleGroup.addTitle'),
@@ -42,14 +41,16 @@ function useJobGroupTableAction(deps: TableActionDeps) {
       fullscreenIcon: true,
       closeOnPressEscape: false,
       closeOnClickModal: false,
-      contentRenderer: () => h(ScheduleGroupFormDialog, { ref: dialogRef, form: form as any, mode: 'add' }),
+      contentRenderer: () => h(ScheduleGroupFormDialog, { ref: dialogRef }),
       beforeSure: async (done) => {
         try {
-          const f = dialogRef.value?.formRef;
-          const ok = await f?.validate().catch(() => false);
+          const ok = await dialogRef.value?.formRef?.validate().catch(() => false);
           if (!ok) return;
 
-          await createJobGroup(form);
+          const f = dialogRef.value?.form;
+          if (!f) return;
+
+          await createJobGroup(f);
           message(t('tips.addSuccess'), { type: 'success' });
 
           await fetchTableData();
@@ -66,30 +67,32 @@ function useJobGroupTableAction(deps: TableActionDeps) {
    * @param row 任务分组数据
    */
   const openEditDialog = (row: SysJobGroupPageRow) => {
-    const form = reactive({
+    const form = {
       id: row.id,
       groupCode: row.groupCode,
       groupName: row.groupName,
       description: row.description ?? '',
       status: row.status,
       orderNum: row.orderNum ?? 0,
-    });
-    const dialogRef = ref();
+    };
+    const dialogRef = ref<JobGroupFormDialogExpose | null>(null);
 
     addDialog({
       title: t('scheduleGroup.editTitle'),
-      props: { form: form, mode: 'edit' },
+      props: { form, mode: 'edit' },
       draggable: true,
       closeOnPressEscape: false,
       closeOnClickModal: false,
-      contentRenderer: () => h(ScheduleGroupFormDialog, { ref: dialogRef, form: form as any, mode: 'edit' }),
+      contentRenderer: () => h(ScheduleGroupFormDialog, { ref: dialogRef }),
       beforeSure: async (done) => {
         try {
-          const f = dialogRef.value?.formRef;
-          const valid = await f?.validate().catch(() => false);
-          if (!valid) return;
+          const ok = await dialogRef.value?.formRef?.validate().catch(() => false);
+          if (!ok) return;
 
-          await updateJobGroup(form);
+          const f = dialogRef.value?.form;
+          if (!f?.id) return;
+
+          await updateJobGroup(f);
           message(t('tips.editSuccess'), { type: 'success' });
           await fetchTableData();
 
@@ -108,8 +111,8 @@ function useJobGroupTableAction(deps: TableActionDeps) {
   const openDetailDialog = (row: SysJobGroupPageRow) => {
     addDialog({
       title: t('scheduleGroup.detailTitle'),
-      props: {},
-      contentRenderer: () => h(ScheduleGroupDescriptionDialog, { data: row }),
+      props: { data: row },
+      contentRenderer: () => h(ScheduleGroupDescriptionDialog),
       beforeSure: (done) => done(),
     });
   };

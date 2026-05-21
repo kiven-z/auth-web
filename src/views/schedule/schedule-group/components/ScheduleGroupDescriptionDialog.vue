@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import type { DetailDialog } from '@/api/common';
 import { SysJobGroupPageRow } from '@/api/schedule/job-group';
 import Description from '@/components/ui/Description';
 import { useDescriptionDetailView } from '@/shared/hooks/useDescriptionDetailView';
@@ -10,7 +11,9 @@ defineOptions({
   name: 'JobGroupDescriptionDialog',
 });
 
-const props = defineProps<{ data: SysJobGroupPageRow }>();
+interface ScheduleGroupDescriptionDialogProps extends DetailDialog<SysJobGroupPageRow> {}
+
+const props = defineProps<ScheduleGroupDescriptionDialogProps>();
 const { t } = useI18n();
 
 const columns = computed(() => [

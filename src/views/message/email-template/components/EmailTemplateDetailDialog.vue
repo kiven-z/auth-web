@@ -1,16 +1,16 @@
 <script lang="tsx" setup>
+import type { IdDetailDialog } from '@/api/common';
 import { getEmailTemplateById, getEmailTemplatePreviewHtml } from '@/api/system/email-template';
 import ReDescription from '@/components/ui/Description/index';
 import { ElTag } from 'element-plus';
 import { computed, nextTick, onMounted, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 
-interface Props {
-  // 模板 ID
+interface EmailTemplateDetailDialogProps extends IdDetailDialog {
   id: string;
 }
 
-const props = defineProps<Props>();
+const props = defineProps<EmailTemplateDetailDialogProps>();
 const { t } = useI18n();
 
 const loading = ref(false);

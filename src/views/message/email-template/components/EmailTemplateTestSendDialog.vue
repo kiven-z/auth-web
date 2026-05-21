@@ -2,34 +2,29 @@
   测试发送弹窗
 -->
 <script lang="ts" setup>
+import type { FormDialog } from '@/api/common';
+import {
+  createEmptyEmailTestSendForm,
+  type EmailTestSendForm,
+} from '@/views/message/email-template/utils/email-test-send-form-mapper';
 import type { FormInstance, FormRules } from 'element-plus';
 import { reactive, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 
-export interface EmailTestSendForm {
-  id: string;
-  email: string;
-}
+interface EmailTemplateTestSendDialogProps extends FormDialog<EmailTestSendForm> {}
 
-const props = withDefaults(
-  defineProps<{
-    formInline?: Partial<EmailTestSendForm>;
-  }>(),
-  {
-    formInline: () => ({ id: '', email: '' }),
-  }
-);
+const props = withDefaults(defineProps<EmailTemplateTestSendDialogProps>(), {
+  form: {},
+});
 
 const { t } = useI18n();
 const formRef = ref<FormInstance>();
-const form = ref<EmailTestSendForm>({ id: props.formInline.id ?? '', email: props.formInline.email ?? '' });
+const form = ref<EmailTestSendForm>({ ...createEmptyEmailTestSendForm(), ...props.form });
 
 watch(
-  () => props.formInline,
+  () => props.form,
   (v) => {
-    if (v) {
-      form.value = { id: v.id ?? '', email: v.email ?? '' };
-    }
+    form.value = { ...createEmptyEmailTestSendForm(), ...(v ?? {}) };
   },
   { deep: true }
 );

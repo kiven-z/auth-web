@@ -2,12 +2,11 @@
 import { nextTick, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 
-interface Props {
-  // 已渲染 HTML
+interface EmailTemplatePreviewDialogProps {
   html: string;
 }
 
-const props = defineProps<Props>();
+const props = defineProps<EmailTemplatePreviewDialogProps>();
 const { t } = useI18n();
 const previewFrameRef = ref<HTMLIFrameElement | null>(null);
 // 预览框高度
@@ -59,10 +58,10 @@ watch(
     <div class="border border-(--el-border-color) rounded p-4 overflow-auto" style="max-height: 70vh">
       <iframe
         ref="previewFrameRef"
+        :style="{ height: `${previewHeight}px` }"
         class="w-full border-0 block"
         sandbox="allow-same-origin"
         title="email-template-preview-dialog"
-        :style="{ height: `${previewHeight}px` }"
         @load="resizePreviewFrame(previewFrameRef)"
       />
     </div>

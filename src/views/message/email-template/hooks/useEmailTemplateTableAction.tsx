@@ -16,6 +16,7 @@ import { errorMessage, message } from '@/shared/messaging/message';
 import EmailTemplateDetailDialog from '@/views/message/email-template/components/EmailTemplateDetailDialog.vue';
 import EmailTemplateDialog from '@/views/message/email-template/components/EmailTemplateDialog.vue';
 import { useEmailTemplateTableMoreAction } from '@/views/message/email-template/hooks/useEmailTemplateTableMoreAction';
+import { createEmptyEmailTemplateForm } from '@/views/message/email-template/utils/email-template-form-mapper';
 import { h, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 
@@ -60,12 +61,7 @@ function useEmailTemplateTableAction(deps: TableActionDeps) {
    * 打开添加弹窗
    */
   const openCreateDialog = () => {
-    const form: Partial<EmailTemplateFormModel> = {
-      status: true,
-      priority: 5,
-      content: '',
-      requireFields: [],
-    };
+    const form = createEmptyEmailTemplateForm();
     const dlgFormRef = ref<FormDialogExpose | null>(null);
 
     addDialog({
@@ -75,7 +71,7 @@ function useEmailTemplateTableAction(deps: TableActionDeps) {
       fullscreenIcon: true,
       closeOnClickModal: false,
       closeOnPressEscape: false,
-      contentRenderer: () => h(EmailTemplateDialog, { ref: dlgFormRef, form: form as any }),
+      contentRenderer: () => h(EmailTemplateDialog, { ref: dlgFormRef }),
       beforeSure: async (done) => {
         try {
           const formInst = dlgFormRef.value?.formRef;
@@ -120,7 +116,7 @@ function useEmailTemplateTableAction(deps: TableActionDeps) {
         fullscreenIcon: true,
         closeOnClickModal: false,
         closeOnPressEscape: false,
-        contentRenderer: () => h(EmailTemplateDialog, { ref: dlgFormRef, form: form as any }),
+        contentRenderer: () => h(EmailTemplateDialog, { ref: dlgFormRef }),
         beforeSure: async (done) => {
           try {
             const formInst = dlgFormRef.value?.formRef;

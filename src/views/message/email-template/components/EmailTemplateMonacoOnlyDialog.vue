@@ -1,8 +1,9 @@
 <script lang="ts" setup>
-import { FormDialog } from '@/api/common';
-import { renderEmailTemplate, type EmailTemplateFormModel } from '@/api/system/email-template';
+import type { FormDialog } from '@/api/common';
+import { type EmailTemplateFormModel, renderEmailTemplate } from '@/api/system/email-template';
 import { MONACO_COMMON_EDITOR_OPTIONS } from '@/views/message/email-template/config/monaco-config';
 import { registerEmailTemplateMonaco } from '@/views/message/email-template/monaco/register-email-template-monaco';
+import { createEmptyEmailTemplateForm } from '@/views/message/email-template/utils/email-template-form-mapper';
 import type { FormInstance, FormRules } from 'element-plus';
 import debounce from 'lodash/debounce';
 import type { editor } from 'monaco-editor';
@@ -11,12 +12,31 @@ import { CodeEditor } from 'monaco-editor-vue3';
 import { nextTick, onMounted, onUnmounted, reactive, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 
-const props = withDefaults(defineProps<FormDialog<EmailTemplateFormModel>>(), {});
+const props = withDefaults(defineProps<FormDialog<EmailTemplateFormModel>>(), {
+  form: {},
+});
 
 const { t } = useI18n();
 
 const formRef = ref<FormInstance>();
-const form = ref(props.form);
+
+function mergeFormModel(): EmailTemplateFormModel {
+  return {
+    ...createEmptyEmailTemplateForm(),
+    ...(props.form ?? {}),
+  } as EmailTemplateFormModel;
+}
+
+const form = ref<EmailTemplateFormModel>(mergeFormModel());
+
+watch(
+  () => props.form,
+  () => {
+    form.value = mergeFormModel();
+    scheduleRender();
+  },
+  { deep: true }
+);
 
 const rules = reactive<FormRules>({
   // 内容
@@ -49,12 +69,8 @@ const resizePreviewFrame = (frame: HTMLIFrameElement | null) => {
   previewHeight.value = Math.min(PREVIEW_MAX_HEIGHT, Math.max(PREVIEW_MIN_HEIGHT, nextHeight));
 };
 
-/**
- * 定时渲染 HTML
- */
 const scheduleRender = debounce(async () => {
   try {
-    // 渲染 HTML
     renderedHtml.value = await renderEmailTemplate({
       content: form.value.content ?? '',
       requireFields: form.value.requireFields ?? [],
@@ -68,11 +84,10 @@ const scheduleRender = debounce(async () => {
  * 监听表单数据变化
  */
 watch(
-  () => props.form,
+  () => form.value.content,
   () => {
     scheduleRender();
-  },
-  { deep: true, flush: 'post' }
+  }
 );
 
 /**
