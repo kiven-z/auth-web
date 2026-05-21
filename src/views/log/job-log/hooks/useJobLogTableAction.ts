@@ -40,7 +40,8 @@ function useJobLogTableAction(deps: TableActionWithSelectionDeps) {
   };
 
   /**
-   * 批量删除
+   * 批量删除（单行传 [row.id]，未传 ids 时使用表格多选）
+   * @param ids 主键列表，可选
    */
   const deleteBatchRows = async (ids?: string[]) => {
     const confirm = await deleteConfirm();

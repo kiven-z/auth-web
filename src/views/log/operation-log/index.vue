@@ -45,7 +45,7 @@ const {
 });
 
 // 操作列按钮事件
-const { openDetailDialog, deleteRow, deleteBatchRows } = useOperationLogTableAction({
+const { openDetailDialog, deleteBatchRows } = useOperationLogTableAction({
   fetchTableData,
   selectedRows,
 });
@@ -194,7 +194,9 @@ onMounted(() => {
               <!-- 查看 -->
               <el-button link type="primary" @click="openDetailDialog(row)">{{ t('buttons.actionView') }}</el-button>
               <!-- 删除 -->
-              <el-button link type="danger" @click="deleteRow(row)">{{ t('buttons.actionDelete') }}</el-button>
+              <el-button link type="danger" @click="deleteBatchRows([row.id])">
+                {{ t('buttons.actionDelete') }}
+              </el-button>
             </div>
           </template>
         </AuthDataTable>

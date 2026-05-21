@@ -132,17 +132,17 @@ function useMenuTableAction(deps: MenuTableActionDeps) {
   };
 
   /**
-   * 删除
-   * @param ids 行ID列表
+   * 批量删除（单行传 [row.id]，未传 ids 时使用表格多选）
+   * @param ids 主键列表，可选
    */
-  const handleDelete = async (ids: string[]) => {
-    if (ids.length <= 0) {
-      return;
-    }
+  const deleteBatchRows = async (ids?: string[]) => {
+    ids = ids || deps.selectedRows.value;
+
     const ok = await deleteConfirm();
     if (!ok) {
       return;
     }
+
     try {
       await deleteMenus(ids);
       message(t('tips.deleteSuccess'), { type: 'success' });
@@ -175,7 +175,7 @@ function useMenuTableAction(deps: MenuTableActionDeps) {
     openCreateDialog,
     openEditDialog,
     openDetailDialog,
-    handleDelete,
+    deleteBatchRows,
     batchUpdateStatus,
   };
 }

@@ -38,30 +38,14 @@ function useLoginLogTableAction(deps: TableActionWithSelectionDeps) {
   };
 
   /**
-   * 删除
-   * @param row 行数据
+   * 批量删除（单行传 [row.id]，未传 ids 时使用表格多选）
+   * @param ids 主键列表，可选
    */
-  const deleteRow = async (row: LoginLogPageRow) => {
+  const deleteBatchRows = async (ids?: string[]) => {
     const confirm = await deleteConfirm();
     if (!confirm) return;
 
-    try {
-      await deleteLoginLog([row.id]);
-      message(t('tips.deleteSuccess'), { type: 'success' });
-      await fetchTableData();
-    } catch (error: unknown) {
-      errorMessage(error, { defaultI18nKey: 'loginLog.loadFailed' });
-    }
-  };
-
-  /**
-   * 批量删除
-   */
-  const deleteBatchRows = async () => {
-    const confirm = await deleteConfirm();
-    if (!confirm) return;
-
-    const ids = selectedRows.value;
+    ids = ids || selectedRows.value;
     try {
       await deleteLoginLog(ids);
       message(t('tips.deleteSuccess'), { type: 'success' });
@@ -74,7 +58,6 @@ function useLoginLogTableAction(deps: TableActionWithSelectionDeps) {
 
   return {
     openDetailDialog,
-    deleteRow,
     deleteBatchRows,
   };
 }

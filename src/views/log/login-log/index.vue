@@ -44,7 +44,7 @@ const {
 });
 
 // 操作列按钮事件
-const { openDetailDialog, deleteRow, deleteBatchRows } = useLoginLogTableAction({
+const { openDetailDialog, deleteBatchRows } = useLoginLogTableAction({
   fetchTableData,
   selectedRows,
 });
@@ -181,7 +181,9 @@ onMounted(() => {
           <template #actions="{ row }">
             <div class="flex justify-center">
               <el-button link type="primary" @click="openDetailDialog(row)">{{ t('buttons.actionView') }}</el-button>
-              <el-button link type="danger" @click="deleteRow(row)">{{ t('buttons.actionDelete') }}</el-button>
+              <el-button link type="danger" @click="deleteBatchRows([row.id])">
+                {{ t('buttons.actionDelete') }}
+              </el-button>
             </div>
           </template>
         </AuthDataTable>

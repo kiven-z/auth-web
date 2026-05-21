@@ -40,30 +40,14 @@ function usePasswordHistoryTableAction(deps: TableActionWithSelectionDeps) {
   };
 
   /**
-   * 删除单条密码历史日志
-   * @param row 密码历史日志数据
+   * 批量删除（单行传 [row.id]，未传 ids 时使用表格多选）
+   * @param ids 主键列表，可选
    */
-  const deleteRow = async (row: PasswordHistoryPageRow) => {
+  const deleteBatchRows = async (ids?: string[]) => {
     const confirm = await deleteConfirm();
     if (!confirm) return;
 
-    try {
-      await deletePasswordHistory([row.id]);
-      message(t('tips.deleteSuccess'), { type: 'success' });
-      await fetchTableData();
-    } catch (error: unknown) {
-      errorMessage(error, { defaultI18nKey: 'passwordHistory.loadFailed' });
-    }
-  };
-
-  /**
-   * 批量删除密码历史日志
-   */
-  const deleteBatchRows = async () => {
-    const confirm = await deleteConfirm();
-    if (!confirm) return;
-
-    const ids = selectedRows.value;
+    ids = ids || selectedRows.value;
     try {
       await deletePasswordHistory(ids);
       message(t('tips.deleteSuccess'), { type: 'success' });
@@ -76,7 +60,6 @@ function usePasswordHistoryTableAction(deps: TableActionWithSelectionDeps) {
 
   return {
     openDetailDialog,
-    deleteRow,
     deleteBatchRows,
   };
 }

@@ -1,4 +1,4 @@
-import type { TableActionDeps } from '@/api/common';
+import type { TableActionWithSelectionDeps } from '@/api/common';
 import type { EmailTemplateFormModel } from '@/api/system/email-template';
 import {
   batchDeleteEmailTemplates,
@@ -52,8 +52,8 @@ function toFormFromDetail(detail: EmailTemplateDetailVO, id: string): EmailTempl
 /**
  * 邮件模板表格操作：弹窗与写接口
  */
-function useEmailTemplateTableAction(deps: TableActionDeps) {
-  const { fetchTableData } = deps;
+function useEmailTemplateTableAction(deps: TableActionWithSelectionDeps) {
+  const { fetchTableData, selectedRows } = deps;
   const { t } = useI18n();
   const moreActions = useEmailTemplateTableMoreAction({ fetchTableData });
 
@@ -165,16 +165,18 @@ function useEmailTemplateTableAction(deps: TableActionDeps) {
   };
 
   /**
-   * 批量删除
-   * @param ids 模板 ID 数组
+   * 批量删除（单行传 [row.id]，未传 ids 时使用表格多选）
+   * @param ids 主键列表，可选
    */
-  const handleBatchDelete = async (ids: string[]) => {
-    if (ids.length <= 0) return;
+  const deleteBatchRows = async (ids?: string[]) => {
     const confirm = await deleteConfirm();
     if (!confirm) return;
+
+    ids = ids || selectedRows.value;
     try {
       await batchDeleteEmailTemplates(ids);
       message(t('tips.deleteSuccess'), { type: 'success' });
+      selectedRows.value = [];
       await fetchTableData();
     } catch (error: unknown) {
       errorMessage(error, { defaultI18nKey: 'emailTemplate.loadFailed' });
@@ -202,7 +204,7 @@ function useEmailTemplateTableAction(deps: TableActionDeps) {
     openCreateDialog,
     openEditDialog,
     openDetailDialog,
-    handleBatchDelete,
+    deleteBatchRows,
     batchUpdateStatus,
   };
 }

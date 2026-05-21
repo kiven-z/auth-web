@@ -50,9 +50,9 @@ const {
   openRequireFields,
   openTestSend,
   openTemplateContentEdit,
-  handleBatchDelete,
+  deleteBatchRows,
   batchUpdateStatus,
-} = useEmailTemplateTableAction({ fetchTableData });
+} = useEmailTemplateTableAction({ fetchTableData, selectedRows });
 
 onMounted(() => {
   fetchTableData();
@@ -140,7 +140,7 @@ onMounted(() => {
 
             <template #dropdown>
               <!-- 批量删除 -->
-              <el-dropdown-item :disabled="selectedRows.length <= 0" @click="handleBatchDelete(selectedRows)">
+              <el-dropdown-item :disabled="selectedRows.length <= 0" @click="deleteBatchRows()">
                 {{ t('buttons.actionBatchDelete') }}
               </el-dropdown-item>
             </template>
@@ -175,7 +175,7 @@ onMounted(() => {
             <!-- 编辑 -->
             <el-button link type="primary" @click="openEditDialog(row)">{{ t('buttons.actionEdit') }}</el-button>
             <!-- 删除 -->
-            <el-button link type="danger" @click="handleBatchDelete([row.id])">
+            <el-button link type="danger" @click="deleteBatchRows([row.id])">
               {{ t('buttons.actionDelete') }}
             </el-button>
             <!-- 更多 -->

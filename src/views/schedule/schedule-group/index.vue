@@ -37,7 +37,9 @@ const {
   errorI18nKey: 'scheduleGroup.loadFailed',
 });
 
-const { openCreateDialog, openEditDialog, openDetailDialog, deleteRow } = useJobGroupTableAction({ fetchTableData });
+const { openCreateDialog, openEditDialog, openDetailDialog, deleteBatchRow } = useJobGroupTableAction({
+  fetchTableData,
+});
 
 onMounted(() => {
   fetchTableData();
@@ -63,8 +65,8 @@ onMounted(() => {
       <!-- 分组状态 -->
       <el-form-item :label="t('scheduleGroup.status')" prop="status">
         <el-select v-model="searchForm.status" :placeholder="t('scheduleGroup.status')" class="w-[160px]!" clearable>
-          <el-option :label="t('scheduleGroup.statusEnabled')" :value="true" />
-          <el-option :label="t('scheduleGroup.statusDisabled')" :value="false" />
+          <el-option :label="t('buttons.statusActiveText')" :value="true" />
+          <el-option :label="t('buttons.statusInactiveText')" :value="false" />
         </el-select>
       </el-form-item>
 
@@ -115,7 +117,7 @@ onMounted(() => {
               <!-- 修改/编辑 -->
               <el-button link type="primary" @click="openEditDialog(row)">{{ t('buttons.actionEdit') }}</el-button>
               <!-- 删除 -->
-              <el-button :disabled="row.isSystem" link type="danger" @click="deleteRow(row)">
+              <el-button :disabled="row.isSystem" link type="danger" @click="deleteBatchRow(row.id)">
                 {{ t('buttons.actionDelete') }}
               </el-button>
             </div>

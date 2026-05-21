@@ -42,7 +42,7 @@ const {
   errorI18nKey: 'authorizationAudit.loadFailed',
 });
 
-const { openDetailDialog, deleteRow, deleteBatchRows } = useAuthorizationAuditTableAction({
+const { openDetailDialog, deleteBatchRows } = useAuthorizationAuditTableAction({
   fetchTableData,
   selectedRows,
 });
@@ -165,7 +165,9 @@ onMounted(() => {
               <!-- 查看 -->
               <el-button link type="primary" @click="openDetailDialog(row)">{{ t('buttons.actionView') }}</el-button>
               <!-- 删除 -->
-              <el-button link type="danger" @click="deleteRow(row)">{{ t('buttons.actionDelete') }}</el-button>
+              <el-button link type="danger" @click="deleteBatchRows([row.id])">
+                {{ t('buttons.actionDelete') }}
+              </el-button>
             </div>
           </template>
         </AuthDataTable>

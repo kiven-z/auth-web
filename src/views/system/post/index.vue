@@ -37,15 +37,15 @@ const {
 } = usePaginationState({
   fetchApi: getPostPage,
   searchForm: reactive({
-    postCode: undefined as string | undefined,
-    postName: undefined as string | undefined,
-    deptName: undefined as string | undefined,
-    status: undefined as boolean | undefined,
+    postCode: undefined,
+    postName: undefined,
+    deptName: undefined,
+    status: undefined,
   }),
   errorI18nKey: 'post.loadFailed',
 });
 
-const { openCreateDialog, openDetailDialog, handleDelete } = usePostTableAction({ fetchTableData });
+const { openCreateDialog, openDetailDialog, deleteBatchRows } = usePostTableAction({ fetchTableData });
 
 onMounted(() => {
   fetchTableData();
@@ -144,7 +144,9 @@ onMounted(() => {
               <!-- 修改 -->
               <el-button link type="primary">{{ t('buttons.actionEdit') }}</el-button>
               <!-- 删除 -->
-              <el-button link type="danger" @click="handleDelete(row)">{{ t('buttons.actionDelete') }}</el-button>
+              <el-button link type="danger" @click="deleteBatchRows([row.id])">
+                {{ t('buttons.actionDelete') }}
+              </el-button>
 
               <el-dropdown class="ml-1" trigger="click">
                 <el-button class="el-dropdown-link" link type="primary">{{ t('buttons.actionMore') }}</el-button>

@@ -1,10 +1,10 @@
 import type { TableActionDeps } from '@/api/common';
 import {
   createJobGroup,
-  deleteJobGroup,
-  updateJobGroup,
   type CreateJobGroupRequest,
+  deleteJobGroup,
   type SysJobGroupPageRow,
+  updateJobGroup,
 } from '@/api/schedule/job-group';
 import { addDialog } from '@/components/ui/Dialog';
 import { deleteConfirm } from '@/shared/messaging/dialog';
@@ -118,15 +118,16 @@ function useJobGroupTableAction(deps: TableActionDeps) {
   };
 
   /**
-   * 删除任务分组
-   * @param row 任务分组数据
+   * 批量删除（单行传 [row.id]；接口为单条删除时按 id 依次调用）
+   * @param id 主键
    */
-  const deleteRow = async (row: SysJobGroupPageRow) => {
+  const deleteBatchRow = async (id: string) => {
     const confirm = await deleteConfirm();
     if (!confirm) return;
 
     try {
-      await deleteJobGroup(row.id);
+      await deleteJobGroup(id);
+
       message(t('tips.deleteSuccess'), { type: 'success' });
       await fetchTableData();
     } catch (error: unknown) {
@@ -138,7 +139,7 @@ function useJobGroupTableAction(deps: TableActionDeps) {
     openCreateDialog,
     openEditDialog,
     openDetailDialog,
-    deleteRow,
+    deleteBatchRow,
   };
 }
 

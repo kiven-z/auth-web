@@ -35,7 +35,7 @@ const {
   refresh,
 } = useMenuPageState();
 
-const { openCreateDialog, openEditDialog, openDetailDialog, handleDelete, batchUpdateStatus } = useMenuTableAction({
+const { openCreateDialog, openEditDialog, openDetailDialog, deleteBatchRows, batchUpdateStatus } = useMenuTableAction({
   fetchTableData,
   fetchTreeData,
   refresh,
@@ -158,7 +158,7 @@ defineExpose({ tableRef });
           <el-dropdown trigger="click">
             <el-button type="danger">{{ t('buttons.actionAdvanced') }}</el-button>
             <template #dropdown>
-              <el-dropdown-item :disabled="selectedRows.length <= 0" @click="handleDelete(selectedRows)">
+              <el-dropdown-item :disabled="selectedRows.length <= 0" @click="deleteBatchRows()">
                 {{ t('buttons.actionBatchDelete') }}
               </el-dropdown-item>
             </template>
@@ -191,7 +191,9 @@ defineExpose({ tableRef });
             <div class="flex justify-center flex-wrap gap-x-1">
               <el-button link type="primary" @click="openDetailDialog(row)">{{ t('buttons.actionView') }}</el-button>
               <el-button link type="primary" @click="openEditDialog(row)">{{ t('buttons.actionEdit') }}</el-button>
-              <el-button link type="danger" @click="handleDelete([row.id])">{{ t('buttons.actionDelete') }}</el-button>
+              <el-button link type="danger" @click="deleteBatchRows([row.id])">
+                {{ t('buttons.actionDelete') }}
+              </el-button>
               <el-dropdown class="ml-1" trigger="click">
                 <el-button class="el-dropdown-link" link type="primary">{{ t('buttons.actionMore') }}</el-button>
                 <template #dropdown>

@@ -22,7 +22,7 @@ const { expandedKeys, expandAll, collapseAll } = useElTreeExpandCollapse({
   treeData,
 });
 
-const { openCreateDialog, openEditDialog, openDetailDialog, handleDelete } = useMenuTableAction({
+const { openCreateDialog, openEditDialog, openDetailDialog, deleteBatchRows } = useMenuTableAction({
   fetchTableData,
   fetchTreeData,
   refresh,
@@ -93,7 +93,7 @@ onMounted(() => {
                 </el-tag>
               </template>
               <el-tag :type="data.status ? 'success' : 'danger'" effect="plain" size="small">
-                {{ data.status ? t('sysMenu.statusEnabled') : t('sysMenu.statusDisabled') }}
+                {{ data.status ? t('buttons.statusActiveText') : t('buttons.statusInactiveText') }}
               </el-tag>
               <div class="ml-auto flex flex-wrap items-center gap-x-1" @click.stop>
                 <!-- 添加 -->
@@ -107,7 +107,7 @@ onMounted(() => {
                 </el-button>
 
                 <!-- 删除 -->
-                <el-button link size="small" type="danger" @click="handleDelete([data.id])">
+                <el-button link size="small" type="danger" @click="deleteBatchRows([data.id])">
                   {{ t('buttons.actionDelete') }}
                 </el-button>
 

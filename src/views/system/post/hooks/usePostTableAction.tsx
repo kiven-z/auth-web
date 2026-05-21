@@ -76,14 +76,15 @@ function usePostTableAction(deps: TableActionDeps) {
   };
 
   /**
-   * 删除岗位
-   * @param row 表格行数据
+   * 批量删除（单行传 [row.id]；未传 ids 时暂不支持多选，待对接批量删除接口）
+   * @param ids 主键列表，可选
    */
-  const handleDelete = async (row: SysPostPageRow) => {
+  const deleteBatchRows = async (ids?: string[]) => {
     const confirmed = await deleteConfirm();
     if (!confirmed) return;
+
     try {
-      // 后续对接批量删除接口，当前仅做刷新
+      // 后续对接 batchDeletePosts(ids)
       message(t('tips.deleteSuccess'), { type: 'success' });
       await fetchTableData();
     } catch (error: unknown) {
@@ -94,7 +95,7 @@ function usePostTableAction(deps: TableActionDeps) {
   return {
     openCreateDialog,
     openDetailDialog,
-    handleDelete,
+    deleteBatchRows,
   };
 }
 
