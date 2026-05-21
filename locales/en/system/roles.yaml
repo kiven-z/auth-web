@@ -19,6 +19,7 @@ roles:
   loadFailed: Failed to load roles
   dialogViewTitle: View role details
   # Table headers
+  dialogCreateTitle: Add Role
   roleCode: Role Code
   roleName: Role Name
   status: Status
@@ -37,3 +38,6 @@ roles:
   roleTypeMenu: Menu Role
   roleTypeBusiness: Business Role
   roleTypeCustom: Custom Role
+  roleCodeLengthLimit: Role code cannot exceed 64 characters
+  roleNameLengthLimit: Role name cannot exceed 128 characters
+  remarkLengthLimit: Remark cannot exceed 500 characters

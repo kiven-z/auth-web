@@ -47,7 +47,7 @@ const {
   errorI18nKey: 'roles.loadFailed',
 });
 
-const { openDetailDialog, openEditDialog } = useRoleTableAction({ fetchTableData });
+const { openCreateDialog, openDetailDialog, openEditDialog } = useRoleTableAction({ fetchTableData });
 
 onMounted(() => {
   fetchTableData();
@@ -111,7 +111,7 @@ onMounted(() => {
       <template #buttons>
         <el-button-group type="primary">
           <!-- 添加 -->
-          <el-button type="primary">{{ t('buttons.actionAdd') }}</el-button>
+          <el-button type="primary" @click="openCreateDialog">{{ t('buttons.actionAdd') }}</el-button>
 
           <el-dropdown trigger="click">
             <el-button type="danger">

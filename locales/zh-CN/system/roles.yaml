@@ -19,6 +19,7 @@ roles:
   loadFailed: 加载角色列表失败
   dialogViewTitle: 查看角色详情
   # 表头
+  dialogCreateTitle: 新增角色
   roleCode: 角色编码
   roleName: 角色名称
   status: 状态
@@ -37,3 +38,6 @@ roles:
   roleTypeMenu: 菜单角色
   roleTypeBusiness: 业务角色
   roleTypeCustom: 自定义角色
+  roleCodeLengthLimit: 角色编码长度不能超过64个字符
+  roleNameLengthLimit: 角色名称长度不能超过128个字符
+  remarkLengthLimit: 备注长度不能超过500个字符
