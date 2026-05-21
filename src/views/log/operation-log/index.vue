@@ -75,7 +75,7 @@ onMounted(() => {
           :loading="userSearchLoading"
           :placeholder="t('operationLog.placeholder.userId')"
           :remote-method="loadUserListByKeyword"
-          class="w-[200px]!"
+          class="w-[180px]!"
           clearable
           filterable
           remote
@@ -106,7 +106,7 @@ onMounted(() => {
         <el-input
           v-model="searchForm.module"
           :placeholder="t('operationLog.placeholder.module')"
-          class="w-[200px]!"
+          class="w-[180px]!"
           clearable
         />
       </el-form-item>

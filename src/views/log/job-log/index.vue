@@ -66,7 +66,7 @@ onMounted(() => {
         <el-input
           v-model="searchForm.jobName"
           :placeholder="t('logJob.placeholder.jobName')"
-          class="w-[200px]!"
+          class="w-[180px]!"
           clearable
         />
       </el-form-item>
@@ -75,7 +75,7 @@ onMounted(() => {
         <el-input
           v-model="searchForm.jobGroup"
           :placeholder="t('logJob.placeholder.jobGroup')"
-          class="w-[200px]!"
+          class="w-[180px]!"
           clearable
         />
       </el-form-item>

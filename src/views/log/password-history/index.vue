@@ -73,7 +73,7 @@ onMounted(() => {
           :loading="userSearchLoading"
           :placeholder="t('passwordHistory.placeholder.userId')"
           :remote-method="loadUserListByKeyword"
-          class="w-[200px]!"
+          class="w-[180px]!"
           clearable
           filterable
           remote

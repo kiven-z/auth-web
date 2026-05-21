@@ -68,7 +68,7 @@ defineExpose({ tableRef });
         <el-input
           v-model="searchForm.name"
           :placeholder="t('sysMenu.placeholder.routeName')"
-          class="w-[200px]!"
+          class="w-[180px]!"
           clearable
         />
       </el-form-item>
@@ -77,7 +77,7 @@ defineExpose({ tableRef });
         <el-input
           v-model="searchForm.title"
           :placeholder="t('sysMenu.placeholder.menuTitle')"
-          class="w-[200px]!"
+          class="w-[180px]!"
           clearable
         />
       </el-form-item>
@@ -118,7 +118,7 @@ defineExpose({ tableRef });
         <el-input
           v-model="searchForm.component"
           :placeholder="t('sysMenu.placeholder.component')"
-          class="w-[200px]!"
+          class="w-[180px]!"
           clearable
         />
       </el-form-item>

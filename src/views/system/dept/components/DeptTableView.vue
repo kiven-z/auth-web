@@ -45,12 +45,12 @@ onMounted(() => {
     >
       <!-- 部门名称 -->
       <el-form-item :label="t('dept.deptName')" prop="deptName">
-        <el-input v-model="searchForm.deptName" :placeholder="t('dept.deptName')" class="w-[200px]!" clearable />
+        <el-input v-model="searchForm.deptName" :placeholder="t('dept.deptName')" class="w-[180px]!" clearable />
       </el-form-item>
 
       <!-- 部门编码 -->
       <el-form-item :label="t('dept.deptCode')" prop="deptCode">
-        <el-input v-model="searchForm.deptCode" :placeholder="t('dept.deptCode')" class="w-[200px]!" clearable />
+        <el-input v-model="searchForm.deptCode" :placeholder="t('dept.deptCode')" class="w-[180px]!" clearable />
       </el-form-item>
 
       <!-- 状态 -->

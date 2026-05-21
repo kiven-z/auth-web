@@ -42,12 +42,13 @@ function useLoginLogTableColumns() {
       minWidth: 130,
       formatter: (row: LoginLogPageRow) => {
         const uid = row.userId;
+        const displayName = row.username?.trim() || '—';
         if (!uid) {
-          return <span>{row.username ?? '—'}</span>;
+          return <span>{displayName}</span>;
         }
         return (
           <ElButton link type="primary" onClick={() => selectUserinfo(uid, row.username ?? '')}>
-            {row.username ?? uid}
+            {displayName}
           </ElButton>
         );
       },

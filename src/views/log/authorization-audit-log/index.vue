@@ -85,7 +85,7 @@ onMounted(() => {
         <el-input
           v-model="searchForm.decisionReason"
           :placeholder="t('authorizationAudit.placeholder.decisionReason')"
-          class="w-[200px]!"
+          class="w-[180px]!"
           clearable
         />
       </el-form-item>
@@ -94,7 +94,7 @@ onMounted(() => {
         <el-input
           v-model="searchForm.className"
           :placeholder="t('authorizationAudit.placeholder.className')"
-          class="w-[200px]!"
+          class="w-[180px]!"
           clearable
         />
       </el-form-item>
@@ -105,7 +105,7 @@ onMounted(() => {
           :loading="userSearchLoading"
           :placeholder="t('authorizationAudit.placeholder.createUserId')"
           :remote-method="loadUserListByKeyword"
-          class="w-[200px]!"
+          class="w-[180px]!"
           clearable
           filterable
           remote
