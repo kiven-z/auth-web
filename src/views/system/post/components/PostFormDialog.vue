@@ -1,21 +1,19 @@
 <script lang="ts" setup>
+import type { FormDialog } from '@/api/common';
 import type { SysPostCreateForm } from '@/api/system/post';
 import type { FormInstance, FormRules } from 'element-plus';
 import { reactive, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 
-const props = withDefaults(
-  defineProps<{
-    formInline?: Partial<SysPostCreateForm>;
-  }>(),
-  {
-    formInline: () => ({}),
-  }
-);
+interface PostFormDialogProps extends FormDialog<SysPostCreateForm> {}
+
+const props = withDefaults(defineProps<PostFormDialogProps>(), {
+  form: {},
+});
 
 const { t } = useI18n();
 const formRef = ref<FormInstance>();
-const form = ref<SysPostCreateForm>(props.formInline as SysPostCreateForm);
+const form = ref<SysPostCreateForm>(props.form);
 
 const rules = reactive<FormRules>({
   deptId: [{ required: true, message: t('post.deptName'), trigger: 'change' }],
@@ -60,7 +58,7 @@ defineExpose({ formRef, form });
       <!-- 显示顺序 -->
       <el-col :lg="12" :md="12" :sm="12" :xs="24">
         <el-form-item :label="t('post.orderNum')" prop="orderNum">
-          <el-input-number v-model="form.orderNum" :min="0" :max="9999" />
+          <el-input-number v-model="form.orderNum" :max="9999" :min="0" />
         </el-form-item>
       </el-col>
       <!-- 备注 -->

@@ -6,6 +6,7 @@ import { deleteConfirm } from '@/shared/messaging/dialog';
 import { errorMessage, message } from '@/shared/messaging/message';
 import PostDetailDialog from '@/views/system/post/components/PostDetailDialog.vue';
 import PostFormDialog from '@/views/system/post/components/PostFormDialog.vue';
+import { createEmptyPostForm } from '@/views/system/post/utils/post-form-mapper';
 import { h, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 
@@ -28,24 +29,17 @@ function usePostTableAction(deps: TableActionDeps) {
    * 打开新增弹窗
    */
   const openCreateDialog = () => {
-    const formData: SysPostCreateForm = {
-      deptId: '',
-      postCode: '',
-      postName: '',
-      status: true,
-      orderNum: 0,
-      remark: '',
-    };
+    const formData = createEmptyPostForm();
     const dlgFormRef = ref<PostDialogFormExpose | null>(null);
 
     addDialog({
       title: t('post.dialogCreateTitle'),
-      props: { formInline: formData },
+      props: { form: formData },
       draggable: true,
       fullscreenIcon: true,
       closeOnClickModal: false,
       closeOnPressEscape: false,
-      contentRenderer: () => h(PostFormDialog, { ref: dlgFormRef, formInline: formData }),
+      contentRenderer: () => h(PostFormDialog, { ref: dlgFormRef }),
       beforeSure: async (done) => {
         try {
           const formInst = dlgFormRef.value?.formRef;
@@ -71,12 +65,12 @@ function usePostTableAction(deps: TableActionDeps) {
   const openDetailDialog = (row: SysPostPageRow) => {
     addDialog({
       title: t('post.dialogViewTitle'),
-      props: { row },
+      props: { data: row },
       draggable: true,
       fullscreenIcon: true,
       closeOnClickModal: false,
       closeOnPressEscape: false,
-      contentRenderer: () => h(PostDetailDialog, { row }),
+      contentRenderer: () => h(PostDetailDialog),
       beforeSure: (done) => done(),
     });
   };

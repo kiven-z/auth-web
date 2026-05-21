@@ -41,3 +41,8 @@ export interface TableActionWithSelectionDeps extends TableActionDeps {
 export interface FormDialog<T> {
   form?: T;
 }
+
+/** 详情弹窗/抽屉只读数据契约 */
+export interface DetailDialog<T> {
+  data?: T;
+}

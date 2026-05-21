@@ -5,6 +5,7 @@ import { addDialog } from '@/components/ui/Dialog';
 import { errorMessage, message } from '@/shared/messaging/message';
 import RoleDescriptionDialog from '@/views/system/role/components/RoleDescriptionDialog.vue';
 import RoleFormDialog from '@/views/system/role/components/RoleFormDialog.vue';
+import { createEmptyRoleForm } from '@/views/system/role/utils/role-form-mapper';
 import { h, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 
@@ -28,24 +29,17 @@ function useRoleTableAction(deps: TableActionDeps) {
    * 打开新增弹窗
    */
   const openCreateDialog = () => {
-    const formData: SysRoleCreateForm = {
-      roleCode: '',
-      roleName: '',
-      status: true,
-      roleType: 1,
-      orderNum: 0,
-      remark: '',
-    };
+    const formData = createEmptyRoleForm();
     const dlgFormRef = ref<RoleDialogFormExpose | null>(null);
 
     addDialog({
       title: t('roles.dialogCreateTitle'),
-      props: { formInline: formData },
+      props: { form: formData },
       draggable: true,
       fullscreenIcon: true,
       closeOnClickModal: false,
       closeOnPressEscape: false,
-      contentRenderer: () => h(RoleFormDialog, { ref: dlgFormRef, formInline: formData }),
+      contentRenderer: () => h(RoleFormDialog, { ref: dlgFormRef }),
       beforeSure: async (done) => {
         try {
           // 弹窗表单验证

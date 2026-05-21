@@ -5,7 +5,6 @@ import { getMenuList } from '@/api/system/menu';
 import AnimateSelector from '@/components/ui/AnimateSelecto/src/index.vue';
 import IconSelect from '@/components/ui/Icon/src/Select.vue';
 import { useRenderIcon } from '@/components/ui/Icon/src/hooks';
-import { MenuTypeEnums } from '@/views/system/menu/constants/menuEnums';
 import { transformI18n } from '@/plugins/i18n';
 import { handleTree } from '@/shared/lib/tree';
 import { errorMessage } from '@/shared/messaging/message';
@@ -13,6 +12,7 @@ import MenuTypeIframeDialog from '@/views/system/menu/components/MenuTypeIframeD
 import MenuTypeLinkDialog from '@/views/system/menu/components/MenuTypeLinkDialog.vue';
 import MenuTypeMenuDialog from '@/views/system/menu/components/MenuTypeMenuDialog.vue';
 import { menuTypeSegmentItems } from '@/views/system/menu/constants/menu-type-segment';
+import { MenuTypeEnums } from '@/views/system/menu/constants/menuEnums';
 import { createMenuFormRules } from '@/views/system/menu/utils/menu-columns';
 import { createEmptyMenuForm } from '@/views/system/menu/utils/menu-form-mapper';
 import { findMenuIdPath } from '@/views/system/menu/utils/menu-tree';
@@ -42,7 +42,7 @@ interface MenuDialogProps extends FormDialog<MenuForm> {
 
 const props = withDefaults(defineProps<MenuDialogProps>(), {
   isFormDisabled: false,
-  form: () => createEmptyMenuForm(),
+  form: {},
 });
 
 const { t } = useI18n();

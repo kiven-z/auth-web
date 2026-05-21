@@ -1,22 +1,21 @@
 <script lang="ts" setup>
+import type { FormDialog } from '@/api/common';
 import type { SysRoleCreateForm } from '@/api/system/role';
 import { ROLE_TYPE_FILTER_OPTIONS } from '@/views/system/role/constants/role-search-options';
+import { createEmptyRoleForm } from '@/views/system/role/utils/role-form-mapper';
 import type { FormInstance, FormRules } from 'element-plus';
-import { reactive, ref } from 'vue';
+import { reactive, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 
-const props = withDefaults(
-  defineProps<{
-    formInline?: Partial<SysRoleCreateForm>;
-  }>(),
-  {
-    formInline: () => ({}),
-  }
-);
+interface RoleFormDialogProps extends FormDialog<SysRoleCreateForm> {}
+
+const props = withDefaults(defineProps<RoleFormDialogProps>(), {
+  form: {},
+});
 
 const { t } = useI18n();
 const formRef = ref<FormInstance>();
-const form = ref<SysRoleCreateForm>(props.formInline as SysRoleCreateForm);
+const form = ref<SysRoleCreateForm>(props.form);
 
 const rules = reactive<FormRules>({
   roleCode: [
@@ -31,6 +30,14 @@ const rules = reactive<FormRules>({
   roleType: [{ required: true, message: t('roles.roleType'), trigger: 'change' }],
   remark: [{ max: 500, message: t('roles.remarkLengthLimit'), trigger: 'blur' }],
 });
+
+watch(
+  () => props.form,
+  (v) => {
+    form.value = { ...createEmptyRoleForm(), ...(v ?? {}) };
+  },
+  { deep: true }
+);
 
 defineExpose({ formRef, form });
 </script>
@@ -75,7 +82,7 @@ defineExpose({ formRef, form });
       <!-- 显示顺序 -->
       <el-col :lg="12" :md="12" :sm="12" :xs="24">
         <el-form-item :label="t('roles.orderNum')" prop="orderNum">
-          <el-input-number v-model="form.orderNum" :min="0" :max="9999" />
+          <el-input-number v-model="form.orderNum" :max="9999" :min="0" />
         </el-form-item>
       </el-col>
       <!-- 备注 -->
