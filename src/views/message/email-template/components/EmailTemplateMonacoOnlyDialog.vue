@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import type { FormDialog } from '@/api/common';
-import { renderEmailTemplate, type EmailTemplateMonacoFormModel } from '@/api/system/email-template';
+import { type EmailTemplateMonacoFormModel, renderEmailTemplate } from '@/api/system/email-template';
 import { MONACO_COMMON_EDITOR_OPTIONS } from '@/views/message/email-template/config/monaco-config';
 import { registerEmailTemplateMonaco } from '@/views/message/email-template/monaco/register-email-template-monaco';
 import type { FormInstance, FormRules } from 'element-plus';
@@ -33,8 +33,13 @@ const form = ref<EmailTemplateMonacoFormModel>({
 
 watch(
   () => props.form,
-  () => {
-    form.value = props.form;
+  (formPayload) => {
+    form.value = {
+      status: true,
+      priority: 5,
+      requireFields: [],
+      ...formPayload,
+    };
     scheduleRender();
   },
   { deep: true }

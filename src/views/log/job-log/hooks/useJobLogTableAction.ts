@@ -1,5 +1,5 @@
 import type { TableActionWithSelectionDeps } from '@/api/common';
-import { deleteJobLog, getJobLogDetail, type JobLogPageRow } from '@/api/log/job-log';
+import { deleteJobLog, getJobLogDetail, type JobLogDetailRow, type JobLogPageRow } from '@/api/log/job-log';
 import { addDialog } from '@/components/ui/Dialog';
 import { deleteConfirm } from '@/shared/messaging/dialog';
 import { errorMessage, message } from '@/shared/messaging/message';
@@ -19,7 +19,7 @@ function useJobLogTableAction(deps: TableActionWithSelectionDeps) {
    * @param row 行数据
    */
   const openDetailDialog = async (row: JobLogPageRow) => {
-    let detailData: any = row;
+    let detailData: JobLogDetailRow;
     try {
       detailData = await getJobLogDetail(row.id);
     } catch (error: unknown) {
@@ -31,11 +31,10 @@ function useJobLogTableAction(deps: TableActionWithSelectionDeps) {
       title: t('logJob.detailTitle'),
       width: '100%',
       draggable: false,
-      props: { data: detailData },
-      contentRenderer: () => h(JobLogDetailDialog),
-      beforeSure: (done) => {
-        done();
-      },
+      closeOnClickModal: false,
+      closeOnPressEscape: false,
+      hideFooter: true,
+      contentRenderer: () => h(JobLogDetailDialog, { data: detailData }),
     });
   };
 

@@ -1,5 +1,5 @@
 import type { TableActionWithSelectionDeps } from '@/api/common';
-import { deleteLoginLog, getLoginLogDetail, type LoginLogPageRow } from '@/api/log/login-log';
+import { deleteLoginLog, getLoginLogDetail, type LoginLogDetailRow, type LoginLogPageRow } from '@/api/log/login-log';
 import { addDialog } from '@/components/ui/Dialog';
 import { deleteConfirm } from '@/shared/messaging/dialog';
 import { errorMessage, message } from '@/shared/messaging/message';
@@ -19,7 +19,7 @@ function useLoginLogTableAction(deps: TableActionWithSelectionDeps) {
    * @param row 行数据
    */
   const openDetailDialog = async (row: LoginLogPageRow) => {
-    let detailData: any = row;
+    let detailData: LoginLogDetailRow;
     try {
       detailData = await getLoginLogDetail(row.id);
     } catch (error: unknown) {
@@ -31,9 +31,10 @@ function useLoginLogTableAction(deps: TableActionWithSelectionDeps) {
       title: t('loginLog.detailTitle'),
       width: '100%',
       draggable: false,
-      props: { data: detailData },
-      contentRenderer: () => h(LoginLogDetailDialog),
-      beforeSure: (done) => done(),
+      closeOnClickModal: false,
+      closeOnPressEscape: false,
+      hideFooter: true,
+      contentRenderer: () => h(LoginLogDetailDialog, { data: detailData }),
     });
   };
 

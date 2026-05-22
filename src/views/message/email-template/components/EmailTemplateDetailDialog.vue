@@ -1,12 +1,17 @@
 <script lang="tsx" setup>
-import type { IdDetailDialog } from '@/api/common';
-import { getEmailTemplateById, getEmailTemplatePreviewHtml } from '@/api/system/email-template';
+import {
+  getEmailTemplateById,
+  getEmailTemplatePreviewHtml,
+  type EmailTemplateDetailVO,
+} from '@/api/system/email-template';
 import ReDescription from '@/components/ui/Description/index';
+import { errorMessage } from '@/shared/messaging/message';
 import { ElTag } from 'element-plus';
 import { computed, nextTick, onMounted, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 
-interface EmailTemplateDetailDialogProps extends IdDetailDialog {
+/** 详情 + 预览：仅主键，组件内拉取接口 */
+interface EmailTemplateDetailDialogProps {
   id: string;
 }
 
@@ -18,7 +23,7 @@ const loading = ref(false);
 // 预览 iframe 引用
 const previewFrameRef = ref<HTMLIFrameElement | null>(null);
 // 详情数据
-const detail = ref({});
+const detail = ref<EmailTemplateDetailVO | null>(null);
 // 渲染后的 HTML
 const renderedHtml = ref('');
 
@@ -59,6 +64,8 @@ const onLoadData = async () => {
   try {
     detail.value = await getEmailTemplateById(props.id);
     renderedHtml.value = await getEmailTemplatePreviewHtml(props.id);
+  } catch (error: unknown) {
+    errorMessage(error, { defaultI18nKey: 'emailTemplate.loadFailed' });
   } finally {
     loading.value = false;
   }
@@ -86,7 +93,7 @@ onMounted(() => {
 
 <template>
   <div v-loading="loading">
-    <ReDescription :column="2" :columns="columns" :data="[detail]" border />
+    <ReDescription :column="2" :columns="columns" :data="detail ? [detail] : []" border />
 
     <div class="text-sm font-medium mb-2">{{ t('emailTemplate.renderedEffect') }}</div>
     <div class="border border-(--el-border-color) overflow-auto rounded bg-(--el-fill-color-blank)">

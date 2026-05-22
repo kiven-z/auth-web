@@ -11,7 +11,7 @@ defineOptions({
 
 type JobLogDetailDialogProps = DetailDialog<JobLogDetailRow>;
 
-defineProps<JobLogDetailDialogProps>();
+const props = defineProps<JobLogDetailDialogProps>();
 const { t } = useI18n();
 
 const columns = computed(() => [
@@ -24,7 +24,11 @@ const columns = computed(() => [
   // 执行报告
   { label: t('logJob.jobMessage'), prop: 'jobMessage', labelWidth: 120, copy: true },
   // 执行状态（展示文案）
-  { label: t('logJob.status'), prop: 'statusLabel', labelWidth: 120 },
+  {
+    label: t('logJob.status'),
+    prop: 'status',
+    labelWidth: 120,
+  },
   // 异常信息
   { label: t('logJob.exceptionInfo'), prop: 'exceptionInfo', labelWidth: 120, copy: true },
   // 耗时(ms)

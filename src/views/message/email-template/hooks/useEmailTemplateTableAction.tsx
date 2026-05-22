@@ -102,13 +102,12 @@ function useEmailTemplateTableAction(deps: TableActionWithSelectionDeps) {
   const openDetailDialog = (row: EmailTemplatePageRow) => {
     addDialog({
       title: t('emailTemplate.detailDialogTitle'),
-      props: { id: row.id },
       draggable: true,
       fullscreenIcon: true,
       closeOnClickModal: false,
       closeOnPressEscape: false,
       hideFooter: true,
-      contentRenderer: () => h(EmailTemplateDetailDialog),
+      contentRenderer: () => h(EmailTemplateDetailDialog, { id: row.id }),
     });
   };
 

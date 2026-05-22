@@ -11,7 +11,7 @@ defineOptions({
 
 type AuthorizationAuditDetailDialogProps = DetailDialog<AuthorizationAuditDetailRow>;
 
-defineProps<AuthorizationAuditDetailDialogProps>();
+const props = defineProps<AuthorizationAuditDetailDialogProps>();
 const { t } = useI18n();
 
 const columns = computed(() => [

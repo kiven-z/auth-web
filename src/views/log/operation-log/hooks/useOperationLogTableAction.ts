@@ -1,5 +1,10 @@
 import type { TableActionWithSelectionDeps } from '@/api/common';
-import { deleteOperationLog, getOperationLogDetail, type OperationLogPageRow } from '@/api/log/operation-log';
+import {
+  deleteOperationLog,
+  getOperationLogDetail,
+  type OperationLogDetailRow,
+  type OperationLogPageRow,
+} from '@/api/log/operation-log';
 import { addDialog } from '@/components/ui/Dialog';
 import { deleteConfirm } from '@/shared/messaging/dialog';
 import { errorMessage, message } from '@/shared/messaging/message';
@@ -20,7 +25,7 @@ function useOperationLogTableAction(deps: TableActionWithSelectionDeps) {
    * @param row 行数据
    */
   const openDetailDialog = useDebounceFn(async (row: OperationLogPageRow) => {
-    let detailData: any = row;
+    let detailData: OperationLogDetailRow;
     try {
       detailData = await getOperationLogDetail(row.id);
     } catch (error: unknown) {
@@ -33,11 +38,10 @@ function useOperationLogTableAction(deps: TableActionWithSelectionDeps) {
       width: '100%',
       fullscreenIcon: true,
       draggable: false,
-      props: { data: detailData },
-      contentRenderer: () => h(OperationLogDetailDialog),
-      beforeSure: async (done) => {
-        done();
-      },
+      closeOnClickModal: false,
+      closeOnPressEscape: false,
+      hideFooter: true,
+      contentRenderer: () => h(OperationLogDetailDialog, { data: detailData }),
     });
   });
 

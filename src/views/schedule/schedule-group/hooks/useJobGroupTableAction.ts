@@ -1,14 +1,14 @@
 import type { TableActionDeps } from '@/api/common';
 import {
   createJobGroup,
-  type CreateJobGroupRequest,
   deleteJobGroup,
-  type SysJobGroupPageRow,
   updateJobGroup,
+  type CreateJobGroupRequest,
+  type SysJobGroupPageRow,
   type UpdateJobGroupRequest,
 } from '@/api/schedule/job-group';
 import { addDialog } from '@/components/ui/Dialog';
-import { type FormOverlayExpose, useFormOverlaySubmit } from '@/shared/hooks/useFormOverlaySubmit';
+import { useFormOverlaySubmit, type FormOverlayExpose } from '@/shared/hooks/useFormOverlaySubmit';
 import { deleteConfirm } from '@/shared/messaging/dialog';
 import { errorMessage, message } from '@/shared/messaging/message';
 import ScheduleGroupDescriptionDialog from '@/views/schedule/schedule-group/components/ScheduleGroupDescriptionDialog.vue';
@@ -109,6 +109,8 @@ function useJobGroupTableAction(deps: TableActionDeps) {
       title: t('scheduleGroup.detailTitle'),
       draggable: true,
       fullscreenIcon: true,
+      closeOnClickModal: false,
+      closeOnPressEscape: false,
       hideFooter: true,
       contentRenderer: () => h(ScheduleGroupDescriptionDialog, { data: row }),
     });

@@ -2,6 +2,7 @@ import type { TableActionWithSelectionDeps } from '@/api/common';
 import {
   deletePasswordHistory,
   getPasswordHistoryDetail,
+  type PasswordHistoryDetailRow,
   type PasswordHistoryPageRow,
 } from '@/api/log/password-history';
 import { addDialog } from '@/components/ui/Dialog';
@@ -23,7 +24,7 @@ function usePasswordHistoryTableAction(deps: TableActionWithSelectionDeps) {
    * @param row 密码历史日志数据
    */
   const openDetailDialog = async (row: PasswordHistoryPageRow) => {
-    let detailData: any = row;
+    let detailData: PasswordHistoryDetailRow;
     try {
       detailData = await getPasswordHistoryDetail(row.id);
     } catch (error: unknown) {
@@ -33,9 +34,12 @@ function usePasswordHistoryTableAction(deps: TableActionWithSelectionDeps) {
 
     addDialog({
       title: t('passwordHistory.detailTitle'),
-      props: { data: detailData },
-      contentRenderer: () => h(PasswordHistoryDescriptionDialog),
-      beforeSure: (done) => done(),
+      width: '100%',
+      draggable: false,
+      closeOnClickModal: false,
+      closeOnPressEscape: false,
+      hideFooter: true,
+      contentRenderer: () => h(PasswordHistoryDescriptionDialog, { data: detailData }),
     });
   };
 

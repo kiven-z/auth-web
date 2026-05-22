@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { loginByEmailApi, sendEmailCodeApi } from '@/api/auth';
 import { useRenderIcon } from '@/components/ui/Icon/src/hooks';
-import { message } from '@/shared/messaging/message';
+import { errorMessage, message } from '@/shared/messaging/message';
 import { LoginFormEmits } from '@/views/home/login/constants/types';
 import { useLoginRemember } from '@/views/home/login/hooks/useLoginRemember';
 import { useSendCodeCountdown } from '@/views/home/login/hooks/useSendCodeCountdown';
@@ -45,8 +45,8 @@ const handleSendCode = async () => {
 
     // 开始倒计时
     startCountdown();
-  } catch {
-    message(t('login.authSendCodeFail'), { type: 'error' });
+  } catch (error: unknown) {
+    errorMessage(error, { defaultI18nKey: 'login.authSendCodeFail' });
   }
 };
 
@@ -54,26 +54,26 @@ const handleSendCode = async () => {
  * 提交登录
  */
 const handleSubmit = async () => {
-  // 表单未初始化
-  if (!formRef.value) return;
+  if (!formRef.value) {
+    return;
+  }
 
   // 验证表单
-  await formRef.value.validate(async (valid) => {
-    if (!valid) return;
-    loading.value = true;
+  const isValid = await formRef.value.validate().catch(() => false);
+  if (!isValid) {
+    return;
+  }
 
-    try {
-      await loginAndEstablishSession(() => loginByEmailApi({ ...formData, rememberMe: isRemembered.value }));
-      emit('login-success');
-    } catch (e) {
-      message(e.message, { type: 'error' });
-    } finally {
-      loading.value = false;
-    }
-  });
+  loading.value = true;
+  try {
+    await loginAndEstablishSession(() => loginByEmailApi({ ...formData, rememberMe: isRemembered.value }));
+    emit('login-success');
+  } catch (error: unknown) {
+    errorMessage(error, { defaultI18nKey: 'login.authLoginFail' });
+  } finally {
+    loading.value = false;
+  }
 };
-
-defineExpose({ handleSubmit });
 </script>
 
 <template>

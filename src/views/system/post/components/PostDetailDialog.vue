@@ -18,6 +18,7 @@ const columns = computed(() => [
   { label: t('post.postCode'), prop: 'postCode', labelWidth: 120 },
   { label: t('post.postName'), prop: 'postName', labelWidth: 120 },
   { label: t('post.deptName'), prop: 'deptName', labelWidth: 120 },
+  // FIXME 转成是否显示
   { label: t('post.status'), prop: 'status', labelWidth: 120 },
   { label: t('post.orderNum'), prop: 'orderNum', labelWidth: 120 },
   { label: t('table.createTime'), prop: 'createTime', labelWidth: 120 },

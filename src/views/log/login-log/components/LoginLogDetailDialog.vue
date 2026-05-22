@@ -2,8 +2,6 @@
 import type { DetailDialog } from '@/api/common';
 import type { LoginLogDetailRow } from '@/api/log/login-log';
 import Description from '@/components/ui/Description';
-import { useDescriptionDetailView } from '@/shared/hooks/useDescriptionDetailView';
-import { resolveI18nEnumLabel } from '@/shared/utils/i18n-display';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 
@@ -48,21 +46,8 @@ const columns = computed(() => [
   // 更新时间
   { label: t('table.updateTime'), prop: 'updateTime' },
 ]);
-
-/**
- * 详情视图
- */
-const view = useDescriptionDetailView(
-  () => props.data,
-  (d) => ({
-    ...d,
-    // TODO 待修改，优化枚举显示
-    loginResultLabel: resolveI18nEnumLabel(t, 'loginLog.loginResultEnum', d.loginResult),
-    loginTypeLabel: resolveI18nEnumLabel(t, 'loginLog.loginTypeEnum', d.loginType),
-  })
-);
 </script>
 
 <template>
-  <Description :column="2" :columns="columns" :data="[view]" />
+  <Description :column="2" :columns="columns" :data="[data]" />
 </template>

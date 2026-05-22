@@ -10,7 +10,7 @@ import { useI18n } from 'vue-i18n';
 import { useLoginRemember } from '@/views/home/login/hooks/useLoginRemember';
 import Motion from './Motion';
 
-import { message } from '@/shared/messaging/message';
+import { errorMessage } from '@/shared/messaging/message';
 import Lock from '~icons/ri/lock-fill';
 import User from '~icons/ri/user-3-fill';
 
@@ -33,25 +33,25 @@ const formData = reactive({
  * 提交登录
  */
 const handleSubmit = async () => {
-  // 表单未初始化
-  if (!formRef.value) return;
+  if (!formRef.value) {
+    return;
+  }
 
-  // 验证表单
-  await formRef.value.validate(async (valid) => {
-    if (!valid) return;
-    loading.value = true;
-    try {
-      await loginAndEstablishSession(() => loginByUsernameApi({ ...formData, rememberMe: isRemembered.value }));
-      emit('login-success');
-    } catch (e) {
-      message(e.message, { type: 'error' });
-    } finally {
-      loading.value = false;
-    }
-  });
+  const isValid = await formRef.value.validate().catch(() => false);
+  if (!isValid) {
+    return;
+  }
+
+  loading.value = true;
+  try {
+    await loginAndEstablishSession(() => loginByUsernameApi({ ...formData, rememberMe: isRemembered.value }));
+    emit('login-success');
+  } catch (error: unknown) {
+    errorMessage(error, { defaultI18nKey: 'login.authLoginFail' });
+  } finally {
+    loading.value = false;
+  }
 };
-
-defineExpose({ handleSubmit });
 </script>
 
 <template>
