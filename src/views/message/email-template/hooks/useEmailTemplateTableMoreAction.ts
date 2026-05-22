@@ -1,5 +1,5 @@
 import type { TableActionDeps } from '@/api/common';
-import type { EmailTemplateFormModel } from '@/api/system/email-template';
+import type { EmailTemplateMonacoFormModel } from '@/api/system/email-template';
 import {
   type EmailTemplatePageRow,
   getEmailTemplateById,
@@ -14,14 +14,22 @@ import { errorMessage } from '@/shared/messaging/message';
 import EmailTemplateMonacoOnlyDialog from '@/views/message/email-template/components/EmailTemplateMonacoOnlyDialog.vue';
 import EmailTemplatePreviewDialog from '@/views/message/email-template/components/EmailTemplatePreviewDialog.vue';
 import EmailTemplateRequireFieldsDialog from '@/views/message/email-template/components/EmailTemplateRequireFieldsDialog.vue';
-import type { EmailTestSendForm } from '@/views/message/email-template/components/EmailTemplateTestSendDialog.vue';
 import EmailTemplateTestSendDialog from '@/views/message/email-template/components/EmailTemplateTestSendDialog.vue';
+import { detailToMonacoForm } from '@/views/message/email-template/utils/email-template-form-mapper';
 import { h, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 type RequireFieldsExpose = {
   submit: () => Promise<boolean>;
 };
+
+/**
+ * 测试发送弹窗表单
+ */
+export interface EmailTestSendForm {
+  id: string;
+  email: string;
+}
 
 /**
  * 邮件模板表格「更多」菜单相关操作
@@ -125,8 +133,9 @@ export function useEmailTemplateTableMoreAction(options: TableActionDeps) {
    */
   const openTemplateContentEdit = async (row: EmailTemplatePageRow) => {
     try {
-      const formData = (await getEmailTemplateById(row.id)) as EmailTemplateFormModel;
-      const dialogFormRef = ref<FormOverlayExpose<EmailTemplateFormModel> | null>(null);
+      const detail = await getEmailTemplateById(row.id);
+      const formData = detailToMonacoForm(detail);
+      const dialogFormRef = ref<FormOverlayExpose<EmailTemplateMonacoFormModel> | null>(null);
 
       addDrawer({
         title: t('emailTemplate.templateEditDialogTitle'),
@@ -141,7 +150,7 @@ export function useEmailTemplateTableMoreAction(options: TableActionDeps) {
             ref: dialogFormRef,
             form: formData,
           }),
-        beforeSure: createFormBeforeSure<EmailTemplateFormModel>({
+        beforeSure: createFormBeforeSure<EmailTemplateMonacoFormModel>({
           formExposeRef: dialogFormRef,
           errorI18nKey: 'emailTemplate.loadFailed',
           successI18nKey: 'tips.editSuccess',

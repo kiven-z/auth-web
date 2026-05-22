@@ -3,14 +3,7 @@ import type { FormDialog } from '@/api/common';
 import type { FormInstance, FormRules } from 'element-plus';
 import { reactive, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
-
-/**
- * 测试发送弹窗表单
- */
-export interface EmailTestSendForm {
-  id: string;
-  email: string;
-}
+import { EmailTestSendForm } from '@/views/message/email-template/hooks/useEmailTemplateTableMoreAction';
 
 export interface EmailTemplateTestSendDialogProps extends FormDialog<EmailTestSendForm> {}
 

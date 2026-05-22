@@ -71,7 +71,7 @@ export interface EmailTemplateDetailVO {
 }
 
 /**
- * 弹窗/编辑器表单模型（前端）
+ * 新增/编辑弹窗表单
  */
 export interface EmailTemplateFormModel {
   id?: string;
@@ -83,6 +83,13 @@ export interface EmailTemplateFormModel {
   status: boolean;
   priority: number;
   content: string;
+}
+
+/**
+ * Monaco 模板编辑弹窗
+ */
+export interface EmailTemplateMonacoFormModel extends EmailTemplateFormModel {
+  requireFields?: EmailTemplateRequireFieldRow[];
 }
 
 /**

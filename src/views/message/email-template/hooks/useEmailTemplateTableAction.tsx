@@ -4,18 +4,19 @@ import {
   batchDeleteEmailTemplates,
   batchUpdateEmailTemplateStatus,
   createEmailTemplate,
-  type EmailTemplatePageRow,
   getEmailTemplateById,
   updateEmailTemplate,
+  type EmailTemplatePageRow,
 } from '@/api/system/email-template';
 import { addDialog } from '@/components/ui/Dialog';
 import { addDrawer } from '@/components/ui/Drawer';
-import { type FormOverlayExpose, useFormOverlaySubmit } from '@/shared/hooks/useFormOverlaySubmit';
+import { useFormOverlaySubmit, type FormOverlayExpose } from '@/shared/hooks/useFormOverlaySubmit';
 import { deleteConfirm } from '@/shared/messaging/dialog';
 import { errorMessage, message } from '@/shared/messaging/message';
 import EmailTemplateDetailDialog from '@/views/message/email-template/components/EmailTemplateDetailDialog.vue';
 import EmailTemplateDialog from '@/views/message/email-template/components/EmailTemplateDialog.vue';
 import { useEmailTemplateTableMoreAction } from '@/views/message/email-template/hooks/useEmailTemplateTableMoreAction';
+import { detailToEmailTemplateForm } from '@/views/message/email-template/utils/email-template-form-mapper';
 import { h, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 
@@ -61,7 +62,8 @@ function useEmailTemplateTableAction(deps: TableActionWithSelectionDeps) {
    */
   const openEditDialog = async (row: EmailTemplatePageRow) => {
     try {
-      const formData = (await getEmailTemplateById(row.id)) as EmailTemplateFormModel;
+      const detail = await getEmailTemplateById(row.id);
+      const formData = detailToEmailTemplateForm(detail);
       const dialogFormRef = ref<FormOverlayExpose<EmailTemplateFormModel> | null>(null);
 
       addDrawer({
@@ -105,8 +107,8 @@ function useEmailTemplateTableAction(deps: TableActionWithSelectionDeps) {
       fullscreenIcon: true,
       closeOnClickModal: false,
       closeOnPressEscape: false,
+      hideFooter: true,
       contentRenderer: () => h(EmailTemplateDetailDialog),
-      beforeSure: (done) => done(),
     });
   };
 

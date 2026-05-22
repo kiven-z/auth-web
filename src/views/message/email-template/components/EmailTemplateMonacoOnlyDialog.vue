@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import type { FormDialog } from '@/api/common';
-import { EmailTemplateFormModel, renderEmailTemplate } from '@/api/system/email-template';
+import { renderEmailTemplate, type EmailTemplateMonacoFormModel } from '@/api/system/email-template';
 import { MONACO_COMMON_EDITOR_OPTIONS } from '@/views/message/email-template/config/monaco-config';
 import { registerEmailTemplateMonaco } from '@/views/message/email-template/monaco/register-email-template-monaco';
 import type { FormInstance, FormRules } from 'element-plus';
@@ -15,15 +15,15 @@ defineOptions({
   name: 'EmailTemplateMonacoOnlyDialog',
 });
 
-const props = withDefaults(defineProps<FormDialog<EmailTemplateFormModel>>(), {
-  form: () => ({}) as EmailTemplateFormModel,
+const props = withDefaults(defineProps<FormDialog<EmailTemplateMonacoFormModel>>(), {
+  form: () => ({}) as EmailTemplateMonacoFormModel,
 });
 
 const { t } = useI18n();
 
 const formRef = ref<FormInstance>();
 
-const form = ref<EmailTemplateFormModel>({
+const form = ref<EmailTemplateMonacoFormModel>({
   status: true,
   priority: 5,
   content: '',
