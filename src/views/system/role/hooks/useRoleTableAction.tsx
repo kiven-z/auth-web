@@ -42,11 +42,10 @@ function useRoleTableAction(deps: TableActionDeps) {
   };
 
   /**
-   * 查看详情（待对接 getRoleDetail、RoleDetailDialog）
-   * @param _row 表格行
+   * 查看详情（后端有 GET /{id}，待对接 getRoleDetail 后改为拉详情；当前用分页行）
+   * @param row 表格行
    */
-  const openDetailDialog = (_row?: SysRolePageRow) => {
-    void _row;
+  const openDetailDialog = (row: SysRolePageRow) => {
     addDialog({
       title: t('roles.dialogViewTitle'),
       draggable: true,
@@ -54,7 +53,7 @@ function useRoleTableAction(deps: TableActionDeps) {
       closeOnPressEscape: false,
       closeOnClickModal: false,
       hideFooter: true,
-      contentRenderer: () => h(RoleDescriptionDialog),
+      contentRenderer: () => h(RoleDescriptionDialog, { data: row }),
     });
   };
 
@@ -62,7 +61,7 @@ function useRoleTableAction(deps: TableActionDeps) {
    * 编辑（待对接 getRoleDetail、updateRole）
    * @param _row 表格行
    */
-  const openEditDialog = async (_row?: SysRolePageRow) => {
+  const openEditDialog = async (_row: SysRolePageRow) => {
     void _row;
     // TODO: await getRoleDetail(row.id) → detailToForm → h(RoleFormDialog, { form })
   };

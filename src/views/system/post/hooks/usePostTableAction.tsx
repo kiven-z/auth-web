@@ -3,8 +3,6 @@ import type { SysPostCreateForm, SysPostPageRow } from '@/api/system/post';
 import { createPost } from '@/api/system/post';
 import { addDialog } from '@/components/ui/Dialog';
 import { useFormOverlaySubmit, type FormOverlayExpose } from '@/shared/hooks/useFormOverlaySubmit';
-import { deleteConfirm } from '@/shared/messaging/dialog';
-import { errorMessage, message } from '@/shared/messaging/message';
 import PostDetailDialog from '@/views/system/post/components/PostDetailDialog.vue';
 import PostFormDialog from '@/views/system/post/components/PostFormDialog.vue';
 import { h, ref } from 'vue';
@@ -69,11 +67,11 @@ function usePostTableAction(deps: TableActionDeps) {
   };
 
   /**
-   * 单行删除（待对接 deletePost / 批量删除接口）
-   * @param _row 表格行
+   * 单行删除（待对接 deletePost）
+   * @param row 表格行
    */
-  const deleteRow = async (_row: SysPostPageRow) => {
-    void _row;
+  const deleteRow = async (row: SysPostPageRow) => {
+    void row;
     // TODO: deleteConfirm → deletePost(row.id) → fetchTableData
   };
 
@@ -83,18 +81,7 @@ function usePostTableAction(deps: TableActionDeps) {
    */
   const deleteBatchRows = async (ids?: string[]) => {
     void ids;
-    const confirmed = await deleteConfirm();
-    if (!confirmed) {
-      return;
-    }
-
-    try {
-      // TODO: await batchDeletePosts(ids ?? selectedRows)
-      message(t('tips.deleteSuccess'), { type: 'success' });
-      await fetchTableData();
-    } catch (error: unknown) {
-      errorMessage(error, { defaultI18nKey: 'post.loadFailed' });
-    }
+    // TODO: deleteConfirm → batchDeletePosts(ids) → fetchTableData
   };
 
   /**

@@ -35,28 +35,6 @@ export function detailToForm(d: SysMenuDetailVO): MenuForm {
 }
 
 /**
- * 新建默认表单（仅新增弹层使用）
- */
-export function createEmptyMenuForm(): MenuForm {
-  return {
-    parentId: null,
-    menuType: MenuTypeEnums.MENU,
-    path: '',
-    name: '',
-    title: '',
-    menuRank: 0,
-    showLink: true,
-    showParent: true,
-    keepAlive: false,
-    status: true,
-    hiddenTag: false,
-    fixedTag: false,
-    frameLoading: true,
-    dynamicLevel: 1,
-  };
-}
-
-/**
  * 规范化父级 ID：空串视为 null，与后端 Long 可空对齐。
  */
 function normalizeParentId(v: string | null | undefined): string | null {

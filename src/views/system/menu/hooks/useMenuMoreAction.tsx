@@ -70,8 +70,10 @@ function useMenuMoreAction(deps: MenuTableActionDeps) {
       class: 'auth-assign-manage-drawer',
       direction: 'ttb',
       size: '100%',
+      resizable: true,
       closeOnClickModal: false,
       closeOnPressEscape: false,
+      showClose: true,
       contentRenderer: () =>
         h(MenuAssignPermissionDrawer, {
           ref: drawerRef,

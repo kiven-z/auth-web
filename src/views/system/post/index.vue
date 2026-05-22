@@ -45,7 +45,7 @@ const {
   errorI18nKey: 'post.loadFailed',
 });
 
-const { openCreateDialog, openDetailDialog, deleteBatchRows } = usePostTableAction({ fetchTableData });
+const { openCreateDialog, openDetailDialog, openEditDialog, deleteRow } = usePostTableAction({ fetchTableData });
 
 onMounted(() => {
   fetchTableData();
@@ -142,9 +142,9 @@ onMounted(() => {
               <!-- 查看 -->
               <el-button link type="primary" @click="openDetailDialog(row)">{{ t('buttons.actionView') }}</el-button>
               <!-- 修改 -->
-              <el-button link type="primary">{{ t('buttons.actionEdit') }}</el-button>
+              <el-button link type="primary" @click="openEditDialog(row)">{{ t('buttons.actionEdit') }}</el-button>
               <!-- 删除 -->
-              <el-button link type="danger" @click="deleteBatchRows([row.id])">
+              <el-button link type="danger" @click="deleteRow(row)">
                 {{ t('buttons.actionDelete') }}
               </el-button>
 

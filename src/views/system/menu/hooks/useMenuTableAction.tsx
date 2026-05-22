@@ -8,7 +8,7 @@ import { deleteConfirm } from '@/shared/messaging/dialog';
 import { errorMessage, message } from '@/shared/messaging/message';
 import MenuDialog from '@/views/system/menu/components/MenuDialog.vue';
 import type { MenuViewMode, SysMenuRow } from '@/views/system/menu/hooks/useMenuPageState';
-import { createEmptyMenuForm, detailToForm, formToSaveRequest } from '@/views/system/menu/utils/menu-form-mapper';
+import { detailToForm, formToSaveRequest } from '@/views/system/menu/utils/menu-form-mapper';
 import type { Ref } from 'vue';
 import { h, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
@@ -30,7 +30,6 @@ function useMenuTableAction(deps: MenuTableActionDeps) {
    */
   const openCreateDialog = () => {
     const drawerFormRef = ref<FormOverlayExpose<MenuForm> | null>(null);
-    const formData = createEmptyMenuForm();
 
     addDrawer({
       title: t('sysMenu.addDialogTitle'),
@@ -43,7 +42,6 @@ function useMenuTableAction(deps: MenuTableActionDeps) {
       contentRenderer: () =>
         h(MenuDialog, {
           ref: drawerFormRef,
-          form: formData,
           isFormDisabled: false,
         }),
       beforeSure: createFormBeforeSure<MenuForm>({

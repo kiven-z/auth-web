@@ -13,7 +13,6 @@ import MenuTypeLinkDialog from '@/views/system/menu/components/MenuTypeLinkDialo
 import MenuTypeMenuDialog from '@/views/system/menu/components/MenuTypeMenuDialog.vue';
 import { menuTypeSegmentItems } from '@/views/system/menu/constants/menu-type-segment';
 import { MenuTypeEnums } from '@/views/system/menu/constants/menuEnums';
-import { createEmptyMenuForm } from '@/views/system/menu/utils/menu-form-mapper';
 import { findMenuIdPath } from '@/views/system/menu/utils/menu-tree';
 import type { CascaderProps, FormInstance, FormRules } from 'element-plus';
 import { computed, onMounted, ref, watch } from 'vue';
@@ -37,6 +36,22 @@ type DeptNode = {
 const props = withDefaults(defineProps<MenuDialogProps>(), {
   isFormDisabled: false,
   form: () => ({}) as MenuForm,
+});
+
+/**
+ * 新增菜单时的默认表单（仅组件内使用，不放入 mapper）
+ */
+const createEmptyMenuForm = () => ({
+  menuType: MenuTypeEnums.MENU,
+  menuRank: 0,
+  showLink: true,
+  showParent: true,
+  keepAlive: false,
+  status: true,
+  hiddenTag: false,
+  fixedTag: false,
+  frameLoading: true,
+  dynamicLevel: 1,
 });
 
 // IconSelect 内置 Tab 前缀；其它 Iconify 集合默认走手动输入模式

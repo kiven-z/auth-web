@@ -42,14 +42,13 @@ onMounted(() => {
     </template>
 
     <template #default>
-      <div v-loading="loading" class="dept-el-tree-wrap px-2 pb-4">
+      <div v-loading="loading" class="px-2 pb-4 h-[70vh]">
         <el-tree
           ref="treeRef"
           :data="treeData"
           :default-expanded-keys="expandedKeys"
           :expand-on-click-node="false"
           :props="treeProps"
-          class="dept-el-tree"
           default-expand-all
           highlight-current
           node-key="id"
@@ -68,17 +67,3 @@ onMounted(() => {
     </template>
   </TableBar>
 </template>
-
-<style lang="scss" scoped>
-.dept-el-tree-wrap {
-  min-height: 200px;
-}
-
-.dept-el-tree {
-  :deep(.el-tree-node__content) {
-    height: auto;
-    min-height: var(--el-tree-node-content-height);
-    align-items: flex-start;
-  }
-}
-</style>
