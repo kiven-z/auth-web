@@ -4,50 +4,25 @@ import {
   batchDeleteEmailTemplates,
   batchUpdateEmailTemplateStatus,
   createEmailTemplate,
-  getEmailTemplateById,
-  updateEmailTemplateContent,
-  updateEmailTemplateMetadata,
-  type EmailTemplateDetailVO,
   type EmailTemplatePageRow,
+  getEmailTemplateById,
+  updateEmailTemplateMetadata,
 } from '@/api/system/email-template';
 import { addDialog } from '@/components/ui/Dialog';
+import { type FormOverlayExpose, useFormOverlaySubmit } from '@/shared/hooks/useFormOverlaySubmit';
 import { deleteConfirm } from '@/shared/messaging/dialog';
 import { errorMessage, message } from '@/shared/messaging/message';
 import EmailTemplateDetailDialog from '@/views/message/email-template/components/EmailTemplateDetailDialog.vue';
 import EmailTemplateDialog from '@/views/message/email-template/components/EmailTemplateDialog.vue';
 import { useEmailTemplateTableMoreAction } from '@/views/message/email-template/hooks/useEmailTemplateTableMoreAction';
-import { createEmptyEmailTemplateForm } from '@/views/message/email-template/utils/email-template-form-mapper';
+import {
+  detailToForm,
+  formToCreateRequest,
+  formToMetadataUpdateRequest,
+} from '@/views/message/email-template/utils/email-template-form-mapper';
 import { h, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
-
-/**
- * 将详情转为表单模型
- * @param detail 接口详情
- * @param id 模板 ID 字符串
- */
-/** 与弹窗子组件 defineExpose 对齐，避免 defineAsyncComponent 下 InstanceType 不准确 */
-type FormDialogExpose = {
-  formRef?: { validate: () => Promise<boolean | undefined> };
-  form: EmailTemplateFormModel;
-};
-
-function toFormFromDetail(detail: EmailTemplateDetailVO, id: string): EmailTemplateFormModel {
-  return {
-    id,
-    templateCode: detail.templateCode,
-    templateName: detail.templateName,
-    subject: detail.subject,
-    description: detail.description,
-    status: detail.status,
-    priority: detail.priority,
-    content: detail.content ?? '',
-    requireFields: (detail.requireFields ?? []).map((r) => ({
-      key: r.key,
-      description: r.description,
-      exampleValue: r.exampleValue,
-    })),
-  };
-}
+import { addDrawer } from '@/components/ui/Drawer';
 
 /**
  * 邮件模板表格操作：弹窗与写接口
@@ -55,47 +30,33 @@ function toFormFromDetail(detail: EmailTemplateDetailVO, id: string): EmailTempl
 function useEmailTemplateTableAction(deps: TableActionWithSelectionDeps) {
   const { fetchTableData, selectedRows } = deps;
   const { t } = useI18n();
+  const { createFormBeforeSure } = useFormOverlaySubmit();
   const moreActions = useEmailTemplateTableMoreAction({ fetchTableData });
 
   /**
-   * 打开添加弹窗
+   * 打开新增弹窗
    */
   const openCreateDialog = () => {
-    const form = createEmptyEmailTemplateForm();
-    const dlgFormRef = ref<FormDialogExpose | null>(null);
+    const dialogFormRef = ref<FormOverlayExpose<EmailTemplateFormModel> | null>(null);
 
-    addDialog({
+    addDrawer({
       title: t('emailTemplate.addDialogTitle'),
-      props: { form },
-      draggable: true,
-      fullscreenIcon: true,
+      size: '100%',
+      direction: 'ltr',
+      resizable: true,
       closeOnClickModal: false,
       closeOnPressEscape: false,
-      contentRenderer: () => h(EmailTemplateDialog, { ref: dlgFormRef }),
-      beforeSure: async (done) => {
-        try {
-          const formInst = dlgFormRef.value?.formRef;
-          const valid = await formInst?.validate().catch(() => false);
-          if (!valid) return;
-          const f = dlgFormRef.value?.form;
-          if (!f) return;
-          await createEmailTemplate({
-            templateCode: f.templateCode!,
-            templateName: f.templateName!,
-            subject: f.subject!,
-            description: f.description,
-            status: f.status,
-            priority: f.priority,
-            content: f.content ?? '',
-            requireFields: f.requireFields ?? [],
-          });
-          message(t('tips.addSuccess'), { type: 'success' });
+      showClose: true,
+      contentRenderer: () => h(EmailTemplateDialog, { ref: dialogFormRef }),
+      beforeSure: createFormBeforeSure<EmailTemplateFormModel>({
+        formExposeRef: dialogFormRef,
+        errorI18nKey: 'emailTemplate.loadFailed',
+        successI18nKey: 'tips.addSuccess',
+        onSubmit: async (formData) => {
+          await createEmailTemplate(formToCreateRequest(formData));
           await fetchTableData();
-          done();
-        } catch (error: unknown) {
-          errorMessage(error, { defaultI18nKey: 'emailTemplate.loadFailed' });
-        }
-      },
+        },
+      }),
     });
   };
 
@@ -106,41 +67,32 @@ function useEmailTemplateTableAction(deps: TableActionWithSelectionDeps) {
   const openEditDialog = async (row: EmailTemplatePageRow) => {
     try {
       const detail = await getEmailTemplateById(row.id);
-      const form = toFormFromDetail(detail, row.id);
-      const dlgFormRef = ref<FormDialogExpose | null>(null);
+      const formData = detailToForm(detail, row.id);
+      const dialogFormRef = ref<FormOverlayExpose<EmailTemplateFormModel> | null>(null);
 
-      addDialog({
+      addDrawer({
         title: t('emailTemplate.editDialogTitle'),
-        props: { form },
-        draggable: true,
-        fullscreenIcon: true,
+        size: '100%',
+        direction: 'rtl',
+        resizable: true,
         closeOnClickModal: false,
         closeOnPressEscape: false,
-        contentRenderer: () => h(EmailTemplateDialog, { ref: dlgFormRef }),
-        beforeSure: async (done) => {
-          try {
-            const formInst = dlgFormRef.value?.formRef;
-            const valid = await formInst?.validate().catch(() => false);
-            if (!valid) return;
-            const f = dlgFormRef.value?.form;
-            if (!f) return;
-            await updateEmailTemplateMetadata({
-              id: f.id!,
-              templateCode: f.templateCode!,
-              templateName: f.templateName!,
-              subject: f.subject!,
-              description: f.description,
-              status: f.status,
-              priority: f.priority,
-            });
-            await updateEmailTemplateContent(f.id!, { content: f.content ?? '' });
-            message(t('tips.editSuccess'), { type: 'success' });
+        showClose: true,
+        contentRenderer: () =>
+          h(EmailTemplateDialog, {
+            ref: dialogFormRef,
+            form: formData,
+          }),
+        beforeSure: createFormBeforeSure<EmailTemplateFormModel>({
+          formExposeRef: dialogFormRef,
+          errorI18nKey: 'emailTemplate.loadFailed',
+          successI18nKey: 'tips.editSuccess',
+          requireId: true,
+          onSubmit: async (formPayload) => {
+            await updateEmailTemplateMetadata(formToMetadataUpdateRequest(formPayload));
             await fetchTableData();
-            done();
-          } catch (error: unknown) {
-            errorMessage(error, { defaultI18nKey: 'emailTemplate.loadFailed' });
-          }
-        },
+          },
+        }),
       });
     } catch (error: unknown) {
       errorMessage(error, { defaultI18nKey: 'emailTemplate.loadFailed' });
@@ -169,8 +121,10 @@ function useEmailTemplateTableAction(deps: TableActionWithSelectionDeps) {
    * @param ids 主键列表，可选
    */
   const deleteBatchRows = async (ids?: string[]) => {
-    const confirm = await deleteConfirm();
-    if (!confirm) return;
+    const confirmed = await deleteConfirm();
+    if (!confirmed) {
+      return;
+    }
 
     ids = ids || selectedRows.value;
     try {
@@ -189,7 +143,9 @@ function useEmailTemplateTableAction(deps: TableActionWithSelectionDeps) {
    * @param enabled 是否启用
    */
   const batchUpdateStatus = async (ids: string[], enabled: boolean) => {
-    if (ids.length <= 0) return;
+    if (ids.length <= 0) {
+      return;
+    }
     try {
       await batchUpdateEmailTemplateStatus({ ids, status: enabled });
       message(t('tips.editSuccess'), { type: 'success' });

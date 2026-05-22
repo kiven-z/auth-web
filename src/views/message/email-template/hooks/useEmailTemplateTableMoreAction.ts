@@ -1,71 +1,39 @@
 import type { TableActionDeps } from '@/api/common';
 import type { EmailTemplateFormModel } from '@/api/system/email-template';
 import {
+  type EmailTemplatePageRow,
   getEmailTemplateById,
   getEmailTemplatePreviewHtml,
   testSendEmailTemplate,
   updateEmailTemplateContent,
-  type EmailTemplateDetailVO,
-  type EmailTemplatePageRow,
 } from '@/api/system/email-template';
 import { addDialog } from '@/components/ui/Dialog';
-import { errorMessage, message } from '@/shared/messaging/message';
+import { type FormOverlayExpose, useFormOverlaySubmit } from '@/shared/hooks/useFormOverlaySubmit';
+import { errorMessage } from '@/shared/messaging/message';
 import EmailTemplateMonacoOnlyDialog from '@/views/message/email-template/components/EmailTemplateMonacoOnlyDialog.vue';
 import EmailTemplatePreviewDialog from '@/views/message/email-template/components/EmailTemplatePreviewDialog.vue';
 import EmailTemplateRequireFieldsDialog from '@/views/message/email-template/components/EmailTemplateRequireFieldsDialog.vue';
+import type { EmailTestSendForm } from '@/views/message/email-template/components/EmailTemplateTestSendDialog.vue';
 import EmailTemplateTestSendDialog from '@/views/message/email-template/components/EmailTemplateTestSendDialog.vue';
+import { detailToForm } from '@/views/message/email-template/utils/email-template-form-mapper';
 import { h, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
-
-type FormDialogExpose = {
-  formRef?: { validate: () => Promise<boolean | undefined> };
-  form: EmailTemplateFormModel;
-};
-
-type TestSendExpose = {
-  formRef?: { validate: () => Promise<boolean | undefined> };
-  form: { id: string; email: string };
-};
+import { addDrawer } from '@/components/ui/Drawer';
 
 type RequireFieldsExpose = {
   submit: () => Promise<boolean>;
 };
 
 /**
- * 转换为表单模型
- * @param detail 详情
- * @param id 模板 ID
- * @returns 表单模型
- */
-function toFormFromDetail(detail: EmailTemplateDetailVO, id: string): EmailTemplateFormModel {
-  return {
-    id,
-    templateCode: detail.templateCode,
-    templateName: detail.templateName,
-    subject: detail.subject,
-    description: detail.description,
-    status: detail.status,
-    priority: detail.priority,
-    content: detail.content ?? '',
-    requireFields: (detail.requireFields ?? []).map((row) => ({
-      key: row.key,
-      description: row.description,
-      exampleValue: row.exampleValue,
-    })),
-  };
-}
-
-/**
- * 邮件模板表格「更多」菜单相关操作。
- * @param options 表格操作依赖
- * @returns 邮件模板表格「更多」菜单相关操作
+ * 邮件模板表格「更多」菜单相关操作
  */
 export function useEmailTemplateTableMoreAction(options: TableActionDeps) {
   const { fetchTableData } = options;
   const { t } = useI18n();
+  const { createFormBeforeSure } = useFormOverlaySubmit();
 
   /**
-   * 打开邮件模板预览对话框。
+   * 打开 HTML 预览（只读）
    * @param row 邮件模板行数据
    */
   const openPreview = async (row: EmailTemplatePageRow) => {
@@ -73,13 +41,12 @@ export function useEmailTemplateTableMoreAction(options: TableActionDeps) {
       const html = await getEmailTemplatePreviewHtml(row.id);
       addDialog({
         title: t('emailTemplate.previewDialogTitle'),
-        props: { html },
         draggable: true,
         fullscreenIcon: true,
         closeOnClickModal: false,
         closeOnPressEscape: false,
-        contentRenderer: () => h(EmailTemplatePreviewDialog),
-        beforeSure: (done) => done(),
+        hideFooter: true,
+        contentRenderer: () => h(EmailTemplatePreviewDialog, { html }),
       });
     } catch (error: unknown) {
       errorMessage(error, { defaultI18nKey: 'emailTemplate.loadFailed' });
@@ -87,103 +54,105 @@ export function useEmailTemplateTableMoreAction(options: TableActionDeps) {
   };
 
   /**
-   * 打开邮件模板需求字段对话框。
+   * 打开 require_fields 维护弹窗
    * @param row 邮件模板行数据
    */
-  const openRequireFields = (row: EmailTemplatePageRow) => {
-    const dialogRef = ref<RequireFieldsExpose | null>(null);
-    addDialog({
-      title: t('emailTemplate.requireFieldsDialogTitle'),
-      width: '80%',
-      draggable: true,
-      fullscreenIcon: true,
-      closeOnClickModal: false,
-      closeOnPressEscape: false,
-      contentRenderer: () => h(EmailTemplateRequireFieldsDialog, { ref: dialogRef, templateId: row.id }),
-      beforeSure: async (done) => {
-        const ok = await dialogRef.value?.submit();
-        if (!ok) {
-          return;
-        }
-        await fetchTableData();
-        done();
-      },
-    });
+  const openRequireFields = async (row: EmailTemplatePageRow) => {
+    try {
+      const detail = await getEmailTemplateById(row.id);
+      const dialogRef = ref<RequireFieldsExpose | null>(null);
+
+      addDrawer({
+        title: t('emailTemplate.requireFieldsDialogTitle'),
+        size: '100%',
+        direction: 'ttb',
+        resizable: true,
+        closeOnClickModal: false,
+        closeOnPressEscape: false,
+        showClose: true,
+        contentRenderer: () =>
+          h(EmailTemplateRequireFieldsDialog, {
+            ref: dialogRef,
+            templateId: row.id,
+            initialRequireFields: detail.requireFields ?? [],
+          }),
+        beforeSure: async (done) => {
+          const submitted = await dialogRef.value?.submit();
+          if (!submitted) {
+            return;
+          }
+          await fetchTableData();
+          done();
+        },
+      });
+    } catch (error: unknown) {
+      errorMessage(error, { defaultI18nKey: 'emailTemplate.loadFailed' });
+    }
   };
 
   /**
-   * 打开邮件模板测试发送对话框。
+   * 打开测试发送弹窗
    * @param row 邮件模板行数据
    */
   const openTestSend = (row: EmailTemplatePageRow) => {
-    const sendFormRef = ref<TestSendExpose | null>(null);
+    const sendFormRef = ref<FormOverlayExpose<EmailTestSendForm> | null>(null);
+
     addDialog({
       title: t('emailTemplate.testSendDialogTitle'),
-      props: { form: { id: row.id, email: '' } },
       draggable: true,
       fullscreenIcon: true,
       closeOnClickModal: false,
       closeOnPressEscape: false,
-      contentRenderer: () => h(EmailTemplateTestSendDialog, { ref: sendFormRef }),
-      beforeSure: async (done) => {
-        try {
-          const formInstance = sendFormRef.value?.formRef;
-          const valid = await formInstance?.validate().catch(() => false);
-          if (!valid) {
-            return;
-          }
-          const formData = sendFormRef.value?.form;
-          if (!formData) {
-            return;
-          }
+      contentRenderer: () =>
+        h(EmailTemplateTestSendDialog, {
+          ref: sendFormRef,
+          form: { id: row.id, email: '' },
+        }),
+      beforeSure: createFormBeforeSure<EmailTestSendForm>({
+        formExposeRef: sendFormRef,
+        errorI18nKey: 'emailTemplate.loadFailed',
+        successI18nKey: 'tips.operationSuccess',
+        requireId: true,
+        onSubmit: async (formData) => {
           await testSendEmailTemplate({ id: formData.id, email: formData.email });
-          message(t('tips.operationSuccess'), { type: 'success' });
-          done();
-        } catch (error: unknown) {
-          errorMessage(error, { defaultI18nKey: 'emailTemplate.loadFailed' });
-        }
-      },
+        },
+      }),
     });
   };
 
   /**
-   * 打开邮件模板内容编辑对话框。
+   * 打开 Monaco 正文编辑弹窗
    * @param row 邮件模板行数据
    */
   const openTemplateContentEdit = async (row: EmailTemplatePageRow) => {
     try {
       const detail = await getEmailTemplateById(row.id);
-      const form = toFormFromDetail(detail, row.id);
-      const dialogRef = ref<FormDialogExpose | null>(null);
+      const formData = detailToForm(detail, row.id);
+      const dialogFormRef = ref<FormOverlayExpose<EmailTemplateFormModel> | null>(null);
 
-      addDialog({
+      addDrawer({
         title: t('emailTemplate.templateEditDialogTitle'),
-        props: { form },
-        draggable: true,
-        fullscreenIcon: true,
+        size: '100%',
+        direction: 'rtl',
+        resizable: true,
         closeOnClickModal: false,
         closeOnPressEscape: false,
-        width: '92%',
-        contentRenderer: () => h(EmailTemplateMonacoOnlyDialog, { ref: dialogRef }),
-        beforeSure: async (done) => {
-          try {
-            const formInstance = dialogRef.value?.formRef;
-            const valid = await formInstance?.validate().catch(() => false);
-            if (!valid) {
-              return;
-            }
-            const formData = dialogRef.value?.form;
-            if (!formData?.id) {
-              return;
-            }
-            await updateEmailTemplateContent(String(formData.id), { content: formData.content ?? '' });
-            message(t('tips.editSuccess'), { type: 'success' });
+        showClose: true,
+        contentRenderer: () =>
+          h(EmailTemplateMonacoOnlyDialog, {
+            ref: dialogFormRef,
+            form: formData,
+          }),
+        beforeSure: createFormBeforeSure<EmailTemplateFormModel>({
+          formExposeRef: dialogFormRef,
+          errorI18nKey: 'emailTemplate.loadFailed',
+          successI18nKey: 'tips.editSuccess',
+          requireId: true,
+          onSubmit: async (formPayload) => {
+            await updateEmailTemplateContent(String(formPayload.id), { content: formPayload.content ?? '' });
             await fetchTableData();
-            done();
-          } catch (error: unknown) {
-            errorMessage(error, { defaultI18nKey: 'emailTemplate.loadFailed' });
-          }
-        },
+          },
+        }),
       });
     } catch (error: unknown) {
       errorMessage(error, { defaultI18nKey: 'emailTemplate.loadFailed' });

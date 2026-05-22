@@ -33,10 +33,10 @@ const {
 } = usePaginationState({
   fetchApi: getEmailTemplatePage,
   searchForm: reactive({
-    templateCode: undefined as string | undefined,
-    templateName: undefined as string | undefined,
-    subject: undefined as string | undefined,
-    status: undefined as boolean | undefined,
+    templateCode: undefined,
+    templateName: undefined,
+    subject: undefined,
+    status: undefined,
   }),
   errorI18nKey: 'emailTemplate.loadFailed',
 });
@@ -74,19 +74,19 @@ onMounted(() => {
     >
       <!-- 场景编码（scene_code） -->
       <el-form-item :label="t('emailTemplate.templateCode')" prop="templateCode">
-        <el-input v-model="searchForm.templateCode" class="w-[220px]!" clearable />
+        <el-input v-model="searchForm.templateCode" class="w-[180px]!" clearable />
       </el-form-item>
       <!-- 模板名称 -->
       <el-form-item :label="t('emailTemplate.templateName')" prop="templateName">
-        <el-input v-model="searchForm.templateName" class="w-[220px]!" clearable />
+        <el-input v-model="searchForm.templateName" class="w-[180px]!" clearable />
       </el-form-item>
       <!-- 邮件主题 -->
       <el-form-item :label="t('emailTemplate.subject')" prop="subject">
-        <el-input v-model="searchForm.subject" class="w-[220px]!" clearable />
+        <el-input v-model="searchForm.subject" class="w-[180px]!" clearable />
       </el-form-item>
       <!-- 状态 -->
       <el-form-item :label="t('emailTemplate.status')" prop="status">
-        <el-select v-model="searchForm.status" :placeholder="t('emailTemplate.status')" class="w-[220px]!" clearable>
+        <el-select v-model="searchForm.status" :placeholder="t('emailTemplate.status')" class="w-[180px]!" clearable>
           <el-option
             v-for="opt in emailTemplateStatusFilterOptions"
             :key="`${opt.labelKey}:${String(opt.value)}`"

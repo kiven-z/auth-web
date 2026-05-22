@@ -3,7 +3,6 @@ import type { FormDialog } from '@/api/common';
 import { type EmailTemplateFormModel, renderEmailTemplate } from '@/api/system/email-template';
 import { MONACO_COMMON_EDITOR_OPTIONS } from '@/views/message/email-template/config/monaco-config';
 import { registerEmailTemplateMonaco } from '@/views/message/email-template/monaco/register-email-template-monaco';
-import { createEmptyEmailTemplateForm } from '@/views/message/email-template/utils/email-template-form-mapper';
 import type { FormInstance, FormRules } from 'element-plus';
 import debounce from 'lodash/debounce';
 import type { editor } from 'monaco-editor';
@@ -12,27 +11,30 @@ import { CodeEditor } from 'monaco-editor-vue3';
 import { nextTick, onMounted, onUnmounted, reactive, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 
+defineOptions({
+  name: 'EmailTemplateMonacoOnlyDialog',
+});
+
 const props = withDefaults(defineProps<FormDialog<EmailTemplateFormModel>>(), {
-  form: {},
+  form: () => ({}) as EmailTemplateFormModel,
 });
 
 const { t } = useI18n();
 
 const formRef = ref<FormInstance>();
 
-function mergeFormModel(): EmailTemplateFormModel {
-  return {
-    ...createEmptyEmailTemplateForm(),
-    ...(props.form ?? {}),
-  } as EmailTemplateFormModel;
-}
-
-const form = ref<EmailTemplateFormModel>(mergeFormModel());
+const form = ref<EmailTemplateFormModel>({
+  status: true,
+  priority: 5,
+  content: '',
+  requireFields: [],
+  ...props.form,
+});
 
 watch(
   () => props.form,
   () => {
-    form.value = mergeFormModel();
+    form.value = props.form;
     scheduleRender();
   },
   { deep: true }

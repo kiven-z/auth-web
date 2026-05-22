@@ -1,29 +1,37 @@
-<!--
-  维护 require_fields 变量表
--->
 <script lang="ts" setup>
-import { getEmailTemplateById, updateEmailTemplateRequireFields } from '@/api/system/email-template';
+import {
+  EmailTemplateRequireFieldRow,
+  getEmailTemplateById,
+  updateEmailTemplateRequireFields,
+} from '@/api/system/email-template';
 import { errorMessage, message } from '@/shared/messaging/message';
 import {
+  type EditableRequireFieldRow,
   toEditableRequireFields,
   toRequireFieldsPayload,
-  type EditableRequireFieldRow,
 } from '@/views/message/email-template/utils/require-fields';
 import { onMounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
+import { CodeEditor } from 'monaco-editor-vue3';
 
-interface Props {
+defineOptions({
+  name: 'EmailTemplateRequireFieldsDialog',
+});
+
+interface EmailTemplateRequireFieldsDialogProps {
   templateId: string;
+  // 打开方已拉取的变量表初始数据
+  initialRequireFields: EmailTemplateRequireFieldRow[];
 }
 
-const props = defineProps<Props>();
+const props = defineProps<EmailTemplateRequireFieldsDialogProps>();
 const { t } = useI18n();
 
 const loading = ref(false);
 // 数据列表
 const dataList = ref<EditableRequireFieldRow[]>([]);
 // 行序号
-let rowSeq = 1;
+let rowSeq = dataList.value.length + 1;
 
 /**
  * 添加行
@@ -43,13 +51,15 @@ const onAdd = () => {
  * @returns 删除行后，更新行序号
  */
 const onDel = (row: EditableRequireFieldRow) => {
-  const i = dataList.value.indexOf(row);
-  if (i !== -1) dataList.value.splice(i, 1);
+  const index = dataList.value.indexOf(row);
+  if (index !== -1) {
+    dataList.value.splice(index, 1);
+  }
 };
 
 /**
- * 提交
- * @returns 提交后，更新行序号
+ * 校验并提交变量表
+ * @returns 是否可关闭弹窗
  */
 const submit = async (): Promise<boolean> => {
   // 转换为请求体
@@ -119,12 +129,15 @@ defineExpose({ submit });
       </el-table-column>
       <el-table-column :label="t('emailTemplate.fieldExampleValue')" min-width="200">
         <template #default="{ row }">
-          <el-input
-            v-model="row.exampleValueJson"
-            :placeholder="t('emailTemplate.placeholder.fieldExampleValue')"
-            :rows="2"
-            type="textarea"
-          />
+          <div class="h-[200px]">
+            <!-- <el-input -->
+            <!--   v-model="row.exampleValueJson" -->
+            <!--   :placeholder="t('emailTemplate.placeholder.fieldExampleValue')" -->
+            <!--   :rows="2" -->
+            <!--   type="textarea" -->
+            <!-- /> -->
+            <CodeEditor v-model:value="row.exampleValueJson" language="json" theme="vs" />
+          </div>
         </template>
       </el-table-column>
       <el-table-column :label="t('table.actions')" align="center" fixed="right" width="100">

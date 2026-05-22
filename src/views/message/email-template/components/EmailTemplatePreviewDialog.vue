@@ -2,6 +2,10 @@
 import { nextTick, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 
+defineOptions({
+  name: 'EmailTemplatePreviewDialog',
+});
+
 interface EmailTemplatePreviewDialogProps {
   html: string;
 }
