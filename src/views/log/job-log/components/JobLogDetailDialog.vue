@@ -9,7 +9,7 @@ defineOptions({
   name: 'JobLogDetailDialog',
 });
 
-interface JobLogDetailDialogProps extends DetailDialog<JobLogDetailRow> {}
+type JobLogDetailDialogProps = DetailDialog<JobLogDetailRow>;
 
 defineProps<JobLogDetailDialogProps>();
 const { t } = useI18n();

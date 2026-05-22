@@ -2,14 +2,14 @@ import type { CSSProperties, VNode, Component } from 'vue';
 
 type DoneFn = (cancel?: boolean) => void;
 type EventType = 'open' | 'close' | 'openAutoFocus' | 'closeAutoFocus' | 'fullscreenCallBack';
-type ArgsType = {
+interface ArgsType {
   /** `cancel` 点击取消按钮、`sure` 点击确定按钮、`close` 点击右上角关闭按钮或空白页或按下了esc键 */
   command: 'cancel' | 'sure' | 'close';
-};
+}
 type ButtonType = 'primary' | 'success' | 'warning' | 'danger' | 'info' | 'text';
 
 /** https://element-plus.org/zh-CN/component/dialog.html#attributes */
-type DialogProps = {
+interface DialogProps {
   /** `Dialog` 的显示与隐藏 */
   visible?: boolean;
   /** `Dialog` 的标题 */
@@ -52,10 +52,10 @@ type DialogProps = {
   alignCenter?: boolean;
   /** 当关闭 `Dialog` 时，销毁其中的元素，默认 `false` */
   destroyOnClose?: boolean;
-};
+}
 
 //element-plus.org/zh-CN/component/popconfirm.html#attributes
-type Popconfirm = {
+interface Popconfirm {
   /** 标题 */
   title?: string;
   /** 确定按钮文字 */
@@ -80,18 +80,18 @@ type Popconfirm = {
   persistent?: boolean;
   /** 弹层宽度，最小宽度 `150px`，默认 `150` */
   width?: string | number;
-};
+}
 
-type BtnClickDialog = {
+interface BtnClickDialog {
   options?: DialogOptions;
   index?: number;
-};
-type BtnClickButton = {
+}
+interface BtnClickButton {
   btn?: ButtonProps;
   index?: number;
-};
+}
 /** https://element-plus.org/zh-CN/component/button.html#button-attributes */
-type ButtonProps = {
+interface ButtonProps {
   /** 按钮文字 */
   label: string;
   /** 按钮尺寸 */
@@ -142,7 +142,7 @@ type ButtonProps = {
     /** 当前 `button` 信息 */
     button: BtnClickButton;
   }) => void;
-};
+}
 
 interface DialogOptions extends DialogProps {
   /** 内容区组件的 `props`，可通过 `defineProps` 接收 */

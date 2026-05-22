@@ -6,9 +6,9 @@ import type { SessionTokenPayload } from './types';
 /**
  * 建立会话时的记住登录选项
  */
-export type EstablishSessionRememberOptions = {
+export interface EstablishSessionRememberOptions {
   isRemembered: boolean;
-};
+}
 
 /**
  * 将登录响应映射为 {@link setToken} 所需载荷（后端 `id` → 会话 `userId`）。

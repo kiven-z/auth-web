@@ -5,7 +5,7 @@ import type { FormInstance, FormRules } from 'element-plus';
 import { reactive, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 
-interface PostFormDialogProps extends FormDialog<SysPostCreateForm> {}
+type PostFormDialogProps = FormDialog<SysPostCreateForm>;
 
 const props = withDefaults(defineProps<PostFormDialogProps>(), {
   form: () => ({}) as SysPostCreateForm,

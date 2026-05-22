@@ -1,7 +1,7 @@
 ---
 description: Vue 3 + TypeScript + Composition API 开发规范
-globs: [ ]
-alwaysApply: true  # 建议改为 true，确保生成 Commit 时必读
+globs: []
+alwaysApply: true # 建议改为 true，确保生成 Commit 时必读
 ---
 
 # Vue 3 + TypeScript + Composition API 开发规范
@@ -62,7 +62,18 @@ views文件目录参考：
         useJobGroupTableColumns.tsx
 ```
 
-### 4. API 接口规范
+### 4. TypeScript：`interface` 与 `type`（与 Google / typescript-eslint 默认对齐）
+
+- **对象结构**（API 模型、组件 `*Props`、`FormDialog` 扩展、Hook 配置对象、Expose 形状）→ 统一使用 **`interface`**。
+- **仅允许使用 `type` 的场景**（不得强行改成 `interface`）：
+  - 联合类型：`'add' | 'edit'`、`SortDirectionApi = 'ASC' | 'DESC'`
+  - 交叉类型：`CreateX & UpdateX`
+  - 工具类型别名：`Pick`、`Omit`、`ReturnType`、`typeof` 推导等
+- **ESLint**：`@typescript-eslint/consistent-type-definitions: ['error', 'interface']`（对象字面量类型定义必须用 `interface`）。
+- **禁止**：仅为风格把合法 `interface` 改成 `type`，或把联合/交叉写成 `interface`。
+- **无扩展字段的别名**：`interface X extends Y {}` 应写成 `type X = Y`（避免 `@typescript-eslint/no-empty-object-type`）。
+
+### 5. API 接口规范
 
 - **位置**：`src/api/{module}/`。
 - **调用**：使用从 `@/infrastructure/http` 导出的 `http` 实例。
@@ -70,4 +81,3 @@ views文件目录参考：
   - GET 请求：`http.request<T>('get', url, { params })`。
   - POST 请求：`http.request<T>('post', url, { data })`。
 - **命名**：`query{Resource}Page` (分页), `get{Resource}Detail` (详情), `batchDelete{Resource}` (批量删除)。
-

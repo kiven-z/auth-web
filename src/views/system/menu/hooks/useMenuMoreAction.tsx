@@ -13,9 +13,9 @@ export interface MenuTableActionDeps extends TableActionDeps {
   refresh: () => Promise<void>;
 }
 
-type AssignPanelExpose = {
+interface AssignPanelExpose {
   getSelectedKeys: () => string[];
-};
+}
 
 function useMenuMoreAction(deps: MenuTableActionDeps) {
   const { refresh } = deps;

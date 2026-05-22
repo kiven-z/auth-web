@@ -6,10 +6,10 @@ const SESSION_PREFERENCES_KEY = 'session-preferences';
 /**
  * 会话偏好（记住登录天数等，供多标签 Cookie 过期策略使用）。
  */
-export type SessionPreferences = {
+export interface SessionPreferences {
   isRemembered: boolean;
   loginDay: number;
-};
+}
 
 const DEFAULT_SESSION_PREFERENCES: SessionPreferences = {
   isRemembered: false,

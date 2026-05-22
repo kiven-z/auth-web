@@ -5,10 +5,10 @@ import Cookies from 'js-cookie';
 /**
  * 写入 access token 存储介质时携带的字段（expires 为毫秒时间戳，与现有 user-info 一致）。
  */
-type AccessTokenStorePayload = {
+interface AccessTokenStorePayload {
   accessToken: string;
   expires: number;
-};
+}
 
 /**
  * 访问令牌读写抽象：生产为内存实现，开发为 localStorage，避免在业务函数中散落环境判断。
@@ -74,12 +74,12 @@ export class MemoryAccessTokenStore implements AccessTokenReadWriter {
   }
 }
 
-type DevPersistedShape = {
+interface DevPersistedShape {
   // access token
   accessToken?: string;
   // 过期时间
   expires?: number;
-};
+}
 
 /**
  * 开发环境：accessToken 持久化到 localStorage，减轻 Vite HMR 清空内存导致的误登出。

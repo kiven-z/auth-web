@@ -11,7 +11,7 @@ defineOptions({
   name: 'LoginLogDetailDialog',
 });
 
-interface LoginLogDetailDialogProps extends DetailDialog<LoginLogDetailRow> {}
+type LoginLogDetailDialogProps = DetailDialog<LoginLogDetailRow>;
 
 const props = defineProps<LoginLogDetailDialogProps>();
 const { t } = useI18n();

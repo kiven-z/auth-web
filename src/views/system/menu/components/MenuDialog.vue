@@ -24,14 +24,14 @@ interface MenuDialogProps extends FormDialog<MenuForm> {
 
 type IconInputMode = 'select' | 'manual';
 
-type DeptNode = {
+interface DeptNode {
   id: string;
   value: string;
   parentId: string | null;
   label: string;
   name: string;
   children?: DeptNode[];
-};
+}
 
 const props = withDefaults(defineProps<MenuDialogProps>(), {
   isFormDisabled: false,
@@ -58,6 +58,13 @@ const createEmptyMenuForm = () => ({
 const BUILTIN_ICON_PREFIXES = ['ep:', 'ri:', 'fa-solid:'] as const;
 // Iconify 官网
 const ICONIFY_ICON_SETS_URL = 'https://icon-sets.iconify.design/';
+
+const animationType = ref<'all' | 'detail'>('all');
+
+const iconModeSegmentOptions = computed(() => [
+  { label: t('menus.iconPickerBuiltin'), value: 'select' as const },
+  { label: t('menus.iconPickerManual'), value: 'manual' as const },
+]);
 
 /**
  * 根据图标字符串确定输入模式
@@ -140,13 +147,6 @@ const loadMenuTree = async () => {
 onMounted(() => {
   void loadMenuTree();
 });
-
-const animationType = ref<'all' | 'detail'>('all');
-
-const iconModeSegmentOptions = computed(() => [
-  { label: t('menus.iconPickerBuiltin'), value: 'select' as const },
-  { label: t('menus.iconPickerManual'), value: 'manual' as const },
-]);
 
 defineExpose({ formRef, form });
 </script>

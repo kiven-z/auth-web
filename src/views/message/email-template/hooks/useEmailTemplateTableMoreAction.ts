@@ -19,9 +19,9 @@ import { detailToMonacoForm } from '@/views/message/email-template/utils/email-t
 import { h, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 
-type RequireFieldsExpose = {
+interface RequireFieldsExpose {
   submit: () => Promise<boolean>;
-};
+}
 
 /**
  * 测试发送弹窗表单

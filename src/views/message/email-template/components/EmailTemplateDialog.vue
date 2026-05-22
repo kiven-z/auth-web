@@ -10,7 +10,7 @@ defineOptions({
   name: 'EmailTemplateDialog',
 });
 
-interface EmailTemplateDialogProps extends FormDialog<EmailTemplateFormModel> {}
+type EmailTemplateDialogProps = FormDialog<EmailTemplateFormModel>;
 
 const props = withDefaults(defineProps<EmailTemplateDialogProps>(), {
   form: () => ({}) as EmailTemplateFormModel,

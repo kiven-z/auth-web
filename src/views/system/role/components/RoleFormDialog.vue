@@ -6,7 +6,7 @@ import type { FormInstance, FormRules } from 'element-plus';
 import { reactive, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 
-interface RoleFormDialogProps extends FormDialog<SysRoleCreateForm> {}
+type RoleFormDialogProps = FormDialog<SysRoleCreateForm>;
 
 const props = withDefaults(defineProps<RoleFormDialogProps>(), {
   form: () => ({}) as SysRoleCreateForm,

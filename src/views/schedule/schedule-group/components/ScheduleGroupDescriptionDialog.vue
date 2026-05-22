@@ -9,7 +9,7 @@ defineOptions({
   name: 'JobGroupDescriptionDialog',
 });
 
-interface ScheduleGroupDescriptionDialogProps extends DetailDialog<SysJobGroupPageRow> {}
+type ScheduleGroupDescriptionDialogProps = DetailDialog<SysJobGroupPageRow>;
 
 const props = defineProps<ScheduleGroupDescriptionDialogProps>();
 const { t } = useI18n();

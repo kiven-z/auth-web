@@ -9,7 +9,7 @@ defineOptions({
   name: 'AuthorizationAuditDetailDialog',
 });
 
-interface AuthorizationAuditDetailDialogProps extends DetailDialog<AuthorizationAuditDetailRow> {}
+type AuthorizationAuditDetailDialogProps = DetailDialog<AuthorizationAuditDetailRow>;
 
 defineProps<AuthorizationAuditDetailDialogProps>();
 const { t } = useI18n();

@@ -9,7 +9,7 @@ defineOptions({
   name: 'PasswordHistoryDescriptionDialog',
 });
 
-interface PasswordHistoryDescriptionDialogProps extends DetailDialog<PasswordHistoryDetailRow> {}
+type PasswordHistoryDescriptionDialogProps = DetailDialog<PasswordHistoryDetailRow>;
 
 defineProps<PasswordHistoryDescriptionDialogProps>();
 const { t } = useI18n();

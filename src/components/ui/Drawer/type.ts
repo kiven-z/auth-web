@@ -2,14 +2,14 @@ import type { Component, CSSProperties, VNode } from 'vue';
 
 type DoneFn = (cancel?: boolean) => void;
 type EventType = 'open' | 'close' | 'openAutoFocus' | 'closeAutoFocus';
-type ArgsType = {
+interface ArgsType {
   /** `cancel` 点击取消按钮、`sure` 点击确定按钮、`close` 点击右上角关闭按钮或空白页或按下了 `esc` 键 */
   command: 'cancel' | 'sure' | 'close';
-};
+}
 
 type ButtonType = 'primary' | 'success' | 'warning' | 'danger' | 'info' | 'text';
 
-type DrawerProps = {
+interface DrawerProps {
   /** `Drawer` 的显示与隐藏 */
   visible?: boolean;
   /** `Drawer` 自身是否插入至 `body` 元素上。嵌套的 `Drawer` 必须指定该属性并赋值为 `true`，默认 `false` */
@@ -52,10 +52,10 @@ type DrawerProps = {
   zIndex?: number;
   /** `header` 的 `aria-level` 属性，默认 `2` */
   headerAriaLevel?: string;
-};
+}
 
 //element-plus.org/zh-CN/component/popConfirm.html#attributes
-type PopConfirm = {
+interface PopConfirm {
   /** 标题 */
   title?: string;
   /** 确认按钮文字 */
@@ -80,18 +80,18 @@ type PopConfirm = {
   persistent?: boolean;
   /** 弹层宽度，最小宽度 `150px`，默认 `150` */
   width?: string | number;
-};
+}
 
-type BtnClickDrawer = {
+interface BtnClickDrawer {
   options?: DrawerOptions;
   index?: number;
-};
-type BtnClickButton = {
+}
+interface BtnClickButton {
   btn?: ButtonProps;
   index?: number;
-};
+}
 /** https://element-plus.org/zh-CN/component/button.html#button-attributes */
-type ButtonProps = {
+interface ButtonProps {
   /** 按钮文字 */
   label: string;
   /** 按钮尺寸 */
@@ -142,7 +142,7 @@ type ButtonProps = {
     /** 当前 `button` 信息 */
     button: BtnClickButton;
   }) => void;
-};
+}
 
 interface DrawerOptions extends DrawerProps {
   /** 内容区组件的 `props`，可通过 `defineProps` 接收 */

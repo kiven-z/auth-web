@@ -4,7 +4,7 @@ import type { SysPermissionPageRow } from '@/api/system/permission';
 /**
  * 权限表格操作依赖
  */
-interface PermissionTableActionDeps extends TableActionDeps {}
+type PermissionTableActionDeps = TableActionDeps;
 
 /**
  * 权限表格操作（分页已就绪，弹层 CRUD 待后端接口后接入）

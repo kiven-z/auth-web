@@ -15,34 +15,34 @@ export const routerArrays: Array<RouteConfigs> =
       ]
     : [];
 
-export type routeMetaType = {
+export interface routeMetaType {
   title?: string;
   icon?: string | FunctionalComponent;
   showLink?: boolean;
   savedPosition?: boolean;
   auths?: Array<string>;
-};
+}
 
-export type RouteConfigs = {
+export interface RouteConfigs {
   path?: string;
   query?: object;
   params?: object;
   meta?: routeMetaType;
   children?: RouteConfigs[];
   name?: string;
-};
+}
 
-export type multiTagsType = {
+export interface multiTagsType {
   tags: Array<RouteConfigs>;
-};
+}
 
-export type tagsViewsType = {
+export interface tagsViewsType {
   icon: string | FunctionalComponent;
   text: string;
   divided: boolean;
   disabled: boolean;
   show: boolean;
-};
+}
 
 export interface setType {
   sidebar: {
@@ -61,7 +61,7 @@ export interface setType {
   hideTabs: boolean;
 }
 
-export type menuType = {
+export interface menuType {
   id?: number;
   name?: string;
   path?: string;
@@ -79,12 +79,12 @@ export type menuType = {
   parentId?: number;
   pathList?: number[];
   redirect?: string;
-};
+}
 
-export type themeColorsType = {
+export interface themeColorsType {
   color: string;
   themeColor: string;
-};
+}
 
 export interface scrollbarDomType extends HTMLElement {
   wrap?: {

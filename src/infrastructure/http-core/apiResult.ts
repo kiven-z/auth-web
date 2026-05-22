@@ -6,11 +6,11 @@
  */
 export { API_SUCCESS_CODE } from '@/config/http-config';
 
-type ResultExt = {
+interface ResultExt {
   i18nKey?: string;
   i18nArgs?: unknown[];
   [key: string]: unknown;
-};
+}
 
 /**
  * 接口结果

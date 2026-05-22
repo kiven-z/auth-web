@@ -9,13 +9,13 @@ import {
 } from './constants';
 import type { AuthDataTableAdaptiveConfig, AuthDataTablePagination } from './types';
 
-type AdaptivePropsSlice = {
+interface AdaptivePropsSlice {
   adaptive: boolean;
   adaptiveConfig?: AuthDataTableAdaptiveConfig;
   columns: TableColumnList;
   pagination: AuthDataTablePagination | null;
   rowHoverBgColor?: string;
-};
+}
 
 /**
  * 根据视口计算表格包裹层高度，并在 resize / 列或分页变化时重算。

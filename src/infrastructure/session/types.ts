@@ -39,7 +39,7 @@ export interface DataInfo<T> {
  * @param permissions 当前登录用户的按钮级别权限
  * @param userId 用户 ID（与后端 Long 字符串化一致）
  */
-export type SessionTokenPayload = {
+export interface SessionTokenPayload {
   accessToken: string;
   expires?: string | number | Date;
   avatar?: string;
@@ -48,16 +48,16 @@ export type SessionTokenPayload = {
   roles?: Array<string>;
   permissions?: Array<string>;
   userId?: string;
-};
+}
 
 /**
  * 用户资料快照（写入 localStorage 与同步 Pinia 时使用）。
  */
-export type UserProfileSnapshot = {
+export interface UserProfileSnapshot {
   avatar: string;
   username: string;
   nickname: string;
   roles: Array<string>;
   permissions: Array<string>;
   userId?: string;
-};
+}

@@ -1,11 +1,11 @@
 <script lang="ts" setup>
 import type { FormDialog } from '@/api/common';
+import { EmailTestSendForm } from '@/views/message/email-template/hooks/useEmailTemplateTableMoreAction';
 import type { FormInstance, FormRules } from 'element-plus';
 import { reactive, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { EmailTestSendForm } from '@/views/message/email-template/hooks/useEmailTemplateTableMoreAction';
 
-export interface EmailTemplateTestSendDialogProps extends FormDialog<EmailTestSendForm> {}
+export type EmailTemplateTestSendDialogProps = FormDialog<EmailTestSendForm>;
 
 const props = withDefaults(defineProps<EmailTemplateTestSendDialogProps>(), {
   form: () => ({ id: '', email: '' }),

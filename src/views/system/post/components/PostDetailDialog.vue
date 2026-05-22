@@ -9,7 +9,7 @@ defineOptions({
   name: 'PostDetailDialog',
 });
 
-interface PostDetailDialogProps extends DetailDialog<SysPostPageRow> {}
+type PostDetailDialogProps = DetailDialog<SysPostPageRow>;
 
 const { data } = defineProps<PostDetailDialogProps>();
 const { t } = useI18n();

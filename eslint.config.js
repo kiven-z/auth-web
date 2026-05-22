@@ -83,6 +83,7 @@ export default defineConfig([
         'error',
         { disallowTypeAnnotations: false, fixStyle: 'inline-type-imports' },
       ],
+      '@typescript-eslint/consistent-type-definitions': ['error', 'interface'],
       '@typescript-eslint/prefer-literal-enum-member': ['error', { allowBitwiseExpressions: true }],
       '@typescript-eslint/no-unused-vars': [
         'error',
@@ -147,6 +148,7 @@ export default defineConfig([
       'vue/multi-word-component-names': 'error',
       'vue/component-definition-name-casing': ['error', 'PascalCase'],
       'vue/no-setup-props-reactivity-loss': 'off',
+      '@typescript-eslint/consistent-type-definitions': ['error', 'interface'],
       'vue/html-self-closing': [
         'error',
         {

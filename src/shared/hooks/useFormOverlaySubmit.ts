@@ -6,10 +6,10 @@ import { useI18n } from 'vue-i18n';
 /**
  * 表单弹层子组件通过 defineExpose 暴露的结构（与 FormDialog 配合使用）
  */
-export type FormOverlayExpose<TForm> = {
+export interface FormOverlayExpose<TForm> {
   formRef?: FormInstance;
   form: TForm;
-};
+}
 
 export interface CreateFormBeforeSureOptions<TForm> {
   //  指向表单弹层组件实例的 ref
