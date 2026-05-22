@@ -1,11 +1,5 @@
-import {
-  getDeptList,
-  getDeptPage,
-  type SysDeptListVO,
-  type SysDeptPageQuery,
-  type SysDeptTreeNode,
-} from '@/api/system/dept';
-import { createModuleTableTreePageState } from '@/shared/hooks/createModuleTableTreePageState';
+import { getDeptList, getDeptPage, type SysDeptListVO, type SysDeptTreeNode } from '@/api/system/dept';
+import { useCreateModuleTableTreePageState } from '@/shared/hooks/useCreateModuleTableTreePageState';
 import { reactive } from 'vue';
 
 /**
@@ -24,11 +18,12 @@ const searchForm = reactive({
   status: undefined as boolean | undefined,
 });
 
-const useDeptPageState = createModuleTableTreePageState<SysDeptRow, SysDeptListVO, SysDeptTreeNode, DeptViewMode>({
+const useDeptPageState = useCreateModuleTableTreePageState<SysDeptRow, SysDeptListVO, SysDeptTreeNode, DeptViewMode>({
   searchForm,
   defaultPageSize: 10,
   errorI18nKey: 'dept.loadFailed',
-  fetchPage: (q) => getDeptPage(q as unknown as SysDeptPageQuery),
+  // FIXME 不要缩写q
+  fetchPage: (q) => getDeptPage(q),
   fetchFlatList: () => getDeptList({}),
   flatListParams: {},
   resetSearchFormWithoutRef: () => {

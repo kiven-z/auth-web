@@ -3,6 +3,7 @@ import type { MenuForm } from '@/api/system/menu';
 import { createMenu, deleteMenus, getMenuDetail, updateMenu, updateMenuBatchStatus } from '@/api/system/menu';
 import { addDialog } from '@/components/ui/Dialog';
 import { addDrawer } from '@/components/ui/Drawer';
+import { useFormOverlaySubmit, type FormOverlayExpose } from '@/shared/hooks/useFormOverlaySubmit';
 import { deleteConfirm } from '@/shared/messaging/dialog';
 import { errorMessage, message } from '@/shared/messaging/message';
 import MenuDialog from '@/views/system/menu/components/MenuDialog.vue';
@@ -19,21 +20,18 @@ interface MenuTableActionDeps extends TableActionDeps {
   selectedRows: Ref<string[]>;
 }
 
-type MenuDialogExpose = {
-  formRef?: { validate: () => Promise<boolean | undefined> };
-  form: MenuForm;
-};
-
 function useMenuTableAction(deps: MenuTableActionDeps) {
   const { t } = useI18n();
-
+  const { createFormBeforeSure } = useFormOverlaySubmit();
   const { refresh } = deps;
 
   /**
-   * 打开创建对话框
+   * 打开创建抽屉
    */
   const openCreateDialog = () => {
-    const dlgRef = ref<MenuDialogExpose | null>(null);
+    const drawerFormRef = ref<FormOverlayExpose<MenuForm> | null>(null);
+    const formData = createEmptyMenuForm();
+
     addDrawer({
       title: t('sysMenu.addDialogTitle'),
       size: '50%',
@@ -42,38 +40,34 @@ function useMenuTableAction(deps: MenuTableActionDeps) {
       closeOnClickModal: false,
       closeOnPressEscape: false,
       showClose: true,
-      props: { form: createEmptyMenuForm(), isFormDisabled: false },
-      contentRenderer: () => h(MenuDialog, { ref: dlgRef }),
-      beforeSure: async (done) => {
-        try {
-          const ok = await dlgRef.value?.formRef?.validate().catch(() => false);
-          if (!ok) {
-            return;
-          }
-          const f = dlgRef.value?.form;
-          if (!f) {
-            return;
-          }
-          await createMenu(formToSaveRequest(f));
-          message(t('tips.addSuccess'), { type: 'success' });
+      contentRenderer: () =>
+        h(MenuDialog, {
+          ref: drawerFormRef,
+          form: formData,
+          isFormDisabled: false,
+        }),
+      beforeSure: createFormBeforeSure<MenuForm>({
+        formExposeRef: drawerFormRef,
+        errorI18nKey: 'sysMenu.saveFailed',
+        successI18nKey: 'tips.addSuccess',
+        onSubmit: async (formPayload) => {
+          await createMenu(formToSaveRequest(formPayload));
           await refresh();
-          done();
-        } catch (e: unknown) {
-          errorMessage(e, { defaultI18nKey: 'sysMenu.saveFailed' });
-        }
-      },
+        },
+      }),
     });
   };
 
   /**
-   * 打开编辑对话框
+   * 打开编辑抽屉
    * @param row 行数据
    */
   const openEditDialog = async (row: SysMenuRow) => {
     try {
       const detail = await getMenuDetail(row.id);
-      const form = detailToForm(detail);
-      const dlgRef = ref<MenuDialogExpose | null>(null);
+      const formData = detailToForm(detail);
+      const drawerFormRef = ref<FormOverlayExpose<MenuForm> | null>(null);
+
       addDrawer({
         title: t('sysMenu.editDialogTitle'),
         size: '50%',
@@ -81,29 +75,25 @@ function useMenuTableAction(deps: MenuTableActionDeps) {
         closeOnClickModal: false,
         closeOnPressEscape: false,
         showClose: true,
-        props: { form, isFormDisabled: false },
-        contentRenderer: () => h(MenuDialog, { ref: dlgRef }),
-        beforeSure: async (done) => {
-          try {
-            const ok = await dlgRef.value?.formRef?.validate().catch(() => false);
-            if (!ok) {
-              return;
-            }
-            const f = dlgRef.value?.form;
-            if (!f?.id) {
-              return;
-            }
-            await updateMenu({ ...formToSaveRequest(f), id: f.id });
-            message(t('tips.editSuccess'), { type: 'success' });
+        contentRenderer: () =>
+          h(MenuDialog, {
+            ref: drawerFormRef,
+            form: formData,
+            isFormDisabled: false,
+          }),
+        beforeSure: createFormBeforeSure<MenuForm>({
+          formExposeRef: drawerFormRef,
+          errorI18nKey: 'sysMenu.saveFailed',
+          successI18nKey: 'tips.editSuccess',
+          requireId: true,
+          onSubmit: async (formPayload) => {
+            await updateMenu({ ...formToSaveRequest(formPayload), id: formPayload.id! });
             await refresh();
-            done();
-          } catch (e: unknown) {
-            errorMessage(e, { defaultI18nKey: 'sysMenu.saveFailed' });
-          }
-        },
+          },
+        }),
       });
-    } catch (e: unknown) {
-      errorMessage(e, { defaultI18nKey: 'sysMenu.loadFailed' });
+    } catch (error: unknown) {
+      errorMessage(error, { defaultI18nKey: 'sysMenu.loadFailed' });
     }
   };
 
@@ -114,7 +104,8 @@ function useMenuTableAction(deps: MenuTableActionDeps) {
   const openDetailDialog = async (row: SysMenuRow) => {
     try {
       const detail = await getMenuDetail(row.id);
-      const form = detailToForm(detail);
+      const formData = detailToForm(detail);
+
       addDialog({
         title: t('sysMenu.detailDialogTitle'),
         width: '920px',
@@ -123,11 +114,14 @@ function useMenuTableAction(deps: MenuTableActionDeps) {
         closeOnClickModal: false,
         closeOnPressEscape: false,
         hideFooter: true,
-        props: { form, isFormDisabled: true },
-        contentRenderer: () => h(MenuDialog),
+        contentRenderer: () =>
+          h(MenuDialog, {
+            form: formData,
+            isFormDisabled: true,
+          }),
       });
-    } catch (e: unknown) {
-      errorMessage(e, { defaultI18nKey: 'sysMenu.loadFailed' });
+    } catch (error: unknown) {
+      errorMessage(error, { defaultI18nKey: 'sysMenu.loadFailed' });
     }
   };
 
@@ -136,20 +130,19 @@ function useMenuTableAction(deps: MenuTableActionDeps) {
    * @param ids 主键列表，可选
    */
   const deleteBatchRows = async (ids?: string[]) => {
-    ids = ids || deps.selectedRows.value;
-
-    const ok = await deleteConfirm();
-    if (!ok) {
+    const targetIds = ids ?? deps.selectedRows.value;
+    const confirmed = await deleteConfirm();
+    if (!confirmed) {
       return;
     }
 
     try {
-      await deleteMenus(ids);
+      await deleteMenus(targetIds);
       message(t('tips.deleteSuccess'), { type: 'success' });
       deps.selectedRows.value = [];
       await refresh();
-    } catch (e: unknown) {
-      errorMessage(e, { defaultI18nKey: 'sysMenu.deleteFailed' });
+    } catch (error: unknown) {
+      errorMessage(error, { defaultI18nKey: 'sysMenu.deleteFailed' });
     }
   };
 
@@ -166,8 +159,8 @@ function useMenuTableAction(deps: MenuTableActionDeps) {
       await updateMenuBatchStatus({ ids, status: enabled });
       message(t('tips.editSuccess'), { type: 'success' });
       await refresh();
-    } catch (e: unknown) {
-      errorMessage(e, { defaultI18nKey: 'sysMenu.statusFailed' });
+    } catch (error: unknown) {
+      errorMessage(error, { defaultI18nKey: 'sysMenu.statusFailed' });
     }
   };
 

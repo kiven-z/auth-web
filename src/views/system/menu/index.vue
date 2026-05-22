@@ -11,6 +11,7 @@ defineOptions({
 
 const { t } = useI18n();
 
+// 菜单视图选项
 const segmentedOptions = computed(() => [
   { label: t('sysMenu.viewTableTitle'), value: 'table' as const },
   { label: t('sysMenu.viewTreeTitle'), value: 'tree' as const },
@@ -21,6 +22,7 @@ const { viewMode } = useMenuPageState();
 
 <template>
   <div>
+    <!-- FIXME 换成ui组件里的Segmented -->
     <div class="flex justify-center -mt-[20px] pb-1">
       <el-segmented v-model="viewMode" :options="segmentedOptions" />
     </div>

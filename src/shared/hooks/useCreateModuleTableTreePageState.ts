@@ -36,7 +36,7 @@ export interface CreateModuleTableTreePageStateConfig<TRow, TFlat, TNode, TViewM
  *
  * @returns 与原先 `useMenuPageState` / `useDeptPageState` 相同：每次调用返回同一组 ref 与方法。
  */
-export function createModuleTableTreePageState<
+export function useCreateModuleTableTreePageState<
   TRow extends { id?: string | number },
   TFlat,
   TNode,

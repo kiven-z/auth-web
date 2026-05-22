@@ -32,6 +32,7 @@ const { permissionDrawerDataColumns } = useMenuTableColumns();
  * @returns 权限分页数据
  */
 async function fetchPermissionPage(query: AuthAssignPageQuery) {
+  // FIXME 可以移除
   return getPermissionPage({
     pageIndex: query.pageIndex,
     pageSize: query.pageSize,
@@ -47,7 +48,9 @@ async function fetchPermissionPage(query: AuthAssignPageQuery) {
 const fetchTableData = async () => {
   seedLoading.value = true;
   try {
+    // 获取菜单权限列表
     const list = await getMenuPermissions(props.menuId);
+    // 转换为 AssignManagePanel 组件所需的格式
     seed.value = list.map((r) => ({ key: r.permissionCode, label: r.permissionName }));
   } catch (e: unknown) {
     errorMessage(e, { defaultI18nKey: 'sysMenu.assignLoadFailed' });
@@ -63,7 +66,9 @@ const fetchTableData = async () => {
 const saveData = async (): Promise<boolean> => {
   saving.value = true;
   try {
+    // 当前分配的权限
     const permissionCodes = assignRef.value?.getSelectedKeys() ?? [];
+    // 保存分配的权限
     await putMenuPermissions(props.menuId, { permissionCodes });
     message(t('sysMenu.assignSaveSuccess'), { type: 'success' });
     return true;

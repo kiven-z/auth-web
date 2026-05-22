@@ -2,6 +2,7 @@ import type { TableActionDeps } from '@/api/common';
 import type { SysPostCreateForm, SysPostPageRow } from '@/api/system/post';
 import { createPost } from '@/api/system/post';
 import { addDialog } from '@/components/ui/Dialog';
+import { useFormOverlaySubmit, type FormOverlayExpose } from '@/shared/hooks/useFormOverlaySubmit';
 import { deleteConfirm } from '@/shared/messaging/dialog';
 import { errorMessage, message } from '@/shared/messaging/message';
 import PostDetailDialog from '@/views/system/post/components/PostDetailDialog.vue';
@@ -11,80 +12,86 @@ import { h, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 /**
- * 与弹窗子组件 defineExpose 对齐
- */
-type PostDialogFormExpose = {
-  formRef?: { validate: () => Promise<boolean | undefined> };
-  form: SysPostCreateForm;
-};
-
-/**
  * 岗位表格操作：弹窗与写接口
  */
 function usePostTableAction(deps: TableActionDeps) {
   const { fetchTableData } = deps;
   const { t } = useI18n();
+  const { createFormBeforeSure } = useFormOverlaySubmit();
 
   /**
    * 打开新增弹窗
    */
   const openCreateDialog = () => {
+    const dialogFormRef = ref<FormOverlayExpose<SysPostCreateForm> | null>(null);
     const formData = createEmptyPostForm();
-    const dlgFormRef = ref<PostDialogFormExpose | null>(null);
 
     addDialog({
       title: t('post.dialogCreateTitle'),
-      props: { form: formData },
       draggable: true,
       fullscreenIcon: true,
       closeOnClickModal: false,
       closeOnPressEscape: false,
-      contentRenderer: () => h(PostFormDialog, { ref: dlgFormRef }),
-      beforeSure: async (done) => {
-        try {
-          const formInst = dlgFormRef.value?.formRef;
-          const valid = await formInst?.validate().catch(() => false);
-          if (!valid) return;
-          const f = dlgFormRef.value?.form;
-          if (!f) return;
-          await createPost(f);
-          message(t('tips.addSuccess'), { type: 'success' });
+      contentRenderer: () => h(PostFormDialog, { ref: dialogFormRef, form: formData }),
+      beforeSure: createFormBeforeSure<SysPostCreateForm>({
+        formExposeRef: dialogFormRef,
+        errorI18nKey: 'post.loadFailed',
+        successI18nKey: 'tips.addSuccess',
+        onSubmit: async (formPayload) => {
+          await createPost(formPayload);
           await fetchTableData();
-          done();
-        } catch (error: unknown) {
-          errorMessage(error, { defaultI18nKey: 'post.loadFailed' });
-        }
-      },
+        },
+      }),
     });
   };
 
   /**
-   * 打开详情弹窗
+   * 打开详情弹窗（后端暂无 GET /{id}，使用分页行数据）
    * @param row 表格行数据
    */
   const openDetailDialog = (row: SysPostPageRow) => {
     addDialog({
       title: t('post.dialogViewTitle'),
-      props: { data: row },
       draggable: true,
       fullscreenIcon: true,
       closeOnClickModal: false,
       closeOnPressEscape: false,
-      contentRenderer: () => h(PostDetailDialog),
-      beforeSure: (done) => done(),
+      hideFooter: true,
+      contentRenderer: () => h(PostDetailDialog, { data: row }),
     });
   };
 
   /**
-   * 批量删除（单行传 [row.id]；未传 ids 时暂不支持多选，待对接批量删除接口）
+   * 编辑（待对接 getPostDetail、updatePost）
+   * @param _row 表格行
+   */
+  const openEditDialog = async (_row: SysPostPageRow) => {
+    void _row;
+    // TODO: await getPostDetail(row.id) → detailToForm → h(PostFormDialog, { form })
+  };
+
+  /**
+   * 单行删除（待对接 deletePost / 批量删除接口）
+   * @param _row 表格行
+   */
+  const deleteRow = async (_row: SysPostPageRow) => {
+    void _row;
+    // TODO: deleteConfirm → deletePost(row.id) → fetchTableData
+  };
+
+  /**
+   * 批量删除（待对接 batchDeletePosts）
    * @param ids 主键列表，可选
    */
   const deleteBatchRows = async (ids?: string[]) => {
+    void ids;
     const confirmed = await deleteConfirm();
-    if (!confirmed) return;
+    if (!confirmed) {
+      return;
+    }
 
     try {
-      // 后续对接 batchDeletePosts(ids)
+      // TODO: await batchDeletePosts(ids ?? selectedRows)
       message(t('tips.deleteSuccess'), { type: 'success' });
       await fetchTableData();
     } catch (error: unknown) {
@@ -92,10 +99,20 @@ function usePostTableAction(deps: TableActionDeps) {
     }
   };
 
+  /**
+   * 高级功能 / 批量操作扩展（待实现）
+   */
+  const openAdvancedActions = () => {
+    // TODO: 批量删除、批量状态等
+  };
+
   return {
     openCreateDialog,
     openDetailDialog,
+    openEditDialog,
+    deleteRow,
     deleteBatchRows,
+    openAdvancedActions,
   };
 }
 

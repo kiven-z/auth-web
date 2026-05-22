@@ -10,12 +10,12 @@ import { useI18n } from 'vue-i18n';
 interface RoleFormDialogProps extends FormDialog<SysRoleCreateForm> {}
 
 const props = withDefaults(defineProps<RoleFormDialogProps>(), {
-  form: {},
+  form: () => ({}) as SysRoleCreateForm,
 });
 
 const { t } = useI18n();
 const formRef = ref<FormInstance>();
-const form = ref<SysRoleCreateForm>(props.form);
+const form = ref<SysRoleCreateForm>({ ...createEmptyRoleForm(), ...props.form });
 
 const rules = reactive<FormRules>({
   roleCode: [

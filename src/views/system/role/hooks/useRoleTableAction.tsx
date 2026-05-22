@@ -1,8 +1,8 @@
 import type { TableActionDeps } from '@/api/common';
-import type { SysRoleCreateForm } from '@/api/system/role';
+import type { SysRoleCreateForm, SysRolePageRow } from '@/api/system/role';
 import { createRole } from '@/api/system/role';
 import { addDialog } from '@/components/ui/Dialog';
-import { errorMessage, message } from '@/shared/messaging/message';
+import { useFormOverlaySubmit, type FormOverlayExpose } from '@/shared/hooks/useFormOverlaySubmit';
 import RoleDescriptionDialog from '@/views/system/role/components/RoleDescriptionDialog.vue';
 import RoleFormDialog from '@/views/system/role/components/RoleFormDialog.vue';
 import { createEmptyRoleForm } from '@/views/system/role/utils/role-form-mapper';
@@ -10,89 +10,101 @@ import { h, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 /**
- * 与弹窗子组件 defineExpose 对齐
- */
-type RoleDialogFormExpose = {
-  formRef?: { validate: () => Promise<boolean | undefined> };
-  form: SysRoleCreateForm;
-};
-
-/**
  * 角色表格操作：弹窗与写接口
  */
 function useRoleTableAction(deps: TableActionDeps) {
-  const { t } = useI18n();
-
   const { fetchTableData } = deps;
+  const { t } = useI18n();
+  const { createFormBeforeSure } = useFormOverlaySubmit();
 
   /**
    * 打开新增弹窗
    */
   const openCreateDialog = () => {
+    const dialogFormRef = ref<FormOverlayExpose<SysRoleCreateForm> | null>(null);
     const formData = createEmptyRoleForm();
-    const dlgFormRef = ref<RoleDialogFormExpose | null>(null);
 
     addDialog({
       title: t('roles.dialogCreateTitle'),
-      props: { form: formData },
       draggable: true,
       fullscreenIcon: true,
       closeOnClickModal: false,
       closeOnPressEscape: false,
-      contentRenderer: () => h(RoleFormDialog, { ref: dlgFormRef }),
-      beforeSure: async (done) => {
-        try {
-          // 弹窗表单验证
-          const formInst = dlgFormRef.value?.formRef;
-          const valid = await formInst?.validate().catch(() => false);
-          if (!valid) return;
-
-          // 获取表单数据
-          const f = dlgFormRef.value?.form;
-          if (!f) return;
-
-          // 创建角色
-          await createRole(f);
-
-          message(t('tips.addSuccess'), { type: 'success' });
+      contentRenderer: () =>
+        h(RoleFormDialog, {
+          ref: dialogFormRef,
+          form: formData,
+        }),
+      beforeSure: createFormBeforeSure<SysRoleCreateForm>({
+        formExposeRef: dialogFormRef,
+        errorI18nKey: 'roles.loadFailed',
+        successI18nKey: 'tips.addSuccess',
+        onSubmit: async (formPayload) => {
+          await createRole(formPayload);
           await fetchTableData();
-          done();
-        } catch (error: unknown) {
-          errorMessage(error, { defaultI18nKey: 'roles.loadFailed' });
-        }
-      },
+        },
+      }),
     });
   };
 
   /**
-   * 查看角色描述
+   * 查看详情（待对接 getRoleDetail、RoleDetailDialog）
+   * @param _row 表格行
    */
-  const openDetailDialog = () => {
-    const formRef = ref();
-
+  const openDetailDialog = (_row?: SysRolePageRow) => {
+    void _row;
     addDialog({
       title: t('roles.dialogViewTitle'),
       draggable: true,
       fullscreenIcon: true,
       closeOnPressEscape: false,
       closeOnClickModal: false,
-      contentRenderer: () => h(RoleDescriptionDialog, { ref: formRef }),
-      beforeSure: (done) => done(),
+      hideFooter: true,
+      contentRenderer: () => h(RoleDescriptionDialog),
     });
   };
 
   /**
-   * 编辑角色
+   * 编辑（待对接 getRoleDetail、updateRole）
+   * @param _row 表格行
    */
-  const openEditDialog = async () => {
-    // 保存逻辑落地后：await api...; await deps.onSearch();
-    await fetchTableData();
+  const openEditDialog = async (_row?: SysRolePageRow) => {
+    void _row;
+    // TODO: await getRoleDetail(row.id) → detailToForm → h(RoleFormDialog, { form })
+  };
+
+  /**
+   * 单行删除（待对接 deleteRole）
+   * @param _row 表格行
+   */
+  const deleteRow = async (_row: SysRolePageRow) => {
+    void _row;
+    // TODO: deleteConfirm → deleteRole → fetchTableData
+  };
+
+  /**
+   * 批量删除（待对接 batchDeleteRoles）
+   * @param _ids 主键列表
+   */
+  const deleteBatchRows = async (_ids?: string[]) => {
+    void _ids;
+    // TODO: deleteConfirm → batchDeleteRoles → fetchTableData
+  };
+
+  /**
+   * 更多操作（分配权限、数据范围等，待实现）
+   */
+  const openMoreActions = () => {
+    // TODO: 下拉项对应独立弹层/抽屉
   };
 
   return {
     openCreateDialog,
     openDetailDialog,
     openEditDialog,
+    deleteRow,
+    deleteBatchRows,
+    openMoreActions,
   };
 }
 

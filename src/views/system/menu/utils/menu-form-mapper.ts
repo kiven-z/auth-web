@@ -1,22 +1,39 @@
 import type { MenuForm, MenuSaveRequest, SysMenuDetailVO } from '@/api/system/menu';
 import { MenuTypeEnums } from '@/views/system/menu/constants/menuEnums';
 
-/** Boolean → boolean（展示用，后端 true=是） */
+/**
+ * Boolean → boolean（展示用，后端 true=是）
+ * @param v Boolean
+ * @returns boolean
+ */
 export function oneAsTrue(v: boolean | undefined | null): boolean {
   return v ?? false;
 }
 
-/** boolean → Boolean（后端 Boolean 类型，true=是） */
+/**
+ * boolean → Boolean（后端 Boolean 类型，true=是）
+ * @param b boolean
+ * @param defaultTrue 默认值
+ * @returns boolean
+ */
 export function boolToFlag(b: boolean | undefined, defaultTrue = false): boolean {
   return b ?? defaultTrue;
 }
 
-/** 后端 Boolean status (true=启用) → UI boolean */
+/**
+ * 后端 Boolean status (true=启用) → UI boolean
+ * @param status 后端 Boolean status
+ * @returns UI boolean
+ */
 export function statusToBool(status: boolean | undefined | null): boolean {
   return status ?? true;
 }
 
-/** UI boolean → 后端 Boolean (true=启用) */
+/**
+ * UI boolean → 后端 Boolean (true=启用)
+ * @param b UI boolean
+ * @returns 后端 Boolean
+ */
 export function boolToStatus(b: boolean | undefined): boolean {
   return b ?? true;
 }

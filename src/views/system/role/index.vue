@@ -147,9 +147,9 @@ onMounted(() => {
           <template #actions>
             <div class="flex justify-center">
               <!-- 查看 -->
-              <el-button link type="primary" @click="openDetailDialog">{{ t('buttons.actionView') }}</el-button>
+              <el-button link type="primary" @click="() => openDetailDialog()">{{ t('buttons.actionView') }}</el-button>
               <!-- 修改/编辑 -->
-              <el-button link type="primary" @click="openEditDialog">{{ t('buttons.actionEdit') }}</el-button>
+              <el-button link type="primary" @click="() => openEditDialog()">{{ t('buttons.actionEdit') }}</el-button>
               <!-- 删除 -->
               <el-button link type="danger">{{ t('buttons.actionDelete') }}</el-button>
 

@@ -1,6 +1,6 @@
 import type { SysMenuListQuery, SysMenuListVO, SysMenuTreeNode } from '@/api/system/menu';
 import { getMenuList, getMenuPage, type SysMenuPageQuery } from '@/api/system/menu';
-import { createModuleTableTreePageState } from '@/shared/hooks/createModuleTableTreePageState';
+import { useCreateModuleTableTreePageState } from '@/shared/hooks/useCreateModuleTableTreePageState';
 import { reactive } from 'vue';
 
 /**
@@ -23,7 +23,7 @@ const searchForm = reactive<SysMenuListQuery>({
   component: undefined,
 });
 
-const useMenuPageState = createModuleTableTreePageState<SysMenuRow, SysMenuListVO, SysMenuTreeNode, MenuViewMode>({
+const useMenuPageState = useCreateModuleTableTreePageState<SysMenuRow, SysMenuListVO, SysMenuTreeNode, MenuViewMode>({
   searchForm,
   defaultPageSize: 10,
   errorI18nKey: 'sysMenu.loadFailed',

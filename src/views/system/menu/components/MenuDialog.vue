@@ -20,42 +20,11 @@ import type { CascaderProps, FormInstance } from 'element-plus';
 import { computed, onMounted, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 
-/** IconSelect 内置 Tab 前缀；其它 Iconify 集合默认走手动输入模式 */
-const BUILTIN_ICON_PREFIXES = ['ep:', 'ri:', 'fa-solid:'] as const;
-
-const ICONIFY_ICON_SETS_URL = 'https://icon-sets.iconify.design/';
-
-type IconInputMode = 'select' | 'manual';
-
-function deriveIconInputMode(icon: string | undefined | null): IconInputMode {
-  const v = (icon ?? '').trim();
-  if (!v) {
-    return 'select';
-  }
-  const lower = v.toLowerCase();
-  return BUILTIN_ICON_PREFIXES.some((p) => lower.startsWith(p)) ? 'select' : 'manual';
-}
-
 interface MenuDialogProps extends FormDialog<MenuForm> {
   isFormDisabled?: boolean;
 }
 
-const props = withDefaults(defineProps<MenuDialogProps>(), {
-  isFormDisabled: false,
-  form: {},
-});
-
-const { t } = useI18n();
-
-const formRef = ref<FormInstance>();
-const form = ref<MenuForm>({ ...createEmptyMenuForm(), ...props.form });
-
-const rules = computed(() => createMenuFormRules(t));
-
-const menuCascaderProps: CascaderProps = {
-  checkStrictly: true,
-  emitPath: true,
-};
+type IconInputMode = 'select' | 'manual';
 
 type DeptNode = {
   id: string;
@@ -64,6 +33,45 @@ type DeptNode = {
   label: string;
   name: string;
   children?: DeptNode[];
+};
+
+const props = withDefaults(defineProps<MenuDialogProps>(), {
+  isFormDisabled: false,
+  form: () => ({}) as MenuForm,
+});
+
+// IconSelect 内置 Tab 前缀；其它 Iconify 集合默认走手动输入模式
+const BUILTIN_ICON_PREFIXES = ['ep:', 'ri:', 'fa-solid:'] as const;
+// Iconify 官网
+const ICONIFY_ICON_SETS_URL = 'https://icon-sets.iconify.design/';
+
+/**
+ * 根据图标字符串确定输入模式
+ * @param icon 图标字符串
+ * @returns 输入模式
+ * FIXME 是否可以省略
+ */
+function deriveIconInputMode(icon: string | undefined | null): IconInputMode {
+  // FIXME 禁止缩写
+  const v = (icon ?? '').trim();
+  if (!v) {
+    return 'select';
+  }
+  const lower = v.toLowerCase();
+  return BUILTIN_ICON_PREFIXES.some((p) => lower.startsWith(p)) ? 'select' : 'manual';
+}
+
+const { t } = useI18n();
+
+const formRef = ref<FormInstance>();
+const form = ref<MenuForm>({ ...createEmptyMenuForm(), ...props.form });
+
+// FIXME 这个多语言用的不对，可以使用 t、transformI18n
+const rules = computed(() => createMenuFormRules(t));
+
+const menuCascaderProps: CascaderProps = {
+  checkStrictly: true,
+  emitPath: true,
 };
 
 const deptTree = ref<DeptNode[]>([]);

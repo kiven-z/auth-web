@@ -1,19 +1,29 @@
 <script lang="ts" setup>
 import type { FormDialog } from '@/api/common';
 import type { SysPostCreateForm } from '@/api/system/post';
+import { createEmptyPostForm } from '@/views/system/post/utils/post-form-mapper';
 import type { FormInstance, FormRules } from 'element-plus';
-import { reactive, ref } from 'vue';
+import { reactive, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 interface PostFormDialogProps extends FormDialog<SysPostCreateForm> {}
 
 const props = withDefaults(defineProps<PostFormDialogProps>(), {
-  form: {},
+  form: () => ({}) as SysPostCreateForm,
 });
 
 const { t } = useI18n();
 const formRef = ref<FormInstance>();
-const form = ref<SysPostCreateForm>(props.form);
+const form = ref<SysPostCreateForm>({ ...createEmptyPostForm(), ...props.form });
+
+// FIXME 这个可以省略
+watch(
+  () => props.form,
+  (value) => {
+    form.value = { ...createEmptyPostForm(), ...(value ?? {}) };
+  },
+  { deep: true }
+);
 
 const rules = reactive<FormRules>({
   deptId: [{ required: true, message: t('post.deptName'), trigger: 'change' }],

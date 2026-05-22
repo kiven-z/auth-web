@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import type { DetailDialog } from '@/api/common';
 import type { SysPostPageRow } from '@/api/system/post';
 import Description from '@/components/ui/Description';
 import { computed } from 'vue';
@@ -8,7 +9,9 @@ defineOptions({
   name: 'PostDetailDialog',
 });
 
-defineProps<{ data: SysPostPageRow }>();
+interface PostDetailDialogProps extends DetailDialog<SysPostPageRow> {}
+
+const props = defineProps<PostDetailDialogProps>();
 const { t } = useI18n();
 
 const columns = computed(() => [
@@ -25,5 +28,6 @@ const columns = computed(() => [
 </script>
 
 <template>
-  <Description :column="2" :columns="columns" :data="[data]" />
+  <!-- FIXME  直接使用 data 而不是 props.xxx -->
+  <Description :column="2" :columns="columns" :data="[props.data]" />
 </template>
