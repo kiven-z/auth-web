@@ -1,9 +1,7 @@
 <script lang="ts" setup>
 import type { DetailDialog } from '@/api/common';
-import { SysJobGroupPageRow } from '@/api/schedule/job-group';
+import type { SysJobGroupPageRow } from '@/api/schedule/job-group';
 import Description from '@/components/ui/Description';
-import { useDescriptionDetailView } from '@/shared/hooks/useDescriptionDetailView';
-import { resolveBooleanI18nLabel } from '@/shared/utils/i18n-display';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 
@@ -31,16 +29,19 @@ const columns = computed(() => [
   { label: t('scheduleGroup.orderNum'), prop: 'orderNum' },
 ]);
 
-const view = useDescriptionDetailView(
-  () => props.data,
-  (d) => ({
-    ...d,
-    statusLabel: resolveBooleanI18nLabel(t, d.status, 'buttons.statusActiveText', 'buttons.statusInactiveText'),
-    isSystemLabel: d.isSystem ? 'Y' : 'N',
-  })
-);
+const displayRow = computed(() => {
+  const row = props.data;
+  if (!row) {
+    return {};
+  }
+  return {
+    ...row,
+    statusLabel: row.status ? t('buttons.statusActiveText') : t('buttons.statusInactiveText'),
+    isSystemLabel: row.isSystem ? 'Y' : 'N',
+  };
+});
 </script>
 
 <template>
-  <Description :column="2" :columns="columns" :data="[view]" />
+  <Description :column="2" :columns="columns" :data="[displayRow]" />
 </template>

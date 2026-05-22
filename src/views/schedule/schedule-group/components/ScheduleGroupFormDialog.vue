@@ -1,9 +1,8 @@
 <script lang="ts" setup>
 import type { FormDialog } from '@/api/common';
-import { CreateJobGroupRequest, UpdateJobGroupRequest } from '@/api/schedule/job-group';
-import { createEmptyJobGroupForm } from '@/views/schedule/schedule-group/utils/job-group-form-mapper';
+import type { CreateJobGroupRequest, UpdateJobGroupRequest } from '@/api/schedule/job-group';
 import type { FormInstance, FormRules } from 'element-plus';
-import { computed, ref, watch } from 'vue';
+import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 defineOptions({
@@ -13,17 +12,22 @@ defineOptions({
 type JobGroupForm = CreateJobGroupRequest & UpdateJobGroupRequest;
 
 interface ScheduleGroupFormDialogProps extends FormDialog<JobGroupForm> {
-  mode: 'add' | 'edit';
+  mode?: 'add' | 'edit';
 }
 
 const props = withDefaults(defineProps<ScheduleGroupFormDialogProps>(), {
-  form: {},
+  form: () => ({}) as JobGroupForm,
   mode: 'add',
 });
 
 const { t } = useI18n();
 const formRef = ref<FormInstance>();
-const form = ref<JobGroupForm>({ ...createEmptyJobGroupForm(), ...props.form });
+
+const form = ref<JobGroupForm>({
+  status: true,
+  orderNum: 0,
+  ...props.form,
+});
 
 const rules = computed<FormRules>(() => ({
   groupCode: [
@@ -38,15 +42,6 @@ const rules = computed<FormRules>(() => ({
   status: [{ required: true, message: t('scheduleGroup.placeholder.status'), trigger: 'change' }],
   orderNum: [{ required: true, message: t('scheduleGroup.placeholder.orderNum'), trigger: 'blur' }],
 }));
-
-watch(
-  () => props.form,
-  (v) => {
-    form.value = { ...createEmptyJobGroupForm(), ...(v ?? {}) };
-    formRef.value?.clearValidate();
-  },
-  { deep: true }
-);
 
 defineExpose({
   formRef,
