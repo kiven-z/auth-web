@@ -62,6 +62,7 @@ export interface OperationLogPageRow {
 export interface OperationLogDetailRow {
   id: string;
   userId?: string;
+  username?: string | null;
   module?: string | null;
   operationType?: string | null;
   targetType?: string | null;

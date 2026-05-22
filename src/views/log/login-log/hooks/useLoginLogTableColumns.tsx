@@ -3,19 +3,13 @@
  */
 import type { LoginLogPageRow } from '@/api/log/login-log';
 import { selectUserinfo } from '@/components/business/UserProfile';
-import { ElButton } from 'element-plus';
+import { getLoginLogResultTagType } from '@/views/log/login-log/constants/login-log-enums';
+import { ElButton, ElTag } from 'element-plus';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 function useLoginLogTableColumns() {
   const { t } = useI18n();
-
-  const loginResultLabel = (code: number | undefined) => {
-    if (code === undefined || code === null) return '';
-    const key = `loginLog.loginResultEnum.${code}` as const;
-    const label = t(key);
-    return label === key ? String(code) : label;
-  };
 
   const loginTypeLabel = (type: string | null | undefined) => {
     if (!type) return '';
@@ -58,7 +52,18 @@ function useLoginLogTableColumns() {
       label: t('loginLog.loginResult'),
       prop: 'loginResult',
       minWidth: 140,
-      formatter: (row: LoginLogPageRow) => loginResultLabel(row.loginResult),
+      formatter: (row: LoginLogPageRow) => {
+        const code = row.loginResult;
+        if (code === undefined || code === null) return <span>—</span>;
+        const key = `loginLog.loginResultEnum.${code}` as const;
+        const label = t(key);
+
+        return (
+          <ElTag type={getLoginLogResultTagType(code)} effect="plain">
+            {label === key ? String(code) : label}
+          </ElTag>
+        );
+      },
     },
     // 登录时间
     {

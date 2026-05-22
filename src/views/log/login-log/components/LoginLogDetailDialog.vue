@@ -2,6 +2,8 @@
 import type { DetailDialog } from '@/api/common';
 import type { LoginLogDetailRow } from '@/api/log/login-log';
 import Description from '@/components/ui/Description';
+import { getLoginLogResultTagType } from '@/views/log/login-log/constants/login-log-enums';
+import { ElTag } from 'element-plus';
 import { computed, h } from 'vue';
 import { useI18n } from 'vue-i18n';
 
@@ -25,9 +27,15 @@ const columns = computed(() => [
     prop: 'loginResult',
     labelWidth: 120,
     cellRenderer: ({ value }: { value: number }) => {
+      if (value === undefined || value === null) return <span>—</span>;
       const key = `loginLog.loginResultEnum.${value}`;
       const label = t(key);
-      return <span>{label === key ? value : label}</span>;
+
+      return (
+        <ElTag type={getLoginLogResultTagType(value)} effect="plain">
+          {label === key ? String(value) : label}
+        </ElTag>
+      );
     },
   },
   { label: t('loginLog.failureReason'), prop: 'failureReason', labelWidth: 120, copy: true },

@@ -1,6 +1,7 @@
 operationLog:
   user: 操作用户
-  userId: 操作用户
+  userId: 操作用户 ID
+  username: 用户名
   module: 操作模块
   operationType: 操作类型
   targetType: 目标类型

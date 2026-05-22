@@ -1,6 +1,7 @@
 operationLog:
   user: User
-  userId: User
+  userId: User ID
+  username: Username
   module: Module
   operationType: Operation Type
   targetType: Target Type

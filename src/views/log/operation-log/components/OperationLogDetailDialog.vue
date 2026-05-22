@@ -17,6 +17,8 @@ const { t } = useI18n();
 const columns = computed(() => [
   // 操作用户 ID
   { label: t('operationLog.userId'), prop: 'userId', labelWidth: 120, copy: true },
+  // 操作用户名
+  { label: t('operationLog.username'), prop: 'username', labelWidth: 120, copy: true },
   // 操作模块
   { label: t('operationLog.module'), prop: 'module', labelWidth: 120, copy: true },
   {

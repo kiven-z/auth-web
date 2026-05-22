@@ -23,7 +23,7 @@ function useOperationLogTableColumns() {
     },
     // 操作用户
     {
-      label: t('operationLog.userId'),
+      label: t('operationLog.user'),
       prop: 'username',
       minWidth: 130,
       formatter: (row: OperationLogPageRow) => {
