@@ -2,7 +2,8 @@
 import type { DetailDialog } from '@/api/common';
 import type { LoginLogDetailRow } from '@/api/log/login-log';
 import Description from '@/components/ui/Description';
-import { computed } from 'vue';
+import { formatEnumI18nLabel } from '@/shared/utils/enum-i18n-label';
+import { computed, h } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 defineOptions({
@@ -11,7 +12,7 @@ defineOptions({
 
 type LoginLogDetailDialogProps = DetailDialog<LoginLogDetailRow>;
 
-const props = defineProps<LoginLogDetailDialogProps>();
+defineProps<LoginLogDetailDialogProps>();
 const { t } = useI18n();
 
 const columns = computed(() => [
@@ -20,8 +21,13 @@ const columns = computed(() => [
   // 用户名
   { label: t('loginLog.username'), prop: 'username', labelWidth: 120, copy: true },
   // 登录结果
-  { label: t('loginLog.loginResult'), prop: 'loginResultLabel', labelWidth: 120 },
-  // 失败原因
+  {
+    label: t('loginLog.loginResult'),
+    prop: 'loginResult',
+    labelWidth: 120,
+    cellRenderer: ({ value }: { value: number }) =>
+      h('span', formatEnumI18nLabel(t, 'loginLog.loginResultEnum', value)),
+  },
   { label: t('loginLog.failureReason'), prop: 'failureReason', labelWidth: 120, copy: true },
   // 登录时间
   { label: t('loginLog.loginTime'), prop: 'loginTime', copy: true },
@@ -32,14 +38,18 @@ const columns = computed(() => [
   // 用户代理
   { label: t('loginLog.userAgent'), prop: 'userAgent' },
   // 设备类型
-  { label: t('loginLog.deviceType'), prop: 'deviceTypeLabel', labelWidth: 120 },
+  { label: t('loginLog.deviceType'), prop: 'deviceType', labelWidth: 120 },
   // 操作系统类型
   { label: t('loginLog.osType'), prop: 'osType' },
   // 浏览器类型
   { label: t('loginLog.browserType'), prop: 'browserType' },
-  // 登录类型
-  { label: t('loginLog.loginType'), prop: 'loginTypeLabel', labelWidth: 120 },
-  // 会话 ID
+  {
+    label: t('loginLog.loginType'),
+    prop: 'loginType',
+    labelWidth: 120,
+    cellRenderer: ({ value }: { value: string | null }) =>
+      h('span', formatEnumI18nLabel(t, 'loginLog.loginTypeEnum', value ?? undefined)),
+  },
   { label: t('loginLog.sessionId'), prop: 'sessionId', copy: true },
   // 创建时间
   { label: t('table.createTime'), prop: 'createTime' },

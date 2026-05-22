@@ -1,7 +1,9 @@
-<script lang="ts" setup>
+<script lang="tsx" setup>
 import type { DetailDialog } from '@/api/common';
 import type { SysJobGroupPageRow } from '@/api/schedule/job-group';
 import Description from '@/components/ui/Description';
+import { formatBooleanI18nLabel } from '@/shared/utils/enum-i18n-label';
+import { ElTag } from 'element-plus';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 
@@ -11,7 +13,7 @@ defineOptions({
 
 type ScheduleGroupDescriptionDialogProps = DetailDialog<SysJobGroupPageRow>;
 
-const props = defineProps<ScheduleGroupDescriptionDialogProps>();
+defineProps<ScheduleGroupDescriptionDialogProps>();
 const { t } = useI18n();
 
 const columns = computed(() => [
@@ -21,27 +23,26 @@ const columns = computed(() => [
   { label: t('scheduleGroup.name'), prop: 'groupName', copy: true },
   // 分组描述
   { label: t('scheduleGroup.description'), prop: 'description', span: 2 },
-  // 分组状态
-  { label: t('scheduleGroup.status'), prop: 'statusLabel' },
-  // 是否系统默认任务
-  { label: t('scheduleGroup.isSystem'), prop: 'isSystemLabel' },
-  // 排序号
+  {
+    label: t('scheduleGroup.status'),
+    prop: 'status',
+    cellRenderer: ({ value }: { value: boolean }) => {
+      const label = formatBooleanI18nLabel(t, value, 'buttons.statusActiveText', 'buttons.statusInactiveText');
+      const type = value ? 'success' : 'danger';
+      return <ElTag type={type}>{label}</ElTag>;
+    },
+  },
+  {
+    label: t('scheduleGroup.isSystem'),
+    prop: 'isSystem',
+    cellRenderer: ({ value }: { value: boolean }) => (
+      <span>{formatBooleanI18nLabel(t, value, 'buttons.permitText', 'buttons.forbidText')}</span>
+    ),
+  },
   { label: t('scheduleGroup.orderNum'), prop: 'orderNum' },
 ]);
-
-const displayRow = computed(() => {
-  const row = props.data;
-  if (!row) {
-    return {};
-  }
-  return {
-    ...row,
-    statusLabel: row.status ? t('buttons.statusActiveText') : t('buttons.statusInactiveText'),
-    isSystemLabel: row.isSystem ? 'Y' : 'N',
-  };
-});
 </script>
 
 <template>
-  <Description :column="2" :columns="columns" :data="[displayRow]" />
+  <Description :column="2" :columns="columns" :data="[data]" />
 </template>

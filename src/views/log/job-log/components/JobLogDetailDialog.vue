@@ -1,7 +1,9 @@
-<script lang="ts" setup>
+<script lang="tsx" setup>
 import type { DetailDialog } from '@/api/common';
 import type { JobLogDetailRow } from '@/api/log/job-log';
 import Description from '@/components/ui/Description';
+import { formatEnumI18nLabel } from '@/shared/utils/enum-i18n-label';
+import { ElTag } from 'element-plus';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 
@@ -11,7 +13,7 @@ defineOptions({
 
 type JobLogDetailDialogProps = DetailDialog<JobLogDetailRow>;
 
-const props = defineProps<JobLogDetailDialogProps>();
+defineProps<JobLogDetailDialogProps>();
 const { t } = useI18n();
 
 const columns = computed(() => [
@@ -28,6 +30,11 @@ const columns = computed(() => [
     label: t('logJob.status'),
     prop: 'status',
     labelWidth: 120,
+    cellRenderer: ({ value }: { value: number }) => {
+      const label = formatEnumI18nLabel(t, 'logJob.statusEnum', value);
+      const type = value === 0 ? 'success' : 'danger';
+      return <ElTag type={type}>{label}</ElTag>;
+    },
   },
   // 异常信息
   { label: t('logJob.exceptionInfo'), prop: 'exceptionInfo', labelWidth: 120, copy: true },

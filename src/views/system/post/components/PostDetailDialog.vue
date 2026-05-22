@@ -2,7 +2,8 @@
 import type { DetailDialog } from '@/api/common';
 import type { SysPostPageRow } from '@/api/system/post';
 import Description from '@/components/ui/Description';
-import { computed } from 'vue';
+import { ElTag } from 'element-plus';
+import { computed, h } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 defineOptions({
@@ -11,15 +12,22 @@ defineOptions({
 
 type PostDetailDialogProps = DetailDialog<SysPostPageRow>;
 
-const { data } = defineProps<PostDetailDialogProps>();
+defineProps<PostDetailDialogProps>();
 const { t } = useI18n();
 
 const columns = computed(() => [
   { label: t('post.postCode'), prop: 'postCode', labelWidth: 120 },
   { label: t('post.postName'), prop: 'postName', labelWidth: 120 },
   { label: t('post.deptName'), prop: 'deptName', labelWidth: 120 },
-  // FIXME 转成是否显示
-  { label: t('post.status'), prop: 'status', labelWidth: 120 },
+  {
+    label: t('post.status'),
+    prop: 'status',
+    labelWidth: 120,
+    cellRenderer: ({ value }: { value: boolean }) =>
+      h(ElTag, { type: value ? 'success' : 'danger' }, () =>
+        t(value ? 'buttons.statusActiveText' : 'buttons.statusInactiveText')
+      ),
+  },
   { label: t('post.orderNum'), prop: 'orderNum', labelWidth: 120 },
   { label: t('table.createTime'), prop: 'createTime', labelWidth: 120 },
   { label: t('table.updateTime'), prop: 'updateTime', labelWidth: 120 },

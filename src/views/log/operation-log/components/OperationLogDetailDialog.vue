@@ -2,7 +2,8 @@
 import type { DetailDialog } from '@/api/common';
 import type { OperationLogDetailRow } from '@/api/log/operation-log';
 import Description from '@/components/ui/Description';
-import { computed } from 'vue';
+import { formatEnumI18nLabel } from '@/shared/utils/enum-i18n-label';
+import { computed, h } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 defineOptions({
@@ -19,11 +20,20 @@ const columns = computed(() => [
   { label: t('operationLog.userId'), prop: 'userId', labelWidth: 120, copy: true },
   // 操作模块
   { label: t('operationLog.module'), prop: 'module', labelWidth: 120, copy: true },
-  // 操作类型
-  { label: t('operationLog.operationType'), prop: 'operationType', labelWidth: 120 },
-  // 目标类型
-  { label: t('operationLog.targetType'), prop: 'targetType', labelWidth: 120 },
-  // 目标 ID
+  {
+    label: t('operationLog.operationType'),
+    prop: 'operationType',
+    labelWidth: 120,
+    cellRenderer: ({ value }: { value: string }) =>
+      h('span', formatEnumI18nLabel(t, 'operationLog.operationTypeEnum', value)),
+  },
+  {
+    label: t('operationLog.targetType'),
+    prop: 'targetType',
+    labelWidth: 120,
+    cellRenderer: ({ value }: { value: string }) =>
+      h('span', formatEnumI18nLabel(t, 'operationLog.targetTypeEnum', value)),
+  },
   { label: t('operationLog.targetId'), prop: 'targetId', labelWidth: 120, copy: true },
   // HTTP 方法
   { label: t('operationLog.requestMethod'), prop: 'requestMethod', labelWidth: 120 },

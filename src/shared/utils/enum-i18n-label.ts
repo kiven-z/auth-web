@@ -1,7 +1,7 @@
 /**
  * 解析 i18n 枚举文案；无翻译时回退为原始值字符串。
  */
-export function resolveI18nEnumLabel(
+export function formatEnumI18nLabel(
   t: (key: string) => string,
   enumKeyPrefix: string,
   value: string | number | null | undefined
@@ -17,7 +17,7 @@ export function resolveI18nEnumLabel(
 /**
  * 解析布尔值对应的 i18n 文案。
  */
-export function resolveBooleanI18nLabel(
+export function formatBooleanI18nLabel(
   t: (key: string) => string,
   value: boolean | null | undefined,
   trueKey: string,
