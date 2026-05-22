@@ -5,7 +5,6 @@ import { addDialog } from '@/components/ui/Dialog';
 import { useFormOverlaySubmit, type FormOverlayExpose } from '@/shared/hooks/useFormOverlaySubmit';
 import RoleDescriptionDialog from '@/views/system/role/components/RoleDescriptionDialog.vue';
 import RoleFormDialog from '@/views/system/role/components/RoleFormDialog.vue';
-import { EMPTY_ROLE_FORM } from '@/views/system/role/constants/role-form-defaults';
 import { h, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 
@@ -22,7 +21,6 @@ function useRoleTableAction(deps: TableActionDeps) {
    */
   const openCreateDialog = () => {
     const dialogFormRef = ref<FormOverlayExpose<SysRoleCreateForm> | null>(null);
-    const formData = { ...EMPTY_ROLE_FORM };
 
     addDialog({
       title: t('roles.dialogCreateTitle'),
@@ -30,11 +28,7 @@ function useRoleTableAction(deps: TableActionDeps) {
       fullscreenIcon: true,
       closeOnClickModal: false,
       closeOnPressEscape: false,
-      contentRenderer: () =>
-        h(RoleFormDialog, {
-          ref: dialogFormRef,
-          form: formData,
-        }),
+      contentRenderer: () => h(RoleFormDialog, { ref: dialogFormRef }),
       beforeSure: createFormBeforeSure<SysRoleCreateForm>({
         formExposeRef: dialogFormRef,
         errorI18nKey: 'roles.loadFailed',

@@ -18,7 +18,9 @@ const { t } = useI18n();
 const searchFormRef = ref<FormInstance>();
 const tableRef = ref<{ setAdaptive: () => Promise<void> } | null>(null);
 
+// 表格列
 const { tableColumns } = useMenuTableColumns();
+// 分页查询通用
 const {
   loading,
   selectedRows,
@@ -35,6 +37,7 @@ const {
   refresh,
 } = useMenuPageState();
 
+// 表格操作
 const { openCreateDialog, openEditDialog, openDetailDialog, deleteBatchRows, batchUpdateStatus } = useMenuTableAction({
   fetchTableData,
   fetchTreeData,
@@ -43,6 +46,7 @@ const { openCreateDialog, openEditDialog, openDetailDialog, deleteBatchRows, bat
   selectedRows,
 });
 
+// 更多操作
 const { openAssignRoleDrawer, openAssignPermissionDrawer } = useMenuMoreAction({
   fetchTableData,
   fetchTreeData,

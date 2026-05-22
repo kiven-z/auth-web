@@ -2,44 +2,7 @@ import type { MenuForm, MenuSaveRequest, SysMenuDetailVO } from '@/api/system/me
 import { MenuTypeEnums } from '@/views/system/menu/constants/menuEnums';
 
 /**
- * Boolean → boolean（展示用，后端 true=是）
- * @param v Boolean
- * @returns boolean
- */
-export function oneAsTrue(v: boolean | undefined | null): boolean {
-  return v ?? false;
-}
-
-/**
- * boolean → Boolean（后端 Boolean 类型，true=是）
- * @param b boolean
- * @param defaultTrue 默认值
- * @returns boolean
- */
-export function boolToFlag(b: boolean | undefined, defaultTrue = false): boolean {
-  return b ?? defaultTrue;
-}
-
-/**
- * 后端 Boolean status (true=启用) → UI boolean
- * @param status 后端 Boolean status
- * @returns UI boolean
- */
-export function statusToBool(status: boolean | undefined | null): boolean {
-  return status ?? true;
-}
-
-/**
- * UI boolean → 后端 Boolean (true=启用)
- * @param b UI boolean
- * @returns 后端 Boolean
- */
-export function boolToStatus(b: boolean | undefined): boolean {
-  return b ?? true;
-}
-
-/**
- * 详情 → 表单（UI 布尔与数字分离）
+ * 详情 → 表单
  */
 export function detailToForm(d: SysMenuDetailVO): MenuForm {
   return {
@@ -52,27 +15,27 @@ export function detailToForm(d: SysMenuDetailVO): MenuForm {
     component: d.component,
     title: d.title,
     icon: d.icon,
-    showLink: oneAsTrue(d.showLink),
+    showLink: d.showLink ?? false,
     menuRank: d.menuRank,
     extraIcon: d.extraIcon,
-    showParent: oneAsTrue(d.showParent),
-    keepAlive: oneAsTrue(d.keepAlive),
+    showParent: d.showParent ?? false,
+    keepAlive: d.keepAlive ?? false,
     frameSrc: d.frameSrc,
-    frameLoading: oneAsTrue(d.frameLoading),
+    frameLoading: d.frameLoading ?? false,
     transitionName: d.transitionName,
     enterTransition: d.enterTransition,
     leaveTransition: d.leaveTransition,
-    hiddenTag: oneAsTrue(d.hiddenTag),
+    hiddenTag: d.hiddenTag ?? false,
     dynamicLevel: d.dynamicLevel,
     activePath: d.activePath,
-    fixedTag: oneAsTrue(d.fixedTag),
-    status: statusToBool(d.status),
+    fixedTag: d.fixedTag ?? false,
+    status: d.status ?? true,
     remark: d.remark,
   };
 }
 
 /**
- * 新建默认表单
+ * 新建默认表单（仅新增弹层使用）
  */
 export function createEmptyMenuForm(): MenuForm {
   return {
@@ -124,17 +87,17 @@ export function formToSaveRequest(f: MenuForm): MenuSaveRequest {
     component: f.component,
     title: (f.title ?? '').trim(),
     icon: f.icon,
-    showLink: boolToFlag(f.showLink, true),
+    showLink: f.showLink ?? true,
     menuRank: safeMenuRank,
     extraIcon: f.extraIcon,
-    showParent: boolToFlag(f.showParent, true),
-    keepAlive: boolToFlag(f.keepAlive, false),
+    showParent: f.showParent ?? true,
+    keepAlive: f.keepAlive ?? false,
     frameSrc: f.frameSrc,
-    frameLoading: boolToFlag(f.frameLoading, true),
+    frameLoading: f.frameLoading ?? true,
     transitionName: f.transitionName,
     enterTransition: f.enterTransition,
     leaveTransition: f.leaveTransition,
-    hiddenTag: boolToFlag(f.hiddenTag, false),
+    hiddenTag: f.hiddenTag ?? false,
     dynamicLevel: (() => {
       if (f.dynamicLevel === undefined || f.dynamicLevel === null) {
         return undefined;
@@ -143,8 +106,8 @@ export function formToSaveRequest(f: MenuForm): MenuSaveRequest {
       return Number.isFinite(n) ? Math.trunc(n) : undefined;
     })(),
     activePath: f.activePath,
-    fixedTag: boolToFlag(f.fixedTag, false),
-    status: boolToStatus(f.status),
+    fixedTag: f.fixedTag ?? false,
+    status: f.status ?? true,
     remark: f.remark,
   };
 }

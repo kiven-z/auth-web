@@ -39,10 +39,10 @@ const {
 } = usePaginationState({
   fetchApi: getRolePage,
   searchForm: reactive({
-    roleCode: undefined as string | undefined,
-    roleName: undefined as string | undefined,
-    status: undefined as boolean | undefined,
-    roleType: undefined as number | undefined,
+    roleCode: undefined,
+    roleName: undefined,
+    status: undefined,
+    roleType: undefined,
   }),
   errorI18nKey: 'roles.loadFailed',
 });

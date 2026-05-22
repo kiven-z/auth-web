@@ -63,6 +63,7 @@ const { t } = useI18n();
 const formRef = ref<FormInstance>();
 const form = ref<MenuForm>({ ...createEmptyMenuForm(), ...props.form });
 
+// 表单规则
 const rules = computed<FormRules>(() => ({
   menuType: [{ required: true, message: t('menus.rules.menuType'), trigger: 'change' }],
   title: [{ required: true, message: t('menus.rules.title'), trigger: 'blur' }],

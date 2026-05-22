@@ -1,10 +1,10 @@
 <script lang="ts" setup>
-import { getMenuPermissions, putMenuPermissions } from '@/api/system/menu';
+import { getMenuPermissions } from '@/api/system/menu';
 import { getPermissionPage } from '@/api/system/permission';
 import AssignManagePanel from '@/components/business/AssignManagePanel/index';
 import type { AuthAssignPageQuery, AuthAssignSeedItem } from '@/components/business/AssignManagePanel/src/types';
 import { transformI18n } from '@/plugins/i18n';
-import { errorMessage, message } from '@/shared/messaging/message';
+import { errorMessage } from '@/shared/messaging/message';
 import { onMounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import useMenuTableColumns from '../hooks/useMenuTableColumns';
@@ -18,7 +18,6 @@ const props = defineProps<{
 }>();
 
 const { t } = useI18n();
-const saving = ref(false);
 const seedLoading = ref(true);
 const seedReady = ref(false);
 const seed = ref<AuthAssignSeedItem[]>([]);
@@ -28,8 +27,6 @@ const { permissionDrawerDataColumns } = useMenuTableColumns();
 
 /**
  * 权限分页：关键词按权限名称模糊查询
- * @param query 分页查询参数
- * @returns 权限分页数据
  */
 async function fetchPermissionPage(query: AuthAssignPageQuery) {
   return getPermissionPage({
@@ -42,17 +39,15 @@ async function fetchPermissionPage(query: AuthAssignPageQuery) {
 }
 
 /**
- * 获取权限列表
+ * 加载已分配权限种子数据
  */
-const fetchTableData = async () => {
+const loadAssignedSeed = async () => {
   seedLoading.value = true;
   try {
-    // 获取菜单权限列表
     const list = await getMenuPermissions(props.menuId);
-    // 转换为 AssignManagePanel 组件所需的格式
-    seed.value = list.map((r) => ({ key: r.permissionCode, label: r.permissionName }));
-  } catch (e: unknown) {
-    errorMessage(e, { defaultI18nKey: 'sysMenu.assignLoadFailed' });
+    seed.value = list.map((row) => ({ key: row.permissionCode, label: row.permissionName }));
+  } catch (error: unknown) {
+    errorMessage(error, { defaultI18nKey: 'sysMenu.assignLoadFailed' });
   } finally {
     seedLoading.value = false;
     seedReady.value = true;
@@ -60,30 +55,17 @@ const fetchTableData = async () => {
 };
 
 /**
- * 保存分配（由抽屉 footer 调用）
+ * 供抽屉 beforeSure 读取当前勾选
  */
-const saveData = async (): Promise<boolean> => {
-  saving.value = true;
-  try {
-    // 当前分配的权限
-    const permissionCodes = assignRef.value?.getSelectedKeys() ?? [];
-    // 保存分配的权限
-    await putMenuPermissions(props.menuId, { permissionCodes });
-    message(t('sysMenu.assignSaveSuccess'), { type: 'success' });
-    return true;
-  } catch (e: unknown) {
-    errorMessage(e, { defaultI18nKey: 'sysMenu.assignSaveFailed' });
-    return false;
-  } finally {
-    saving.value = false;
-  }
-};
+function getSelectedKeys(): string[] {
+  return assignRef.value?.getSelectedKeys() ?? [];
+}
 
 onMounted(() => {
-  fetchTableData();
+  void loadAssignedSeed();
 });
 
-defineExpose({ saveData });
+defineExpose({ getSelectedKeys });
 </script>
 
 <template>
@@ -96,7 +78,6 @@ defineExpose({ saveData });
       :fetch-page="fetchPermissionPage"
       :left-subtitle="`${transformI18n(menuTitle)} (${menuName})`"
       :left-title="t('sysMenu.assignCurrentMenu')"
-      :saving="saving"
       :search-placeholder="t('sysMenu.assignPermissionSearch')"
       row-key="permissionCode"
     />

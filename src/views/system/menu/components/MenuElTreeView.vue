@@ -13,6 +13,12 @@ defineOptions({
   name: 'MenuElTreeView',
 });
 
+// 树结构属性
+const treeProps = {
+  label: 'title',
+  children: 'children',
+} as const;
+
 const { t } = useI18n();
 const { loading, selectedRows, treeData, viewMode, fetchTableData, fetchTreeData, refresh } = useMenuPageState();
 
@@ -22,6 +28,7 @@ const { expandedKeys, expandAll, collapseAll } = useElTreeExpandCollapse({
   treeData,
 });
 
+// 表格操作
 const { openCreateDialog, openEditDialog, openDetailDialog, deleteBatchRows } = useMenuTableAction({
   fetchTableData,
   fetchTreeData,
@@ -30,16 +37,12 @@ const { openCreateDialog, openEditDialog, openDetailDialog, deleteBatchRows } = 
   selectedRows,
 });
 
+// 更多操作
 const { openAssignRoleDrawer, openAssignPermissionDrawer } = useMenuMoreAction({
   fetchTableData,
   fetchTreeData,
   refresh,
 });
-
-const treeProps = {
-  label: 'title',
-  children: 'children',
-} as const;
 
 // 菜单类型 → Tag 展示
 const menuTypeTag = (menuType: number) => {

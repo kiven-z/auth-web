@@ -1,7 +1,6 @@
 <script lang="ts" setup>
 import type { FormDialog } from '@/api/common';
 import type { SysRoleCreateForm } from '@/api/system/role';
-import { EMPTY_ROLE_FORM } from '@/views/system/role/constants/role-form-defaults';
 import { ROLE_TYPE_FILTER_OPTIONS } from '@/views/system/role/constants/role-search-options';
 import type { FormInstance, FormRules } from 'element-plus';
 import { reactive, ref } from 'vue';
@@ -10,12 +9,17 @@ import { useI18n } from 'vue-i18n';
 interface RoleFormDialogProps extends FormDialog<SysRoleCreateForm> {}
 
 const props = withDefaults(defineProps<RoleFormDialogProps>(), {
-  form: () => ({ ...EMPTY_ROLE_FORM }),
+  form: () => ({}) as SysRoleCreateForm,
 });
 
 const { t } = useI18n();
 const formRef = ref<FormInstance>();
-const form = ref<SysRoleCreateForm>({ ...EMPTY_ROLE_FORM, ...props.form });
+const form = ref<SysRoleCreateForm>({
+  status: true,
+  roleType: 1,
+  orderNum: 0,
+  ...props.form,
+});
 
 const rules = reactive<FormRules>({
   roleCode: [

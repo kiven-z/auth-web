@@ -8,7 +8,7 @@ import { reactive } from 'vue';
  */
 export type SysMenuRow = SysMenuListVO;
 
-export type MenuViewMode = 'table' | 'tableTree' | 'tree';
+export type MenuViewMode = 'table' | 'tree';
 
 /**
  * 菜单页状态挂在模块级，供 `index`、表格视图、树视图共用。

@@ -13,9 +13,9 @@ export type DeptViewMode = 'table' | 'tree';
  * 部门页状态挂在模块级，供 `index`、表格视图、树视图共用。
  */
 const searchForm = reactive({
-  deptName: undefined as string | undefined,
-  deptCode: undefined as string | undefined,
-  status: undefined as boolean | undefined,
+  deptName: undefined,
+  deptCode: undefined,
+  status: undefined,
 });
 
 const useDeptPageState = useCreateModuleTableTreePageState<SysDeptRow, SysDeptListVO, SysDeptTreeNode, DeptViewMode>({

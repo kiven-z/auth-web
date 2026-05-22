@@ -1,7 +1,6 @@
 <script lang="ts" setup>
 import type { FormDialog } from '@/api/common';
 import type { SysPostCreateForm } from '@/api/system/post';
-import { EMPTY_POST_FORM } from '@/views/system/post/constants/post-form-defaults';
 import type { FormInstance, FormRules } from 'element-plus';
 import { reactive, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
@@ -9,12 +8,16 @@ import { useI18n } from 'vue-i18n';
 interface PostFormDialogProps extends FormDialog<SysPostCreateForm> {}
 
 const props = withDefaults(defineProps<PostFormDialogProps>(), {
-  form: () => ({ ...EMPTY_POST_FORM }),
+  form: () => ({}) as SysPostCreateForm,
 });
 
 const { t } = useI18n();
 const formRef = ref<FormInstance>();
-const form = ref<SysPostCreateForm>({ ...EMPTY_POST_FORM, ...props.form });
+const form = ref<SysPostCreateForm>({
+  status: true,
+  orderNum: 0,
+  ...props.form,
+});
 
 const rules = reactive<FormRules>({
   deptId: [{ required: true, message: t('post.deptName'), trigger: 'change' }],

@@ -23,7 +23,7 @@ const { columns } = usePermissionTableColumns();
 
 const searchFormRef = ref<FormInstance>();
 
-/** 表格实例（含 setAdaptive，供全屏后调用） */
+// 表格实例（含 setAdaptive，供全屏后调用）
 const tableRef = ref<{ setAdaptive: () => Promise<void> } | null>(null);
 
 const {
@@ -39,10 +39,10 @@ const {
 } = usePaginationState({
   fetchApi: getPermissionPage,
   searchForm: reactive({
-    permissionCode: undefined as string | undefined,
-    permissionName: undefined as string | undefined,
-    permissionType: undefined as number | undefined,
-    status: undefined as boolean | undefined,
+    permissionCode: undefined,
+    permissionName: undefined,
+    permissionType: undefined,
+    status: undefined,
   }),
   errorI18nKey: 'permissions.loadFailed',
 });

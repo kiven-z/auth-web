@@ -1,10 +1,10 @@
 <script lang="ts" setup>
-import { getMenuRoles, putMenuRoles } from '@/api/system/menu';
+import { getMenuRoles } from '@/api/system/menu';
 import { getRolePage } from '@/api/system/role';
 import AssignManagePanel from '@/components/business/AssignManagePanel/index';
 import type { AuthAssignPageQuery, AuthAssignSeedItem } from '@/components/business/AssignManagePanel/src/types';
 import { transformI18n } from '@/plugins/i18n';
-import { errorMessage, message } from '@/shared/messaging/message';
+import { errorMessage } from '@/shared/messaging/message';
 import { onMounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import useMenuTableColumns from '../hooks/useMenuTableColumns';
@@ -18,7 +18,6 @@ const props = defineProps<{
 }>();
 
 const { t } = useI18n();
-const saving = ref(false);
 const seedLoading = ref(true);
 const seedReady = ref(false);
 const seed = ref<AuthAssignSeedItem[]>([]);
@@ -28,8 +27,6 @@ const { roleDrawerDataColumns } = useMenuTableColumns();
 
 /**
  * 角色分页：关键词按角色名称模糊查询
- * @param query 分页查询参数
- * @returns 角色分页数据
  */
 async function fetchRolePage(query: AuthAssignPageQuery) {
   return getRolePage({
@@ -42,15 +39,15 @@ async function fetchRolePage(query: AuthAssignPageQuery) {
 }
 
 /**
- * 获取角色列表
+ * 加载已分配角色种子数据
  */
-const fetchTableData = async () => {
+const loadAssignedSeed = async () => {
   seedLoading.value = true;
   try {
     const list = await getMenuRoles(props.menuId);
-    seed.value = list.map((r) => ({ key: r.roleCode, label: r.roleName }));
-  } catch (e: unknown) {
-    errorMessage(e, { defaultI18nKey: 'sysMenu.assignLoadFailed' });
+    seed.value = list.map((row) => ({ key: row.roleCode, label: row.roleName }));
+  } catch (error: unknown) {
+    errorMessage(error, { defaultI18nKey: 'sysMenu.assignLoadFailed' });
   } finally {
     seedLoading.value = false;
     seedReady.value = true;
@@ -58,28 +55,17 @@ const fetchTableData = async () => {
 };
 
 /**
- * 保存分配（由抽屉 footer 调用）
+ * 供抽屉 beforeSure 读取当前勾选
  */
-const saveData = async (): Promise<boolean> => {
-  saving.value = true;
-  try {
-    const roleCodes = assignRef.value?.getSelectedKeys() ?? [];
-    await putMenuRoles(props.menuId, { roleCodes });
-    message(t('sysMenu.assignSaveSuccess'), { type: 'success' });
-    return true;
-  } catch (e: unknown) {
-    errorMessage(e, { defaultI18nKey: 'sysMenu.assignSaveFailed' });
-    return false;
-  } finally {
-    saving.value = false;
-  }
-};
+function getSelectedKeys(): string[] {
+  return assignRef.value?.getSelectedKeys() ?? [];
+}
 
 onMounted(() => {
-  fetchTableData();
+  void loadAssignedSeed();
 });
 
-defineExpose({ saveData });
+defineExpose({ getSelectedKeys });
 </script>
 
 <template>
@@ -92,7 +78,6 @@ defineExpose({ saveData });
       :fetch-page="fetchRolePage"
       :left-subtitle="`${transformI18n(menuTitle)} (${menuName})`"
       :left-title="t('sysMenu.assignCurrentMenu')"
-      :saving="saving"
       :search-placeholder="t('sysMenu.assignRoleSearch')"
       row-key="roleCode"
     />

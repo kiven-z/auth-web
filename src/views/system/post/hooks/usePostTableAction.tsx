@@ -7,7 +7,6 @@ import { deleteConfirm } from '@/shared/messaging/dialog';
 import { errorMessage, message } from '@/shared/messaging/message';
 import PostDetailDialog from '@/views/system/post/components/PostDetailDialog.vue';
 import PostFormDialog from '@/views/system/post/components/PostFormDialog.vue';
-import { EMPTY_POST_FORM } from '@/views/system/post/constants/post-form-defaults';
 import { h, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 
@@ -24,7 +23,6 @@ function usePostTableAction(deps: TableActionDeps) {
    */
   const openCreateDialog = () => {
     const dialogFormRef = ref<FormOverlayExpose<SysPostCreateForm> | null>(null);
-    const formData = { ...EMPTY_POST_FORM };
 
     addDialog({
       title: t('post.dialogCreateTitle'),
@@ -32,7 +30,7 @@ function usePostTableAction(deps: TableActionDeps) {
       fullscreenIcon: true,
       closeOnClickModal: false,
       closeOnPressEscape: false,
-      contentRenderer: () => h(PostFormDialog, { ref: dialogFormRef, form: formData }),
+      contentRenderer: () => h(PostFormDialog, { ref: dialogFormRef }),
       beforeSure: createFormBeforeSure<SysPostCreateForm>({
         formExposeRef: dialogFormRef,
         errorI18nKey: 'post.loadFailed',

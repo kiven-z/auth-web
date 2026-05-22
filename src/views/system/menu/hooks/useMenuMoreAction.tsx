@@ -1,5 +1,7 @@
 import type { TableActionDeps } from '@/api/common';
+import { putMenuPermissions, putMenuRoles } from '@/api/system/menu';
 import { addDrawer } from '@/components/ui/Drawer';
+import { errorMessage, message } from '@/shared/messaging/message';
 import MenuAssignPermissionDrawer from '@/views/system/menu/components/MenuAssignPermissionDrawer.vue';
 import MenuAssignRoleDrawer from '@/views/system/menu/components/MenuAssignRoleDrawer.vue';
 import type { SysMenuRow } from '@/views/system/menu/hooks/useMenuPageState';
@@ -11,13 +13,12 @@ export interface MenuTableActionDeps extends TableActionDeps {
   refresh: () => Promise<void>;
 }
 
-type AssignSaveExpose = {
-  saveData: () => Promise<boolean>;
+type AssignPanelExpose = {
+  getSelectedKeys: () => string[];
 };
 
 function useMenuMoreAction(deps: MenuTableActionDeps) {
   const { refresh } = deps;
-
   const { t } = useI18n();
 
   /**
@@ -25,7 +26,8 @@ function useMenuMoreAction(deps: MenuTableActionDeps) {
    * @param row 行数据
    */
   const openAssignRoleDrawer = (row: SysMenuRow) => {
-    const drawerRef = ref<AssignSaveExpose | null>(null);
+    const drawerRef = ref<AssignPanelExpose | null>(null);
+
     addDrawer({
       title: t('sysMenu.assignRoleTitle'),
       class: 'auth-assign-manage-drawer',
@@ -43,10 +45,14 @@ function useMenuMoreAction(deps: MenuTableActionDeps) {
           menuName: row.name,
         }),
       beforeSure: async (done) => {
-        const ok = await drawerRef.value?.saveData();
-        if (ok) {
+        try {
+          const roleCodes = drawerRef.value?.getSelectedKeys() ?? [];
+          await putMenuRoles(row.id, { roleCodes });
+          message(t('sysMenu.assignSaveSuccess'), { type: 'success' });
           await refresh();
           done();
+        } catch (error: unknown) {
+          errorMessage(error, { defaultI18nKey: 'sysMenu.assignSaveFailed' });
         }
       },
     });
@@ -57,7 +63,8 @@ function useMenuMoreAction(deps: MenuTableActionDeps) {
    * @param row 行数据
    */
   const openAssignPermissionDrawer = (row: SysMenuRow) => {
-    const drawerRef = ref<AssignSaveExpose | null>(null);
+    const drawerRef = ref<AssignPanelExpose | null>(null);
+
     addDrawer({
       title: t('sysMenu.assignPermissionTitle'),
       class: 'auth-assign-manage-drawer',
@@ -66,12 +73,21 @@ function useMenuMoreAction(deps: MenuTableActionDeps) {
       closeOnClickModal: false,
       closeOnPressEscape: false,
       contentRenderer: () =>
-        h(MenuAssignPermissionDrawer, { ref: drawerRef, menuId: row.id, menuTitle: row.title, menuName: row.name }),
+        h(MenuAssignPermissionDrawer, {
+          ref: drawerRef,
+          menuId: row.id,
+          menuTitle: row.title,
+          menuName: row.name,
+        }),
       beforeSure: async (done) => {
-        const ok = await drawerRef.value?.saveData();
-        if (ok) {
+        try {
+          const permissionCodes = drawerRef.value?.getSelectedKeys() ?? [];
+          await putMenuPermissions(row.id, { permissionCodes });
+          message(t('sysMenu.assignSaveSuccess'), { type: 'success' });
           await refresh();
           done();
+        } catch (error: unknown) {
+          errorMessage(error, { defaultI18nKey: 'sysMenu.assignSaveFailed' });
         }
       },
     });
