@@ -1,6 +1,9 @@
 import type { TableActionDeps } from '@/api/common';
 import type { SysPermissionPageRow } from '@/api/system/permission';
 
+/**
+ * 权限表格操作依赖
+ */
 interface PermissionTableActionDeps extends TableActionDeps {}
 
 /**

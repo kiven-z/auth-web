@@ -11,7 +11,7 @@ defineOptions({
 
 interface PostDetailDialogProps extends DetailDialog<SysPostPageRow> {}
 
-const props = defineProps<PostDetailDialogProps>();
+const { data } = defineProps<PostDetailDialogProps>();
 const { t } = useI18n();
 
 const columns = computed(() => [
@@ -28,6 +28,5 @@ const columns = computed(() => [
 </script>
 
 <template>
-  <!-- FIXME  直接使用 data 而不是 props.xxx -->
-  <Description :column="2" :columns="columns" :data="[props.data]" />
+  <Description :column="2" :columns="columns" :data="[data]" />
 </template>

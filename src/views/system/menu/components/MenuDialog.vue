@@ -13,10 +13,9 @@ import MenuTypeLinkDialog from '@/views/system/menu/components/MenuTypeLinkDialo
 import MenuTypeMenuDialog from '@/views/system/menu/components/MenuTypeMenuDialog.vue';
 import { menuTypeSegmentItems } from '@/views/system/menu/constants/menu-type-segment';
 import { MenuTypeEnums } from '@/views/system/menu/constants/menuEnums';
-import { createMenuFormRules } from '@/views/system/menu/utils/menu-columns';
 import { createEmptyMenuForm } from '@/views/system/menu/utils/menu-form-mapper';
 import { findMenuIdPath } from '@/views/system/menu/utils/menu-tree';
-import type { CascaderProps, FormInstance } from 'element-plus';
+import type { CascaderProps, FormInstance, FormRules } from 'element-plus';
 import { computed, onMounted, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 
@@ -49,16 +48,14 @@ const ICONIFY_ICON_SETS_URL = 'https://icon-sets.iconify.design/';
  * 根据图标字符串确定输入模式
  * @param icon 图标字符串
  * @returns 输入模式
- * FIXME 是否可以省略
  */
 function deriveIconInputMode(icon: string | undefined | null): IconInputMode {
-  // FIXME 禁止缩写
-  const v = (icon ?? '').trim();
-  if (!v) {
+  const iconValue = (icon ?? '').trim();
+  if (!iconValue) {
     return 'select';
   }
-  const lower = v.toLowerCase();
-  return BUILTIN_ICON_PREFIXES.some((p) => lower.startsWith(p)) ? 'select' : 'manual';
+  const lower = iconValue.toLowerCase();
+  return BUILTIN_ICON_PREFIXES.some((prefix) => lower.startsWith(prefix)) ? 'select' : 'manual';
 }
 
 const { t } = useI18n();
@@ -66,8 +63,12 @@ const { t } = useI18n();
 const formRef = ref<FormInstance>();
 const form = ref<MenuForm>({ ...createEmptyMenuForm(), ...props.form });
 
-// FIXME 这个多语言用的不对，可以使用 t、transformI18n
-const rules = computed(() => createMenuFormRules(t));
+const rules = computed<FormRules>(() => ({
+  menuType: [{ required: true, message: t('menus.rules.menuType'), trigger: 'change' }],
+  title: [{ required: true, message: t('menus.rules.title'), trigger: 'blur' }],
+  name: [{ required: true, message: t('menus.rules.name'), trigger: 'blur' }],
+  path: [{ required: true, message: t('menus.rules.path'), trigger: 'blur' }],
+}));
 
 const menuCascaderProps: CascaderProps = {
   checkStrictly: true,
@@ -98,17 +99,6 @@ watch(parentIdPath, (path) => {
 
 const iconInputMode = ref<IconInputMode>(deriveIconInputMode(form.value.icon));
 const extraIconInputMode = ref<IconInputMode>(deriveIconInputMode(form.value.extraIcon));
-
-watch(
-  () => props.form,
-  (v) => {
-    form.value = { ...createEmptyMenuForm(), ...(v ?? {}) };
-    syncParentPath();
-    iconInputMode.value = deriveIconInputMode(form.value.icon);
-    extraIconInputMode.value = deriveIconInputMode(form.value.extraIcon);
-  },
-  { deep: true }
-);
 
 /**
  * 加载扁平菜单并构造父级级联树

@@ -22,8 +22,7 @@ const useDeptPageState = useCreateModuleTableTreePageState<SysDeptRow, SysDeptLi
   searchForm,
   defaultPageSize: 10,
   errorI18nKey: 'dept.loadFailed',
-  // FIXME 不要缩写q
-  fetchPage: (q) => getDeptPage(q),
+  fetchPage: (query) => getDeptPage(query),
   fetchFlatList: () => getDeptList({}),
   flatListParams: {},
   resetSearchFormWithoutRef: () => {

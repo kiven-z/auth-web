@@ -32,7 +32,6 @@ const { permissionDrawerDataColumns } = useMenuTableColumns();
  * @returns 权限分页数据
  */
 async function fetchPermissionPage(query: AuthAssignPageQuery) {
-  // FIXME 可以移除
   return getPermissionPage({
     pageIndex: query.pageIndex,
     pageSize: query.pageSize,
@@ -99,7 +98,6 @@ defineExpose({ saveData });
       :left-title="t('sysMenu.assignCurrentMenu')"
       :saving="saving"
       :search-placeholder="t('sysMenu.assignPermissionSearch')"
-      mode="page"
       row-key="permissionCode"
     />
   </div>

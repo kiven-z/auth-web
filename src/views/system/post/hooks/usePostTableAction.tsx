@@ -7,7 +7,7 @@ import { deleteConfirm } from '@/shared/messaging/dialog';
 import { errorMessage, message } from '@/shared/messaging/message';
 import PostDetailDialog from '@/views/system/post/components/PostDetailDialog.vue';
 import PostFormDialog from '@/views/system/post/components/PostFormDialog.vue';
-import { createEmptyPostForm } from '@/views/system/post/utils/post-form-mapper';
+import { EMPTY_POST_FORM } from '@/views/system/post/constants/post-form-defaults';
 import { h, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 
@@ -24,7 +24,7 @@ function usePostTableAction(deps: TableActionDeps) {
    */
   const openCreateDialog = () => {
     const dialogFormRef = ref<FormOverlayExpose<SysPostCreateForm> | null>(null);
-    const formData = createEmptyPostForm();
+    const formData = { ...EMPTY_POST_FORM };
 
     addDialog({
       title: t('post.dialogCreateTitle'),

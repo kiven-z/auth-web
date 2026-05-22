@@ -84,7 +84,6 @@ defineExpose({ saveData });
 
 <template>
   <div v-loading="seedLoading" class="flex min-h-0 w-full flex-1 flex-col">
-    <!-- FIXME 可以删除 mode没有这个传参 -->
     <AssignManagePanel
       v-if="seedReady"
       ref="assignRef"
@@ -95,7 +94,6 @@ defineExpose({ saveData });
       :left-title="t('sysMenu.assignCurrentMenu')"
       :saving="saving"
       :search-placeholder="t('sysMenu.assignRoleSearch')"
-      mode="page"
       row-key="roleCode"
     />
   </div>
