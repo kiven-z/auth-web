@@ -27,13 +27,7 @@ const columns = computed(() => [
     cellRenderer: ({ value }: { value: string }) =>
       h('span', formatEnumI18nLabel(t, 'operationLog.operationTypeEnum', value)),
   },
-  {
-    label: t('operationLog.targetType'),
-    prop: 'targetType',
-    labelWidth: 120,
-    cellRenderer: ({ value }: { value: string }) =>
-      h('span', formatEnumI18nLabel(t, 'operationLog.targetTypeEnum', value)),
-  },
+  { label: t('operationLog.targetType'), prop: 'targetType', labelWidth: 120 },
   { label: t('operationLog.targetId'), prop: 'targetId', labelWidth: 120, copy: true },
   // HTTP 方法
   { label: t('operationLog.requestMethod'), prop: 'requestMethod', labelWidth: 120 },

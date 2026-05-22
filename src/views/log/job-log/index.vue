@@ -3,7 +3,7 @@ import { getJobLogPage } from '@/api/log/job-log';
 import AuthDataTable from '@/components/ui/AuthDataTable';
 import TableBar from '@/components/ui/TableBar';
 import { usePaginationState } from '@/shared/hooks/usePaginationState';
-import { LOG_JOB_STATUS_CODES } from '@/views/log/job-log/constants/job-log-enums';
+import { LOG_JOB_STATUS_FILTER_OPTIONS } from '@/views/log/job-log/constants/job-log-enums';
 import useJobLogTableAction from '@/views/log/job-log/hooks/useJobLogTableAction';
 import useJobLogTableColumns from '@/views/log/job-log/hooks/useJobLogTableColumns';
 import type { FormInstance } from 'element-plus';
@@ -33,11 +33,11 @@ const {
 } = usePaginationState({
   fetchApi: getJobLogPage,
   searchForm: reactive({
-    jobName: undefined as string | undefined,
-    jobGroup: undefined as string | undefined,
-    invokeTarget: undefined as string | undefined,
-    elapsedTime: undefined as number | undefined,
-    status: undefined as string | undefined,
+    jobName: undefined,
+    jobGroup: undefined,
+    invokeTarget: undefined,
+    elapsedTime: undefined,
+    status: undefined,
   }),
   errorI18nKey: 'logJob.loadFailed',
 });
@@ -106,10 +106,10 @@ onMounted(() => {
           clearable
         >
           <el-option
-            v-for="code in LOG_JOB_STATUS_CODES"
-            :key="code"
-            :label="t(`logJob.statusEnum.${code}`)"
-            :value="code"
+            v-for="opt in LOG_JOB_STATUS_FILTER_OPTIONS"
+            :key="`${opt.labelKey}:${String(opt.value)}`"
+            :label="t(opt.labelKey)"
+            :value="opt.value"
           />
         </el-select>
       </el-form-item>

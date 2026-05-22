@@ -39,13 +39,7 @@ const columns = computed(() => [
   { label: t('authorizationAudit.requestUri'), prop: 'requestUri', labelWidth: 120, copy: true },
   // 请求 IP
   { label: t('authorizationAudit.requestIp'), prop: 'requestIp', labelWidth: 120, copy: true },
-  {
-    label: t('authorizationAudit.decisionReason'),
-    prop: 'decisionReason',
-    labelWidth: 120,
-    cellRenderer: ({ value }: { value: string }) =>
-      h('span', formatEnumI18nLabel(t, 'authorizationAudit.decisionReasonEnum', value)),
-  },
+  { label: t('authorizationAudit.decisionReason'), prop: 'decisionReason', labelWidth: 120 },
   { label: t('authorizationAudit.decisionDetail'), prop: 'decisionDetail', labelWidth: 120, copy: true },
   // 策略编码
   {

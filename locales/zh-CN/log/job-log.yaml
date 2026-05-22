@@ -16,6 +16,5 @@ logJob:
     invokeTarget: 请输入调用目标
     elapsedTime: 耗时(ms)
     status: 全部状态
-  statusEnum:
-    '0': 成功
-    '1': 失败
+  statusSuccess: 成功
+  statusFailed: 失败

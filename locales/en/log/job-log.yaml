@@ -16,6 +16,5 @@ logJob:
     invokeTarget: Enter invoke target
     elapsedTime: Elapsed ms
     status: All status
-  statusEnum:
-    '0': Success
-    '1': Failed
+  statusSuccess: Success
+  statusFailed: Failed

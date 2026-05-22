@@ -17,8 +17,8 @@ export interface JobLogPageQuery {
   invokeTarget?: string;
   // 耗时(ms)，精确匹配
   elapsedTime?: number;
-  // 执行状态(0成功 1失败)
-  status?: number;
+  // 执行是否成功(true=仅成功，false=仅失败)
+  status?: boolean;
 }
 
 /**
@@ -32,8 +32,8 @@ export interface JobLogPageRow {
   jobGroup?: string | null;
   // 执行时调用目标
   invokeTarget?: string | null;
-  // 执行状态(0成功 1失败)
-  status: number;
+  // 执行是否成功(true=成功，false=失败)
+  status: boolean;
   // 耗时毫秒
   elapsedTime?: number | null;
   // 执行报告
@@ -59,8 +59,8 @@ export interface JobLogDetailRow {
   invokeTarget?: string | null;
   // 执行报告
   jobMessage?: string | null;
-  // 执行状态(0成功 1失败)
-  status: number;
+  // 执行是否成功(true=成功，false=失败)
+  status: boolean;
   // 异常信息
   exceptionInfo?: string | null;
   // 耗时毫秒

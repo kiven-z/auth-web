@@ -1,3 +1,5 @@
-// 与后端 log_job.status 对齐，供筛选使用。
-// 0=成功, 1=失败
-export const LOG_JOB_STATUS_CODES = [0, 1] as const;
+/** 任务日志列表筛选项：value 与后端 {@code LogJobQuery.status} 一致（true=成功，false=失败）。 */
+export const LOG_JOB_STATUS_FILTER_OPTIONS = [
+  { value: true, labelKey: 'logJob.statusSuccess' },
+  { value: false, labelKey: 'logJob.statusFailed' },
+] as const;
