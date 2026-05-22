@@ -116,7 +116,7 @@ onMounted(() => {
         <el-input
           v-model="searchForm.targetType"
           :placeholder="t('operationLog.placeholder.targetType')"
-          class="w-[140px]!"
+          class="w-[180px]!"
           clearable
         />
       </el-form-item>
@@ -126,7 +126,7 @@ onMounted(() => {
         <el-input
           v-model="searchForm.targetId"
           :placeholder="t('operationLog.placeholder.targetId')"
-          class="w-[150px]!"
+          class="w-[180px]!"
           clearable
         />
       </el-form-item>
@@ -136,7 +136,7 @@ onMounted(() => {
         <el-select
           v-model="searchForm.requestMethod"
           :placeholder="t('operationLog.placeholder.requestMethod')"
-          class="w-[140px]!"
+          class="w-[180px]!"
           clearable
         >
           <el-option v-for="rm in REQUEST_METHODS" :key="rm" :label="rm" :value="rm" />

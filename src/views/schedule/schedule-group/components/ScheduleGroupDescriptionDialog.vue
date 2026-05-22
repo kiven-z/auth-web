@@ -2,7 +2,6 @@
 import type { DetailDialog } from '@/api/common';
 import type { SysJobGroupPageRow } from '@/api/schedule/job-group';
 import Description from '@/components/ui/Description';
-import { formatBooleanI18nLabel } from '@/shared/utils/enum-i18n-label';
 import { ElTag } from 'element-plus';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
@@ -26,17 +25,17 @@ const columns = computed(() => [
   {
     label: t('scheduleGroup.status'),
     prop: 'status',
-    cellRenderer: ({ value }: { value: boolean }) => {
-      const label = formatBooleanI18nLabel(t, value, 'buttons.statusActiveText', 'buttons.statusInactiveText');
-      const type = value ? 'success' : 'danger';
-      return <ElTag type={type}>{label}</ElTag>;
-    },
+    cellRenderer: ({ value }: { value: boolean }) => (
+      <ElTag type={value ? 'success' : 'danger'}>
+        {value ? t('buttons.statusActiveText') : t('buttons.statusInactiveText')}
+      </ElTag>
+    ),
   },
   {
     label: t('scheduleGroup.isSystem'),
     prop: 'isSystem',
     cellRenderer: ({ value }: { value: boolean }) => (
-      <span>{formatBooleanI18nLabel(t, value, 'buttons.permitText', 'buttons.forbidText')}</span>
+      <span>{value ? t('buttons.permitText') : t('buttons.forbidText')}</span>
     ),
   },
   { label: t('scheduleGroup.orderNum'), prop: 'orderNum' },

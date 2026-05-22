@@ -1,9 +1,8 @@
-<script lang="ts" setup>
+<script lang="tsx" setup>
 import type { DetailDialog } from '@/api/common';
 import type { OperationLogDetailRow } from '@/api/log/operation-log';
 import Description from '@/components/ui/Description';
-import { formatEnumI18nLabel } from '@/shared/utils/enum-i18n-label';
-import { computed, h } from 'vue';
+import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 defineOptions({
@@ -24,8 +23,11 @@ const columns = computed(() => [
     label: t('operationLog.operationType'),
     prop: 'operationType',
     labelWidth: 120,
-    cellRenderer: ({ value }: { value: string }) =>
-      h('span', formatEnumI18nLabel(t, 'operationLog.operationTypeEnum', value)),
+    cellRenderer: ({ value }: { value: string }) => {
+      const key = `operationLog.operationTypeEnum.${value}`;
+      const label = t(key);
+      return <span>{label === key ? value : label}</span>;
+    },
   },
   { label: t('operationLog.targetType'), prop: 'targetType', labelWidth: 120 },
   { label: t('operationLog.targetId'), prop: 'targetId', labelWidth: 120, copy: true },

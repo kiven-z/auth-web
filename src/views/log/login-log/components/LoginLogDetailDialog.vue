@@ -1,8 +1,7 @@
-<script lang="ts" setup>
+<script lang="tsx" setup>
 import type { DetailDialog } from '@/api/common';
 import type { LoginLogDetailRow } from '@/api/log/login-log';
 import Description from '@/components/ui/Description';
-import { formatEnumI18nLabel } from '@/shared/utils/enum-i18n-label';
 import { computed, h } from 'vue';
 import { useI18n } from 'vue-i18n';
 
@@ -25,8 +24,11 @@ const columns = computed(() => [
     label: t('loginLog.loginResult'),
     prop: 'loginResult',
     labelWidth: 120,
-    cellRenderer: ({ value }: { value: number }) =>
-      h('span', formatEnumI18nLabel(t, 'loginLog.loginResultEnum', value)),
+    cellRenderer: ({ value }: { value: number }) => {
+      const key = `loginLog.loginResultEnum.${value}`;
+      const label = t(key);
+      return <span>{label === key ? value : label}</span>;
+    },
   },
   { label: t('loginLog.failureReason'), prop: 'failureReason', labelWidth: 120, copy: true },
   // 登录时间
@@ -47,8 +49,12 @@ const columns = computed(() => [
     label: t('loginLog.loginType'),
     prop: 'loginType',
     labelWidth: 120,
-    cellRenderer: ({ value }: { value: string | null }) =>
-      h('span', formatEnumI18nLabel(t, 'loginLog.loginTypeEnum', value ?? undefined)),
+    cellRenderer: ({ value }: { value: string | null }) => {
+      if (!value) return h('span', '');
+      const key = `loginLog.loginTypeEnum.${value}`;
+      const label = t(key);
+      return <span>{label === key ? value : label}</span>;
+    },
   },
   { label: t('loginLog.sessionId'), prop: 'sessionId', copy: true },
   // 创建时间

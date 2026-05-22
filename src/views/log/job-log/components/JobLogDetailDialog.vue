@@ -2,7 +2,6 @@
 import type { DetailDialog } from '@/api/common';
 import type { JobLogDetailRow } from '@/api/log/job-log';
 import Description from '@/components/ui/Description';
-import { formatBooleanI18nLabel } from '@/shared/utils/enum-i18n-label';
 import { ElTag } from 'element-plus';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
@@ -30,15 +29,11 @@ const columns = computed(() => [
     label: t('logJob.status'),
     prop: 'status',
     labelWidth: 120,
-    cellRenderer: ({ value }: { value: boolean }) => {
-      const label = formatBooleanI18nLabel(t, value, 'logJob.statusSuccess', 'logJob.statusFailed');
-      const type = value ? 'success' : 'danger';
-      return (
-        <ElTag type={type} effect="plain">
-          {label}
-        </ElTag>
-      );
-    },
+    cellRenderer: ({ value }: { value: boolean }) => (
+      <ElTag type={value ? 'success' : 'danger'} effect="plain">
+        {value ? t('logJob.statusSuccess') : t('logJob.statusFailed')}
+      </ElTag>
+    ),
   },
   // 异常信息
   { label: t('logJob.exceptionInfo'), prop: 'exceptionInfo', labelWidth: 120, copy: true },

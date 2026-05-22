@@ -3,7 +3,6 @@
  */
 import type { JobLogPageRow } from '@/api/log/job-log';
 import { selectUserinfo } from '@/components/business/UserProfile';
-import { formatBooleanI18nLabel } from '@/shared/utils/enum-i18n-label';
 import { ElButton, ElTag } from 'element-plus';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
@@ -45,15 +44,11 @@ function useJobLogTableColumns() {
       label: t('logJob.status'),
       prop: 'status',
       minWidth: 100,
-      formatter: (row: JobLogPageRow) => {
-        const label = formatBooleanI18nLabel(t, row.status, 'logJob.statusSuccess', 'logJob.statusFailed');
-        const type = row.status ? 'success' : 'danger';
-        return (
-          <ElTag type={type} effect="plain">
-            {label}
-          </ElTag>
-        );
-      },
+      formatter: (row: JobLogPageRow) => (
+        <ElTag type={row.status ? 'success' : 'danger'} effect="plain">
+          {row.status ? t('logJob.statusSuccess') : t('logJob.statusFailed')}
+        </ElTag>
+      ),
     },
     // 耗时(ms)
     {

@@ -3,32 +3,6 @@ import { errorMessage } from '@/shared/messaging/message';
 import type { Ref } from 'vue';
 
 /**
- * 组装分页查询参数，并剔除空查询条件（undefined / 空字符串 / 空数组）。
- * @param searchForm 搜索表单
- * @param currentPage 当前页码
- * @param pageSize 每页条数
- * @returns 分页查询参数
- */
-export function buildPaginationQuery(
-  searchForm: Record<string, unknown>,
-  currentPage: number,
-  pageSize: number
-): Record<string, unknown> {
-  const query: Record<string, unknown> = {
-    ...searchForm,
-    pageIndex: currentPage,
-    pageSize,
-  };
-  Object.keys(query).forEach((key) => {
-    const v = query[key];
-    if (v === undefined || v === '' || (Array.isArray(v) && v.length === 0)) {
-      delete query[key];
-    }
-  });
-  return query;
-}
-
-/**
  * 将后端分页字段安全写回前端分页状态（避免非法 pageNo 破坏 el-pagination）。
  * @param pagination 分页状态
  * @param page 分页响应
@@ -45,6 +19,28 @@ export function applyPaginationFromPageResponse(
     pagination.pageSize = page.pageSize;
   }
 }
+
+/**
+ * 组装分页查询参数，并剔除空查询条件（undefined / 空字符串 / 空数组）。
+ * @param searchForm 搜索表单
+ * @param currentPage 当前页码
+ * @param pageSize 每页条数
+ * @returns 分页查询参数
+ */
+const buildPaginationQuery = (searchForm: Record<string, unknown>, currentPage: number, pageSize: number) => {
+  const query: Record<string, unknown> = {
+    ...searchForm,
+    pageIndex: currentPage,
+    pageSize,
+  };
+  Object.keys(query).forEach((key) => {
+    const v = query[key];
+    if (v === undefined || v === '' || (Array.isArray(v) && v.length === 0)) {
+      delete query[key];
+    }
+  });
+  return query;
+};
 
 /**
  * 执行表格分页请求（失败清空列表与 total）。

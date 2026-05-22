@@ -1,9 +1,8 @@
-<script lang="ts" setup>
+<script lang="tsx" setup>
 import type { DetailDialog } from '@/api/common';
 import type { AuthorizationAuditDetailRow } from '@/api/log/authorization-audit';
 import Description from '@/components/ui/Description';
-import { formatEnumI18nLabel } from '@/shared/utils/enum-i18n-label';
-import { computed, h } from 'vue';
+import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 defineOptions({
@@ -21,8 +20,11 @@ const columns = computed(() => [
     label: t('authorizationAudit.eventType'),
     prop: 'eventType',
     labelWidth: 120,
-    cellRenderer: ({ value }: { value: string }) =>
-      h('span', formatEnumI18nLabel(t, 'authorizationAudit.eventTypeEnum', value)),
+    cellRenderer: ({ value }: { value: string }) => {
+      const key = `authorizationAudit.eventTypeEnum.${value}`;
+      const label = t(key);
+      return <span>{label === key ? value : label}</span>;
+    },
   },
   // 会话 ID
   { label: t('authorizationAudit.sessionId'), prop: 'sessionId', labelWidth: 120, copy: true },
