@@ -87,32 +87,26 @@ export interface EmailTemplateFormModel {
 }
 
 /**
- * 新建（EmailTemplateForm 创建组）
+ * 保存请求（对齐后端 EmailTemplateForm；创建不传 id，更新必传 id）
  */
-export interface EmailTemplateCreateRequest {
-  /** 场景编码 → scene_code */
-  templateCode: string;
-  templateName: string;
-  subject: string;
-  description?: string;
-  status: boolean;
-  priority: number;
-  content?: string;
-  requireFields: EmailTemplateRequireFieldRow[];
-}
+export type EmailTemplateSaveRequest = EmailTemplateFormModel;
 
 /**
- * 元数据更新（EmailTemplateMetadataForm）
+ * 详情 → 弹窗表单（不含审计字段）
+ * @param detail 邮件模板详情
  */
-export interface EmailTemplateMetadataUpdateRequest {
-  id: string;
-  /** 场景编码 → scene_code */
-  templateCode: string;
-  templateName: string;
-  subject: string;
-  description?: string;
-  status: boolean;
-  priority: number;
+export function detailToEmailTemplateForm(detail: EmailTemplateDetailVO): EmailTemplateFormModel {
+  return {
+    id: detail.id,
+    templateCode: detail.templateCode,
+    templateName: detail.templateName,
+    subject: detail.subject,
+    description: detail.description,
+    status: detail.status,
+    priority: detail.priority,
+    content: detail.content ?? '',
+    requireFields: detail.requireFields ?? [],
+  };
 }
 
 /**
@@ -206,16 +200,16 @@ export function testSendEmailTemplate(data: EmailTemplateTestSendRequest): Promi
  * @param data 新建邮件模板请求
  * @returns 新建邮件模板响应
  */
-export function createEmailTemplate(data: EmailTemplateCreateRequest): Promise<string> {
-  return http.post<string, EmailTemplateCreateRequest>('/system/email-template', { data });
+export function createEmailTemplate(data: EmailTemplateSaveRequest): Promise<string> {
+  return http.post<string, EmailTemplateSaveRequest>('/system/email-template', { data });
 }
 
 /**
- * 更新元数据
- * @param data 更新元数据请求
- * @returns 更新元数据响应
+ * 更新邮件模板
+ * @param data 保存请求（须含 id）
+ * @returns 更新响应
  */
-export function updateEmailTemplateMetadata(data: EmailTemplateMetadataUpdateRequest): Promise<string> {
+export function updateEmailTemplate(data: EmailTemplateSaveRequest): Promise<string> {
   return http.request<string>('put', '/system/email-template', { data });
 }
 

@@ -1,24 +1,24 @@
 import type { TableActionDeps } from '@/api/common';
 import type { EmailTemplateFormModel } from '@/api/system/email-template';
 import {
-  type EmailTemplatePageRow,
+  detailToEmailTemplateForm,
   getEmailTemplateById,
   getEmailTemplatePreviewHtml,
   testSendEmailTemplate,
   updateEmailTemplateContent,
+  type EmailTemplatePageRow,
 } from '@/api/system/email-template';
 import { addDialog } from '@/components/ui/Dialog';
-import { type FormOverlayExpose, useFormOverlaySubmit } from '@/shared/hooks/useFormOverlaySubmit';
+import { addDrawer } from '@/components/ui/Drawer';
+import { useFormOverlaySubmit, type FormOverlayExpose } from '@/shared/hooks/useFormOverlaySubmit';
 import { errorMessage } from '@/shared/messaging/message';
 import EmailTemplateMonacoOnlyDialog from '@/views/message/email-template/components/EmailTemplateMonacoOnlyDialog.vue';
 import EmailTemplatePreviewDialog from '@/views/message/email-template/components/EmailTemplatePreviewDialog.vue';
 import EmailTemplateRequireFieldsDialog from '@/views/message/email-template/components/EmailTemplateRequireFieldsDialog.vue';
 import type { EmailTestSendForm } from '@/views/message/email-template/components/EmailTemplateTestSendDialog.vue';
 import EmailTemplateTestSendDialog from '@/views/message/email-template/components/EmailTemplateTestSendDialog.vue';
-import { detailToForm } from '@/views/message/email-template/utils/email-template-form-mapper';
 import { h, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { addDrawer } from '@/components/ui/Drawer';
 
 type RequireFieldsExpose = {
   submit: () => Promise<boolean>;
@@ -127,7 +127,7 @@ export function useEmailTemplateTableMoreAction(options: TableActionDeps) {
   const openTemplateContentEdit = async (row: EmailTemplatePageRow) => {
     try {
       const detail = await getEmailTemplateById(row.id);
-      const formData = detailToForm(detail, row.id);
+      const formData = detailToEmailTemplateForm(detail);
       const dialogFormRef = ref<FormOverlayExpose<EmailTemplateFormModel> | null>(null);
 
       addDrawer({

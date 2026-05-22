@@ -4,25 +4,21 @@ import {
   batchDeleteEmailTemplates,
   batchUpdateEmailTemplateStatus,
   createEmailTemplate,
-  type EmailTemplatePageRow,
+  detailToEmailTemplateForm,
   getEmailTemplateById,
-  updateEmailTemplateMetadata,
+  updateEmailTemplate,
+  type EmailTemplatePageRow,
 } from '@/api/system/email-template';
 import { addDialog } from '@/components/ui/Dialog';
-import { type FormOverlayExpose, useFormOverlaySubmit } from '@/shared/hooks/useFormOverlaySubmit';
+import { addDrawer } from '@/components/ui/Drawer';
+import { useFormOverlaySubmit, type FormOverlayExpose } from '@/shared/hooks/useFormOverlaySubmit';
 import { deleteConfirm } from '@/shared/messaging/dialog';
 import { errorMessage, message } from '@/shared/messaging/message';
 import EmailTemplateDetailDialog from '@/views/message/email-template/components/EmailTemplateDetailDialog.vue';
 import EmailTemplateDialog from '@/views/message/email-template/components/EmailTemplateDialog.vue';
 import { useEmailTemplateTableMoreAction } from '@/views/message/email-template/hooks/useEmailTemplateTableMoreAction';
-import {
-  detailToForm,
-  formToCreateRequest,
-  formToMetadataUpdateRequest,
-} from '@/views/message/email-template/utils/email-template-form-mapper';
 import { h, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { addDrawer } from '@/components/ui/Drawer';
 
 /**
  * 邮件模板表格操作：弹窗与写接口
@@ -53,7 +49,7 @@ function useEmailTemplateTableAction(deps: TableActionWithSelectionDeps) {
         errorI18nKey: 'emailTemplate.loadFailed',
         successI18nKey: 'tips.addSuccess',
         onSubmit: async (formData) => {
-          await createEmailTemplate(formToCreateRequest(formData));
+          await createEmailTemplate(formData);
           await fetchTableData();
         },
       }),
@@ -67,7 +63,7 @@ function useEmailTemplateTableAction(deps: TableActionWithSelectionDeps) {
   const openEditDialog = async (row: EmailTemplatePageRow) => {
     try {
       const detail = await getEmailTemplateById(row.id);
-      const formData = detailToForm(detail, row.id);
+      const formData = detailToEmailTemplateForm(detail);
       const dialogFormRef = ref<FormOverlayExpose<EmailTemplateFormModel> | null>(null);
 
       addDrawer({
@@ -89,7 +85,7 @@ function useEmailTemplateTableAction(deps: TableActionWithSelectionDeps) {
           successI18nKey: 'tips.editSuccess',
           requireId: true,
           onSubmit: async (formPayload) => {
-            await updateEmailTemplateMetadata(formToMetadataUpdateRequest(formPayload));
+            await updateEmailTemplate(formPayload);
             await fetchTableData();
           },
         }),
