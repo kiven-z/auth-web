@@ -1,16 +1,15 @@
 import type { TableActionDeps } from '@/api/common';
 import type { EmailTemplateFormModel } from '@/api/system/email-template';
 import {
-  detailToEmailTemplateForm,
+  type EmailTemplatePageRow,
   getEmailTemplateById,
   getEmailTemplatePreviewHtml,
   testSendEmailTemplate,
   updateEmailTemplateContent,
-  type EmailTemplatePageRow,
 } from '@/api/system/email-template';
 import { addDialog } from '@/components/ui/Dialog';
 import { addDrawer } from '@/components/ui/Drawer';
-import { useFormOverlaySubmit, type FormOverlayExpose } from '@/shared/hooks/useFormOverlaySubmit';
+import { type FormOverlayExpose, useFormOverlaySubmit } from '@/shared/hooks/useFormOverlaySubmit';
 import { errorMessage } from '@/shared/messaging/message';
 import EmailTemplateMonacoOnlyDialog from '@/views/message/email-template/components/EmailTemplateMonacoOnlyDialog.vue';
 import EmailTemplatePreviewDialog from '@/views/message/email-template/components/EmailTemplatePreviewDialog.vue';
@@ -126,8 +125,7 @@ export function useEmailTemplateTableMoreAction(options: TableActionDeps) {
    */
   const openTemplateContentEdit = async (row: EmailTemplatePageRow) => {
     try {
-      const detail = await getEmailTemplateById(row.id);
-      const formData = detailToEmailTemplateForm(detail);
+      const formData = (await getEmailTemplateById(row.id)) as EmailTemplateFormModel;
       const dialogFormRef = ref<FormOverlayExpose<EmailTemplateFormModel> | null>(null);
 
       addDrawer({

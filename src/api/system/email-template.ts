@@ -83,31 +83,12 @@ export interface EmailTemplateFormModel {
   status: boolean;
   priority: number;
   content: string;
-  requireFields: EmailTemplateRequireFieldRow[];
 }
 
 /**
  * 保存请求（对齐后端 EmailTemplateForm；创建不传 id，更新必传 id）
  */
 export type EmailTemplateSaveRequest = EmailTemplateFormModel;
-
-/**
- * 详情 → 弹窗表单（不含审计字段）
- * @param detail 邮件模板详情
- */
-export function detailToEmailTemplateForm(detail: EmailTemplateDetailVO): EmailTemplateFormModel {
-  return {
-    id: detail.id,
-    templateCode: detail.templateCode,
-    templateName: detail.templateName,
-    subject: detail.subject,
-    description: detail.description,
-    status: detail.status,
-    priority: detail.priority,
-    content: detail.content ?? '',
-    requireFields: detail.requireFields ?? [],
-  };
-}
 
 /**
  * 正文对应库字段 body_content（FreeMarker / HTML）

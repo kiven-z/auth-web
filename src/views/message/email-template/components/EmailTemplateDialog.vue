@@ -2,9 +2,9 @@
 import type { FormDialog } from '@/api/common';
 import type { EmailTemplateFormModel } from '@/api/system/email-template';
 import type { FormInstance, FormRules } from 'element-plus';
+import { CodeEditor } from 'monaco-editor-vue3';
 import { reactive, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { CodeEditor } from 'monaco-editor-vue3';
 
 defineOptions({
   name: 'EmailTemplateDialog',
@@ -23,7 +23,6 @@ const form = ref<EmailTemplateFormModel>({
   status: true,
   priority: 5,
   content: '',
-  requireFields: [],
   ...props.form,
 });
 
