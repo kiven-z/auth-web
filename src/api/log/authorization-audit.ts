@@ -9,13 +9,12 @@ export interface AuthorizationAuditQuery {
   pageIndex?: number;
   pageSize?: number;
   sort?: SortSpec[];
-  //事件类型：GRANTED / DENIED（精确匹配）
+  // 事件类型：GRANTED / DENIED
   eventType?: string;
-  //决策原因枚举（精确匹配，如 MATCHED、ACCESS_DENIED、UNAUTHENTICATED 等）
+  // 决策原因枚举（精确匹配，如 MATCHED、ACCESS_DENIED、UNAUTHENTICATED 等）
   decisionReason?: string;
-  //Controller 类全名（模糊匹配 LIKE %...%）
   className?: string;
-  //操作人用户 ID（对应 create_user，精确匹配；与 Snowflake 一致用 string）
+  // 操作人用户
   createUserId?: string;
 }
 

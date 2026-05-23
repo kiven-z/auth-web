@@ -1,6 +1,3 @@
-/**
- * 权限决策审计日志表格列
- */
 import { ElButton } from 'element-plus';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
