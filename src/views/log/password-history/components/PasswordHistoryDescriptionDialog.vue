@@ -1,4 +1,4 @@
-<script lang="ts" setup>
+<script lang="tsx" setup>
 import type { DetailDialog } from '@/api/common';
 import type { PasswordHistoryDetailRow } from '@/api/log/password-history';
 import Description from '@/components/ui/Description';
@@ -15,8 +15,20 @@ defineProps<PasswordHistoryDescriptionDialogProps>();
 const { t } = useI18n();
 
 const columns = computed(() => [
-  // 用户
-  { label: t('passwordHistory.userId'), prop: 'username', labelWidth: 120, copy: true },
+  {
+    label: t('passwordHistory.userId'),
+    prop: 'userId',
+    labelWidth: 120,
+    copy: true,
+    cellRenderer: ({ value }: { value?: string | null }) => <span>{value ?? '—'}</span>,
+  },
+  {
+    label: t('passwordHistory.username'),
+    prop: 'username',
+    labelWidth: 120,
+    copy: true,
+    cellRenderer: ({ value }: { value?: string | null }) => <span>{value ?? '—'}</span>,
+  },
   // 修改时间
   { label: t('passwordHistory.changeTime'), prop: 'changeTime', copy: true },
   // 修改IP地址

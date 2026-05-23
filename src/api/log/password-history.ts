@@ -3,7 +3,7 @@ import { http } from '@/infrastructure/http-core';
 import type { AxiosRequestConfig } from 'axios';
 
 /**
- * 密码历史日志分页查询参数（对应后端 LogUserPasswordHistoryQuery）
+ * 密码历史日志分页查询参数
  */
 export interface PasswordHistoryPageQuery {
   pageIndex?: number;
@@ -33,11 +33,12 @@ export interface PasswordHistoryPageRow {
 }
 
 /**
- * 密码历史日志详情（对应后端 LogUserPasswordHistoryDetailVO）
+ * 密码历史日志详情
  */
 export interface PasswordHistoryDetailRow {
   id: string;
-  username: string;
+  userId?: string | null;
+  username?: string | null;
   changeTime: string;
   changeIp: string;
   createTime: string;
