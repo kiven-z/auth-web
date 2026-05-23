@@ -27,9 +27,13 @@ function usePasswordHistoryTableColumns() {
       prop: 'username',
       minWidth: 130,
       formatter: (row: PasswordHistoryPageRow) => {
+        const uid = row.userId;
+        if (!uid) {
+          return <span>—</span>;
+        }
         return (
-          <ElButton link type="primary" onClick={() => selectUserinfo(row.userId, row.username ?? '')}>
-            {row.username}
+          <ElButton link type="primary" onClick={() => selectUserinfo(uid, row.username ?? '')}>
+            {row.username ?? uid}
           </ElButton>
         );
       },
@@ -60,12 +64,13 @@ function usePasswordHistoryTableColumns() {
       prop: 'createUser',
       minWidth: 130,
       formatter: (row: PasswordHistoryPageRow) => {
+        if (!row.createUser) {
+          return <span>—</span>;
+        }
         return (
-          row.createUser && (
-            <ElButton link type="primary" onClick={() => selectUserinfo(row.createUser!, row.createUsername ?? '')}>
-              {row.createUsername}
-            </ElButton>
-          )
+          <ElButton link type="primary" onClick={() => selectUserinfo(row.createUser!, row.createUsername ?? '')}>
+            {row.createUsername ?? row.createUser}
+          </ElButton>
         );
       },
     },
@@ -75,12 +80,13 @@ function usePasswordHistoryTableColumns() {
       prop: 'updateUser',
       minWidth: 130,
       formatter: (row: PasswordHistoryPageRow) => {
+        if (!row.updateUser) {
+          return <span>—</span>;
+        }
         return (
-          row.updateUser && (
-            <ElButton link type="primary" onClick={() => selectUserinfo(row.updateUser!, row.updateUsername ?? '')}>
-              {row.updateUsername}
-            </ElButton>
-          )
+          <ElButton link type="primary" onClick={() => selectUserinfo(row.updateUser!, row.updateUsername ?? '')}>
+            {row.updateUsername ?? row.updateUser}
+          </ElButton>
         );
       },
     },

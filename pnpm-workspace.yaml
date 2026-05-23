@@ -1,0 +1,9 @@
+allowBuilds:
+  '@parcel/watcher': true
+  esbuild: true
+  vue-demi: true
+shamefullyHoist: true
+shellEmulator: true
+enablePrePostScripts: false
+strictPeerDependencies: false
+
