@@ -1,8 +1,8 @@
 import type { TableActionWithSelectionDeps } from '@/api/common';
 import { deleteJobLog, getJobLogDetail, type JobLogDetailRow, type JobLogPageRow } from '@/api/log/job-log';
 import { addDialog } from '@/components/ui/Dialog';
-import { deleteConfirm } from '@/shared/messaging/dialog';
-import { errorMessage, message } from '@/shared/messaging/message';
+import useBatchDeleteAction from '@/shared/hooks/useBatchDeleteAction';
+import { errorMessage } from '@/shared/messaging/message';
 import JobLogDetailDialog from '@/views/log/job-log/components/JobLogDetailDialog.vue';
 import { h } from 'vue';
 import { useI18n } from 'vue-i18n';
@@ -13,6 +13,14 @@ import { useI18n } from 'vue-i18n';
 function useJobLogTableAction(deps: TableActionWithSelectionDeps) {
   const { fetchTableData, selectedRows } = deps;
   const { t } = useI18n();
+
+  // 删除操作
+  const { deleteBatchRows } = useBatchDeleteAction({
+    selectedRows,
+    deleteApi: deleteJobLog,
+    onSuccess: fetchTableData,
+    errorDefaultI18nKey: 'logJob.loadFailed',
+  });
 
   /**
    * 打开详情对话框
@@ -36,25 +44,6 @@ function useJobLogTableAction(deps: TableActionWithSelectionDeps) {
       hideFooter: true,
       contentRenderer: () => h(JobLogDetailDialog, { data: detailData }),
     });
-  };
-
-  /**
-   * 批量删除（单行传 [row.id]，未传 ids 时使用表格多选）
-   * @param ids 主键列表，可选
-   */
-  const deleteBatchRows = async (ids?: string[]) => {
-    const confirm = await deleteConfirm();
-    if (!confirm) return;
-
-    ids = ids || selectedRows.value;
-    try {
-      await deleteJobLog(ids);
-      message(t('tips.deleteSuccess'), { type: 'success' });
-      selectedRows.value = [];
-      await fetchTableData();
-    } catch (error: unknown) {
-      errorMessage(error, { defaultI18nKey: 'logJob.loadFailed' });
-    }
   };
 
   return {

@@ -6,8 +6,8 @@ import {
   type PasswordHistoryPageRow,
 } from '@/api/log/password-history';
 import { addDialog } from '@/components/ui/Dialog';
-import { deleteConfirm } from '@/shared/messaging/dialog';
-import { errorMessage, message } from '@/shared/messaging/message';
+import useBatchDeleteAction from '@/shared/hooks/useBatchDeleteAction';
+import { errorMessage } from '@/shared/messaging/message';
 import PasswordHistoryDescriptionDialog from '@/views/log/password-history/components/PasswordHistoryDescriptionDialog.vue';
 import { h } from 'vue';
 import { useI18n } from 'vue-i18n';
@@ -18,6 +18,14 @@ import { useI18n } from 'vue-i18n';
 function usePasswordHistoryTableAction(deps: TableActionWithSelectionDeps) {
   const { fetchTableData, selectedRows } = deps;
   const { t } = useI18n();
+
+  // 删除操作
+  const { deleteBatchRows } = useBatchDeleteAction({
+    selectedRows,
+    deleteApi: deletePasswordHistory,
+    onSuccess: fetchTableData,
+    errorDefaultI18nKey: 'passwordHistory.loadFailed',
+  });
 
   /**
    * 打开密码历史日志详情对话框
@@ -41,25 +49,6 @@ function usePasswordHistoryTableAction(deps: TableActionWithSelectionDeps) {
       hideFooter: true,
       contentRenderer: () => h(PasswordHistoryDescriptionDialog, { data: detailData }),
     });
-  };
-
-  /**
-   * 批量删除（单行传 [row.id]，未传 ids 时使用表格多选）
-   * @param ids 主键列表，可选
-   */
-  const deleteBatchRows = async (ids?: string[]) => {
-    const confirm = await deleteConfirm();
-    if (!confirm) return;
-
-    ids = ids || selectedRows.value;
-    try {
-      await deletePasswordHistory(ids);
-      message(t('tips.deleteSuccess'), { type: 'success' });
-      selectedRows.value = [];
-      await fetchTableData();
-    } catch (error: unknown) {
-      errorMessage(error, { defaultI18nKey: 'passwordHistory.loadFailed' });
-    }
   };
 
   return {

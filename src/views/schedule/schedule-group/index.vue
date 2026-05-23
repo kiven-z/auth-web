@@ -37,7 +37,7 @@ const {
   errorI18nKey: 'scheduleGroup.loadFailed',
 });
 
-const { openCreateDialog, openEditDialog, openDetailDialog, deleteBatchRow } = useJobGroupTableAction({
+const { openCreateDialog, openEditDialog, openDetailDialog, deleteBatchRows } = useJobGroupTableAction({
   fetchTableData,
 });
 
@@ -117,7 +117,7 @@ onMounted(() => {
               <!-- 修改/编辑 -->
               <el-button link type="primary" @click="openEditDialog(row)">{{ t('buttons.actionEdit') }}</el-button>
               <!-- 删除 -->
-              <el-button :disabled="row.isSystem" link type="danger" @click="deleteBatchRow(row.id)">
+              <el-button :disabled="row.isSystem" link type="danger" @click="deleteBatchRows([row.id])">
                 {{ t('buttons.actionDelete') }}
               </el-button>
             </div>

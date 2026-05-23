@@ -4,14 +4,14 @@ import {
   batchDeleteEmailTemplates,
   batchUpdateEmailTemplateStatus,
   createEmailTemplate,
+  type EmailTemplatePageRow,
   getEmailTemplateById,
   updateEmailTemplate,
-  type EmailTemplatePageRow,
 } from '@/api/system/email-template';
 import { addDialog } from '@/components/ui/Dialog';
 import { addDrawer } from '@/components/ui/Drawer';
-import { useFormOverlaySubmit, type FormOverlayExpose } from '@/shared/hooks/useFormOverlaySubmit';
-import { deleteConfirm } from '@/shared/messaging/dialog';
+import useBatchDeleteAction from '@/shared/hooks/useBatchDeleteAction';
+import { type FormOverlayExpose, useFormOverlaySubmit } from '@/shared/hooks/useFormOverlaySubmit';
 import { errorMessage, message } from '@/shared/messaging/message';
 import EmailTemplateDetailDialog from '@/views/message/email-template/components/EmailTemplateDetailDialog.vue';
 import EmailTemplateDialog from '@/views/message/email-template/components/EmailTemplateDialog.vue';
@@ -26,6 +26,15 @@ import { useI18n } from 'vue-i18n';
 function useEmailTemplateTableAction(deps: TableActionWithSelectionDeps) {
   const { fetchTableData, selectedRows } = deps;
   const { t } = useI18n();
+
+  // 删除操作
+  const { deleteBatchRows } = useBatchDeleteAction({
+    selectedRows,
+    deleteApi: batchDeleteEmailTemplates,
+    onSuccess: fetchTableData,
+    errorDefaultI18nKey: 'emailTemplate.loadFailed',
+  });
+
   const { createFormBeforeSure } = useFormOverlaySubmit();
   const moreActions = useEmailTemplateTableMoreAction({ fetchTableData });
 
@@ -109,27 +118,6 @@ function useEmailTemplateTableAction(deps: TableActionWithSelectionDeps) {
       hideFooter: true,
       contentRenderer: () => h(EmailTemplateDetailDialog, { id: row.id }),
     });
-  };
-
-  /**
-   * 批量删除（单行传 [row.id]，未传 ids 时使用表格多选）
-   * @param ids 主键列表，可选
-   */
-  const deleteBatchRows = async (ids?: string[]) => {
-    const confirmed = await deleteConfirm();
-    if (!confirmed) {
-      return;
-    }
-
-    ids = ids || selectedRows.value;
-    try {
-      await batchDeleteEmailTemplates(ids);
-      message(t('tips.deleteSuccess'), { type: 'success' });
-      selectedRows.value = [];
-      await fetchTableData();
-    } catch (error: unknown) {
-      errorMessage(error, { defaultI18nKey: 'emailTemplate.loadFailed' });
-    }
   };
 
   /**

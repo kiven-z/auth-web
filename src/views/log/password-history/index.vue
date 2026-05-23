@@ -131,7 +131,7 @@ onMounted(() => {
           </el-button>
 
           <template #dropdown>
-            <el-dropdown-item :disabled="selectedRows.length <= 0" type="danger" @click="deleteBatchRows">
+            <el-dropdown-item :disabled="selectedRows.length <= 0" type="danger" @click="deleteBatchRows()">
               <!-- 批量删除 -->
               {{ t('buttons.actionBatchDelete') }}
             </el-dropdown-item>

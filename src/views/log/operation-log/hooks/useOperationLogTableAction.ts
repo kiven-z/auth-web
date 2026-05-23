@@ -6,8 +6,8 @@ import {
   type OperationLogPageRow,
 } from '@/api/log/operation-log';
 import { addDialog } from '@/components/ui/Dialog';
-import { deleteConfirm } from '@/shared/messaging/dialog';
-import { errorMessage, message } from '@/shared/messaging/message';
+import useBatchDeleteAction from '@/shared/hooks/useBatchDeleteAction';
+import { errorMessage } from '@/shared/messaging/message';
 import OperationLogDetailDialog from '@/views/log/operation-log/components/OperationLogDetailDialog.vue';
 import { useDebounceFn } from '@vueuse/core';
 import { h } from 'vue';
@@ -19,6 +19,14 @@ import { useI18n } from 'vue-i18n';
 function useOperationLogTableAction(deps: TableActionWithSelectionDeps) {
   const { fetchTableData, selectedRows } = deps;
   const { t } = useI18n();
+
+  // 删除操作
+  const { deleteBatchRows } = useBatchDeleteAction({
+    selectedRows,
+    deleteApi: deleteOperationLog,
+    onSuccess: fetchTableData,
+    errorDefaultI18nKey: 'operationLog.loadFailed',
+  });
 
   /**
    * 打开详情对话框
@@ -44,25 +52,6 @@ function useOperationLogTableAction(deps: TableActionWithSelectionDeps) {
       contentRenderer: () => h(OperationLogDetailDialog, { data: detailData }),
     });
   });
-
-  /**
-   * 批量删除（单行传 [row.id]，未传 ids 时使用表格多选）
-   * @param ids 主键列表，可选
-   */
-  const deleteBatchRows = async (ids?: string[]) => {
-    const confirm = await deleteConfirm();
-    if (!confirm) return;
-
-    ids = ids || selectedRows.value;
-    try {
-      await deleteOperationLog(ids);
-      message(t('tips.deleteSuccess'), { type: 'success' });
-      selectedRows.value = [];
-      await fetchTableData();
-    } catch (error: unknown) {
-      errorMessage(error, { defaultI18nKey: 'operationLog.loadFailed' });
-    }
-  };
 
   return {
     openDetailDialog,

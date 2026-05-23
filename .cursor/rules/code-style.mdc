@@ -81,3 +81,9 @@ views文件目录参考：
   - GET 请求：`http.request<T>('get', url, { params })`。
   - POST 请求：`http.request<T>('post', url, { data })`。
 - **命名**：`query{Resource}Page` (分页), `get{Resource}Detail` (详情), `batchDelete{Resource}` (批量删除)。
+
+### 6. 批量删除规范
+
+- **统一 Hook**：表格批量删除必须使用 `@/shared/hooks/useBatchDeleteAction`，禁止在各页面 Hook 内重复实现确认/提示/刷新逻辑。
+- **函数名**：`deleteBatchRows(ids?: unknown)`；工具栏批量 `@click="deleteBatchRows()"`，行内 `@click="deleteBatchRows([row.id])"`。
+- **禁止**：`@click="deleteBatchRows"`（无括号会把 Event 当作 ids）；Hook 内禁止 `ids = ids || selectedRows`。

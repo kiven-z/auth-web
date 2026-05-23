@@ -3,8 +3,8 @@ import type { MenuForm } from '@/api/system/menu';
 import { createMenu, deleteMenus, getMenuDetail, updateMenu, updateMenuBatchStatus } from '@/api/system/menu';
 import { addDialog } from '@/components/ui/Dialog';
 import { addDrawer } from '@/components/ui/Drawer';
-import { useFormOverlaySubmit, type FormOverlayExpose } from '@/shared/hooks/useFormOverlaySubmit';
-import { deleteConfirm } from '@/shared/messaging/dialog';
+import useBatchDeleteAction from '@/shared/hooks/useBatchDeleteAction';
+import { type FormOverlayExpose, useFormOverlaySubmit } from '@/shared/hooks/useFormOverlaySubmit';
 import { errorMessage, message } from '@/shared/messaging/message';
 import MenuDialog from '@/views/system/menu/components/MenuDialog.vue';
 import type { MenuViewMode, SysMenuRow } from '@/views/system/menu/hooks/useMenuPageState';
@@ -24,6 +24,14 @@ function useMenuTableAction(deps: MenuTableActionDeps) {
   const { t } = useI18n();
   const { createFormBeforeSure } = useFormOverlaySubmit();
   const { refresh } = deps;
+
+  // 删除操作
+  const { deleteBatchRows } = useBatchDeleteAction({
+    selectedRows: deps.selectedRows,
+    deleteApi: deleteMenus,
+    onSuccess: refresh,
+    errorDefaultI18nKey: 'sysMenu.deleteFailed',
+  });
 
   /**
    * 打开创建抽屉
@@ -120,27 +128,6 @@ function useMenuTableAction(deps: MenuTableActionDeps) {
       });
     } catch (error: unknown) {
       errorMessage(error, { defaultI18nKey: 'sysMenu.loadFailed' });
-    }
-  };
-
-  /**
-   * 批量删除（单行传 [row.id]，未传 ids 时使用表格多选）
-   * @param ids 主键列表，可选
-   */
-  const deleteBatchRows = async (ids?: string[]) => {
-    const targetIds = ids ?? deps.selectedRows.value;
-    const confirmed = await deleteConfirm();
-    if (!confirmed) {
-      return;
-    }
-
-    try {
-      await deleteMenus(targetIds);
-      message(t('tips.deleteSuccess'), { type: 'success' });
-      deps.selectedRows.value = [];
-      await refresh();
-    } catch (error: unknown) {
-      errorMessage(error, { defaultI18nKey: 'sysMenu.deleteFailed' });
     }
   };
 

@@ -1,8 +1,8 @@
 import type { TableActionWithSelectionDeps } from '@/api/common';
 import { deleteLoginLog, getLoginLogDetail, type LoginLogDetailRow, type LoginLogPageRow } from '@/api/log/login-log';
 import { addDialog } from '@/components/ui/Dialog';
-import { deleteConfirm } from '@/shared/messaging/dialog';
-import { errorMessage, message } from '@/shared/messaging/message';
+import useBatchDeleteAction from '@/shared/hooks/useBatchDeleteAction';
+import { errorMessage } from '@/shared/messaging/message';
 import LoginLogDetailDialog from '@/views/log/login-log/components/LoginLogDetailDialog.vue';
 import { h } from 'vue';
 import { useI18n } from 'vue-i18n';
@@ -13,6 +13,14 @@ import { useI18n } from 'vue-i18n';
 function useLoginLogTableAction(deps: TableActionWithSelectionDeps) {
   const { fetchTableData, selectedRows } = deps;
   const { t } = useI18n();
+
+  // 删除操作
+  const { deleteBatchRows } = useBatchDeleteAction({
+    selectedRows,
+    deleteApi: deleteLoginLog,
+    onSuccess: fetchTableData,
+    errorDefaultI18nKey: 'loginLog.loadFailed',
+  });
 
   /**
    * 打开详情对话框
@@ -36,25 +44,6 @@ function useLoginLogTableAction(deps: TableActionWithSelectionDeps) {
       hideFooter: true,
       contentRenderer: () => h(LoginLogDetailDialog, { data: detailData }),
     });
-  };
-
-  /**
-   * 批量删除（单行传 [row.id]，未传 ids 时使用表格多选）
-   * @param ids 主键列表，可选
-   */
-  const deleteBatchRows = async (ids?: string[]) => {
-    const confirm = await deleteConfirm();
-    if (!confirm) return;
-
-    ids = ids || selectedRows.value;
-    try {
-      await deleteLoginLog(ids);
-      message(t('tips.deleteSuccess'), { type: 'success' });
-      selectedRows.value = [];
-      await fetchTableData();
-    } catch (error: unknown) {
-      errorMessage(error, { defaultI18nKey: 'loginLog.loadFailed' });
-    }
   };
 
   return {

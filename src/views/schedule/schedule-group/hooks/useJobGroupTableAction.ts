@@ -1,16 +1,15 @@
 import type { TableActionDeps } from '@/api/common';
 import {
   createJobGroup,
-  deleteJobGroup,
-  updateJobGroup,
   type CreateJobGroupRequest,
+  deleteJobGroup,
   type SysJobGroupPageRow,
+  updateJobGroup,
   type UpdateJobGroupRequest,
 } from '@/api/schedule/job-group';
 import { addDialog } from '@/components/ui/Dialog';
-import { useFormOverlaySubmit, type FormOverlayExpose } from '@/shared/hooks/useFormOverlaySubmit';
-import { deleteConfirm } from '@/shared/messaging/dialog';
-import { errorMessage, message } from '@/shared/messaging/message';
+import useBatchDeleteAction from '@/shared/hooks/useBatchDeleteAction';
+import { type FormOverlayExpose, useFormOverlaySubmit } from '@/shared/hooks/useFormOverlaySubmit';
 import ScheduleGroupDescriptionDialog from '@/views/schedule/schedule-group/components/ScheduleGroupDescriptionDialog.vue';
 import ScheduleGroupFormDialog from '@/views/schedule/schedule-group/components/ScheduleGroupFormDialog.vue';
 import { h, ref } from 'vue';
@@ -25,6 +24,17 @@ function useJobGroupTableAction(deps: TableActionDeps) {
   const { fetchTableData } = deps;
   const { t } = useI18n();
   const { createFormBeforeSure } = useFormOverlaySubmit();
+  const selectedRows = ref<string[]>([]);
+
+  // 删除操作
+  const { deleteBatchRows } = useBatchDeleteAction({
+    selectedRows,
+    deleteApi: async (ids) => {
+      await deleteJobGroup(ids[0]);
+    },
+    onSuccess: fetchTableData,
+    errorDefaultI18nKey: 'scheduleGroup.loadFailed',
+  });
 
   /**
    * 打开新增任务分组对话框
@@ -116,31 +126,11 @@ function useJobGroupTableAction(deps: TableActionDeps) {
     });
   };
 
-  /**
-   * 删除任务分组
-   * @param id 主键
-   */
-  const deleteBatchRow = async (id: string) => {
-    const confirmed = await deleteConfirm();
-    if (!confirmed) {
-      return;
-    }
-
-    try {
-      await deleteJobGroup(id);
-
-      message(t('tips.deleteSuccess'), { type: 'success' });
-      await fetchTableData();
-    } catch (error: unknown) {
-      errorMessage(error, { defaultI18nKey: 'scheduleGroup.loadFailed' });
-    }
-  };
-
   return {
     openCreateDialog,
     openEditDialog,
     openDetailDialog,
-    deleteBatchRow,
+    deleteBatchRows,
   };
 }
 

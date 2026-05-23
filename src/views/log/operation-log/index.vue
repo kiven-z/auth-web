@@ -162,7 +162,7 @@ onMounted(() => {
           </el-button>
 
           <template #dropdown>
-            <el-dropdown-item :disabled="selectedRows.length <= 0" @click="deleteBatchRows">
+            <el-dropdown-item :disabled="selectedRows.length <= 0" @click="deleteBatchRows()">
               {{ t('buttons.actionBatchDelete') }}
             </el-dropdown-item>
           </template>
