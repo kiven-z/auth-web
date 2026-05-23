@@ -28,8 +28,8 @@ export interface OperationLogPageQuery {
  */
 export interface OperationLogPageRow {
   id: string;
-  // 操作用户 ID
-  userId?: string;
+  // 操作用户 ID；null 表示匿名或未认证
+  userId?: string | null;
   // 操作用户名（由 userId 解析）
   username?: string | null;
   // 操作模块

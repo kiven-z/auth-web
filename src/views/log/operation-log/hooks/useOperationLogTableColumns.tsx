@@ -29,7 +29,7 @@ function useOperationLogTableColumns() {
       formatter: (row: OperationLogPageRow) => {
         const uid = row.userId;
         if (!uid) {
-          return <span>{row.username ?? '—'}</span>;
+          return <span>—</span>;
         }
         return (
           <ElButton link type="primary" onClick={() => selectUserinfo(uid, row.username ?? '')}>

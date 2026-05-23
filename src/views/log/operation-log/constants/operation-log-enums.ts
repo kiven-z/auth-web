@@ -1,4 +1,4 @@
-// 与后端 log_operation.operation_type 取值一致（OperationLogKind）
+// 与 log_operation.operation_type 取值一致（OperationLogKind）
 export const OPERATION_TYPES = ['CREATE', 'UPDATE', 'DELETE', 'QUERY', 'EXPORT'] as const;
 
 // HTTP 方法
