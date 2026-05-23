@@ -96,6 +96,9 @@ function useLoginLogTableColumns() {
       prop: 'createUser',
       minWidth: 130,
       formatter: (row: LoginLogPageRow) => {
+        if (!row.createUser) {
+          return <span>—</span>;
+        }
         return (
           row.createUser && (
             <ElButton link type="primary" onClick={() => selectUserinfo(row.createUser!, row.createUsername ?? '')}>

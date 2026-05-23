@@ -18,7 +18,13 @@ const { t } = useI18n();
 
 const columns = computed(() => [
   // 用户 ID
-  { label: t('loginLog.userId'), prop: 'userId', labelWidth: 120, copy: true },
+  {
+    label: t('loginLog.userId'),
+    prop: 'userId',
+    labelWidth: 120,
+    copy: true,
+    cellRenderer: ({ value }) => <span>{value ?? '—'}</span>,
+  },
   // 用户名
   { label: t('loginLog.username'), prop: 'username', labelWidth: 120, copy: true },
   // 登录结果

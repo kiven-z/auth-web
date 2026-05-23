@@ -1,6 +1,5 @@
 ---
 description: Vue 3 + TypeScript + Composition API 开发规范
-globs: []
 alwaysApply: true # 建议改为 true，确保生成 Commit 时必读
 ---
 
