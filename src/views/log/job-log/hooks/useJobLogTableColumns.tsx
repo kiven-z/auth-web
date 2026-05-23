@@ -21,6 +21,12 @@ function useJobLogTableColumns() {
       label: t('table.idx'),
       minWidth: 60,
     },
+    // 任务 ID
+    {
+      label: t('logJob.jobId'),
+      prop: 'jobId',
+      minWidth: 180,
+    },
     // 任务名称
     {
       label: t('logJob.jobName'),
@@ -38,6 +44,12 @@ function useJobLogTableColumns() {
       label: t('logJob.invokeTarget'),
       prop: 'invokeTarget',
       minWidth: 200,
+    },
+    // 触发类型
+    {
+      label: t('logJob.triggerType'),
+      prop: 'triggerType',
+      minWidth: 120,
     },
     // 执行状态
     {

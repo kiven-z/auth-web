@@ -3,7 +3,10 @@ import { getJobLogPage } from '@/api/log/job-log';
 import AuthDataTable from '@/components/ui/AuthDataTable';
 import TableBar from '@/components/ui/TableBar';
 import { usePaginationState } from '@/shared/hooks/usePaginationState';
-import { LOG_JOB_STATUS_FILTER_OPTIONS } from '@/views/log/job-log/constants/job-log-enums';
+import {
+  LOG_JOB_STATUS_FILTER_OPTIONS,
+  LOG_JOB_TRIGGER_TYPE_FILTER_OPTIONS,
+} from '@/views/log/job-log/constants/job-log-enums';
 import useJobLogTableAction from '@/views/log/job-log/hooks/useJobLogTableAction';
 import useJobLogTableColumns from '@/views/log/job-log/hooks/useJobLogTableColumns';
 import type { FormInstance } from 'element-plus';
@@ -33,9 +36,11 @@ const {
 } = usePaginationState({
   fetchApi: getJobLogPage,
   searchForm: reactive({
+    jobId: undefined,
     jobName: undefined,
     jobGroup: undefined,
     invokeTarget: undefined,
+    triggerType: undefined,
     elapsedTime: undefined,
     status: undefined,
   }),
@@ -61,6 +66,15 @@ onMounted(() => {
       :model="searchForm"
       class="bg-bg_color w-[99/100] overflow-auto pl-8 pt-[12px]"
     >
+      <!-- 任务 ID -->
+      <el-form-item :label="t('logJob.jobId')" prop="jobId">
+        <el-input
+          v-model="searchForm.jobId"
+          :placeholder="t('logJob.placeholder.jobId')"
+          class="w-[180px]!"
+          clearable
+        />
+      </el-form-item>
       <!-- 任务名称 -->
       <el-form-item :label="t('logJob.jobName')" prop="jobName">
         <el-input
@@ -87,6 +101,22 @@ onMounted(() => {
           class="w-[220px]!"
           clearable
         />
+      </el-form-item>
+      <!-- 触发类型 -->
+      <el-form-item :label="t('logJob.triggerType')" prop="triggerType">
+        <el-select
+          v-model="searchForm.triggerType"
+          :placeholder="t('logJob.placeholder.triggerType')"
+          class="w-[180px]!"
+          clearable
+        >
+          <el-option
+            v-for="opt in LOG_JOB_TRIGGER_TYPE_FILTER_OPTIONS"
+            :key="opt.value"
+            :label="t(opt.labelKey)"
+            :value="opt.value"
+          />
+        </el-select>
       </el-form-item>
       <!-- 执行耗时(ms) -->
       <el-form-item :label="t('logJob.elapsedTime')" prop="elapsedTime">

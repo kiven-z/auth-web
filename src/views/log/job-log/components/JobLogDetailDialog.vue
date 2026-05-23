@@ -16,13 +16,13 @@ defineProps<JobLogDetailDialogProps>();
 const { t } = useI18n();
 
 const columns = computed(() => [
-  // 任务名称
+  { label: t('logJob.jobId'), prop: 'jobId', labelWidth: 120, copy: true },
   { label: t('logJob.jobName'), prop: 'jobName', labelWidth: 120, copy: true },
   // 任务分组
   { label: t('logJob.jobGroup'), prop: 'jobGroup', labelWidth: 120, copy: true },
   // 调用目标
   { label: t('logJob.invokeTarget'), prop: 'invokeTarget', labelWidth: 120, copy: true },
-  // 执行报告
+  { label: t('logJob.triggerType'), prop: 'triggerType', labelWidth: 120, copy: true },
   { label: t('logJob.jobMessage'), prop: 'jobMessage', labelWidth: 120, copy: true },
   // 执行状态（展示文案）
   {

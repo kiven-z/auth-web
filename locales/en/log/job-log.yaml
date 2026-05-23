@@ -1,7 +1,9 @@
 logJob:
+  jobId: Job ID
   jobName: Job Name
   jobGroup: Job Group
   invokeTarget: Invoke Target
+  triggerType: Trigger Type
   jobMessage: Execution Report
   status: Status
   elapsedTime: Elapsed (ms)
@@ -11,10 +13,15 @@ logJob:
   detailTitle: Job Log Detail
   loadFailed: Failed to load job logs
   placeholder:
+    jobId: Enter job ID
     jobName: Enter job name
     jobGroup: Enter job group
     invokeTarget: Enter invoke target
+    triggerType: All trigger types
     elapsedTime: Elapsed ms
     status: All status
   statusSuccess: Success
   statusFailed: Failed
+  triggerSchedule: Schedule
+  triggerManual: Manual
+  triggerRetry: Retry

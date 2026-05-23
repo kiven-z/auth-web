@@ -9,15 +9,19 @@ export interface JobLogPageQuery {
   pageIndex?: number;
   pageSize?: number;
   sort?: SortSpec[];
-  // 任务名称（模糊搜索）
+  /** 任务 ID（sys_job.id） */
+  jobId?: string;
+  /** 任务名称（模糊） */
   jobName?: string;
-  // 任务分组
+  /** 任务分组（模糊） */
   jobGroup?: string;
-  // 调用目标（模糊搜索）
+  /** 调用目标（模糊） */
   invokeTarget?: string;
-  // 耗时(ms)，精确匹配
+  /** 触发类型：SCHEDULE / MANUAL / RETRY */
+  triggerType?: string;
+  /** 耗时(ms)，精确匹配 */
   elapsedTime?: number;
-  // 执行是否成功(true=仅成功，false=仅失败)
+  /** 执行结果：true=成功，false=失败 */
   status?: boolean;
 }
 
@@ -26,13 +30,13 @@ export interface JobLogPageQuery {
  */
 export interface JobLogPageRow {
   id: string;
-  // 任务名称
+  jobId?: string | null;
   jobName?: string | null;
   // 任务分组
   jobGroup?: string | null;
   // 执行时调用目标
   invokeTarget?: string | null;
-  // 执行是否成功(true=成功，false=失败)
+  triggerType?: string | null;
   status: boolean;
   // 耗时毫秒
   elapsedTime?: number | null;
@@ -51,13 +55,13 @@ export interface JobLogPageRow {
  */
 export interface JobLogDetailRow {
   id: string;
-  // 任务名称
+  jobId?: string | null;
   jobName?: string | null;
   // 任务分组 */
   jobGroup?: string | null;
   // 执行时调用目标 */
   invokeTarget?: string | null;
-  // 执行报告
+  triggerType?: string | null;
   jobMessage?: string | null;
   // 执行是否成功(true=成功，false=失败)
   status: boolean;
@@ -75,8 +79,6 @@ export interface JobLogDetailRow {
 
 /**
  * 分页查询任务调度日志
- * @param params 任务调度日志分页查询参数
- * @returns 任务调度日志分页行
  */
 export function getJobLogPage(params: JobLogPageQuery): Promise<PageResponse<JobLogPageRow>> {
   return http.get<PageResponse<JobLogPageRow>, AxiosRequestConfig<JobLogPageQuery>>('/system/job-log/page', {
@@ -86,17 +88,13 @@ export function getJobLogPage(params: JobLogPageQuery): Promise<PageResponse<Job
 
 /**
  * 任务调度日志详情
- * @param id 任务调度日志ID
- * @returns 任务调度日志详情
  */
 export function getJobLogDetail(id: string): Promise<JobLogDetailRow> {
   return http.get<JobLogDetailRow, AxiosRequestConfig>(`/system/job-log/${id}`);
 }
 
 /**
- * 批量删除任务调度日志
- * @param ids 任务调度日志ID数组
- * @returns 删除任务调度日志响应
+ * 批量物理删除任务调度日志
  */
 export function deleteJobLog(ids: string[]): Promise<string> {
   return http.request<string>('delete', '/system/job-log', { data: ids });
