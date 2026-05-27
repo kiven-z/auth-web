@@ -48,7 +48,7 @@ const {
   errorI18nKey: 'roles.loadFailed',
 });
 
-const { openCreateDialog, openDetailDialog, openEditDialog, deleteRow, deleteBatchRows } = useRoleTableAction({
+const { openCreateDialog, openDetailDialog, openEditDialog, deleteBatchRows } = useRoleTableAction({
   fetchTableData,
   selectedRows,
 });
@@ -64,19 +64,19 @@ onMounted(() => {
       ref="searchFormRef"
       :inline="true"
       :model="searchForm"
-      class="bg-bg_color w-[99/100] overflow-auto pl-8 pt-[12px]"
+      class="bg-bg_color w-[99/100] overflow-auto pl-8 pt-3"
     >
       <!-- 角色编码 -->
       <el-form-item :label="t('roles.roleCode')" prop="roleCode">
-        <el-input v-model="searchForm.roleCode" class="w-[180px]!" clearable />
+        <el-input v-model="searchForm.roleCode" class="w-45!" clearable />
       </el-form-item>
       <!-- 角色名称 -->
       <el-form-item :label="t('roles.roleName')" prop="roleName">
-        <el-input v-model="searchForm.roleName" class="w-[180px]!" clearable />
+        <el-input v-model="searchForm.roleName" class="w-45!" clearable />
       </el-form-item>
       <!-- 状态 -->
       <el-form-item :label="t('roles.status')" prop="status">
-        <el-select v-model="searchForm.status" :placeholder="t('roles.status')" class="w-[180px]!" clearable>
+        <el-select v-model="searchForm.status" :placeholder="t('roles.status')" class="w-45!" clearable>
           <el-option
             v-for="opt in ROLE_STATUS_FILTER_OPTIONS"
             :key="`${opt.labelKey}:${String(opt.value)}`"
@@ -87,7 +87,7 @@ onMounted(() => {
       </el-form-item>
       <!-- 角色类型 -->
       <el-form-item :label="t('roles.roleType')" prop="roleType">
-        <el-select v-model="searchForm.roleType" :placeholder="t('roles.roleType')" class="w-[160px]!" clearable>
+        <el-select v-model="searchForm.roleType" :placeholder="t('roles.roleType')" class="w-40!" clearable>
           <el-option
             v-for="opt in ROLE_TYPE_FILTER_OPTIONS"
             :key="opt.value"
@@ -155,7 +155,9 @@ onMounted(() => {
               <!-- 修改/编辑 -->
               <el-button link type="primary" @click="openEditDialog(row)">{{ t('buttons.actionEdit') }}</el-button>
               <!-- 删除 -->
-              <el-button link type="danger" @click="deleteRow(row)">{{ t('buttons.actionDelete') }}</el-button>
+              <el-button link type="danger" @click="deleteBatchRows([row.id])">
+                {{ t('buttons.actionDelete') }}
+              </el-button>
 
               <el-dropdown class="ml-1" trigger="click">
                 <!-- 更多 -->

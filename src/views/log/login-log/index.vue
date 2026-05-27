@@ -65,7 +65,7 @@ onMounted(() => {
       ref="searchFormRef"
       :inline="true"
       :model="searchForm"
-      class="bg-bg_color w-[99/100] overflow-auto pl-8 pt-[12px]"
+      class="bg-bg_color w-[99/100] overflow-auto pl-8 pt-3"
     >
       <el-form-item :label="t('loginLog.user')" prop="userId">
         <el-select
@@ -73,7 +73,7 @@ onMounted(() => {
           :loading="userSearchLoading"
           :placeholder="t('loginLog.placeholder.userId')"
           :remote-method="loadUserListByKeyword"
-          class="w-[180px]!"
+          class="w-45!"
           clearable
           filterable
           remote
@@ -86,7 +86,7 @@ onMounted(() => {
         <el-select
           v-model="searchForm.loginResult"
           :placeholder="t('loginLog.placeholder.loginResult')"
-          class="w-[180px]!"
+          class="w-45!"
           clearable
         >
           <el-option
@@ -102,7 +102,7 @@ onMounted(() => {
         <el-date-picker
           v-model="searchForm.loginTimeStart"
           :placeholder="t('loginLog.loginTimeStart')"
-          class="w-[160px]!"
+          class="w-40!"
           type="datetime"
           value-format="YYYY-MM-DDTHH:mm:ss"
         />
@@ -110,7 +110,7 @@ onMounted(() => {
         <el-date-picker
           v-model="searchForm.loginTimeEnd"
           :placeholder="t('loginLog.loginTimeEnd')"
-          class="w-[160px]!"
+          class="w-40!"
           type="datetime"
           value-format="YYYY-MM-DDTHH:mm:ss"
         />
@@ -120,7 +120,7 @@ onMounted(() => {
         <el-select
           v-model="searchForm.loginType"
           :placeholder="t('loginLog.placeholder.loginType')"
-          class="w-[180px]!"
+          class="w-45!"
           clearable
         >
           <el-option

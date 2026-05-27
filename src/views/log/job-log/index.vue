@@ -64,32 +64,22 @@ onMounted(() => {
       ref="searchFormRef"
       :inline="true"
       :model="searchForm"
-      class="bg-bg_color w-[99/100] overflow-auto pl-8 pt-[12px]"
+      class="bg-bg_color w-[99/100] overflow-auto pl-8 pt-3"
     >
       <!-- 任务 ID -->
       <el-form-item :label="t('logJob.jobId')" prop="jobId">
-        <el-input
-          v-model="searchForm.jobId"
-          :placeholder="t('logJob.placeholder.jobId')"
-          class="w-[180px]!"
-          clearable
-        />
+        <el-input v-model="searchForm.jobId" :placeholder="t('logJob.placeholder.jobId')" class="w-45!" clearable />
       </el-form-item>
       <!-- 任务名称 -->
       <el-form-item :label="t('logJob.jobName')" prop="jobName">
-        <el-input
-          v-model="searchForm.jobName"
-          :placeholder="t('logJob.placeholder.jobName')"
-          class="w-[180px]!"
-          clearable
-        />
+        <el-input v-model="searchForm.jobName" :placeholder="t('logJob.placeholder.jobName')" class="w-45!" clearable />
       </el-form-item>
       <!-- 任务分组 -->
       <el-form-item :label="t('logJob.jobGroup')" prop="jobGroup">
         <el-input
           v-model="searchForm.jobGroup"
           :placeholder="t('logJob.placeholder.jobGroup')"
-          class="w-[180px]!"
+          class="w-45!"
           clearable
         />
       </el-form-item>
@@ -107,7 +97,7 @@ onMounted(() => {
         <el-select
           v-model="searchForm.triggerType"
           :placeholder="t('logJob.placeholder.triggerType')"
-          class="w-[180px]!"
+          class="w-45!"
           clearable
         >
           <el-option
@@ -123,18 +113,13 @@ onMounted(() => {
         <el-input-number
           v-model="searchForm.elapsedTime"
           :placeholder="t('logJob.placeholder.elapsedTime')"
-          class="w-[160px]!"
+          class="w-40!"
           clearable
         />
       </el-form-item>
       <!-- 状态 -->
       <el-form-item :label="t('logJob.status')" prop="status">
-        <el-select
-          v-model="searchForm.status"
-          :placeholder="t('logJob.placeholder.status')"
-          class="w-[180px]!"
-          clearable
-        >
+        <el-select v-model="searchForm.status" :placeholder="t('logJob.placeholder.status')" class="w-45!" clearable>
           <el-option
             v-for="opt in LOG_JOB_STATUS_FILTER_OPTIONS"
             :key="`${opt.labelKey}:${String(opt.value)}`"

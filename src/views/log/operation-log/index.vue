@@ -66,7 +66,7 @@ onMounted(() => {
       ref="searchFormRef"
       :inline="true"
       :model="searchForm"
-      class="bg-bg_color w-[99/100] overflow-auto pl-8 pt-[12px]"
+      class="bg-bg_color w-[99/100] overflow-auto pl-8 pt-3"
     >
       <!-- 操作用户 -->
       <el-form-item :label="t('operationLog.user')" prop="userId">
@@ -75,7 +75,7 @@ onMounted(() => {
           :loading="userSearchLoading"
           :placeholder="t('operationLog.placeholder.userId')"
           :remote-method="loadUserListByKeyword"
-          class="w-[180px]!"
+          class="w-45!"
           clearable
           filterable
           remote
@@ -89,7 +89,7 @@ onMounted(() => {
         <el-select
           v-model="searchForm.operationType"
           :placeholder="t('operationLog.placeholder.operationType')"
-          class="w-[180px]!"
+          class="w-45!"
           clearable
         >
           <el-option
@@ -106,7 +106,7 @@ onMounted(() => {
         <el-input
           v-model="searchForm.module"
           :placeholder="t('operationLog.placeholder.module')"
-          class="w-[180px]!"
+          class="w-45!"
           clearable
         />
       </el-form-item>
@@ -116,7 +116,7 @@ onMounted(() => {
         <el-input
           v-model="searchForm.targetType"
           :placeholder="t('operationLog.placeholder.targetType')"
-          class="w-[180px]!"
+          class="w-45!"
           clearable
         />
       </el-form-item>
@@ -126,7 +126,7 @@ onMounted(() => {
         <el-input
           v-model="searchForm.targetId"
           :placeholder="t('operationLog.placeholder.targetId')"
-          class="w-[180px]!"
+          class="w-45!"
           clearable
         />
       </el-form-item>
@@ -136,7 +136,7 @@ onMounted(() => {
         <el-select
           v-model="searchForm.requestMethod"
           :placeholder="t('operationLog.placeholder.requestMethod')"
-          class="w-[180px]!"
+          class="w-45!"
           clearable
         >
           <el-option v-for="rm in REQUEST_METHODS" :key="rm" :label="rm" :value="rm" />

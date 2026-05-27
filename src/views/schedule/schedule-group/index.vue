@@ -52,19 +52,19 @@ onMounted(() => {
       ref="searchFormRef"
       :inline="true"
       :model="searchForm"
-      class="bg-bg_color w-[99/100] overflow-auto pl-8 pt-[12px]"
+      class="bg-bg_color w-[99/100] overflow-auto pl-8 pt-3"
     >
       <!-- 分组编码 -->
       <el-form-item :label="t('scheduleGroup.code')" prop="groupCode">
-        <el-input v-model="searchForm.groupCode" class="w-[160px]!" clearable />
+        <el-input v-model="searchForm.groupCode" class="w-40!" clearable />
       </el-form-item>
       <!-- 分组名称 -->
       <el-form-item :label="t('scheduleGroup.name')" prop="groupName">
-        <el-input v-model="searchForm.groupName" class="w-[160px]!" clearable />
+        <el-input v-model="searchForm.groupName" class="w-40!" clearable />
       </el-form-item>
       <!-- 分组状态 -->
       <el-form-item :label="t('scheduleGroup.status')" prop="status">
-        <el-select v-model="searchForm.status" :placeholder="t('scheduleGroup.status')" class="w-[160px]!" clearable>
+        <el-select v-model="searchForm.status" :placeholder="t('scheduleGroup.status')" class="w-40!" clearable>
           <el-option :label="t('buttons.statusActiveText')" :value="true" />
           <el-option :label="t('buttons.statusInactiveText')" :value="false" />
         </el-select>

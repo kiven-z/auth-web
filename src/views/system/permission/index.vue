@@ -61,22 +61,22 @@ onMounted(() => {
       ref="searchFormRef"
       :inline="true"
       :model="searchForm"
-      class="bg-bg_color w-[99/100] overflow-auto pl-8 pt-[12px]"
+      class="bg-bg_color w-[99/100] overflow-auto pl-8 pt-3"
     >
       <!-- 权限编码 -->
       <el-form-item :label="t('permissions.permissionCode')" prop="permissionCode">
-        <el-input v-model="searchForm.permissionCode" class="w-[180px]!" clearable />
+        <el-input v-model="searchForm.permissionCode" class="w-45!" clearable />
       </el-form-item>
       <!-- 权限名称 -->
       <el-form-item :label="t('permissions.permissionName')" prop="permissionName">
-        <el-input v-model="searchForm.permissionName" class="w-[180px]!" clearable />
+        <el-input v-model="searchForm.permissionName" class="w-45!" clearable />
       </el-form-item>
       <!-- 权限类型 -->
       <el-form-item :label="t('permissions.permissionType')" prop="permissionType">
         <el-select
           v-model="searchForm.permissionType"
           :placeholder="t('permissions.permissionType')"
-          class="w-[160px]!"
+          class="w-40!"
           clearable
         >
           <el-option
@@ -89,7 +89,7 @@ onMounted(() => {
       </el-form-item>
       <!-- 状态 -->
       <el-form-item :label="t('permissions.status')" prop="status">
-        <el-select v-model="searchForm.status" :placeholder="t('permissions.status')" class="w-[180px]!" clearable>
+        <el-select v-model="searchForm.status" :placeholder="t('permissions.status')" class="w-45!" clearable>
           <el-option
             v-for="opt in PERMISSION_STATUS_FILTER_OPTIONS"
             :key="`${opt.labelKey}:${String(opt.value)}`"

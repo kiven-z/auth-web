@@ -59,11 +59,56 @@ export function getRolePage(params: SysRolePageQuery): Promise<PageResponse<SysR
 }
 
 /**
+ * 角色详情（对齐 {@code SysRoleDetailVO}）
+ */
+export interface SysRoleDetail {
+  id?: string;
+  roleCode: string;
+  roleName: string;
+  status: boolean;
+  roleType: number;
+  roleTypeDesc?: string;
+  orderNum: number;
+  remark?: string;
+}
+
+/**
+ * 角色更新表单（对齐 {@code SysRoleUpdateForm}）
+ */
+export interface SysRoleUpdateForm {
+  id: string;
+  roleCode: string;
+  roleName: string;
+  status: boolean;
+  roleType: number;
+  orderNum?: number;
+  remark?: string;
+}
+
+/**
  * 新增角色
  * @param data 角色新增表单
  */
 export function createRole(data: SysRoleCreateForm): Promise<void> {
   return http.post<void, SysRoleCreateForm>('/system/role', { data });
+}
+
+/**
+ * 获取角色详情
+ * @param id 角色主键
+ * @returns 角色详情
+ */
+export function getRoleDetail(id: string): Promise<SysRoleDetail> {
+  return http.get<SysRoleDetail, unknown>(`/system/role/${id}`);
+}
+
+/**
+ * 更新角色
+ * @param id 角色主键
+ * @param data 角色更新表单
+ */
+export function updateRole(id: string, data: SysRoleUpdateForm): Promise<void> {
+  return http.put<void, SysRoleUpdateForm>(`/system/role/${id}`, { data });
 }
 
 /**

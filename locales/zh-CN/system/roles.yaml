@@ -8,8 +8,10 @@ roles:
   menuImpactAnalysis: 影响分析与刷新
   loadFailed: 加载角色列表失败
   deleteFailed: 删除角色失败
+  deleteInUse: 该角色仍被授权对象引用，请先解除授权后再删除
   dialogViewTitle: 查看角色详情
   dialogCreateTitle: 新增角色
+  dialogEditTitle: 编辑角色
   roleCode: 角色编码
   roleName: 角色名称
   status: 状态

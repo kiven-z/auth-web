@@ -66,22 +66,17 @@ defineExpose({ tableRef });
       ref="searchFormRef"
       :inline="true"
       :model="searchForm"
-      class="bg-bg_color w-[99/100] overflow-auto pl-8 pt-[12px]"
+      class="bg-bg_color w-[99/100] overflow-auto pl-8 pt-3"
     >
       <el-form-item :label="t('sysMenu.routeName')" prop="name">
-        <el-input
-          v-model="searchForm.name"
-          :placeholder="t('sysMenu.placeholder.routeName')"
-          class="w-[180px]!"
-          clearable
-        />
+        <el-input v-model="searchForm.name" :placeholder="t('sysMenu.placeholder.routeName')" class="w-45!" clearable />
       </el-form-item>
 
       <el-form-item :label="t('sysMenu.menuTitle')" prop="title">
         <el-input
           v-model="searchForm.title"
           :placeholder="t('sysMenu.placeholder.menuTitle')"
-          class="w-[180px]!"
+          class="w-45!"
           clearable
         />
       </el-form-item>
@@ -90,7 +85,7 @@ defineExpose({ tableRef });
         <el-select
           v-model="searchForm.menuType"
           :placeholder="t('sysMenu.placeholder.menuType')"
-          class="w-[160px]!"
+          class="w-40!"
           clearable
         >
           <el-option
@@ -122,7 +117,7 @@ defineExpose({ tableRef });
         <el-input
           v-model="searchForm.component"
           :placeholder="t('sysMenu.placeholder.component')"
-          class="w-[180px]!"
+          class="w-45!"
           clearable
         />
       </el-form-item>

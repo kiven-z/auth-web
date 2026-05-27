@@ -1,20 +1,24 @@
 <script lang="ts" setup>
 import type { FormDialog } from '@/api/common';
-import type { SysRoleCreateForm } from '@/api/system/role';
+import type { SysRoleCreateForm, SysRoleUpdateForm } from '@/api/system/role';
 import { ROLE_TYPE_FILTER_OPTIONS } from '@/views/system/role/constants/role-search-options';
 import type { FormInstance, FormRules } from 'element-plus';
 import { reactive, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 
-type RoleFormDialogProps = FormDialog<SysRoleCreateForm>;
+type RoleFormDialogProps = FormDialog<SysRoleCreateForm | SysRoleUpdateForm> & {
+  /** 是否为编辑模式（编辑时角色编码只读） */
+  isEdit?: boolean;
+};
 
 const props = withDefaults(defineProps<RoleFormDialogProps>(), {
-  form: () => ({}) as SysRoleCreateForm,
+  form: () => ({}) as SysRoleCreateForm | SysRoleUpdateForm,
+  isEdit: false,
 });
 
 const { t } = useI18n();
 const formRef = ref<FormInstance>();
-const form = ref<SysRoleCreateForm>({
+const form = ref<SysRoleCreateForm | SysRoleUpdateForm>({
   status: true,
   roleType: 1,
   orderNum: 0,
@@ -44,7 +48,12 @@ defineExpose({ formRef, form });
       <!-- 角色编码 -->
       <el-col :lg="12" :md="12" :sm="12" :xs="24">
         <el-form-item :label="t('roles.roleCode')" prop="roleCode">
-          <el-input v-model="form.roleCode" :placeholder="t('roles.roleCode')" />
+          <el-input
+            v-model="form.roleCode"
+            :disabled="isEdit"
+            :placeholder="t('roles.roleCode')"
+            :readonly="props.isEdit"
+          />
         </el-form-item>
       </el-col>
       <!-- 角色名称 -->

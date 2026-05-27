@@ -1,6 +1,6 @@
 import type { TableActionDeps } from '@/api/common';
-import type { SysRoleCreateForm, SysRolePageRow } from '@/api/system/role';
-import { createRole, deleteRoles } from '@/api/system/role';
+import type { SysRoleCreateForm, SysRolePageRow, SysRoleUpdateForm } from '@/api/system/role';
+import { createRole, deleteRoles, getRoleDetail, updateRole } from '@/api/system/role';
 import { addDialog } from '@/components/ui/Dialog';
 import { type FormOverlayExpose, useFormOverlaySubmit } from '@/shared/hooks/useFormOverlaySubmit';
 import useBatchDeleteAction from '@/shared/hooks/useBatchDeleteAction';
@@ -70,27 +70,47 @@ function useRoleTableAction(deps: RoleTableActionDeps) {
   };
 
   /**
-   * 编辑（待对接 getRoleDetail、updateRole）
-   * @param _row 表格行
-   */
-  const openEditDialog = async (_row: SysRolePageRow) => {
-    void _row;
-    // TODO: await getRoleDetail(row.id) → detailToForm → h(RoleFormDialog, { form })
-  };
-
-  /**
-   * 单行删除（物理删除）
+   * 打开编辑弹窗：拉取详情 → 填充表单 → 提交更新
    * @param row 表格行
    */
-  const deleteRow = async (row: SysRolePageRow) => {
-    await deleteBatchRows([row.id]);
+  const openEditDialog = async (row: SysRolePageRow) => {
+    const detail = await getRoleDetail(row.id);
+    const formPayload: SysRoleUpdateForm = {
+      id: row.id,
+      roleCode: detail.roleCode,
+      roleName: detail.roleName,
+      status: detail.status,
+      roleType: detail.roleType,
+      orderNum: detail.orderNum,
+      remark: detail.remark,
+    };
+
+    const dialogFormRef = ref<FormOverlayExpose<SysRoleUpdateForm> | null>(null);
+
+    addDialog({
+      title: t('roles.dialogEditTitle'),
+      draggable: true,
+      fullscreenIcon: true,
+      closeOnClickModal: false,
+      closeOnPressEscape: false,
+      contentRenderer: () => h(RoleFormDialog, { ref: dialogFormRef, form: formPayload, isEdit: true }),
+      beforeSure: createFormBeforeSure<SysRoleUpdateForm>({
+        formExposeRef: dialogFormRef,
+        requireId: true,
+        errorI18nKey: 'roles.loadFailed',
+        successI18nKey: 'tips.editSuccess',
+        onSubmit: async (formData) => {
+          await updateRole(row.id, formData);
+          await fetchTableData();
+        },
+      }),
+    });
   };
 
   return {
     openCreateDialog,
     openDetailDialog,
     openEditDialog,
-    deleteRow,
     deleteBatchRows,
   };
 }

@@ -8,8 +8,10 @@ roles:
   menuImpactAnalysis: Impact analysis and refresh
   loadFailed: Failed to load roles
   deleteFailed: Failed to delete role
+  deleteInUse: This role is still assigned via grants. Remove grants before deleting.
   dialogViewTitle: View role details
   dialogCreateTitle: Add Role
+  dialogEditTitle: Edit Role
   roleCode: Role Code
   roleName: Role Name
   status: Status

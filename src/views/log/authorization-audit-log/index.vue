@@ -62,14 +62,14 @@ onMounted(() => {
       ref="searchFormRef"
       :inline="true"
       :model="searchForm"
-      class="bg-bg_color w-[99/100] overflow-auto pl-8 pt-[12px]"
+      class="bg-bg_color w-[99/100] overflow-auto pl-8 pt-3"
     >
       <!-- 事件类型 -->
       <el-form-item :label="t('authorizationAudit.eventType')" prop="eventType">
         <el-select
           v-model="searchForm.eventType"
           :placeholder="t('authorizationAudit.placeholder.eventType')"
-          class="w-[180px]!"
+          class="w-45!"
           clearable
         >
           <el-option
@@ -85,7 +85,7 @@ onMounted(() => {
         <el-input
           v-model="searchForm.decisionReason"
           :placeholder="t('authorizationAudit.placeholder.decisionReason')"
-          class="w-[180px]!"
+          class="w-45!"
           clearable
         />
       </el-form-item>
@@ -94,7 +94,7 @@ onMounted(() => {
         <el-input
           v-model="searchForm.className"
           :placeholder="t('authorizationAudit.placeholder.className')"
-          class="w-[180px]!"
+          class="w-45!"
           clearable
         />
       </el-form-item>
@@ -105,7 +105,7 @@ onMounted(() => {
           :loading="userSearchLoading"
           :placeholder="t('authorizationAudit.placeholder.createUserId')"
           :remote-method="loadUserListByKeyword"
-          class="w-[180px]!"
+          class="w-45!"
           clearable
           filterable
           remote

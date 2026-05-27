@@ -70,23 +70,23 @@ onMounted(() => {
       ref="searchFormRef"
       :inline="true"
       :model="searchForm"
-      class="bg-bg_color w-[99/100] overflow-auto pl-8 pt-[12px]"
+      class="bg-bg_color w-[99/100] overflow-auto pl-8 pt-3"
     >
       <!-- 场景编码（scene_code） -->
       <el-form-item :label="t('emailTemplate.templateCode')" prop="templateCode">
-        <el-input v-model="searchForm.templateCode" class="w-[180px]!" clearable />
+        <el-input v-model="searchForm.templateCode" class="w-45!" clearable />
       </el-form-item>
       <!-- 模板名称 -->
       <el-form-item :label="t('emailTemplate.templateName')" prop="templateName">
-        <el-input v-model="searchForm.templateName" class="w-[180px]!" clearable />
+        <el-input v-model="searchForm.templateName" class="w-45!" clearable />
       </el-form-item>
       <!-- 邮件主题 -->
       <el-form-item :label="t('emailTemplate.subject')" prop="subject">
-        <el-input v-model="searchForm.subject" class="w-[180px]!" clearable />
+        <el-input v-model="searchForm.subject" class="w-45!" clearable />
       </el-form-item>
       <!-- 状态 -->
       <el-form-item :label="t('emailTemplate.status')" prop="status">
-        <el-select v-model="searchForm.status" :placeholder="t('emailTemplate.status')" class="w-[180px]!" clearable>
+        <el-select v-model="searchForm.status" :placeholder="t('emailTemplate.status')" class="w-45!" clearable>
           <el-option
             v-for="opt in emailTemplateStatusFilterOptions"
             :key="`${opt.labelKey}:${String(opt.value)}`"

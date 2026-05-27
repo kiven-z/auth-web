@@ -64,7 +64,7 @@ onMounted(() => {
       ref="searchFormRef"
       :inline="true"
       :model="searchForm"
-      class="bg-bg_color w-[99/100] overflow-auto pl-8 pt-[12px]"
+      class="bg-bg_color w-[99/100] overflow-auto pl-8 pt-3"
     >
       <!-- 用户 -->
       <el-form-item :label="t('passwordHistory.userId')" prop="userId">
@@ -73,7 +73,7 @@ onMounted(() => {
           :loading="userSearchLoading"
           :placeholder="t('passwordHistory.placeholder.userId')"
           :remote-method="loadUserListByKeyword"
-          class="w-[180px]!"
+          class="w-45!"
           clearable
           filterable
           remote
@@ -86,7 +86,7 @@ onMounted(() => {
         <el-date-picker
           v-model="searchForm.changeTimeStart"
           :placeholder="t('passwordHistory.placeholder.changeTimeStart')"
-          class="w-[160px]!"
+          class="w-40!"
           type="datetime"
           value-format="YYYY-MM-DDTHH:mm:ss"
         />
@@ -94,7 +94,7 @@ onMounted(() => {
         <el-date-picker
           v-model="searchForm.changeTimeEnd"
           :placeholder="t('passwordHistory.placeholder.changeTimeEnd')"
-          class="w-[160px]!"
+          class="w-40!"
           type="datetime"
           value-format="YYYY-MM-DDTHH:mm:ss"
         />
@@ -104,7 +104,7 @@ onMounted(() => {
         <el-input
           v-model="searchForm.changeIp"
           :placeholder="t('passwordHistory.placeholder.changeIp')"
-          class="w-[160px]!"
+          class="w-40!"
           clearable
         />
       </el-form-item>
