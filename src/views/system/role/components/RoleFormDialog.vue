@@ -1,19 +1,16 @@
 <script lang="ts" setup>
 import type { FormDialog } from '@/api/common';
 import type { SysRoleCreateForm, SysRoleUpdateForm } from '@/api/system/role';
+import { ROLE_CODE_REGEX } from '@/views/system/role/constants/role-code-convention';
 import { ROLE_TYPE_FILTER_OPTIONS } from '@/views/system/role/constants/role-search-options';
 import type { FormInstance, FormRules } from 'element-plus';
 import { reactive, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 
-type RoleFormDialogProps = FormDialog<SysRoleCreateForm | SysRoleUpdateForm> & {
-  /** 是否为编辑模式（编辑时角色编码只读） */
-  isEdit?: boolean;
-};
+type RoleFormDialogProps = FormDialog<SysRoleCreateForm | SysRoleUpdateForm>;
 
 const props = withDefaults(defineProps<RoleFormDialogProps>(), {
   form: () => ({}) as SysRoleCreateForm | SysRoleUpdateForm,
-  isEdit: false,
 });
 
 const { t } = useI18n();
@@ -29,6 +26,7 @@ const rules = reactive<FormRules>({
   roleCode: [
     { required: true, message: t('roles.roleCode'), trigger: 'blur' },
     { max: 64, message: t('roles.roleCodeLengthLimit'), trigger: 'blur' },
+    { pattern: ROLE_CODE_REGEX, message: t('roles.roleCodeFormat'), trigger: 'blur' },
   ],
   roleName: [
     { required: true, message: t('roles.roleName'), trigger: 'blur' },
@@ -48,12 +46,7 @@ defineExpose({ formRef, form });
       <!-- 角色编码 -->
       <el-col :lg="12" :md="12" :sm="12" :xs="24">
         <el-form-item :label="t('roles.roleCode')" prop="roleCode">
-          <el-input
-            v-model="form.roleCode"
-            :disabled="isEdit"
-            :placeholder="t('roles.roleCode')"
-            :readonly="props.isEdit"
-          />
+          <el-input v-model="form.roleCode" :placeholder="t('roles.roleCode')" />
         </el-form-item>
       </el-col>
       <!-- 角色名称 -->

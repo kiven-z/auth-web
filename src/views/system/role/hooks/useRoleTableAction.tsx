@@ -83,7 +83,7 @@ function useRoleTableAction(deps: TableActionDeps) {
       fullscreenIcon: true,
       closeOnClickModal: false,
       closeOnPressEscape: false,
-      contentRenderer: () => h(RoleFormDialog, { ref: dialogFormRef, form: formPayload, isEdit: true }),
+      contentRenderer: () => h(RoleFormDialog, { ref: dialogFormRef, form: formPayload }),
       beforeSure: createFormBeforeSure<SysRoleUpdateForm>({
         formExposeRef: dialogFormRef,
         requireId: true,

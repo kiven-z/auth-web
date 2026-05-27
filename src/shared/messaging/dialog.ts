@@ -52,12 +52,16 @@ export async function multiConfirm(
   }
 }
 
-/** 标准两次删除确认 */
+/**
+ * 标准两次删除确认
+ */
 export async function deleteConfirm(): Promise<boolean> {
   return multiConfirm();
 }
 
-/** 非删除类危险操作的两次确认（文案与历史 operationConfirm 一致） */
+/**
+ * 非删除类危险操作的两次确认（文案与历史 operationConfirm 一致）
+ */
 export async function operationConfirm(): Promise<boolean> {
   return multiConfirm([
     {
