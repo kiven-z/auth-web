@@ -11,7 +11,6 @@ function useRoleTableColumns() {
   const { t } = useI18n();
 
   const columns = computed<TableColumnList>(() => [
-    { type: 'selection', align: 'left' },
     { type: 'index', index: (index: number) => index + 1, label: t('table.idx'), minWidth: 60 },
     // 角色编码
     { label: t('roles.roleCode'), prop: 'roleCode', minWidth: 130 },

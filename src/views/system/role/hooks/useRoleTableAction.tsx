@@ -1,32 +1,22 @@
 import type { TableActionDeps } from '@/api/common';
 import type { SysRoleCreateForm, SysRolePageRow, SysRoleUpdateForm } from '@/api/system/role';
-import { createRole, deleteRoles, getRoleDetail, updateRole } from '@/api/system/role';
+import { createRole, deleteRole, getRoleDetail, updateRole } from '@/api/system/role';
 import { addDialog } from '@/components/ui/Dialog';
 import { type FormOverlayExpose, useFormOverlaySubmit } from '@/shared/hooks/useFormOverlaySubmit';
-import useBatchDeleteAction from '@/shared/hooks/useBatchDeleteAction';
+import { deleteConfirm } from '@/shared/messaging/dialog';
+import { errorMessage, message } from '@/shared/messaging/message';
 import RoleDescriptionDialog from '@/views/system/role/components/RoleDescriptionDialog.vue';
 import RoleFormDialog from '@/views/system/role/components/RoleFormDialog.vue';
-import { h, ref, type Ref } from 'vue';
+import { h, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
-
-interface RoleTableActionDeps extends TableActionDeps {
-  selectedRows: Ref<string[]>;
-}
 
 /**
  * 角色表格操作：弹窗与写接口
  */
-function useRoleTableAction(deps: RoleTableActionDeps) {
-  const { fetchTableData, selectedRows } = deps;
+function useRoleTableAction(deps: TableActionDeps) {
+  const { fetchTableData } = deps;
   const { t } = useI18n();
   const { createFormBeforeSure } = useFormOverlaySubmit();
-
-  const { deleteBatchRows } = useBatchDeleteAction({
-    selectedRows,
-    deleteApi: deleteRoles,
-    onSuccess: fetchTableData,
-    errorDefaultI18nKey: 'roles.deleteFailed',
-  });
 
   /**
    * 打开新增弹窗
@@ -54,7 +44,7 @@ function useRoleTableAction(deps: RoleTableActionDeps) {
   };
 
   /**
-   * 查看详情（后端有 GET /{id}，待对接 getRoleDetail 后改为拉详情；当前用分页行）
+   * 查看详情
    * @param row 表格行
    */
   const openDetailDialog = (row: SysRolePageRow) => {
@@ -107,11 +97,30 @@ function useRoleTableAction(deps: RoleTableActionDeps) {
     });
   };
 
+  /**
+   * 单行删除
+   * @param row 表格行
+   */
+  const deleteRow = async (row: SysRolePageRow) => {
+    const confirmed = await deleteConfirm();
+    if (!confirmed) {
+      return;
+    }
+
+    try {
+      await deleteRole(row.id);
+      message(t('tips.deleteSuccess'), { type: 'success' });
+      await fetchTableData();
+    } catch (error: unknown) {
+      errorMessage(error, { defaultI18nKey: 'roles.deleteFailed' });
+    }
+  };
+
   return {
     openCreateDialog,
     openDetailDialog,
     openEditDialog,
-    deleteBatchRows,
+    deleteRow,
   };
 }
 

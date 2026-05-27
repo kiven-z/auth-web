@@ -112,9 +112,9 @@ export function updateRole(id: string, data: SysRoleUpdateForm): Promise<void> {
 }
 
 /**
- * 批量删除角色（物理删除，请求体为 id 数组）
- * @param ids 角色主键列表
+ * 删除角色（物理删除）
+ * @param id 角色主键
  */
-export function deleteRoles(ids: string[]): Promise<void> {
-  return http.request<void>('delete', '/system/role', { data: ids });
+export function deleteRole(id: string): Promise<void> {
+  return http.request<void>('delete', `/system/role/${id}`);
 }

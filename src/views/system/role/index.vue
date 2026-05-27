@@ -35,8 +35,6 @@ const {
   resetQuery,
   handlePageSizeChange,
   handlePageCurrentChange,
-  handleSelectionChange,
-  selectedRows,
 } = usePaginationState({
   fetchApi: getRolePage,
   searchForm: reactive({
@@ -48,9 +46,8 @@ const {
   errorI18nKey: 'roles.loadFailed',
 });
 
-const { openCreateDialog, openDetailDialog, openEditDialog, deleteBatchRows } = useRoleTableAction({
+const { openCreateDialog, openDetailDialog, openEditDialog, deleteRow } = useRoleTableAction({
   fetchTableData,
-  selectedRows,
 });
 
 onMounted(() => {
@@ -113,20 +110,7 @@ onMounted(() => {
       @refresh="fetchTableData"
     >
       <template #buttons>
-        <el-button-group type="primary">
-          <!-- 添加 -->
-          <el-button type="primary" @click="openCreateDialog">{{ t('buttons.actionAdd') }}</el-button>
-
-          <el-dropdown trigger="click">
-            <el-button type="danger">
-              {{ t('buttons.actionAdvanced') }}
-            </el-button>
-
-            <template #dropdown>
-              <el-dropdown-item @click="deleteBatchRows()">{{ t('buttons.actionBatchDelete') }}</el-dropdown-item>
-            </template>
-          </el-dropdown>
-        </el-button-group>
+        <el-button type="primary" @click="openCreateDialog">{{ t('buttons.actionAdd') }}</el-button>
       </template>
 
       <template #default="{ size, dynamicColumns }">
@@ -146,7 +130,6 @@ onMounted(() => {
           table-layout="auto"
           @page-size-change="handlePageSizeChange"
           @page-current-change="handlePageCurrentChange"
-          @selection-change="handleSelectionChange"
         >
           <template #actions="{ row }">
             <div class="flex justify-center">
@@ -155,7 +138,7 @@ onMounted(() => {
               <!-- 修改/编辑 -->
               <el-button link type="primary" @click="openEditDialog(row)">{{ t('buttons.actionEdit') }}</el-button>
               <!-- 删除 -->
-              <el-button link type="danger" @click="deleteBatchRows([row.id])">
+              <el-button link type="danger" @click="deleteRow(row)">
                 {{ t('buttons.actionDelete') }}
               </el-button>
 
