@@ -36,6 +36,7 @@ const {
   handlePageSizeChange,
   handlePageCurrentChange,
   handleSelectionChange,
+  selectedRows,
 } = usePaginationState({
   fetchApi: getRolePage,
   searchForm: reactive({
@@ -47,7 +48,10 @@ const {
   errorI18nKey: 'roles.loadFailed',
 });
 
-const { openCreateDialog, openDetailDialog, openEditDialog } = useRoleTableAction({ fetchTableData });
+const { openCreateDialog, openDetailDialog, openEditDialog, deleteRow, deleteBatchRows } = useRoleTableAction({
+  fetchTableData,
+  selectedRows,
+});
 
 onMounted(() => {
   fetchTableData();
@@ -119,7 +123,7 @@ onMounted(() => {
             </el-button>
 
             <template #dropdown>
-              <el-dropdown-item>{{ t('buttons.actionBatchDelete') }}</el-dropdown-item>
+              <el-dropdown-item @click="deleteBatchRows()">{{ t('buttons.actionBatchDelete') }}</el-dropdown-item>
             </template>
           </el-dropdown>
         </el-button-group>
@@ -151,7 +155,7 @@ onMounted(() => {
               <!-- 修改/编辑 -->
               <el-button link type="primary" @click="openEditDialog(row)">{{ t('buttons.actionEdit') }}</el-button>
               <!-- 删除 -->
-              <el-button link type="danger">{{ t('buttons.actionDelete') }}</el-button>
+              <el-button link type="danger" @click="deleteRow(row)">{{ t('buttons.actionDelete') }}</el-button>
 
               <el-dropdown class="ml-1" trigger="click">
                 <!-- 更多 -->

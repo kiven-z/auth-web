@@ -2,6 +2,7 @@ permissions:
   moduleName: Permissions
   pageTitle: Permission Management
   loadFailed: Failed to load permissions
+  deleteFailed: Failed to delete permission
   permissionCode: Permission Code
   permissionName: Permission Name
   permissionType: Permission Type

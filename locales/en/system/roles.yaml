@@ -7,6 +7,7 @@ roles:
   menuGrantSubjects: Grant subjects (reverse)
   menuImpactAnalysis: Impact analysis and refresh
   loadFailed: Failed to load roles
+  deleteFailed: Failed to delete role
   dialogViewTitle: View role details
   dialogCreateTitle: Add Role
   roleCode: Role Code

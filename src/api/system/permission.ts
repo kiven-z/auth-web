@@ -46,3 +46,11 @@ export function getPermissionPage(params: SysPermissionPageQuery): Promise<PageR
     { params }
   );
 }
+
+/**
+ * 批量删除权限（物理删除，请求体为 id 数组）
+ * @param ids 权限主键列表
+ */
+export function deletePermissions(ids: string[]): Promise<void> {
+  return http.request<void>('delete', '/system/permission', { data: ids });
+}

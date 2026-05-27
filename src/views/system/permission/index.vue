@@ -36,6 +36,7 @@ const {
   handlePageSizeChange,
   handlePageCurrentChange,
   handleSelectionChange,
+  selectedRows,
 } = usePaginationState({
   fetchApi: getPermissionPage,
   searchForm: reactive({
@@ -47,7 +48,7 @@ const {
   errorI18nKey: 'permissions.loadFailed',
 });
 
-const {} = usePermissionTableAction({ fetchTableData });
+const { deleteRow, deleteBatchRows } = usePermissionTableAction({ fetchTableData, selectedRows });
 
 onMounted(() => {
   fetchTableData();
@@ -124,7 +125,7 @@ onMounted(() => {
             </el-button>
 
             <template #dropdown>
-              <el-dropdown-item>{{ t('buttons.actionBatchDelete') }}</el-dropdown-item>
+              <el-dropdown-item @click="deleteBatchRows()">{{ t('buttons.actionBatchDelete') }}</el-dropdown-item>
             </template>
           </el-dropdown>
         </el-button-group>
@@ -149,14 +150,14 @@ onMounted(() => {
           @page-current-change="handlePageCurrentChange"
           @selection-change="handleSelectionChange"
         >
-          <template #actions>
+          <template #actions="{ row }">
             <div class="flex justify-center">
               <!-- 查看（后续补充） -->
               <el-button link type="primary">{{ t('buttons.actionView') }}</el-button>
               <!-- 修改/编辑（后续补充） -->
               <el-button link type="primary">{{ t('buttons.actionEdit') }}</el-button>
-              <!-- 删除（后续补充） -->
-              <el-button link type="danger">{{ t('buttons.actionDelete') }}</el-button>
+              <!-- 删除（物理删除） -->
+              <el-button link type="danger" @click="deleteRow(row)">{{ t('buttons.actionDelete') }}</el-button>
             </div>
           </template>
         </AuthDataTable>

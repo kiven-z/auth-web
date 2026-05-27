@@ -1,15 +1,29 @@
 import type { TableActionDeps } from '@/api/common';
 import type { SysPermissionPageRow } from '@/api/system/permission';
+import { deletePermissions } from '@/api/system/permission';
+import useBatchDeleteAction from '@/shared/hooks/useBatchDeleteAction';
+import type { Ref } from 'vue';
 
 /**
  * 权限表格操作依赖
  */
-type PermissionTableActionDeps = TableActionDeps;
+interface PermissionTableActionDeps extends TableActionDeps {
+  selectedRows: Ref<string[]>;
+}
 
 /**
- * 权限表格操作（分页已就绪，弹层 CRUD 待后端接口后接入）
+ * 权限表格操作
  */
-function usePermissionTableAction(_deps: PermissionTableActionDeps) {
+function usePermissionTableAction(deps: PermissionTableActionDeps) {
+  const { fetchTableData, selectedRows } = deps;
+
+  const { deleteBatchRows } = useBatchDeleteAction({
+    selectedRows,
+    deleteApi: deletePermissions,
+    onSuccess: fetchTableData,
+    errorDefaultI18nKey: 'permissions.deleteFailed',
+  });
+
   /** 查看详情 — TODO: openDetailDialog(row) */
   const openDetailDialog = async (_row: SysPermissionPageRow) => {
     void _row;
@@ -25,14 +39,12 @@ function usePermissionTableAction(_deps: PermissionTableActionDeps) {
     void _row;
   };
 
-  /** 单行删除 — TODO */
-  const deleteRow = async (_row: SysPermissionPageRow) => {
-    void _row;
-  };
-
-  /** 批量删除 — TODO */
-  const deleteBatchRows = async (_ids?: string[]) => {
-    void _ids;
+  /**
+   * 单行删除（物理删除）
+   * @param row 行数据
+   */
+  const deleteRow = async (row: SysPermissionPageRow) => {
+    await deleteBatchRows([row.id]);
   };
 
   /** 高级功能 / 更多 — TODO */

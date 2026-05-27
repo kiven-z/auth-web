@@ -65,3 +65,11 @@ export function getRolePage(params: SysRolePageQuery): Promise<PageResponse<SysR
 export function createRole(data: SysRoleCreateForm): Promise<void> {
   return http.post<void, SysRoleCreateForm>('/system/role', { data });
 }
+
+/**
+ * 批量删除角色（物理删除，请求体为 id 数组）
+ * @param ids 角色主键列表
+ */
+export function deleteRoles(ids: string[]): Promise<void> {
+  return http.request<void>('delete', '/system/role', { data: ids });
+}

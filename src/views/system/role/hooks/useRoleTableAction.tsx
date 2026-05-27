@@ -1,20 +1,32 @@
 import type { TableActionDeps } from '@/api/common';
 import type { SysRoleCreateForm, SysRolePageRow } from '@/api/system/role';
-import { createRole } from '@/api/system/role';
+import { createRole, deleteRoles } from '@/api/system/role';
 import { addDialog } from '@/components/ui/Dialog';
-import { useFormOverlaySubmit, type FormOverlayExpose } from '@/shared/hooks/useFormOverlaySubmit';
+import { type FormOverlayExpose, useFormOverlaySubmit } from '@/shared/hooks/useFormOverlaySubmit';
+import useBatchDeleteAction from '@/shared/hooks/useBatchDeleteAction';
 import RoleDescriptionDialog from '@/views/system/role/components/RoleDescriptionDialog.vue';
 import RoleFormDialog from '@/views/system/role/components/RoleFormDialog.vue';
-import { h, ref } from 'vue';
+import { h, ref, type Ref } from 'vue';
 import { useI18n } from 'vue-i18n';
+
+interface RoleTableActionDeps extends TableActionDeps {
+  selectedRows: Ref<string[]>;
+}
 
 /**
  * 角色表格操作：弹窗与写接口
  */
-function useRoleTableAction(deps: TableActionDeps) {
-  const { fetchTableData } = deps;
+function useRoleTableAction(deps: RoleTableActionDeps) {
+  const { fetchTableData, selectedRows } = deps;
   const { t } = useI18n();
   const { createFormBeforeSure } = useFormOverlaySubmit();
+
+  const { deleteBatchRows } = useBatchDeleteAction({
+    selectedRows,
+    deleteApi: deleteRoles,
+    onSuccess: fetchTableData,
+    errorDefaultI18nKey: 'roles.deleteFailed',
+  });
 
   /**
    * 打开新增弹窗
@@ -67,28 +79,11 @@ function useRoleTableAction(deps: TableActionDeps) {
   };
 
   /**
-   * 单行删除（待对接 deleteRole）
-   * @param _row 表格行
+   * 单行删除（物理删除）
+   * @param row 表格行
    */
-  const deleteRow = async (_row: SysRolePageRow) => {
-    void _row;
-    // TODO: deleteConfirm → deleteRole → fetchTableData
-  };
-
-  /**
-   * 批量删除（待对接 batchDeleteRoles）
-   * @param _ids 主键列表
-   */
-  const deleteBatchRows = async (_ids?: string[]) => {
-    void _ids;
-    // TODO: deleteConfirm → batchDeleteRoles → fetchTableData
-  };
-
-  /**
-   * 更多操作（分配权限、数据范围等，待实现）
-   */
-  const openMoreActions = () => {
-    // TODO: 下拉项对应独立弹层/抽屉
+  const deleteRow = async (row: SysRolePageRow) => {
+    await deleteBatchRows([row.id]);
   };
 
   return {
@@ -97,7 +92,6 @@ function useRoleTableAction(deps: TableActionDeps) {
     openEditDialog,
     deleteRow,
     deleteBatchRows,
-    openMoreActions,
   };
 }
 
