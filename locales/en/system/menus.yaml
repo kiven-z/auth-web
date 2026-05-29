@@ -18,6 +18,8 @@ sysMenu:
   permissionCode: Permission code
   permissionName: Permission name
   assigned: Assigned
+  assignRoleSectionLabel: Assigned roles
+  assignPermissionSectionLabel: Assigned permissions
   assignEmptySelected: No items selected. Use the table on the right.
   assignClearAll: Clear all
   routeName: Route name

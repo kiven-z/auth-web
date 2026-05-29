@@ -18,6 +18,8 @@ sysMenu:
   permissionCode: 权限码
   permissionName: 权限名称
   assigned: 已分配
+  assignRoleSectionLabel: 已分配角色
+  assignPermissionSectionLabel: 已分配权限
   assignEmptySelected: 暂无已选项，请在右侧勾选
   assignClearAll: 全部清空
   routeName: 路由名称

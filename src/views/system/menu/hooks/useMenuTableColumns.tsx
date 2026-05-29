@@ -110,7 +110,7 @@ function useMenuTableColumns() {
   ]);
 
   /**
-   * 角色分配：数据列（勾选列由 AssignManagePanel 统一追加）
+   * 角色分配：数据列（勾选列由 AssignManageTablePanel 统一追加）
    */
   const roleDrawerDataColumns = computed<TableColumnList>(() => [
     {
@@ -124,7 +124,7 @@ function useMenuTableColumns() {
   ]);
 
   /**
-   * 权限分配：数据列（勾选列由 AssignManagePanel 统一追加）
+   * 权限分配：数据列（勾选列由 AssignManageTablePanel 统一追加）
    */
   const permissionDrawerDataColumns = computed<TableColumnList>(() => [
     {
