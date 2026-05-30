@@ -2,7 +2,7 @@
 import { getOperationLogPage } from '@/api/log/operation-log';
 import AuthDataTable from '@/components/ui/AuthDataTable';
 import TableBar from '@/components/ui/TableBar';
-import { usePaginationState } from '@/shared/hooks/usePaginationState';
+import { usePaginationState } from '@/components/ui/AuthPagedTable/src/usePaginationState';
 import useRemoteUserSearch from '@/shared/hooks/useRemoteUserSearch';
 import { OPERATION_TYPES, REQUEST_METHODS } from '@/views/log/operation-log/constants/operation-log-enums';
 import useOperationLogTableAction from '@/views/log/operation-log/hooks/useOperationLogTableAction';

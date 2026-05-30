@@ -2,7 +2,7 @@
 import { getJobGroupPage } from '@/api/schedule/job-group';
 import AuthDataTable from '@/components/ui/AuthDataTable';
 import TableBar from '@/components/ui/TableBar';
-import { usePaginationState } from '@/shared/hooks/usePaginationState';
+import { usePaginationState } from '@/components/ui/AuthPagedTable/src/usePaginationState';
 import useJobGroupTableAction from '@/views/schedule/schedule-group/hooks/useJobGroupTableAction';
 import useJobGroupTableColumns from '@/views/schedule/schedule-group/hooks/useJobGroupTableColumns';
 import type { FormInstance } from 'element-plus';

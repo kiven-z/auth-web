@@ -2,7 +2,7 @@
 import { getEmailTemplatePage } from '@/api/system/email-template';
 import AuthDataTable from '@/components/ui/AuthDataTable';
 import TableBar from '@/components/ui/TableBar';
-import { usePaginationState } from '@/shared/hooks/usePaginationState';
+import { usePaginationState } from '@/components/ui/AuthPagedTable/src/usePaginationState';
 import { emailTemplateStatusFilterOptions } from '@/views/message/email-template/constants/email-template-search-options';
 import useEmailTemplateTableAction from '@/views/message/email-template/hooks/useEmailTemplateTableAction';
 import useEmailTemplateTableColumns from '@/views/message/email-template/hooks/useEmailTemplateTableColumns';

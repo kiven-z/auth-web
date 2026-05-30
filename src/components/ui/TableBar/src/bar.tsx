@@ -1,7 +1,7 @@
 import { transformI18n } from '@/plugins/i18n';
 import { useEpThemeStoreHook } from '@/store/modules/epTheme';
 import { delay } from '@pureadmin/utils';
-import { computed, defineComponent, nextTick, type PropType, ref, toRef } from 'vue';
+import { computed, defineComponent, nextTick, ref, toRef, type PropType } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 import CollapseIcon from '@/components/ui/TableBar/src/images/collapse.svg?component';
@@ -34,6 +34,11 @@ const props = {
   isExpandAll: {
     type: Boolean,
     default: true,
+  },
+  /** 外部控制的刷新 loading；传入时不再使用内部 500ms 假 loading */
+  refreshLoading: {
+    type: Boolean as PropType<boolean | undefined>,
+    default: undefined,
   },
 };
 
@@ -96,12 +101,18 @@ export default defineComponent({
     }
 
     function onReFresh() {
-      loading.value = true;
+      if (props.refreshLoading === undefined) {
+        loading.value = true;
+        emit('refresh');
+        delay(500).then(() => {
+          loading.value = false;
+        });
+        return;
+      }
       emit('refresh');
-      delay(500).then(() => {
-        loading.value = false;
-      });
     }
+
+    const refreshSpinning = computed(() => props.refreshLoading ?? loading.value);
 
     function toggleRowExpansionAll(data: unknown[] | undefined, isExpansion: boolean) {
       const table = props.tableRef;
@@ -197,7 +208,7 @@ export default defineComponent({
                 </>
               ) : null}
               <RefreshIcon
-                class={['w-[16px]', iconClass.value, loading.value ? 'animate-spin' : '']}
+                class={['w-[16px]', iconClass.value, refreshSpinning.value ? 'animate-spin' : '']}
                 v-tippy={tippyOptions('tableBar.tippyRefresh')}
                 onClick={() => onReFresh()}
               />

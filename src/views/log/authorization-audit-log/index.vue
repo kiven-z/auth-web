@@ -2,7 +2,7 @@
 import { getAuthorizationAuditPage } from '@/api/log/authorization-audit';
 import AuthDataTable from '@/components/ui/AuthDataTable';
 import TableBar from '@/components/ui/TableBar';
-import { usePaginationState } from '@/shared/hooks/usePaginationState';
+import { usePaginationState } from '@/components/ui/AuthPagedTable/src/usePaginationState';
 import useRemoteUserSearch from '@/shared/hooks/useRemoteUserSearch';
 import { AUDIT_EVENT_TYPES } from '@/views/log/authorization-audit-log/constants/authorization-audit-enums';
 import useAuthorizationAuditTableAction from '@/views/log/authorization-audit-log/hooks/useAuthorizationAuditTableAction';

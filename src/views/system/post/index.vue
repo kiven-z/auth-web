@@ -1,8 +1,6 @@
 <script lang="ts" setup>
 import { getPostPage } from '@/api/system/post';
-import AuthDataTable from '@/components/ui/AuthDataTable';
-import TableBar from '@/components/ui/TableBar';
-import { usePaginationState } from '@/shared/hooks/usePaginationState';
+import AuthPagedTable, { usePaginationState } from '@/components/ui/AuthPagedTable';
 import { POST_STATUS_FILTER_OPTIONS } from '@/views/system/post/constants/post-search-options';
 import usePostTableAction from '@/views/system/post/hooks/usePostTableAction';
 import usePostTableColumns from '@/views/system/post/hooks/usePostTableColumns';
@@ -20,21 +18,7 @@ const { columns } = usePostTableColumns();
 
 const searchFormRef = ref<FormInstance>();
 
-// 表格实例（含 setAdaptive，供全屏后调用）
-const tableRef = ref<{ setAdaptive: () => Promise<void> } | null>(null);
-
-const {
-  tableData,
-  loading,
-  pagination,
-  selectedRows,
-  searchForm,
-  fetchTableData,
-  resetQuery,
-  handlePageSizeChange,
-  handlePageCurrentChange,
-  handleSelectionChange,
-} = usePaginationState({
+const postState = usePaginationState({
   fetchApi: getPostPage,
   searchForm: reactive({
     postCode: undefined,
@@ -44,6 +28,8 @@ const {
   }),
   errorI18nKey: 'post.loadFailed',
 });
+
+const { loading, selectedRows, searchForm, fetchTableData, resetQuery } = postState;
 
 const { openCreateDialog, openDetailDialog, openEditDialog, deleteRow } = usePostTableAction({ fetchTableData });
 
@@ -93,12 +79,7 @@ onMounted(() => {
       </el-form-item>
     </el-form>
 
-    <TableBar
-      :columns="columns"
-      :title="t('post.pageTitle')"
-      @fullscreen="tableRef?.setAdaptive()"
-      @refresh="fetchTableData"
-    >
+    <AuthPagedTable :columns="columns" :state="postState" :title="t('post.pageTitle')">
       <template #buttons>
         <el-button-group type="primary">
           <!-- 添加 -->
@@ -118,46 +99,25 @@ onMounted(() => {
         </el-button-group>
       </template>
 
-      <template #default="{ size, dynamicColumns }">
-        <AuthDataTable
-          ref="tableRef"
-          :columns="dynamicColumns"
-          :data="tableData"
-          :header-cell-style="{ background: 'var(--el-fill-color-light)', color: 'var(--el-text-color-primary)' }"
-          :loading="loading"
-          :pagination="pagination"
-          :size="size"
-          adaptive
-          align-whole="center"
-          border
-          highlight-current-row
-          row-key="id"
-          table-layout="auto"
-          @page-size-change="handlePageSizeChange"
-          @page-current-change="handlePageCurrentChange"
-          @selection-change="handleSelectionChange"
-        >
-          <template #actions="{ row }">
-            <div class="flex justify-center">
-              <!-- 查看 -->
-              <el-button link type="primary" @click="openDetailDialog(row)">{{ t('buttons.actionView') }}</el-button>
-              <!-- 修改 -->
-              <el-button link type="primary" @click="openEditDialog(row)">{{ t('buttons.actionEdit') }}</el-button>
-              <!-- 删除 -->
-              <el-button link type="danger" @click="deleteRow(row)">
-                {{ t('buttons.actionDelete') }}
-              </el-button>
+      <template #actions="{ row }">
+        <div class="flex justify-center">
+          <!-- 查看 -->
+          <el-button link type="primary" @click="openDetailDialog(row)">{{ t('buttons.actionView') }}</el-button>
+          <!-- 修改 -->
+          <el-button link type="primary" @click="openEditDialog(row)">{{ t('buttons.actionEdit') }}</el-button>
+          <!-- 删除 -->
+          <el-button link type="danger" @click="deleteRow(row)">
+            {{ t('buttons.actionDelete') }}
+          </el-button>
 
-              <el-dropdown class="ml-1" trigger="click">
-                <el-button class="el-dropdown-link" link type="primary">{{ t('buttons.actionMore') }}</el-button>
-                <template #dropdown>
-                  <el-dropdown-item>分配角色</el-dropdown-item>
-                </template>
-              </el-dropdown>
-            </div>
-          </template>
-        </AuthDataTable>
+          <el-dropdown class="ml-1" trigger="click">
+            <el-button class="el-dropdown-link" link type="primary">{{ t('buttons.actionMore') }}</el-button>
+            <template #dropdown>
+              <el-dropdown-item>分配角色</el-dropdown-item>
+            </template>
+          </el-dropdown>
+        </div>
       </template>
-    </TableBar>
+    </AuthPagedTable>
   </div>
 </template>

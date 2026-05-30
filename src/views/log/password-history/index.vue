@@ -2,7 +2,7 @@
 import { getPasswordHistoryPage } from '@/api/log/password-history';
 import AuthDataTable from '@/components/ui/AuthDataTable';
 import TableBar from '@/components/ui/TableBar';
-import { usePaginationState } from '@/shared/hooks/usePaginationState';
+import { usePaginationState } from '@/components/ui/AuthPagedTable/src/usePaginationState';
 import useRemoteUserSearch from '@/shared/hooks/useRemoteUserSearch';
 import usePasswordHistoryTableAction from '@/views/log/password-history/hooks/usePasswordHistoryTableAction';
 import usePasswordHistoryTableColumns from '@/views/log/password-history/hooks/usePasswordHistoryTableColumns';

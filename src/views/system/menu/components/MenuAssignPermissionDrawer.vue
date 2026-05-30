@@ -3,14 +3,14 @@ import { getMenuPermissions } from '@/api/system/menu';
 import type { SysPermissionPageRow } from '@/api/system/permission';
 import { getPermissionPage } from '@/api/system/permission';
 import AssignManagePanel, {
+  type AssignCheckedApi,
   createAssignCheckboxColumn,
   useAssignDrawer,
-  type AssignCheckedApi,
 } from '@/components/business/AssignManagePanel';
 import AuthDataTable from '@/components/ui/AuthDataTable';
 import TableBar from '@/components/ui/TableBar';
 import { transformI18n } from '@/plugins/i18n';
-import { usePaginationState } from '@/shared/hooks/usePaginationState';
+import { usePaginationState } from '@/components/ui/AuthPagedTable/src/usePaginationState';
 import type { FormInstance } from 'element-plus';
 import { nextTick, reactive, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';

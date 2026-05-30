@@ -113,6 +113,7 @@ function useMenuTableColumns() {
    * 角色分配
    */
   const roleDrawerDataColumns = computed<TableColumnList>(() => [
+    { type: 'selection', width: 48 },
     {
       label: t('sysMenu.roleCode'),
       prop: 'roleCode',

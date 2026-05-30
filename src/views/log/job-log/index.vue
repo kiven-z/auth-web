@@ -2,7 +2,7 @@
 import { getJobLogPage } from '@/api/log/job-log';
 import AuthDataTable from '@/components/ui/AuthDataTable';
 import TableBar from '@/components/ui/TableBar';
-import { usePaginationState } from '@/shared/hooks/usePaginationState';
+import { usePaginationState } from '@/components/ui/AuthPagedTable/src/usePaginationState';
 import {
   LOG_JOB_STATUS_FILTER_OPTIONS,
   LOG_JOB_TRIGGER_TYPE_FILTER_OPTIONS,

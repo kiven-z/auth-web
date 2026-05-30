@@ -2,7 +2,7 @@
 import { getRolePage } from '@/api/system/role';
 import AuthDataTable from '@/components/ui/AuthDataTable';
 import TableBar from '@/components/ui/TableBar';
-import { usePaginationState } from '@/shared/hooks/usePaginationState';
+import { usePaginationState } from '@/components/ui/AuthPagedTable/src/usePaginationState';
 import {
   ROLE_STATUS_FILTER_OPTIONS,
   ROLE_TYPE_FILTER_OPTIONS,

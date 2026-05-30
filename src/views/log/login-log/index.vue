@@ -2,7 +2,7 @@
 import { getLoginLogPage } from '@/api/log/login-log';
 import AuthDataTable from '@/components/ui/AuthDataTable';
 import TableBar from '@/components/ui/TableBar';
-import { usePaginationState } from '@/shared/hooks/usePaginationState';
+import { usePaginationState } from '@/components/ui/AuthPagedTable/src/usePaginationState';
 import useRemoteUserSearch from '@/shared/hooks/useRemoteUserSearch';
 import { LOGIN_LOG_RESULT_CODES, LOGIN_LOG_TYPE_CODES } from '@/views/log/login-log/constants/login-log-enums';
 import useLoginLogTableAction from '@/views/log/login-log/hooks/useLoginLogTableAction';

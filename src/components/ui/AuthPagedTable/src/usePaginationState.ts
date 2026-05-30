@@ -121,3 +121,6 @@ export function usePaginationState<TData = unknown>(options: UsePaginationStateO
     handleSelectionChange,
   };
 }
+
+/** {@link usePaginationState} 返回值类型，供 AuthPagedTable 等组件 props 标注 */
+export type PaginationTableState<TData = unknown> = ReturnType<typeof usePaginationState<TData>>;
