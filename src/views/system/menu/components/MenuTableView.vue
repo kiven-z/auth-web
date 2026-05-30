@@ -1,6 +1,5 @@
 <script lang="ts" setup>
-import AuthDataTable from '@/components/ui/AuthDataTable';
-import TableBar from '@/components/ui/TableBar';
+import AuthPagedTable from '@/components/ui/AuthPagedTable';
 import { menuStatusFilterOptions, menuTypeFilterOptions } from '@/views/system/menu/constants/menu-search-options';
 import useMenuMoreAction from '@/views/system/menu/hooks/useMenuMoreAction';
 import useMenuPageState from '@/views/system/menu/hooks/useMenuPageState';
@@ -16,28 +15,13 @@ defineOptions({
 
 const { t } = useI18n();
 const searchFormRef = ref<FormInstance>();
-const tableRef = ref<{ setAdaptive: () => Promise<void> } | null>(null);
 
-// 表格列
 const { tableColumns } = useMenuTableColumns();
-// 分页查询通用
-const {
-  loading,
-  selectedRows,
-  tableData,
-  searchForm,
-  pagination,
-  viewMode,
-  fetchTableData,
-  fetchTreeData,
-  resetQuery,
-  handlePageSizeChange,
-  handlePageCurrentChange,
-  handleSelectionChange,
-  refresh,
-} = useMenuPageState();
 
-// 表格操作
+const menuPageState = useMenuPageState();
+const { loading, selectedRows, searchForm, fetchTableData, fetchTreeData, resetQuery, refresh, viewMode } =
+  menuPageState;
+
 const { openCreateDialog, openEditDialog, openDetailDialog, deleteBatchRows, batchUpdateStatus } = useMenuTableAction({
   fetchTableData,
   fetchTreeData,
@@ -46,7 +30,6 @@ const { openCreateDialog, openEditDialog, openDetailDialog, deleteBatchRows, bat
   selectedRows,
 });
 
-// 更多操作
 const { openAssignRoleDrawer, openAssignPermissionDrawer } = useMenuMoreAction({
   fetchTableData,
   fetchTreeData,
@@ -56,8 +39,6 @@ const { openAssignRoleDrawer, openAssignPermissionDrawer } = useMenuMoreAction({
 onMounted(() => {
   fetchTableData();
 });
-
-defineExpose({ tableRef });
 </script>
 
 <template>
@@ -130,11 +111,12 @@ defineExpose({ tableRef });
       </el-form-item>
     </el-form>
 
-    <TableBar
+    <AuthPagedTable
+      :adaptive-config="{ offsetBottom: 96 }"
       :columns="tableColumns"
+      :state="menuPageState"
       :title="t('sysMenu.tableTitle')"
-      @fullscreen="tableRef?.setAdaptive()"
-      @refresh="fetchTableData"
+      show-overflow-tooltip
     >
       <template #buttons>
         <el-button-group type="primary">
@@ -165,51 +147,28 @@ defineExpose({ tableRef });
         </el-button-group>
       </template>
 
-      <template #default="{ size, dynamicColumns }">
-        <AuthDataTable
-          ref="tableRef"
-          :adaptive-config="{ offsetBottom: 96 }"
-          :columns="dynamicColumns"
-          :data="tableData"
-          :header-cell-style="{ background: 'var(--el-fill-color-light)', color: 'var(--el-text-color-primary)' }"
-          :loading="loading"
-          :pagination="pagination"
-          :size="size"
-          adaptive
-          align-whole="center"
-          border
-          highlight-current-row
-          row-key="id"
-          show-overflow-tooltip
-          table-layout="auto"
-          @page-current-change="handlePageCurrentChange"
-          @page-size-change="handlePageSizeChange"
-          @selection-change="handleSelectionChange"
-        >
-          <template #actions="{ row }">
-            <div class="flex justify-center flex-wrap gap-x-1">
-              <el-button link type="primary" @click="openDetailDialog(row)">{{ t('buttons.actionView') }}</el-button>
-              <el-button link type="primary" @click="openEditDialog(row)">{{ t('buttons.actionEdit') }}</el-button>
-              <el-button link type="danger" @click="deleteBatchRows([row.id])">
-                {{ t('buttons.actionDelete') }}
-              </el-button>
-              <el-dropdown class="ml-1" trigger="click">
-                <el-button class="el-dropdown-link" link type="primary">{{ t('buttons.actionMore') }}</el-button>
-                <template #dropdown>
-                  <el-dropdown-menu>
-                    <el-dropdown-item @click="openAssignRoleDrawer(row)">
-                      {{ t('sysMenu.assignRole') }}
-                    </el-dropdown-item>
-                    <el-dropdown-item @click="openAssignPermissionDrawer(row)">
-                      {{ t('sysMenu.assignPermission') }}
-                    </el-dropdown-item>
-                  </el-dropdown-menu>
-                </template>
-              </el-dropdown>
-            </div>
-          </template>
-        </AuthDataTable>
+      <template #actions="{ row }">
+        <div class="flex justify-center flex-wrap gap-x-1">
+          <el-button link type="primary" @click="openDetailDialog(row)">{{ t('buttons.actionView') }}</el-button>
+          <el-button link type="primary" @click="openEditDialog(row)">{{ t('buttons.actionEdit') }}</el-button>
+          <el-button link type="danger" @click="deleteBatchRows([row.id])">
+            {{ t('buttons.actionDelete') }}
+          </el-button>
+          <el-dropdown class="ml-1" trigger="click">
+            <el-button class="el-dropdown-link" link type="primary">{{ t('buttons.actionMore') }}</el-button>
+            <template #dropdown>
+              <el-dropdown-menu>
+                <el-dropdown-item @click="openAssignRoleDrawer(row)">
+                  {{ t('sysMenu.assignRole') }}
+                </el-dropdown-item>
+                <el-dropdown-item @click="openAssignPermissionDrawer(row)">
+                  {{ t('sysMenu.assignPermission') }}
+                </el-dropdown-item>
+              </el-dropdown-menu>
+            </template>
+          </el-dropdown>
+        </div>
       </template>
-    </TableBar>
+    </AuthPagedTable>
   </div>
 </template>

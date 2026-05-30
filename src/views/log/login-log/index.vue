@@ -1,8 +1,6 @@
 <script lang="ts" setup>
 import { getLoginLogPage } from '@/api/log/login-log';
-import AuthDataTable from '@/components/ui/AuthDataTable';
-import TableBar from '@/components/ui/TableBar';
-import { usePaginationState } from '@/components/ui/AuthPagedTable/src/usePaginationState';
+import AuthPagedTable, { usePaginationState } from '@/components/ui/AuthPagedTable';
 import useRemoteUserSearch from '@/shared/hooks/useRemoteUserSearch';
 import { LOGIN_LOG_RESULT_CODES, LOGIN_LOG_TYPE_CODES } from '@/views/log/login-log/constants/login-log-enums';
 import useLoginLogTableAction from '@/views/log/login-log/hooks/useLoginLogTableAction';
@@ -18,20 +16,8 @@ defineOptions({
 const { t } = useI18n();
 const { columns } = useLoginLogTableColumns();
 const searchFormRef = ref<FormInstance>();
-const tableRef = ref<{ setAdaptive: () => Promise<void> } | null>(null);
 
-const {
-  tableData,
-  selectedRows,
-  loading,
-  pagination,
-  searchForm,
-  fetchTableData,
-  resetQuery,
-  handlePageSizeChange,
-  handlePageCurrentChange,
-  handleSelectionChange,
-} = usePaginationState({
+const loginLogState = usePaginationState({
   fetchApi: getLoginLogPage,
   searchForm: reactive({
     userId: undefined as string | undefined,
@@ -43,13 +29,13 @@ const {
   errorI18nKey: 'loginLog.loadFailed',
 });
 
-// 操作列按钮事件
+const { selectedRows, loading, searchForm, fetchTableData, resetQuery } = loginLogState;
+
 const { openDetailDialog, deleteBatchRows } = useLoginLogTableAction({
   fetchTableData,
   selectedRows,
 });
 
-// 用户搜索
 const { userOptions, userSearchLoading, loadUserListByKeyword } = useRemoteUserSearch({
   errorDefaultI18nKey: 'loginLog.loadFailed',
 });
@@ -138,12 +124,7 @@ onMounted(() => {
       </el-form-item>
     </el-form>
 
-    <TableBar
-      :columns="columns"
-      :title="t('loginLog.tableTitle')"
-      @fullscreen="tableRef?.setAdaptive()"
-      @refresh="fetchTableData"
-    >
+    <AuthPagedTable :columns="columns" :state="loginLogState" :title="t('loginLog.tableTitle')" show-overflow-tooltip>
       <template #buttons>
         <el-dropdown trigger="click">
           <el-button type="danger">
@@ -158,36 +139,14 @@ onMounted(() => {
         </el-dropdown>
       </template>
 
-      <template #default="{ size, dynamicColumns }">
-        <AuthDataTable
-          ref="tableRef"
-          :columns="dynamicColumns"
-          :data="tableData"
-          :header-cell-style="{ background: 'var(--el-fill-color-light)', color: 'var(--el-text-color-primary)' }"
-          :loading="loading"
-          :pagination="pagination"
-          :size="size"
-          adaptive
-          align-whole="center"
-          border
-          highlight-current-row
-          row-key="id"
-          showOverflowTooltip
-          table-layout="auto"
-          @page-size-change="handlePageSizeChange"
-          @page-current-change="handlePageCurrentChange"
-          @selection-change="handleSelectionChange"
-        >
-          <template #actions="{ row }">
-            <div class="flex justify-center">
-              <el-button link type="primary" @click="openDetailDialog(row)">{{ t('buttons.actionView') }}</el-button>
-              <el-button link type="danger" @click="deleteBatchRows([row.id])">
-                {{ t('buttons.actionDelete') }}
-              </el-button>
-            </div>
-          </template>
-        </AuthDataTable>
+      <template #actions="{ row }">
+        <div class="flex justify-center">
+          <el-button link type="primary" @click="openDetailDialog(row)">{{ t('buttons.actionView') }}</el-button>
+          <el-button link type="danger" @click="deleteBatchRows([row.id])">
+            {{ t('buttons.actionDelete') }}
+          </el-button>
+        </div>
       </template>
-    </TableBar>
+    </AuthPagedTable>
   </div>
 </template>

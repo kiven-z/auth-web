@@ -1,8 +1,6 @@
 <script lang="ts" setup>
 import { getJobGroupPage } from '@/api/schedule/job-group';
-import AuthDataTable from '@/components/ui/AuthDataTable';
-import TableBar from '@/components/ui/TableBar';
-import { usePaginationState } from '@/components/ui/AuthPagedTable/src/usePaginationState';
+import AuthPagedTable, { usePaginationState } from '@/components/ui/AuthPagedTable';
 import useJobGroupTableAction from '@/views/schedule/schedule-group/hooks/useJobGroupTableAction';
 import useJobGroupTableColumns from '@/views/schedule/schedule-group/hooks/useJobGroupTableColumns';
 import type { FormInstance } from 'element-plus';
@@ -16,18 +14,8 @@ defineOptions({
 const { t } = useI18n();
 const { columns } = useJobGroupTableColumns();
 const searchFormRef = ref<FormInstance>();
-const tableRef = ref<{ setAdaptive: () => Promise<void> } | null>(null);
 
-const {
-  tableData,
-  loading,
-  pagination,
-  searchForm,
-  fetchTableData,
-  resetQuery,
-  handlePageSizeChange,
-  handlePageCurrentChange,
-} = usePaginationState({
+const jobGroupState = usePaginationState({
   fetchApi: getJobGroupPage,
   searchForm: reactive({
     groupCode: undefined as string | undefined,
@@ -36,6 +24,8 @@ const {
   }),
   errorI18nKey: 'scheduleGroup.loadFailed',
 });
+
+const { loading, searchForm, fetchTableData, resetQuery } = jobGroupState;
 
 const { openCreateDialog, openEditDialog, openDetailDialog, deleteBatchRows } = useJobGroupTableAction({
   fetchTableData,
@@ -73,57 +63,36 @@ onMounted(() => {
       <!-- 表单搜索 -->
       <el-form-item>
         <!-- 搜索 -->
-        <el-button type="primary" @click="fetchTableData">{{ t('buttons.actionSearch') }}</el-button>
+        <el-button :loading="loading" type="primary" @click="fetchTableData">{{ t('buttons.actionSearch') }}</el-button>
         <!-- 重置 -->
         <el-button @click="resetQuery(searchFormRef)">{{ t('buttons.actionReset') }}</el-button>
       </el-form-item>
     </el-form>
 
-    <TableBar
+    <AuthPagedTable
+      :adaptive-config="{ offsetBottom: 96 }"
       :columns="columns"
+      :state="jobGroupState"
       :title="t('scheduleGroup.tableTitle')"
-      @fullscreen="tableRef?.setAdaptive()"
-      @refresh="fetchTableData"
+      show-overflow-tooltip
     >
       <template #buttons>
         <!-- 添加 -->
         <el-button type="primary" @click="openCreateDialog">{{ t('buttons.actionAdd') }}</el-button>
       </template>
 
-      <template #default="{ size, dynamicColumns }">
-        <AuthDataTable
-          ref="tableRef"
-          :adaptiveConfig="{ offsetBottom: 96 }"
-          :columns="dynamicColumns"
-          :data="tableData"
-          :header-cell-style="{ background: 'var(--el-fill-color-light)', color: 'var(--el-text-color-primary)' }"
-          :loading="loading"
-          :pagination="pagination"
-          :size="size"
-          adaptive
-          align-whole="center"
-          border
-          highlight-current-row
-          row-key="id"
-          showOverflowTooltip
-          table-layout="auto"
-          @page-size-change="handlePageSizeChange"
-          @page-current-change="handlePageCurrentChange"
-        >
-          <template #actions="{ row }">
-            <div class="flex justify-center">
-              <!-- 查看 -->
-              <el-button link type="primary" @click="openDetailDialog(row)">{{ t('buttons.actionView') }}</el-button>
-              <!-- 修改/编辑 -->
-              <el-button link type="primary" @click="openEditDialog(row)">{{ t('buttons.actionEdit') }}</el-button>
-              <!-- 删除 -->
-              <el-button :disabled="row.isSystem" link type="danger" @click="deleteBatchRows([row.id])">
-                {{ t('buttons.actionDelete') }}
-              </el-button>
-            </div>
-          </template>
-        </AuthDataTable>
+      <template #actions="{ row }">
+        <div class="flex justify-center">
+          <!-- 查看 -->
+          <el-button link type="primary" @click="openDetailDialog(row)">{{ t('buttons.actionView') }}</el-button>
+          <!-- 修改/编辑 -->
+          <el-button link type="primary" @click="openEditDialog(row)">{{ t('buttons.actionEdit') }}</el-button>
+          <!-- 删除 -->
+          <el-button :disabled="row.isSystem" link type="danger" @click="deleteBatchRows([row.id])">
+            {{ t('buttons.actionDelete') }}
+          </el-button>
+        </div>
       </template>
-    </TableBar>
+    </AuthPagedTable>
   </div>
 </template>

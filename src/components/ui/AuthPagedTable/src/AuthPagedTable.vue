@@ -25,6 +25,7 @@ const props = withDefaults(
     highlightCurrentRow?: boolean;
     alignWhole?: 'left' | 'center' | 'right';
     tableLayout?: 'fixed' | 'auto';
+    showOverflowTooltip?: boolean;
   }>(),
   {
     title: '',
@@ -34,6 +35,7 @@ const props = withDefaults(
     highlightCurrentRow: true,
     alignWhole: 'center',
     tableLayout: 'auto',
+    showOverflowTooltip: false,
   }
 );
 
@@ -106,6 +108,7 @@ defineExpose<AuthPagedTableExpose>({
         :loading="loading"
         :pagination="state.pagination"
         :row-key="rowKey"
+        :show-overflow-tooltip="showOverflowTooltip"
         :size="size"
         :table-layout="tableLayout"
         v-bind="attrs"

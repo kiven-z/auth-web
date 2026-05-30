@@ -1,6 +1,5 @@
 <script lang="ts" setup>
-import AuthDataTable from '@/components/ui/AuthDataTable';
-import TableBar from '@/components/ui/TableBar';
+import AuthPagedTable from '@/components/ui/AuthPagedTable';
 import { DEPT_STATUS_FILTER_OPTIONS } from '@/views/system/dept/constants/dept-search-options';
 import useDeptPageState from '@/views/system/dept/hooks/useDeptPageState';
 import useDeptTableColumns from '@/views/system/dept/hooks/useDeptTableColumns';
@@ -14,21 +13,10 @@ defineOptions({
 
 const { t } = useI18n();
 const searchFormRef = ref<FormInstance>();
-const tableRef = ref<{ setAdaptive: () => Promise<void> } | null>(null);
 
 const { tableColumns } = useDeptTableColumns();
-const {
-  loading,
-  selectedRows,
-  tableData,
-  searchForm,
-  pagination,
-  fetchTableData,
-  resetQuery,
-  handlePageSizeChange,
-  handlePageCurrentChange,
-  handleSelectionChange,
-} = useDeptPageState();
+const deptState = useDeptPageState();
+const { loading, searchForm, fetchTableData, resetQuery } = deptState;
 
 onMounted(() => {
   fetchTableData();
@@ -73,48 +61,26 @@ onMounted(() => {
       </el-form-item>
     </el-form>
 
-    <TableBar
+    <AuthPagedTable
+      :adaptive-config="{ offsetBottom: 96 }"
       :columns="tableColumns"
+      :state="deptState"
       :title="t('dept.pageTitle')"
-      @fullscreen="tableRef?.setAdaptive()"
-      @refresh="fetchTableData"
+      show-overflow-tooltip
     >
-      <template #default="{ size, dynamicColumns }">
-        <AuthDataTable
-          ref="tableRef"
-          :adaptive-config="{ offsetBottom: 96 }"
-          :columns="dynamicColumns"
-          :data="tableData"
-          :header-cell-style="{ background: 'var(--el-fill-color-light)', color: 'var(--el-text-color-primary)' }"
-          :loading="loading"
-          :pagination="pagination"
-          :size="size"
-          adaptive
-          align-whole="center"
-          border
-          highlight-current-row
-          row-key="id"
-          show-overflow-tooltip
-          table-layout="auto"
-          @page-current-change="handlePageCurrentChange"
-          @page-size-change="handlePageSizeChange"
-          @selection-change="handleSelectionChange"
-        >
-          <template #actions>
-            <el-button link type="primary">{{ t('buttons.actionView') }}</el-button>
-            <el-button link type="primary">{{ t('buttons.actionEdit') }}</el-button>
-            <el-button link type="danger">{{ t('buttons.actionDelete') }}</el-button>
+      <template #actions>
+        <el-button link type="primary">{{ t('buttons.actionView') }}</el-button>
+        <el-button link type="primary">{{ t('buttons.actionEdit') }}</el-button>
+        <el-button link type="danger">{{ t('buttons.actionDelete') }}</el-button>
 
-            <el-dropdown class="ml-1" trigger="click">
-              <el-button link type="primary">{{ t('buttons.actionMore') }}</el-button>
-              <template #dropdown>
-                <el-dropdown-item>{{ t('dept.assignRole') }}</el-dropdown-item>
-                <el-dropdown-item>{{ t('dept.assignPost') }}</el-dropdown-item>
-              </template>
-            </el-dropdown>
+        <el-dropdown class="ml-1" trigger="click">
+          <el-button link type="primary">{{ t('buttons.actionMore') }}</el-button>
+          <template #dropdown>
+            <el-dropdown-item>{{ t('dept.assignRole') }}</el-dropdown-item>
+            <el-dropdown-item>{{ t('dept.assignPost') }}</el-dropdown-item>
           </template>
-        </AuthDataTable>
+        </el-dropdown>
       </template>
-    </TableBar>
+    </AuthPagedTable>
   </div>
 </template>

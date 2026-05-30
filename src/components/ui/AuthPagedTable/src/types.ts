@@ -27,4 +27,5 @@ export interface AuthPagedTableProps<TData = unknown> {
   highlightCurrentRow?: boolean;
   alignWhole?: 'left' | 'center' | 'right';
   tableLayout?: 'fixed' | 'auto';
+  showOverflowTooltip?: boolean;
 }

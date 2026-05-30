@@ -1,8 +1,6 @@
 <script lang="ts" setup>
 import { getEmailTemplatePage } from '@/api/system/email-template';
-import AuthDataTable from '@/components/ui/AuthDataTable';
-import TableBar from '@/components/ui/TableBar';
-import { usePaginationState } from '@/components/ui/AuthPagedTable/src/usePaginationState';
+import AuthPagedTable, { usePaginationState } from '@/components/ui/AuthPagedTable';
 import { emailTemplateStatusFilterOptions } from '@/views/message/email-template/constants/email-template-search-options';
 import useEmailTemplateTableAction from '@/views/message/email-template/hooks/useEmailTemplateTableAction';
 import useEmailTemplateTableColumns from '@/views/message/email-template/hooks/useEmailTemplateTableColumns';
@@ -17,20 +15,8 @@ defineOptions({
 const { t } = useI18n();
 const { columns } = useEmailTemplateTableColumns();
 const searchFormRef = ref<FormInstance>();
-const tableRef = ref<{ setAdaptive: () => Promise<void> } | null>(null);
 
-const {
-  tableData,
-  loading,
-  pagination,
-  selectedRows,
-  searchForm,
-  fetchTableData,
-  resetQuery,
-  handlePageSizeChange,
-  handlePageCurrentChange,
-  handleSelectionChange,
-} = usePaginationState({
+const emailTemplateState = usePaginationState({
   fetchApi: getEmailTemplatePage,
   searchForm: reactive({
     templateCode: undefined,
@@ -41,7 +27,8 @@ const {
   errorI18nKey: 'emailTemplate.loadFailed',
 });
 
-// 表格操作事件
+const { loading, selectedRows, searchForm, fetchTableData, resetQuery } = emailTemplateState;
+
 const {
   openCreateDialog,
   openEditDialog,
@@ -102,11 +89,12 @@ onMounted(() => {
       </el-form-item>
     </el-form>
 
-    <TableBar
+    <AuthPagedTable
+      :adaptive-config="{ offsetBottom: 96 }"
       :columns="columns"
+      :state="emailTemplateState"
       :title="t('emailTemplate.tableTitle')"
-      @fullscreen="tableRef?.setAdaptive()"
-      @refresh="fetchTableData"
+      show-overflow-tooltip
     >
       <template #buttons>
         <el-button-group type="primary">
@@ -148,61 +136,38 @@ onMounted(() => {
         </el-button-group>
       </template>
 
-      <template #default="{ size, dynamicColumns }">
-        <AuthDataTable
-          ref="tableRef"
-          :adaptive-config="{ offsetBottom: 96 }"
-          :columns="dynamicColumns"
-          :data="tableData"
-          :header-cell-style="{ background: 'var(--el-fill-color-light)', color: 'var(--el-text-color-primary)' }"
-          :loading="loading"
-          :pagination="pagination"
-          :size="size"
-          adaptive
-          align-whole="center"
-          border
-          highlight-current-row
-          row-key="id"
-          show-overflow-tooltip
-          table-layout="auto"
-          @page-size-change="handlePageSizeChange"
-          @page-current-change="handlePageCurrentChange"
-          @selection-change="handleSelectionChange"
-        >
-          <template #actions="{ row }">
-            <!-- 查看 -->
-            <el-button link type="primary" @click="openDetailDialog(row)">{{ t('buttons.actionView') }}</el-button>
-            <!-- 编辑 -->
-            <el-button link type="primary" @click="openEditDialog(row)">{{ t('buttons.actionEdit') }}</el-button>
-            <!-- 删除 -->
-            <el-button link type="danger" @click="deleteBatchRows([row.id])">
-              {{ t('buttons.actionDelete') }}
-            </el-button>
-            <!-- 更多 -->
-            <el-dropdown class="ml-1" trigger="click">
-              <el-button class="el-dropdown-link" link type="primary">{{ t('buttons.actionMore') }}</el-button>
-              <template #dropdown>
-                <el-dropdown-menu>
-                  <!-- 预览 -->
-                  <el-dropdown-item @click="openPreview(row)">{{ t('emailTemplate.preview') }}</el-dropdown-item>
-                  <!-- 必填字段 -->
-                  <el-dropdown-item @click="openRequireFields(row)">
-                    {{ t('emailTemplate.requireFieldsMenu') }}
-                  </el-dropdown-item>
-                  <!-- 测试发送 -->
-                  <el-dropdown-item @click="openTestSend(row)">
-                    {{ t('emailTemplate.testSendMenu') }}
-                  </el-dropdown-item>
-                  <!-- 模板编辑 -->
-                  <el-dropdown-item @click="openTemplateContentEdit(row)">
-                    {{ t('emailTemplate.templateEditMenu') }}
-                  </el-dropdown-item>
-                </el-dropdown-menu>
-              </template>
-            </el-dropdown>
+      <template #actions="{ row }">
+        <!-- 查看 -->
+        <el-button link type="primary" @click="openDetailDialog(row)">{{ t('buttons.actionView') }}</el-button>
+        <!-- 编辑 -->
+        <el-button link type="primary" @click="openEditDialog(row)">{{ t('buttons.actionEdit') }}</el-button>
+        <!-- 删除 -->
+        <el-button link type="danger" @click="deleteBatchRows([row.id])">
+          {{ t('buttons.actionDelete') }}
+        </el-button>
+        <!-- 更多 -->
+        <el-dropdown class="ml-1" trigger="click">
+          <el-button class="el-dropdown-link" link type="primary">{{ t('buttons.actionMore') }}</el-button>
+          <template #dropdown>
+            <el-dropdown-menu>
+              <!-- 预览 -->
+              <el-dropdown-item @click="openPreview(row)">{{ t('emailTemplate.preview') }}</el-dropdown-item>
+              <!-- 必填字段 -->
+              <el-dropdown-item @click="openRequireFields(row)">
+                {{ t('emailTemplate.requireFieldsMenu') }}
+              </el-dropdown-item>
+              <!-- 测试发送 -->
+              <el-dropdown-item @click="openTestSend(row)">
+                {{ t('emailTemplate.testSendMenu') }}
+              </el-dropdown-item>
+              <!-- 模板编辑 -->
+              <el-dropdown-item @click="openTemplateContentEdit(row)">
+                {{ t('emailTemplate.templateEditMenu') }}
+              </el-dropdown-item>
+            </el-dropdown-menu>
           </template>
-        </AuthDataTable>
+        </el-dropdown>
       </template>
-    </TableBar>
+    </AuthPagedTable>
   </div>
 </template>
