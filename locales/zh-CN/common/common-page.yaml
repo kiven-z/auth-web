@@ -51,6 +51,7 @@ buttons:
   statusInactiveText: 停用
 table:
   idx: 序号
+  assigned: 已分配
   actions: 操作
   createTime: 创建时间
   updateTime: 更新时间

@@ -7,6 +7,9 @@ export interface UseAssignCheckedOptions {
   getRowLabel: AssignGetRowLabel;
 }
 
+/** {@link useAssignChecked} 返回值，供右侧表格插槽与勾选列工具使用 */
+export type AssignCheckedApi = ReturnType<typeof useAssignChecked>;
+
 /**
  * 分配表格已选状态：key 列表、展示文案、锁定项。
  */

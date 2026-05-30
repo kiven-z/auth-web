@@ -11,13 +11,12 @@ sysMenu:
   assignRoleTitle: Assign roles
   assignPermissionTitle: Assign permissions
   assignCurrentMenu: Current menu
-  assignRoleSearch: Search role name (fuzzy, paged)
+  assignRoleSearch: Search role name
   assignPermissionSearch: Search permission code or name
   roleCode: Role code
   roleName: Role name
   permissionCode: Permission code
   permissionName: Permission name
-  assigned: Assigned
   assignRoleSectionLabel: Assigned roles
   assignPermissionSectionLabel: Assigned permissions
   assignEmptySelected: No items selected. Use the table on the right.

@@ -52,6 +52,7 @@ buttons:
 
 table:
   idx: No
+  assigned: Assigned
   actions: Actions
   createTime: Created At
   updateTime: Updated At

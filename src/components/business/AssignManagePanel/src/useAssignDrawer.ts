@@ -4,7 +4,7 @@ import { onMounted, ref } from 'vue';
 import type { AssignDrawerOptions, AssignSeedItem } from './types';
 
 /**
- * 分配抽屉薄封装：挂载时加载 seed，配合 `v-if="!loading"` 再渲染表格面板。
+ * 分配抽屉薄封装：挂载时加载 seed，配合 `v-if="!loading"` 再渲染分配面板。
  */
 export function useAssignDrawer(options: AssignDrawerOptions) {
   const loading = ref(true);
@@ -29,8 +29,6 @@ export function useAssignDrawer(options: AssignDrawerOptions) {
   return {
     loading,
     seed,
-    fetchPage: options.fetchPage,
-    initialPageSize: options.initialPageSize,
     reloadSeed,
   };
 }
