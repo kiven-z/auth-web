@@ -1,4 +1,4 @@
-import type { PageResponse, SortSpec } from '@/api/common';
+import type { BaseResponsePageRow, PageResponse, SortSpec } from '@/api/common';
 import { http } from '@/infrastructure/http-core';
 import type { AxiosRequestConfig } from 'axios';
 
@@ -15,22 +15,15 @@ export interface SysJobGroupPageQuery {
 }
 
 /**
- * 任务分组分页行（对应后端 SysJobGroupPageResponse）
+ * 任务分组分页行（对应后端 SysJobGroupPageResponse + BaseResponse）
  */
-export interface SysJobGroupPageRow {
-  id: string;
+export interface SysJobGroupPageRow extends BaseResponsePageRow {
   groupCode: string;
   groupName: string;
   description?: string;
   status: boolean;
   isSystem: boolean;
   orderNum: number;
-  createTime: string;
-  updateTime: string;
-  createUser?: string;
-  updateUser?: string;
-  createUsername?: string | null;
-  updateUsername?: string | null;
 }
 
 /**

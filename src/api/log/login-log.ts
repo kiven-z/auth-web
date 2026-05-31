@@ -1,4 +1,4 @@
-import type { PageResponse, SortSpec } from '@/api/common';
+import type { BaseResponsePageRow, PageResponse, SortSpec } from '@/api/common';
 import { http } from '@/infrastructure/http-core';
 import type { AxiosRequestConfig } from 'axios';
 
@@ -22,8 +22,7 @@ export interface LoginLogPageQuery {
 /**
  * 登录日志分页行
  */
-export interface LoginLogPageRow {
-  id: string;
+export interface LoginLogPageRow extends BaseResponsePageRow {
   userId?: string;
   // 关联用户展示名（非表字段 username）
   username?: string | null;
@@ -31,19 +30,12 @@ export interface LoginLogPageRow {
   loginTime: string;
   loginRegion?: string | null;
   loginType?: string | null;
-  createTime: string;
-  updateTime: string;
-  createUser?: string;
-  updateUser?: string;
-  createUsername?: string | null;
-  updateUsername?: string | null;
 }
 
 /**
  * 登录日志详情
  */
-export interface LoginLogDetailRow {
-  id: string;
+export interface LoginLogDetailRow extends BaseResponsePageRow {
   userId?: string;
   username?: string | null;
   loginResult: number;
@@ -57,12 +49,6 @@ export interface LoginLogDetailRow {
   browserType?: string | null;
   loginType?: string | null;
   sessionId?: string | null;
-  createTime: string;
-  updateTime: string;
-  createUser?: string;
-  updateUser?: string;
-  createUsername?: string | null;
-  updateUsername?: string | null;
 }
 
 /**

@@ -1,4 +1,4 @@
-import type { PageResponse, SortSpec } from '@/api/common';
+import type { BaseResponse, PageResponse, SortSpec } from '@/api/common';
 import type { MenuTypeValue } from '@/views/system/menu/constants/menuEnums';
 import type { AxiosRequestConfig } from 'axios';
 
@@ -85,7 +85,7 @@ export interface SysMenuListQuery {
 /**
  * 列表行 / 扁平 VO（Boolean 字段后端直接返回 true/false）
  */
-export interface SysMenuListVO {
+export interface SysMenuListVO extends BaseResponse {
   id: string;
   parentId: string | null;
   name: string;
@@ -99,12 +99,6 @@ export interface SysMenuListVO {
   component?: string;
   path?: string;
   icon?: string;
-  createTime?: string;
-  updateTime?: string;
-  createUser?: string;
-  updateUser?: string;
-  createUsername?: string | null;
-  updateUsername?: string | null;
 }
 
 /**

@@ -1,4 +1,4 @@
-import type { PageResponse, SortSpec } from '@/api/common';
+import type { BaseResponse, PageResponse, SortSpec } from '@/api/common';
 import { http } from '@/infrastructure/http-core';
 import type { AxiosRequestConfig } from 'axios';
 
@@ -12,9 +12,9 @@ export interface SysDeptListQuery {
 }
 
 /**
- * 部门列表行 / 扁平 VO
+ * 部门列表行 / 扁平 VO（对齐列表 VO + BaseResponse）
  */
-export interface SysDeptListVO {
+export interface SysDeptListVO extends BaseResponse {
   id: string;
   parentId: string;
   deptName: string;
@@ -22,12 +22,6 @@ export interface SysDeptListVO {
   status: boolean;
   orderNum: number;
   remark?: string;
-  createTime?: string;
-  updateTime?: string;
-  createUser?: string;
-  updateUser?: string;
-  createUsername?: string | null;
-  updateUsername?: string | null;
 }
 
 /**

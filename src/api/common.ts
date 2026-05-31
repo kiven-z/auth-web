@@ -1,3 +1,5 @@
+import type { Ref } from 'vue';
+
 /**
  * 与后端 {@code SortDirection} 一致
  */
@@ -22,7 +24,34 @@ export interface PageResponse<T> {
   list: T[];
 }
 
-import type { Ref } from 'vue';
+/**
+ * 与后端 {@code BaseResponse} 一致（Long 主键与用户 ID 序列化为 string）
+ */
+export interface BaseResponse {
+  id?: string;
+  createTime?: string;
+  updateTime?: string;
+  createUser?: string;
+  updateUser?: string;
+  createUsername?: string | null;
+  updateUsername?: string | null;
+}
+
+/**
+ * 分页/列表行：主键与审计时间通常为必填
+ */
+export interface BaseResponsePageRow extends BaseResponse {
+  id: string;
+  createTime: string;
+  updateTime: string;
+}
+
+/**
+ * 详情 VO：主键通常为必填
+ */
+export interface BaseResponseDetail extends BaseResponse {
+  id: string;
+}
 
 /**
  * 与后端 PageRequest 一致
@@ -32,7 +61,7 @@ export interface TableActionDeps {
 }
 
 /**
- * 表格操作依赖（含 {@link usePaginationState} 提供的多选 ID 列表）
+ * 表格操作依赖（含 usePaginationState 提供的多选 ID 列表）
  */
 export interface TableActionWithSelectionDeps extends TableActionDeps {
   selectedRows: Ref<string[]>;
@@ -43,8 +72,8 @@ export interface FormDialog<T> {
 }
 
 /**
- * 详情弹窗/抽屉只读数据契约
+ * 详情弹窗/抽屉只读数据契约（数据须含 BaseResponse 审计字段时可选用）
  */
-export interface DetailDialog<T> {
+export interface DetailDialog<T extends BaseResponse = BaseResponse> {
   data?: T;
 }

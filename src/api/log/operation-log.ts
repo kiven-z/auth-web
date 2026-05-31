@@ -1,4 +1,4 @@
-import type { PageResponse, SortSpec } from '@/api/common';
+import type { BaseResponsePageRow, PageResponse, SortSpec } from '@/api/common';
 import { http } from '@/infrastructure/http-core';
 import type { AxiosRequestConfig } from 'axios';
 
@@ -26,8 +26,7 @@ export interface OperationLogPageQuery {
 /**
  * 操作日志分页行
  */
-export interface OperationLogPageRow {
-  id: string;
+export interface OperationLogPageRow extends BaseResponsePageRow {
   // 操作用户 ID；null 表示匿名或未认证
   userId?: string | null;
   // 操作用户名（由 userId 解析）
@@ -48,19 +47,12 @@ export interface OperationLogPageRow {
   executionTimeMs?: number | null;
   // 请求 IP（JSON 序列化时脱敏）
   ipAddress?: string | null;
-  createTime: string;
-  updateTime: string;
-  createUser?: string;
-  updateUser?: string;
-  createUsername?: string | null;
-  updateUsername?: string | null;
 }
 
 /**
  * 操作日志详情
  */
-export interface OperationLogDetailRow {
-  id: string;
+export interface OperationLogDetailRow extends BaseResponsePageRow {
   userId?: string;
   username?: string | null;
   module?: string | null;
@@ -76,12 +68,6 @@ export interface OperationLogDetailRow {
   ipAddress?: string | null;
   userAgent?: string | null;
   remark?: string | null;
-  createTime: string;
-  updateTime: string;
-  createUser?: string;
-  updateUser?: string;
-  createUsername?: string | null;
-  updateUsername?: string | null;
 }
 
 /**

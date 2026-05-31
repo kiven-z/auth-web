@@ -1,4 +1,4 @@
-import type { PageResponse, SortSpec } from '@/api/common';
+import type { BaseResponsePageRow, PageResponse, SortSpec } from '@/api/common';
 import { http } from '@/infrastructure/http-core';
 import type { AxiosRequestConfig } from 'axios';
 
@@ -28,8 +28,7 @@ export interface JobLogPageQuery {
 /**
  * 任务调度日志分页行
  */
-export interface JobLogPageRow {
-  id: string;
+export interface JobLogPageRow extends BaseResponsePageRow {
   jobId?: string | null;
   jobName?: string | null;
   // 任务分组
@@ -42,24 +41,17 @@ export interface JobLogPageRow {
   elapsedTime?: number | null;
   // 执行报告
   jobMessage?: string | null;
-  createTime: string;
-  updateTime: string;
-  createUser?: string;
-  updateUser?: string;
-  createUsername?: string | null;
-  updateUsername?: string | null;
 }
 
 /**
  * 任务调度日志详情
  */
-export interface JobLogDetailRow {
-  id: string;
+export interface JobLogDetailRow extends BaseResponsePageRow {
   jobId?: string | null;
   jobName?: string | null;
-  // 任务分组 */
+  // 任务分组
   jobGroup?: string | null;
-  // 执行时调用目标 */
+  // 执行时调用目标
   invokeTarget?: string | null;
   triggerType?: string | null;
   jobMessage?: string | null;
@@ -69,12 +61,6 @@ export interface JobLogDetailRow {
   exceptionInfo?: string | null;
   // 耗时毫秒
   elapsedTime?: number | null;
-  createTime: string;
-  updateTime: string;
-  createUser?: string;
-  updateUser?: string;
-  createUsername?: string | null;
-  updateUsername?: string | null;
 }
 
 /**

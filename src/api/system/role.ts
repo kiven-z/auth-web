@@ -1,6 +1,6 @@
 import type { AxiosRequestConfig } from 'axios';
 
-import type { PageResponse, SortSpec } from '@/api/common';
+import type { BaseResponse, BaseResponsePageRow, PageResponse, SortSpec } from '@/api/common';
 import { http } from '@/infrastructure/http-core';
 
 /**
@@ -17,22 +17,15 @@ export interface SysRolePageQuery {
 }
 
 /**
- * 分页行（对齐 {@code SysRolePageResponse} + BaseResponse，Long ID 为 string）
+ * 分页行（对齐 {@code SysRolePageResponse} + BaseResponse）
  */
-export interface SysRolePageRow {
-  id: string;
+export interface SysRolePageRow extends BaseResponsePageRow {
   roleCode: string;
   roleName: string;
   status: boolean;
   roleType: number;
   orderNum: number;
   remark?: string;
-  createTime: string;
-  updateTime: string;
-  createUser?: string;
-  updateUser?: string;
-  createUsername?: string | null;
-  updateUsername?: string | null;
 }
 
 /**
@@ -59,10 +52,9 @@ export function getRolePage(params: SysRolePageQuery): Promise<PageResponse<SysR
 }
 
 /**
- * 角色详情（对齐 SysRoleDetailVO + BaseResponse，Long ID 为 string）
+ * 角色详情（对齐 {@code SysRoleDetailVO} + BaseResponse）
  */
-export interface SysRoleDetail {
-  id?: string;
+export interface SysRoleDetail extends BaseResponse {
   roleCode: string;
   roleName: string;
   status: boolean;
@@ -70,12 +62,6 @@ export interface SysRoleDetail {
   roleTypeDesc?: string;
   orderNum: number;
   remark?: string;
-  createTime?: string;
-  updateTime?: string;
-  createUser?: string;
-  updateUser?: string;
-  createUsername?: string | null;
-  updateUsername?: string | null;
 }
 
 /**

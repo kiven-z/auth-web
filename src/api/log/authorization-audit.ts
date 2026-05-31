@@ -1,4 +1,4 @@
-import type { PageResponse, SortSpec } from '@/api/common';
+import type { BaseResponsePageRow, PageResponse, SortSpec } from '@/api/common';
 import { http } from '@/infrastructure/http-core';
 import type { AxiosRequestConfig } from 'axios';
 
@@ -21,8 +21,7 @@ export interface AuthorizationAuditQuery {
 /**
  * 权限决策审计分页行
  */
-export interface AuthorizationAuditPageRow {
-  id: string;
+export interface AuthorizationAuditPageRow extends BaseResponsePageRow {
   //事件类型：GRANTED / DENIED
   eventType: string;
   //决策原因枚举值
@@ -31,19 +30,12 @@ export interface AuthorizationAuditPageRow {
   className?: string | null;
   //方法名
   methodName?: string | null;
-  createTime: string;
-  updateTime: string;
-  createUser?: string;
-  updateUser?: string;
-  createUsername?: string | null;
-  updateUsername?: string | null;
 }
 
 /**
  * 权限决策审计详情
  */
-export interface AuthorizationAuditDetailRow {
-  id: string;
+export interface AuthorizationAuditDetailRow extends BaseResponsePageRow {
   // 事件类型：GRANTED / DENIED
   eventType: string;
   // 会话 ID
@@ -76,12 +68,6 @@ export interface AuthorizationAuditDetailRow {
   exceptionMessage?: string | null;
   // 备注
   remark?: string | null;
-  createTime: string;
-  updateTime: string;
-  createUser?: string;
-  updateUser?: string;
-  createUsername?: string | null;
-  updateUsername?: string | null;
 }
 
 /**

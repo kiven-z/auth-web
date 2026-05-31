@@ -1,6 +1,6 @@
 import type { AxiosRequestConfig } from 'axios';
 
-import type { PageResponse, SortSpec, TableActionDeps } from '@/api/common';
+import type { BaseResponsePageRow, PageResponse, SortSpec, TableActionDeps } from '@/api/common';
 import { http } from '@/infrastructure/http-core';
 
 /**
@@ -17,22 +17,15 @@ export interface SysPostPageQuery {
 }
 
 /**
- * 分页行（对齐 {@code SysPostPageResponse} + BaseResponse，Long ID 为 string）
+ * 分页行（对齐 {@code SysPostPageResponse} + BaseResponse）
  */
-export interface SysPostPageRow {
-  id: string;
+export interface SysPostPageRow extends BaseResponsePageRow {
   deptId: string;
   deptName: string;
   postCode: string;
   postName: string;
   status: boolean;
   orderNum: number;
-  createTime: string;
-  updateTime: string;
-  createUser?: string;
-  updateUser?: string;
-  createUsername?: string | null;
-  updateUsername?: string | null;
 }
 
 /**

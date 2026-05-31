@@ -1,6 +1,6 @@
 import type { AxiosRequestConfig } from 'axios';
 
-import type { PageResponse, SortSpec } from '@/api/common';
+import type { BaseResponsePageRow, PageResponse, SortSpec } from '@/api/common';
 import { http } from '@/infrastructure/http-core';
 
 /**
@@ -17,22 +17,15 @@ export interface SysPermissionPageQuery {
 }
 
 /**
- * 分页行（对齐 {@code SysPermissionPageResponse} + BaseResponse，Long ID 为 string）
+ * 分页行（对齐 {@code SysPermissionPageResponse} + BaseResponse）
  */
-export interface SysPermissionPageRow {
-  id: string;
+export interface SysPermissionPageRow extends BaseResponsePageRow {
   permissionCode: string;
   permissionName: string;
   permissionType: number;
   orderNum: number;
   status: boolean;
   remark?: string;
-  createTime: string;
-  updateTime: string;
-  createUser?: string;
-  updateUser?: string;
-  createUsername?: string | null;
-  updateUsername?: string | null;
 }
 
 /**

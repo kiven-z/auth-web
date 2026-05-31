@@ -1,4 +1,4 @@
-import type { PageResponse, SortSpec } from '@/api/common';
+import type { BaseResponsePageRow, PageResponse, SortSpec } from '@/api/common';
 import { http } from '@/infrastructure/http-core';
 import type { AxiosRequestConfig } from 'axios';
 
@@ -18,35 +18,21 @@ export interface PasswordHistoryPageQuery {
 /**
  * 密码历史日志分页行（对应后端 LogUserPasswordHistoryPageVO）
  */
-export interface PasswordHistoryPageRow {
-  id: string;
+export interface PasswordHistoryPageRow extends BaseResponsePageRow {
   userId: string;
   username: string;
   changeTime: string;
   changeIp: string;
-  createTime: string;
-  updateTime: string;
-  createUser?: string;
-  updateUser?: string;
-  createUsername?: string | null;
-  updateUsername?: string | null;
 }
 
 /**
  * 密码历史日志详情
  */
-export interface PasswordHistoryDetailRow {
-  id: string;
+export interface PasswordHistoryDetailRow extends BaseResponsePageRow {
   userId?: string | null;
   username?: string | null;
   changeTime: string;
   changeIp: string;
-  createTime: string;
-  updateTime: string;
-  createUser?: string;
-  updateUser?: string;
-  createUsername?: string | null;
-  updateUsername?: string | null;
 }
 
 /**

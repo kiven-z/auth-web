@@ -1,6 +1,6 @@
 import type { AxiosRequestConfig } from 'axios';
 
-import type { PageResponse, SortSpec } from '@/api/common';
+import type { BaseResponseDetail, BaseResponsePageRow, PageResponse, SortSpec } from '@/api/common';
 import { http } from '@/infrastructure/http-core';
 
 /**
@@ -31,8 +31,7 @@ export interface EmailTemplateRequireFieldRow {
 /**
  * 分页行（EmailTemplatePageResponse + BaseResponse）
  */
-export interface EmailTemplatePageRow {
-  id: string;
+export interface EmailTemplatePageRow extends BaseResponsePageRow {
   /** 场景编码，对应 sys_message_template.scene_code */
   templateCode: string;
   templateName: string;
@@ -40,19 +39,12 @@ export interface EmailTemplatePageRow {
   priority: number;
   status: boolean;
   description?: string;
-  createTime: string;
-  updateTime: string;
-  createUser?: string;
-  updateUser?: string;
-  createUsername?: string | null;
-  updateUsername?: string | null;
 }
 
 /**
- * 详情（EmailTemplateDetailVO）
+ * 详情（EmailTemplateDetailVO + BaseResponse）
  */
-export interface EmailTemplateDetailVO {
-  id: string;
+export interface EmailTemplateDetailVO extends BaseResponseDetail {
   /** 场景编码，对应 sys_message_template.scene_code */
   templateCode: string;
   templateName: string;
@@ -62,12 +54,6 @@ export interface EmailTemplateDetailVO {
   requireFields?: EmailTemplateRequireFieldRow[];
   priority: number;
   status: boolean;
-  createTime?: string;
-  updateTime?: string;
-  createUser?: string;
-  updateUser?: string;
-  createUsername?: string | null;
-  updateUsername?: string | null;
 }
 
 /**

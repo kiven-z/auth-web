@@ -8,6 +8,7 @@ import AssignPanel, {
   useAssignTableLabels,
 } from '@/components/business/AssignManagePanel';
 import AuthPagedTable, { usePaginationState } from '@/components/ui/AuthPagedTable';
+import { PERMISSION_TYPE_FILTER_OPTIONS } from '@/views/system/permission/constants/permission-search-options';
 import { errorMessage } from '@/shared/messaging/message';
 import type { FormInstance } from 'element-plus';
 import { computed, onMounted, reactive, ref } from 'vue';
@@ -34,6 +35,7 @@ const permissionState = usePaginationState<SysPermissionPageRow>({
   searchForm: reactive({
     permissionName: undefined,
     permissionCode: undefined,
+    permissionType: undefined,
   }),
   defaultPageSize: 30,
   errorI18nKey: 'roles.assignLoadFailed',
@@ -44,7 +46,7 @@ const permissionState = usePaginationState<SysPermissionPageRow>({
       permissionName: query.permissionName as string | undefined,
       permissionCode: query.permissionCode as string | undefined,
       status: true,
-      permissionType: 0,
+      permissionType: query.permissionType as number | undefined,
     }),
 });
 
@@ -117,6 +119,22 @@ defineExpose({ getSelectedKeys });
       <!-- 权限码 -->
       <el-form-item :label="t('roles.permissionCode')" prop="permissionCode">
         <el-input v-model="searchForm.permissionCode" class="w-45!" clearable />
+      </el-form-item>
+      <!-- 权限类型 -->
+      <el-form-item :label="t('permissions.permissionType')" prop="permissionType">
+        <el-select
+          v-model="searchForm.permissionType"
+          :placeholder="t('permissions.permissionType')"
+          class="w-40!"
+          clearable
+        >
+          <el-option
+            v-for="opt in PERMISSION_TYPE_FILTER_OPTIONS"
+            :key="opt.value"
+            :label="t(opt.labelKey)"
+            :value="opt.value"
+          />
+        </el-select>
       </el-form-item>
 
       <!-- 表单搜索 -->
