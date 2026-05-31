@@ -59,7 +59,7 @@ export function getRolePage(params: SysRolePageQuery): Promise<PageResponse<SysR
 }
 
 /**
- * 角色详情
+ * 角色详情（对齐 SysRoleDetailVO + BaseResponse，Long ID 为 string）
  */
 export interface SysRoleDetail {
   id?: string;
@@ -70,6 +70,12 @@ export interface SysRoleDetail {
   roleTypeDesc?: string;
   orderNum: number;
   remark?: string;
+  createTime?: string;
+  updateTime?: string;
+  createUser?: string;
+  updateUser?: string;
+  createUsername?: string | null;
+  updateUsername?: string | null;
 }
 
 /**
@@ -117,4 +123,30 @@ export function updateRole(id: string, data: SysRoleUpdateForm): Promise<void> {
  */
 export function deleteRole(id: string): Promise<void> {
   return http.request<void>('delete', `/system/role/${id}`);
+}
+
+/**
+ * 角色权限全量分配请求（对齐 {@code SysRolePermissionAssignForm}）
+ */
+export interface SysRolePermissionAssignRequest {
+  permissionCodes: string[];
+}
+
+/**
+ * 查询角色已分配权限码
+ * @param roleCode 角色编码
+ */
+export function getRolePermissions(roleCode: string): Promise<string[]> {
+  return http.get<string[], unknown>(`/system/role/${roleCode}/permissions`);
+}
+
+/**
+ * 全量分配角色权限码
+ * @param roleCode 角色编码
+ * @param data 权限码列表
+ */
+export function assignRolePermissions(roleCode: string, data: SysRolePermissionAssignRequest): Promise<string[]> {
+  return http.post<string[], SysRolePermissionAssignRequest>(`/system/role/${roleCode}/permissions`, {
+    data,
+  });
 }

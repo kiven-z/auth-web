@@ -39,6 +39,10 @@ const columns = computed(() => [
   },
   { label: t('roles.orderNum'), prop: 'orderNum', labelWidth: 120 },
   { label: t('roles.remark'), prop: 'remark', labelWidth: 120, span: 2 },
+  { label: t('table.createTime'), prop: 'createTime', labelWidth: 120 },
+  { label: t('table.updateTime'), prop: 'updateTime', labelWidth: 120 },
+  { label: t('table.createUsername'), prop: 'createUsername', labelWidth: 120 },
+  { label: t('table.updateUsername'), prop: 'updateUsername', labelWidth: 120 },
 ]);
 </script>
 

@@ -2,6 +2,15 @@ roles:
   moduleName: 角色
   pageTitle: 角色管理
   actionAssignPermission: 分配权限
+  assignPermissionTitle: 分配权限
+  assignCurrentRole: 当前角色
+  assignPermissionSectionLabel: 已分配权限
+  assignPermissionSearch: 搜索权限码或名称
+  permissionCode: 权限码
+  permissionName: 权限名称
+  assignLoadFailed: 分配数据加载失败
+  assignSaveSuccess: 保存成功
+  assignSaveFailed: 保存失败
   menuDataScope: 数据范围配置
   menuPolicyBind: 策略绑定
   menuGrantSubjects: 授权对象管理（反向）

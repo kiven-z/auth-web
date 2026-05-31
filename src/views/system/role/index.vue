@@ -5,6 +5,7 @@ import {
   ROLE_STATUS_FILTER_OPTIONS,
   ROLE_TYPE_FILTER_OPTIONS,
 } from '@/views/system/role/constants/role-search-options';
+import useRoleMoreAction from '@/views/system/role/hooks/useRoleMoreAction';
 import useRoleTableAction from '@/views/system/role/hooks/useRoleTableAction';
 import useRoleTableColumns from '@/views/system/role/hooks/useRoleTableColumns';
 import type { FormInstance } from 'element-plus';
@@ -37,6 +38,8 @@ const { loading, searchForm, fetchTableData, resetQuery } = roleState;
 const { openCreateDialog, openDetailDialog, openEditDialog, deleteRow } = useRoleTableAction({
   fetchTableData,
 });
+
+const { openAssignPermissionDrawer } = useRoleMoreAction();
 
 onMounted(() => {
   fetchTableData();
@@ -112,7 +115,9 @@ onMounted(() => {
             <el-button class="el-dropdown-link" link type="primary">{{ t('buttons.actionMore') }}</el-button>
             <template #dropdown>
               <el-dropdown-menu>
-                <el-dropdown-item>{{ t('roles.actionAssignPermission') }}</el-dropdown-item>
+                <el-dropdown-item @click="openAssignPermissionDrawer(row)">
+                  {{ t('roles.actionAssignPermission') }}
+                </el-dropdown-item>
                 <el-dropdown-item>{{ t('roles.menuDataScope') }}</el-dropdown-item>
                 <el-dropdown-item>{{ t('roles.menuPolicyBind') }}</el-dropdown-item>
                 <el-dropdown-item>{{ t('roles.menuGrantSubjects') }}</el-dropdown-item>

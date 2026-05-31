@@ -2,6 +2,15 @@ roles:
   moduleName: Roles
   pageTitle: Role Management
   actionAssignPermission: Assign permissions
+  assignPermissionTitle: Assign permissions
+  assignCurrentRole: Current role
+  assignPermissionSectionLabel: Assigned permissions
+  assignPermissionSearch: Search permission code or name
+  permissionCode: Permission code
+  permissionName: Permission name
+  assignLoadFailed: Failed to load assignment data
+  assignSaveSuccess: Saved successfully
+  assignSaveFailed: Failed to save
   menuDataScope: Data scope
   menuPolicyBind: Policy binding
   menuGrantSubjects: Grant subjects (reverse)
