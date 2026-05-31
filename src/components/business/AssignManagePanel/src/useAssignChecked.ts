@@ -7,30 +7,29 @@ export interface UseAssignCheckedOptions {
   getRowLabel: AssignGetRowLabel;
 }
 
-/** {@link useAssignChecked} 返回值，供右侧表格插槽与勾选列工具使用 */
+/** {@link useAssignChecked} 返回值 */
 export type AssignCheckedApi = ReturnType<typeof useAssignChecked>;
 
 /**
- * 分配表格已选状态：key 列表、展示文案、锁定项。
+ * 分配已选状态：跨页 key 列表与左侧标签文案。
  */
 export function useAssignChecked(options: UseAssignCheckedOptions) {
   const selectedKeys = ref<string[]>([]);
   const keyLabels = ref<Record<string, string>>({});
-  const lockedKeys = ref<Set<string>>(new Set());
 
   /**
-   * 解析行键
+   * 解析行 key
    * @param row 行数据
-   * @returns 行键
+   * @returns 行 key
    */
   function resolveRowKey(row: Record<string, unknown>): string {
     return String(row[options.rowKey] ?? '');
   }
 
   /**
-   * 解析行标签
+   * 解析行 label
    * @param row 行数据
-   * @returns 行标签
+   * @returns 行 label
    */
   function resolveRowLabel(row: Record<string, unknown>): string {
     return options.getRowLabel(row) || resolveRowKey(row);
@@ -43,7 +42,6 @@ export function useAssignChecked(options: UseAssignCheckedOptions) {
   function applySeed(seed: AssignSeedItem[]) {
     const keys: string[] = [];
     const labels: Record<string, string> = {};
-    const locked = new Set<string>();
     const seen = new Set<string>();
 
     for (const item of seed) {
@@ -54,14 +52,10 @@ export function useAssignChecked(options: UseAssignCheckedOptions) {
       seen.add(key);
       keys.push(key);
       labels[key] = item.label.trim() || key;
-      if (item.removable === false) {
-        locked.add(key);
-      }
     }
 
     selectedKeys.value = keys;
     keyLabels.value = labels;
-    lockedKeys.value = locked;
   }
 
   /**
@@ -83,22 +77,13 @@ export function useAssignChecked(options: UseAssignCheckedOptions) {
   }
 
   /**
-   * 判断键是否锁定
-   * @param key 键
-   * @returns 是否锁定
-   */
-  function isLocked(key: string): boolean {
-    return lockedKeys.value.has(key);
-  }
-
-  /**
-   * 判断行是否选中
+   * 判断行是否已选中
    * @param row 行数据
-   * @returns 是否选中
+   * @returns 是否已选中
    */
   function isSelected(row: Record<string, unknown>): boolean {
     const key = resolveRowKey(row);
-    return key && selectedKeys.value.includes(key);
+    return !!key && selectedKeys.value.includes(key);
   }
 
   /**
@@ -107,7 +92,7 @@ export function useAssignChecked(options: UseAssignCheckedOptions) {
    */
   function toggle(row: Record<string, unknown>) {
     const key = resolveRowKey(row);
-    if (!key || isLocked(key)) {
+    if (!key) {
       return;
     }
     keyLabels.value = { ...keyLabels.value, [key]: resolveRowLabel(row) };
@@ -117,34 +102,31 @@ export function useAssignChecked(options: UseAssignCheckedOptions) {
   }
 
   /**
-   * 移除键
-   * @param key 键
+   * 移除行 key
+   * @param key 行 key
    */
   function removeKey(key: string) {
-    if (isLocked(key)) {
-      return;
-    }
     selectedKeys.value = selectedKeys.value.filter((item) => item !== key);
   }
 
   /**
-   * 清除可移除的键
+   * 清空所有选中状态
    */
-  function clearRemovable() {
-    selectedKeys.value = selectedKeys.value.filter((key) => lockedKeys.value.has(key));
+  function clearAll() {
+    selectedKeys.value = [];
   }
 
   /**
-   * 获取已选键列表
-   * @returns 已选键列表
+   * 获取所有选中 key
+   * @returns 选中 key 列表
    */
   function getSelectedKeys(): string[] {
     return [...selectedKeys.value];
   }
 
   /**
-   * 计算已选标签列表
-   * @returns 已选标签列表
+   * 计算已选中标签
+   * @returns 已选中标签列表
    */
   const assignedTags = computed(() =>
     selectedKeys.value.map((key) => ({
@@ -153,18 +135,17 @@ export function useAssignChecked(options: UseAssignCheckedOptions) {
     }))
   );
 
-  const canClearRemovable = computed(() => selectedKeys.value.some((key) => !lockedKeys.value.has(key)));
+  const hasSelection = computed(() => selectedKeys.value.length > 0);
 
   return {
     assignedTags,
-    canClearRemovable,
+    hasSelection,
     applySeed,
     mergeLabels,
-    isLocked,
     isSelected,
     toggle,
     removeKey,
-    clearRemovable,
+    clearAll,
     getSelectedKeys,
   };
 }

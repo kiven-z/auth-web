@@ -2,8 +2,6 @@
 export interface AssignSeedItem {
   key: string;
   label: string;
-  /** 为 false 时不可取消、标签不可关、全部清空时保留 */
-  removable?: boolean;
 }
 
 /** 行展示文案，由业务注入 */

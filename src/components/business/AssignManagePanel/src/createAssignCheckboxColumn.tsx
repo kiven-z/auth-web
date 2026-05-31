@@ -14,7 +14,7 @@ export interface CreateAssignCheckboxColumnOptions {
  */
 export function createAssignCheckboxColumn(
   assign: AssignCheckedApi,
-  rowKey: string,
+  _rowKey: string,
   options: CreateAssignCheckboxColumnOptions
 ): TableColumns {
   return {
@@ -23,10 +23,12 @@ export function createAssignCheckboxColumn(
     align: 'center',
     width: 80,
     formatter: (row: Record<string, unknown>) => {
-      const key = String(row[rowKey] ?? '');
-      const disabled = options.saving || assign.isLocked(key);
       return (
-        <ElCheckbox model-value={assign.isSelected(row)} disabled={disabled} onChange={() => assign.toggle(row)} />
+        <ElCheckbox
+          model-value={assign.isSelected(row)}
+          disabled={options.saving}
+          onChange={() => assign.toggle(row)}
+        />
       );
     },
   };

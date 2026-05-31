@@ -27,7 +27,7 @@ const props = withDefaults(
 const { t } = useI18n();
 
 const assignedTags = computed(() => props.assign.assignedTags.value);
-const canClearRemovable = computed(() => props.assign.canClearRemovable.value);
+const hasSelection = computed(() => props.assign.hasSelection.value);
 </script>
 
 <template>
@@ -49,7 +49,7 @@ const canClearRemovable = computed(() => props.assign.canClearRemovable.value);
           <div v-if="sectionLabel" class="text-xs font-semibold text-(--el-text-color-secondary)">
             {{ sectionLabel }}
           </div>
-          <el-button :disabled="saving || !canClearRemovable" link type="danger" @click="assign.clearRemovable()">
+          <el-button :disabled="saving || !hasSelection" link type="danger" @click="assign.clearAll()">
             {{ t('buttons.assignClearAll') }}
           </el-button>
         </div>
@@ -58,7 +58,7 @@ const canClearRemovable = computed(() => props.assign.canClearRemovable.value);
           <el-tag
             v-for="tag in assignedTags"
             :key="tag.key"
-            :closable="!assign.isLocked(tag.key) && !saving"
+            :closable="!saving"
             class="mx-1"
             effect="light"
             type="success"

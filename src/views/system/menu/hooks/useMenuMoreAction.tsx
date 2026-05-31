@@ -31,7 +31,6 @@ function useMenuMoreAction(deps: MenuTableActionDeps) {
     addDrawer({
       title: t('sysMenu.assignRoleTitle'),
       size: '100%',
-      direction: 'btt',
       resizable: true,
       closeOnClickModal: false,
       closeOnPressEscape: false,
@@ -66,7 +65,6 @@ function useMenuMoreAction(deps: MenuTableActionDeps) {
 
     addDrawer({
       title: t('sysMenu.assignPermissionTitle'),
-      direction: 'ttb',
       size: '100%',
       resizable: true,
       closeOnClickModal: false,
