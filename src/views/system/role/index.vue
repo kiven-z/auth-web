@@ -56,11 +56,21 @@ onMounted(() => {
     >
       <!-- 角色编码 -->
       <el-form-item :label="t('roles.roleCode')" prop="roleCode">
-        <el-input v-model="searchForm.roleCode" class="w-45!" clearable />
+        <el-input
+          v-model="searchForm.roleCode"
+          :placeholder="t('roles.placeholder.roleCode')"
+          class="w-45!"
+          clearable
+        />
       </el-form-item>
       <!-- 角色名称 -->
       <el-form-item :label="t('roles.roleName')" prop="roleName">
-        <el-input v-model="searchForm.roleName" class="w-45!" clearable />
+        <el-input
+          v-model="searchForm.roleName"
+          :placeholder="t('roles.placeholder.roleName')"
+          class="w-45!"
+          clearable
+        />
       </el-form-item>
       <!-- 状态 -->
       <el-form-item :label="t('roles.status')" prop="status">

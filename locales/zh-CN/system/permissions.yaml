@@ -3,6 +3,8 @@ permissions:
   pageTitle: 权限管理
   loadFailed: 加载权限列表失败
   deleteFailed: 删除权限失败
+  assignSectionLabel: 已分配权限
+  assignSearch: 搜索权限码或名称
   permissionCode: 权限编码
   permissionName: 权限名称
   permissionType: 权限类型
@@ -10,3 +12,6 @@ permissions:
   orderNum: 显示顺序
   typeButton: 按钮权限
   typeApi: API 权限
+  placeholder:
+    permissionCode: 请输入权限编码
+    permissionName: 请输入权限名称

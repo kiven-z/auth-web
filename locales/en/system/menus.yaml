@@ -11,10 +11,6 @@ sysMenu:
   assignRoleTitle: Assign roles
   assignPermissionTitle: Assign permissions
   assignCurrentMenu: Current menu
-  assignPermissionSearch: Search permission code or name
-  permissionCode: Permission code
-  permissionName: Permission name
-  assignPermissionSectionLabel: Assigned permissions
   routeName: Route name
   menuTitle: Menu title
   menuType: Menu type

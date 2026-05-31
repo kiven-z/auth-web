@@ -3,6 +3,8 @@ permissions:
   pageTitle: Permission Management
   loadFailed: Failed to load permissions
   deleteFailed: Failed to delete permission
+  assignSectionLabel: Assigned permissions
+  assignSearch: Search permission code or name
   permissionCode: Permission Code
   permissionName: Permission Name
   permissionType: Permission Type
@@ -10,3 +12,6 @@ permissions:
   orderNum: Order
   typeButton: Button Permission
   typeApi: API Permission
+  placeholder:
+    permissionCode: Enter permission code
+    permissionName: Enter permission name

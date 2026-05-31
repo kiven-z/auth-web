@@ -4,10 +4,6 @@ roles:
   actionAssignPermission: 分配权限
   assignPermissionTitle: 分配权限
   assignCurrentRole: 当前角色
-  assignPermissionSectionLabel: 已分配权限
-  assignPermissionSearch: 搜索权限码或名称
-  permissionCode: 权限码
-  permissionName: 权限名称
   assignLoadFailed: 分配数据加载失败
   assignSaveSuccess: 保存成功
   assignSaveFailed: 保存失败
@@ -24,6 +20,9 @@ roles:
   assignSectionLabel: 分配角色
   roleCode: 角色编码
   roleName: 角色名称
+  placeholder:
+    roleCode: 请输入角色编码
+    roleName: 请输入角色名称
   status: 状态
   roleType: 角色类型
   orderNum: 显示顺序

@@ -51,11 +51,21 @@ onMounted(() => {
     >
       <!-- 权限编码 -->
       <el-form-item :label="t('permissions.permissionCode')" prop="permissionCode">
-        <el-input v-model="searchForm.permissionCode" class="w-45!" clearable />
+        <el-input
+          v-model="searchForm.permissionCode"
+          :placeholder="t('permissions.placeholder.permissionCode')"
+          class="w-45!"
+          clearable
+        />
       </el-form-item>
       <!-- 权限名称 -->
       <el-form-item :label="t('permissions.permissionName')" prop="permissionName">
-        <el-input v-model="searchForm.permissionName" class="w-45!" clearable />
+        <el-input
+          v-model="searchForm.permissionName"
+          :placeholder="t('permissions.placeholder.permissionName')"
+          class="w-45!"
+          clearable
+        />
       </el-form-item>
       <!-- 权限类型 -->
       <el-form-item :label="t('permissions.permissionType')" prop="permissionType">

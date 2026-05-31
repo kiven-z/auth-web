@@ -57,11 +57,11 @@ useAssignTableLabels(assign, tableData);
 const permissionDrawerColumns = computed<TableColumnList>(() => [
   createAssignCheckboxColumn(assign, 'permissionCode', { label: t('table.assigned') }),
   {
-    label: t('roles.permissionName'),
+    label: t('permissions.permissionName'),
     prop: 'permissionName',
   },
   {
-    label: t('roles.permissionCode'),
+    label: t('permissions.permissionCode'),
     prop: 'permissionCode',
   },
 ]);
@@ -104,21 +104,26 @@ defineExpose({ getSelectedKeys });
     :assign="assign"
     :left-subtitle="`${roleName} (${roleCode})`"
     :left-title="t('roles.assignCurrentRole')"
-    :section-label="t('roles.assignPermissionSectionLabel')"
+    :section-label="t('permissions.assignSectionLabel')"
   >
     <el-form ref="searchFormRef" :inline="true" :model="searchForm" class="mb-3 w-full overflow-auto pl-8 pt-3">
       <!-- 权限名称 -->
-      <el-form-item :label="t('roles.permissionName')" prop="permissionName">
+      <el-form-item :label="t('permissions.permissionName')" prop="permissionName">
         <el-input
           v-model="searchForm.permissionName"
-          :placeholder="t('roles.assignPermissionSearch')"
+          :placeholder="t('permissions.assignSearch')"
           class="w-45!"
           clearable
         />
       </el-form-item>
       <!-- 权限码 -->
-      <el-form-item :label="t('roles.permissionCode')" prop="permissionCode">
-        <el-input v-model="searchForm.permissionCode" class="w-45!" clearable />
+      <el-form-item :label="t('permissions.permissionCode')" prop="permissionCode">
+        <el-input
+          v-model="searchForm.permissionCode"
+          :placeholder="t('permissions.placeholder.permissionCode')"
+          class="w-45!"
+          clearable
+        />
       </el-form-item>
       <!-- 权限类型 -->
       <el-form-item :label="t('permissions.permissionType')" prop="permissionType">

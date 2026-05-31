@@ -11,10 +11,6 @@ sysMenu:
   assignRoleTitle: 分配角色
   assignPermissionTitle: 分配权限
   assignCurrentMenu: 当前菜单
-  assignPermissionSearch: 搜索权限码或名称
-  permissionCode: 权限码
-  permissionName: 权限名称
-  assignPermissionSectionLabel: 已分配权限
   routeName: 路由名称
   menuTitle: 菜单标题
   menuType: 菜单类型
