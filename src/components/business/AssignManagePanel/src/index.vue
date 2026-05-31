@@ -81,7 +81,7 @@ defineExpose({
               {{ assignedSectionLabel }}
             </div>
             <el-button :disabled="saving || !canClearRemovable" link type="danger" @click="clearRemovable">
-              {{ t('sysMenu.assignClearAll') }}
+              {{ t('buttons.assignClearAll') }}
             </el-button>
           </div>
 
@@ -101,7 +101,7 @@ defineExpose({
           </div>
           <div v-else class="assign-manage-panel__tags flex items-center justify-center">
             <el-text type="info">
-              {{ t('sysMenu.assignEmptySelected') }}
+              {{ t('tips.assignEmptySelected') }}
             </el-text>
           </div>
         </el-card>

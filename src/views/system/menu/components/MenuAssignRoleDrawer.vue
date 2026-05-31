@@ -1,13 +1,14 @@
 <script lang="ts" setup>
-import { getRolePage } from '@/api/system/role';
-import AssignManagePanel from '@/components/business/AssignManagePanel';
+import { getMenuRoles } from '@/api/system/menu';
+import { getRolePage, type SysRolePageRow } from '@/api/system/role';
+import { createAssignCheckboxColumn, useAssignChecked } from '@/components/business/AssignManagePanel';
 import AuthDataTable from '@/components/ui/AuthDataTable';
 import TableBar from '@/components/ui/TableBar';
 import { usePaginationState } from '@/components/ui/AuthPagedTable/src/usePaginationState';
+import { errorMessage } from '@/shared/messaging/message';
 import { FormInstance } from 'element-plus';
-import { onMounted, reactive, ref } from 'vue';
+import { computed, onMounted, reactive, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
-import useMenuTableColumns from '@/views/system/menu/hooks/useMenuTableColumns';
 
 defineOptions({ name: 'MenuAssignRoleDrawer' });
 
@@ -18,10 +19,25 @@ const props = defineProps<{
 }>();
 
 const { t } = useI18n();
-const panelRef = ref<InstanceType<typeof AssignManagePanel> | null>(null);
 const tableRef = ref<{ setAdaptive?: () => Promise<void> } | null>(null);
 const searchFormRef = ref<FormInstance>();
-const { roleDrawerDataColumns } = useMenuTableColumns();
+
+const assign = useAssignChecked({
+  rowKey: 'roleCode',
+  getRowLabel: (row) => String(row.roleName ?? ''),
+});
+
+const {
+  assignedTags,
+  canClearRemovable,
+  applySeed,
+  mergeLabels,
+  isLocked,
+  removeKey,
+  clearRemovable,
+  getSelectedKeys,
+  toggle,
+} = assign;
 
 const {
   tableData,
@@ -43,52 +59,102 @@ const {
   errorI18nKey: 'roles.loadFailed',
 });
 
+const roleDrawerDataColumns = computed<TableColumnList>(() => [
+  createAssignCheckboxColumn(assign, 'roleCode', { label: t('table.assigned') }),
+  {
+    label: t('sysMenu.roleCode'),
+    prop: 'roleCode',
+  },
+  {
+    label: t('sysMenu.roleName'),
+    prop: 'roleName',
+  },
+]);
+
+/**
+ * 双击行切换分配状态
+ */
+const handleRowDblclick = (row: SysRolePageRow) => {
+  toggle(row as unknown as Record<string, unknown>);
+};
+
+/**
+ * 加载菜单已分配角色，写入勾选状态
+ */
+const fetchMenuRoles = async () => {
+  try {
+    const rows = await getMenuRoles(props.menuId);
+    applySeed(
+      rows.map((row) => ({
+        key: row.roleCode,
+        label: row.roleName,
+      }))
+    );
+  } catch (error: unknown) {
+    errorMessage(error, { defaultI18nKey: 'sysMenu.assignLoadFailed' });
+    applySeed([]);
+  }
+};
+
+watch(
+  tableData,
+  (rows) => {
+    mergeLabels(rows);
+  },
+  { immediate: true }
+);
+
 onMounted(() => {
   fetchTableData();
+  fetchMenuRoles();
 });
+
+defineExpose({ getSelectedKeys });
 </script>
 
 <template>
   <el-row :gutter="16">
-    <el-col :span="leftSpan">
+    <el-col :span="8">
       <el-card shadow="never">
         <template #header>
           <div>
-            <div class="font-semibold">菜单管理</div>
-            <div v-if="leftSubtitle" class="text-[13px] text-(--el-text-color-secondary)">分配菜单角色</div>
+            <!-- 模块标题 -->
+            <div class="font-semibold">{{ t('sysMenu.name') }}</div>
           </div>
         </template>
 
         <div class="flex justify-between">
-          <div class="text-xs font-semibold text-(--el-text-color-secondary)">分配角色</div>
-          <el-button :disabled="saving || !canClearRemovable" link type="danger" @click="clearRemovable">
-            {{ t('sysMenu.assignClearAll') }}
+          <!-- 分配区域标题 -->
+          <div class="text-xs font-semibold text-(--el-text-color-secondary)">{{ t('roles.assignSectionLabel') }}</div>
+          <el-button :disabled="!canClearRemovable" link type="danger" @click="clearRemovable">
+            {{ t('buttons.assignClearAll') }}
           </el-button>
         </div>
 
-        <!-- <div v-if="assignedTags.length" class="assign-manage-panel__tags"> -->
-        <!--   <el-tag -->
-        <!--     v-for="tag in assignedTags" -->
-        <!--     :key="tag.key" -->
-        <!--     :closable="!isLocked(tag.key) && !saving" -->
-        <!--     effect="light" -->
-        <!--     type="success" -->
-        <!--     @close="removeKey(tag.key)" -->
-        <!--   > -->
-        <!--     <el-tooltip :content="tag.key" :show-after="400" placement="top"> -->
-        <!--       <span>{{ tag.label }}</span> -->
-        <!--     </el-tooltip> -->
-        <!--   </el-tag> -->
-        <!-- </div> -->
-        <div class="assign-manage-panel__tags flex items-center justify-center">
+        <div v-if="assignedTags.length > 0">
+          <el-tag
+            v-for="tag in assignedTags"
+            :key="tag.key"
+            :closable="!isLocked(tag.key)"
+            class="mx-1"
+            effect="light"
+            type="success"
+            @close="removeKey(tag.key)"
+          >
+            <el-tooltip :content="tag.key" :show-after="400" placement="top">
+              <span>{{ tag.label }}</span>
+            </el-tooltip>
+          </el-tag>
+        </div>
+        <div v-else class="flex items-center justify-center">
           <el-text type="info">
-            {{ t('sysMenu.assignEmptySelected') }}
+            {{ t('tips.assignEmptySelected') }}
           </el-text>
         </div>
       </el-card>
     </el-col>
 
-    <el-col :span="24">
+    <el-col :span="16">
       <div v-loading="loading" class="flex w-full flex-1 flex-col">
         <el-form
           ref="searchFormRef"
@@ -139,6 +205,7 @@ onMounted(() => {
               table-layout="auto"
               @page-size-change="handlePageSizeChange"
               @page-current-change="handlePageCurrentChange"
+              @row-dblclick="handleRowDblclick"
             />
           </template>
         </TableBar>

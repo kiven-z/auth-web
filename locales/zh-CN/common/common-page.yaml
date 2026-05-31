@@ -9,6 +9,7 @@ tips:
   editSuccess: 修改成功
   deleteSuccess: 删除成功
   animationIsNotExist: 动画不存在
+  assignEmptySelected: 暂无已选项，请在右侧勾选
 buttons:
   pureLoginOut: 退出系统
   pureLogin: 登录
@@ -49,6 +50,7 @@ buttons:
   unFixedText: 不固定
   statusActiveText: 启用
   statusInactiveText: 停用
+  assignClearAll: 全部清空
 table:
   idx: 序号
   assigned: 已分配

@@ -9,6 +9,7 @@ tips:
   editSuccess: Updated successfully
   deleteSuccess: Deleted successfully
   animationIsNotExist: That animation doesn’t exist
+  assignEmptySelected: No items selected. Use the table on the right.
 buttons:
   pureLoginOut: Logout
   pureLogin: Login
@@ -49,6 +50,7 @@ buttons:
   unFixedText: Unfixed
   statusActiveText: Enabled
   statusInactiveText: Disabled
+  assignClearAll: Clear all
 
 table:
   idx: No

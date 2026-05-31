@@ -12,6 +12,7 @@ roles:
   dialogViewTitle: View role details
   dialogCreateTitle: Add Role
   dialogEditTitle: Edit Role
+  assignSectionLabel: Assign roles
   roleCode: Role Code
   roleName: Role Name
   status: Status

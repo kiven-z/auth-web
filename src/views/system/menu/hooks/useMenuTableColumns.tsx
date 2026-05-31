@@ -110,21 +110,6 @@ function useMenuTableColumns() {
   ]);
 
   /**
-   * 角色分配
-   */
-  const roleDrawerDataColumns = computed<TableColumnList>(() => [
-    { type: 'selection', width: 48 },
-    {
-      label: t('sysMenu.roleCode'),
-      prop: 'roleCode',
-    },
-    {
-      label: t('sysMenu.roleName'),
-      prop: 'roleName',
-    },
-  ]);
-
-  /**
    * 权限分配
    */
   const permissionDrawerDataColumns = computed<TableColumnList>(() => [
@@ -137,7 +122,7 @@ function useMenuTableColumns() {
       prop: 'permissionCode',
     },
   ]);
-  return { tableColumns, roleDrawerDataColumns, permissionDrawerDataColumns };
+  return { tableColumns, permissionDrawerDataColumns };
 }
 
 export default useMenuTableColumns;

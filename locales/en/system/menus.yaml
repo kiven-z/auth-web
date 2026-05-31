@@ -19,8 +19,6 @@ sysMenu:
   permissionName: Permission name
   assignRoleSectionLabel: Assigned roles
   assignPermissionSectionLabel: Assigned permissions
-  assignEmptySelected: No items selected. Use the table on the right.
-  assignClearAll: Clear all
   routeName: Route name
   menuTitle: Menu title
   menuType: Menu type

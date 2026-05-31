@@ -12,6 +12,7 @@ roles:
   dialogViewTitle: 查看角色详情
   dialogCreateTitle: 新增角色
   dialogEditTitle: 编辑角色
+  assignSectionLabel: 分配角色
   roleCode: 角色编码
   roleName: 角色名称
   status: 状态
