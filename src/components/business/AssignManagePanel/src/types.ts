@@ -6,13 +6,5 @@ export interface AssignSeedItem {
   removable?: boolean;
 }
 
-export type AssignLoadSeed = () => Promise<AssignSeedItem[]>;
-
 /** 行展示文案，由业务注入 */
 export type AssignGetRowLabel = (row: Record<string, unknown>) => string;
-
-/** 抽屉宿主配置 */
-export interface AssignDrawerOptions {
-  loadSeed: AssignLoadSeed;
-  errorI18nKey?: string;
-}

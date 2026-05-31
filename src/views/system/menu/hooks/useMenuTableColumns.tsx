@@ -109,20 +109,7 @@ function useMenuTableColumns() {
     },
   ]);
 
-  /**
-   * 权限分配
-   */
-  const permissionDrawerDataColumns = computed<TableColumnList>(() => [
-    {
-      label: t('sysMenu.permissionName'),
-      prop: 'permissionName',
-    },
-    {
-      label: t('sysMenu.permissionCode'),
-      prop: 'permissionCode',
-    },
-  ]);
-  return { tableColumns, permissionDrawerDataColumns };
+  return { tableColumns };
 }
 
 export default useMenuTableColumns;
