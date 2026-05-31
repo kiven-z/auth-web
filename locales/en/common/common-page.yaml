@@ -9,7 +9,7 @@ tips:
   editSuccess: Updated successfully
   deleteSuccess: Deleted successfully
   animationIsNotExist: That animation doesn’t exist
-  assignEmptySelected: No items selected. Use the table on the right.
+  assignEmptySelected: No items selected. Please choose.
 buttons:
   pureLoginOut: Logout
   pureLogin: Login

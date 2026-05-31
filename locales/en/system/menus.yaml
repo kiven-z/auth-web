@@ -11,13 +11,9 @@ sysMenu:
   assignRoleTitle: Assign roles
   assignPermissionTitle: Assign permissions
   assignCurrentMenu: Current menu
-  assignRoleSearch: Search role name
   assignPermissionSearch: Search permission code or name
-  roleCode: Role code
-  roleName: Role name
   permissionCode: Permission code
   permissionName: Permission name
-  assignRoleSectionLabel: Assigned roles
   assignPermissionSectionLabel: Assigned permissions
   routeName: Route name
   menuTitle: Menu title
@@ -31,7 +27,6 @@ sysMenu:
   menuRank: Sort
   showLink: Visible
   keepAlive: Keep alive
-  fixedTag: Fixed tag
   showLinkYes: Visible
   showLinkNo: Hidden
   keepAliveYes: Cached
