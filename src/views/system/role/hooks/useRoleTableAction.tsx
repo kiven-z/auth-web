@@ -47,20 +47,25 @@ function useRoleTableAction(deps: TableActionDeps) {
    * 查看详情
    * @param row 表格行
    */
-  const openDetailDialog = (row: SysRolePageRow) => {
-    addDialog({
-      title: t('roles.dialogViewTitle'),
-      draggable: true,
-      fullscreenIcon: true,
-      closeOnPressEscape: false,
-      closeOnClickModal: false,
-      hideFooter: true,
-      contentRenderer: () => h(RoleDescriptionDialog, { data: row }),
-    });
+  const openDetailDialog = async (row: SysRolePageRow) => {
+    try {
+      const detail = await getRoleDetail(row.id);
+      addDialog({
+        title: t('roles.dialogViewTitle'),
+        draggable: true,
+        fullscreenIcon: true,
+        closeOnPressEscape: false,
+        closeOnClickModal: false,
+        hideFooter: true,
+        contentRenderer: () => h(RoleDescriptionDialog, { data: detail }),
+      });
+    } catch (error: unknown) {
+      errorMessage(error, { defaultI18nKey: 'roles.loadFailed' });
+    }
   };
 
   /**
-   * 打开编辑弹窗：拉取详情 → 填充表单 → 提交更新
+   * 打开编辑弹窗
    * @param row 表格行
    */
   const openEditDialog = async (row: SysRolePageRow) => {

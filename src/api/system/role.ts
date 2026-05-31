@@ -59,7 +59,7 @@ export function getRolePage(params: SysRolePageQuery): Promise<PageResponse<SysR
 }
 
 /**
- * 角色详情（对齐 {@code SysRoleDetailVO}）
+ * 角色详情
  */
 export interface SysRoleDetail {
   id?: string;
@@ -73,7 +73,7 @@ export interface SysRoleDetail {
 }
 
 /**
- * 角色更新表单（对齐 {@code SysRoleUpdateForm}）
+ * 角色更新表单
  */
 export interface SysRoleUpdateForm {
   id: string;

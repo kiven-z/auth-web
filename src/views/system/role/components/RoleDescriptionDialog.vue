@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import type { DetailDialog } from '@/api/common';
-import type { SysRolePageRow } from '@/api/system/role';
+import type { SysRoleDetail } from '@/api/system/role';
 import Description from '@/components/ui/Description';
 import { ROLE_TYPE_FILTER_OPTIONS } from '@/views/system/role/constants/role-search-options';
 import { ElTag } from 'element-plus';
@@ -11,7 +11,7 @@ defineOptions({
   name: 'RoleDescriptionDialog',
 });
 
-type RoleDescriptionDialogProps = DetailDialog<SysRolePageRow>;
+type RoleDescriptionDialogProps = DetailDialog<SysRoleDetail>;
 
 defineProps<RoleDescriptionDialogProps>();
 const { t } = useI18n();
@@ -39,10 +39,6 @@ const columns = computed(() => [
   },
   { label: t('roles.orderNum'), prop: 'orderNum', labelWidth: 120 },
   { label: t('roles.remark'), prop: 'remark', labelWidth: 120, span: 2 },
-  { label: t('table.createTime'), prop: 'createTime', labelWidth: 120 },
-  { label: t('table.updateTime'), prop: 'updateTime', labelWidth: 120 },
-  { label: t('table.createUsername'), prop: 'createUsername', labelWidth: 120 },
-  { label: t('table.updateUsername'), prop: 'updateUsername', labelWidth: 120 },
 ]);
 </script>
 
