@@ -17,7 +17,6 @@ function usePermissionTableColumns() {
   };
 
   const columns = computed<TableColumnList>(() => [
-    { type: 'selection', align: 'left' },
     { type: 'index', index: (index: number) => index + 1, label: t('table.idx'), minWidth: 60 },
     // 权限编码
     { label: t('permissions.permissionCode'), prop: 'permissionCode', minWidth: 150 },

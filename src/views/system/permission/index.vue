@@ -32,9 +32,9 @@ const permissionState = usePaginationState({
   errorI18nKey: 'permissions.loadFailed',
 });
 
-const { loading, selectedRows, searchForm, fetchTableData, resetQuery } = permissionState;
+const { loading, searchForm, fetchTableData, resetQuery } = permissionState;
 
-const { deleteRow, deleteBatchRows } = usePermissionTableAction({ fetchTableData, selectedRows });
+const { openCreateDialog } = usePermissionTableAction({ fetchTableData });
 
 onMounted(() => {
   fetchTableData();
@@ -106,30 +106,17 @@ onMounted(() => {
 
     <AuthPagedTable :columns="columns" :state="permissionState" :title="t('permissions.pageTitle')">
       <template #buttons>
-        <el-button-group type="primary">
-          <!-- 添加（后续补充） -->
-          <el-button type="primary">{{ t('buttons.actionAdd') }}</el-button>
-
-          <el-dropdown trigger="click">
-            <el-button type="danger">
-              {{ t('buttons.actionAdvanced') }}
-            </el-button>
-
-            <template #dropdown>
-              <el-dropdown-item @click="deleteBatchRows()">{{ t('buttons.actionBatchDelete') }}</el-dropdown-item>
-            </template>
-          </el-dropdown>
-        </el-button-group>
+        <el-button type="primary" @click="openCreateDialog">{{ t('buttons.actionAdd') }}</el-button>
       </template>
 
-      <template #actions="{ row }">
+      <template #actions>
         <div class="flex justify-center">
           <!-- 查看（后续补充） -->
           <el-button link type="primary">{{ t('buttons.actionView') }}</el-button>
           <!-- 修改/编辑（后续补充） -->
           <el-button link type="primary">{{ t('buttons.actionEdit') }}</el-button>
-          <!-- 删除（物理删除） -->
-          <el-button link type="danger" @click="deleteRow(row)">{{ t('buttons.actionDelete') }}</el-button>
+          <!-- 删除（后续补充） -->
+          <el-button link type="danger">{{ t('buttons.actionDelete') }}</el-button>
         </div>
       </template>
     </AuthPagedTable>
