@@ -32,10 +32,10 @@ const itemCount = computed(() => props.items?.length ?? 0);
 </script>
 
 <template>
-  <section class="detail-relation-list-section">
-    <div class="detail-relation-list-section__title">
+  <section>
+    <div class="mb-2 flex items-center gap-2 text-sm font-semibold">
       <span>{{ title }}</span>
-      <el-badge v-if="showBadge" :value="itemCount" class="detail-relation-list-section__badge" type="primary" />
+      <el-badge v-if="showBadge" :value="itemCount" class="ml-1" type="primary" />
     </div>
 
     <slot name="body">
@@ -43,40 +43,16 @@ const itemCount = computed(() => props.items?.length ?? 0);
         v-if="itemCount > 0"
         :columns="columns"
         :data="items"
-        border
-        class="detail-relation-list-section__table"
         :max-height="maxHeight"
         :row-key="rowKey"
+        border
+        class="w-full"
         size="small"
         stripe
       />
-      <el-text v-else class="detail-relation-list-section__empty" type="info">
+      <el-text v-else class="block py-2" type="info">
         {{ emptyText }}
       </el-text>
     </slot>
   </section>
 </template>
-
-<style scoped>
-.detail-relation-list-section__title {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  margin-bottom: 8px;
-  font-size: 14px;
-  font-weight: 600;
-}
-
-.detail-relation-list-section__badge {
-  margin-left: 4px;
-}
-
-.detail-relation-list-section__table {
-  width: 100%;
-}
-
-.detail-relation-list-section__empty {
-  display: block;
-  padding: 8px 0;
-}
-</style>

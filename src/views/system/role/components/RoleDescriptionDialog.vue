@@ -1,9 +1,10 @@
 <script lang="tsx" setup>
 import type { DetailDialog } from '@/api/common';
 import type { SysRoleDetail } from '@/api/system/role';
+import DetailRelationListSection from '@/components/business/DetailRelationListSection/index.vue';
 import Description from '@/components/ui/Description';
-import RoleBindingPermissionsSection from '@/views/system/role/components/RoleBindingPermissionsSection.vue';
 import { ROLE_TYPE_FILTER_OPTIONS } from '@/views/system/role/constants/role-search-options';
+import useRoleBindingPermissionColumns from '@/views/system/role/hooks/useRoleBindingPermissionColumns';
 import { ElTag } from 'element-plus';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
@@ -17,9 +18,11 @@ type RoleDescriptionDialogProps = DetailDialog<SysRoleDetail>;
 const props = defineProps<RoleDescriptionDialogProps>();
 const { t } = useI18n();
 
+const { columns: permissionBindingColumns } = useRoleBindingPermissionColumns();
+
 const boundPermissions = computed(() => props.data.boundPermissions ?? []);
 
-const columns = computed(() => [
+const descriptionColumns = computed(() => [
   { label: t('roles.roleCode'), prop: 'roleCode', labelWidth: 120, copy: true },
   { label: t('roles.roleName'), prop: 'roleName', labelWidth: 120, copy: true },
   {
@@ -59,7 +62,18 @@ const columns = computed(() => [
 
 <template>
   <div>
-    <Description :column="2" :columns="columns" :data="[data]" />
-    <RoleBindingPermissionsSection :bound-permissions="boundPermissions" />
+    <!-- 角色基础信息 -->
+    <Description :column="2" :columns="descriptionColumns" :data="[data]" />
+
+    <!-- 已分配权限（sys_role_permission 正查） -->
+    <el-divider />
+
+    <DetailRelationListSection
+      :columns="permissionBindingColumns"
+      :empty-text="t('roles.boundPermissionsEmpty')"
+      :items="boundPermissions"
+      :title="t('roles.boundPermissionsTitle')"
+      row-key="permissionCode"
+    />
   </div>
 </template>
