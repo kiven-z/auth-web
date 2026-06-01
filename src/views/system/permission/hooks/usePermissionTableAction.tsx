@@ -75,7 +75,6 @@ function usePermissionTableAction(deps: TableActionDeps) {
         id: row.id,
         permissionCode: detail.permissionCode,
         permissionName: detail.permissionName,
-        permissionType: detail.permissionType,
         orderNum: detail.orderNum,
         status: detail.status,
         remark: detail.remark,
@@ -89,7 +88,13 @@ function usePermissionTableAction(deps: TableActionDeps) {
         fullscreenIcon: true,
         closeOnClickModal: false,
         closeOnPressEscape: false,
-        contentRenderer: () => h(PermissionFormDialog, { ref: dialogFormRef, form: formPayload, mode: 'edit' }),
+        contentRenderer: () =>
+          h(PermissionFormDialog, {
+            ref: dialogFormRef,
+            form: formPayload,
+            mode: 'edit',
+            displayPermissionType: detail.permissionType,
+          }),
         beforeSure: createFormBeforeSure<SysPermissionUpdateForm>({
           formExposeRef: dialogFormRef,
           requireId: true,

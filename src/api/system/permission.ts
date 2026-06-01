@@ -97,13 +97,12 @@ export function createPermission(data: SysPermissionCreateForm): Promise<void> {
 }
 
 /**
- * 权限更新表单（对齐 {@code SysPermissionUpdateForm}）
+ * 权限更新表单
  */
 export interface SysPermissionUpdateForm {
   id: string;
   permissionCode: string;
   permissionName: string;
-  permissionType: number;
   orderNum?: number;
   status: boolean;
   remark?: string;

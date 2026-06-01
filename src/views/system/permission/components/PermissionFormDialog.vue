@@ -4,19 +4,20 @@ import type { SysPermissionCreateForm, SysPermissionUpdateForm } from '@/api/sys
 import { PERMISSION_CODE_REGEX } from '@/views/system/permission/constants/permission-code-convention';
 import { PERMISSION_TYPE_FILTER_OPTIONS } from '@/views/system/permission/constants/permission-search-options';
 import type { FormInstance, FormRules } from 'element-plus';
-import { computed, reactive, ref } from 'vue';
+import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 type PermissionFormModel = SysPermissionCreateForm | SysPermissionUpdateForm;
 
 interface PermissionFormDialogProps extends FormDialog<PermissionFormModel> {
-  /** create：可选类型；edit：类型只读，需改类型须删除后重建 */
   mode?: 'create' | 'edit';
+  displayPermissionType?: number;
 }
 
 const props = withDefaults(defineProps<PermissionFormDialogProps>(), {
   form: () => ({}) as PermissionFormModel,
   mode: 'create',
+  displayPermissionType: 0,
 });
 
 const { t } = useI18n();
@@ -24,12 +25,26 @@ const formRef = ref<FormInstance>();
 const isEditMode = computed(() => props.mode === 'edit');
 const form = ref<PermissionFormModel>({
   status: true,
-  permissionType: 0,
   orderNum: 0,
   ...props.form,
+  ...(props.mode === 'create' ? { permissionType: 0 } : {}),
 });
 
-const rules = reactive<FormRules>({
+const permissionTypeModel = computed({
+  get(): number {
+    if (isEditMode.value) {
+      return props.displayPermissionType;
+    }
+    return (form.value as SysPermissionCreateForm).permissionType;
+  },
+  set(value: number) {
+    if (!isEditMode.value) {
+      (form.value as SysPermissionCreateForm).permissionType = value;
+    }
+  },
+});
+
+const rules = computed<FormRules>(() => ({
   permissionCode: [
     { required: true, message: t('permissions.permissionCode'), trigger: 'blur' },
     { max: 128, message: t('permissions.permissionCodeLengthLimit'), trigger: 'blur' },
@@ -39,10 +54,14 @@ const rules = reactive<FormRules>({
     { required: true, message: t('permissions.permissionName'), trigger: 'blur' },
     { max: 128, message: t('permissions.permissionNameLengthLimit'), trigger: 'blur' },
   ],
-  permissionType: [{ required: true, message: t('permissions.permissionType'), trigger: 'change' }],
+  ...(isEditMode.value
+    ? {}
+    : {
+        permissionType: [{ required: true, message: t('permissions.permissionType'), trigger: 'change' }],
+      }),
   status: [{ required: true, message: t('permissions.status'), trigger: 'change' }],
   remark: [{ max: 500, message: t('permissions.remarkLengthLimit'), trigger: 'blur' }],
-});
+}));
 
 defineExpose({ formRef, form });
 </script>
@@ -64,9 +83,9 @@ defineExpose({ formRef, form });
       </el-col>
       <!-- 权限类型 -->
       <el-col :lg="12" :md="12" :sm="12" :xs="24">
-        <el-form-item :label="t('permissions.permissionType')" prop="permissionType">
+        <el-form-item :label="t('permissions.permissionType')" :prop="isEditMode ? undefined : 'permissionType'">
           <el-select
-            v-model="form.permissionType"
+            v-model="permissionTypeModel"
             :disabled="isEditMode"
             :placeholder="t('permissions.permissionType')"
             class="w-full"
