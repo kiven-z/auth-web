@@ -1,7 +1,9 @@
 dept:
   moduleName: 部门
   pageTitle: 部门管理
+  dialogViewTitle: 查看部门详情
   loadFailed: 加载部门列表失败
+  loadDetailFailed: 加载部门详情失败
   viewTableTitle: 表格视图
   viewTreeTitle: 树形视图
   expandAll: 展开全部
@@ -18,5 +20,19 @@ dept:
   remark: 备注
   statusNormal: 正常
   statusDisabled: 禁用
+  parentDept: 上级部门
+  parentTopLevel: 顶级部门
+  relationStatus: 关联状态
+  position: 部门内职位
+  joinTime: 加入时间
+  employeeNo: 工号
+  userAccountStatus: 账号状态
+  grantTime: 授权时间
+  boundUsersTitle: 关联用户
+  boundPostsTitle: 下属岗位
+  boundRolesTitle: 已授权角色
+  boundUsersEmpty: 暂无关联用户
+  boundPostsEmpty: 暂无下属岗位
+  boundRolesEmpty: 暂无已授权角色
   tips:
     affiliatedDeptInfo: 所属部门

@@ -1,4 +1,4 @@
-import type { BaseResponse, PageResponse, SortSpec } from '@/api/common';
+import type { BaseResponse, BaseResponseDetail, PageResponse, SortSpec } from '@/api/common';
 import { http } from '@/infrastructure/http-core';
 import type { AxiosRequestConfig } from 'axios';
 
@@ -39,6 +39,57 @@ export interface SysDeptPageQuery extends SysDeptListQuery {
 }
 
 /**
+ * 部门详情：关联用户项（对齐 {@code SysDeptBoundUserItemVO}）
+ */
+export interface SysDeptBoundUserItem {
+  userId: string;
+  username: string;
+  nickname: string;
+  employeeNo?: string;
+  userStatus: number;
+  isPrimary: boolean;
+  relationStatus: number;
+  position?: string;
+  joinTime?: string;
+}
+
+/**
+ * 部门详情：下属岗位项（对齐 {@code SysDeptBoundPostItemVO}）
+ */
+export interface SysDeptBoundPostItem {
+  id: string;
+  postCode: string;
+  postName: string;
+  status: boolean;
+}
+
+/**
+ * 部门详情：已授权角色项（对齐 {@code SysDeptBoundRoleItemVO}）
+ */
+export interface SysDeptBoundRoleItem {
+  roleCode: string;
+  roleName: string;
+  status: boolean;
+  roleType: number;
+  grantTime?: string;
+}
+
+/**
+ * 部门详情（对齐 {@code SysDeptDetailVO} + BaseResponse）
+ */
+export interface SysDeptDetail extends BaseResponseDetail {
+  parentId: string;
+  deptName: string;
+  deptCode: string;
+  status: boolean;
+  orderNum: number;
+  remark?: string;
+  boundUsers: SysDeptBoundUserItem[];
+  boundPosts: SysDeptBoundPostItem[];
+  boundRoles: SysDeptBoundRoleItem[];
+}
+
+/**
  * 查询部门扁平列表（全量，前端建树）
  */
 export function getDeptList(params?: SysDeptListQuery): Promise<SysDeptListVO[]> {
@@ -52,4 +103,12 @@ export function getDeptPage(params: SysDeptPageQuery): Promise<PageResponse<SysD
   return http.get<PageResponse<SysDeptListVO>, AxiosRequestConfig<SysDeptPageQuery>>('/system/dept/page', {
     params,
   });
+}
+
+/**
+ * 获取部门详情（含关联用户、岗位、已授权角色）
+ * @param id 部门主键
+ */
+export function getDeptDetail(id: string): Promise<SysDeptDetail> {
+  return http.get<SysDeptDetail, unknown>(`/system/dept/${id}`);
 }

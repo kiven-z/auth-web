@@ -1,7 +1,9 @@
 dept:
   moduleName: Departments
   pageTitle: Department Management
+  dialogViewTitle: Department Details
   loadFailed: Failed to load departments
+  loadDetailFailed: Failed to load department details
   viewTableTitle: Table View
   viewTreeTitle: Tree View
   expandAll: Expand All
@@ -18,5 +20,19 @@ dept:
   remark: Remark
   statusNormal: Normal
   statusDisabled: Disabled
+  parentDept: Parent Department
+  parentTopLevel: Top Level
+  relationStatus: Relation Status
+  position: Position
+  joinTime: Joined At
+  employeeNo: Employee No.
+  userAccountStatus: Account Status
+  grantTime: Granted At
+  boundUsersTitle: Linked Users
+  boundPostsTitle: Posts
+  boundRolesTitle: Granted Roles
+  boundUsersEmpty: No linked users
+  boundPostsEmpty: No posts
+  boundRolesEmpty: No granted roles
   tips:
     affiliatedDeptInfo: Departments

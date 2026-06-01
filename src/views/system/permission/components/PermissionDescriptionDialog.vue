@@ -19,11 +19,14 @@ type PermissionDescriptionDialogProps = DetailDialog<SysPermissionDetail>;
 const props = defineProps<PermissionDescriptionDialogProps>();
 const { t } = useI18n();
 
+// 绑定角色、菜单表格列
 const { columns: roleBindingColumns } = usePermissionBindingRoleColumns();
 const { columns: menuBindingColumns } = usePermissionBindingMenuColumns();
 
+// 按钮权限类型
 const buttonPermissionType = PERMISSION_TYPE_FILTER_OPTIONS[0].value;
 
+// 绑定角色、菜单数据
 const boundRoles = computed(() => props.data.boundRoles ?? []);
 const boundMenus = computed(() => props.data.boundMenus ?? []);
 

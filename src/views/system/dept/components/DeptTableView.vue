@@ -2,6 +2,7 @@
 import AuthPagedTable from '@/components/ui/AuthPagedTable';
 import { DEPT_STATUS_FILTER_OPTIONS } from '@/views/system/dept/constants/dept-search-options';
 import useDeptPageState from '@/views/system/dept/hooks/useDeptPageState';
+import useDeptTableAction from '@/views/system/dept/hooks/useDeptTableAction';
 import useDeptTableColumns from '@/views/system/dept/hooks/useDeptTableColumns';
 import type { FormInstance } from 'element-plus';
 import { onMounted, ref } from 'vue';
@@ -17,6 +18,8 @@ const searchFormRef = ref<FormInstance>();
 const { tableColumns } = useDeptTableColumns();
 const deptState = useDeptPageState();
 const { loading, searchForm, fetchTableData, resetQuery } = deptState;
+
+const { openDetailDialog } = useDeptTableAction({ fetchTableData });
 
 onMounted(() => {
   fetchTableData();
@@ -68,8 +71,8 @@ onMounted(() => {
       :title="t('dept.pageTitle')"
       show-overflow-tooltip
     >
-      <template #actions>
-        <el-button link type="primary">{{ t('buttons.actionView') }}</el-button>
+      <template #actions="{ row }">
+        <el-button link type="primary" @click="openDetailDialog(row)">{{ t('buttons.actionView') }}</el-button>
         <el-button link type="primary">{{ t('buttons.actionEdit') }}</el-button>
         <el-button link type="danger">{{ t('buttons.actionDelete') }}</el-button>
 

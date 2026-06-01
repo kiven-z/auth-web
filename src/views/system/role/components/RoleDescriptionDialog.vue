@@ -18,10 +18,13 @@ type RoleDescriptionDialogProps = DetailDialog<SysRoleDetail>;
 const props = defineProps<RoleDescriptionDialogProps>();
 const { t } = useI18n();
 
+// 绑定权限表格列
 const { columns: permissionBindingColumns } = useRoleBindingPermissionColumns();
 
+// 绑定权限数据
 const boundPermissions = computed(() => props.data.boundPermissions ?? []);
 
+// 角色基础信息表格列
 const descriptionColumns = computed(() => [
   { label: t('roles.roleCode'), prop: 'roleCode', labelWidth: 120, copy: true },
   { label: t('roles.roleName'), prop: 'roleName', labelWidth: 120, copy: true },
