@@ -29,7 +29,7 @@ const tableActionDeps = {
   selectedRows,
 };
 
-const { openDetailDialog, openEditDialog, deleteBatchRows } = useDeptTableAction(tableActionDeps);
+const { openCreateDialog, openDetailDialog, openEditDialog, deleteBatchRows } = useDeptTableAction(tableActionDeps);
 
 const { openAssignRoleDrawer, openAssignPostDrawer } = useDeptMoreAction(tableActionDeps);
 
@@ -83,6 +83,12 @@ onMounted(() => {
       :title="t('dept.pageTitle')"
       show-overflow-tooltip
     >
+      <template #buttons>
+        <el-button-group type="primary">
+          <el-button type="primary" @click="openCreateDialog">{{ t('buttons.actionAdd') }}</el-button>
+        </el-button-group>
+      </template>
+
       <template #actions="{ row }">
         <DeptRowActions
           :delete-batch-rows="deleteBatchRows"

@@ -37,7 +37,7 @@ const tableActionDeps = {
   selectedRows,
 };
 
-const { openDetailDialog, openEditDialog, deleteBatchRows } = useDeptTableAction(tableActionDeps);
+const { openCreateDialog, openDetailDialog, openEditDialog, deleteBatchRows } = useDeptTableAction(tableActionDeps);
 
 const { openAssignRoleDrawer, openAssignPostDrawer } = useDeptMoreAction(tableActionDeps);
 
@@ -50,6 +50,8 @@ onMounted(() => {
   <TableBar :columns="[]" :title="t('dept.pageTitle')" @refresh="fetchTreeData">
     <template #buttons>
       <el-button-group type="primary">
+        <!-- 添加 -->
+        <el-button type="primary" @click="openCreateDialog">{{ t('buttons.actionAdd') }}</el-button>
         <!-- 展开全部 -->
         <el-button type="info" @click="expandAll">{{ t('dept.expandAll') }}</el-button>
         <!-- 收起全部 -->
@@ -71,13 +73,15 @@ onMounted(() => {
           node-key="id"
         >
           <template #default="{ data }">
-            <div class="flex flex-wrap items-center gap-2 py-1 w-full">
-              <span class="font-medium">{{ data.deptName }}</span>
-              <span class="text-xs text-(--el-text-color-secondary)">({{ data.deptCode }})</span>
-              <el-tag :type="data.status ? 'success' : 'danger'" effect="plain" size="small">
-                {{ data.status ? t('dept.statusNormal') : t('dept.statusDisabled') }}
-              </el-tag>
-              <div class="dept-el-tree__actions ml-auto" @click.stop>
+            <div class="dept-el-tree__row flex flex-wrap items-center gap-2 py-1 w-full min-w-0">
+              <div class="dept-el-tree__meta flex flex-wrap items-center gap-2 min-w-0 flex-1">
+                <span class="font-medium">{{ data.deptName }}</span>
+                <span class="text-xs text-(--el-text-color-secondary)">({{ data.deptCode }})</span>
+                <el-tag :type="data.status ? 'success' : 'danger'" effect="plain" size="small">
+                  {{ data.status ? t('dept.statusNormal') : t('dept.statusDisabled') }}
+                </el-tag>
+              </div>
+              <div class="dept-el-tree__actions ml-auto flex shrink-0" @click.stop>
                 <DeptRowActions
                   :delete-batch-rows="deleteBatchRows"
                   compact
@@ -103,9 +107,15 @@ onMounted(() => {
 
 .dept-el-tree {
   :deep(.el-tree-node__content) {
+    width: 100%;
     height: auto;
     min-height: var(--el-tree-node-content-height);
     align-items: flex-start;
+  }
+
+  :deep(.el-tree-node__label) {
+    flex: 1;
+    min-width: 0;
   }
 }
 </style>

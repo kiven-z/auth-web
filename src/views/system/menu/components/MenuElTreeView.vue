@@ -87,18 +87,20 @@ onMounted(() => {
           node-key="id"
         >
           <template #default="{ data }">
-            <div class="flex flex-wrap items-center gap-2 py-1">
-              <span class="font-medium">{{ transformI18n(data.title) }}</span>
-              <span class="text-xs text-(--el-text-color-secondary)">({{ transformI18n(data.name) }})</span>
-              <template v-if="menuTypeTag(data.menuType)">
-                <el-tag :type="menuTypeTag(data.menuType)!.type" effect="plain" size="small">
-                  {{ t(menuTypeTag(data.menuType)!.key) }}
+            <div class="menu-el-tree__row flex flex-wrap items-center gap-2 py-1 w-full min-w-0">
+              <div class="menu-el-tree__meta flex flex-wrap items-center gap-2 min-w-0 flex-1">
+                <span class="font-medium">{{ transformI18n(data.title) }}</span>
+                <span class="text-xs text-(--el-text-color-secondary)">({{ transformI18n(data.name) }})</span>
+                <template v-if="menuTypeTag(data.menuType)">
+                  <el-tag :type="menuTypeTag(data.menuType)!.type" effect="plain" size="small">
+                    {{ t(menuTypeTag(data.menuType)!.key) }}
+                  </el-tag>
+                </template>
+                <el-tag :type="data.status ? 'success' : 'danger'" effect="plain" size="small">
+                  {{ data.status ? t('buttons.statusActiveText') : t('buttons.statusInactiveText') }}
                 </el-tag>
-              </template>
-              <el-tag :type="data.status ? 'success' : 'danger'" effect="plain" size="small">
-                {{ data.status ? t('buttons.statusActiveText') : t('buttons.statusInactiveText') }}
-              </el-tag>
-              <div class="ml-auto flex flex-wrap items-center gap-x-1" @click.stop>
+              </div>
+              <div class="menu-el-tree__actions ml-auto flex shrink-0 flex-wrap items-center gap-x-1" @click.stop>
                 <!-- 添加 -->
                 <el-button link size="small" type="primary" @click="openDetailDialog(data)">
                   {{ t('buttons.actionView') }}
@@ -146,9 +148,15 @@ onMounted(() => {
 
 .menu-el-tree {
   :deep(.el-tree-node__content) {
+    width: 100%;
     height: auto;
     min-height: var(--el-tree-node-content-height);
     align-items: flex-start;
+  }
+
+  :deep(.el-tree-node__label) {
+    flex: 1;
+    min-width: 0;
   }
 }
 </style>

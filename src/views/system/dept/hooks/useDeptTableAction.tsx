@@ -68,6 +68,13 @@ function useDeptTableAction(deps: DeptTableActionDeps) {
   };
 
   /**
+   * 打开新增（表单未实现）
+   */
+  const openCreateDialog = () => {
+    message('部门新增功能开发中', { type: 'warning' });
+  };
+
+  /**
    * 打开编辑（表单未实现）
    */
   const openEditDialog = (_row: SysDeptRow) => {
@@ -76,6 +83,7 @@ function useDeptTableAction(deps: DeptTableActionDeps) {
   };
 
   return {
+    openCreateDialog,
     openDetailDialog,
     openEditDialog,
     deleteBatchRows,
