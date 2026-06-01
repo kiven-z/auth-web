@@ -21,6 +21,11 @@ permissions:
   remarkLengthLimit: Remark must be at most 500 characters
   typeButton: Button Permission
   typeApi: API Permission
+  boundRolesTitle: Bound Roles
+  boundMenusTitle: Bound Menus
+  boundRolesEmpty: No roles bound
+  boundMenusEmpty: No menus bound
+  boundMenusNotApplicable: API permissions are not linked to menu buttons
   placeholder:
     permissionCode: Enter permission code
     permissionName: Enter permission name

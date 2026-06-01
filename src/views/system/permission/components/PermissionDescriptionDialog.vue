@@ -2,6 +2,7 @@
 import type { DetailDialog } from '@/api/common';
 import type { SysPermissionDetail } from '@/api/system/permission';
 import Description from '@/components/ui/Description';
+import PermissionBindingRefsSection from '@/views/system/permission/components/PermissionBindingRefsSection.vue';
 import { PERMISSION_TYPE_FILTER_OPTIONS } from '@/views/system/permission/constants/permission-search-options';
 import { ElTag } from 'element-plus';
 import { computed } from 'vue';
@@ -13,8 +14,11 @@ defineOptions({
 
 type PermissionDescriptionDialogProps = DetailDialog<SysPermissionDetail>;
 
-defineProps<PermissionDescriptionDialogProps>();
+const props = defineProps<PermissionDescriptionDialogProps>();
 const { t } = useI18n();
+
+const boundRoles = computed(() => props.data.boundRoles ?? []);
+const boundMenus = computed(() => props.data.boundMenus ?? []);
 
 const columns = computed(() => [
   { label: t('permissions.permissionCode'), prop: 'permissionCode', labelWidth: 120, copy: true },
@@ -55,5 +59,12 @@ const columns = computed(() => [
 </script>
 
 <template>
-  <Description :column="2" :columns="columns" :data="[data]" />
+  <div>
+    <Description :column="2" :columns="columns" :data="[data]" />
+    <PermissionBindingRefsSection
+      :bound-menus="boundMenus"
+      :bound-roles="boundRoles"
+      :permission-type="data.permissionType"
+    />
+  </div>
 </template>

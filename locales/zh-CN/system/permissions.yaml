@@ -21,6 +21,11 @@ permissions:
   remarkLengthLimit: 备注长度不能超过500个字符
   typeButton: 按钮权限
   typeApi: API 权限
+  boundRolesTitle: 已绑定角色
+  boundMenusTitle: 已绑定菜单
+  boundRolesEmpty: 暂无绑定角色
+  boundMenusEmpty: 暂无绑定菜单
+  boundMenusNotApplicable: API 权限不关联菜单按钮
   placeholder:
     permissionCode: 请输入权限编码
     permissionName: 请输入权限名称

@@ -41,6 +41,28 @@ export function getPermissionPage(params: SysPermissionPageQuery): Promise<PageR
 }
 
 /**
+ * 权限详情：已绑定角色项（对齐 {@code SysPermissionBoundRoleItemVO}）
+ */
+export interface SysPermissionBoundRoleItem {
+  roleCode: string;
+  roleName: string;
+  status: boolean;
+  roleType: number;
+}
+
+/**
+ * 权限详情：已绑定菜单项（对齐 {@code SysPermissionBoundMenuItemVO}）
+ */
+export interface SysPermissionBoundMenuItem {
+  id: string;
+  title: string;
+  name?: string;
+  path?: string;
+  menuType: number;
+  status: boolean;
+}
+
+/**
  * 权限详情（对齐 {@code SysPermissionDetailVO} + BaseResponse）
  */
 export interface SysPermissionDetail extends BaseResponseDetail {
@@ -50,6 +72,8 @@ export interface SysPermissionDetail extends BaseResponseDetail {
   orderNum: number;
   status: boolean;
   remark?: string;
+  boundRoles: SysPermissionBoundRoleItem[];
+  boundMenus: SysPermissionBoundMenuItem[];
 }
 
 /**
