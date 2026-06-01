@@ -78,11 +78,11 @@ const handleRowDblclick = (row: SysPermissionPageRow) => {
  */
 const fetchRolePermissions = async () => {
   try {
-    const codes = await getRolePermissions(props.roleCode);
+    const rows = await getRolePermissions(props.roleCode);
     applySeed(
-      codes.map((code) => ({
-        key: code,
-        label: code,
+      rows.map((row) => ({
+        key: row.permissionCode,
+        label: row.permissionName,
       }))
     );
   } catch (error: unknown) {

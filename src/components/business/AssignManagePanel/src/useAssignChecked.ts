@@ -59,7 +59,7 @@ export function useAssignChecked(options: UseAssignCheckedOptions) {
   }
 
   /**
-   * 合并当前页行 label，不覆盖已有文案
+   * 合并当前页行 label
    * @param rows 行数据
    */
   function mergeLabels(rows: Record<string, unknown>[]) {
@@ -69,7 +69,11 @@ export function useAssignChecked(options: UseAssignCheckedOptions) {
     const next = { ...keyLabels.value };
     for (const row of rows) {
       const key = resolveRowKey(row);
-      if (key) {
+      if (!key) {
+        continue;
+      }
+      const existing = next[key];
+      if (!existing || existing === key) {
         next[key] = resolveRowLabel(row);
       }
     }

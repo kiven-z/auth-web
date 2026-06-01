@@ -119,11 +119,19 @@ export interface SysRolePermissionAssignRequest {
 }
 
 /**
- * 查询角色已分配权限码
+ * 角色已分配权限行
+ */
+export interface SysRoleAssignedPermissionRow {
+  permissionCode: string;
+  permissionName: string;
+}
+
+/**
+ * 查询角色已分配权限
  * @param roleCode 角色编码
  */
-export function getRolePermissions(roleCode: string): Promise<string[]> {
-  return http.get<string[], unknown>(`/system/role/${roleCode}/permissions`);
+export function getRolePermissions(roleCode: string): Promise<SysRoleAssignedPermissionRow[]> {
+  return http.get<SysRoleAssignedPermissionRow[], unknown>(`/system/role/${roleCode}/permissions`);
 }
 
 /**
@@ -131,8 +139,8 @@ export function getRolePermissions(roleCode: string): Promise<string[]> {
  * @param roleCode 角色编码
  * @param data 权限码列表
  */
-export function assignRolePermissions(roleCode: string, data: SysRolePermissionAssignRequest): Promise<string[]> {
-  return http.post<string[], SysRolePermissionAssignRequest>(`/system/role/${roleCode}/permissions`, {
+export function assignRolePermissions(roleCode: string, data: SysRolePermissionAssignRequest): Promise<void> {
+  return http.post<void, SysRolePermissionAssignRequest>(`/system/role/${roleCode}/permissions`, {
     data,
   });
 }
