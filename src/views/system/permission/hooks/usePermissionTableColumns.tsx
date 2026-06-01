@@ -1,6 +1,6 @@
 import type { SysPermissionPageRow } from '@/api/system/permission';
 import { selectUserinfo } from '@/components/business/UserProfile';
-import { PERMISSION_TYPE_TAG_MAP } from '@/views/system/permission/constants/permission-search-options';
+import { PERMISSION_TYPE_FILTER_OPTIONS } from '@/views/system/permission/constants/permission-search-options';
 import { ElButton, ElTag } from 'element-plus';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
@@ -23,11 +23,11 @@ function usePermissionTableColumns() {
       prop: 'permissionType',
       minWidth: 120,
       formatter: (row: SysPermissionPageRow) => {
-        const cfg = PERMISSION_TYPE_TAG_MAP[row.permissionType];
-        if (!cfg) return '-';
+        const option = PERMISSION_TYPE_FILTER_OPTIONS.find((item) => item.value === row.permissionType);
+        if (!option) return '-';
         return (
-          <ElTag type={cfg.type} effect="plain" size="small">
-            {t(cfg.labelKey)}
+          <ElTag type={option.tagType} effect="plain" size="small">
+            {t(option.labelKey)}
           </ElTag>
         );
       },

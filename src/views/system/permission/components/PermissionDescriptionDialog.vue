@@ -1,10 +1,10 @@
-<script lang="ts" setup>
+<script lang="tsx" setup>
 import type { DetailDialog } from '@/api/common';
 import type { SysPermissionDetail } from '@/api/system/permission';
 import Description from '@/components/ui/Description';
-import { PERMISSION_TYPE_TAG_MAP } from '@/views/system/permission/constants/permission-search-options';
+import { PERMISSION_TYPE_FILTER_OPTIONS } from '@/views/system/permission/constants/permission-search-options';
 import { ElTag } from 'element-plus';
-import { computed, h } from 'vue';
+import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 defineOptions({
@@ -24,21 +24,26 @@ const columns = computed(() => [
     prop: 'permissionType',
     labelWidth: 120,
     cellRenderer: ({ value }: { value: number }) => {
-      const cfg = PERMISSION_TYPE_TAG_MAP[value];
-      if (!cfg) {
-        return h('span', String(value ?? ''));
+      const option = PERMISSION_TYPE_FILTER_OPTIONS.find((item) => item.value === value);
+      if (!option) {
+        return <span>{String(value ?? '')}</span>;
       }
-      return h(ElTag, { type: cfg.type, effect: 'plain', size: 'small' }, () => t(cfg.labelKey));
+      return (
+        <ElTag type={option.tagType} effect="plain" size="small">
+          {t(option.labelKey)}
+        </ElTag>
+      );
     },
   },
   {
     label: t('permissions.status'),
     prop: 'status',
     labelWidth: 120,
-    cellRenderer: ({ value }: { value: boolean }) =>
-      h(ElTag, { type: value ? 'success' : 'danger', effect: 'plain', size: 'small' }, () =>
-        t(value ? 'buttons.statusActiveText' : 'buttons.statusInactiveText')
-      ),
+    cellRenderer: ({ value }: { value: boolean }) => (
+      <ElTag type={value ? 'success' : 'danger'} effect="plain" size="small">
+        {t(value ? 'buttons.statusActiveText' : 'buttons.statusInactiveText')}
+      </ElTag>
+    ),
   },
   { label: t('permissions.orderNum'), prop: 'orderNum', labelWidth: 120 },
   { label: t('permissions.remark'), prop: 'remark', labelWidth: 120, span: 2 },

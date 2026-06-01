@@ -7,12 +7,6 @@ export const PERMISSION_STATUS_FILTER_OPTIONS = [
 ] as const;
 
 export const PERMISSION_TYPE_FILTER_OPTIONS = [
-  { value: 0, labelKey: 'permissions.typeButton' },
-  { value: 1, labelKey: 'permissions.typeApi' },
+  { value: 0, labelKey: 'permissions.typeButton', tagType: 'primary' as const },
+  { value: 1, labelKey: 'permissions.typeApi', tagType: 'success' as const },
 ] as const;
-
-/** 权限类型 Tag 展示：与列表列、详情弹窗一致 */
-export const PERMISSION_TYPE_TAG_MAP: Record<number, { type: 'primary' | 'success'; labelKey: string }> = {
-  0: { type: 'primary', labelKey: 'permissions.typeButton' },
-  1: { type: 'success', labelKey: 'permissions.typeApi' },
-};
