@@ -1,6 +1,8 @@
 <script lang="ts" setup>
 import AuthPagedTable from '@/components/ui/AuthPagedTable';
+import DeptRowActions from '@/views/system/dept/components/DeptRowActions.vue';
 import { DEPT_STATUS_FILTER_OPTIONS } from '@/views/system/dept/constants/dept-search-options';
+import useDeptMoreAction from '@/views/system/dept/hooks/useDeptMoreAction';
 import useDeptPageState from '@/views/system/dept/hooks/useDeptPageState';
 import useDeptTableAction from '@/views/system/dept/hooks/useDeptTableAction';
 import useDeptTableColumns from '@/views/system/dept/hooks/useDeptTableColumns';
@@ -17,9 +19,19 @@ const searchFormRef = ref<FormInstance>();
 
 const { tableColumns } = useDeptTableColumns();
 const deptState = useDeptPageState();
-const { loading, searchForm, fetchTableData, resetQuery } = deptState;
+const { loading, selectedRows, searchForm, viewMode, fetchTableData, fetchTreeData, resetQuery, refresh } = deptState;
 
-const { openDetailDialog } = useDeptTableAction({ fetchTableData });
+const tableActionDeps = {
+  fetchTableData,
+  fetchTreeData,
+  refresh,
+  viewMode,
+  selectedRows,
+};
+
+const { openDetailDialog, openEditDialog, deleteBatchRows } = useDeptTableAction(tableActionDeps);
+
+const { openAssignRoleDrawer, openAssignPostDrawer } = useDeptMoreAction(tableActionDeps);
 
 onMounted(() => {
   fetchTableData();
@@ -72,17 +84,14 @@ onMounted(() => {
       show-overflow-tooltip
     >
       <template #actions="{ row }">
-        <el-button link type="primary" @click="openDetailDialog(row)">{{ t('buttons.actionView') }}</el-button>
-        <el-button link type="primary">{{ t('buttons.actionEdit') }}</el-button>
-        <el-button link type="danger">{{ t('buttons.actionDelete') }}</el-button>
-
-        <el-dropdown class="ml-1" trigger="click">
-          <el-button link type="primary">{{ t('buttons.actionMore') }}</el-button>
-          <template #dropdown>
-            <el-dropdown-item>{{ t('dept.assignRole') }}</el-dropdown-item>
-            <el-dropdown-item>{{ t('dept.assignPost') }}</el-dropdown-item>
-          </template>
-        </el-dropdown>
+        <DeptRowActions
+          :delete-batch-rows="deleteBatchRows"
+          :open-assign-post-drawer="openAssignPostDrawer"
+          :open-assign-role-drawer="openAssignRoleDrawer"
+          :open-detail-dialog="openDetailDialog"
+          :open-edit-dialog="openEditDialog"
+          :row="row"
+        />
       </template>
     </AuthPagedTable>
   </div>

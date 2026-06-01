@@ -4,6 +4,7 @@ dept:
   dialogViewTitle: Department Details
   loadFailed: Failed to load departments
   loadDetailFailed: Failed to load department details
+  deleteFailed: Failed to delete department
   viewTableTitle: Table View
   viewTreeTitle: Tree View
   expandAll: Expand All

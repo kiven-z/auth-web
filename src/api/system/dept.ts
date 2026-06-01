@@ -112,3 +112,19 @@ export function getDeptPage(params: SysDeptPageQuery): Promise<PageResponse<SysD
 export function getDeptDetail(id: string): Promise<SysDeptDetail> {
   return http.get<SysDeptDetail, unknown>(`/system/dept/${id}`);
 }
+
+/**
+ * 删除部门
+ * @param id 部门主键
+ */
+export function deleteDept(id: string): Promise<void> {
+  return http.request<void>('delete', `/system/dept/${id}`);
+}
+
+/**
+ * 批量删除部门
+ * @param ids 部门主键列表
+ */
+export async function deleteDepts(ids: string[]): Promise<void> {
+  await Promise.all(ids.map((id) => deleteDept(id)));
+}

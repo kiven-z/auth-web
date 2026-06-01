@@ -1,20 +1,37 @@
 import type { TableActionDeps } from '@/api/common';
 import type { SysDeptListVO } from '@/api/system/dept';
-import { getDeptDetail, getDeptList } from '@/api/system/dept';
+import { deleteDepts, getDeptDetail, getDeptList } from '@/api/system/dept';
 import { addDialog } from '@/components/ui/Dialog';
-import { errorMessage } from '@/shared/messaging/message';
+import useBatchDeleteAction from '@/shared/hooks/useBatchDeleteAction';
+import { errorMessage, message } from '@/shared/messaging/message';
 import DeptDescriptionDialog from '@/views/system/dept/components/DeptDescriptionDialog.vue';
+import type { DeptViewMode, SysDeptRow } from '@/views/system/dept/hooks/useDeptPageState';
+import type { Ref } from 'vue';
 import { h } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 const ROOT_PARENT_ID = '0';
 
+export interface DeptTableActionDeps extends TableActionDeps {
+  fetchTreeData: () => Promise<void>;
+  refresh: () => Promise<void>;
+  viewMode: Ref<DeptViewMode>;
+  selectedRows: Ref<string[]>;
+}
+
 /**
- * 部门表格操作：详情弹窗
+ * 部门行操作：详情、删除等（编辑/新增表单待后续接入）
  */
-function useDeptTableAction(deps: TableActionDeps) {
+function useDeptTableAction(deps: DeptTableActionDeps) {
   const { t } = useI18n();
-  void deps;
+  const { refresh } = deps;
+
+  const { deleteBatchRows } = useBatchDeleteAction({
+    selectedRows: deps.selectedRows,
+    deleteApi: deleteDepts,
+    onSuccess: refresh,
+    errorDefaultI18nKey: 'dept.deleteFailed',
+  });
 
   /**
    * 解析父部门展示名
@@ -29,9 +46,9 @@ function useDeptTableAction(deps: TableActionDeps) {
 
   /**
    * 打开详情弹窗
-   * @param row 表格行
+   * @param row 表格行或树节点数据
    */
-  const openDetailDialog = async (row: SysDeptListVO) => {
+  const openDetailDialog = async (row: SysDeptRow) => {
     try {
       const [detail, flatList] = await Promise.all([getDeptDetail(row.id), getDeptList()]);
       const parentDeptLabel = resolveParentDeptLabel(detail.parentId, flatList);
@@ -50,8 +67,18 @@ function useDeptTableAction(deps: TableActionDeps) {
     }
   };
 
+  /**
+   * 打开编辑（表单未实现）
+   */
+  const openEditDialog = (_row: SysDeptRow) => {
+    void _row;
+    message('部门编辑功能开发中', { type: 'warning' });
+  };
+
   return {
     openDetailDialog,
+    openEditDialog,
+    deleteBatchRows,
   };
 }
 
