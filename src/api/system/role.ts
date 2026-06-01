@@ -52,6 +52,16 @@ export function getRolePage(params: SysRolePageQuery): Promise<PageResponse<SysR
 }
 
 /**
+ * 角色详情：已分配权限项（对齐 {@code SysRoleBoundPermissionItemVO}）
+ */
+export interface SysRoleBoundPermissionItem {
+  permissionCode: string;
+  permissionName: string;
+  permissionType: number;
+  status: boolean;
+}
+
+/**
  * 角色详情（对齐 {@code SysRoleDetailVO} + BaseResponse）
  */
 export interface SysRoleDetail extends BaseResponse {
@@ -62,6 +72,7 @@ export interface SysRoleDetail extends BaseResponse {
   roleTypeDesc?: string;
   orderNum: number;
   remark?: string;
+  boundPermissions: SysRoleBoundPermissionItem[];
 }
 
 /**

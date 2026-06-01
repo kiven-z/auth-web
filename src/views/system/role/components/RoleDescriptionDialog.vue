@@ -2,6 +2,7 @@
 import type { DetailDialog } from '@/api/common';
 import type { SysRoleDetail } from '@/api/system/role';
 import Description from '@/components/ui/Description';
+import RoleBindingPermissionsSection from '@/views/system/role/components/RoleBindingPermissionsSection.vue';
 import { ROLE_TYPE_FILTER_OPTIONS } from '@/views/system/role/constants/role-search-options';
 import { ElTag } from 'element-plus';
 import { computed } from 'vue';
@@ -13,8 +14,10 @@ defineOptions({
 
 type RoleDescriptionDialogProps = DetailDialog<SysRoleDetail>;
 
-defineProps<RoleDescriptionDialogProps>();
+const props = defineProps<RoleDescriptionDialogProps>();
 const { t } = useI18n();
+
+const boundPermissions = computed(() => props.data.boundPermissions ?? []);
 
 const columns = computed(() => [
   { label: t('roles.roleCode'), prop: 'roleCode', labelWidth: 120, copy: true },
@@ -55,5 +58,8 @@ const columns = computed(() => [
 </script>
 
 <template>
-  <Description :column="2" :columns="columns" :data="[data]" />
+  <div>
+    <Description :column="2" :columns="columns" :data="[data]" />
+    <RoleBindingPermissionsSection :bound-permissions="boundPermissions" />
+  </div>
 </template>
