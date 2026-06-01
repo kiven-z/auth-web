@@ -1,6 +1,6 @@
 import type { SysMenuListQuery, SysMenuListVO, SysMenuTreeNode } from '@/api/system/menu';
 import { getMenuList, getMenuPage } from '@/api/system/menu';
-import { useCreateModuleTableTreePageState } from '@/shared/hooks/useCreateModuleTableTreePageState';
+import { useCreateModuleTableTreePageState } from '@/components/business/AuthModuleTableTreeLayout/src/useCreateModuleTableTreePageState';
 import { reactive } from 'vue';
 
 /**

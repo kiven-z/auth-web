@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import AuthModuleTableTreeLayout from '@/components/business/AuthModuleTableTreeLayout';
 import DeptTableView from '@/views/system/dept/components/DeptTableView.vue';
 import DeptTreeView from '@/views/system/dept/components/DeptTreeView.vue';
 import useDeptPageState from '@/views/system/dept/hooks/useDeptPageState';
@@ -20,13 +21,12 @@ const { viewMode } = useDeptPageState();
 </script>
 
 <template>
-  <div>
-    <div class="flex justify-center mt-[-20px] pb-1">
-      <el-segmented v-model="viewMode" :options="segmentedOptions" />
-    </div>
-
-    <DeptTableView v-if="viewMode === 'table'" />
-
-    <DeptTreeView v-else />
-  </div>
+  <AuthModuleTableTreeLayout v-model="viewMode" :options="segmentedOptions">
+    <template #table>
+      <DeptTableView />
+    </template>
+    <template #tree>
+      <DeptTreeView />
+    </template>
+  </AuthModuleTableTreeLayout>
 </template>

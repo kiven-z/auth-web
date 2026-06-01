@@ -46,17 +46,14 @@ onMounted(() => {
       :model="searchForm"
       class="bg-bg_color w-[99/100] overflow-auto pl-8 pt-3"
     >
-      <!-- 部门名称 -->
       <el-form-item :label="t('dept.deptName')" prop="deptName">
         <el-input v-model="searchForm.deptName" :placeholder="t('dept.deptName')" class="w-45!" clearable />
       </el-form-item>
 
-      <!-- 部门编码 -->
       <el-form-item :label="t('dept.deptCode')" prop="deptCode">
         <el-input v-model="searchForm.deptCode" :placeholder="t('dept.deptCode')" class="w-45!" clearable />
       </el-form-item>
 
-      <!-- 状态 -->
       <el-form-item :label="t('dept.status')" prop="status">
         <el-select v-model="searchForm.status" :placeholder="t('dept.status')" class="w-[140px]!" clearable>
           <el-option
