@@ -34,7 +34,7 @@ const permissionState = usePaginationState({
 
 const { loading, searchForm, fetchTableData, resetQuery } = permissionState;
 
-const { openCreateDialog, openDetailDialog } = usePermissionTableAction({ fetchTableData });
+const { openCreateDialog, openDetailDialog, openEditDialog } = usePermissionTableAction({ fetchTableData });
 
 onMounted(() => {
   fetchTableData();
@@ -113,8 +113,8 @@ onMounted(() => {
         <div class="flex justify-center">
           <!-- 查看 -->
           <el-button link type="primary" @click="openDetailDialog(row)">{{ t('buttons.actionView') }}</el-button>
-          <!-- 修改/编辑（后续补充） -->
-          <el-button link type="primary">{{ t('buttons.actionEdit') }}</el-button>
+          <!-- 修改/编辑 -->
+          <el-button link type="primary" @click="openEditDialog(row)">{{ t('buttons.actionEdit') }}</el-button>
           <!-- 删除（后续补充） -->
           <el-button link type="danger">{{ t('buttons.actionDelete') }}</el-button>
         </div>

@@ -97,6 +97,28 @@ export function createPermission(data: SysPermissionCreateForm): Promise<void> {
 }
 
 /**
+ * 权限更新表单（对齐 {@code SysPermissionUpdateForm}）
+ */
+export interface SysPermissionUpdateForm {
+  id: string;
+  permissionCode: string;
+  permissionName: string;
+  permissionType: number;
+  orderNum?: number;
+  status: boolean;
+  remark?: string;
+}
+
+/**
+ * 更新权限
+ * @param id 权限主键
+ * @param data 权限更新表单
+ */
+export function updatePermission(id: string, data: SysPermissionUpdateForm): Promise<void> {
+  return http.put<void, SysPermissionUpdateForm>(`/system/permission/${id}`, { data });
+}
+
+/**
  * 获取权限详情
  * @param id 权限主键
  * @returns 权限详情

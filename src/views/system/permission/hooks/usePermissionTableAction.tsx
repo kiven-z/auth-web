@@ -1,6 +1,6 @@
 import type { TableActionDeps } from '@/api/common';
-import type { SysPermissionCreateForm, SysPermissionPageRow } from '@/api/system/permission';
-import { createPermission, getPermissionDetail } from '@/api/system/permission';
+import type { SysPermissionCreateForm, SysPermissionPageRow, SysPermissionUpdateForm } from '@/api/system/permission';
+import { createPermission, getPermissionDetail, updatePermission } from '@/api/system/permission';
 import { addDialog } from '@/components/ui/Dialog';
 import { type FormOverlayExpose, useFormOverlaySubmit } from '@/shared/hooks/useFormOverlaySubmit';
 import { errorMessage } from '@/shared/messaging/message';
@@ -63,9 +63,46 @@ function usePermissionTableAction(deps: TableActionDeps) {
     }
   };
 
-  /** 编辑 — TODO */
-  const openEditDialog = async (_row: SysPermissionPageRow) => {
-    void _row;
+  /**
+   * 打开编辑弹窗
+   * @param row 表格行
+   */
+  const openEditDialog = async (row: SysPermissionPageRow) => {
+    try {
+      const detail = await getPermissionDetail(row.id);
+      const formPayload: SysPermissionUpdateForm = {
+        id: row.id,
+        permissionCode: detail.permissionCode,
+        permissionName: detail.permissionName,
+        permissionType: detail.permissionType,
+        orderNum: detail.orderNum,
+        status: detail.status,
+        remark: detail.remark,
+      };
+
+      const dialogFormRef = ref<FormOverlayExpose<SysPermissionUpdateForm> | null>(null);
+
+      addDialog({
+        title: t('permissions.dialogEditTitle'),
+        draggable: true,
+        fullscreenIcon: true,
+        closeOnClickModal: false,
+        closeOnPressEscape: false,
+        contentRenderer: () => h(PermissionFormDialog, { ref: dialogFormRef, form: formPayload, mode: 'edit' }),
+        beforeSure: createFormBeforeSure<SysPermissionUpdateForm>({
+          formExposeRef: dialogFormRef,
+          requireId: true,
+          errorI18nKey: 'permissions.loadFailed',
+          successI18nKey: 'tips.editSuccess',
+          onSubmit: async (formData) => {
+            await updatePermission(row.id, formData);
+            await fetchTableData();
+          },
+        }),
+      });
+    } catch (error: unknown) {
+      errorMessage(error, { defaultI18nKey: 'permissions.loadFailed' });
+    }
   };
 
   return {

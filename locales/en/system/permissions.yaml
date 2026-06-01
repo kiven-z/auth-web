@@ -2,7 +2,9 @@ permissions:
   moduleName: Permissions
   pageTitle: Permission Management
   dialogCreateTitle: Add Permission
+  dialogEditTitle: Edit Permission
   dialogViewTitle: View Permission Details
+  permissionTypeImmutableHint: Permission type cannot be changed after creation. Delete and recreate to change it.
   loadFailed: Failed to load permissions
   deleteFailed: Failed to delete permission
   assignSectionLabel: Assigned permissions
