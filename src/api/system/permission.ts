@@ -126,3 +126,11 @@ export function updatePermission(id: string, data: SysPermissionUpdateForm): Pro
 export function getPermissionDetail(id: string): Promise<SysPermissionDetail> {
   return http.get<SysPermissionDetail, unknown>(`/system/permission/${id}`);
 }
+
+/**
+ * 删除权限（物理删除）
+ * @param id 权限主键
+ */
+export function deletePermission(id: string): Promise<void> {
+  return http.request<void>('delete', `/system/permission/${id}`);
+}

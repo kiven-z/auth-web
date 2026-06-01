@@ -34,7 +34,9 @@ const permissionState = usePaginationState({
 
 const { loading, searchForm, fetchTableData, resetQuery } = permissionState;
 
-const { openCreateDialog, openDetailDialog, openEditDialog } = usePermissionTableAction({ fetchTableData });
+const { openCreateDialog, openDetailDialog, openEditDialog, deleteRow } = usePermissionTableAction({
+  fetchTableData,
+});
 
 onMounted(() => {
   fetchTableData();
@@ -115,8 +117,8 @@ onMounted(() => {
           <el-button link type="primary" @click="openDetailDialog(row)">{{ t('buttons.actionView') }}</el-button>
           <!-- 修改/编辑 -->
           <el-button link type="primary" @click="openEditDialog(row)">{{ t('buttons.actionEdit') }}</el-button>
-          <!-- 删除（后续补充） -->
-          <el-button link type="danger">{{ t('buttons.actionDelete') }}</el-button>
+          <!-- 删除 -->
+          <el-button link type="danger" @click="deleteRow(row)">{{ t('buttons.actionDelete') }}</el-button>
         </div>
       </template>
     </AuthPagedTable>

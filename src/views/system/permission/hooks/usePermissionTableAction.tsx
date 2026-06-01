@@ -1,9 +1,10 @@
 import type { TableActionDeps } from '@/api/common';
 import type { SysPermissionCreateForm, SysPermissionPageRow, SysPermissionUpdateForm } from '@/api/system/permission';
-import { createPermission, getPermissionDetail, updatePermission } from '@/api/system/permission';
+import { createPermission, deletePermission, getPermissionDetail, updatePermission } from '@/api/system/permission';
 import { addDialog } from '@/components/ui/Dialog';
 import { type FormOverlayExpose, useFormOverlaySubmit } from '@/shared/hooks/useFormOverlaySubmit';
-import { errorMessage } from '@/shared/messaging/message';
+import { deleteConfirm } from '@/shared/messaging/dialog';
+import { errorMessage, message } from '@/shared/messaging/message';
 import PermissionDescriptionDialog from '@/views/system/permission/components/PermissionDescriptionDialog.vue';
 import PermissionFormDialog from '@/views/system/permission/components/PermissionFormDialog.vue';
 import { h, ref } from 'vue';
@@ -105,10 +106,30 @@ function usePermissionTableAction(deps: TableActionDeps) {
     }
   };
 
+  /**
+   * 单行删除
+   * @param row 表格行
+   */
+  const deleteRow = async (row: SysPermissionPageRow) => {
+    const confirmed = await deleteConfirm();
+    if (!confirmed) {
+      return;
+    }
+
+    try {
+      await deletePermission(row.id);
+      message(t('tips.deleteSuccess'), { type: 'success' });
+      await fetchTableData();
+    } catch (error: unknown) {
+      errorMessage(error, { defaultI18nKey: 'permissions.deleteFailed' });
+    }
+  };
+
   return {
     openCreateDialog,
     openDetailDialog,
     openEditDialog,
+    deleteRow,
   };
 }
 
