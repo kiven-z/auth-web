@@ -1,6 +1,6 @@
 import type { AxiosRequestConfig } from 'axios';
 
-import type { BaseResponsePageRow, PageResponse, SortSpec } from '@/api/common';
+import type { BaseResponseDetail, BaseResponsePageRow, PageResponse, SortSpec } from '@/api/common';
 import { http } from '@/infrastructure/http-core';
 
 /**
@@ -41,6 +41,18 @@ export function getPermissionPage(params: SysPermissionPageQuery): Promise<PageR
 }
 
 /**
+ * 权限详情（对齐 {@code SysPermissionDetailVO} + BaseResponse）
+ */
+export interface SysPermissionDetail extends BaseResponseDetail {
+  permissionCode: string;
+  permissionName: string;
+  permissionType: number;
+  orderNum: number;
+  status: boolean;
+  remark?: string;
+}
+
+/**
  * 权限新增表单（对齐 {@code SysPermissionCreateForm}）
  */
 export interface SysPermissionCreateForm {
@@ -58,4 +70,13 @@ export interface SysPermissionCreateForm {
  */
 export function createPermission(data: SysPermissionCreateForm): Promise<void> {
   return http.post<void, SysPermissionCreateForm>('/system/permission', { data });
+}
+
+/**
+ * 获取权限详情
+ * @param id 权限主键
+ * @returns 权限详情
+ */
+export function getPermissionDetail(id: string): Promise<SysPermissionDetail> {
+  return http.get<SysPermissionDetail, unknown>(`/system/permission/${id}`);
 }

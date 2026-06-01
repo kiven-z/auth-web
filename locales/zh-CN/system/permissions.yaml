@@ -2,6 +2,7 @@ permissions:
   moduleName: 权限
   pageTitle: 权限管理
   dialogCreateTitle: 新增权限
+  dialogViewTitle: 查看权限详情
   loadFailed: 加载权限列表失败
   deleteFailed: 删除权限失败
   assignSectionLabel: 已分配权限

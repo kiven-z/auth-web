@@ -2,6 +2,7 @@ permissions:
   moduleName: Permissions
   pageTitle: Permission Management
   dialogCreateTitle: Add Permission
+  dialogViewTitle: View Permission Details
   loadFailed: Failed to load permissions
   deleteFailed: Failed to delete permission
   assignSectionLabel: Assigned permissions

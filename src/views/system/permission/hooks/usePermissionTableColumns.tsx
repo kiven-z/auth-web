@@ -1,5 +1,6 @@
 import type { SysPermissionPageRow } from '@/api/system/permission';
 import { selectUserinfo } from '@/components/business/UserProfile';
+import { PERMISSION_TYPE_TAG_MAP } from '@/views/system/permission/constants/permission-search-options';
 import { ElButton, ElTag } from 'element-plus';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
@@ -9,12 +10,6 @@ import { useI18n } from 'vue-i18n';
  */
 function usePermissionTableColumns() {
   const { t } = useI18n();
-
-  // 权限类型标签映射：0=按钮权限（primary），1=API 权限（success）
-  const PERMISSION_TYPE_TAG_MAP: Record<number, { type: 'primary' | 'success'; labelKey: string }> = {
-    0: { type: 'primary', labelKey: 'permissions.typeButton' },
-    1: { type: 'success', labelKey: 'permissions.typeApi' },
-  };
 
   const columns = computed<TableColumnList>(() => [
     { type: 'index', index: (index: number) => index + 1, label: t('table.idx'), minWidth: 60 },
