@@ -1,5 +1,4 @@
 import { ElTag } from 'element-plus';
-import { h } from 'vue';
 
 type Translate = (key: string) => string;
 
@@ -11,7 +10,7 @@ type Translate = (key: string) => string;
  */
 export function renderUserAccountStatus(t: Translate, value: number | undefined | null) {
   if (value === undefined || value === null) {
-    return h('span', '-');
+    return <span>-</span>;
   }
   const type = value === 0 ? 'success' : value === 1 ? 'danger' : 'warning';
   const labelKey =
@@ -20,7 +19,11 @@ export function renderUserAccountStatus(t: Translate, value: number | undefined 
       : value === 1
         ? 'users.accountStatus.disabled'
         : 'users.accountStatus.locked';
-  return h(ElTag, { type, size: 'small' }, () => t(labelKey));
+  return (
+    <ElTag type={type} effect="plain" size="small">
+      {t(labelKey)}
+    </ElTag>
+  );
 }
 
 /**
@@ -31,11 +34,11 @@ export function renderUserAccountStatus(t: Translate, value: number | undefined 
  */
 export function renderUserGender(t: Translate, value: number | undefined | null) {
   if (value === undefined || value === null) {
-    return h('span', t('users.genderLabel.unknown'));
+    return <span>{t('users.genderLabel.unknown')}</span>;
   }
   const labelKey =
     value === 1 ? 'users.genderLabel.male' : value === 2 ? 'users.genderLabel.female' : 'users.genderLabel.unknown';
-  return h('span', t(labelKey));
+  return <span>{t(labelKey)}</span>;
 }
 
 /**
@@ -46,7 +49,7 @@ export function renderUserGender(t: Translate, value: number | undefined | null)
  */
 export function renderRelationStatus(t: Translate, value: number | undefined | null) {
   if (value === undefined || value === null) {
-    return h('span', '-');
+    return <span>-</span>;
   }
   const type = value === 0 ? 'success' : value === 1 ? 'info' : 'warning';
   const labelKey =
@@ -55,5 +58,9 @@ export function renderRelationStatus(t: Translate, value: number | undefined | n
       : value === 1
         ? 'users.relationStatus.transferred'
         : 'users.relationStatus.partTime';
-  return h(ElTag, { type, size: 'small' }, () => t(labelKey));
+  return (
+    <ElTag type={type} effect="plain" size="small">
+      {t(labelKey)}
+    </ElTag>
+  );
 }

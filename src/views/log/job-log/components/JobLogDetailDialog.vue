@@ -30,8 +30,8 @@ const columns = computed(() => [
     prop: 'status',
     labelWidth: 120,
     cellRenderer: ({ value }: { value: boolean }) => (
-      <ElTag type={value ? 'success' : 'danger'} effect="plain">
-        {value ? t('logJob.statusSuccess') : t('logJob.statusFailed')}
+      <ElTag type={value ? 'success' : 'danger'} effect="plain" size="small">
+        {t(value ? 'logJob.statusSuccess' : 'logJob.statusFailed')}
       </ElTag>
     ),
   },

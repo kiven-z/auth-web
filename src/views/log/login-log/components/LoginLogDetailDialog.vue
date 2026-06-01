@@ -4,7 +4,7 @@ import type { LoginLogDetailRow } from '@/api/log/login-log';
 import Description from '@/components/ui/Description';
 import { getLoginLogResultTagType } from '@/views/log/login-log/constants/login-log-enums';
 import { ElTag } from 'element-plus';
-import { computed, h } from 'vue';
+import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 defineOptions({
@@ -38,7 +38,7 @@ const columns = computed(() => [
       const label = t(key);
 
       return (
-        <ElTag type={getLoginLogResultTagType(value)} effect="plain">
+        <ElTag type={getLoginLogResultTagType(value)} effect="plain" size="small">
           {label === key ? String(value) : label}
         </ElTag>
       );
@@ -64,7 +64,7 @@ const columns = computed(() => [
     prop: 'loginType',
     labelWidth: 120,
     cellRenderer: ({ value }: { value: string | null }) => {
-      if (!value) return h('span', '');
+      if (!value) return <span />;
       const key = `loginLog.loginTypeEnum.${value}`;
       const label = t(key);
       return <span>{label === key ? value : label}</span>;

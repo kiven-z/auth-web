@@ -1,9 +1,9 @@
-<script lang="ts" setup>
+<script lang="tsx" setup>
 import type { DetailDialog } from '@/api/common';
 import type { SysPostPageRow } from '@/api/system/post';
 import Description from '@/components/ui/Description';
 import { ElTag } from 'element-plus';
-import { computed, h } from 'vue';
+import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 defineOptions({
@@ -23,10 +23,11 @@ const columns = computed(() => [
     label: t('post.status'),
     prop: 'status',
     labelWidth: 120,
-    cellRenderer: ({ value }: { value: boolean }) =>
-      h(ElTag, { type: value ? 'success' : 'danger' }, () =>
-        t(value ? 'buttons.statusActiveText' : 'buttons.statusInactiveText')
-      ),
+    cellRenderer: ({ value }: { value: boolean }) => (
+      <ElTag type={value ? 'success' : 'danger'} effect="plain" size="small">
+        {t(value ? 'buttons.statusActiveText' : 'buttons.statusInactiveText')}
+      </ElTag>
+    ),
   },
   { label: t('post.orderNum'), prop: 'orderNum', labelWidth: 120 },
   { label: t('table.createTime'), prop: 'createTime', labelWidth: 120 },

@@ -59,7 +59,7 @@ function useLoginLogTableColumns() {
         const label = t(key);
 
         return (
-          <ElTag type={getLoginLogResultTagType(code)} effect="plain">
+          <ElTag type={getLoginLogResultTagType(code)} effect="plain" size="small">
             {label === key ? String(code) : label}
           </ElTag>
         );

@@ -1,5 +1,6 @@
 import type { SysRolePageRow } from '@/api/system/role';
 import { selectUserinfo } from '@/components/business/UserProfile';
+import { ROLE_TYPE_FILTER_OPTIONS } from '@/views/system/role/constants/role-search-options';
 import { ElButton, ElTag } from 'element-plus';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
@@ -35,14 +36,13 @@ function useRoleTableColumns() {
       prop: 'roleType',
       minWidth: 120,
       formatter: (row: SysRolePageRow) => {
-        const keyMap: Record<number, string> = {
-          1: 'roles.roleTypeSystem',
-          2: 'roles.roleTypeMenu',
-          3: 'roles.roleTypeBusiness',
-          4: 'roles.roleTypeCustom',
-        };
-        const key = keyMap[row.roleType];
-        return key ? t(key) : row.roleType;
+        const option = ROLE_TYPE_FILTER_OPTIONS.find((item) => item.value === row.roleType);
+        if (!option) return String(row.roleType ?? '');
+        return (
+          <ElTag type={option.tagType} effect="plain" size="small">
+            {t(option.labelKey)}
+          </ElTag>
+        );
       },
     },
     // 排序号

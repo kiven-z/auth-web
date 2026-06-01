@@ -5,8 +5,8 @@ export const ROLE_STATUS_FILTER_OPTIONS = [
 ] as const;
 
 export const ROLE_TYPE_FILTER_OPTIONS = [
-  { value: 1, labelKey: 'roles.roleTypeSystem' },
-  { value: 2, labelKey: 'roles.roleTypeMenu' },
-  { value: 3, labelKey: 'roles.roleTypeBusiness' },
-  { value: 4, labelKey: 'roles.roleTypeCustom' },
+  { value: 1, labelKey: 'roles.roleTypeSystem', tagType: 'danger' },
+  { value: 2, labelKey: 'roles.roleTypeMenu', tagType: 'success' },
+  { value: 3, labelKey: 'roles.roleTypeBusiness', tagType: 'warning' },
+  { value: 4, labelKey: 'roles.roleTypeCustom', tagType: 'info' },
 ] as const;

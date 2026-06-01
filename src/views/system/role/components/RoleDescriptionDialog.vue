@@ -1,10 +1,10 @@
-<script lang="ts" setup>
+<script lang="tsx" setup>
 import type { DetailDialog } from '@/api/common';
 import type { SysRoleDetail } from '@/api/system/role';
 import Description from '@/components/ui/Description';
 import { ROLE_TYPE_FILTER_OPTIONS } from '@/views/system/role/constants/role-search-options';
 import { ElTag } from 'element-plus';
-import { computed, h } from 'vue';
+import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 defineOptions({
@@ -23,10 +23,11 @@ const columns = computed(() => [
     label: t('roles.status'),
     prop: 'status',
     labelWidth: 120,
-    cellRenderer: ({ value }: { value: boolean }) =>
-      h(ElTag, { type: value ? 'success' : 'danger' }, () =>
-        t(value ? 'buttons.statusActiveText' : 'buttons.statusInactiveText')
-      ),
+    cellRenderer: ({ value }: { value: boolean }) => (
+      <ElTag type={value ? 'success' : 'danger'} effect="plain" size="small">
+        {t(value ? 'roles.statusNormal' : 'roles.statusDisabled')}
+      </ElTag>
+    ),
   },
   {
     label: t('roles.roleType'),
@@ -34,7 +35,14 @@ const columns = computed(() => [
     labelWidth: 120,
     cellRenderer: ({ value }: { value: number }) => {
       const option = ROLE_TYPE_FILTER_OPTIONS.find((item) => item.value === value);
-      return h('span', option ? t(option.labelKey) : String(value ?? ''));
+      if (!option) {
+        return <span>{String(value ?? '')}</span>;
+      }
+      return (
+        <ElTag type={option.tagType} effect="plain" size="small">
+          {t(option.labelKey)}
+        </ElTag>
+      );
     },
   },
   { label: t('roles.orderNum'), prop: 'orderNum', labelWidth: 120 },
