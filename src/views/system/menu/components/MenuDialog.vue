@@ -253,7 +253,7 @@ defineExpose({ formRef, form });
               >
                 {{ t('menus.iconifyLibrary') }}
               </el-link>
-              <el-segmented v-model="iconInputMode" :options="iconModeSegmentOptions" size="small" />
+              <el-segmented v-model="iconInputMode" :options="iconModeSegmentOptions" />
             </div>
             <IconSelect v-if="iconInputMode === 'select'" v-model="form.icon" class="w-full!" />
             <el-input
@@ -281,7 +281,7 @@ defineExpose({ formRef, form });
               >
                 {{ t('menus.iconifyLibrary') }}
               </el-link>
-              <el-segmented v-model="extraIconInputMode" :options="iconModeSegmentOptions" size="small" />
+              <el-segmented v-model="extraIconInputMode" :options="iconModeSegmentOptions" />
             </div>
             <IconSelect v-if="extraIconInputMode === 'select'" v-model="form.extraIcon" class="w-full!" />
             <el-input

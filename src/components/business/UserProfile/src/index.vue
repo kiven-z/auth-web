@@ -64,7 +64,7 @@ watch(
     <div class="section">
       <div class="section-header">
         <h3 class="section-title">{{ t('users.userBaseInfo') }}</h3>
-        <el-tag size="small" type="primary">{{ t('users.profile') }}</el-tag>
+        <el-tag type="primary">{{ t('users.profile') }}</el-tag>
       </div>
       <ReDescription
         v-loading="loading"

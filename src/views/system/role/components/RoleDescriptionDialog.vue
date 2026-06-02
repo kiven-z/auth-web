@@ -33,7 +33,7 @@ const descriptionColumns = computed(() => [
     prop: 'status',
     labelWidth: 120,
     cellRenderer: ({ value }: { value: boolean }) => (
-      <ElTag type={value ? 'success' : 'danger'} effect="plain" size="small">
+      <ElTag type={value ? 'success' : 'danger'} effect="plain">
         {t(value ? 'roles.statusNormal' : 'roles.statusDisabled')}
       </ElTag>
     ),
@@ -48,7 +48,7 @@ const descriptionColumns = computed(() => [
         return <span>{String(value ?? '')}</span>;
       }
       return (
-        <ElTag type={option.tagType} effect="plain" size="small">
+        <ElTag type={option.tagType} effect="plain">
           {t(option.labelKey)}
         </ElTag>
       );

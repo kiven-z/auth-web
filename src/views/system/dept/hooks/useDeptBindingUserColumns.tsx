@@ -32,7 +32,7 @@ function useDeptBindingUserColumns() {
       prop: 'isPrimary',
       minWidth: 100,
       formatter: (row: SysDeptBoundUserItem) => (
-        <ElTag type={row.isPrimary ? 'primary' : 'info'} effect="plain" size="small">
+        <ElTag type={row.isPrimary ? 'primary' : 'info'} effect="plain">
           {t(row.isPrimary ? 'dept.primaryDepartment' : 'dept.secondaryDepartment')}
         </ElTag>
       ),
@@ -47,7 +47,7 @@ function useDeptBindingUserColumns() {
           return <span>{String(row.relationStatus ?? '')}</span>;
         }
         return (
-          <ElTag type={meta.type} effect="plain" size="small">
+          <ElTag type={meta.type} effect="plain">
             {t(meta.labelKey)}
           </ElTag>
         );
@@ -63,7 +63,7 @@ function useDeptBindingUserColumns() {
           return <span>{String(row.userStatus ?? '')}</span>;
         }
         return (
-          <ElTag type={meta.type} effect="plain" size="small">
+          <ElTag type={meta.type} effect="plain">
             {t(meta.labelKey)}
           </ElTag>
         );

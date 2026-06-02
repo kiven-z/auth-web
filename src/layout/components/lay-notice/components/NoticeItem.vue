@@ -1,6 +1,6 @@
-<script setup lang="ts">
+<script lang="ts" setup>
 import { ListItem } from '../data';
-import { ref, PropType, nextTick } from 'vue';
+import { nextTick, PropType, ref } from 'vue';
 import { useNav } from '@/layout/hooks/useNav';
 import { deviceDetection } from '@pureadmin/utils';
 
@@ -44,33 +44,33 @@ function hoverDescription(event, description) {
 </script>
 
 <template>
-  <div class="notice-container border-0 border-b-[1px] border-solid border-[#f0f0f0] dark:border-[#303030]">
+  <div class="notice-container border-0 border-b border-solid border-[#f0f0f0] dark:border-[#303030]">
     <el-avatar v-if="noticeItem.avatar" :size="30" :src="noticeItem.avatar" class="notice-container-avatar" />
     <div class="notice-container-text">
       <div class="notice-text-title text-[#000000d9] dark:text-white">
         <el-tooltip
-          popper-class="notice-title-popper"
-          :effect="tooltipEffect"
-          :disabled="!titleTooltip"
           :content="noticeItem.title"
-          placement="top-start"
+          :disabled="!titleTooltip"
+          :effect="tooltipEffect"
           :enterable="!isMobile"
+          placement="top-start"
+          popper-class="notice-title-popper"
         >
           <div ref="titleRef" class="notice-title-content" @mouseover="hoverTitle">
             {{ noticeItem.title }}
           </div>
         </el-tooltip>
-        <el-tag v-if="noticeItem?.extra" :type="noticeItem?.status" size="small" class="notice-title-extra">
+        <el-tag v-if="noticeItem?.extra" :type="noticeItem?.status" class="notice-title-extra">
           {{ noticeItem?.extra }}
         </el-tag>
       </div>
 
       <el-tooltip
-        popper-class="notice-title-popper"
-        :effect="tooltipEffect"
-        :disabled="!descriptionTooltip"
         :content="noticeItem.description"
+        :disabled="!descriptionTooltip"
+        :effect="tooltipEffect"
         placement="top-start"
+        popper-class="notice-title-popper"
       >
         <div
           ref="descriptionRef"
@@ -87,11 +87,6 @@ function hoverDescription(event, description) {
   </div>
 </template>
 
-<style>
-.notice-title-popper {
-  max-width: 238px;
-}
-</style>
 <style lang="scss" scoped>
 .notice-container {
   display: flex;

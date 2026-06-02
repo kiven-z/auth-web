@@ -18,7 +18,7 @@ function usePermissionBindingRoleColumns() {
       prop: 'status',
       minWidth: 90,
       formatter: (row: SysPermissionBoundRoleItem) => (
-        <ElTag type={row.status ? 'success' : 'danger'} effect="plain" size="small">
+        <ElTag type={row.status ? 'success' : 'danger'} effect="plain">
           {t(row.status ? 'roles.statusNormal' : 'roles.statusDisabled')}
         </ElTag>
       ),
@@ -33,7 +33,7 @@ function usePermissionBindingRoleColumns() {
           return <span>{String(row.roleType ?? '')}</span>;
         }
         return (
-          <ElTag type={option.tagType} effect="plain" size="small">
+          <ElTag type={option.tagType} effect="plain">
             {t(option.labelKey)}
           </ElTag>
         );

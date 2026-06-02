@@ -59,7 +59,7 @@ function handleRefresh() {
     </template>
 
     <template #default>
-      <div v-loading="loading" :class="contentClass" class="auth-el-tree-panel__wrap px-2 pb-4">
+      <div v-loading="loading" :class="contentClass" class="min-h-50 overflow-auto px-2">
         <el-tree
           ref="treeRef"
           :data="treeData"
@@ -67,7 +67,6 @@ function handleRefresh() {
           :expand-on-click-node="false"
           :node-key="nodeKey"
           :props="treeProps"
-          class="auth-el-tree-panel__tree"
           default-expand-all
           highlight-current
         >
@@ -86,23 +85,3 @@ function handleRefresh() {
     </template>
   </TableBar>
 </template>
-
-<style lang="scss" scoped>
-.auth-el-tree-panel__wrap {
-  min-height: 200px;
-}
-
-.auth-el-tree-panel__tree {
-  :deep(.el-tree-node__content) {
-    width: 100%;
-    height: auto;
-    min-height: var(--el-tree-node-content-height);
-    align-items: flex-start;
-  }
-
-  :deep(.el-tree-node__label) {
-    flex: 1;
-    min-width: 0;
-  }
-}
-</style>

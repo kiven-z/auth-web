@@ -49,7 +49,7 @@ function useMenuTableColumns() {
         const cfg = MENU_TYPE_TAG_MAP[row.menuType];
         if (!cfg) return '-';
         return (
-          <ElTag type={cfg.type} effect="plain" size="small">
+          <ElTag type={cfg.type} effect="plain">
             {t(cfg.labelKey)}
           </ElTag>
         );
@@ -72,7 +72,7 @@ function useMenuTableColumns() {
       prop: 'status',
       width: 90,
       formatter: (row: SysMenuRow) => (
-        <ElTag type={row.status ? 'success' : 'danger'} effect="plain" size="small">
+        <ElTag type={row.status ? 'success' : 'danger'} effect="plain">
           {row.status ? t('buttons.statusActiveText') : t('buttons.statusInactiveText')}
         </ElTag>
       ),
@@ -83,7 +83,7 @@ function useMenuTableColumns() {
       prop: 'showLink',
       width: 80,
       formatter: (row: SysMenuRow) => (
-        <ElTag type={row.showLink ? 'success' : 'info'} effect="plain" size="small">
+        <ElTag type={row.showLink ? 'success' : 'info'} effect="plain">
           {row.showLink ? t('sysMenu.showLinkYes') : t('sysMenu.showLinkNo')}
         </ElTag>
       ),
@@ -94,7 +94,7 @@ function useMenuTableColumns() {
       prop: 'keepAlive',
       width: 90,
       formatter: (row: SysMenuRow) => (
-        <ElTag type={row.keepAlive ? 'success' : 'info'} effect="plain" size="small">
+        <ElTag type={row.keepAlive ? 'success' : 'info'} effect="plain">
           {row.keepAlive ? t('sysMenu.keepAliveYes') : t('sysMenu.keepAliveNo')}
         </ElTag>
       ),

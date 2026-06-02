@@ -57,7 +57,7 @@ function useJobLogTableColumns() {
       prop: 'status',
       minWidth: 100,
       formatter: (row: JobLogPageRow) => (
-        <ElTag type={row.status ? 'success' : 'danger'} effect="plain" size="small">
+        <ElTag type={row.status ? 'success' : 'danger'} effect="plain">
           {row.status ? t('logJob.statusSuccess') : t('logJob.statusFailed')}
         </ElTag>
       ),

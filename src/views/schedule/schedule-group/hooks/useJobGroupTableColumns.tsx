@@ -28,7 +28,7 @@ function useJobGroupTableColumns() {
       minWidth: 100,
       formatter: (row: SysJobGroupPageRow) => {
         return (
-          <ElTag type={row.status ? 'success' : 'danger'} effect="plain" size="small">
+          <ElTag type={row.status ? 'success' : 'danger'} effect="plain">
             {row.status ? t('buttons.statusActiveText') : t('buttons.statusInactiveText')}
           </ElTag>
         );

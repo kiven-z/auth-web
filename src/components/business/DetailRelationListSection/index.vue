@@ -47,7 +47,6 @@ const itemCount = computed(() => props.items?.length ?? 0);
         :row-key="rowKey"
         border
         class="w-full"
-        size="small"
         stripe
       />
       <el-text v-else class="block py-2" type="info">

@@ -24,7 +24,7 @@ function useRoleTableColumns() {
       minWidth: 100,
       formatter: (row: SysRolePageRow) => {
         return (
-          <ElTag type={row.status ? 'success' : 'danger'} effect="plain" size="small">
+          <ElTag type={row.status ? 'success' : 'danger'} effect="plain">
             {row.status ? t('roles.statusNormal') : t('roles.statusDisabled')}
           </ElTag>
         );
@@ -39,7 +39,7 @@ function useRoleTableColumns() {
         const option = ROLE_TYPE_FILTER_OPTIONS.find((item) => item.value === row.roleType);
         if (!option) return String(row.roleType ?? '');
         return (
-          <ElTag type={option.tagType} effect="plain" size="small">
+          <ElTag type={option.tagType} effect="plain">
             {t(option.labelKey)}
           </ElTag>
         );

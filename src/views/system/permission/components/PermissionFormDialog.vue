@@ -97,7 +97,7 @@ defineExpose({ formRef, form });
               :value="opt.value"
             />
           </el-select>
-          <el-text v-if="isEditMode" class="mt-1 block" size="small" type="info">
+          <el-text v-if="isEditMode" class="mt-1 block" type="info">
             {{ t('permissions.permissionTypeImmutableHint') }}
           </el-text>
         </el-form-item>

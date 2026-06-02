@@ -38,7 +38,7 @@ const columns = computed(() => [
       const label = t(key);
 
       return (
-        <ElTag type={getLoginLogResultTagType(value)} effect="plain" size="small">
+        <ElTag type={getLoginLogResultTagType(value)} effect="plain">
           {label === key ? String(value) : label}
         </ElTag>
       );

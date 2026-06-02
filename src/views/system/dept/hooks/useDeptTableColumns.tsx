@@ -32,7 +32,7 @@ function useDeptTableColumns() {
       formatter: (row: SysDeptRow) => {
         const isNormal = row.status === true;
         return (
-          <ElTag type={isNormal ? 'success' : 'danger'} effect="plain" size="small">
+          <ElTag type={isNormal ? 'success' : 'danger'} effect="plain">
             {isNormal ? t('dept.statusNormal') : t('dept.statusDisabled')}
           </ElTag>
         );

@@ -26,7 +26,7 @@ const columns = computed(() => [
     label: t('scheduleGroup.status'),
     prop: 'status',
     cellRenderer: ({ value }: { value: boolean }) => (
-      <ElTag type={value ? 'success' : 'danger'} effect="plain" size="small">
+      <ElTag type={value ? 'success' : 'danger'} effect="plain">
         {t(value ? 'buttons.statusActiveText' : 'buttons.statusInactiveText')}
       </ElTag>
     ),

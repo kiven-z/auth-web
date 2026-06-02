@@ -24,7 +24,7 @@ const columns = computed(() => [
     prop: 'status',
     labelWidth: 120,
     cellRenderer: ({ value }: { value: boolean }) => (
-      <ElTag type={value ? 'success' : 'danger'} effect="plain" size="small">
+      <ElTag type={value ? 'success' : 'danger'} effect="plain">
         {t(value ? 'buttons.statusActiveText' : 'buttons.statusInactiveText')}
       </ElTag>
     ),

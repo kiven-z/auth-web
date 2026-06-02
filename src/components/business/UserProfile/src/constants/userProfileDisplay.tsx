@@ -20,7 +20,7 @@ export function renderUserAccountStatus(t: Translate, value: number | undefined 
         ? 'users.accountStatus.disabled'
         : 'users.accountStatus.locked';
   return (
-    <ElTag type={type} effect="plain" size="small">
+    <ElTag type={type} effect="plain">
       {t(labelKey)}
     </ElTag>
   );
@@ -59,7 +59,7 @@ export function renderRelationStatus(t: Translate, value: number | undefined | n
         ? 'users.relationStatus.transferred'
         : 'users.relationStatus.partTime';
   return (
-    <ElTag type={type} effect="plain" size="small">
+    <ElTag type={type} effect="plain">
       {t(labelKey)}
     </ElTag>
   );

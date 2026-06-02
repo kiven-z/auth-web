@@ -63,7 +63,7 @@ const descriptionColumns = computed(() => [
       const option = DEPT_STATUS_FILTER_OPTIONS.find((item) => item.value === value);
       const labelKey = option?.labelKey ?? (value ? 'dept.statusNormal' : 'dept.statusDisabled');
       return (
-        <ElTag type={value ? 'success' : 'danger'} effect="plain" size="small">
+        <ElTag type={value ? 'success' : 'danger'} effect="plain">
           {t(labelKey)}
         </ElTag>
       );

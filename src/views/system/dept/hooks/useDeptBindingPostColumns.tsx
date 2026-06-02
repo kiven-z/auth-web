@@ -17,7 +17,7 @@ function useDeptBindingPostColumns() {
       prop: 'status',
       minWidth: 90,
       formatter: (row: SysDeptBoundPostItem) => (
-        <ElTag type={row.status ? 'success' : 'danger'} effect="plain" size="small">
+        <ElTag type={row.status ? 'success' : 'danger'} effect="plain">
           {t(row.status ? 'buttons.statusActiveText' : 'buttons.statusInactiveText')}
         </ElTag>
       ),
