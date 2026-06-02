@@ -75,6 +75,18 @@ export interface SysDeptBoundRoleItem {
 }
 
 /**
+ * 部门新增表单（对齐 {@code SysDeptCreateForm}）
+ */
+export interface SysDeptCreateForm {
+  parentId: string;
+  deptName: string;
+  deptCode: string;
+  status: boolean;
+  orderNum?: number;
+  remark?: string;
+}
+
+/**
  * 部门详情（对齐 {@code SysDeptDetailVO} + BaseResponse）
  */
 export interface SysDeptDetail extends BaseResponseDetail {
@@ -103,6 +115,13 @@ export function getDeptPage(params: SysDeptPageQuery): Promise<PageResponse<SysD
   return http.get<PageResponse<SysDeptListVO>, AxiosRequestConfig<SysDeptPageQuery>>('/system/dept/page', {
     params,
   });
+}
+
+/**
+ * 新增部门
+ */
+export function createDept(data: SysDeptCreateForm): Promise<void> {
+  return http.post<void, SysDeptCreateForm>('/system/dept', { data });
 }
 
 /**

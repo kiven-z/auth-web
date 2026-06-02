@@ -49,11 +49,11 @@ onMounted(() => {
     @refresh="fetchTreeData"
   >
     <template #toolbar>
-      <el-button type="primary" @click="openCreateDialog">{{ t('buttons.actionAdd') }}</el-button>
+      <el-button type="primary" @click="() => openCreateDialog()">{{ t('buttons.actionAdd') }}</el-button>
     </template>
 
     <template #meta="{ data }">
-      <span class="font-medium">{{ data.deptName }}</span>
+      <span :class="{ 'text-(--el-text-color-secondary)': !data.status }" class="font-medium">{{ data.deptName }}</span>
       <span class="text-xs text-(--el-text-color-secondary)">({{ data.deptCode }})</span>
       <el-tag :type="data.status ? 'success' : 'danger'" effect="plain" size="small">
         {{ data.status ? t('dept.statusNormal') : t('dept.statusDisabled') }}
@@ -63,12 +63,14 @@ onMounted(() => {
     <template #actions="{ data }">
       <DeptRowActions
         :delete-batch-rows="deleteBatchRows"
-        compact
         :open-assign-post-drawer="openAssignPostDrawer"
         :open-assign-role-drawer="openAssignRoleDrawer"
+        :open-create-dialog="openCreateDialog"
         :open-detail-dialog="openDetailDialog"
         :open-edit-dialog="openEditDialog"
         :row="data"
+        compact
+        show-add-child
       />
     </template>
   </AuthElTreePanel>

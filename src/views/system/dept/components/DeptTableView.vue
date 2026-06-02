@@ -55,7 +55,7 @@ onMounted(() => {
       </el-form-item>
 
       <el-form-item :label="t('dept.status')" prop="status">
-        <el-select v-model="searchForm.status" :placeholder="t('dept.status')" class="w-[140px]!" clearable>
+        <el-select v-model="searchForm.status" :placeholder="t('dept.status')" class="w-45!" clearable>
           <el-option
             v-for="opt in DEPT_STATUS_FILTER_OPTIONS"
             :key="`${opt.labelKey}:${String(opt.value)}`"
@@ -82,7 +82,7 @@ onMounted(() => {
     >
       <template #buttons>
         <el-button-group type="primary">
-          <el-button type="primary" @click="openCreateDialog">{{ t('buttons.actionAdd') }}</el-button>
+          <el-button type="primary" @click="openCreateDialog()">{{ t('buttons.actionAdd') }}</el-button>
         </el-button-group>
       </template>
 

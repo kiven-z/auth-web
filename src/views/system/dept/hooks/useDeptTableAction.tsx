@@ -1,16 +1,19 @@
 import type { TableActionDeps } from '@/api/common';
-import type { SysDeptListVO } from '@/api/system/dept';
-import { deleteDepts, getDeptDetail, getDeptList } from '@/api/system/dept';
+import type { SysDeptCreateForm, SysDeptListVO } from '@/api/system/dept';
+import { createDept, deleteDepts, getDeptDetail, getDeptList } from '@/api/system/dept';
 import { addDialog } from '@/components/ui/Dialog';
 import useBatchDeleteAction from '@/shared/hooks/useBatchDeleteAction';
+import { type FormOverlayExpose, useFormOverlaySubmit } from '@/shared/hooks/useFormOverlaySubmit';
 import { errorMessage, message } from '@/shared/messaging/message';
 import DeptDescriptionDialog from '@/views/system/dept/components/DeptDescriptionDialog.vue';
+import DeptFormDialog from '@/views/system/dept/components/DeptFormDialog.vue';
 import type { DeptViewMode, SysDeptRow } from '@/views/system/dept/hooks/useDeptPageState';
+import { DEPT_ROOT_PARENT_ID } from '@/views/system/dept/utils/dept-parent';
 import type { Ref } from 'vue';
-import { h } from 'vue';
+import { h, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 
-const ROOT_PARENT_ID = '0';
+const ROOT_PARENT_ID = DEPT_ROOT_PARENT_ID;
 
 export interface DeptTableActionDeps extends TableActionDeps {
   fetchTreeData: () => Promise<void>;
@@ -20,11 +23,12 @@ export interface DeptTableActionDeps extends TableActionDeps {
 }
 
 /**
- * 部门行操作：详情、删除等（编辑/新增表单待后续接入）
+ * 部门行操作：详情、新增、删除等
  */
 function useDeptTableAction(deps: DeptTableActionDeps) {
   const { t } = useI18n();
   const { refresh } = deps;
+  const { createFormBeforeSure } = useFormOverlaySubmit();
 
   const { deleteBatchRows } = useBatchDeleteAction({
     selectedRows: deps.selectedRows,
@@ -68,10 +72,39 @@ function useDeptTableAction(deps: DeptTableActionDeps) {
   };
 
   /**
-   * 打开新增（表单未实现）
+   * 打开新增弹窗
+   * @param parentRow 树视图「新增下级」时传入，预填父部门（须为启用状态）
    */
-  const openCreateDialog = () => {
-    message('部门新增功能开发中', { type: 'warning' });
+  const openCreateDialog = (parentRow?: SysDeptRow) => {
+    const initialForm: SysDeptCreateForm = {
+      parentId: parentRow?.status ? parentRow.id : DEPT_ROOT_PARENT_ID,
+      deptName: '',
+      deptCode: '',
+      status: true,
+      orderNum: 0,
+    };
+    const dialogFormRef = ref<FormOverlayExpose<SysDeptCreateForm> | null>(null);
+
+    addDialog({
+      title: t('dept.dialogCreateTitle'),
+      draggable: true,
+      fullscreenIcon: true,
+      closeOnClickModal: false,
+      closeOnPressEscape: false,
+      contentRenderer: () => h(DeptFormDialog, { ref: dialogFormRef, form: initialForm }),
+      beforeSure: createFormBeforeSure<SysDeptCreateForm>({
+        formExposeRef: dialogFormRef,
+        errorI18nKey: 'dept.createFailed',
+        successI18nKey: 'tips.addSuccess',
+        onSubmit: async (formPayload) => {
+          await createDept({
+            ...formPayload,
+            parentId: formPayload.parentId || DEPT_ROOT_PARENT_ID,
+          });
+          await refresh();
+        },
+      }),
+    });
   };
 
   /**

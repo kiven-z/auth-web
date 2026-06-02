@@ -164,3 +164,39 @@ export const handleTree = (data: any[], id?: string, parentId?: string, children
   }
   return tree;
 };
+
+/** 树节点最小结构（用于路径查找） */
+export interface TreePathNode {
+  id: string;
+  children?: TreePathNode[];
+}
+
+/**
+ * 查找自根到目标 id 的路径（用于 el-cascader v-model）
+ * @param nodes 树形数据
+ * @param targetId 目标节点 id；空或顶级时返回空路径
+ * @param path
+ */
+export const findTreePathById = (
+  nodes: TreePathNode[],
+  targetId: string | null | undefined,
+  path: string[] = []
+): string[] => {
+  if (!targetId || targetId === '0') {
+    return [];
+  }
+  for (const node of nodes) {
+    const next = [...path, node.id];
+    if (node.id === targetId) {
+      return next;
+    }
+    const children = node.children;
+    if (children?.length) {
+      const hit = findTreePathById(children, targetId, next);
+      if (hit.length) {
+        return hit;
+      }
+    }
+  }
+  return [];
+};

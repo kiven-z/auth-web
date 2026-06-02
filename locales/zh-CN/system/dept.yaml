@@ -2,6 +2,9 @@ dept:
   moduleName: 部门
   pageTitle: 部门管理
   dialogViewTitle: 查看部门详情
+  dialogCreateTitle: 新增部门
+  addChild: 新增下级
+  createFailed: 新增部门失败
   loadFailed: 加载部门列表失败
   loadDetailFailed: 加载部门详情失败
   deleteFailed: 删除部门失败
@@ -23,6 +26,8 @@ dept:
   statusDisabled: 禁用
   parentDept: 上级部门
   parentTopLevel: 顶级部门
+  placeholder:
+    parentDept: 不选则为顶级部门
   relationStatus: 关联状态
   position: 部门内职位
   joinTime: 加入时间

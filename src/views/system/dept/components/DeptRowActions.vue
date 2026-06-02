@@ -11,8 +11,11 @@ interface DeptRowActionsProps {
   row: SysDeptRow;
   // 树节点内使用较小按钮
   compact?: boolean;
+  // 树视图展示「新增下级」
+  showAddChild?: boolean;
   openDetailDialog: (row: SysDeptRow) => void;
   openEditDialog: (row: SysDeptRow) => void;
+  openCreateDialog?: (row: SysDeptRow) => void;
   deleteBatchRows: (ids?: unknown) => void;
   openAssignRoleDrawer: (row: SysDeptRow) => void;
   openAssignPostDrawer: (row: SysDeptRow) => void;
@@ -20,6 +23,7 @@ interface DeptRowActionsProps {
 
 const props = withDefaults(defineProps<DeptRowActionsProps>(), {
   compact: false,
+  showAddChild: false,
 });
 
 const { t } = useI18n();
@@ -32,6 +36,17 @@ const buttonSize = props.compact ? ('small' as const) : undefined;
     <!-- 查看 -->
     <el-button link :size="buttonSize" type="primary" @click="openDetailDialog(row)">
       {{ t('buttons.actionView') }}
+    </el-button>
+
+    <!-- 新增下级（树视图） -->
+    <el-button
+      v-if="showAddChild && openCreateDialog && row.status"
+      link
+      :size="buttonSize"
+      type="primary"
+      @click="openCreateDialog(row)"
+    >
+      {{ t('dept.addChild') }}
     </el-button>
 
     <!-- 编辑 -->
