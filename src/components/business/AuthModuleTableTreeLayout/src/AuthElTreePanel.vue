@@ -2,10 +2,11 @@
 import TableBar from '@/components/ui/TableBar';
 import { useElTreeExpandCollapse } from '@/components/business/AuthModuleTableTreeLayout/src/useElTreeExpandCollapse';
 import type { TreeInstance } from 'element-plus';
-import { ref, toRef } from 'vue';
+import { ref, toRef, useAttrs } from 'vue';
 
 defineOptions({
   name: 'AuthElTreePanel',
+  inheritAttrs: false,
 });
 
 const props = withDefaults(
@@ -36,6 +37,7 @@ const emit = defineEmits<{
 
 const treeRef = ref<TreeInstance>();
 const treeDataRef = toRef(props, 'treeData');
+const attrs = useAttrs();
 
 const { expandedKeys, expandAll, collapseAll } = useElTreeExpandCollapse({
   treeRef,
@@ -69,6 +71,7 @@ function handleRefresh() {
           :props="treeProps"
           default-expand-all
           highlight-current
+          v-bind="attrs"
         >
           <template #default="{ data }">
             <div class="auth-el-tree-panel__row flex flex-wrap items-center gap-2 py-1 w-full min-w-0">

@@ -87,6 +87,14 @@ export interface SysDeptCreateForm {
 }
 
 /**
+ * 部门移动表单（对齐 {@code SysDeptMoveForm}）
+ */
+export interface SysDeptMoveForm {
+  /** 新父部门 ID；顶级传 0 */
+  parentId: string;
+}
+
+/**
  * 部门详情（对齐 {@code SysDeptDetailVO} + BaseResponse）
  */
 export interface SysDeptDetail extends BaseResponseDetail {
@@ -138,6 +146,15 @@ export function getDeptDetail(id: string): Promise<SysDeptDetail> {
  */
 export function deleteDept(id: string): Promise<void> {
   return http.request<void>('delete', `/system/dept/${id}`);
+}
+
+/**
+ * 移动部门（变更父部门）
+ * @param id 部门主键
+ * @param data 新父部门
+ */
+export function moveDept(id: string, data: SysDeptMoveForm): Promise<void> {
+  return http.put<void, SysDeptMoveForm>(`/system/dept/${id}/move`, { data });
 }
 
 /**
