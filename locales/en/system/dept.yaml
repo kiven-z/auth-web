@@ -14,7 +14,6 @@ dept:
   collapseAll: Collapse All
   assignRole: Assign roles
   assignCurrentDept: Current department
-  assignPost: Assign posts
   isPrimaryDepartment: Primary department
   primaryDepartment: Primary
   secondaryDepartment: Secondary

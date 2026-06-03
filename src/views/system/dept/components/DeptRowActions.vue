@@ -18,7 +18,6 @@ interface DeptRowActionsProps {
   openCreateDialog?: (row: SysDeptRow) => void;
   deleteBatchRows: (ids?: unknown) => void;
   openAssignRoleDrawer: (row: SysDeptRow) => void;
-  openAssignPostDrawer: (row: SysDeptRow) => void;
 }
 
 const props = withDefaults(defineProps<DeptRowActionsProps>(), {
@@ -68,9 +67,6 @@ const buttonSize = props.compact ? ('small' as const) : undefined;
         <el-dropdown-menu>
           <el-dropdown-item @click="openAssignRoleDrawer(row)">
             {{ t('dept.assignRole') }}
-          </el-dropdown-item>
-          <el-dropdown-item @click="openAssignPostDrawer(row)">
-            {{ t('dept.assignPost') }}
           </el-dropdown-item>
         </el-dropdown-menu>
       </template>

@@ -35,7 +35,7 @@ const tableActionDeps = {
 
 const { openCreateDialog, openDetailDialog, openEditDialog, deleteBatchRows } = useDeptTableAction(tableActionDeps);
 
-const { openAssignRoleDrawer, openAssignPostDrawer } = useDeptMoreAction(tableActionDeps);
+const { openAssignRoleDrawer } = useDeptMoreAction(tableActionDeps);
 
 /**
  * 是否允许拖拽到目标节点
@@ -134,7 +134,6 @@ onMounted(() => {
     <template #actions="{ data }">
       <DeptRowActions
         :delete-batch-rows="deleteBatchRows"
-        :open-assign-post-drawer="openAssignPostDrawer"
         :open-assign-role-drawer="openAssignRoleDrawer"
         :open-create-dialog="openCreateDialog"
         :open-detail-dialog="openDetailDialog"

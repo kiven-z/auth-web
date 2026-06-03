@@ -14,11 +14,8 @@ interface AssignPanelExpose {
   getSelectedKeys: () => string[];
 }
 
-/** 待开发：分配岗位能力上线前占位提示 */
-const ASSIGN_POST_NOT_READY_MESSAGE = '部门分配岗位功能开发中';
-
 /**
- * 部门「更多」操作（分配角色/岗位）
+ * 部门「更多」操作（分配角色）
  */
 function useDeptMoreAction(deps: DeptMoreActionDeps) {
   const { refresh } = deps;
@@ -58,17 +55,8 @@ function useDeptMoreAction(deps: DeptMoreActionDeps) {
     });
   };
 
-  /**
-   * 分配岗位（暂未开放）
-   */
-  const openAssignPostDrawer = (_row: SysDeptListVO) => {
-    void _row;
-    message(ASSIGN_POST_NOT_READY_MESSAGE, { type: 'warning' });
-  };
-
   return {
     openAssignRoleDrawer,
-    openAssignPostDrawer,
   };
 }
 

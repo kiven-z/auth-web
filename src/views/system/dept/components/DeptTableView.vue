@@ -31,7 +31,7 @@ const tableActionDeps = {
 
 const { openCreateDialog, openDetailDialog, openEditDialog, deleteBatchRows } = useDeptTableAction(tableActionDeps);
 
-const { openAssignRoleDrawer, openAssignPostDrawer } = useDeptMoreAction(tableActionDeps);
+const { openAssignRoleDrawer } = useDeptMoreAction(tableActionDeps);
 
 onMounted(() => {
   fetchTableData();
@@ -89,7 +89,6 @@ onMounted(() => {
       <template #actions="{ row }">
         <DeptRowActions
           :delete-batch-rows="deleteBatchRows"
-          :open-assign-post-drawer="openAssignPostDrawer"
           :open-assign-role-drawer="openAssignRoleDrawer"
           :open-detail-dialog="openDetailDialog"
           :open-edit-dialog="openEditDialog"
