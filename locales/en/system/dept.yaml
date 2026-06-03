@@ -40,5 +40,34 @@ dept:
   boundUsersEmpty: No linked users
   boundPostsEmpty: No posts
   boundRolesEmpty: No granted roles
+  closureHealthCheck: Closure table health check
+  closureHealthTitle: Department closure table health
+  closureHealthLoadFailed: Failed to load closure health check
+  closureHealthRecheck: Run again
+  closureHealthSummary: Summary
+  closureHealthStatsTitle: Health statistics
+  closureHealthParentLinkTitle: Parent link anomalies (sample)
+  closureHealthDepthChainTitle: Depth chain anomalies (sample)
+  closureHealthAnomalyEmpty: No anomalies
+  closureHealthPassed: Result
+  closureHealthPassedYes: Passed
+  closureHealthPassedNo: Failed
+  closureHealthCheckedAt: Checked at
+  closureHealthMissingParentLink: Missing parent links
+  closureHealthDepthChain: Depth chain anomalies
+  closureHealthParentLinkTruncated: Parent sample truncated
+  closureHealthDepthChainTruncated: Depth sample truncated
+  closureHealthOnlySelf: Only self-loop
+  closureHealthHasAncestors: Has ancestor chain
+  closureHealthZeroClosure: Zero closure rows
+  closureHealthTotal: Active departments
+  closureHealthLinkStatus: Link status
+  closureHealthChildCnt: Child closure rows
+  closureHealthParentCnt: Parent closure rows
+  closureHealthExpectedCnt: Expected rows
+  closureHealthYes: Yes
+  closureHealthNo: No
+  closureHealthAlertPass: Closure table consistency check passed
+  closureHealthAlertFail: Closure table inconsistencies detected; investigate data or contact ops
   tips:
     affiliatedDeptInfo: Departments

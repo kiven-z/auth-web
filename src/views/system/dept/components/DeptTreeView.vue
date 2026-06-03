@@ -3,6 +3,7 @@ import { AuthElTreePanel } from '@/components/business/AuthModuleTableTreeLayout
 import { moveDept } from '@/api/system/dept';
 import { operationConfirm } from '@/shared/messaging/dialog';
 import { errorMessage, message } from '@/shared/messaging/message';
+import DeptHeadButtons from '@/views/system/dept/components/DeptHeadButtons.vue';
 import DeptRowActions from '@/views/system/dept/components/DeptRowActions.vue';
 import useDeptMoreAction from '@/views/system/dept/hooks/useDeptMoreAction';
 import useDeptPageState from '@/views/system/dept/hooks/useDeptPageState';
@@ -22,8 +23,7 @@ const treeProps = {
 
 const { t } = useI18n();
 
-const deptPageState = useDeptPageState();
-const { loading, selectedRows, treeData, viewMode, fetchTableData, fetchTreeData, refresh } = deptPageState;
+const { loading, selectedRows, treeData, viewMode, fetchTableData, fetchTreeData, refresh } = useDeptPageState();
 
 const tableActionDeps = {
   fetchTableData,
@@ -120,7 +120,10 @@ onMounted(() => {
     @node-drop="onNodeDrop"
   >
     <template #toolbar>
+      <!-- 新增 -->
       <el-button type="primary" @click="() => openCreateDialog()">{{ t('buttons.actionAdd') }}</el-button>
+
+      <DeptHeadButtons />
     </template>
 
     <template #meta="{ data }">

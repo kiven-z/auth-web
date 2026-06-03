@@ -40,5 +40,34 @@ dept:
   boundUsersEmpty: 暂无关联用户
   boundPostsEmpty: 暂无下属岗位
   boundRolesEmpty: 暂无已授权角色
+  closureHealthCheck: 闭包表健康检查
+  closureHealthTitle: 部门闭包表健康检查
+  closureHealthLoadFailed: 闭包表健康检查失败
+  closureHealthRecheck: 再次检查
+  closureHealthSummary: 检查摘要
+  closureHealthStatsTitle: 健康度统计
+  closureHealthParentLinkTitle: 父子直连异常（样本）
+  closureHealthDepthChainTitle: 深度链条异常（样本）
+  closureHealthAnomalyEmpty: 无异常记录
+  closureHealthPassed: 检查结果
+  closureHealthPassedYes: 通过
+  closureHealthPassedNo: 未通过
+  closureHealthCheckedAt: 检查时间
+  closureHealthMissingParentLink: 父子直连缺失数
+  closureHealthDepthChain: 深度链条异常数
+  closureHealthParentLinkTruncated: 父子样本已截断
+  closureHealthDepthChainTruncated: 深度样本已截断
+  closureHealthOnlySelf: 仅自环部门数
+  closureHealthHasAncestors: 含祖先链部门数
+  closureHealthZeroClosure: 无闭包行部门数
+  closureHealthTotal: 活跃部门总数
+  closureHealthLinkStatus: 链接状态
+  closureHealthChildCnt: 子节点闭包行数
+  closureHealthParentCnt: 父节点闭包行数
+  closureHealthExpectedCnt: 期望行数
+  closureHealthYes: 是
+  closureHealthNo: 否
+  closureHealthAlertPass: 闭包表一致性检查通过
+  closureHealthAlertFail: 闭包表存在一致性异常，请排查数据或联系运维
   tips:
     affiliatedDeptInfo: 所属部门

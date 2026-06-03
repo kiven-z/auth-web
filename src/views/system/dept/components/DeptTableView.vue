@@ -5,6 +5,7 @@ import { DEPT_STATUS_FILTER_OPTIONS } from '@/views/system/dept/constants/dept-s
 import useDeptMoreAction from '@/views/system/dept/hooks/useDeptMoreAction';
 import useDeptPageState from '@/views/system/dept/hooks/useDeptPageState';
 import useDeptTableAction from '@/views/system/dept/hooks/useDeptTableAction';
+import DeptHeadButtons from '@/views/system/dept/components/DeptHeadButtons.vue';
 import useDeptTableColumns from '@/views/system/dept/hooks/useDeptTableColumns';
 import type { FormInstance } from 'element-plus';
 import { onMounted, ref } from 'vue';
@@ -82,7 +83,10 @@ onMounted(() => {
     >
       <template #buttons>
         <el-button-group type="primary">
+          <!-- 新增 -->
           <el-button type="primary" @click="openCreateDialog()">{{ t('buttons.actionAdd') }}</el-button>
+
+          <DeptHeadButtons />
         </el-button-group>
       </template>
 
