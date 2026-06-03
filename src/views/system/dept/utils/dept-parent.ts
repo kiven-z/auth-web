@@ -14,28 +14,15 @@ export interface DeptParentCascaderNode {
 }
 
 /**
- * 仅启用部门参与父级选择，并构造成 cascader 树
+ * 未删除部门构造成父级 cascader 树（含停用部门，管理端可编辑/回显）
  */
-export function buildActiveDeptParentTree(list: SysDeptListVO[]): DeptParentCascaderNode[] {
-  const nodes = list
-    .filter((item) => item.status)
-    .map((item) => ({
-      id: item.id,
-      value: item.id,
-      parentId: item.parentId,
-      label: item.deptName,
-      deptCode: item.deptCode,
-    }));
+export function buildDeptParentTree(list: SysDeptListVO[]): DeptParentCascaderNode[] {
+  const nodes = list.map((item) => ({
+    id: item.id,
+    value: item.id,
+    parentId: item.parentId,
+    label: item.deptName,
+    deptCode: item.deptCode,
+  }));
   return handleTree(nodes, 'id', 'parentId', 'children') as DeptParentCascaderNode[];
-}
-
-/**
- * cascader 路径末级为 parentId；清空表示顶级
- */
-export function cascaderPathToParentId(path: string[] | undefined | null): string {
-  if (!Array.isArray(path) || path.length === 0) {
-    return DEPT_ROOT_PARENT_ID;
-  }
-  const last = path.at(-1);
-  return last && last.length > 0 ? last : DEPT_ROOT_PARENT_ID;
 }

@@ -4,12 +4,9 @@ dept:
   dialogViewTitle: Department Details
   dialogCreateTitle: Add Department
   dialogEditTitle: Edit Department
-  updateFailed: Failed to update department
   addChild: Add Child
-  createFailed: Failed to create department
   loadFailed: Failed to load departments
   loadDetailFailed: Failed to load department details
-  deleteFailed: Failed to delete department
   moveSuccess: Department moved successfully
   moveFailed: Failed to move department
   moveConfirmTitle: Confirm department move

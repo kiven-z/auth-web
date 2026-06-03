@@ -3,7 +3,6 @@ sysMenu:
   tableTitle: Menu list
   loadFailed: Failed to load menu data
   saveFailed: Failed to save menu
-  deleteFailed: Failed to delete menu
   statusFailed: Failed to update menu status
   assignRoleTitle: Assign roles
   assignPermissionTitle: Assign permissions

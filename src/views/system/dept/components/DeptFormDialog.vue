@@ -3,15 +3,13 @@ import type { FormDialog } from '@/api/common';
 import type { SysDeptCreateForm, SysDeptUpdateForm } from '@/api/system/dept';
 import { getDeptList } from '@/api/system/dept';
 import { errorMessage } from '@/shared/messaging/message';
-import { findTreePathById } from '@/shared/lib/tree';
 import {
-  buildActiveDeptParentTree,
-  cascaderPathToParentId,
+  buildDeptParentTree,
   DEPT_ROOT_PARENT_ID,
   type DeptParentCascaderNode,
 } from '@/views/system/dept/utils/dept-parent';
 import type { CascaderProps, FormInstance, FormRules } from 'element-plus';
-import { onMounted, reactive, ref, watch } from 'vue';
+import { computed, onMounted, reactive, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 type DeptFormModel = SysDeptCreateForm | SysDeptUpdateForm;
@@ -33,23 +31,28 @@ const form = ref<DeptFormModel>({
 
 const parentCascaderProps: CascaderProps = {
   checkStrictly: true,
-  emitPath: true,
+  emitPath: false,
   value: 'value',
   label: 'label',
   children: 'children',
 };
 
 const parentTree = ref<DeptParentCascaderNode[]>([]);
-const parentIdPath = ref<string[]>([]);
+
+const parentCascaderModel = computed({
+  get: () => {
+    const pid = form.value.parentId;
+    return pid && pid !== DEPT_ROOT_PARENT_ID ? pid : undefined;
+  },
+  set: (value: string | undefined | null) => {
+    form.value.parentId = value && value.length > 0 ? value : DEPT_ROOT_PARENT_ID;
+  },
+});
 
 const rules = reactive<FormRules>({
   deptName: [{ required: true, message: t('dept.deptName'), trigger: 'blur' }],
   deptCode: [{ required: true, message: t('dept.deptCode'), trigger: 'blur' }],
   status: [{ required: true, message: t('dept.status'), trigger: 'change' }],
-});
-
-watch(parentIdPath, (path) => {
-  form.value.parentId = cascaderPathToParentId(path);
 });
 
 /**
@@ -58,15 +61,10 @@ watch(parentIdPath, (path) => {
 const loadParentTree = async () => {
   try {
     const list = await getDeptList();
-    parentTree.value = buildActiveDeptParentTree(list ?? []);
-
-    const targetId =
-      form.value.parentId && form.value.parentId !== DEPT_ROOT_PARENT_ID ? form.value.parentId : undefined;
-    parentIdPath.value = findTreePathById(parentTree.value, targetId);
+    parentTree.value = buildDeptParentTree(list ?? []);
   } catch (e: unknown) {
     errorMessage(e, { defaultI18nKey: 'dept.loadFailed' });
     parentTree.value = [];
-    parentIdPath.value = [];
     form.value.parentId = DEPT_ROOT_PARENT_ID;
   }
 };
@@ -84,7 +82,7 @@ defineExpose({ formRef, form });
       <el-col :span="24">
         <el-form-item :label="t('dept.parentDept')" prop="parentId">
           <el-cascader
-            v-model="parentIdPath"
+            v-model="parentCascaderModel"
             :options="parentTree"
             :placeholder="t('dept.placeholder.parentDept')"
             :props="parentCascaderProps"

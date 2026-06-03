@@ -6,8 +6,11 @@ tips:
   lastTimeConfirmTitle: Last reminder, continue?
   operationSuccess: Operation successful
   addSuccess: Added successfully
+  addFailed: Failed to add
   editSuccess: Updated successfully
+  editFailed: Failed to update
   deleteSuccess: Deleted successfully
+  deleteFailed: Failed to delete
   animationIsNotExist: That animation doesn’t exist
   assignEmptySelected: No items selected. Please choose.
   assignLoadFailed: Failed to load assignment data

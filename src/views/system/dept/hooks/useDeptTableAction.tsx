@@ -34,7 +34,7 @@ function useDeptTableAction(deps: DeptTableActionDeps) {
     selectedRows: deps.selectedRows,
     deleteApi: deleteDepts,
     onSuccess: refresh,
-    errorDefaultI18nKey: 'dept.deleteFailed',
+    errorDefaultI18nKey: 'tips.deleteFailed',
   });
 
   /**
@@ -73,11 +73,11 @@ function useDeptTableAction(deps: DeptTableActionDeps) {
 
   /**
    * 打开新增弹窗
-   * @param parentRow 树视图「新增下级」时传入，预填父部门（须为启用状态）
+   * @param parentRow 树视图「新增下级」时传入，预填父部门
    */
   const openCreateDialog = (parentRow?: SysDeptRow) => {
     const initialForm: SysDeptCreateForm = {
-      parentId: parentRow?.status ? parentRow.id : DEPT_ROOT_PARENT_ID,
+      parentId: parentRow?.id ?? DEPT_ROOT_PARENT_ID,
       deptName: '',
       deptCode: '',
       status: true,
@@ -94,7 +94,7 @@ function useDeptTableAction(deps: DeptTableActionDeps) {
       contentRenderer: () => h(DeptFormDialog, { ref: dialogFormRef, form: initialForm }),
       beforeSure: createFormBeforeSure<SysDeptCreateForm>({
         formExposeRef: dialogFormRef,
-        errorI18nKey: 'dept.createFailed',
+        errorI18nKey: 'tips.addFailed',
         successI18nKey: 'tips.addSuccess',
         onSubmit: async (formPayload) => {
           await createDept({
@@ -136,7 +136,7 @@ function useDeptTableAction(deps: DeptTableActionDeps) {
         beforeSure: createFormBeforeSure<SysDeptUpdateForm>({
           formExposeRef: dialogFormRef,
           requireId: true,
-          errorI18nKey: 'dept.updateFailed',
+          errorI18nKey: 'tips.editFailed',
           successI18nKey: 'tips.editSuccess',
           onSubmit: async (formData) => {
             await updateDept(row.id, {

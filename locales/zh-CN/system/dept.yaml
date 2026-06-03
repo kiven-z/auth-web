@@ -4,12 +4,9 @@ dept:
   dialogViewTitle: 查看部门详情
   dialogCreateTitle: 新增部门
   dialogEditTitle: 编辑部门
-  updateFailed: 更新部门失败
   addChild: 新增下级
-  createFailed: 新增部门失败
   loadFailed: 加载部门列表失败
   loadDetailFailed: 加载部门详情失败
-  deleteFailed: 删除部门失败
   moveSuccess: 移动部门成功
   moveFailed: 移动部门失败
   moveConfirmTitle: 确认移动部门

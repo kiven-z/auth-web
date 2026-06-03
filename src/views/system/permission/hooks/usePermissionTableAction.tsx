@@ -126,7 +126,7 @@ function usePermissionTableAction(deps: TableActionDeps) {
       message(t('tips.deleteSuccess'), { type: 'success' });
       await fetchTableData();
     } catch (error: unknown) {
-      errorMessage(error, { defaultI18nKey: 'permissions.deleteFailed' });
+      errorMessage(error, { defaultI18nKey: 'tips.deleteFailed' });
     }
   };
 

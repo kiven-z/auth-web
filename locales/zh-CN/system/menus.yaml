@@ -3,7 +3,6 @@ sysMenu:
   tableTitle: 菜单列表
   loadFailed: 菜单数据加载失败
   saveFailed: 菜单保存失败
-  deleteFailed: 菜单删除失败
   statusFailed: 菜单状态更新失败
   assignRoleTitle: 分配角色
   assignPermissionTitle: 分配权限

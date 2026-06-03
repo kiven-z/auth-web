@@ -30,7 +30,7 @@ function useMenuTableAction(deps: MenuTableActionDeps) {
     selectedRows: deps.selectedRows,
     deleteApi: deleteMenus,
     onSuccess: refresh,
-    errorDefaultI18nKey: 'sysMenu.deleteFailed',
+    errorDefaultI18nKey: 'tips.deleteFailed',
   });
 
   /**

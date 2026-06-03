@@ -6,8 +6,11 @@ tips:
   lastTimeConfirmTitle: 最后一次提醒，是否继续？
   operationSuccess: 操作成功
   addSuccess: 添加成功
+  addFailed: 添加失败
   editSuccess: 修改成功
+  editFailed: 修改失败
   deleteSuccess: 删除成功
+  deleteFailed: 删除失败
   animationIsNotExist: 动画不存在
   assignEmptySelected: 暂无已选项，请选择
   assignLoadFailed: 分配数据加载失败
