@@ -8,6 +8,8 @@ dept:
   loadFailed: 加载部门列表失败
   loadDetailFailed: 加载部门详情失败
   deleteFailed: 删除部门失败
+  moveSuccess: 移动部门成功
+  moveFailed: 移动部门失败
   viewTableTitle: 表格视图
   viewTreeTitle: 树形视图
   expandAll: 展开全部

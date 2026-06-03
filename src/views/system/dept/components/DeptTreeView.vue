@@ -5,6 +5,7 @@ import DeptRowActions from '@/views/system/dept/components/DeptRowActions.vue';
 import useDeptMoreAction from '@/views/system/dept/hooks/useDeptMoreAction';
 import useDeptPageState from '@/views/system/dept/hooks/useDeptPageState';
 import useDeptTableAction from '@/views/system/dept/hooks/useDeptTableAction';
+import { useDeptTreeDrag } from '@/views/system/dept/hooks/useDeptTreeDrag';
 import { onMounted } from 'vue';
 import { useI18n } from 'vue-i18n';
 
@@ -33,6 +34,11 @@ const { openCreateDialog, openDetailDialog, openEditDialog, deleteBatchRows } = 
 
 const { openAssignRoleDrawer } = useDeptMoreAction(tableActionDeps);
 
+const { allowDrag, allowDrop, handleNodeDrop } = useDeptTreeDrag({
+  treeData,
+  onMoved: fetchTreeData,
+});
+
 onMounted(() => {
   fetchTreeData();
 });
@@ -40,13 +46,17 @@ onMounted(() => {
 
 <template>
   <AuthElTreePanel
+    :allow-drag="allowDrag"
+    :allow-drop="allowDrop"
     :collapse-all-label="t('dept.collapseAll')"
+    :draggable="true"
     :expand-all-label="t('dept.expandAll')"
     :loading="loading"
     :title="t('dept.pageTitle')"
     :tree-data="treeData"
     :tree-props="treeProps"
     @refresh="fetchTreeData"
+    @node-drop="handleNodeDrop"
   >
     <template #toolbar>
       <DeptHeadButtons />
