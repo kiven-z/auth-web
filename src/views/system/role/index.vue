@@ -9,7 +9,7 @@ import useRoleMoreAction from '@/views/system/role/hooks/useRoleMoreAction';
 import useRoleTableAction from '@/views/system/role/hooks/useRoleTableAction';
 import useRoleTableColumns from '@/views/system/role/hooks/useRoleTableColumns';
 import type { FormInstance } from 'element-plus';
-import { onMounted, reactive, ref } from 'vue';
+import { computed, onMounted, reactive, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 defineOptions({
@@ -28,12 +28,20 @@ const roleState = usePaginationState({
     roleCode: undefined,
     roleName: undefined,
     status: undefined,
-    roleType: undefined,
+    roleTypes: undefined as number[] | undefined,
   }),
   errorI18nKey: 'roles.loadFailed',
 });
 
 const { loading, searchForm, fetchTableData, resetQuery } = roleState;
+
+// 角色类型筛选项
+const roleTypeFilter = computed({
+  get: () => searchForm.roleTypes?.[0],
+  set: (value: number | undefined) => {
+    searchForm.roleTypes = value != null ? [value] : undefined;
+  },
+});
 
 const { openCreateDialog, openDetailDialog, openEditDialog, deleteRow } = useRoleTableAction({
   fetchTableData,
@@ -84,8 +92,8 @@ onMounted(() => {
         </el-select>
       </el-form-item>
       <!-- 角色类型 -->
-      <el-form-item :label="t('roles.roleType')" prop="roleType">
-        <el-select v-model="searchForm.roleType" :placeholder="t('roles.roleType')" class="w-40!" clearable>
+      <el-form-item :label="t('roles.roleType')" prop="roleTypes">
+        <el-select v-model="roleTypeFilter" :placeholder="t('roles.roleType')" class="w-40!" clearable>
           <el-option
             v-for="opt in ROLE_TYPE_FILTER_OPTIONS"
             :key="opt.value"

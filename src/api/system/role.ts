@@ -13,7 +13,7 @@ export interface SysRolePageQuery {
   roleCode?: string;
   roleName?: string;
   status?: boolean;
-  roleType?: number;
+  roleTypes?: number[];
 }
 
 /**
