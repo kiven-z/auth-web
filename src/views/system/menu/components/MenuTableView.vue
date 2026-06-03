@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import AuthPagedTable from '@/components/ui/AuthPagedTable';
-import { menuStatusFilterOptions, menuTypeFilterOptions } from '@/views/system/menu/constants/menu-search-options';
+import { menuTypeFilterOptions } from '@/views/system/menu/constants/menu-search-options';
 import useMenuMoreAction from '@/views/system/menu/hooks/useMenuMoreAction';
 import useMenuPageState from '@/views/system/menu/hooks/useMenuPageState';
 import useMenuTableAction from '@/views/system/menu/hooks/useMenuTableAction';
@@ -8,6 +8,7 @@ import useMenuTableColumns from '@/views/system/menu/hooks/useMenuTableColumns';
 import type { FormInstance } from 'element-plus';
 import { onMounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
+import { COMMON_BOOLEAN_STATUS_FILTER_OPTIONS } from '@/shared/constants/boolean-status';
 
 defineOptions({
   name: 'MenuTableView',
@@ -79,14 +80,9 @@ onMounted(() => {
       </el-form-item>
 
       <el-form-item :label="t('sysMenu.status')" prop="status">
-        <el-select
-          v-model="searchForm.status"
-          :placeholder="t('sysMenu.placeholder.status')"
-          class="w-[140px]!"
-          clearable
-        >
+        <el-select v-model="searchForm.status" :placeholder="t('sysMenu.placeholder.status')" class="w-35!" clearable>
           <el-option
-            v-for="opt in menuStatusFilterOptions"
+            v-for="opt in COMMON_BOOLEAN_STATUS_FILTER_OPTIONS"
             :key="`${opt.labelKey}:${String(opt.value)}`"
             :label="t(opt.labelKey)"
             :value="opt.value"

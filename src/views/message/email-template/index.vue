@@ -1,12 +1,12 @@
 <script lang="ts" setup>
 import { getEmailTemplatePage } from '@/api/system/email-template';
 import AuthPagedTable, { usePaginationState } from '@/components/ui/AuthPagedTable';
-import { emailTemplateStatusFilterOptions } from '@/views/message/email-template/constants/email-template-search-options';
 import useEmailTemplateTableAction from '@/views/message/email-template/hooks/useEmailTemplateTableAction';
 import useEmailTemplateTableColumns from '@/views/message/email-template/hooks/useEmailTemplateTableColumns';
 import type { FormInstance } from 'element-plus';
 import { onMounted, reactive, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
+import { COMMON_BOOLEAN_STATUS_FILTER_OPTIONS } from '@/shared/constants/boolean-status';
 
 defineOptions({
   name: 'SystemEmailTemplate',
@@ -75,7 +75,7 @@ onMounted(() => {
       <el-form-item :label="t('emailTemplate.status')" prop="status">
         <el-select v-model="searchForm.status" :placeholder="t('emailTemplate.status')" class="w-45!" clearable>
           <el-option
-            v-for="opt in emailTemplateStatusFilterOptions"
+            v-for="opt in COMMON_BOOLEAN_STATUS_FILTER_OPTIONS"
             :key="`${opt.labelKey}:${String(opt.value)}`"
             :label="t(opt.labelKey)"
             :value="opt.value"

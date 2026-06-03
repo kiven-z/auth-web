@@ -1,15 +1,13 @@
 <script lang="ts" setup>
 import { getPermissionPage } from '@/api/system/permission';
 import AuthPagedTable, { usePaginationState } from '@/components/ui/AuthPagedTable';
-import {
-  PERMISSION_STATUS_FILTER_OPTIONS,
-  PERMISSION_TYPE_FILTER_OPTIONS,
-} from '@/views/system/permission/constants/permission-search-options';
+import { PERMISSION_TYPE_FILTER_OPTIONS } from '@/views/system/permission/constants/permission-search-options';
 import usePermissionTableAction from '@/views/system/permission/hooks/usePermissionTableAction';
 import usePermissionTableColumns from '@/views/system/permission/hooks/usePermissionTableColumns';
 import type { FormInstance } from 'element-plus';
 import { onMounted, reactive, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
+import { COMMON_BOOLEAN_STATUS_FILTER_OPTIONS } from '@/shared/constants/boolean-status';
 
 defineOptions({
   name: 'SystemPermission',
@@ -89,7 +87,7 @@ onMounted(() => {
       <el-form-item :label="t('permissions.status')" prop="status">
         <el-select v-model="searchForm.status" :placeholder="t('permissions.status')" class="w-45!" clearable>
           <el-option
-            v-for="opt in PERMISSION_STATUS_FILTER_OPTIONS"
+            v-for="opt in COMMON_BOOLEAN_STATUS_FILTER_OPTIONS"
             :key="`${opt.labelKey}:${String(opt.value)}`"
             :label="t(opt.labelKey)"
             :value="opt.value"

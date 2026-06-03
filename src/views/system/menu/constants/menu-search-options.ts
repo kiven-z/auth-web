@@ -4,9 +4,3 @@ export const menuTypeFilterOptions: ReadonlyArray<{ value: number; labelKey: str
   { value: 1, labelKey: 'sysMenu.menuTypeIframe' },
   { value: 2, labelKey: 'sysMenu.menuTypeLink' },
 ];
-
-// 状态选项（与后端 SysMenuQuery.status Boolean 一致）
-export const menuStatusFilterOptions: ReadonlyArray<{ value: boolean; labelKey: string }> = [
-  { value: true, labelKey: 'buttons.statusActiveText' },
-  { value: false, labelKey: 'buttons.statusInactiveText' },
-];

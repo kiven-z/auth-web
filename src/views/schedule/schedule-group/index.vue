@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import { getJobGroupPage } from '@/api/schedule/job-group';
 import AuthPagedTable, { usePaginationState } from '@/components/ui/AuthPagedTable';
+import { COMMON_BOOLEAN_STATUS_FILTER_OPTIONS } from '@/shared/constants/boolean-status';
 import useJobGroupTableAction from '@/views/schedule/schedule-group/hooks/useJobGroupTableAction';
 import useJobGroupTableColumns from '@/views/schedule/schedule-group/hooks/useJobGroupTableColumns';
 import type { FormInstance } from 'element-plus';
@@ -55,8 +56,12 @@ onMounted(() => {
       <!-- 分组状态 -->
       <el-form-item :label="t('scheduleGroup.status')" prop="status">
         <el-select v-model="searchForm.status" :placeholder="t('scheduleGroup.status')" class="w-40!" clearable>
-          <el-option :label="t('buttons.statusActiveText')" :value="true" />
-          <el-option :label="t('buttons.statusInactiveText')" :value="false" />
+          <el-option
+            v-for="opt in COMMON_BOOLEAN_STATUS_FILTER_OPTIONS"
+            :key="`${opt.labelKey}:${String(opt.value)}`"
+            :label="t(opt.labelKey)"
+            :value="opt.value"
+          />
         </el-select>
       </el-form-item>
 
