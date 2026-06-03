@@ -3,6 +3,8 @@ dept:
   pageTitle: 部门管理
   dialogViewTitle: 查看部门详情
   dialogCreateTitle: 新增部门
+  dialogEditTitle: 编辑部门
+  updateFailed: 更新部门失败
   addChild: 新增下级
   createFailed: 新增部门失败
   loadFailed: 加载部门列表失败

@@ -75,7 +75,7 @@ export interface SysDeptBoundRoleItem {
 }
 
 /**
- * 部门新增表单（对齐 {@code SysDeptCreateForm}）
+ * 部门新增表单（对齐 {@code SysDeptForm} 创建场景）
  */
 export interface SysDeptCreateForm {
   parentId: string;
@@ -84,6 +84,13 @@ export interface SysDeptCreateForm {
   status: boolean;
   orderNum?: number;
   remark?: string;
+}
+
+/**
+ * 部门更新表单（与新增字段一致，须含 id）
+ */
+export interface SysDeptUpdateForm extends SysDeptCreateForm {
+  id: string;
 }
 
 /**
@@ -130,6 +137,15 @@ export function getDeptPage(params: SysDeptPageQuery): Promise<PageResponse<SysD
  */
 export function createDept(data: SysDeptCreateForm): Promise<void> {
   return http.post<void, SysDeptCreateForm>('/system/dept', { data });
+}
+
+/**
+ * 更新部门（含可选变更父部门）
+ * @param id 部门主键
+ * @param data 保存表单
+ */
+export function updateDept(id: string, data: SysDeptUpdateForm): Promise<void> {
+  return http.put<void, SysDeptUpdateForm>(`/system/dept/${id}`, { data: { ...data, id } });
 }
 
 /**

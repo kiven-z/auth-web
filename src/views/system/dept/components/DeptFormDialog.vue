@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import type { FormDialog } from '@/api/common';
-import type { SysDeptCreateForm } from '@/api/system/dept';
+import type { SysDeptCreateForm, SysDeptUpdateForm } from '@/api/system/dept';
 import { getDeptList } from '@/api/system/dept';
 import { errorMessage } from '@/shared/messaging/message';
 import { findTreePathById } from '@/shared/lib/tree';
@@ -14,20 +14,20 @@ import type { CascaderProps, FormInstance, FormRules } from 'element-plus';
 import { onMounted, reactive, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 
-type DeptFormDialogProps = FormDialog<SysDeptCreateForm>;
+type DeptFormModel = SysDeptCreateForm | SysDeptUpdateForm;
+
+type DeptFormDialogProps = FormDialog<DeptFormModel>;
 
 const props = withDefaults(defineProps<DeptFormDialogProps>(), {
-  form: () => ({}) as SysDeptCreateForm,
+  form: () => ({}) as DeptFormModel,
 });
 
 const { t } = useI18n();
 const formRef = ref<FormInstance>();
-const form = ref<SysDeptCreateForm>({
+const form = ref<DeptFormModel>({
   parentId: DEPT_ROOT_PARENT_ID,
   status: true,
   orderNum: 0,
-  deptName: '',
-  deptCode: '',
   ...props.form,
 });
 
@@ -60,8 +60,8 @@ const loadParentTree = async () => {
     const list = await getDeptList();
     parentTree.value = buildActiveDeptParentTree(list ?? []);
 
-    // 查找自根到目标 id 的路径
-    const targetId = form.value.parentId === DEPT_ROOT_PARENT_ID ? undefined : form.value.parentId;
+    const targetId =
+      form.value.parentId && form.value.parentId !== DEPT_ROOT_PARENT_ID ? form.value.parentId : undefined;
     parentIdPath.value = findTreePathById(parentTree.value, targetId);
   } catch (e: unknown) {
     errorMessage(e, { defaultI18nKey: 'dept.loadFailed' });

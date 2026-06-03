@@ -1,10 +1,10 @@
 import type { TableActionDeps } from '@/api/common';
-import type { SysDeptCreateForm, SysDeptListVO } from '@/api/system/dept';
-import { createDept, deleteDepts, getDeptDetail, getDeptList } from '@/api/system/dept';
+import type { SysDeptCreateForm, SysDeptListVO, SysDeptUpdateForm } from '@/api/system/dept';
+import { createDept, deleteDepts, getDeptDetail, getDeptList, updateDept } from '@/api/system/dept';
 import { addDialog } from '@/components/ui/Dialog';
 import useBatchDeleteAction from '@/shared/hooks/useBatchDeleteAction';
 import { type FormOverlayExpose, useFormOverlaySubmit } from '@/shared/hooks/useFormOverlaySubmit';
-import { errorMessage, message } from '@/shared/messaging/message';
+import { errorMessage } from '@/shared/messaging/message';
 import DeptDescriptionDialog from '@/views/system/dept/components/DeptDescriptionDialog.vue';
 import DeptFormDialog from '@/views/system/dept/components/DeptFormDialog.vue';
 import type { DeptViewMode, SysDeptRow } from '@/views/system/dept/hooks/useDeptPageState';
@@ -108,11 +108,49 @@ function useDeptTableAction(deps: DeptTableActionDeps) {
   };
 
   /**
-   * 打开编辑（表单未实现）
+   * 打开编辑弹窗
+   * @param row 表格行或树节点
    */
-  const openEditDialog = (_row: SysDeptRow) => {
-    void _row;
-    message('部门编辑功能开发中', { type: 'warning' });
+  const openEditDialog = async (row: SysDeptRow) => {
+    try {
+      const detail = await getDeptDetail(row.id);
+      const formPayload: SysDeptUpdateForm = {
+        id: row.id,
+        parentId: detail.parentId || DEPT_ROOT_PARENT_ID,
+        deptName: detail.deptName,
+        deptCode: detail.deptCode,
+        status: detail.status,
+        orderNum: detail.orderNum ?? 0,
+        remark: detail.remark ?? '',
+      };
+
+      const dialogFormRef = ref<FormOverlayExpose<SysDeptUpdateForm> | null>(null);
+
+      addDialog({
+        title: t('dept.dialogEditTitle'),
+        draggable: true,
+        fullscreenIcon: true,
+        closeOnClickModal: false,
+        closeOnPressEscape: false,
+        contentRenderer: () => h(DeptFormDialog, { ref: dialogFormRef, form: formPayload }),
+        beforeSure: createFormBeforeSure<SysDeptUpdateForm>({
+          formExposeRef: dialogFormRef,
+          requireId: true,
+          errorI18nKey: 'dept.updateFailed',
+          successI18nKey: 'tips.editSuccess',
+          onSubmit: async (formData) => {
+            await updateDept(row.id, {
+              ...formData,
+              id: row.id,
+              parentId: formData.parentId || DEPT_ROOT_PARENT_ID,
+            });
+            await refresh();
+          },
+        }),
+      });
+    } catch (error: unknown) {
+      errorMessage(error, { defaultI18nKey: 'dept.loadDetailFailed' });
+    }
   };
 
   return {

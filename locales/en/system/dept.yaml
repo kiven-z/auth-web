@@ -3,6 +3,8 @@ dept:
   pageTitle: Department Management
   dialogViewTitle: Department Details
   dialogCreateTitle: Add Department
+  dialogEditTitle: Edit Department
+  updateFailed: Failed to update department
   addChild: Add Child
   createFailed: Failed to create department
   loadFailed: Failed to load departments
