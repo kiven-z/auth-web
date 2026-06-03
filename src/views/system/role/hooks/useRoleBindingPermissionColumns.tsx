@@ -1,5 +1,5 @@
 import type { SysRoleBoundPermissionItem } from '@/api/system/role';
-import { PERMISSION_TYPE_FILTER_OPTIONS } from '@/views/system/permission/constants/permission-search-options';
+import { PERMISSION_TYPE_FILTER_OPTIONS } from '@/shared/constants/permission-type-options';
 import { ElTag } from 'element-plus';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';

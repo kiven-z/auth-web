@@ -2,7 +2,7 @@
 import type { FormDialog } from '@/api/common';
 import type { SysRoleCreateForm, SysRoleUpdateForm } from '@/api/system/role';
 import { ROLE_CODE_REGEX } from '@/views/system/role/constants/role-code-convention';
-import { ROLE_TYPE_FILTER_OPTIONS } from '@/views/system/role/constants/role-search-options';
+import { ROLE_TYPE_FILTER_OPTIONS } from '@/shared/constants/role-type-options';
 import type { FormInstance, FormRules } from 'element-plus';
 import { reactive, ref } from 'vue';
 import { useI18n } from 'vue-i18n';

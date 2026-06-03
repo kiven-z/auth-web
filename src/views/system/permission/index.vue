@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { getPermissionPage } from '@/api/system/permission';
 import AuthPagedTable, { usePaginationState } from '@/components/ui/AuthPagedTable';
-import { PERMISSION_TYPE_FILTER_OPTIONS } from '@/views/system/permission/constants/permission-search-options';
+import { PERMISSION_TYPE_FILTER_OPTIONS } from '@/shared/constants/permission-type-options';
 import usePermissionTableAction from '@/views/system/permission/hooks/usePermissionTableAction';
 import usePermissionTableColumns from '@/views/system/permission/hooks/usePermissionTableColumns';
 import type { FormInstance } from 'element-plus';

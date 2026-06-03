@@ -3,7 +3,7 @@ import type { DetailDialog } from '@/api/common';
 import type { SysRoleDetail } from '@/api/system/role';
 import DetailRelationListSection from '@/components/business/DetailRelationListSection/index.vue';
 import Description from '@/components/ui/Description';
-import { ROLE_TYPE_FILTER_OPTIONS } from '@/views/system/role/constants/role-search-options';
+import { ROLE_TYPE_FILTER_OPTIONS } from '@/shared/constants/role-type-options';
 import useRoleBindingPermissionColumns from '@/views/system/role/hooks/useRoleBindingPermissionColumns';
 import { ElTag } from 'element-plus';
 import { computed } from 'vue';

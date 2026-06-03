@@ -3,7 +3,7 @@ import type { DetailDialog } from '@/api/common';
 import type { SysPermissionDetail } from '@/api/system/permission';
 import DetailRelationListSection from '@/components/business/DetailRelationListSection/index.vue';
 import Description from '@/components/ui/Description';
-import { PERMISSION_TYPE_FILTER_OPTIONS } from '@/views/system/permission/constants/permission-search-options';
+import { PERMISSION_TYPE_FILTER_OPTIONS } from '@/shared/constants/permission-type-options';
 import usePermissionBindingMenuColumns from '@/views/system/permission/hooks/usePermissionBindingMenuColumns';
 import usePermissionBindingRoleColumns from '@/views/system/permission/hooks/usePermissionBindingRoleColumns';
 import { ElTag } from 'element-plus';

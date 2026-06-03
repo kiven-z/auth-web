@@ -2,7 +2,7 @@ import type { SysDeptBoundPostItem, SysDeptBoundRoleItem } from '@/api/system/de
 import { ElTag } from 'element-plus';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { ROLE_TYPE_FILTER_OPTIONS } from '@/views/system/role/constants/role-search-options';
+import { ROLE_TYPE_FILTER_OPTIONS } from '@/shared/constants/role-type-options';
 
 /**
  * 部门详情：下属岗位表格列

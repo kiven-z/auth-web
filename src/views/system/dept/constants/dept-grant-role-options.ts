@@ -1,4 +1,4 @@
-import { ROLE_TYPE_FILTER_OPTIONS } from '@/views/system/role/constants/role-search-options';
+import { ROLE_TYPE_FILTER_OPTIONS } from '@/shared/constants/role-type-options';
 
 /** 部门 grant 默认分页类型（与后端 {@code RoleTypeEnum.DEPT_GRANT_TYPES} 一致） */
 export const DEPT_GRANT_DEFAULT_ROLE_TYPES: number[] = [3, 4];
