@@ -4,12 +4,10 @@ import type { SysDeptDetail } from '@/api/system/dept';
 import DetailRelationListSection from '@/components/business/DetailRelationListSection/index.vue';
 import Description from '@/components/ui/Description';
 import { DEPT_STATUS_FILTER_OPTIONS } from '@/views/system/dept/constants/dept-search-options';
-import useDeptBindingPostColumns from '@/views/system/dept/hooks/useDeptBindingPostColumns';
-import useDeptBindingRoleColumns from '@/views/system/dept/hooks/useDeptBindingRoleColumns';
-import useDeptBindingUserColumns from '@/views/system/dept/hooks/useDeptBindingUserColumns';
 import { ElTag } from 'element-plus';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
+import useDeptBindingColumns from '@/views/system/dept/hooks/useDeptBindingColumns';
 
 defineOptions({
   name: 'DeptDescriptionDialog',
@@ -24,9 +22,7 @@ const props = defineProps<DeptDescriptionDialogProps>();
 const { t } = useI18n();
 
 // 绑定用户、岗位、角色表格列
-const { columns: userBindingColumns } = useDeptBindingUserColumns();
-const { columns: postBindingColumns } = useDeptBindingPostColumns();
-const { columns: roleBindingColumns } = useDeptBindingRoleColumns();
+const { userBindingColumns, postBindingColumns, roleBindingColumns } = useDeptBindingColumns();
 
 // 绑定用户、岗位、角色数据
 const boundUsers = computed(() => props.data?.boundUsers ?? []);

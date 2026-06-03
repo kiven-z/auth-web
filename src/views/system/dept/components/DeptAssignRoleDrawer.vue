@@ -37,7 +37,7 @@ const roleState = usePaginationState({
     roleCode: undefined,
     roleName: undefined,
     status: true,
-    roleType: undefined,
+    roleType: 3,
   }),
   errorI18nKey: 'roles.loadFailed',
 });
