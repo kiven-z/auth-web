@@ -70,7 +70,7 @@ function useDeptTableColumns() {
     },
     {
       label: t('table.actions'),
-      fixed: 'right' as const,
+      fixed: 'right',
       width: 240,
       slot: 'actions',
     },

@@ -10,6 +10,7 @@ import { ROLE_TYPE_FILTER_OPTIONS } from '@/views/system/role/constants/role-sea
 function useDeptBindingColumns() {
   const { t } = useI18n();
 
+  // 绑定用户表格列
   const userBindingColumns = computed<TableColumnList>(() => [
     { label: t('post.postCode'), prop: 'postCode', minWidth: 120, showOverflowTooltip: true },
     { label: t('post.postName'), prop: 'postName', minWidth: 120, showOverflowTooltip: true },
@@ -25,6 +26,7 @@ function useDeptBindingColumns() {
     },
   ]);
 
+  // 绑定岗位表格列
   const postBindingColumns = computed<TableColumnList>(() => [
     { label: t('post.postCode'), prop: 'postCode', minWidth: 120, showOverflowTooltip: true },
     { label: t('post.postName'), prop: 'postName', minWidth: 120, showOverflowTooltip: true },
@@ -40,6 +42,7 @@ function useDeptBindingColumns() {
     },
   ]);
 
+  // 绑定角色表格列
   const roleBindingColumns = computed<TableColumnList>(() => [
     { label: t('roles.roleCode'), prop: 'roleCode', minWidth: 120, showOverflowTooltip: true },
     { label: t('roles.roleName'), prop: 'roleName', minWidth: 120, showOverflowTooltip: true },

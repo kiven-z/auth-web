@@ -44,9 +44,6 @@ const descriptionColumns = computed(() => [
     labelWidth: 120,
     cellRenderer: ({ value }: { value: number }) => {
       const option = ROLE_TYPE_FILTER_OPTIONS.find((item) => item.value === value);
-      if (!option) {
-        return <span>{String(value ?? '')}</span>;
-      }
       return (
         <ElTag type={option.tagType} effect="plain">
           {t(option.labelKey)}

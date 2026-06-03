@@ -1,4 +1,4 @@
-<script lang="ts" setup>
+<script lang="tsx" setup>
 import { getDeptRoles } from '@/api/system/dept';
 import { getRolePage, type SysRolePageRow } from '@/api/system/role';
 import AssignPanel, {
@@ -12,7 +12,7 @@ import {
   DEPT_GRANT_DEFAULT_ROLE_TYPES,
   DEPT_GRANT_ROLE_TYPE_OPTIONS,
 } from '@/views/system/dept/constants/dept-grant-role-options';
-import type { FormInstance } from 'element-plus';
+import { ElTag, type FormInstance } from 'element-plus';
 import { computed, onMounted, reactive, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 
@@ -79,7 +79,11 @@ const roleDrawerDataColumns = computed<TableColumnList>(() => [
     width: 120,
     formatter: (row: SysRolePageRow) => {
       const option = DEPT_GRANT_ROLE_TYPE_OPTIONS.find((item) => item.value === row.roleType);
-      return option ? t(option.labelKey) : String(row.roleType ?? '');
+      return (
+        <ElTag type={option.tagType} effect="plain">
+          {t(option.labelKey)}
+        </ElTag>
+      );
     },
   },
 ]);

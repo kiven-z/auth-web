@@ -9,9 +9,7 @@ import { useI18n } from 'vue-i18n';
 function useDeptClosureHealthColumns() {
   const { t } = useI18n();
 
-  /**
-   * 概览列
-   */
+  // 概览列
   const summaryColumns = computed(() => [
     {
       label: t('dept.closureHealthPassed'),
@@ -40,9 +38,7 @@ function useDeptClosureHealthColumns() {
     },
   ]);
 
-  /**
-   * 健康度统计列
-   */
+  // 健康度统计列
   const healthStatsColumns = computed(() => [
     { label: t('dept.closureHealthOnlySelf'), prop: 'onlySelf', labelWidth: 140 },
     { label: t('dept.closureHealthHasAncestors'), prop: 'hasAncestors', labelWidth: 140 },
@@ -50,9 +46,7 @@ function useDeptClosureHealthColumns() {
     { label: t('dept.closureHealthTotal'), prop: 'total', labelWidth: 140 },
   ]);
 
-  /**
-   * 父子直连异常样本列
-   */
+  // 父子直连异常样本列
   const parentLinkColumns = computed(() => [
     { label: t('dept.deptName'), prop: 'deptName', labelWidth: 120 },
     { label: 'ID', prop: 'id', labelWidth: 120, copy: true },
@@ -60,9 +54,7 @@ function useDeptClosureHealthColumns() {
     { label: t('dept.closureHealthLinkStatus'), prop: 'parentLinkStatus', labelWidth: 160 },
   ]);
 
-  /**
-   * 深度链条异常样本列
-   */
+  // 深度链条异常样本列
   const depthChainColumns = computed(() => [
     { label: t('dept.deptName'), prop: 'deptName', labelWidth: 120 },
     { label: 'ID', prop: 'id', labelWidth: 120, copy: true },

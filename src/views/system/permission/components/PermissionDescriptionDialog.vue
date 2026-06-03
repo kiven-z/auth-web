@@ -79,7 +79,7 @@ const descriptionColumns = computed(() => [
     <!-- 关联引用：角色 / 菜单 -->
     <el-divider />
 
-    <!-- 已绑定角色（sys_role_permission 反查） -->
+    <!-- 已绑定角色 -->
     <DetailRelationListSection
       :columns="roleBindingColumns"
       :empty-text="t('permissions.boundRolesEmpty')"
@@ -88,7 +88,7 @@ const descriptionColumns = computed(() => [
       row-key="roleCode"
     />
 
-    <!-- 已绑定菜单（仅按钮权限；sys_menu_permission 反查） -->
+    <!-- 已绑定菜单 -->
     <DetailRelationListSection
       :columns="menuBindingColumns"
       :empty-text="t('permissions.boundMenusEmpty')"
