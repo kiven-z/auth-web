@@ -10,6 +10,9 @@ dept:
   deleteFailed: Failed to delete department
   moveSuccess: Department moved successfully
   moveFailed: Failed to move department
+  moveConfirmTitle: Confirm department move
+  moveConfirmInner: Move "{dept}" under "{parent}" as a child department?
+  moveConfirmSibling: Move "{dept}" to the same level as "{peer}"? New parent will be "{parent}".
   viewTableTitle: Table View
   viewTreeTitle: Tree View
   expandAll: Expand All

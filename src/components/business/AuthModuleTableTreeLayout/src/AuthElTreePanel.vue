@@ -1,6 +1,6 @@
 <script lang="ts" setup>
-import TableBar from '@/components/ui/TableBar';
 import { useElTreeExpandCollapse } from '@/components/business/AuthModuleTableTreeLayout/src/useElTreeExpandCollapse';
+import TableBar from '@/components/ui/TableBar';
 import type { TreeInstance } from 'element-plus';
 import { ref, toRef, useAttrs } from 'vue';
 
@@ -53,8 +53,8 @@ function handleRefresh() {
 <template>
   <TableBar :columns="[]" :title="title" @refresh="handleRefresh">
     <template #buttons>
-      <el-button-group type="primary">
-        <slot name="toolbar" />
+      <slot name="toolbar" />
+      <el-button-group type="primary" class="ml-1">
         <el-button type="info" @click="expandAll">{{ expandAllLabel }}</el-button>
         <el-button type="info" @click="collapseAll">{{ collapseAllLabel }}</el-button>
       </el-button-group>

@@ -85,3 +85,18 @@ export function canDropDeptTreeNode(draggedId: string, dropTargetId: string, tre
   }
   return !isDropTargetInDraggedSubtree(draggedId, dropTargetId, tree);
 }
+
+/**
+ * 移动后的上级部门展示名（顶级用调用方传入文案）
+ */
+export function resolveMoveTargetParentLabel(
+  newParentId: string,
+  tree: SysDeptTreeNode[],
+  topLevelLabel: string
+): string {
+  if (normalizeDeptParentId(newParentId) === DEPT_ROOT_PARENT_ID) {
+    return topLevelLabel;
+  }
+  const parent = findDeptTreeNode(tree, newParentId);
+  return parent?.deptName ?? newParentId;
+}

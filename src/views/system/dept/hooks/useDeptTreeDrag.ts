@@ -1,10 +1,12 @@
 import { moveDept, type SysDeptTreeNode } from '@/api/system/dept';
+import { multiConfirm } from '@/shared/messaging/dialog';
 import { errorMessage, message } from '@/shared/messaging/message';
 import {
   canDropDeptTreeNode,
-  normalizeDeptParentId,
-  resolveNewParentIdFromDrop,
   type DeptTreeDropType,
+  normalizeDeptParentId,
+  resolveMoveTargetParentLabel,
+  resolveNewParentIdFromDrop,
 } from '@/views/system/dept/utils/dept-tree-drag';
 import type { Ref } from 'vue';
 import { useI18n } from 'vue-i18n';
@@ -53,10 +55,7 @@ export function useDeptTreeDrag(options: UseDeptTreeDragOptions) {
       return false;
     }
     // 如果拖拽类型为内部拖拽，且拖拽节点ID和目标节点ID相同，则不允许拖拽
-    if (type === 'inner' && draggedId === dropTargetId) {
-      return false;
-    }
-    return true;
+    return !(type === 'inner' && draggedId === dropTargetId);
   };
 
   /**
@@ -83,6 +82,24 @@ export function useDeptTreeDrag(options: UseDeptTreeDragOptions) {
     const newParentId = resolveNewParentIdFromDrop(dropTarget, dropType);
     const currentParentId = normalizeDeptParentId(dragged.parentId);
     if (newParentId === currentParentId) {
+      await onMoved();
+      return;
+    }
+
+    const parentLabel = resolveMoveTargetParentLabel(newParentId, treeData.value, t('dept.parentTopLevel'));
+    const confirmMessage =
+      dropType === 'inner'
+        ? t('dept.moveConfirmInner', { dept: dragged.deptName, parent: dropTarget.deptName })
+        : t('dept.moveConfirmSibling', {
+            dept: dragged.deptName,
+            peer: dropTarget.deptName,
+            parent: parentLabel,
+          });
+
+    const confirmed = await multiConfirm([{ title: t('dept.moveConfirmTitle'), message: confirmMessage }]);
+
+    if (!confirmed) {
+      await onMoved();
       return;
     }
 

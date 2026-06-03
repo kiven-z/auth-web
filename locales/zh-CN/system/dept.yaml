@@ -10,6 +10,9 @@ dept:
   deleteFailed: 删除部门失败
   moveSuccess: 移动部门成功
   moveFailed: 移动部门失败
+  moveConfirmTitle: 确认移动部门
+  moveConfirmInner: 确定将「{dept}」调整为「{parent}」的下级部门吗？
+  moveConfirmSibling: 确定将「{dept}」调整为与「{peer}」同级吗？新的上级为「{parent}」。
   viewTableTitle: 表格视图
   viewTreeTitle: 树形视图
   expandAll: 展开全部
