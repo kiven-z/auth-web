@@ -5,6 +5,63 @@ alwaysApply: true # 建议改为 true，确保生成 Commit 时必读
 
 # Vue 3 + TypeScript + Composition API 开发规范
 
+## 优先级 A：核心规则（必须遵守）
+
+- **必须**使用 `<script setup>` 语法糖和组合式 API。
+- **禁止**在组件中直接 `import axios`，所有 HTTP 请求必须封装在 `src/api/` 目录下。
+- **禁止**使用 `any` 类型，复杂的类型请使用 `unknown` 或定义具体的接口。
+- **禁止**在模板中编写复杂的逻辑表达式（超过一个三元运算符），应使用 `computed`。
+- **必须**为 `props` 和 `emits` 声明类型（使用 TypeScript）。
+
+## 优先级 B：强烈推荐
+
+- 组件名必须使用 `PascalCase`，并与文件名保持一致。
+- `props` 的定义要尽量详细，至少指定类型。
+- 在 `v-for` 上**必须**绑定 `key`，并且优先使用唯一 ID，而不是索引[index][citation:7]。
+- `v-if` 和 `v-for` **不能**用在同一个元素上。
+
+## 代码模板示例
+
+请严格遵循以下模板结构生成组件：
+
+```vue
+<script setup lang="ts">
+// 1. 类型导入
+import type { UserProps } from './types'
+// 2. 组件导入
+import BaseButton from '@/components/BaseButton.vue'
+// 3. Props & Emits 类型定义
+const props = defineProps<UserProps>()
+const emit = defineEmits<{
+  'update': [value: string]
+  'close': []
+}>()
+// 4. 组合式函数
+const { data, loading } = useFetchUser(() => props.id)
+// 5. 响应式状态
+const isEditing = ref(false)
+// 6. 计算属性
+const displayName = computed(() => data.value?.name ?? '未知')
+// 7. 方法
+function handleSubmit() {
+  emit('update', 'new value')
+}
+</script>
+
+<template>
+  <div class="component-container">
+    <!-- 模板内容 -->
+  </div>
+</template>
+
+<style scoped>
+/* 样式必须使用 scoped */
+.component-container {
+  padding: 16px;
+}
+</style>
+```
+
 ## 基础规则
 
 ### 1. 核心编码原则
@@ -68,7 +125,8 @@ views文件目录参考：
   - 联合类型：`'add' | 'edit'`、`SortDirectionApi = 'ASC' | 'DESC'`
   - 交叉类型：`CreateX & UpdateX`
   - 工具类型别名：`Pick`、`Omit`、`ReturnType`、`typeof` 推导等
-- **ESLint**：`@typescript-eslint/consistent-type-definitions: ['error', 'interface']`（对象字面量类型定义必须用 `interface`）。
+- **ESLint**：`@typescript-eslint/consistent-type-definitions: ['error', 'interface']`（对象字面量类型定义必须用
+  `interface`）。
 - **禁止**：仅为风格把合法 `interface` 改成 `type`，或把联合/交叉写成 `interface`。
 - **无扩展字段的别名**：`interface X extends Y {}` 应写成 `type X = Y`（避免 `@typescript-eslint/no-empty-object-type`）。
 
@@ -84,5 +142,6 @@ views文件目录参考：
 ### 6. 批量删除规范
 
 - **统一 Hook**：表格批量删除必须使用 `@/shared/hooks/useBatchDeleteAction`，禁止在各页面 Hook 内重复实现确认/提示/刷新逻辑。
-- **函数名**：`deleteBatchRows(ids?: unknown)`；工具栏批量 `@click="deleteBatchRows()"`，行内 `@click="deleteBatchRows([row.id])"`。
+- **函数名**：`deleteBatchRows(ids?: unknown)`；工具栏批量 `@click="deleteBatchRows()"`，行内
+  `@click="deleteBatchRows([row.id])"`。
 - **禁止**：`@click="deleteBatchRows"`（无括号会把 Event 当作 ids）；Hook 内禁止 `ids = ids || selectedRows`。

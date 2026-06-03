@@ -42,7 +42,7 @@ const roleState = usePaginationState({
     roleCode: undefined,
     roleName: undefined,
     status: true,
-    roleTypes: DEPT_GRANT_DEFAULT_ROLE_TYPES,
+    roleTypes: [...DEPT_GRANT_DEFAULT_ROLE_TYPES],
   }),
   errorI18nKey: 'roles.loadFailed',
 });
@@ -50,16 +50,14 @@ const roleState = usePaginationState({
 // 角色分页数据
 const { tableData, loading, searchForm, fetchTableData, resetQuery } = roleState;
 
-// 在默认 [3,4] 范围内单选收窄；清空则恢复默认集合
-const roleTypeFilter = computed({
-  get: () => {
-    const types = searchForm.roleTypes;
-    return types?.length === 1 ? types[0] : undefined;
-  },
-  set: (value: number | undefined) => {
-    searchForm.roleTypes = value != null ? [value] : DEPT_GRANT_DEFAULT_ROLE_TYPES;
-  },
-});
+/**
+ * 部门 grant 仅允许 3/4
+ */
+const normalizeDeptRoleTypes = (values: number[]) => {
+  if (values.length === 0) {
+    searchForm.roleTypes = DEPT_GRANT_DEFAULT_ROLE_TYPES;
+  }
+};
 
 // 使用分配表标签
 useAssignTableLabels(assign, tableData);
@@ -150,9 +148,18 @@ defineExpose({ getSelectedKeys });
           clearable
         />
       </el-form-item>
-      <!-- 角色类型（仅业务/自定义） -->
+      <!-- 角色类型（多选，仅业务/自定义，对应后端 roleTypes IN） -->
       <el-form-item :label="t('roles.roleType')" prop="roleTypes">
-        <el-select v-model="roleTypeFilter" :placeholder="t('roles.roleType')" class="w-40!" clearable>
+        <el-select
+          v-model="searchForm.roleTypes"
+          :placeholder="t('roles.roleType')"
+          class="w-52!"
+          clearable
+          collapse-tags
+          collapse-tags-tooltip
+          multiple
+          @change="normalizeDeptRoleTypes"
+        >
           <el-option
             v-for="opt in DEPT_GRANT_ROLE_TYPE_OPTIONS"
             :key="opt.value"
