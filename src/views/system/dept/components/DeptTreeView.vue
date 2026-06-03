@@ -120,9 +120,6 @@ onMounted(() => {
     @node-drop="onNodeDrop"
   >
     <template #toolbar>
-      <!-- 新增 -->
-      <el-button type="primary" @click="() => openCreateDialog()">{{ t('buttons.actionAdd') }}</el-button>
-
       <DeptHeadButtons />
     </template>
 

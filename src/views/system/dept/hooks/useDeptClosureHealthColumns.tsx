@@ -19,7 +19,7 @@ function useDeptClosureHealthColumns() {
       labelWidth: 140,
       cellRenderer: ({ value }: { value: boolean }) => (
         <ElTag type={value ? 'success' : 'danger'} effect="plain">
-          {value ? t('dept.closureHealthPassedYes') : t('dept.closureHealthPassedNo')}
+          {value ? t('status.passedYes') : t('status.passedNo')}
         </ElTag>
       ),
     },
@@ -30,17 +30,13 @@ function useDeptClosureHealthColumns() {
       label: t('dept.closureHealthParentLinkTruncated'),
       prop: 'parentLinkSampleTruncated',
       labelWidth: 140,
-      cellRenderer: ({ value }: { value: boolean }) => (
-        <span>{value ? t('dept.closureHealthYes') : t('dept.closureHealthNo')}</span>
-      ),
+      cellRenderer: ({ value }: { value: boolean }) => <span>{value ? t('status.yes') : t('status.no')}</span>,
     },
     {
       label: t('dept.closureHealthDepthChainTruncated'),
       prop: 'depthChainSampleTruncated',
       labelWidth: 140,
-      cellRenderer: ({ value }: { value: boolean }) => (
-        <span>{value ? t('dept.closureHealthYes') : t('dept.closureHealthNo')}</span>
-      ),
+      cellRenderer: ({ value }: { value: boolean }) => <span>{value ? t('status.yes') : t('status.no')}</span>,
     },
   ]);
 

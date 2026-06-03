@@ -50,8 +50,6 @@ dept:
   closureHealthDepthChainTitle: 深度链条异常（样本）
   closureHealthAnomalyEmpty: 无异常记录
   closureHealthPassed: 检查结果
-  closureHealthPassedYes: 通过
-  closureHealthPassedNo: 未通过
   closureHealthCheckedAt: 检查时间
   closureHealthMissingParentLink: 父子直连缺失数
   closureHealthDepthChain: 深度链条异常数
@@ -65,8 +63,6 @@ dept:
   closureHealthChildCnt: 子节点闭包行数
   closureHealthParentCnt: 父节点闭包行数
   closureHealthExpectedCnt: 期望行数
-  closureHealthYes: 是
-  closureHealthNo: 否
   closureHealthAlertPass: 闭包表一致性检查通过
   closureHealthAlertFail: 闭包表存在一致性异常，请排查数据或联系运维
   tips:

@@ -84,6 +84,10 @@ status:
   hide: Hide
   cache: Cache
   unCache: No Cache
+  yes: 'Yes'
+  no: 'No'
+  passedYes: Passed
+  passedNo: Failed
 tableBar:
   defaultTitle: List
   densityLarge: Wide

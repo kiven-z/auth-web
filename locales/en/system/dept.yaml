@@ -50,8 +50,6 @@ dept:
   closureHealthDepthChainTitle: Depth chain anomalies (sample)
   closureHealthAnomalyEmpty: No anomalies
   closureHealthPassed: Result
-  closureHealthPassedYes: Passed
-  closureHealthPassedNo: Failed
   closureHealthCheckedAt: Checked at
   closureHealthMissingParentLink: Missing parent links
   closureHealthDepthChain: Depth chain anomalies
@@ -65,8 +63,6 @@ dept:
   closureHealthChildCnt: Child closure rows
   closureHealthParentCnt: Parent closure rows
   closureHealthExpectedCnt: Expected rows
-  closureHealthYes: Yes
-  closureHealthNo: No
   closureHealthAlertPass: Closure table consistency check passed
   closureHealthAlertFail: Closure table inconsistencies detected; investigate data or contact ops
   tips:

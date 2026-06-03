@@ -83,6 +83,10 @@ status:
   hide: 隐藏
   cache: 缓存
   unCache: 不缓存
+  yes: 是
+  no: 否
+  passedYes: 通过
+  passedNo: 未通过
 tableBar:
   defaultTitle: 列表
   densityLarge: 宽松

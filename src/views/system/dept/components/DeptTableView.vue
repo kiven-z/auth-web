@@ -30,7 +30,7 @@ const tableActionDeps = {
   selectedRows,
 };
 
-const { openCreateDialog, openDetailDialog, openEditDialog, deleteBatchRows } = useDeptTableAction(tableActionDeps);
+const { openDetailDialog, openEditDialog, deleteBatchRows } = useDeptTableAction(tableActionDeps);
 
 const { openAssignRoleDrawer } = useDeptMoreAction(tableActionDeps);
 
@@ -82,12 +82,7 @@ onMounted(() => {
       show-overflow-tooltip
     >
       <template #buttons>
-        <el-button-group type="primary">
-          <!-- 新增 -->
-          <el-button type="primary" @click="openCreateDialog()">{{ t('buttons.actionAdd') }}</el-button>
-
-          <DeptHeadButtons />
-        </el-button-group>
+        <DeptHeadButtons />
       </template>
 
       <template #actions="{ row }">
