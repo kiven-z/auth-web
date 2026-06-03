@@ -77,7 +77,7 @@ const fetchMenuRoles = async () => {
       }))
     );
   } catch (error: unknown) {
-    errorMessage(error, { defaultI18nKey: 'sysMenu.assignLoadFailed' });
+    errorMessage(error, { defaultI18nKey: 'tips.assignLoadFailed' });
     applySeed([]);
   }
 };
@@ -91,7 +91,7 @@ defineExpose({ getSelectedKeys });
 </script>
 
 <template>
-  <AssignPanel :assign="assign" :left-title="t('sysMenu.name')" :section-label="t('roles.assignSectionLabel')">
+  <AssignPanel :assign="assign" :left-title="t('sysMenu.name')" :section-label="t('roles.assignedRolesSectionLabel')">
     <el-form
       ref="searchFormRef"
       :inline="true"

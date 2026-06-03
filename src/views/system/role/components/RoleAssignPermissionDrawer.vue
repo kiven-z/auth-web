@@ -38,7 +38,7 @@ const permissionState = usePaginationState<SysPermissionPageRow>({
     permissionType: undefined,
   }),
   defaultPageSize: 30,
-  errorI18nKey: 'roles.assignLoadFailed',
+  errorI18nKey: 'tips.assignLoadFailed',
   fetchApi: (query) =>
     getPermissionPage({
       pageIndex: query.pageIndex as number,
@@ -86,7 +86,7 @@ const fetchRolePermissions = async () => {
       }))
     );
   } catch (error: unknown) {
-    errorMessage(error, { defaultI18nKey: 'roles.assignLoadFailed' });
+    errorMessage(error, { defaultI18nKey: 'tips.assignLoadFailed' });
     applySeed([]);
   }
 };

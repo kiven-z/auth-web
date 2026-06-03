@@ -5,9 +5,6 @@ sysMenu:
   saveFailed: 菜单保存失败
   deleteFailed: 菜单删除失败
   statusFailed: 菜单状态更新失败
-  assignLoadFailed: 分配数据加载失败
-  assignSaveSuccess: 保存成功
-  assignSaveFailed: 保存失败
   assignRoleTitle: 分配角色
   assignPermissionTitle: 分配权限
   assignCurrentMenu: 当前菜单

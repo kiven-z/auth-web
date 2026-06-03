@@ -13,6 +13,7 @@ dept:
   expandAll: Expand All
   collapseAll: Collapse All
   assignRole: Assign roles
+  assignCurrentDept: Current department
   assignPost: Assign posts
   isPrimaryDepartment: Primary department
   primaryDepartment: Primary

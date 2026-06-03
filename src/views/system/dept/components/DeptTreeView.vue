@@ -37,6 +37,13 @@ const { openCreateDialog, openDetailDialog, openEditDialog, deleteBatchRows } = 
 
 const { openAssignRoleDrawer, openAssignPostDrawer } = useDeptMoreAction(tableActionDeps);
 
+/**
+ * 是否允许拖拽到目标节点
+ * @param draggingNode - 拖拽节点
+ * @param dropNode - 目标节点
+ * @param type - 拖拽类型
+ * @param type - 是否允许拖拽
+ */
 const allowDrop = (draggingNode: TreeNodeData, dropNode: TreeNodeData, type: AllowDropType) => {
   // 仅支持「放入为子节点」= 变更父部门；before/after 属于排序能力，后端目前无对应接口
   if (type !== 'inner') {
@@ -47,11 +54,22 @@ const allowDrop = (draggingNode: TreeNodeData, dropNode: TreeNodeData, type: All
   return Boolean(dropRow?.id) && dropRow?.status !== false;
 };
 
+/**
+ * 是否允许拖拽节点
+ * @param draggingNode - 拖拽节点
+ * @returns 是否允许拖拽
+ */
 const allowDrag = (draggingNode: TreeNodeData) => {
   const row = draggingNode?.data as { id?: string } | undefined;
   return Boolean(row?.id);
 };
 
+/**
+ * 节点拖拽完成
+ * @param draggingNode - 拖拽节点
+ * @param dropNode - 目标节点
+ * @param dropType - 拖拽类型
+ */
 const onNodeDrop = async (draggingNode: TreeNodeData, dropNode: TreeNodeData, dropType: NodeDropType) => {
   if (dropType !== 'inner') {
     return;
@@ -92,12 +110,12 @@ onMounted(() => {
     :allow-drag="allowDrag"
     :allow-drop="allowDrop"
     :collapse-all-label="t('dept.collapseAll')"
+    :draggable="true"
     :expand-all-label="t('dept.expandAll')"
     :loading="loading"
     :title="t('dept.pageTitle')"
     :tree-data="treeData"
     :tree-props="treeProps"
-    draggable
     @refresh="fetchTreeData"
     @node-drop="onNodeDrop"
   >

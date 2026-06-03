@@ -46,11 +46,11 @@ function useMenuMoreAction(deps: MenuTableActionDeps) {
         try {
           const roleCodes = drawerRef.value?.getSelectedKeys() ?? [];
           await putMenuRoles(row.id, { roleCodes });
-          message(t('sysMenu.assignSaveSuccess'), { type: 'success' });
+          message(t('tips.assignSaveSuccess'), { type: 'success' });
           await refresh();
           done();
         } catch (error: unknown) {
-          errorMessage(error, { defaultI18nKey: 'sysMenu.assignSaveFailed' });
+          errorMessage(error, { defaultI18nKey: 'tips.assignSaveFailed' });
         }
       },
     });
@@ -81,11 +81,11 @@ function useMenuMoreAction(deps: MenuTableActionDeps) {
         try {
           const permissionCodes = drawerRef.value?.getSelectedKeys() ?? [];
           await putMenuPermissions(row.id, { permissionCodes });
-          message(t('sysMenu.assignSaveSuccess'), { type: 'success' });
+          message(t('tips.assignSaveSuccess'), { type: 'success' });
           await refresh();
           done();
         } catch (error: unknown) {
-          errorMessage(error, { defaultI18nKey: 'sysMenu.assignSaveFailed' });
+          errorMessage(error, { defaultI18nKey: 'tips.assignSaveFailed' });
         }
       },
     });

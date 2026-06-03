@@ -164,3 +164,35 @@ export function moveDept(id: string, data: SysDeptMoveForm): Promise<void> {
 export async function deleteDepts(ids: string[]): Promise<void> {
   await Promise.all(ids.map((id) => deleteDept(id)));
 }
+
+/**
+ * 部门已分配角色行（对齐 {@code SysDeptAssignedRoleRow}）
+ */
+export interface SysDeptAssignedRoleRow {
+  roleCode: string;
+  roleName: string;
+}
+
+/**
+ * 部门分配角色请求（对齐 {@code SysDeptAssignRoleForm}）
+ */
+export interface SysDeptAssignRoleRequest {
+  roleCodes: string[];
+}
+
+/**
+ * 查询部门已分配角色
+ * @param deptId 部门主键
+ */
+export function getDeptRoles(deptId: string): Promise<SysDeptAssignedRoleRow[]> {
+  return http.get<SysDeptAssignedRoleRow[], unknown>(`/system/dept/${deptId}/roles`);
+}
+
+/**
+ * 全量覆盖部门角色授权
+ * @param deptId 部门主键
+ * @param data 角色编码列表
+ */
+export function putDeptRoles(deptId: string, data: SysDeptAssignRoleRequest): Promise<void> {
+  return http.request<void>('put', `/system/dept/${deptId}/roles`, { data });
+}

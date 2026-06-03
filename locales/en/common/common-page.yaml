@@ -10,6 +10,9 @@ tips:
   deleteSuccess: Deleted successfully
   animationIsNotExist: That animation doesn’t exist
   assignEmptySelected: No items selected. Please choose.
+  assignLoadFailed: Failed to load assignment data
+  assignSaveSuccess: Assignment saved successfully
+  assignSaveFailed: Failed to save assignment
 buttons:
   pureLoginOut: Logout
   pureLogin: Login

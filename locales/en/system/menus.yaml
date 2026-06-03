@@ -5,9 +5,6 @@ sysMenu:
   saveFailed: Failed to save menu
   deleteFailed: Failed to delete menu
   statusFailed: Failed to update menu status
-  assignLoadFailed: Failed to load assignment data
-  assignSaveSuccess: Saved successfully
-  assignSaveFailed: Failed to save assignment
   assignRoleTitle: Assign roles
   assignPermissionTitle: Assign permissions
   assignCurrentMenu: Current menu

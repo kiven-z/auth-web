@@ -39,10 +39,10 @@ function useRoleMoreAction() {
         try {
           const permissionCodes = drawerRef.value?.getSelectedKeys() ?? [];
           await assignRolePermissions(row.roleCode, { permissionCodes });
-          message(t('roles.assignSaveSuccess'), { type: 'success' });
+          message(t('tips.assignSaveSuccess'), { type: 'success' });
           done();
         } catch (error: unknown) {
-          errorMessage(error, { defaultI18nKey: 'roles.assignSaveFailed' });
+          errorMessage(error, { defaultI18nKey: 'tips.assignSaveFailed' });
         }
       },
     });

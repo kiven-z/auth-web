@@ -4,9 +4,6 @@ roles:
   actionAssignPermission: 分配权限
   assignPermissionTitle: 分配权限
   assignCurrentRole: 当前角色
-  assignLoadFailed: 分配数据加载失败
-  assignSaveSuccess: 保存成功
-  assignSaveFailed: 保存失败
   menuDataScope: 数据范围配置
   menuPolicyBind: 策略绑定
   menuGrantSubjects: 授权对象管理（反向）
@@ -19,7 +16,7 @@ roles:
   boundPermissionsEmpty: 暂未分配权限
   dialogCreateTitle: 新增角色
   dialogEditTitle: 编辑角色
-  assignSectionLabel: 分配角色
+  assignedRolesSectionLabel: 已分配角色
   roleCode: 角色编码
   roleName: 角色名称
   placeholder:

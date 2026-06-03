@@ -38,7 +38,7 @@ const permissionState = usePaginationState<SysPermissionPageRow>({
     permissionCode: undefined,
   }),
   defaultPageSize: 30,
-  errorI18nKey: 'sysMenu.assignLoadFailed',
+  errorI18nKey: 'tips.assignLoadFailed',
   fetchApi: (query) =>
     getPermissionPage({
       pageIndex: query.pageIndex as number,
@@ -88,7 +88,7 @@ const fetchMenuPermissions = async () => {
         }))
     );
   } catch (error: unknown) {
-    errorMessage(error, { defaultI18nKey: 'sysMenu.assignLoadFailed' });
+    errorMessage(error, { defaultI18nKey: 'tips.assignLoadFailed' });
     applySeed([]);
   }
 };

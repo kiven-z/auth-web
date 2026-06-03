@@ -4,9 +4,6 @@ roles:
   actionAssignPermission: Assign permissions
   assignPermissionTitle: Assign permissions
   assignCurrentRole: Current role
-  assignLoadFailed: Failed to load assignment data
-  assignSaveSuccess: Saved successfully
-  assignSaveFailed: Failed to save
   menuDataScope: Data scope
   menuPolicyBind: Policy binding
   menuGrantSubjects: Grant subjects (reverse)
@@ -19,7 +16,7 @@ roles:
   boundPermissionsEmpty: No permissions assigned
   dialogCreateTitle: Add Role
   dialogEditTitle: Edit Role
-  assignSectionLabel: Assign roles
+  assignedRolesSectionLabel: Assigned roles
   roleCode: Role Code
   roleName: Role Name
   placeholder:

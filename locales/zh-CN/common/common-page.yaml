@@ -10,6 +10,9 @@ tips:
   deleteSuccess: 删除成功
   animationIsNotExist: 动画不存在
   assignEmptySelected: 暂无已选项，请选择
+  assignLoadFailed: 分配数据加载失败
+  assignSaveSuccess: 分配保存成功
+  assignSaveFailed: 分配保存失败
 buttons:
   pureLoginOut: 退出系统
   pureLogin: 登录
