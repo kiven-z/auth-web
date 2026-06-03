@@ -24,6 +24,7 @@ const props = defineProps<{
 const { t } = useI18n();
 const searchFormRef = ref<FormInstance>();
 
+// 分配角色
 const assign = useAssignChecked({
   rowKey: 'roleCode',
   getRowLabel: (row) => String(row.roleName ?? ''),
@@ -31,6 +32,7 @@ const assign = useAssignChecked({
 
 const { getSelectedKeys, toggle, applySeed } = assign;
 
+// 角色分页状态
 const roleState = usePaginationState({
   fetchApi: getRolePage,
   searchForm: reactive({
@@ -42,10 +44,13 @@ const roleState = usePaginationState({
   errorI18nKey: 'roles.loadFailed',
 });
 
+// 角色分页数据
 const { tableData, loading, searchForm, fetchTableData, resetQuery } = roleState;
 
+// 使用分配表标签
 useAssignTableLabels(assign, tableData);
 
+// 角色分配抽屉数据列
 const roleDrawerDataColumns = computed<TableColumnList>(() => [
   createAssignCheckboxColumn(assign, 'roleCode', { label: t('table.assigned') }),
   {

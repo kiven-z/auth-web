@@ -17,8 +17,7 @@ export interface DeptParentCascaderNode {
  * 仅启用部门参与父级选择，并构造成 cascader 树
  */
 export function buildActiveDeptParentTree(list: SysDeptListVO[]): DeptParentCascaderNode[] {
-  const active = list.filter((item) => item.status === true);
-  const nodes = active.map((item) => ({
+  const nodes = list.map((item) => ({
     id: item.id,
     value: item.id,
     parentId: item.parentId,

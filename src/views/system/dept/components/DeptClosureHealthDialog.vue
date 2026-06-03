@@ -3,10 +3,10 @@ import type { DeptClosureHealth } from '@/api/system/dept';
 import { getDeptClosureHealth } from '@/api/system/dept';
 import Description from '@/components/ui/Description';
 import { errorMessage } from '@/shared/messaging/message';
+import useDeptClosureHealthColumns from '@/views/system/dept/hooks/useDeptClosureHealthColumns';
 import { ElAlert, ElDivider } from 'element-plus';
 import { computed, onMounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
-import useDeptClosureHealthColumns from '@/views/system/dept/hooks/useDeptClosureHealthColumns';
 
 defineOptions({
   name: 'DeptClosureHealthDialog',
@@ -33,6 +33,7 @@ async function reload() {
   }
 }
 
+// 检查摘要数据
 const summaryData = computed(() => {
   const health = data.value;
   if (!health) {
@@ -50,6 +51,7 @@ const summaryData = computed(() => {
   ];
 });
 
+// 健康度统计数据
 const healthStatsData = computed(() => {
   const stats = data.value?.healthStats;
   if (!stats) {
@@ -58,30 +60,22 @@ const healthStatsData = computed(() => {
   return [stats];
 });
 
-const alertType = computed(() => {
-  if (!data.value) {
-    return 'info' as const;
-  }
-  return data.value.passed ? ('success' as const) : ('error' as const);
-});
-
-const alertTitle = computed(() => {
-  if (!data.value) {
-    return '';
-  }
-  return data.value.passed ? t('dept.closureHealthAlertPass') : t('dept.closureHealthAlertFail');
+onMounted(() => {
+  reload();
 });
 
 defineExpose({ reload });
-
-onMounted(() => {
-  void reload();
-});
 </script>
 
 <template>
   <div v-loading="loading" class="min-h-40">
-    <el-alert v-if="data" :closable="false" :title="alertTitle" :type="alertType" class="mb-4" show-icon />
+    <el-alert
+      :title="data?.passed ? t('dept.closureHealthAlertPass') : t('dept.closureHealthAlertFail')"
+      :type="data?.passed ? 'success' : 'error'"
+      class="mb-2!"
+      closable
+      show-icon
+    />
 
     <template v-if="data">
       <Description :column="2" :columns="summaryColumns" :data="summaryData" :title="t('dept.closureHealthSummary')" />
