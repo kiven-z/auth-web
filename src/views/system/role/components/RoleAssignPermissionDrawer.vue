@@ -1,17 +1,7 @@
 <script lang="ts" setup>
 import { getRolePermissions } from '@/api/system/role';
-import type { SysPermissionPageRow } from '@/api/system/permission';
-import { getPermissionPage } from '@/api/system/permission';
-import AssignPanel, {
-  createAssignCheckboxColumn,
-  useAssignChecked,
-  useAssignTableLabels,
-} from '@/components/business/AssignManagePanel';
-import AuthPagedTable, { usePaginationState } from '@/components/ui/AuthPagedTable';
-import { PERMISSION_TYPE_FILTER_OPTIONS } from '@/views/system/_shared/constants/permission-type-options';
-import { errorMessage } from '@/shared/messaging/message';
-import type { FormInstance } from 'element-plus';
-import { computed, onMounted, reactive, ref } from 'vue';
+import PermissionAssignDrawer from '@/views/system/_shared/components/PermissionAssignDrawer.vue';
+import { ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 defineOptions({ name: 'RoleAssignPermissionDrawer' });
@@ -22,143 +12,28 @@ const props = defineProps<{
 }>();
 
 const { t } = useI18n();
-const searchFormRef = ref<FormInstance>();
+const innerRef = ref<InstanceType<typeof PermissionAssignDrawer> | null>(null);
 
-const assign = useAssignChecked({
-  rowKey: 'permissionCode',
-  getRowLabel: (row) => String(row.permissionName ?? ''),
-});
-
-const { getSelectedKeys, toggle, applySeed } = assign;
-
-const permissionState = usePaginationState<SysPermissionPageRow>({
-  searchForm: reactive({
-    permissionName: undefined,
-    permissionCode: undefined,
-    permissionType: undefined,
-  }),
-  defaultPageSize: 30,
-  errorI18nKey: 'tips.assignLoadFailed',
-  fetchApi: (query) =>
-    getPermissionPage({
-      pageIndex: query.pageIndex as number,
-      pageSize: query.pageSize as number,
-      permissionName: query.permissionName as string | undefined,
-      permissionCode: query.permissionCode as string | undefined,
-      status: true,
-      permissionType: query.permissionType as number | undefined,
-    }),
-});
-
-const { tableData, loading, searchForm, fetchTableData, resetQuery } = permissionState;
-
-useAssignTableLabels(assign, tableData);
-
-const permissionDrawerColumns = computed<TableColumnList>(() => [
-  createAssignCheckboxColumn(assign, 'permissionCode', { label: t('table.assigned') }),
-  {
-    label: t('permissions.permissionName'),
-    prop: 'permissionName',
-  },
-  {
-    label: t('permissions.permissionCode'),
-    prop: 'permissionCode',
-  },
-]);
-
-/**
- * 双击行切换分配状态
- */
-const handleRowDblclick = (row: SysPermissionPageRow) => {
-  toggle(row as unknown as Record<string, unknown>);
+const loadAssigned = async () => {
+  const rows = await getRolePermissions(props.roleCode);
+  return rows.map((row) => ({
+    key: row.permissionCode,
+    label: row.permissionName,
+  }));
 };
 
-/**
- * 加载角色已分配权限码，写入勾选状态
- */
-const fetchRolePermissions = async () => {
-  try {
-    const rows = await getRolePermissions(props.roleCode);
-    applySeed(
-      rows.map((row) => ({
-        key: row.permissionCode,
-        label: row.permissionName,
-      }))
-    );
-  } catch (error: unknown) {
-    errorMessage(error, { defaultI18nKey: 'tips.assignLoadFailed' });
-    applySeed([]);
-  }
-};
-
-onMounted(() => {
-  fetchTableData();
-  fetchRolePermissions();
+defineExpose({
+  getSelectedKeys: () => innerRef.value?.getSelectedKeys() ?? [],
 });
-
-defineExpose({ getSelectedKeys });
 </script>
 
 <template>
-  <AssignPanel
-    :assign="assign"
+  <PermissionAssignDrawer
+    ref="innerRef"
     :left-subtitle="`${roleName} (${roleCode})`"
     :left-title="t('roles.assignCurrentRole')"
-    :section-label="t('permissions.assignSectionLabel')"
-  >
-    <el-form ref="searchFormRef" :inline="true" :model="searchForm" class="mb-3 w-full overflow-auto pl-8 pt-3">
-      <!-- 权限名称 -->
-      <el-form-item :label="t('permissions.permissionName')" prop="permissionName">
-        <el-input
-          v-model="searchForm.permissionName"
-          :placeholder="t('permissions.assignSearch')"
-          class="w-45!"
-          clearable
-        />
-      </el-form-item>
-      <!-- 权限码 -->
-      <el-form-item :label="t('permissions.permissionCode')" prop="permissionCode">
-        <el-input
-          v-model="searchForm.permissionCode"
-          :placeholder="t('permissions.placeholder.permissionCode')"
-          class="w-45!"
-          clearable
-        />
-      </el-form-item>
-      <!-- 权限类型 -->
-      <el-form-item :label="t('permissions.permissionType')" prop="permissionType">
-        <el-select
-          v-model="searchForm.permissionType"
-          :placeholder="t('permissions.permissionType')"
-          class="w-40!"
-          clearable
-        >
-          <el-option
-            v-for="opt in PERMISSION_TYPE_FILTER_OPTIONS"
-            :key="opt.value"
-            :label="t(opt.labelKey)"
-            :value="opt.value"
-          />
-        </el-select>
-      </el-form-item>
-
-      <!-- 表单搜索 -->
-      <el-form-item>
-        <!-- 搜索 -->
-        <el-button :loading="loading" type="primary" @click="fetchTableData">
-          {{ t('buttons.actionSearch') }}
-        </el-button>
-        <!-- 重置 -->
-        <el-button @click="resetQuery(searchFormRef)">{{ t('buttons.actionReset') }}</el-button>
-      </el-form-item>
-    </el-form>
-
-    <AuthPagedTable
-      :columns="permissionDrawerColumns"
-      :state="permissionState"
-      :title="t('roles.assignPermissionTitle')"
-      row-key="permissionCode"
-      @row-dblclick="handleRowDblclick"
-    />
-  </AssignPanel>
+    :load-assigned="loadAssigned"
+    :table-title="t('roles.assignPermissionTitle')"
+    show-permission-type-filter
+  />
 </template>
