@@ -21,7 +21,6 @@ post:
   secondaryPosition: Secondary
   assignmentDate: Assignment Date
   boundDeptTitle: Department
-  boundDeptEmpty: No department information
   boundUsersTitle: Linked Users
   boundUsersEmpty: No linked users
   boundRolesTitle: Granted Roles

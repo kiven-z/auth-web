@@ -21,7 +21,6 @@ post:
   secondaryPosition: 副岗位
   assignmentDate: 任职时间
   boundDeptTitle: 所属部门
-  boundDeptEmpty: 暂无部门信息
   boundUsersTitle: 关联用户
   boundUsersEmpty: 暂无关联用户
   boundRolesTitle: 已授权角色

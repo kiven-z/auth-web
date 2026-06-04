@@ -58,8 +58,7 @@ const descriptionColumns = computed(() => [
     <p class="mb-2 text-sm font-medium text-(--el-text-color-primary)">
       {{ t('post.boundDeptTitle') }}
     </p>
-    <Description v-if="boundDeptRows.length" :column="2" :columns="deptSnapshotColumns" :data="boundDeptRows" />
-    <p v-else class="text-sm text-(--el-text-color-secondary)">{{ t('post.boundDeptEmpty') }}</p>
+    <Description :column="2" :columns="deptSnapshotColumns" :data="[data.boundDept]" />
 
     <el-divider />
 
