@@ -59,6 +59,7 @@ export interface SysRoleBoundPermissionItem {
   permissionName: string;
   permissionType: number;
   status: boolean;
+  grantTime?: string;
 }
 
 /**

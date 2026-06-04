@@ -7,6 +7,7 @@ import { PERMISSION_TYPE_FILTER_OPTIONS } from '@/views/system/_shared/constants
 import { ElTag } from 'element-plus';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
+import useBindingColumns from '@/views/system/_shared/columns/useBindingColumns';
 import usePermissionBindingColumns from '@/views/system/permission/hooks/usePermissionBindingColumns';
 
 defineOptions({
@@ -19,7 +20,8 @@ const props = defineProps<PermissionDescriptionDialogProps>();
 const { t } = useI18n();
 
 // 绑定角色、菜单表格列
-const { roleBindingColumns, menuBindingColumns } = usePermissionBindingColumns();
+const { roleBindingColumns } = useBindingColumns();
+const { menuBindingColumns } = usePermissionBindingColumns();
 
 // 按钮权限类型
 const buttonPermissionType = PERMISSION_TYPE_FILTER_OPTIONS[0].value;
