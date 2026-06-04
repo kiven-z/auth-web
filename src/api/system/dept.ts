@@ -1,6 +1,9 @@
 import type { BaseResponse, BaseResponseDetail, PageResponse, SortSpec } from '@/api/common';
+import type { GrantTableAssignRoleRequest, GrantTableAssignedRoleRow } from '@/api/system/grant-table';
 import { http } from '@/infrastructure/http-core';
 import type { AxiosRequestConfig } from 'axios';
+
+export type { GrantTableAssignedRoleRow, GrantTableAssignRoleRequest };
 
 /**
  * 部门列表查询条件（与文档查询字段一致）
@@ -182,26 +185,11 @@ export async function deleteDepts(ids: string[]): Promise<void> {
 }
 
 /**
- * 部门已分配角色行（对齐 {@code SysDeptAssignedRoleRow}）
- */
-export interface SysDeptAssignedRoleRow {
-  roleCode: string;
-  roleName: string;
-}
-
-/**
- * 部门分配角色请求（对齐 {@code SysDeptAssignRoleForm}）
- */
-export interface SysDeptAssignRoleRequest {
-  roleCodes: string[];
-}
-
-/**
  * 查询部门已分配角色
  * @param deptId 部门主键
  */
-export function getDeptRoles(deptId: string): Promise<SysDeptAssignedRoleRow[]> {
-  return http.get<SysDeptAssignedRoleRow[], unknown>(`/system/dept/${deptId}/roles`);
+export function getDeptRoles(deptId: string): Promise<GrantTableAssignedRoleRow[]> {
+  return http.get<GrantTableAssignedRoleRow[], unknown>(`/system/dept/${deptId}/roles`);
 }
 
 /**
@@ -209,7 +197,7 @@ export function getDeptRoles(deptId: string): Promise<SysDeptAssignedRoleRow[]> 
  * @param deptId 部门主键
  * @param data 角色编码列表
  */
-export function putDeptRoles(deptId: string, data: SysDeptAssignRoleRequest): Promise<void> {
+export function putDeptRoles(deptId: string, data: GrantTableAssignRoleRequest): Promise<void> {
   return http.request<void>('put', `/system/dept/${deptId}/roles`, { data });
 }
 

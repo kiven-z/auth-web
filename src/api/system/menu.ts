@@ -1,9 +1,11 @@
 import type { BaseResponse, PageResponse, SortSpec } from '@/api/common';
+import type { MenuAssignedRoleRow, MenuAssignRoleRequest } from '@/api/system/grant-table';
 import type { MenuTypeValue } from '@/views/system/menu/constants/menuEnums';
 import type { AxiosRequestConfig } from 'axios';
 
 import { http } from '@/infrastructure/http-core';
 
+export type { MenuAssignedRoleRow, MenuAssignRoleRequest };
 /** 菜单弹窗/编辑表单（与 MenuDialog 字段对齐；Boolean 字段直接用 boolean，提交前经 mapper 转换） */
 export interface MenuForm {
   id?: string;
@@ -143,26 +145,10 @@ export interface SysMenuBatchStatusRequest {
 }
 
 /**
- * 分配角色
- */
-export interface SysMenuAssignRoleRequest {
-  roleCodes: string[];
-}
-
-/**
  * 分配权限
  */
 export interface SysMenuAssignPermissionRequest {
   permissionCodes: string[];
-}
-
-/**
- * 菜单已关联角色行（抽屉表格）
- */
-export interface SysMenuAssignedRoleRow {
-  roleCode: string;
-  roleName: string;
-  assigned: boolean;
 }
 
 /**
@@ -230,8 +216,8 @@ export function updateMenuBatchStatus(data: SysMenuBatchStatusRequest): Promise<
  * @param id 菜单ID
  * @returns 菜单已分配角色行
  */
-export function getMenuRoles(id: string): Promise<SysMenuAssignedRoleRow[]> {
-  return http.get<SysMenuAssignedRoleRow[], AxiosRequestConfig>(`/system/menu/${id}/roles`);
+export function getMenuRoles(id: string): Promise<MenuAssignedRoleRow[]> {
+  return http.get<MenuAssignedRoleRow[], AxiosRequestConfig>(`/system/menu/${id}/roles`);
 }
 
 /**
@@ -240,7 +226,7 @@ export function getMenuRoles(id: string): Promise<SysMenuAssignedRoleRow[]> {
  * @param data 分配角色请求
  * @returns 分配角色响应
  */
-export function putMenuRoles(id: string, data: SysMenuAssignRoleRequest): Promise<string> {
+export function putMenuRoles(id: string, data: MenuAssignRoleRequest): Promise<string> {
   return http.request<string>('put', `/system/menu/${id}/roles`, { data });
 }
 

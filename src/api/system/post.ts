@@ -2,7 +2,10 @@ import type { AxiosRequestConfig } from 'axios';
 
 import type { BaseResponseDetail, BaseResponsePageRow, PageResponse, SortSpec, TableActionDeps } from '@/api/common';
 import type { SysDeptBoundRoleItem } from '@/api/system/dept';
+import type { GrantTableAssignRoleRequest, GrantTableAssignedRoleRow } from '@/api/system/grant-table';
 import { http } from '@/infrastructure/http-core';
+
+export type { GrantTableAssignedRoleRow, GrantTableAssignRoleRequest };
 
 /**
  * 岗位分页查询参数（对齐 {@code SysPostQuery}）
@@ -131,6 +134,23 @@ export function updatePost(id: string, data: SysPostCreateForm): Promise<void> {
  */
 export function deletePost(id: string): Promise<void> {
   return http.request('delete', `/system/post/${id}`);
+}
+
+/**
+ * 查询岗位已分配角色
+ * @param postId 岗位主键
+ */
+export function getPostRoles(postId: string): Promise<GrantTableAssignedRoleRow[]> {
+  return http.get<GrantTableAssignedRoleRow[], unknown>(`/system/post/${postId}/roles`);
+}
+
+/**
+ * 全量覆盖岗位角色授权
+ * @param postId 岗位主键
+ * @param data 角色编码列表
+ */
+export function putPostRoles(postId: string, data: GrantTableAssignRoleRequest): Promise<void> {
+  return http.request<void>('put', `/system/post/${postId}/roles`, { data });
 }
 
 export type { TableActionDeps };

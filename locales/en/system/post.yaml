@@ -5,6 +5,8 @@ post:
   dialogCreateTitle: Add Post
   dialogEditTitle: Edit Post
   dialogViewTitle: View Post Details
+  assignRole: Assign roles
+  assignCurrentPost: Current post
   placeholder:
     dept: Select department
   postCode: Post Code

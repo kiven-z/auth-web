@@ -9,9 +9,9 @@ import AssignPanel, {
 import AuthPagedTable, { usePaginationState } from '@/components/ui/AuthPagedTable';
 import { errorMessage } from '@/shared/messaging/message';
 import {
-  DEPT_GRANT_DEFAULT_ROLE_TYPES,
-  DEPT_GRANT_ROLE_TYPE_OPTIONS,
-} from '@/views/system/dept/constants/dept-grant-role-options';
+  ORG_GRANT_DEFAULT_ROLE_TYPES,
+  ORG_GRANT_ROLE_TYPE_OPTIONS,
+} from '@/views/system/_shared/constants/org-grant-role-options';
 import { ElTag, type FormInstance } from 'element-plus';
 import { computed, onMounted, reactive, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
@@ -42,7 +42,7 @@ const roleState = usePaginationState({
     roleCode: undefined,
     roleName: undefined,
     status: true,
-    roleTypes: [...DEPT_GRANT_DEFAULT_ROLE_TYPES],
+    roleTypes: [...ORG_GRANT_DEFAULT_ROLE_TYPES],
   }),
   errorI18nKey: 'roles.loadFailed',
 });
@@ -55,7 +55,7 @@ const { tableData, loading, searchForm, fetchTableData, resetQuery } = roleState
  */
 const normalizeDeptRoleTypes = (values: number[]) => {
   if (values.length === 0) {
-    searchForm.roleTypes = DEPT_GRANT_DEFAULT_ROLE_TYPES;
+    searchForm.roleTypes = ORG_GRANT_DEFAULT_ROLE_TYPES;
   }
 };
 
@@ -78,7 +78,7 @@ const roleDrawerDataColumns = computed<TableColumnList>(() => [
     prop: 'roleType',
     width: 120,
     formatter: (row: SysRolePageRow) => {
-      const option = DEPT_GRANT_ROLE_TYPE_OPTIONS.find((item) => item.value === row.roleType);
+      const option = ORG_GRANT_ROLE_TYPE_OPTIONS.find((item) => item.value === row.roleType);
       return (
         <ElTag type={option.tagType} effect="plain">
           {t(option.labelKey)}
@@ -165,7 +165,7 @@ defineExpose({ getSelectedKeys });
           @change="normalizeDeptRoleTypes"
         >
           <el-option
-            v-for="opt in DEPT_GRANT_ROLE_TYPE_OPTIONS"
+            v-for="opt in ORG_GRANT_ROLE_TYPE_OPTIONS"
             :key="opt.value"
             :label="t(opt.labelKey)"
             :value="opt.value"

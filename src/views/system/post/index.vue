@@ -2,6 +2,7 @@
 import { getPostPage } from '@/api/system/post';
 import AuthPagedTable, { usePaginationState } from '@/components/ui/AuthPagedTable';
 import { POST_STATUS_FILTER_OPTIONS } from '@/views/system/post/constants/post-search-options';
+import usePostMoreAction from '@/views/system/post/hooks/usePostMoreAction';
 import usePostTableAction from '@/views/system/post/hooks/usePostTableAction';
 import usePostTableColumns from '@/views/system/post/hooks/usePostTableColumns';
 import type { FormInstance } from 'element-plus';
@@ -31,7 +32,14 @@ const postState = usePaginationState({
 
 const { loading, searchForm, fetchTableData, resetQuery } = postState;
 
-const { openCreateDialog, openDetailDialog, openEditDialog, deleteRow } = usePostTableAction({ fetchTableData });
+const tableActionDeps = { fetchTableData };
+
+const { openCreateDialog, openDetailDialog, openEditDialog, deleteRow } = usePostTableAction(tableActionDeps);
+
+const { openAssignRoleDrawer } = usePostMoreAction({
+  ...tableActionDeps,
+  refresh: fetchTableData,
+});
 
 onMounted(() => {
   fetchTableData();
@@ -111,7 +119,9 @@ onMounted(() => {
           <el-dropdown class="ml-1" trigger="click">
             <el-button class="el-dropdown-link" link type="primary">{{ t('buttons.actionMore') }}</el-button>
             <template #dropdown>
-              <el-dropdown-item>分配角色</el-dropdown-item>
+              <el-dropdown-item @click="openAssignRoleDrawer(row)">
+                {{ t('post.assignRole') }}
+              </el-dropdown-item>
             </template>
           </el-dropdown>
         </div>
