@@ -29,7 +29,7 @@ const postState = usePaginationState({
   errorI18nKey: 'post.loadFailed',
 });
 
-const { loading, selectedRows, searchForm, fetchTableData, resetQuery } = postState;
+const { loading, searchForm, fetchTableData, resetQuery } = postState;
 
 const { openCreateDialog, openDetailDialog, openEditDialog, deleteRow } = usePostTableAction({ fetchTableData });
 
@@ -89,11 +89,9 @@ onMounted(() => {
             <el-button type="danger">
               {{ t('buttons.actionAdvanced') }}
             </el-button>
-
             <template #dropdown>
-              <el-dropdown-item :disabled="selectedRows.length <= 0">
-                {{ t('buttons.actionBatchDelete') }}
-              </el-dropdown-item>
+              <el-dropdown-item>从Excel导入</el-dropdown-item>
+              <el-dropdown-item>导出为Excel</el-dropdown-item>
             </template>
           </el-dropdown>
         </el-button-group>

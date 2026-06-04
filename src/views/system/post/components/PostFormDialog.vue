@@ -1,8 +1,11 @@
 <script lang="ts" setup>
 import type { FormDialog } from '@/api/common';
+import { getDeptList } from '@/api/system/dept';
 import type { SysPostCreateForm } from '@/api/system/post';
-import type { FormInstance, FormRules } from 'element-plus';
-import { reactive, ref } from 'vue';
+import { errorMessage } from '@/shared/messaging/message';
+import { buildPostDeptCascaderTree, type PostDeptCascaderNode } from '@/views/system/post/utils/post-dept-cascader';
+import type { CascaderProps, FormInstance, FormRules } from 'element-plus';
+import { onMounted, reactive, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 type PostFormDialogProps = FormDialog<SysPostCreateForm>;
@@ -19,11 +22,39 @@ const form = ref<SysPostCreateForm>({
   ...props.form,
 });
 
+const deptCascaderProps: CascaderProps = {
+  checkStrictly: true,
+  emitPath: false,
+  value: 'value',
+  label: 'label',
+  children: 'children',
+  disabled: 'disabled',
+};
+
+const deptTree = ref<PostDeptCascaderNode[]>([]);
+
 const rules = reactive<FormRules>({
   deptId: [{ required: true, message: t('post.deptName'), trigger: 'change' }],
   postCode: [{ required: true, message: t('post.postCode'), trigger: 'blur' }],
   postName: [{ required: true, message: t('post.postName'), trigger: 'blur' }],
   status: [{ required: true, message: t('post.status'), trigger: 'change' }],
+});
+
+/**
+ * 加载部门树（含停用部门，节点 disabled 不可选）
+ */
+const loadDeptTree = async () => {
+  try {
+    const list = await getDeptList();
+    deptTree.value = buildPostDeptCascaderTree(list ?? []);
+  } catch (e: unknown) {
+    errorMessage(e, { defaultI18nKey: 'post.loadFailed' });
+    deptTree.value = [];
+  }
+};
+
+onMounted(() => {
+  loadDeptTree();
 });
 
 defineExpose({ formRef, form });
@@ -35,19 +66,33 @@ defineExpose({ formRef, form });
       <!-- 岗位编码 -->
       <el-col :lg="12" :md="12" :sm="12" :xs="24">
         <el-form-item :label="t('post.postCode')" prop="postCode">
-          <el-input v-model="form.postCode" :placeholder="t('post.postCode')" />
+          <el-input v-model="form.postCode" :placeholder="t('post.postCode')" clearable />
         </el-form-item>
       </el-col>
       <!-- 岗位名称 -->
       <el-col :lg="12" :md="12" :sm="12" :xs="24">
         <el-form-item :label="t('post.postName')" prop="postName">
-          <el-input v-model="form.postName" :placeholder="t('post.postName')" />
+          <el-input v-model="form.postName" :placeholder="t('post.postName')" clearable />
         </el-form-item>
       </el-col>
       <!-- 所属部门 -->
       <el-col :lg="12" :md="12" :sm="12" :xs="24">
         <el-form-item :label="t('post.deptName')" prop="deptId">
-          <el-input v-model="form.deptId" :placeholder="t('post.deptName')" disabled />
+          <el-cascader
+            v-model="form.deptId"
+            :options="deptTree"
+            :placeholder="t('post.placeholder.dept')"
+            :props="deptCascaderProps"
+            class="w-full"
+            clearable
+            filterable
+            separator="/"
+          >
+            <template #default="{ data }">
+              <span>{{ data.label }}</span>
+              <span class="text-xs text-(--el-text-color-secondary)">({{ data.deptCode }})</span>
+            </template>
+          </el-cascader>
         </el-form-item>
       </el-col>
       <!-- 状态 -->

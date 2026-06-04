@@ -3,7 +3,10 @@ post:
   pageTitle: 岗位管理
   loadFailed: 加载岗位列表失败
   dialogCreateTitle: 新增岗位
+  dialogEditTitle: 编辑岗位
   dialogViewTitle: 查看岗位详情
+  placeholder:
+    dept: 请选择所属部门
   postCode: 岗位编码
   postName: 岗位名称
   deptName: 所属部门

@@ -29,7 +29,7 @@ export interface SysPostPageRow extends BaseResponsePageRow {
 }
 
 /**
- * 岗位新增表单（对齐 {@code SysPostCreateForm}）
+ * 岗位保存表单（对齐 {@code SysPostForm}）
  */
 export interface SysPostCreateForm {
   deptId: string;
@@ -38,6 +38,13 @@ export interface SysPostCreateForm {
   status: boolean;
   orderNum?: number;
   remark?: string;
+}
+
+/**
+ * 岗位更新表单（与新增字段一致，编辑弹层内部带 id）
+ */
+export interface SysPostUpdateForm extends SysPostCreateForm {
+  id: string;
 }
 
 /**
@@ -57,6 +64,23 @@ export function getPostPage(params: SysPostPageQuery): Promise<PageResponse<SysP
  */
 export function createPost(data: SysPostCreateForm): Promise<void> {
   return http.post<void, SysPostCreateForm>('/system/post', { data });
+}
+
+/**
+ * 更新岗位
+ * @param id 岗位主键
+ * @param data 保存表单
+ */
+export function updatePost(id: string, data: SysPostCreateForm): Promise<void> {
+  return http.put<void, SysPostCreateForm>(`/system/post/${id}`, { data });
+}
+
+/**
+ * 删除岗位
+ * @param id 岗位主键
+ */
+export function deletePost(id: string): Promise<void> {
+  return http.request('delete', `/system/post/${id}`);
 }
 
 export type { TableActionDeps };

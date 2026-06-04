@@ -3,7 +3,10 @@ post:
   pageTitle: Post Management
   loadFailed: Failed to load posts
   dialogCreateTitle: Add Post
+  dialogEditTitle: Edit Post
   dialogViewTitle: View Post Details
+  placeholder:
+    dept: Select department
   postCode: Post Code
   postName: Post Name
   deptName: Department

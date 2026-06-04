@@ -1,8 +1,10 @@
 import type { TableActionDeps } from '@/api/common';
-import type { SysPostCreateForm, SysPostPageRow } from '@/api/system/post';
-import { createPost } from '@/api/system/post';
+import type { SysPostCreateForm, SysPostPageRow, SysPostUpdateForm } from '@/api/system/post';
+import { createPost, deletePost, updatePost } from '@/api/system/post';
 import { addDialog } from '@/components/ui/Dialog';
-import { useFormOverlaySubmit, type FormOverlayExpose } from '@/shared/hooks/useFormOverlaySubmit';
+import { type FormOverlayExpose, useFormOverlaySubmit } from '@/shared/hooks/useFormOverlaySubmit';
+import { deleteConfirm } from '@/shared/messaging/dialog';
+import { errorMessage, message } from '@/shared/messaging/message';
 import PostDetailDialog from '@/views/system/post/components/PostDetailDialog.vue';
 import PostFormDialog from '@/views/system/post/components/PostFormDialog.vue';
 import { h, ref } from 'vue';
@@ -15,6 +17,18 @@ function usePostTableAction(deps: TableActionDeps) {
   const { fetchTableData } = deps;
   const { t } = useI18n();
   const { createFormBeforeSure } = useFormOverlaySubmit();
+
+  /**
+   * 分页行 → 编辑表单
+   */
+  const rowToUpdateForm = (row: SysPostPageRow): SysPostUpdateForm => ({
+    id: row.id,
+    deptId: row.deptId,
+    postCode: row.postCode,
+    postName: row.postName,
+    status: row.status,
+    orderNum: row.orderNum,
+  });
 
   /**
    * 打开新增弹窗
@@ -58,37 +72,49 @@ function usePostTableAction(deps: TableActionDeps) {
   };
 
   /**
-   * 编辑（待对接 getPostDetail、updatePost）
-   * @param _row 表格行
+   * 打开编辑弹窗
+   * @param row 表格行
    */
-  const openEditDialog = async (_row: SysPostPageRow) => {
-    void _row;
-    // TODO: await getPostDetail(row.id) → detailToForm → h(PostFormDialog, { form })
+  const openEditDialog = (row: SysPostPageRow) => {
+    const formPayload = rowToUpdateForm(row);
+    const dialogFormRef = ref<FormOverlayExpose<SysPostCreateForm> | null>(null);
+
+    addDialog({
+      title: t('post.dialogEditTitle'),
+      draggable: true,
+      fullscreenIcon: true,
+      closeOnClickModal: false,
+      closeOnPressEscape: false,
+      contentRenderer: () => h(PostFormDialog, { ref: dialogFormRef, form: formPayload }),
+      beforeSure: createFormBeforeSure<SysPostCreateForm>({
+        formExposeRef: dialogFormRef,
+        errorI18nKey: 'post.loadFailed',
+        successI18nKey: 'tips.editSuccess',
+        onSubmit: async (formData) => {
+          await updatePost(row.id, formData);
+          await fetchTableData();
+        },
+      }),
+    });
   };
 
   /**
-   * 单行删除（待对接 deletePost）
+   * 单行删除
    * @param row 表格行
    */
   const deleteRow = async (row: SysPostPageRow) => {
-    void row;
-    // TODO: deleteConfirm → deletePost(row.id) → fetchTableData
-  };
+    const confirmed = await deleteConfirm();
+    if (!confirmed) {
+      return;
+    }
 
-  /**
-   * 批量删除（待对接 batchDeletePosts）
-   * @param ids 主键列表，可选
-   */
-  const deleteBatchRows = async (ids?: string[]) => {
-    void ids;
-    // TODO: deleteConfirm → batchDeletePosts(ids) → fetchTableData
-  };
-
-  /**
-   * 高级功能 / 批量操作扩展（待实现）
-   */
-  const openAdvancedActions = () => {
-    // TODO: 批量删除、批量状态等
+    try {
+      await deletePost(row.id);
+      message(t('tips.deleteSuccess'), { type: 'success' });
+      await fetchTableData();
+    } catch (error: unknown) {
+      errorMessage(error, { defaultI18nKey: 'tips.deleteFailed' });
+    }
   };
 
   return {
@@ -96,8 +122,6 @@ function usePostTableAction(deps: TableActionDeps) {
     openDetailDialog,
     openEditDialog,
     deleteRow,
-    deleteBatchRows,
-    openAdvancedActions,
   };
 }
 
