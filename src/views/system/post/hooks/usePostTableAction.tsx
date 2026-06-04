@@ -1,6 +1,6 @@
 import type { TableActionDeps } from '@/api/common';
 import type { SysPostCreateForm, SysPostPageRow, SysPostUpdateForm } from '@/api/system/post';
-import { createPost, deletePost, updatePost } from '@/api/system/post';
+import { createPost, deletePost, getPostDetail, updatePost } from '@/api/system/post';
 import { addDialog } from '@/components/ui/Dialog';
 import { type FormOverlayExpose, useFormOverlaySubmit } from '@/shared/hooks/useFormOverlaySubmit';
 import { deleteConfirm } from '@/shared/messaging/dialog';
@@ -17,18 +17,6 @@ function usePostTableAction(deps: TableActionDeps) {
   const { fetchTableData } = deps;
   const { t } = useI18n();
   const { createFormBeforeSure } = useFormOverlaySubmit();
-
-  /**
-   * 分页行 → 编辑表单
-   */
-  const rowToUpdateForm = (row: SysPostPageRow): SysPostUpdateForm => ({
-    id: row.id,
-    deptId: row.deptId,
-    postCode: row.postCode,
-    postName: row.postName,
-    status: row.status,
-    orderNum: row.orderNum,
-  });
 
   /**
    * 打开新增弹窗
@@ -56,46 +44,64 @@ function usePostTableAction(deps: TableActionDeps) {
   };
 
   /**
-   * 打开详情弹窗（后端暂无 GET /{id}，使用分页行数据）
-   * @param row 表格行数据
+   * 打开详情弹窗
+   * @param row 表格行
    */
-  const openDetailDialog = (row: SysPostPageRow) => {
-    addDialog({
-      title: t('post.dialogViewTitle'),
-      draggable: true,
-      fullscreenIcon: true,
-      closeOnClickModal: false,
-      closeOnPressEscape: false,
-      hideFooter: true,
-      contentRenderer: () => h(PostDetailDialog, { data: row }),
-    });
+  const openDetailDialog = async (row: SysPostPageRow) => {
+    try {
+      const detail = await getPostDetail(row.id);
+      addDialog({
+        title: t('post.dialogViewTitle'),
+        draggable: true,
+        fullscreenIcon: true,
+        closeOnPressEscape: false,
+        closeOnClickModal: false,
+        hideFooter: true,
+        contentRenderer: () => h(PostDetailDialog, { data: detail }),
+      });
+    } catch (error: unknown) {
+      errorMessage(error, { defaultI18nKey: 'post.loadFailed' });
+    }
   };
 
   /**
    * 打开编辑弹窗
    * @param row 表格行
    */
-  const openEditDialog = (row: SysPostPageRow) => {
-    const formPayload = rowToUpdateForm(row);
-    const dialogFormRef = ref<FormOverlayExpose<SysPostCreateForm> | null>(null);
+  const openEditDialog = async (row: SysPostPageRow) => {
+    try {
+      const detail = await getPostDetail(row.id);
+      const formPayload: SysPostUpdateForm = {
+        id: row.id,
+        deptId: detail.deptId,
+        postCode: detail.postCode,
+        postName: detail.postName,
+        status: detail.status,
+        orderNum: detail.orderNum,
+        remark: detail.remark,
+      };
+      const dialogFormRef = ref<FormOverlayExpose<SysPostCreateForm> | null>(null);
 
-    addDialog({
-      title: t('post.dialogEditTitle'),
-      draggable: true,
-      fullscreenIcon: true,
-      closeOnClickModal: false,
-      closeOnPressEscape: false,
-      contentRenderer: () => h(PostFormDialog, { ref: dialogFormRef, form: formPayload }),
-      beforeSure: createFormBeforeSure<SysPostCreateForm>({
-        formExposeRef: dialogFormRef,
-        errorI18nKey: 'post.loadFailed',
-        successI18nKey: 'tips.editSuccess',
-        onSubmit: async (formData) => {
-          await updatePost(row.id, formData);
-          await fetchTableData();
-        },
-      }),
-    });
+      addDialog({
+        title: t('post.dialogEditTitle'),
+        draggable: true,
+        fullscreenIcon: true,
+        closeOnClickModal: false,
+        closeOnPressEscape: false,
+        contentRenderer: () => h(PostFormDialog, { ref: dialogFormRef, form: formPayload }),
+        beforeSure: createFormBeforeSure<SysPostCreateForm>({
+          formExposeRef: dialogFormRef,
+          errorI18nKey: 'post.loadFailed',
+          successI18nKey: 'tips.editSuccess',
+          onSubmit: async (formData) => {
+            await updatePost(row.id, formData);
+            await fetchTableData();
+          },
+        }),
+      });
+    } catch (error: unknown) {
+      errorMessage(error, { defaultI18nKey: 'post.loadFailed' });
+    }
   };
 
   /**

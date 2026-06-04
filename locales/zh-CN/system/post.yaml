@@ -15,5 +15,16 @@ post:
   remark: 备注
   statusNormal: 正常
   statusDisabled: 禁用
+  employeeNo: 工号
+  isPrimaryPosition: 是否主岗位
+  primaryPosition: 主岗位
+  secondaryPosition: 副岗位
+  assignmentDate: 任职时间
+  boundDeptTitle: 所属部门
+  boundDeptEmpty: 暂无部门信息
+  boundUsersTitle: 关联用户
+  boundUsersEmpty: 暂无关联用户
+  boundRolesTitle: 已授权角色
+  boundRolesEmpty: 暂无已授权角色
   tips:
     affiliatedPostInfo: 所属岗位

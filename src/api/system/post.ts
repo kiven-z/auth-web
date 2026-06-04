@@ -1,6 +1,7 @@
 import type { AxiosRequestConfig } from 'axios';
 
-import type { BaseResponsePageRow, PageResponse, SortSpec, TableActionDeps } from '@/api/common';
+import type { BaseResponseDetail, BaseResponsePageRow, PageResponse, SortSpec, TableActionDeps } from '@/api/common';
+import type { SysDeptBoundRoleItem } from '@/api/system/dept';
 import { http } from '@/infrastructure/http-core';
 
 /**
@@ -48,6 +49,46 @@ export interface SysPostUpdateForm extends SysPostCreateForm {
 }
 
 /**
+ * 岗位详情：所属部门项（对齐 {@code SysPostBoundDeptItemVO}）
+ */
+export interface SysPostBoundDeptItem {
+  deptId: string;
+  deptCode: string;
+  deptName: string;
+  status: boolean;
+  parentId: string;
+}
+
+/**
+ * 岗位详情：关联用户项（对齐 {@code SysPostBoundUserItemVO}）
+ */
+export interface SysPostBoundUserItem {
+  userId: string;
+  username: string;
+  nickname: string;
+  employeeNo?: string;
+  userStatus: number;
+  isPrimary: boolean;
+  relationStatus: number;
+  assignmentDate?: string;
+}
+
+/**
+ * 岗位详情（对齐 {@code SysPostDetailVO} + BaseResponse）
+ */
+export interface SysPostDetail extends BaseResponseDetail {
+  deptId: string;
+  postCode: string;
+  postName: string;
+  status: boolean;
+  orderNum: number;
+  remark?: string;
+  boundDept?: SysPostBoundDeptItem | null;
+  boundUsers: SysPostBoundUserItem[];
+  boundRoles: SysDeptBoundRoleItem[];
+}
+
+/**
  * 分页查询岗位列表
  * @param params 岗位分页查询参数
  * @returns 岗位分页行
@@ -56,6 +97,15 @@ export function getPostPage(params: SysPostPageQuery): Promise<PageResponse<SysP
   return http.get<PageResponse<SysPostPageRow>, AxiosRequestConfig<SysPostPageQuery>>('/system/post/page', {
     params,
   });
+}
+
+/**
+ * 获取岗位详情
+ * @param id 岗位主键
+ * @returns 岗位详情
+ */
+export function getPostDetail(id: string): Promise<SysPostDetail> {
+  return http.get<SysPostDetail, unknown>(`/system/post/${id}`);
 }
 
 /**

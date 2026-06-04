@@ -13,7 +13,21 @@ export interface PostDeptCascaderNode {
 }
 
 /**
- * 扁平部门列表 → 岗位所属部门 cascader 树（停用节点 disabled，与后端可挂载部门规则一致）
+ * 自顶向下：父级停用则整棵子树不可选（节点仍展示）
+ */
+function applyAncestorDisabled(nodes: PostDeptCascaderNode[], ancestorDisabled: boolean): void {
+  for (const node of nodes) {
+    const selfDisabled = node.disabled === true;
+    const effectiveDisabled = ancestorDisabled || selfDisabled;
+    node.disabled = effectiveDisabled;
+    if (node.children?.length) {
+      applyAncestorDisabled(node.children, effectiveDisabled);
+    }
+  }
+}
+
+/**
+ * 扁平部门列表 → 岗位所属部门 cascader 树（本节点或任一祖先停用则 disabled）
  */
 export function buildPostDeptCascaderTree(list: SysDeptListVO[]): PostDeptCascaderNode[] {
   const nodes = list.map((item) => ({
@@ -24,5 +38,7 @@ export function buildPostDeptCascaderTree(list: SysDeptListVO[]): PostDeptCascad
     deptCode: item.deptCode,
     disabled: item.status !== true,
   }));
-  return handleTree(nodes, 'id', 'parentId', 'children') as PostDeptCascaderNode[];
+  const tree = handleTree(nodes, 'id', 'parentId', 'children') as PostDeptCascaderNode[];
+  applyAncestorDisabled(tree, false);
+  return tree;
 }

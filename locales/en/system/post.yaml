@@ -15,5 +15,16 @@ post:
   remark: Remark
   statusNormal: Normal
   statusDisabled: Disabled
+  employeeNo: Employee No.
+  isPrimaryPosition: Primary Post
+  primaryPosition: Primary
+  secondaryPosition: Secondary
+  assignmentDate: Assignment Date
+  boundDeptTitle: Department
+  boundDeptEmpty: No department information
+  boundUsersTitle: Linked Users
+  boundUsersEmpty: No linked users
+  boundRolesTitle: Granted Roles
+  boundRolesEmpty: No granted roles
   tips:
     affiliatedPostInfo: Posts
