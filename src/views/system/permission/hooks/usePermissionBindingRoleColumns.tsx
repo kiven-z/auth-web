@@ -1,5 +1,5 @@
 import type { SysPermissionBoundRoleItem } from '@/api/system/permission';
-import { ROLE_TYPE_FILTER_OPTIONS } from '@/shared/constants/role-type-options';
+import { ROLE_TYPE_FILTER_OPTIONS } from '@/views/system/_shared/constants/role-type-options';
 import { ElTag } from 'element-plus';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';

@@ -1,6 +1,6 @@
 import type { SysPermissionPageRow } from '@/api/system/permission';
 import { selectUserinfo } from '@/components/business/UserProfile';
-import { PERMISSION_TYPE_FILTER_OPTIONS } from '@/shared/constants/permission-type-options';
+import { PERMISSION_TYPE_FILTER_OPTIONS } from '@/views/system/_shared/constants/permission-type-options';
 import { ElButton, ElTag } from 'element-plus';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';

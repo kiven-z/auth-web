@@ -5,7 +5,7 @@ import {
   renderUserAccountStatus,
 } from '@/components/business/UserProfile/src/constants/userProfileDisplay';
 import { DEPT_STATUS_FILTER_OPTIONS } from '@/views/system/dept/constants/dept-search-options';
-import { ROLE_TYPE_FILTER_OPTIONS } from '@/shared/constants/role-type-options';
+import { ROLE_TYPE_FILTER_OPTIONS } from '@/views/system/_shared/constants/role-type-options';
 import { ElCheckTag, ElTag } from 'element-plus';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';

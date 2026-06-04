@@ -2,7 +2,7 @@
 import type { FormDialog } from '@/api/common';
 import type { SysPermissionCreateForm, SysPermissionUpdateForm } from '@/api/system/permission';
 import { PERMISSION_CODE_REGEX } from '@/views/system/permission/constants/permission-code-convention';
-import { PERMISSION_TYPE_FILTER_OPTIONS } from '@/shared/constants/permission-type-options';
+import { PERMISSION_TYPE_FILTER_OPTIONS } from '@/views/system/_shared/constants/permission-type-options';
 import type { FormInstance, FormRules } from 'element-plus';
 import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';

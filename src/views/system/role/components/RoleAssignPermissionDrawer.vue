@@ -8,7 +8,7 @@ import AssignPanel, {
   useAssignTableLabels,
 } from '@/components/business/AssignManagePanel';
 import AuthPagedTable, { usePaginationState } from '@/components/ui/AuthPagedTable';
-import { PERMISSION_TYPE_FILTER_OPTIONS } from '@/shared/constants/permission-type-options';
+import { PERMISSION_TYPE_FILTER_OPTIONS } from '@/views/system/_shared/constants/permission-type-options';
 import { errorMessage } from '@/shared/messaging/message';
 import type { FormInstance } from 'element-plus';
 import { computed, onMounted, reactive, ref } from 'vue';

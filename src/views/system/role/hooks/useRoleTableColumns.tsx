@@ -1,6 +1,6 @@
 import type { SysRolePageRow } from '@/api/system/role';
 import { selectUserinfo } from '@/components/business/UserProfile';
-import { ROLE_TYPE_FILTER_OPTIONS } from '@/shared/constants/role-type-options';
+import { ROLE_TYPE_FILTER_OPTIONS } from '@/views/system/_shared/constants/role-type-options';
 import { ElButton, ElTag } from 'element-plus';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
