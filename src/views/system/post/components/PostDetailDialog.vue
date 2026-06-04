@@ -8,6 +8,7 @@ import usePostBindingColumns from '@/views/system/post/hooks/usePostBindingColum
 import { ElTag } from 'element-plus';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
+import useBindingColumns from '@/views/system/_shared/columns/useBindingColumns';
 
 defineOptions({
   name: 'PostDetailDialog',
@@ -18,7 +19,8 @@ type PostDetailDialogProps = DetailDialog<SysPostDetail>;
 const props = defineProps<PostDetailDialogProps>();
 const { t } = useI18n();
 
-const { userBindingColumns, roleBindingColumns, deptSnapshotColumns } = usePostBindingColumns();
+const { userBindingColumns, deptSnapshotColumns } = usePostBindingColumns();
+const { roleBindingColumns } = useBindingColumns();
 
 const boundUsers = computed(() => props.data?.boundUsers ?? []);
 const boundRoles = computed(() => props.data?.boundRoles ?? []);

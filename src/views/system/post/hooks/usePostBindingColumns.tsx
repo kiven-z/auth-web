@@ -1,11 +1,9 @@
-import type { SysDeptBoundRoleItem } from '@/api/system/dept';
 import type { SysPostBoundUserItem } from '@/api/system/post';
 import {
   renderRelationStatus,
   renderUserAccountStatus,
 } from '@/components/business/UserProfile/src/constants/userProfileDisplay';
 import { DEPT_STATUS_FILTER_OPTIONS } from '@/views/system/dept/constants/dept-search-options';
-import { ROLE_TYPE_FILTER_OPTIONS } from '@/views/system/_shared/constants/role-type-options';
 import { ElCheckTag, ElTag } from 'element-plus';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
@@ -50,38 +48,6 @@ function usePostBindingColumns() {
     { label: t('post.assignmentDate'), prop: 'assignmentDate', minWidth: 160 },
   ]);
 
-  const roleBindingColumns = computed<TableColumnList>(() => [
-    { label: t('roles.roleCode'), prop: 'roleCode', minWidth: 120, showOverflowTooltip: true },
-    { label: t('roles.roleName'), prop: 'roleName', minWidth: 120, showOverflowTooltip: true },
-    {
-      label: t('roles.status'),
-      prop: 'status',
-      minWidth: 90,
-      formatter: (row: SysDeptBoundRoleItem) => (
-        <ElTag type={row.status ? 'success' : 'danger'} effect="plain">
-          {t(row.status ? 'roles.statusNormal' : 'roles.statusDisabled')}
-        </ElTag>
-      ),
-    },
-    {
-      label: t('roles.roleType'),
-      prop: 'roleType',
-      minWidth: 110,
-      formatter: (row: SysDeptBoundRoleItem) => {
-        const option = ROLE_TYPE_FILTER_OPTIONS.find((item) => item.value === row.roleType);
-        if (!option) {
-          return <span>{String(row.roleType ?? '')}</span>;
-        }
-        return (
-          <ElTag type={option.tagType} effect="plain">
-            {t(option.labelKey)}
-          </ElTag>
-        );
-      },
-    },
-    { label: t('dept.grantTime'), prop: 'grantTime', minWidth: 160 },
-  ]);
-
   const deptSnapshotColumns = computed(() => [
     { label: t('dept.deptCode'), prop: 'deptCode', labelWidth: 120, copy: true },
     { label: t('dept.deptName'), prop: 'deptName', labelWidth: 120, copy: true },
@@ -109,7 +75,7 @@ function usePostBindingColumns() {
     },
   ]);
 
-  return { userBindingColumns, roleBindingColumns, deptSnapshotColumns };
+  return { userBindingColumns, deptSnapshotColumns };
 }
 
 export default usePostBindingColumns;

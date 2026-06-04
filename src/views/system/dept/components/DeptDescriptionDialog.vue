@@ -8,6 +8,7 @@ import { ElTag } from 'element-plus';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import useDeptBindingColumns from '@/views/system/dept/hooks/useDeptBindingColumns';
+import useBindingColumns from '@/views/system/_shared/columns/useBindingColumns';
 
 defineOptions({
   name: 'DeptDescriptionDialog',
@@ -22,7 +23,8 @@ const props = defineProps<DeptDescriptionDialogProps>();
 const { t } = useI18n();
 
 // 绑定用户、岗位、角色表格列
-const { userBindingColumns, postBindingColumns, roleBindingColumns } = useDeptBindingColumns();
+const { userBindingColumns, postBindingColumns } = useDeptBindingColumns();
+const { roleBindingColumns } = useBindingColumns();
 
 // 绑定用户、岗位、角色数据
 const boundUsers = computed(() => props.data?.boundUsers ?? []);

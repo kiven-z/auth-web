@@ -4,11 +4,10 @@ import type { SysPermissionDetail } from '@/api/system/permission';
 import DetailRelationListSection from '@/components/business/DetailRelationListSection/index.vue';
 import Description from '@/components/ui/Description';
 import { PERMISSION_TYPE_FILTER_OPTIONS } from '@/views/system/_shared/constants/permission-type-options';
-import usePermissionBindingMenuColumns from '@/views/system/permission/hooks/usePermissionBindingMenuColumns';
-import usePermissionBindingRoleColumns from '@/views/system/permission/hooks/usePermissionBindingRoleColumns';
 import { ElTag } from 'element-plus';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
+import usePermissionBindingColumns from '@/views/system/permission/hooks/usePermissionBindingColumns';
 
 defineOptions({
   name: 'PermissionDescriptionDialog',
@@ -20,8 +19,7 @@ const props = defineProps<PermissionDescriptionDialogProps>();
 const { t } = useI18n();
 
 // 绑定角色、菜单表格列
-const { columns: roleBindingColumns } = usePermissionBindingRoleColumns();
-const { columns: menuBindingColumns } = usePermissionBindingMenuColumns();
+const { roleBindingColumns, menuBindingColumns } = usePermissionBindingColumns();
 
 // 按钮权限类型
 const buttonPermissionType = PERMISSION_TYPE_FILTER_OPTIONS[0].value;
