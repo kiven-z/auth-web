@@ -2,6 +2,7 @@
 import { getPostPage } from '@/api/system/post';
 import AuthPagedTable, { usePaginationState } from '@/components/ui/AuthPagedTable';
 import { POST_STATUS_FILTER_OPTIONS } from '@/views/system/post/constants/post-search-options';
+import usePostAdvanceAction from '@/views/system/post/hooks/usePostAdvanceAction';
 import usePostMoreAction from '@/views/system/post/hooks/usePostMoreAction';
 import usePostTableAction from '@/views/system/post/hooks/usePostTableAction';
 import usePostTableColumns from '@/views/system/post/hooks/usePostTableColumns';
@@ -30,7 +31,9 @@ const postState = usePaginationState({
   errorI18nKey: 'post.loadFailed',
 });
 
-const { loading, searchForm, fetchTableData, resetQuery } = postState;
+const { loading, searchForm, pagination, fetchTableData, resetQuery } = postState;
+
+const { exporting, exportCurrentPage } = usePostAdvanceAction({ searchForm, pagination });
 
 const tableActionDeps = { fetchTableData };
 
@@ -98,8 +101,10 @@ onMounted(() => {
               {{ t('buttons.actionAdvanced') }}
             </el-button>
             <template #dropdown>
-              <el-dropdown-item>从Excel导入</el-dropdown-item>
-              <el-dropdown-item>导出为Excel</el-dropdown-item>
+              <el-dropdown-item disabled>{{ t('post.importExcelSoon') }}</el-dropdown-item>
+              <el-dropdown-item :disabled="exporting" @click="exportCurrentPage">
+                {{ t('post.exportExcel') }}
+              </el-dropdown-item>
             </template>
           </el-dropdown>
         </el-button-group>

@@ -21,6 +21,16 @@ export interface SysPostPageQuery {
 }
 
 /**
+ * 岗位 Excel 导出参数（对齐 {@code SysPostExportQuery}）
+ */
+export interface SysPostExportQuery extends SysPostPageQuery {
+  /** 起始页码（1-based，含） */
+  fromPage: number;
+  /** 结束页码（1-based，含） */
+  toPage: number;
+}
+
+/**
  * 分页行（对齐 {@code SysPostPageResponse} + BaseResponse）
  */
 export interface SysPostPageRow extends BaseResponsePageRow {
@@ -100,6 +110,19 @@ export function getPostPage(params: SysPostPageQuery): Promise<PageResponse<SysP
   return http.get<PageResponse<SysPostPageRow>, AxiosRequestConfig<SysPostPageQuery>>('/system/post/page', {
     params,
   });
+}
+
+/**
+ * 导出岗位 Excel（按筛选条件与页码区间）
+ * @param params 导出查询参数
+ * @returns 文件 Blob
+ */
+export function exportPostExcel(params: SysPostExportQuery): Promise<Blob> {
+  return http.get<Blob, AxiosRequestConfig<SysPostExportQuery>>(
+    '/system/post/export',
+    { params },
+    { responseType: 'blob' }
+  );
 }
 
 /**

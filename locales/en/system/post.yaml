@@ -27,5 +27,9 @@ post:
   boundUsersEmpty: No linked users
   boundRolesTitle: Granted Roles
   boundRolesEmpty: No granted roles
+  exportExcel: Export to Excel
+  exportSuccess: Export succeeded
+  exportFailed: Export failed
+  importExcelSoon: Import from Excel (coming soon)
   tips:
     affiliatedPostInfo: Posts

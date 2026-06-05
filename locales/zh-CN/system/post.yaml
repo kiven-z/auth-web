@@ -27,5 +27,9 @@ post:
   boundUsersEmpty: 暂无关联用户
   boundRolesTitle: 已授权角色
   boundRolesEmpty: 暂无已授权角色
+  exportExcel: 导出为 Excel
+  exportSuccess: 导出成功
+  exportFailed: 导出失败
+  importExcelSoon: 从 Excel 导入（敬请期待）
   tips:
     affiliatedPostInfo: 所属岗位
