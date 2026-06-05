@@ -20,10 +20,14 @@ export interface SysPostPageQuery {
   status?: boolean;
 }
 
+import type { ExportScope } from '@/api/common';
+
 /**
  * 岗位 Excel 导出参数（对齐 {@code SysPostExportQuery}）
  */
 export interface SysPostExportQuery extends SysPostPageQuery {
+  /** 导出范围；未传时后端按 PAGE_RANGE 处理 */
+  exportScope?: ExportScope;
   /** 起始页码（1-based，含） */
   fromPage: number;
   /** 结束页码（1-based，含） */

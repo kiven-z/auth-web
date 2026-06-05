@@ -1,6 +1,6 @@
 import type { SysPostExportQuery, SysPostPageQuery } from '@/api/system/post';
 import { exportPostExcel } from '@/api/system/post';
-import usePagedTableExcelExport from '@/shared/hooks/table/usePagedTableExcelExport';
+import { resolveExportPageParams, usePagedTableExport } from '@/components/business/ExportDialog';
 import { useI18n } from 'vue-i18n';
 
 export interface UsePostExportActionOptions {
@@ -8,27 +8,38 @@ export interface UsePostExportActionOptions {
   pagination: {
     currentPage: number;
     pageSize: number;
+    total: number;
   };
 }
 
-/** 岗位 Excel 导出 */
+/**
+ * 岗位高级导出操作
+ * @param options 导出配置
+ * @returns 导出操作
+ */
 function usePostAdvanceAction(options: UsePostExportActionOptions) {
   const { t } = useI18n();
 
-  return usePagedTableExcelExport<SysPostExportQuery>({
+  return usePagedTableExport<SysPostExportQuery>({
     ...options,
     fileNamePrefix: t('post.moduleName'),
     exportApi: exportPostExcel,
-    buildExportParams: ({ searchForm, pagination }) => {
-      const page = pagination.currentPage;
+    buildExportParams: ({ searchForm, pagination, form }) => {
+      const pageParams = resolveExportPageParams(form, pagination);
       const base: SysPostPageQuery = {
-        pageSize: pagination.pageSize,
+        pageSize: pageParams.pageSize,
+        pageIndex: pageParams.pageIndex,
         postCode: searchForm.postCode as string | undefined,
         postName: searchForm.postName as string | undefined,
         deptName: searchForm.deptName as string | undefined,
         status: searchForm.status as boolean | undefined,
       };
-      return { ...base, fromPage: page, toPage: page };
+      return {
+        ...base,
+        exportScope: pageParams.exportScope,
+        fromPage: pageParams.fromPage,
+        toPage: pageParams.toPage,
+      };
     },
   });
 }

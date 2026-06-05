@@ -33,7 +33,7 @@ const postState = usePaginationState({
 
 const { loading, searchForm, pagination, fetchTableData, resetQuery } = postState;
 
-const { exporting, exportCurrentPage } = usePostAdvanceAction({ searchForm, pagination });
+const { exporting, openExportDialog } = usePostAdvanceAction({ searchForm, pagination });
 
 const tableActionDeps = { fetchTableData };
 
@@ -102,7 +102,7 @@ onMounted(() => {
             </el-button>
             <template #dropdown>
               <el-dropdown-item disabled>从 Excel 导入（敬请期待）</el-dropdown-item>
-              <el-dropdown-item :disabled="exporting" @click="exportCurrentPage">
+              <el-dropdown-item :disabled="exporting" @click="openExportDialog">
                 {{ t('buttons.exportExcel') }}
               </el-dropdown-item>
             </template>

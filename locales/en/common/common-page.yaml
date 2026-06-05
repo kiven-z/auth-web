@@ -18,6 +18,18 @@ tips:
   assignSaveFailed: Failed to save assignment
   exportSuccess: Export succeeded
   exportFailed: Export failed
+export:
+  dialogTitle: Export data
+  scopeLabel: Export mode
+  scopeCurrentPage: Current page
+  scopePageRange: Page range
+  scopeFullAsync: Full export (async)
+  fromPage: From page
+  toPage: To page
+  currentPageSummary: Page {page}, {size} rows per page
+  estimatedRows: About {count} rows (max {max})
+  pageRangeInvalid: Invalid page range
+  rowLimitExceeded: Export row count exceeds limit {max}
 buttons:
   pureLoginOut: Logout
   pureLogin: Login

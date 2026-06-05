@@ -34,7 +34,7 @@ const roleState = usePaginationState({
 
 const { loading, searchForm, pagination, fetchTableData, resetQuery } = roleState;
 
-const { exporting, exportCurrentPage } = useRoleAdvanceAction({ searchForm, pagination });
+const { exporting, openExportDialog } = useRoleAdvanceAction({ searchForm, pagination });
 
 const { openCreateDialog, openDetailDialog, openEditDialog, deleteRow } = useRoleTableAction({
   fetchTableData,
@@ -124,7 +124,7 @@ onMounted(() => {
             </el-button>
             <template #dropdown>
               <el-dropdown-item disabled>从 Excel 导入（敬请期待）</el-dropdown-item>
-              <el-dropdown-item :disabled="exporting" @click="exportCurrentPage">
+              <el-dropdown-item :disabled="exporting" @click="openExportDialog">
                 {{ t('buttons.exportExcel') }}
               </el-dropdown-item>
             </template>

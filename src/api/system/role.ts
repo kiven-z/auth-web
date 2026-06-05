@@ -16,10 +16,14 @@ export interface SysRolePageQuery {
   roleTypes?: number[];
 }
 
+import type { ExportScope } from '@/api/common';
+
 /**
  * 角色 Excel 导出参数（对齐 {@code SysRoleExportQuery}）
  */
 export interface SysRoleExportQuery extends SysRolePageQuery {
+  /** 导出范围；未传时后端按 PAGE_RANGE 处理 */
+  exportScope?: ExportScope;
   /** 起始页码（1-based，含） */
   fromPage: number;
   /** 结束页码（1-based，含） */

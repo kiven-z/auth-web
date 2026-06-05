@@ -14,6 +14,16 @@ export interface SortSpec {
 }
 
 /**
+ * 与后端 {@code ExportScope} 一致
+ */
+export type ExportScope = 'CURRENT_PAGE' | 'PAGE_RANGE' | 'FULL_ASYNC';
+
+/**
+ * 同步导出最大行数（与后端 ExportLimits.MAX_EXPORT_ROWS 一致）
+ */
+export const EXPORT_MAX_ROWS = 1000;
+
+/**
  * 与后端 PageResponse<T> 一致
  */
 export interface PageResponse<T> {
