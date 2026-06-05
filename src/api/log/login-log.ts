@@ -9,13 +9,13 @@ export interface LoginLogPageQuery {
   pageIndex?: number;
   pageSize?: number;
   sort?: SortSpec[];
-  // 用户 ID（远程搜索选中）
+  /** 用户 ID（远程搜索选中） */
   userId?: string;
   loginTimeStart?: string;
   loginTimeEnd?: string;
-  // 与 log_login.login_result 一致：0–4
+  /** 与 log_login.login_result 一致：0–4 */
   loginResult?: number;
-  // 与 AuthLoginLogType.name() 一致，如 LOGIN_PASSWORD
+  /** 与 AuthLoginLogType.name() 一致，如 LOGIN_PASSWORD */
   loginType?: string;
 }
 
@@ -24,7 +24,7 @@ export interface LoginLogPageQuery {
  */
 export interface LoginLogPageRow extends BaseResponsePageRow {
   userId?: string;
-  // 关联用户展示名（非表字段 username）
+  /** 关联用户展示名（非表字段 username） */
   username?: string | null;
   loginResult: number;
   loginTime: string;

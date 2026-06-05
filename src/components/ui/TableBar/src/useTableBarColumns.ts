@@ -11,7 +11,9 @@ function filterVisibleColumns(columns: TableColumnList): TableColumns[] {
 }
 
 /**
- * 列显隐、密度、拖拽排序状态与 Sortable 绑定。
+ * 列显隐、密度、拖拽排序状态与 Sortable 绑定
+ * @param columnsRef 表格列配置 ref
+ * @returns 列显隐与密度状态及操作方法
  */
 export function useTableBarColumns(columnsRef: Ref<TableColumnList>) {
   const size = ref<'large' | 'default' | 'small'>('default');

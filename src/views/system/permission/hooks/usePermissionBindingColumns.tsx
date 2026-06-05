@@ -6,6 +6,7 @@ import { useI18n } from 'vue-i18n';
 
 /**
  * 权限详情：已绑定菜单表格列
+ * @returns 表格列定义
  */
 function usePermissionBindingColumns() {
   const { t } = useI18n();

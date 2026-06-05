@@ -12,6 +12,8 @@ import { useI18n } from 'vue-i18n';
 
 /**
  * 权限表格操作：弹窗与写接口
+ * @param deps 表格操作依赖
+ * @returns 表格操作方法
  */
 function usePermissionTableAction(deps: TableActionDeps) {
   const { fetchTableData } = deps;

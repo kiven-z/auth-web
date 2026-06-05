@@ -6,20 +6,21 @@ defineOptions({
   name: 'DetailRelationListSection',
 });
 
+/** 详情页关联列表区块 props */
 interface DetailRelationListSectionProps {
-  // 区块标题（由调用方完成 i18n）
+  /** 区块标题（由调用方完成 i18n） */
   title: string;
-  // 表格行数据
+  /** 表格行数据 */
   items: unknown[];
-  // 表格列配置
+  /** 表格列配置 */
   columns: TableColumnList;
-  // 行主键字段名
+  /** 行主键字段名 */
   rowKey: string;
-  // 无数据时的提示文案（由调用方完成 i18n）
+  /** 无数据时的提示文案（由调用方完成 i18n） */
   emptyText: string;
-  // 是否在标题旁展示数量角标
+  /** 是否在标题旁展示数量角标 */
   showBadge?: boolean;
-  // 表格最大高度
+  /** 表格最大高度 */
   maxHeight?: number | string;
 }
 

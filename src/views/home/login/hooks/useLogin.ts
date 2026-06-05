@@ -8,6 +8,10 @@ import { ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
 
+/**
+ * 登录页状态与导航
+ * @returns 登录模式切换与成功跳转方法
+ */
 function useLogin() {
   const router = useRouter();
   const { t } = useI18n();

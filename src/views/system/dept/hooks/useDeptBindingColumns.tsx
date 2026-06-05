@@ -5,6 +5,7 @@ import { useI18n } from 'vue-i18n';
 
 /**
  * 部门详情：下属岗位表格列
+ * @returns 表格列定义
  */
 function useDeptBindingColumns() {
   const { t } = useI18n();

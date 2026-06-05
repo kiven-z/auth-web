@@ -6,7 +6,7 @@ import type { ApiResult } from './apiResult';
  * @param httpStatus 响应状态
  */
 export class ApiBusinessError extends Error {
-  // 业务码
+  /** 业务码 */
   readonly businessCode: number;
   readonly httpStatus?: number;
   readonly result: ApiResult;
@@ -25,6 +25,6 @@ export class ApiBusinessError extends Error {
  * 权限版本等冲突，对应 HTTP 409
  */
 export class ApiConflictError extends ApiBusinessError {
-  // 是否是权限冲突
+  /** 是否为权限版本冲突 */
   readonly isPermissionConflict = true;
 }

@@ -4,17 +4,18 @@ import { reactive, ref } from 'vue';
 
 import { runPagedTableFetch } from '@/shared/utils/pagination';
 
+/** {@link usePaginationState} 配置 */
 export interface UsePaginationStateOptions<TData = unknown> {
   /**
    * 分页查询 API 函数。接收完整 query 参数（含 pageIndex/pageSize），返回分页响应。
    * 若项目内分页 Query 为强类型，可写为 `(q) => getXxxPage(q as XxxPageQuery)`。
    */
   fetchApi: (params: Record<string, unknown>) => Promise<PageResponse<TData>>;
-  // 搜索表单初始值对象（使用 reactive 包裹后传入）
+  /** 搜索表单（使用 reactive 包裹后传入） */
   searchForm: Record<string, any>;
-  // 每页条数，默认 30
+  /** 每页条数，默认 30 */
   defaultPageSize?: number;
-  // 国际化 Key，用于捕获异常时显示错误消息
+  /** 加载失败时的 i18n 兜底键 */
   errorI18nKey: string;
 }
 
@@ -33,6 +34,8 @@ export interface UsePaginationStateOptions<TData = unknown> {
  *   errorI18nKey: 'post.loadFailed',
  * });
  * ```
+ * @param options 分页状态配置
+ * @returns 分页表格状态与方法
  */
 export function usePaginationState<TData = unknown>(options: UsePaginationStateOptions<TData>) {
   const { fetchApi, searchForm, defaultPageSize = 30, errorI18nKey } = options;
@@ -99,25 +102,15 @@ export function usePaginationState<TData = unknown>(options: UsePaginationStateO
   };
 
   return {
-    // 分页加载状态
     loading,
-    // 表格数据
     tableData,
-    // 选中行的 ID 列表
     selectedRows,
-    // 分页状态（total / pageSize / currentPage）
     pagination,
-    // 搜索表单（直接引用外部传入的 reactive 对象）
     searchForm,
-    // 分页查询
     fetchTableData,
-    // 重置筛选并查询
     resetQuery,
-    // 分页大小变化处理
     handlePageSizeChange,
-    // 分页当前页变化处理
     handlePageCurrentChange,
-    // 多选变化处理
     handleSelectionChange,
   };
 }

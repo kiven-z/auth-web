@@ -3,6 +3,7 @@ import { exportRoleExcel } from '@/api/system/role';
 import { resolveExportPageParams, usePagedTableExport } from '@/components/business/ExportDialog';
 import { useI18n } from 'vue-i18n';
 
+/** 角色页 Excel 导出 composable 配置 */
 export interface UseRoleExportActionOptions {
   searchForm: Record<string, unknown>;
   pagination: {
@@ -15,6 +16,7 @@ export interface UseRoleExportActionOptions {
 /**
  * 角色 Excel 导出
  * @param options 导出配置
+ * @returns `exporting` 加载状态与 `openExportDialog` 打开弹窗方法
  */
 function useRoleAdvanceAction(options: UseRoleExportActionOptions) {
   const { t } = useI18n();

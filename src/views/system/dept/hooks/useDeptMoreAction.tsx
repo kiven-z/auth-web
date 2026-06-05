@@ -6,6 +6,7 @@ import DeptAssignRoleDrawer from '@/views/system/dept/components/DeptAssignRoleD
 import { h, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 
+/** 部门「更多」操作依赖 */
 export interface DeptMoreActionDeps extends TableActionDeps {
   refresh: () => Promise<void>;
 }
@@ -16,6 +17,8 @@ interface AssignPanelExpose {
 
 /**
  * 部门「更多」操作（分配角色）
+ * @param deps 操作依赖
+ * @returns 更多操作方法
  */
 function useDeptMoreAction(deps: DeptMoreActionDeps) {
   const { refresh } = deps;

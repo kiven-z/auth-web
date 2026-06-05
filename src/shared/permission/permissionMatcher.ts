@@ -4,7 +4,9 @@ const ADMIN_WILDCARD_PERMISSIONS = ['*', '*:*', '*:*:*'] as const;
 const ASTERISK = '*';
 
 /**
- * 是否命中管理员全局通配权限。
+ * 是否命中管理员全局通配权限
+ * @param userPermissions 用户权限列表
+ * @returns 是否命中通配权限
  */
 function isAdminPermission(userPermissions: string[]): boolean {
   const permissions = userPermissions.filter((permission) => permission?.trim()).map((permission) => permission.trim());
@@ -13,7 +15,10 @@ function isAdminPermission(userPermissions: string[]): boolean {
 }
 
 /**
- * 单条授予权限是否满足所需权限（对齐后端 PermissionMatcher.matches）。
+ * 单条授予权限是否满足所需权限（对齐后端 PermissionMatcher.matches）
+ * @param granted 授予的权限
+ * @param required 所需的权限
+ * @returns 是否匹配
  */
 function matchPermission(granted: string, required: string): boolean {
   // 如果授予的权限或需要的权限为空，则返回 false
@@ -62,7 +67,10 @@ function matchPermission(granted: string, required: string): boolean {
 }
 
 /**
- * 所需权限是否全部被授予列表覆盖（数组表示 AND）。
+ * 所需权限是否全部被授予列表覆盖（数组表示 AND）
+ * @param required 所需权限列表
+ * @param granted 授予权限列表
+ * @returns 是否全部满足
  */
 function satisfiesAllRequired(required: string[], granted: string[]): boolean {
   // 如果所需权限或授予权限为空，则返回 false

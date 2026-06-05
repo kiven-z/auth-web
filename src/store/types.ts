@@ -1,20 +1,23 @@
 import type { RouteRecordName } from 'vue-router';
 
+/** 标签页缓存模式 */
 export interface cacheType {
   mode: string;
   name?: RouteRecordName;
 }
 
+/** 标签页滚动位置 */
 export interface positionType {
   startIndex?: number;
   length?: number;
 }
 
+/** 应用布局状态 */
 export interface appType {
   sidebar: {
     opened: boolean;
     withoutAnimation: boolean;
-    // 判断是否手动点击Collapse
+    /** 是否由用户手动点击折叠侧边栏 */
     isClickCollapse: boolean;
   };
   layout: string;
@@ -22,6 +25,7 @@ export interface appType {
   viewportSize: { width: number; height: number };
 }
 
+/** 多标签页路由项 */
 export interface multiType {
   path: string;
   name: string;
@@ -30,17 +34,19 @@ export interface multiType {
   params?: object;
 }
 
+/** 系统设置项 */
 export interface setType {
   title: string;
   fixedHeader: boolean;
   hiddenSideBar: boolean;
 }
 
+/** 当前登录用户状态 */
 export interface userType {
   avatar?: string;
   username?: string;
   nickname?: string;
-  // 与后端用户主键一致（字符串化 Long）
+  /** 用户 ID（与后端 Long 字符串化一致） */
   userId?: string;
   roles?: Array<string>;
   permissions?: Array<string>;

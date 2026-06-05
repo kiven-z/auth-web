@@ -18,7 +18,11 @@ interface AdaptivePropsSlice {
 }
 
 /**
- * 根据视口计算表格包裹层高度，并在 resize / 列或分页变化时重算。
+ * 根据视口计算表格包裹层高度，并在 resize / 列或分页变化时重算
+ * @param tableWrapperRef 表格外层容器 ref
+ * @param getProps 读取表格 props 的函数
+ * @param showPagination 是否显示分页
+ * @returns 自适应高度与重算方法
  */
 export function useAdaptiveTableHeight(
   tableWrapperRef: Ref<HTMLElement | null>,

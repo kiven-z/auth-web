@@ -5,6 +5,7 @@ import { ref } from 'vue';
 
 /**
  * 登录页「记住登录」：请求传 rememberMe，登录成功后用响应 readMeDay 写 session 偏好。
+ * @returns 记住登录相关状态与方法
  */
 export function useLoginRemember() {
   const preferences = readSessionPreferences();

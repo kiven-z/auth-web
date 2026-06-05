@@ -120,7 +120,7 @@ type RowKey = string | number;
  */
 interface ColumnProps extends Partial<DescriptionItemProps> {
   label: string;
-  // 支持 lodash path：a.b.c
+  /** 支持 lodash path，如 `a.b.c` */
   prop: string;
   copy?: boolean;
   cellRenderer?: (params: { value: any; data: Row | Row[]; index: number; row: Row }) => any;

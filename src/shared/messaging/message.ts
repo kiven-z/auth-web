@@ -6,33 +6,34 @@ import type { VNode } from 'vue';
 type messageStyle = 'el' | 'antd';
 type messageTypes = 'info' | 'success' | 'warning' | 'error';
 
-// 无显式文案且无法从异常解析时的默认 i18n 键（见 locales `tips.requestFailed`
+// 无显式文案且无法从异常解析时的默认 i18n 键（见 locales tips.requestFailed
 export const DEFAULT_ERROR_FALLBACK_I18N_KEY = 'tips.requestFailed';
 
+/** {@link message} 可选配置（对齐 Element Plus Message） */
 export interface MessageParams {
-  // 消息类型，可选 `info` 、`success` 、`warning` 、`error` ，默认 `info`
+  /** 消息类型，默认 info */
   type?: messageTypes;
-  // 是否纯色，默认 `false`
+  /** 是否纯色，默认 false */
   plain?: boolean;
-  // 自定义图标，该属性会覆盖 `type` 的图标
+  /** 自定义图标，会覆盖 type 的默认图标 */
   icon?: any;
-  // 是否将 `message` 属性作为 `HTML` 片段处理，默认 `false`
+  /** 是否将 message 作为 HTML 片段处理，默认 false */
   dangerouslyUseHTMLString?: boolean;
-  // 消息风格，可选 `el` 、`antd` ，默认 `antd`
+  /** 消息风格，默认 antd */
   customClass?: messageStyle;
-  // 显示时间，单位为毫秒。设为 `0` 则不会自动关闭，`element-plus` 默认是 `3000` ，平台改成默认 `2000`
+  /** 显示时长（毫秒），0 表示不自动关闭，默认 2000 */
   duration?: number;
-  // 是否显示关闭按钮，默认值 `false`
+  /** 是否显示关闭按钮，默认 false */
   showClose?: boolean;
-  // `Message` 距离窗口顶部的偏移量，默认 `16`
+  /** 距离窗口顶部的偏移量，默认 16 */
   offset?: number;
-  // 设置组件的根元素，默认 `document.body`
+  /** 挂载根元素，默认 document.body */
   appendTo?: string | HTMLElement;
-  // 合并内容相同的消息，不支持 `VNode` 类型的消息，默认值 `false`
+  /** 是否合并内容相同的消息，默认 false */
   grouping?: boolean;
-  // 重复次数，类似于 `Badge` 。当和 `grouping` 属性一起使用时作为初始数量使用，默认值 `1`
+  /** 重复次数，与 grouping 联用时作为初始数量，默认 1 */
   repeatNum?: number;
-  // 关闭时的回调函数, 参数为被关闭的 `message` 实例
+  /** 关闭时的回调 */
   onClose?: Function | null;
 }
 
@@ -42,9 +43,9 @@ export interface MessageParams {
  * @param defaultI18nKey 默认 i18n 键
  */
 export type ErrorMessageParams = Omit<MessageParams, 'type'> & {
-  // 有非空值时优先展示，不再使用 error 与兜底文案
+  /** 有非空值时优先展示，不再使用 error 与兜底文案 */
   message?: string;
-  // 无显式文案且无法从 error 解析 message 时使用的 i18n 键，默认 `tips.requestFailed`
+  /** 无显式文案且无法从 error 解析时的 i18n 键，默认 tips.requestFailed */
   defaultI18nKey?: string;
 };
 
@@ -70,7 +71,7 @@ export function resolveCaughtErrorText(
 }
 
 /**
- * `Message` 消息提示函数
+ * Message 消息提示函数
  * @param message 消息
  * @param params 参数
  * @returns 消息提示函数
@@ -117,12 +118,15 @@ const message = (message: string | VNode | (() => VNode), params?: MessageParams
 };
 
 /**
- * 关闭所有 `Message` 消息提示函数
+ * 关闭所有 Message 消息提示函数
  */
 const closeAllMessage = (): void => ElMessage.closeAll();
 
 /**
- * 以 error 类型展示消息：逻辑同 {@link resolveCaughtErrorText}。
+ * 以 error 类型展示消息：逻辑同 {@link resolveCaughtErrorText}
+ * @param error 捕获的异常
+ * @param params 消息配置
+ * @returns Message 实例
  */
 const errorMessage = (error: unknown, params?: ErrorMessageParams): MessageHandler => {
   const { message: explicitMessage, defaultI18nKey, ...rest } = params ?? {};

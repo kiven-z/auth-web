@@ -16,6 +16,7 @@ interface DeptElTreeDragNode {
   data?: SysDeptTreeNode;
 }
 
+/** {@link useDeptTreeDrag} 配置 */
 export interface UseDeptTreeDragOptions {
   treeData: Ref<SysDeptTreeNode[]>;
   onMoved: () => Promise<void>;
@@ -23,6 +24,8 @@ export interface UseDeptTreeDragOptions {
 
 /**
  * 部门树拖拽移动（对接 PUT /dept/{id}/move，允许 parentId=0）
+ * @param options 拖拽配置
+ * @returns 树拖拽事件处理
  */
 export function useDeptTreeDrag(options: UseDeptTreeDragOptions) {
   const { t } = useI18n();

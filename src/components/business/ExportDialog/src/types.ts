@@ -4,9 +4,9 @@ import type { ExportScope } from '@/api/common';
 export interface ExportDialogFormState {
   /** 导出范围 */
   exportScope: ExportScope;
-  /** 起始页（PAGE_RANGE） */
+  /** 起始页（仅 PAGE_RANGE） */
   fromPage: number;
-  /** 结束页（PAGE_RANGE） */
+  /** 结束页（仅 PAGE_RANGE） */
   toPage: number;
 }
 

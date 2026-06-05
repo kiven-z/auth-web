@@ -21,27 +21,21 @@ const form = reactive({
   toPage: props.currentPage,
 });
 
-// 最大页码
 const maxPage = computed(() => Math.max(1, Math.ceil(props.total / props.pageSize)));
-// 估计行数
 const estimatedRowCount = computed(() => {
   if (form.exportScope !== 'PAGE_RANGE') {
     return props.pageSize;
   }
   return (form.toPage - form.fromPage + 1) * props.pageSize;
 });
-// 行数超过限制
 const rowLimitExceeded = computed(() => estimatedRowCount.value > props.maxExportRows);
-// 当前页总结
 const currentPageSummary = computed(() =>
   t('export.currentPageSummary', { page: props.currentPage, size: props.pageSize })
 );
-// 估计行数提示
 const estimatedRowsHint = computed(() =>
   t('export.estimatedRows', { count: estimatedRowCount.value, max: props.maxExportRows })
 );
 
-// 表单规则
 const rules = computed<FormRules>(() => ({
   fromPage: [
     {
@@ -92,6 +86,7 @@ watch(
 
 /**
  * 校验导出表单
+ * @returns 校验通过为 `true`
  */
 const validate = async (): Promise<boolean> => {
   if (form.exportScope === 'FULL_ASYNC') {
@@ -111,7 +106,8 @@ const validate = async (): Promise<boolean> => {
 };
 
 /**
- * 读取表单状态
+ * 读取当前表单状态
+ * @returns 导出范围与页码区间
  */
 const getFormState = (): ExportDialogFormState => ({
   exportScope: form.exportScope,

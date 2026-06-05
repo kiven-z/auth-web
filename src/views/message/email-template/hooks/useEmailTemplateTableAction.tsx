@@ -22,6 +22,8 @@ import { useI18n } from 'vue-i18n';
 
 /**
  * 邮件模板表格操作：弹窗与写接口
+ * @param deps 表格操作依赖
+ * @returns 表格操作方法
  */
 function useEmailTemplateTableAction(deps: TableActionWithSelectionDeps) {
   const { fetchTableData, selectedRows } = deps;

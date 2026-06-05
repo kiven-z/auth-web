@@ -8,34 +8,38 @@ import type { ExportDialogFormState, ExportDialogPanelExpose } from './types';
 import { h, ref, type Ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 
-/** 分页上下文 */
+/** 列表分页上下文（与页面 `usePaginationState` 字段一致） */
 export interface PagedTableExportPagination {
   currentPage: number;
   pageSize: number;
   total: number;
 }
 
-/** 构建导出 API 参数时的上下文 */
+/** 组装导出 API 参数时的上下文 */
 export interface PagedTableExportBuildContext {
   searchForm: Record<string, unknown>;
   pagination: PagedTableExportPagination;
   form: ExportDialogFormState;
 }
 
-/** 分页表格导出 Hook 配置 */
+/** 分页表格导出 composable 配置 */
 export interface UsePagedTableExportOptions<TExportQuery> {
   searchForm: Record<string, unknown>;
   pagination: PagedTableExportPagination;
+  /** 根据弹窗选择与列表上下文组装导出请求参数 */
   buildExportParams: (context: PagedTableExportBuildContext) => TExportQuery;
   exportApi: (params: TExportQuery) => Promise<Blob>;
+  /** 下载文件名前缀（不含扩展名与时间戳） */
   fileNamePrefix: string;
+  /** 单次导出最大行数，默认 {@link EXPORT_MAX_ROWS} */
   maxExportRows?: number;
 }
 
 /**
  * 根据弹窗选择与分页状态组装 exportScope / 页码参数
  * @param form 弹窗表单
- * @param pagination 分页状态
+ * @param pagination 列表分页状态
+ * @returns 导出范围及后端 pageIndex / pageSize
  */
 export function resolveExportPageParams(
   form: ExportDialogFormState,
@@ -67,14 +71,12 @@ export function resolveExportPageParams(
 /**
  * 分页表格 Excel 导出：弹窗选择范围后调用导出 API
  * @param options 导出配置
+ * @returns `exporting` 加载状态与 `openExportDialog` 打开弹窗方法
  */
 function usePagedTableExport<TExportQuery>(options: UsePagedTableExportOptions<TExportQuery>) {
   const { t } = useI18n();
   const exporting: Ref<boolean> = ref(false);
 
-  /**
-   * 打开导出范围选择弹窗
-   */
   const openExportDialog = () => {
     const panelRef = ref<ExportDialogPanelExpose | null>(null);
 

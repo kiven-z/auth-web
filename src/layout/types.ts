@@ -15,6 +15,7 @@ export const routerArrays: Array<RouteConfigs> =
       ]
     : [];
 
+/** 路由 meta 扩展字段 */
 export interface routeMetaType {
   title?: string;
   icon?: string | FunctionalComponent;
@@ -23,6 +24,7 @@ export interface routeMetaType {
   auths?: Array<string>;
 }
 
+/** 路由配置（菜单 / 标签页） */
 export interface RouteConfigs {
   path?: string;
   query?: object;
@@ -32,10 +34,12 @@ export interface RouteConfigs {
   name?: string;
 }
 
+/** 多标签页集合 */
 export interface multiTagsType {
   tags: Array<RouteConfigs>;
 }
 
+/** 标签页右键菜单项 */
 export interface tagsViewsType {
   icon: string | FunctionalComponent;
   text: string;
@@ -44,6 +48,7 @@ export interface tagsViewsType {
   show: boolean;
 }
 
+/** 布局设置状态 */
 export interface setType {
   sidebar: {
     opened: boolean;
@@ -61,6 +66,7 @@ export interface setType {
   hideTabs: boolean;
 }
 
+/** 侧边栏菜单节点 */
 export interface menuType {
   id?: number;
   name?: string;
@@ -81,11 +87,13 @@ export interface menuType {
   redirect?: string;
 }
 
+/** 主题色配置 */
 export interface themeColorsType {
   color: string;
   themeColor: string;
 }
 
+/** 带 wrap 的滚动条 DOM */
 export interface scrollbarDomType extends HTMLElement {
   wrap?: {
     offsetWidth: number;

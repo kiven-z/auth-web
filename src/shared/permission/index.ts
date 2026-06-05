@@ -36,6 +36,7 @@ function normalizeRequiredPermissions(value: string | Array<string>): string[] {
  *
  * @param value 单个权限标识或数组（数组表示 AND）
  * @param source 可选，指定数据源：'route' | 'user' ，默认先查路由再查用户
+ * @returns 是否拥有权限
  */
 function hasAuth(value: string | Array<string>, source?: 'route' | 'user'): boolean {
   // 将权限入参规范为所需权限列表

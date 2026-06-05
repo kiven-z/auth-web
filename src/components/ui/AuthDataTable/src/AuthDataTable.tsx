@@ -19,19 +19,19 @@ export type { AuthDataTablePagination } from './types';
 export default defineComponent({
   name: 'AuthDataTable',
   props: {
-    // 列配置
+    /** 列配置 */
     columns: { type: Array as PropType<TableColumnList>, default: () => [] },
-    // 数据
+    /** 表格数据 */
     data: { type: Array as PropType<any[]>, default: () => [] },
-    // 加载状态
+    /** 加载状态 */
     loading: { type: Boolean, default: false },
-    // 分页配置
+    /** 分页配置 */
     pagination: { type: Object as PropType<AuthDataTablePagination | null>, default: null },
-    // 尺寸
+    /** 表格尺寸 */
     size: { type: String as PropType<'' | 'default' | 'small' | 'large'>, default: 'default' },
-    // 自适应
+    /** 是否自适应高度 */
     adaptive: { type: Boolean, default: false },
-    // 自适应配置
+    /** 自适应高度配置 */
     adaptiveConfig: {
       type: Object as PropType<AuthDataTableAdaptiveConfig>,
       default: () => ({
@@ -42,23 +42,23 @@ export default defineComponent({
         paginationReserve: DEFAULT_PAGINATION_RESERVE_PX,
       }),
     },
-    // 整体对齐方式
+    /** 整体对齐方式 */
     alignWhole: { type: String, default: 'left' },
-    // 表头对齐方式
+    /** 表头对齐方式 */
     headerAlign: { type: String, default: '' },
-    // 边框
+    /** 是否显示边框 */
     border: { type: Boolean, default: false },
-    // 高亮当前行
+    /** 是否高亮当前行 */
     highlightCurrentRow: { type: Boolean, default: false },
-    // 行键
+    /** 行主键 */
     rowKey: { type: [String, Function] as PropType<string | ((row: any) => string)>, default: undefined },
-    // 表格布局
+    /** 表格布局 */
     tableLayout: { type: String as PropType<'fixed' | 'auto'>, default: 'fixed' },
-    // 表头单元格样式
+    /** 表头单元格样式 */
     headerCellStyle: { type: Object as PropType<Record<string, string>>, default: undefined },
-    // 显示溢出提示
+    /** 是否显示溢出 tooltip */
     showOverflowTooltip: { type: Boolean, default: false },
-    // 行悬停背景颜色
+    /** 行悬停背景色 */
     rowHoverBgColor: { type: String, default: '' },
   },
   emits: ['page-size-change', 'page-current-change', 'selection-change'],

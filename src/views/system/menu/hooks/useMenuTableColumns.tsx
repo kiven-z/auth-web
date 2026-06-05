@@ -15,6 +15,10 @@ const MENU_TYPE_TAG_MAP: Record<number, { type: 'primary' | 'success' | 'warning
   2: { type: 'success', labelKey: 'sysMenu.menuTypeLink' },
 };
 
+/**
+ * 表格列配置
+ * @returns 表格列定义
+ */
 function useMenuTableColumns() {
   const { t } = useI18n();
 

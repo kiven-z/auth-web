@@ -15,6 +15,8 @@ import { useI18n } from 'vue-i18n';
 
 /**
  * 权限决策审计日志表格操作：查看详情、删除、批量删除（标准两次删除确认）
+ * @param deps 表格操作依赖
+ * @returns 表格操作方法
  */
 function useAuthorizationAuditTableAction(deps: TableActionWithSelectionDeps) {
   const { fetchTableData, selectedRows } = deps;

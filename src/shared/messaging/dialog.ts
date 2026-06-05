@@ -25,8 +25,11 @@ function defaultDeleteLayers(): ConfirmLayer[] {
 }
 
 /**
- * 顺序弹出多层 ElMessageBox.confirm；用户中途取消则返回 false。
- * 未传 layers 时使用默认「两次删除确认」文案。
+ * 顺序弹出多层 ElMessageBox.confirm；用户中途取消则返回 false
+ * 未传 layers 时使用默认「两次删除确认」文案
+ * @param layers 确认层文案
+ * @param onConfirmed 全部确认后的回调
+ * @returns 是否全部确认
  */
 export async function multiConfirm(
   layers?: ConfirmLayer[],
@@ -54,6 +57,7 @@ export async function multiConfirm(
 
 /**
  * 标准两次删除确认
+ * @returns 用户是否确认删除
  */
 export async function deleteConfirm(): Promise<boolean> {
   return multiConfirm();
@@ -61,6 +65,7 @@ export async function deleteConfirm(): Promise<boolean> {
 
 /**
  * 非删除类危险操作的两次确认（文案与历史 operationConfirm 一致）
+ * @returns 用户是否确认操作
  */
 export async function operationConfirm(): Promise<boolean> {
   return multiConfirm([

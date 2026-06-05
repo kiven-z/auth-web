@@ -11,6 +11,7 @@ interface AssignPanelExpose {
 
 /**
  * 角色表格「更多」操作：分配权限等抽屉
+ * @returns 更多操作方法
  */
 function useRoleMoreAction() {
   const { t } = useI18n();

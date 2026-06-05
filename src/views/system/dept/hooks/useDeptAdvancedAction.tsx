@@ -10,6 +10,7 @@ interface ClosureHealthDialogExpose {
 
 /**
  * 部门工具栏「高级功能」
+ * @returns 高级功能操作方法
  */
 function useDeptAdvancedAction() {
   const { t } = useI18n();

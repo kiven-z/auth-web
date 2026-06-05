@@ -4,6 +4,10 @@ import { useI18n } from 'vue-i18n';
 import { selectUserinfo } from '@/components/business/UserProfile';
 import type { AuthorizationAuditPageRow } from '@/api/log/authorization-audit';
 
+/**
+ * 表格列配置
+ * @returns 表格列定义
+ */
 function useAuthorizationAuditTableColumns() {
   const { t } = useI18n();
 

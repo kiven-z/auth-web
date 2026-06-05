@@ -20,6 +20,7 @@ export interface UseRemoteUserSearchOptions {
  * 关键字非空时对请求防抖，避免连续输入触发过多接口；清空关键字时立即清空选项并取消待发起请求。
  *
  * @param options 错误文案键与可选 limit
+ * @returns 远程用户选项、加载状态与搜索方法
  */
 export default function useRemoteUserSearch(options: UseRemoteUserSearchOptions) {
   const { errorDefaultI18nKey, limit } = options;

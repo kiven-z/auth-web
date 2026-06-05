@@ -24,7 +24,7 @@ export interface EmailTemplatePageQuery {
 export interface EmailTemplateRequireFieldRow {
   key: string;
   description?: string;
-  // 与后端 JsonNode 一致，可为任意 JSON 可序列化值
+  /** 与后端 JsonNode 一致，可为任意 JSON 可序列化值 */
   exampleValue: unknown;
 }
 

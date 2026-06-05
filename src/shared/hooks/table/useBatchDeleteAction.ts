@@ -18,7 +18,7 @@ export interface UseBatchDeleteActionOptions {
 
 /**
  * 解析批量删除目标主键。
- * 仅当参数为 string[] 时使用；否则回退多选列表，避免模板 `@click="deleteBatchRows"` 误传 Event。
+ * 仅当参数为 string[] 时使用；否则回退多选列表，避免模板 @click="deleteBatchRows" 误传 Event。
  *
  * @param ids 调用方传入的主键列表
  * @param selectedRows 表格多选主键
@@ -28,18 +28,20 @@ function resolveBatchDeleteIds(ids: unknown, selectedRows: Ref<string[]>): strin
 }
 
 /**
- * 表格批量删除动作：标准两次确认、成功提示、清空多选、刷新列表。
+ * 表格批量删除动作：标准两次确认、成功提示、清空多选、刷新列表
  *
  * 模板约定：
- * - 工具栏批量：`@click="deleteBatchRows()"`
- * - 行内删除：`@click="deleteBatchRows([row.id])"`
+ * - 工具栏批量：@click="deleteBatchRows()"
+ * - 行内删除：@click="deleteBatchRows([row.id])"
+ * @param options 批量删除配置
+ * @returns deleteBatchRows 删除方法
  */
 function useBatchDeleteAction(options: UseBatchDeleteActionOptions) {
   const { selectedRows, deleteApi, onSuccess, errorDefaultI18nKey } = options;
   const { t } = useI18n();
 
   /**
-   * 批量删除：工具栏调用 `deleteBatchRows()`；行内调用 `deleteBatchRows([row.id])`
+   * 批量删除：工具栏调用 deleteBatchRows()；行内调用 deleteBatchRows([row.id])
    *
    * @param ids 主键列表；不传或非法时使用 selectedRows
    */

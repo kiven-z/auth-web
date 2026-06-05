@@ -7,6 +7,7 @@ import { useI18n } from 'vue-i18n';
 
 /**
  * 权限表格列
+ * @returns 表格列定义
  */
 function usePermissionTableColumns() {
   const { t } = useI18n();

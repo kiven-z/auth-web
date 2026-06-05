@@ -9,32 +9,32 @@ import { reactive, ref, type Ref } from 'vue';
  * 模块级「表格分页 + 全量列表建树」页状态工厂配置（菜单、部门等左/右或分段切换场景）。
  */
 export interface CreateModuleTableTreePageStateConfig<TRow, TFlat, TNode, TViewMode extends string = 'table' | 'tree'> {
-  // 已与页面绑定的 reactive 查询表单（单例引用）
+  /** 已与页面绑定的 reactive 查询表单（单例引用） */
   searchForm: Record<string, any>;
-  // 表格默认每页条数
+  /** 表格默认每页条数 */
   defaultPageSize?: number;
-  // 列表 / 树加载失败时的 i18n 兜底键
+  /** 列表 / 树加载失败时的 i18n 兜底键 */
   errorI18nKey: string;
-  // 表格分页接口
+  /** 表格分页接口 */
   fetchPage: (query: Record<string, unknown>) => Promise<PageResponse<TRow>>;
-  // 建树用扁平列表接口
+  /** 建树用扁平列表接口 */
   fetchFlatList: (params?: Record<string, unknown>) => Promise<TFlat[]>;
-  // 调用 {@link fetchFlatList} 时附带的查询参数（默认可传 `{}` 拉全量）
+  /** 调用 {@link fetchFlatList} 时附带的查询参数 */
   flatListParams?: Record<string, unknown>;
-  // `handleTree` 的 id 字段名，默认 `id`
+  /** handleTree 的 id 字段名，默认 id */
   treeIdKey?: string;
-  // `handleTree` 的 parentId 字段名，默认 `parentId`
+  /** handleTree 的 parentId 字段名，默认 parentId */
   treeParentKey?: string;
-  // 无表单 ref 时重置查询字段（与 `resetFields` 二选一）
+  /** 无表单 ref 时重置查询字段（与 resetFields 二选一） */
   resetSearchFormWithoutRef?: () => void;
-  // 初始视图模式
+  /** 初始视图模式 */
   initialViewMode?: TViewMode;
 }
 
 /**
- * 创建模块级单例的表格 + 树页状态（顶层 ref，供 index / 多子组件共用同一套数据）。
- *
- * @returns 与原先 `useMenuPageState` / `useDeptPageState` 相同：每次调用返回同一组 ref 与方法。
+ * 创建模块级单例的表格 + 树页状态（顶层 ref，供 index / 多子组件共用同一套数据）
+ * @param config 页状态配置
+ * @returns 与 useMenuPageState / useDeptPageState 相同的一组 ref 与方法
  */
 export function useCreateModuleTableTreePageState<
   TRow extends { id?: string | number },

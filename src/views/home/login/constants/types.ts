@@ -5,11 +5,11 @@ import type { Component } from 'vue';
  * 新增登录方式时在此处添加枚举值即可，
  */
 export enum LoginMode {
-  // 用户名密码
+  /** 用户名密码 */
   UsernamePassword = 'username-password',
-  // 邮箱
+  /** 邮箱 */
   Email = 'email',
-  // 短信
+  /** 短信 */
   Sms = 'sms',
 }
 

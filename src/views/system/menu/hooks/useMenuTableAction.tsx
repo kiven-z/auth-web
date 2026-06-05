@@ -13,6 +13,7 @@ import type { Ref } from 'vue';
 import { h, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 
+/** 菜单表格操作依赖 */
 interface MenuTableActionDeps extends TableActionDeps {
   fetchTreeData: () => Promise<void>;
   refresh: () => Promise<void>;
@@ -20,12 +21,15 @@ interface MenuTableActionDeps extends TableActionDeps {
   selectedRows: Ref<string[]>;
 }
 
+/**
+ * 菜单表格操作
+ * @param deps 表格操作依赖
+ * @returns 表格操作方法
+ */
 function useMenuTableAction(deps: MenuTableActionDeps) {
   const { t } = useI18n();
   const { createFormBeforeSure } = useFormOverlaySubmit();
   const { refresh } = deps;
-
-  // 删除操作
   const { deleteBatchRows } = useBatchDeleteAction({
     selectedRows: deps.selectedRows,
     deleteApi: deleteMenus,

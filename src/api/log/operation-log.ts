@@ -9,17 +9,17 @@ export interface OperationLogPageQuery {
   pageIndex?: number;
   pageSize?: number;
   sort?: SortSpec[];
-  // 操作用户 ID（使用远程搜索）
+  /** 操作用户 ID（使用远程搜索） */
   userId?: string;
-  // 操作类型：CREATE / UPDATE / DELETE / QUERY / EXPORT
+  /** 操作类型：CREATE / UPDATE / DELETE / QUERY / EXPORT */
   operationType?: string;
-  // 操作模块
+  /** 操作模块 */
   module?: string;
-  // 操作对象类型：User / Dept / Role
+  /** 操作对象类型：User / Dept / Role */
   targetType?: string;
-  // 目标 ID
+  /** 目标 ID */
   targetId?: string;
-  // HTTP 方法：GET / POST / PUT / DELETE
+  /** HTTP 方法：GET / POST / PUT / DELETE */
   requestMethod?: string;
 }
 
@@ -27,25 +27,25 @@ export interface OperationLogPageQuery {
  * 操作日志分页行
  */
 export interface OperationLogPageRow extends BaseResponsePageRow {
-  // 操作用户 ID；null 表示匿名或未认证
+  /** 操作用户 ID；null 表示匿名或未认证 */
   userId?: string | null;
-  // 操作用户名（由 userId 解析）
+  /** 操作用户名（由 userId 解析） */
   username?: string | null;
-  // 操作模块
+  /** 操作模块 */
   module?: string | null;
-  // 操作类型
+  /** 操作类型 */
   operationType?: string | null;
-  // 目标类型
+  /** 目标类型 */
   targetType?: string | null;
-  // 目标主键 ID
+  /** 目标主键 ID */
   targetId?: string;
-  // HTTP 方法
+  /** HTTP 方法 */
   requestMethod?: string | null;
-  // HTTP 状态码
+  /** HTTP 状态码 */
   responseStatus?: number | null;
-  // 执行耗时（毫秒）
+  /** 执行耗时（毫秒） */
   executionTimeMs?: number | null;
-  // 请求 IP（JSON 序列化时脱敏）
+  /** 请求 IP（JSON 序列化时脱敏） */
   ipAddress?: string | null;
 }
 

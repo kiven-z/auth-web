@@ -7,6 +7,10 @@ import { ElButton, ElTag } from 'element-plus';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 
+/**
+ * 表格列配置
+ * @returns 表格列定义
+ */
 function useJobGroupTableColumns() {
   const { t } = useI18n();
 

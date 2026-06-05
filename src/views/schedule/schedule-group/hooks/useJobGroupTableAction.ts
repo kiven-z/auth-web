@@ -19,14 +19,14 @@ type JobGroupForm = CreateJobGroupRequest & UpdateJobGroupRequest;
 
 /**
  * 任务分组表格操作：新增、编辑、查看详情、删除
+ * @param deps 表格操作依赖
+ * @returns 表格操作方法
  */
 function useJobGroupTableAction(deps: TableActionDeps) {
   const { fetchTableData } = deps;
   const { t } = useI18n();
   const { createFormBeforeSure } = useFormOverlaySubmit();
   const selectedRows = ref<string[]>([]);
-
-  // 删除操作
   const { deleteBatchRows } = useBatchDeleteAction({
     selectedRows,
     deleteApi: async (ids) => {

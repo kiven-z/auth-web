@@ -6,6 +6,7 @@ import { useI18n } from 'vue-i18n';
 
 /**
  * 岗位表格列
+ * @returns 表格列定义
  */
 function usePostTableColumns() {
   const { t } = useI18n();

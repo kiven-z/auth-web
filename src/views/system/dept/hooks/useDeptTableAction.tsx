@@ -24,6 +24,8 @@ export interface DeptTableActionDeps extends TableActionDeps {
 
 /**
  * 部门行操作：详情、新增、删除等
+ * @param deps 表格操作依赖
+ * @returns 表格操作方法
  */
 function useDeptTableAction(deps: DeptTableActionDeps) {
   const { t } = useI18n();

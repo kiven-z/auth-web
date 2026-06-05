@@ -1,5 +1,5 @@
+/** Iconify 图标属性，见 https://docs.iconify.design/icon-components/vue/#properties */
 export interface iconType {
-  // iconify (https://docs.iconify.design/icon-components/vue/#properties)
   inline?: boolean;
   width?: string | number;
   height?: string | number;
@@ -13,8 +13,7 @@ export interface iconType {
   align?: string;
   onLoad?: Function;
   includes?: Function;
-  // svg 需要什么SVG属性自行添加
+  /** SVG fill，其余 SVG 属性按需扩展 */
   fill?: string;
-  // all icon
   style?: object;
 }

@@ -11,24 +11,26 @@ export interface FormOverlayExpose<TForm> {
   form: TForm;
 }
 
+/** {@link useFormOverlaySubmit.createFormBeforeSure} 配置 */
 export interface CreateFormBeforeSureOptions<TForm> {
-  //  指向表单弹层组件实例的 ref
+  /** 指向表单弹层组件实例的 ref */
   formExposeRef: Ref<FormOverlayExpose<TForm> | null>;
-  // 提交失败时的默认 i18n key
+  /** 提交失败时的默认 i18n key */
   errorI18nKey: string;
   /**
-   * 校验通过后执行业务提交；返回 false 时不关闭弹层（如接口未对接仅提示）
+   * 校验通过后执行业务提交；返回 false 时不关闭弹层
    * @param formData 当前表单数据
    */
   onSubmit: (formData: TForm) => Promise<boolean | void>;
-  // 提交成功后的提示文案 i18n key；不传则不自动 message
+  /** 提交成功后的提示文案 i18n key；不传则不自动 message */
   successI18nKey?: string;
-  // 编辑场景要求 formData 含 id
+  /** 编辑场景要求 formData 含 id */
   requireId?: boolean;
 }
 
 /**
  * 封装 addDialog / addDrawer 的 beforeSure：校验 → 取表单 → 提交 → 成功提示 → done()
+ * @returns `createFormBeforeSure` 工厂方法
  */
 export function useFormOverlaySubmit() {
   const { t } = useI18n();

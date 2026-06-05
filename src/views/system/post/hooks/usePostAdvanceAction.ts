@@ -3,6 +3,7 @@ import { exportPostExcel } from '@/api/system/post';
 import { resolveExportPageParams, usePagedTableExport } from '@/components/business/ExportDialog';
 import { useI18n } from 'vue-i18n';
 
+/** 岗位页 Excel 导出 composable 配置 */
 export interface UsePostExportActionOptions {
   searchForm: Record<string, unknown>;
   pagination: {
@@ -13,9 +14,9 @@ export interface UsePostExportActionOptions {
 }
 
 /**
- * 岗位高级导出操作
+ * 岗位 Excel 导出
  * @param options 导出配置
- * @returns 导出操作
+ * @returns `exporting` 加载状态与 `openExportDialog` 打开弹窗方法
  */
 function usePostAdvanceAction(options: UsePostExportActionOptions) {
   const { t } = useI18n();

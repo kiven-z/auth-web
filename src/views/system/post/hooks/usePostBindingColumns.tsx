@@ -10,6 +10,7 @@ import { useI18n } from 'vue-i18n';
 
 /**
  * 岗位详情：关联用户、已授权角色表格列
+ * @returns 表格列定义
  */
 function usePostBindingColumns() {
   const { t } = useI18n();

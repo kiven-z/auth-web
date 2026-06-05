@@ -7,7 +7,7 @@ defineOptions({
 });
 
 const props = defineProps({
-  // 行数
+  /** 最大显示行数 */
   lineClamp: {
     type: [String, Number],
   },

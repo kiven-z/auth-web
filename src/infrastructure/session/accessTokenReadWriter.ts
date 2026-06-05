@@ -75,9 +75,9 @@ export class MemoryAccessTokenStore implements AccessTokenReadWriter {
 }
 
 interface DevPersistedShape {
-  // access token
+  /** 访问令牌 */
   accessToken?: string;
-  // 过期时间
+  /** 过期时间（时间戳） */
   expires?: number;
 }
 
@@ -176,7 +176,8 @@ export class DevLocalStorageAccessTokenStore implements AccessTokenReadWriter {
 let accessTokenStoreSingleton: AccessTokenReadWriter | null = null;
 
 /**
- * 应用内唯一的 access token 存储实现（按构建环境选择实现类）。
+ * 应用内唯一的 access token 存储实现（按构建环境选择实现类）
+ * @returns access token 读写器单例
  */
 export function getAccessTokenStore(): AccessTokenReadWriter {
   if (!accessTokenStoreSingleton) {

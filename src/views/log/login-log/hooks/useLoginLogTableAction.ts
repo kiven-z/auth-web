@@ -9,12 +9,12 @@ import { useI18n } from 'vue-i18n';
 
 /**
  * 登录日志表格操作：查看详情、删除、批量删除（使用标准两次删除确认）
+ * @param deps 表格操作依赖
+ * @returns 表格操作方法
  */
 function useLoginLogTableAction(deps: TableActionWithSelectionDeps) {
   const { fetchTableData, selectedRows } = deps;
   const { t } = useI18n();
-
-  // 删除操作
   const { deleteBatchRows } = useBatchDeleteAction({
     selectedRows,
     deleteApi: deleteLoginLog,

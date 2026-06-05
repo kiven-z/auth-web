@@ -1,17 +1,20 @@
 import type { TreeInstance } from 'element-plus';
-import { nextTick, ref, unref, type Ref } from 'vue';
+import { nextTick, ref, type Ref, unref } from 'vue';
 
+/** {@link useElTreeExpandCollapse} 配置 */
 export interface UseElTreeExpandCollapseOptions {
-  // el-tree 实例 ref
+  /** el-tree 实例 ref */
   treeRef: Ref<TreeInstance | undefined>;
-  // 树数据（用于收集展开节点 id）
+  /** 树数据（用于收集展开节点 id） */
   treeData: Ref<unknown[]>;
-  // 节点主键字段名，默认与 el-tree `node-key` 一致为 `id`
+  /** 节点主键字段名，默认 id */
   nodeIdKey?: string;
 }
 
 /**
- * 与 Element Plus `el-tree` 配合：维护 `default-expanded-keys`、展开/收起全部。
+ * 与 Element Plus el-tree 配合：维护 default-expanded-keys、展开/收起全部
+ * @param options 树展开配置
+ * @returns 展开键与展开/收起方法
  */
 export function useElTreeExpandCollapse(options: UseElTreeExpandCollapseOptions) {
   const nodeIdKey = options.nodeIdKey ?? 'id';

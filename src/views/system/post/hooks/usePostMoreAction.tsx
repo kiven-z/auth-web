@@ -6,6 +6,7 @@ import PostAssignRoleDrawer from '@/views/system/post/components/PostAssignRoleD
 import { h, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 
+/** 岗位「更多」操作依赖 */
 export interface PostMoreActionDeps extends TableActionDeps {
   refresh: () => Promise<void>;
 }
@@ -16,6 +17,8 @@ interface AssignPanelExpose {
 
 /**
  * 岗位「更多」操作（分配角色）
+ * @param deps 操作依赖
+ * @returns 更多操作方法
  */
 function usePostMoreAction(deps: PostMoreActionDeps) {
   const { refresh } = deps;

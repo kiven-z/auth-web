@@ -15,6 +15,8 @@ import { useI18n } from 'vue-i18n';
 
 /**
  * 操作日志表格操作：查看详情、删除、批量删除（标准两次删除确认）
+ * @param deps 表格操作依赖
+ * @returns 表格操作方法
  */
 function useOperationLogTableAction(deps: TableActionWithSelectionDeps) {
   const { fetchTableData, selectedRows } = deps;

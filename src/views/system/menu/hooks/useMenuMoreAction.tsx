@@ -8,6 +8,7 @@ import type { SysMenuRow } from '@/views/system/menu/hooks/useMenuPageState';
 import { h, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 
+/** 菜单「更多」操作依赖 */
 export interface MenuTableActionDeps extends TableActionDeps {
   fetchTreeData: () => Promise<void>;
   refresh: () => Promise<void>;
@@ -17,6 +18,11 @@ interface AssignPanelExpose {
   getSelectedKeys: () => string[];
 }
 
+/**
+ * 菜单「更多」操作
+ * @param deps 表格操作依赖
+ * @returns 更多操作方法
+ */
 function useMenuMoreAction(deps: MenuTableActionDeps) {
   const { refresh } = deps;
   const { t } = useI18n();

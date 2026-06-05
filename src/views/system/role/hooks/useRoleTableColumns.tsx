@@ -7,6 +7,7 @@ import { useI18n } from 'vue-i18n';
 
 /**
  * 角色表格列
+ * @returns 表格列定义
  */
 function useRoleTableColumns() {
   const { t } = useI18n();

@@ -9,12 +9,12 @@ export interface AuthorizationAuditQuery {
   pageIndex?: number;
   pageSize?: number;
   sort?: SortSpec[];
-  // 事件类型：GRANTED / DENIED
+  /** 事件类型：GRANTED / DENIED */
   eventType?: string;
-  // 决策原因枚举（精确匹配，如 MATCHED、ACCESS_DENIED、UNAUTHENTICATED 等）
+  /** 决策原因枚举（精确匹配，如 MATCHED、ACCESS_DENIED、UNAUTHENTICATED 等） */
   decisionReason?: string;
   className?: string;
-  // 操作人用户
+  /** 操作人用户 ID */
   createUserId?: string;
 }
 
@@ -22,13 +22,13 @@ export interface AuthorizationAuditQuery {
  * 权限决策审计分页行
  */
 export interface AuthorizationAuditPageRow extends BaseResponsePageRow {
-  //事件类型：GRANTED / DENIED
+  /** 事件类型：GRANTED / DENIED */
   eventType: string;
-  //决策原因枚举值
+  /** 决策原因枚举值 */
   decisionReason: string;
-  //Controller 类名
+  /** Controller 类名 */
   className?: string | null;
-  //方法名
+  /** 方法名 */
   methodName?: string | null;
 }
 
@@ -36,37 +36,37 @@ export interface AuthorizationAuditPageRow extends BaseResponsePageRow {
  * 权限决策审计详情
  */
 export interface AuthorizationAuditDetailRow extends BaseResponsePageRow {
-  // 事件类型：GRANTED / DENIED
+  /** 事件类型：GRANTED / DENIED */
   eventType: string;
-  // 会话 ID
+  /** 会话 ID */
   sessionId?: string | null;
-  // 所需权限码（如 sys:user:add）
+  /** 所需权限码（如 sys:user:add） */
   requiredPermission?: string | null;
-  // HTTP 方法
+  /** HTTP 方法 */
   requestMethod?: string | null;
-  // 请求 URI
+  /** 请求 URI */
   requestUri?: string | null;
-  // 请求 IP（详情展示已脱敏）
+  /** 请求 IP（详情展示已脱敏） */
   requestIp?: string | null;
-  // 决策原因枚举值
+  /** 决策原因枚举值 */
   decisionReason: string;
-  // 决策详情（可空）
+  /** 决策详情（可空） */
   decisionDetail?: string | null;
-  // 用户权限摘要（可空）
+  /** 用户权限摘要（可空） */
   userPermissionsSummary?: string | null;
-  // 策略编码（可空）
+  /** 策略编码（可空） */
   policyCode?: string | null;
-  // 策略决策结果（可空）
+  /** 策略决策结果（可空） */
   policyDecision?: boolean | null;
-  // Controller 类名
+  /** Controller 类名 */
   className?: string | null;
-  // 方法名
+  /** 方法名 */
   methodName?: string | null;
-  // 方法参数摘要 JSON（最大约 2KB）
+  /** 方法参数摘要 JSON（最大约 2KB） */
   methodParams?: string | null;
-  // 异常消息（最大约 2KB）
+  /** 异常消息（最大约 2KB） */
   exceptionMessage?: string | null;
-  // 备注
+  /** 备注 */
   remark?: string | null;
 }
 

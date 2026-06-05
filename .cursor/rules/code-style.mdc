@@ -68,9 +68,13 @@ function handleSubmit() {
 
 - **严禁简写**：所有变量、常量、函数名必须使用完整的单词，严禁使用缩写（例如：使用 `index` 而非 `idx`，`parameter` 而非
   `param`）。
-- **注释规范**：
-  - **函数/组件**：必须包含 JSDoc 注释，说明功能、参数及返回值。
+- **注释规范**（对齐 TypeScript / TSDoc 社区惯例，详见下文 **§注释与 TSDoc**）：
+  - **导出函数、composable、指令**：必须 JSDoc，含 `@param`；有返回值时含 `@returns`。
+  - **导出 `interface` / `type` / `enum`**：类型上方块级 `/** */` 说明用途；一行能说清用单行，需 `@remarks` / `@see` /
+    `@example` 时用多行。
+  - **类型字段**：非显而易见时写 `/** */`（**禁止**用 `//` 描述 `interface` 字段，以便 IDE 悬停可见）；命名已清晰则省略。
   - **Vue 模板**：在 HTML 标签上，若使用了多语言标签（如 `:label="t(...)"`），必须在其上方添加中文业务逻辑注释。
+  - **实现细节**：局部变量、`computed`、私有函数能靠命名表达的，不写注释。
 - **变量声明**：优先使用 `const`，其次 `let`，严禁使用 `var`。
 - **DOM 操作**：严禁直接操作 DOM，必须使用 Vue 模板引用 (`ref`)。
 - 前端id操作一律不要使用Number(xxx)这种，后端使用的是雪花id，使用Number直接精度丢失！也不需要String()转换！
@@ -145,3 +149,56 @@ views文件目录参考：
 - **函数名**：`deleteBatchRows(ids?: unknown)`；工具栏批量 `@click="deleteBatchRows()"`，行内
   `@click="deleteBatchRows([row.id])"`。
 - **禁止**：`@click="deleteBatchRows"`（无括号会把 Event 当作 ids）；Hook 内禁止 `ids = ids || selectedRows`。
+
+## 注释与 TSDoc
+
+与 [Google TypeScript Style Guide](https://google.github.io/styleguide/tsguide.html) 及
+[TypeScript JSDoc](https://www.typescriptlang.org/docs/handbook/jsdoc-supported-types.html) 对齐。
+
+### 分层规则
+
+| 层级 | 格式 | 要求 |
+| ---- | ---- | ---- |
+| 导出函数 / composable / 指令 | JSDoc `/** */` | 必须 `@param`；有返回值必须 `@returns` |
+| 导出 `interface` / `type` / `enum` | 块级 `/** */` | 说明业务含义；短描述单行即可 |
+| `interface` 字段（导出类型） | TSDoc `/** */` | 仅补充非显而易见语义；**禁止** `//` |
+| 组件 `defineExpose` 方法 | JSDoc `/** */` | 同导出函数，含 `@returns`（如有） |
+| 页面 / 组件内部实现 | 省略或 `//` | 不重复命名；`computed` 名已清晰则不注释 |
+| Vue 模板业务块 | `<!-- -->` | 多语言表单项等需中文业务说明 |
+
+### 示例
+
+```ts
+/** 导出弹窗表单状态 */
+export interface ExportDialogFormState {
+  /** 导出范围 */
+  exportScope: ExportScope;
+  /** 起始页（仅 PAGE_RANGE） */
+  fromPage: number;
+}
+
+/**
+ * 根据弹窗选择与分页状态组装导出页码参数
+ * @param form 弹窗表单
+ * @param pagination 列表分页状态
+ * @returns 导出范围及后端 pageIndex / pageSize
+ */
+export function resolveExportPageParams(
+  form: ExportDialogFormState,
+  pagination: PagedTableExportPagination
+) { /* ... */ }
+
+/**
+ * 分页表格 Excel 导出
+ * @param options 导出配置
+ * @returns `exporting` 加载状态与 `openExportDialog` 打开弹窗方法
+ */
+function usePagedTableExport(options: UsePagedTableExportOptions) { /* ... */ }
+```
+
+### 禁止
+
+- 用 `//` 注释 `interface` / `type` 的字段（IDE 悬停不可见）。
+- 注释重复标识符含义（如 `// 当前页` 搭配 `currentPage`）。
+- 为显而易见字段强行写注释。
+- 同一文件内对同类导出类型混用 `//` 与 `/** */` 描述字段。

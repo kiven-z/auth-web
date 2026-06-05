@@ -1,11 +1,12 @@
 import type { Component, VNode } from 'vue';
 import type { iconType } from '@/components/ui/Icon/src/types.ts';
 
+/** 分段控制器选项 */
 export interface OptionsType {
   /** 文字 */
   label?: string | (() => VNode | Component);
   /**
-   * @description 图标，采用平台内置的 `useRenderIcon` 函数渲染
+   * @description 图标，采用平台内置的 useRenderIcon 函数渲染
    * @see {@link 用法参考 https://pure-admin.cn/pages/icon/#%E9%80%9A%E7%94%A8%E5%9B%BE%E6%A0%87-userendericon-hooks }
    */
   icon?: string | Component;
@@ -15,6 +16,6 @@ export interface OptionsType {
   value?: any;
   /** 是否禁用 */
   disabled?: boolean;
-  /** `tooltip` 提示 */
+  /** tooltip 提示 */
   tip?: string;
 }

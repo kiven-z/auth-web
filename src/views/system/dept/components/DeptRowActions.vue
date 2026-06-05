@@ -6,12 +6,13 @@ defineOptions({
   name: 'DeptRowActions',
 });
 
+/** 部门行操作按钮 props */
 interface DeptRowActionsProps {
-  // 部门行数据
+  /** 部门行数据 */
   row: SysDeptRow;
-  // 树节点内使用较小按钮
+  /** 树节点内使用较小按钮 */
   compact?: boolean;
-  // 树视图展示「新增下级」
+  /** 树视图展示「新增下级」 */
   showAddChild?: boolean;
   openDetailDialog: (row: SysDeptRow) => void;
   openEditDialog: (row: SysDeptRow) => void;

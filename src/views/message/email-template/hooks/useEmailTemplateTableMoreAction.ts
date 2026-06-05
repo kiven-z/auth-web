@@ -33,6 +33,8 @@ export interface EmailTestSendForm {
 
 /**
  * 邮件模板表格「更多」菜单相关操作
+ * @param options 表格操作依赖
+ * @returns 更多操作方法
  */
 export function useEmailTemplateTableMoreAction(options: TableActionDeps) {
   const { fetchTableData } = options;

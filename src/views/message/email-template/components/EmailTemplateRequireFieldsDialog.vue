@@ -18,9 +18,10 @@ defineOptions({
   name: 'EmailTemplateRequireFieldsDialog',
 });
 
+/** 邮件模板变量表编辑弹窗 props */
 interface EmailTemplateRequireFieldsDialogProps {
   templateId: string;
-  // 打开方已拉取的变量表初始数据
+  /** 打开方已拉取的变量表初始数据 */
   initialRequireFields: EmailTemplateRequireFieldRow[];
 }
 

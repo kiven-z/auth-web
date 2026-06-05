@@ -1,4 +1,4 @@
-// 用户登录响应（对齐 auth-server UserLoginResponse）
+/** 用户登录响应（对齐 auth-server UserLoginResponse） */
 export interface UserLoginResponse {
   id?: string;
   username?: string;
@@ -7,7 +7,7 @@ export interface UserLoginResponse {
   roles?: string[];
   permissions?: string[];
   accessToken: string;
-  // 后端 LocalDateTime，格式 yyyy/MM/dd HH:mm:ss
+  /** 令牌过期时间，后端 LocalDateTime，格式 `yyyy/MM/dd HH:mm:ss` */
   expires: string;
   readMeDay?: number;
 }
@@ -27,7 +27,7 @@ export interface RefreshTokenResponse {
 export interface UsernamePasswordLoginRequest {
   username: string;
   password: string;
-  // 是否记住登录（天数由后端 readMeDay 下发）
+  /** 是否记住登录（天数由后端 readMeDay 下发） */
   rememberMe?: boolean;
 }
 

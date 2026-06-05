@@ -77,6 +77,7 @@ export interface TableActionWithSelectionDeps extends TableActionDeps {
   selectedRows: Ref<string[]>;
 }
 
+/** 表单弹窗/抽屉数据契约 */
 export interface FormDialog<T> {
   form?: T;
 }

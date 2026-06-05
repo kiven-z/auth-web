@@ -2,6 +2,7 @@ import { computed, ref } from 'vue';
 
 import type { AssignGetRowLabel, AssignSeedItem } from './types';
 
+/** {@link useAssignChecked} 配置 */
 export interface UseAssignCheckedOptions {
   rowKey: string;
   getRowLabel: AssignGetRowLabel;
@@ -11,7 +12,9 @@ export interface UseAssignCheckedOptions {
 export type AssignCheckedApi = ReturnType<typeof useAssignChecked>;
 
 /**
- * 分配已选状态：跨页 key 列表与左侧标签文案。
+ * 分配已选状态：跨页 key 列表与左侧标签文案
+ * @param options 行主键与展示文案解析
+ * @returns 勾选状态与操作方法
  */
 export function useAssignChecked(options: UseAssignCheckedOptions) {
   const selectedKeys = ref<string[]>([]);

@@ -6,6 +6,7 @@ import { useI18n } from 'vue-i18n';
 
 /**
  * 部门表格列定义
+ * @returns 表格列定义
  */
 function useDeptTableColumns() {
   const { t } = useI18n();
