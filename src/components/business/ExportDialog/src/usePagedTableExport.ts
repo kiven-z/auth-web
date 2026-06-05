@@ -1,4 +1,4 @@
-import type { ExportScope } from '@/api/common';
+import type { ExportScope, ExportScopeQueryFields } from '@/api/common';
 import { EXPORT_MAX_ROWS } from '@/api/common';
 import { addDialog } from '@/components/ui/Dialog';
 import { errorMessage, message } from '@/shared/messaging/message';
@@ -23,12 +23,13 @@ export interface PagedTableExportBuildContext {
 }
 
 /** 分页表格导出 composable 配置 */
-export interface UsePagedTableExportOptions<TExportQuery> {
+export interface UsePagedTableExportOptions<TFilter extends object> {
   searchForm: Record<string, unknown>;
   pagination: PagedTableExportPagination;
-  /** 根据弹窗选择与列表上下文组装导出请求参数 */
-  buildExportParams: (context: PagedTableExportBuildContext) => TExportQuery;
-  exportApi: (params: TExportQuery) => Promise<Blob>;
+  /** 根据列表上下文组装筛选参数（不含分页与导出范围） */
+  buildFilter: (context: PagedTableExportBuildContext) => TFilter;
+  /** 导出 API：筛选 + 导出范围（请求时合并为扁平 query） */
+  exportApi: (filter: TFilter, scope: ExportScopeQueryFields) => Promise<Blob>;
   /** 下载文件名前缀（不含扩展名与时间戳） */
   fileNamePrefix: string;
   /** 单次导出最大行数，默认 {@link EXPORT_MAX_ROWS} */
@@ -39,12 +40,12 @@ export interface UsePagedTableExportOptions<TExportQuery> {
  * 根据弹窗选择与分页状态组装 exportScope / 页码参数
  * @param form 弹窗表单
  * @param pagination 列表分页状态
- * @returns 导出范围及后端 pageIndex / pageSize
+ * @returns 导出范围及列表 pageIndex / pageSize
  */
 export function resolveExportPageParams(
   form: ExportDialogFormState,
   pagination: PagedTableExportPagination
-): Pick<ExportDialogFormState, 'exportScope' | 'fromPage' | 'toPage'> & {
+): ExportScopeQueryFields & {
   pageIndex: number;
   pageSize: number;
 } {
@@ -73,7 +74,7 @@ export function resolveExportPageParams(
  * @param options 导出配置
  * @returns `exporting` 加载状态与 `openExportDialog` 打开弹窗方法
  */
-function usePagedTableExport<TExportQuery>(options: UsePagedTableExportOptions<TExportQuery>) {
+function usePagedTableExport<TFilter extends object>(options: UsePagedTableExportOptions<TFilter>) {
   const { t } = useI18n();
   const exporting: Ref<boolean> = ref(false);
 
@@ -102,12 +103,23 @@ function usePagedTableExport<TExportQuery>(options: UsePagedTableExportOptions<T
         const form = panelRef.value!.getFormState();
         exporting.value = true;
         try {
-          const params = options.buildExportParams({
+          const context: PagedTableExportBuildContext = {
             searchForm: options.searchForm,
             pagination: options.pagination,
             form,
-          });
-          const blob = await options.exportApi(params);
+          };
+          const pageParams = resolveExportPageParams(form, options.pagination);
+          const filter = {
+            ...options.buildFilter(context),
+            pageIndex: pageParams.pageIndex,
+            pageSize: pageParams.pageSize,
+          } as TFilter;
+          const scope: ExportScopeQueryFields = {
+            exportScope: pageParams.exportScope,
+            fromPage: pageParams.fromPage,
+            toPage: pageParams.toPage,
+          };
+          const blob = await options.exportApi(filter, scope);
           const stamp = new Date().toISOString().replace(/[-:T]/g, '').slice(0, 14);
           downloadBlob(blob, `${options.fileNamePrefix}_${stamp}.xlsx`);
           message(t('tips.exportSuccess'), { type: 'success' });

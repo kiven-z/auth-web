@@ -1,6 +1,7 @@
 import type { AxiosRequestConfig } from 'axios';
 
-import type { BaseResponse, BaseResponsePageRow, PageResponse, SortSpec } from '@/api/common';
+import type { BaseResponse, BaseResponsePageRow, ExportScopeQueryFields, PageResponse, SortSpec } from '@/api/common';
+import { mergePagedExportParams } from '@/api/common';
 import { http } from '@/infrastructure/http-core';
 
 /**
@@ -14,20 +15,6 @@ export interface SysRolePageQuery {
   roleName?: string;
   status?: boolean;
   roleTypes?: number[];
-}
-
-import type { ExportScope } from '@/api/common';
-
-/**
- * 角色 Excel 导出参数（对齐 {@code SysRoleExportQuery}）
- */
-export interface SysRoleExportQuery extends SysRolePageQuery {
-  /** 导出范围；未传时后端按 PAGE_RANGE 处理 */
-  exportScope?: ExportScope;
-  /** 起始页码（1-based，含） */
-  fromPage: number;
-  /** 结束页码（1-based，含） */
-  toPage: number;
 }
 
 /**
@@ -67,13 +54,14 @@ export function getRolePage(params: SysRolePageQuery): Promise<PageResponse<SysR
 
 /**
  * 导出角色 Excel（按筛选条件与页码区间）
- * @param params 导出查询参数
+ * @param filter 列表筛选
+ * @param scope 导出范围
  * @returns 文件 Blob
  */
-export function exportRoleExcel(params: SysRoleExportQuery): Promise<Blob> {
-  return http.get<Blob, AxiosRequestConfig<SysRoleExportQuery>>(
+export function exportRoleExcel(filter: SysRolePageQuery, scope: ExportScopeQueryFields): Promise<Blob> {
+  return http.get<Blob, AxiosRequestConfig<SysRolePageQuery & ExportScopeQueryFields>>(
     '/system/role/export',
-    { params },
+    { params: mergePagedExportParams(filter, scope) },
     { responseType: 'blob' }
   );
 }

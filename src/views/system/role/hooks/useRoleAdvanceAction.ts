@@ -1,6 +1,6 @@
-import type { SysRoleExportQuery, SysRolePageQuery } from '@/api/system/role';
+import type { SysRolePageQuery } from '@/api/system/role';
 import { exportRoleExcel } from '@/api/system/role';
-import { resolveExportPageParams, usePagedTableExport } from '@/components/business/ExportDialog';
+import { usePagedTableExport } from '@/components/business/ExportDialog';
 import { useI18n } from 'vue-i18n';
 
 /** 角色页 Excel 导出 composable 配置 */
@@ -21,26 +21,17 @@ export interface UseRoleExportActionOptions {
 function useRoleAdvanceAction(options: UseRoleExportActionOptions) {
   const { t } = useI18n();
 
-  return usePagedTableExport<SysRoleExportQuery>({
+  return usePagedTableExport<SysRolePageQuery>({
     ...options,
     fileNamePrefix: t('roles.moduleName'),
     exportApi: exportRoleExcel,
-    buildExportParams: ({ searchForm, pagination, form }) => {
-      const pageParams = resolveExportPageParams(form, pagination);
+    buildFilter: ({ searchForm }) => {
       const roleTypes = searchForm.roleTypes as number[] | undefined;
-      const base: SysRolePageQuery = {
-        pageSize: pageParams.pageSize,
-        pageIndex: pageParams.pageIndex,
+      return {
         roleCode: searchForm.roleCode as string | undefined,
         roleName: searchForm.roleName as string | undefined,
         status: searchForm.status as boolean | undefined,
         roleTypes: roleTypes?.length ? roleTypes : undefined,
-      };
-      return {
-        ...base,
-        exportScope: pageParams.exportScope,
-        fromPage: pageParams.fromPage,
-        toPage: pageParams.toPage,
       };
     },
   });
