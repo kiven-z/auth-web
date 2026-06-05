@@ -20,7 +20,7 @@ const searchForm = reactive({
 
 const useDeptPageState = useCreateModuleTableTreePageState<SysDeptRow, SysDeptListVO, SysDeptTreeNode, DeptViewMode>({
   searchForm,
-  defaultPageSize: 10,
+  defaultPageSize: 30,
   errorI18nKey: 'dept.loadFailed',
   fetchPage: (query) => getDeptPage(query),
   fetchFlatList: () => getDeptList({}),

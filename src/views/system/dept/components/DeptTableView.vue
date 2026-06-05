@@ -2,6 +2,7 @@
 import AuthPagedTable from '@/components/ui/AuthPagedTable';
 import DeptRowActions from '@/views/system/dept/components/DeptRowActions.vue';
 import { DEPT_STATUS_FILTER_OPTIONS } from '@/views/system/dept/constants/dept-search-options';
+import useDeptExportAction from '@/views/system/dept/hooks/useDeptExportAction';
 import useDeptMoreAction from '@/views/system/dept/hooks/useDeptMoreAction';
 import useDeptPageState from '@/views/system/dept/hooks/useDeptPageState';
 import useDeptTableAction from '@/views/system/dept/hooks/useDeptTableAction';
@@ -20,7 +21,10 @@ const searchFormRef = ref<FormInstance>();
 
 const { tableColumns } = useDeptTableColumns();
 const deptState = useDeptPageState();
-const { loading, selectedRows, searchForm, viewMode, fetchTableData, fetchTreeData, resetQuery, refresh } = deptState;
+const { loading, selectedRows, searchForm, pagination, viewMode, fetchTableData, fetchTreeData, resetQuery, refresh } =
+  deptState;
+
+const { exporting, openExportDialog } = useDeptExportAction({ searchForm, pagination });
 
 const tableActionDeps = {
   fetchTableData,
@@ -82,7 +86,7 @@ onMounted(() => {
       show-overflow-tooltip
     >
       <template #buttons>
-        <DeptHeadButtons />
+        <DeptHeadButtons :exporting="exporting" :open-export-dialog="openExportDialog" />
       </template>
 
       <template #actions="{ row }">

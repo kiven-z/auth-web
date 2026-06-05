@@ -1,5 +1,6 @@
-import type { BaseResponse, BaseResponseDetail, PageResponse, SortSpec } from '@/api/common';
-import type { GrantTableAssignRoleRequest, GrantTableAssignedRoleRow } from '@/api/system/grant-table';
+import type { BaseResponse, BaseResponseDetail, ExportScopeQueryFields, PageResponse, SortSpec } from '@/api/common';
+import { mergePagedExportParams } from '@/api/common';
+import type { GrantTableAssignedRoleRow, GrantTableAssignRoleRequest } from '@/api/system/grant-table';
 import { http } from '@/infrastructure/http-core';
 import type { AxiosRequestConfig } from 'axios';
 
@@ -133,6 +134,20 @@ export function getDeptPage(params: SysDeptPageQuery): Promise<PageResponse<SysD
   return http.get<PageResponse<SysDeptListVO>, AxiosRequestConfig<SysDeptPageQuery>>('/system/dept/page', {
     params,
   });
+}
+
+/**
+ * 导出部门 Excel
+ * @param filter 列表筛选
+ * @param scope 导出范围
+ * @returns 文件 Blob
+ */
+export function exportDeptExcel(filter: SysDeptPageQuery, scope: ExportScopeQueryFields): Promise<Blob> {
+  return http.get<Blob, AxiosRequestConfig<SysDeptPageQuery & ExportScopeQueryFields>>(
+    '/system/dept/export',
+    { params: mergePagedExportParams(filter, scope) },
+    { responseType: 'blob' }
+  );
 }
 
 /**

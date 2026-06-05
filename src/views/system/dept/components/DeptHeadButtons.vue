@@ -9,6 +9,11 @@ defineOptions({
   name: 'DeptHeadButtons',
 });
 
+defineProps<{
+  exporting?: boolean;
+  openExportDialog?: () => void;
+}>();
+
 const { t } = useI18n();
 const { openClosureHealthDialog } = useDeptAdvancedAction();
 
@@ -27,11 +32,15 @@ const { openCreateDialog } = useDeptTableAction({
   <el-button-group type="primary">
     <el-button type="primary" @click="openCreateDialog()">{{ t('buttons.actionAdd') }}</el-button>
 
-    <el-dropdown v-if="hasAuth(['sysDept:diagnose'])" trigger="click">
+    <el-dropdown trigger="click">
       <el-button type="danger">{{ t('buttons.actionAdvanced') }}</el-button>
       <template #dropdown>
         <el-dropdown-menu>
-          <el-dropdown-item @click="openClosureHealthDialog">
+          <el-dropdown-item disabled>从 Excel 导入（敬请期待）</el-dropdown-item>
+          <el-dropdown-item :disabled="exporting" @click="openExportDialog?.()">
+            {{ t('buttons.exportExcel') }}
+          </el-dropdown-item>
+          <el-dropdown-item v-if="hasAuth(['sysDept:diagnose'])" @click="openClosureHealthDialog">
             {{ t('dept.closureHealthCheck') }}
           </el-dropdown-item>
         </el-dropdown-menu>
