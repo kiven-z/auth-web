@@ -1,6 +1,7 @@
 import type { SysPostExportQuery, SysPostPageQuery } from '@/api/system/post';
 import { exportPostExcel } from '@/api/system/post';
 import usePagedTableExcelExport from '@/shared/hooks/table/usePagedTableExcelExport';
+import { useI18n } from 'vue-i18n';
 
 export interface UsePostExportActionOptions {
   searchForm: Record<string, unknown>;
@@ -12,10 +13,11 @@ export interface UsePostExportActionOptions {
 
 /** 岗位 Excel 导出 */
 function usePostAdvanceAction(options: UsePostExportActionOptions) {
+  const { t } = useI18n();
+
   return usePagedTableExcelExport<SysPostExportQuery>({
     ...options,
-    // FIXME 修改成多语言
-    fileNamePrefix: '岗位',
+    fileNamePrefix: t('post.moduleName'),
     exportApi: exportPostExcel,
     buildExportParams: ({ searchForm, pagination }) => {
       const page = pagination.currentPage;

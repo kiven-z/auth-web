@@ -1,6 +1,7 @@
 import type { SysRoleExportQuery, SysRolePageQuery } from '@/api/system/role';
 import { exportRoleExcel } from '@/api/system/role';
 import usePagedTableExcelExport from '@/shared/hooks/table/usePagedTableExcelExport';
+import { useI18n } from 'vue-i18n';
 
 export interface UseRoleExportActionOptions {
   searchForm: Record<string, unknown>;
@@ -12,10 +13,11 @@ export interface UseRoleExportActionOptions {
 
 /** 角色 Excel 导出 */
 function useRoleAdvanceAction(options: UseRoleExportActionOptions) {
+  const { t } = useI18n();
+
   return usePagedTableExcelExport<SysRoleExportQuery>({
     ...options,
-    // FIXME 修改成多语言
-    fileNamePrefix: '角色',
+    fileNamePrefix: t('roles.moduleName'),
     exportApi: exportRoleExcel,
     buildExportParams: ({ searchForm, pagination }) => {
       const page = pagination.currentPage;
