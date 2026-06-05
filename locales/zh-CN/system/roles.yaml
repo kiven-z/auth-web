@@ -35,8 +35,3 @@ roles:
   roleCodeFormat: 角色编码须为大写字母与下划线，且首字符为大写字母
   roleNameLengthLimit: 角色名称长度不能超过128个字符
   remarkLengthLimit: 备注长度不能超过500个字符
-  # FIXME 提取出公共的内容
-  exportExcel: 导出为 Excel
-  exportSuccess: 导出成功
-  exportFailed: 导出失败
-  importExcelSoon: 从 Excel 导入（敬请期待）

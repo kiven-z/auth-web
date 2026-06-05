@@ -101,10 +101,9 @@ onMounted(() => {
               {{ t('buttons.actionAdvanced') }}
             </el-button>
             <template #dropdown>
-              <!-- FIXME 使用中文（待开发的功能） -->
-              <el-dropdown-item disabled>{{ t('post.importExcelSoon') }}</el-dropdown-item>
+              <el-dropdown-item disabled>从 Excel 导入（敬请期待）</el-dropdown-item>
               <el-dropdown-item :disabled="exporting" @click="exportCurrentPage">
-                {{ t('post.exportExcel') }}
+                {{ t('buttons.exportExcel') }}
               </el-dropdown-item>
             </template>
           </el-dropdown>

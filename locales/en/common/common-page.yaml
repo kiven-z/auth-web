@@ -16,6 +16,8 @@ tips:
   assignLoadFailed: Failed to load assignment data
   assignSaveSuccess: Assignment saved successfully
   assignSaveFailed: Failed to save assignment
+  exportSuccess: Export succeeded
+  exportFailed: Export failed
 buttons:
   pureLoginOut: Logout
   pureLogin: Login
@@ -50,6 +52,7 @@ buttons:
   actionBatchEnable: Enable selected
   actionBatchDisable: Disable selected
   actionAdvanced: Advanced
+  exportExcel: Export to Excel
   forbidText: Forbid
   permitText: Allow
   fixedText: Fixed

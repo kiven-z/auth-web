@@ -16,6 +16,8 @@ tips:
   assignLoadFailed: 分配数据加载失败
   assignSaveSuccess: 分配保存成功
   assignSaveFailed: 分配保存失败
+  exportSuccess: 导出成功
+  exportFailed: 导出失败
 buttons:
   pureLoginOut: 退出系统
   pureLogin: 登录
@@ -50,6 +52,7 @@ buttons:
   actionBatchEnable: 批量启用
   actionBatchDisable: 批量停用
   actionAdvanced: 高级功能
+  exportExcel: 导出为 Excel
   forbidText: 禁止
   permitText: 允许
   fixedText: 固定
