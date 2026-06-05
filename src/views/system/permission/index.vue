@@ -2,6 +2,7 @@
 import { getPermissionPage } from '@/api/system/permission';
 import AuthPagedTable, { usePaginationState } from '@/components/ui/AuthPagedTable';
 import { PERMISSION_TYPE_FILTER_OPTIONS } from '@/views/system/_shared/constants/permission-type-options';
+import usePermissionAdvanceAction from '@/views/system/permission/hooks/usePermissionAdvanceAction';
 import usePermissionTableAction from '@/views/system/permission/hooks/usePermissionTableAction';
 import usePermissionTableColumns from '@/views/system/permission/hooks/usePermissionTableColumns';
 import type { FormInstance } from 'element-plus';
@@ -30,7 +31,9 @@ const permissionState = usePaginationState({
   errorI18nKey: 'permissions.loadFailed',
 });
 
-const { loading, searchForm, fetchTableData, resetQuery } = permissionState;
+const { loading, searchForm, pagination, fetchTableData, resetQuery } = permissionState;
+
+const { exporting, openExportDialog } = usePermissionAdvanceAction({ searchForm, pagination });
 
 const { openCreateDialog, openDetailDialog, openEditDialog, deleteRow } = usePermissionTableAction({
   fetchTableData,
@@ -106,7 +109,21 @@ onMounted(() => {
 
     <AuthPagedTable :columns="columns" :state="permissionState" :title="t('permissions.pageTitle')">
       <template #buttons>
-        <el-button type="primary" @click="openCreateDialog">{{ t('buttons.actionAdd') }}</el-button>
+        <el-button-group type="primary">
+          <el-button type="primary" @click="openCreateDialog">{{ t('buttons.actionAdd') }}</el-button>
+
+          <el-dropdown trigger="click">
+            <el-button type="danger">
+              {{ t('buttons.actionAdvanced') }}
+            </el-button>
+            <template #dropdown>
+              <el-dropdown-item disabled>从 Excel 导入（敬请期待）</el-dropdown-item>
+              <el-dropdown-item :disabled="exporting" @click="openExportDialog">
+                {{ t('buttons.exportExcel') }}
+              </el-dropdown-item>
+            </template>
+          </el-dropdown>
+        </el-button-group>
       </template>
 
       <template #actions="{ row }">

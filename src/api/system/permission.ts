@@ -1,10 +1,10 @@
 import type { AxiosRequestConfig } from 'axios';
 
-import type { BaseResponseDetail, BaseResponsePageRow, PageResponse, SortSpec } from '@/api/common';
+import type { BaseResponseDetail, BaseResponsePageRow, ExportScope, PageResponse, SortSpec } from '@/api/common';
 import { http } from '@/infrastructure/http-core';
 
 /**
- * 权限分页查询参数（对齐 {@code SysPermissionQuery}）
+ * 权限分页查询参数
  */
 export interface SysPermissionPageQuery {
   pageIndex?: number;
@@ -14,6 +14,18 @@ export interface SysPermissionPageQuery {
   permissionName?: string;
   permissionType?: number;
   status?: boolean;
+}
+
+/**
+ * 权限 Excel 导出参数
+ */
+export interface SysPermissionExportQuery extends SysPermissionPageQuery {
+  /** 导出范围；未传时后端按 PAGE_RANGE 处理 */
+  exportScope?: ExportScope;
+  /** 起始页码（1-based，含） */
+  fromPage: number;
+  /** 结束页码（1-based，含） */
+  toPage: number;
 }
 
 /**
@@ -37,6 +49,19 @@ export function getPermissionPage(params: SysPermissionPageQuery): Promise<PageR
   return http.get<PageResponse<SysPermissionPageRow>, AxiosRequestConfig<SysPermissionPageQuery>>(
     '/system/permission/page',
     { params }
+  );
+}
+
+/**
+ * 导出权限 Excel（按筛选条件与页码区间）
+ * @param params 导出查询参数
+ * @returns 文件 Blob
+ */
+export function exportPermissionExcel(params: SysPermissionExportQuery): Promise<Blob> {
+  return http.get<Blob, AxiosRequestConfig<SysPermissionExportQuery>>(
+    '/system/permission/export',
+    { params },
+    { responseType: 'blob' }
   );
 }
 
