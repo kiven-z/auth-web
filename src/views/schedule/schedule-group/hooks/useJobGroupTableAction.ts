@@ -8,8 +8,8 @@ import {
   type UpdateJobGroupRequest,
 } from '@/api/schedule/job-group';
 import { addDialog } from '@/components/ui/Dialog';
-import useBatchDeleteAction from '@/shared/hooks/useBatchDeleteAction';
-import { type FormOverlayExpose, useFormOverlaySubmit } from '@/shared/hooks/useFormOverlaySubmit';
+import useBatchDeleteAction from '@/shared/hooks/table/useBatchDeleteAction';
+import { type FormOverlayExpose, useFormOverlaySubmit } from '@/shared/hooks/table/useFormOverlaySubmit';
 import ScheduleGroupDescriptionDialog from '@/views/schedule/schedule-group/components/ScheduleGroupDescriptionDialog.vue';
 import ScheduleGroupFormDialog from '@/views/schedule/schedule-group/components/ScheduleGroupFormDialog.vue';
 import { h, ref } from 'vue';

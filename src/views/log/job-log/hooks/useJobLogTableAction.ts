@@ -1,7 +1,7 @@
 import type { TableActionWithSelectionDeps } from '@/api/common';
 import { deleteJobLog, getJobLogDetail, type JobLogDetailRow, type JobLogPageRow } from '@/api/log/job-log';
 import { addDialog } from '@/components/ui/Dialog';
-import useBatchDeleteAction from '@/shared/hooks/useBatchDeleteAction';
+import useBatchDeleteAction from '@/shared/hooks/table/useBatchDeleteAction';
 import { errorMessage } from '@/shared/messaging/message';
 import JobLogDetailDialog from '@/views/log/job-log/components/JobLogDetailDialog.vue';
 import { h } from 'vue';

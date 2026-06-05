@@ -10,8 +10,8 @@ import {
 } from '@/api/system/email-template';
 import { addDialog } from '@/components/ui/Dialog';
 import { addDrawer } from '@/components/ui/Drawer';
-import useBatchDeleteAction from '@/shared/hooks/useBatchDeleteAction';
-import { type FormOverlayExpose, useFormOverlaySubmit } from '@/shared/hooks/useFormOverlaySubmit';
+import useBatchDeleteAction from '@/shared/hooks/table/useBatchDeleteAction';
+import { type FormOverlayExpose, useFormOverlaySubmit } from '@/shared/hooks/table/useFormOverlaySubmit';
 import { errorMessage, message } from '@/shared/messaging/message';
 import EmailTemplateDetailDialog from '@/views/message/email-template/components/EmailTemplateDetailDialog.vue';
 import EmailTemplateDialog from '@/views/message/email-template/components/EmailTemplateDialog.vue';

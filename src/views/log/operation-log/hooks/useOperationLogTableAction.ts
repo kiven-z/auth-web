@@ -6,7 +6,7 @@ import {
   type OperationLogPageRow,
 } from '@/api/log/operation-log';
 import { addDialog } from '@/components/ui/Dialog';
-import useBatchDeleteAction from '@/shared/hooks/useBatchDeleteAction';
+import useBatchDeleteAction from '@/shared/hooks/table/useBatchDeleteAction';
 import { errorMessage } from '@/shared/messaging/message';
 import OperationLogDetailDialog from '@/views/log/operation-log/components/OperationLogDetailDialog.vue';
 import { useDebounceFn } from '@vueuse/core';

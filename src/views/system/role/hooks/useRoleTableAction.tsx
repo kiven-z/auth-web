@@ -2,7 +2,7 @@ import type { TableActionDeps } from '@/api/common';
 import type { SysRoleCreateForm, SysRolePageRow, SysRoleUpdateForm } from '@/api/system/role';
 import { createRole, deleteRole, getRoleDetail, updateRole } from '@/api/system/role';
 import { addDialog } from '@/components/ui/Dialog';
-import { type FormOverlayExpose, useFormOverlaySubmit } from '@/shared/hooks/useFormOverlaySubmit';
+import { type FormOverlayExpose, useFormOverlaySubmit } from '@/shared/hooks/table/useFormOverlaySubmit';
 import { deleteConfirm } from '@/shared/messaging/dialog';
 import { errorMessage, message } from '@/shared/messaging/message';
 import RoleDescriptionDialog from '@/views/system/role/components/RoleDescriptionDialog.vue';

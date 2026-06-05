@@ -1,6 +1,6 @@
 import type { SysRoleExportQuery, SysRolePageQuery } from '@/api/system/role';
 import { exportRoleExcel } from '@/api/system/role';
-import usePagedTableExcelExport from '@/shared/hooks/usePagedTableExcelExport';
+import usePagedTableExcelExport from '@/shared/hooks/table/usePagedTableExcelExport';
 
 export interface UseRoleExportActionOptions {
   searchForm: Record<string, unknown>;

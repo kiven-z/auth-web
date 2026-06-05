@@ -1,6 +1,6 @@
 import type { SysPostExportQuery, SysPostPageQuery } from '@/api/system/post';
 import { exportPostExcel } from '@/api/system/post';
-import usePagedTableExcelExport from '@/shared/hooks/usePagedTableExcelExport';
+import usePagedTableExcelExport from '@/shared/hooks/table/usePagedTableExcelExport';
 
 export interface UsePostExportActionOptions {
   searchForm: Record<string, unknown>;

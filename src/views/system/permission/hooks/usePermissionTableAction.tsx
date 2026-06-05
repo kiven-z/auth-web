@@ -2,7 +2,7 @@ import type { TableActionDeps } from '@/api/common';
 import type { SysPermissionCreateForm, SysPermissionPageRow, SysPermissionUpdateForm } from '@/api/system/permission';
 import { createPermission, deletePermission, getPermissionDetail, updatePermission } from '@/api/system/permission';
 import { addDialog } from '@/components/ui/Dialog';
-import { type FormOverlayExpose, useFormOverlaySubmit } from '@/shared/hooks/useFormOverlaySubmit';
+import { type FormOverlayExpose, useFormOverlaySubmit } from '@/shared/hooks/table/useFormOverlaySubmit';
 import { deleteConfirm } from '@/shared/messaging/dialog';
 import { errorMessage, message } from '@/shared/messaging/message';
 import PermissionDescriptionDialog from '@/views/system/permission/components/PermissionDescriptionDialog.vue';

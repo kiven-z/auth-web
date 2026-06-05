@@ -2,7 +2,7 @@ import type { TableActionDeps } from '@/api/common';
 import type { SysPostCreateForm, SysPostPageRow, SysPostUpdateForm } from '@/api/system/post';
 import { createPost, deletePost, getPostDetail, updatePost } from '@/api/system/post';
 import { addDialog } from '@/components/ui/Dialog';
-import { type FormOverlayExpose, useFormOverlaySubmit } from '@/shared/hooks/useFormOverlaySubmit';
+import { type FormOverlayExpose, useFormOverlaySubmit } from '@/shared/hooks/table/useFormOverlaySubmit';
 import { deleteConfirm } from '@/shared/messaging/dialog';
 import { errorMessage, message } from '@/shared/messaging/message';
 import PostDetailDialog from '@/views/system/post/components/PostDetailDialog.vue';

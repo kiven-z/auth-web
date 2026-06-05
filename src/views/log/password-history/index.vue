@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { getPasswordHistoryPage } from '@/api/log/password-history';
 import AuthPagedTable, { usePaginationState } from '@/components/ui/AuthPagedTable';
-import useRemoteUserSearch from '@/shared/hooks/useRemoteUserSearch';
+import useRemoteUserSearch from '@/shared/hooks/dialog/useRemoteUserSearch';
 import usePasswordHistoryTableAction from '@/views/log/password-history/hooks/usePasswordHistoryTableAction';
 import usePasswordHistoryTableColumns from '@/views/log/password-history/hooks/usePasswordHistoryTableColumns';
 import type { FormInstance } from 'element-plus';
