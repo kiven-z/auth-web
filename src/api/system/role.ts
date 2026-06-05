@@ -17,6 +17,16 @@ export interface SysRolePageQuery {
 }
 
 /**
+ * 角色 Excel 导出参数（对齐 {@code SysRoleExportQuery}）
+ */
+export interface SysRoleExportQuery extends SysRolePageQuery {
+  /** 起始页码（1-based，含） */
+  fromPage: number;
+  /** 结束页码（1-based，含） */
+  toPage: number;
+}
+
+/**
  * 分页行（对齐 {@code SysRolePageResponse} + BaseResponse）
  */
 export interface SysRolePageRow extends BaseResponsePageRow {
@@ -49,6 +59,19 @@ export function getRolePage(params: SysRolePageQuery): Promise<PageResponse<SysR
   return http.get<PageResponse<SysRolePageRow>, AxiosRequestConfig<SysRolePageQuery>>('/system/role/page', {
     params,
   });
+}
+
+/**
+ * 导出角色 Excel（按筛选条件与页码区间）
+ * @param params 导出查询参数
+ * @returns 文件 Blob
+ */
+export function exportRoleExcel(params: SysRoleExportQuery): Promise<Blob> {
+  return http.get<Blob, AxiosRequestConfig<SysRoleExportQuery>>(
+    '/system/role/export',
+    { params },
+    { responseType: 'blob' }
+  );
 }
 
 /**

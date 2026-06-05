@@ -27,6 +27,7 @@ post:
   boundUsersEmpty: 暂无关联用户
   boundRolesTitle: 已授权角色
   boundRolesEmpty: 暂无已授权角色
+  # FIXME 考虑合并多语言
   exportExcel: 导出为 Excel
   exportSuccess: 导出成功
   exportFailed: 导出失败

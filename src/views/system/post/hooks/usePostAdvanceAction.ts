@@ -16,6 +16,7 @@ export interface UsePostExportActionOptions {
 
 /**
  * 岗位 Excel 导出：使用当前筛选与分页区间（fromPage = toPage = 当前页）
+ * FIXME 考虑合并导出功能
  */
 function usePostAdvanceAction(options: UsePostExportActionOptions) {
   const { t } = useI18n();

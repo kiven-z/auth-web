@@ -3,6 +3,7 @@ import { getRolePage } from '@/api/system/role';
 import AuthPagedTable, { usePaginationState } from '@/components/ui/AuthPagedTable';
 import { ROLE_TYPE_FILTER_OPTIONS } from '@/views/system/_shared/constants/role-type-options';
 import { ROLE_STATUS_FILTER_OPTIONS } from '@/views/system/role/constants/role-search-options';
+import useRoleAdvanceAction from '@/views/system/role/hooks/useRoleAdvanceAction';
 import useRoleMoreAction from '@/views/system/role/hooks/useRoleMoreAction';
 import useRoleTableAction from '@/views/system/role/hooks/useRoleTableAction';
 import useRoleTableColumns from '@/views/system/role/hooks/useRoleTableColumns';
@@ -31,7 +32,9 @@ const roleState = usePaginationState({
   errorI18nKey: 'roles.loadFailed',
 });
 
-const { loading, searchForm, fetchTableData, resetQuery } = roleState;
+const { loading, searchForm, pagination, fetchTableData, resetQuery } = roleState;
+
+const { exporting, exportCurrentPage } = useRoleAdvanceAction({ searchForm, pagination });
 
 const { openCreateDialog, openDetailDialog, openEditDialog, deleteRow } = useRoleTableAction({
   fetchTableData,
@@ -112,7 +115,22 @@ onMounted(() => {
 
     <AuthPagedTable :columns="columns" :state="roleState" :title="t('roles.pageTitle')">
       <template #buttons>
-        <el-button type="primary" @click="openCreateDialog">{{ t('buttons.actionAdd') }}</el-button>
+        <el-button-group type="primary">
+          <el-button type="primary" @click="openCreateDialog">{{ t('buttons.actionAdd') }}</el-button>
+
+          <el-dropdown trigger="click">
+            <el-button type="danger">
+              {{ t('buttons.actionAdvanced') }}
+            </el-button>
+            <template #dropdown>
+              <!-- FIXME 使用中文（待开发的功能） -->
+              <el-dropdown-item disabled>{{ t('roles.importExcelSoon') }}</el-dropdown-item>
+              <el-dropdown-item :disabled="exporting" @click="exportCurrentPage">
+                {{ t('roles.exportExcel') }}
+              </el-dropdown-item>
+            </template>
+          </el-dropdown>
+        </el-button-group>
       </template>
 
       <template #actions="{ row }">
