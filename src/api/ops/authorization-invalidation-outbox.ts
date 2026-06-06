@@ -9,7 +9,7 @@ export interface AuthorizationInvalidationOutboxPageQuery {
   pageIndex?: number;
   pageSize?: number;
   sort?: SortSpec[];
-  /** 业务事件 ID（精确匹配） */
+  /** 业务事件 ID（前缀匹配） */
   eventId?: string;
   /** 变更维度（AuthorizationChangeKind） */
   changeKind?: string;
@@ -17,7 +17,7 @@ export interface AuthorizationInvalidationOutboxPageQuery {
   status?: string;
   /** 触发模块 */
   sourceModule?: string;
-  /** 业务主键（精确匹配） */
+  /** 业务主键（前缀匹配） */
   sourceBizId?: string;
   /** 创建时间（开始） */
   createTimeStart?: string;

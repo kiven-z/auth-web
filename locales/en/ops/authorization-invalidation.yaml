@@ -2,6 +2,13 @@ authorizationInvalidation:
   pageTitle: Authorization Invalidation Ops
   tabEvent: Idempotency Events
   tabOutbox: Outbox Queue
+  tabStats: Failure Rate Stats
+  statsLoadFailed: Failed to load authorization invalidation stats
+  statsRefresh: Refresh Stats
+  statsOutboxSection: Outbox Queue Stats
+  statsEventSection: Idempotency Event Stats
+  statsTotalCount: Total Records
+  statsFailureRate: Failure Rate
   eventId: Event ID
   changeKind: Change Kind
   processing: Processing Status
@@ -40,12 +47,12 @@ authorizationInvalidation:
   linkedEventNotFound: No linked idempotency event found
   linkedOutboxNotFound: No linked outbox record found
   placeholder:
-    eventId: Enter event ID
+    eventId: Enter event ID prefix
     changeKind: All kinds
     processing: All statuses
     outboxStatus: All statuses
     sourceModule: Enter source module
-    sourceBizId: Enter source biz ID
+    sourceBizId: Enter source biz ID prefix
   processingEnum:
     'true': Processing
     'false': Completed

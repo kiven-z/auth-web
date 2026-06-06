@@ -2,6 +2,13 @@ authorizationInvalidation:
   pageTitle: 授权失效运维
   tabEvent: 幂等事件
   tabOutbox: 投递队列
+  tabStats: 失败率统计
+  statsLoadFailed: 获取授权失效统计失败
+  statsRefresh: 刷新统计
+  statsOutboxSection: 投递队列统计
+  statsEventSection: 幂等事件统计
+  statsTotalCount: 总记录数
+  statsFailureRate: 失败率
   eventId: 业务事件 ID
   changeKind: 变更维度
   processing: 处理状态
@@ -40,12 +47,12 @@ authorizationInvalidation:
   linkedEventNotFound: 未找到关联的幂等事件
   linkedOutboxNotFound: 未找到关联的投递队列
   placeholder:
-    eventId: 请输入业务事件 ID
+    eventId: 请输入业务事件 ID 前缀
     changeKind: 全部维度
     processing: 全部状态
     outboxStatus: 全部状态
     sourceModule: 请输入触发模块
-    sourceBizId: 请输入业务主键
+    sourceBizId: 请输入业务主键前缀
   processingEnum:
     'true': 处理中
     'false': 已完成
