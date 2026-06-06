@@ -2,7 +2,6 @@ import type { TableActionWithSelectionDeps } from '@/api/common';
 import {
   deletePasswordHistory,
   getPasswordHistoryDetail,
-  type PasswordHistoryDetailRow,
   type PasswordHistoryPageRow,
 } from '@/api/log/password-history';
 import { addDialog } from '@/components/ui/Dialog';
@@ -13,7 +12,7 @@ import { h } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 /**
- * 密码历史日志表格操作：查看详情、删除、批量删除
+ * 密码历史日志表格操作
  * @param deps 表格操作依赖
  * @returns 表格操作方法
  */
@@ -34,22 +33,22 @@ function usePasswordHistoryTableAction(deps: TableActionWithSelectionDeps) {
    * @param row 密码历史日志数据
    */
   const openDetailDialog = async (row: PasswordHistoryPageRow) => {
-    let detailData: PasswordHistoryDetailRow;
     try {
-      detailData = await getPasswordHistoryDetail(row.id);
+      const detailData = await getPasswordHistoryDetail(row.id);
+
+      addDialog({
+        title: t('passwordHistory.detailTitle'),
+        width: '100%',
+        draggable: false,
+        closeOnClickModal: false,
+        closeOnPressEscape: false,
+        hideFooter: true,
+        contentRenderer: () => h(PasswordHistoryDescriptionDialog, { data: detailData }),
+      });
     } catch (error: unknown) {
       errorMessage(error, { defaultI18nKey: 'passwordHistory.loadFailed' });
       return;
     }
-
-    addDialog({
-      title: t('passwordHistory.detailTitle'),
-      draggable: false,
-      closeOnClickModal: false,
-      closeOnPressEscape: false,
-      hideFooter: true,
-      contentRenderer: () => h(PasswordHistoryDescriptionDialog, { data: detailData }),
-    });
   };
 
   return {

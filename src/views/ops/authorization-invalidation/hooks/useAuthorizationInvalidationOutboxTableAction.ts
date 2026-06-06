@@ -10,7 +10,7 @@ import { h } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 /**
- * 授权失效 Outbox 表格操作：查看详情（只读）
+ * 授权失效 Outbox 表格操作
  * @returns 表格操作方法
  */
 function useAuthorizationInvalidationOutboxTableAction() {
@@ -26,6 +26,7 @@ function useAuthorizationInvalidationOutboxTableAction() {
 
       addDialog({
         title: t('authorizationInvalidation.outboxDetailTitle'),
+        width: '100%',
         fullscreenIcon: true,
         draggable: false,
         closeOnClickModal: false,

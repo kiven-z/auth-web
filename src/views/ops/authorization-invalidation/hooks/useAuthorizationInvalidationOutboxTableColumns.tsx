@@ -12,23 +12,11 @@ import { useI18n } from 'vue-i18n';
 function useAuthorizationInvalidationOutboxTableColumns() {
   const { t } = useI18n();
 
-  const changeKindLabel = (kind: string | null | undefined) => {
-    if (!kind) return '—';
-    const key = `authorizationInvalidation.changeKindEnum.${kind}`;
-    const label = t(key);
-    return label === key ? kind : label;
-  };
-
-  const statusLabel = (status: string | null | undefined) => {
-    if (!status) return '—';
-    const key = `authorizationInvalidation.outboxStatusEnum.${status}`;
-    const label = t(key);
-    return label === key ? status : label;
-  };
-
-  const truncateError = (value: string | null | undefined, maxLen = 40) => {
+  const enumLabel = (prefix: string, value: string | null | undefined) => {
     if (!value) return '—';
-    return value.length > maxLen ? `${value.slice(0, maxLen)}…` : value;
+    const key = `${prefix}.${value}`;
+    const label = t(key);
+    return label === key ? value : label;
   };
 
   const columns = computed<TableColumnList>(() => [
@@ -47,7 +35,8 @@ function useAuthorizationInvalidationOutboxTableColumns() {
       label: t('authorizationInvalidation.changeKind'),
       prop: 'changeKind',
       minWidth: 120,
-      formatter: (row: AuthorizationInvalidationOutboxPageRow) => changeKindLabel(row.changeKind),
+      formatter: (row: AuthorizationInvalidationOutboxPageRow) =>
+        enumLabel('authorizationInvalidation.changeKindEnum', row.changeKind),
     },
     {
       label: t('authorizationInvalidation.outboxStatus'),
@@ -59,7 +48,7 @@ function useAuthorizationInvalidationOutboxTableColumns() {
         }
         return (
           <ElTag type={getOutboxStatusTagType(row.status)} effect="plain">
-            {statusLabel(row.status)}
+            {enumLabel('authorizationInvalidation.outboxStatusEnum', row.status)}
           </ElTag>
         );
       },
@@ -80,7 +69,11 @@ function useAuthorizationInvalidationOutboxTableColumns() {
       label: t('authorizationInvalidation.lastError'),
       prop: 'lastError',
       minWidth: 180,
-      formatter: (row: AuthorizationInvalidationOutboxPageRow) => truncateError(row.lastError),
+      formatter: (row: AuthorizationInvalidationOutboxPageRow) => {
+        const error = row.lastError;
+        if (!error) return '—';
+        return error.length > 40 ? `${error.slice(0, 40)}…` : error;
+      },
     },
     {
       label: t('authorizationInvalidation.sourceModule'),

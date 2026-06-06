@@ -1,10 +1,5 @@
 import type { TableActionWithSelectionDeps } from '@/api/common';
-import {
-  deleteOperationLog,
-  getOperationLogDetail,
-  type OperationLogDetailRow,
-  type OperationLogPageRow,
-} from '@/api/log/operation-log';
+import { deleteOperationLog, getOperationLogDetail, type OperationLogPageRow } from '@/api/log/operation-log';
 import { addDialog } from '@/components/ui/Dialog';
 import useBatchDeleteAction from '@/shared/hooks/table/useBatchDeleteAction';
 import { errorMessage } from '@/shared/messaging/message';
@@ -14,7 +9,7 @@ import { h } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 /**
- * 操作日志表格操作：查看详情、删除、批量删除（标准两次删除确认）
+ * 操作日志表格操作
  * @param deps 表格操作依赖
  * @returns 表格操作方法
  */
@@ -35,23 +30,22 @@ function useOperationLogTableAction(deps: TableActionWithSelectionDeps) {
    * @param row 行数据
    */
   const openDetailDialog = useDebounceFn(async (row: OperationLogPageRow) => {
-    let detailData: OperationLogDetailRow;
     try {
-      detailData = await getOperationLogDetail(row.id);
+      const detailData = await getOperationLogDetail(row.id);
+
+      addDialog({
+        title: t('operationLog.detailTitle'),
+        fullscreenIcon: true,
+        draggable: false,
+        closeOnClickModal: false,
+        closeOnPressEscape: false,
+        hideFooter: true,
+        contentRenderer: () => h(OperationLogDetailDialog, { data: detailData }),
+      });
     } catch (error: unknown) {
       errorMessage(error, { defaultI18nKey: 'operationLog.loadFailed' });
       return;
     }
-
-    addDialog({
-      title: t('operationLog.detailTitle'),
-      fullscreenIcon: true,
-      draggable: false,
-      closeOnClickModal: false,
-      closeOnPressEscape: false,
-      hideFooter: true,
-      contentRenderer: () => h(OperationLogDetailDialog, { data: detailData }),
-    });
   });
 
   return {

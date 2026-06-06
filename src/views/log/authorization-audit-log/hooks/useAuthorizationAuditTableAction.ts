@@ -1,6 +1,5 @@
 import type { TableActionWithSelectionDeps } from '@/api/common';
 import {
-  type AuthorizationAuditDetailRow,
   type AuthorizationAuditPageRow,
   deleteAuthorizationAudit,
   getAuthorizationAuditDetail,
@@ -14,7 +13,7 @@ import { h } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 /**
- * 权限决策审计日志表格操作：查看详情、删除、批量删除（标准两次删除确认）
+ * 权限决策审计日志表格操作
  * @param deps 表格操作依赖
  * @returns 表格操作方法
  */
@@ -35,23 +34,23 @@ function useAuthorizationAuditTableAction(deps: TableActionWithSelectionDeps) {
    * @param row 行数据
    */
   const openDetailDialog = useDebounceFn(async (row: AuthorizationAuditPageRow) => {
-    let detailData: AuthorizationAuditDetailRow;
     try {
-      detailData = await getAuthorizationAuditDetail(row.id);
+      const detailData = await getAuthorizationAuditDetail(row.id);
+
+      addDialog({
+        title: t('authorizationAudit.detailTitle'),
+        width: '100%',
+        fullscreenIcon: true,
+        draggable: false,
+        closeOnClickModal: false,
+        closeOnPressEscape: false,
+        hideFooter: true,
+        contentRenderer: () => h(AuthorizationAuditDetailDialog, { data: detailData }),
+      });
     } catch (error: unknown) {
       errorMessage(error, { defaultI18nKey: 'authorizationAudit.loadFailed' });
       return;
     }
-
-    addDialog({
-      title: t('authorizationAudit.detailTitle'),
-      fullscreenIcon: true,
-      draggable: false,
-      closeOnClickModal: false,
-      closeOnPressEscape: false,
-      hideFooter: true,
-      contentRenderer: () => h(AuthorizationAuditDetailDialog, { data: detailData }),
-    });
   });
 
   return {
