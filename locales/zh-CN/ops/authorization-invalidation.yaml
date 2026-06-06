@@ -5,6 +5,17 @@ authorizationInvalidation:
   eventId: 业务事件 ID
   changeKind: 变更维度
   processing: 处理状态
+  outboxStatus: 投递状态
+  retryCount: 重试次数
+  nextRetryAt: 下次重试时间
+  lastError: 最近失败原因
+  lockedBy: 抢占实例
+  lockedAt: 抢占时间
+  sourceModule: 触发模块
+  sourceBizId: 业务主键
+  payload: 失效业务键
+  createTimeStart: 创建开始时间
+  createTimeEnd: 创建结束时间
   impactedUserCount: 影响用户数
   versionBumpedCount: 版本递增用户数
   profileRefreshedCount: 画像刷新用户数
@@ -15,14 +26,26 @@ authorizationInvalidation:
   remark: 备注
   tableTitle: 授权失效幂等事件
   detailTitle: 授权失效幂等事件详情
+  outboxTableTitle: 授权失效投递队列
+  outboxDetailTitle: 授权失效 Outbox 详情
   loadFailed: 获取授权失效幂等事件失败
+  outboxLoadFailed: 获取授权失效 Outbox 失败
   placeholder:
     eventId: 请输入业务事件 ID
     changeKind: 全部维度
     processing: 全部状态
+    outboxStatus: 全部状态
+    sourceModule: 请输入触发模块
+    sourceBizId: 请输入业务主键
   processingEnum:
     'true': 处理中
     'false': 已完成
+  outboxStatusEnum:
+    PENDING: 待投递
+    PROCESSING: 处理中
+    SUCCESS: 已成功
+    FAILED: 待重试
+    DEAD: 已死信
   changeKindEnum:
     ROLE: 角色
     PERMISSION: 权限

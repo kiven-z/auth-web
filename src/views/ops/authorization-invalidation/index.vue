@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import AuthorizationInvalidationEventTab from '@/views/ops/authorization-invalidation/components/AuthorizationInvalidationEventTab.vue';
+import AuthorizationInvalidationOutboxTab from '@/views/ops/authorization-invalidation/components/AuthorizationInvalidationOutboxTab.vue';
 import { ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 
@@ -19,7 +20,7 @@ const activeTab = ref('event');
       </el-tab-pane>
 
       <el-tab-pane :label="t('authorizationInvalidation.tabOutbox')" name="outbox">
-        <el-empty description="投递队列查询与重试功能即将上线" />
+        <AuthorizationInvalidationOutboxTab />
       </el-tab-pane>
     </el-tabs>
   </div>

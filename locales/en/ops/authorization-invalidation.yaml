@@ -5,6 +5,17 @@ authorizationInvalidation:
   eventId: Event ID
   changeKind: Change Kind
   processing: Processing Status
+  outboxStatus: Delivery Status
+  retryCount: Retry Count
+  nextRetryAt: Next Retry At
+  lastError: Last Error
+  lockedBy: Locked By
+  lockedAt: Locked At
+  sourceModule: Source Module
+  sourceBizId: Source Biz ID
+  payload: Invalidation Payload
+  createTimeStart: Create Start
+  createTimeEnd: Create End
   impactedUserCount: Impacted Users
   versionBumpedCount: Version Bumped Users
   profileRefreshedCount: Profile Refreshed Users
@@ -15,14 +26,26 @@ authorizationInvalidation:
   remark: Remark
   tableTitle: Authorization Invalidation Events
   detailTitle: Authorization Invalidation Event Detail
+  outboxTableTitle: Authorization Invalidation Outbox
+  outboxDetailTitle: Authorization Invalidation Outbox Detail
   loadFailed: Failed to load authorization invalidation events
+  outboxLoadFailed: Failed to load authorization invalidation outbox
   placeholder:
     eventId: Enter event ID
     changeKind: All kinds
     processing: All statuses
+    outboxStatus: All statuses
+    sourceModule: Enter source module
+    sourceBizId: Enter source biz ID
   processingEnum:
     'true': Processing
     'false': Completed
+  outboxStatusEnum:
+    PENDING: Pending
+    PROCESSING: Processing
+    SUCCESS: Success
+    FAILED: Failed
+    DEAD: Dead Letter
   changeKindEnum:
     ROLE: Role
     PERMISSION: Permission
