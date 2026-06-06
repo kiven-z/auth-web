@@ -1,5 +1,5 @@
 import type { SysDeptListVO } from '@/api/system/dept';
-import { handleTree } from '@/shared/lib/tree';
+import { handleTree } from '@/lib/tree';
 
 /** 岗位表单：部门 cascader 节点 */
 export interface PostDeptCascaderNode {

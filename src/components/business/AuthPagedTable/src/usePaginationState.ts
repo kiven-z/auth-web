@@ -2,7 +2,7 @@ import type { PageResponse } from '@/api/common';
 import type { FormInstance } from 'element-plus';
 import { reactive, ref } from 'vue';
 
-import { runPagedTableFetch } from '@/shared/utils/pagination';
+import { runPagedTableFetch } from '@/components/business/AuthPagedTable/src/pagination';
 
 /** {@link usePaginationState} 配置 */
 export interface UsePaginationStateOptions<TData = unknown> {

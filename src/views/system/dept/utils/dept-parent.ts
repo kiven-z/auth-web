@@ -1,5 +1,5 @@
 import type { SysDeptListVO } from '@/api/system/dept';
-import { handleTree } from '@/shared/lib/tree';
+import { handleTree } from '@/lib/tree';
 
 /** 顶级部门 parentId（与后端一致） */
 export const DEPT_ROOT_PARENT_ID = '0';

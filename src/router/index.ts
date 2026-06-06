@@ -1,7 +1,7 @@
-import { buildHierarchyTree } from '@/shared/lib/tree';
+import { buildHierarchyTree } from '@/lib/tree';
 import { usePermissionStoreHook } from '@/store/modules/permission';
 import { cloneDeep } from '@pureadmin/utils';
-import { createRouter, type RouteComponent, type RouteRecordRaw, type Router } from 'vue-router';
+import { createRouter, type RouteComponent, type Router, type RouteRecordRaw } from 'vue-router';
 import remainingRouter from './modules/remaining';
 import { ascending, formatFlatteningRoutes, formatTwoStageRoutes, getHistoryMode } from './utils/index';
 

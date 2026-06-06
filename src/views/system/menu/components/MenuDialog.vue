@@ -6,7 +6,7 @@ import AnimateSelector from '@/components/ui/AnimateSelecto/src/index.vue';
 import IconSelect from '@/components/ui/Icon/src/Select.vue';
 import { useRenderIcon } from '@/components/ui/Icon/src/hooks';
 import { transformI18n } from '@/plugins/i18n';
-import { handleTree } from '@/shared/lib/tree';
+import { handleTree } from '@/lib/tree';
 import { errorMessage } from '@/ui/feedback/message';
 import MenuTypeIframeDialog from '@/views/system/menu/components/MenuTypeIframeDialog.vue';
 import MenuTypeLinkDialog from '@/views/system/menu/components/MenuTypeLinkDialog.vue';
