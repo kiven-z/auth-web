@@ -1,8 +1,10 @@
 <script lang="ts" setup>
 import { getAuthorizationInvalidationOutboxPage } from '@/api/ops/authorization-invalidation-outbox';
 import AuthPagedTable, { usePaginationState } from '@/components/ui/AuthPagedTable';
+import { hasAuth } from '@/shared/permission';
 import {
   AUTHORIZATION_CHANGE_KINDS,
+  isOutboxRetryable,
   OUTBOX_STATUSES,
 } from '@/views/ops/authorization-invalidation/constants/authorization-invalidation-enums';
 import useAuthorizationInvalidationOutboxTableAction from '@/views/ops/authorization-invalidation/hooks/useAuthorizationInvalidationOutboxTableAction';
@@ -37,7 +39,7 @@ const outboxState = usePaginationState({
 
 const { loading, searchForm, fetchTableData, resetQuery } = outboxState;
 
-const { openDetailDialog, retryOutboxRow, canRetryOutbox } = useAuthorizationInvalidationOutboxTableAction({
+const { openDetailDialog, retryOutboxRow } = useAuthorizationInvalidationOutboxTableAction({
   fetchTableData,
 });
 
@@ -164,7 +166,12 @@ onMounted(() => {
       <template #actions="{ row }">
         <div class="flex justify-center gap-1">
           <el-button link type="primary" @click="openDetailDialog(row)">{{ t('buttons.actionView') }}</el-button>
-          <el-button v-if="canRetryOutbox(row)" link type="warning" @click="retryOutboxRow(row)">
+          <el-button
+            v-if="hasAuth('sysAuthInvalidationOutbox:retry') && isOutboxRetryable(row.status)"
+            link
+            type="warning"
+            @click="retryOutboxRow(row)"
+          >
             {{ t('authorizationInvalidation.retryAction') }}
           </el-button>
         </div>

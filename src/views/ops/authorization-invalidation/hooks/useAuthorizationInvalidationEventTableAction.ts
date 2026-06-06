@@ -76,9 +76,6 @@ function useAuthorizationInvalidationEventTableAction(deps: AuthorizationInvalid
   return {
     openDetailDialog,
     releaseClaimRow,
-    // FIXME hasAuth 不能在返回方法中
-    canReleaseClaim: (row: AuthorizationInvalidationEventPageRow) =>
-      hasAuth('sysAuthInvalidationEvent:releaseClaim') && Boolean(row.processing),
   };
 }
 

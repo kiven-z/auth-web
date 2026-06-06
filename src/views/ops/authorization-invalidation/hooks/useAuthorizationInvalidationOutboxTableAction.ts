@@ -86,9 +86,6 @@ function useAuthorizationInvalidationOutboxTableAction(deps: AuthorizationInvali
   return {
     openDetailDialog,
     retryOutboxRow,
-    // FIXME hasAuth 不能在返回方法中
-    canRetryOutbox: (row: AuthorizationInvalidationOutboxPageRow) =>
-      hasAuth('sysAuthInvalidationOutbox:retry') && isOutboxRetryable(row.status),
   };
 }
 

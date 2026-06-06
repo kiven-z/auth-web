@@ -90,7 +90,7 @@ const columns = computed(() => [
 <template>
   <div>
     <div v-if="data.eventId" class="mb-3 flex justify-end">
-      <el-button link type="primary" @click="openLinkedOutboxByEventId(data.eventId!)">
+      <el-button link type="primary" @click="openLinkedOutboxByEventId(data.eventId)">
         {{ t('authorizationInvalidation.viewLinkedOutbox') }}
       </el-button>
     </div>

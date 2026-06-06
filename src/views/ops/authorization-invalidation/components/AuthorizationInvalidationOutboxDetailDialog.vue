@@ -53,7 +53,7 @@ const columns = computed(() => [
     label: t('authorizationInvalidation.retryCount'),
     prop: 'retryCount',
     labelWidth: 140,
-    cellRenderer: ({ row }: { row: AuthorizationInvalidationOutboxDetailRow }) => (
+    cellRenderer: ({ row }: { row: Record<string, unknown> }) => (
       <span>
         {row.retryCount ?? '—'}/{row.maxRetry ?? '—'}
       </span>
@@ -119,11 +119,10 @@ const columns = computed(() => [
 <template>
   <div>
     <div v-if="data.eventId" class="mb-3 flex justify-end">
-      <el-button link type="primary" @click="openLinkedEventByEventId(data.eventId!)">
+      <el-button link type="primary" @click="openLinkedEventByEventId(data.eventId)">
         {{ t('authorizationInvalidation.viewLinkedEvent') }}
       </el-button>
     </div>
-    <!-- FIXME 修复错误 -->
     <Description :column="2" :columns="columns" :data="[data]" />
   </div>
 </template>

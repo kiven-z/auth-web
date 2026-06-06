@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import { getAuthorizationInvalidationEventPage } from '@/api/ops/authorization-invalidation-event';
 import AuthPagedTable, { usePaginationState } from '@/components/ui/AuthPagedTable';
+import { hasAuth } from '@/shared/permission';
 import {
   AUTHORIZATION_CHANGE_KINDS,
   PROCESSING_FILTER_OPTIONS,
@@ -33,7 +34,7 @@ const eventState = usePaginationState({
 
 const { loading, searchForm, fetchTableData, resetQuery } = eventState;
 
-const { openDetailDialog, releaseClaimRow, canReleaseClaim } = useAuthorizationInvalidationEventTableAction({
+const { openDetailDialog, releaseClaimRow } = useAuthorizationInvalidationEventTableAction({
   fetchTableData,
 });
 
@@ -124,7 +125,12 @@ onMounted(() => {
       <template #actions="{ row }">
         <div class="flex justify-center gap-1">
           <el-button link type="primary" @click="openDetailDialog(row)">{{ t('buttons.actionView') }}</el-button>
-          <el-button v-if="canReleaseClaim(row)" link type="warning" @click="releaseClaimRow(row)">
+          <el-button
+            v-if="hasAuth('sysAuthInvalidationEvent:releaseClaim') && row.processing"
+            link
+            type="warning"
+            @click="releaseClaimRow(row)"
+          >
             {{ t('authorizationInvalidation.releaseClaimAction') }}
           </el-button>
         </div>
