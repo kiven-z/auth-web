@@ -1,9 +1,11 @@
 import { refreshAccessTokenSingleFlight } from '@/infrastructure/auth-flow/tokenRefreshCoordinator';
+import { ApiConflictError } from '@/infrastructure/http-core';
 import { hasAccessToken, isLoggedIn, readUserProfileFromStorage, removeToken } from '@/infrastructure/session';
 import { getTopMenu } from '@/router/utils/misc';
 import { initRouter } from '@/router/utils/route-registry';
 import { findRouteByPath } from '@/router/utils/route-tree';
 import { isOneOfArray } from '@/shared/permission';
+import { errorMessage } from '@/shared/messaging/message';
 import { useMultiTagsStoreHook } from '@/store/modules/multiTags';
 import { usePermissionStoreHook } from '@/store/modules/permission';
 import { isAllEmpty, isUrl, openLink } from '@pureadmin/utils';
@@ -74,25 +76,32 @@ export function createAuthGuard(router: Router): void {
         toCorrectRoute();
       } else {
         if (usePermissionStoreHook().wholeMenus.length === 0 && to.path !== '/login') {
-          initRouter().then(async (routerInstance: Router) => {
-            if (!useMultiTagsStoreHook().getMultiTagsCache) {
-              const { path } = to;
-              const route = findRouteByPath(path, routerInstance.options.routes[0].children);
-              getTopMenu(true);
+          initRouter()
+            .then(async (routerInstance: Router) => {
+              if (!useMultiTagsStoreHook().getMultiTagsCache) {
+                const { path } = to;
+                const route = findRouteByPath(path, routerInstance.options.routes[0].children);
+                getTopMenu(true);
 
-              if (route && route.meta?.title) {
-                if (isAllEmpty(route.parentId) && route.meta?.backstage) {
-                  const { path, name, meta } = route.children[0];
-                  useMultiTagsStoreHook().handleTags('push', { path, name, meta });
-                } else {
-                  const { path, name, meta } = route;
-                  useMultiTagsStoreHook().handleTags('push', { path, name, meta });
+                if (route && route.meta?.title) {
+                  if (isAllEmpty(route.parentId) && route.meta?.backstage) {
+                    const { path, name, meta } = route.children[0];
+                    useMultiTagsStoreHook().handleTags('push', { path, name, meta });
+                  } else {
+                    const { path, name, meta } = route;
+                    useMultiTagsStoreHook().handleTags('push', { path, name, meta });
+                  }
                 }
               }
-            }
 
-            if (isAllEmpty(to.name)) await routerInstance.push(to.fullPath);
-          });
+              if (isAllEmpty(to.name)) await routerInstance.push(to.fullPath);
+            })
+            .catch((error: unknown) => {
+              if (error instanceof ApiConflictError) {
+                return;
+              }
+              errorMessage(error, { defaultI18nKey: 'tips.requestFailed' });
+            });
         }
         toCorrectRoute();
       }

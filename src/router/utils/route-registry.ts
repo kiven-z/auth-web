@@ -1,5 +1,4 @@
 import { getConfig } from '@/config';
-import { loadAsyncRoutes } from './async-routes-loader';
 import { routerArrays } from '@/layout/types';
 import { useMultiTagsStoreHook } from '@/store/modules/multiTags';
 import { usePermissionStoreHook } from '@/store/modules/permission';
@@ -11,6 +10,7 @@ import { ascending } from './menu-sort';
 import { addPathMatch } from './misc';
 import { formatFlatteningRoutes } from './route-tree';
 import { ASYNC_ROUTES_STORAGE_KEY } from '@/config/http-config';
+import { fetchAsyncRoutes } from '@/router/bootstrap/fetchAsyncRoutes';
 
 /**
  * 处理动态路由（后端返回的路由）
@@ -65,7 +65,7 @@ function initRouter() {
       });
     } else {
       return new Promise(async (resolve) => {
-        const response = await loadAsyncRoutes();
+        const response = await fetchAsyncRoutes();
         handleAsyncRoutes(cloneDeep(response));
         if (response.length > 0) {
           storageLocal().setItem(ASYNC_ROUTES_STORAGE_KEY, response);
@@ -75,7 +75,7 @@ function initRouter() {
     }
   } else {
     return new Promise(async (resolve) => {
-      const response = await loadAsyncRoutes();
+      const response = await fetchAsyncRoutes();
       handleAsyncRoutes(cloneDeep(response));
       resolve(router);
     });
