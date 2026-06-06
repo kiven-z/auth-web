@@ -2,7 +2,6 @@ authorizationInvalidation:
   pageTitle: Authorization Invalidation Ops
   tabEvent: Idempotency Events
   tabOutbox: Outbox Queue
-  outboxComingSoon: Outbox query and retry will be available soon
   eventId: Event ID
   changeKind: Change Kind
   processing: Processing Status

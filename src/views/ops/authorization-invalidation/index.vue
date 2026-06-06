@@ -19,7 +19,7 @@ const activeTab = ref('event');
       </el-tab-pane>
 
       <el-tab-pane :label="t('authorizationInvalidation.tabOutbox')" name="outbox">
-        <el-empty :description="t('authorizationInvalidation.outboxComingSoon')" />
+        <el-empty description="投递队列查询与重试功能即将上线" />
       </el-tab-pane>
     </el-tabs>
   </div>

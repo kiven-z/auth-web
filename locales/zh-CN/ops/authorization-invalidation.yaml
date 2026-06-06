@@ -2,7 +2,6 @@ authorizationInvalidation:
   pageTitle: 授权失效运维
   tabEvent: 幂等事件
   tabOutbox: 投递队列
-  outboxComingSoon: 投递队列查询与重试功能即将上线
   eventId: 业务事件 ID
   changeKind: 变更维度
   processing: 处理状态
