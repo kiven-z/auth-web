@@ -115,7 +115,7 @@ function useAuthorizationInvalidationOutboxTableColumns() {
     {
       label: t('table.actions'),
       fixed: 'right' as const,
-      width: 90,
+      width: 140,
       slot: 'actions',
     },
   ]);

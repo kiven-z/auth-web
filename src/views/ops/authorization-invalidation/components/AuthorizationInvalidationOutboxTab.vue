@@ -37,7 +37,9 @@ const outboxState = usePaginationState({
 
 const { loading, searchForm, fetchTableData, resetQuery } = outboxState;
 
-const { openDetailDialog } = useAuthorizationInvalidationOutboxTableAction();
+const { openDetailDialog, retryOutboxRow, canRetryOutbox } = useAuthorizationInvalidationOutboxTableAction({
+  fetchTableData,
+});
 
 onMounted(() => {
   fetchTableData();
@@ -160,8 +162,11 @@ onMounted(() => {
       show-overflow-tooltip
     >
       <template #actions="{ row }">
-        <div class="flex justify-center">
+        <div class="flex justify-center gap-1">
           <el-button link type="primary" @click="openDetailDialog(row)">{{ t('buttons.actionView') }}</el-button>
+          <el-button v-if="canRetryOutbox(row)" link type="warning" @click="retryOutboxRow(row)">
+            {{ t('authorizationInvalidation.retryAction') }}
+          </el-button>
         </div>
       </template>
     </AuthPagedTable>

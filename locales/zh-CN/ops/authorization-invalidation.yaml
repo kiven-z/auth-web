@@ -30,6 +30,15 @@ authorizationInvalidation:
   outboxDetailTitle: 授权失效 Outbox 详情
   loadFailed: 获取授权失效幂等事件失败
   outboxLoadFailed: 获取授权失效 Outbox 失败
+  retryAction: 重试
+  releaseClaimAction: 释放占位
+  retrySuccess: 人工重试投递成功
+  retryFailed: 人工重试已执行，但投递仍未成功
+  releaseClaimSuccess: processing 占位已释放
+  viewLinkedEvent: 查看关联幂等事件
+  viewLinkedOutbox: 查看关联投递队列
+  linkedEventNotFound: 未找到关联的幂等事件
+  linkedOutboxNotFound: 未找到关联的投递队列
   placeholder:
     eventId: 请输入业务事件 ID
     changeKind: 全部维度

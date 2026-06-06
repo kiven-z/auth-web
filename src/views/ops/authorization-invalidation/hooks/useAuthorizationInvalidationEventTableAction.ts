@@ -1,20 +1,30 @@
 import {
-  type AuthorizationInvalidationEventDetailRow,
   type AuthorizationInvalidationEventPageRow,
   getAuthorizationInvalidationEventDetail,
+  releaseAuthorizationInvalidationEventClaim,
 } from '@/api/ops/authorization-invalidation-event';
 import { addDialog } from '@/components/ui/Dialog';
-import { errorMessage } from '@/shared/messaging/message';
+import { hasAuth } from '@/shared/permission';
+import { operationConfirm } from '@/shared/messaging/dialog';
+import { errorMessage, message } from '@/shared/messaging/message';
 import AuthorizationInvalidationEventDetailDialog from '@/views/ops/authorization-invalidation/components/AuthorizationInvalidationEventDetailDialog.vue';
 import { useDebounceFn } from '@vueuse/core';
 import { h } from 'vue';
 import { useI18n } from 'vue-i18n';
 
+/** Event 表格操作依赖 */
+export interface AuthorizationInvalidationEventTableActionDeps {
+  /** 释放占位成功后刷新列表 */
+  fetchTableData: () => Promise<void>;
+}
+
 /**
- * 授权失效幂等事件表格操作：查看详情（只读）
+ * 授权失效幂等事件表格操作
+ * @param deps 表格操作依赖
  * @returns 表格操作方法
  */
-function useAuthorizationInvalidationEventTableAction() {
+function useAuthorizationInvalidationEventTableAction(deps: AuthorizationInvalidationEventTableActionDeps) {
+  const { fetchTableData } = deps;
   const { t } = useI18n();
 
   /**
@@ -22,27 +32,53 @@ function useAuthorizationInvalidationEventTableAction() {
    * @param row 行数据
    */
   const openDetailDialog = useDebounceFn(async (row: AuthorizationInvalidationEventPageRow) => {
-    let detailData: AuthorizationInvalidationEventDetailRow;
     try {
-      detailData = await getAuthorizationInvalidationEventDetail(row.id);
+      const detailData = await getAuthorizationInvalidationEventDetail(row.id);
+
+      addDialog({
+        title: t('authorizationInvalidation.detailTitle'),
+        width: '100%',
+        fullscreenIcon: true,
+        draggable: false,
+        closeOnClickModal: false,
+        closeOnPressEscape: false,
+        hideFooter: true,
+        contentRenderer: () => h(AuthorizationInvalidationEventDetailDialog, { data: detailData }),
+      });
     } catch (error: unknown) {
       errorMessage(error, { defaultI18nKey: 'authorizationInvalidation.loadFailed' });
+    }
+  });
+
+  /**
+   * 释放 processing 占位
+   * @param row 行数据
+   */
+  const releaseClaimRow = useDebounceFn(async (row: AuthorizationInvalidationEventPageRow) => {
+    if (!hasAuth('sysAuthInvalidationEvent:releaseClaim') || !row.processing) {
       return;
     }
 
-    addDialog({
-      title: t('authorizationInvalidation.detailTitle'),
-      fullscreenIcon: true,
-      draggable: false,
-      closeOnClickModal: false,
-      closeOnPressEscape: false,
-      hideFooter: true,
-      contentRenderer: () => h(AuthorizationInvalidationEventDetailDialog, { data: detailData }),
-    });
+    const confirmed = await operationConfirm();
+    if (!confirmed) {
+      return;
+    }
+
+    try {
+      await releaseAuthorizationInvalidationEventClaim(row.id);
+      message(t('authorizationInvalidation.releaseClaimSuccess'), { type: 'success' });
+      await fetchTableData();
+    } catch (error: unknown) {
+      errorMessage(error, { defaultI18nKey: 'authorizationInvalidation.loadFailed' });
+    }
   });
 
   return {
     openDetailDialog,
+    releaseClaimRow,
+    // FIXME hasAuth 不能在返回方法中
+    canReleaseClaim: (row: AuthorizationInvalidationEventPageRow) =>
+      hasAuth('sysAuthInvalidationEvent:releaseClaim') && Boolean(row.processing),
   };
 }
 

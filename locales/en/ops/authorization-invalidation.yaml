@@ -30,6 +30,15 @@ authorizationInvalidation:
   outboxDetailTitle: Authorization Invalidation Outbox Detail
   loadFailed: Failed to load authorization invalidation events
   outboxLoadFailed: Failed to load authorization invalidation outbox
+  retryAction: Retry
+  releaseClaimAction: Release Claim
+  retrySuccess: Manual retry dispatched successfully
+  retryFailed: Manual retry executed but dispatch still failed
+  releaseClaimSuccess: Processing placeholder released
+  viewLinkedEvent: View linked idempotency event
+  viewLinkedOutbox: View linked outbox record
+  linkedEventNotFound: No linked idempotency event found
+  linkedOutboxNotFound: No linked outbox record found
   placeholder:
     eventId: Enter event ID
     changeKind: All kinds

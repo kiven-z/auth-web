@@ -81,3 +81,42 @@ export function getAuthorizationInvalidationOutboxDetail(
     `/system/ops/authorization-invalidation/outbox/${id}`
   );
 }
+
+/**
+ * Outbox 人工重试请求体
+ */
+export interface AuthorizationInvalidationOutboxRetryRequest {
+  /** 重试原因（写入操作日志） */
+  reason?: string;
+  /** PROCESSING 时强制解锁 */
+  force?: boolean;
+}
+
+/**
+ * Outbox 人工重试结果
+ */
+export interface AuthorizationInvalidationOutboxRetryResult {
+  outboxId?: number;
+  eventId?: string;
+  previousStatus?: string;
+  currentStatus?: string;
+  dispatched?: boolean;
+  claimReleased?: boolean;
+  lastError?: string | null;
+}
+
+/**
+ * 人工重试授权失效 Outbox 投递
+ * @param id Outbox 主键
+ * @param body 重试参数
+ * @returns 重试结果
+ */
+export function retryAuthorizationInvalidationOutbox(
+  id: string,
+  body?: AuthorizationInvalidationOutboxRetryRequest
+): Promise<AuthorizationInvalidationOutboxRetryResult> {
+  return http.post<AuthorizationInvalidationOutboxRetryResult, AuthorizationInvalidationOutboxRetryRequest>(
+    `/system/ops/authorization-invalidation/outbox/${id}/retry`,
+    { data: body }
+  );
+}

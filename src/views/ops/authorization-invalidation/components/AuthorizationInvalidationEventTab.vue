@@ -33,7 +33,9 @@ const eventState = usePaginationState({
 
 const { loading, searchForm, fetchTableData, resetQuery } = eventState;
 
-const { openDetailDialog } = useAuthorizationInvalidationEventTableAction();
+const { openDetailDialog, releaseClaimRow, canReleaseClaim } = useAuthorizationInvalidationEventTableAction({
+  fetchTableData,
+});
 
 onMounted(() => {
   fetchTableData();
@@ -120,8 +122,11 @@ onMounted(() => {
       show-overflow-tooltip
     >
       <template #actions="{ row }">
-        <div class="flex justify-center">
+        <div class="flex justify-center gap-1">
           <el-button link type="primary" @click="openDetailDialog(row)">{{ t('buttons.actionView') }}</el-button>
+          <el-button v-if="canReleaseClaim(row)" link type="warning" @click="releaseClaimRow(row)">
+            {{ t('authorizationInvalidation.releaseClaimAction') }}
+          </el-button>
         </div>
       </template>
     </AuthPagedTable>

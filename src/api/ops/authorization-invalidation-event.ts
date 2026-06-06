@@ -66,3 +66,12 @@ export function getAuthorizationInvalidationEventDetail(id: string): Promise<Aut
     `/system/ops/authorization-invalidation/event/${id}`
   );
 }
+
+/**
+ * 释放幂等事件 processing 占位
+ * @param id 幂等事件主键
+ * @returns 是否实际释放
+ */
+export function releaseAuthorizationInvalidationEventClaim(id: string): Promise<boolean> {
+  return http.post<boolean, AxiosRequestConfig>(`/system/ops/authorization-invalidation/event/${id}/release-claim`);
+}

@@ -113,7 +113,7 @@ function useAuthorizationInvalidationEventTableColumns() {
     {
       label: t('table.actions'),
       fixed: 'right' as const,
-      width: 90,
+      width: 160,
       slot: 'actions',
     },
   ]);

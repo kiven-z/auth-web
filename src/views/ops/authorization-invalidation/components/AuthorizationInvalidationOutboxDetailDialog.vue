@@ -3,6 +3,7 @@ import type { DetailDialog } from '@/api/common';
 import type { AuthorizationInvalidationOutboxDetailRow } from '@/api/ops/authorization-invalidation-outbox';
 import Description from '@/components/ui/Description';
 import { getOutboxStatusTagType } from '@/views/ops/authorization-invalidation/constants/authorization-invalidation-enums';
+import useAuthorizationInvalidationLinkedRecord from '@/views/ops/authorization-invalidation/hooks/useAuthorizationInvalidationLinkedRecord';
 import { ElTag } from 'element-plus';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
@@ -15,6 +16,7 @@ type AuthorizationInvalidationOutboxDetailDialogProps = DetailDialog<Authorizati
 
 defineProps<AuthorizationInvalidationOutboxDetailDialogProps>();
 const { t } = useI18n();
+const { openLinkedEventByEventId } = useAuthorizationInvalidationLinkedRecord();
 
 const columns = computed(() => [
   {
@@ -115,5 +117,13 @@ const columns = computed(() => [
 </script>
 
 <template>
-  <Description :column="2" :columns="columns" :data="[data]" />
+  <div>
+    <div v-if="data.eventId" class="mb-3 flex justify-end">
+      <el-button link type="primary" @click="openLinkedEventByEventId(data.eventId!)">
+        {{ t('authorizationInvalidation.viewLinkedEvent') }}
+      </el-button>
+    </div>
+    <!-- FIXME 修复错误 -->
+    <Description :column="2" :columns="columns" :data="[data]" />
+  </div>
 </template>
