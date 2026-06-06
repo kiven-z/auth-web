@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { getRolePage } from '@/api/system/role';
-import AuthPagedTable, { usePaginationState } from '@/components/ui/AuthPagedTable';
+import AuthPagedTable, { usePaginationState } from '@/components/business/AuthPagedTable';
 import { ROLE_TYPE_FILTER_OPTIONS } from '@/views/system/_shared/constants/role-type-options';
 import { ROLE_STATUS_FILTER_OPTIONS } from '@/views/system/role/constants/role-search-options';
 import useRoleAdvanceAction from '@/views/system/role/hooks/useRoleAdvanceAction';

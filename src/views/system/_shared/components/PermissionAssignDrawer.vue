@@ -1,13 +1,13 @@
 <script lang="ts" setup>
 import type { SysPermissionPageRow } from '@/api/system/permission';
 import { getPermissionPage } from '@/api/system/permission';
+import type { AssignSeedItem } from '@/components/business/AssignManagePanel';
 import AssignPanel, {
   createAssignCheckboxColumn,
   useAssignChecked,
   useAssignTableLabels,
 } from '@/components/business/AssignManagePanel';
-import type { AssignSeedItem } from '@/components/business/AssignManagePanel';
-import AuthPagedTable, { usePaginationState } from '@/components/ui/AuthPagedTable';
+import AuthPagedTable, { usePaginationState } from '@/components/business/AuthPagedTable';
 import { errorMessage } from '@/shared/messaging/message';
 import { PERMISSION_TYPE_FILTER_OPTIONS } from '@/views/system/_shared/constants/permission-type-options';
 import type { FormInstance } from 'element-plus';

@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { getAuthorizationInvalidationEventPage } from '@/api/ops/authorization-invalidation-event';
-import AuthPagedTable, { usePaginationState } from '@/components/ui/AuthPagedTable';
+import AuthPagedTable, { usePaginationState } from '@/components/business/AuthPagedTable';
 import { hasAuth } from '@/shared/permission';
 import {
   AUTHORIZATION_CHANGE_KINDS,

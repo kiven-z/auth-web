@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { getAuthorizationInvalidationOutboxPage } from '@/api/ops/authorization-invalidation-outbox';
-import AuthPagedTable, { usePaginationState } from '@/components/ui/AuthPagedTable';
+import AuthPagedTable, { usePaginationState } from '@/components/business/AuthPagedTable';
 import { hasAuth } from '@/shared/permission';
 import {
   AUTHORIZATION_CHANGE_KINDS,

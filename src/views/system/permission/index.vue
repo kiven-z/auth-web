@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { getPermissionPage } from '@/api/system/permission';
-import AuthPagedTable, { usePaginationState } from '@/components/ui/AuthPagedTable';
+import AuthPagedTable, { usePaginationState } from '@/components/business/AuthPagedTable';
 import { PERMISSION_TYPE_FILTER_OPTIONS } from '@/views/system/_shared/constants/permission-type-options';
 import usePermissionAdvanceAction from '@/views/system/permission/hooks/usePermissionAdvanceAction';
 import usePermissionTableAction from '@/views/system/permission/hooks/usePermissionTableAction';

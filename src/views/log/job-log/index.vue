@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { getJobLogPage } from '@/api/log/job-log';
-import AuthPagedTable, { usePaginationState } from '@/components/ui/AuthPagedTable';
+import AuthPagedTable, { usePaginationState } from '@/components/business/AuthPagedTable';
 import {
   LOG_JOB_STATUS_FILTER_OPTIONS,
   LOG_JOB_TRIGGER_TYPE_FILTER_OPTIONS,

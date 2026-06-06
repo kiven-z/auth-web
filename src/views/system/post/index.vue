@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { getPostPage } from '@/api/system/post';
-import AuthPagedTable, { usePaginationState } from '@/components/ui/AuthPagedTable';
+import AuthPagedTable, { usePaginationState } from '@/components/business/AuthPagedTable';
 import { POST_STATUS_FILTER_OPTIONS } from '@/views/system/post/constants/post-search-options';
 import usePostAdvanceAction from '@/views/system/post/hooks/usePostAdvanceAction';
 import usePostMoreAction from '@/views/system/post/hooks/usePostMoreAction';

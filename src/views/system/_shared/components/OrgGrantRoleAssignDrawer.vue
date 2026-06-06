@@ -1,12 +1,12 @@
 <script lang="tsx" setup>
 import { getRolePage, type SysRolePageRow } from '@/api/system/role';
+import type { AssignSeedItem } from '@/components/business/AssignManagePanel';
 import AssignPanel, {
   createAssignCheckboxColumn,
   useAssignChecked,
   useAssignTableLabels,
 } from '@/components/business/AssignManagePanel';
-import type { AssignSeedItem } from '@/components/business/AssignManagePanel';
-import AuthPagedTable, { usePaginationState } from '@/components/ui/AuthPagedTable';
+import AuthPagedTable, { usePaginationState } from '@/components/business/AuthPagedTable';
 import { errorMessage } from '@/shared/messaging/message';
 import {
   ORG_GRANT_DEFAULT_ROLE_TYPES,

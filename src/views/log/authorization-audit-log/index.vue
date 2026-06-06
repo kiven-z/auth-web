@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { getAuthorizationAuditPage } from '@/api/log/authorization-audit';
-import AuthPagedTable, { usePaginationState } from '@/components/ui/AuthPagedTable';
+import AuthPagedTable, { usePaginationState } from '@/components/business/AuthPagedTable';
 import useRemoteUserSearch from '@/shared/hooks/dialog/useRemoteUserSearch';
 import { AUDIT_EVENT_TYPES } from '@/views/log/authorization-audit-log/constants/authorization-audit-enums';
 import useAuthorizationAuditTableAction from '@/views/log/authorization-audit-log/hooks/useAuthorizationAuditTableAction';

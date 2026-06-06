@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import AuthPagedTable from '@/components/ui/AuthPagedTable';
+import AuthPagedTable from '@/components/business/AuthPagedTable';
 import { menuTypeFilterOptions } from '@/views/system/menu/constants/menu-search-options';
 import useMenuMoreAction from '@/views/system/menu/hooks/useMenuMoreAction';
 import useMenuPageState from '@/views/system/menu/hooks/useMenuPageState';

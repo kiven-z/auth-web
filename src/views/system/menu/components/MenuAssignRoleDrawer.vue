@@ -6,7 +6,7 @@ import AssignPanel, {
   useAssignChecked,
   useAssignTableLabels,
 } from '@/components/business/AssignManagePanel';
-import AuthPagedTable, { usePaginationState } from '@/components/ui/AuthPagedTable';
+import AuthPagedTable, { usePaginationState } from '@/components/business/AuthPagedTable';
 import { errorMessage } from '@/shared/messaging/message';
 import { FormInstance } from 'element-plus';
 import { computed, onMounted, reactive, ref } from 'vue';

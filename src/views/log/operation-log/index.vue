@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { getOperationLogPage } from '@/api/log/operation-log';
-import AuthPagedTable, { usePaginationState } from '@/components/ui/AuthPagedTable';
+import AuthPagedTable, { usePaginationState } from '@/components/business/AuthPagedTable';
 import useRemoteUserSearch from '@/shared/hooks/dialog/useRemoteUserSearch';
 import { OPERATION_TYPES, REQUEST_METHODS } from '@/views/log/operation-log/constants/operation-log-enums';
 import useOperationLogTableAction from '@/views/log/operation-log/hooks/useOperationLogTableAction';

@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import AuthPagedTable from '@/components/ui/AuthPagedTable';
+import AuthPagedTable from '@/components/business/AuthPagedTable';
 import DeptRowActions from '@/views/system/dept/components/DeptRowActions.vue';
 import { DEPT_STATUS_FILTER_OPTIONS } from '@/views/system/dept/constants/dept-search-options';
 import useDeptExportAction from '@/views/system/dept/hooks/useDeptExportAction';

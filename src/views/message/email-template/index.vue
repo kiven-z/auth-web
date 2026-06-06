@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { getEmailTemplatePage } from '@/api/system/email-template';
-import AuthPagedTable, { usePaginationState } from '@/components/ui/AuthPagedTable';
+import AuthPagedTable, { usePaginationState } from '@/components/business/AuthPagedTable';
 import useEmailTemplateTableAction from '@/views/message/email-template/hooks/useEmailTemplateTableAction';
 import useEmailTemplateTableColumns from '@/views/message/email-template/hooks/useEmailTemplateTableColumns';
 import type { FormInstance } from 'element-plus';
