@@ -1,6 +1,12 @@
 import type { TableActionDeps } from '@/api/common';
-import type { MenuForm } from '@/api/system/menu';
-import { createMenu, deleteMenus, getMenuDetail, updateMenu, updateMenuBatchStatus } from '@/api/system/menu';
+import {
+  createMenu,
+  deleteMenus,
+  getMenuDetail,
+  type MenuForm,
+  updateMenu,
+  updateMenuBatchStatus,
+} from '@/api/system/menu';
 import { addDialog } from '@/components/ui/Dialog';
 import { addDrawer } from '@/components/ui/Drawer';
 import useBatchDeleteAction from '@/shared/hooks/table/useBatchDeleteAction';

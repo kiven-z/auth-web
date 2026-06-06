@@ -25,7 +25,6 @@ export function useMenuTreeDrag(options: UseMenuTreeDragOptions) {
     rootParentId: MENU_ROOT_PARENT_ID,
     getNodeLabel: menuLabel,
     onMoved,
-    // FIXME 待修复
     moveNode: (id, parentId) => moveMenu(id, { parentId }),
     messages: {
       confirmTitle: t('sysMenu.moveConfirmTitle'),

@@ -205,10 +205,17 @@ export function updateMenu(data: MenuSaveRequest & { id: string }): Promise<stri
 }
 
 /**
+ * 批量删除（请求体为 id 数组）
+ */
+export function deleteMenus(ids: string[]): Promise<string> {
+  return http.request<string>('delete', '/system/menu', { data: ids });
+}
+
+/**
  * 移动菜单（变更父菜单）
  */
-export function moveMenu(id: string, data: SysMenuMoveForm): Promise<string> {
-  return http.put<string, SysMenuMoveForm>(`/system/menu/${id}/move`, { data });
+export function moveMenu(id: string, data: SysMenuMoveForm): Promise<void> {
+  return http.put<void, SysMenuMoveForm>(`/system/menu/${id}/move`, { data });
 }
 
 /**

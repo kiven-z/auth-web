@@ -51,12 +51,9 @@ export function useElTreeMoveDrag<T extends TreeMoveNode>(options: UseElTreeMove
    * @returns 是否允许放置
    */
   const allowDrop = (draggingNode: ElTreeDragNode<T>, dropNode: ElTreeDragNode<T>, type: TreeDropType): boolean => {
-    const draggedId = String(draggingNode.data?.id ?? '');
-    const dropTargetId = String(dropNode.data?.id ?? '');
+    const draggedId = String(draggingNode.data?.id);
+    const dropTargetId = String(dropNode.data?.id);
 
-    if (!draggedId || !dropTargetId) {
-      return false;
-    }
     if (!canDropTreeNode(draggedId, dropTargetId, treeData.value)) {
       return false;
     }
@@ -78,7 +75,7 @@ export function useElTreeMoveDrag<T extends TreeMoveNode>(options: UseElTreeMove
   ) => {
     const dragged = draggingNode.data;
     const dropTarget = dropNode.data;
-    if (!dragged?.id || !dropTarget?.id) {
+    if (!dragged || !dropTarget) {
       return;
     }
 
