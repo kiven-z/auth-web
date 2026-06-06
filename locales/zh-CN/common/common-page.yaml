@@ -14,6 +14,7 @@ tips:
   animationIsNotExist: 动画不存在
   assignEmptySelected: 暂无已选项，请选择
   assignLoadFailed: 分配数据加载失败
+  asyncRoutesDegraded: 菜单加载失败，当前仅显示基础页面，请稍后刷新或联系管理员
   assignSaveSuccess: 分配保存成功
   assignSaveFailed: 分配保存失败
   exportSuccess: 导出成功

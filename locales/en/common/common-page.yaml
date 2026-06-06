@@ -14,6 +14,7 @@ tips:
   animationIsNotExist: That animation doesn’t exist
   assignEmptySelected: No items selected. Please choose.
   assignLoadFailed: Failed to load assignment data
+  asyncRoutesDegraded: Menu failed to load. Only basic pages are shown—refresh later or contact an administrator.
   assignSaveSuccess: Assignment saved successfully
   assignSaveFailed: Failed to save assignment
   exportSuccess: Export succeeded
