@@ -1,20 +1,8 @@
 import { moveDept, type SysDeptTreeNode } from '@/api/system/dept';
-import { multiConfirm } from '@/shared/messaging/dialog';
-import { errorMessage, message } from '@/shared/messaging/message';
-import {
-  canDropDeptTreeNode,
-  type DeptTreeDropType,
-  normalizeDeptParentId,
-  resolveMoveTargetParentLabel,
-  resolveNewParentIdFromDrop,
-} from '@/views/system/dept/utils/dept-tree-drag';
+import { useElTreeMoveDrag } from '@/views/system/_shared/hooks/useElTreeMoveDrag';
+import { DEPT_ROOT_PARENT_ID } from '@/views/system/dept/utils/dept-parent';
 import type { Ref } from 'vue';
 import { useI18n } from 'vue-i18n';
-
-/** Element Plus 树节点（拖拽回调入参，仅使用 data） */
-interface DeptElTreeDragNode {
-  data?: SysDeptTreeNode;
-}
 
 /** {@link useDeptTreeDrag} 配置 */
 export interface UseDeptTreeDragOptions {
@@ -24,101 +12,30 @@ export interface UseDeptTreeDragOptions {
 
 /**
  * 部门树拖拽移动（对接 PUT /dept/{id}/move，允许 parentId=0）
- * @param options 拖拽配置
- * @returns 树拖拽事件处理
  */
 export function useDeptTreeDrag(options: UseDeptTreeDragOptions) {
   const { t } = useI18n();
   const { treeData, onMoved } = options;
 
-  const allowDrag = () => true;
-
-  /**
-   * 是否允许拖拽
-   * @param draggingNode 拖拽节点
-   * @param dropNode 目标节点
-   * @param type 拖拽类型
-   * @returns 是否允许拖拽
-   */
-  const allowDrop = (
-    draggingNode: DeptElTreeDragNode,
-    dropNode: DeptElTreeDragNode,
-    type: DeptTreeDropType
-  ): boolean => {
-    // 拖拽节点ID和目标节点ID
-    const draggedId = String(draggingNode.data?.id ?? '');
-    const dropTargetId = String(dropNode.data?.id ?? '');
-
-    // 如果拖拽节点ID或目标节点ID为空，则不允许拖拽
-    if (!draggedId || !dropTargetId) {
-      return false;
-    }
-    // 如果不能拖拽到目标节点，则不允许拖拽
-    if (!canDropDeptTreeNode(draggedId, dropTargetId, treeData.value)) {
-      return false;
-    }
-    // 如果拖拽类型为内部拖拽，且拖拽节点ID和目标节点ID相同，则不允许拖拽
-    return !(type === 'inner' && draggedId === dropTargetId);
-  };
-
-  /**
-   * 处理节点拖拽
-   * @param draggingNode 拖拽节点
-   * @param dropNode 目标节点
-   * @param dropType 拖拽类型
-   * @param _ev 拖拽事件
-   */
-  const handleNodeDrop = async (
-    draggingNode: DeptElTreeDragNode,
-    dropNode: DeptElTreeDragNode,
-    dropType: DeptTreeDropType,
-    _ev: DragEvent
-  ) => {
-    // 拖拽节点和目标节点
-    const dragged = draggingNode.data as SysDeptTreeNode | undefined;
-    const dropTarget = dropNode.data as SysDeptTreeNode | undefined;
-    if (!dragged?.id || !dropTarget?.id) {
-      return;
-    }
-
-    // 新父部门ID
-    const newParentId = resolveNewParentIdFromDrop(dropTarget, dropType);
-    const currentParentId = normalizeDeptParentId(dragged.parentId);
-    if (newParentId === currentParentId) {
-      await onMoved();
-      return;
-    }
-
-    const parentLabel = resolveMoveTargetParentLabel(newParentId, treeData.value, t('dept.parentTopLevel'));
-    const confirmMessage =
-      dropType === 'inner'
-        ? t('dept.moveConfirmInner', { dept: dragged.deptName, parent: dropTarget.deptName })
-        : t('dept.moveConfirmSibling', {
-            dept: dragged.deptName,
-            peer: dropTarget.deptName,
-            parent: parentLabel,
-          });
-
-    const confirmed = await multiConfirm([{ title: t('dept.moveConfirmTitle'), message: confirmMessage }]);
-
-    if (!confirmed) {
-      await onMoved();
-      return;
-    }
-
-    try {
-      await moveDept(dragged.id, { parentId: newParentId });
-      message(t('dept.moveSuccess'), { type: 'success' });
-      await onMoved();
-    } catch (error: unknown) {
-      errorMessage(error, { defaultI18nKey: 'dept.moveFailed' });
-      await onMoved();
-    }
-  };
-
-  return {
-    allowDrag,
-    allowDrop,
-    handleNodeDrop,
-  };
+  return useElTreeMoveDrag<SysDeptTreeNode>({
+    treeData,
+    rootParentId: DEPT_ROOT_PARENT_ID,
+    getNodeLabel: (node) => node.deptName,
+    onMoved,
+    moveNode: (id, parentId) => moveDept(id, { parentId }),
+    messages: {
+      confirmTitle: t('dept.moveConfirmTitle'),
+      confirmInner: (dragged, dropTarget) =>
+        t('dept.moveConfirmInner', { dept: dragged.deptName, parent: dropTarget.deptName }),
+      confirmSibling: (dragged, dropTarget, parentLabel) =>
+        t('dept.moveConfirmSibling', {
+          dept: dragged.deptName,
+          peer: dropTarget.deptName,
+          parent: parentLabel,
+        }),
+      success: t('dept.moveSuccess'),
+      failedI18nKey: 'dept.moveFailed',
+      topLevelLabel: t('dept.parentTopLevel'),
+    },
+  });
 }

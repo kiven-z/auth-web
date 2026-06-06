@@ -2,6 +2,12 @@ sysMenu:
   name: Menu management
   tableTitle: Menu list
   loadFailed: Failed to load menu data
+  moveSuccess: Menu moved successfully
+  moveFailed: Failed to move menu
+  moveConfirmTitle: Confirm menu move
+  moveConfirmInner: Move "{menu}" under "{parent}" as a child menu?
+  moveConfirmSibling: Move "{menu}" to the same level as "{peer}"? New parent will be "{parent}".
+  parentTopLevel: Top-level menu
   saveFailed: Failed to save menu
   statusFailed: Failed to update menu status
   assignRoleTitle: Assign roles

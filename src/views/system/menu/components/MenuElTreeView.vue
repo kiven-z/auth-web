@@ -4,6 +4,7 @@ import { transformI18n } from '@/plugins/i18n';
 import useMenuMoreAction from '@/views/system/menu/hooks/useMenuMoreAction';
 import useMenuPageState from '@/views/system/menu/hooks/useMenuPageState';
 import useMenuTableAction from '@/views/system/menu/hooks/useMenuTableAction';
+import { useMenuTreeDrag } from '@/views/system/menu/hooks/useMenuTreeDrag';
 import { onMounted } from 'vue';
 import { useI18n } from 'vue-i18n';
 
@@ -33,6 +34,11 @@ const { openAssignRoleDrawer, openAssignPermissionDrawer } = useMenuMoreAction({
   refresh,
 });
 
+const { allowDrag, allowDrop, handleNodeDrop } = useMenuTreeDrag({
+  treeData,
+  onMoved: fetchTreeData,
+});
+
 const menuTypeTag = (menuType: number) => {
   const map: Record<number, { type: 'primary' | 'success' | 'warning'; key: string }> = {
     0: { type: 'primary', key: 'sysMenu.menuTypeMenu' },
@@ -49,13 +55,17 @@ onMounted(() => {
 
 <template>
   <AuthElTreePanel
+    :allow-drag="allowDrag"
+    :allow-drop="allowDrop"
     :collapse-all-label="t('sysMenu.collapseAll')"
+    :draggable="true"
     :expand-all-label="t('sysMenu.expandAll')"
     :loading="loading"
     :title="t('sysMenu.tableTitle')"
     :tree-data="treeData"
     :tree-props="treeProps"
     @refresh="fetchTreeData"
+    @node-drop="handleNodeDrop"
   >
     <template #toolbar>
       <el-button type="primary" @click="openCreateDialog">{{ t('buttons.actionAdd') }}</el-button>
