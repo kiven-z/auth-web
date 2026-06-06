@@ -4,7 +4,7 @@ import {
   getEmailTemplateById,
   updateEmailTemplateRequireFields,
 } from '@/api/system/email-template';
-import { errorMessage, message } from '@/shared/messaging/message';
+import { errorMessage, message } from '@/ui/feedback/message';
 import {
   type EditableRequireFieldRow,
   toEditableRequireFields,

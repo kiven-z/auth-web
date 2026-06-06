@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { loginBySmsApi, sendSmsCodeApi } from '@/api/auth';
 import { useRenderIcon } from '@/components/ui/Icon/src/hooks';
-import { errorMessage, message } from '@/shared/messaging/message';
+import { errorMessage, message } from '@/ui/feedback/message';
 import { LoginFormEmits } from '@/views/home/login/constants/types';
 import { useLoginRemember } from '@/views/home/login/hooks/useLoginRemember';
 import { useSendCodeCountdown } from '@/views/home/login/hooks/useSendCodeCountdown';

@@ -2,7 +2,7 @@
 import type { FormDialog } from '@/api/common';
 import type { SysDeptCreateForm, SysDeptUpdateForm } from '@/api/system/dept';
 import { getDeptList } from '@/api/system/dept';
-import { errorMessage } from '@/shared/messaging/message';
+import { errorMessage } from '@/ui/feedback/message';
 import {
   buildDeptParentTree,
   DEPT_ROOT_PARENT_ID,

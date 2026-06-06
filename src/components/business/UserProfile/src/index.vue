@@ -2,7 +2,7 @@
 import { getUserProfile, type SysUserDeptProfileItem, type SysUserPostProfileItem } from '@/api/system/user-base';
 import ReDescription from '@/components/ui/Description/index';
 import useUserProfileColumns from '@/components/business/UserProfile/src/useUserProfileColumns';
-import { errorMessage } from '@/shared/messaging/message';
+import { errorMessage } from '@/ui/feedback/message';
 import { QuestionFilled, User } from '@element-plus/icons-vue';
 import { ElTooltip } from 'element-plus';
 import type { PropType } from 'vue';

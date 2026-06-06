@@ -1,8 +1,8 @@
 import type { TableActionWithSelectionDeps } from '@/api/common';
 import { deleteOperationLog, getOperationLogDetail, type OperationLogPageRow } from '@/api/log/operation-log';
 import { addDialog } from '@/components/ui/Dialog';
-import useBatchDeleteAction from '@/shared/hooks/table/useBatchDeleteAction';
-import { errorMessage } from '@/shared/messaging/message';
+import useBatchDeleteAction from '@/composables/table/useBatchDeleteAction';
+import { errorMessage } from '@/ui/feedback/message';
 import OperationLogDetailDialog from '@/views/log/operation-log/components/OperationLogDetailDialog.vue';
 import { useDebounceFn } from '@vueuse/core';
 import { h } from 'vue';

@@ -1,7 +1,7 @@
 import type { TableActionDeps } from '@/api/common';
 import { putMenuPermissions, putMenuRoles } from '@/api/system/menu';
 import { addDrawer } from '@/components/ui/Drawer';
-import { errorMessage, message } from '@/shared/messaging/message';
+import { errorMessage, message } from '@/ui/feedback/message';
 import MenuAssignPermissionDrawer from '@/views/system/menu/components/MenuAssignPermissionDrawer.vue';
 import MenuAssignRoleDrawer from '@/views/system/menu/components/MenuAssignRoleDrawer.vue';
 import type { SysMenuRow } from '@/views/system/menu/hooks/useMenuPageState';

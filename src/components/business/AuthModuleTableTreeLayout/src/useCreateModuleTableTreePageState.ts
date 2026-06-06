@@ -1,6 +1,6 @@
 import type { PageResponse } from '@/api/common';
 import { handleTree } from '@/shared/lib/tree';
-import { errorMessage } from '@/shared/messaging/message';
+import { errorMessage } from '@/ui/feedback/message';
 import { runPagedTableFetch } from '@/shared/utils/pagination';
 import type { FormInstance } from 'element-plus';
 import { reactive, ref, type Ref } from 'vue';

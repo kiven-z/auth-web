@@ -1,6 +1,6 @@
-<script setup lang="ts">
+<script lang="ts" setup>
 import { useI18n } from 'vue-i18n';
-import { emitter } from '@/shared/messaging/mitt';
+import { emitter } from '@/ui/event-bus/mitt';
 import { onClickOutside } from '@vueuse/core';
 import { ref, computed, onMounted, onBeforeUnmount } from 'vue';
 import { useDataThemeChange } from '@/layout/hooks/useDataThemeChange';
@@ -63,10 +63,10 @@ onBeforeUnmount(() => {
           :class="iconClass"
         >
           <IconifyIconOffline
-            class="dark:text-white"
-            width="18px"
-            height="18px"
             :icon="CloseIcon"
+            class="dark:text-white"
+            height="18px"
+            width="18px"
             @click="show = !show"
           />
         </span>
@@ -82,9 +82,9 @@ onBeforeUnmount(() => {
             placement: 'left-start',
             zIndex: 41000,
           }"
-          type="danger"
-          text
           bg
+          text
+          type="danger"
           @click="onReset"
         >
           {{ t('panel.pureClearCache') }}

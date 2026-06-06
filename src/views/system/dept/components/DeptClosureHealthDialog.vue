@@ -2,7 +2,7 @@
 import type { DeptClosureHealth } from '@/api/system/dept';
 import { getDeptClosureHealth } from '@/api/system/dept';
 import Description from '@/components/ui/Description';
-import { errorMessage } from '@/shared/messaging/message';
+import { errorMessage } from '@/ui/feedback/message';
 import useDeptClosureHealthColumns from '@/views/system/dept/hooks/useDeptClosureHealthColumns';
 import { ElAlert, ElDivider } from 'element-plus';
 import { computed, onMounted, ref } from 'vue';

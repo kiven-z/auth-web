@@ -1,7 +1,7 @@
 import { getAsyncRoutes } from '@/api/system/routes';
 import { ApiBusinessError, ApiConflictError } from '@/infrastructure/http-core';
 import { transformI18n } from '@/plugins/i18n';
-import { message } from '@/shared/messaging/message';
+import { message } from '@/ui/feedback/message';
 import Axios from 'axios';
 
 /**

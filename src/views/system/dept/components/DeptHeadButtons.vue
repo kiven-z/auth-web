@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { hasAuth } from '@/shared/permission';
+import { hasAuth } from '@/auth/permission';
 import { useI18n } from 'vue-i18n';
 import useDeptAdvancedAction from '@/views/system/dept/hooks/useDeptAdvancedAction';
 import useDeptPageState from '@/views/system/dept/hooks/useDeptPageState';

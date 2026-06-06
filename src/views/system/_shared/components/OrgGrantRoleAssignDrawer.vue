@@ -7,7 +7,7 @@ import AssignPanel, {
   useAssignTableLabels,
 } from '@/components/business/AssignManagePanel';
 import AuthPagedTable, { usePaginationState } from '@/components/business/AuthPagedTable';
-import { errorMessage } from '@/shared/messaging/message';
+import { errorMessage } from '@/ui/feedback/message';
 import {
   ORG_GRANT_DEFAULT_ROLE_TYPES,
   ORG_GRANT_ROLE_TYPE_OPTIONS,

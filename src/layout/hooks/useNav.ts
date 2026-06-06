@@ -3,7 +3,7 @@ import { getConfig } from '@/config';
 import { transformI18n } from '@/plugins/i18n';
 import { remainingPaths, router } from '@/router';
 import { getTopMenu } from '@/router/utils/misc';
-import { emitter } from '@/shared/messaging/mitt';
+import { emitter } from '@/ui/event-bus/mitt';
 import { useAppStoreHook } from '@/store/modules/app';
 import { useEpThemeStoreHook } from '@/store/modules/epTheme';
 import { usePermissionStoreHook } from '@/store/modules/permission';

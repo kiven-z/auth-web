@@ -4,9 +4,9 @@ import {
   releaseAuthorizationInvalidationEventClaim,
 } from '@/api/ops/authorization-invalidation-event';
 import { addDialog } from '@/components/ui/Dialog';
-import { hasAuth } from '@/shared/permission';
-import { operationConfirm } from '@/shared/messaging/dialog';
-import { errorMessage, message } from '@/shared/messaging/message';
+import { hasAuth } from '@/auth/permission';
+import { operationConfirm } from '@/ui/feedback/dialog';
+import { errorMessage, message } from '@/ui/feedback/message';
 import AuthorizationInvalidationEventDetailDialog from '@/views/ops/authorization-invalidation/components/AuthorizationInvalidationEventDetailDialog.vue';
 import { useDebounceFn } from '@vueuse/core';
 import { h } from 'vue';

@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { isAdminPermission, matchPermission, satisfiesAllRequired } from '@/shared/permission/permissionMatcher';
+import { isAdminPermission, matchPermission, satisfiesAllRequired } from '@/auth/permission/permissionMatcher';
 
 describe('permissionMatcher', () => {
   it('admin wildcards grant any required permission', () => {

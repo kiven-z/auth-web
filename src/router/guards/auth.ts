@@ -4,8 +4,8 @@ import { hasAccessToken, isLoggedIn, readUserProfileFromStorage, removeToken } f
 import { getTopMenu } from '@/router/utils/misc';
 import { initRouter } from '@/router/utils/route-registry';
 import { findRouteByPath } from '@/router/utils/route-tree';
-import { isOneOfArray } from '@/shared/permission';
-import { errorMessage } from '@/shared/messaging/message';
+import { isOneOfArray } from '@/auth/permission';
+import { errorMessage } from '@/ui/feedback/message';
 import { useMultiTagsStoreHook } from '@/store/modules/multiTags';
 import { usePermissionStoreHook } from '@/store/modules/permission';
 import { isAllEmpty, isUrl, openLink } from '@pureadmin/utils';

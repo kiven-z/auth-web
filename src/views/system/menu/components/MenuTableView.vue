@@ -8,7 +8,7 @@ import useMenuTableColumns from '@/views/system/menu/hooks/useMenuTableColumns';
 import type { FormInstance } from 'element-plus';
 import { onMounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { COMMON_BOOLEAN_STATUS_FILTER_OPTIONS } from '@/shared/constants/boolean-status';
+import { COMMON_BOOLEAN_STATUS_FILTER_OPTIONS } from '@/constants/boolean-status';
 
 defineOptions({
   name: 'MenuTableView',

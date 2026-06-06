@@ -1,6 +1,6 @@
 import { AUTH_RECOVERY_RULE_IDS } from '@/config/auth/auth-recovery-rule-ids';
 import { ASYNC_ROUTES_STORAGE_KEY } from '@/config/http-config';
-import { message } from '@/shared/messaging/message';
+import { message } from '@/ui/feedback/message';
 import { storageLocal } from '@pureadmin/utils';
 
 /** 恢复提示 Toast 展示时长（毫秒） */

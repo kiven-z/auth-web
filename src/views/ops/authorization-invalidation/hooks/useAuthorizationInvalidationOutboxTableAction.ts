@@ -4,9 +4,9 @@ import {
   retryAuthorizationInvalidationOutbox,
 } from '@/api/ops/authorization-invalidation-outbox';
 import { addDialog } from '@/components/ui/Dialog';
-import { hasAuth } from '@/shared/permission';
-import { operationConfirm } from '@/shared/messaging/dialog';
-import { errorMessage, message } from '@/shared/messaging/message';
+import { hasAuth } from '@/auth/permission';
+import { operationConfirm } from '@/ui/feedback/dialog';
+import { errorMessage, message } from '@/ui/feedback/message';
 import AuthorizationInvalidationOutboxDetailDialog from '@/views/ops/authorization-invalidation/components/AuthorizationInvalidationOutboxDetailDialog.vue';
 import { isOutboxRetryable } from '@/views/ops/authorization-invalidation/constants/authorization-invalidation-enums';
 import { useDebounceFn } from '@vueuse/core';

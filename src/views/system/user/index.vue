@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { hasAuth } from '@/shared/permission';
+import { hasAuth } from '@/auth/permission';
 </script>
 
 <template>

@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { getJobGroupPage } from '@/api/schedule/job-group';
 import AuthPagedTable, { usePaginationState } from '@/components/business/AuthPagedTable';
-import { COMMON_BOOLEAN_STATUS_FILTER_OPTIONS } from '@/shared/constants/boolean-status';
+import { COMMON_BOOLEAN_STATUS_FILTER_OPTIONS } from '@/constants/boolean-status';
 import useJobGroupTableAction from '@/views/schedule/schedule-group/hooks/useJobGroupTableAction';
 import useJobGroupTableColumns from '@/views/schedule/schedule-group/hooks/useJobGroupTableColumns';
 import type { FormInstance } from 'element-plus';

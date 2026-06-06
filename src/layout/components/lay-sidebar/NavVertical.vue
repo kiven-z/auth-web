@@ -1,8 +1,8 @@
-<script setup lang="ts">
+<script lang="ts" setup>
 import { responsiveStorageNameSpace } from '@/config';
 import { useNav } from '@/layout/hooks/useNav';
 import { findRouteByPath, getParentPaths } from '@/router/utils/route-tree';
-import { emitter } from '@/shared/messaging/mitt';
+import { emitter } from '@/ui/event-bus/mitt';
 import { usePermissionStoreHook } from '@/store/modules/permission';
 import { isAllEmpty, storageLocal } from '@pureadmin/utils';
 import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue';
@@ -75,22 +75,22 @@ onBeforeUnmount(() => {
     @mouseleave.prevent="isShow = false"
   >
     <LaySidebarLogo v-if="showLogo" :collapse="isCollapse" />
-    <el-scrollbar wrap-class="scrollbar-wrapper" :class="[device === 'mobile' ? 'mobile' : 'pc']">
+    <el-scrollbar :class="[device === 'mobile' ? 'mobile' : 'pc']" wrap-class="scrollbar-wrapper">
       <el-menu
-        unique-opened
-        mode="vertical"
-        popper-class="pure-scrollbar"
-        class="outer-most select-none"
         :collapse="isCollapse"
         :collapse-transition="false"
-        :popper-effect="tooltipEffect"
         :default-active="defaultActive"
+        :popper-effect="tooltipEffect"
+        class="outer-most select-none"
+        mode="vertical"
+        popper-class="pure-scrollbar"
+        unique-opened
       >
         <LaySidebarItem
           v-for="routes in menuData"
           :key="routes.path"
-          :item="routes"
           :base-path="routes.path"
+          :item="routes"
           class="outer-most select-none"
         />
       </el-menu>

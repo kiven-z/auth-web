@@ -1,5 +1,5 @@
-import { multiConfirm } from '@/shared/messaging/dialog';
-import { errorMessage, message } from '@/shared/messaging/message';
+import { multiConfirm } from '@/ui/feedback/dialog';
+import { errorMessage, message } from '@/ui/feedback/message';
 import {
   canDropTreeNode,
   normalizeTreeParentId,

@@ -2,7 +2,7 @@ import debounce from 'lodash/debounce';
 import { onScopeDispose, ref } from 'vue';
 
 import { searchUserByKeyword, type UserSearchOption } from '@/api/system/user-base';
-import { errorMessage } from '@/shared/messaging/message';
+import { errorMessage } from '@/ui/feedback/message';
 
 /** 远程用户关键字请求防抖间隔（与分配面板关键词搜索一致） */
 const REMOTE_USER_SEARCH_DEBOUNCE_MS = 300;

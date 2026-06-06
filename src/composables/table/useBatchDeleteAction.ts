@@ -1,8 +1,8 @@
 import type { Ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 
-import { deleteConfirm } from '@/shared/messaging/dialog';
-import { errorMessage, message } from '@/shared/messaging/message';
+import { deleteConfirm } from '@/ui/feedback/dialog';
+import { errorMessage, message } from '@/ui/feedback/message';
 
 /** {@link useBatchDeleteAction} 配置项 */
 export interface UseBatchDeleteActionOptions {

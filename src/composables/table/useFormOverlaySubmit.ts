@@ -1,4 +1,4 @@
-import { errorMessage, message } from '@/shared/messaging/message';
+import { errorMessage, message } from '@/ui/feedback/message';
 import type { FormInstance } from 'element-plus';
 import type { Ref } from 'vue';
 import { useI18n } from 'vue-i18n';

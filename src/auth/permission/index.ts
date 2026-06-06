@@ -1,5 +1,5 @@
 import { router } from '@/router';
-import { satisfiesAllRequired } from '@/shared/permission/permissionMatcher';
+import { satisfiesAllRequired } from '@/auth/permission/permissionMatcher';
 import { useUserStoreHook } from '@/store/modules/user';
 import { isString } from '@pureadmin/utils';
 

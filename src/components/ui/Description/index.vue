@@ -102,7 +102,7 @@
 </template>
 
 <script lang="ts" setup>
-import { message } from '@/shared/messaging/message';
+import { message } from '@/ui/feedback/message';
 import { CopyDocument } from '@element-plus/icons-vue';
 import type { DescriptionItemProps } from 'element-plus';
 import get from 'lodash/get';

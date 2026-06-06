@@ -1,7 +1,7 @@
 import type { TableActionDeps } from '@/api/common';
 import { putPostRoles, type SysPostPageRow } from '@/api/system/post';
 import { addDrawer } from '@/components/ui/Drawer';
-import { errorMessage, message } from '@/shared/messaging/message';
+import { errorMessage, message } from '@/ui/feedback/message';
 import PostAssignRoleDrawer from '@/views/system/post/components/PostAssignRoleDrawer.vue';
 import { h, ref } from 'vue';
 import { useI18n } from 'vue-i18n';

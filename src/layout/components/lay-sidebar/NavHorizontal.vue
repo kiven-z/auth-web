@@ -1,7 +1,7 @@
-<script setup lang="ts">
+<script lang="ts" setup>
 import { responsiveStorageNameSpace } from '@/config';
 import { useNav } from '@/layout/hooks/useNav';
-import { emitter } from '@/shared/messaging/mitt';
+import { emitter } from '@/ui/event-bus/mitt';
 import { usePermissionStoreHook } from '@/store/modules/permission';
 import { isAllEmpty, storageLocal } from '@pureadmin/utils';
 import { computed, nextTick, onMounted, ref } from 'vue';
@@ -56,16 +56,16 @@ onMounted(() => {
     </div>
     <el-menu
       ref="menuRef"
+      :default-active="defaultActive"
+      class="horizontal-header-menu"
       mode="horizontal"
       popper-class="pure-scrollbar"
-      class="horizontal-header-menu"
-      :default-active="defaultActive"
     >
       <LaySidebarItem
         v-for="route in usePermissionStoreHook().wholeMenus"
         :key="route.path"
-        :item="route"
         :base-path="route.path"
+        :item="route"
       />
     </el-menu>
     <div class="horizontal-header-right">
@@ -79,8 +79,8 @@ onMounted(() => {
             <el-dropdown-item
               v-for="item in localeOptions"
               :key="item.locale"
-              :style="getDropdownItemStyle(locale, item.locale)"
               :class="['dark:text-white!', getDropdownItemClass(locale, item.locale)]"
+              :style="getDropdownItemStyle(locale, item.locale)"
               @click="translation(item.locale)"
             >
               <span v-show="locale === item.locale" class="check-icon">
@@ -110,7 +110,7 @@ onMounted(() => {
           </el-dropdown-menu>
         </template>
       </el-dropdown>
-      <span class="set-icon navbar-bg-hover" :title="t('buttons.pureOpenSystemSet')" @click="onPanel">
+      <span :title="t('buttons.pureOpenSystemSet')" class="set-icon navbar-bg-hover" @click="onPanel">
         <IconifyIconOffline :icon="Setting" />
       </span>
     </div>

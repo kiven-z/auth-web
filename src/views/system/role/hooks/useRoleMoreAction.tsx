@@ -1,6 +1,6 @@
 import { assignRolePermissions, type SysRolePageRow } from '@/api/system/role';
 import { addDrawer } from '@/components/ui/Drawer';
-import { errorMessage, message } from '@/shared/messaging/message';
+import { errorMessage, message } from '@/ui/feedback/message';
 import RoleAssignPermissionDrawer from '@/views/system/role/components/RoleAssignPermissionDrawer.vue';
 import { h, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
