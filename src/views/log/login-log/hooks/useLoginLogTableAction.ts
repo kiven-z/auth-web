@@ -37,7 +37,6 @@ function useLoginLogTableAction(deps: TableActionWithSelectionDeps) {
 
     addDialog({
       title: t('loginLog.detailTitle'),
-      width: '100%',
       draggable: false,
       closeOnClickModal: false,
       closeOnPressEscape: false,

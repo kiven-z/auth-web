@@ -1,0 +1,34 @@
+authorizationInvalidation:
+  pageTitle: Authorization Invalidation Ops
+  tabEvent: Idempotency Events
+  tabOutbox: Outbox Queue
+  outboxComingSoon: Outbox query and retry will be available soon
+  eventId: Event ID
+  changeKind: Change Kind
+  processing: Processing Status
+  impactedUserCount: Impacted Users
+  versionBumpedCount: Version Bumped Users
+  profileRefreshedCount: Profile Refreshed Users
+  profileEvictedCount: Profile Evicted Users
+  processedAt: Processed At
+  processedAtStart: Start Time
+  processedAtEnd: End Time
+  remark: Remark
+  tableTitle: Authorization Invalidation Events
+  detailTitle: Authorization Invalidation Event Detail
+  loadFailed: Failed to load authorization invalidation events
+  placeholder:
+    eventId: Enter event ID
+    changeKind: All kinds
+    processing: All statuses
+  processingEnum:
+    'true': Processing
+    'false': Completed
+  changeKindEnum:
+    ROLE: Role
+    PERMISSION: Permission
+    POLICY: Policy
+    GRANT: Grant
+    USER_DEPT: User-Dept
+    USER_POST: User-Post
+    USER_SCOPE: User Scope

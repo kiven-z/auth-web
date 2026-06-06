@@ -98,3 +98,6 @@ routes:
   loginLog: 登录日志
   operationLog: 操作日志
   authLog: 授权日志
+
+  opsManagement: 运维中心
+  authorizationInvalidation: 授权失效运维

@@ -45,8 +45,7 @@ function useMenuTableAction(deps: MenuTableActionDeps) {
 
     addDrawer({
       title: t('sysMenu.addDialogTitle'),
-      size: '50%',
-      direction: 'ltr',
+      size: '80%',
       resizable: true,
       closeOnClickModal: false,
       closeOnPressEscape: false,
@@ -80,7 +79,7 @@ function useMenuTableAction(deps: MenuTableActionDeps) {
 
       addDrawer({
         title: t('sysMenu.editDialogTitle'),
-        size: '50%',
+        size: '80%',
         resizable: true,
         closeOnClickModal: false,
         closeOnPressEscape: false,
@@ -118,7 +117,6 @@ function useMenuTableAction(deps: MenuTableActionDeps) {
 
       addDialog({
         title: t('sysMenu.detailDialogTitle'),
-        width: '920px',
         draggable: true,
         fullscreenIcon: true,
         closeOnClickModal: false,

@@ -45,7 +45,6 @@ function useOperationLogTableAction(deps: TableActionWithSelectionDeps) {
 
     addDialog({
       title: t('operationLog.detailTitle'),
-      width: '100%',
       fullscreenIcon: true,
       draggable: false,
       closeOnClickModal: false,

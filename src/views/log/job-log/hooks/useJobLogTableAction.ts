@@ -39,7 +39,6 @@ function useJobLogTableAction(deps: TableActionWithSelectionDeps) {
 
     addDialog({
       title: t('logJob.detailTitle'),
-      width: '100%',
       draggable: false,
       closeOnClickModal: false,
       closeOnPressEscape: false,

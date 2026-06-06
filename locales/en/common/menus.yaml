@@ -98,3 +98,6 @@ routes:
   loginLog: Login Logs
   operationLog: Operation Logs
   authLog: Authorization Logs
+
+  opsManagement: Operations Center
+  authorizationInvalidation: Authorization Invalidation Ops

@@ -45,7 +45,6 @@ function useAuthorizationAuditTableAction(deps: TableActionWithSelectionDeps) {
 
     addDialog({
       title: t('authorizationAudit.detailTitle'),
-      width: '100%',
       fullscreenIcon: true,
       draggable: false,
       closeOnClickModal: false,

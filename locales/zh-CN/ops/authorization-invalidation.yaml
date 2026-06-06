@@ -1,0 +1,34 @@
+authorizationInvalidation:
+  pageTitle: 授权失效运维
+  tabEvent: 幂等事件
+  tabOutbox: 投递队列
+  outboxComingSoon: 投递队列查询与重试功能即将上线
+  eventId: 业务事件 ID
+  changeKind: 变更维度
+  processing: 处理状态
+  impactedUserCount: 影响用户数
+  versionBumpedCount: 版本递增用户数
+  profileRefreshedCount: 画像刷新用户数
+  profileEvictedCount: 画像驱逐用户数
+  processedAt: 处理完成时间
+  processedAtStart: 开始时间
+  processedAtEnd: 结束时间
+  remark: 备注
+  tableTitle: 授权失效幂等事件
+  detailTitle: 授权失效幂等事件详情
+  loadFailed: 获取授权失效幂等事件失败
+  placeholder:
+    eventId: 请输入业务事件 ID
+    changeKind: 全部维度
+    processing: 全部状态
+  processingEnum:
+    'true': 处理中
+    'false': 已完成
+  changeKindEnum:
+    ROLE: 角色
+    PERMISSION: 权限
+    POLICY: 策略
+    GRANT: 授权边
+    USER_DEPT: 用户-部门
+    USER_POST: 用户-岗位
+    USER_SCOPE: 用户数据范围

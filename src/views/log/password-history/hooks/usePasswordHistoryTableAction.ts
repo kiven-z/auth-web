@@ -44,7 +44,6 @@ function usePasswordHistoryTableAction(deps: TableActionWithSelectionDeps) {
 
     addDialog({
       title: t('passwordHistory.detailTitle'),
-      width: '100%',
       draggable: false,
       closeOnClickModal: false,
       closeOnPressEscape: false,
