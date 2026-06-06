@@ -1,12 +1,12 @@
 import type { PageResponse } from '@/api/common';
+import { usePaginationState } from '@/components/business/AuthPagedTable/src/usePaginationState';
 import { handleTree } from '@/lib/tree';
 import { errorMessage } from '@/ui/feedback/message';
-import { runPagedTableFetch } from '@/components/business/AuthPagedTable/src/pagination';
 import type { FormInstance } from 'element-plus';
-import { reactive, ref, type Ref } from 'vue';
+import { ref, type Ref } from 'vue';
 
 /**
- * 模块级「表格分页 + 全量列表建树」页状态工厂配置（菜单、部门等左/右或分段切换场景）。
+ * 模块级「表格分页 + 全量列表建树」页状态工厂配置（菜单、部门等分段切换场景）。
  */
 export interface CreateModuleTableTreePageStateConfig<TRow, TFlat, TNode, TViewMode extends string = 'table' | 'tree'> {
   /** 已与页面绑定的 reactive 查询表单（单例引用） */
@@ -42,76 +42,38 @@ export function useCreateModuleTableTreePageState<
   TNode,
   TViewMode extends string = 'table' | 'tree',
 >(config: CreateModuleTableTreePageStateConfig<TRow, TFlat, TNode, TViewMode>) {
-  const selectedRows = ref<string[]>([]);
-  const loading = ref(false);
-  const tableData = ref<TRow[]>([]);
   const treeData = ref<TNode[]>([]);
   const viewMode = ref(config.initialViewMode ?? ('table' as TViewMode)) as Ref<TViewMode>;
-  const pagination = reactive({
-    total: 0,
-    pageSize: config.defaultPageSize ?? 30,
-    currentPage: 1,
+
+  const pageState = usePaginationState<TRow>({
+    fetchApi: config.fetchPage,
+    searchForm: config.searchForm,
+    defaultPageSize: config.defaultPageSize,
+    errorI18nKey: config.errorI18nKey,
   });
 
   const treeIdKey = config.treeIdKey ?? 'id';
   const treeParentKey = config.treeParentKey ?? 'parentId';
 
   /**
-   * 按当前页码与筛选条件拉取表格（不改变页码）。
-   */
-  const fetchTableData = async () => {
-    await runPagedTableFetch<TRow>({
-      loading,
-      searchForm: config.searchForm as Record<string, unknown>,
-      pagination,
-      tableData,
-      fetchApi: config.fetchPage,
-      errorI18nKey: config.errorI18nKey,
-    });
-  };
-
-  /**
-   * 分页大小变化。
-   */
-  const handlePageSizeChange = async (value: number) => {
-    pagination.pageSize = value;
-    pagination.currentPage = 1;
-    await fetchTableData();
-  };
-
-  /**
-   * 分页当前页变化。
-   */
-  const handlePageCurrentChange = async (value: number) => {
-    pagination.currentPage = value;
-    await fetchTableData();
-  };
-
-  /**
    * 拉取扁平列表并建树（不带表格筛选，保证结构完整）。
    */
   const fetchTreeData = async () => {
-    loading.value = true;
+    pageState.loading.value = true;
     try {
       const list = await config.fetchFlatList(config.flatListParams ?? {});
       treeData.value = handleTree([...(list ?? [])], treeIdKey, treeParentKey) as TNode[];
-    } catch (e: unknown) {
-      errorMessage(e, { defaultI18nKey: config.errorI18nKey });
+    } catch (error: unknown) {
+      errorMessage(error, { defaultI18nKey: config.errorI18nKey });
       treeData.value = [];
     } finally {
-      loading.value = false;
+      pageState.loading.value = false;
     }
   };
 
   /**
-   * 多选变化。
-   */
-  const handleSelectionChange = (value: TRow[]) => {
-    selectedRows.value = value.map((item) => String(item.id));
-  };
-
-  /**
-   * 重置筛选并查询。
+   * 重置筛选并查询（支持无 formRef 时由配置回调清空字段）。
+   * @param formRef 搜索表单实例
    */
   const resetQuery = async (formRef?: FormInstance) => {
     if (formRef) {
@@ -119,8 +81,8 @@ export function useCreateModuleTableTreePageState<
     } else {
       config.resetSearchFormWithoutRef?.();
     }
-    pagination.currentPage = 1;
-    await fetchTableData();
+    pageState.pagination.currentPage = 1;
+    await pageState.fetchTableData();
   };
 
   /**
@@ -128,7 +90,7 @@ export function useCreateModuleTableTreePageState<
    */
   const refresh = async () => {
     if (viewMode.value === 'table') {
-      await fetchTableData();
+      await pageState.fetchTableData();
     } else {
       await fetchTreeData();
     }
@@ -136,19 +98,19 @@ export function useCreateModuleTableTreePageState<
 
   function usePageState() {
     return {
-      loading,
-      selectedRows,
-      tableData,
+      loading: pageState.loading,
+      selectedRows: pageState.selectedRows,
+      tableData: pageState.tableData,
       treeData,
       searchForm: config.searchForm,
       viewMode,
-      pagination,
-      fetchTableData,
+      pagination: pageState.pagination,
+      fetchTableData: pageState.fetchTableData,
       fetchTreeData,
       resetQuery,
-      handlePageSizeChange,
-      handlePageCurrentChange,
-      handleSelectionChange,
+      handlePageSizeChange: pageState.handlePageSizeChange,
+      handlePageCurrentChange: pageState.handlePageCurrentChange,
+      handleSelectionChange: pageState.handleSelectionChange,
       refresh,
     };
   }

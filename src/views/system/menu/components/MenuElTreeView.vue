@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { AuthElTreePanel } from '@/components/business/AuthModuleTableTreeLayout';
+import { AuthElTreePanel } from '@/components/business/AuthElTreePanel';
 import { transformI18n } from '@/plugins/i18n';
 import useMenuMoreAction from '@/views/system/menu/hooks/useMenuMoreAction';
 import useMenuPageState from '@/views/system/menu/hooks/useMenuPageState';

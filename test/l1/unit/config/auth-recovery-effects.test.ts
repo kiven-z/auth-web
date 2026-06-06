@@ -7,7 +7,7 @@ const { messageMock, storageRemoveMock } = vi.hoisted(() => ({
   storageRemoveMock: vi.fn(),
 }));
 
-vi.mock('@/shared/messaging/message', () => ({
+vi.mock('@/ui/feedback/message', () => ({
   message: messageMock,
 }));
 

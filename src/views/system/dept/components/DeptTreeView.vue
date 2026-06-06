@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { AuthElTreePanel } from '@/components/business/AuthModuleTableTreeLayout';
+import { AuthElTreePanel } from '@/components/business/AuthElTreePanel';
 import DeptHeadButtons from '@/views/system/dept/components/DeptHeadButtons.vue';
 import DeptRowActions from '@/views/system/dept/components/DeptRowActions.vue';
 import useDeptMoreAction from '@/views/system/dept/hooks/useDeptMoreAction';

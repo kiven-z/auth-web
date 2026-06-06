@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { useElTreeExpandCollapse } from '@/components/business/AuthModuleTableTreeLayout/src/useElTreeExpandCollapse';
+import { useElTreeExpandCollapse } from '@/components/business/AuthElTreePanel/src/useElTreeExpandCollapse';
 import TableBar from '@/components/ui/TableBar';
 import type { TreeInstance } from 'element-plus';
 import { ref, toRef, useAttrs } from 'vue';

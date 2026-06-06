@@ -1,5 +1,4 @@
 <script lang="ts" setup>
-import AuthModuleTableTreeLayout from '@/components/business/AuthModuleTableTreeLayout';
 import MenuElTreeView from '@/views/system/menu/components/MenuElTreeView.vue';
 import MenuTableView from '@/views/system/menu/components/MenuTableView.vue';
 import useMenuPageState from '@/views/system/menu/hooks/useMenuPageState';
@@ -21,12 +20,12 @@ const { viewMode } = useMenuPageState();
 </script>
 
 <template>
-  <AuthModuleTableTreeLayout v-model="viewMode" :options="segmentedOptions">
-    <template #table>
-      <MenuTableView />
-    </template>
-    <template #tree>
-      <MenuElTreeView />
-    </template>
-  </AuthModuleTableTreeLayout>
+  <div>
+    <div class="flex justify-center mt-[-20px] pb-1">
+      <el-segmented v-model="viewMode" :options="segmentedOptions" />
+    </div>
+
+    <MenuTableView v-if="viewMode === 'table'" />
+    <MenuElTreeView v-else />
+  </div>
 </template>

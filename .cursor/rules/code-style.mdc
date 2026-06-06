@@ -146,7 +146,7 @@ views文件目录参考：
 
 ### 6. 批量删除规范
 
-- **统一 Hook**：表格批量删除必须使用 `@/shared/hooks/useBatchDeleteAction`，禁止在各页面 Hook 内重复实现确认/提示/刷新逻辑。
+- **统一 Hook**：表格批量删除必须使用 `@/composables/table/useBatchDeleteAction`，禁止在各页面 Hook 内重复实现确认/提示/刷新逻辑。
 - **函数名**：`deleteBatchRows(ids?: unknown)`；工具栏批量 `@click="deleteBatchRows()"`，行内
   `@click="deleteBatchRows([row.id])"`。
 - **禁止**：`@click="deleteBatchRows"`（无括号会把 Event 当作 ids）；Hook 内禁止 `ids = ids || selectedRows`。

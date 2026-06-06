@@ -101,7 +101,7 @@
   }
 }
 
-/* 克隆并自定义 ElMessage 样式，不会影响 ElMessage 原本样式，在 src/shared/messaging/message.ts 中调用自定义样式 ElMessage 方法即可，整体暗色风格在 src/style/dark.scss 文件进行了适配 */
+/* 克隆并自定义 ElMessage 样式，不会影响 ElMessage 原本样式，在 src/ui/feedback/message.ts 中调用自定义样式 ElMessage 方法即可，整体暗色风格在 src/style/dark.scss 文件进行了适配 */
 .pure-message {
   background: #fff !important;
   border-width: 0 !important;
