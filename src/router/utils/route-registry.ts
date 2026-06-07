@@ -10,7 +10,9 @@ import { ascending } from './menu-sort';
 import { addPathMatch } from './misc';
 import { formatFlatteningRoutes } from './route-tree';
 import { ASYNC_ROUTES_STORAGE_KEY } from '@/config/http-config';
-import { fetchAsyncRoutes } from '@/router/bootstrap/fetchAsyncRoutes';
+import { getAsyncRoutes } from '@/api/system/routes';
+import { message } from '@/ui/feedback/message';
+import { transformI18n } from '@/plugins/i18n';
 
 /**
  * 处理动态路由（后端返回的路由）
@@ -79,6 +81,21 @@ function initRouter() {
       handleAsyncRoutes(cloneDeep(response));
       resolve(router);
     });
+  }
+}
+
+/**
+ * 拉取后端动态路由；网络/5xx 失败时降级为空数组并提示用户。
+ * @returns 动态路由列表
+ */
+async function fetchAsyncRoutes(): Promise<unknown[]> {
+  try {
+    const data = await getAsyncRoutes();
+    return Array.isArray(data) ? data : [];
+  } catch (error) {
+    message(error.message, { type: 'error' });
+    message(transformI18n('tips.asyncRoutesDegraded'), { type: 'warning', duration: 4000, grouping: true });
+    return [];
   }
 }
 

@@ -1,4 +1,6 @@
 users:
+  allDepts: All
+  loadPageFailed: Failed to load user list
   loadFailed: Failed to load user profile
   username: Username
   nickname: Nickname

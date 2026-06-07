@@ -1,4 +1,6 @@
 users:
+  allDepts: 全部
+  loadPageFailed: 加载用户列表失败
   loadFailed: 加载用户档案失败
   username: 用户名
   nickname: 昵称

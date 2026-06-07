@@ -1,0 +1,189 @@
+import { getDeptList, type SysDeptListVO } from '@/api/system/dept';
+import { getUserPage, type SysUserPageQuery, type SysUserPageRow } from '@/api/system/user';
+import { type PaginationTableState, usePaginationState } from '@/components/business/AuthPagedTable';
+import { handleTree } from '@/lib/tree';
+import { USER_DEPT_ALL_NODE_ID } from '@/views/system/user/constants/user-dept-tree';
+import { useDebounceFn } from '@vueuse/core';
+import type { FormInstance } from 'element-plus';
+import { reactive, ref, watch } from 'vue';
+
+/**
+ * 用户管理左侧部门树节点
+ */
+export type UserDeptTreeNode = SysDeptListVO & { children?: UserDeptTreeNode[] };
+
+const treeKeyword = ref('');
+const treeData = ref<UserDeptTreeNode[]>([]);
+const deptTreeReady = ref(false);
+const deptTreeLoading = ref(false);
+const currentNodeKey = ref(USER_DEPT_ALL_NODE_ID);
+
+// FIXME 这个写的位置不对
+const searchForm = reactive({
+  username: undefined as string | undefined,
+  nickname: undefined as string | undefined,
+  phone: undefined as string | undefined,
+  email: undefined as string | undefined,
+  employeeNo: undefined as string | undefined,
+  deptId: undefined as string | undefined,
+});
+
+const userState = usePaginationState<SysUserPageRow>({
+  fetchApi: (query) => getUserPage(query as SysUserPageQuery),
+  searchForm,
+  errorI18nKey: 'users.loadPageFailed',
+  defaultPageSize: 30,
+});
+
+/**
+ * 构建带「全部」根节点的部门树
+ * @param list 扁平部门列表
+ * @returns 树形数据
+ */
+function buildDeptTreeWithAllRoot(list: SysDeptListVO[]): UserDeptTreeNode[] {
+  const forest = handleTree(list) as UserDeptTreeNode[];
+  return [
+    {
+      id: USER_DEPT_ALL_NODE_ID,
+      parentId: '0',
+      deptName: '',
+      deptCode: '',
+      status: true,
+      orderNum: -1,
+      children: forest,
+      createTime: '',
+      updateTime: '',
+    },
+  ];
+}
+
+/**
+ * 拉取部门树；空列表或异常时标记未就绪
+ */
+async function loadDeptTree() {
+  deptTreeLoading.value = true;
+  try {
+    const keyword = treeKeyword.value.trim();
+    const list = await getDeptList({ keyword, status: true });
+
+    treeData.value = buildDeptTreeWithAllRoot(list);
+    deptTreeReady.value = true;
+    currentNodeKey.value = USER_DEPT_ALL_NODE_ID;
+    searchForm.deptId = undefined;
+  } catch {
+    treeData.value = [];
+    deptTreeReady.value = false;
+  } finally {
+    deptTreeLoading.value = false;
+  }
+}
+
+const debouncedLoadDeptTree = useDebounceFn(() => {
+  void loadDeptTree();
+}, 300);
+
+watch(treeKeyword, () => {
+  debouncedLoadDeptTree();
+});
+
+/**
+ * 拉取用户表格；部门树未就绪时保持空表
+ */
+async function fetchUserTable() {
+  if (!deptTreeReady.value) {
+    userState.tableData.value = [];
+    userState.pagination.total = 0;
+    return;
+  }
+  await userState.fetchTableData();
+}
+
+watch(deptTreeReady, (ready) => {
+  if (ready) {
+    void fetchUserTable();
+    return;
+  }
+  userState.tableData.value = [];
+  userState.pagination.total = 0;
+});
+
+/**
+ * 部门树节点点击：切换 deptId 并刷新用户列表
+ * @param data 树节点数据
+ */
+function handleDeptNodeClick(data: UserDeptTreeNode) {
+  currentNodeKey.value = data.id;
+  searchForm.deptId = data.id === USER_DEPT_ALL_NODE_ID ? undefined : data.id;
+  userState.pagination.currentPage = 1;
+  void fetchUserTable();
+}
+
+/**
+ * 重置用户搜索条件（保留当前部门筛选）
+ * @param formRef 搜索表单实例
+ */
+async function resetUserSearch(formRef?: FormInstance) {
+  if (formRef) {
+    formRef.resetFields();
+  } else {
+    searchForm.username = undefined;
+    searchForm.nickname = undefined;
+    searchForm.phone = undefined;
+    searchForm.email = undefined;
+    searchForm.employeeNo = undefined;
+  }
+  userState.pagination.currentPage = 1;
+  await fetchUserTable();
+}
+
+/**
+ * 分页变化后走部门树门禁拉取
+ * @param value 新的分页大小
+ */
+async function handlePageSizeChange(value: number) {
+  userState.pagination.pageSize = value;
+  userState.pagination.currentPage = 1;
+  await fetchUserTable();
+}
+
+/**
+ * 页码变化后走部门树门禁拉取
+ * @param value 新的当前页
+ */
+async function handlePageCurrentChange(value: number) {
+  userState.pagination.currentPage = value;
+  await fetchUserTable();
+}
+
+const tableState: PaginationTableState<SysUserPageRow> = {
+  loading: userState.loading,
+  tableData: userState.tableData,
+  selectedRows: userState.selectedRows,
+  pagination: userState.pagination,
+  searchForm: userState.searchForm,
+  fetchTableData: fetchUserTable,
+  resetQuery: resetUserSearch,
+  handlePageSizeChange,
+  handlePageCurrentChange,
+  handleSelectionChange: userState.handleSelectionChange,
+};
+
+/**
+ * 用户管理页状态（模块级单例）
+ */
+function useUserPageState() {
+  return {
+    treeKeyword,
+    treeData,
+    deptTreeReady,
+    deptTreeLoading,
+    currentNodeKey,
+    tableState,
+    loadDeptTree,
+    fetchUserTable,
+    handleDeptNodeClick,
+    resetUserSearch,
+  };
+}
+
+export default useUserPageState;
