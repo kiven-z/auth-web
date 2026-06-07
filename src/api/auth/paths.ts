@@ -12,6 +12,8 @@ export const AUTH_API_PATHS = {
   SMS_SEND_CODE: 'auth/message/login/sms/send-code',
   REFRESH_TOKEN: 'auth/refresh-token',
   LOGOUT: 'auth/logout',
+  /** 管理端：查询用户活跃会话 */
+  ADMIN_USER_SESSIONS: 'auth/admin/users',
 } as const;
 
 /**

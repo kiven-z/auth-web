@@ -2,6 +2,18 @@ users:
   allDepts: All
   resetPassword: Reset password
   kickSessions: Sign out user
+  viewSessions: View sessions
+  sessionDialogSubtitle: Active sessions for {username}
+  sessionDevice: Device
+  sessionBrowser: Browser
+  sessionOs: OS
+  sessionRememberMe: Remember me
+  sessionExpiresAt: Session expires at
+  sessionKickOne: Kick
+  sessionEmpty: No active sessions for this user
+  sessionLoadFailed: Failed to load user sessions
+  sessionKickSuccess: Session kicked successfully
+  sessionKickFailed: Failed to kick session
   importExcelComingSoon: Import from Excel (coming soon)
   loadPageFailed: Failed to load user list
   loadFailed: Failed to load user profile
