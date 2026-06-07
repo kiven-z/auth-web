@@ -19,10 +19,10 @@ const searchFormRef = ref<FormInstance>();
 const passwordHistoryState = usePaginationState({
   fetchApi: getPasswordHistoryPage,
   searchForm: reactive({
-    userId: undefined as string | undefined,
-    changeTimeStart: undefined as string | undefined,
-    changeTimeEnd: undefined as string | undefined,
-    changeIp: undefined as string | undefined,
+    userId: undefined,
+    changeTimeStart: undefined,
+    changeTimeEnd: undefined,
+    changeIp: undefined,
   }),
   errorI18nKey: 'passwordHistory.loadFailed',
 });

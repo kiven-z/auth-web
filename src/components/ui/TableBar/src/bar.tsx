@@ -1,7 +1,7 @@
 import { transformI18n } from '@/plugins/i18n';
 import { useEpThemeStoreHook } from '@/store/modules/epTheme';
 import { delay } from '@pureadmin/utils';
-import { computed, defineComponent, nextTick, ref, toRef, type PropType } from 'vue';
+import { computed, defineComponent, nextTick, type PropType, ref, toRef } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 import CollapseIcon from '@/components/ui/TableBar/src/images/collapse.svg?component';
@@ -138,11 +138,9 @@ export default defineComponent({
       emit('fullscreen', isFullscreen.value);
     }
 
-    function onColumnPopoverShow() {
-      void nextTick(() => {
-        void nextTick(() => {
-          initSortable(columnGroupRef.value?.$el);
-        });
+    async function onColumnPopoverShow() {
+      await nextTick(() => {
+        initSortable(columnGroupRef.value?.$el);
       });
     }
 
@@ -235,7 +233,7 @@ export default defineComponent({
                     indeterminate={isIndeterminate.value}
                     onChange={(value: boolean | string | number) => handleCheckAllChange(!!value)}
                   />
-                  <el-button type="primary" link onClick={() => void resetColumns()}>
+                  <el-button type="primary" link onClick={() => resetColumns()}>
                     {t('tableBar.reset')}
                   </el-button>
                 </div>

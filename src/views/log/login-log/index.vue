@@ -20,11 +20,11 @@ const searchFormRef = ref<FormInstance>();
 const loginLogState = usePaginationState({
   fetchApi: getLoginLogPage,
   searchForm: reactive({
-    userId: undefined as string | undefined,
-    loginTimeStart: undefined as string | undefined,
-    loginTimeEnd: undefined as string | undefined,
-    loginResult: undefined as number | undefined,
-    loginType: undefined as string | undefined,
+    userId: undefined,
+    loginTimeStart: undefined,
+    loginTimeEnd: undefined,
+    loginResult: undefined,
+    loginType: undefined,
   }),
   errorI18nKey: 'loginLog.loadFailed',
 });

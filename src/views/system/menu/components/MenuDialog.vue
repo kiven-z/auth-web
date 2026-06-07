@@ -145,7 +145,7 @@ const loadMenuTree = async () => {
 };
 
 onMounted(() => {
-  void loadMenuTree();
+  loadMenuTree();
 });
 
 defineExpose({ formRef, form });

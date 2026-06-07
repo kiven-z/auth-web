@@ -23,11 +23,11 @@ const searchFormRef = ref<FormInstance>();
 const eventState = usePaginationState({
   fetchApi: getAuthorizationInvalidationEventPage,
   searchForm: reactive({
-    eventId: undefined as string | undefined,
-    changeKind: undefined as string | undefined,
-    processing: undefined as boolean | undefined,
-    processedAtStart: undefined as string | undefined,
-    processedAtEnd: undefined as string | undefined,
+    eventId: undefined,
+    changeKind: undefined,
+    processing: undefined,
+    processedAtStart: undefined,
+    processedAtEnd: undefined,
   }),
   errorI18nKey: 'authorizationInvalidation.loadFailed',
 });

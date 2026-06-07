@@ -25,8 +25,6 @@ export interface CreateModuleTableTreePageStateConfig<TRow, TFlat, TNode, TViewM
   treeIdKey?: string;
   /** handleTree 的 parentId 字段名，默认 parentId */
   treeParentKey?: string;
-  /** 无表单 ref 时重置查询字段（与 resetFields 二选一） */
-  resetSearchFormWithoutRef?: () => void;
   /** 初始视图模式 */
   initialViewMode?: TViewMode;
 }
@@ -72,15 +70,11 @@ export function useCreateModuleTableTreePageState<
   };
 
   /**
-   * 重置筛选并查询（支持无 formRef 时由配置回调清空字段）。
+   * 重置筛选并查询。
    * @param formRef 搜索表单实例
    */
-  const resetQuery = async (formRef?: FormInstance) => {
-    if (formRef) {
-      formRef.resetFields();
-    } else {
-      config.resetSearchFormWithoutRef?.();
-    }
+  const resetQuery = async (formRef: FormInstance) => {
+    formRef.resetFields();
     pageState.pagination.currentPage = 1;
     await pageState.fetchTableData();
   };

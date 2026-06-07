@@ -20,12 +20,12 @@ const searchFormRef = ref<FormInstance>();
 const operationLogState = usePaginationState({
   fetchApi: getOperationLogPage,
   searchForm: reactive({
-    userId: undefined as string | undefined,
-    operationType: undefined as string | undefined,
-    module: undefined as string | undefined,
-    targetType: undefined as string | undefined,
-    targetId: undefined as string | undefined,
-    requestMethod: undefined as string | undefined,
+    userId: undefined,
+    operationType: undefined,
+    module: undefined,
+    targetType: undefined,
+    targetId: undefined,
+    requestMethod: undefined,
   }),
   errorI18nKey: 'operationLog.loadFailed',
 });

@@ -19,9 +19,9 @@ const searchFormRef = ref<FormInstance>();
 const jobGroupState = usePaginationState({
   fetchApi: getJobGroupPage,
   searchForm: reactive({
-    groupCode: undefined as string | undefined,
-    groupName: undefined as string | undefined,
-    status: undefined as boolean | undefined,
+    groupCode: undefined,
+    groupName: undefined,
+    status: undefined,
   }),
   errorI18nKey: 'scheduleGroup.loadFailed',
 });

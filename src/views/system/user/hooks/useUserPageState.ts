@@ -1,5 +1,5 @@
 import { getDeptList, type SysDeptListVO } from '@/api/system/dept';
-import { getUserPage, type SysUserPageQuery, type SysUserPageRow } from '@/api/system/user';
+import { getUserPage, type SysUserPageRow } from '@/api/system/user';
 import { type PaginationTableState, usePaginationState } from '@/components/business/AuthPagedTable';
 import { handleTree } from '@/lib/tree';
 import { USER_DEPT_ALL_NODE_ID } from '@/views/system/user/constants/user-dept-tree';
@@ -19,16 +19,16 @@ const deptTreeLoading = ref(false);
 const currentNodeKey = ref(USER_DEPT_ALL_NODE_ID);
 
 const searchForm = reactive({
-  username: undefined as string | undefined,
-  nickname: undefined as string | undefined,
-  phone: undefined as string | undefined,
-  email: undefined as string | undefined,
-  employeeNo: undefined as string | undefined,
-  deptId: undefined as string | undefined,
+  username: undefined,
+  nickname: undefined,
+  phone: undefined,
+  email: undefined,
+  employeeNo: undefined,
+  deptId: undefined,
 });
 
 const userState = usePaginationState<SysUserPageRow>({
-  fetchApi: (query) => getUserPage(query as SysUserPageQuery),
+  fetchApi: getUserPage,
   searchForm,
   errorI18nKey: 'users.loadPageFailed',
   defaultPageSize: 30,
@@ -77,8 +77,8 @@ async function loadDeptTree() {
   }
 }
 
-const debouncedLoadDeptTree = useDebounceFn(() => {
-  void loadDeptTree();
+const debouncedLoadDeptTree = useDebounceFn(async () => {
+  await loadDeptTree();
 }, 300);
 
 watch(treeKeyword, () => {
@@ -97,9 +97,9 @@ async function fetchUserTable() {
   await userState.fetchTableData();
 }
 
-watch(deptTreeReady, (ready) => {
+watch(deptTreeReady, async (ready) => {
   if (ready) {
-    void fetchUserTable();
+    await fetchUserTable();
     return;
   }
   userState.tableData.value = [];
@@ -110,27 +110,19 @@ watch(deptTreeReady, (ready) => {
  * 部门树节点点击：切换 deptId 并刷新用户列表
  * @param data 树节点数据
  */
-function handleDeptNodeClick(data: UserDeptTreeNode) {
+async function handleDeptNodeClick(data: UserDeptTreeNode) {
   currentNodeKey.value = data.id;
   searchForm.deptId = data.id === USER_DEPT_ALL_NODE_ID ? undefined : data.id;
   userState.pagination.currentPage = 1;
-  void fetchUserTable();
+  await fetchUserTable();
 }
 
 /**
  * 重置用户搜索条件（保留当前部门筛选）
  * @param formRef 搜索表单实例
  */
-async function resetUserSearch(formRef?: FormInstance) {
-  if (formRef) {
-    formRef.resetFields();
-  } else {
-    searchForm.username = undefined;
-    searchForm.nickname = undefined;
-    searchForm.phone = undefined;
-    searchForm.email = undefined;
-    searchForm.employeeNo = undefined;
-  }
+async function resetUserSearch(formRef: FormInstance) {
+  formRef.resetFields();
   userState.pagination.currentPage = 1;
   await fetchUserTable();
 }

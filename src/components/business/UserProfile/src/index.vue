@@ -53,7 +53,7 @@ const loadUserDetailInfo = async () => {
 watch(
   () => props.userId,
   () => {
-    void loadUserDetailInfo();
+    loadUserDetailInfo();
   },
   { immediate: true }
 );

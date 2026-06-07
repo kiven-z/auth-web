@@ -93,7 +93,7 @@ export function usePaginationState<TData = unknown>(options: UsePaginationStateO
 
   /**
    * 重置筛选并回到第一页再拉取。
-   * @param formRef 表单实例；不传则不重置表单字段
+   * @param formRef 搜索表单实例
    */
   const resetQuery = async (formRef?: FormInstance) => {
     pagination.currentPage = 1;

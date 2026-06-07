@@ -30,13 +30,6 @@ const useMenuPageState = useCreateModuleTableTreePageState<SysMenuRow, SysMenuLi
   fetchPage: (q) => getMenuPage(q),
   fetchFlatList: (p) => getMenuList((p ?? {}) as SysMenuListQuery),
   flatListParams: {},
-  resetSearchFormWithoutRef: () => {
-    searchForm.name = undefined;
-    searchForm.title = undefined;
-    searchForm.menuType = undefined;
-    searchForm.status = undefined;
-    searchForm.component = undefined;
-  },
   initialViewMode: 'table',
 });
 

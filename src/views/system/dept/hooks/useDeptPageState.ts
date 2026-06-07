@@ -31,11 +31,6 @@ const innerPageState = useCreateModuleTableTreePageState<SysDeptRow, SysDeptList
     return getDeptList(keyword ? { keyword } : {});
   },
   flatListParams: {},
-  resetSearchFormWithoutRef: () => {
-    searchForm.deptName = undefined;
-    searchForm.deptCode = undefined;
-    searchForm.status = undefined;
-  },
   initialViewMode: 'table',
 });
 
