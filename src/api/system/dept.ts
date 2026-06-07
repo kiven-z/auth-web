@@ -13,6 +13,8 @@ export interface SysDeptListQuery {
   deptName?: string;
   deptCode?: string;
   status?: boolean;
+  /** 部门名称或编码关键词 */
+  keyword?: string;
 }
 
 /**

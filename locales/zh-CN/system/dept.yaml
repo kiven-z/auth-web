@@ -32,6 +32,7 @@ dept:
   parentTopLevel: 顶级部门
   placeholder:
     parentDept: 不选则为顶级部门
+    treeKeyword: 搜索部门名称或编码
   relationStatus: 关联状态
   position: 部门内职位
   joinTime: 加入时间

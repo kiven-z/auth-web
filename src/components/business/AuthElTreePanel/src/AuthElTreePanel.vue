@@ -61,6 +61,9 @@ function handleRefresh() {
     </template>
 
     <template #default>
+      <div v-if="$slots.search" class="px-2 pb-2">
+        <slot name="search" />
+      </div>
       <div v-loading="loading" :class="contentClass" class="min-h-50 overflow-auto px-2">
         <el-tree
           ref="treeRef"

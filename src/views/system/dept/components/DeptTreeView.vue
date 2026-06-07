@@ -1,12 +1,14 @@
 <script lang="ts" setup>
 import { AuthElTreePanel } from '@/components/business/AuthElTreePanel';
+import { useRenderIcon } from '@/components/ui/Icon/src/hooks';
 import DeptHeadButtons from '@/views/system/dept/components/DeptHeadButtons.vue';
 import DeptRowActions from '@/views/system/dept/components/DeptRowActions.vue';
 import useDeptMoreAction from '@/views/system/dept/hooks/useDeptMoreAction';
 import useDeptPageState from '@/views/system/dept/hooks/useDeptPageState';
 import useDeptTableAction from '@/views/system/dept/hooks/useDeptTableAction';
 import { useDeptTreeDrag } from '@/views/system/dept/hooks/useDeptTreeDrag';
-import { onMounted } from 'vue';
+import { useDebounceFn } from '@vueuse/core';
+import { onMounted, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 defineOptions({
@@ -20,7 +22,16 @@ const treeProps = {
 
 const { t } = useI18n();
 
-const { loading, selectedRows, treeData, viewMode, fetchTableData, fetchTreeData, refresh } = useDeptPageState();
+const { loading, selectedRows, treeData, treeKeyword, viewMode, fetchTableData, fetchTreeData, refresh } =
+  useDeptPageState();
+
+const debouncedFetchTree = useDebounceFn(() => {
+  fetchTreeData();
+}, 300);
+
+watch(treeKeyword, () => {
+  debouncedFetchTree();
+});
 
 const tableActionDeps = {
   fetchTableData,
@@ -60,6 +71,15 @@ onMounted(() => {
   >
     <template #toolbar>
       <DeptHeadButtons />
+    </template>
+
+    <template #search>
+      <el-input
+        v-model="treeKeyword"
+        clearable
+        :placeholder="t('dept.placeholder.treeKeyword')"
+        :prefix-icon="useRenderIcon('ri/search-line')"
+      />
     </template>
 
     <template #meta="{ data }">

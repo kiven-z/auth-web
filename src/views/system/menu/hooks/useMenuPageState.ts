@@ -25,7 +25,7 @@ const searchForm = reactive<SysMenuListQuery>({
 
 const useMenuPageState = useCreateModuleTableTreePageState<SysMenuRow, SysMenuListVO, SysMenuTreeNode, MenuViewMode>({
   searchForm,
-  defaultPageSize: 10,
+  defaultPageSize: 30,
   errorI18nKey: 'sysMenu.loadFailed',
   fetchPage: (q) => getMenuPage(q),
   fetchFlatList: (p) => getMenuList((p ?? {}) as SysMenuListQuery),

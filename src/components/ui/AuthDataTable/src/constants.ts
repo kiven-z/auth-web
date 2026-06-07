@@ -11,7 +11,7 @@ export const DEFAULT_PAGE_SIZES = [10, 20, 30, 50, 100, 150];
 /**
  * 自适应表格区最小高度（px）
  */
-export const MIN_ADAPTIVE_TABLE_HEIGHT_PX = 500;
+export const MIN_ADAPTIVE_TABLE_HEIGHT_PX = 480;
 
 /**
  * 默认底部偏移量（px）
