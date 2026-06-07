@@ -18,7 +18,6 @@ const deptTreeReady = ref(false);
 const deptTreeLoading = ref(false);
 const currentNodeKey = ref(USER_DEPT_ALL_NODE_ID);
 
-// FIXME 这个写的位置不对
 const searchForm = reactive({
   username: undefined as string | undefined,
   nickname: undefined as string | undefined,

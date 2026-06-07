@@ -73,6 +73,11 @@ buttons:
   statusActiveText: Enabled
   statusInactiveText: Disabled
   assignClearAll: Clear all
+assign:
+  role: Assign roles
+  dept: Assign departments
+  post: Assign posts
+  permission: Assign permissions
 
 table:
   idx: No

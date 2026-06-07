@@ -1,5 +1,8 @@
 users:
   allDepts: All
+  resetPassword: Reset password
+  kickSessions: Sign out user
+  importExcelComingSoon: Import from Excel (coming soon)
   loadPageFailed: Failed to load user list
   loadFailed: Failed to load user profile
   username: Username

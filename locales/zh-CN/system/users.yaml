@@ -1,5 +1,8 @@
 users:
   allDepts: 全部
+  resetPassword: 修改密码
+  kickSessions: 用户下线
+  importExcelComingSoon: 从 Excel 导入（敬请期待）
   loadPageFailed: 加载用户列表失败
   loadFailed: 加载用户档案失败
   username: 用户名

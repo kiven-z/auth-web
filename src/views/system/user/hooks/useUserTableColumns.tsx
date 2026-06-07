@@ -1,4 +1,5 @@
 import type { SysUserPageRow } from '@/api/system/user';
+import { resolveUserAccountStatusMeta } from '@/views/system/user/constants/user-account-status';
 import { ElTag } from 'element-plus';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
@@ -9,28 +10,6 @@ import { useI18n } from 'vue-i18n';
  */
 function useUserTableColumns() {
   const { t } = useI18n();
-
-  // FIXME 修改成switch 直接连接到函数中，考虑使用常量方式
-  const resolveAccountStatusLabel = (status: number) => {
-    if (status === 1) {
-      return t('users.accountStatus.normal');
-    }
-    if (status === 2) {
-      return t('users.accountStatus.locked');
-    }
-    return t('users.accountStatus.disabled');
-  };
-
-  // FIXME 修改成switch 直接连接到函数中，考虑使用常量方式
-  const resolveAccountStatusType = (status: number): 'success' | 'warning' | 'danger' => {
-    if (status === 1) {
-      return 'success';
-    }
-    if (status === 2) {
-      return 'warning';
-    }
-    return 'danger';
-  };
 
   const columns = computed<TableColumnList>(() => [
     { type: 'selection', align: 'left' },
@@ -44,11 +23,14 @@ function useUserTableColumns() {
       label: t('users.status'),
       prop: 'status',
       minWidth: 100,
-      formatter: (row: SysUserPageRow) => (
-        <ElTag type={resolveAccountStatusType(row.status)} effect="plain">
-          {resolveAccountStatusLabel(row.status)}
-        </ElTag>
-      ),
+      formatter: (row: SysUserPageRow) => {
+        const meta = resolveUserAccountStatusMeta(row.status);
+        return (
+          <ElTag type={meta.tagType} effect="plain">
+            {t(meta.labelKey)}
+          </ElTag>
+        );
+      },
     },
     { label: t('table.createTime'), prop: 'createTime', minWidth: 160 },
     {
