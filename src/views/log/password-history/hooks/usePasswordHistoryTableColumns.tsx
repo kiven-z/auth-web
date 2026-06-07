@@ -60,7 +60,7 @@ function usePasswordHistoryTableColumns() {
       label: t('table.createTime'),
       prop: 'createTime',
       sortable: true,
-      minWidth: 160,
+      minWidth: 170,
     },
     // 创建人
     {

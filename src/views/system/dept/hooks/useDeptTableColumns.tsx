@@ -39,8 +39,8 @@ function useDeptTableColumns() {
         );
       },
     },
-    { label: t('table.createTime'), prop: 'createTime', minWidth: 160 },
-    { label: t('table.updateTime'), prop: 'updateTime', minWidth: 160 },
+    { label: t('table.createTime'), prop: 'createTime', minWidth: 170 },
+    { label: t('table.updateTime'), prop: 'updateTime', minWidth: 170 },
     {
       label: t('table.createUsername'),
       prop: 'createUsername',

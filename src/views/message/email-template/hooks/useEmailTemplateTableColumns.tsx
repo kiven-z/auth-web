@@ -43,8 +43,8 @@ function useEmailTemplateTableColumns() {
         );
       },
     },
-    { label: t('table.updateTime'), prop: 'updateTime', sortable: true, minWidth: 160 },
-    { label: t('table.createTime'), prop: 'createTime', sortable: true, minWidth: 160 },
+    { label: t('table.updateTime'), prop: 'updateTime', sortable: true, minWidth: 170 },
+    { label: t('table.createTime'), prop: 'createTime', sortable: true, minWidth: 170 },
     {
       label: t('table.createUsername'),
       prop: 'createUser',

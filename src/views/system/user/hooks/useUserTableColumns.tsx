@@ -1,4 +1,3 @@
-import type { SysRolePageRow } from '@/api/system/role';
 import type { SysUserPageRow } from '@/api/system/user';
 import { selectUserinfo } from '@/components/business/UserProfile';
 import { resolveUserAccountStatusMeta } from '@/views/system/user/constants/user-account-status';
@@ -40,7 +39,7 @@ function useUserTableColumns() {
       label: t('table.createUsername'),
       prop: 'createUsername',
       minWidth: 140,
-      formatter: (row: SysRolePageRow) => {
+      formatter: (row: SysUserPageRow) => {
         return (
           row.createUser && (
             <ElButton link type="primary" onClick={() => selectUserinfo(row.createUser, row.createUsername)}>
@@ -54,7 +53,7 @@ function useUserTableColumns() {
       label: t('table.updateUsername'),
       prop: 'updateUsername',
       minWidth: 120,
-      formatter: (row: SysRolePageRow) => {
+      formatter: (row: SysUserPageRow) => {
         return (
           row.updateUser && (
             <ElButton link type="primary" onClick={() => selectUserinfo(row.updateUser, row.updateUsername)}>

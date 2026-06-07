@@ -103,8 +103,8 @@ function useMenuTableColumns() {
         </ElTag>
       ),
     },
-    { label: t('table.updateTime'), prop: 'updateTime', sortable: true, minWidth: 160 },
-    { label: t('table.createTime'), prop: 'createTime', sortable: true, minWidth: 160 },
+    { label: t('table.updateTime'), prop: 'updateTime', sortable: true, minWidth: 170 },
+    { label: t('table.createTime'), prop: 'createTime', sortable: true, minWidth: 170 },
     {
       label: t('table.actions'),
       fixed: 'right' as const,

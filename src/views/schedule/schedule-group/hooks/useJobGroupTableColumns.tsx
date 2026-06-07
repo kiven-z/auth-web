@@ -54,13 +54,13 @@ function useJobGroupTableColumns() {
       label: t('table.updateTime'),
       prop: 'updateTime',
       sortable: true,
-      minWidth: 160,
+      minWidth: 170,
     },
     {
       label: t('table.createTime'),
       prop: 'createTime',
       sortable: true,
-      minWidth: 160,
+      minWidth: 170,
     },
     {
       label: t('table.createUsername'),

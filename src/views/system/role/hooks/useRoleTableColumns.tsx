@@ -48,8 +48,8 @@ function useRoleTableColumns() {
     },
     // 排序号
     { label: t('roles.orderNum'), prop: 'orderNum', width: 100 },
-    { label: t('table.createTime'), prop: 'createTime', minWidth: 120 },
-    { label: t('table.updateTime'), prop: 'updateTime', minWidth: 120 },
+    { label: t('table.createTime'), prop: 'createTime', minWidth: 170 },
+    { label: t('table.updateTime'), prop: 'updateTime', minWidth: 170 },
     {
       label: t('table.createUsername'),
       prop: 'createUsername',
