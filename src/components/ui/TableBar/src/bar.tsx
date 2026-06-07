@@ -177,7 +177,7 @@ export default defineComponent({
 
     const reference = {
       reference: () => (
-        <SettingIcon class={['w-[16px]', iconClass.value]} v-tippy={tippyOptions('tableBar.tippyColumnSettings')} />
+        <SettingIcon class={['w-4', iconClass.value]} v-tippy={tippyOptions('tableBar.tippyColumnSettings')} />
       ),
     };
 
@@ -195,7 +195,7 @@ export default defineComponent({
               {props.tableRef?.size ? (
                 <>
                   <ExpandIcon
-                    class={['w-[16px]', iconClass.value]}
+                    class={['w-4', iconClass.value]}
                     style={{
                       transform: isExpandAll.value ? 'none' : 'rotate(-90deg)',
                     }}
@@ -206,13 +206,13 @@ export default defineComponent({
                 </>
               ) : null}
               <RefreshIcon
-                class={['w-[16px]', iconClass.value, refreshSpinning.value ? 'animate-spin' : '']}
+                class={['w-4', iconClass.value, refreshSpinning.value ? 'animate-spin' : '']}
                 v-tippy={tippyOptions('tableBar.tippyRefresh')}
                 onClick={() => onReFresh()}
               />
               <el-divider direction="vertical" />
               <el-dropdown v-slots={dropdown} trigger="click" v-tippy={tippyOptions('tableBar.tippyDensity')}>
-                <CollapseIcon class={['w-[16px]', iconClass.value]} />
+                <CollapseIcon class={['w-4', iconClass.value]} />
               </el-dropdown>
               <el-divider direction="vertical" />
 
@@ -252,10 +252,7 @@ export default defineComponent({
                           return (
                             <div class="flex items-center" key={item}>
                               <DragIcon
-                                class={[
-                                  'drag-btn mr-2 w-[16px]',
-                                  isFixedColumn(item) ? 'cursor-no-drop!' : 'cursor-grab!',
-                                ]}
+                                class={['drag-btn mr-2 w-4', isFixedColumn(item) ? 'cursor-no-drop!' : 'cursor-grab!']}
                               />
                               <el-checkbox
                                 key={index}
@@ -267,7 +264,7 @@ export default defineComponent({
                               >
                                 <span
                                   title={transformI18n(item)}
-                                  class="inline-block w-[120px] truncate hover:text-text_color_primary"
+                                  class="inline-block w-30 truncate hover:text-text_color_primary"
                                 >
                                   {transformI18n(item)}
                                 </span>
@@ -283,7 +280,7 @@ export default defineComponent({
               <el-divider direction="vertical" />
 
               <iconifyIconOffline
-                class={['w-[16px]', iconClass.value]}
+                class={['w-4', iconClass.value]}
                 icon={isFullscreen.value ? ExitFullscreen : Fullscreen}
                 v-tippy={tippyOptions(isFullscreen.value ? 'tableBar.tippyExitFullscreen' : 'tableBar.tippyFullscreen')}
                 onClick={() => onFullscreen()}

@@ -1,6 +1,8 @@
+import type { SysRolePageRow } from '@/api/system/role';
 import type { SysUserPageRow } from '@/api/system/user';
+import { selectUserinfo } from '@/components/business/UserProfile';
 import { resolveUserAccountStatusMeta } from '@/views/system/user/constants/user-account-status';
-import { ElTag } from 'element-plus';
+import { ElButton, ElTag } from 'element-plus';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 
@@ -32,7 +34,36 @@ function useUserTableColumns() {
         );
       },
     },
-    { label: t('table.createTime'), prop: 'createTime', minWidth: 160 },
+    { label: t('table.createTime'), prop: 'createTime', minWidth: 170 },
+    { label: t('table.updateTime'), prop: 'updateTime', minWidth: 170 },
+    {
+      label: t('table.createUsername'),
+      prop: 'createUsername',
+      minWidth: 140,
+      formatter: (row: SysRolePageRow) => {
+        return (
+          row.createUser && (
+            <ElButton link type="primary" onClick={() => selectUserinfo(row.createUser, row.createUsername)}>
+              {row.createUsername}
+            </ElButton>
+          )
+        );
+      },
+    },
+    {
+      label: t('table.updateUsername'),
+      prop: 'updateUsername',
+      minWidth: 120,
+      formatter: (row: SysRolePageRow) => {
+        return (
+          row.updateUser && (
+            <ElButton link type="primary" onClick={() => selectUserinfo(row.updateUser, row.updateUsername)}>
+              {row.updateUsername}
+            </ElButton>
+          )
+        );
+      },
+    },
     {
       label: t('table.actions'),
       fixed: 'right' as const,

@@ -1,5 +1,7 @@
 <script lang="ts" setup>
+import type { SysUserPageRow } from '@/api/system/user';
 import AuthPagedTable from '@/components/business/AuthPagedTable';
+import { selectUserinfo } from '@/components/business/UserProfile';
 import { USER_STATUS_FILTER_OPTIONS } from '@/views/system/user/constants/user-account-status';
 import useUserMoreAction from '@/views/system/user/hooks/useUserMoreAction';
 import useUserPageState from '@/views/system/user/hooks/useUserPageState';
@@ -20,6 +22,14 @@ const { tableState, fetchUserTable, resetUserSearch } = useUserPageState();
 const { loading, searchForm } = tableState;
 
 const { openViewSessionsDialog } = useUserMoreAction();
+
+/**
+ * 打开用户档案弹窗
+ * @param row 用户行
+ */
+const handleView = (row: SysUserPageRow) => {
+  selectUserinfo(row.id, row.username);
+};
 </script>
 
 <template>
@@ -94,7 +104,7 @@ const { openViewSessionsDialog } = useUserMoreAction();
       <template #actions="{ row }">
         <div class="flex justify-center gap-x-1">
           <!-- 查看 -->
-          <el-button link type="primary">{{ t('buttons.actionView') }}</el-button>
+          <el-button link type="primary" @click="handleView(row)">{{ t('buttons.actionView') }}</el-button>
           <!-- 修改 -->
           <el-button link type="primary">{{ t('buttons.actionEdit') }}</el-button>
           <!-- 删除 -->
