@@ -7,14 +7,21 @@ import type { AxiosRequestConfig } from 'axios';
 export type { GrantTableAssignedRoleRow, GrantTableAssignRoleRequest };
 
 /**
- * 部门列表查询条件（与文档查询字段一致）
+ * 部门扁平列表查询（树形建树，无分页）
  */
 export interface SysDeptListQuery {
+  /** 部门名称或编码关键词 */
+  keyword?: string;
+  status?: boolean;
+}
+
+/**
+ * 部门表格 / 导出筛选（不含关键词）
+ */
+export interface SysDeptTableFilter {
   deptName?: string;
   deptCode?: string;
   status?: boolean;
-  /** 部门名称或编码关键词 */
-  keyword?: string;
 }
 
 /**
@@ -38,7 +45,7 @@ export type SysDeptTreeNode = SysDeptListVO & { children?: SysDeptTreeNode[] };
 /**
  * 表格分页查询
  */
-export interface SysDeptPageQuery extends SysDeptListQuery {
+export interface SysDeptPageQuery extends SysDeptTableFilter {
   pageIndex?: number;
   pageSize?: number;
   sort?: SortSpec[];

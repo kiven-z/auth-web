@@ -28,7 +28,7 @@ const innerPageState = useCreateModuleTableTreePageState<SysDeptRow, SysDeptList
   fetchPage: (query) => getDeptPage(query),
   fetchFlatList: () => {
     const keyword = treeKeyword.value;
-    return getDeptList({ keyword });
+    return getDeptList(keyword ? { keyword } : {});
   },
   flatListParams: {},
   resetSearchFormWithoutRef: () => {
@@ -41,10 +41,7 @@ const innerPageState = useCreateModuleTableTreePageState<SysDeptRow, SysDeptList
 
 function useDeptPageState() {
   const state = innerPageState();
-  return {
-    ...state,
-    treeKeyword,
-  };
+  return { ...state, treeKeyword };
 }
 
 export default useDeptPageState;
