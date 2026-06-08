@@ -5,6 +5,7 @@ import { selectUserinfo } from '@/components/business/UserProfile';
 import { USER_STATUS_FILTER_OPTIONS } from '@/views/system/user/constants/user-account-status';
 import useUserMoreAction from '@/views/system/user/hooks/useUserMoreAction';
 import useUserPageState from '@/views/system/user/hooks/useUserPageState';
+import useUserSessionKickAction from '@/views/system/user/hooks/useUserSessionKickAction';
 import useUserTableColumns from '@/views/system/user/hooks/useUserTableColumns';
 import type { FormInstance } from 'element-plus';
 import { ref } from 'vue';
@@ -21,7 +22,8 @@ const searchFormRef = ref<FormInstance>();
 const { tableState, fetchUserTable, resetUserSearch } = useUserPageState();
 const { loading, searchForm, selectedRows } = tableState;
 
-const { openViewSessionsDialog } = useUserMoreAction();
+const { openViewSessionsDialog, kickUserSessions } = useUserMoreAction();
+const { batchKickAll } = useUserSessionKickAction({ selectedRows });
 
 /**
  * 打开用户档案弹窗
@@ -104,6 +106,9 @@ const handleView = (row: SysUserPageRow) => {
               <el-dropdown-item disabled>{{ t('users.importExcelComingSoon') }}</el-dropdown-item>
               <el-dropdown-item>{{ t('buttons.exportExcel') }}</el-dropdown-item>
               <el-dropdown-item disabled>{{ t('buttons.actionBatchDelete') }}</el-dropdown-item>
+              <el-dropdown-item :disabled="selectedRows.length <= 0" @click="batchKickAll()">
+                {{ t('users.batchKickSessions') }}
+              </el-dropdown-item>
             </template>
           </el-dropdown>
         </el-button-group>
@@ -130,7 +135,9 @@ const handleView = (row: SysUserPageRow) => {
               <el-dropdown-item @click="openViewSessionsDialog(row)">
                 {{ t('users.viewSessions') }}
               </el-dropdown-item>
-              <el-dropdown-item disabled>{{ t('users.kickSessions') }}</el-dropdown-item>
+              <el-dropdown-item @click="kickUserSessions(row)">
+                {{ t('users.kickSessions') }}
+              </el-dropdown-item>
             </template>
           </el-dropdown>
         </div>

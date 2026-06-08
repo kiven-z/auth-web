@@ -1,6 +1,7 @@
 import type { SysUserPageRow } from '@/api/system/user';
 import { addDialog } from '@/components/ui/Dialog';
 import UserSessionDialog from '@/views/system/user/components/UserSessionDialog.vue';
+import useUserSessionKickAction from '@/views/system/user/hooks/useUserSessionKickAction';
 import { h } from 'vue';
 import { useI18n } from 'vue-i18n';
 
@@ -10,6 +11,7 @@ import { useI18n } from 'vue-i18n';
  */
 function useUserMoreAction() {
   const { t } = useI18n();
+  const { kickAllForUser } = useUserSessionKickAction();
 
   /**
    * 打开查看会话弹窗
@@ -26,8 +28,17 @@ function useUserMoreAction() {
     });
   };
 
+  /**
+   * 踢出用户全部会话
+   * @param row 用户行
+   */
+  const kickUserSessions = (row: SysUserPageRow) => {
+    void kickAllForUser(row.id);
+  };
+
   return {
     openViewSessionsDialog,
+    kickUserSessions,
   };
 }
 

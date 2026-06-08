@@ -2,6 +2,7 @@ users:
   allDepts: All
   resetPassword: Reset password
   kickSessions: Sign out user
+  batchKickSessions: Batch sign out users
   viewSessions: View sessions
   sessionDialogSubtitle: Active sessions for {username}
   sessionDevice: Device
@@ -10,10 +11,17 @@ users:
   sessionRememberMe: Remember me
   sessionExpiresAt: Session expires at
   sessionKickOne: Kick
+  sessionKickAll: Kick all
   sessionEmpty: No active sessions for this user
   sessionLoadFailed: Failed to load user sessions
   sessionKickSuccess: Session kicked successfully
   sessionKickFailed: Failed to kick session
+  sessionKickAllSuccess: All sessions kicked successfully
+  sessionKickAllFailed: Failed to kick all sessions
+  kickSessionsSuccess: User signed out successfully
+  kickSessionsFailed: Failed to sign out user
+  batchKickSessionsSuccess: Selected users signed out successfully
+  batchKickSessionsFailed: Failed to sign out selected users
   importExcelComingSoon: Import from Excel (coming soon)
   loadPageFailed: Failed to load user list
   loadFailed: Failed to load user profile

@@ -2,6 +2,7 @@ users:
   allDepts: 全部
   resetPassword: 修改密码
   kickSessions: 用户下线
+  batchKickSessions: 批量用户下线
   viewSessions: 查看会话
   sessionDialogSubtitle: '{username} 的活跃会话'
   sessionDevice: 设备
@@ -10,10 +11,17 @@ users:
   sessionRememberMe: 记住我
   sessionExpiresAt: 会话过期时间
   sessionKickOne: 踢下线
+  sessionKickAll: 全部踢下线
   sessionEmpty: 该用户暂无活跃会话
   sessionLoadFailed: 加载用户会话失败
   sessionKickSuccess: 会话已踢下线
   sessionKickFailed: 踢下线失败
+  sessionKickAllSuccess: 已全部踢下线
+  sessionKickAllFailed: 全部踢下线失败
+  kickSessionsSuccess: 用户已全部下线
+  kickSessionsFailed: 用户下线失败
+  batchKickSessionsSuccess: 批量用户下线成功
+  batchKickSessionsFailed: 批量用户下线失败
   importExcelComingSoon: 从 Excel 导入（敬请期待）
   loadPageFailed: 加载用户列表失败
   loadFailed: 加载用户档案失败

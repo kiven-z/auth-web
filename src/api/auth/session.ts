@@ -41,3 +41,11 @@ export function kickUserSession(userId: string, sessionId: string): Promise<void
 export function kickAllUserSessions(userId: string): Promise<void> {
   return http.post<void, unknown>(`auth/admin/users/${userId}/sessions/kick-all`);
 }
+
+/**
+ * 批量踢出用户全部会话
+ * @param userIds 用户 ID 列表
+ */
+export function batchKickAllUserSessions(userIds: string[]): Promise<void> {
+  return http.post<void, string[]>(`auth/admin/users/kick-all`, { data: userIds });
+}
