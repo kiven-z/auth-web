@@ -1,3 +1,10 @@
+/** 用户账号状态码（与后端 {@code UserStatus} 一致） */
+export const USER_ACCOUNT_STATUS = {
+  disabled: 0,
+  normal: 1,
+  locked: 2,
+} as const;
+
 /** 用户账号状态展示元数据（与后端 status 码一致） */
 export const USER_ACCOUNT_STATUS_META = {
   1: { labelKey: 'users.accountStatus.normal', tagType: 'success' },

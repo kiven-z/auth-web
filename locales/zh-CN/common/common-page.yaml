@@ -65,6 +65,7 @@ buttons:
   actionBatchAdd: 批量添加
   actionBatchStatus: 修改状态
   actionBatchEnable: 批量启用
+  actionBatchLock: 批量锁定
   actionBatchDisable: 批量停用
   actionAdvanced: 高级功能
   actionAdvancedSearch: 高级搜索

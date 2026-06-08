@@ -23,6 +23,7 @@ users:
   batchKickSessionsSuccess: Selected users signed out successfully
   batchKickSessionsFailed: Failed to sign out selected users
   importExcelComingSoon: Import from Excel (coming soon)
+  statusFailed: Failed to update user status
   loadPageFailed: Failed to load user list
   loadFailed: Failed to load user profile
   username: Username

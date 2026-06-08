@@ -42,9 +42,25 @@ export function getUserPage(params: SysUserPageQuery): Promise<PageResponse<SysU
 }
 
 /**
+ * 批量更新用户状态（0=禁用，1=正常，2=锁定）
+ */
+export interface SysUserBatchStatusRequest {
+  ids: string[];
+  status: number;
+}
+
+/**
  * 批量删除用户
  * @param ids 用户主键列表
  */
 export function deleteUsers(ids: string[]): Promise<string> {
   return http.request<string>('delete', '/system/user', { data: ids });
+}
+
+/**
+ * 批量更新用户状态
+ * @param data 用户主键与目标状态
+ */
+export function batchUpdateUserStatus(data: SysUserBatchStatusRequest): Promise<string> {
+  return http.request<string>('put', '/system/user/status', { data });
 }

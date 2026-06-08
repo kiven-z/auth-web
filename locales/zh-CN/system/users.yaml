@@ -23,6 +23,7 @@ users:
   batchKickSessionsSuccess: 批量用户下线成功
   batchKickSessionsFailed: 批量用户下线失败
   importExcelComingSoon: 从 Excel 导入（敬请期待）
+  statusFailed: 用户状态更新失败
   loadPageFailed: 加载用户列表失败
   loadFailed: 加载用户档案失败
   username: 用户名

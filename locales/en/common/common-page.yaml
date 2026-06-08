@@ -65,6 +65,7 @@ buttons:
   actionBatchAdd: Batch add
   actionBatchStatus: Change status
   actionBatchEnable: Enable selected
+  actionBatchLock: Lock selected
   actionBatchDisable: Disable selected
   actionAdvanced: Advanced
   actionAdvancedSearch: Advanced Search
