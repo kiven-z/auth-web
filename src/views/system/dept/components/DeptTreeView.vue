@@ -84,7 +84,7 @@ onMounted(() => {
 
     <template #meta="{ data }">
       <span :class="{ 'text-(--el-text-color-secondary)': !data.status }" class="font-medium">{{ data.deptName }}</span>
-      <span class="text-xs text-(--el-text-color-secondary)">({{ data.deptCode }})</span>
+      <el-text type="info">({{ data.deptCode }})</el-text>
       <el-tag :type="data.status ? 'success' : 'danger'" effect="plain" size="small">
         {{ data.status ? t('dept.statusNormal') : t('dept.statusDisabled') }}
       </el-tag>

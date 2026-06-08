@@ -73,7 +73,7 @@ onMounted(() => {
 
     <template #meta="{ data }">
       <span class="font-medium">{{ transformI18n(data.title) }}</span>
-      <span class="text-xs text-(--el-text-color-secondary)">({{ transformI18n(data.name) }})</span>
+      <el-text type="info">({{ transformI18n(data.name) }})</el-text>
       <template v-if="menuTypeTag(data.menuType)">
         <el-tag :type="menuTypeTag(data.menuType)!.type" effect="plain" size="small">
           {{ t(menuTypeTag(data.menuType)!.key) }}

@@ -83,9 +83,9 @@ onMounted(() => {
 <template>
   <div class="user-session-dialog">
     <div class="mb-3 flex items-center justify-between gap-2">
-      <span class="text-sm text-(--el-text-color-secondary)">
+      <el-text type="info">
         {{ t('users.sessionDialogSubtitle', { username }) }}
-      </span>
+      </el-text>
 
       <div class="flex items-center gap-2">
         <el-button

@@ -90,7 +90,7 @@ defineExpose({ formRef, form });
           >
             <template #default="{ data }">
               <span>{{ data.label }}</span>
-              <span class="text-xs text-(--el-text-color-secondary)">({{ data.deptCode }})</span>
+              <el-text type="info">({{ data.deptCode }})</el-text>
             </template>
           </el-cascader>
         </el-form-item>

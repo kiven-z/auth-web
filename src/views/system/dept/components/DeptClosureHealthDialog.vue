@@ -97,9 +97,9 @@ defineExpose({ reload });
         :data="data.parentLinkAnomalies"
         :title="t('dept.closureHealthParentLinkTitle')"
       />
-      <p v-if="data.parentLinkAnomalies.length === 0" class="text-sm text-(--el-text-color-secondary) mb-4">
+      <el-text v-if="data.parentLinkAnomalies.length === 0" class="mb-4" type="info">
         {{ t('dept.closureHealthAnomalyEmpty') }}
-      </p>
+      </el-text>
 
       <el-divider />
 
@@ -109,9 +109,9 @@ defineExpose({ reload });
         :data="data.depthChainAnomalies"
         :title="t('dept.closureHealthDepthChainTitle')"
       />
-      <p v-if="data.depthChainAnomalies.length === 0" class="text-sm text-(--el-text-color-secondary)">
+      <el-text v-if="data.depthChainAnomalies.length === 0" type="info">
         {{ t('dept.closureHealthAnomalyEmpty') }}
-      </p>
+      </el-text>
     </template>
   </div>
 </template>

@@ -93,7 +93,7 @@ defineExpose({ formRef, form });
           >
             <template #default="{ data }">
               <span>{{ data.label }}</span>
-              <span v-if="data.deptCode" class="text-xs text-(--el-text-color-secondary)">({{ data.deptCode }})</span>
+              <el-text v-if="data.deptCode" type="info">({{ data.deptCode }})</el-text>
             </template>
           </el-cascader>
         </el-form-item>

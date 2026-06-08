@@ -39,16 +39,16 @@ const hasSelection = computed(() => props.assign.hasSelection.value);
             <div v-if="leftTitle" class="font-semibold">
               {{ leftTitle }}
             </div>
-            <div v-if="leftSubtitle" class="text-[13px] text-(--el-text-color-secondary)">
+            <el-text v-if="leftSubtitle" type="info">
               {{ leftSubtitle }}
-            </div>
+            </el-text>
           </div>
         </template>
 
         <div class="flex justify-between">
-          <div v-if="sectionLabel" class="text-xs font-semibold text-(--el-text-color-secondary)">
+          <el-text v-if="sectionLabel" class="text-xs font-semibold" type="info">
             {{ sectionLabel }}
-          </div>
+          </el-text>
           <el-button :disabled="saving || !hasSelection" link type="danger" @click="assign.clearAll()">
             {{ t('buttons.assignClearAll') }}
           </el-button>
