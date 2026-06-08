@@ -19,7 +19,7 @@ const { columns } = useUserTableColumns();
 const searchFormRef = ref<FormInstance>();
 
 const { tableState, fetchUserTable, resetUserSearch } = useUserPageState();
-const { loading, searchForm } = tableState;
+const { loading, searchForm, selectedRows } = tableState;
 
 const { openViewSessionsDialog } = useUserMoreAction();
 
@@ -84,18 +84,26 @@ const handleView = (row: SysUserPageRow) => {
       <template #buttons>
         <el-button-group type="primary">
           <el-button type="primary">{{ t('buttons.actionAdd') }}</el-button>
-          <el-button type="success">{{ t('buttons.actionBatchEnable') }}</el-button>
-          <el-button type="warning">{{ t('buttons.actionBatchDisable') }}</el-button>
 
+          <!-- 修改状态 -->
           <el-dropdown trigger="click">
-            <el-button type="danger">
-              {{ t('buttons.actionAdvanced') }}
+            <el-button :disabled="selectedRows.length <= 0" type="warning">
+              {{ t('buttons.actionBatchStatus') }}
             </el-button>
             <template #dropdown>
+              <el-dropdown-item disabled>{{ t('buttons.actionBatchEnable') }}</el-dropdown-item>
+              <el-dropdown-item disabled>批量锁定</el-dropdown-item>
+              <el-dropdown-item disabled>{{ t('buttons.actionBatchDisable') }}</el-dropdown-item>
+            </template>
+          </el-dropdown>
+
+          <!-- 高级功能 -->
+          <el-dropdown trigger="click">
+            <el-button type="danger">{{ t('buttons.actionAdvanced') }}</el-button>
+            <template #dropdown>
               <el-dropdown-item disabled>{{ t('users.importExcelComingSoon') }}</el-dropdown-item>
-              <el-dropdown-item>
-                {{ t('buttons.exportExcel') }}
-              </el-dropdown-item>
+              <el-dropdown-item>{{ t('buttons.exportExcel') }}</el-dropdown-item>
+              <el-dropdown-item disabled>{{ t('buttons.actionBatchDelete') }}</el-dropdown-item>
             </template>
           </el-dropdown>
         </el-button-group>
