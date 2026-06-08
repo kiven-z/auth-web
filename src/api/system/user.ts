@@ -40,3 +40,11 @@ export function getUserPage(params: SysUserPageQuery): Promise<PageResponse<SysU
     params,
   });
 }
+
+/**
+ * 批量删除用户
+ * @param ids 用户主键列表
+ */
+export function deleteUsers(ids: string[]): Promise<string> {
+  return http.request<string>('delete', '/system/user', { data: ids });
+}

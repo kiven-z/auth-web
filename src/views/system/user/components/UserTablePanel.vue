@@ -6,6 +6,7 @@ import { USER_STATUS_FILTER_OPTIONS } from '@/views/system/user/constants/user-a
 import useUserMoreAction from '@/views/system/user/hooks/useUserMoreAction';
 import useUserPageState from '@/views/system/user/hooks/useUserPageState';
 import useUserSessionKickAction from '@/views/system/user/hooks/useUserSessionKickAction';
+import useUserTableAction from '@/views/system/user/hooks/useUserTableAction';
 import useUserTableColumns from '@/views/system/user/hooks/useUserTableColumns';
 import { useCollapsibleSearchForm } from '@/composables/search/useCollapsibleSearchForm';
 import type { FormInstance } from 'element-plus';
@@ -25,6 +26,7 @@ const { loading, searchForm, selectedRows } = tableState;
 
 const { openViewSessionsDialog, kickUserSessions } = useUserMoreAction();
 const { batchKickAll } = useUserSessionKickAction({ selectedRows });
+const { deleteBatchRows } = useUserTableAction({ fetchTableData: fetchUserTable, selectedRows });
 const { searchExpanded, showAdvancedSearchToggle, toggleAdvancedSearch } = useCollapsibleSearchForm(6);
 
 /**
@@ -117,7 +119,9 @@ const handleView = (row: SysUserPageRow) => {
             <template #dropdown>
               <el-dropdown-item disabled>{{ t('users.importExcelComingSoon') }}</el-dropdown-item>
               <el-dropdown-item disabled>{{ t('buttons.exportExcel') }}</el-dropdown-item>
-              <el-dropdown-item disabled>{{ t('buttons.actionBatchDelete') }}</el-dropdown-item>
+              <el-dropdown-item :disabled="selectedRows.length <= 0" @click="deleteBatchRows()">
+                {{ t('buttons.actionBatchDelete') }}
+              </el-dropdown-item>
               <el-dropdown-item :disabled="selectedRows.length <= 0" @click="batchKickAll()">
                 {{ t('users.batchKickSessions') }}
               </el-dropdown-item>
@@ -133,7 +137,7 @@ const handleView = (row: SysUserPageRow) => {
           <!-- 修改 -->
           <el-button link type="primary">{{ t('buttons.actionEdit') }}</el-button>
           <!-- 删除 -->
-          <el-button link type="danger">{{ t('buttons.actionDelete') }}</el-button>
+          <el-button link type="danger" @click="deleteBatchRows([row.id])">{{ t('buttons.actionDelete') }}</el-button>
 
           <!-- 更多 -->
           <el-dropdown trigger="click">
