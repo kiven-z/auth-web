@@ -36,13 +36,10 @@ users:
   introduction: Bio
   lastLoginIp: Last login IP
   lastLoginRegion: Last login region
-  lastLoginTime: Last login time
   userBaseInfo: Basic information
   profile: Profile
   dialogUserProfileTitle: User profile
   userPostInfo: Post assignments
-  placeholder:
-    lastLoginIp: Last login IP
   tips:
     showUserPostInfoTip: Post assignments for this user
     currentUserHasNotPostInfo: No post information for this user

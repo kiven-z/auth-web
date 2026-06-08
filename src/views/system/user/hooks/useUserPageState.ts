@@ -24,6 +24,7 @@ const searchForm = reactive({
   phone: undefined,
   email: undefined,
   employeeNo: undefined,
+  status: undefined,
   deptId: undefined,
 });
 

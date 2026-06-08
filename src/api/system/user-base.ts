@@ -50,9 +50,6 @@ export interface SysUserProfileResponse {
   gender?: number | null;
   birthday?: string | null;
   introduction?: string | null;
-  lastLoginIp?: string | null;
-  lastLoginRegion?: string | null;
-  lastLoginTime?: string | null;
   deptList: SysUserDeptProfileItem[];
   postList: SysUserPostProfileItem[];
 }

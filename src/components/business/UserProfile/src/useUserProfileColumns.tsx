@@ -41,9 +41,6 @@ function useUserProfileColumns() {
     },
     { label: t('users.birthday'), prop: 'birthday', span: 2 },
     { label: t('users.introduction'), prop: 'introduction', span: 2 },
-    { label: t('users.placeholder.lastLoginIp'), prop: 'lastLoginIp', copy: true },
-    { label: t('users.lastLoginRegion'), prop: 'lastLoginRegion', copy: true },
-    { label: t('users.lastLoginTime'), prop: 'lastLoginTime' },
   ]);
 
   /**

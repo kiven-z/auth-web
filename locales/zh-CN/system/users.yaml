@@ -36,13 +36,10 @@ users:
   introduction: 个人简介
   lastLoginIp: 最后登录 IP
   lastLoginRegion: 最后登录地区
-  lastLoginTime: 最后登录时间
   userBaseInfo: 用户基本信息
   profile: 档案
   dialogUserProfileTitle: 用户档案
   userPostInfo: 用户岗位信息
-  placeholder:
-    lastLoginIp: 最后登录 IP
   tips:
     showUserPostInfoTip: 展示该用户在各岗位上的任职信息
     currentUserHasNotPostInfo: 该用户暂无岗位信息

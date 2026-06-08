@@ -1,7 +1,7 @@
 import type { SysUserPageRow } from '@/api/system/user';
 import { selectUserinfo } from '@/components/business/UserProfile';
 import { resolveUserAccountStatusMeta } from '@/views/system/user/constants/user-account-status';
-import { ElButton, ElTag } from 'element-plus';
+import { ElAvatar, ElButton, ElTag } from 'element-plus';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 
@@ -17,6 +17,12 @@ function useUserTableColumns() {
     { type: 'index', index: (index: number) => index + 1, label: t('table.idx'), minWidth: 60 },
     { label: t('users.username'), prop: 'username', minWidth: 120, showOverflowTooltip: true },
     { label: t('users.nickname'), prop: 'nickname', minWidth: 120, showOverflowTooltip: true },
+    {
+      label: t('users.avatarURL'),
+      prop: 'avatar',
+      minWidth: 72,
+      formatter: (row: SysUserPageRow) => <ElAvatar size={32} src={row.avatar ?? undefined} />,
+    },
     { label: t('users.phone'), prop: 'phone', minWidth: 130, showOverflowTooltip: true },
     { label: t('users.email'), prop: 'email', minWidth: 160, showOverflowTooltip: true },
     { label: t('dept.employeeNo'), prop: 'employeeNo', minWidth: 100, showOverflowTooltip: true },
