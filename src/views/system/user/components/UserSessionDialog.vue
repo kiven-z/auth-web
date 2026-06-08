@@ -1,8 +1,9 @@
 <script lang="ts" setup>
-import { kickAllUserSessions, kickUserSession, listUserSessions, type UserSessionIndex } from '@/api/auth/session';
+import { kickUserSession, listUserSessions, type UserSessionIndex } from '@/api/auth/session';
 import AuthDataTable from '@/components/ui/AuthDataTable';
 import { operationConfirm } from '@/ui/feedback/dialog';
 import { errorMessage, message } from '@/ui/feedback/message';
+import useUserSessionKickAction from '@/views/system/user/hooks/useUserSessionKickAction';
 import useUserSessionTableColumns from '@/views/system/user/hooks/useUserSessionTableColumns';
 import { onMounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
@@ -14,6 +15,7 @@ const props = defineProps<{
 
 const { t } = useI18n();
 const { columns } = useUserSessionTableColumns();
+const { kickAllForUser } = useUserSessionKickAction();
 
 const loading = ref(false);
 const kickingAll = ref(false);
@@ -61,18 +63,13 @@ async function handleKickSession(sessionId: string) {
  * 踢出该用户全部会话并刷新列表
  */
 async function handleKickAllSessions() {
-  const confirmed = await operationConfirm();
-  if (!confirmed) {
-    return;
-  }
-
   kickingAll.value = true;
   try {
-    await kickAllUserSessions(props.userId);
-    message(t('users.sessionKickAllSuccess'), { type: 'success' });
-    await loadSessions();
-  } catch (error: unknown) {
-    errorMessage(error, { defaultI18nKey: 'users.sessionKickAllFailed' });
+    await kickAllForUser(props.userId, {
+      successI18nKey: 'users.sessionKickAllSuccess',
+      failedI18nKey: 'users.sessionKickAllFailed',
+      onSuccess: loadSessions,
+    });
   } finally {
     kickingAll.value = false;
   }

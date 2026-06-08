@@ -7,24 +7,16 @@ import { errorMessage, message } from '@/ui/feedback/message';
 
 /** {@link useUserSessionKickAction} 配置项 */
 export interface UseUserSessionKickActionOptions {
-  /** 表格多选主键列表（批量下线未传 ids 时使用） */
+  /** 表格多选主键列表 */
   selectedRows?: Ref<string[]>;
-  /** 批量下线成功后的回调（如刷新列表） */
-  onBatchSuccess?: () => Promise<void>;
 }
 
-/**
- * 解析批量下线目标主键。
- * 仅当参数为 string[] 时使用；否则回退多选列表。
- *
- * @param ids 调用方传入的主键列表
- * @param selectedRows 表格多选主键
- */
-function resolveBatchKickIds(ids: unknown, selectedRows?: Ref<string[]>): string[] {
-  if (Array.isArray(ids)) {
-    return ids;
-  }
-  return selectedRows?.value ?? [];
+/** {@link kickAllForUser} 单次调用配置 */
+export interface KickAllForUserOptions {
+  /** 成功后回调（如弹窗内刷新会话列表） */
+  onSuccess?: () => void | Promise<void>;
+  successI18nKey?: string;
+  failedI18nKey?: string;
 }
 
 /**
@@ -34,14 +26,15 @@ function resolveBatchKickIds(ids: unknown, selectedRows?: Ref<string[]>): string
  * @returns 踢下线方法
  */
 function useUserSessionKickAction(options: UseUserSessionKickActionOptions = {}) {
-  const { selectedRows, onBatchSuccess } = options;
+  const { selectedRows } = options;
   const { t } = useI18n();
 
   /**
    * 踢出指定用户的全部会话
    * @param userId 用户 ID
+   * @param kickOptions 单次调用配置
    */
-  const kickAllForUser = async (userId: string) => {
+  const kickAllForUser = async (userId: string, kickOptions?: KickAllForUserOptions) => {
     const confirmed = await operationConfirm();
     if (!confirmed) {
       return;
@@ -49,19 +42,18 @@ function useUserSessionKickAction(options: UseUserSessionKickActionOptions = {})
 
     try {
       await kickAllUserSessions(userId);
-      message(t('users.kickSessionsSuccess'), { type: 'success' });
+      message(t(kickOptions?.successI18nKey ?? 'users.kickSessionsSuccess'), { type: 'success' });
+      await kickOptions?.onSuccess?.();
     } catch (error: unknown) {
-      errorMessage(error, { defaultI18nKey: 'users.kickSessionsFailed' });
+      errorMessage(error, { defaultI18nKey: kickOptions?.failedI18nKey ?? 'users.kickSessionsFailed' });
     }
   };
 
   /**
-   * 批量踢出选中用户的全部会话；工具栏调用 batchKickAll()，行内可传 [row.id]
-   *
-   * @param ids 主键列表；不传或非法时使用 selectedRows
+   * 批量踢出选中用户的全部会话
    */
-  const batchKickAll = async (ids?: unknown) => {
-    const targetIds = resolveBatchKickIds(ids, selectedRows);
+  const batchKickAll = async () => {
+    const targetIds = selectedRows?.value ?? [];
     if (targetIds.length <= 0) {
       return;
     }
@@ -76,9 +68,6 @@ function useUserSessionKickAction(options: UseUserSessionKickActionOptions = {})
       message(t('users.batchKickSessionsSuccess'), { type: 'success' });
       if (selectedRows) {
         selectedRows.value = [];
-      }
-      if (onBatchSuccess) {
-        await onBatchSuccess();
       }
     } catch (error: unknown) {
       errorMessage(error, { defaultI18nKey: 'users.batchKickSessionsFailed' });

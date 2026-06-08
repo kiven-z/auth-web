@@ -104,7 +104,7 @@ const handleView = (row: SysUserPageRow) => {
             <el-button type="danger">{{ t('buttons.actionAdvanced') }}</el-button>
             <template #dropdown>
               <el-dropdown-item disabled>{{ t('users.importExcelComingSoon') }}</el-dropdown-item>
-              <el-dropdown-item>{{ t('buttons.exportExcel') }}</el-dropdown-item>
+              <el-dropdown-item disabled>{{ t('buttons.exportExcel') }}</el-dropdown-item>
               <el-dropdown-item disabled>{{ t('buttons.actionBatchDelete') }}</el-dropdown-item>
               <el-dropdown-item :disabled="selectedRows.length <= 0" @click="batchKickAll()">
                 {{ t('users.batchKickSessions') }}
