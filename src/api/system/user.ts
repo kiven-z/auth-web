@@ -42,11 +42,35 @@ export function getUserPage(params: SysUserPageQuery): Promise<PageResponse<SysU
 }
 
 /**
+ * 用户新增表单（对齐 {@code SysUserForm}）
+ */
+export interface SysUserCreateForm {
+  username: string;
+  nickname?: string;
+  email: string;
+  phone?: string;
+  employeeNo: string;
+  status: number;
+  gender?: number;
+  birthday?: string;
+  introduction?: string;
+  remark?: string;
+}
+
+/**
  * 批量更新用户状态（0=禁用，1=正常，2=锁定）
  */
 export interface SysUserBatchStatusRequest {
   ids: string[];
   status: number;
+}
+
+/**
+ * 新增用户
+ * @param data 用户表单
+ */
+export function createUser(data: SysUserCreateForm): Promise<void> {
+  return http.post<void, SysUserCreateForm>('/system/user', { data });
 }
 
 /**

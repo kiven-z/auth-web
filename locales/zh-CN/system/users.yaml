@@ -26,6 +26,17 @@ users:
   statusFailed: 用户状态更新失败
   loadPageFailed: 加载用户列表失败
   loadFailed: 加载用户档案失败
+  createFailed: 新增用户失败
+  dialogCreateTitle: 新增用户
+  remark: 备注
+  validation:
+    usernameMaxLength: 用户名长度不能超过64个字符
+    nicknameMaxLength: 昵称长度不能超过64个字符
+    emailInvalid: 邮箱格式不正确
+    emailMaxLength: 邮箱长度不能超过128个字符
+    phoneMaxLength: 手机号长度不能超过32个字符
+    employeeNoMaxLength: 工号长度不能超过64个字符
+    remarkMaxLength: 备注长度不能超过500个字符
   username: 用户名
   nickname: 昵称
   email: 邮箱

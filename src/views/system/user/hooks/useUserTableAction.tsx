@@ -1,7 +1,11 @@
 import type { TableActionWithSelectionDeps } from '@/api/common';
-import { batchUpdateUserStatus, deleteUsers } from '@/api/system/user';
+import { batchUpdateUserStatus, createUser, deleteUsers, type SysUserCreateForm } from '@/api/system/user';
+import { addDialog } from '@/components/ui/Dialog';
 import useBatchDeleteAction from '@/composables/table/useBatchDeleteAction';
+import { type FormOverlayExpose, useFormOverlaySubmit } from '@/composables/table/useFormOverlaySubmit';
 import { errorMessage, message } from '@/ui/feedback/message';
+import UserFormDialog from '@/views/system/user/components/UserFormDialog.vue';
+import { h, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 /**
@@ -12,6 +16,7 @@ import { useI18n } from 'vue-i18n';
 function useUserTableAction(deps: TableActionWithSelectionDeps) {
   const { fetchTableData, selectedRows } = deps;
   const { t } = useI18n();
+  const { createFormBeforeSure } = useFormOverlaySubmit();
 
   const { deleteBatchRows } = useBatchDeleteAction({
     selectedRows,
@@ -19,6 +24,36 @@ function useUserTableAction(deps: TableActionWithSelectionDeps) {
     onSuccess: fetchTableData,
     errorDefaultI18nKey: 'tips.deleteFailed',
   });
+
+  /**
+   * 批量更新账号状态
+   * @param ids 用户主键列表
+   * @param status 目标状态码
+   */
+  /**
+   * 打开新增用户弹窗
+   */
+  const openCreateDialog = () => {
+    const dialogFormRef = ref<FormOverlayExpose<SysUserCreateForm> | null>(null);
+
+    addDialog({
+      title: t('users.dialogCreateTitle'),
+      draggable: true,
+      fullscreenIcon: true,
+      closeOnClickModal: false,
+      closeOnPressEscape: false,
+      contentRenderer: () => h(UserFormDialog, { ref: dialogFormRef }),
+      beforeSure: createFormBeforeSure<SysUserCreateForm>({
+        formExposeRef: dialogFormRef,
+        errorI18nKey: 'users.createFailed',
+        successI18nKey: 'tips.addSuccess',
+        onSubmit: async (formPayload) => {
+          await createUser(formPayload);
+          await fetchTableData();
+        },
+      }),
+    });
+  };
 
   /**
    * 批量更新账号状态
@@ -41,6 +76,7 @@ function useUserTableAction(deps: TableActionWithSelectionDeps) {
   };
 
   return {
+    openCreateDialog,
     deleteBatchRows,
     batchUpdateStatus,
   };

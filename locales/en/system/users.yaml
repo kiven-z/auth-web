@@ -26,6 +26,17 @@ users:
   statusFailed: Failed to update user status
   loadPageFailed: Failed to load user list
   loadFailed: Failed to load user profile
+  createFailed: Failed to create user
+  dialogCreateTitle: Add User
+  remark: Remark
+  validation:
+    usernameMaxLength: Username must be at most 64 characters
+    nicknameMaxLength: Nickname must be at most 64 characters
+    emailInvalid: Invalid email format
+    emailMaxLength: Email must be at most 128 characters
+    phoneMaxLength: Phone must be at most 32 characters
+    employeeNoMaxLength: Employee no. must be at most 64 characters
+    remarkMaxLength: Remark must be at most 500 characters
   username: Username
   nickname: Nickname
   email: Email

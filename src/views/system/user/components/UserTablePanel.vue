@@ -10,7 +10,7 @@ import useUserTableAction from '@/views/system/user/hooks/useUserTableAction';
 import useUserTableColumns from '@/views/system/user/hooks/useUserTableColumns';
 import { useCollapsibleSearchForm } from '@/composables/search/useCollapsibleSearchForm';
 import type { FormInstance } from 'element-plus';
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 defineOptions({
@@ -26,11 +26,13 @@ const { loading, searchForm, selectedRows } = tableState;
 
 const { openViewSessionsDialog, kickUserSessions } = useUserMoreAction();
 const { batchKickAll } = useUserSessionKickAction({ selectedRows });
-const { deleteBatchRows, batchUpdateStatus } = useUserTableAction({
+const { openCreateDialog, deleteBatchRows, batchUpdateStatus } = useUserTableAction({
   fetchTableData: fetchUserTable,
   selectedRows,
 });
 const { searchExpanded, showAdvancedSearchToggle, toggleAdvancedSearch } = useCollapsibleSearchForm(6);
+
+const hasSelection = computed(() => selectedRows.value.length > 0);
 
 /**
  * 打开用户档案弹窗
@@ -102,28 +104,28 @@ const handleView = (row: SysUserPageRow) => {
     <AuthPagedTable :columns="columns" :state="tableState" :title="t('routes.userManagement')">
       <template #buttons>
         <el-button-group type="primary">
-          <el-button type="primary">{{ t('buttons.actionAdd') }}</el-button>
+          <el-button type="primary" @click="openCreateDialog">{{ t('buttons.actionAdd') }}</el-button>
 
           <!-- 修改状态 -->
           <el-dropdown trigger="click">
-            <el-button :disabled="selectedRows.length <= 0" type="warning">
+            <el-button :disabled="!hasSelection" type="warning">
               {{ t('buttons.actionBatchStatus') }}
             </el-button>
             <template #dropdown>
               <el-dropdown-item
-                :disabled="selectedRows.length <= 0"
+                :disabled="!hasSelection"
                 @click="batchUpdateStatus(selectedRows, USER_ACCOUNT_STATUS.normal)"
               >
                 {{ t('buttons.actionBatchEnable') }}
               </el-dropdown-item>
               <el-dropdown-item
-                :disabled="selectedRows.length <= 0"
+                :disabled="!hasSelection"
                 @click="batchUpdateStatus(selectedRows, USER_ACCOUNT_STATUS.locked)"
               >
                 {{ t('buttons.actionBatchLock') }}
               </el-dropdown-item>
               <el-dropdown-item
-                :disabled="selectedRows.length <= 0"
+                :disabled="!hasSelection"
                 @click="batchUpdateStatus(selectedRows, USER_ACCOUNT_STATUS.disabled)"
               >
                 {{ t('buttons.actionBatchDisable') }}
@@ -137,10 +139,10 @@ const handleView = (row: SysUserPageRow) => {
             <template #dropdown>
               <el-dropdown-item disabled>{{ t('users.importExcelComingSoon') }}</el-dropdown-item>
               <el-dropdown-item disabled>{{ t('buttons.exportExcel') }}</el-dropdown-item>
-              <el-dropdown-item :disabled="selectedRows.length <= 0" @click="deleteBatchRows()">
+              <el-dropdown-item :disabled="!hasSelection" @click="deleteBatchRows()">
                 {{ t('buttons.actionBatchDelete') }}
               </el-dropdown-item>
-              <el-dropdown-item :disabled="selectedRows.length <= 0" @click="batchKickAll()">
+              <el-dropdown-item :disabled="!hasSelection" @click="batchKickAll()">
                 {{ t('users.batchKickSessions') }}
               </el-dropdown-item>
             </template>
