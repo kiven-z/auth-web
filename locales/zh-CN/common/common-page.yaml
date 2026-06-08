@@ -15,6 +15,8 @@ tips:
   assignEmptySelected: 暂无已选项，请选择
   assignLoadFailed: 分配数据加载失败
   asyncRoutesDegraded: 菜单加载失败，当前仅显示基础页面，请稍后刷新或联系管理员
+  tokenExpiredRefreshRetry: 访问令牌过期或失效，若尝试刷新失败，请重新登录后重试
+  permissionMismatchRefreshRetry: 权限已更新，若刷新失败，请重新登录后重试
   assignSaveSuccess: 分配保存成功
   assignSaveFailed: 分配保存失败
   exportSuccess: 导出成功

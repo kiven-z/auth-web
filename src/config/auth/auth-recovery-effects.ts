@@ -1,5 +1,6 @@
 import { AUTH_RECOVERY_RULE_IDS } from '@/config/auth/auth-recovery-rule-ids';
 import { ASYNC_ROUTES_STORAGE_KEY } from '@/config/http-config';
+import { transformI18n } from '@/plugins/i18n';
 import { message } from '@/ui/feedback/message';
 import { storageLocal } from '@pureadmin/utils';
 
@@ -14,7 +15,7 @@ const RECOVERY_TOAST_DURATION_MS = 5000;
 export function runAuthRecoverySideEffect(matchedRuleId: string): void {
   switch (matchedRuleId) {
     case AUTH_RECOVERY_RULE_IDS.TOKEN_EXPIRED_REFRESH: {
-      message('访问令牌过期或失效，若尝试刷新失败，请重新登录后重试', {
+      message(transformI18n('tips.tokenExpiredRefreshRetry'), {
         type: 'warning',
         duration: RECOVERY_TOAST_DURATION_MS,
       });
@@ -23,7 +24,7 @@ export function runAuthRecoverySideEffect(matchedRuleId: string): void {
 
     case AUTH_RECOVERY_RULE_IDS.PERMISSION_MISMATCH_REFRESH: {
       storageLocal().removeItem(ASYNC_ROUTES_STORAGE_KEY);
-      message('权限已更新，若刷新失败，请重新登录后重试', {
+      message(transformI18n('tips.permissionMismatchRefreshRetry'), {
         type: 'warning',
         duration: RECOVERY_TOAST_DURATION_MS,
       });

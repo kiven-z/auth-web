@@ -15,6 +15,8 @@ tips:
   assignEmptySelected: No items selected. Please choose.
   assignLoadFailed: Failed to load assignment data
   asyncRoutesDegraded: Menu failed to load. Only basic pages are shown—refresh later or contact an administrator.
+  tokenExpiredRefreshRetry: Access token expired or invalid. If refresh fails, please log in again and retry.
+  permissionMismatchRefreshRetry: Permissions have been updated. If refresh fails, please log in again and retry.
   assignSaveSuccess: Assignment saved successfully
   assignSaveFailed: Failed to save assignment
   exportSuccess: Export succeeded
