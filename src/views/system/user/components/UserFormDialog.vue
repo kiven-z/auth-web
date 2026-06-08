@@ -31,13 +31,16 @@ const rules = reactive<FormRules>({
     { type: 'email', message: t('users.validation.emailInvalid'), trigger: 'blur' },
     { max: 128, message: t('users.validation.emailMaxLength'), trigger: 'blur' },
   ],
-  employeeNo: [
-    { required: true, message: t('dept.employeeNo'), trigger: 'blur' },
-    { max: 64, message: t('users.validation.employeeNoMaxLength'), trigger: 'blur' },
-  ],
+  employeeNo: [{ max: 64, message: t('users.validation.employeeNoMaxLength'), trigger: 'blur' }],
   status: [{ required: true, message: t('users.status'), trigger: 'change' }],
-  nickname: [{ max: 64, message: t('users.validation.nicknameMaxLength'), trigger: 'blur' }],
-  phone: [{ max: 32, message: t('users.validation.phoneMaxLength'), trigger: 'blur' }],
+  nickname: [
+    { required: true, message: t('users.nickname'), trigger: 'blur' },
+    { max: 64, message: t('users.validation.nicknameMaxLength'), trigger: 'blur' },
+  ],
+  phone: [
+    { required: true, message: t('users.phone'), trigger: 'blur' },
+    { max: 32, message: t('users.validation.phoneMaxLength'), trigger: 'blur' },
+  ],
   remark: [{ max: 500, message: t('users.validation.remarkMaxLength'), trigger: 'blur' }],
 });
 

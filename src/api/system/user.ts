@@ -46,10 +46,10 @@ export function getUserPage(params: SysUserPageQuery): Promise<PageResponse<SysU
  */
 export interface SysUserCreateForm {
   username: string;
-  nickname?: string;
+  nickname: string;
   email: string;
-  phone?: string;
-  employeeNo: string;
+  phone: string;
+  employeeNo?: string;
   status: number;
   gender?: number;
   birthday?: string;
