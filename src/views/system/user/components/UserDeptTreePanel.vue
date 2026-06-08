@@ -24,14 +24,14 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="user-dept-tree flex h-full flex-col bg-bg_color rounded-sm">
+  <div class="user-dept-tree bg-bg_color">
     <!-- 仅搜索 -->
-    <div class="shrink-0 p-2">
+    <div class="p-2">
       <el-input v-model="treeKeyword" :placeholder="t('dept.placeholder.treeKeyword')" clearable />
     </div>
 
     <!-- 纯树 -->
-    <div v-loading="deptTreeLoading" class="min-h-0 flex-1 overflow-auto px-1 pb-2">
+    <div v-loading="deptTreeLoading" class="min-h-0 flex-1 overflow-y-auto px-1 pb-2">
       <el-tree
         ref="treeRef"
         :current-node-key="currentNodeKey"
@@ -52,3 +52,12 @@ onMounted(() => {
     </div>
   </div>
 </template>
+
+<style>
+.user-dept-tree {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  height: calc(100vh - 80px);
+}
+</style>
