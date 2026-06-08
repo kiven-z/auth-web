@@ -5,6 +5,7 @@ import useRemoteUserSearch from '@/composables/dialog/useRemoteUserSearch';
 import { OPERATION_TYPES, REQUEST_METHODS } from '@/views/log/operation-log/constants/operation-log-enums';
 import useOperationLogTableAction from '@/views/log/operation-log/hooks/useOperationLogTableAction';
 import useOperationLogTableColumns from '@/views/log/operation-log/hooks/useOperationLogTableColumns';
+import { useCollapsibleSearchForm } from '@/composables/search/useCollapsibleSearchForm';
 import type { FormInstance } from 'element-plus';
 import { onMounted, reactive, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
@@ -40,6 +41,8 @@ const { openDetailDialog, deleteBatchRows } = useOperationLogTableAction({
 const { userOptions, userSearchLoading, loadUserListByKeyword } = useRemoteUserSearch({
   errorDefaultI18nKey: 'operationLog.loadFailed',
 });
+
+const { searchExpanded, showAdvancedSearchToggle, toggleAdvancedSearch } = useCollapsibleSearchForm(6);
 
 onMounted(() => {
   fetchTableData();
@@ -107,31 +110,40 @@ onMounted(() => {
         />
       </el-form-item>
 
-      <!-- 目标 ID -->
-      <el-form-item :label="t('operationLog.targetId')" prop="targetId">
-        <el-input
-          v-model="searchForm.targetId"
-          :placeholder="t('operationLog.placeholder.targetId')"
-          class="w-45!"
-          clearable
-        />
-      </el-form-item>
+      <template v-if="showAdvancedSearchToggle">
+        <!-- 目标 ID -->
+        <el-form-item v-show="searchExpanded" :label="t('operationLog.targetId')" prop="targetId">
+          <el-input
+            v-model="searchForm.targetId"
+            :placeholder="t('operationLog.placeholder.targetId')"
+            class="w-45!"
+            clearable
+          />
+        </el-form-item>
 
-      <!-- HTTP 方法 -->
-      <el-form-item :label="t('operationLog.requestMethod')" prop="requestMethod">
-        <el-select
-          v-model="searchForm.requestMethod"
-          :placeholder="t('operationLog.placeholder.requestMethod')"
-          class="w-45!"
-          clearable
-        >
-          <el-option v-for="rm in REQUEST_METHODS" :key="rm" :label="rm" :value="rm" />
-        </el-select>
-      </el-form-item>
+        <!-- HTTP 方法 -->
+        <el-form-item v-show="searchExpanded" :label="t('operationLog.requestMethod')" prop="requestMethod">
+          <el-select
+            v-model="searchForm.requestMethod"
+            :placeholder="t('operationLog.placeholder.requestMethod')"
+            class="w-45!"
+            clearable
+          >
+            <el-option v-for="rm in REQUEST_METHODS" :key="rm" :label="rm" :value="rm" />
+          </el-select>
+        </el-form-item>
+      </template>
 
       <el-form-item>
-        <el-button :loading="loading" type="primary" @click="fetchTableData">{{ t('buttons.actionSearch') }}</el-button>
-        <el-button @click="resetQuery(searchFormRef)">{{ t('buttons.actionReset') }}</el-button>
+        <el-button-group>
+          <el-button :loading="loading" type="primary" @click="fetchTableData">
+            {{ t('buttons.actionSearch') }}
+          </el-button>
+          <el-button @click="resetQuery(searchFormRef)">{{ t('buttons.actionReset') }}</el-button>
+          <el-button v-if="showAdvancedSearchToggle" @click="toggleAdvancedSearch">
+            {{ searchExpanded ? t('buttons.actionCollapseSearch') : t('buttons.actionAdvancedSearch') }}
+          </el-button>
+        </el-button-group>
       </el-form-item>
     </el-form>
 

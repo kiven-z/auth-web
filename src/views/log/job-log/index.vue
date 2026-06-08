@@ -7,6 +7,7 @@ import {
 } from '@/views/log/job-log/constants/job-log-enums';
 import useJobLogTableAction from '@/views/log/job-log/hooks/useJobLogTableAction';
 import useJobLogTableColumns from '@/views/log/job-log/hooks/useJobLogTableColumns';
+import { useCollapsibleSearchForm } from '@/composables/search/useCollapsibleSearchForm';
 import type { FormInstance } from 'element-plus';
 import { onMounted, reactive, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
@@ -40,6 +41,8 @@ const { openDetailDialog, deleteBatchRows } = useJobLogTableAction({
   selectedRows,
 });
 
+const { searchExpanded, showAdvancedSearchToggle, toggleAdvancedSearch } = useCollapsibleSearchForm(7);
+
 onMounted(() => {
   fetchTableData();
 });
@@ -70,40 +73,6 @@ onMounted(() => {
           clearable
         />
       </el-form-item>
-      <!-- 调用目标 -->
-      <el-form-item :label="t('logJob.invokeTarget')" prop="invokeTarget">
-        <el-input
-          v-model="searchForm.invokeTarget"
-          :placeholder="t('logJob.placeholder.invokeTarget')"
-          class="w-[220px]!"
-          clearable
-        />
-      </el-form-item>
-      <!-- 触发类型 -->
-      <el-form-item :label="t('logJob.triggerType')" prop="triggerType">
-        <el-select
-          v-model="searchForm.triggerType"
-          :placeholder="t('logJob.placeholder.triggerType')"
-          class="w-45!"
-          clearable
-        >
-          <el-option
-            v-for="opt in LOG_JOB_TRIGGER_TYPE_FILTER_OPTIONS"
-            :key="opt.value"
-            :label="t(opt.labelKey)"
-            :value="opt.value"
-          />
-        </el-select>
-      </el-form-item>
-      <!-- 执行耗时(ms) -->
-      <el-form-item :label="t('logJob.elapsedTime')" prop="elapsedTime">
-        <el-input-number
-          v-model="searchForm.elapsedTime"
-          :placeholder="t('logJob.placeholder.elapsedTime')"
-          class="w-40!"
-          clearable
-        />
-      </el-form-item>
       <!-- 状态 -->
       <el-form-item :label="t('logJob.status')" prop="status">
         <el-select v-model="searchForm.status" :placeholder="t('logJob.placeholder.status')" class="w-45!" clearable>
@@ -116,9 +85,53 @@ onMounted(() => {
         </el-select>
       </el-form-item>
 
+      <template v-if="showAdvancedSearchToggle">
+        <!-- 调用目标 -->
+        <el-form-item v-show="searchExpanded" :label="t('logJob.invokeTarget')" prop="invokeTarget">
+          <el-input
+            v-model="searchForm.invokeTarget"
+            :placeholder="t('logJob.placeholder.invokeTarget')"
+            class="w-[220px]!"
+            clearable
+          />
+        </el-form-item>
+        <!-- 触发类型 -->
+        <el-form-item v-show="searchExpanded" :label="t('logJob.triggerType')" prop="triggerType">
+          <el-select
+            v-model="searchForm.triggerType"
+            :placeholder="t('logJob.placeholder.triggerType')"
+            class="w-45!"
+            clearable
+          >
+            <el-option
+              v-for="opt in LOG_JOB_TRIGGER_TYPE_FILTER_OPTIONS"
+              :key="opt.value"
+              :label="t(opt.labelKey)"
+              :value="opt.value"
+            />
+          </el-select>
+        </el-form-item>
+        <!-- 执行耗时(ms) -->
+        <el-form-item v-show="searchExpanded" :label="t('logJob.elapsedTime')" prop="elapsedTime">
+          <el-input-number
+            v-model="searchForm.elapsedTime"
+            :placeholder="t('logJob.placeholder.elapsedTime')"
+            class="w-40!"
+            clearable
+          />
+        </el-form-item>
+      </template>
+
       <el-form-item>
-        <el-button :loading="loading" type="primary" @click="fetchTableData">{{ t('buttons.actionSearch') }}</el-button>
-        <el-button @click="resetQuery(searchFormRef)">{{ t('buttons.actionReset') }}</el-button>
+        <el-button-group>
+          <el-button :loading="loading" type="primary" @click="fetchTableData">
+            {{ t('buttons.actionSearch') }}
+          </el-button>
+          <el-button @click="resetQuery(searchFormRef)">{{ t('buttons.actionReset') }}</el-button>
+          <el-button v-if="showAdvancedSearchToggle" @click="toggleAdvancedSearch">
+            {{ searchExpanded ? t('buttons.actionCollapseSearch') : t('buttons.actionAdvancedSearch') }}
+          </el-button>
+        </el-button-group>
       </el-form-item>
     </el-form>
 

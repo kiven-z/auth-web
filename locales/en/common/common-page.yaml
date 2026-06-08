@@ -67,6 +67,8 @@ buttons:
   actionBatchEnable: Enable selected
   actionBatchDisable: Disable selected
   actionAdvanced: Advanced
+  actionAdvancedSearch: Advanced Search
+  actionCollapseSearch: Collapse
   exportExcel: Export to Excel
   forbidText: Forbid
   permitText: Allow

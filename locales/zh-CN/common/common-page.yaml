@@ -67,6 +67,8 @@ buttons:
   actionBatchEnable: 批量启用
   actionBatchDisable: 批量停用
   actionAdvanced: 高级功能
+  actionAdvancedSearch: 高级搜索
+  actionCollapseSearch: 收起
   exportExcel: 导出为 Excel
   forbidText: 禁止
   permitText: 允许

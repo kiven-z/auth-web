@@ -7,6 +7,7 @@ import useUserMoreAction from '@/views/system/user/hooks/useUserMoreAction';
 import useUserPageState from '@/views/system/user/hooks/useUserPageState';
 import useUserSessionKickAction from '@/views/system/user/hooks/useUserSessionKickAction';
 import useUserTableColumns from '@/views/system/user/hooks/useUserTableColumns';
+import { useCollapsibleSearchForm } from '@/composables/search/useCollapsibleSearchForm';
 import type { FormInstance } from 'element-plus';
 import { ref } from 'vue';
 import { useI18n } from 'vue-i18n';
@@ -24,6 +25,7 @@ const { loading, searchForm, selectedRows } = tableState;
 
 const { openViewSessionsDialog, kickUserSessions } = useUserMoreAction();
 const { batchKickAll } = useUserSessionKickAction({ selectedRows });
+const { searchExpanded, showAdvancedSearchToggle, toggleAdvancedSearch } = useCollapsibleSearchForm(6);
 
 /**
  * 打开用户档案弹窗
@@ -58,27 +60,37 @@ const handleView = (row: SysUserPageRow) => {
       <el-form-item :label="t('users.email')" prop="email">
         <el-input v-model="searchForm.email" :placeholder="t('users.email')" class="w-45!" clearable />
       </el-form-item>
-      <!-- 工号 -->
-      <el-form-item :label="t('dept.employeeNo')" prop="employeeNo">
-        <el-input v-model="searchForm.employeeNo" :placeholder="t('dept.employeeNo')" class="w-45!" clearable />
-      </el-form-item>
-      <!-- 状态 -->
-      <el-form-item :label="t('users.status')" prop="status">
-        <el-select v-model="searchForm.status" :placeholder="t('users.status')" class="w-45!" clearable>
-          <el-option
-            v-for="opt in USER_STATUS_FILTER_OPTIONS"
-            :key="opt.value"
-            :label="t(opt.labelKey)"
-            :value="opt.value"
-          />
-        </el-select>
-      </el-form-item>
+      <template v-if="showAdvancedSearchToggle">
+        <!-- 工号 -->
+        <el-form-item v-show="searchExpanded" :label="t('dept.employeeNo')" prop="employeeNo">
+          <el-input v-model="searchForm.employeeNo" :placeholder="t('dept.employeeNo')" class="w-45!" clearable />
+        </el-form-item>
+        <!-- 状态 -->
+        <el-form-item v-show="searchExpanded" :label="t('users.status')" prop="status">
+          <el-select v-model="searchForm.status" :placeholder="t('users.status')" class="w-45!" clearable>
+            <el-option
+              v-for="opt in USER_STATUS_FILTER_OPTIONS"
+              :key="opt.value"
+              :label="t(opt.labelKey)"
+              :value="opt.value"
+            />
+          </el-select>
+        </el-form-item>
+      </template>
 
       <el-form-item>
-        <!-- 搜索 -->
-        <el-button :loading="loading" type="primary" @click="fetchUserTable">{{ t('buttons.actionSearch') }}</el-button>
-        <!-- 重置 -->
-        <el-button @click="resetUserSearch(searchFormRef)">{{ t('buttons.actionReset') }}</el-button>
+        <el-button-group>
+          <!-- 搜索 -->
+          <el-button :loading="loading" type="primary" @click="fetchUserTable">
+            {{ t('buttons.actionSearch') }}
+          </el-button>
+          <!-- 重置 -->
+          <el-button @click="resetUserSearch(searchFormRef)">{{ t('buttons.actionReset') }}</el-button>
+          <!-- 高级搜索 -->
+          <el-button v-if="showAdvancedSearchToggle" @click="toggleAdvancedSearch">
+            {{ searchExpanded ? t('buttons.actionCollapseSearch') : t('buttons.actionAdvancedSearch') }}
+          </el-button>
+        </el-button-group>
       </el-form-item>
     </el-form>
 
