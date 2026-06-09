@@ -58,6 +58,20 @@ export interface SysUserCreateForm {
 }
 
 /**
+ * 用户基础资料更新表单（对齐 {@code SysUserUpdateForm}，不含用户名与状态）
+ */
+export interface SysUserUpdateForm {
+  nickname: string;
+  email: string;
+  phone: string;
+  employeeNo?: string;
+  gender?: number;
+  birthday?: string;
+  introduction?: string;
+  remark?: string;
+}
+
+/**
  * 批量更新用户状态（0=禁用，1=正常，2=锁定）
  */
 export interface SysUserBatchStatusRequest {
@@ -71,6 +85,15 @@ export interface SysUserBatchStatusRequest {
  */
 export function createUser(data: SysUserCreateForm): Promise<void> {
   return http.post<void, SysUserCreateForm>('/system/user', { data });
+}
+
+/**
+ * 更新用户基础资料
+ * @param id 用户主键
+ * @param data 更新表单
+ */
+export function updateUser(id: string, data: SysUserUpdateForm): Promise<void> {
+  return http.request<void>('put', `/system/user/${id}`, { data });
 }
 
 /**

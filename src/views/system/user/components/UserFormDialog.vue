@@ -4,14 +4,21 @@ import type { SysUserCreateForm } from '@/api/system/user';
 import { USER_ACCOUNT_STATUS, USER_STATUS_FILTER_OPTIONS } from '@/views/system/user/constants/user-account-status';
 import { USER_GENDER, USER_GENDER_OPTIONS } from '@/views/system/user/constants/user-gender';
 import type { FormInstance, FormRules } from 'element-plus';
-import { reactive, ref } from 'vue';
+import { computed, reactive, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 
-type UserFormDialogProps = FormDialog<SysUserCreateForm>;
+type UserFormMode = 'create' | 'edit';
+
+type UserFormDialogProps = FormDialog<SysUserCreateForm> & {
+  mode?: UserFormMode;
+};
 
 const props = withDefaults(defineProps<UserFormDialogProps>(), {
   form: () => ({}) as SysUserCreateForm,
+  mode: 'create',
 });
+
+const isEditMode = computed(() => props.mode === 'edit');
 
 const { t } = useI18n();
 const formRef = ref<FormInstance>();
@@ -53,7 +60,7 @@ defineExpose({ formRef, form });
       <!-- 用户名 -->
       <el-col :lg="12" :md="12" :sm="12" :xs="24">
         <el-form-item :label="t('users.username')" prop="username">
-          <el-input v-model="form.username" :placeholder="t('users.username')" clearable />
+          <el-input v-model="form.username" :disabled="isEditMode" :placeholder="t('users.username')" clearable />
         </el-form-item>
       </el-col>
       <!-- 昵称 -->
@@ -80,8 +87,8 @@ defineExpose({ formRef, form });
           <el-input v-model="form.employeeNo" :placeholder="t('dept.employeeNo')" clearable />
         </el-form-item>
       </el-col>
-      <!-- 状态 -->
-      <el-col :lg="12" :md="12" :sm="12" :xs="24">
+      <!-- 状态（仅新增） -->
+      <el-col v-if="!isEditMode" :lg="12" :md="12" :sm="12" :xs="24">
         <el-form-item :label="t('users.status')" prop="status">
           <el-radio-group v-model="form.status">
             <el-radio v-for="opt in USER_STATUS_FILTER_OPTIONS" :key="opt.value" :value="opt.value">

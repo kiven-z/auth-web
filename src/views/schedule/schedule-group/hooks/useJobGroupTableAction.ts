@@ -97,13 +97,7 @@ function useJobGroupTableAction(deps: TableActionDeps) {
         successI18nKey: 'tips.editSuccess',
         requireId: true,
         onSubmit: async (formPayload) => {
-          await updateJobGroup({
-            id: formPayload.id,
-            groupName: formPayload.groupName,
-            description: formPayload.description,
-            status: formPayload.status,
-            orderNum: formPayload.orderNum,
-          });
+          await updateJobGroup(formPayload);
           await fetchTableData();
         },
       }),

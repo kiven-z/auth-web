@@ -45,11 +45,13 @@ export interface SysUserProfileResponse {
   nickname?: string | null;
   email?: string | null;
   phone?: string | null;
+  employeeNo?: string | null;
   avatar?: string | null;
   status: number;
   gender?: number | null;
   birthday?: string | null;
   introduction?: string | null;
+  remark?: string | null;
   deptList: SysUserDeptProfileItem[];
   postList: SysUserPostProfileItem[];
 }

@@ -28,7 +28,7 @@ const { loading, searchForm, selectedRows } = tableState;
 const { openViewSessionsDialog, kickUserSessions, refreshUserAuth } = useUserMoreAction();
 const { batchKickAll } = useUserSessionKickAction({ selectedRows });
 const { batchRefreshAuth } = useUserAuthRefreshAction({ selectedRows });
-const { openCreateDialog, deleteBatchRows, batchUpdateStatus } = useUserTableAction({
+const { openCreateDialog, openEditDialog, deleteBatchRows, batchUpdateStatus } = useUserTableAction({
   fetchTableData: fetchUserTable,
   selectedRows,
 });
@@ -160,7 +160,7 @@ const handleView = (row: SysUserPageRow) => {
           <!-- 查看 -->
           <el-button link type="primary" @click="handleView(row)">{{ t('buttons.actionView') }}</el-button>
           <!-- 修改 -->
-          <el-button link type="primary">{{ t('buttons.actionEdit') }}</el-button>
+          <el-button link type="primary" @click="openEditDialog(row)">{{ t('buttons.actionEdit') }}</el-button>
           <!-- 删除 -->
           <el-button link type="danger" @click="deleteBatchRows([row.id])">{{ t('buttons.actionDelete') }}</el-button>
 
