@@ -2,13 +2,14 @@
 import type { SysUserPageRow } from '@/api/system/user';
 import AuthPagedTable from '@/components/business/AuthPagedTable';
 import { selectUserinfo } from '@/components/business/UserProfile';
-import { USER_ACCOUNT_STATUS, USER_STATUS_FILTER_OPTIONS } from '@/views/system/user/constants/user-account-status';
-import useUserMoreAction from '@/views/system/user/hooks/useUserMoreAction';
-import useUserPageState from '@/views/system/user/hooks/useUserPageState';
-import useUserSessionKickAction from '@/views/system/user/hooks/useUserSessionKickAction';
-import useUserTableAction from '@/views/system/user/hooks/useUserTableAction';
-import useUserTableColumns from '@/views/system/user/hooks/useUserTableColumns';
 import { useCollapsibleSearchForm } from '@/composables/search/useCollapsibleSearchForm';
+import { USER_ACCOUNT_STATUS, USER_STATUS_FILTER_OPTIONS } from '@/views/system/user/constants/user-account-status';
+import useUserAuthRefreshAction from '@/views/system/user/hooks/actions/useUserAuthRefreshAction';
+import useUserMoreAction from '@/views/system/user/hooks/actions/useUserMoreAction';
+import useUserPageState from '@/views/system/user/hooks/useUserPageState';
+import useUserSessionKickAction from '@/views/system/user/hooks/actions/useUserSessionKickAction';
+import useUserTableAction from '@/views/system/user/hooks/actions/useUserTableAction';
+import useUserTableColumns from '@/views/system/user/hooks/columns/useUserTableColumns';
 import type { FormInstance } from 'element-plus';
 import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
@@ -24,8 +25,9 @@ const searchFormRef = ref<FormInstance>();
 const { tableState, fetchUserTable, resetUserSearch } = useUserPageState();
 const { loading, searchForm, selectedRows } = tableState;
 
-const { openViewSessionsDialog, kickUserSessions } = useUserMoreAction();
+const { openViewSessionsDialog, kickUserSessions, refreshUserAuth } = useUserMoreAction();
 const { batchKickAll } = useUserSessionKickAction({ selectedRows });
+const { batchRefreshAuth } = useUserAuthRefreshAction({ selectedRows });
 const { openCreateDialog, deleteBatchRows, batchUpdateStatus } = useUserTableAction({
   fetchTableData: fetchUserTable,
   selectedRows,
@@ -145,6 +147,9 @@ const handleView = (row: SysUserPageRow) => {
               <el-dropdown-item :disabled="!hasSelection" @click="batchKickAll()">
                 {{ t('users.batchKickSessions') }}
               </el-dropdown-item>
+              <el-dropdown-item :disabled="!hasSelection" @click="batchRefreshAuth()">
+                {{ t('users.batchRefreshAuth') }}
+              </el-dropdown-item>
             </template>
           </el-dropdown>
         </el-button-group>
@@ -173,6 +178,9 @@ const handleView = (row: SysUserPageRow) => {
               </el-dropdown-item>
               <el-dropdown-item @click="kickUserSessions(row)">
                 {{ t('users.kickSessions') }}
+              </el-dropdown-item>
+              <el-dropdown-item @click="refreshUserAuth(row)">
+                {{ t('users.refreshAuth') }}
               </el-dropdown-item>
             </template>
           </el-dropdown>

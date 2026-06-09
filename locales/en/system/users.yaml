@@ -3,6 +3,10 @@ users:
   resetPassword: Reset password
   kickSessions: Sign out user
   batchKickSessions: Batch sign out users
+  refreshAuth: Refresh authorization
+  batchRefreshAuth: Batch refresh authorization
+  refreshAuthSuccess: Authorization refreshed successfully
+  refreshAuthFailed: Failed to refresh authorization
   viewSessions: View sessions
   sessionDialogSubtitle: Active sessions for {username}
   sessionDevice: Device

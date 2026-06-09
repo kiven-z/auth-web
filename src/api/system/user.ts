@@ -88,3 +88,11 @@ export function deleteUsers(ids: string[]): Promise<string> {
 export function batchUpdateUserStatus(data: SysUserBatchStatusRequest): Promise<string> {
   return http.request<string>('put', '/system/user/status', { data });
 }
+
+/**
+ * 刷新用户授权画像缓存（重建 Redis AuthProfile）
+ * @param ids 用户主键列表
+ */
+export function refreshUserAuthorization(ids: string[]): Promise<void> {
+  return http.post<void, string[]>('auth/admin/users/authorization/refresh', { data: ids });
+}

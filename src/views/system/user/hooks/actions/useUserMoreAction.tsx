@@ -1,7 +1,8 @@
 import type { SysUserPageRow } from '@/api/system/user';
 import { addDialog } from '@/components/ui/Dialog';
 import UserSessionDialog from '@/views/system/user/components/UserSessionDialog.vue';
-import useUserSessionKickAction from '@/views/system/user/hooks/useUserSessionKickAction';
+import useUserAuthRefreshAction from '@/views/system/user/hooks/actions/useUserAuthRefreshAction';
+import useUserSessionKickAction from '@/views/system/user/hooks/actions/useUserSessionKickAction';
 import { h } from 'vue';
 import { useI18n } from 'vue-i18n';
 
@@ -12,6 +13,7 @@ import { useI18n } from 'vue-i18n';
 function useUserMoreAction() {
   const { t } = useI18n();
   const { kickAllForUser } = useUserSessionKickAction();
+  const { refreshForUser } = useUserAuthRefreshAction();
 
   /**
    * 打开查看会话弹窗
@@ -36,9 +38,18 @@ function useUserMoreAction() {
     void kickAllForUser(row.id);
   };
 
+  /**
+   * 刷新用户授权画像缓存
+   * @param row 用户行
+   */
+  const refreshUserAuth = (row: SysUserPageRow) => {
+    void refreshForUser(row.id);
+  };
+
   return {
     openViewSessionsDialog,
     kickUserSessions,
+    refreshUserAuth,
   };
 }
 

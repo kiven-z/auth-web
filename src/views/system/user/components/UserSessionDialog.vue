@@ -3,8 +3,8 @@ import { kickUserSession, listUserSessions, type UserSessionIndex } from '@/api/
 import AuthDataTable from '@/components/ui/AuthDataTable';
 import { operationConfirm } from '@/ui/feedback/dialog';
 import { errorMessage, message } from '@/ui/feedback/message';
-import useUserSessionKickAction from '@/views/system/user/hooks/useUserSessionKickAction';
-import useUserSessionTableColumns from '@/views/system/user/hooks/useUserSessionTableColumns';
+import useUserSessionKickAction from '@/views/system/user/hooks/actions/useUserSessionKickAction';
+import useUserSessionTableColumns from '@/views/system/user/hooks/columns/useUserSessionTableColumns';
 import { onMounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 

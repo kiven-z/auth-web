@@ -3,6 +3,10 @@ users:
   resetPassword: 修改密码
   kickSessions: 用户下线
   batchKickSessions: 批量用户下线
+  refreshAuth: 刷新授权
+  batchRefreshAuth: 批量刷新授权
+  refreshAuthSuccess: 授权刷新成功
+  refreshAuthFailed: 授权刷新失败
   viewSessions: 查看会话
   sessionDialogSubtitle: '{username} 的活跃会话'
   sessionDevice: 设备
