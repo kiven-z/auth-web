@@ -30,8 +30,6 @@ users:
   statusFailed: 用户状态更新失败
   loadPageFailed: 加载用户列表失败
   loadFailed: 加载用户档案失败
-  createFailed: 新增用户失败
-  updateFailed: 更新用户失败
   dialogCreateTitle: 新增用户
   dialogEditTitle: 编辑用户
   remark: 备注

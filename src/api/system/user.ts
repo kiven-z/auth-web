@@ -42,7 +42,7 @@ export function getUserPage(params: SysUserPageQuery): Promise<PageResponse<SysU
 }
 
 /**
- * 用户新增表单（对齐 {@code SysUserForm}）
+ * 用户新增表单
  */
 export interface SysUserCreateForm {
   username: string;
@@ -51,20 +51,6 @@ export interface SysUserCreateForm {
   phone: string;
   employeeNo?: string;
   status: number;
-  gender?: number;
-  birthday?: string;
-  introduction?: string;
-  remark?: string;
-}
-
-/**
- * 用户基础资料更新表单（对齐 {@code SysUserUpdateForm}，不含用户名与状态）
- */
-export interface SysUserUpdateForm {
-  nickname: string;
-  email: string;
-  phone: string;
-  employeeNo?: string;
   gender?: number;
   birthday?: string;
   introduction?: string;
@@ -93,17 +79,7 @@ export function createUser(data: SysUserCreateForm): Promise<void> {
  * @param data 用户表单
  */
 export function updateUser(id: string, data: SysUserCreateForm): Promise<void> {
-  const body = {
-    nickname: data.nickname,
-    email: data.email,
-    phone: data.phone,
-    employeeNo: data.employeeNo,
-    gender: data.gender,
-    birthday: data.birthday,
-    introduction: data.introduction,
-    remark: data.remark,
-  };
-  return http.request<void>('put', `/system/user/${id}`, { data: body });
+  return http.request<void>('put', `/system/user/${id}`, { data });
 }
 
 /**

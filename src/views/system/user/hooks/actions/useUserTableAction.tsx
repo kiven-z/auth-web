@@ -48,7 +48,7 @@ function useUserTableAction(deps: TableActionWithSelectionDeps) {
       contentRenderer: () => h(UserFormDialog, { ref: dialogFormRef }),
       beforeSure: createFormBeforeSure<SysUserCreateForm>({
         formExposeRef: dialogFormRef,
-        errorI18nKey: 'users.createFailed',
+        errorI18nKey: 'tips.addFailed',
         successI18nKey: 'tips.addSuccess',
         onSubmit: async (formPayload) => {
           await createUser(formPayload);
@@ -77,7 +77,7 @@ function useUserTableAction(deps: TableActionWithSelectionDeps) {
           h(UserFormDialog, { ref: dialogFormRef, form: profile as SysUserCreateForm, mode: 'edit' }),
         beforeSure: createFormBeforeSure<SysUserCreateForm>({
           formExposeRef: dialogFormRef,
-          errorI18nKey: 'users.updateFailed',
+          errorI18nKey: 'tips.editFailed',
           successI18nKey: 'tips.editSuccess',
           onSubmit: async (formData) => {
             await updateUser(row.id, formData);

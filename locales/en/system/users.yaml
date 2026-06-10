@@ -30,8 +30,6 @@ users:
   statusFailed: Failed to update user status
   loadPageFailed: Failed to load user list
   loadFailed: Failed to load user profile
-  createFailed: Failed to create user
-  updateFailed: Failed to update user
   dialogCreateTitle: Add User
   dialogEditTitle: Edit User
   remark: Remark
