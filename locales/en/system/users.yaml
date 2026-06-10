@@ -1,6 +1,9 @@
 users:
   allDepts: All
   resetPassword: Reset password
+  oldPassword: Current password
+  newPassword: New password
+  passwordConfirm: Confirm password
   kickSessions: Sign out user
   batchKickSessions: Batch sign out users
   refreshAuth: Refresh authorization
@@ -34,6 +37,7 @@ users:
   dialogEditTitle: Edit User
   remark: Remark
   validation:
+    passwordConfirmMismatch: Passwords do not match
     usernameMaxLength: Username must be at most 64 characters
     nicknameMaxLength: Nickname must be at most 64 characters
     emailInvalid: Invalid email format

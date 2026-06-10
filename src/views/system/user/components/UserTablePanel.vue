@@ -13,6 +13,7 @@ import useUserTableColumns from '@/views/system/user/hooks/columns/useUserTableC
 import type { FormInstance } from 'element-plus';
 import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
+import { useChangePasswordAction } from '@/components/business/ChangePasswordDialog';
 
 defineOptions({
   name: 'UserTablePanel',
@@ -26,6 +27,7 @@ const { tableState, fetchUserTable, resetUserSearch } = useUserPageState();
 const { loading, searchForm, selectedRows } = tableState;
 
 const { openViewSessionsDialog, kickUserSessions, refreshUserAuth } = useUserMoreAction();
+const { openAdminResetPasswordDialog } = useChangePasswordAction();
 const { batchKickAll } = useUserSessionKickAction({ selectedRows });
 const { batchRefreshAuth } = useUserAuthRefreshAction({ selectedRows });
 const { openCreateDialog, openEditDialog, deleteBatchRows, batchUpdateStatus } = useUserTableAction({
@@ -171,7 +173,9 @@ const handleView = (row: SysUserPageRow) => {
               <el-dropdown-item disabled>{{ t('assign.role') }}</el-dropdown-item>
               <el-dropdown-item disabled>{{ t('assign.dept') }}</el-dropdown-item>
               <el-dropdown-item disabled>{{ t('assign.post') }}</el-dropdown-item>
-              <el-dropdown-item disabled>{{ t('users.resetPassword') }}</el-dropdown-item>
+              <el-dropdown-item @click="openAdminResetPasswordDialog(row.id, row.username)">
+                {{ t('users.resetPassword') }}
+              </el-dropdown-item>
               <!-- 查看会话 -->
               <el-dropdown-item @click="openViewSessionsDialog(row)">
                 {{ t('users.viewSessions') }}
