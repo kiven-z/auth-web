@@ -122,11 +122,11 @@ tableBar:
   densityDefault: 默认
   densitySmall: 紧凑
   tippyColumnSettings: 列设置
-  tippyRefresh: 刷新
   tippyDensity: 密度
   tippyExpand: 展开
   tippyCollapse: 折叠
   tippyFullscreen: 全屏
   tippyExitFullscreen: 退出全屏
   columnShowAll: 列展示
+  refresh: 刷新
   reset: 重置

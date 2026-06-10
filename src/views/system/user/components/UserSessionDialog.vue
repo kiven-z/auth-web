@@ -98,7 +98,7 @@ onMounted(() => {
           {{ t('users.sessionKickAll') }}
         </el-button>
         <el-button :loading="loading" link type="primary" @click="loadSessions">
-          {{ t('tableBar.tippyRefresh') }}
+          {{ t('tableBar.refresh') }}
         </el-button>
       </div>
     </div>

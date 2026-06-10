@@ -207,7 +207,7 @@ export default defineComponent({
               ) : null}
               <RefreshIcon
                 class={['w-4', iconClass.value, refreshSpinning.value ? 'animate-spin' : '']}
-                v-tippy={tippyOptions('tableBar.tippyRefresh')}
+                v-tippy={tippyOptions('tableBar.refresh')}
                 onClick={() => onReFresh()}
               />
               <el-divider direction="vertical" />
