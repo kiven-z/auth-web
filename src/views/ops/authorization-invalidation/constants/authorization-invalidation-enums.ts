@@ -1,7 +1,8 @@
 /**
- * 授权变更维度（与后端 AuthorizationChangeKind 一致）
+ * 授权变更维度
  */
 export const AUTHORIZATION_CHANGE_KINDS = [
+  // FIXME 打算这里全部使用枚举方式而不是使用数组
   'ROLE',
   'PERMISSION',
   'POLICY',
@@ -10,35 +11,16 @@ export const AUTHORIZATION_CHANGE_KINDS = [
   'USER_POST',
   'USER_SCOPE',
 ] as const;
-
-export type AuthorizationChangeKind = (typeof AUTHORIZATION_CHANGE_KINDS)[number];
-
 /**
- * Outbox 投递状态（与后端 AuthorizationInvalidationOutboxStatus 一致）
+ * Outbox 投递状态
  */
 export const OUTBOX_STATUSES = ['PENDING', 'PROCESSING', 'SUCCESS', 'FAILED', 'DEAD'] as const;
-
-export type OutboxStatus = (typeof OUTBOX_STATUSES)[number];
 
 /**
  * 处理中占位筛选选项
  */
 export const PROCESSING_FILTER_OPTIONS = [true, false] as const;
 
-/**
- * 处理状态 Tag 类型
- * @param processing 是否处理中占位
- * @returns Element Plus Tag 类型
- */
-export function getProcessingTagType(processing: boolean | undefined | null): 'warning' | 'success' {
-  return processing ? 'warning' : 'success';
-}
-
-/**
- * Outbox 投递状态 Tag 类型
- * @param status 投递状态
- * @returns Element Plus Tag 类型
- */
 /** 允许人工重试的 Outbox 状态（不含 SUCCESS） */
 export const OUTBOX_RETRYABLE_STATUSES = ['PENDING', 'PROCESSING', 'FAILED', 'DEAD'] as const;
 
@@ -47,11 +29,12 @@ export const OUTBOX_RETRYABLE_STATUSES = ['PENDING', 'PROCESSING', 'FAILED', 'DE
  * @param status 投递状态
  * @returns 是否可重试
  */
-export function isOutboxRetryable(status: string | undefined | null): boolean {
+export function isOutboxRetryable(status: string): boolean {
   return OUTBOX_RETRYABLE_STATUSES.includes(status as (typeof OUTBOX_RETRYABLE_STATUSES)[number]);
 }
 
-export function getOutboxStatusTagType(status: string | undefined | null): 'info' | 'warning' | 'success' | 'danger' {
+// FIXME 这里应当用枚举
+export function getOutboxStatusTagType(status: string) {
   switch (status) {
     case 'PENDING':
       return 'info';

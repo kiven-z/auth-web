@@ -192,16 +192,83 @@ export function getMenuDetail(id: string): Promise<SysMenuDetailVO> {
 
 /**
  * 新增菜单
+ * @param data 菜单表单
  */
-export function createMenu(data: MenuSaveRequest): Promise<string> {
-  return http.post<string, MenuSaveRequest>('/system/menu', { data });
+export function createMenu(data: MenuForm): Promise<string> {
+  const rawType = data.menuType ?? 0;
+  const menuType = typeof rawType === 'string' ? Number.parseInt(rawType, 10) : Number(rawType);
+  const rankRaw = data.menuRank ?? 0;
+  const menuRank = typeof rankRaw === 'string' ? Number.parseInt(rankRaw, 10) : Number(rankRaw);
+  const parentId =
+    data.parentId === undefined || data.parentId === null || data.parentId === '' ? null : String(data.parentId);
+  const body = {
+    parentId,
+    menuType: Number.isFinite(menuType) ? menuType : 0,
+    path: data.path,
+    name: (data.name ?? '').trim(),
+    redirect: data.redirect,
+    component: data.component,
+    title: (data.title ?? '').trim(),
+    icon: data.icon,
+    showLink: data.showLink ?? true,
+    menuRank: Number.isFinite(menuRank) ? Math.trunc(menuRank) : 0,
+    extraIcon: data.extraIcon,
+    showParent: data.showParent ?? true,
+    keepAlive: data.keepAlive ?? false,
+    frameSrc: data.frameSrc,
+    frameLoading: data.frameLoading ?? true,
+    transitionName: data.transitionName,
+    enterTransition: data.enterTransition,
+    leaveTransition: data.leaveTransition,
+    hiddenTag: data.hiddenTag ?? false,
+    dynamicLevel: data.dynamicLevel,
+    activePath: data.activePath,
+    fixedTag: data.fixedTag ?? false,
+    status: data.status ?? true,
+    remark: data.remark,
+  };
+  return http.post<string, MenuSaveRequest>('/system/menu', { data: body });
 }
 
 /**
  * 修改菜单
+ * @param data 菜单表单（须含 id）
  */
-export function updateMenu(data: MenuSaveRequest & { id: string }): Promise<string> {
-  return http.put<string, MenuSaveRequest & { id: string }>('/system/menu', { data });
+export function updateMenu(data: MenuForm): Promise<string> {
+  const rawType = data.menuType ?? 0;
+  const menuType = typeof rawType === 'string' ? Number.parseInt(rawType, 10) : Number(rawType);
+  const rankRaw = data.menuRank ?? 0;
+  const menuRank = typeof rankRaw === 'string' ? Number.parseInt(rankRaw, 10) : Number(rankRaw);
+  const parentId =
+    data.parentId === undefined || data.parentId === null || data.parentId === '' ? null : String(data.parentId);
+  const body = {
+    id: data.id,
+    parentId,
+    menuType: Number.isFinite(menuType) ? menuType : 0,
+    path: data.path,
+    name: (data.name ?? '').trim(),
+    redirect: data.redirect,
+    component: data.component,
+    title: (data.title ?? '').trim(),
+    icon: data.icon,
+    showLink: data.showLink ?? true,
+    menuRank: Number.isFinite(menuRank) ? Math.trunc(menuRank) : 0,
+    extraIcon: data.extraIcon,
+    showParent: data.showParent ?? true,
+    keepAlive: data.keepAlive ?? false,
+    frameSrc: data.frameSrc,
+    frameLoading: data.frameLoading ?? true,
+    transitionName: data.transitionName,
+    enterTransition: data.enterTransition,
+    leaveTransition: data.leaveTransition,
+    hiddenTag: data.hiddenTag ?? false,
+    dynamicLevel: data.dynamicLevel,
+    activePath: data.activePath,
+    fixedTag: data.fixedTag ?? false,
+    status: data.status ?? true,
+    remark: data.remark,
+  };
+  return http.put<string, MenuSaveRequest>('/system/menu', { data: body });
 }
 
 /**

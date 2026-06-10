@@ -31,10 +31,7 @@ const loginLogState = usePaginationState({
 
 const { selectedRows, loading, searchForm, fetchTableData, resetQuery } = loginLogState;
 
-const { openDetailDialog, deleteBatchRows } = useLoginLogTableAction({
-  fetchTableData,
-  selectedRows,
-});
+const { openDetailDialog, deleteBatchRows } = useLoginLogTableAction({ fetchTableData, selectedRows });
 
 const { userOptions, userSearchLoading, loadUserListByKeyword } = useRemoteUserSearch({
   errorDefaultI18nKey: 'loginLog.loadFailed',

@@ -15,7 +15,6 @@ import EmailTemplateMonacoOnlyDialog from '@/views/message/email-template/compon
 import EmailTemplatePreviewDialog from '@/views/message/email-template/components/EmailTemplatePreviewDialog.vue';
 import EmailTemplateRequireFieldsDialog from '@/views/message/email-template/components/EmailTemplateRequireFieldsDialog.vue';
 import EmailTemplateTestSendDialog from '@/views/message/email-template/components/EmailTemplateTestSendDialog.vue';
-import { detailToMonacoForm } from '@/views/message/email-template/utils/email-template-form-mapper';
 import { h, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 
@@ -115,7 +114,7 @@ export function useEmailTemplateTableMoreAction(options: TableActionDeps) {
       contentRenderer: () =>
         h(EmailTemplateTestSendDialog, {
           ref: sendFormRef,
-          form: { id: row.id, email: '' },
+          form: row as EmailTestSendForm,
         }),
       beforeSure: createFormBeforeSure<EmailTestSendForm>({
         formExposeRef: sendFormRef,
@@ -136,7 +135,6 @@ export function useEmailTemplateTableMoreAction(options: TableActionDeps) {
   const openTemplateContentEdit = async (row: EmailTemplatePageRow) => {
     try {
       const detail = await getEmailTemplateById(row.id);
-      const formData = detailToMonacoForm(detail);
       const dialogFormRef = ref<FormOverlayExpose<EmailTemplateMonacoFormModel> | null>(null);
 
       addDrawer({
@@ -148,10 +146,7 @@ export function useEmailTemplateTableMoreAction(options: TableActionDeps) {
         closeOnPressEscape: false,
         showClose: true,
         contentRenderer: () =>
-          h(EmailTemplateMonacoOnlyDialog, {
-            ref: dialogFormRef,
-            form: formData,
-          }),
+          h(EmailTemplateMonacoOnlyDialog, { ref: dialogFormRef, form: detail as EmailTemplateMonacoFormModel }),
         beforeSure: createFormBeforeSure<EmailTemplateMonacoFormModel>({
           formExposeRef: dialogFormRef,
           errorI18nKey: 'emailTemplate.loadFailed',

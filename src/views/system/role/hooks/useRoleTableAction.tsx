@@ -72,16 +72,6 @@ function useRoleTableAction(deps: TableActionDeps) {
    */
   const openEditDialog = async (row: SysRolePageRow) => {
     const detail = await getRoleDetail(row.id);
-    const formPayload: SysRoleUpdateForm = {
-      id: row.id,
-      roleCode: detail.roleCode,
-      roleName: detail.roleName,
-      status: detail.status,
-      roleType: detail.roleType,
-      orderNum: detail.orderNum,
-      remark: detail.remark,
-    };
-
     const dialogFormRef = ref<FormOverlayExpose<SysRoleUpdateForm> | null>(null);
 
     addDialog({
@@ -90,7 +80,7 @@ function useRoleTableAction(deps: TableActionDeps) {
       fullscreenIcon: true,
       closeOnClickModal: false,
       closeOnPressEscape: false,
-      contentRenderer: () => h(RoleFormDialog, { ref: dialogFormRef, form: formPayload }),
+      contentRenderer: () => h(RoleFormDialog, { ref: dialogFormRef, form: { ...detail, id: row.id } }),
       beforeSure: createFormBeforeSure<SysRoleUpdateForm>({
         formExposeRef: dialogFormRef,
         requireId: true,

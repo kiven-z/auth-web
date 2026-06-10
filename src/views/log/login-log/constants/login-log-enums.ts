@@ -14,14 +14,20 @@ export const LOGIN_LOG_RESULT_ITEMS = [
 
 export type LoginLogResultCode = (typeof LOGIN_LOG_RESULT_ITEMS)[number]['code'];
 
-/** 筛选项遍历用，顺序与 {@link LOGIN_LOG_RESULT_ITEMS} 一致 */
+/**
+ * 筛选项遍历用
+ * FIXME 修改这个方法，直接使用 LOGIN_LOG_RESULT_ITEMS
+ */
 export const LOGIN_LOG_RESULT_CODES = LOGIN_LOG_RESULT_ITEMS.map((item) => item.code) as readonly LoginLogResultCode[];
 
+/**
+ * 未知结果码时回退为
+ * FIXME 将 LOGIN_LOG_RESULT_TAG_MAP 和 getLoginLogResultTagType进行合并，如果要使用map直接使用getLoginLogResultTagType
+ */
 export const LOGIN_LOG_RESULT_TAG_MAP = Object.fromEntries(
   LOGIN_LOG_RESULT_ITEMS.map((item) => [item.code, item.tagType])
 ) as Record<LoginLogResultCode, LoginLogResultTagType>;
 
-/** 未知结果码时回退为 info */
 export function getLoginLogResultTagType(code: number): LoginLogResultTagType {
   return LOGIN_LOG_RESULT_TAG_MAP[code as LoginLogResultCode] ?? 'info';
 }

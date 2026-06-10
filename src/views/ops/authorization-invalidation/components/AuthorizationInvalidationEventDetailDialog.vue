@@ -2,7 +2,6 @@
 import type { DetailDialog } from '@/api/common';
 import type { AuthorizationInvalidationEventDetailRow } from '@/api/ops/authorization-invalidation-event';
 import Description from '@/components/ui/Description';
-import { getProcessingTagType } from '@/views/ops/authorization-invalidation/constants/authorization-invalidation-enums';
 import useAuthorizationInvalidationLinkedRecord from '@/views/ops/authorization-invalidation/hooks/useAuthorizationInvalidationLinkedRecord';
 import { ElTag } from 'element-plus';
 import { computed } from 'vue';
@@ -43,7 +42,7 @@ const columns = computed(() => [
       const key = `authorizationInvalidation.processingEnum.${String(value)}`;
       const label = t(key);
       return (
-        <ElTag type={getProcessingTagType(value)} effect="plain">
+        <ElTag type={value ? 'warning' : 'success'} effect="plain">
           {label === key ? String(value) : label}
         </ElTag>
       );

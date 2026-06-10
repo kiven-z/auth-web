@@ -1,9 +1,6 @@
 import type { SysDeptListVO } from '@/api/system/dept';
 import { handleTree } from '@/lib/tree';
 
-/** 顶级部门 parentId（与后端一致） */
-export const DEPT_ROOT_PARENT_ID = '0';
-
 /** 父级 cascader 节点 */
 export interface DeptParentCascaderNode {
   id: string;

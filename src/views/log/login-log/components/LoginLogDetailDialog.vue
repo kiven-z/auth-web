@@ -33,7 +33,9 @@ const columns = computed(() => [
     prop: 'loginResult',
     labelWidth: 120,
     cellRenderer: ({ value }: { value: number }) => {
-      if (value === undefined || value === null) return <span>—</span>;
+      if (value === undefined || value === null) {
+        return <span>—</span>;
+      }
       const key = `loginLog.loginResultEnum.${value}`;
       const label = t(key);
 

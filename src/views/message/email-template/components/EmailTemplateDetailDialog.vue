@@ -98,7 +98,7 @@ onMounted(() => {
     <div class="border border-(--el-border-color) overflow-auto rounded bg-(--el-fill-color-blank)">
       <iframe
         ref="previewFrameRef"
-        class="w-full h-[420px] border-0 block"
+        class="w-full h-105 border-0 block"
         sandbox="allow-same-origin"
         title="email-template-preview"
       />

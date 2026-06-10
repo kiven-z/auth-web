@@ -90,10 +90,20 @@ export function createUser(data: SysUserCreateForm): Promise<void> {
 /**
  * 更新用户基础资料
  * @param id 用户主键
- * @param data 更新表单
+ * @param data 用户表单
  */
-export function updateUser(id: string, data: SysUserUpdateForm): Promise<void> {
-  return http.request<void>('put', `/system/user/${id}`, { data });
+export function updateUser(id: string, data: SysUserCreateForm): Promise<void> {
+  const body = {
+    nickname: data.nickname,
+    email: data.email,
+    phone: data.phone,
+    employeeNo: data.employeeNo,
+    gender: data.gender,
+    birthday: data.birthday,
+    introduction: data.introduction,
+    remark: data.remark,
+  };
+  return http.request<void>('put', `/system/user/${id}`, { data: body });
 }
 
 /**

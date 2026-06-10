@@ -1,6 +1,15 @@
 import type { TableActionDeps } from '@/api/common';
-import type { SysDeptCreateForm, SysDeptListVO, SysDeptUpdateForm } from '@/api/system/dept';
-import { createDept, deleteDepts, getDeptDetail, getDeptList, updateDept } from '@/api/system/dept';
+import {
+  createDept,
+  deleteDepts,
+  DEPT_ROOT_PARENT_ID,
+  getDeptDetail,
+  getDeptList,
+  type SysDeptCreateForm,
+  type SysDeptListVO,
+  type SysDeptUpdateForm,
+  updateDept,
+} from '@/api/system/dept';
 import { addDialog } from '@/components/ui/Dialog';
 import useBatchDeleteAction from '@/composables/table/useBatchDeleteAction';
 import { type FormOverlayExpose, useFormOverlaySubmit } from '@/composables/table/useFormOverlaySubmit';
@@ -8,7 +17,6 @@ import { errorMessage } from '@/ui/feedback/message';
 import DeptDescriptionDialog from '@/views/system/dept/components/DeptDescriptionDialog.vue';
 import DeptFormDialog from '@/views/system/dept/components/DeptFormDialog.vue';
 import type { DeptViewMode, SysDeptRow } from '@/views/system/dept/hooks/useDeptPageState';
-import { DEPT_ROOT_PARENT_ID } from '@/views/system/dept/utils/dept-parent';
 import type { Ref } from 'vue';
 import { h, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
@@ -99,10 +107,7 @@ function useDeptTableAction(deps: DeptTableActionDeps) {
         errorI18nKey: 'tips.addFailed',
         successI18nKey: 'tips.addSuccess',
         onSubmit: async (formPayload) => {
-          await createDept({
-            ...formPayload,
-            parentId: formPayload.parentId || DEPT_ROOT_PARENT_ID,
-          });
+          await createDept(formPayload);
           await refresh();
         },
       }),
@@ -116,16 +121,6 @@ function useDeptTableAction(deps: DeptTableActionDeps) {
   const openEditDialog = async (row: SysDeptRow) => {
     try {
       const detail = await getDeptDetail(row.id);
-      const formPayload: SysDeptUpdateForm = {
-        id: row.id,
-        parentId: detail.parentId || DEPT_ROOT_PARENT_ID,
-        deptName: detail.deptName,
-        deptCode: detail.deptCode,
-        status: detail.status,
-        orderNum: detail.orderNum ?? 0,
-        remark: detail.remark ?? '',
-      };
-
       const dialogFormRef = ref<FormOverlayExpose<SysDeptUpdateForm> | null>(null);
 
       addDialog({
@@ -134,18 +129,14 @@ function useDeptTableAction(deps: DeptTableActionDeps) {
         fullscreenIcon: true,
         closeOnClickModal: false,
         closeOnPressEscape: false,
-        contentRenderer: () => h(DeptFormDialog, { ref: dialogFormRef, form: formPayload }),
+        contentRenderer: () => h(DeptFormDialog, { ref: dialogFormRef, form: detail }),
         beforeSure: createFormBeforeSure<SysDeptUpdateForm>({
           formExposeRef: dialogFormRef,
           requireId: true,
           errorI18nKey: 'tips.editFailed',
           successI18nKey: 'tips.editSuccess',
           onSubmit: async (formData) => {
-            await updateDept(row.id, {
-              ...formData,
-              id: row.id,
-              parentId: formData.parentId || DEPT_ROOT_PARENT_ID,
-            });
+            await updateDept(row.id, formData);
             await refresh();
           },
         }),

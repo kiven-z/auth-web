@@ -36,10 +36,7 @@ const jobLogState = usePaginationState({
 
 const { selectedRows, loading, searchForm, fetchTableData, resetQuery } = jobLogState;
 
-const { openDetailDialog, deleteBatchRows } = useJobLogTableAction({
-  fetchTableData,
-  selectedRows,
-});
+const { openDetailDialog, deleteBatchRows } = useJobLogTableAction({ fetchTableData, selectedRows });
 
 const { searchExpanded, showAdvancedSearchToggle, toggleAdvancedSearch } = useCollapsibleSearchForm(7);
 
@@ -91,7 +88,7 @@ onMounted(() => {
           <el-input
             v-model="searchForm.invokeTarget"
             :placeholder="t('logJob.placeholder.invokeTarget')"
-            class="w-[220px]!"
+            class="w-45!"
             clearable
           />
         </el-form-item>

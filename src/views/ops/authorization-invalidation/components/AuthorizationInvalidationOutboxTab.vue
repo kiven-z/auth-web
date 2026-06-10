@@ -40,9 +40,7 @@ const outboxState = usePaginationState({
 
 const { loading, searchForm, fetchTableData, resetQuery } = outboxState;
 
-const { openDetailDialog, retryOutboxRow } = useAuthorizationInvalidationOutboxTableAction({
-  fetchTableData,
-});
+const { openDetailDialog, retryOutboxRow } = useAuthorizationInvalidationOutboxTableAction({ fetchTableData });
 
 const { searchExpanded, showAdvancedSearchToggle, toggleAdvancedSearch } = useCollapsibleSearchForm(7);
 

@@ -6,6 +6,9 @@ import type { AxiosRequestConfig } from 'axios';
 
 export type { GrantTableAssignedRoleRow, GrantTableAssignRoleRequest };
 
+/** 顶级部门 parentId（与后端一致） */
+export const DEPT_ROOT_PARENT_ID = '0';
+
 /**
  * 部门扁平列表查询（树形建树，无分页）
  */
@@ -161,9 +164,14 @@ export function exportDeptExcel(filter: SysDeptPageQuery, scope: ExportScopeQuer
 
 /**
  * 新增部门
+ * @param data 部门表单
  */
 export function createDept(data: SysDeptCreateForm): Promise<void> {
-  return http.post<void, SysDeptCreateForm>('/system/dept', { data });
+  const body = {
+    ...data,
+    parentId: data.parentId && data.parentId.length > 0 ? data.parentId : DEPT_ROOT_PARENT_ID,
+  };
+  return http.post<void, SysDeptCreateForm>('/system/dept', { data: body });
 }
 
 /**
@@ -172,7 +180,11 @@ export function createDept(data: SysDeptCreateForm): Promise<void> {
  * @param data 保存表单
  */
 export function updateDept(id: string, data: SysDeptUpdateForm): Promise<void> {
-  return http.put<void, SysDeptUpdateForm>(`/system/dept/${id}`, { data: { ...data, id } });
+  const body = {
+    ...data,
+    parentId: data.parentId && data.parentId.length > 0 ? data.parentId : DEPT_ROOT_PARENT_ID,
+  };
+  return http.put<void, SysDeptUpdateForm>(`/system/dept/${id}`, { data: body });
 }
 
 /**

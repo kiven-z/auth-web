@@ -48,11 +48,7 @@ function useJobGroupTableAction(deps: TableActionDeps) {
       fullscreenIcon: true,
       closeOnPressEscape: false,
       closeOnClickModal: false,
-      contentRenderer: () =>
-        h(ScheduleGroupFormDialog, {
-          ref: dialogFormRef,
-          mode: 'add',
-        }),
+      contentRenderer: () => h(ScheduleGroupFormDialog, { ref: dialogFormRef, mode: 'add' }),
       beforeSure: createFormBeforeSure<JobGroupForm>({
         formExposeRef: dialogFormRef,
         errorI18nKey: 'scheduleGroup.loadFailed',
@@ -70,14 +66,7 @@ function useJobGroupTableAction(deps: TableActionDeps) {
    * @param row 任务分组数据
    */
   const openEditDialog = (row: SysJobGroupPageRow) => {
-    const formData: JobGroupForm = {
-      id: row.id,
-      groupCode: row.groupCode,
-      groupName: row.groupName,
-      description: row.description ?? '',
-      status: row.status,
-      orderNum: row.orderNum ?? 0,
-    };
+    // FIXME 后端需要添加获取详情接口
     const dialogFormRef = ref<FormOverlayExpose<JobGroupForm> | null>(null);
 
     addDialog({
@@ -85,12 +74,8 @@ function useJobGroupTableAction(deps: TableActionDeps) {
       draggable: true,
       closeOnPressEscape: false,
       closeOnClickModal: false,
-      contentRenderer: () =>
-        h(ScheduleGroupFormDialog, {
-          ref: dialogFormRef,
-          mode: 'edit',
-          form: formData,
-        }),
+      // FIXME 后端需要添加获取详情接口，替换表单中的 `form: row`
+      contentRenderer: () => h(ScheduleGroupFormDialog, { ref: dialogFormRef, mode: 'edit', form: row }),
       beforeSure: createFormBeforeSure<JobGroupForm>({
         formExposeRef: dialogFormRef,
         errorI18nKey: 'scheduleGroup.loadFailed',

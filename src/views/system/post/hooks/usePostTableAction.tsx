@@ -1,5 +1,5 @@
 import type { TableActionDeps } from '@/api/common';
-import type { SysPostCreateForm, SysPostPageRow, SysPostUpdateForm } from '@/api/system/post';
+import type { SysPostCreateForm, SysPostPageRow } from '@/api/system/post';
 import { createPost, deletePost, getPostDetail, updatePost } from '@/api/system/post';
 import { addDialog } from '@/components/ui/Dialog';
 import { type FormOverlayExpose, useFormOverlaySubmit } from '@/composables/table/useFormOverlaySubmit';
@@ -73,15 +73,6 @@ function usePostTableAction(deps: TableActionDeps) {
   const openEditDialog = async (row: SysPostPageRow) => {
     try {
       const detail = await getPostDetail(row.id);
-      const formPayload: SysPostUpdateForm = {
-        id: row.id,
-        deptId: detail.deptId,
-        postCode: detail.postCode,
-        postName: detail.postName,
-        status: detail.status,
-        orderNum: detail.orderNum,
-        remark: detail.remark,
-      };
       const dialogFormRef = ref<FormOverlayExpose<SysPostCreateForm> | null>(null);
 
       addDialog({
@@ -90,7 +81,7 @@ function usePostTableAction(deps: TableActionDeps) {
         fullscreenIcon: true,
         closeOnClickModal: false,
         closeOnPressEscape: false,
-        contentRenderer: () => h(PostFormDialog, { ref: dialogFormRef, form: formPayload }),
+        contentRenderer: () => h(PostFormDialog, { ref: dialogFormRef, form: detail }),
         beforeSure: createFormBeforeSure<SysPostCreateForm>({
           formExposeRef: dialogFormRef,
           errorI18nKey: 'post.loadFailed',

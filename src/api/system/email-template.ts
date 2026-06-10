@@ -79,12 +79,12 @@ export interface EmailTemplateMonacoFormModel extends EmailTemplateFormModel {
 }
 
 /**
- * 保存请求（对齐后端 EmailTemplateForm；创建不传 id，更新必传 id）
+ * 保存请求
  */
 export type EmailTemplateSaveRequest = EmailTemplateFormModel;
 
 /**
- * 正文对应库字段 body_content（FreeMarker / HTML）
+ * 正文对应库字段
  */
 export interface EmailTemplateContentUpdateRequest {
   content: string;
@@ -180,7 +180,7 @@ export function createEmailTemplate(data: EmailTemplateSaveRequest): Promise<str
 
 /**
  * 更新邮件模板
- * @param data 保存请求（须含 id）
+ * @param data 保存请求
  * @returns 更新响应
  */
 export function updateEmailTemplate(data: EmailTemplateSaveRequest): Promise<string> {
@@ -220,7 +220,7 @@ export function batchUpdateEmailTemplateStatus(data: EmailTemplateBatchStatusReq
 
 /**
  * 批量删除
- * @param ids 邮件模板ID列表（数值，与后端 Long 一致）
+ * @param ids 邮件模板ID列表
  * @returns 批量删除响应
  */
 export function batchDeleteEmailTemplates(ids: string[]): Promise<string> {

@@ -73,15 +73,6 @@ function usePermissionTableAction(deps: TableActionDeps) {
   const openEditDialog = async (row: SysPermissionPageRow) => {
     try {
       const detail = await getPermissionDetail(row.id);
-      const formPayload: SysPermissionUpdateForm = {
-        id: row.id,
-        permissionCode: detail.permissionCode,
-        permissionName: detail.permissionName,
-        orderNum: detail.orderNum,
-        status: detail.status,
-        remark: detail.remark,
-      };
-
       const dialogFormRef = ref<FormOverlayExpose<SysPermissionUpdateForm> | null>(null);
 
       addDialog({
@@ -93,7 +84,7 @@ function usePermissionTableAction(deps: TableActionDeps) {
         contentRenderer: () =>
           h(PermissionFormDialog, {
             ref: dialogFormRef,
-            form: formPayload,
+            form: { ...detail, id: row.id },
             mode: 'edit',
             displayPermissionType: detail.permissionType,
           }),

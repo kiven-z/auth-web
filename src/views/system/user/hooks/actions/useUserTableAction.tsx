@@ -65,18 +65,6 @@ function useUserTableAction(deps: TableActionWithSelectionDeps) {
   const openEditDialog = async (row: SysUserPageRow) => {
     try {
       const profile = await getUserProfile(row.id);
-      const formPayload: SysUserCreateForm = {
-        username: profile.username,
-        nickname: profile.nickname,
-        email: profile.email,
-        phone: profile.phone,
-        employeeNo: profile.employeeNo,
-        status: profile.status,
-        gender: profile.gender,
-        birthday: profile.birthday,
-        introduction: profile.introduction,
-        remark: profile.remark,
-      };
       const dialogFormRef = ref<FormOverlayExpose<SysUserCreateForm> | null>(null);
 
       addDialog({
@@ -85,7 +73,7 @@ function useUserTableAction(deps: TableActionWithSelectionDeps) {
         fullscreenIcon: true,
         closeOnClickModal: false,
         closeOnPressEscape: false,
-        contentRenderer: () => h(UserFormDialog, { ref: dialogFormRef, form: formPayload, mode: 'edit' }),
+        contentRenderer: () => h(UserFormDialog, { ref: dialogFormRef, form: profile as SysUserCreateForm, mode: 'edit' }),
         beforeSure: createFormBeforeSure<SysUserCreateForm>({
           formExposeRef: dialogFormRef,
           errorI18nKey: 'users.updateFailed',

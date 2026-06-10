@@ -16,7 +16,6 @@ import { errorMessage, message } from '@/ui/feedback/message';
 import EmailTemplateDetailDialog from '@/views/message/email-template/components/EmailTemplateDetailDialog.vue';
 import EmailTemplateDialog from '@/views/message/email-template/components/EmailTemplateDialog.vue';
 import { useEmailTemplateTableMoreAction } from '@/views/message/email-template/hooks/useEmailTemplateTableMoreAction';
-import { detailToEmailTemplateForm } from '@/views/message/email-template/utils/email-template-form-mapper';
 import { h, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 
@@ -74,7 +73,6 @@ function useEmailTemplateTableAction(deps: TableActionWithSelectionDeps) {
   const openEditDialog = async (row: EmailTemplatePageRow) => {
     try {
       const detail = await getEmailTemplateById(row.id);
-      const formData = detailToEmailTemplateForm(detail);
       const dialogFormRef = ref<FormOverlayExpose<EmailTemplateFormModel> | null>(null);
 
       addDrawer({
@@ -85,11 +83,7 @@ function useEmailTemplateTableAction(deps: TableActionWithSelectionDeps) {
         closeOnClickModal: false,
         closeOnPressEscape: false,
         showClose: true,
-        contentRenderer: () =>
-          h(EmailTemplateDialog, {
-            ref: dialogFormRef,
-            form: formData,
-          }),
+        contentRenderer: () => h(EmailTemplateDialog, { ref: dialogFormRef, form: detail as EmailTemplateFormModel }),
         beforeSure: createFormBeforeSure<EmailTemplateFormModel>({
           formExposeRef: dialogFormRef,
           errorI18nKey: 'emailTemplate.loadFailed',

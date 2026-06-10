@@ -1,6 +1,5 @@
 import type { AuthorizationInvalidationEventPageRow } from '@/api/ops/authorization-invalidation-event';
 import { selectUserinfo } from '@/components/business/UserProfile';
-import { getProcessingTagType } from '@/views/ops/authorization-invalidation/constants/authorization-invalidation-enums';
 import { ElButton, ElTag } from 'element-plus';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
@@ -53,7 +52,7 @@ function useAuthorizationInvalidationEventTableColumns() {
         const key = `authorizationInvalidation.processingEnum.${String(row.processing)}`;
         const label = t(key);
         return (
-          <ElTag type={getProcessingTagType(row.processing)} effect="plain">
+          <ElTag type={row.processing ? 'warning' : 'success'} effect="plain">
             {label === key ? String(row.processing) : label}
           </ElTag>
         );
