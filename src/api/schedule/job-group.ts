@@ -1,4 +1,4 @@
-import type { BaseResponsePageRow, PageResponse, SortSpec } from '@/api/common';
+import type { BaseResponseDetail, BaseResponsePageRow, PageResponse, SortSpec } from '@/api/common';
 import { http } from '@/infrastructure/http-core';
 import type { AxiosRequestConfig } from 'axios';
 
@@ -18,6 +18,18 @@ export interface SysJobGroupPageQuery {
  * 任务分组分页行（对应后端 SysJobGroupPageResponse + BaseResponse）
  */
 export interface SysJobGroupPageRow extends BaseResponsePageRow {
+  groupCode: string;
+  groupName: string;
+  description?: string;
+  status: boolean;
+  isSystem: boolean;
+  orderNum: number;
+}
+
+/**
+ * 任务分组详情（对应后端 SysJobGroupDetailVO）
+ */
+export interface SysJobGroupDetailRow extends BaseResponseDetail {
   groupCode: string;
   groupName: string;
   description?: string;
@@ -57,6 +69,15 @@ export function getJobGroupPage(params: SysJobGroupPageQuery): Promise<PageRespo
   return http.get<PageResponse<SysJobGroupPageRow>, AxiosRequestConfig<SysJobGroupPageQuery>>('/system/job-group', {
     params,
   });
+}
+
+/**
+ * 任务分组详情
+ * @param id 分组主键
+ * @returns 任务分组详情
+ */
+export function getJobGroupDetail(id: string): Promise<SysJobGroupDetailRow> {
+  return http.get<SysJobGroupDetailRow, AxiosRequestConfig>(`/system/job-group/${id}`);
 }
 
 /**

@@ -3,6 +3,7 @@ import {
   createJobGroup,
   type CreateJobGroupRequest,
   deleteJobGroup,
+  getJobGroupDetail,
   type SysJobGroupPageRow,
   updateJobGroup,
   type UpdateJobGroupRequest,
@@ -10,6 +11,7 @@ import {
 import { addDialog } from '@/components/ui/Dialog';
 import useBatchDeleteAction from '@/composables/table/useBatchDeleteAction';
 import { type FormOverlayExpose, useFormOverlaySubmit } from '@/composables/table/useFormOverlaySubmit';
+import { errorMessage } from '@/ui/feedback/message';
 import ScheduleGroupDescriptionDialog from '@/views/schedule/schedule-group/components/ScheduleGroupDescriptionDialog.vue';
 import ScheduleGroupFormDialog from '@/views/schedule/schedule-group/components/ScheduleGroupFormDialog.vue';
 import { h, ref } from 'vue';
@@ -62,47 +64,56 @@ function useJobGroupTableAction(deps: TableActionDeps) {
   };
 
   /**
-   * 打开编辑任务分组对话框（后端暂无 GET /{id}，使用分页行数据）
+   * 打开编辑任务分组对话框
    * @param row 任务分组数据
    */
-  const openEditDialog = (row: SysJobGroupPageRow) => {
-    // FIXME 后端需要添加获取详情接口
-    const dialogFormRef = ref<FormOverlayExpose<JobGroupForm> | null>(null);
+  const openEditDialog = async (row: SysJobGroupPageRow) => {
+    try {
+      const detail = await getJobGroupDetail(row.id);
+      const dialogFormRef = ref<FormOverlayExpose<JobGroupForm> | null>(null);
 
-    addDialog({
-      title: t('scheduleGroup.editTitle'),
-      draggable: true,
-      closeOnPressEscape: false,
-      closeOnClickModal: false,
-      // FIXME 后端需要添加获取详情接口，替换表单中的 `form: row`
-      contentRenderer: () => h(ScheduleGroupFormDialog, { ref: dialogFormRef, mode: 'edit', form: row }),
-      beforeSure: createFormBeforeSure<JobGroupForm>({
-        formExposeRef: dialogFormRef,
-        errorI18nKey: 'scheduleGroup.loadFailed',
-        successI18nKey: 'tips.editSuccess',
-        requireId: true,
-        onSubmit: async (formPayload) => {
-          await updateJobGroup(formPayload);
-          await fetchTableData();
-        },
-      }),
-    });
+      addDialog({
+        title: t('scheduleGroup.editTitle'),
+        draggable: true,
+        closeOnPressEscape: false,
+        closeOnClickModal: false,
+        contentRenderer: () => h(ScheduleGroupFormDialog, { ref: dialogFormRef, mode: 'edit', form: detail }),
+        beforeSure: createFormBeforeSure<JobGroupForm>({
+          formExposeRef: dialogFormRef,
+          errorI18nKey: 'scheduleGroup.loadFailed',
+          successI18nKey: 'tips.editSuccess',
+          requireId: true,
+          onSubmit: async (formPayload) => {
+            await updateJobGroup(formPayload);
+            await fetchTableData();
+          },
+        }),
+      });
+    } catch (error: unknown) {
+      errorMessage(error, { defaultI18nKey: 'scheduleGroup.loadFailed' });
+    }
   };
 
   /**
-   * 打开任务分组详情对话框（后端暂无 GET /{id}，使用分页行数据）
+   * 打开任务分组详情对话框
    * @param row 任务分组数据
    */
-  const openDetailDialog = (row: SysJobGroupPageRow) => {
-    addDialog({
-      title: t('scheduleGroup.detailTitle'),
-      draggable: true,
-      fullscreenIcon: true,
-      closeOnClickModal: false,
-      closeOnPressEscape: false,
-      hideFooter: true,
-      contentRenderer: () => h(ScheduleGroupDescriptionDialog, { data: row }),
-    });
+  const openDetailDialog = async (row: SysJobGroupPageRow) => {
+    try {
+      const detail = await getJobGroupDetail(row.id);
+
+      addDialog({
+        title: t('scheduleGroup.detailTitle'),
+        draggable: true,
+        fullscreenIcon: true,
+        closeOnClickModal: false,
+        closeOnPressEscape: false,
+        hideFooter: true,
+        contentRenderer: () => h(ScheduleGroupDescriptionDialog, { data: detail }),
+      });
+    } catch (error: unknown) {
+      errorMessage(error, { defaultI18nKey: 'scheduleGroup.loadFailed' });
+    }
   };
 
   return {
