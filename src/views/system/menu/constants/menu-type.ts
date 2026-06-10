@@ -14,3 +14,16 @@ export const MenuTypeEnums = {
 } as const;
 
 export type MenuTypeValue = (typeof MenuTypeEnums)[keyof typeof MenuTypeEnums];
+
+/** 菜单类型选项（筛选、分段控件共用） */
+const menuTypeItems: ReadonlyArray<{ value: number; labelKey: string }> = [
+  { value: 0, labelKey: 'sysMenu.menuTypeMenu' },
+  { value: 1, labelKey: 'sysMenu.menuTypeIframe' },
+  { value: 2, labelKey: 'sysMenu.menuTypeLink' },
+];
+
+/** 列表筛选：菜单类型 */
+export const menuTypeFilterOptions = menuTypeItems;
+
+/** 表单 Segmented：菜单类型 */
+export const menuTypeSegmentItems = menuTypeItems;

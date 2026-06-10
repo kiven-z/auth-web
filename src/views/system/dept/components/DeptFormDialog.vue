@@ -1,13 +1,8 @@
 <script lang="ts" setup>
 import type { FormDialog } from '@/api/common';
-import type { SysDeptCreateForm, SysDeptUpdateForm } from '@/api/system/dept';
-import { getDeptList } from '@/api/system/dept';
+import { DEPT_ROOT_PARENT_ID, getDeptList, SysDeptCreateForm, SysDeptUpdateForm } from '@/api/system/dept';
 import { errorMessage } from '@/ui/feedback/message';
-import {
-  buildDeptParentTree,
-  DEPT_ROOT_PARENT_ID,
-  type DeptParentCascaderNode,
-} from '@/views/system/dept/utils/dept-parent';
+import { buildDeptParentTree, type DeptParentCascaderNode } from '@/views/system/dept/utils/dept-parent';
 import type { CascaderProps, FormInstance, FormRules } from 'element-plus';
 import { computed, onMounted, reactive, ref } from 'vue';
 import { useI18n } from 'vue-i18n';

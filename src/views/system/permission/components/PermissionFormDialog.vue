@@ -26,8 +26,8 @@ const isEditMode = computed(() => props.mode === 'edit');
 const form = ref<PermissionFormModel>({
   status: true,
   orderNum: 0,
-  ...props.form,
   ...(props.mode === 'create' ? { permissionType: 0 } : {}),
+  ...props.form,
 });
 
 const permissionTypeModel = computed({

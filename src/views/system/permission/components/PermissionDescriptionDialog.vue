@@ -43,7 +43,7 @@ const descriptionColumns = computed(() => [
     cellRenderer: ({ value }: { value: number }) => {
       const option = PERMISSION_TYPE_FILTER_OPTIONS.find((item) => item.value === value);
       if (!option) {
-        return <span>{String(value ?? '')}</span>;
+        return <span>{value}</span>;
       }
       return (
         <ElTag type={option.tagType} effect="plain">

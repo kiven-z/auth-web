@@ -84,7 +84,7 @@ function usePermissionTableAction(deps: TableActionDeps) {
         contentRenderer: () =>
           h(PermissionFormDialog, {
             ref: dialogFormRef,
-            form: { ...detail, id: row.id },
+            form: detail,
             mode: 'edit',
             displayPermissionType: detail.permissionType,
           }),

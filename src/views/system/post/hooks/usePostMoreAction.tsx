@@ -7,9 +7,7 @@ import { h, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 /** 岗位「更多」操作依赖 */
-export interface PostMoreActionDeps extends TableActionDeps {
-  refresh: () => Promise<void>;
-}
+export type PostMoreActionDeps = TableActionDeps;
 
 interface AssignPanelExpose {
   getSelectedKeys: () => string[];
@@ -21,7 +19,7 @@ interface AssignPanelExpose {
  * @returns 更多操作方法
  */
 function usePostMoreAction(deps: PostMoreActionDeps) {
-  const { refresh } = deps;
+  const { fetchTableData } = deps;
   const { t } = useI18n();
 
   /**
@@ -49,7 +47,7 @@ function usePostMoreAction(deps: PostMoreActionDeps) {
           const roleCodes = drawerRef.value?.getSelectedKeys() ?? [];
           await putPostRoles(row.id, { roleCodes });
           message(t('tips.assignSaveSuccess'), { type: 'success' });
-          await refresh();
+          await fetchTableData();
           done();
         } catch (error: unknown) {
           errorMessage(error, { defaultI18nKey: 'tips.assignSaveFailed' });

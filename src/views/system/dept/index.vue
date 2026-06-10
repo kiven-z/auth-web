@@ -21,7 +21,7 @@ const { viewMode } = useDeptPageState();
 
 <template>
   <div>
-    <div class="flex justify-center mt-[-20px] pb-1">
+    <div class="flex justify-center -mt-5 pb-1">
       <el-segmented v-model="viewMode" :options="segmentedOptions" />
     </div>
 

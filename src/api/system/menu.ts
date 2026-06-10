@@ -1,6 +1,6 @@
 import type { BaseResponse, PageResponse, SortSpec } from '@/api/common';
 import type { MenuAssignedRoleRow, MenuAssignRoleRequest } from '@/api/system/grant-table';
-import type { MenuTypeValue } from '@/views/system/menu/constants/menuEnums';
+import type { MenuTypeValue } from '@/views/system/menu/constants/menu-type';
 import type { AxiosRequestConfig } from 'axios';
 
 import { http } from '@/infrastructure/http-core';
@@ -192,83 +192,18 @@ export function getMenuDetail(id: string): Promise<SysMenuDetailVO> {
 
 /**
  * 新增菜单
- * @param data 菜单表单
+ * @param data 保存请求体（不含 id）
  */
-export function createMenu(data: MenuForm): Promise<string> {
-  const rawType = data.menuType ?? 0;
-  const menuType = typeof rawType === 'string' ? Number.parseInt(rawType, 10) : Number(rawType);
-  const rankRaw = data.menuRank ?? 0;
-  const menuRank = typeof rankRaw === 'string' ? Number.parseInt(rankRaw, 10) : Number(rankRaw);
-  const parentId =
-    data.parentId === undefined || data.parentId === null || data.parentId === '' ? null : String(data.parentId);
-  const body = {
-    parentId,
-    menuType: Number.isFinite(menuType) ? menuType : 0,
-    path: data.path,
-    name: (data.name ?? '').trim(),
-    redirect: data.redirect,
-    component: data.component,
-    title: (data.title ?? '').trim(),
-    icon: data.icon,
-    showLink: data.showLink ?? true,
-    menuRank: Number.isFinite(menuRank) ? Math.trunc(menuRank) : 0,
-    extraIcon: data.extraIcon,
-    showParent: data.showParent ?? true,
-    keepAlive: data.keepAlive ?? false,
-    frameSrc: data.frameSrc,
-    frameLoading: data.frameLoading ?? true,
-    transitionName: data.transitionName,
-    enterTransition: data.enterTransition,
-    leaveTransition: data.leaveTransition,
-    hiddenTag: data.hiddenTag ?? false,
-    dynamicLevel: data.dynamicLevel,
-    activePath: data.activePath,
-    fixedTag: data.fixedTag ?? false,
-    status: data.status ?? true,
-    remark: data.remark,
-  };
-  return http.post<string, MenuSaveRequest>('/system/menu', { data: body });
+export function createMenu(data: Omit<MenuSaveRequest, 'id'>): Promise<string> {
+  return http.post<string, Omit<MenuSaveRequest, 'id'>>('/system/menu', { data });
 }
 
 /**
  * 修改菜单
- * @param data 菜单表单（须含 id）
+ * @param data 保存请求体（须含 id）
  */
-export function updateMenu(data: MenuForm): Promise<string> {
-  const rawType = data.menuType ?? 0;
-  const menuType = typeof rawType === 'string' ? Number.parseInt(rawType, 10) : Number(rawType);
-  const rankRaw = data.menuRank ?? 0;
-  const menuRank = typeof rankRaw === 'string' ? Number.parseInt(rankRaw, 10) : Number(rankRaw);
-  const parentId =
-    data.parentId === undefined || data.parentId === null || data.parentId === '' ? null : String(data.parentId);
-  const body = {
-    id: data.id,
-    parentId,
-    menuType: Number.isFinite(menuType) ? menuType : 0,
-    path: data.path,
-    name: (data.name ?? '').trim(),
-    redirect: data.redirect,
-    component: data.component,
-    title: (data.title ?? '').trim(),
-    icon: data.icon,
-    showLink: data.showLink ?? true,
-    menuRank: Number.isFinite(menuRank) ? Math.trunc(menuRank) : 0,
-    extraIcon: data.extraIcon,
-    showParent: data.showParent ?? true,
-    keepAlive: data.keepAlive ?? false,
-    frameSrc: data.frameSrc,
-    frameLoading: data.frameLoading ?? true,
-    transitionName: data.transitionName,
-    enterTransition: data.enterTransition,
-    leaveTransition: data.leaveTransition,
-    hiddenTag: data.hiddenTag ?? false,
-    dynamicLevel: data.dynamicLevel,
-    activePath: data.activePath,
-    fixedTag: data.fixedTag ?? false,
-    status: data.status ?? true,
-    remark: data.remark,
-  };
-  return http.put<string, MenuSaveRequest>('/system/menu', { data: body });
+export function updateMenu(data: MenuSaveRequest): Promise<string> {
+  return http.put<string, MenuSaveRequest>('/system/menu', { data });
 }
 
 /**

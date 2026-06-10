@@ -39,10 +39,7 @@ const tableActionDeps = { fetchTableData };
 
 const { openCreateDialog, openDetailDialog, openEditDialog, deleteRow } = usePostTableAction(tableActionDeps);
 
-const { openAssignRoleDrawer } = usePostMoreAction({
-  ...tableActionDeps,
-  refresh: fetchTableData,
-});
+const { openAssignRoleDrawer } = usePostMoreAction({ fetchTableData });
 
 onMounted(() => {
   fetchTableData();

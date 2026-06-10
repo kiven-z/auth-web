@@ -69,12 +69,7 @@ function useDeptTableColumns() {
         );
       },
     },
-    {
-      label: t('table.actions'),
-      fixed: 'right',
-      width: 240,
-      slot: 'actions',
-    },
+    { label: t('table.actions'), fixed: 'right', width: 240, slot: 'actions' },
   ]);
 
   return { tableColumns };

@@ -35,9 +35,7 @@ const { loading, searchForm, pagination, fetchTableData, resetQuery } = permissi
 
 const { exporting, openExportDialog } = usePermissionAdvanceAction({ searchForm, pagination });
 
-const { openCreateDialog, openDetailDialog, openEditDialog, deleteRow } = usePermissionTableAction({
-  fetchTableData,
-});
+const { openCreateDialog, openDetailDialog, openEditDialog, deleteRow } = usePermissionTableAction({ fetchTableData });
 
 onMounted(() => {
   fetchTableData();

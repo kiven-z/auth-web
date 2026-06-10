@@ -14,7 +14,7 @@ import { type FormOverlayExpose, useFormOverlaySubmit } from '@/composables/tabl
 import { errorMessage, message } from '@/ui/feedback/message';
 import MenuDialog from '@/views/system/menu/components/MenuDialog.vue';
 import type { MenuViewMode, SysMenuRow } from '@/views/system/menu/hooks/useMenuPageState';
-import { detailToForm } from '@/views/system/menu/utils/menu-form-mapper';
+import { detailToForm, formToSaveRequest } from '@/views/system/menu/utils/menu-form-mapper';
 import type { Ref } from 'vue';
 import { h, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
@@ -66,7 +66,8 @@ function useMenuTableAction(deps: MenuTableActionDeps) {
         errorI18nKey: 'sysMenu.saveFailed',
         successI18nKey: 'tips.addSuccess',
         onSubmit: async (formPayload) => {
-          await createMenu(formPayload);
+          const { id: _omitId, ...body } = formToSaveRequest(formPayload);
+          await createMenu(body);
           await refresh();
         },
       }),
@@ -102,7 +103,7 @@ function useMenuTableAction(deps: MenuTableActionDeps) {
           successI18nKey: 'tips.editSuccess',
           requireId: true,
           onSubmit: async (formPayload) => {
-            await updateMenu(formPayload);
+            await updateMenu(formToSaveRequest(formPayload));
             await refresh();
           },
         }),

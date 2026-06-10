@@ -1,5 +1,5 @@
 import type { SysPermissionBoundMenuItem } from '@/api/system/permission';
-import { menuTypeFilterOptions } from '@/views/system/menu/constants/menu-search-options';
+import { menuTypeFilterOptions } from '@/views/system/menu/constants/menu-type';
 import { ElTag } from 'element-plus';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';

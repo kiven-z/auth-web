@@ -1,5 +1,5 @@
 import type { MenuForm, MenuSaveRequest, SysMenuDetailVO } from '@/api/system/menu';
-import { MenuTypeEnums } from '@/views/system/menu/constants/menuEnums';
+import { MenuTypeEnums } from '@/views/system/menu/constants/menu-type';
 
 /**
  * 详情 → 表单
@@ -41,11 +41,11 @@ function normalizeParentId(v: string | null | undefined): string | null {
   if (v === undefined || v === null || v === '') {
     return null;
   }
-  return String(v);
+  return v;
 }
 
 /**
- * 表单 → 保存请求体（数值字段强制为 JSON 数字，ID 为字符串以兼容雪花精度）
+ * 表单 → 保存请求体（数值字段强制为 JSON 数字）
  */
 export function formToSaveRequest(f: MenuForm): MenuSaveRequest {
   const rawType = f.menuType ?? MenuTypeEnums.MENU;
@@ -56,14 +56,14 @@ export function formToSaveRequest(f: MenuForm): MenuSaveRequest {
   const safeMenuRank = Number.isFinite(menuRank) ? Math.trunc(menuRank) : 0;
 
   return {
-    id: f.id !== undefined && f.id !== null && String(f.id) !== '' ? String(f.id) : undefined,
+    id: f.id !== undefined && f.id !== null && f.id !== '' ? f.id : undefined,
     parentId: normalizeParentId(f.parentId ?? undefined),
     menuType: safeMenuType,
     path: f.path,
-    name: (f.name ?? '').trim(),
+    name: f.name ?? '',
     redirect: f.redirect,
     component: f.component,
-    title: (f.title ?? '').trim(),
+    title: f.title ?? '',
     icon: f.icon,
     showLink: f.showLink ?? true,
     menuRank: safeMenuRank,

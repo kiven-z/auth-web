@@ -16,10 +16,7 @@ const innerRef = ref<InstanceType<typeof PermissionAssignDrawer> | null>(null);
 
 const loadAssigned = async () => {
   const rows = await getRolePermissions(props.roleCode);
-  return rows.map((row) => ({
-    key: row.permissionCode,
-    label: row.permissionName,
-  }));
+  return rows.map((row) => ({ key: row.permissionCode, label: row.permissionName }));
 };
 
 defineExpose({
