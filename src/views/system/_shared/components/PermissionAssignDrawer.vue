@@ -56,10 +56,10 @@ const permissionState = usePaginationState<SysPermissionPageRow>({
     getPermissionPage({
       pageIndex: query.pageIndex as number,
       pageSize: query.pageSize as number,
-      permissionName: query.permissionName as string | undefined,
-      permissionCode: query.permissionCode as string | undefined,
+      permissionName: query.permissionName as string,
+      permissionCode: query.permissionCode as string,
       status: true,
-      permissionType: props.fixedPermissionType ?? (query.permissionType as number | undefined),
+      permissionType: props.fixedPermissionType ?? (query.permissionType as number),
     }),
 });
 

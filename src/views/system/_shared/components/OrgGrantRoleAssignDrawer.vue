@@ -49,7 +49,7 @@ const roleState = usePaginationState({
     roleCode: undefined,
     roleName: undefined,
     status: true,
-    roleTypes: [...ORG_GRANT_DEFAULT_ROLE_TYPES],
+    roleTypes: ORG_GRANT_DEFAULT_ROLE_TYPES,
   }),
   errorI18nKey: 'roles.loadFailed',
 });
@@ -63,7 +63,7 @@ const { tableData, loading, searchForm, fetchTableData, resetQuery } = roleState
  */
 const normalizeRoleTypes = (values: number[]) => {
   if (values.length === 0) {
-    searchForm.roleTypes = [...ORG_GRANT_DEFAULT_ROLE_TYPES];
+    searchForm.roleTypes = ORG_GRANT_DEFAULT_ROLE_TYPES;
   }
 };
 

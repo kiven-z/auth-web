@@ -43,10 +43,7 @@ const rules = computed<FormRules>(() => ({
   orderNum: [{ required: true, message: t('scheduleGroup.placeholder.orderNum'), trigger: 'blur' }],
 }));
 
-defineExpose({
-  formRef,
-  form,
-});
+defineExpose({ formRef, form });
 </script>
 
 <template>
