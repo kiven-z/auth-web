@@ -1,6 +1,9 @@
 import type { BaseResponsePageRow, PageResponse } from '@/api/common';
+import type { GrantTableAssignRoleRequest, GrantTableAssignedRoleRow } from '@/api/system/grant-table';
 import { http } from '@/infrastructure/http-core';
 import type { AxiosRequestConfig } from 'axios';
+
+export type { GrantTableAssignedRoleRow, GrantTableAssignRoleRequest };
 
 /**
  * 用户分页查询条件（对齐 {@code SysUserPageQuery}）
@@ -138,4 +141,21 @@ export function resetUserPassword(id: string, data: SysUserAdminResetPasswordReq
  */
 export function changeOwnPassword(data: SysUserChangePasswordRequest): Promise<string> {
   return http.request<string>('put', '/system/user/me/password', { data });
+}
+
+/**
+ * 查询用户已分配直连角色
+ * @param userId 用户主键
+ */
+export function getUserRoles(userId: string): Promise<GrantTableAssignedRoleRow[]> {
+  return http.get<GrantTableAssignedRoleRow[], unknown>(`/system/user/${userId}/roles`);
+}
+
+/**
+ * 全量覆盖用户直连角色授权
+ * @param userId 用户主键
+ * @param data 角色编码列表
+ */
+export function putUserRoles(userId: string, data: GrantTableAssignRoleRequest): Promise<string> {
+  return http.request<string>('put', `/system/user/${userId}/roles`, { data });
 }

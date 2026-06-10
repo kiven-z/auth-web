@@ -1,5 +1,7 @@
 users:
   allDepts: All
+  assignRole: Assign roles
+  assignCurrentUser: Current user
   resetPassword: Reset password
   oldPassword: Current password
   newPassword: New password

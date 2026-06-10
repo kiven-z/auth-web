@@ -7,7 +7,6 @@ import { USER_ACCOUNT_STATUS, USER_STATUS_FILTER_OPTIONS } from '@/views/system/
 import useUserAuthRefreshAction from '@/views/system/user/hooks/actions/useUserAuthRefreshAction';
 import useUserMoreAction from '@/views/system/user/hooks/actions/useUserMoreAction';
 import useUserPageState from '@/views/system/user/hooks/useUserPageState';
-import useUserSessionKickAction from '@/views/system/user/hooks/actions/useUserSessionKickAction';
 import useUserTableAction from '@/views/system/user/hooks/actions/useUserTableAction';
 import useUserTableColumns from '@/views/system/user/hooks/columns/useUserTableColumns';
 import type { FormInstance } from 'element-plus';
@@ -26,9 +25,11 @@ const searchFormRef = ref<FormInstance>();
 const { tableState, fetchUserTable, resetUserSearch } = useUserPageState();
 const { loading, searchForm, selectedRows } = tableState;
 
-const { openViewSessionsDialog, kickUserSessions, refreshUserAuth } = useUserMoreAction();
+const { openAssignRoleDrawer, openViewSessionsDialog, kickUserSessions, batchKickAll, refreshUserAuth } =
+  useUserMoreAction({ fetchTableData: fetchUserTable, selectedRows });
+
+// 修改密码
 const { openAdminResetPasswordDialog } = useChangePasswordAction();
-const { batchKickAll } = useUserSessionKickAction({ selectedRows });
 const { batchRefreshAuth } = useUserAuthRefreshAction({ selectedRows });
 const { openCreateDialog, openEditDialog, deleteBatchRows, batchUpdateStatus } = useUserTableAction({
   fetchTableData: fetchUserTable,
@@ -170,7 +171,9 @@ const handleView = (row: SysUserPageRow) => {
           <el-dropdown trigger="click">
             <el-button class="ml-2!" link type="primary">{{ t('buttons.actionMore') }}</el-button>
             <template #dropdown>
-              <el-dropdown-item disabled>{{ t('assign.role') }}</el-dropdown-item>
+              <el-dropdown-item @click="openAssignRoleDrawer(row)">
+                {{ t('assign.role') }}
+              </el-dropdown-item>
               <el-dropdown-item disabled>{{ t('assign.dept') }}</el-dropdown-item>
               <el-dropdown-item disabled>{{ t('assign.post') }}</el-dropdown-item>
               <el-dropdown-item @click="openAdminResetPasswordDialog(row.id, row.username)">

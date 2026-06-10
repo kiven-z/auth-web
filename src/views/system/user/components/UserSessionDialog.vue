@@ -3,7 +3,6 @@ import { kickUserSession, listUserSessions, type UserSessionIndex } from '@/api/
 import AuthDataTable from '@/components/ui/AuthDataTable';
 import { operationConfirm } from '@/ui/feedback/dialog';
 import { errorMessage, message } from '@/ui/feedback/message';
-import useUserSessionKickAction from '@/views/system/user/hooks/actions/useUserSessionKickAction';
 import useUserSessionTableColumns from '@/views/system/user/hooks/columns/useUserSessionTableColumns';
 import { onMounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
@@ -11,11 +10,11 @@ import { useI18n } from 'vue-i18n';
 const props = defineProps<{
   userId: string;
   username: string;
+  kickAllForUser: Function;
 }>();
 
 const { t } = useI18n();
 const { columns } = useUserSessionTableColumns();
-const { kickAllForUser } = useUserSessionKickAction();
 
 const loading = ref(false);
 const kickingAll = ref(false);
@@ -65,7 +64,7 @@ async function handleKickSession(sessionId: string) {
 async function handleKickAllSessions() {
   kickingAll.value = true;
   try {
-    await kickAllForUser(props.userId, {
+    await props.kickAllForUser(props.userId, {
       successI18nKey: 'users.sessionKickAllSuccess',
       failedI18nKey: 'users.sessionKickAllFailed',
       onSuccess: loadSessions,
