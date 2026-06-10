@@ -69,4 +69,4 @@ authorizationInvalidation:
     GRANT: 授权边
     USER_DEPT: 用户-部门
     USER_POST: 用户-岗位
-    USER_SCOPE: 用户数据范围
+    USER: 用户

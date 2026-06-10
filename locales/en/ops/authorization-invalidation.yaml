@@ -69,4 +69,4 @@ authorizationInvalidation:
     GRANT: Grant
     USER_DEPT: User-Dept
     USER_POST: User-Post
-    USER_SCOPE: User Scope
+    USER: User

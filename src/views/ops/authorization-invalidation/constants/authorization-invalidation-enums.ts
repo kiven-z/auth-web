@@ -11,7 +11,7 @@ export const AUTHORIZATION_CHANGE_KIND_ITEMS = [
   { value: 'GRANT', labelKey: 'authorizationInvalidation.changeKindEnum.GRANT' },
   { value: 'USER_DEPT', labelKey: 'authorizationInvalidation.changeKindEnum.USER_DEPT' },
   { value: 'USER_POST', labelKey: 'authorizationInvalidation.changeKindEnum.USER_POST' },
-  { value: 'USER_SCOPE', labelKey: 'authorizationInvalidation.changeKindEnum.USER_SCOPE' },
+  { value: 'USER', labelKey: 'authorizationInvalidation.changeKindEnum.USER' },
 ] as const;
 
 /**
