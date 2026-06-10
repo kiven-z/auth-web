@@ -65,12 +65,15 @@ onMounted(() => {
         </el-select>
       </el-form-item>
 
-      <!-- 表单搜索 -->
       <el-form-item>
-        <!-- 搜索 -->
-        <el-button :loading="loading" type="primary" @click="fetchTableData">{{ t('buttons.actionSearch') }}</el-button>
-        <!-- 重置 -->
-        <el-button @click="resetQuery(searchFormRef)">{{ t('buttons.actionReset') }}</el-button>
+        <el-button-group>
+          <!-- 搜索 -->
+          <el-button :loading="loading" type="primary" @click="fetchTableData">
+            {{ t('buttons.actionSearch') }}
+          </el-button>
+          <!-- 重置 -->
+          <el-button @click="resetQuery(searchFormRef)">{{ t('buttons.actionReset') }}</el-button>
+        </el-button-group>
       </el-form-item>
     </el-form>
 
