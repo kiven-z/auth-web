@@ -100,7 +100,6 @@ export function useEmailTemplateTableMoreAction(options: TableActionDeps) {
 
   /**
    * 打开测试发送弹窗
-   * @param row 邮件模板行数据
    */
   const openTestSend = (row: EmailTemplatePageRow) => {
     const sendFormRef = ref<FormOverlayExpose<EmailTestSendForm> | null>(null);
@@ -111,18 +110,14 @@ export function useEmailTemplateTableMoreAction(options: TableActionDeps) {
       fullscreenIcon: true,
       closeOnClickModal: false,
       closeOnPressEscape: false,
-      contentRenderer: () =>
-        h(EmailTemplateTestSendDialog, {
-          ref: sendFormRef,
-          form: row as EmailTestSendForm,
-        }),
+      contentRenderer: () => h(EmailTemplateTestSendDialog, { ref: sendFormRef, form: { id: row.id, email: '' } }),
       beforeSure: createFormBeforeSure<EmailTestSendForm>({
         formExposeRef: sendFormRef,
         errorI18nKey: 'emailTemplate.loadFailed',
         successI18nKey: 'tips.operationSuccess',
         requireId: true,
         onSubmit: async (formData) => {
-          await testSendEmailTemplate({ id: formData.id, email: formData.email });
+          await testSendEmailTemplate(formData);
         },
       }),
     });

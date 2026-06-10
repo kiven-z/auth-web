@@ -3,9 +3,9 @@ import { getAuthorizationInvalidationOutboxPage } from '@/api/ops/authorization-
 import AuthPagedTable, { usePaginationState } from '@/components/business/AuthPagedTable';
 import { hasAuth } from '@/auth/permission';
 import {
-  AUTHORIZATION_CHANGE_KINDS,
+  AUTHORIZATION_CHANGE_KIND_ITEMS,
   isOutboxRetryable,
-  OUTBOX_STATUSES,
+  OUTBOX_STATUS_ITEMS,
 } from '@/views/ops/authorization-invalidation/constants/authorization-invalidation-enums';
 import useAuthorizationInvalidationOutboxTableAction from '@/views/ops/authorization-invalidation/hooks/useAuthorizationInvalidationOutboxTableAction';
 import useAuthorizationInvalidationOutboxTableColumns from '@/views/ops/authorization-invalidation/hooks/useAuthorizationInvalidationOutboxTableColumns';
@@ -74,10 +74,10 @@ onMounted(() => {
           clearable
         >
           <el-option
-            v-for="kind in AUTHORIZATION_CHANGE_KINDS"
-            :key="kind"
-            :label="t(`authorizationInvalidation.changeKindEnum.${kind}`)"
-            :value="kind"
+            v-for="item in AUTHORIZATION_CHANGE_KIND_ITEMS"
+            :key="item.value"
+            :label="t(item.labelKey)"
+            :value="item.value"
           />
         </el-select>
       </el-form-item>
@@ -90,10 +90,10 @@ onMounted(() => {
           clearable
         >
           <el-option
-            v-for="status in OUTBOX_STATUSES"
-            :key="status"
-            :label="t(`authorizationInvalidation.outboxStatusEnum.${status}`)"
-            :value="status"
+            v-for="item in OUTBOX_STATUS_ITEMS"
+            :key="item.value"
+            :label="t(item.labelKey)"
+            :value="item.value"
           />
         </el-select>
       </el-form-item>

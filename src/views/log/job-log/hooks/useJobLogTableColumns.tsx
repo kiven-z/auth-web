@@ -3,6 +3,7 @@
  */
 import type { JobLogPageRow } from '@/api/log/job-log';
 import { selectUserinfo } from '@/components/business/UserProfile';
+import { resolveJobLogStatusMeta } from '@/views/log/job-log/constants/job-log-enums';
 import { ElButton, ElTag } from 'element-plus';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
@@ -60,11 +61,14 @@ function useJobLogTableColumns() {
       label: t('logJob.status'),
       prop: 'status',
       minWidth: 100,
-      formatter: (row: JobLogPageRow) => (
-        <ElTag type={row.status ? 'success' : 'danger'} effect="plain">
-          {row.status ? t('logJob.statusSuccess') : t('logJob.statusFailed')}
-        </ElTag>
-      ),
+      formatter: (row: JobLogPageRow) => {
+        const meta = resolveJobLogStatusMeta(row.status);
+        return (
+          <ElTag type={meta.tagType} effect="plain">
+            {t(meta.labelKey)}
+          </ElTag>
+        );
+      },
     },
     // 耗时(ms)
     {

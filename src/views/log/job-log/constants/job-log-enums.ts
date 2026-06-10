@@ -1,9 +1,16 @@
-/** 执行结果筛选项 */
-// FIXME 在公共枚举中有 COMMON_BOOLEAN_STATUS_FILTER_OPTIONS 考虑进行复用，并考虑移出下面内容
-export const LOG_JOB_STATUS_FILTER_OPTIONS = [
-  { value: true, labelKey: 'logJob.statusSuccess' },
-  { value: false, labelKey: 'logJob.statusFailed' },
-] as const;
+/** 执行结果展示/筛选项 */
+export const LOG_JOB_STATUS_ITEMS = [
+  { value: true, labelKey: 'logJob.statusSuccess', tagType: 'success' as const },
+  { value: false, labelKey: 'logJob.statusFailed', tagType: 'danger' as const },
+];
+
+/**
+ * 解析任务日志执行结果展示元数据
+ * @param status 执行是否成功
+ */
+export function resolveJobLogStatusMeta(status: boolean) {
+  return LOG_JOB_STATUS_ITEMS.find((item) => item.value === status) ?? LOG_JOB_STATUS_ITEMS[1];
+}
 
 /** 触发类型筛选项 */
 export const LOG_JOB_TRIGGER_TYPE_FILTER_OPTIONS = [

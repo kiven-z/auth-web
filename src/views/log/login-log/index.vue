@@ -2,7 +2,7 @@
 import { getLoginLogPage } from '@/api/log/login-log';
 import AuthPagedTable, { usePaginationState } from '@/components/business/AuthPagedTable';
 import useRemoteUserSearch from '@/composables/dialog/useRemoteUserSearch';
-import { LOGIN_LOG_RESULT_CODES, LOGIN_LOG_TYPE_CODES } from '@/views/log/login-log/constants/login-log-enums';
+import { LOGIN_LOG_RESULT_ITEMS, LOGIN_LOG_TYPE_CODES } from '@/views/log/login-log/constants/login-log-enums';
 import useLoginLogTableAction from '@/views/log/login-log/hooks/useLoginLogTableAction';
 import useLoginLogTableColumns from '@/views/log/login-log/hooks/useLoginLogTableColumns';
 import type { FormInstance } from 'element-plus';
@@ -73,10 +73,10 @@ onMounted(() => {
           clearable
         >
           <el-option
-            v-for="code in LOGIN_LOG_RESULT_CODES"
-            :key="code"
-            :label="t(`loginLog.loginResultEnum.${code}`)"
-            :value="code"
+            v-for="item in LOGIN_LOG_RESULT_ITEMS"
+            :key="item.code"
+            :label="t(`loginLog.loginResultEnum.${item.code}`)"
+            :value="item.code"
           />
         </el-select>
       </el-form-item>

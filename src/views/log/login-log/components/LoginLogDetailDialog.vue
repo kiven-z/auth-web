@@ -2,7 +2,7 @@
 import type { DetailDialog } from '@/api/common';
 import type { LoginLogDetailRow } from '@/api/log/login-log';
 import Description from '@/components/ui/Description';
-import { getLoginLogResultTagType } from '@/views/log/login-log/constants/login-log-enums';
+import { resolveLoginLogResultMeta } from '@/views/log/login-log/constants/login-log-enums';
 import { ElTag } from 'element-plus';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
@@ -36,11 +36,12 @@ const columns = computed(() => [
       if (value === undefined || value === null) {
         return <span>—</span>;
       }
+      const meta = resolveLoginLogResultMeta(value);
       const key = `loginLog.loginResultEnum.${value}`;
       const label = t(key);
 
       return (
-        <ElTag type={getLoginLogResultTagType(value)} effect="plain">
+        <ElTag type={meta.tagType} effect="plain">
           {label === key ? String(value) : label}
         </ElTag>
       );

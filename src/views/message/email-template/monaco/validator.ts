@@ -15,7 +15,7 @@ interface VariableIssue {
 }
 
 /**
- * 从 `${...}` 中提取根变量名。
+ * 从 `${...}` 中提取根变量名
  */
 export function getRootVariableName(inner: string): string | null {
   const normalized = inner.trim().replace(FREEMARKER_PREFIX_TRIM_PATTERN, '');
@@ -31,7 +31,7 @@ export function getRootVariableName(inner: string): string | null {
 }
 
 /**
- * 提取模板中声明的局部变量（list/assign/local/global）。
+ * 提取模板中声明的局部变量
  */
 export function collectFreemarkerLocalVariables(text: string): Set<string> {
   const localKeys = new Set<string>();
@@ -49,7 +49,7 @@ export function collectFreemarkerLocalVariables(text: string): Set<string> {
 }
 
 /**
- * 收集未在 requireFields 中声明的变量位置。
+ * 收集未在 requireFields 中声明的变量位置
  */
 export function collectUnknownVariableMarkers(
   text: string,
@@ -77,7 +77,7 @@ export function collectUnknownVariableMarkers(
 }
 
 /**
- * 文本偏移转 Monaco 位置。
+ * 文本偏移转 Monaco 位置
  */
 function offsetToPosition(model: editor.ITextModel, offset: number, monacoApi: MonacoModule) {
   const pos = model.getPositionAt(offset);
@@ -85,7 +85,7 @@ function offsetToPosition(model: editor.ITextModel, offset: number, monacoApi: M
 }
 
 /**
- * 刷新变量 marker。
+ * 刷新变量 marker
  */
 export function applyRequireFieldsMarkers(
   model: editor.ITextModel,
@@ -112,7 +112,7 @@ export function applyRequireFieldsMarkers(
 }
 
 /**
- * 清理变量 marker。
+ * 清理变量 marker
  */
 export function clearRequireFieldsMarkers(model: editor.ITextModel, monacoApi: MonacoModule) {
   monacoApi.editor.setModelMarkers(model, EMAIL_TEMPLATE_MARKER_SOURCE, []);

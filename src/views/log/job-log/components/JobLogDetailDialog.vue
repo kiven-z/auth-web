@@ -2,6 +2,7 @@
 import type { DetailDialog } from '@/api/common';
 import type { JobLogDetailRow } from '@/api/log/job-log';
 import Description from '@/components/ui/Description';
+import { resolveJobLogStatusMeta } from '@/views/log/job-log/constants/job-log-enums';
 import { ElTag } from 'element-plus';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
@@ -29,11 +30,14 @@ const columns = computed(() => [
     label: t('logJob.status'),
     prop: 'status',
     labelWidth: 120,
-    cellRenderer: ({ value }: { value: boolean }) => (
-      <ElTag type={value ? 'success' : 'danger'} effect="plain">
-        {t(value ? 'logJob.statusSuccess' : 'logJob.statusFailed')}
-      </ElTag>
-    ),
+    cellRenderer: ({ value }: { value: boolean }) => {
+      const meta = resolveJobLogStatusMeta(value);
+      return (
+        <ElTag type={meta.tagType} effect="plain">
+          {t(meta.labelKey)}
+        </ElTag>
+      );
+    },
   },
   // 异常信息
   { label: t('logJob.exceptionInfo'), prop: 'exceptionInfo', labelWidth: 120, copy: true },

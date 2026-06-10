@@ -2,7 +2,10 @@
 import type { DetailDialog } from '@/api/common';
 import type { AuthorizationInvalidationOutboxDetailRow } from '@/api/ops/authorization-invalidation-outbox';
 import Description from '@/components/ui/Description';
-import { getOutboxStatusTagType } from '@/views/ops/authorization-invalidation/constants/authorization-invalidation-enums';
+import {
+  resolveAuthorizationChangeKindMeta,
+  resolveOutboxStatusMeta,
+} from '@/views/ops/authorization-invalidation/constants/authorization-invalidation-enums';
 import useAuthorizationInvalidationLinkedRecord from '@/views/ops/authorization-invalidation/hooks/useAuthorizationInvalidationLinkedRecord';
 import { ElTag } from 'element-plus';
 import { computed } from 'vue';
@@ -30,9 +33,11 @@ const columns = computed(() => [
     prop: 'changeKind',
     labelWidth: 140,
     cellRenderer: ({ value }: { value: string }) => {
-      const key = `authorizationInvalidation.changeKindEnum.${value}`;
-      const label = t(key);
-      return <span>{label === key ? value : label}</span>;
+      const meta = resolveAuthorizationChangeKindMeta(value);
+      if (!meta) {
+        return <span>{value}</span>;
+      }
+      return <span>{t(meta.labelKey)}</span>;
     },
   },
   {
@@ -40,11 +45,10 @@ const columns = computed(() => [
     prop: 'status',
     labelWidth: 140,
     cellRenderer: ({ value }: { value: string }) => {
-      const key = `authorizationInvalidation.outboxStatusEnum.${value}`;
-      const label = t(key);
+      const meta = resolveOutboxStatusMeta(value);
       return (
-        <ElTag type={getOutboxStatusTagType(value)} effect="plain">
-          {label === key ? value : label}
+        <ElTag type={meta.tagType} effect="plain">
+          {t(meta.labelKey)}
         </ElTag>
       );
     },

@@ -1,5 +1,9 @@
 import type { AuthorizationInvalidationEventPageRow } from '@/api/ops/authorization-invalidation-event';
 import { selectUserinfo } from '@/components/business/UserProfile';
+import {
+  resolveAuthorizationChangeKindMeta,
+  resolveProcessingMeta,
+} from '@/views/ops/authorization-invalidation/constants/authorization-invalidation-enums';
 import { ElButton, ElTag } from 'element-plus';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
@@ -10,13 +14,6 @@ import { useI18n } from 'vue-i18n';
  */
 function useAuthorizationInvalidationEventTableColumns() {
   const { t } = useI18n();
-
-  const changeKindLabel = (kind: string | null | undefined) => {
-    if (!kind) return '—';
-    const key = `authorizationInvalidation.changeKindEnum.${kind}`;
-    const label = t(key);
-    return label === key ? kind : label;
-  };
 
   const formatCount = (value: number | null | undefined) => {
     if (value === undefined || value === null) return '—';
@@ -39,7 +36,13 @@ function useAuthorizationInvalidationEventTableColumns() {
       label: t('authorizationInvalidation.changeKind'),
       prop: 'changeKind',
       minWidth: 120,
-      formatter: (row: AuthorizationInvalidationEventPageRow) => changeKindLabel(row.changeKind),
+      formatter: (row: AuthorizationInvalidationEventPageRow) => {
+        const meta = resolveAuthorizationChangeKindMeta(row.changeKind ?? '');
+        if (!meta) {
+          return row.changeKind ?? '—';
+        }
+        return t(meta.labelKey);
+      },
     },
     {
       label: t('authorizationInvalidation.processing'),
@@ -49,11 +52,10 @@ function useAuthorizationInvalidationEventTableColumns() {
         if (row.processing === undefined || row.processing === null) {
           return <span>—</span>;
         }
-        const key = `authorizationInvalidation.processingEnum.${String(row.processing)}`;
-        const label = t(key);
+        const meta = resolveProcessingMeta(row.processing);
         return (
-          <ElTag type={row.processing ? 'warning' : 'success'} effect="plain">
-            {label === key ? String(row.processing) : label}
+          <ElTag type={meta.tagType} effect="plain">
+            {t(meta.labelKey)}
           </ElTag>
         );
       },

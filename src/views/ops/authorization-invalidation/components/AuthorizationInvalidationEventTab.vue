@@ -3,8 +3,8 @@ import { getAuthorizationInvalidationEventPage } from '@/api/ops/authorization-i
 import AuthPagedTable, { usePaginationState } from '@/components/business/AuthPagedTable';
 import { hasAuth } from '@/auth/permission';
 import {
-  AUTHORIZATION_CHANGE_KINDS,
-  PROCESSING_FILTER_OPTIONS,
+  AUTHORIZATION_CHANGE_KIND_ITEMS,
+  PROCESSING_FILTER_ITEMS,
 } from '@/views/ops/authorization-invalidation/constants/authorization-invalidation-enums';
 import useAuthorizationInvalidationEventTableAction from '@/views/ops/authorization-invalidation/hooks/useAuthorizationInvalidationEventTableAction';
 import useAuthorizationInvalidationEventTableColumns from '@/views/ops/authorization-invalidation/hooks/useAuthorizationInvalidationEventTableColumns';
@@ -68,10 +68,10 @@ onMounted(() => {
           clearable
         >
           <el-option
-            v-for="kind in AUTHORIZATION_CHANGE_KINDS"
-            :key="kind"
-            :label="t(`authorizationInvalidation.changeKindEnum.${kind}`)"
-            :value="kind"
+            v-for="item in AUTHORIZATION_CHANGE_KIND_ITEMS"
+            :key="item.value"
+            :label="t(item.labelKey)"
+            :value="item.value"
           />
         </el-select>
       </el-form-item>
@@ -84,10 +84,10 @@ onMounted(() => {
           clearable
         >
           <el-option
-            v-for="option in PROCESSING_FILTER_OPTIONS"
-            :key="String(option)"
-            :label="t(`authorizationInvalidation.processingEnum.${String(option)}`)"
-            :value="option"
+            v-for="option in PROCESSING_FILTER_ITEMS"
+            :key="String(option.value)"
+            :label="t(option.labelKey)"
+            :value="option.value"
           />
         </el-select>
       </el-form-item>

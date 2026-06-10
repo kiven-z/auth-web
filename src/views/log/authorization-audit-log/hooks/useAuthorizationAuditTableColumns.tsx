@@ -1,8 +1,9 @@
-import { ElButton } from 'element-plus';
+import type { AuthorizationAuditPageRow } from '@/api/log/authorization-audit';
+import { selectUserinfo } from '@/components/business/UserProfile';
+import { resolveAuditEventTypeMeta } from '@/views/log/authorization-audit-log/constants/authorization-audit-enums';
+import { ElButton, ElTag } from 'element-plus';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { selectUserinfo } from '@/components/business/UserProfile';
-import type { AuthorizationAuditPageRow } from '@/api/log/authorization-audit';
 
 /**
  * 表格列配置
@@ -27,6 +28,21 @@ function useAuthorizationAuditTableColumns() {
       label: t('authorizationAudit.eventType'),
       prop: 'eventType',
       minWidth: 110,
+      formatter: (row: AuthorizationAuditPageRow) => {
+        if (!row.eventType) {
+          return <span>—</span>;
+        }
+        const meta = resolveAuditEventTypeMeta(row.eventType);
+        if (!meta) {
+          return <span>{row.eventType}</span>;
+        }
+        const label = t(meta.labelKey);
+        return (
+          <ElTag type={meta.tagType} effect="plain">
+            {label}
+          </ElTag>
+        );
+      },
     },
     // 决策原因
     {

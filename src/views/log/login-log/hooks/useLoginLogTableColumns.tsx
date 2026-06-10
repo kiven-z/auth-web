@@ -3,7 +3,7 @@
  */
 import type { LoginLogPageRow } from '@/api/log/login-log';
 import { selectUserinfo } from '@/components/business/UserProfile';
-import { getLoginLogResultTagType } from '@/views/log/login-log/constants/login-log-enums';
+import { resolveLoginLogResultMeta } from '@/views/log/login-log/constants/login-log-enums';
 import { ElButton, ElTag } from 'element-plus';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
@@ -59,11 +59,12 @@ function useLoginLogTableColumns() {
       formatter: (row: LoginLogPageRow) => {
         const code = row.loginResult;
         if (code === undefined || code === null) return <span>—</span>;
+        const meta = resolveLoginLogResultMeta(code);
         const key = `loginLog.loginResultEnum.${code}` as const;
         const label = t(key);
 
         return (
-          <ElTag type={getLoginLogResultTagType(code)} effect="plain">
+          <ElTag type={meta.tagType} effect="plain">
             {label === key ? String(code) : label}
           </ElTag>
         );

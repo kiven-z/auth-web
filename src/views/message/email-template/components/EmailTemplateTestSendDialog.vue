@@ -14,11 +14,8 @@ const props = withDefaults(defineProps<EmailTemplateTestSendDialogProps>(), {
 const { t } = useI18n();
 const formRef = ref<FormInstance>();
 
-const form = ref<EmailTestSendForm>({
-  id: '',
-  email: '',
-  ...props.form,
-});
+// FIXME 将这个进行合并
+const form = ref<EmailTestSendForm>(props.form);
 
 const rules = reactive<FormRules>({
   email: [

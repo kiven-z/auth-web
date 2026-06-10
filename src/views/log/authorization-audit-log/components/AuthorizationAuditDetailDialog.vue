@@ -2,6 +2,8 @@
 import type { DetailDialog } from '@/api/common';
 import type { AuthorizationAuditDetailRow } from '@/api/log/authorization-audit';
 import Description from '@/components/ui/Description';
+import { resolveAuditEventTypeMeta } from '@/views/log/authorization-audit-log/constants/authorization-audit-enums';
+import { ElTag } from 'element-plus';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 
@@ -21,9 +23,16 @@ const columns = computed(() => [
     prop: 'eventType',
     labelWidth: 120,
     cellRenderer: ({ value }: { value: string }) => {
-      const key = `authorizationAudit.eventTypeEnum.${value}`;
-      const label = t(key);
-      return <span>{label === key ? value : label}</span>;
+      const meta = resolveAuditEventTypeMeta(value);
+      if (!meta) {
+        return <span>{value}</span>;
+      }
+      const label = t(meta.labelKey);
+      return (
+        <ElTag type={meta.tagType} effect="plain">
+          {label}
+        </ElTag>
+      );
     },
   },
   // 会话 ID

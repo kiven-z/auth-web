@@ -2,7 +2,7 @@
 import { getAuthorizationAuditPage } from '@/api/log/authorization-audit';
 import AuthPagedTable, { usePaginationState } from '@/components/business/AuthPagedTable';
 import useRemoteUserSearch from '@/composables/dialog/useRemoteUserSearch';
-import { AUDIT_EVENT_TYPES } from '@/views/log/authorization-audit-log/constants/authorization-audit-enums';
+import { AUDIT_EVENT_TYPE_ITEMS } from '@/views/log/authorization-audit-log/constants/authorization-audit-enums';
 import useAuthorizationAuditTableAction from '@/views/log/authorization-audit-log/hooks/useAuthorizationAuditTableAction';
 import useAuthorizationAuditTableColumns from '@/views/log/authorization-audit-log/hooks/useAuthorizationAuditTableColumns';
 import type { FormInstance } from 'element-plus';
@@ -61,10 +61,10 @@ onMounted(() => {
           clearable
         >
           <el-option
-            v-for="type in AUDIT_EVENT_TYPES"
-            :key="type"
-            :label="t(`authorizationAudit.eventTypeEnum.${type}`)"
-            :value="type"
+            v-for="item in AUDIT_EVENT_TYPE_ITEMS"
+            :key="item.value"
+            :label="t(item.labelKey)"
+            :value="item.value"
           />
         </el-select>
       </el-form-item>

@@ -15,7 +15,6 @@ import { type FormOverlayExpose, useFormOverlaySubmit } from '@/composables/tabl
 import { errorMessage, message } from '@/ui/feedback/message';
 import EmailTemplateDetailDialog from '@/views/message/email-template/components/EmailTemplateDetailDialog.vue';
 import EmailTemplateDialog from '@/views/message/email-template/components/EmailTemplateDialog.vue';
-import { useEmailTemplateTableMoreAction } from '@/views/message/email-template/hooks/useEmailTemplateTableMoreAction';
 import { h, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 
@@ -37,7 +36,6 @@ function useEmailTemplateTableAction(deps: TableActionWithSelectionDeps) {
   });
 
   const { createFormBeforeSure } = useFormOverlaySubmit();
-  const moreActions = useEmailTemplateTableMoreAction({ fetchTableData });
 
   /**
    * 打开新增弹窗
@@ -48,7 +46,6 @@ function useEmailTemplateTableAction(deps: TableActionWithSelectionDeps) {
     addDrawer({
       title: t('emailTemplate.addDialogTitle'),
       size: '100%',
-      direction: 'ltr',
       resizable: true,
       closeOnClickModal: false,
       closeOnPressEscape: false,
@@ -78,7 +75,6 @@ function useEmailTemplateTableAction(deps: TableActionWithSelectionDeps) {
       addDrawer({
         title: t('emailTemplate.editDialogTitle'),
         size: '100%',
-        direction: 'rtl',
         resizable: true,
         closeOnClickModal: false,
         closeOnPressEscape: false,
@@ -135,7 +131,6 @@ function useEmailTemplateTableAction(deps: TableActionWithSelectionDeps) {
   };
 
   return {
-    ...moreActions,
     openCreateDialog,
     openEditDialog,
     openDetailDialog,

@@ -2,6 +2,10 @@
 import type { DetailDialog } from '@/api/common';
 import type { AuthorizationInvalidationEventDetailRow } from '@/api/ops/authorization-invalidation-event';
 import Description from '@/components/ui/Description';
+import {
+  resolveAuthorizationChangeKindMeta,
+  resolveProcessingMeta,
+} from '@/views/ops/authorization-invalidation/constants/authorization-invalidation-enums';
 import useAuthorizationInvalidationLinkedRecord from '@/views/ops/authorization-invalidation/hooks/useAuthorizationInvalidationLinkedRecord';
 import { ElTag } from 'element-plus';
 import { computed } from 'vue';
@@ -29,9 +33,11 @@ const columns = computed(() => [
     prop: 'changeKind',
     labelWidth: 140,
     cellRenderer: ({ value }: { value: string }) => {
-      const key = `authorizationInvalidation.changeKindEnum.${value}`;
-      const label = t(key);
-      return <span>{label === key ? value : label}</span>;
+      const meta = resolveAuthorizationChangeKindMeta(value);
+      if (!meta) {
+        return <span>{value}</span>;
+      }
+      return <span>{t(meta.labelKey)}</span>;
     },
   },
   {
@@ -39,11 +45,10 @@ const columns = computed(() => [
     prop: 'processing',
     labelWidth: 140,
     cellRenderer: ({ value }: { value: boolean }) => {
-      const key = `authorizationInvalidation.processingEnum.${String(value)}`;
-      const label = t(key);
+      const meta = resolveProcessingMeta(value);
       return (
-        <ElTag type={value ? 'warning' : 'success'} effect="plain">
-          {label === key ? String(value) : label}
+        <ElTag type={meta.tagType} effect="plain">
+          {t(meta.labelKey)}
         </ElTag>
       );
     },

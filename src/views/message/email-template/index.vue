@@ -7,6 +7,7 @@ import type { FormInstance } from 'element-plus';
 import { onMounted, reactive, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { COMMON_BOOLEAN_STATUS_FILTER_OPTIONS } from '@/constants/boolean-status';
+import { useEmailTemplateTableMoreAction } from '@/views/message/email-template/hooks/useEmailTemplateTableMoreAction';
 
 defineOptions({
   name: 'SystemEmailTemplate',
@@ -29,17 +30,11 @@ const emailTemplateState = usePaginationState({
 
 const { loading, selectedRows, searchForm, fetchTableData, resetQuery } = emailTemplateState;
 
-const {
-  openCreateDialog,
-  openEditDialog,
-  openDetailDialog,
-  openPreview,
-  openRequireFields,
-  openTestSend,
-  openTemplateContentEdit,
-  deleteBatchRows,
-  batchUpdateStatus,
-} = useEmailTemplateTableAction({ fetchTableData, selectedRows });
+const { openCreateDialog, openEditDialog, openDetailDialog, deleteBatchRows, batchUpdateStatus } =
+  useEmailTemplateTableAction({ fetchTableData, selectedRows });
+const { openPreview, openRequireFields, openTestSend, openTemplateContentEdit } = useEmailTemplateTableMoreAction({
+  fetchTableData,
+});
 
 onMounted(() => {
   fetchTableData();

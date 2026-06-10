@@ -1,6 +1,9 @@
 import type { AuthorizationInvalidationOutboxPageRow } from '@/api/ops/authorization-invalidation-outbox';
 import { selectUserinfo } from '@/components/business/UserProfile';
-import { getOutboxStatusTagType } from '@/views/ops/authorization-invalidation/constants/authorization-invalidation-enums';
+import {
+  resolveAuthorizationChangeKindMeta,
+  resolveOutboxStatusMeta,
+} from '@/views/ops/authorization-invalidation/constants/authorization-invalidation-enums';
 import { ElButton, ElTag } from 'element-plus';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
@@ -11,13 +14,6 @@ import { useI18n } from 'vue-i18n';
  */
 function useAuthorizationInvalidationOutboxTableColumns() {
   const { t } = useI18n();
-
-  const enumLabel = (prefix: string, value: string | null | undefined) => {
-    if (!value) return '—';
-    const key = `${prefix}.${value}`;
-    const label = t(key);
-    return label === key ? value : label;
-  };
 
   const columns = computed<TableColumnList>(() => [
     {
@@ -35,8 +31,13 @@ function useAuthorizationInvalidationOutboxTableColumns() {
       label: t('authorizationInvalidation.changeKind'),
       prop: 'changeKind',
       minWidth: 120,
-      formatter: (row: AuthorizationInvalidationOutboxPageRow) =>
-        enumLabel('authorizationInvalidation.changeKindEnum', row.changeKind),
+      formatter: (row: AuthorizationInvalidationOutboxPageRow) => {
+        const meta = resolveAuthorizationChangeKindMeta(row.changeKind ?? '');
+        if (!meta) {
+          return row.changeKind ?? '—';
+        }
+        return t(meta.labelKey);
+      },
     },
     {
       label: t('authorizationInvalidation.outboxStatus'),
@@ -46,9 +47,10 @@ function useAuthorizationInvalidationOutboxTableColumns() {
         if (!row.status) {
           return <span>—</span>;
         }
+        const meta = resolveOutboxStatusMeta(row.status);
         return (
-          <ElTag type={getOutboxStatusTagType(row.status)} effect="plain">
-            {enumLabel('authorizationInvalidation.outboxStatusEnum', row.status)}
+          <ElTag type={meta.tagType} effect="plain">
+            {t(meta.labelKey)}
           </ElTag>
         );
       },

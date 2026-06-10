@@ -1,10 +1,7 @@
 <script lang="ts" setup>
 import { getJobLogPage } from '@/api/log/job-log';
 import AuthPagedTable, { usePaginationState } from '@/components/business/AuthPagedTable';
-import {
-  LOG_JOB_STATUS_FILTER_OPTIONS,
-  LOG_JOB_TRIGGER_TYPE_FILTER_OPTIONS,
-} from '@/views/log/job-log/constants/job-log-enums';
+import { LOG_JOB_STATUS_ITEMS, LOG_JOB_TRIGGER_TYPE_FILTER_OPTIONS } from '@/views/log/job-log/constants/job-log-enums';
 import useJobLogTableAction from '@/views/log/job-log/hooks/useJobLogTableAction';
 import useJobLogTableColumns from '@/views/log/job-log/hooks/useJobLogTableColumns';
 import { useCollapsibleSearchForm } from '@/composables/search/useCollapsibleSearchForm';
@@ -74,7 +71,7 @@ onMounted(() => {
       <el-form-item :label="t('logJob.status')" prop="status">
         <el-select v-model="searchForm.status" :placeholder="t('logJob.placeholder.status')" class="w-45!" clearable>
           <el-option
-            v-for="opt in LOG_JOB_STATUS_FILTER_OPTIONS"
+            v-for="opt in LOG_JOB_STATUS_ITEMS"
             :key="`${opt.labelKey}:${String(opt.value)}`"
             :label="t(opt.labelKey)"
             :value="opt.value"

@@ -73,7 +73,8 @@ function useUserTableAction(deps: TableActionWithSelectionDeps) {
         fullscreenIcon: true,
         closeOnClickModal: false,
         closeOnPressEscape: false,
-        contentRenderer: () => h(UserFormDialog, { ref: dialogFormRef, form: profile as SysUserCreateForm, mode: 'edit' }),
+        contentRenderer: () =>
+          h(UserFormDialog, { ref: dialogFormRef, form: profile as SysUserCreateForm, mode: 'edit' }),
         beforeSure: createFormBeforeSure<SysUserCreateForm>({
           formExposeRef: dialogFormRef,
           errorI18nKey: 'users.updateFailed',
