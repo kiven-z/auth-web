@@ -159,7 +159,7 @@ onMounted(() => {
             <template #dropdown>
               <el-dropdown-menu>
                 <el-dropdown-item @click="openAssignRoleDrawer(row)">
-                  {{ t('sysMenu.assignRole') }}
+                  {{ t('assign.role') }}
                 </el-dropdown-item>
                 <el-dropdown-item @click="openAssignPermissionDrawer(row)">
                   {{ t('sysMenu.assignPermission') }}

@@ -29,7 +29,7 @@ function usePostMoreAction(deps: PostMoreActionDeps) {
     const drawerRef = ref<AssignPanelExpose | null>(null);
 
     addDrawer({
-      title: t('post.assignRole'),
+      title: t('assign.role'),
       size: '100%',
       resizable: true,
       closeOnClickModal: false,

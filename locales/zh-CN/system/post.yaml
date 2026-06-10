@@ -5,7 +5,6 @@ post:
   dialogCreateTitle: 新增岗位
   dialogEditTitle: 编辑岗位
   dialogViewTitle: 查看岗位详情
-  assignRole: 分配角色
   assignCurrentPost: 当前岗位
   placeholder:
     dept: 请选择所属部门

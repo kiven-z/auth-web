@@ -67,7 +67,7 @@ const buttonSize = props.compact ? ('small' as const) : undefined;
       <template #dropdown>
         <el-dropdown-menu>
           <el-dropdown-item @click="openAssignRoleDrawer(row)">
-            {{ t('dept.assignRole') }}
+            {{ t('assign.role') }}
           </el-dropdown-item>
         </el-dropdown-menu>
       </template>

@@ -1,6 +1,5 @@
 users:
   allDepts: 全部
-  assignRole: 分配角色
   assignCurrentUser: 当前用户
   resetPassword: 修改密码
   oldPassword: 旧密码

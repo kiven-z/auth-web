@@ -35,7 +35,7 @@ function useMenuMoreAction(deps: MenuTableActionDeps) {
     const drawerRef = ref<AssignPanelExpose | null>(null);
 
     addDrawer({
-      title: t('sysMenu.assignRoleTitle'),
+      title: t('assign.role'),
       size: '100%',
       resizable: true,
       closeOnClickModal: false,

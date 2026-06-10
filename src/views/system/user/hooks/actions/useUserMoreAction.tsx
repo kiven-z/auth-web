@@ -41,7 +41,7 @@ function useUserMoreAction(deps: UserAssignRoleActionDeps) {
     const drawerRef = ref(null);
 
     addDrawer({
-      title: t('users.assignRole'),
+      title: t('assign.role'),
       size: '100%',
       resizable: true,
       closeOnClickModal: false,

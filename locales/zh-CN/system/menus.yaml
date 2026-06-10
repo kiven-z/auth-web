@@ -10,7 +10,6 @@ sysMenu:
   parentTopLevel: 顶级菜单
   saveFailed: 菜单保存失败
   statusFailed: 菜单状态更新失败
-  assignRoleTitle: 分配角色
   assignPermissionTitle: 分配权限
   assignCurrentMenu: 当前菜单
   routeName: 路由名称
@@ -36,7 +35,6 @@ sysMenu:
   addDialogTitle: 新增菜单
   editDialogTitle: 编辑菜单
   detailDialogTitle: 菜单详情
-  assignRole: 分配角色
   assignPermission: 分配权限
   placeholder:
     routeName: 请输入路由名称

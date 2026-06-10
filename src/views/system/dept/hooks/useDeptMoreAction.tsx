@@ -31,7 +31,7 @@ function useDeptMoreAction(deps: DeptMoreActionDeps) {
     const drawerRef = ref<AssignPanelExpose | null>(null);
 
     addDrawer({
-      title: t('dept.assignRole'),
+      title: t('assign.role'),
       size: '100%',
       resizable: true,
       closeOnClickModal: false,

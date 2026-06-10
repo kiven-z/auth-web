@@ -125,7 +125,7 @@ onMounted(() => {
             <el-button class="el-dropdown-link" link type="primary">{{ t('buttons.actionMore') }}</el-button>
             <template #dropdown>
               <el-dropdown-item @click="openAssignRoleDrawer(row)">
-                {{ t('post.assignRole') }}
+                {{ t('assign.role') }}
               </el-dropdown-item>
             </template>
           </el-dropdown>

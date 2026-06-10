@@ -16,7 +16,6 @@ dept:
   viewTreeTitle: 树形视图
   expandAll: 展开全部
   collapseAll: 收起全部
-  assignRole: 分配角色
   assignCurrentDept: 当前部门
   isPrimaryDepartment: 是否主部门
   primaryDepartment: 主部门

@@ -16,7 +16,6 @@ dept:
   viewTreeTitle: Tree View
   expandAll: Expand All
   collapseAll: Collapse All
-  assignRole: Assign roles
   assignCurrentDept: Current department
   isPrimaryDepartment: Primary department
   primaryDepartment: Primary

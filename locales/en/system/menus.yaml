@@ -10,7 +10,6 @@ sysMenu:
   parentTopLevel: Top-level menu
   saveFailed: Failed to save menu
   statusFailed: Failed to update menu status
-  assignRoleTitle: Assign roles
   assignPermissionTitle: Assign permissions
   assignCurrentMenu: Current menu
   routeName: Route name
@@ -36,7 +35,6 @@ sysMenu:
   addDialogTitle: New menu
   editDialogTitle: Edit menu
   detailDialogTitle: Menu detail
-  assignRole: Assign roles
   assignPermission: Assign permissions
   placeholder:
     routeName: Enter route name
