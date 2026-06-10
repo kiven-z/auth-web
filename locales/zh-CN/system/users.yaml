@@ -73,6 +73,20 @@ users:
     unknown: 未知
     male: 男
     female: 女
+  deptPosition: 部门内职务
+  deptPositionPlaceholder: 如：部门经理、技术主管
+  grantTime: 授权时间
+  deptAssignTableTitle: 部门关联列表
+  deptAssignLoadFailed: 加载用户部门关联失败
+  deptAssignSaveFailed: 保存用户部门关联失败
+  deptAssignCreateTitle: 新增部门关联
+  deptAssignEditTitle: 编辑部门关联
+  deptAssignCurrentPrimary: 当前主部门
+  deptAssignNoPrimary: 暂无主部门
+  deptAssignSetPrimary: 设为主部门
+  deptAssignTransfer: 调离
+  deptAssignSetPrimarySuccess: 已设为主部门
+  deptAssignTransferSuccess: 已调离该部门
   relationStatus:
     normal: 正常
     transferred: 已调离

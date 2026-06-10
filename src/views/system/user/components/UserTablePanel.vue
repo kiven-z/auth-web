@@ -25,8 +25,14 @@ const searchFormRef = ref<FormInstance>();
 const { tableState, fetchUserTable, resetUserSearch } = useUserPageState();
 const { loading, searchForm, selectedRows } = tableState;
 
-const { openAssignRoleDrawer, openViewSessionsDialog, kickUserSessions, batchKickAll, refreshUserAuth } =
-  useUserMoreAction({ fetchTableData: fetchUserTable, selectedRows });
+const {
+  openAssignDeptDrawer,
+  openAssignRoleDrawer,
+  openViewSessionsDialog,
+  kickUserSessions,
+  batchKickAll,
+  refreshUserAuth,
+} = useUserMoreAction({ fetchTableData: fetchUserTable, selectedRows });
 
 // 修改密码
 const { openAdminResetPasswordDialog } = useChangePasswordAction();
@@ -174,7 +180,9 @@ const handleView = (row: SysUserPageRow) => {
               <el-dropdown-item @click="openAssignRoleDrawer(row)">
                 {{ t('assign.role') }}
               </el-dropdown-item>
-              <el-dropdown-item disabled>{{ t('assign.dept') }}</el-dropdown-item>
+              <el-dropdown-item @click="openAssignDeptDrawer(row)">
+                {{ t('assign.dept') }}
+              </el-dropdown-item>
               <el-dropdown-item disabled>{{ t('assign.post') }}</el-dropdown-item>
               <el-dropdown-item @click="openAdminResetPasswordDialog(row.id, row.username)">
                 {{ t('users.resetPassword') }}

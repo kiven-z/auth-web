@@ -19,6 +19,7 @@ dept:
   assignCurrentDept: Current department
   isPrimaryDepartment: Primary department
   primaryDepartment: Primary
+  nonPrimaryDepartment: Non-primary
   secondaryDepartment: Secondary
   deptName: Department Name
   deptCode: Department Code

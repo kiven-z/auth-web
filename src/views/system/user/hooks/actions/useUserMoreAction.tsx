@@ -1,10 +1,12 @@
-import { putUserRoles, type SysUserPageRow } from '@/api/system/user';
+import { putUserRoles } from '@/api/system/user-role';
+import type { SysUserPageRow } from '@/api/system/user';
 import { addDialog } from '@/components/ui/Dialog';
 import UserSessionDialog from '@/views/system/user/components/UserSessionDialog.vue';
 import useUserAuthRefreshAction from '@/views/system/user/hooks/actions/useUserAuthRefreshAction';
 import { h, type Ref, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { addDrawer } from '@/components/ui/Drawer';
+import UserAssignDeptDrawer from '@/views/system/user/components/UserAssignDeptDrawer.vue';
 import UserAssignRoleDrawer from '@/views/system/user/components/UserAssignRoleDrawer.vue';
 import { errorMessage, message } from '@/ui/feedback/message';
 import type { TableActionDeps } from '@/api/common';
@@ -32,6 +34,28 @@ function useUserMoreAction(deps: UserAssignRoleActionDeps) {
   const { fetchTableData, selectedRows } = deps;
   const { t } = useI18n();
   const { refreshForUser } = useUserAuthRefreshAction();
+
+  /**
+   * 打开分配部门抽屉
+   * @param row 用户行
+   */
+  const openAssignDeptDrawer = (row: SysUserPageRow) => {
+    addDrawer({
+      title: t('assign.dept'),
+      size: '100%',
+      resizable: true,
+      closeOnClickModal: false,
+      closeOnPressEscape: false,
+      showClose: true,
+      hideFooter: true,
+      contentRenderer: () =>
+        h(UserAssignDeptDrawer, {
+          userId: row.id,
+          username: row.username,
+          nickname: row.nickname,
+        }),
+    });
+  };
 
   /**
    * 打开分配角色抽屉
@@ -145,6 +169,7 @@ function useUserMoreAction(deps: UserAssignRoleActionDeps) {
   };
 
   return {
+    openAssignDeptDrawer,
     openAssignRoleDrawer,
     openViewSessionsDialog,
     kickUserSessions,

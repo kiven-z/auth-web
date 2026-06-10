@@ -19,6 +19,7 @@ dept:
   assignCurrentDept: 当前部门
   isPrimaryDepartment: 是否主部门
   primaryDepartment: 主部门
+  nonPrimaryDepartment: 非主部门
   secondaryDepartment: 兼职部门
   deptName: 部门名称
   deptCode: 部门编码

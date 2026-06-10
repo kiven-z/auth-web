@@ -73,6 +73,20 @@ users:
     unknown: Unknown
     male: Male
     female: Female
+  deptPosition: Position in department
+  deptPositionPlaceholder: e.g. Manager, Tech Lead
+  grantTime: Assigned at
+  deptAssignTableTitle: Department assignments
+  deptAssignLoadFailed: Failed to load user department assignments
+  deptAssignSaveFailed: Failed to save user department assignment
+  deptAssignCreateTitle: Add department assignment
+  deptAssignEditTitle: Edit department assignment
+  deptAssignCurrentPrimary: Current primary department
+  deptAssignNoPrimary: No primary department
+  deptAssignSetPrimary: Set as primary
+  deptAssignTransfer: Transfer out
+  deptAssignSetPrimarySuccess: Set as primary department
+  deptAssignTransferSuccess: Transferred out of department
   relationStatus:
     normal: Active
     transferred: Transferred

@@ -58,8 +58,8 @@ function useUserProfileColumns() {
             {t('dept.primaryDepartment')}
           </ElCheckTag>
         ) : (
-          <ElCheckTag checked type="primary">
-            {t('dept.secondaryDepartment')}
+          <ElCheckTag checked={false} type="info">
+            {t('dept.nonPrimaryDepartment')}
           </ElCheckTag>
         );
       },

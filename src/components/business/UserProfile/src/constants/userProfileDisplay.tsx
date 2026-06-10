@@ -51,13 +51,14 @@ export function renderRelationStatus(t: Translate, value: number | undefined | n
   if (value === undefined || value === null) {
     return <span>-</span>;
   }
-  const type = value === 0 ? 'success' : value === 1 ? 'info' : 'warning';
+  // FIXME 修改为枚举
+  const type = value === 1 ? 'success' : value === 2 ? 'warning' : 'info';
   const labelKey =
-    value === 0
+    value === 1
       ? 'users.relationStatus.normal'
-      : value === 1
-        ? 'users.relationStatus.transferred'
-        : 'users.relationStatus.partTime';
+      : value === 2
+        ? 'users.relationStatus.partTime'
+        : 'users.relationStatus.transferred';
   return (
     <ElTag type={type} effect="plain">
       {t(labelKey)}

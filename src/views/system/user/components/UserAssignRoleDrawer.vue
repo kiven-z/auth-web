@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { getUserRoles } from '@/api/system/user';
+import { getUserRoles } from '@/api/system/user-role';
 import OrgGrantRoleAssignDrawer from '@/views/system/_shared/components/OrgGrantRoleAssignDrawer.vue';
 import { ref } from 'vue';
 import { useI18n } from 'vue-i18n';
