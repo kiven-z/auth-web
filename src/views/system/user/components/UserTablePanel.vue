@@ -4,7 +4,7 @@ import AuthPagedTable from '@/components/business/AuthPagedTable';
 import { selectUserinfo } from '@/components/business/UserProfile';
 import { useCollapsibleSearchForm } from '@/composables/search/useCollapsibleSearchForm';
 import { USER_ACCOUNT_STATUS, USER_STATUS_FILTER_OPTIONS } from '@/views/system/user/constants/user-account-status';
-import useUserAuthRefreshAction from '@/views/system/user/hooks/actions/useUserAuthRefreshAction';
+import useUserAdvanceAction from '@/views/system/user/hooks/actions/useUserAdvanceAction';
 import useUserMoreAction from '@/views/system/user/hooks/actions/useUserMoreAction';
 import useUserPageState from '@/views/system/user/hooks/useUserPageState';
 import useUserTableAction from '@/views/system/user/hooks/actions/useUserTableAction';
@@ -25,25 +25,23 @@ const searchFormRef = ref<FormInstance>();
 const { tableState, fetchUserTable, resetUserSearch } = useUserPageState();
 const { loading, searchForm, selectedRows, pagination } = tableState;
 
-const {
-  openAssignDeptDrawer,
-  openAssignRoleDrawer,
-  openViewSessionsDialog,
-  kickUserSessions,
-  batchKickAll,
-  refreshUserAuth,
-} = useUserMoreAction({ fetchTableData: fetchUserTable, selectedRows });
+const { openCreateDialog, openEditDialog, batchUpdateStatus } = useUserTableAction({
+  fetchTableData: fetchUserTable,
+  selectedRows,
+});
+
+const { exporting, openExportDialog, deleteBatchRows, batchKickAll, batchRefreshAuth } = useUserAdvanceAction({
+  fetchTableData: fetchUserTable,
+  selectedRows,
+  searchForm,
+  pagination,
+});
+
+const { openAssignDeptDrawer, openAssignRoleDrawer, openViewSessionsDialog, kickUserSessions, refreshUserAuth } =
+  useUserMoreAction({ fetchTableData: fetchUserTable });
 
 // 修改密码
 const { openAdminResetPasswordDialog } = useChangePasswordAction();
-const { batchRefreshAuth } = useUserAuthRefreshAction({ selectedRows });
-const { openCreateDialog, openEditDialog, deleteBatchRows, batchUpdateStatus, exporting, openExportDialog } =
-  useUserTableAction({
-    fetchTableData: fetchUserTable,
-    selectedRows,
-    searchForm,
-    pagination,
-  });
 const { searchExpanded, showAdvancedSearchToggle, toggleAdvancedSearch } = useCollapsibleSearchForm(6);
 
 const hasSelection = computed(() => selectedRows.value.length > 0);

@@ -1,23 +1,16 @@
-import type { SysUserPageRow } from '@/api/system/user';
+import type { TableActionDeps } from '@/api/common';
+import { kickAllUserSessions } from '@/api/auth/session';
+import { putUserRoles } from '@/api/system/user-role';
+import { refreshUserAuthorization, type SysUserPageRow } from '@/api/system/user';
 import { addDialog } from '@/components/ui/Dialog';
-import UserSessionDialog from '@/views/system/user/components/UserSessionDialog.vue';
-import useUserAuthRefreshAction from '@/views/system/user/hooks/actions/useUserAuthRefreshAction';
-import { h, type Ref, ref } from 'vue';
-import { useI18n } from 'vue-i18n';
 import { addDrawer } from '@/components/ui/Drawer';
+import { operationConfirm } from '@/ui/feedback/dialog';
+import { errorMessage, message } from '@/ui/feedback/message';
 import UserAssignDeptDrawer from '@/views/system/user/components/UserAssignDeptDrawer.vue';
 import UserAssignRoleDrawer from '@/views/system/user/components/UserAssignRoleDrawer.vue';
-import { errorMessage, message } from '@/ui/feedback/message';
-import type { TableActionDeps } from '@/api/common';
-import { operationConfirm } from '@/ui/feedback/dialog';
-import { batchKickAllUserSessions, kickAllUserSessions } from '@/api/auth/session';
-import { putUserRoles } from '@/api/system/user-role';
-
-/** 用户分配角色操作依赖 */
-interface UserAssignRoleActionDeps extends TableActionDeps {
-  /** 表格多选主键列表 */
-  selectedRows?: Ref<string[]>;
-}
+import UserSessionDialog from '@/views/system/user/components/UserSessionDialog.vue';
+import { h, ref } from 'vue';
+import { useI18n } from 'vue-i18n';
 
 interface KickAllForUserOptions {
   /** 成功后回调（如弹窗内刷新会话列表） */
@@ -27,13 +20,13 @@ interface KickAllForUserOptions {
 }
 
 /**
- * 用户表格「更多」操作
+ * 用户表格行内「更多」操作
+ * @param deps 表格操作依赖
  * @returns 更多操作方法
  */
-function useUserMoreAction(deps: UserAssignRoleActionDeps) {
-  const { fetchTableData, selectedRows } = deps;
+function useUserMoreAction(deps: TableActionDeps) {
+  const { fetchTableData } = deps;
   const { t } = useI18n();
-  const { refreshForUser } = useUserAuthRefreshAction();
 
   /**
    * 打开分配部门抽屉
@@ -93,21 +86,6 @@ function useUserMoreAction(deps: UserAssignRoleActionDeps) {
   };
 
   /**
-   * 打开查看会话弹窗
-   * @param row 用户行
-   */
-  const openViewSessionsDialog = (row: SysUserPageRow) => {
-    addDialog({
-      title: t('users.viewSessions'),
-      draggable: false,
-      closeOnClickModal: false,
-      closeOnPressEscape: false,
-      hideFooter: true,
-      contentRenderer: () => h(UserSessionDialog, { userId: row.id, username: row.username, kickAllForUser }),
-    });
-  };
-
-  /**
    * 踢出指定用户的全部会话
    * @param userId 用户 ID
    * @param kickOptions 单次调用配置
@@ -128,6 +106,21 @@ function useUserMoreAction(deps: UserAssignRoleActionDeps) {
   };
 
   /**
+   * 打开查看会话弹窗
+   * @param row 用户行
+   */
+  const openViewSessionsDialog = (row: SysUserPageRow) => {
+    addDialog({
+      title: t('users.viewSessions'),
+      draggable: false,
+      closeOnClickModal: false,
+      closeOnPressEscape: false,
+      hideFooter: true,
+      contentRenderer: () => h(UserSessionDialog, { userId: row.id, username: row.username, kickAllForUser }),
+    });
+  };
+
+  /**
    * 表格行「用户下线」：踢出该行用户全部会话
    * @param row 用户行
    */
@@ -136,36 +129,21 @@ function useUserMoreAction(deps: UserAssignRoleActionDeps) {
   };
 
   /**
-   * 批量踢出选中用户的全部会话
+   * 刷新指定用户的授权画像缓存
+   * @param row 用户行
    */
-  const batchKickAll = async () => {
-    const targetIds = selectedRows?.value ?? [];
-    if (targetIds.length <= 0) {
-      return;
-    }
-
+  const refreshUserAuth = async (row: SysUserPageRow) => {
     const confirmed = await operationConfirm();
     if (!confirmed) {
       return;
     }
 
     try {
-      await batchKickAllUserSessions(targetIds);
-      message(t('users.batchKickSessionsSuccess'), { type: 'success' });
-      if (selectedRows) {
-        selectedRows.value = [];
-      }
+      await refreshUserAuthorization([row.id]);
+      message(t('users.refreshAuthSuccess'), { type: 'success' });
     } catch (error: unknown) {
-      errorMessage(error, { defaultI18nKey: 'users.batchKickSessionsFailed' });
+      errorMessage(error, { defaultI18nKey: 'users.refreshAuthFailed' });
     }
-  };
-
-  /**
-   * 刷新用户授权画像缓存
-   * @param row 用户行
-   */
-  const refreshUserAuth = (row: SysUserPageRow) => {
-    void refreshForUser(row.id);
   };
 
   return {
@@ -174,7 +152,6 @@ function useUserMoreAction(deps: UserAssignRoleActionDeps) {
     openViewSessionsDialog,
     kickUserSessions,
     kickAllForUser,
-    batchKickAll,
     refreshUserAuth,
   };
 }

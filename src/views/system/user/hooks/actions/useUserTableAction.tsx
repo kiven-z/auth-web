@@ -3,48 +3,26 @@ import { getUserProfile } from '@/api/system/user-base';
 import {
   batchUpdateUserStatus,
   createUser,
-  deleteUsers,
-  exportUserExcel,
   type SysUserCreateForm,
-  type SysUserPageQuery,
   type SysUserPageRow,
   updateUser,
 } from '@/api/system/user';
-import { usePagedTableExport } from '@/components/business/ExportDialog';
 import { addDialog } from '@/components/ui/Dialog';
-import useBatchDeleteAction from '@/composables/table/useBatchDeleteAction';
 import { type FormOverlayExpose, useFormOverlaySubmit } from '@/composables/table/useFormOverlaySubmit';
 import { errorMessage, message } from '@/ui/feedback/message';
 import UserFormDialog from '@/views/system/user/components/UserFormDialog.vue';
 import { h, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 
-/** 用户表格操作依赖 */
-export interface UseUserTableActionDeps extends TableActionWithSelectionDeps {
-  searchForm: Record<string, unknown>;
-  pagination: {
-    currentPage: number;
-    pageSize: number;
-    total: number;
-  };
-}
-
 /**
- * 用户表格写操作：新增、编辑、批量删除、批量改状态、Excel 导出
+ * 用户表格写操作：新增、编辑、批量改状态
  * @param deps 表格操作依赖
  * @returns 表格操作方法
  */
-function useUserTableAction(deps: UseUserTableActionDeps) {
-  const { fetchTableData, selectedRows, searchForm, pagination } = deps;
+function useUserTableAction(deps: TableActionWithSelectionDeps) {
+  const { fetchTableData, selectedRows } = deps;
   const { t } = useI18n();
   const { createFormBeforeSure } = useFormOverlaySubmit();
-
-  const { deleteBatchRows } = useBatchDeleteAction({
-    selectedRows,
-    deleteApi: deleteUsers,
-    onSuccess: fetchTableData,
-    errorDefaultI18nKey: 'tips.deleteFailed',
-  });
 
   /**
    * 打开新增用户弹窗
@@ -122,29 +100,10 @@ function useUserTableAction(deps: UseUserTableActionDeps) {
     }
   };
 
-  const { exporting, openExportDialog } = usePagedTableExport<SysUserPageQuery>({
-    searchForm,
-    pagination,
-    fileNamePrefix: t('users.moduleName'),
-    exportApi: exportUserExcel,
-    buildFilter: ({ searchForm: form }) => ({
-      username: form.username as string | undefined,
-      nickname: form.nickname as string | undefined,
-      phone: form.phone as string | undefined,
-      email: form.email as string | undefined,
-      employeeNo: form.employeeNo as string | undefined,
-      status: form.status as number | undefined,
-      deptId: form.deptId as string | undefined,
-    }),
-  });
-
   return {
     openCreateDialog,
     openEditDialog,
-    deleteBatchRows,
     batchUpdateStatus,
-    exporting,
-    openExportDialog,
   };
 }
 
