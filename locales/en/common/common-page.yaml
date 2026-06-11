@@ -80,8 +80,8 @@ buttons:
   assignClearAll: Clear all
 assign:
   role: Assign roles
-  dept: Assign departments
-  post: Assign posts
+  dept: Dept membership
+  post: Post assignment
   permission: Assign permissions
 
 table:

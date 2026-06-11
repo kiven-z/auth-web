@@ -7,10 +7,10 @@ post:
   dialogViewTitle: View Post Details
   assignCurrentPost: Current post
   placeholder:
-    dept: Select department
+    dept: Select owning department
   postCode: Post Code
   postName: Post Name
-  deptName: Department
+  deptName: Owning department
   status: Status
   orderNum: Order
   remark: Remark

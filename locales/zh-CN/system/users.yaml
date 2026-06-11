@@ -76,6 +76,8 @@ users:
     female: 女
   deptAssignClearFailed: 清空用户部门关联失败
   deptAssignClearAllConfirm: 将清空该用户的全部部门关联，是否继续？
+  deptAssignDrawerTip: 维护用户的组织隶属，部门角色据此生效。
+  postAssignDrawerTip: 维护用户的任职岗位，与部门隶属分开配置，岗位角色据此生效。
   deptAssignCreateTitle: 新增部门关联
   deptAssignEditTitle: 编辑部门关联
   postAssignCreateTitle: 新增岗位关联

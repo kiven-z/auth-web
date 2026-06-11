@@ -56,7 +56,8 @@ onMounted(() => {
 
 <template>
   <div class="flex flex-col">
-    <el-form ref="searchFormRef" :model="searchForm" class="pl-6" inline>
+    <el-alert :title="t('users.deptAssignDrawerTip')" closable show-icon type="info" />
+    <el-form ref="searchFormRef" :model="searchForm" class="pt-2 pl-6" inline>
       <!-- 部门名称 -->
       <el-form-item :label="t('dept.deptName')" prop="deptName">
         <el-input v-model="searchForm.deptName" :placeholder="t('dept.deptName')" class="w-45!" clearable />

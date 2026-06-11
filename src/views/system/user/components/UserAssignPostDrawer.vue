@@ -56,7 +56,8 @@ onMounted(() => {
 
 <template>
   <div class="flex flex-col">
-    <el-form ref="searchFormRef" :model="searchForm" class="pl-6" inline>
+    <el-alert :title="t('users.postAssignDrawerTip')" closable show-icon type="info" />
+    <el-form ref="searchFormRef" :model="searchForm" class="pt-2 pl-6" inline>
       <!-- 岗位编码 -->
       <el-form-item :label="t('post.postCode')" prop="postCode">
         <el-input v-model="searchForm.postCode" :placeholder="t('post.postCode')" class="w-45!" clearable />

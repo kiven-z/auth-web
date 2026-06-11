@@ -76,6 +76,8 @@ users:
     female: Female
   deptAssignClearFailed: Failed to clear user department assignments
   deptAssignClearAllConfirm: This will remove all department assignments for this user. Continue?
+  deptAssignDrawerTip: Manage organizational membership; department roles apply accordingly.
+  postAssignDrawerTip: Manage post assignments separately from dept membership; post roles apply accordingly.
   deptAssignCreateTitle: Add department assignment
   deptAssignEditTitle: Edit department assignment
   postAssignCreateTitle: Add post assignment

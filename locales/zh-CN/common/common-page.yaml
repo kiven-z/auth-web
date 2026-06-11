@@ -80,8 +80,8 @@ buttons:
   assignClearAll: 全部清空
 assign:
   role: 分配角色
-  dept: 分配部门
-  post: 分配岗位
+  dept: 部门隶属
+  post: 任职岗位
   permission: 分配权限
 table:
   idx: 序号
