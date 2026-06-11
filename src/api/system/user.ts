@@ -1,4 +1,5 @@
-import type { BaseResponsePageRow, PageResponse } from '@/api/common';
+import type { BaseResponsePageRow, ExportScopeQueryFields, PageResponse } from '@/api/common';
+import { mergePagedExportParams } from '@/api/common';
 import { http } from '@/infrastructure/http-core';
 import type { AxiosRequestConfig } from 'axios';
 
@@ -39,6 +40,20 @@ export function getUserPage(params: SysUserPageQuery): Promise<PageResponse<SysU
   return http.get<PageResponse<SysUserPageRow>, AxiosRequestConfig<SysUserPageQuery>>('/system/user/page', {
     params,
   });
+}
+
+/**
+ * 导出用户 Excel（按筛选条件与页码区间）
+ * @param filter 列表筛选
+ * @param scope 导出范围
+ * @returns 文件 Blob
+ */
+export function exportUserExcel(filter: SysUserPageQuery, scope: ExportScopeQueryFields): Promise<Blob> {
+  return http.get<Blob, AxiosRequestConfig<SysUserPageQuery & ExportScopeQueryFields>>(
+    '/system/user/export',
+    { params: mergePagedExportParams(filter, scope) },
+    { responseType: 'blob' }
+  );
 }
 
 /**

@@ -23,7 +23,7 @@ const { columns } = useUserTableColumns();
 const searchFormRef = ref<FormInstance>();
 
 const { tableState, fetchUserTable, resetUserSearch } = useUserPageState();
-const { loading, searchForm, selectedRows } = tableState;
+const { loading, searchForm, selectedRows, pagination } = tableState;
 
 const {
   openAssignDeptDrawer,
@@ -37,10 +37,13 @@ const {
 // 修改密码
 const { openAdminResetPasswordDialog } = useChangePasswordAction();
 const { batchRefreshAuth } = useUserAuthRefreshAction({ selectedRows });
-const { openCreateDialog, openEditDialog, deleteBatchRows, batchUpdateStatus } = useUserTableAction({
-  fetchTableData: fetchUserTable,
-  selectedRows,
-});
+const { openCreateDialog, openEditDialog, deleteBatchRows, batchUpdateStatus, exporting, openExportDialog } =
+  useUserTableAction({
+    fetchTableData: fetchUserTable,
+    selectedRows,
+    searchForm,
+    pagination,
+  });
 const { searchExpanded, showAdvancedSearchToggle, toggleAdvancedSearch } = useCollapsibleSearchForm(6);
 
 const hasSelection = computed(() => selectedRows.value.length > 0);
@@ -144,7 +147,9 @@ const handleView = (row: SysUserPageRow) => {
             <el-button type="danger">{{ t('buttons.actionAdvanced') }}</el-button>
             <template #dropdown>
               <el-dropdown-item disabled>{{ t('users.importExcelComingSoon') }}</el-dropdown-item>
-              <el-dropdown-item disabled>{{ t('buttons.exportExcel') }}</el-dropdown-item>
+              <el-dropdown-item :disabled="exporting" @click="openExportDialog">
+                {{ t('buttons.exportExcel') }}
+              </el-dropdown-item>
               <el-dropdown-item :disabled="!hasSelection" @click="deleteBatchRows()">
                 {{ t('buttons.actionBatchDelete') }}
               </el-dropdown-item>

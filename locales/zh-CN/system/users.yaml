@@ -1,4 +1,5 @@
 users:
+  moduleName: 用户
   allDepts: 全部
   assignCurrentUser: 当前用户
   resetPassword: 修改密码

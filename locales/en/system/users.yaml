@@ -1,4 +1,5 @@
 users:
+  moduleName: Users
   allDepts: All
   assignCurrentUser: Current user
   resetPassword: Reset password
