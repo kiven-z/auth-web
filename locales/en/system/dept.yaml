@@ -34,8 +34,6 @@ dept:
     parentDept: Leave empty for top level
     treeKeyword: Search by department name or code
   relationStatus: Relation Status
-  position: Position
-  joinTime: Joined At
   employeeNo: Employee No.
   userAccountStatus: Account Status
   grantTime: Granted At

@@ -73,9 +73,6 @@ users:
     unknown: 未知
     male: 男
     female: 女
-  deptPosition: 部门内职务
-  deptPositionPlaceholder: 如：部门经理、技术主管
-  grantTime: 授权时间
   deptAssignLoadFailed: 加载用户部门关联失败
   deptAssignSaveFailed: 保存用户部门关联失败
   deptAssignCreateTitle: 新增部门关联

@@ -65,8 +65,6 @@ export interface SysDeptBoundUserItem {
   userStatus: number;
   isPrimary: boolean;
   relationStatus: number;
-  position?: string;
-  joinTime?: string;
 }
 
 /**

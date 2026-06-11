@@ -11,8 +11,6 @@ export interface SysUserDeptProfileItem {
   deptCode: string;
   isPrimary: boolean;
   status: number;
-  position?: string | null;
-  joinTime?: string | null;
 }
 
 /**

@@ -73,9 +73,6 @@ users:
     unknown: Unknown
     male: Male
     female: Female
-  deptPosition: Position in department
-  deptPositionPlaceholder: e.g. Manager, Tech Lead
-  grantTime: Assigned at
   deptAssignLoadFailed: Failed to load user department assignments
   deptAssignSaveFailed: Failed to save user department assignment
   deptAssignCreateTitle: Add department assignment

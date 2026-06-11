@@ -1,0 +1,123 @@
+<script lang="ts" setup>
+import type { FormDialog } from '@/api/common';
+import { getDeptList } from '@/api/system/dept';
+import type { UserDeptAssignForm } from '@/api/system/user-dept';
+import { errorMessage } from '@/ui/feedback/message';
+import { USER_DEPT_RELATION_STATUS_FILTER_OPTIONS } from '@/views/system/user/constants/user-dept-relation-status';
+import { buildPostDeptCascaderTree, type PostDeptCascaderNode } from '@/views/system/post/utils/post-dept-cascader';
+import type { CascaderProps, FormInstance, FormRules } from 'element-plus';
+import { onMounted, reactive, ref } from 'vue';
+import { useI18n } from 'vue-i18n';
+
+type UserDeptAssignFormDialogProps = FormDialog<UserDeptAssignForm>;
+
+const props = withDefaults(defineProps<UserDeptAssignFormDialogProps>(), {
+  form: () => ({}) as UserDeptAssignForm,
+});
+
+const { t } = useI18n();
+const formRef = ref<FormInstance>();
+const form = ref<UserDeptAssignForm>({
+  status: 1,
+  isPrimary: false,
+  ...props.form,
+});
+
+const deptCascaderProps: CascaderProps = {
+  checkStrictly: true,
+  emitPath: false,
+  value: 'value',
+  label: 'label',
+  children: 'children',
+  disabled: 'disabled',
+};
+
+const deptTree = ref<PostDeptCascaderNode[]>([]);
+
+const rules = reactive<FormRules>({
+  deptId: [{ required: true, message: t('dept.deptName'), trigger: 'change' }],
+  status: [{ required: true, message: t('dept.relationStatus'), trigger: 'change' }],
+  isPrimary: [{ required: true, message: t('dept.isPrimaryDepartment'), trigger: 'change' }],
+});
+
+/**
+ * 加载部门树（含停用部门，节点 disabled 不可选）
+ */
+const loadDeptTree = async () => {
+  try {
+    const list = await getDeptList();
+    deptTree.value = buildPostDeptCascaderTree(list ?? []);
+  } catch (error: unknown) {
+    errorMessage(error, { defaultI18nKey: 'dept.loadFailed' });
+    deptTree.value = [];
+  }
+};
+
+onMounted(() => {
+  void loadDeptTree();
+});
+
+defineExpose({ formRef, form });
+</script>
+
+<template>
+  <el-form ref="formRef" :model="form" :rules="rules" label-width="auto">
+    <el-row :gutter="14">
+      <!-- 所属部门 -->
+      <el-col :span="24">
+        <el-form-item :label="t('dept.deptName')" prop="deptId">
+          <el-cascader
+            v-model="form.deptId"
+            :options="deptTree"
+            :placeholder="t('dept.placeholder.parentDept')"
+            :props="deptCascaderProps"
+            class="w-full"
+            clearable
+            filterable
+            separator="/"
+          >
+            <template #default="{ data }">
+              <span>{{ data.label }}</span>
+              <el-text type="info">({{ data.deptCode }})</el-text>
+            </template>
+          </el-cascader>
+        </el-form-item>
+      </el-col>
+      <!-- 关联状态 -->
+      <el-col :lg="12" :md="12" :sm="12" :xs="24">
+        <el-form-item :label="t('dept.relationStatus')" prop="status">
+          <el-select v-model="form.status" :placeholder="t('dept.relationStatus')" class="w-full">
+            <el-option
+              v-for="option in USER_DEPT_RELATION_STATUS_FILTER_OPTIONS"
+              :key="`${option.labelKey}:${String(option.value)}`"
+              :label="t(option.labelKey)"
+              :value="option.value"
+            />
+          </el-select>
+        </el-form-item>
+      </el-col>
+      <!-- 是否主部门 -->
+      <el-col :lg="12" :md="12" :sm="12" :xs="24">
+        <el-form-item :label="t('dept.isPrimaryDepartment')" prop="isPrimary">
+          <el-radio-group v-model="form.isPrimary">
+            <el-radio :value="true">{{ t('dept.primaryDepartment') }}</el-radio>
+            <el-radio :value="false">{{ t('dept.secondaryDepartment') }}</el-radio>
+          </el-radio-group>
+        </el-form-item>
+      </el-col>
+      <!-- 备注 -->
+      <el-col :span="24">
+        <el-form-item :label="t('users.remark')" prop="remark">
+          <el-input
+            v-model="form.remark"
+            :placeholder="t('users.remark')"
+            :rows="3"
+            maxlength="255"
+            show-word-limit
+            type="textarea"
+          />
+        </el-form-item>
+      </el-col>
+    </el-row>
+  </el-form>
+</template>
