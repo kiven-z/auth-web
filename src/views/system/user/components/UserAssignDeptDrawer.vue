@@ -1,7 +1,13 @@
 <script lang="ts" setup>
 import type { FormOverlayExpose } from '@/composables/table/useFormOverlaySubmit';
 import { useFormOverlaySubmit } from '@/composables/table/useFormOverlaySubmit';
-import { createUserDept, getUserDeptPage, type UserDeptAssignForm, type UserDeptPageRow } from '@/api/system/user-dept';
+import {
+  createUserDept,
+  getUserDeptPage,
+  updateUserDept,
+  type UserDeptAssignForm,
+  type UserDeptPageRow,
+} from '@/api/system/user-dept';
 import AuthPagedTable, { usePaginationState } from '@/components/business/AuthPagedTable';
 import { addDialog } from '@/components/ui/Dialog';
 import { USER_DEPT_RELATION_STATUS_FILTER_OPTIONS } from '@/views/system/user/constants/user-dept-relation-status';
@@ -45,6 +51,41 @@ const deptAssignState = usePaginationState<UserDeptPageRow>({
 });
 
 const { loading, searchForm, fetchTableData, resetQuery } = deptAssignState;
+
+/**
+ * 打开编辑部门关联弹窗
+ * @param row 表格行
+ */
+function openEditDialog(row: UserDeptPageRow) {
+  const dialogFormRef = ref<FormOverlayExpose<UserDeptAssignForm> | null>(null);
+
+  addDialog({
+    title: t('users.deptAssignEditTitle'),
+    draggable: true,
+    fullscreenIcon: true,
+    closeOnClickModal: false,
+    closeOnPressEscape: false,
+    contentRenderer: () =>
+      h(UserDeptAssignFormDialog, {
+        ref: dialogFormRef,
+        form: {
+          deptId: row.deptId,
+          status: row.status,
+          isPrimary: row.isPrimary,
+          remark: row.remark ?? undefined,
+        },
+      }),
+    beforeSure: createFormBeforeSure<UserDeptAssignForm>({
+      formExposeRef: dialogFormRef,
+      errorI18nKey: 'users.deptAssignSaveFailed',
+      successI18nKey: 'tips.editSuccess',
+      onSubmit: async (formPayload) => {
+        await updateUserDept(props.userId, row.id, formPayload);
+        await fetchTableData();
+      },
+    }),
+  });
+}
 
 /**
  * 打开新增部门关联弹窗
@@ -120,6 +161,10 @@ onMounted(() => {
     >
       <template #buttons>
         <el-button type="primary" @click="openCreateDialog">{{ t('buttons.actionAdd') }}</el-button>
+      </template>
+
+      <template #actions="{ row }">
+        <el-button link type="primary" @click="openEditDialog(row)">{{ t('buttons.actionEdit') }}</el-button>
       </template>
     </AuthPagedTable>
   </div>

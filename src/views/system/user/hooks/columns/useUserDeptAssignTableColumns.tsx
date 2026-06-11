@@ -63,6 +63,12 @@ function useUserDeptAssignTableColumns() {
           </ElButton>
         ),
     },
+    {
+      label: t('table.actions'),
+      fixed: 'right',
+      slot: 'actions',
+      minWidth: 90,
+    },
   ]);
 
   return { columns };

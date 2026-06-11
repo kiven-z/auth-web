@@ -57,3 +57,13 @@ export function getUserDeptPage(userId: string, params: UserDeptPageQuery): Prom
 export function createUserDept(userId: string, form: UserDeptAssignForm): Promise<void> {
   return http.post<void, UserDeptAssignForm>(`/system/user-dept/${userId}`, { data: form });
 }
+
+/**
+ * 更新用户部门关联
+ * @param userId 用户 ID
+ * @param id 关联主键
+ * @param form 关联表单
+ */
+export function updateUserDept(userId: string, id: string, form: UserDeptAssignForm): Promise<void> {
+  return http.put<void, UserDeptAssignForm>(`/system/user-dept/${userId}/${id}`, { data: form });
+}
