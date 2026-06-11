@@ -78,6 +78,11 @@ users:
   deptAssignClearAllConfirm: This will remove all department assignments for this user. Continue?
   deptAssignCreateTitle: Add department assignment
   deptAssignEditTitle: Edit department assignment
+  postAssignCreateTitle: Add post assignment
+  postAssignEditTitle: Edit post assignment
+  postAssignSearchPlaceholder: Search by post name
+  postAssignClearFailed: Failed to clear user post assignments
+  postAssignClearAllConfirm: This will remove all post assignments for this user. Continue?
   deptAssignCurrentPrimary: Current primary department
   deptAssignNoPrimary: No primary department
   deptAssignSetPrimary: Set as primary

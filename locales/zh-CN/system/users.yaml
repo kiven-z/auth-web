@@ -78,6 +78,11 @@ users:
   deptAssignClearAllConfirm: 将清空该用户的全部部门关联，是否继续？
   deptAssignCreateTitle: 新增部门关联
   deptAssignEditTitle: 编辑部门关联
+  postAssignCreateTitle: 新增岗位关联
+  postAssignEditTitle: 编辑岗位关联
+  postAssignSearchPlaceholder: 输入岗位名称搜索
+  postAssignClearFailed: 清空用户岗位关联失败
+  postAssignClearAllConfirm: 将清空该用户的全部岗位关联，是否继续？
   deptAssignCurrentPrimary: 当前主部门
   deptAssignNoPrimary: 暂无主部门
   deptAssignSetPrimary: 设为主部门

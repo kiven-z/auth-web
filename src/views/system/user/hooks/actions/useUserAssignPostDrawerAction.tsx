@@ -1,6 +1,21 @@
-import type { UserPostPageRow } from '@/api/system/user-post';
+import {
+  batchDeleteUserPosts,
+  clearUserPosts,
+  createUserPost,
+  updateUserPost,
+  type UserPostAssignForm,
+  type UserPostPageRow,
+  type UserPostRelationUpdateForm,
+} from '@/api/system/user-post';
 import type { TableActionDeps } from '@/api/common';
-import type { Ref } from 'vue';
+import { addDialog } from '@/components/ui/Dialog';
+import useBatchDeleteAction from '@/composables/table/useBatchDeleteAction';
+import { type FormOverlayExpose, useFormOverlaySubmit } from '@/composables/table/useFormOverlaySubmit';
+import { errorMessage, message } from '@/ui/feedback/message';
+import { multiConfirm } from '@/ui/feedback/dialog';
+import UserPostAssignFormDialog from '@/views/system/user/components/UserPostAssignFormDialog.vue';
+import { h, ref, type Ref } from 'vue';
+import { useI18n } from 'vue-i18n';
 
 /** 用户分配岗位抽屉操作依赖 */
 interface UserAssignPostDrawerActionDeps extends TableActionDeps {
@@ -11,39 +26,108 @@ interface UserAssignPostDrawerActionDeps extends TableActionDeps {
 }
 
 /**
- * 用户分配岗位抽屉：分页查询与后续增删改操作占位
+ * 用户分配岗位抽屉：分页查询、新增与编辑岗位关联
  * @param deps 抽屉操作依赖
  * @returns 抽屉操作方法
  */
-function useUserAssignPostDrawerAction(_deps: UserAssignPostDrawerActionDeps) {
+function useUserAssignPostDrawerAction(deps: UserAssignPostDrawerActionDeps) {
+  const { userId, fetchTableData, selectedRows } = deps;
+  const { t } = useI18n();
+  const { createFormBeforeSure } = useFormOverlaySubmit();
+
+  const { deleteBatchRows } = useBatchDeleteAction({
+    selectedRows,
+    deleteApi: (ids) => batchDeleteUserPosts(userId, ids),
+    onSuccess: fetchTableData,
+    errorDefaultI18nKey: 'tips.deleteFailed',
+  });
+
   /**
-   * 打开新增岗位关联弹窗（下一步实现）
+   * 打开编辑岗位关联弹窗
+   * @param row 表格行
+   */
+  const openEditDialog = (row: UserPostPageRow) => {
+    const dialogFormRef = ref<FormOverlayExpose<UserPostRelationUpdateForm> | null>(null);
+
+    addDialog({
+      title: t('users.postAssignEditTitle'),
+      draggable: true,
+      fullscreenIcon: true,
+      closeOnClickModal: false,
+      closeOnPressEscape: false,
+      contentRenderer: () =>
+        h(UserPostAssignFormDialog, {
+          ref: dialogFormRef,
+          editMode: true,
+          form: {
+            status: row.status,
+            isPrimary: row.isPrimary,
+            remark: row.remark ?? undefined,
+          },
+        }),
+      beforeSure: createFormBeforeSure<UserPostRelationUpdateForm>({
+        formExposeRef: dialogFormRef,
+        errorI18nKey: 'tips.assignSaveFailed',
+        successI18nKey: 'tips.editSuccess',
+        onSubmit: async (formPayload) => {
+          await updateUserPost(userId, row.id, formPayload);
+          await fetchTableData();
+        },
+      }),
+    });
+  };
+
+  /**
+   * 打开新增岗位关联弹窗
    */
   const openCreateDialog = () => {
-    // 下一步：岗位多选分配弹窗
+    const dialogFormRef = ref<FormOverlayExpose<UserPostAssignForm> | null>(null);
+
+    addDialog({
+      title: t('users.postAssignCreateTitle'),
+      draggable: true,
+      fullscreenIcon: true,
+      closeOnClickModal: false,
+      closeOnPressEscape: false,
+      contentRenderer: () => h(UserPostAssignFormDialog, { ref: dialogFormRef }),
+      beforeSure: createFormBeforeSure<UserPostAssignForm>({
+        formExposeRef: dialogFormRef,
+        errorI18nKey: 'tips.assignSaveFailed',
+        successI18nKey: 'tips.addSuccess',
+        onSubmit: async (formPayload) => {
+          await createUserPost(userId, formPayload);
+          await fetchTableData();
+        },
+      }),
+    });
   };
 
   /**
-   * 打开编辑岗位关联弹窗（下一步实现）
-   * @param _row 表格行
+   * 清空当前用户全部岗位关联
    */
-  const openEditDialog = (_row: UserPostPageRow) => {
-    // 下一步：编辑关联状态/主岗位/备注
-  };
+  const clearAllPosts = async () => {
+    const confirmed = await multiConfirm([
+      {
+        title: t('users.postAssignClearAllConfirm'),
+        message: t('users.postAssignClearAllConfirm'),
+      },
+      {
+        title: t('tips.lastTimeConfirmDeleteTitle'),
+        message: t('tips.lastTimeConfirmDeleteTitle'),
+      },
+    ]);
+    if (!confirmed) {
+      return;
+    }
 
-  /**
-   * 批量删除岗位关联（下一步实现）
-   * @param _ids 关联主键列表
-   */
-  const deleteBatchRows = (_ids?: string[]) => {
-    // 下一步：批量删除
-  };
-
-  /**
-   * 清空当前用户全部岗位关联（下一步实现）
-   */
-  const clearAllPosts = () => {
-    // 下一步：全部清空
+    try {
+      await clearUserPosts(userId);
+      message(t('tips.deleteSuccess'), { type: 'success' });
+      selectedRows.value = [];
+      await fetchTableData();
+    } catch (error: unknown) {
+      errorMessage(error, { defaultI18nKey: 'users.postAssignClearFailed' });
+    }
   };
 
   return {

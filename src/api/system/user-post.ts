@@ -27,6 +27,25 @@ export interface UserPostPageRow extends BaseResponsePageRow {
 }
 
 /**
+ * 用户岗位关联新增表单（对齐 {@code UserPostAssignForm}）
+ */
+export interface UserPostAssignForm {
+  postId?: string;
+  status: number;
+  isPrimary: boolean;
+  remark?: string | null;
+}
+
+/**
+ * 用户岗位关联更新表单（对齐 {@code UserPostRelationUpdateForm}）
+ */
+export interface UserPostRelationUpdateForm {
+  status: number;
+  isPrimary: boolean;
+  remark?: string | null;
+}
+
+/**
  * 分页查询用户岗位关联
  * @param userId 用户 ID
  * @param params 查询条件
@@ -37,4 +56,40 @@ export function getUserPostPage(userId: string, params: UserPostPageQuery): Prom
     `/system/user-post/${userId}/page`,
     { params }
   );
+}
+
+/**
+ * 新增用户岗位关联
+ * @param userId 用户 ID
+ * @param form 关联表单
+ */
+export function createUserPost(userId: string, form: UserPostAssignForm): Promise<void> {
+  return http.post<void, UserPostAssignForm>(`/system/user-post/${userId}`, { data: form });
+}
+
+/**
+ * 更新用户岗位关联
+ * @param userId 用户 ID
+ * @param id 关联主键
+ * @param form 更新表单
+ */
+export function updateUserPost(userId: string, id: string, form: UserPostRelationUpdateForm): Promise<void> {
+  return http.put<void, UserPostRelationUpdateForm>(`/system/user-post/${userId}/${id}`, { data: form });
+}
+
+/**
+ * 批量删除用户岗位关联
+ * @param userId 用户 ID
+ * @param ids 关联主键列表
+ */
+export function batchDeleteUserPosts(userId: string, ids: string[]): Promise<void> {
+  return http.request<void>('delete', `/system/user-post/${userId}`, { data: ids });
+}
+
+/**
+ * 清空用户全部岗位关联
+ * @param userId 用户 ID
+ */
+export function clearUserPosts(userId: string): Promise<void> {
+  return http.request<void>('delete', `/system/user-post/${userId}/all`);
 }
