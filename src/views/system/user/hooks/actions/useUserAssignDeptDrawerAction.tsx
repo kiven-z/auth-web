@@ -1,8 +1,18 @@
-import { createUserDept, updateUserDept, type UserDeptAssignForm, type UserDeptPageRow } from '@/api/system/user-dept';
+import {
+  batchDeleteUserDepts,
+  clearUserDepts,
+  createUserDept,
+  updateUserDept,
+  type UserDeptAssignForm,
+  type UserDeptPageRow,
+} from '@/api/system/user-dept';
 import { addDialog } from '@/components/ui/Dialog';
+import useBatchDeleteAction from '@/composables/table/useBatchDeleteAction';
 import { type FormOverlayExpose, useFormOverlaySubmit } from '@/composables/table/useFormOverlaySubmit';
+import { errorMessage, message } from '@/ui/feedback/message';
+import { multiConfirm } from '@/ui/feedback/dialog';
 import UserDeptAssignFormDialog from '@/views/system/user/components/UserDeptAssignFormDialog.vue';
-import { h, ref } from 'vue';
+import { h, ref, type Ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import type { TableActionDeps } from '@/api/common';
 
@@ -10,6 +20,8 @@ import type { TableActionDeps } from '@/api/common';
 interface UserAssignDeptDrawerActionDeps extends TableActionDeps {
   /** 用户主键 */
   userId: string;
+  /** 表格多选主键 */
+  selectedRows: Ref<string[]>;
 }
 
 /**
@@ -18,9 +30,16 @@ interface UserAssignDeptDrawerActionDeps extends TableActionDeps {
  * @returns 抽屉状态与操作方法
  */
 function useUserAssignDeptDrawerAction(deps: UserAssignDeptDrawerActionDeps) {
-  const { userId, fetchTableData } = deps;
+  const { userId, fetchTableData, selectedRows } = deps;
   const { t } = useI18n();
   const { createFormBeforeSure } = useFormOverlaySubmit();
+
+  const { deleteBatchRows } = useBatchDeleteAction({
+    selectedRows,
+    deleteApi: (ids) => batchDeleteUserDepts(userId, ids),
+    onSuccess: fetchTableData,
+    errorDefaultI18nKey: 'users.deptAssignDeleteFailed',
+  });
 
   /**
    * 打开编辑部门关联弹窗
@@ -82,9 +101,39 @@ function useUserAssignDeptDrawerAction(deps: UserAssignDeptDrawerActionDeps) {
     });
   };
 
+  /**
+   * 清空当前用户全部部门关联
+   */
+  const clearAllDepts = async () => {
+    const confirmed = await multiConfirm([
+      {
+        title: t('users.deptAssignClearAllConfirm'),
+        message: t('users.deptAssignClearAllConfirm'),
+      },
+      {
+        title: t('tips.lastTimeConfirmDeleteTitle'),
+        message: t('tips.lastTimeConfirmDeleteTitle'),
+      },
+    ]);
+    if (!confirmed) {
+      return;
+    }
+
+    try {
+      await clearUserDepts(userId);
+      message(t('tips.deleteSuccess'), { type: 'success' });
+      selectedRows.value = [];
+      await fetchTableData();
+    } catch (error: unknown) {
+      errorMessage(error, { defaultI18nKey: 'users.deptAssignClearFailed' });
+    }
+  };
+
   return {
     openCreateDialog,
     openEditDialog,
+    deleteBatchRows,
+    clearAllDepts,
   };
 }
 

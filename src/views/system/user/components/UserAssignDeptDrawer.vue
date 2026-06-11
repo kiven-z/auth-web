@@ -2,7 +2,7 @@
 import AuthPagedTable, { usePaginationState } from '@/components/business/AuthPagedTable';
 import { USER_DEPT_RELATION_STATUS_FILTER_OPTIONS } from '@/views/system/user/constants/user-dept-relation-status';
 import useUserAssignDeptDrawerAction from '@/views/system/user/hooks/actions/useUserAssignDeptDrawerAction';
-import { onMounted, reactive, ref } from 'vue';
+import { computed, onMounted, reactive, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import useUserDeptAssignTableColumns from '@/views/system/user/hooks/columns/useUserDeptAssignTableColumns';
 import { getUserDeptPage, UserDeptPageRow } from '@/api/system/user-dept';
@@ -37,9 +37,15 @@ const deptAssignState = usePaginationState<UserDeptPageRow>({
       status: query.status as number,
     }),
 });
-const { fetchTableData, resetQuery, loading, searchForm } = deptAssignState;
+const { fetchTableData, resetQuery, loading, searchForm, selectedRows } = deptAssignState;
 
-const { openCreateDialog, openEditDialog } = useUserAssignDeptDrawerAction({ userId: props.userId, fetchTableData });
+const { openCreateDialog, openEditDialog, deleteBatchRows, clearAllDepts } = useUserAssignDeptDrawerAction({
+  userId: props.userId,
+  fetchTableData,
+  selectedRows,
+});
+
+const hasSelection = computed(() => selectedRows.value.length > 0);
 
 const { columns } = useUserDeptAssignTableColumns();
 
@@ -91,11 +97,20 @@ onMounted(() => {
       show-overflow-tooltip
     >
       <template #buttons>
-        <el-button type="primary" @click="openCreateDialog">{{ t('buttons.actionAdd') }}</el-button>
+        <el-button-group>
+          <el-button type="primary" @click="openCreateDialog">{{ t('buttons.actionAdd') }}</el-button>
+          <el-button :disabled="!hasSelection" type="danger" @click="deleteBatchRows()">
+            {{ t('buttons.actionBatchDelete') }}
+          </el-button>
+          <el-button type="danger" @click="clearAllDepts">{{ t('buttons.assignClearAll') }}</el-button>
+        </el-button-group>
       </template>
 
       <template #actions="{ row }">
         <el-button link type="primary" @click="openEditDialog(row)">{{ t('buttons.actionEdit') }}</el-button>
+        <el-button link type="danger" @click="deleteBatchRows([row.id])">
+          {{ t('buttons.actionDelete') }}
+        </el-button>
       </template>
     </AuthPagedTable>
   </div>

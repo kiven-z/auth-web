@@ -14,6 +14,7 @@ function useUserDeptAssignTableColumns() {
   const { renderRelationStatus } = useUserProfileDisplay();
 
   const columns = computed<TableColumnList>(() => [
+    { type: 'selection', align: 'left', width: 48 },
     { type: 'index', index: (index: number) => index + 1, label: t('table.idx'), minWidth: 60 },
     { label: t('dept.deptCode'), prop: 'deptCode', minWidth: 120, showOverflowTooltip: true },
     { label: t('dept.deptName'), prop: 'deptName', minWidth: 140, showOverflowTooltip: true },
@@ -67,7 +68,7 @@ function useUserDeptAssignTableColumns() {
       label: t('table.actions'),
       fixed: 'right',
       slot: 'actions',
-      minWidth: 90,
+      minWidth: 130,
     },
   ]);
 

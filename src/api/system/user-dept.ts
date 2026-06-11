@@ -67,3 +67,20 @@ export function createUserDept(userId: string, form: UserDeptAssignForm): Promis
 export function updateUserDept(userId: string, id: string, form: UserDeptAssignForm): Promise<void> {
   return http.put<void, UserDeptAssignForm>(`/system/user-dept/${userId}/${id}`, { data: form });
 }
+
+/**
+ * 批量删除用户部门关联
+ * @param userId 用户 ID
+ * @param ids 关联主键列表
+ */
+export function batchDeleteUserDepts(userId: string, ids: string[]): Promise<void> {
+  return http.request<void>('delete', `/system/user-dept/${userId}`, { data: ids });
+}
+
+/**
+ * 清空用户全部部门关联
+ * @param userId 用户 ID
+ */
+export function clearUserDepts(userId: string): Promise<void> {
+  return http.request<void>('delete', `/system/user-dept/${userId}/all`);
+}

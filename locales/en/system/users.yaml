@@ -75,6 +75,9 @@ users:
     female: Female
   deptAssignLoadFailed: Failed to load user department assignments
   deptAssignSaveFailed: Failed to save user department assignment
+  deptAssignDeleteFailed: Failed to delete user department assignment
+  deptAssignClearFailed: Failed to clear user department assignments
+  deptAssignClearAllConfirm: This will remove all department assignments for this user. Continue?
   deptAssignCreateTitle: Add department assignment
   deptAssignEditTitle: Edit department assignment
   deptAssignCurrentPrimary: Current primary department
