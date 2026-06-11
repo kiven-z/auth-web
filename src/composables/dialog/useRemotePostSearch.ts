@@ -1,4 +1,4 @@
-import { getPostPage, type SysPostPageRow } from '@/api/system/post';
+import { searchPostByKeyword, type SysPostSearchOption } from '@/api/system/post';
 import debounce from 'lodash/debounce';
 import { onScopeDispose, ref } from 'vue';
 
@@ -7,8 +7,8 @@ import { errorMessage } from '@/ui/feedback/message';
 /** 远程岗位关键字请求防抖间隔 */
 const REMOTE_POST_SEARCH_DEBOUNCE_MS = 300;
 
-/** 远程岗位搜索单次返回条数 */
-const REMOTE_POST_SEARCH_PAGE_SIZE = 20;
+/** 远程岗位搜索单次返回条数上限 */
+const REMOTE_POST_SEARCH_LIMIT = 20;
 
 /** {@link useRemotePostSearch} 配置 */
 export interface UseRemotePostSearchOptions {
@@ -24,7 +24,7 @@ export interface UseRemotePostSearchOptions {
 export default function useRemotePostSearch(options: UseRemotePostSearchOptions) {
   const { errorDefaultI18nKey } = options;
 
-  const postOptions = ref<SysPostPageRow[]>([]);
+  const postOptions = ref<SysPostSearchOption[]>([]);
   const postSearchLoading = ref(false);
 
   let searchGeneration = 0;
@@ -37,16 +37,16 @@ export default function useRemotePostSearch(options: UseRemotePostSearchOptions)
     const generation = ++searchGeneration;
     postSearchLoading.value = true;
     try {
-      const page = await getPostPage({
+      const rows = await searchPostByKeyword({
+        postCode: trimmed,
         postName: trimmed,
         status: true,
-        pageIndex: 1,
-        pageSize: REMOTE_POST_SEARCH_PAGE_SIZE,
+        limit: REMOTE_POST_SEARCH_LIMIT,
       });
       if (generation !== searchGeneration) {
         return;
       }
-      postOptions.value = page.list ?? [];
+      postOptions.value = rows;
     } catch (error: unknown) {
       if (generation !== searchGeneration) {
         return;

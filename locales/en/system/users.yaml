@@ -80,7 +80,7 @@ users:
   deptAssignEditTitle: Edit department assignment
   postAssignCreateTitle: Add post assignment
   postAssignEditTitle: Edit post assignment
-  postAssignSearchPlaceholder: Search by post name
+  postAssignSearchPlaceholder: Search by post name or code
   postAssignClearFailed: Failed to clear user post assignments
   postAssignClearAllConfirm: This will remove all post assignments for this user. Continue?
   deptAssignCurrentPrimary: Current primary department

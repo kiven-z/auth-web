@@ -101,6 +101,39 @@ export interface SysPostDetail extends BaseResponseDetail {
 }
 
 /**
+ * 岗位远程搜索项（对齐 {@code SysPostSearchItemResponse}）
+ */
+export interface SysPostSearchOption {
+  id: string;
+  deptId: string;
+  deptName: string;
+  postCode: string;
+  postName: string;
+  status: boolean;
+}
+
+/**
+ * 岗位关键词搜索参数
+ */
+export interface SysPostSearchQuery {
+  postCode?: string;
+  postName?: string;
+  status?: boolean;
+  limit?: number;
+}
+
+/**
+ * 岗位关键词搜索（编码/名称模糊匹配）
+ * @param params 搜索条件
+ * @returns 岗位搜索项列表
+ */
+export function searchPostByKeyword(params: SysPostSearchQuery): Promise<SysPostSearchOption[]> {
+  return http.get<SysPostSearchOption[], AxiosRequestConfig<SysPostSearchQuery>>('/system/post/search', {
+    params,
+  });
+}
+
+/**
  * 分页查询岗位列表
  * @param params 岗位分页查询参数
  * @returns 岗位分页行

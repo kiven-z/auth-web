@@ -59,11 +59,11 @@ export function resolveCaughtErrorText(
   error: unknown,
   options?: Pick<ErrorMessageParams, 'message' | 'defaultI18nKey'>
 ): string {
-  const explicit = options?.message?.trim();
+  const explicit = options?.message;
   if (explicit) {
     return explicit;
   }
-  if (error instanceof Error && error.message?.trim()) {
+  if (error instanceof Error && error.message) {
     return error.message;
   }
   const i18nKey = options?.defaultI18nKey ?? DEFAULT_ERROR_FALLBACK_I18N_KEY;

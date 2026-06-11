@@ -70,7 +70,7 @@ export default function useRemoteUserSearch(options: UseRemoteUserSearchOptions)
    * @param keyword 用户输入关键字
    */
   const loadUserListByKeyword = (keyword: string) => {
-    const trimmed = keyword?.trim() ?? '';
+    const trimmed = keyword ?? '';
     if (!trimmed) {
       debouncedExecuteSearch.cancel();
       searchGeneration += 1;
