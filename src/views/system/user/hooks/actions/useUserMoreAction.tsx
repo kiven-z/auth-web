@@ -7,6 +7,7 @@ import { addDrawer } from '@/components/ui/Drawer';
 import { operationConfirm } from '@/ui/feedback/dialog';
 import { errorMessage, message } from '@/ui/feedback/message';
 import UserAssignDeptDrawer from '@/views/system/user/components/UserAssignDeptDrawer.vue';
+import UserAssignPostDrawer from '@/views/system/user/components/UserAssignPostDrawer.vue';
 import UserAssignRoleDrawer from '@/views/system/user/components/UserAssignRoleDrawer.vue';
 import UserSessionDialog from '@/views/system/user/components/UserSessionDialog.vue';
 import { h, ref } from 'vue';
@@ -43,6 +44,28 @@ function useUserMoreAction(deps: TableActionDeps) {
       hideFooter: true,
       contentRenderer: () =>
         h(UserAssignDeptDrawer, {
+          userId: row.id,
+          username: row.username,
+          nickname: row.nickname,
+        }),
+    });
+  };
+
+  /**
+   * 打开分配岗位抽屉
+   * @param row 用户行
+   */
+  const openAssignPostDrawer = (row: SysUserPageRow) => {
+    addDrawer({
+      title: t('assign.post'),
+      size: '100%',
+      resizable: true,
+      closeOnClickModal: false,
+      closeOnPressEscape: false,
+      showClose: true,
+      hideFooter: true,
+      contentRenderer: () =>
+        h(UserAssignPostDrawer, {
           userId: row.id,
           username: row.username,
           nickname: row.nickname,
@@ -140,6 +163,7 @@ function useUserMoreAction(deps: TableActionDeps) {
 
   return {
     openAssignDeptDrawer,
+    openAssignPostDrawer,
     openAssignRoleDrawer,
     openViewSessionsDialog,
     kickAllForUser,

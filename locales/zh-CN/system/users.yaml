@@ -74,9 +74,6 @@ users:
     unknown: 未知
     male: 男
     female: 女
-  deptAssignLoadFailed: 加载用户部门关联失败
-  deptAssignSaveFailed: 保存用户部门关联失败
-  deptAssignDeleteFailed: 删除用户部门关联失败
   deptAssignClearFailed: 清空用户部门关联失败
   deptAssignClearAllConfirm: 将清空该用户的全部部门关联，是否继续？
   deptAssignCreateTitle: 新增部门关联

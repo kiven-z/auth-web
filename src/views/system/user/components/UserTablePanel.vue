@@ -37,8 +37,14 @@ const { exporting, openExportDialog, deleteBatchRows, batchKickAll, batchRefresh
   pagination,
 });
 
-const { openAssignDeptDrawer, openAssignRoleDrawer, openViewSessionsDialog, kickAllForUser, refreshUserAuth } =
-  useUserMoreAction({ fetchTableData: fetchUserTable });
+const {
+  openAssignDeptDrawer,
+  openAssignPostDrawer,
+  openAssignRoleDrawer,
+  openViewSessionsDialog,
+  kickAllForUser,
+  refreshUserAuth,
+} = useUserMoreAction({ fetchTableData: fetchUserTable });
 
 // 修改密码
 const { openAdminResetPasswordDialog } = useChangePasswordAction();
@@ -181,7 +187,9 @@ const handleView = (row: SysUserPageRow) => {
               <el-dropdown-item @click="openAssignDeptDrawer(row)">
                 {{ t('assign.dept') }}
               </el-dropdown-item>
-              <el-dropdown-item disabled>{{ t('assign.post') }}</el-dropdown-item>
+              <el-dropdown-item @click="openAssignPostDrawer(row)">
+                {{ t('assign.post') }}
+              </el-dropdown-item>
               <el-dropdown-item @click="openAdminResetPasswordDialog(row.id, row.username)">
                 {{ t('users.resetPassword') }}
               </el-dropdown-item>

@@ -38,7 +38,7 @@ function useUserAssignDeptDrawerAction(deps: UserAssignDeptDrawerActionDeps) {
     selectedRows,
     deleteApi: (ids) => batchDeleteUserDepts(userId, ids),
     onSuccess: fetchTableData,
-    errorDefaultI18nKey: 'users.deptAssignDeleteFailed',
+    errorDefaultI18nKey: 'tips.deleteFailed',
   });
 
   /**
@@ -66,7 +66,7 @@ function useUserAssignDeptDrawerAction(deps: UserAssignDeptDrawerActionDeps) {
         }),
       beforeSure: createFormBeforeSure<UserDeptAssignForm>({
         formExposeRef: dialogFormRef,
-        errorI18nKey: 'users.deptAssignSaveFailed',
+        errorI18nKey: 'tips.assignSaveFailed',
         successI18nKey: 'tips.editSuccess',
         onSubmit: async (formPayload) => {
           await updateUserDept(userId, row.id, formPayload);
@@ -91,7 +91,7 @@ function useUserAssignDeptDrawerAction(deps: UserAssignDeptDrawerActionDeps) {
       contentRenderer: () => h(UserDeptAssignFormDialog, { ref: dialogFormRef }),
       beforeSure: createFormBeforeSure<UserDeptAssignForm>({
         formExposeRef: dialogFormRef,
-        errorI18nKey: 'users.deptAssignSaveFailed',
+        errorI18nKey: 'tips.assignSaveFailed',
         successI18nKey: 'tips.addSuccess',
         onSubmit: async (formPayload) => {
           await createUserDept(userId, formPayload);

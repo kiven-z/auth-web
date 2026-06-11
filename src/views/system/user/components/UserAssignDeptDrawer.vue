@@ -27,7 +27,7 @@ const deptAssignState = usePaginationState<UserDeptPageRow>({
     status: undefined,
   }),
   defaultPageSize: 30,
-  errorI18nKey: 'users.deptAssignLoadFailed',
+  errorI18nKey: 'tips.assignLoadFailed',
   fetchApi: (query) =>
     getUserDeptPage(props.userId, {
       pageIndex: query.pageIndex as number,
