@@ -121,14 +121,6 @@ function useUserMoreAction(deps: TableActionDeps) {
   };
 
   /**
-   * 表格行「用户下线」：踢出该行用户全部会话
-   * @param row 用户行
-   */
-  const kickUserSessions = (row: SysUserPageRow) => {
-    void kickAllForUser(row.id);
-  };
-
-  /**
    * 刷新指定用户的授权画像缓存
    * @param row 用户行
    */
@@ -150,7 +142,6 @@ function useUserMoreAction(deps: TableActionDeps) {
     openAssignDeptDrawer,
     openAssignRoleDrawer,
     openViewSessionsDialog,
-    kickUserSessions,
     kickAllForUser,
     refreshUserAuth,
   };

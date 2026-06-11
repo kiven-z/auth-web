@@ -37,7 +37,7 @@ const { exporting, openExportDialog, deleteBatchRows, batchKickAll, batchRefresh
   pagination,
 });
 
-const { openAssignDeptDrawer, openAssignRoleDrawer, openViewSessionsDialog, kickUserSessions, refreshUserAuth } =
+const { openAssignDeptDrawer, openAssignRoleDrawer, openViewSessionsDialog, kickAllForUser, refreshUserAuth } =
   useUserMoreAction({ fetchTableData: fetchUserTable });
 
 // 修改密码
@@ -189,7 +189,7 @@ const handleView = (row: SysUserPageRow) => {
               <el-dropdown-item @click="openViewSessionsDialog(row)">
                 {{ t('users.viewSessions') }}
               </el-dropdown-item>
-              <el-dropdown-item @click="kickUserSessions(row)">
+              <el-dropdown-item @click="kickAllForUser(row.id)">
                 {{ t('users.kickSessions') }}
               </el-dropdown-item>
               <el-dropdown-item @click="refreshUserAuth(row)">
