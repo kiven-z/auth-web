@@ -1,6 +1,6 @@
 import type { UserDeptPageRow } from '@/api/system/user-dept';
 import { selectUserinfo } from '@/components/business/UserProfile';
-import { renderRelationStatus } from '@/components/business/UserProfile/src/constants/userProfileDisplay';
+import useUserProfileDisplay from '@/components/business/UserProfile/src/hooks/useUserProfileDisplay';
 import { ElButton, ElCheckTag } from 'element-plus';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
@@ -11,6 +11,7 @@ import { useI18n } from 'vue-i18n';
  */
 function useUserDeptAssignTableColumns() {
   const { t } = useI18n();
+  const { renderRelationStatus } = useUserProfileDisplay();
 
   const columns = computed<TableColumnList>(() => [
     { type: 'index', index: (index: number) => index + 1, label: t('table.idx'), minWidth: 60 },
@@ -35,7 +36,7 @@ function useUserDeptAssignTableColumns() {
       label: t('dept.relationStatus'),
       prop: 'status',
       minWidth: 100,
-      formatter: (row: UserDeptPageRow) => renderRelationStatus(t, row.status),
+      formatter: (row: UserDeptPageRow) => renderRelationStatus(row.status),
     },
     { label: t('users.remark'), prop: 'remark', minWidth: 160, showOverflowTooltip: true },
     { label: t('table.createTime'), prop: 'createTime', minWidth: 170 },

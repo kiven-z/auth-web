@@ -1,14 +1,11 @@
 import { computed } from 'vue';
 import { ElAvatar, ElCheckTag } from 'element-plus';
-import {
-  renderRelationStatus,
-  renderUserAccountStatus,
-  renderUserGender,
-} from '@/components/business/UserProfile/src/constants/userProfileDisplay';
+import useUserProfileDisplay from '@/components/business/UserProfile/src/hooks/useUserProfileDisplay';
 import { useI18n } from 'vue-i18n';
 
 function useUserProfileColumns() {
   const { t } = useI18n();
+  const { renderUserAccountStatus, renderUserGender, renderRelationStatus } = useUserProfileDisplay();
 
   /**
    * 用户列
@@ -29,14 +26,14 @@ function useUserProfileColumns() {
       label: t('users.status'),
       prop: 'status',
       cellRenderer: ({ value }: { value: number }) => {
-        return renderUserAccountStatus(t, value);
+        return renderUserAccountStatus(value);
       },
     },
     {
       label: t('users.gender'),
       prop: 'gender',
       cellRenderer: ({ value }: { value: number }) => {
-        return renderUserGender(t, value);
+        return renderUserGender(value);
       },
     },
     { label: t('users.birthday'), prop: 'birthday', span: 2 },
@@ -68,7 +65,7 @@ function useUserProfileColumns() {
       label: t('users.status'),
       prop: 'status',
       cellRenderer: ({ value }: { value: number }) => {
-        return renderRelationStatus(t, value);
+        return renderRelationStatus(value);
       },
     },
   ]);
@@ -99,7 +96,7 @@ function useUserProfileColumns() {
       label: t('users.status'),
       prop: 'status',
       cellRenderer: ({ value }: { value: number }) => {
-        return renderRelationStatus(t, value);
+        return renderRelationStatus(value);
       },
     },
   ]);

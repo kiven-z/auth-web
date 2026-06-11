@@ -1,7 +1,7 @@
 import type { SysUserPageRow } from '@/api/system/user';
 import { selectUserinfo } from '@/components/business/UserProfile';
-import { resolveUserAccountStatusMeta } from '@/views/system/user/constants/user-account-status';
-import { ElAvatar, ElButton, ElTag } from 'element-plus';
+import useUserProfileDisplay from '@/components/business/UserProfile/src/hooks/useUserProfileDisplay';
+import { ElAvatar, ElButton } from 'element-plus';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 
@@ -11,6 +11,7 @@ import { useI18n } from 'vue-i18n';
  */
 function useUserTableColumns() {
   const { t } = useI18n();
+  const { renderUserAccountStatus } = useUserProfileDisplay();
 
   const columns = computed<TableColumnList>(() => [
     { type: 'selection', align: 'left' },
@@ -30,14 +31,7 @@ function useUserTableColumns() {
       label: t('users.status'),
       prop: 'status',
       minWidth: 100,
-      formatter: (row: SysUserPageRow) => {
-        const meta = resolveUserAccountStatusMeta(row.status);
-        return (
-          <ElTag type={meta.tagType} effect="plain">
-            {t(meta.labelKey)}
-          </ElTag>
-        );
-      },
+      formatter: (row: SysUserPageRow) => renderUserAccountStatus(row.status),
     },
     { label: t('table.createTime'), prop: 'createTime', minWidth: 170 },
     { label: t('table.updateTime'), prop: 'updateTime', minWidth: 170 },

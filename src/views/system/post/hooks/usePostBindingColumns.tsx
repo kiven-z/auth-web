@@ -1,8 +1,5 @@
 import type { SysPostBoundUserItem } from '@/api/system/post';
-import {
-  renderRelationStatus,
-  renderUserAccountStatus,
-} from '@/components/business/UserProfile/src/constants/userProfileDisplay';
+import useUserProfileDisplay from '@/components/business/UserProfile/src/hooks/useUserProfileDisplay';
 import { DEPT_STATUS_FILTER_OPTIONS } from '@/views/system/dept/constants/dept-search-options';
 import { ElCheckTag, ElTag } from 'element-plus';
 import { computed } from 'vue';
@@ -14,6 +11,7 @@ import { useI18n } from 'vue-i18n';
  */
 function usePostBindingColumns() {
   const { t } = useI18n();
+  const { renderUserAccountStatus, renderRelationStatus } = useUserProfileDisplay();
 
   const userBindingColumns = computed<TableColumnList>(() => [
     { label: t('users.username'), prop: 'username', minWidth: 120, showOverflowTooltip: true },
@@ -23,7 +21,7 @@ function usePostBindingColumns() {
       label: t('users.status'),
       prop: 'userStatus',
       minWidth: 90,
-      formatter: (row: SysPostBoundUserItem) => renderUserAccountStatus(t, row.userStatus),
+      formatter: (row: SysPostBoundUserItem) => renderUserAccountStatus(row.userStatus),
     },
     {
       label: t('post.isPrimaryPosition'),
@@ -44,7 +42,7 @@ function usePostBindingColumns() {
       label: t('dept.relationStatus'),
       prop: 'relationStatus',
       minWidth: 100,
-      formatter: (row: SysPostBoundUserItem) => renderRelationStatus(t, row.relationStatus),
+      formatter: (row: SysPostBoundUserItem) => renderRelationStatus(row.relationStatus),
     },
     { label: t('post.assignmentDate'), prop: 'assignmentDate', minWidth: 160 },
   ]);
