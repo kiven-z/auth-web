@@ -7,7 +7,6 @@ permissions:
   permissionTypeImmutableHint: 权限类型创建后不可修改，如需变更请删除后重新创建
   loadFailed: 加载权限列表失败
   assignSectionLabel: 已分配权限
-  assignSearch: 搜索权限码或名称
   permissionCode: 权限编码
   permissionName: 权限名称
   permissionType: 权限类型
@@ -27,6 +26,3 @@ permissions:
   boundRolesEmpty: 暂无绑定角色
   boundMenusEmpty: 暂无绑定菜单
   boundMenusNotApplicable: API 权限不关联菜单按钮
-  placeholder:
-    permissionCode: 请输入权限编码
-    permissionName: 请输入权限名称

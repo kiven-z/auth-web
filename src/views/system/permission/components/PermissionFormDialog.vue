@@ -3,6 +3,7 @@ import type { FormDialog } from '@/api/common';
 import type { SysPermissionCreateForm, SysPermissionUpdateForm } from '@/api/system/permission';
 import { PERMISSION_CODE_REGEX } from '@/views/system/permission/constants/permission-code-convention';
 import { PERMISSION_TYPE_FILTER_OPTIONS } from '@/views/system/_shared/constants/permission-type-options';
+import { useFormPlaceholder } from '@/composables/i18n/useFormPlaceholder';
 import type { FormInstance, FormRules } from 'element-plus';
 import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
@@ -21,6 +22,7 @@ const props = withDefaults(defineProps<PermissionFormDialogProps>(), {
 });
 
 const { t } = useI18n();
+const ph = useFormPlaceholder();
 const formRef = ref<FormInstance>();
 const isEditMode = computed(() => props.mode === 'edit');
 const form = ref<PermissionFormModel>({
@@ -72,13 +74,13 @@ defineExpose({ formRef, form });
       <!-- 权限编码 -->
       <el-col :lg="12" :md="12" :sm="12" :xs="24">
         <el-form-item :label="t('permissions.permissionCode')" prop="permissionCode">
-          <el-input v-model="form.permissionCode" :placeholder="t('permissions.placeholder.permissionCode')" />
+          <el-input v-model="form.permissionCode" :placeholder="ph.input('permissions.permissionCode')" />
         </el-form-item>
       </el-col>
       <!-- 权限名称 -->
       <el-col :lg="12" :md="12" :sm="12" :xs="24">
         <el-form-item :label="t('permissions.permissionName')" prop="permissionName">
-          <el-input v-model="form.permissionName" :placeholder="t('permissions.placeholder.permissionName')" />
+          <el-input v-model="form.permissionName" :placeholder="ph.input('permissions.permissionName')" />
         </el-form-item>
       </el-col>
       <!-- 权限类型 -->
@@ -87,7 +89,7 @@ defineExpose({ formRef, form });
           <el-select
             v-model="permissionTypeModel"
             :disabled="isEditMode"
-            :placeholder="t('permissions.permissionType')"
+            :placeholder="ph.select('permissions.permissionType')"
             class="w-full"
           >
             <el-option

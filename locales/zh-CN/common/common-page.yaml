@@ -91,6 +91,14 @@ table:
   updateTime: 更新时间
   createUsername: 创建人
   updateUsername: 更新人
+placeholder:
+  input: 请输入{field}
+  selectFilter: 全部{field}
+  select: 请选择{field}
+  keyword: 请输入关键字搜索{field}
+  prefix: 请输入{field} 前缀
+  rangeStart: 开始时间
+  rangeEnd: 结束时间
 search:
   pureTotal: 共
   pureHistory: 搜索历史

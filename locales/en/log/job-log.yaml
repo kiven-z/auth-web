@@ -12,14 +12,6 @@ logJob:
   tableTitle: Job Logs
   detailTitle: Job Log Detail
   loadFailed: Failed to load job logs
-  placeholder:
-    jobId: Enter job ID
-    jobName: Enter job name
-    jobGroup: Enter job group
-    invokeTarget: Enter invoke target
-    triggerType: All trigger types
-    elapsedTime: Elapsed ms
-    status: All status
   statusSuccess: Success
   statusFailed: Failed
   triggerSchedule: Schedule

@@ -12,6 +12,7 @@ import {
   ORG_GRANT_DEFAULT_ROLE_TYPES,
   ORG_GRANT_ROLE_TYPE_OPTIONS,
 } from '@/views/system/_shared/constants/org-grant-role-options';
+import { useFormPlaceholder } from '@/composables/i18n/useFormPlaceholder';
 import { ElTag, type FormInstance } from 'element-plus';
 import { computed, onMounted, reactive, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
@@ -33,6 +34,7 @@ const props = withDefaults(
 );
 
 const { t } = useI18n();
+const ph = useFormPlaceholder();
 const searchFormRef = ref<FormInstance>();
 
 const assign = useAssignChecked({
@@ -131,25 +133,15 @@ defineExpose({ getSelectedKeys });
   <AssignPanel :assign="assign" :left-subtitle="leftSubtitle" :left-title="leftTitle" :section-label="sectionLabelText">
     <el-form ref="searchFormRef" :model="searchForm" class="bg-bg_color w-[99/100] overflow-auto pl-8 pt-3" inline>
       <el-form-item :label="t('roles.roleCode')" prop="roleCode">
-        <el-input
-          v-model="searchForm.roleCode"
-          :placeholder="t('roles.placeholder.roleCode')"
-          class="w-45!"
-          clearable
-        />
+        <el-input v-model="searchForm.roleCode" :placeholder="ph.input('roles.roleCode')" class="w-45!" clearable />
       </el-form-item>
       <el-form-item :label="t('roles.roleName')" prop="roleName">
-        <el-input
-          v-model="searchForm.roleName"
-          :placeholder="t('roles.placeholder.roleName')"
-          class="w-45!"
-          clearable
-        />
+        <el-input v-model="searchForm.roleName" :placeholder="ph.input('roles.roleName')" class="w-45!" clearable />
       </el-form-item>
       <el-form-item :label="t('roles.roleType')" prop="roleTypes">
         <el-select
           v-model="searchForm.roleTypes"
-          :placeholder="t('roles.roleType')"
+          :placeholder="ph.selectFilter('roles.roleType')"
           class="w-52!"
           clearable
           collapse-tags

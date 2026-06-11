@@ -5,6 +5,7 @@ import { LOG_JOB_STATUS_ITEMS, LOG_JOB_TRIGGER_TYPE_FILTER_OPTIONS } from '@/vie
 import useJobLogTableAction from '@/views/log/job-log/hooks/useJobLogTableAction';
 import useJobLogTableColumns from '@/views/log/job-log/hooks/useJobLogTableColumns';
 import { useCollapsibleSearchForm } from '@/composables/search/useCollapsibleSearchForm';
+import { useFormPlaceholder } from '@/composables/i18n/useFormPlaceholder';
 import type { FormInstance } from 'element-plus';
 import { onMounted, reactive, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
@@ -14,6 +15,7 @@ defineOptions({
 });
 
 const { t } = useI18n();
+const ph = useFormPlaceholder();
 const { columns } = useJobLogTableColumns();
 const searchFormRef = ref<FormInstance>();
 
@@ -47,24 +49,19 @@ onMounted(() => {
     <el-form ref="searchFormRef" :model="searchForm" class="bg-bg_color w-[99/100] overflow-auto pl-8 pt-3" inline>
       <!-- 任务 ID -->
       <el-form-item :label="t('logJob.jobId')" prop="jobId">
-        <el-input v-model="searchForm.jobId" :placeholder="t('logJob.placeholder.jobId')" class="w-45!" clearable />
+        <el-input v-model="searchForm.jobId" :placeholder="ph.input('logJob.jobId')" class="w-45!" clearable />
       </el-form-item>
       <!-- 任务名称 -->
       <el-form-item :label="t('logJob.jobName')" prop="jobName">
-        <el-input v-model="searchForm.jobName" :placeholder="t('logJob.placeholder.jobName')" class="w-45!" clearable />
+        <el-input v-model="searchForm.jobName" :placeholder="ph.input('logJob.jobName')" class="w-45!" clearable />
       </el-form-item>
       <!-- 任务分组 -->
       <el-form-item :label="t('logJob.jobGroup')" prop="jobGroup">
-        <el-input
-          v-model="searchForm.jobGroup"
-          :placeholder="t('logJob.placeholder.jobGroup')"
-          class="w-45!"
-          clearable
-        />
+        <el-input v-model="searchForm.jobGroup" :placeholder="ph.input('logJob.jobGroup')" class="w-45!" clearable />
       </el-form-item>
       <!-- 状态 -->
       <el-form-item :label="t('logJob.status')" prop="status">
-        <el-select v-model="searchForm.status" :placeholder="t('logJob.placeholder.status')" class="w-45!" clearable>
+        <el-select v-model="searchForm.status" :placeholder="ph.selectFilter('logJob.status')" class="w-45!" clearable>
           <el-option
             v-for="opt in LOG_JOB_STATUS_ITEMS"
             :key="`${opt.labelKey}:${String(opt.value)}`"
@@ -79,7 +76,7 @@ onMounted(() => {
         <el-form-item v-show="searchExpanded" :label="t('logJob.invokeTarget')" prop="invokeTarget">
           <el-input
             v-model="searchForm.invokeTarget"
-            :placeholder="t('logJob.placeholder.invokeTarget')"
+            :placeholder="ph.input('logJob.invokeTarget')"
             class="w-45!"
             clearable
           />
@@ -88,7 +85,7 @@ onMounted(() => {
         <el-form-item v-show="searchExpanded" :label="t('logJob.triggerType')" prop="triggerType">
           <el-select
             v-model="searchForm.triggerType"
-            :placeholder="t('logJob.placeholder.triggerType')"
+            :placeholder="ph.selectFilter('logJob.triggerType')"
             class="w-45!"
             clearable
           >
@@ -104,7 +101,7 @@ onMounted(() => {
         <el-form-item v-show="searchExpanded" :label="t('logJob.elapsedTime')" prop="elapsedTime">
           <el-input-number
             v-model="searchForm.elapsedTime"
-            :placeholder="t('logJob.placeholder.elapsedTime')"
+            :placeholder="ph.input('logJob.elapsedTime')"
             class="w-40!"
             clearable
           />

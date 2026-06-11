@@ -5,6 +5,7 @@ import useMenuMoreAction from '@/views/system/menu/hooks/useMenuMoreAction';
 import useMenuPageState from '@/views/system/menu/hooks/useMenuPageState';
 import useMenuTableAction from '@/views/system/menu/hooks/useMenuTableAction';
 import useMenuTableColumns from '@/views/system/menu/hooks/useMenuTableColumns';
+import { useFormPlaceholder } from '@/composables/i18n/useFormPlaceholder';
 import type { FormInstance } from 'element-plus';
 import { onMounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
@@ -15,6 +16,7 @@ defineOptions({
 });
 
 const { t } = useI18n();
+const ph = useFormPlaceholder();
 const searchFormRef = ref<FormInstance>();
 
 const { tableColumns } = useMenuTableColumns();
@@ -46,22 +48,17 @@ onMounted(() => {
   <div>
     <el-form ref="searchFormRef" :model="searchForm" class="bg-bg_color w-[99/100] overflow-auto pl-8 pt-3" inline>
       <el-form-item :label="t('sysMenu.routeName')" prop="name">
-        <el-input v-model="searchForm.name" :placeholder="t('sysMenu.placeholder.routeName')" class="w-45!" clearable />
+        <el-input v-model="searchForm.name" :placeholder="ph.input('sysMenu.routeName')" class="w-45!" clearable />
       </el-form-item>
 
       <el-form-item :label="t('sysMenu.menuTitle')" prop="title">
-        <el-input
-          v-model="searchForm.title"
-          :placeholder="t('sysMenu.placeholder.menuTitle')"
-          class="w-45!"
-          clearable
-        />
+        <el-input v-model="searchForm.title" :placeholder="ph.input('sysMenu.menuTitle')" class="w-45!" clearable />
       </el-form-item>
 
       <el-form-item :label="t('sysMenu.menuType')" prop="menuType">
         <el-select
           v-model="searchForm.menuType"
-          :placeholder="t('sysMenu.placeholder.menuType')"
+          :placeholder="ph.selectFilter('sysMenu.menuType')"
           class="w-40!"
           clearable
         >
@@ -75,7 +72,7 @@ onMounted(() => {
       </el-form-item>
 
       <el-form-item :label="t('sysMenu.status')" prop="status">
-        <el-select v-model="searchForm.status" :placeholder="t('sysMenu.placeholder.status')" class="w-35!" clearable>
+        <el-select v-model="searchForm.status" :placeholder="ph.selectFilter('sysMenu.status')" class="w-35!" clearable>
           <el-option
             v-for="opt in COMMON_BOOLEAN_STATUS_FILTER_OPTIONS"
             :key="`${opt.labelKey}:${String(opt.value)}`"
@@ -86,12 +83,7 @@ onMounted(() => {
       </el-form-item>
 
       <el-form-item :label="t('sysMenu.component')" prop="component">
-        <el-input
-          v-model="searchForm.component"
-          :placeholder="t('sysMenu.placeholder.component')"
-          class="w-45!"
-          clearable
-        />
+        <el-input v-model="searchForm.component" :placeholder="ph.input('sysMenu.component')" class="w-45!" clearable />
       </el-form-item>
 
       <el-form-item>

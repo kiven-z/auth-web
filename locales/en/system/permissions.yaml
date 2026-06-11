@@ -7,7 +7,6 @@ permissions:
   permissionTypeImmutableHint: Permission type cannot be changed after creation. Delete and recreate to change it.
   loadFailed: Failed to load permissions
   assignSectionLabel: Assigned permissions
-  assignSearch: Search permission code or name
   permissionCode: Permission Code
   permissionName: Permission Name
   permissionType: Permission Type
@@ -27,6 +26,3 @@ permissions:
   boundRolesEmpty: No roles bound
   boundMenusEmpty: No menus bound
   boundMenusNotApplicable: API permissions are not linked to menu buttons
-  placeholder:
-    permissionCode: Enter permission code
-    permissionName: Enter permission name

@@ -85,6 +85,14 @@ function handleSubmit() {
 - **例外（占位提示）**：含「即将上线」「待开发」等临时占位文案，直接写中文硬编码，**不要**加入多语言文件。
 - **Vue 文件**：使用 `const { t } = useI18n()`，模板中通过 `t('key')` 调用。
 - **目录结构**：`src/locales/{lang}/{module}/{page}.yaml`。Key 格式为 `文件名.属性名`。
+- **表单 placeholder（列表搜索 / 弹窗）**：统一使用 `useFormPlaceholder()`（`@/composables/i18n/useFormPlaceholder`），按控件类型调用：
+  - `ph.input(labelKey)`：文本输入
+  - `ph.selectFilter(labelKey)`：列表筛选下拉（清空 = 查全部）
+  - `ph.select(labelKey)`：弹窗/表单录入下拉
+  - `ph.keyword(labelKey)`：远程关键字搜索
+  - `ph.prefix(labelKey)`：前缀类输入
+  - `ph.rangeStart()` / `ph.rangeEnd()`：日期范围
+  - 模板定义在 `locales/*/common/common-page.yaml` 的 `placeholder.*`；仅格式说明、组合搜索等特殊语义才在模块 yaml 保留独立 key。
 
 ### 3. 视图 (Views) 目录规范
 

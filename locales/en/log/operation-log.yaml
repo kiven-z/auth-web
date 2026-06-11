@@ -18,13 +18,6 @@ operationLog:
   tableTitle: Operation Logs
   detailTitle: Operation Log Detail
   loadFailed: Failed to load operation logs
-  placeholder:
-    userId: Search user by keyword
-    operationType: All types
-    module: All modules
-    targetType: All targets
-    targetId: Enter target ID
-    requestMethod: All methods
   moduleEnum:
     SYSTEM:USER: System - User
     SYSTEM:ROLE: System - Role

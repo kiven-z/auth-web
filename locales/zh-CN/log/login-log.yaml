@@ -18,10 +18,6 @@ loginLog:
   tableTitle: 登录日志
   detailTitle: 登录日志详情
   loadFailed: 获取登录日志失败
-  placeholder:
-    userId: 请输入关键字搜索用户
-    loginResult: 全部结果
-    loginType: 全部方式
   loginResultEnum:
     '0': 成功
     '1': 密码或凭证错误

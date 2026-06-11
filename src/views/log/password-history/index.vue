@@ -4,6 +4,7 @@ import AuthPagedTable, { usePaginationState } from '@/components/business/AuthPa
 import useRemoteUserSearch from '@/composables/dialog/useRemoteUserSearch';
 import usePasswordHistoryTableAction from '@/views/log/password-history/hooks/usePasswordHistoryTableAction';
 import usePasswordHistoryTableColumns from '@/views/log/password-history/hooks/usePasswordHistoryTableColumns';
+import { useFormPlaceholder } from '@/composables/i18n/useFormPlaceholder';
 import type { FormInstance } from 'element-plus';
 import { onMounted, reactive, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
@@ -13,6 +14,7 @@ defineOptions({
 });
 
 const { t } = useI18n();
+const ph = useFormPlaceholder();
 const { columns } = usePasswordHistoryTableColumns();
 const searchFormRef = ref<FormInstance>();
 
@@ -52,7 +54,7 @@ onMounted(() => {
         <el-select
           v-model="searchForm.userId"
           :loading="userSearchLoading"
-          :placeholder="t('passwordHistory.placeholder.userId')"
+          :placeholder="ph.keyword('passwordHistory.username')"
           :remote-method="loadUserListByKeyword"
           class="w-45!"
           clearable
@@ -66,7 +68,7 @@ onMounted(() => {
       <el-form-item :label="t('passwordHistory.changeTime')" prop="changeTime">
         <el-date-picker
           v-model="searchForm.changeTimeStart"
-          :placeholder="t('passwordHistory.placeholder.changeTimeStart')"
+          :placeholder="ph.rangeStart()"
           class="w-40!"
           type="datetime"
           value-format="YYYY-MM-DDTHH:mm:ss"
@@ -74,7 +76,7 @@ onMounted(() => {
         <span class="mx-2">-</span>
         <el-date-picker
           v-model="searchForm.changeTimeEnd"
-          :placeholder="t('passwordHistory.placeholder.changeTimeEnd')"
+          :placeholder="ph.rangeEnd()"
           class="w-40!"
           type="datetime"
           value-format="YYYY-MM-DDTHH:mm:ss"

@@ -36,9 +36,3 @@ sysMenu:
   editDialogTitle: 编辑菜单
   detailDialogTitle: 菜单详情
   assignPermission: 分配权限
-  placeholder:
-    routeName: 请输入路由名称
-    menuTitle: 请输入菜单标题
-    menuType: 请选择菜单类型
-    status: 请选择状态
-    component: 请输入组件路径

@@ -7,6 +7,7 @@ import useRoleAdvanceAction from '@/views/system/role/hooks/useRoleAdvanceAction
 import useRoleMoreAction from '@/views/system/role/hooks/useRoleMoreAction';
 import useRoleTableAction from '@/views/system/role/hooks/useRoleTableAction';
 import useRoleTableColumns from '@/views/system/role/hooks/useRoleTableColumns';
+import { useFormPlaceholder } from '@/composables/i18n/useFormPlaceholder';
 import type { FormInstance } from 'element-plus';
 import { onMounted, reactive, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
@@ -16,6 +17,7 @@ defineOptions({
 });
 
 const { t } = useI18n();
+const ph = useFormPlaceholder();
 
 const { columns } = useRoleTableColumns();
 
@@ -52,25 +54,15 @@ onMounted(() => {
     <el-form ref="searchFormRef" :model="searchForm" class="bg-bg_color w-[99/100] overflow-auto pl-8 pt-3" inline>
       <!-- 角色编码 -->
       <el-form-item :label="t('roles.roleCode')" prop="roleCode">
-        <el-input
-          v-model="searchForm.roleCode"
-          :placeholder="t('roles.placeholder.roleCode')"
-          class="w-45!"
-          clearable
-        />
+        <el-input v-model="searchForm.roleCode" :placeholder="ph.input('roles.roleCode')" class="w-45!" clearable />
       </el-form-item>
       <!-- 角色名称 -->
       <el-form-item :label="t('roles.roleName')" prop="roleName">
-        <el-input
-          v-model="searchForm.roleName"
-          :placeholder="t('roles.placeholder.roleName')"
-          class="w-45!"
-          clearable
-        />
+        <el-input v-model="searchForm.roleName" :placeholder="ph.input('roles.roleName')" class="w-45!" clearable />
       </el-form-item>
       <!-- 状态 -->
       <el-form-item :label="t('roles.status')" prop="status">
-        <el-select v-model="searchForm.status" :placeholder="t('roles.status')" class="w-45!" clearable>
+        <el-select v-model="searchForm.status" :placeholder="ph.selectFilter('roles.status')" class="w-45!" clearable>
           <el-option
             v-for="opt in ROLE_STATUS_FILTER_OPTIONS"
             :key="`${opt.labelKey}:${String(opt.value)}`"
@@ -83,7 +75,7 @@ onMounted(() => {
       <el-form-item :label="t('roles.roleType')" prop="roleTypes">
         <el-select
           v-model="searchForm.roleTypes"
-          :placeholder="t('roles.roleType')"
+          :placeholder="ph.selectFilter('roles.roleType')"
           class="w-52!"
           clearable
           collapse-tags

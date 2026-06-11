@@ -18,13 +18,6 @@ operationLog:
   tableTitle: 操作日志
   detailTitle: 操作日志详情
   loadFailed: 获取操作日志失败
-  placeholder:
-    userId: 请输入关键字搜索用户
-    operationType: 全部类型
-    module: 全部模块
-    targetType: 全部对象
-    targetId: 请输入目标ID
-    requestMethod: 全部方法
   moduleEnum:
     SYSTEM:USER: 系统管理-用户
     SYSTEM:ROLE: 系统管理-角色

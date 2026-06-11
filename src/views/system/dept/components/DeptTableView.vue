@@ -8,6 +8,7 @@ import useDeptPageState from '@/views/system/dept/hooks/useDeptPageState';
 import useDeptTableAction from '@/views/system/dept/hooks/useDeptTableAction';
 import DeptHeadButtons from '@/views/system/dept/components/DeptHeadButtons.vue';
 import useDeptTableColumns from '@/views/system/dept/hooks/useDeptTableColumns';
+import { useFormPlaceholder } from '@/composables/i18n/useFormPlaceholder';
 import type { FormInstance } from 'element-plus';
 import { onMounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
@@ -17,6 +18,7 @@ defineOptions({
 });
 
 const { t } = useI18n();
+const ph = useFormPlaceholder();
 const searchFormRef = ref<FormInstance>();
 
 const { tableColumns } = useDeptTableColumns();
@@ -47,15 +49,15 @@ onMounted(() => {
   <div>
     <el-form ref="searchFormRef" :model="searchForm" class="bg-bg_color w-[99/100] overflow-auto pl-8 pt-3" inline>
       <el-form-item :label="t('dept.deptName')" prop="deptName">
-        <el-input v-model="searchForm.deptName" :placeholder="t('dept.deptName')" class="w-45!" clearable />
+        <el-input v-model="searchForm.deptName" :placeholder="ph.input('dept.deptName')" class="w-45!" clearable />
       </el-form-item>
 
       <el-form-item :label="t('dept.deptCode')" prop="deptCode">
-        <el-input v-model="searchForm.deptCode" :placeholder="t('dept.deptCode')" class="w-45!" clearable />
+        <el-input v-model="searchForm.deptCode" :placeholder="ph.input('dept.deptCode')" class="w-45!" clearable />
       </el-form-item>
 
       <el-form-item :label="t('dept.status')" prop="status">
-        <el-select v-model="searchForm.status" :placeholder="t('dept.status')" class="w-45!" clearable>
+        <el-select v-model="searchForm.status" :placeholder="ph.selectFilter('dept.status')" class="w-45!" clearable>
           <el-option
             v-for="opt in DEPT_STATUS_FILTER_OPTIONS"
             :key="`${opt.labelKey}:${String(opt.value)}`"

@@ -6,6 +6,7 @@ import { computed, onMounted, reactive, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import useUserDeptAssignTableColumns from '@/views/system/user/hooks/columns/useUserDeptAssignTableColumns';
 import { getUserDeptPage, UserDeptPageRow } from '@/api/system/user-dept';
+import { useFormPlaceholder } from '@/composables/i18n/useFormPlaceholder';
 import type { FormInstance } from 'element-plus';
 
 defineOptions({ name: 'UserAssignDeptDrawer' });
@@ -17,6 +18,7 @@ const props = defineProps<{
 }>();
 
 const { t } = useI18n();
+const ph = useFormPlaceholder();
 
 const searchFormRef = ref<FormInstance>();
 
@@ -60,15 +62,20 @@ onMounted(() => {
     <el-form ref="searchFormRef" :model="searchForm" class="pt-2 pl-6" inline>
       <!-- 部门名称 -->
       <el-form-item :label="t('dept.deptName')" prop="deptName">
-        <el-input v-model="searchForm.deptName" :placeholder="t('dept.deptName')" class="w-45!" clearable />
+        <el-input v-model="searchForm.deptName" :placeholder="ph.input('dept.deptName')" class="w-45!" clearable />
       </el-form-item>
       <!-- 部门编码 -->
       <el-form-item :label="t('dept.deptCode')" prop="deptCode">
-        <el-input v-model="searchForm.deptCode" :placeholder="t('dept.deptCode')" class="w-45!" clearable />
+        <el-input v-model="searchForm.deptCode" :placeholder="ph.input('dept.deptCode')" class="w-45!" clearable />
       </el-form-item>
       <!-- 关联状态 -->
       <el-form-item :label="t('dept.relationStatus')" prop="status">
-        <el-select v-model="searchForm.status" :placeholder="t('dept.relationStatus')" class="w-45!" clearable>
+        <el-select
+          v-model="searchForm.status"
+          :placeholder="ph.selectFilter('dept.relationStatus')"
+          class="w-45!"
+          clearable
+        >
           <el-option
             v-for="opt in USER_DEPT_RELATION_STATUS_FILTER_OPTIONS"
             :key="`${opt.labelKey}:${String(opt.value)}`"

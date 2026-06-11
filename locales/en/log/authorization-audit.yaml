@@ -22,11 +22,6 @@ authorizationAudit:
   detailTitle: Authorization Audit Detail
   loadFailed: Failed to load authorization audit logs
   createUser: Operator
-  placeholder:
-    eventType: All types
-    decisionReason: All reasons
-    className: Enter class name
-    createUserId: Search user by keyword
   eventTypeEnum:
     GRANTED: Granted
     DENIED: Denied

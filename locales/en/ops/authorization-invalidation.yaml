@@ -46,13 +46,6 @@ authorizationInvalidation:
   viewLinkedOutbox: View linked outbox record
   linkedEventNotFound: No linked idempotency event found
   linkedOutboxNotFound: No linked outbox record found
-  placeholder:
-    eventId: Enter event ID prefix
-    changeKind: All kinds
-    processing: All statuses
-    outboxStatus: All statuses
-    sourceModule: Enter source module
-    sourceBizId: Enter source biz ID prefix
   processingEnum:
     'true': Processing
     'false': Completed

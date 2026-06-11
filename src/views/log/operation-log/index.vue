@@ -6,6 +6,7 @@ import { OPERATION_TYPES, REQUEST_METHODS } from '@/views/log/operation-log/cons
 import useOperationLogTableAction from '@/views/log/operation-log/hooks/useOperationLogTableAction';
 import useOperationLogTableColumns from '@/views/log/operation-log/hooks/useOperationLogTableColumns';
 import { useCollapsibleSearchForm } from '@/composables/search/useCollapsibleSearchForm';
+import { useFormPlaceholder } from '@/composables/i18n/useFormPlaceholder';
 import type { FormInstance } from 'element-plus';
 import { onMounted, reactive, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
@@ -15,6 +16,7 @@ defineOptions({
 });
 
 const { t } = useI18n();
+const ph = useFormPlaceholder();
 const { columns } = useOperationLogTableColumns();
 const searchFormRef = ref<FormInstance>();
 
@@ -57,7 +59,7 @@ onMounted(() => {
         <el-select
           v-model="searchForm.userId"
           :loading="userSearchLoading"
-          :placeholder="t('operationLog.placeholder.userId')"
+          :placeholder="ph.keyword('operationLog.user')"
           :remote-method="loadUserListByKeyword"
           class="w-45!"
           clearable
@@ -72,7 +74,7 @@ onMounted(() => {
       <el-form-item :label="t('operationLog.operationType')" prop="operationType">
         <el-select
           v-model="searchForm.operationType"
-          :placeholder="t('operationLog.placeholder.operationType')"
+          :placeholder="ph.selectFilter('operationLog.operationType')"
           class="w-45!"
           clearable
         >
@@ -87,19 +89,14 @@ onMounted(() => {
 
       <!-- 操作模块 -->
       <el-form-item :label="t('operationLog.module')" prop="module">
-        <el-input
-          v-model="searchForm.module"
-          :placeholder="t('operationLog.placeholder.module')"
-          class="w-45!"
-          clearable
-        />
+        <el-input v-model="searchForm.module" :placeholder="ph.input('operationLog.module')" class="w-45!" clearable />
       </el-form-item>
 
       <!-- 目标类型 -->
       <el-form-item :label="t('operationLog.targetType')" prop="targetType">
         <el-input
           v-model="searchForm.targetType"
-          :placeholder="t('operationLog.placeholder.targetType')"
+          :placeholder="ph.input('operationLog.targetType')"
           class="w-45!"
           clearable
         />
@@ -110,7 +107,7 @@ onMounted(() => {
         <el-form-item v-show="searchExpanded" :label="t('operationLog.targetId')" prop="targetId">
           <el-input
             v-model="searchForm.targetId"
-            :placeholder="t('operationLog.placeholder.targetId')"
+            :placeholder="ph.input('operationLog.targetId')"
             class="w-45!"
             clearable
           />
@@ -120,7 +117,7 @@ onMounted(() => {
         <el-form-item v-show="searchExpanded" :label="t('operationLog.requestMethod')" prop="requestMethod">
           <el-select
             v-model="searchForm.requestMethod"
-            :placeholder="t('operationLog.placeholder.requestMethod')"
+            :placeholder="ph.selectFilter('operationLog.requestMethod')"
             class="w-45!"
             clearable
           >

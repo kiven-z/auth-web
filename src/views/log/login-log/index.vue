@@ -5,6 +5,7 @@ import useRemoteUserSearch from '@/composables/dialog/useRemoteUserSearch';
 import { LOGIN_LOG_RESULT_ITEMS, LOGIN_LOG_TYPE_CODES } from '@/views/log/login-log/constants/login-log-enums';
 import useLoginLogTableAction from '@/views/log/login-log/hooks/useLoginLogTableAction';
 import useLoginLogTableColumns from '@/views/log/login-log/hooks/useLoginLogTableColumns';
+import { useFormPlaceholder } from '@/composables/i18n/useFormPlaceholder';
 import type { FormInstance } from 'element-plus';
 import { onMounted, reactive, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
@@ -14,6 +15,7 @@ defineOptions({
 });
 
 const { t } = useI18n();
+const ph = useFormPlaceholder();
 const { columns } = useLoginLogTableColumns();
 const searchFormRef = ref<FormInstance>();
 
@@ -49,7 +51,7 @@ onMounted(() => {
         <el-select
           v-model="searchForm.userId"
           :loading="userSearchLoading"
-          :placeholder="t('loginLog.placeholder.userId')"
+          :placeholder="ph.keyword('loginLog.user')"
           :remote-method="loadUserListByKeyword"
           class="w-45!"
           clearable
@@ -63,7 +65,7 @@ onMounted(() => {
       <el-form-item :label="t('loginLog.loginResult')" prop="loginResult">
         <el-select
           v-model="searchForm.loginResult"
-          :placeholder="t('loginLog.placeholder.loginResult')"
+          :placeholder="ph.selectFilter('loginLog.loginResult')"
           class="w-45!"
           clearable
         >
@@ -79,7 +81,7 @@ onMounted(() => {
       <el-form-item :label="t('loginLog.loginTime')" prop="loginTime">
         <el-date-picker
           v-model="searchForm.loginTimeStart"
-          :placeholder="t('loginLog.loginTimeStart')"
+          :placeholder="ph.rangeStart()"
           class="w-40!"
           type="datetime"
           value-format="YYYY-MM-DDTHH:mm:ss"
@@ -87,7 +89,7 @@ onMounted(() => {
         <span class="mx-2">-</span>
         <el-date-picker
           v-model="searchForm.loginTimeEnd"
-          :placeholder="t('loginLog.loginTimeEnd')"
+          :placeholder="ph.rangeEnd()"
           class="w-40!"
           type="datetime"
           value-format="YYYY-MM-DDTHH:mm:ss"
@@ -97,7 +99,7 @@ onMounted(() => {
       <el-form-item :label="t('loginLog.loginType')" prop="loginType">
         <el-select
           v-model="searchForm.loginType"
-          :placeholder="t('loginLog.placeholder.loginType')"
+          :placeholder="ph.selectFilter('loginLog.loginType')"
           class="w-45!"
           clearable
         >

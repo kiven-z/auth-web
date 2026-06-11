@@ -5,6 +5,7 @@ import { PERMISSION_TYPE_FILTER_OPTIONS } from '@/views/system/_shared/constants
 import usePermissionAdvanceAction from '@/views/system/permission/hooks/usePermissionAdvanceAction';
 import usePermissionTableAction from '@/views/system/permission/hooks/usePermissionTableAction';
 import usePermissionTableColumns from '@/views/system/permission/hooks/usePermissionTableColumns';
+import { useFormPlaceholder } from '@/composables/i18n/useFormPlaceholder';
 import type { FormInstance } from 'element-plus';
 import { onMounted, reactive, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
@@ -15,6 +16,7 @@ defineOptions({
 });
 
 const { t } = useI18n();
+const ph = useFormPlaceholder();
 
 const { columns } = usePermissionTableColumns();
 
@@ -49,7 +51,7 @@ onMounted(() => {
       <el-form-item :label="t('permissions.permissionCode')" prop="permissionCode">
         <el-input
           v-model="searchForm.permissionCode"
-          :placeholder="t('permissions.placeholder.permissionCode')"
+          :placeholder="ph.input('permissions.permissionCode')"
           class="w-45!"
           clearable
         />
@@ -58,7 +60,7 @@ onMounted(() => {
       <el-form-item :label="t('permissions.permissionName')" prop="permissionName">
         <el-input
           v-model="searchForm.permissionName"
-          :placeholder="t('permissions.placeholder.permissionName')"
+          :placeholder="ph.input('permissions.permissionName')"
           class="w-45!"
           clearable
         />
@@ -67,7 +69,7 @@ onMounted(() => {
       <el-form-item :label="t('permissions.permissionType')" prop="permissionType">
         <el-select
           v-model="searchForm.permissionType"
-          :placeholder="t('permissions.permissionType')"
+          :placeholder="ph.selectFilter('permissions.permissionType')"
           class="w-40!"
           clearable
         >
@@ -81,7 +83,12 @@ onMounted(() => {
       </el-form-item>
       <!-- 状态 -->
       <el-form-item :label="t('permissions.status')" prop="status">
-        <el-select v-model="searchForm.status" :placeholder="t('permissions.status')" class="w-45!" clearable>
+        <el-select
+          v-model="searchForm.status"
+          :placeholder="ph.selectFilter('permissions.status')"
+          class="w-45!"
+          clearable
+        >
           <el-option
             v-for="opt in COMMON_BOOLEAN_STATUS_FILTER_OPTIONS"
             :key="`${opt.labelKey}:${String(opt.value)}`"

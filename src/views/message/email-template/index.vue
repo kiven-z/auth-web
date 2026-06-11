@@ -3,6 +3,7 @@ import { getEmailTemplatePage } from '@/api/system/email-template';
 import AuthPagedTable, { usePaginationState } from '@/components/business/AuthPagedTable';
 import useEmailTemplateTableAction from '@/views/message/email-template/hooks/useEmailTemplateTableAction';
 import useEmailTemplateTableColumns from '@/views/message/email-template/hooks/useEmailTemplateTableColumns';
+import { useFormPlaceholder } from '@/composables/i18n/useFormPlaceholder';
 import type { FormInstance } from 'element-plus';
 import { onMounted, reactive, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
@@ -14,6 +15,7 @@ defineOptions({
 });
 
 const { t } = useI18n();
+const ph = useFormPlaceholder();
 const { columns } = useEmailTemplateTableColumns();
 const searchFormRef = ref<FormInstance>();
 
@@ -51,19 +53,39 @@ onMounted(() => {
     <el-form ref="searchFormRef" :model="searchForm" class="bg-bg_color w-[99/100] overflow-auto pl-8 pt-3" inline>
       <!-- 场景编码（scene_code） -->
       <el-form-item :label="t('emailTemplate.templateCode')" prop="templateCode">
-        <el-input v-model="searchForm.templateCode" class="w-45!" clearable />
+        <el-input
+          v-model="searchForm.templateCode"
+          :placeholder="ph.input('emailTemplate.templateCode')"
+          class="w-45!"
+          clearable
+        />
       </el-form-item>
       <!-- 模板名称 -->
       <el-form-item :label="t('emailTemplate.templateName')" prop="templateName">
-        <el-input v-model="searchForm.templateName" class="w-45!" clearable />
+        <el-input
+          v-model="searchForm.templateName"
+          :placeholder="ph.input('emailTemplate.templateName')"
+          class="w-45!"
+          clearable
+        />
       </el-form-item>
       <!-- 邮件主题 -->
       <el-form-item :label="t('emailTemplate.subject')" prop="subject">
-        <el-input v-model="searchForm.subject" class="w-45!" clearable />
+        <el-input
+          v-model="searchForm.subject"
+          :placeholder="ph.input('emailTemplate.subject')"
+          class="w-45!"
+          clearable
+        />
       </el-form-item>
       <!-- 状态 -->
       <el-form-item :label="t('emailTemplate.status')" prop="status">
-        <el-select v-model="searchForm.status" :placeholder="t('emailTemplate.status')" class="w-45!" clearable>
+        <el-select
+          v-model="searchForm.status"
+          :placeholder="ph.selectFilter('emailTemplate.status')"
+          class="w-45!"
+          clearable
+        >
           <el-option
             v-for="opt in COMMON_BOOLEAN_STATUS_FILTER_OPTIONS"
             :key="`${opt.labelKey}:${String(opt.value)}`"

@@ -5,6 +5,7 @@ import useRemoteUserSearch from '@/composables/dialog/useRemoteUserSearch';
 import { AUDIT_EVENT_TYPE_ITEMS } from '@/views/log/authorization-audit-log/constants/authorization-audit-enums';
 import useAuthorizationAuditTableAction from '@/views/log/authorization-audit-log/hooks/useAuthorizationAuditTableAction';
 import useAuthorizationAuditTableColumns from '@/views/log/authorization-audit-log/hooks/useAuthorizationAuditTableColumns';
+import { useFormPlaceholder } from '@/composables/i18n/useFormPlaceholder';
 import type { FormInstance } from 'element-plus';
 import { onMounted, reactive, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
@@ -14,6 +15,7 @@ defineOptions({
 });
 
 const { t } = useI18n();
+const ph = useFormPlaceholder();
 const { columns } = useAuthorizationAuditTableColumns();
 const searchFormRef = ref<FormInstance>();
 
@@ -51,7 +53,7 @@ onMounted(() => {
       <el-form-item :label="t('authorizationAudit.eventType')" prop="eventType">
         <el-select
           v-model="searchForm.eventType"
-          :placeholder="t('authorizationAudit.placeholder.eventType')"
+          :placeholder="ph.selectFilter('authorizationAudit.eventType')"
           class="w-45!"
           clearable
         >
@@ -67,7 +69,7 @@ onMounted(() => {
       <el-form-item :label="t('authorizationAudit.decisionReason')" prop="decisionReason">
         <el-input
           v-model="searchForm.decisionReason"
-          :placeholder="t('authorizationAudit.placeholder.decisionReason')"
+          :placeholder="ph.input('authorizationAudit.decisionReason')"
           class="w-45!"
           clearable
         />
@@ -76,7 +78,7 @@ onMounted(() => {
       <el-form-item :label="t('authorizationAudit.className')" prop="className">
         <el-input
           v-model="searchForm.className"
-          :placeholder="t('authorizationAudit.placeholder.className')"
+          :placeholder="ph.input('authorizationAudit.className')"
           class="w-45!"
           clearable
         />
@@ -86,7 +88,7 @@ onMounted(() => {
         <el-select
           v-model="searchForm.createUserId"
           :loading="userSearchLoading"
-          :placeholder="t('authorizationAudit.placeholder.createUserId')"
+          :placeholder="ph.keyword('authorizationAudit.createUser')"
           :remote-method="loadUserListByKeyword"
           class="w-45!"
           clearable

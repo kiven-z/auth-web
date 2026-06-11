@@ -4,6 +4,7 @@ import AuthPagedTable, { usePaginationState } from '@/components/business/AuthPa
 import { COMMON_BOOLEAN_STATUS_FILTER_OPTIONS } from '@/constants/boolean-status';
 import useJobGroupTableAction from '@/views/schedule/schedule-group/hooks/useJobGroupTableAction';
 import useJobGroupTableColumns from '@/views/schedule/schedule-group/hooks/useJobGroupTableColumns';
+import { useFormPlaceholder } from '@/composables/i18n/useFormPlaceholder';
 import type { FormInstance } from 'element-plus';
 import { onMounted, reactive, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
@@ -13,6 +14,7 @@ defineOptions({
 });
 
 const { t } = useI18n();
+const ph = useFormPlaceholder();
 const { columns } = useJobGroupTableColumns();
 const searchFormRef = ref<FormInstance>();
 
@@ -42,15 +44,30 @@ onMounted(() => {
     <el-form ref="searchFormRef" :model="searchForm" class="bg-bg_color w-[99/100] overflow-auto pl-8 pt-3" inline>
       <!-- 分组编码 -->
       <el-form-item :label="t('scheduleGroup.code')" prop="groupCode">
-        <el-input v-model="searchForm.groupCode" class="w-40!" clearable />
+        <el-input
+          v-model="searchForm.groupCode"
+          :placeholder="ph.input('scheduleGroup.code')"
+          class="w-40!"
+          clearable
+        />
       </el-form-item>
       <!-- 分组名称 -->
       <el-form-item :label="t('scheduleGroup.name')" prop="groupName">
-        <el-input v-model="searchForm.groupName" class="w-40!" clearable />
+        <el-input
+          v-model="searchForm.groupName"
+          :placeholder="ph.input('scheduleGroup.name')"
+          class="w-40!"
+          clearable
+        />
       </el-form-item>
       <!-- 分组状态 -->
       <el-form-item :label="t('scheduleGroup.status')" prop="status">
-        <el-select v-model="searchForm.status" :placeholder="t('scheduleGroup.status')" class="w-40!" clearable>
+        <el-select
+          v-model="searchForm.status"
+          :placeholder="ph.selectFilter('scheduleGroup.status')"
+          class="w-40!"
+          clearable
+        >
           <el-option
             v-for="opt in COMMON_BOOLEAN_STATUS_FILTER_OPTIONS"
             :key="`${opt.labelKey}:${String(opt.value)}`"

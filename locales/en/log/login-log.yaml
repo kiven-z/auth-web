@@ -18,10 +18,6 @@ loginLog:
   tableTitle: Login logs
   detailTitle: Login log detail
   loadFailed: Failed to load login logs
-  placeholder:
-    userId: Search user by keyword
-    loginResult: All results
-    loginType: All types
   loginResultEnum:
     '0': Success
     '1': Bad password or credential

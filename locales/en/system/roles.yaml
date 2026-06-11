@@ -18,9 +18,6 @@ roles:
   assignedRolesSectionLabel: Assigned roles
   roleCode: Role Code
   roleName: Role Name
-  placeholder:
-    roleCode: Enter role code
-    roleName: Enter role name
   status: Status
   roleType: Role Type
   orderNum: Order

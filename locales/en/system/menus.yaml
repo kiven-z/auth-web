@@ -36,9 +36,3 @@ sysMenu:
   editDialogTitle: Edit menu
   detailDialogTitle: Menu detail
   assignPermission: Assign permissions
-  placeholder:
-    routeName: Enter route name
-    menuTitle: Enter menu title
-    menuType: Select menu type
-    status: Select status
-    component: Enter component path

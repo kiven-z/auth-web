@@ -4,6 +4,7 @@ import { getUserPostPage, type UserPostPageRow } from '@/api/system/user-post';
 import useUserAssignPostDrawerAction from '@/views/system/user/hooks/actions/useUserAssignPostDrawerAction';
 import useUserPostAssignTableColumns from '@/views/system/user/hooks/columns/useUserPostAssignTableColumns';
 import { USER_DEPT_RELATION_STATUS_FILTER_OPTIONS } from '@/views/system/user/constants/user-dept-relation-status';
+import { useFormPlaceholder } from '@/composables/i18n/useFormPlaceholder';
 import type { FormInstance } from 'element-plus';
 import { computed, onMounted, reactive, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
@@ -17,6 +18,7 @@ const props = defineProps<{
 }>();
 
 const { t } = useI18n();
+const ph = useFormPlaceholder();
 
 const searchFormRef = ref<FormInstance>();
 
@@ -60,15 +62,20 @@ onMounted(() => {
     <el-form ref="searchFormRef" :model="searchForm" class="pt-2 pl-6" inline>
       <!-- 岗位编码 -->
       <el-form-item :label="t('post.postCode')" prop="postCode">
-        <el-input v-model="searchForm.postCode" :placeholder="t('post.postCode')" class="w-45!" clearable />
+        <el-input v-model="searchForm.postCode" :placeholder="ph.input('post.postCode')" class="w-45!" clearable />
       </el-form-item>
       <!-- 岗位名称 -->
       <el-form-item :label="t('post.postName')" prop="postName">
-        <el-input v-model="searchForm.postName" :placeholder="t('post.postName')" class="w-45!" clearable />
+        <el-input v-model="searchForm.postName" :placeholder="ph.input('post.postName')" class="w-45!" clearable />
       </el-form-item>
       <!-- 关联状态 -->
       <el-form-item :label="t('dept.relationStatus')" prop="status">
-        <el-select v-model="searchForm.status" :placeholder="t('dept.relationStatus')" class="w-45!" clearable>
+        <el-select
+          v-model="searchForm.status"
+          :placeholder="ph.selectFilter('dept.relationStatus')"
+          class="w-45!"
+          clearable
+        >
           <el-option
             v-for="option in USER_DEPT_RELATION_STATUS_FILTER_OPTIONS"
             :key="`${option.labelKey}:${String(option.value)}`"

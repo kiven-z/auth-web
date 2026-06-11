@@ -9,6 +9,7 @@ import {
 } from '@/views/ops/authorization-invalidation/constants/authorization-invalidation-enums';
 import useAuthorizationInvalidationOutboxTableAction from '@/views/ops/authorization-invalidation/hooks/useAuthorizationInvalidationOutboxTableAction';
 import useAuthorizationInvalidationOutboxTableColumns from '@/views/ops/authorization-invalidation/hooks/useAuthorizationInvalidationOutboxTableColumns';
+import { useFormPlaceholder } from '@/composables/i18n/useFormPlaceholder';
 import { useCollapsibleSearchForm } from '@/composables/search/useCollapsibleSearchForm';
 import type { FormInstance } from 'element-plus';
 import { onMounted, reactive, ref } from 'vue';
@@ -19,6 +20,7 @@ defineOptions({
 });
 
 const { t } = useI18n();
+const ph = useFormPlaceholder();
 const { columns } = useAuthorizationInvalidationOutboxTableColumns();
 const searchFormRef = ref<FormInstance>();
 
@@ -55,7 +57,7 @@ onMounted(() => {
       <el-form-item :label="t('authorizationInvalidation.eventId')" prop="eventId">
         <el-input
           v-model="searchForm.eventId"
-          :placeholder="t('authorizationInvalidation.placeholder.eventId')"
+          :placeholder="ph.prefix('authorizationInvalidation.eventId')"
           class="w-45!"
           clearable
         />
@@ -64,7 +66,7 @@ onMounted(() => {
       <el-form-item :label="t('authorizationInvalidation.changeKind')" prop="changeKind">
         <el-select
           v-model="searchForm.changeKind"
-          :placeholder="t('authorizationInvalidation.placeholder.changeKind')"
+          :placeholder="ph.selectFilter('authorizationInvalidation.changeKind')"
           class="w-45!"
           clearable
         >
@@ -80,7 +82,7 @@ onMounted(() => {
       <el-form-item :label="t('authorizationInvalidation.outboxStatus')" prop="status">
         <el-select
           v-model="searchForm.status"
-          :placeholder="t('authorizationInvalidation.placeholder.outboxStatus')"
+          :placeholder="ph.selectFilter('authorizationInvalidation.outboxStatus')"
           class="w-45!"
           clearable
         >
@@ -96,7 +98,7 @@ onMounted(() => {
       <el-form-item :label="t('authorizationInvalidation.sourceModule')" prop="sourceModule">
         <el-input
           v-model="searchForm.sourceModule"
-          :placeholder="t('authorizationInvalidation.placeholder.sourceModule')"
+          :placeholder="ph.input('authorizationInvalidation.sourceModule')"
           class="w-45!"
           clearable
         />
@@ -106,7 +108,7 @@ onMounted(() => {
         <el-form-item v-show="searchExpanded" :label="t('authorizationInvalidation.sourceBizId')" prop="sourceBizId">
           <el-input
             v-model="searchForm.sourceBizId"
-            :placeholder="t('authorizationInvalidation.placeholder.sourceBizId')"
+            :placeholder="ph.prefix('authorizationInvalidation.sourceBizId')"
             class="w-45!"
             clearable
           />
@@ -115,7 +117,7 @@ onMounted(() => {
         <el-form-item v-show="searchExpanded" :label="t('table.createTime')" prop="createTime">
           <el-date-picker
             v-model="searchForm.createTimeStart"
-            :placeholder="t('authorizationInvalidation.createTimeStart')"
+            :placeholder="ph.rangeStart()"
             class="w-40!"
             type="datetime"
             value-format="YYYY-MM-DDTHH:mm:ss"
@@ -123,7 +125,7 @@ onMounted(() => {
           <span class="mx-2">-</span>
           <el-date-picker
             v-model="searchForm.createTimeEnd"
-            :placeholder="t('authorizationInvalidation.createTimeEnd')"
+            :placeholder="ph.rangeEnd()"
             class="w-40!"
             type="datetime"
             value-format="YYYY-MM-DDTHH:mm:ss"
@@ -133,7 +135,7 @@ onMounted(() => {
         <el-form-item v-show="searchExpanded" :label="t('authorizationInvalidation.processedAt')" prop="processedAt">
           <el-date-picker
             v-model="searchForm.processedAtStart"
-            :placeholder="t('authorizationInvalidation.processedAtStart')"
+            :placeholder="ph.rangeStart()"
             class="w-40!"
             type="datetime"
             value-format="YYYY-MM-DDTHH:mm:ss"
@@ -141,7 +143,7 @@ onMounted(() => {
           <span class="mx-2">-</span>
           <el-date-picker
             v-model="searchForm.processedAtEnd"
-            :placeholder="t('authorizationInvalidation.processedAtEnd')"
+            :placeholder="ph.rangeEnd()"
             class="w-40!"
             type="datetime"
             value-format="YYYY-MM-DDTHH:mm:ss"

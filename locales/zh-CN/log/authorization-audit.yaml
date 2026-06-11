@@ -22,11 +22,6 @@ authorizationAudit:
   detailTitle: 权限决策审计详情
   loadFailed: 获取权限决策审计日志失败
   createUser: 操作人
-  placeholder:
-    eventType: 全部类型
-    decisionReason: 全部原因
-    className: 请输入类名
-    createUserId: 请输入关键字搜索用户
   eventTypeEnum:
     GRANTED: 授权通过
     DENIED: 拒绝访问

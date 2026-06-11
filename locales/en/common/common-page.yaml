@@ -92,6 +92,14 @@ table:
   updateTime: Updated At
   createUsername: Created by
   updateUsername: Updated by
+placeholder:
+  input: Enter {field}
+  selectFilter: All {field}
+  select: Select {field}
+  keyword: Search {field} by keyword
+  prefix: Enter {field} prefix
+  rangeStart: Start time
+  rangeEnd: End time
 search:
   pureTotal: Total
   pureHistory: Search history

@@ -2,6 +2,7 @@
 import type { SysUserPageRow } from '@/api/system/user';
 import AuthPagedTable from '@/components/business/AuthPagedTable';
 import { selectUserinfo } from '@/components/business/UserProfile';
+import { useFormPlaceholder } from '@/composables/i18n/useFormPlaceholder';
 import { useCollapsibleSearchForm } from '@/composables/search/useCollapsibleSearchForm';
 import { USER_ACCOUNT_STATUS, USER_STATUS_FILTER_OPTIONS } from '@/views/system/user/constants/user-account-status';
 import useUserAdvanceAction from '@/views/system/user/hooks/actions/useUserAdvanceAction';
@@ -19,6 +20,7 @@ defineOptions({
 });
 
 const { t } = useI18n();
+const ph = useFormPlaceholder();
 const { columns } = useUserTableColumns();
 const searchFormRef = ref<FormInstance>();
 
@@ -66,28 +68,33 @@ const handleView = (row: SysUserPageRow) => {
     <el-form ref="searchFormRef" :model="searchForm" class="bg-bg_color w-[99/100] overflow-auto pl-8 pt-3" inline>
       <!-- 用户名 -->
       <el-form-item :label="t('users.username')" prop="username">
-        <el-input v-model="searchForm.username" :placeholder="t('users.username')" class="w-45!" clearable />
+        <el-input v-model="searchForm.username" :placeholder="ph.input('users.username')" class="w-45!" clearable />
       </el-form-item>
       <!-- 昵称 -->
       <el-form-item :label="t('users.nickname')" prop="nickname">
-        <el-input v-model="searchForm.nickname" :placeholder="t('users.nickname')" class="w-45!" clearable />
+        <el-input v-model="searchForm.nickname" :placeholder="ph.input('users.nickname')" class="w-45!" clearable />
       </el-form-item>
       <!-- 手机号 -->
       <el-form-item :label="t('users.phone')" prop="phone">
-        <el-input v-model="searchForm.phone" :placeholder="t('users.phone')" class="w-45!" clearable />
+        <el-input v-model="searchForm.phone" :placeholder="ph.input('users.phone')" class="w-45!" clearable />
       </el-form-item>
       <!-- 邮箱 -->
       <el-form-item :label="t('users.email')" prop="email">
-        <el-input v-model="searchForm.email" :placeholder="t('users.email')" class="w-45!" clearable />
+        <el-input v-model="searchForm.email" :placeholder="ph.input('users.email')" class="w-45!" clearable />
       </el-form-item>
       <template v-if="showAdvancedSearchToggle">
         <!-- 工号 -->
         <el-form-item v-show="searchExpanded" :label="t('dept.employeeNo')" prop="employeeNo">
-          <el-input v-model="searchForm.employeeNo" :placeholder="t('dept.employeeNo')" class="w-45!" clearable />
+          <el-input
+            v-model="searchForm.employeeNo"
+            :placeholder="ph.input('dept.employeeNo')"
+            class="w-45!"
+            clearable
+          />
         </el-form-item>
         <!-- 状态 -->
         <el-form-item v-show="searchExpanded" :label="t('users.status')" prop="status">
-          <el-select v-model="searchForm.status" :placeholder="t('users.status')" class="w-45!" clearable>
+          <el-select v-model="searchForm.status" :placeholder="ph.selectFilter('users.status')" class="w-45!" clearable>
             <el-option
               v-for="opt in USER_STATUS_FILTER_OPTIONS"
               :key="opt.value"
