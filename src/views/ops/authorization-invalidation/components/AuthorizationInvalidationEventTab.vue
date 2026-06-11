@@ -45,12 +45,7 @@ onMounted(() => {
 
 <template>
   <div>
-    <el-form
-      ref="searchFormRef"
-      :inline="true"
-      :model="searchForm"
-      class="bg-bg_color w-[99/100] overflow-auto pl-8 pt-3"
-    >
+    <el-form ref="searchFormRef" :model="searchForm" class="bg-bg_color w-[99/100] overflow-auto pl-8 pt-3" inline>
       <el-form-item :label="t('authorizationInvalidation.eventId')" prop="eventId">
         <el-input
           v-model="searchForm.eventId"

@@ -129,12 +129,7 @@ defineExpose({ getSelectedKeys });
 
 <template>
   <AssignPanel :assign="assign" :left-subtitle="leftSubtitle" :left-title="leftTitle" :section-label="sectionLabelText">
-    <el-form
-      ref="searchFormRef"
-      :inline="true"
-      :model="searchForm"
-      class="bg-bg_color w-[99/100] overflow-auto pl-8 pt-3"
-    >
+    <el-form ref="searchFormRef" :model="searchForm" class="bg-bg_color w-[99/100] overflow-auto pl-8 pt-3" inline>
       <el-form-item :label="t('roles.roleCode')" prop="roleCode">
         <el-input
           v-model="searchForm.roleCode"

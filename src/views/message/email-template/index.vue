@@ -48,12 +48,7 @@ onMounted(() => {
       templateCode 一致。
     </el-alert>
 
-    <el-form
-      ref="searchFormRef"
-      :inline="true"
-      :model="searchForm"
-      class="bg-bg_color w-[99/100] overflow-auto pl-8 pt-3"
-    >
+    <el-form ref="searchFormRef" :model="searchForm" class="bg-bg_color w-[99/100] overflow-auto pl-8 pt-3" inline>
       <!-- 场景编码（scene_code） -->
       <el-form-item :label="t('emailTemplate.templateCode')" prop="templateCode">
         <el-input v-model="searchForm.templateCode" class="w-45!" clearable />

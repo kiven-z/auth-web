@@ -56,12 +56,7 @@ const handleView = (row: SysUserPageRow) => {
 
 <template>
   <div>
-    <el-form
-      ref="searchFormRef"
-      :inline="true"
-      :model="searchForm"
-      class="bg-bg_color w-[99/100] overflow-auto pl-8 pt-3"
-    >
+    <el-form ref="searchFormRef" :model="searchForm" class="bg-bg_color w-[99/100] overflow-auto pl-8 pt-3" inline>
       <!-- 用户名 -->
       <el-form-item :label="t('users.username')" prop="username">
         <el-input v-model="searchForm.username" :placeholder="t('users.username')" class="w-45!" clearable />

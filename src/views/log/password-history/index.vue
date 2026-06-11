@@ -46,12 +46,7 @@ onMounted(() => {
 <template>
   <div>
     <!-- 搜索表单 -->
-    <el-form
-      ref="searchFormRef"
-      :inline="true"
-      :model="searchForm"
-      class="bg-bg_color w-[99/100] overflow-auto pl-8 pt-3"
-    >
+    <el-form ref="searchFormRef" :model="searchForm" class="bg-bg_color w-[99/100] overflow-auto pl-8 pt-3" inline>
       <!-- 用户 -->
       <el-form-item :label="t('passwordHistory.userId')" prop="userId">
         <el-select

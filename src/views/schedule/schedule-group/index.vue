@@ -39,12 +39,7 @@ onMounted(() => {
 
 <template>
   <div>
-    <el-form
-      ref="searchFormRef"
-      :inline="true"
-      :model="searchForm"
-      class="bg-bg_color w-[99/100] overflow-auto pl-8 pt-3"
-    >
+    <el-form ref="searchFormRef" :model="searchForm" class="bg-bg_color w-[99/100] overflow-auto pl-8 pt-3" inline>
       <!-- 分组编码 -->
       <el-form-item :label="t('scheduleGroup.code')" prop="groupCode">
         <el-input v-model="searchForm.groupCode" class="w-40!" clearable />

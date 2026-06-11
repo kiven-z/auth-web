@@ -1,4 +1,3 @@
-import { putUserRoles } from '@/api/system/user-role';
 import type { SysUserPageRow } from '@/api/system/user';
 import { addDialog } from '@/components/ui/Dialog';
 import UserSessionDialog from '@/views/system/user/components/UserSessionDialog.vue';
@@ -12,6 +11,7 @@ import { errorMessage, message } from '@/ui/feedback/message';
 import type { TableActionDeps } from '@/api/common';
 import { operationConfirm } from '@/ui/feedback/dialog';
 import { batchKickAllUserSessions, kickAllUserSessions } from '@/api/auth/session';
+import { putUserRoles } from '@/api/system/user-role';
 
 /** 用户分配角色操作依赖 */
 interface UserAssignRoleActionDeps extends TableActionDeps {
