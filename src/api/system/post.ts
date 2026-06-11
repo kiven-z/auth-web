@@ -10,7 +10,7 @@ import type {
 } from '@/api/common';
 import { mergePagedExportParams } from '@/api/common';
 import type { SysDeptBoundRoleItem } from '@/api/system/dept';
-import type { GrantTableAssignRoleRequest, GrantTableAssignedRoleRow } from '@/api/system/grant-table';
+import type { GrantTableAssignedRoleRow, GrantTableAssignRoleRequest } from '@/api/system/grant-table';
 import { http } from '@/infrastructure/http-core';
 
 export type { GrantTableAssignedRoleRow, GrantTableAssignRoleRequest };
@@ -116,14 +116,13 @@ export interface SysPostSearchOption {
  * 岗位关键词搜索参数
  */
 export interface SysPostSearchQuery {
-  postCode?: string;
-  postName?: string;
+  keyword?: string;
   status?: boolean;
   limit?: number;
 }
 
 /**
- * 岗位关键词搜索（编码/名称模糊匹配）
+ * 岗位关键词搜索
  * @param params 搜索条件
  * @returns 岗位搜索项列表
  */

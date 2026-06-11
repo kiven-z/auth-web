@@ -31,15 +31,14 @@ export default function useRemotePostSearch(options: UseRemotePostSearchOptions)
 
   /**
    * 执行一次远程搜索
-   * @param trimmed 已 trim 的关键字
+   * @param keyword 用户输入关键字
    */
-  async function executeSearch(trimmed: string) {
+  async function executeSearch(keyword: string) {
     const generation = ++searchGeneration;
     postSearchLoading.value = true;
     try {
       const rows = await searchPostByKeyword({
-        postCode: trimmed,
-        postName: trimmed,
+        keyword,
         status: true,
         limit: REMOTE_POST_SEARCH_LIMIT,
       });
@@ -60,8 +59,8 @@ export default function useRemotePostSearch(options: UseRemotePostSearchOptions)
     }
   }
 
-  const debouncedExecuteSearch = debounce((trimmed: string) => {
-    void executeSearch(trimmed);
+  const debouncedExecuteSearch = debounce((keyword: string) => {
+    void executeSearch(keyword);
   }, REMOTE_POST_SEARCH_DEBOUNCE_MS);
 
   onScopeDispose(() => {
@@ -73,15 +72,7 @@ export default function useRemotePostSearch(options: UseRemotePostSearchOptions)
    * @param keyword 用户输入关键字
    */
   const loadPostListByKeyword = (keyword: string) => {
-    const trimmed = keyword?.trim() ?? '';
-    if (!trimmed) {
-      debouncedExecuteSearch.cancel();
-      searchGeneration += 1;
-      postOptions.value = [];
-      postSearchLoading.value = false;
-      return;
-    }
-    debouncedExecuteSearch(trimmed);
+    debouncedExecuteSearch(keyword ?? '');
   };
 
   return { postOptions, postSearchLoading, loadPostListByKeyword };

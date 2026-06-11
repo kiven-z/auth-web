@@ -71,6 +71,6 @@ export function getUserProfile(userId: string | undefined): Promise<SysUserProfi
  */
 export function searchUserByKeyword(keyword: string, limit?: number): Promise<UserSearchOption[]> {
   return http.get<UserSearchOption[], AxiosRequestConfig>('/system/user/search', {
-    params: { keyword, ...(limit != null ? { limit } : {}) },
+    params: { keyword, limit },
   });
 }
