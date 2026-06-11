@@ -1,21 +1,12 @@
 <script lang="ts" setup>
-import type { FormOverlayExpose } from '@/composables/table/useFormOverlaySubmit';
-import { useFormOverlaySubmit } from '@/composables/table/useFormOverlaySubmit';
-import {
-  createUserDept,
-  getUserDeptPage,
-  updateUserDept,
-  type UserDeptAssignForm,
-  type UserDeptPageRow,
-} from '@/api/system/user-dept';
 import AuthPagedTable, { usePaginationState } from '@/components/business/AuthPagedTable';
-import { addDialog } from '@/components/ui/Dialog';
 import { USER_DEPT_RELATION_STATUS_FILTER_OPTIONS } from '@/views/system/user/constants/user-dept-relation-status';
-import UserDeptAssignFormDialog from '@/views/system/user/components/UserDeptAssignFormDialog.vue';
-import useUserDeptAssignTableColumns from '@/views/system/user/hooks/columns/useUserDeptAssignTableColumns';
-import type { FormInstance } from 'element-plus';
-import { computed, h, onMounted, reactive, ref } from 'vue';
+import useUserAssignDeptDrawerAction from '@/views/system/user/hooks/actions/useUserAssignDeptDrawerAction';
+import { onMounted, reactive, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
+import useUserDeptAssignTableColumns from '@/views/system/user/hooks/columns/useUserDeptAssignTableColumns';
+import { getUserDeptPage, UserDeptPageRow } from '@/api/system/user-dept';
+import type { FormInstance } from 'element-plus';
 
 defineOptions({ name: 'UserAssignDeptDrawer' });
 
@@ -26,11 +17,8 @@ const props = defineProps<{
 }>();
 
 const { t } = useI18n();
-const { createFormBeforeSure } = useFormOverlaySubmit();
-const searchFormRef = ref<FormInstance>();
-const { columns } = useUserDeptAssignTableColumns();
 
-const displayName = computed(() => props.nickname || props.username);
+const searchFormRef = ref<FormInstance>();
 
 const deptAssignState = usePaginationState<UserDeptPageRow>({
   searchForm: reactive({
@@ -49,68 +37,11 @@ const deptAssignState = usePaginationState<UserDeptPageRow>({
       status: query.status as number,
     }),
 });
+const { fetchTableData, resetQuery, loading, searchForm } = deptAssignState;
 
-const { loading, searchForm, fetchTableData, resetQuery } = deptAssignState;
+const { openCreateDialog, openEditDialog } = useUserAssignDeptDrawerAction({ userId: props.userId, fetchTableData });
 
-/**
- * 打开编辑部门关联弹窗
- * @param row 表格行
- */
-function openEditDialog(row: UserDeptPageRow) {
-  const dialogFormRef = ref<FormOverlayExpose<UserDeptAssignForm> | null>(null);
-
-  addDialog({
-    title: t('users.deptAssignEditTitle'),
-    draggable: true,
-    fullscreenIcon: true,
-    closeOnClickModal: false,
-    closeOnPressEscape: false,
-    contentRenderer: () =>
-      h(UserDeptAssignFormDialog, {
-        ref: dialogFormRef,
-        form: {
-          deptId: row.deptId,
-          status: row.status,
-          isPrimary: row.isPrimary,
-          remark: row.remark ?? undefined,
-        },
-      }),
-    beforeSure: createFormBeforeSure<UserDeptAssignForm>({
-      formExposeRef: dialogFormRef,
-      errorI18nKey: 'users.deptAssignSaveFailed',
-      successI18nKey: 'tips.editSuccess',
-      onSubmit: async (formPayload) => {
-        await updateUserDept(props.userId, row.id, formPayload);
-        await fetchTableData();
-      },
-    }),
-  });
-}
-
-/**
- * 打开新增部门关联弹窗
- */
-const openCreateDialog = () => {
-  const dialogFormRef = ref<FormOverlayExpose<UserDeptAssignForm> | null>(null);
-
-  addDialog({
-    title: t('users.deptAssignCreateTitle'),
-    draggable: true,
-    fullscreenIcon: true,
-    closeOnClickModal: false,
-    closeOnPressEscape: false,
-    contentRenderer: () => h(UserDeptAssignFormDialog, { ref: dialogFormRef }),
-    beforeSure: createFormBeforeSure<UserDeptAssignForm>({
-      formExposeRef: dialogFormRef,
-      errorI18nKey: 'users.deptAssignSaveFailed',
-      successI18nKey: 'tips.addSuccess',
-      onSubmit: async (formPayload) => {
-        await createUserDept(props.userId, formPayload);
-        await fetchTableData();
-      },
-    }),
-  });
-};
+const { columns } = useUserDeptAssignTableColumns();
 
 onMounted(() => {
   fetchTableData();
@@ -156,7 +87,7 @@ onMounted(() => {
       :adaptive-config="{ offsetBottom: 32 }"
       :columns="columns"
       :state="deptAssignState"
-      :title="`${displayName} (${username})`"
+      :title="`${nickname || username} (${username})`"
       show-overflow-tooltip
     >
       <template #buttons>
