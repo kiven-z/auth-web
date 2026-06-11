@@ -36,7 +36,6 @@ dept:
   relationStatus: 关联状态
   employeeNo: 工号
   userAccountStatus: 账号状态
-  grantTime: 授权时间
   boundUsersTitle: 关联用户
   boundPostsTitle: 下属岗位
   boundRolesTitle: 已授权角色

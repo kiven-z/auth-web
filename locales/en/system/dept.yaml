@@ -36,7 +36,6 @@ dept:
   relationStatus: Relation Status
   employeeNo: Employee No.
   userAccountStatus: Account Status
-  grantTime: Granted At
   boundUsersTitle: Linked Users
   boundPostsTitle: Posts
   boundRolesTitle: Granted Roles

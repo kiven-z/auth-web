@@ -20,7 +20,6 @@ post:
   isPrimaryPosition: 是否主岗位
   primaryPosition: 主岗位
   secondaryPosition: 副岗位
-  assignmentDate: 任职时间
   boundDeptTitle: 所属部门
   boundUsersTitle: 关联用户
   boundUsersEmpty: 暂无关联用户

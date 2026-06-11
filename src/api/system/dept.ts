@@ -85,7 +85,8 @@ export interface SysDeptBoundRoleItem {
   roleName: string;
   status: boolean;
   roleType: number;
-  grantTime?: string;
+  createTime?: string;
+  updateTime?: string;
 }
 
 /**

@@ -44,7 +44,8 @@ function usePostBindingColumns() {
       minWidth: 100,
       formatter: (row: SysPostBoundUserItem) => renderRelationStatus(row.relationStatus),
     },
-    { label: t('post.assignmentDate'), prop: 'assignmentDate', minWidth: 160 },
+    { label: t('table.createTime'), prop: 'createTime', minWidth: 160 },
+    { label: t('table.updateTime'), prop: 'updateTime', minWidth: 160 },
   ]);
 
   const deptSnapshotColumns = computed(() => [

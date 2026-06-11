@@ -20,7 +20,6 @@ post:
   isPrimaryPosition: Primary Post
   primaryPosition: Primary
   secondaryPosition: Secondary
-  assignmentDate: Assignment Date
   boundDeptTitle: Department
   boundUsersTitle: Linked Users
   boundUsersEmpty: No linked users

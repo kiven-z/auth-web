@@ -81,7 +81,8 @@ export interface SysPostBoundUserItem {
   userStatus: number;
   isPrimary: boolean;
   relationStatus: number;
-  assignmentDate?: string;
+  createTime?: string;
+  updateTime?: string;
 }
 
 /**

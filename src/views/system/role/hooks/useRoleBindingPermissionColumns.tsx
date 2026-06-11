@@ -39,7 +39,8 @@ function useRoleBindingPermissionColumns() {
         </ElTag>
       ),
     },
-    { label: t('dept.grantTime'), prop: 'grantTime', minWidth: 160 },
+    { label: t('table.createTime'), prop: 'createTime', minWidth: 160 },
+    { label: t('table.updateTime'), prop: 'updateTime', minWidth: 160 },
   ]);
 
   return { columns };
