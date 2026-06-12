@@ -1,15 +1,18 @@
 /**
- * 定时任务类型（对应后端 SysJobTaskType）
+ * 定时任务类型（对应后端 SysJobTaskType，含列表展示用全量枚举）
  */
 export const JOB_TASK_TYPE_OPTIONS = [
   { value: 'BEAN_INVOKE', labelKey: 'scheduleTask.taskTypeBeanInvoke' },
   { value: 'CUSTOM_CLASS', labelKey: 'scheduleTask.taskTypeCustomClass' },
   { value: 'MESSAGE_DISPATCH', labelKey: 'scheduleTask.taskTypeMessageDispatch' },
 ] as const;
-
-/** 任务类型 value 联合类型 */
-export type JobTaskTypeValue = (typeof JOB_TASK_TYPE_OPTIONS)[number]['value'];
-
+/**
+ * 调度管理页表单可选任务类型（消息派发由消息模块维护，不在此创建）
+ */
+export const JOB_TASK_TYPE_FORM_OPTIONS = [
+  { value: 'BEAN_INVOKE', labelKey: 'scheduleTask.taskTypeBeanInvoke' },
+  { value: 'CUSTOM_CLASS', labelKey: 'scheduleTask.taskTypeCustomClass' },
+] as const;
 /**
  * 错失策略（对应后端 SysJobSchedulerManager.applyMisfire）
  */
@@ -18,6 +21,3 @@ export const JOB_MISFIRE_POLICY_OPTIONS = [
   { value: 2, labelKey: 'scheduleTask.misfirePolicyFireOnce' },
   { value: 3, labelKey: 'scheduleTask.misfirePolicyDoNothing' },
 ] as const;
-
-/** 错失策略 value 联合类型 */
-export type JobMisfirePolicyValue = (typeof JOB_MISFIRE_POLICY_OPTIONS)[number]['value'];

@@ -6,6 +6,12 @@ scheduleTask:
   invokeTarget: Invoke Target
   handlerCode: Handler Code
   cronExpression: Cron Expression
+  cronPresetEvery5Minutes: Every 5 Minutes
+  cronPresetHourly: Every Hour
+  cronPresetDailyMidnight: Daily at 00:00
+  cronPresetDaily9am: Daily at 09:00
+  cronPresetWeeklyMonday9am: Every Monday at 09:00
+  cronPresetMonthlyFirstMidnight: 1st of Month at 00:00
   misfirePolicy: Misfire Policy
   concurrent: Concurrent
   status: Run Status

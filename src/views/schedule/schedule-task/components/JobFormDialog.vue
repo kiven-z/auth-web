@@ -3,16 +3,16 @@ import type { FormDialog } from '@/api/common';
 import {
   getJobCatalogClasses,
   getJobCatalogMethods,
-  getMessagePayloadTemplate,
   type QuartzTaskClassRow,
   type QuartzTaskMethodRow,
   type SysJobCreateForm,
 } from '@/api/schedule/job';
 import { useFormPlaceholder } from '@/composables/i18n/useFormPlaceholder';
 import { errorMessage } from '@/ui/feedback/message';
+import { JOB_CRON_PRESET_OPTIONS } from '@/views/schedule/schedule-task/constants/job-cron-presets';
 import {
   JOB_MISFIRE_POLICY_OPTIONS,
-  JOB_TASK_TYPE_OPTIONS,
+  JOB_TASK_TYPE_FORM_OPTIONS,
 } from '@/views/schedule/schedule-task/constants/job-task-enums';
 import useJobGroupRemoteSearch from '@/views/schedule/schedule-task/hooks/useJobGroupRemoteSearch';
 import type { FormInstance, FormRules } from 'element-plus';
@@ -49,7 +49,6 @@ const loadingMethods = ref(false);
 
 const isBeanInvoke = computed(() => form.value.taskType === 'BEAN_INVOKE');
 const isCustomClass = computed(() => form.value.taskType === 'CUSTOM_CLASS');
-const isMessageDispatch = computed(() => form.value.taskType === 'MESSAGE_DISPATCH');
 
 const rules = computed<FormRules>(() => ({
   jobName: [
@@ -59,8 +58,8 @@ const rules = computed<FormRules>(() => ({
   jobGroup: [{ required: true, message: ph.select('scheduleTask.jobGroup'), trigger: 'change' }],
   taskType: [{ required: true, message: ph.select('scheduleTask.taskType'), trigger: 'change' }],
   cronExpression: [
-    { required: true, message: ph.input('scheduleTask.cronExpression'), trigger: 'blur' },
-    { max: 255, message: t('scheduleTask.cronExpressionLengthLimit'), trigger: 'blur' },
+    { required: true, message: ph.select('scheduleTask.cronExpression'), trigger: 'change' },
+    { max: 255, message: t('scheduleTask.cronExpressionLengthLimit'), trigger: 'change' },
   ],
   misfirePolicy: [{ required: true, message: ph.select('scheduleTask.misfirePolicy'), trigger: 'change' }],
   concurrent: [{ required: true, message: ph.select('scheduleTask.concurrent'), trigger: 'change' }],
@@ -71,10 +70,6 @@ const rules = computed<FormRules>(() => ({
   jobClass: isCustomClass.value
     ? [{ required: true, message: ph.select('scheduleTask.jobClass'), trigger: 'change' }]
     : [],
-  payloadJson: isMessageDispatch.value
-    ? [{ required: true, message: ph.input('scheduleTask.payloadJson'), trigger: 'blur' }]
-    : [],
-  handlerCode: [{ max: 64, message: t('scheduleTask.handlerCodeLengthLimit'), trigger: 'blur' }],
   remark: [{ max: 500, message: t('scheduleTask.remarkLengthLimit'), trigger: 'blur' }],
 }));
 
@@ -106,36 +101,14 @@ async function loadCatalogMethods(className: string) {
   }
 }
 
-/**
- * 填充消息派发 payload 模板
- */
-async function fillMessagePayloadTemplate() {
-  try {
-    const template = await getMessagePayloadTemplate();
-    form.value.payloadJson = JSON.stringify(template, null, 2);
-  } catch (error: unknown) {
-    errorMessage(error, { defaultI18nKey: 'scheduleTask.loadCatalogFailed' });
-  }
-}
-
 watch(
   () => form.value.taskType,
   (taskType) => {
     if (taskType === 'BEAN_INVOKE') {
       form.value.jobClass = undefined;
-      form.value.payloadJson = undefined;
       return;
     }
     if (taskType === 'CUSTOM_CLASS') {
-      form.value.invokeTarget = undefined;
-      form.value.payloadJson = undefined;
-      selectedBeanClass.value = undefined;
-      selectedBeanMethod.value = undefined;
-      catalogMethods.value = [];
-      return;
-    }
-    if (taskType === 'MESSAGE_DISPATCH') {
-      form.value.jobClass = undefined;
       form.value.invokeTarget = undefined;
       selectedBeanClass.value = undefined;
       selectedBeanMethod.value = undefined;
@@ -206,18 +179,12 @@ defineExpose({ formRef, form });
         <el-form-item :label="t('scheduleTask.taskType')" prop="taskType">
           <el-select v-model="form.taskType" :placeholder="ph.select('scheduleTask.taskType')" class="w-full">
             <el-option
-              v-for="opt in JOB_TASK_TYPE_OPTIONS"
+              v-for="opt in JOB_TASK_TYPE_FORM_OPTIONS"
               :key="opt.value"
               :label="t(opt.labelKey)"
               :value="opt.value"
             />
           </el-select>
-        </el-form-item>
-      </el-col>
-      <!-- 执行处理器 -->
-      <el-col :lg="12" :md="12" :sm="24" :xs="24">
-        <el-form-item :label="t('scheduleTask.handlerCode')" prop="handlerCode">
-          <el-input v-model="form.handlerCode" :placeholder="ph.input('scheduleTask.handlerCode')" />
         </el-form-item>
       </el-col>
 
@@ -296,24 +263,24 @@ defineExpose({ formRef, form });
         </el-col>
       </template>
 
-      <template v-if="isMessageDispatch">
-        <!-- 扩展载荷 JSON -->
-        <el-col :span="24">
-          <el-form-item :label="t('scheduleTask.payloadJson')" prop="payloadJson">
-            <div class="w-full">
-              <el-button class="mb-2" link type="primary" @click="fillMessagePayloadTemplate">
-                {{ t('scheduleTask.loadPayloadTemplate') }}
-              </el-button>
-              <CodeEditor v-model:value="form.payloadJson" language="json" show-progress />
-            </div>
-          </el-form-item>
-        </el-col>
-      </template>
-
       <!-- Cron 表达式 -->
       <el-col :lg="12" :md="12" :sm="24" :xs="24">
         <el-form-item :label="t('scheduleTask.cronExpression')" prop="cronExpression">
-          <el-input v-model="form.cronExpression" :placeholder="ph.input('scheduleTask.cronExpression')" />
+          <el-select
+            v-model="form.cronExpression"
+            :placeholder="ph.select('scheduleTask.cronExpression')"
+            allow-create
+            class="w-full"
+            default-first-option
+            filterable
+          >
+            <el-option
+              v-for="opt in JOB_CRON_PRESET_OPTIONS"
+              :key="opt.value"
+              :label="t(opt.labelKey)"
+              :value="opt.value"
+            />
+          </el-select>
         </el-form-item>
       </el-col>
       <!-- 错失策略 -->

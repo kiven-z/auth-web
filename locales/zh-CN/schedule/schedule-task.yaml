@@ -6,6 +6,12 @@ scheduleTask:
   invokeTarget: 调用目标
   handlerCode: 执行处理器
   cronExpression: Cron 表达式
+  cronPresetEvery5Minutes: 每 5 分钟
+  cronPresetHourly: 每小时整点
+  cronPresetDailyMidnight: 每天 00:00
+  cronPresetDaily9am: 每天 09:00
+  cronPresetWeeklyMonday9am: 每周一 09:00
+  cronPresetMonthlyFirstMidnight: 每月 1 日 00:00
   misfirePolicy: 错失策略
   concurrent: 是否并发
   status: 运行状态

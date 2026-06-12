@@ -140,10 +140,3 @@ export function getJobCatalogMethods(className: string): Promise<QuartzTaskMetho
     params: { className },
   });
 }
-
-/**
- * 消息调度 payload 模板
- */
-export function getMessagePayloadTemplate(): Promise<Record<string, unknown>> {
-  return http.get<Record<string, unknown>, AxiosRequestConfig>('/system/job/catalog/message-payload-template');
-}
