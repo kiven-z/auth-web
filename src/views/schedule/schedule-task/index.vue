@@ -95,8 +95,10 @@ onMounted(() => {
       show-overflow-tooltip
     >
       <template #buttons>
-        <!-- 新增 -->
-        <el-button type="primary" @click="openCreateDialog">{{ t('buttons.actionAdd') }}</el-button>
+        <el-button-group type="primary">
+          <!-- 新增 -->
+          <el-button @click="openCreateDialog">{{ t('buttons.actionAdd') }}</el-button>
+        </el-button-group>
       </template>
 
       <template #actions="{ row }">

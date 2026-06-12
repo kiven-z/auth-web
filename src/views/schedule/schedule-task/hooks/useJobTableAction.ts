@@ -2,17 +2,17 @@ import type { TableActionDeps } from '@/api/common';
 import {
   createJob,
   getJobDetail,
-  updateJob,
   type SysJobCreateForm,
-  type SysJobDetailRow,
   type SysJobPageRow,
   type SysJobUpdateForm,
+  updateJob,
 } from '@/api/schedule/job';
 import { addDialog } from '@/components/ui/Dialog';
 import { type FormOverlayExpose, useFormOverlaySubmit } from '@/composables/table/useFormOverlaySubmit';
 import { errorMessage } from '@/ui/feedback/message';
+import JobCreateFormDialog from '@/views/schedule/schedule-task/components/JobCreateFormDialog.vue';
 import JobDescriptionDialog from '@/views/schedule/schedule-task/components/JobDescriptionDialog.vue';
-import JobFormDialog from '@/views/schedule/schedule-task/components/JobFormDialog.vue';
+import JobUpdateFormDialog from '@/views/schedule/schedule-task/components/JobUpdateFormDialog.vue';
 import { h, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 
@@ -38,7 +38,7 @@ function useJobTableAction(deps: TableActionDeps) {
       fullscreenIcon: true,
       closeOnClickModal: false,
       closeOnPressEscape: false,
-      contentRenderer: () => h(JobFormDialog, { ref: dialogFormRef }),
+      contentRenderer: () => h(JobCreateFormDialog, { ref: dialogFormRef }),
       beforeSure: createFormBeforeSure<SysJobCreateForm>({
         formExposeRef: dialogFormRef,
         errorI18nKey: 'scheduleTask.loadFailed',
@@ -50,26 +50,6 @@ function useJobTableAction(deps: TableActionDeps) {
       }),
     });
   };
-
-  /**
-   * 详情转修改表单（仅包含后端 SysJobUpdateForm 字段）
-   * @param detail 任务详情
-   */
-  const toUpdateForm = (detail: SysJobDetailRow): SysJobUpdateForm => ({
-    id: detail.id,
-    taskType: detail.taskType ?? 'BEAN_INVOKE',
-    cronExpression: detail.cronExpression ?? '',
-    misfirePolicy: detail.misfirePolicy ?? 2,
-    concurrent: detail.concurrent ?? false,
-    status: detail.status ?? true,
-    startTime: detail.startTime,
-    endTime: detail.endTime,
-    jobParams: detail.jobParams,
-    handlerCode: detail.handlerCode,
-    payloadJson: detail.payloadJson,
-    invokeTarget: detail.invokeTarget,
-    remark: detail.remark,
-  });
 
   /**
    * 打开编辑弹窗
@@ -87,13 +67,9 @@ function useJobTableAction(deps: TableActionDeps) {
         closeOnClickModal: false,
         closeOnPressEscape: false,
         contentRenderer: () =>
-          h(JobFormDialog, {
+          h(JobUpdateFormDialog, {
             ref: dialogFormRef,
-            form: toUpdateForm(detail),
-            mode: 'edit',
-            displayJobName: detail.jobName,
-            displayJobGroup: detail.jobGroup,
-            displayJobClass: detail.jobClass,
+            detail,
           }),
         beforeSure: createFormBeforeSure<SysJobUpdateForm>({
           formExposeRef: dialogFormRef,
