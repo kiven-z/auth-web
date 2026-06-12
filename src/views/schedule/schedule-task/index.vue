@@ -1,9 +1,95 @@
-<script lang="ts" setup></script>
+<script lang="ts" setup>
+import { getJobPage } from '@/api/schedule/job';
+import AuthPagedTable, { usePaginationState } from '@/components/business/AuthPagedTable';
+import { COMMON_BOOLEAN_STATUS_FILTER_OPTIONS } from '@/constants/boolean-status';
+import useJobTableColumns from '@/views/schedule/schedule-task/hooks/useJobTableColumns';
+import { useFormPlaceholder } from '@/composables/i18n/useFormPlaceholder';
+import type { FormInstance } from 'element-plus';
+import { onMounted, reactive, ref } from 'vue';
+import { useI18n } from 'vue-i18n';
+
+defineOptions({
+  name: 'ScheduleTask',
+});
+
+const { t } = useI18n();
+const ph = useFormPlaceholder();
+const { columns } = useJobTableColumns();
+const searchFormRef = ref<FormInstance>();
+
+const jobState = usePaginationState({
+  fetchApi: getJobPage,
+  searchForm: reactive({
+    jobName: undefined,
+    jobGroup: undefined,
+    status: undefined,
+  }),
+  errorI18nKey: 'scheduleTask.loadFailed',
+});
+
+const { loading, searchForm, fetchTableData, resetQuery } = jobState;
+
+onMounted(() => {
+  fetchTableData();
+});
+</script>
 
 <template>
   <div>
-    <h1>schedule-task/index</h1>
+    <el-form ref="searchFormRef" :model="searchForm" class="bg-bg_color w-[99/100] overflow-auto pl-8 pt-3" inline>
+      <!-- 任务名称 -->
+      <el-form-item :label="t('scheduleTask.jobName')" prop="jobName">
+        <el-input
+          v-model="searchForm.jobName"
+          :placeholder="ph.input('scheduleTask.jobName')"
+          class="w-40!"
+          clearable
+        />
+      </el-form-item>
+      <!-- 任务分组 -->
+      <el-form-item :label="t('scheduleTask.jobGroup')" prop="jobGroup">
+        <el-input
+          v-model="searchForm.jobGroup"
+          :placeholder="ph.input('scheduleTask.jobGroup')"
+          class="w-40!"
+          clearable
+        />
+      </el-form-item>
+      <!-- 运行状态 -->
+      <el-form-item :label="t('scheduleTask.status')" prop="status">
+        <el-select
+          v-model="searchForm.status"
+          :placeholder="ph.selectFilter('scheduleTask.status')"
+          class="w-40!"
+          clearable
+        >
+          <el-option
+            v-for="opt in COMMON_BOOLEAN_STATUS_FILTER_OPTIONS"
+            :key="`${opt.labelKey}:${String(opt.value)}`"
+            :label="t(opt.labelKey)"
+            :value="opt.value"
+          />
+        </el-select>
+      </el-form-item>
+
+      <el-form-item>
+        <el-button-group>
+          <!-- 搜索 -->
+          <el-button :loading="loading" type="primary" @click="fetchTableData">
+            {{ t('buttons.actionSearch') }}
+          </el-button>
+          <!-- 重置 -->
+          <el-button @click="resetQuery(searchFormRef)">{{ t('buttons.actionReset') }}</el-button>
+        </el-button-group>
+      </el-form-item>
+    </el-form>
+
+    <AuthPagedTable
+      :adaptive-config="{ offsetBottom: 96 }"
+      :columns="columns"
+      :state="jobState"
+      :title="t('scheduleTask.tableTitle')"
+      show-overflow-tooltip
+    />
   </div>
 </template>
-
-<style lang="scss" scoped></style>

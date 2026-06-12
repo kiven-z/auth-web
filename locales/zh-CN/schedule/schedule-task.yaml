@@ -1,0 +1,22 @@
+scheduleTask:
+  jobName: 任务名称
+  jobGroup: 任务分组
+  taskType: 任务类型
+  invokeTarget: 调用目标
+  handlerCode: 执行处理器
+  cronExpression: Cron 表达式
+  misfirePolicy: 错失策略
+  concurrent: 是否并发
+  status: 运行状态
+  previousFireTime: 上次触发
+  nextFireTime: 下次触发
+  tableTitle: 任务调度任务
+  loadFailed: 加载定时任务列表失败
+  taskTypeBeanInvoke: Bean 调用
+  taskTypeCustomClass: 自定义类
+  taskTypeMessageDispatch: 消息派发
+  misfirePolicyIgnoreAll: 补跑全部
+  misfirePolicyFireOnce: 补跑一次
+  misfirePolicyDoNothing: 不补跑
+  concurrentAllowed: 允许并发
+  concurrentForbidden: 禁止并发
