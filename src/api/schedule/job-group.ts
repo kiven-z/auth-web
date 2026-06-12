@@ -61,12 +61,31 @@ export interface UpdateJobGroupRequest {
 }
 
 /**
+ * 启用分组远程搜索参数（对应后端 GET /system/job-group/options）
+ */
+export interface SysJobGroupSearchQuery {
+  keyword?: string;
+  limit?: number;
+}
+
+/**
  * 分页查询任务分组
  * @param params 任务分组分页查询参数
  * @returns 任务分组分页行
  */
 export function getJobGroupPage(params: SysJobGroupPageQuery): Promise<PageResponse<SysJobGroupPageRow>> {
   return http.get<PageResponse<SysJobGroupPageRow>, AxiosRequestConfig<SysJobGroupPageQuery>>('/system/job-group', {
+    params,
+  });
+}
+
+/**
+ * 启用分组远程搜索（按分组编码、分组名称模糊匹配，后端固定 status=true）
+ * @param params 搜索参数
+ * @returns 分组选项列表
+ */
+export function searchJobGroupOptions(params: SysJobGroupSearchQuery): Promise<SysJobGroupPageRow[]> {
+  return http.get<SysJobGroupPageRow[], AxiosRequestConfig<SysJobGroupSearchQuery>>('/system/job-group/options', {
     params,
   });
 }

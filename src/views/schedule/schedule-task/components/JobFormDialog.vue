@@ -8,16 +8,17 @@ import {
   type QuartzTaskMethodRow,
   type SysJobCreateForm,
 } from '@/api/schedule/job';
-import { getJobGroupPage, type SysJobGroupPageRow } from '@/api/schedule/job-group';
 import { useFormPlaceholder } from '@/composables/i18n/useFormPlaceholder';
 import { errorMessage } from '@/ui/feedback/message';
 import {
   JOB_MISFIRE_POLICY_OPTIONS,
   JOB_TASK_TYPE_OPTIONS,
 } from '@/views/schedule/schedule-task/constants/job-task-enums';
+import useJobGroupRemoteSearch from '@/views/schedule/schedule-task/hooks/useJobGroupRemoteSearch';
 import type { FormInstance, FormRules } from 'element-plus';
 import { computed, onMounted, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
+import { CodeEditor } from 'monaco-editor-vue3';
 
 defineOptions({
   name: 'JobFormDialog',
@@ -39,12 +40,11 @@ const form = ref<SysJobCreateForm>({
   ...props.form,
 });
 
-const jobGroupOptions = ref<SysJobGroupPageRow[]>([]);
+const { jobGroupOptions, loadingJobGroups, loadJobGroupByKeyword } = useJobGroupRemoteSearch();
 const catalogClasses = ref<QuartzTaskClassRow[]>([]);
 const catalogMethods = ref<QuartzTaskMethodRow[]>([]);
 const selectedBeanClass = ref<string>();
 const selectedBeanMethod = ref<string>();
-const loadingJobGroups = ref(false);
 const loadingMethods = ref(false);
 
 const isBeanInvoke = computed(() => form.value.taskType === 'BEAN_INVOKE');
@@ -77,21 +77,6 @@ const rules = computed<FormRules>(() => ({
   handlerCode: [{ max: 64, message: t('scheduleTask.handlerCodeLengthLimit'), trigger: 'blur' }],
   remark: [{ max: 500, message: t('scheduleTask.remarkLengthLimit'), trigger: 'blur' }],
 }));
-
-/**
- * 加载任务分组下拉选项
- */
-async function loadJobGroupOptions() {
-  loadingJobGroups.value = true;
-  try {
-    const response = await getJobGroupPage({ pageIndex: 1, pageSize: 200, status: true });
-    jobGroupOptions.value = response.list;
-  } catch (error: unknown) {
-    errorMessage(error, { defaultI18nKey: 'scheduleTask.loadJobGroupFailed' });
-  } finally {
-    loadingJobGroups.value = false;
-  }
-}
 
 /**
  * 加载白名单任务类
@@ -179,7 +164,7 @@ watch(selectedBeanMethod, (methodKey) => {
 });
 
 onMounted(() => {
-  void loadJobGroupOptions();
+  void loadJobGroupByKeyword(undefined);
   void loadCatalogClasses();
 });
 
@@ -202,8 +187,10 @@ defineExpose({ formRef, form });
             v-model="form.jobGroup"
             :loading="loadingJobGroups"
             :placeholder="ph.select('scheduleTask.jobGroup')"
+            :remote-method="loadJobGroupByKeyword"
             class="w-full"
             filterable
+            remote
           >
             <el-option
               v-for="item in jobGroupOptions"
@@ -317,12 +304,7 @@ defineExpose({ formRef, form });
               <el-button class="mb-2" link type="primary" @click="fillMessagePayloadTemplate">
                 {{ t('scheduleTask.loadPayloadTemplate') }}
               </el-button>
-              <el-input
-                v-model="form.payloadJson"
-                :placeholder="ph.input('scheduleTask.payloadJson')"
-                :rows="6"
-                type="textarea"
-              />
+              <CodeEditor v-model:value="form.payloadJson" language="json" show-progress />
             </div>
           </el-form-item>
         </el-col>
@@ -394,11 +376,13 @@ defineExpose({ formRef, form });
       <!-- 执行参数 JSON -->
       <el-col :span="24">
         <el-form-item :label="t('scheduleTask.jobParams')" prop="jobParams">
-          <el-input
-            v-model="form.jobParams"
-            :placeholder="ph.input('scheduleTask.jobParams')"
-            :rows="3"
-            type="textarea"
+          <CodeEditor
+            v-model:value="form.jobParams"
+            class="border"
+            height="150"
+            language="json"
+            show-progress
+            theme="vs"
           />
         </el-form-item>
       </el-col>
