@@ -1,6 +1,7 @@
 scheduleTask:
   jobName: 任务名称
   jobGroup: 任务分组
+  jobGroupName: 任务分组名称
   jobClass: 任务类
   taskType: 任务类型
   invokeTarget: 调用目标
@@ -25,6 +26,7 @@ scheduleTask:
   nextFireTime: 下次触发
   tableTitle: 任务调度任务
   dialogCreateTitle: 新增定时任务
+  dialogViewTitle: 查看定时任务详情
   loadFailed: 加载定时任务列表失败
   loadJobGroupFailed: 加载任务分组失败
   loadCatalogFailed: 加载任务目录失败

@@ -1,6 +1,7 @@
 scheduleTask:
   jobName: Job Name
   jobGroup: Job Group
+  jobGroupName: Job Group Name
   jobClass: Job Class
   taskType: Task Type
   invokeTarget: Invoke Target
@@ -25,6 +26,7 @@ scheduleTask:
   nextFireTime: Next Fire Time
   tableTitle: Schedule Tasks
   dialogCreateTitle: Add Schedule Task
+  dialogViewTitle: View Schedule Task Details
   loadFailed: Failed to load schedule tasks
   loadJobGroupFailed: Failed to load job groups
   loadCatalogFailed: Failed to load task catalog

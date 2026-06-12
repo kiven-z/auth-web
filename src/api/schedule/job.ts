@@ -80,6 +80,7 @@ export interface QuartzTaskMethodRow {
 export interface SysJobDetailRow extends BaseResponseDetail {
   jobName: string;
   jobGroup: string;
+  jobGroupName?: string;
   jobClass?: string;
   taskType?: string;
   handlerCode?: string;

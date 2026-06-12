@@ -16,7 +16,6 @@ import {
 } from '@/views/schedule/schedule-task/constants/job-task-enums';
 import useJobGroupRemoteSearch from '@/views/schedule/schedule-task/hooks/useJobGroupRemoteSearch';
 import JobCatalogClassPicker from '@/views/schedule/schedule-task/components/JobCatalogClassPicker.vue';
-import { filterCatalogClassesByTaskType } from '@/views/schedule/schedule-task/utils/job-catalog-label';
 import type { FormInstance, FormRules } from 'element-plus';
 import { computed, onMounted, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
@@ -52,8 +51,12 @@ const loadingMethods = ref(false);
 const isBeanInvoke = computed(() => form.value.taskType === 'BEAN_INVOKE');
 const isCustomClass = computed(() => form.value.taskType === 'CUSTOM_CLASS');
 
-const beanCatalogClasses = computed(() => filterCatalogClassesByTaskType(catalogClasses.value, 'BEAN_INVOKE'));
-const customCatalogClasses = computed(() => filterCatalogClassesByTaskType(catalogClasses.value, 'CUSTOM_CLASS'));
+const beanCatalogClasses = computed(() =>
+  catalogClasses.value.filter((item) => item.invokeModes?.includes('BEAN_INVOKE'))
+);
+const customCatalogClasses = computed(() =>
+  catalogClasses.value.filter((item) => item.invokeModes?.includes('CUSTOM_CLASS'))
+);
 
 const rules = computed<FormRules>(() => ({
   jobName: [

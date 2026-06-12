@@ -1,7 +1,9 @@
 import type { TableActionDeps } from '@/api/common';
-import { createJob, type SysJobCreateForm } from '@/api/schedule/job';
+import { createJob, getJobDetail, type SysJobCreateForm, type SysJobPageRow } from '@/api/schedule/job';
 import { addDialog } from '@/components/ui/Dialog';
 import { type FormOverlayExpose, useFormOverlaySubmit } from '@/composables/table/useFormOverlaySubmit';
+import { errorMessage } from '@/ui/feedback/message';
+import JobDescriptionDialog from '@/views/schedule/schedule-task/components/JobDescriptionDialog.vue';
 import JobFormDialog from '@/views/schedule/schedule-task/components/JobFormDialog.vue';
 import { h, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
@@ -41,8 +43,30 @@ function useJobTableAction(deps: TableActionDeps) {
     });
   };
 
+  /**
+   * 查看详情
+   * @param row 表格行
+   */
+  const openDetailDialog = async (row: SysJobPageRow) => {
+    try {
+      const detail = await getJobDetail(row.id);
+      addDialog({
+        title: t('scheduleTask.dialogViewTitle'),
+        draggable: true,
+        fullscreenIcon: true,
+        closeOnPressEscape: false,
+        closeOnClickModal: false,
+        hideFooter: true,
+        contentRenderer: () => h(JobDescriptionDialog, { data: detail }),
+      });
+    } catch (error: unknown) {
+      errorMessage(error, { defaultI18nKey: 'scheduleTask.loadFailed' });
+    }
+  };
+
   return {
     openCreateDialog,
+    openDetailDialog,
   };
 }
 

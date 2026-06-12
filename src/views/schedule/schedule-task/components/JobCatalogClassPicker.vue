@@ -1,6 +1,5 @@
 <script lang="ts" setup>
 import type { QuartzTaskClassRow } from '@/api/schedule/job';
-import { formatJobCatalogClassLabel } from '@/views/schedule/schedule-task/utils/job-catalog-label';
 import { computed } from 'vue';
 
 defineOptions({
@@ -36,15 +35,12 @@ interface CatalogSelectOption {
 const selectOptions = computed<CatalogSelectOption[]>(() =>
   props.options.map((item) => ({
     value: item.className,
-    label: formatJobCatalogClassLabel(item),
+    label: `${item.name || item.className}（${item.description}）`,
     name: item.name || item.className,
     description: item.description,
     className: item.className,
   }))
 );
-
-/** 下拉项行高：标题 + 说明（含换行） */
-const OPTION_ITEM_HEIGHT = 64;
 
 /**
  * 同步 v-model
@@ -58,7 +54,7 @@ function handleChange(value: string | undefined) {
 <template>
   <el-select-v2
     :disabled="disabled"
-    :item-height="OPTION_ITEM_HEIGHT"
+    :item-height="64"
     :model-value="modelValue"
     :options="selectOptions"
     :placeholder="placeholder"

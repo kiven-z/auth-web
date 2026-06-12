@@ -85,6 +85,7 @@ assign:
   permission: 分配权限
 table:
   idx: 序号
+  id: 主键
   assigned: 已分配
   actions: 操作
   createTime: 创建时间

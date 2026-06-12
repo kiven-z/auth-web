@@ -86,6 +86,7 @@ assign:
 
 table:
   idx: No
+  id: ID
   assigned: Assigned
   actions: Actions
   createTime: Created At

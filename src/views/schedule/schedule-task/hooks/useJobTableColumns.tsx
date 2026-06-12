@@ -143,6 +143,12 @@ function useJobTableColumns() {
         );
       },
     },
+    {
+      label: t('table.actions'),
+      fixed: 'right' as const,
+      width: 240,
+      slot: 'actions',
+    },
   ]);
 
   return { columns };
