@@ -1,5 +1,13 @@
 import type { TableActionDeps } from '@/api/common';
-import { createJob, getJobDetail, type SysJobCreateForm, type SysJobPageRow } from '@/api/schedule/job';
+import {
+  createJob,
+  getJobDetail,
+  updateJob,
+  type SysJobCreateForm,
+  type SysJobDetailRow,
+  type SysJobPageRow,
+  type SysJobUpdateForm,
+} from '@/api/schedule/job';
 import { addDialog } from '@/components/ui/Dialog';
 import { type FormOverlayExpose, useFormOverlaySubmit } from '@/composables/table/useFormOverlaySubmit';
 import { errorMessage } from '@/ui/feedback/message';
@@ -44,6 +52,66 @@ function useJobTableAction(deps: TableActionDeps) {
   };
 
   /**
+   * 详情转修改表单（仅包含后端 SysJobUpdateForm 字段）
+   * @param detail 任务详情
+   */
+  const toUpdateForm = (detail: SysJobDetailRow): SysJobUpdateForm => ({
+    id: detail.id,
+    taskType: detail.taskType ?? 'BEAN_INVOKE',
+    cronExpression: detail.cronExpression ?? '',
+    misfirePolicy: detail.misfirePolicy ?? 2,
+    concurrent: detail.concurrent ?? false,
+    status: detail.status ?? true,
+    startTime: detail.startTime,
+    endTime: detail.endTime,
+    jobParams: detail.jobParams,
+    handlerCode: detail.handlerCode,
+    payloadJson: detail.payloadJson,
+    invokeTarget: detail.invokeTarget,
+    remark: detail.remark,
+  });
+
+  /**
+   * 打开编辑弹窗
+   * @param row 表格行
+   */
+  const openEditDialog = async (row: SysJobPageRow) => {
+    try {
+      const detail = await getJobDetail(row.id);
+      const dialogFormRef = ref<FormOverlayExpose<SysJobUpdateForm> | null>(null);
+
+      addDialog({
+        title: t('scheduleTask.dialogEditTitle'),
+        draggable: true,
+        fullscreenIcon: true,
+        closeOnClickModal: false,
+        closeOnPressEscape: false,
+        contentRenderer: () =>
+          h(JobFormDialog, {
+            ref: dialogFormRef,
+            form: toUpdateForm(detail),
+            mode: 'edit',
+            displayJobName: detail.jobName,
+            displayJobGroup: detail.jobGroup,
+            displayJobClass: detail.jobClass,
+          }),
+        beforeSure: createFormBeforeSure<SysJobUpdateForm>({
+          formExposeRef: dialogFormRef,
+          requireId: true,
+          errorI18nKey: 'scheduleTask.loadFailed',
+          successI18nKey: 'tips.editSuccess',
+          onSubmit: async (formData) => {
+            await updateJob(formData);
+            await fetchTableData();
+          },
+        }),
+      });
+    } catch (error: unknown) {
+      errorMessage(error, { defaultI18nKey: 'scheduleTask.loadFailed' });
+    }
+  };
+
+  /**
    * 查看详情
    * @param row 表格行
    */
@@ -67,6 +135,7 @@ function useJobTableAction(deps: TableActionDeps) {
   return {
     openCreateDialog,
     openDetailDialog,
+    openEditDialog,
   };
 }
 

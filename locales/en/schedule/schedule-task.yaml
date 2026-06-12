@@ -26,7 +26,9 @@ scheduleTask:
   nextFireTime: Next Fire Time
   tableTitle: Schedule Tasks
   dialogCreateTitle: Add Schedule Task
+  dialogEditTitle: Edit Schedule Task
   dialogViewTitle: View Schedule Task Details
+  jobKeyImmutableHint: Job name, group and job class cannot be changed after creation
   loadFailed: Failed to load schedule tasks
   loadJobGroupFailed: Failed to load job groups
   loadCatalogFailed: Failed to load task catalog

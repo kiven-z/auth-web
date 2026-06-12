@@ -119,11 +119,38 @@ export function getJobDetail(id: string): Promise<SysJobDetailRow> {
 }
 
 /**
+ * 修改定时任务请求体（对应后端 SysJobUpdateForm）
+ */
+export interface SysJobUpdateForm {
+  id: string;
+  taskType: string;
+  cronExpression: string;
+  misfirePolicy: number;
+  concurrent: boolean;
+  startTime?: string;
+  endTime?: string;
+  status: boolean;
+  jobParams?: string;
+  handlerCode?: string;
+  payloadJson?: string;
+  invokeTarget?: string;
+  remark?: string;
+}
+
+/**
  * 新增定时任务
  * @param data 新增表单数据
  */
 export function createJob(data: SysJobCreateForm): Promise<string> {
   return http.post<string, SysJobCreateForm>('/system/job', { data });
+}
+
+/**
+ * 修改定时任务
+ * @param data 修改表单数据
+ */
+export function updateJob(data: SysJobUpdateForm): Promise<string> {
+  return http.request<string>('put', '/system/job', { data });
 }
 
 /**

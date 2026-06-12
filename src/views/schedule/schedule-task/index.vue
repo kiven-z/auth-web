@@ -30,7 +30,7 @@ const jobState = usePaginationState({
 
 const { loading, searchForm, fetchTableData, resetQuery } = jobState;
 
-const { openCreateDialog, openDetailDialog } = useJobTableAction({ fetchTableData });
+const { openCreateDialog, openDetailDialog, openEditDialog } = useJobTableAction({ fetchTableData });
 
 onMounted(() => {
   fetchTableData();
@@ -103,6 +103,8 @@ onMounted(() => {
         <div class="flex justify-center">
           <!-- 查看 -->
           <el-button link type="primary" @click="openDetailDialog(row)">{{ t('buttons.actionView') }}</el-button>
+          <!-- 修改 -->
+          <el-button link type="primary" @click="openEditDialog(row)">{{ t('buttons.actionEdit') }}</el-button>
         </div>
       </template>
     </AuthPagedTable>

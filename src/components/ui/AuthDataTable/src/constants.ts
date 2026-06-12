@@ -6,7 +6,7 @@ export const DEFAULT_PAGINATION_LAYOUT = 'total, sizes, prev, pager, next, jumpe
 /**
  * 默认每页条数选项
  */
-export const DEFAULT_PAGE_SIZES = [10, 20, 30, 50, 100, 150];
+export const DEFAULT_PAGE_SIZES = [10, 20, 30, 50, 100, 150, 200, 300, 400, 500];
 
 /**
  * 自适应表格区最小高度（px）

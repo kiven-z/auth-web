@@ -6,6 +6,7 @@ import {
   type QuartzTaskClassRow,
   type QuartzTaskMethodRow,
   type SysJobCreateForm,
+  type SysJobUpdateForm,
 } from '@/api/schedule/job';
 import { useFormPlaceholder } from '@/composables/i18n/useFormPlaceholder';
 import { errorMessage } from '@/ui/feedback/message';
@@ -13,6 +14,7 @@ import { JOB_CRON_PRESET_OPTIONS } from '@/views/schedule/schedule-task/constant
 import {
   JOB_MISFIRE_POLICY_OPTIONS,
   JOB_TASK_TYPE_FORM_OPTIONS,
+  JOB_TASK_TYPE_OPTIONS,
 } from '@/views/schedule/schedule-task/constants/job-task-enums';
 import useJobGroupRemoteSearch from '@/views/schedule/schedule-task/hooks/useJobGroupRemoteSearch';
 import JobCatalogClassPicker from '@/views/schedule/schedule-task/components/JobCatalogClassPicker.vue';
@@ -25,15 +27,29 @@ defineOptions({
   name: 'JobFormDialog',
 });
 
-const props = withDefaults(defineProps<FormDialog<SysJobCreateForm>>(), {
-  form: () => ({}) as SysJobCreateForm,
+type JobFormModel = SysJobCreateForm | SysJobUpdateForm;
+
+interface JobFormDialogProps extends FormDialog<JobFormModel> {
+  mode?: 'create' | 'edit';
+  displayJobName?: string;
+  displayJobGroup?: string;
+  displayJobClass?: string;
+}
+
+const props = withDefaults(defineProps<JobFormDialogProps>(), {
+  form: () => ({}) as JobFormModel,
+  mode: 'create',
+  displayJobName: undefined,
+  displayJobGroup: undefined,
+  displayJobClass: undefined,
 });
 
 const { t } = useI18n();
 const ph = useFormPlaceholder();
 const formRef = ref<FormInstance>();
+const isEditMode = computed(() => props.mode === 'edit');
 
-const form = ref<SysJobCreateForm>({
+const form = ref<JobFormModel>({
   taskType: 'BEAN_INVOKE',
   misfirePolicy: 2,
   concurrent: false,
@@ -50,6 +66,7 @@ const loadingMethods = ref(false);
 
 const isBeanInvoke = computed(() => form.value.taskType === 'BEAN_INVOKE');
 const isCustomClass = computed(() => form.value.taskType === 'CUSTOM_CLASS');
+const taskTypeOptions = computed(() => (isEditMode.value ? JOB_TASK_TYPE_OPTIONS : JOB_TASK_TYPE_FORM_OPTIONS));
 
 const beanCatalogClasses = computed(() =>
   catalogClasses.value.filter((item) => item.invokeModes?.includes('BEAN_INVOKE'))
@@ -58,13 +75,8 @@ const customCatalogClasses = computed(() =>
   catalogClasses.value.filter((item) => item.invokeModes?.includes('CUSTOM_CLASS'))
 );
 
-const rules = computed<FormRules>(() => ({
-  jobName: [
-    { required: true, message: ph.input('scheduleTask.jobName'), trigger: 'blur' },
-    { max: 64, message: t('scheduleTask.jobNameLengthLimit'), trigger: 'blur' },
-  ],
-  jobGroup: [{ required: true, message: ph.select('scheduleTask.jobGroup'), trigger: 'change' }],
-  taskType: [{ required: true, message: ph.select('scheduleTask.taskType'), trigger: 'change' }],
+/** 新增与修改均可编辑字段的校验 */
+const editableRules = computed<FormRules>(() => ({
   cronExpression: [
     { required: true, message: ph.select('scheduleTask.cronExpression'), trigger: 'change' },
     { max: 255, message: t('scheduleTask.cronExpressionLengthLimit'), trigger: 'change' },
@@ -72,14 +84,27 @@ const rules = computed<FormRules>(() => ({
   misfirePolicy: [{ required: true, message: ph.select('scheduleTask.misfirePolicy'), trigger: 'change' }],
   concurrent: [{ required: true, message: ph.select('scheduleTask.concurrent'), trigger: 'change' }],
   status: [{ required: true, message: ph.select('scheduleTask.status'), trigger: 'change' }],
-  invokeTarget: isBeanInvoke.value
-    ? [{ required: true, message: ph.input('scheduleTask.invokeTarget'), trigger: 'blur' }]
-    : [],
-  jobClass: isCustomClass.value
-    ? [{ required: true, message: ph.select('scheduleTask.jobClass'), trigger: 'change' }]
-    : [],
-  remark: [{ max: 500, message: t('scheduleTask.remarkLengthLimit'), trigger: 'blur' }],
+  ...(isBeanInvoke.value
+    ? { invokeTarget: [{ required: true, message: ph.input('scheduleTask.invokeTarget'), trigger: 'blur' }] }
+    : {}),
 }));
+
+/** 仅新增表单的校验（不可改字段由后端 Form 约束） */
+const createOnlyRules = computed<FormRules>(() => ({
+  jobName: [
+    { required: true, message: ph.input('scheduleTask.jobName'), trigger: 'blur' },
+    { max: 64, message: t('scheduleTask.jobNameLengthLimit'), trigger: 'blur' },
+  ],
+  jobGroup: [{ required: true, message: ph.select('scheduleTask.jobGroup'), trigger: 'change' }],
+  taskType: [{ required: true, message: ph.select('scheduleTask.taskType'), trigger: 'change' }],
+  ...(isCustomClass.value
+    ? { jobClass: [{ required: true, message: ph.select('scheduleTask.jobClass'), trigger: 'change' }] }
+    : {}),
+}));
+
+const rules = computed<FormRules>(() =>
+  isEditMode.value ? editableRules.value : { ...editableRules.value, ...createOnlyRules.value }
+);
 
 /**
  * 加载白名单任务类
@@ -112,8 +137,11 @@ async function loadCatalogMethods(className: string) {
 watch(
   () => form.value.taskType,
   (taskType) => {
+    if (isEditMode.value) {
+      return;
+    }
     if (taskType === 'BEAN_INVOKE') {
-      form.value.jobClass = undefined;
+      (form.value as SysJobCreateForm).jobClass = undefined;
       return;
     }
     if (taskType === 'CUSTOM_CLASS') {
@@ -158,14 +186,31 @@ defineExpose({ formRef, form });
       <!-- 任务名称 -->
       <el-col :lg="12" :md="12" :sm="24" :xs="24">
         <el-form-item :label="t('scheduleTask.jobName')" prop="jobName">
-          <el-input v-model="form.jobName" :placeholder="ph.input('scheduleTask.jobName')" />
+          <el-input
+            v-if="isEditMode"
+            :model-value="displayJobName"
+            :placeholder="ph.input('scheduleTask.jobName')"
+            disabled
+          />
+          <el-input
+            v-else
+            v-model="(form as SysJobCreateForm).jobName"
+            :placeholder="ph.input('scheduleTask.jobName')"
+          />
         </el-form-item>
       </el-col>
       <!-- 任务分组 -->
       <el-col :lg="12" :md="12" :sm="24" :xs="24">
         <el-form-item :label="t('scheduleTask.jobGroup')" prop="jobGroup">
+          <el-input
+            v-if="isEditMode"
+            :model-value="displayJobGroup"
+            :placeholder="ph.select('scheduleTask.jobGroup')"
+            disabled
+          />
           <el-select
-            v-model="form.jobGroup"
+            v-else
+            v-model="(form as SysJobCreateForm).jobGroup"
             :loading="loadingJobGroups"
             :placeholder="ph.select('scheduleTask.jobGroup')"
             :remote-method="loadJobGroupByKeyword"
@@ -185,14 +230,17 @@ defineExpose({ formRef, form });
       <!-- 任务类型 -->
       <el-col :lg="12" :md="12" :sm="24" :xs="24">
         <el-form-item :label="t('scheduleTask.taskType')" prop="taskType">
-          <el-select v-model="form.taskType" :placeholder="ph.select('scheduleTask.taskType')" class="w-full">
-            <el-option
-              v-for="opt in JOB_TASK_TYPE_FORM_OPTIONS"
-              :key="opt.value"
-              :label="t(opt.labelKey)"
-              :value="opt.value"
-            />
+          <el-select
+            v-model="form.taskType"
+            :disabled="isEditMode"
+            :placeholder="ph.select('scheduleTask.taskType')"
+            class="w-full"
+          >
+            <el-option v-for="opt in taskTypeOptions" :key="opt.value" :label="t(opt.labelKey)" :value="opt.value" />
           </el-select>
+          <el-text v-if="isEditMode" class="mt-1 block" type="info">
+            {{ t('scheduleTask.jobKeyImmutableHint') }}
+          </el-text>
         </el-form-item>
       </el-col>
 
@@ -246,7 +294,15 @@ defineExpose({ formRef, form });
         <el-col :span="24">
           <el-form-item :label="t('scheduleTask.jobClass')" prop="jobClass">
             <JobCatalogClassPicker
-              v-model="form.jobClass"
+              v-if="isEditMode"
+              :model-value="displayJobClass"
+              :options="customCatalogClasses"
+              :placeholder="ph.select('scheduleTask.jobClass')"
+              disabled
+            />
+            <JobCatalogClassPicker
+              v-else
+              v-model="(form as SysJobCreateForm).jobClass"
               :options="customCatalogClasses"
               :placeholder="ph.select('scheduleTask.jobClass')"
             />
