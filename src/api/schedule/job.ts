@@ -63,6 +63,7 @@ export interface QuartzTaskClassRow {
   className: string;
   name: string;
   description?: string;
+  invokeModes?: string[];
 }
 
 /** 白名单任务类可选方法（对应后端 QuartzTaskMethodVO） */

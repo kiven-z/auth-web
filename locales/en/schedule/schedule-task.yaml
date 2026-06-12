@@ -6,6 +6,7 @@ scheduleTask:
   invokeTarget: Invoke Target
   handlerCode: Handler Code
   cronExpression: Cron Expression
+  cronPresetEvery3Seconds: Every 3 Seconds
   cronPresetEvery5Minutes: Every 5 Minutes
   cronPresetHourly: Every Hour
   cronPresetDailyMidnight: Daily at 00:00

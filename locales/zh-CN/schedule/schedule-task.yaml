@@ -6,6 +6,7 @@ scheduleTask:
   invokeTarget: 调用目标
   handlerCode: 执行处理器
   cronExpression: Cron 表达式
+  cronPresetEvery3Seconds: 每 3 秒
   cronPresetEvery5Minutes: 每 5 分钟
   cronPresetHourly: 每小时整点
   cronPresetDailyMidnight: 每天 00:00

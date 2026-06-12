@@ -15,6 +15,8 @@ import {
   JOB_TASK_TYPE_FORM_OPTIONS,
 } from '@/views/schedule/schedule-task/constants/job-task-enums';
 import useJobGroupRemoteSearch from '@/views/schedule/schedule-task/hooks/useJobGroupRemoteSearch';
+import JobCatalogClassPicker from '@/views/schedule/schedule-task/components/JobCatalogClassPicker.vue';
+import { filterCatalogClassesByTaskType } from '@/views/schedule/schedule-task/utils/job-catalog-label';
 import type { FormInstance, FormRules } from 'element-plus';
 import { computed, onMounted, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
@@ -49,6 +51,9 @@ const loadingMethods = ref(false);
 
 const isBeanInvoke = computed(() => form.value.taskType === 'BEAN_INVOKE');
 const isCustomClass = computed(() => form.value.taskType === 'CUSTOM_CLASS');
+
+const beanCatalogClasses = computed(() => filterCatalogClassesByTaskType(catalogClasses.value, 'BEAN_INVOKE'));
+const customCatalogClasses = computed(() => filterCatalogClassesByTaskType(catalogClasses.value, 'CUSTOM_CLASS'));
 
 const rules = computed<FormRules>(() => ({
   jobName: [
@@ -190,22 +195,13 @@ defineExpose({ formRef, form });
 
       <template v-if="isBeanInvoke">
         <!-- Bean 调用类 -->
-        <el-col :lg="12" :md="12" :sm="24" :xs="24">
+        <el-col :span="24">
           <el-form-item :label="t('scheduleTask.beanInvokeClass')">
-            <el-select
+            <JobCatalogClassPicker
               v-model="selectedBeanClass"
+              :options="beanCatalogClasses"
               :placeholder="ph.select('scheduleTask.beanInvokeClass')"
-              class="w-full"
-              clearable
-              filterable
-            >
-              <el-option
-                v-for="item in catalogClasses"
-                :key="item.className"
-                :label="item.name || item.className"
-                :value="item.className"
-              />
-            </el-select>
+            />
           </el-form-item>
         </el-col>
         <!-- Bean 调用方法 -->
@@ -246,19 +242,11 @@ defineExpose({ formRef, form });
         <!-- 任务类 -->
         <el-col :span="24">
           <el-form-item :label="t('scheduleTask.jobClass')" prop="jobClass">
-            <el-select
+            <JobCatalogClassPicker
               v-model="form.jobClass"
+              :options="customCatalogClasses"
               :placeholder="ph.select('scheduleTask.jobClass')"
-              class="w-full"
-              filterable
-            >
-              <el-option
-                v-for="item in catalogClasses"
-                :key="item.className"
-                :label="item.name || item.className"
-                :value="item.className"
-              />
-            </el-select>
+            />
           </el-form-item>
         </el-col>
       </template>
