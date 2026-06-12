@@ -108,6 +108,28 @@ export interface FormDialog<T> {
 }
 
 /**
+ * 单行导入失败信息（对齐后端 {@code ImportRowError}）
+ */
+export interface ImportRowError {
+  /** 行号（1-based，不含表头） */
+  rowIndex: number;
+  /** 失败原因 */
+  message: string;
+}
+
+/**
+ * Excel 批量导入结果（对齐后端 {@code SpreadsheetImportResult}）
+ */
+export interface SpreadsheetImportResult {
+  /** 是否全部成功 */
+  success: boolean;
+  /** 成功导入行数 */
+  importedCount: number;
+  /** 行级错误列表；成功时为空数组 */
+  errors: ImportRowError[];
+}
+
+/**
  * 详情弹窗/抽屉只读数据契约（数据须含 BaseResponse 审计字段时可选用）
  */
 export interface DetailDialog<T extends BaseResponse = BaseResponse> {

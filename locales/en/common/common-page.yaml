@@ -33,6 +33,21 @@ export:
   estimatedRows: About {count} rows (max {max})
   pageRangeInvalid: Invalid page range
   rowLimitExceeded: Export row count exceeds limit {max}
+import:
+  dialogTitle: Import from Excel
+  dropOrClickHint: Drop file here or click to upload
+  fileTypeHint: Only .xlsx files are supported, max 500 rows per import
+  downloadTemplate: Download Template
+  submitButton: Start Import
+  successMessage: Successfully imported {count} records
+  errorTitle: Import failed. Please fix the rows below and re-upload.
+  errorRowIndex: Row
+  errorMessage: Error
+  templateDownloadFailed: Failed to download template
+  importFailed: Import request failed
+  fileRequired: Please select a file first
+  fileLimitExceeded: File size cannot exceed 10MB
+  fileTypeInvalid: Only .xlsx files are supported
 buttons:
   pureLoginOut: Logout
   pureLogin: Login
@@ -71,6 +86,7 @@ buttons:
   actionAdvancedSearch: Advanced Search
   actionCollapseSearch: Collapse
   exportExcel: Export to Excel
+  importExcel: Import from Excel
   forbidText: Forbid
   permitText: Allow
   fixedText: Fixed

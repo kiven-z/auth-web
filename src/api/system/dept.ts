@@ -1,5 +1,14 @@
-import type { BaseResponse, BaseResponseDetail, ExportScopeQueryFields, PageResponse, SortSpec } from '@/api/common';
+import type {
+  BaseResponse,
+  BaseResponseDetail,
+  ExportScopeQueryFields,
+  PageResponse,
+  SortSpec,
+  SpreadsheetImportResult,
+} from '@/api/common';
 import { mergePagedExportParams } from '@/api/common';
+
+export type { SpreadsheetImportResult };
 import type { GrantTableAssignedRoleRow, GrantTableAssignRoleRequest } from '@/api/system/grant-table';
 import { http } from '@/infrastructure/http-core';
 import type { AxiosRequestConfig } from 'axios';
@@ -288,4 +297,26 @@ export interface DeptClosureHealth {
  */
 export function getDeptClosureHealth(): Promise<DeptClosureHealth> {
   return http.get<DeptClosureHealth, unknown>('/system/dept/closure/health');
+}
+
+/**
+ * 导入部门 Excel（multipart/form-data）
+ * @param file 上传的 Excel 文件
+ * @returns 导入结果
+ */
+export function importDeptExcel(file: File): Promise<SpreadsheetImportResult> {
+  const formData = new FormData();
+  formData.append('file', file);
+  return http.post<SpreadsheetImportResult, FormData>('/system/dept/import', {
+    data: formData,
+    headers: { 'Content-Type': 'multipart/form-data' },
+  });
+}
+
+/**
+ * 下载部门导入模板
+ * @returns 模板 Blob
+ */
+export function downloadDeptImportTemplate(): Promise<Blob> {
+  return http.get<Blob, unknown>('/system/dept/import/template', {}, { responseType: 'blob' });
 }

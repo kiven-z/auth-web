@@ -1,14 +1,14 @@
 <script lang="ts" setup>
 import AuthPagedTable from '@/components/business/AuthPagedTable';
+import { useFormPlaceholder } from '@/composables/i18n/useFormPlaceholder';
 import DeptRowActions from '@/views/system/dept/components/DeptRowActions.vue';
 import { DEPT_STATUS_FILTER_OPTIONS } from '@/views/system/dept/constants/dept-search-options';
-import useDeptExportAction from '@/views/system/dept/hooks/useDeptExportAction';
+import useDeptAdvancedAction from '@/views/system/dept/hooks/useDeptAdvancedAction';
 import useDeptMoreAction from '@/views/system/dept/hooks/useDeptMoreAction';
 import useDeptPageState from '@/views/system/dept/hooks/useDeptPageState';
 import useDeptTableAction from '@/views/system/dept/hooks/useDeptTableAction';
 import DeptHeadButtons from '@/views/system/dept/components/DeptHeadButtons.vue';
 import useDeptTableColumns from '@/views/system/dept/hooks/useDeptTableColumns';
-import { useFormPlaceholder } from '@/composables/i18n/useFormPlaceholder';
 import type { FormInstance } from 'element-plus';
 import { onMounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
@@ -26,8 +26,6 @@ const deptState = useDeptPageState();
 const { loading, selectedRows, searchForm, pagination, viewMode, fetchTableData, fetchTreeData, resetQuery, refresh } =
   deptState;
 
-const { exporting, openExportDialog } = useDeptExportAction({ searchForm, pagination });
-
 const tableActionDeps = {
   fetchTableData,
   fetchTreeData,
@@ -36,9 +34,14 @@ const tableActionDeps = {
   selectedRows,
 };
 
-const { openDetailDialog, openEditDialog, deleteBatchRows } = useDeptTableAction(tableActionDeps);
+const { openCreateDialog, openDetailDialog, openEditDialog, deleteBatchRows } = useDeptTableAction(tableActionDeps);
 
 const { openAssignRoleDrawer } = useDeptMoreAction(tableActionDeps);
+const { exporting, openExportDialog, openImportDialog, openClosureHealthDialog } = useDeptAdvancedAction({
+  searchForm,
+  pagination,
+  refresh,
+});
 
 onMounted(() => {
   fetchTableData();
@@ -87,7 +90,13 @@ onMounted(() => {
       show-overflow-tooltip
     >
       <template #buttons>
-        <DeptHeadButtons :exporting="exporting" :open-export-dialog="openExportDialog" />
+        <DeptHeadButtons
+          :exporting="exporting"
+          :open-create-dialog="openCreateDialog"
+          :open-export-dialog="openExportDialog"
+          :open-import-dialog="openImportDialog"
+          :open-closure-health-dialog="openClosureHealthDialog"
+        />
       </template>
 
       <template #actions="{ row }">

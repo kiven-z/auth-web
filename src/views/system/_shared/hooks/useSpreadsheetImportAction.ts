@@ -1,0 +1,85 @@
+import type { SpreadsheetImportResult } from '@/api/common';
+import { addDialog, closeDialog } from '@/components/ui/Dialog';
+import type { DialogOptions } from '@/components/ui/Dialog/type';
+import { errorMessage } from '@/ui/feedback/message';
+import SpreadsheetImportDialog from '@/views/system/_shared/components/SpreadsheetImportDialog.vue';
+import type { SpreadsheetImportDialogExpose } from '@/views/system/_shared/components/SpreadsheetImportDialog.vue';
+import { h, ref } from 'vue';
+import { useI18n } from 'vue-i18n';
+
+/** 打开通用 Excel 导入弹窗参数 */
+export interface SpreadsheetImportActionOptions {
+  /** 导入接口 */
+  onImport: (file: File) => Promise<SpreadsheetImportResult>;
+  /** 模板下载接口 */
+  onDownloadTemplate: () => Promise<Blob>;
+  /** 模板文件名 */
+  templateFilename: string;
+  /** 导入成功后回调 */
+  onSuccess?: () => Promise<void> | void;
+  /** 失败提示兜底 i18n key */
+  errorI18nKey?: string;
+}
+
+/**
+ * 通用 Excel 导入弹窗操作
+ * @param options 导入弹窗参数
+ * @returns `openImportDialog` 打开导入弹窗方法
+ */
+function useSpreadsheetImportAction(options: SpreadsheetImportActionOptions) {
+  const { t } = useI18n();
+
+  const openImportDialog = () => {
+    const panelRef = ref<SpreadsheetImportDialogExpose | null>(null);
+
+    const footerButtons: DialogOptions['footerButtons'] = [
+      {
+        label: t('buttons.pureClose'),
+        text: true,
+        bg: true,
+        btnClick: ({ dialog: { options: dialogOptions, index } }) => {
+          closeDialog(dialogOptions, index, { command: 'close' });
+        },
+      },
+      {
+        label: t('import.submitButton'),
+        type: 'primary',
+        btnClick: async ({ dialog: { options: dialogOptions, index } }) => {
+          try {
+            const success = await panelRef.value?.submitImport();
+            if (!success) {
+              return;
+            }
+            await options.onSuccess?.();
+            closeDialog(dialogOptions, index, { command: 'sure' });
+          } catch (error: unknown) {
+            errorMessage(error, { defaultI18nKey: options.errorI18nKey ?? 'import.importFailed' });
+          }
+        },
+      },
+    ];
+
+    addDialog({
+      title: t('import.dialogTitle'),
+      width: '560px',
+      draggable: true,
+      closeOnClickModal: false,
+      closeOnPressEscape: false,
+      destroyOnClose: true,
+      footerButtons,
+      contentRenderer: () =>
+        h(SpreadsheetImportDialog, {
+          ref: panelRef,
+          onImport: options.onImport,
+          onDownloadTemplate: options.onDownloadTemplate,
+          templateFilename: options.templateFilename,
+        }),
+    });
+  };
+
+  return {
+    openImportDialog,
+  };
+}
+
+export default useSpreadsheetImportAction;

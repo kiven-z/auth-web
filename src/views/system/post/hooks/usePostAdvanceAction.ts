@@ -1,6 +1,7 @@
 import type { SysPostPageQuery } from '@/api/system/post';
-import { exportPostExcel } from '@/api/system/post';
+import { downloadPostImportTemplate, exportPostExcel, importPostExcel } from '@/api/system/post';
 import { usePagedTableExport } from '@/components/business/ExportDialog';
+import useSpreadsheetImportAction from '@/views/system/_shared/hooks/useSpreadsheetImportAction';
 import { useI18n } from 'vue-i18n';
 
 /** 岗位页 Excel 导出 composable 配置 */
@@ -11,6 +12,7 @@ export interface UsePostExportActionOptions {
     pageSize: number;
     total: number;
   };
+  fetchTableData: () => Promise<void>;
 }
 
 /**
@@ -20,9 +22,16 @@ export interface UsePostExportActionOptions {
  */
 function usePostAdvanceAction(options: UsePostExportActionOptions) {
   const { t } = useI18n();
+  const { openImportDialog } = useSpreadsheetImportAction({
+    onImport: importPostExcel,
+    onDownloadTemplate: downloadPostImportTemplate,
+    templateFilename: 'post_import_template.xlsx',
+    onSuccess: options.fetchTableData,
+  });
 
-  return usePagedTableExport<SysPostPageQuery>({
-    ...options,
+  const { exporting, openExportDialog } = usePagedTableExport<SysPostPageQuery>({
+    searchForm: options.searchForm,
+    pagination: options.pagination,
     fileNamePrefix: t('post.moduleName'),
     exportApi: exportPostExcel,
     buildFilter: ({ searchForm }) => ({
@@ -32,6 +41,12 @@ function usePostAdvanceAction(options: UsePostExportActionOptions) {
       status: searchForm.status as boolean | undefined,
     }),
   });
+
+  return {
+    exporting,
+    openExportDialog,
+    openImportDialog,
+  };
 }
 
 export default usePostAdvanceAction;

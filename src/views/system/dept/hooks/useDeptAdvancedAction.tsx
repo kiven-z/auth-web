@@ -1,5 +1,9 @@
 import { addDialog, closeDialog } from '@/components/ui/Dialog';
 import type { DialogOptions } from '@/components/ui/Dialog/type';
+import type { SysDeptPageQuery } from '@/api/system/dept';
+import { downloadDeptImportTemplate, exportDeptExcel, importDeptExcel } from '@/api/system/dept';
+import { usePagedTableExport } from '@/components/business/ExportDialog';
+import useSpreadsheetImportAction from '@/views/system/_shared/hooks/useSpreadsheetImportAction';
 import DeptClosureHealthDialog from '@/views/system/dept/components/DeptClosureHealthDialog.vue';
 import { h, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
@@ -8,12 +12,42 @@ interface ClosureHealthDialogExpose {
   reload: () => Promise<void>;
 }
 
+/** 部门高级操作配置 */
+export interface UseDeptAdvancedActionOptions {
+  searchForm: Record<string, unknown>;
+  pagination: {
+    currentPage: number;
+    pageSize: number;
+    total: number;
+  };
+  refresh: () => Promise<void>;
+}
+
 /**
  * 部门工具栏「高级功能」
+ * @param options 高级操作配置
  * @returns 高级功能操作方法
  */
-function useDeptAdvancedAction() {
+function useDeptAdvancedAction(options: UseDeptAdvancedActionOptions) {
   const { t } = useI18n();
+  const { openImportDialog } = useSpreadsheetImportAction({
+    onImport: importDeptExcel,
+    onDownloadTemplate: downloadDeptImportTemplate,
+    templateFilename: 'dept_import_template.xlsx',
+    onSuccess: options.refresh,
+  });
+
+  const { exporting, openExportDialog } = usePagedTableExport<SysDeptPageQuery>({
+    searchForm: options.searchForm,
+    pagination: options.pagination,
+    fileNamePrefix: t('dept.moduleName'),
+    exportApi: exportDeptExcel,
+    buildFilter: ({ searchForm }) => ({
+      deptName: searchForm.deptName as string | undefined,
+      deptCode: searchForm.deptCode as string | undefined,
+      status: searchForm.status as boolean | undefined,
+    }),
+  });
 
   /**
    * 打开闭包表健康检查弹窗
@@ -53,6 +87,9 @@ function useDeptAdvancedAction() {
   };
 
   return {
+    exporting,
+    openExportDialog,
+    openImportDialog,
     openClosureHealthDialog,
   };
 }

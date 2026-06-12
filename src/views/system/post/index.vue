@@ -1,12 +1,12 @@
 <script lang="ts" setup>
 import { getPostPage } from '@/api/system/post';
 import AuthPagedTable, { usePaginationState } from '@/components/business/AuthPagedTable';
+import { useFormPlaceholder } from '@/composables/i18n/useFormPlaceholder';
 import { POST_STATUS_FILTER_OPTIONS } from '@/views/system/post/constants/post-search-options';
 import usePostAdvanceAction from '@/views/system/post/hooks/usePostAdvanceAction';
 import usePostMoreAction from '@/views/system/post/hooks/usePostMoreAction';
 import usePostTableAction from '@/views/system/post/hooks/usePostTableAction';
 import usePostTableColumns from '@/views/system/post/hooks/usePostTableColumns';
-import { useFormPlaceholder } from '@/composables/i18n/useFormPlaceholder';
 import type { FormInstance } from 'element-plus';
 import { onMounted, reactive, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
@@ -35,7 +35,11 @@ const postState = usePaginationState({
 
 const { loading, searchForm, pagination, fetchTableData, resetQuery } = postState;
 
-const { exporting, openExportDialog } = usePostAdvanceAction({ searchForm, pagination });
+const { exporting, openExportDialog, openImportDialog } = usePostAdvanceAction({
+  searchForm,
+  pagination,
+  fetchTableData,
+});
 
 const tableActionDeps = { fetchTableData };
 
@@ -98,7 +102,10 @@ onMounted(() => {
               {{ t('buttons.actionAdvanced') }}
             </el-button>
             <template #dropdown>
-              <el-dropdown-item disabled>从 Excel 导入（敬请期待）</el-dropdown-item>
+              <!-- 从 Excel 导入 -->
+              <el-dropdown-item @click="openImportDialog">
+                {{ t('buttons.importExcel') }}
+              </el-dropdown-item>
               <el-dropdown-item :disabled="exporting" @click="openExportDialog">
                 {{ t('buttons.exportExcel') }}
               </el-dropdown-item>
