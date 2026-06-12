@@ -1,9 +1,10 @@
 <script lang="ts" setup>
-import type { ImportRowError, SpreadsheetImportResult } from '@/api/common';
-import { errorMessage } from '@/ui/feedback/message';
+import type { SpreadsheetImportResult } from '@/api/common';
+import AuthDataTable from '@/components/ui/AuthDataTable';
+import { errorMessage, message } from '@/ui/feedback/message';
 import { downloadBlob } from '@/utils/fileDownload';
 import type { UploadFile, UploadInstance, UploadProps, UploadRawFile } from 'element-plus';
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 defineOptions({ name: 'SpreadsheetImportPanel' });
@@ -40,6 +41,11 @@ const uploadRef = ref<UploadInstance>();
 
 const selectedFile = ref<File | null>(null);
 const importResult = ref<SpreadsheetImportResult | null>(null);
+
+const errorColumns = computed<TableColumnList>(() => [
+  { label: t('import.errorRowIndex'), prop: 'rowIndex', width: 80 },
+  { label: t('import.errorMessage'), prop: 'message', minWidth: 200 },
+]);
 
 /** 最大上传大小 10MB（字节） */
 const MAX_FILE_SIZE_BYTES = 10 * 1024 * 1024;
@@ -85,6 +91,13 @@ async function handleImport() {
   try {
     const result = await props.onImport(selectedFile.value);
     importResult.value = result;
+    if (result.success) {
+      message(t('import.importSuccess', { count: result.importedCount }), { type: 'success' });
+    } else {
+      errorMessage(null, {
+        message: t('import.importFailureWithRows', { count: result.errors.length }),
+      });
+    }
     return result.success;
   } catch (error: unknown) {
     errorMessage(error, { defaultI18nKey: 'import.importFailed' });
@@ -107,15 +120,6 @@ async function handleDownloadTemplate() {
   } finally {
     downloadingTemplate.value = false;
   }
-}
-
-/**
- * 计算错误行数
- * @param errors 错误列表
- * @returns 错误行数
- */
-function countErrors(errors: ImportRowError[]): number {
-  return errors.length;
 }
 
 defineExpose<SpreadsheetImportDialogExpose>({ submitImport: handleImport });
@@ -148,29 +152,18 @@ defineExpose<SpreadsheetImportDialogExpose>({ submitImport: handleImport });
       </el-button>
     </div>
 
-    <!-- 导入结果：成功 -->
-    <el-alert
-      v-if="importResult?.success"
-      :description="t('import.successMessage', { count: importResult.importedCount })"
-      :title="t('tips.operationSuccess')"
-      class="mt-3"
-      show-icon
-      type="success"
-    />
-
     <!-- 导入结果：行级错误 -->
     <template v-if="importResult && !importResult.success">
-      <el-alert
-        :description="`${t('import.errorTitle')}（${countErrors(importResult.errors)} ${t('import.errorRowIndex')}）`"
-        :title="t('tips.editFailed')"
-        class="mt-3"
-        show-icon
-        type="error"
+      <el-divider>{{ t('import.importFailureWithRows', { count: importResult.errors.length }) }}</el-divider>
+      <AuthDataTable
+        :adaptive="false"
+        :columns="errorColumns"
+        :data="importResult.errors"
+        :max-height="240"
+        border
+        size="small"
+        stripe
       />
-      <el-table :data="importResult.errors" :max-height="240" border class="mt-2 w-full" size="small" stripe>
-        <el-table-column :label="t('import.errorRowIndex')" prop="rowIndex" width="80" />
-        <el-table-column :label="t('import.errorMessage')" prop="message" />
-      </el-table>
     </template>
   </div>
 </template>

@@ -2,8 +2,8 @@ import type { SpreadsheetImportResult } from '@/api/common';
 import { addDialog, closeDialog } from '@/components/ui/Dialog';
 import type { DialogOptions } from '@/components/ui/Dialog/type';
 import { errorMessage } from '@/ui/feedback/message';
-import SpreadsheetImportDialog from '@/views/system/_shared/components/SpreadsheetImportDialog.vue';
 import type { SpreadsheetImportDialogExpose } from '@/views/system/_shared/components/SpreadsheetImportDialog.vue';
+import SpreadsheetImportDialog from '@/views/system/_shared/components/SpreadsheetImportDialog.vue';
 import { h, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 
@@ -61,7 +61,7 @@ function useSpreadsheetImportAction(options: SpreadsheetImportActionOptions) {
 
     addDialog({
       title: t('import.dialogTitle'),
-      width: '560px',
+      width: '760px',
       draggable: true,
       closeOnClickModal: false,
       closeOnPressEscape: false,

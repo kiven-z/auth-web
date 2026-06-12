@@ -39,8 +39,8 @@ import:
   fileTypeHint: 仅支持 .xlsx 格式，单次最多 500 行
   downloadTemplate: 下载模板
   submitButton: 开始导入
-  successMessage: 成功导入 {count} 条记录
-  errorTitle: 导入失败，请修正以下行后重新上传
+  importSuccess: 成功导入 {count} 条记录
+  importFailureWithRows: 导入失败，请修正后重试（共 {count} 行错误）
   errorRowIndex: 行号
   errorMessage: 错误信息
   templateDownloadFailed: 模板下载失败

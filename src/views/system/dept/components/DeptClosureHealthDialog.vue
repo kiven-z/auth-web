@@ -3,7 +3,7 @@ import type { DeptClosureHealth } from '@/api/system/dept';
 import { getDeptClosureHealth } from '@/api/system/dept';
 import Description from '@/components/ui/Description';
 import { errorMessage } from '@/ui/feedback/message';
-import useDeptClosureHealthColumns from '@/views/system/dept/hooks/useDeptClosureHealthColumns';
+import useDeptClosureHealthColumns from '@/views/system/dept/hooks/columns/useDeptClosureHealthColumns';
 import { ElAlert, ElDivider } from 'element-plus';
 import { computed, onMounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';

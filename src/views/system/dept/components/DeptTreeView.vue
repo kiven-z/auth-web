@@ -3,9 +3,9 @@ import { AuthElTreePanel } from '@/components/business/AuthElTreePanel';
 import { useRenderIcon } from '@/components/ui/Icon/src/hooks';
 import DeptHeadButtons from '@/views/system/dept/components/DeptHeadButtons.vue';
 import DeptRowActions from '@/views/system/dept/components/DeptRowActions.vue';
-import useDeptMoreAction from '@/views/system/dept/hooks/useDeptMoreAction';
+import useDeptMoreAction from '@/views/system/dept/hooks/actions/useDeptMoreAction';
 import useDeptPageState from '@/views/system/dept/hooks/useDeptPageState';
-import useDeptTableAction from '@/views/system/dept/hooks/useDeptTableAction';
+import useDeptTableAction from '@/views/system/dept/hooks/actions/useDeptTableAction';
 import { useDeptTreeDrag } from '@/views/system/dept/hooks/useDeptTreeDrag';
 import { useDebounceFn } from '@vueuse/core';
 import { onMounted, watch } from 'vue';
@@ -76,9 +76,9 @@ onMounted(() => {
     <template #search>
       <el-input
         v-model="treeKeyword"
-        clearable
         :placeholder="t('dept.placeholder.treeKeyword')"
         :prefix-icon="useRenderIcon('ri/search-line')"
+        clearable
       />
     </template>
 

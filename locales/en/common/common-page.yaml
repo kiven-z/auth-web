@@ -39,8 +39,8 @@ import:
   fileTypeHint: Only .xlsx files are supported, max 500 rows per import
   downloadTemplate: Download Template
   submitButton: Start Import
-  successMessage: Successfully imported {count} records
-  errorTitle: Import failed. Please fix the rows below and re-upload.
+  importSuccess: Successfully imported {count} records
+  importFailureWithRows: Import failed. Please fix and retry ({count} rows with errors).
   errorRowIndex: Row
   errorMessage: Error
   templateDownloadFailed: Failed to download template

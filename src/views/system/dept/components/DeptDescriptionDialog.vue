@@ -7,7 +7,7 @@ import { DEPT_STATUS_FILTER_OPTIONS } from '@/views/system/dept/constants/dept-s
 import { ElTag } from 'element-plus';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
-import useDeptBindingColumns from '@/views/system/dept/hooks/useDeptBindingColumns';
+import useDeptBindingColumns from '@/views/system/dept/hooks/columns/useDeptBindingColumns';
 import useBindingColumns from '@/views/system/_shared/columns/useBindingColumns';
 
 defineOptions({
