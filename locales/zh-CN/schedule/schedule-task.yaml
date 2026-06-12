@@ -1,6 +1,7 @@
 scheduleTask:
   jobName: 任务名称
   jobGroup: 任务分组
+  jobClass: 任务类
   taskType: 任务类型
   invokeTarget: 调用目标
   handlerCode: 执行处理器
@@ -8,10 +9,25 @@ scheduleTask:
   misfirePolicy: 错失策略
   concurrent: 是否并发
   status: 运行状态
+  startTime: 开始时间
+  endTime: 结束时间
+  jobParams: 执行参数 JSON
+  payloadJson: 扩展载荷 JSON
+  remark: 备注
   previousFireTime: 上次触发
   nextFireTime: 下次触发
   tableTitle: 任务调度任务
+  dialogCreateTitle: 新增定时任务
   loadFailed: 加载定时任务列表失败
+  loadJobGroupFailed: 加载任务分组失败
+  loadCatalogFailed: 加载任务目录失败
+  loadPayloadTemplate: 加载消息模板
+  beanInvokeClass: 调用类
+  beanInvokeMethod: 调用方法
+  jobNameLengthLimit: 任务名称不能超过 64 个字符
+  cronExpressionLengthLimit: Cron 表达式不能超过 255 个字符
+  handlerCodeLengthLimit: 执行处理器不能超过 64 个字符
+  remarkLengthLimit: 备注不能超过 500 个字符
   taskTypeBeanInvoke: Bean 调用
   taskTypeCustomClass: 自定义类
   taskTypeMessageDispatch: 消息派发

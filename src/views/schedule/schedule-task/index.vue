@@ -2,6 +2,7 @@
 import { getJobPage } from '@/api/schedule/job';
 import AuthPagedTable, { usePaginationState } from '@/components/business/AuthPagedTable';
 import { COMMON_BOOLEAN_STATUS_FILTER_OPTIONS } from '@/constants/boolean-status';
+import useJobTableAction from '@/views/schedule/schedule-task/hooks/useJobTableAction';
 import useJobTableColumns from '@/views/schedule/schedule-task/hooks/useJobTableColumns';
 import { useFormPlaceholder } from '@/composables/i18n/useFormPlaceholder';
 import type { FormInstance } from 'element-plus';
@@ -28,6 +29,8 @@ const jobState = usePaginationState({
 });
 
 const { loading, searchForm, fetchTableData, resetQuery } = jobState;
+
+const { openCreateDialog } = useJobTableAction({ fetchTableData });
 
 onMounted(() => {
   fetchTableData();
@@ -90,6 +93,11 @@ onMounted(() => {
       :state="jobState"
       :title="t('scheduleTask.tableTitle')"
       show-overflow-tooltip
-    />
+    >
+      <template #buttons>
+        <!-- 新增 -->
+        <el-button type="primary" @click="openCreateDialog">{{ t('buttons.actionAdd') }}</el-button>
+      </template>
+    </AuthPagedTable>
   </div>
 </template>

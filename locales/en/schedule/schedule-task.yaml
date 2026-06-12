@@ -1,6 +1,7 @@
 scheduleTask:
   jobName: Job Name
   jobGroup: Job Group
+  jobClass: Job Class
   taskType: Task Type
   invokeTarget: Invoke Target
   handlerCode: Handler Code
@@ -8,10 +9,25 @@ scheduleTask:
   misfirePolicy: Misfire Policy
   concurrent: Concurrent
   status: Run Status
+  startTime: Start Time
+  endTime: End Time
+  jobParams: Job Params JSON
+  payloadJson: Payload JSON
+  remark: Remark
   previousFireTime: Previous Fire Time
   nextFireTime: Next Fire Time
   tableTitle: Schedule Tasks
+  dialogCreateTitle: Add Schedule Task
   loadFailed: Failed to load schedule tasks
+  loadJobGroupFailed: Failed to load job groups
+  loadCatalogFailed: Failed to load task catalog
+  loadPayloadTemplate: Load Message Template
+  beanInvokeClass: Invoke Class
+  beanInvokeMethod: Invoke Method
+  jobNameLengthLimit: Job name must not exceed 64 characters
+  cronExpressionLengthLimit: Cron expression must not exceed 255 characters
+  handlerCodeLengthLimit: Handler code must not exceed 64 characters
+  remarkLengthLimit: Remark must not exceed 500 characters
   taskTypeBeanInvoke: Bean Invoke
   taskTypeCustomClass: Custom Class
   taskTypeMessageDispatch: Message Dispatch
