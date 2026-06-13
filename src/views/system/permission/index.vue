@@ -30,7 +30,7 @@ const permissionState = usePaginationState({
     permissionType: undefined,
     status: undefined,
   }),
-  errorI18nKey: 'permissions.loadFailed',
+  errorI18nKey: 'permissions.messages.loadFailed',
 });
 
 const { loading, searchForm, pagination, fetchTableData, resetQuery } = permissionState;
@@ -48,28 +48,28 @@ onMounted(() => {
   <div>
     <el-form ref="searchFormRef" :model="searchForm" class="bg-bg_color w-[99/100] overflow-auto pl-8 pt-3" inline>
       <!-- 权限编码 -->
-      <el-form-item :label="t('permissions.permissionCode')" prop="permissionCode">
+      <el-form-item :label="t('permissions.field.permissionCode')" prop="permissionCode">
         <el-input
           v-model="searchForm.permissionCode"
-          :placeholder="ph.input('permissions.permissionCode')"
+          :placeholder="ph.input('permissions.field.permissionCode')"
           class="w-45!"
           clearable
         />
       </el-form-item>
       <!-- 权限名称 -->
-      <el-form-item :label="t('permissions.permissionName')" prop="permissionName">
+      <el-form-item :label="t('permissions.field.permissionName')" prop="permissionName">
         <el-input
           v-model="searchForm.permissionName"
-          :placeholder="ph.input('permissions.permissionName')"
+          :placeholder="ph.input('permissions.field.permissionName')"
           class="w-45!"
           clearable
         />
       </el-form-item>
       <!-- 权限类型 -->
-      <el-form-item :label="t('permissions.permissionType')" prop="permissionType">
+      <el-form-item :label="t('permissions.field.permissionType')" prop="permissionType">
         <el-select
           v-model="searchForm.permissionType"
-          :placeholder="ph.selectFilter('permissions.permissionType')"
+          :placeholder="ph.selectFilter('permissions.field.permissionType')"
           class="w-40!"
           clearable
         >
@@ -82,10 +82,10 @@ onMounted(() => {
         </el-select>
       </el-form-item>
       <!-- 状态 -->
-      <el-form-item :label="t('permissions.status')" prop="status">
+      <el-form-item :label="t('permissions.field.status')" prop="status">
         <el-select
           v-model="searchForm.status"
-          :placeholder="ph.selectFilter('permissions.status')"
+          :placeholder="ph.selectFilter('permissions.field.status')"
           class="w-45!"
           clearable
         >
@@ -110,7 +110,7 @@ onMounted(() => {
       </el-form-item>
     </el-form>
 
-    <AuthPagedTable :columns="columns" :state="permissionState" :title="t('permissions.pageTitle')">
+    <AuthPagedTable :columns="columns" :state="permissionState" :title="t('permissions.page.title')">
       <template #buttons>
         <el-button-group type="primary">
           <el-button type="primary" @click="openCreateDialog">{{ t('buttons.actionAdd') }}</el-button>

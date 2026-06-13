@@ -1,29 +1,41 @@
 post:
   moduleName: Posts
-  pageTitle: Post Management
-  loadFailed: Failed to load posts
-  dialogCreateTitle: Add Post
-  dialogEditTitle: Edit Post
-  dialogViewTitle: View Post Details
-  assignCurrentPost: Current post
+  page:
+    title: Post Management
+  dialog:
+    create: Add Post
+    edit: Edit Post
+    view: View Post Details
+  assign:
+    current: Current post
+  field:
+    postCode: Post Code
+    postName: Post Name
+    deptName: Owning department
+    status: Status
+    orderNum: Order
+    remark: Remark
+    employeeNo: Employee No.
+    isPrimaryPosition: Primary Post
+  enums:
+    status:
+      normal: Normal
+      disabled: Disabled
+    primary:
+      yes: Primary
+      no: Secondary
   placeholder:
     dept: Select owning department
-  postCode: Post Code
-  postName: Post Name
-  deptName: Owning department
-  status: Status
-  orderNum: Order
-  remark: Remark
-  statusNormal: Normal
-  statusDisabled: Disabled
-  employeeNo: Employee No.
-  isPrimaryPosition: Primary Post
-  primaryPosition: Primary
-  secondaryPosition: Secondary
-  boundDeptTitle: Department
-  boundUsersTitle: Linked Users
-  boundUsersEmpty: No linked users
-  boundRolesTitle: Granted Roles
-  boundRolesEmpty: No granted roles
+  bound:
+    dept:
+      title: Department
+    users:
+      title: Linked Users
+      empty: No linked users
+    roles:
+      title: Granted Roles
+      empty: No granted roles
   tips:
     affiliatedPostInfo: Posts
+  messages:
+    loadFailed: Failed to load posts

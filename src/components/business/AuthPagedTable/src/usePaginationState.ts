@@ -31,7 +31,7 @@ export interface UsePaginationStateOptions<TData = unknown> {
  * const state = usePaginationState({
  *   fetchApi: getPostPage,
  *   searchForm: reactive({ postCode: undefined, postName: undefined, status: undefined }),
- *   errorI18nKey: 'post.loadFailed',
+ *   errorI18nKey: 'post.messages.loadFailed',
  * });
  * ```
  * @param options 分页状态配置

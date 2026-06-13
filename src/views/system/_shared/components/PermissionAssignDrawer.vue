@@ -69,17 +69,17 @@ const { tableData, loading, searchForm, fetchTableData, resetQuery } = permissio
 
 useAssignTableLabels(assign, tableData);
 
-const sectionLabelText = computed(() => props.sectionLabel ?? t('permissions.assignSectionLabel'));
+const sectionLabelText = computed(() => props.sectionLabel ?? t('permissions.assign.sectionLabel'));
 
 // 权限分配列
 const permissionDrawerColumns = computed<TableColumnList>(() => [
   createAssignCheckboxColumn(assign, 'permissionCode', { label: t('table.assigned') }),
   {
-    label: t('permissions.permissionName'),
+    label: t('permissions.field.permissionName'),
     prop: 'permissionName',
   },
   {
-    label: t('permissions.permissionCode'),
+    label: t('permissions.field.permissionCode'),
     prop: 'permissionCode',
   },
 ]);
@@ -115,26 +115,30 @@ defineExpose({ getSelectedKeys });
 <template>
   <AssignPanel :assign="assign" :left-subtitle="leftSubtitle" :left-title="leftTitle" :section-label="sectionLabelText">
     <el-form ref="searchFormRef" :model="searchForm" class="mb-3 w-full overflow-auto pl-8 pt-3" inline>
-      <el-form-item :label="t('permissions.permissionName')" prop="permissionName">
+      <el-form-item :label="t('permissions.field.permissionName')" prop="permissionName">
         <el-input
           v-model="searchForm.permissionName"
-          :placeholder="ph.input('permissions.permissionName')"
+          :placeholder="ph.input('permissions.field.permissionName')"
           class="w-45!"
           clearable
         />
       </el-form-item>
-      <el-form-item :label="t('permissions.permissionCode')" prop="permissionCode">
+      <el-form-item :label="t('permissions.field.permissionCode')" prop="permissionCode">
         <el-input
           v-model="searchForm.permissionCode"
-          :placeholder="ph.input('permissions.permissionCode')"
+          :placeholder="ph.input('permissions.field.permissionCode')"
           class="w-45!"
           clearable
         />
       </el-form-item>
-      <el-form-item v-if="showPermissionTypeFilter" :label="t('permissions.permissionType')" prop="permissionType">
+      <el-form-item
+        v-if="showPermissionTypeFilter"
+        :label="t('permissions.field.permissionType')"
+        prop="permissionType"
+      >
         <el-select
           v-model="searchForm.permissionType"
-          :placeholder="ph.selectFilter('permissions.permissionType')"
+          :placeholder="ph.selectFilter('permissions.field.permissionType')"
           class="w-40!"
           clearable
         >

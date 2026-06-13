@@ -26,15 +26,15 @@ const boundUsers = computed(() => props.data?.boundUsers ?? []);
 const boundRoles = computed(() => props.data?.boundRoles ?? []);
 
 const descriptionColumns = computed(() => [
-  { label: t('post.postCode'), prop: 'postCode', labelWidth: 120, copy: true },
-  { label: t('post.postName'), prop: 'postName', labelWidth: 120, copy: true },
+  { label: t('post.field.postCode'), prop: 'postCode', labelWidth: 120, copy: true },
+  { label: t('post.field.postName'), prop: 'postName', labelWidth: 120, copy: true },
   {
-    label: t('post.status'),
+    label: t('post.field.status'),
     prop: 'status',
     labelWidth: 120,
     cellRenderer: ({ value }: { value: boolean }) => {
       const option = POST_STATUS_FILTER_OPTIONS.find((item) => item.value === value);
-      const labelKey = option?.labelKey ?? (value ? 'post.statusNormal' : 'post.statusDisabled');
+      const labelKey = option?.labelKey ?? (value ? 'post.enums.status.normal' : 'post.enums.status.disabled');
       return (
         <ElTag type={value ? 'success' : 'danger'} effect="plain">
           {t(labelKey)}
@@ -42,8 +42,8 @@ const descriptionColumns = computed(() => [
       );
     },
   },
-  { label: t('post.orderNum'), prop: 'orderNum', labelWidth: 120 },
-  { label: t('post.remark'), prop: 'remark', labelWidth: 120, span: 2 },
+  { label: t('post.field.orderNum'), prop: 'orderNum', labelWidth: 120 },
+  { label: t('post.field.remark'), prop: 'remark', labelWidth: 120, span: 2 },
   { label: t('table.createTime'), prop: 'createTime', labelWidth: 120 },
   { label: t('table.updateTime'), prop: 'updateTime', labelWidth: 120 },
   { label: t('table.createUsername'), prop: 'createUsername', labelWidth: 120 },
@@ -58,7 +58,7 @@ const descriptionColumns = computed(() => [
     <el-divider />
 
     <p class="mb-2 text-sm font-medium text-(--el-text-color-primary)">
-      {{ t('post.boundDeptTitle') }}
+      {{ t('post.bound.dept.title') }}
     </p>
     <Description :column="2" :columns="deptSnapshotColumns" :data="[data.boundDept]" />
 
@@ -66,17 +66,17 @@ const descriptionColumns = computed(() => [
 
     <DetailRelationListSection
       :columns="userBindingColumns"
-      :empty-text="t('post.boundUsersEmpty')"
+      :empty-text="t('post.bound.users.empty')"
       :items="boundUsers"
-      :title="t('post.boundUsersTitle')"
+      :title="t('post.bound.users.title')"
       row-key="userId"
     />
 
     <DetailRelationListSection
       :columns="roleBindingColumns"
-      :empty-text="t('post.boundRolesEmpty')"
+      :empty-text="t('post.bound.roles.empty')"
       :items="boundRoles"
-      :title="t('post.boundRolesTitle')"
+      :title="t('post.bound.roles.title')"
       class="mt-4"
       row-key="roleCode"
     />

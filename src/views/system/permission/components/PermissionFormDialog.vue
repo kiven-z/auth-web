@@ -48,21 +48,21 @@ const permissionTypeModel = computed({
 
 const rules = computed<FormRules>(() => ({
   permissionCode: [
-    { required: true, message: t('permissions.permissionCode'), trigger: 'blur' },
-    { max: 128, message: t('permissions.permissionCodeLengthLimit'), trigger: 'blur' },
-    { pattern: PERMISSION_CODE_REGEX, message: t('permissions.permissionCodeFormat'), trigger: 'blur' },
+    { required: true, message: t('permissions.field.permissionCode'), trigger: 'blur' },
+    { max: 128, message: t('permissions.validation.permissionCodeLengthLimit'), trigger: 'blur' },
+    { pattern: PERMISSION_CODE_REGEX, message: t('permissions.validation.permissionCodeFormat'), trigger: 'blur' },
   ],
   permissionName: [
-    { required: true, message: t('permissions.permissionName'), trigger: 'blur' },
-    { max: 128, message: t('permissions.permissionNameLengthLimit'), trigger: 'blur' },
+    { required: true, message: t('permissions.field.permissionName'), trigger: 'blur' },
+    { max: 128, message: t('permissions.validation.permissionNameLengthLimit'), trigger: 'blur' },
   ],
   ...(isEditMode.value
     ? {}
     : {
-        permissionType: [{ required: true, message: t('permissions.permissionType'), trigger: 'change' }],
+        permissionType: [{ required: true, message: t('permissions.field.permissionType'), trigger: 'change' }],
       }),
-  status: [{ required: true, message: t('permissions.status'), trigger: 'change' }],
-  remark: [{ max: 500, message: t('permissions.remarkLengthLimit'), trigger: 'blur' }],
+  status: [{ required: true, message: t('permissions.field.status'), trigger: 'change' }],
+  remark: [{ max: 500, message: t('permissions.validation.remarkLengthLimit'), trigger: 'blur' }],
 }));
 
 defineExpose({ formRef, form });
@@ -73,23 +73,23 @@ defineExpose({ formRef, form });
     <el-row :gutter="14">
       <!-- 权限编码 -->
       <el-col :lg="12" :md="12" :sm="12" :xs="24">
-        <el-form-item :label="t('permissions.permissionCode')" prop="permissionCode">
-          <el-input v-model="form.permissionCode" :placeholder="ph.input('permissions.permissionCode')" />
+        <el-form-item :label="t('permissions.field.permissionCode')" prop="permissionCode">
+          <el-input v-model="form.permissionCode" :placeholder="ph.input('permissions.field.permissionCode')" />
         </el-form-item>
       </el-col>
       <!-- 权限名称 -->
       <el-col :lg="12" :md="12" :sm="12" :xs="24">
-        <el-form-item :label="t('permissions.permissionName')" prop="permissionName">
-          <el-input v-model="form.permissionName" :placeholder="ph.input('permissions.permissionName')" />
+        <el-form-item :label="t('permissions.field.permissionName')" prop="permissionName">
+          <el-input v-model="form.permissionName" :placeholder="ph.input('permissions.field.permissionName')" />
         </el-form-item>
       </el-col>
       <!-- 权限类型 -->
       <el-col :lg="12" :md="12" :sm="12" :xs="24">
-        <el-form-item :label="t('permissions.permissionType')" :prop="isEditMode ? undefined : 'permissionType'">
+        <el-form-item :label="t('permissions.field.permissionType')" :prop="isEditMode ? undefined : 'permissionType'">
           <el-select
             v-model="permissionTypeModel"
             :disabled="isEditMode"
-            :placeholder="ph.select('permissions.permissionType')"
+            :placeholder="ph.select('permissions.field.permissionType')"
             class="w-full"
           >
             <el-option
@@ -100,31 +100,31 @@ defineExpose({ formRef, form });
             />
           </el-select>
           <el-text v-if="isEditMode" class="mt-1 block" type="info">
-            {{ t('permissions.permissionTypeImmutableHint') }}
+            {{ t('permissions.messages.typeImmutableHint') }}
           </el-text>
         </el-form-item>
       </el-col>
       <!-- 状态 -->
       <el-col :lg="12" :md="12" :sm="12" :xs="24">
-        <el-form-item :label="t('permissions.status')" prop="status">
+        <el-form-item :label="t('permissions.field.status')" prop="status">
           <el-radio-group v-model="form.status">
-            <el-radio :value="true">{{ t('permissions.statusActive') }}</el-radio>
-            <el-radio :value="false">{{ t('permissions.statusInactive') }}</el-radio>
+            <el-radio :value="true">{{ t('permissions.enums.status.active') }}</el-radio>
+            <el-radio :value="false">{{ t('permissions.enums.status.inactive') }}</el-radio>
           </el-radio-group>
         </el-form-item>
       </el-col>
       <!-- 显示顺序 -->
       <el-col :lg="12" :md="12" :sm="12" :xs="24">
-        <el-form-item :label="t('permissions.orderNum')" prop="orderNum">
+        <el-form-item :label="t('permissions.field.orderNum')" prop="orderNum">
           <el-input-number v-model="form.orderNum" :max="9999" :min="0" />
         </el-form-item>
       </el-col>
       <!-- 备注 -->
       <el-col :span="24">
-        <el-form-item :label="t('permissions.remark')" prop="remark">
+        <el-form-item :label="t('permissions.field.remark')" prop="remark">
           <el-input
             v-model="form.remark"
-            :placeholder="t('permissions.remark')"
+            :placeholder="t('permissions.field.remark')"
             :rows="3"
             maxlength="500"
             show-word-limit

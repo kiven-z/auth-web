@@ -78,7 +78,7 @@ watch(
 
     <div class="section">
       <div class="section-header">
-        <h3 class="section-title">{{ t('relation.section.dept') }}</h3>
+        <h4 class="section-title">{{ t('relation.section.dept') }}</h4>
         <el-badge :value="deptInfos.length" class="badge" type="success" />
       </div>
 
@@ -114,7 +114,7 @@ watch(
 
     <div class="section">
       <div class="section-header">
-        <h4 class="section-subtitle">{{ t('post.tips.affiliatedPostInfo') }}</h4>
+        <h4 class="section-title">{{ t('post.tips.affiliatedPostInfo') }}</h4>
         <el-badge :value="postInfos.length" class="badge" type="warning" />
       </div>
 

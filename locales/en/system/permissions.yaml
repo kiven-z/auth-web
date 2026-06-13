@@ -1,28 +1,40 @@
 permissions:
   moduleName: Permissions
-  pageTitle: Permission Management
-  dialogCreateTitle: Add Permission
-  dialogEditTitle: Edit Permission
-  dialogViewTitle: View Permission Details
-  permissionTypeImmutableHint: Permission type cannot be changed after creation. Delete and recreate to change it.
-  loadFailed: Failed to load permissions
-  assignSectionLabel: Assigned permissions
-  permissionCode: Permission Code
-  permissionName: Permission Name
-  permissionType: Permission Type
-  status: Status
-  orderNum: Order
-  remark: Remark
-  statusActive: Active
-  statusInactive: Inactive
-  permissionCodeLengthLimit: Permission code must be at most 128 characters
-  permissionCodeFormat: Permission code must be 1–3 lowercase segments separated by colons; each segment is * or a lowercase identifier
-  permissionNameLengthLimit: Permission name must be at most 128 characters
-  remarkLengthLimit: Remark must be at most 500 characters
-  typeButton: Button Permission
-  typeApi: API Permission
-  boundRolesTitle: Bound Roles
-  boundMenusTitle: Bound Menus
-  boundRolesEmpty: No roles bound
-  boundMenusEmpty: No menus bound
-  boundMenusNotApplicable: API permissions are not linked to menu buttons
+  page:
+    title: Permission Management
+  dialog:
+    create: Add Permission
+    edit: Edit Permission
+    view: View Permission Details
+  assign:
+    sectionLabel: Assigned permissions
+  field:
+    permissionCode: Permission Code
+    permissionName: Permission Name
+    permissionType: Permission Type
+    status: Status
+    orderNum: Order
+    remark: Remark
+  enums:
+    status:
+      active: Active
+      inactive: Inactive
+    type:
+      button: Button Permission
+      api: API Permission
+  validation:
+    permissionCodeLengthLimit: Permission code must be at most 128 characters
+    permissionCodeFormat: Permission code must be 1–3 lowercase segments separated by colons; each segment is * or a lowercase identifier
+    permissionNameLengthLimit: Permission name must be at most 128 characters
+    remarkLengthLimit: Remark must be at most 500 characters
+  bound:
+    roles:
+      title: Bound Roles
+      empty: No roles bound
+    menus:
+      title: Bound Menus
+      empty: No menus bound
+      notApplicable: API permissions are not linked to menu buttons
+  messages:
+    loadFailed: Failed to load permissions
+    typeImmutableHint: Permission type cannot be changed after creation. Delete and recreate to change it.

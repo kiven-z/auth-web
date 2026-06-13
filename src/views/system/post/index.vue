@@ -30,7 +30,7 @@ const postState = usePaginationState({
     deptName: undefined,
     status: undefined,
   }),
-  errorI18nKey: 'post.loadFailed',
+  errorI18nKey: 'post.messages.loadFailed',
 });
 
 const { loading, searchForm, pagination, fetchTableData, resetQuery } = postState;
@@ -56,20 +56,40 @@ onMounted(() => {
   <div>
     <el-form ref="searchFormRef" :model="searchForm" class="bg-bg_color w-[99/100] overflow-auto pl-8 pt-3" inline>
       <!-- 岗位编码 -->
-      <el-form-item :label="t('post.postCode')" prop="postCode">
-        <el-input v-model="searchForm.postCode" :placeholder="ph.input('post.postCode')" class="w-45!" clearable />
+      <el-form-item :label="t('post.field.postCode')" prop="postCode">
+        <el-input
+          v-model="searchForm.postCode"
+          :placeholder="ph.input('post.field.postCode')"
+          class="w-45!"
+          clearable
+        />
       </el-form-item>
       <!-- 岗位名称 -->
-      <el-form-item :label="t('post.postName')" prop="postName">
-        <el-input v-model="searchForm.postName" :placeholder="ph.input('post.postName')" class="w-45!" clearable />
+      <el-form-item :label="t('post.field.postName')" prop="postName">
+        <el-input
+          v-model="searchForm.postName"
+          :placeholder="ph.input('post.field.postName')"
+          class="w-45!"
+          clearable
+        />
       </el-form-item>
       <!-- 所属部门 -->
-      <el-form-item :label="t('post.deptName')" prop="deptName">
-        <el-input v-model="searchForm.deptName" :placeholder="ph.input('post.deptName')" class="w-45!" clearable />
+      <el-form-item :label="t('post.field.deptName')" prop="deptName">
+        <el-input
+          v-model="searchForm.deptName"
+          :placeholder="ph.input('post.field.deptName')"
+          class="w-45!"
+          clearable
+        />
       </el-form-item>
       <!-- 状态 -->
-      <el-form-item :label="t('post.status')" prop="status">
-        <el-select v-model="searchForm.status" :placeholder="ph.selectFilter('post.status')" class="w-45!" clearable>
+      <el-form-item :label="t('post.field.status')" prop="status">
+        <el-select
+          v-model="searchForm.status"
+          :placeholder="ph.selectFilter('post.field.status')"
+          class="w-45!"
+          clearable
+        >
           <el-option
             v-for="opt in POST_STATUS_FILTER_OPTIONS"
             :key="`${opt.labelKey}:${String(opt.value)}`"
@@ -91,7 +111,7 @@ onMounted(() => {
       </el-form-item>
     </el-form>
 
-    <AuthPagedTable :columns="columns" :state="postState" :title="t('post.pageTitle')">
+    <AuthPagedTable :columns="columns" :state="postState" :title="t('post.page.title')">
       <template #buttons>
         <el-button-group type="primary">
           <!-- 添加 -->

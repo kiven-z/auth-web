@@ -27,7 +27,7 @@ function usePermissionBindingColumns() {
       },
     },
     {
-      label: t('permissions.status'),
+      label: t('permissions.field.status'),
       prop: 'status',
       minWidth: 90,
       formatter: (row: SysPermissionBoundMenuItem) => (

@@ -74,20 +74,20 @@ function useUserProfileColumns() {
    * 岗位列
    */
   const postColumns = computed(() => [
-    { label: t('post.postName'), prop: 'postName', copy: true },
-    { label: t('post.postCode'), prop: 'postCode', copy: true },
+    { label: t('post.field.postName'), prop: 'postName', copy: true },
+    { label: t('post.field.postCode'), prop: 'postCode', copy: true },
     {
-      label: t('post.isPrimaryPosition'),
+      label: t('post.field.isPrimaryPosition'),
       prop: 'isPrimary',
       cellRenderer: ({ value }: { value: boolean | number }) => {
         const primary = value === true || value === 1;
         return primary ? (
           <ElCheckTag checked type="danger">
-            {t('post.primaryPosition')}
+            {t('post.enums.primary.yes')}
           </ElCheckTag>
         ) : (
           <ElCheckTag checked type="primary">
-            {t('post.secondaryPosition')}
+            {t('post.enums.primary.no')}
           </ElCheckTag>
         );
       },

@@ -15,12 +15,12 @@ function usePermissionTableColumns() {
   const columns = computed<TableColumnList>(() => [
     { type: 'index', index: (index: number) => index + 1, label: t('table.idx'), minWidth: 60 },
     // 权限编码
-    { label: t('permissions.permissionCode'), prop: 'permissionCode', minWidth: 150 },
+    { label: t('permissions.field.permissionCode'), prop: 'permissionCode', minWidth: 150 },
     // 权限名称
-    { label: t('permissions.permissionName'), prop: 'permissionName', minWidth: 150 },
+    { label: t('permissions.field.permissionName'), prop: 'permissionName', minWidth: 150 },
     // 权限类型
     {
-      label: t('permissions.permissionType'),
+      label: t('permissions.field.permissionType'),
       prop: 'permissionType',
       minWidth: 120,
       formatter: (row: SysPermissionPageRow) => {
@@ -35,7 +35,7 @@ function usePermissionTableColumns() {
     },
     // 状态
     {
-      label: t('permissions.status'),
+      label: t('permissions.field.status'),
       prop: 'status',
       minWidth: 100,
       formatter: (row: SysPermissionPageRow) => {
@@ -47,7 +47,7 @@ function usePermissionTableColumns() {
       },
     },
     // 排序号
-    { label: t('permissions.orderNum'), prop: 'orderNum', width: 100 },
+    { label: t('permissions.field.orderNum'), prop: 'orderNum', width: 100 },
     { label: t('table.createTime'), prop: 'createTime', minWidth: 170 },
     { label: t('table.updateTime'), prop: 'updateTime', minWidth: 170 },
     {

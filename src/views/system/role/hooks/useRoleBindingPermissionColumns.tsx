@@ -11,10 +11,10 @@ function useRoleBindingPermissionColumns() {
   const { t } = useI18n();
 
   const columns = computed<TableColumnList>(() => [
-    { label: t('permissions.permissionCode'), prop: 'permissionCode', minWidth: 140, showOverflowTooltip: true },
-    { label: t('permissions.permissionName'), prop: 'permissionName', minWidth: 120, showOverflowTooltip: true },
+    { label: t('permissions.field.permissionCode'), prop: 'permissionCode', minWidth: 140, showOverflowTooltip: true },
+    { label: t('permissions.field.permissionName'), prop: 'permissionName', minWidth: 120, showOverflowTooltip: true },
     {
-      label: t('permissions.permissionType'),
+      label: t('permissions.field.permissionType'),
       prop: 'permissionType',
       minWidth: 110,
       formatter: (row: SysRoleBoundPermissionItem) => {
@@ -30,7 +30,7 @@ function useRoleBindingPermissionColumns() {
       },
     },
     {
-      label: t('permissions.status'),
+      label: t('permissions.field.status'),
       prop: 'status',
       minWidth: 90,
       formatter: (row: SysRoleBoundPermissionItem) => (

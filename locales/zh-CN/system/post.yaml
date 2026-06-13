@@ -1,29 +1,41 @@
 post:
   moduleName: 岗位
-  pageTitle: 岗位管理
-  loadFailed: 加载岗位列表失败
-  dialogCreateTitle: 新增岗位
-  dialogEditTitle: 编辑岗位
-  dialogViewTitle: 查看岗位详情
-  assignCurrentPost: 当前岗位
+  page:
+    title: 岗位管理
+  dialog:
+    create: 新增岗位
+    edit: 编辑岗位
+    view: 查看岗位详情
+  assign:
+    current: 当前岗位
+  field:
+    postCode: 岗位编码
+    postName: 岗位名称
+    deptName: 编制部门
+    status: 状态
+    orderNum: 显示顺序
+    remark: 备注
+    employeeNo: 工号
+    isPrimaryPosition: 是否主岗位
+  enums:
+    status:
+      normal: 正常
+      disabled: 禁用
+    primary:
+      yes: 主岗位
+      no: 副岗位
   placeholder:
     dept: 请选择编制部门
-  postCode: 岗位编码
-  postName: 岗位名称
-  deptName: 编制部门
-  status: 状态
-  orderNum: 显示顺序
-  remark: 备注
-  statusNormal: 正常
-  statusDisabled: 禁用
-  employeeNo: 工号
-  isPrimaryPosition: 是否主岗位
-  primaryPosition: 主岗位
-  secondaryPosition: 副岗位
-  boundDeptTitle: 所属部门
-  boundUsersTitle: 关联用户
-  boundUsersEmpty: 暂无关联用户
-  boundRolesTitle: 已授权角色
-  boundRolesEmpty: 暂无已授权角色
+  bound:
+    dept:
+      title: 所属部门
+    users:
+      title: 关联用户
+      empty: 暂无关联用户
+    roles:
+      title: 已授权角色
+      empty: 暂无已授权角色
   tips:
     affiliatedPostInfo: 所属岗位
+  messages:
+    loadFailed: 加载岗位列表失败

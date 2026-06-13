@@ -15,27 +15,27 @@ function usePostTableColumns() {
     { type: 'selection', align: 'left' },
     { type: 'index', index: (index: number) => index + 1, label: t('table.idx'), minWidth: 60 },
     // 岗位编码
-    { label: t('post.postCode'), prop: 'postCode', minWidth: 130 },
+    { label: t('post.field.postCode'), prop: 'postCode', minWidth: 130 },
     // 岗位名称
-    { label: t('post.postName'), prop: 'postName', minWidth: 140 },
+    { label: t('post.field.postName'), prop: 'postName', minWidth: 140 },
     // 所属部门
-    { label: t('post.deptName'), prop: 'deptName', minWidth: 140 },
+    { label: t('post.field.deptName'), prop: 'deptName', minWidth: 140 },
     // 状态
     {
-      label: t('post.status'),
+      label: t('post.field.status'),
       prop: 'status',
       minWidth: 100,
       formatter: (row: SysPostPageRow) => {
         const isNormal = row.status === true;
         return (
           <ElTag type={isNormal ? 'success' : 'danger'} effect="plain">
-            {isNormal ? t('post.statusNormal') : t('post.statusDisabled')}
+            {isNormal ? t('post.enums.status.normal') : t('post.enums.status.disabled')}
           </ElTag>
         );
       },
     },
     // 排序号
-    { label: t('post.orderNum'), prop: 'orderNum', width: 100 },
+    { label: t('post.field.orderNum'), prop: 'orderNum', width: 100 },
     { label: t('table.createTime'), prop: 'createTime', minWidth: 170 },
     { label: t('table.updateTime'), prop: 'updateTime', minWidth: 170 },
     {

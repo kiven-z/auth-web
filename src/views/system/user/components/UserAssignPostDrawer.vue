@@ -61,12 +61,22 @@ onMounted(() => {
     <el-alert :title="t('users.postAssign.drawerTip')" closable show-icon type="info" />
     <el-form ref="searchFormRef" :model="searchForm" class="pt-2 pl-6" inline>
       <!-- 岗位编码 -->
-      <el-form-item :label="t('post.postCode')" prop="postCode">
-        <el-input v-model="searchForm.postCode" :placeholder="ph.input('post.postCode')" class="w-45!" clearable />
+      <el-form-item :label="t('post.field.postCode')" prop="postCode">
+        <el-input
+          v-model="searchForm.postCode"
+          :placeholder="ph.input('post.field.postCode')"
+          class="w-45!"
+          clearable
+        />
       </el-form-item>
       <!-- 岗位名称 -->
-      <el-form-item :label="t('post.postName')" prop="postName">
-        <el-input v-model="searchForm.postName" :placeholder="ph.input('post.postName')" class="w-45!" clearable />
+      <el-form-item :label="t('post.field.postName')" prop="postName">
+        <el-input
+          v-model="searchForm.postName"
+          :placeholder="ph.input('post.field.postName')"
+          class="w-45!"
+          clearable
+        />
       </el-form-item>
       <!-- 关联状态 -->
       <el-form-item :label="t('relation.status')" prop="status">

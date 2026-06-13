@@ -26,16 +26,16 @@ const form = ref<UserPostAssignForm>({
 });
 
 const { postOptions, postSearchLoading, loadPostListByKeyword } = useRemotePostSearch({
-  errorDefaultI18nKey: 'post.loadFailed',
+  errorDefaultI18nKey: 'post.messages.loadFailed',
 });
 
 const rules = computed<FormRules>(() => {
   const baseRules: FormRules = {
     status: [{ required: true, message: t('relation.status'), trigger: 'change' }],
-    isPrimary: [{ required: true, message: t('post.isPrimaryPosition'), trigger: 'change' }],
+    isPrimary: [{ required: true, message: t('post.field.isPrimaryPosition'), trigger: 'change' }],
   };
   if (!props.editMode) {
-    baseRules.postId = [{ required: true, message: t('post.postName'), trigger: 'change' }];
+    baseRules.postId = [{ required: true, message: t('post.field.postName'), trigger: 'change' }];
   }
   return baseRules;
 });
@@ -57,7 +57,7 @@ defineExpose({ formRef, form });
     <el-row :gutter="14">
       <!-- 岗位（仅新增） -->
       <el-col v-if="!editMode" :span="24">
-        <el-form-item :label="t('post.postName')" prop="postId">
+        <el-form-item :label="t('post.field.postName')" prop="postId">
           <el-select
             v-model="form.postId"
             :loading="postSearchLoading"
@@ -92,10 +92,10 @@ defineExpose({ formRef, form });
       </el-col>
       <!-- 是否主岗位 -->
       <el-col :lg="12" :md="12" :sm="12" :xs="24">
-        <el-form-item :label="t('post.isPrimaryPosition')" prop="isPrimary">
+        <el-form-item :label="t('post.field.isPrimaryPosition')" prop="isPrimary">
           <el-radio-group v-model="form.isPrimary">
-            <el-radio :value="true">{{ t('post.primaryPosition') }}</el-radio>
-            <el-radio :value="false">{{ t('post.secondaryPosition') }}</el-radio>
+            <el-radio :value="true">{{ t('post.enums.primary.yes') }}</el-radio>
+            <el-radio :value="false">{{ t('post.enums.primary.no') }}</el-radio>
           </el-radio-group>
         </el-form-item>
       </el-col>

@@ -36,7 +36,7 @@ defineExpose({
   <OrgGrantRoleAssignDrawer
     ref="innerRef"
     :left-subtitle="`${postName}（${postCode}）`"
-    :left-title="t('post.assignCurrentPost')"
+    :left-title="t('post.assign.current')"
     :load-assigned="loadAssigned"
   />
 </template>

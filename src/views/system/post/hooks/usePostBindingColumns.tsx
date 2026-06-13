@@ -16,7 +16,7 @@ function usePostBindingColumns() {
   const userBindingColumns = computed<TableColumnList>(() => [
     { label: t('users.field.username'), prop: 'username', minWidth: 120, showOverflowTooltip: true },
     { label: t('users.field.nickname'), prop: 'nickname', minWidth: 120, showOverflowTooltip: true },
-    { label: t('post.employeeNo'), prop: 'employeeNo', minWidth: 100, showOverflowTooltip: true },
+    { label: t('post.field.employeeNo'), prop: 'employeeNo', minWidth: 100, showOverflowTooltip: true },
     {
       label: t('users.field.status'),
       prop: 'userStatus',
@@ -24,17 +24,17 @@ function usePostBindingColumns() {
       formatter: (row: SysPostBoundUserItem) => renderUserAccountStatus(row.userStatus),
     },
     {
-      label: t('post.isPrimaryPosition'),
+      label: t('post.field.isPrimaryPosition'),
       prop: 'isPrimary',
       minWidth: 110,
       formatter: (row: SysPostBoundUserItem) =>
         row.isPrimary ? (
           <ElCheckTag checked type="danger">
-            {t('post.primaryPosition')}
+            {t('post.enums.primary.yes')}
           </ElCheckTag>
         ) : (
           <ElCheckTag checked type="primary">
-            {t('post.secondaryPosition')}
+            {t('post.enums.primary.no')}
           </ElCheckTag>
         ),
     },

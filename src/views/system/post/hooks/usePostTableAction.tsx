@@ -27,7 +27,7 @@ function usePostTableAction(deps: TableActionDeps) {
     const dialogFormRef = ref<FormOverlayExpose<SysPostCreateForm> | null>(null);
 
     addDialog({
-      title: t('post.dialogCreateTitle'),
+      title: t('post.dialog.create'),
       draggable: true,
       fullscreenIcon: true,
       closeOnClickModal: false,
@@ -35,7 +35,7 @@ function usePostTableAction(deps: TableActionDeps) {
       contentRenderer: () => h(PostFormDialog, { ref: dialogFormRef }),
       beforeSure: createFormBeforeSure<SysPostCreateForm>({
         formExposeRef: dialogFormRef,
-        errorI18nKey: 'post.loadFailed',
+        errorI18nKey: 'post.messages.loadFailed',
         successI18nKey: 'tips.addSuccess',
         onSubmit: async (formPayload) => {
           await createPost(formPayload);
@@ -53,7 +53,7 @@ function usePostTableAction(deps: TableActionDeps) {
     try {
       const detail = await getPostDetail(row.id);
       addDialog({
-        title: t('post.dialogViewTitle'),
+        title: t('post.dialog.view'),
         draggable: true,
         fullscreenIcon: true,
         closeOnPressEscape: false,
@@ -62,7 +62,7 @@ function usePostTableAction(deps: TableActionDeps) {
         contentRenderer: () => h(PostDetailDialog, { data: detail }),
       });
     } catch (error: unknown) {
-      errorMessage(error, { defaultI18nKey: 'post.loadFailed' });
+      errorMessage(error, { defaultI18nKey: 'post.messages.loadFailed' });
     }
   };
 
@@ -76,7 +76,7 @@ function usePostTableAction(deps: TableActionDeps) {
       const dialogFormRef = ref<FormOverlayExpose<SysPostCreateForm> | null>(null);
 
       addDialog({
-        title: t('post.dialogEditTitle'),
+        title: t('post.dialog.edit'),
         draggable: true,
         fullscreenIcon: true,
         closeOnClickModal: false,
@@ -84,7 +84,7 @@ function usePostTableAction(deps: TableActionDeps) {
         contentRenderer: () => h(PostFormDialog, { ref: dialogFormRef, form: detail }),
         beforeSure: createFormBeforeSure<SysPostCreateForm>({
           formExposeRef: dialogFormRef,
-          errorI18nKey: 'post.loadFailed',
+          errorI18nKey: 'post.messages.loadFailed',
           successI18nKey: 'tips.editSuccess',
           onSubmit: async (formData) => {
             await updatePost(row.id, formData);
@@ -93,7 +93,7 @@ function usePostTableAction(deps: TableActionDeps) {
         }),
       });
     } catch (error: unknown) {
-      errorMessage(error, { defaultI18nKey: 'post.loadFailed' });
+      errorMessage(error, { defaultI18nKey: 'post.messages.loadFailed' });
     }
   };
 

@@ -16,20 +16,20 @@ function useUserPostAssignTableColumns() {
   const columns = computed<TableColumnList>(() => [
     { type: 'selection', align: 'left', width: 48 },
     { type: 'index', index: (index: number) => index + 1, label: t('table.idx'), minWidth: 60 },
-    { label: t('post.postCode'), prop: 'postCode', minWidth: 120, showOverflowTooltip: true },
-    { label: t('post.postName'), prop: 'postName', minWidth: 140, showOverflowTooltip: true },
+    { label: t('post.field.postCode'), prop: 'postCode', minWidth: 120, showOverflowTooltip: true },
+    { label: t('post.field.postName'), prop: 'postName', minWidth: 140, showOverflowTooltip: true },
     {
-      label: t('post.isPrimaryPosition'),
+      label: t('post.field.isPrimaryPosition'),
       prop: 'isPrimary',
       minWidth: 110,
       formatter: (row: UserPostPageRow) =>
         row.isPrimary ? (
           <ElCheckTag checked type="danger">
-            {t('post.primaryPosition')}
+            {t('post.enums.primary.yes')}
           </ElCheckTag>
         ) : (
           <ElCheckTag checked type="primary">
-            {t('post.secondaryPosition')}
+            {t('post.enums.primary.no')}
           </ElCheckTag>
         ),
     },

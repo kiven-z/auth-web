@@ -27,7 +27,7 @@ function usePermissionTableAction(deps: TableActionDeps) {
     const dialogFormRef = ref<FormOverlayExpose<SysPermissionCreateForm> | null>(null);
 
     addDialog({
-      title: t('permissions.dialogCreateTitle'),
+      title: t('permissions.dialog.create'),
       draggable: true,
       fullscreenIcon: true,
       closeOnClickModal: false,
@@ -35,7 +35,7 @@ function usePermissionTableAction(deps: TableActionDeps) {
       contentRenderer: () => h(PermissionFormDialog, { ref: dialogFormRef }),
       beforeSure: createFormBeforeSure<SysPermissionCreateForm>({
         formExposeRef: dialogFormRef,
-        errorI18nKey: 'permissions.loadFailed',
+        errorI18nKey: 'permissions.messages.loadFailed',
         successI18nKey: 'tips.addSuccess',
         onSubmit: async (formPayload) => {
           await createPermission(formPayload);
@@ -53,7 +53,7 @@ function usePermissionTableAction(deps: TableActionDeps) {
     try {
       const detail = await getPermissionDetail(row.id);
       addDialog({
-        title: t('permissions.dialogViewTitle'),
+        title: t('permissions.dialog.view'),
         draggable: true,
         fullscreenIcon: true,
         closeOnPressEscape: false,
@@ -62,7 +62,7 @@ function usePermissionTableAction(deps: TableActionDeps) {
         contentRenderer: () => h(PermissionDescriptionDialog, { data: detail }),
       });
     } catch (error: unknown) {
-      errorMessage(error, { defaultI18nKey: 'permissions.loadFailed' });
+      errorMessage(error, { defaultI18nKey: 'permissions.messages.loadFailed' });
     }
   };
 
@@ -76,7 +76,7 @@ function usePermissionTableAction(deps: TableActionDeps) {
       const dialogFormRef = ref<FormOverlayExpose<SysPermissionUpdateForm> | null>(null);
 
       addDialog({
-        title: t('permissions.dialogEditTitle'),
+        title: t('permissions.dialog.edit'),
         draggable: true,
         fullscreenIcon: true,
         closeOnClickModal: false,
@@ -91,7 +91,7 @@ function usePermissionTableAction(deps: TableActionDeps) {
         beforeSure: createFormBeforeSure<SysPermissionUpdateForm>({
           formExposeRef: dialogFormRef,
           requireId: true,
-          errorI18nKey: 'permissions.loadFailed',
+          errorI18nKey: 'permissions.messages.loadFailed',
           successI18nKey: 'tips.editSuccess',
           onSubmit: async (formData) => {
             await updatePermission(row.id, formData);
@@ -100,7 +100,7 @@ function usePermissionTableAction(deps: TableActionDeps) {
         }),
       });
     } catch (error: unknown) {
-      errorMessage(error, { defaultI18nKey: 'permissions.loadFailed' });
+      errorMessage(error, { defaultI18nKey: 'permissions.messages.loadFailed' });
     }
   };
 

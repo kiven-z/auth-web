@@ -34,10 +34,10 @@ const boundMenus = computed(() => props.data.boundMenus ?? []);
 const isButtonPermission = computed(() => props.data.permissionType === buttonPermissionType);
 
 const descriptionColumns = computed(() => [
-  { label: t('permissions.permissionCode'), prop: 'permissionCode', labelWidth: 120, copy: true },
-  { label: t('permissions.permissionName'), prop: 'permissionName', labelWidth: 120, copy: true },
+  { label: t('permissions.field.permissionCode'), prop: 'permissionCode', labelWidth: 120, copy: true },
+  { label: t('permissions.field.permissionName'), prop: 'permissionName', labelWidth: 120, copy: true },
   {
-    label: t('permissions.permissionType'),
+    label: t('permissions.field.permissionType'),
     prop: 'permissionType',
     labelWidth: 120,
     cellRenderer: ({ value }: { value: number }) => {
@@ -53,7 +53,7 @@ const descriptionColumns = computed(() => [
     },
   },
   {
-    label: t('permissions.status'),
+    label: t('permissions.field.status'),
     prop: 'status',
     labelWidth: 120,
     cellRenderer: ({ value }: { value: boolean }) => (
@@ -62,8 +62,8 @@ const descriptionColumns = computed(() => [
       </ElTag>
     ),
   },
-  { label: t('permissions.orderNum'), prop: 'orderNum', labelWidth: 120 },
-  { label: t('permissions.remark'), prop: 'remark', labelWidth: 120, span: 2 },
+  { label: t('permissions.field.orderNum'), prop: 'orderNum', labelWidth: 120 },
+  { label: t('permissions.field.remark'), prop: 'remark', labelWidth: 120, span: 2 },
   { label: t('table.createTime'), prop: 'createTime', labelWidth: 120 },
   { label: t('table.updateTime'), prop: 'updateTime', labelWidth: 120 },
   { label: t('table.createUsername'), prop: 'createUsername', labelWidth: 120 },
@@ -82,25 +82,25 @@ const descriptionColumns = computed(() => [
     <!-- 已绑定角色 -->
     <DetailRelationListSection
       :columns="roleBindingColumns"
-      :empty-text="t('permissions.boundRolesEmpty')"
+      :empty-text="t('permissions.bound.roles.empty')"
       :items="boundRoles"
-      :title="t('permissions.boundRolesTitle')"
+      :title="t('permissions.bound.roles.title')"
       row-key="roleCode"
     />
 
     <!-- 已绑定菜单 -->
     <DetailRelationListSection
       :columns="menuBindingColumns"
-      :empty-text="t('permissions.boundMenusEmpty')"
+      :empty-text="t('permissions.bound.menus.empty')"
       :items="boundMenus"
       :show-badge="isButtonPermission"
-      :title="t('permissions.boundMenusTitle')"
+      :title="t('permissions.bound.menus.title')"
       class="mt-4"
       row-key="id"
     >
       <template v-if="!isButtonPermission" #body>
         <el-text class="block py-2" type="info">
-          {{ t('permissions.boundMenusNotApplicable') }}
+          {{ t('permissions.bound.menus.notApplicable') }}
         </el-text>
       </template>
     </DetailRelationListSection>

@@ -12,10 +12,10 @@ function useDeptBindingColumns() {
 
   // 绑定用户表格列
   const userBindingColumns = computed<TableColumnList>(() => [
-    { label: t('post.postCode'), prop: 'postCode', minWidth: 120, showOverflowTooltip: true },
-    { label: t('post.postName'), prop: 'postName', minWidth: 120, showOverflowTooltip: true },
+    { label: t('post.field.postCode'), prop: 'postCode', minWidth: 120, showOverflowTooltip: true },
+    { label: t('post.field.postName'), prop: 'postName', minWidth: 120, showOverflowTooltip: true },
     {
-      label: t('post.status'),
+      label: t('post.field.status'),
       prop: 'status',
       minWidth: 90,
       formatter: (row: SysDeptBoundPostItem) => (
@@ -28,10 +28,10 @@ function useDeptBindingColumns() {
 
   // 绑定岗位表格列
   const postBindingColumns = computed<TableColumnList>(() => [
-    { label: t('post.postCode'), prop: 'postCode', minWidth: 120, showOverflowTooltip: true },
-    { label: t('post.postName'), prop: 'postName', minWidth: 120, showOverflowTooltip: true },
+    { label: t('post.field.postCode'), prop: 'postCode', minWidth: 120, showOverflowTooltip: true },
+    { label: t('post.field.postName'), prop: 'postName', minWidth: 120, showOverflowTooltip: true },
     {
-      label: t('post.status'),
+      label: t('post.field.status'),
       prop: 'status',
       minWidth: 90,
       formatter: (row: SysDeptBoundPostItem) => (
