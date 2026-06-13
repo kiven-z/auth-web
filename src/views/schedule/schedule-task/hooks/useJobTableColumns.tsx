@@ -28,17 +28,17 @@ function useJobTableColumns() {
       minWidth: 60,
     },
     {
-      label: t('scheduleTask.jobName'),
+      label: t('scheduleTask.fields.jobName'),
       prop: 'jobName',
       minWidth: 160,
     },
     {
-      label: t('scheduleTask.jobGroup'),
+      label: t('scheduleTask.fields.jobGroup'),
       prop: 'jobGroup',
       minWidth: 130,
     },
     {
-      label: t('scheduleTask.taskType'),
+      label: t('scheduleTask.fields.taskType'),
       prop: 'taskType',
       minWidth: 120,
       formatter: (row: SysJobPageRow) => {
@@ -47,12 +47,12 @@ function useJobTableColumns() {
       },
     },
     {
-      label: t('scheduleTask.cronExpression'),
+      label: t('scheduleTask.fields.cronExpression'),
       prop: 'cronExpression',
       minWidth: 150,
     },
     {
-      label: t('scheduleTask.misfirePolicy'),
+      label: t('scheduleTask.fields.misfirePolicy'),
       prop: 'misfirePolicy',
       minWidth: 110,
       formatter: (row: SysJobPageRow) => {
@@ -61,7 +61,7 @@ function useJobTableColumns() {
       },
     },
     {
-      label: t('scheduleTask.concurrent'),
+      label: t('scheduleTask.fields.concurrent'),
       prop: 'concurrent',
       minWidth: 100,
       formatter: (row: SysJobPageRow) => {
@@ -70,13 +70,13 @@ function useJobTableColumns() {
         }
         return (
           <ElTag type={row.concurrent ? 'success' : 'info'} effect="plain">
-            {row.concurrent ? t('scheduleTask.concurrentAllowed') : t('scheduleTask.concurrentForbidden')}
+            {row.concurrent ? t('scheduleTask.enums.concurrent.allowed') : t('scheduleTask.enums.concurrent.forbidden')}
           </ElTag>
         );
       },
     },
     {
-      label: t('scheduleTask.status'),
+      label: t('scheduleTask.fields.status'),
       prop: 'status',
       minWidth: 100,
       formatter: (row: SysJobPageRow) => {
@@ -91,7 +91,7 @@ function useJobTableColumns() {
       },
     },
     {
-      label: t('scheduleTask.quartzRuntimeStatus'),
+      label: t('scheduleTask.fields.quartzRuntimeStatus'),
       prop: 'quartzRuntimeStatus',
       minWidth: 110,
       formatter: (row: SysJobPageRow) => {
@@ -107,17 +107,17 @@ function useJobTableColumns() {
       },
     },
     {
-      label: t('scheduleTask.invokeTarget'),
+      label: t('scheduleTask.fields.invokeTarget'),
       prop: 'invokeTarget',
       minWidth: 180,
     },
     {
-      label: t('scheduleTask.previousFireTime'),
+      label: t('scheduleTask.fields.previousFireTime'),
       prop: 'previousFireTime',
       minWidth: 170,
     },
     {
-      label: t('scheduleTask.nextFireTime'),
+      label: t('scheduleTask.fields.nextFireTime'),
       prop: 'nextFireTime',
       minWidth: 170,
     },

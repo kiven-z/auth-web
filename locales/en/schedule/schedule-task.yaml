@@ -1,57 +1,69 @@
 scheduleTask:
-  jobName: Job Name
-  jobGroup: Job Group
-  jobGroupName: Job Group Name
-  jobClass: Job Class
-  taskType: Task Type
-  invokeTarget: Invoke Target
-  handlerCode: Handler Code
-  cronExpression: Cron Expression
-  cronPresetEvery3Seconds: Every 3 Seconds
-  cronPresetEvery5Minutes: Every 5 Minutes
-  cronPresetHourly: Every Hour
-  cronPresetDailyMidnight: Daily at 00:00
-  cronPresetDaily9am: Daily at 09:00
-  cronPresetWeeklyMonday9am: Every Monday at 09:00
-  cronPresetMonthlyFirstMidnight: 1st of Month at 00:00
-  misfirePolicy: Misfire Policy
-  concurrent: Concurrent
-  status: Run Status
-  startTime: Start Time
-  endTime: End Time
-  jobParams: Job Params JSON
-  payloadJson: Payload JSON
-  remark: Remark
-  previousFireTime: Previous Fire Time
-  nextFireTime: Next Fire Time
-  tableTitle: Scheduled Tasks
-  dialogCreateTitle: Add Schedule Task
-  dialogEditTitle: Edit Schedule Task
-  dialogViewTitle: View Schedule Task Details
-  loadFailed: Failed to load schedule tasks
-  loadJobGroupFailed: Failed to load job groups
-  loadCatalogFailed: Failed to load task catalog
-  loadPayloadTemplate: Load Message Template
-  beanInvokeClass: Invoke Class
-  beanInvokeMethod: Invoke Method
-  jobNameLengthLimit: Job name must not exceed 64 characters
-  cronExpressionLengthLimit: Cron expression must not exceed 255 characters
-  handlerCodeLengthLimit: Handler code must not exceed 64 characters
-  remarkLengthLimit: Remark must not exceed 500 characters
-  taskTypeBeanInvoke: Bean Invoke
-  taskTypeCustomClass: Custom Class
-  taskTypeMessageDispatch: Message Dispatch
-  misfirePolicyIgnoreAll: Ignore All Misfires
-  misfirePolicyFireOnce: Fire Once
-  misfirePolicyDoNothing: Do Nothing
-  concurrentAllowed: Allowed
-  concurrentForbidden: Forbidden
-  quartzRuntimeStatus: Execution Status
-  quartzStatusNotRegistered: Not Registered
-  quartzStatusIdle: Idle
-  quartzStatusRunning: Running
-  quartzStatusPending: Pending
-  quartzStatusPaused: Paused
-  quartzStatusError: Error
-  quartzStatusFailed: Last Failed
-  actionRunOnce: Run Once
+  fields:
+    jobName: Job Name
+    jobGroup: Job Group
+    jobGroupName: Job Group Name
+    jobClass: Job Class
+    taskType: Task Type
+    invokeTarget: Invoke Target
+    handlerCode: Handler Code
+    cronExpression: Cron Expression
+    misfirePolicy: Misfire Policy
+    concurrent: Concurrent
+    status: Run Status
+    startTime: Start Time
+    endTime: End Time
+    jobParams: Job Params JSON
+    payloadJson: Payload JSON
+    remark: Remark
+    previousFireTime: Previous Fire Time
+    nextFireTime: Next Fire Time
+    quartzRuntimeStatus: Execution Status
+  page:
+    tableTitle: Scheduled Tasks
+    dialogCreateTitle: Add Schedule Task
+    dialogEditTitle: Edit Schedule Task
+    dialogViewTitle: View Schedule Task Details
+  enums:
+    taskType:
+      BEAN_INVOKE: Bean Invoke
+      CUSTOM_CLASS: Custom Class
+      MESSAGE_DISPATCH: Message Dispatch
+    misfirePolicy:
+      '1': Ignore All Misfires
+      '2': Fire Once
+      '3': Do Nothing
+    concurrent:
+      allowed: Allowed
+      forbidden: Forbidden
+    quartzStatus:
+      NOT_REGISTERED: Not Registered
+      IDLE: Idle
+      RUNNING: Running
+      PENDING: Pending
+      PAUSED: Paused
+      ERROR: Error
+      FAILED: Last Failed
+  cronPresets:
+    every3Seconds: Every 3 Seconds
+    every5Minutes: Every 5 Minutes
+    hourly: Every Hour
+    dailyMidnight: Daily at 00:00
+    daily9am: Daily at 09:00
+    weeklyMonday9am: Every Monday at 09:00
+    monthlyFirstMidnight: 1st of Month at 00:00
+  validation:
+    jobNameLengthLimit: Job name must not exceed 64 characters
+    cronExpressionLengthLimit: Cron expression must not exceed 255 characters
+    handlerCodeLengthLimit: Handler code must not exceed 64 characters
+    remarkLengthLimit: Remark must not exceed 500 characters
+  messages:
+    loadFailed: Failed to load schedule tasks
+    loadJobGroupFailed: Failed to load job groups
+    loadCatalogFailed: Failed to load task catalog
+  actions:
+    runOnce: Run Once
+    loadPayloadTemplate: Load Message Template
+  beanInvoke:
+    class: Invoke Class
+    method: Invoke Method

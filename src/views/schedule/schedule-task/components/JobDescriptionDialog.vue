@@ -36,15 +36,15 @@ const descriptionColumns = computed(() => {
   const data = props.data;
   const columns: DescriptionColumn[] = [
     { label: t('table.id'), prop: 'id', labelWidth: 120, copy: true },
-    { label: t('scheduleTask.jobName'), prop: 'jobName', labelWidth: 120, copy: true },
-    { label: t('scheduleTask.jobGroup'), prop: 'jobGroup', labelWidth: 120, copy: true },
+    { label: t('scheduleTask.fields.jobName'), prop: 'jobName', labelWidth: 120, copy: true },
+    { label: t('scheduleTask.fields.jobGroup'), prop: 'jobGroup', labelWidth: 120, copy: true },
     {
-      label: t('scheduleTask.jobGroupName'),
+      label: t('scheduleTask.fields.jobGroupName'),
       prop: 'jobGroupName',
       labelWidth: 120,
     },
     {
-      label: t('scheduleTask.taskType'),
+      label: t('scheduleTask.fields.taskType'),
       prop: 'taskType',
       labelWidth: 120,
       cellRenderer: ({ value }) => {
@@ -60,7 +60,7 @@ const descriptionColumns = computed(() => {
       },
     },
     {
-      label: t('scheduleTask.status'),
+      label: t('scheduleTask.fields.status'),
       prop: 'status',
       labelWidth: 120,
       cellRenderer: ({ value }) => {
@@ -78,7 +78,7 @@ const descriptionColumns = computed(() => {
 
   if (data.taskType === 'BEAN_INVOKE' || data.invokeTarget) {
     columns.push({
-      label: t('scheduleTask.invokeTarget'),
+      label: t('scheduleTask.fields.invokeTarget'),
       prop: 'invokeTarget',
       labelWidth: 120,
       span: 2,
@@ -88,7 +88,7 @@ const descriptionColumns = computed(() => {
 
   if (data.taskType === 'CUSTOM_CLASS' || data.jobClass) {
     columns.push({
-      label: t('scheduleTask.jobClass'),
+      label: t('scheduleTask.fields.jobClass'),
       prop: 'jobClass',
       labelWidth: 120,
       span: 2,
@@ -98,7 +98,7 @@ const descriptionColumns = computed(() => {
 
   if (data.taskType === 'MESSAGE_DISPATCH' || data.handlerCode) {
     columns.push({
-      label: t('scheduleTask.handlerCode'),
+      label: t('scheduleTask.fields.handlerCode'),
       prop: 'handlerCode',
       labelWidth: 120,
       copy: true,
@@ -106,9 +106,9 @@ const descriptionColumns = computed(() => {
   }
 
   columns.push(
-    { label: t('scheduleTask.cronExpression'), prop: 'cronExpression', labelWidth: 120, copy: true },
+    { label: t('scheduleTask.fields.cronExpression'), prop: 'cronExpression', labelWidth: 120, copy: true },
     {
-      label: t('scheduleTask.misfirePolicy'),
+      label: t('scheduleTask.fields.misfirePolicy'),
       prop: 'misfirePolicy',
       labelWidth: 120,
       cellRenderer: ({ value }) => {
@@ -117,7 +117,7 @@ const descriptionColumns = computed(() => {
       },
     },
     {
-      label: t('scheduleTask.concurrent'),
+      label: t('scheduleTask.fields.concurrent'),
       prop: 'concurrent',
       labelWidth: 120,
       cellRenderer: ({ value }) => {
@@ -126,17 +126,17 @@ const descriptionColumns = computed(() => {
         }
         return (
           <ElTag effect="plain" type={value ? 'success' : 'info'}>
-            {t(value ? 'scheduleTask.concurrentAllowed' : 'scheduleTask.concurrentForbidden')}
+            {t(value ? 'scheduleTask.enums.concurrent.allowed' : 'scheduleTask.enums.concurrent.forbidden')}
           </ElTag>
         );
       },
     },
-    { label: t('scheduleTask.startTime'), prop: 'startTime', labelWidth: 120 },
-    { label: t('scheduleTask.endTime'), prop: 'endTime', labelWidth: 120 },
-    { label: t('scheduleTask.previousFireTime'), prop: 'previousFireTime', labelWidth: 120 },
-    { label: t('scheduleTask.nextFireTime'), prop: 'nextFireTime', labelWidth: 120 },
+    { label: t('scheduleTask.fields.startTime'), prop: 'startTime', labelWidth: 120 },
+    { label: t('scheduleTask.fields.endTime'), prop: 'endTime', labelWidth: 120 },
+    { label: t('scheduleTask.fields.previousFireTime'), prop: 'previousFireTime', labelWidth: 120 },
+    { label: t('scheduleTask.fields.nextFireTime'), prop: 'nextFireTime', labelWidth: 120 },
     {
-      label: t('scheduleTask.jobParams'),
+      label: t('scheduleTask.fields.jobParams'),
       prop: 'jobParams',
       labelWidth: 120,
       span: 2,
@@ -146,7 +146,7 @@ const descriptionColumns = computed(() => {
 
   if (data.taskType === 'MESSAGE_DISPATCH' || data.payloadJson) {
     columns.push({
-      label: t('scheduleTask.payloadJson'),
+      label: t('scheduleTask.fields.payloadJson'),
       prop: 'payloadJson',
       labelWidth: 120,
       span: 2,
@@ -156,7 +156,7 @@ const descriptionColumns = computed(() => {
 
   columns.push(
     {
-      label: t('scheduleTask.remark'),
+      label: t('scheduleTask.fields.remark'),
       prop: 'remark',
       labelWidth: 120,
       span: 2,

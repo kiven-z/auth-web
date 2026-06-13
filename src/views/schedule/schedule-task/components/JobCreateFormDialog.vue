@@ -58,23 +58,23 @@ const customCatalogClasses = computed(() =>
 
 const rules = computed<FormRules>(() => ({
   jobName: [
-    { required: true, message: ph.input('scheduleTask.jobName'), trigger: 'blur' },
-    { max: 64, message: t('scheduleTask.jobNameLengthLimit'), trigger: 'blur' },
+    { required: true, message: ph.input('scheduleTask.fields.jobName'), trigger: 'blur' },
+    { max: 64, message: t('scheduleTask.validation.jobNameLengthLimit'), trigger: 'blur' },
   ],
-  jobGroup: [{ required: true, message: ph.select('scheduleTask.jobGroup'), trigger: 'change' }],
-  taskType: [{ required: true, message: ph.select('scheduleTask.taskType'), trigger: 'change' }],
+  jobGroup: [{ required: true, message: ph.select('scheduleTask.fields.jobGroup'), trigger: 'change' }],
+  taskType: [{ required: true, message: ph.select('scheduleTask.fields.taskType'), trigger: 'change' }],
   cronExpression: [
-    { required: true, message: ph.select('scheduleTask.cronExpression'), trigger: 'change' },
-    { max: 255, message: t('scheduleTask.cronExpressionLengthLimit'), trigger: 'change' },
+    { required: true, message: ph.select('scheduleTask.fields.cronExpression'), trigger: 'change' },
+    { max: 255, message: t('scheduleTask.validation.cronExpressionLengthLimit'), trigger: 'change' },
   ],
-  misfirePolicy: [{ required: true, message: ph.select('scheduleTask.misfirePolicy'), trigger: 'change' }],
-  concurrent: [{ required: true, message: ph.select('scheduleTask.concurrent'), trigger: 'change' }],
-  status: [{ required: true, message: ph.select('scheduleTask.status'), trigger: 'change' }],
+  misfirePolicy: [{ required: true, message: ph.select('scheduleTask.fields.misfirePolicy'), trigger: 'change' }],
+  concurrent: [{ required: true, message: ph.select('scheduleTask.fields.concurrent'), trigger: 'change' }],
+  status: [{ required: true, message: ph.select('scheduleTask.fields.status'), trigger: 'change' }],
   ...(isBeanInvoke.value
-    ? { invokeTarget: [{ required: true, message: ph.input('scheduleTask.invokeTarget'), trigger: 'blur' }] }
+    ? { invokeTarget: [{ required: true, message: ph.input('scheduleTask.fields.invokeTarget'), trigger: 'blur' }] }
     : {}),
   ...(isCustomClass.value
-    ? { jobClass: [{ required: true, message: ph.select('scheduleTask.jobClass'), trigger: 'change' }] }
+    ? { jobClass: [{ required: true, message: ph.select('scheduleTask.fields.jobClass'), trigger: 'change' }] }
     : {}),
 }));
 
@@ -85,7 +85,7 @@ async function loadCatalogClasses() {
   try {
     catalogClasses.value = await getJobCatalogClasses();
   } catch (error: unknown) {
-    errorMessage(error, { defaultI18nKey: 'scheduleTask.loadCatalogFailed' });
+    errorMessage(error, { defaultI18nKey: 'scheduleTask.messages.loadCatalogFailed' });
   }
 }
 
@@ -100,7 +100,7 @@ async function loadCatalogMethods(className: string) {
   try {
     catalogMethods.value = await getJobCatalogMethods(className);
   } catch (error: unknown) {
-    errorMessage(error, { defaultI18nKey: 'scheduleTask.loadCatalogFailed' });
+    errorMessage(error, { defaultI18nKey: 'scheduleTask.messages.loadCatalogFailed' });
   } finally {
     loadingMethods.value = false;
   }
@@ -153,16 +153,16 @@ defineExpose({ formRef, form });
   <el-form ref="formRef" :model="form" :rules="rules" label-width="auto">
     <el-row :gutter="14">
       <el-col :lg="12" :md="12" :sm="24" :xs="24">
-        <el-form-item :label="t('scheduleTask.jobName')" prop="jobName">
-          <el-input v-model="form.jobName" :placeholder="ph.input('scheduleTask.jobName')" />
+        <el-form-item :label="t('scheduleTask.fields.jobName')" prop="jobName">
+          <el-input v-model="form.jobName" :placeholder="ph.input('scheduleTask.fields.jobName')" />
         </el-form-item>
       </el-col>
       <el-col :lg="12" :md="12" :sm="24" :xs="24">
-        <el-form-item :label="t('scheduleTask.jobGroup')" prop="jobGroup">
+        <el-form-item :label="t('scheduleTask.fields.jobGroup')" prop="jobGroup">
           <el-select
             v-model="form.jobGroup"
             :loading="loadingJobGroups"
-            :placeholder="ph.select('scheduleTask.jobGroup')"
+            :placeholder="ph.select('scheduleTask.fields.jobGroup')"
             :remote-method="loadJobGroupByKeyword"
             class="w-full"
             filterable
@@ -178,8 +178,8 @@ defineExpose({ formRef, form });
         </el-form-item>
       </el-col>
       <el-col :lg="12" :md="12" :sm="24" :xs="24">
-        <el-form-item :label="t('scheduleTask.taskType')" prop="taskType">
-          <el-select v-model="form.taskType" :placeholder="ph.select('scheduleTask.taskType')" class="w-full">
+        <el-form-item :label="t('scheduleTask.fields.taskType')" prop="taskType">
+          <el-select v-model="form.taskType" :placeholder="ph.select('scheduleTask.fields.taskType')" class="w-full">
             <el-option
               v-for="opt in JOB_TASK_TYPE_FORM_OPTIONS"
               :key="opt.value"
@@ -192,21 +192,21 @@ defineExpose({ formRef, form });
 
       <template v-if="isBeanInvoke">
         <el-col :span="24">
-          <el-form-item :label="t('scheduleTask.beanInvokeClass')">
+          <el-form-item :label="t('scheduleTask.beanInvoke.class')">
             <JobCatalogClassPicker
               v-model="selectedBeanClass"
               :options="beanCatalogClasses"
-              :placeholder="ph.select('scheduleTask.beanInvokeClass')"
+              :placeholder="ph.select('scheduleTask.beanInvoke.class')"
             />
           </el-form-item>
         </el-col>
         <el-col :lg="12" :md="12" :sm="24" :xs="24">
-          <el-form-item :label="t('scheduleTask.beanInvokeMethod')">
+          <el-form-item :label="t('scheduleTask.beanInvoke.method')">
             <el-select
               v-model="selectedBeanMethod"
               :disabled="!selectedBeanClass"
               :loading="loadingMethods"
-              :placeholder="ph.select('scheduleTask.beanInvokeMethod')"
+              :placeholder="ph.select('scheduleTask.beanInvoke.method')"
               class="w-full"
               clearable
               filterable
@@ -221,10 +221,10 @@ defineExpose({ formRef, form });
           </el-form-item>
         </el-col>
         <el-col :span="24">
-          <el-form-item :label="t('scheduleTask.invokeTarget')" prop="invokeTarget">
+          <el-form-item :label="t('scheduleTask.fields.invokeTarget')" prop="invokeTarget">
             <el-input
               v-model="form.invokeTarget"
-              :placeholder="ph.input('scheduleTask.invokeTarget')"
+              :placeholder="ph.input('scheduleTask.fields.invokeTarget')"
               :rows="2"
               type="textarea"
             />
@@ -234,11 +234,11 @@ defineExpose({ formRef, form });
 
       <template v-if="isCustomClass">
         <el-col :span="24">
-          <el-form-item :label="t('scheduleTask.jobClass')" prop="jobClass">
+          <el-form-item :label="t('scheduleTask.fields.jobClass')" prop="jobClass">
             <JobCatalogClassPicker
               v-model="form.jobClass"
               :options="customCatalogClasses"
-              :placeholder="ph.select('scheduleTask.jobClass')"
+              :placeholder="ph.select('scheduleTask.fields.jobClass')"
             />
           </el-form-item>
         </el-col>

@@ -27,7 +27,7 @@ const jobState = usePaginationState({
     jobGroup: undefined,
     status: undefined,
   }),
-  errorI18nKey: 'scheduleTask.loadFailed',
+  errorI18nKey: 'scheduleTask.messages.loadFailed',
 });
 
 const { loading, selectedRows, searchForm, fetchTableData, resetQuery } = jobState;
@@ -47,28 +47,28 @@ onMounted(() => {
   <div>
     <el-form ref="searchFormRef" :model="searchForm" class="bg-bg_color w-[99/100] overflow-auto pl-8 pt-3" inline>
       <!-- 任务名称 -->
-      <el-form-item :label="t('scheduleTask.jobName')" prop="jobName">
+      <el-form-item :label="t('scheduleTask.fields.jobName')" prop="jobName">
         <el-input
           v-model="searchForm.jobName"
-          :placeholder="ph.input('scheduleTask.jobName')"
+          :placeholder="ph.input('scheduleTask.fields.jobName')"
           class="w-40!"
           clearable
         />
       </el-form-item>
       <!-- 任务分组 -->
-      <el-form-item :label="t('scheduleTask.jobGroup')" prop="jobGroup">
+      <el-form-item :label="t('scheduleTask.fields.jobGroup')" prop="jobGroup">
         <el-input
           v-model="searchForm.jobGroup"
-          :placeholder="ph.input('scheduleTask.jobGroup')"
+          :placeholder="ph.input('scheduleTask.fields.jobGroup')"
           class="w-40!"
           clearable
         />
       </el-form-item>
       <!-- 运行状态 -->
-      <el-form-item :label="t('scheduleTask.status')" prop="status">
+      <el-form-item :label="t('scheduleTask.fields.status')" prop="status">
         <el-select
           v-model="searchForm.status"
-          :placeholder="ph.selectFilter('scheduleTask.status')"
+          :placeholder="ph.selectFilter('scheduleTask.fields.status')"
           class="w-40!"
           clearable
         >
@@ -97,7 +97,7 @@ onMounted(() => {
       :adaptive-config="{ offsetBottom: 96 }"
       :columns="columns"
       :state="jobState"
-      :title="t('scheduleTask.tableTitle')"
+      :title="t('scheduleTask.page.tableTitle')"
       show-overflow-tooltip
     >
       <template #buttons>
@@ -136,7 +136,7 @@ onMounted(() => {
             type="warning"
             @click="runOnce(row)"
           >
-            {{ t('scheduleTask.actionRunOnce') }}
+            {{ t('scheduleTask.actions.runOnce') }}
           </el-button>
           <!-- 删除 -->
           <el-button v-if="hasAuth('sysJob:delete')" link type="danger" @click="deleteBatchRows([row.id])">

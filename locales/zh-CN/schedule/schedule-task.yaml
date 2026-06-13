@@ -1,57 +1,69 @@
 scheduleTask:
-  jobName: 任务名称
-  jobGroup: 任务分组
-  jobGroupName: 任务分组名称
-  jobClass: 任务类
-  taskType: 任务类型
-  invokeTarget: 调用目标
-  handlerCode: 执行处理器
-  cronExpression: Cron 表达式
-  cronPresetEvery3Seconds: 每 3 秒
-  cronPresetEvery5Minutes: 每 5 分钟
-  cronPresetHourly: 每小时整点
-  cronPresetDailyMidnight: 每天 00:00
-  cronPresetDaily9am: 每天 09:00
-  cronPresetWeeklyMonday9am: 每周一 09:00
-  cronPresetMonthlyFirstMidnight: 每月 1 日 00:00
-  misfirePolicy: 错失策略
-  concurrent: 是否并发
-  status: 运行状态
-  startTime: 开始时间
-  endTime: 结束时间
-  jobParams: 执行参数 JSON
-  payloadJson: 扩展载荷 JSON
-  remark: 备注
-  previousFireTime: 上次触发
-  nextFireTime: 下次触发
-  tableTitle: 调度任务
-  dialogCreateTitle: 新增定时任务
-  dialogEditTitle: 编辑定时任务
-  dialogViewTitle: 查看定时任务详情
-  loadFailed: 加载定时任务列表失败
-  loadJobGroupFailed: 加载任务分组失败
-  loadCatalogFailed: 加载任务目录失败
-  loadPayloadTemplate: 加载消息模板
-  beanInvokeClass: 调用类
-  beanInvokeMethod: 调用方法
-  jobNameLengthLimit: 任务名称不能超过 64 个字符
-  cronExpressionLengthLimit: Cron 表达式不能超过 255 个字符
-  handlerCodeLengthLimit: 执行处理器不能超过 64 个字符
-  remarkLengthLimit: 备注不能超过 500 个字符
-  taskTypeBeanInvoke: Bean 调用
-  taskTypeCustomClass: 自定义类
-  taskTypeMessageDispatch: 消息派发
-  misfirePolicyIgnoreAll: 补跑全部
-  misfirePolicyFireOnce: 补跑一次
-  misfirePolicyDoNothing: 不补跑
-  concurrentAllowed: 允许并发
-  concurrentForbidden: 禁止并发
-  quartzRuntimeStatus: 执行状态
-  quartzStatusNotRegistered: 未注册
-  quartzStatusIdle: 空闲
-  quartzStatusRunning: 执行中
-  quartzStatusPending: 排队中
-  quartzStatusPaused: 已暂停
-  quartzStatusError: 异常
-  quartzStatusFailed: 上次失败
-  actionRunOnce: 立即执行
+  fields:
+    jobName: 任务名称
+    jobGroup: 任务分组
+    jobGroupName: 任务分组名称
+    jobClass: 任务类
+    taskType: 任务类型
+    invokeTarget: 调用目标
+    handlerCode: 执行处理器
+    cronExpression: Cron 表达式
+    misfirePolicy: 错失策略
+    concurrent: 是否并发
+    status: 运行状态
+    startTime: 开始时间
+    endTime: 结束时间
+    jobParams: 执行参数 JSON
+    payloadJson: 扩展载荷 JSON
+    remark: 备注
+    previousFireTime: 上次触发
+    nextFireTime: 下次触发
+    quartzRuntimeStatus: 执行状态
+  page:
+    tableTitle: 调度任务
+    dialogCreateTitle: 新增定时任务
+    dialogEditTitle: 编辑定时任务
+    dialogViewTitle: 查看定时任务详情
+  enums:
+    taskType:
+      BEAN_INVOKE: Bean 调用
+      CUSTOM_CLASS: 自定义类
+      MESSAGE_DISPATCH: 消息派发
+    misfirePolicy:
+      '1': 补跑全部
+      '2': 补跑一次
+      '3': 不补跑
+    concurrent:
+      allowed: 允许并发
+      forbidden: 禁止并发
+    quartzStatus:
+      NOT_REGISTERED: 未注册
+      IDLE: 空闲
+      RUNNING: 执行中
+      PENDING: 排队中
+      PAUSED: 已暂停
+      ERROR: 异常
+      FAILED: 上次失败
+  cronPresets:
+    every3Seconds: 每 3 秒
+    every5Minutes: 每 5 分钟
+    hourly: 每小时整点
+    dailyMidnight: 每天 00:00
+    daily9am: 每天 09:00
+    weeklyMonday9am: 每周一 09:00
+    monthlyFirstMidnight: 每月 1 日 00:00
+  validation:
+    jobNameLengthLimit: 任务名称不能超过 64 个字符
+    cronExpressionLengthLimit: Cron 表达式不能超过 255 个字符
+    handlerCodeLengthLimit: 执行处理器不能超过 64 个字符
+    remarkLengthLimit: 备注不能超过 500 个字符
+  messages:
+    loadFailed: 加载定时任务列表失败
+    loadJobGroupFailed: 加载任务分组失败
+    loadCatalogFailed: 加载任务目录失败
+  actions:
+    runOnce: 立即执行
+    loadPayloadTemplate: 加载消息模板
+  beanInvoke:
+    class: 调用类
+    method: 调用方法

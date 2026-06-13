@@ -16,13 +16,13 @@ export const JOB_QUARTZ_RUNTIME_STATUS_OPTIONS: ReadonlyArray<{
   labelKey: string;
   tagType: 'primary' | 'success' | 'info' | 'warning' | 'danger';
 }> = [
-  { value: 'NOT_REGISTERED', labelKey: 'scheduleTask.quartzStatusNotRegistered', tagType: 'info' },
-  { value: 'IDLE', labelKey: 'scheduleTask.quartzStatusIdle', tagType: 'success' },
-  { value: 'RUNNING', labelKey: 'scheduleTask.quartzStatusRunning', tagType: 'warning' },
-  { value: 'PENDING', labelKey: 'scheduleTask.quartzStatusPending', tagType: 'warning' },
-  { value: 'PAUSED', labelKey: 'scheduleTask.quartzStatusPaused', tagType: 'info' },
-  { value: 'ERROR', labelKey: 'scheduleTask.quartzStatusError', tagType: 'danger' },
-  { value: 'FAILED', labelKey: 'scheduleTask.quartzStatusFailed', tagType: 'danger' },
+  { value: 'NOT_REGISTERED', labelKey: 'scheduleTask.enums.quartzStatus.NOT_REGISTERED', tagType: 'info' },
+  { value: 'IDLE', labelKey: 'scheduleTask.enums.quartzStatus.IDLE', tagType: 'success' },
+  { value: 'RUNNING', labelKey: 'scheduleTask.enums.quartzStatus.RUNNING', tagType: 'warning' },
+  { value: 'PENDING', labelKey: 'scheduleTask.enums.quartzStatus.PENDING', tagType: 'warning' },
+  { value: 'PAUSED', labelKey: 'scheduleTask.enums.quartzStatus.PAUSED', tagType: 'info' },
+  { value: 'ERROR', labelKey: 'scheduleTask.enums.quartzStatus.ERROR', tagType: 'danger' },
+  { value: 'FAILED', labelKey: 'scheduleTask.enums.quartzStatus.FAILED', tagType: 'danger' },
 ] as const;
 
 /** 与后端 SysJobQuartzRuntimeQueryService.isBusy 一致 */
