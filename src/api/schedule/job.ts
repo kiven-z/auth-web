@@ -15,15 +15,6 @@ export interface SysJobPageQuery {
   status?: boolean;
 }
 
-/** Quartz 运行时状态查询结果（对应后端 SysJobQuartzRuntimeStatusVO） */
-export interface SysJobQuartzRuntimeStatusRow {
-  jobName: string;
-  jobGroup: string;
-  status: SysJobQuartzRuntimeStatus;
-  fireTime?: string;
-  lastFailedTime?: string;
-}
-
 /**
  * 定时任务分页行（对应后端 SysJobPageResponse + BaseResponse）
  */
@@ -175,14 +166,11 @@ export function runJobOnce(id: string): Promise<string> {
 }
 
 /**
- * 查询 Quartz 运行时状态（对应后端 SysJobOperationController.runtime）
- * @param jobName 任务名称
- * @param jobGroup 任务分组
+ * 删除定时任务
+ * @param id 任务主键
  */
-export function getJobQuartzRuntimeStatus(jobName: string, jobGroup: string): Promise<SysJobQuartzRuntimeStatusRow> {
-  return http.get<SysJobQuartzRuntimeStatusRow, AxiosRequestConfig>('/system/job/runtime', {
-    params: { jobName, jobGroup },
-  });
+export function deleteJob(id: string): Promise<string> {
+  return http.request<string>('delete', `/system/job/${id}`);
 }
 
 /**

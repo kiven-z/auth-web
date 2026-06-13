@@ -1,6 +1,7 @@
 import type { TableActionDeps } from '@/api/common';
 import {
   createJob,
+  deleteJob,
   getJobDetail,
   runJobOnce,
   type SysJobCreateForm,
@@ -9,6 +10,7 @@ import {
   updateJob,
 } from '@/api/schedule/job';
 import { addDialog } from '@/components/ui/Dialog';
+import useBatchDeleteAction from '@/composables/table/useBatchDeleteAction';
 import { type FormOverlayExpose, useFormOverlaySubmit } from '@/composables/table/useFormOverlaySubmit';
 import { operationConfirm } from '@/ui/feedback/dialog';
 import { errorMessage, message } from '@/ui/feedback/message';
@@ -27,6 +29,15 @@ function useJobTableAction(deps: TableActionDeps) {
   const { fetchTableData } = deps;
   const { t } = useI18n();
   const { createFormBeforeSure } = useFormOverlaySubmit();
+  const selectedRows = ref<string[]>([]);
+  const { deleteBatchRows } = useBatchDeleteAction({
+    selectedRows,
+    deleteApi: async (ids) => {
+      await deleteJob(ids[0]);
+    },
+    onSuccess: fetchTableData,
+    errorDefaultI18nKey: 'scheduleTask.loadFailed',
+  });
 
   /**
    * 打开新增弹窗
@@ -134,6 +145,7 @@ function useJobTableAction(deps: TableActionDeps) {
     openDetailDialog,
     openEditDialog,
     runOnce,
+    deleteBatchRows,
   };
 }
 

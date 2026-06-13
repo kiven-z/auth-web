@@ -163,7 +163,7 @@ function useJobTableColumns() {
     {
       label: t('table.actions'),
       fixed: 'right' as const,
-      width: 240,
+      width: 280,
       slot: 'actions',
     },
   ]);

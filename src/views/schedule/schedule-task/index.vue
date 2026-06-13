@@ -32,7 +32,9 @@ const jobState = usePaginationState({
 
 const { loading, searchForm, fetchTableData, resetQuery } = jobState;
 
-const { openCreateDialog, openDetailDialog, openEditDialog, runOnce } = useJobTableAction({ fetchTableData });
+const { openCreateDialog, openDetailDialog, openEditDialog, runOnce, deleteBatchRows } = useJobTableAction({
+  fetchTableData,
+});
 
 onMounted(() => {
   fetchTableData();
@@ -118,6 +120,10 @@ onMounted(() => {
             @click="runOnce(row)"
           >
             {{ t('scheduleTask.actionRunOnce') }}
+          </el-button>
+          <!-- 删除 -->
+          <el-button v-if="hasAuth('sysJob:delete')" link type="danger" @click="deleteBatchRows([row.id])">
+            {{ t('buttons.actionDelete') }}
           </el-button>
         </div>
       </template>
