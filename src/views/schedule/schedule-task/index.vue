@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import { hasAuth } from '@/auth/permission';
 import { getJobPage } from '@/api/schedule/job';
 import AuthPagedTable, { usePaginationState } from '@/components/business/AuthPagedTable';
 import { COMMON_BOOLEAN_STATUS_FILTER_OPTIONS } from '@/constants/boolean-status';
@@ -30,7 +31,7 @@ const jobState = usePaginationState({
 
 const { loading, searchForm, fetchTableData, resetQuery } = jobState;
 
-const { openCreateDialog, openDetailDialog, openEditDialog } = useJobTableAction({ fetchTableData });
+const { openCreateDialog, openDetailDialog, openEditDialog, runOnce } = useJobTableAction({ fetchTableData });
 
 onMounted(() => {
   fetchTableData();
@@ -107,6 +108,10 @@ onMounted(() => {
           <el-button link type="primary" @click="openDetailDialog(row)">{{ t('buttons.actionView') }}</el-button>
           <!-- 修改 -->
           <el-button link type="primary" @click="openEditDialog(row)">{{ t('buttons.actionEdit') }}</el-button>
+          <!-- 立即执行 -->
+          <el-button v-if="hasAuth('sysJob:update')" link type="warning" @click="runOnce(row)">
+            {{ t('scheduleTask.actionRunOnce') }}
+          </el-button>
         </div>
       </template>
     </AuthPagedTable>

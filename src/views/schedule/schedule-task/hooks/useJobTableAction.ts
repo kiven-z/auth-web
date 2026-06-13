@@ -2,6 +2,7 @@ import type { TableActionDeps } from '@/api/common';
 import {
   createJob,
   getJobDetail,
+  runJobOnce,
   type SysJobCreateForm,
   type SysJobPageRow,
   type SysJobUpdateForm,
@@ -9,7 +10,8 @@ import {
 } from '@/api/schedule/job';
 import { addDialog } from '@/components/ui/Dialog';
 import { type FormOverlayExpose, useFormOverlaySubmit } from '@/composables/table/useFormOverlaySubmit';
-import { errorMessage } from '@/ui/feedback/message';
+import { operationConfirm } from '@/ui/feedback/dialog';
+import { errorMessage, message } from '@/ui/feedback/message';
 import JobCreateFormDialog from '@/views/schedule/schedule-task/components/JobCreateFormDialog.vue';
 import JobDescriptionDialog from '@/views/schedule/schedule-task/components/JobDescriptionDialog.vue';
 import JobUpdateFormDialog from '@/views/schedule/schedule-task/components/JobUpdateFormDialog.vue';
@@ -88,6 +90,25 @@ function useJobTableAction(deps: TableActionDeps) {
   };
 
   /**
+   * 立即执行一次
+   * @param row 表格行
+   */
+  const runOnce = async (row: SysJobPageRow) => {
+    const confirmed = await operationConfirm();
+    if (!confirmed) {
+      return;
+    }
+
+    try {
+      await runJobOnce(row.id);
+      message(t('tips.operationSuccess'), { type: 'success' });
+      await fetchTableData();
+    } catch (error: unknown) {
+      errorMessage(error);
+    }
+  };
+
+  /**
    * 查看详情
    * @param row 表格行
    */
@@ -112,6 +133,7 @@ function useJobTableAction(deps: TableActionDeps) {
     openCreateDialog,
     openDetailDialog,
     openEditDialog,
+    runOnce,
   };
 }
 

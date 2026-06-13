@@ -154,6 +154,14 @@ export function updateJob(data: SysJobUpdateForm): Promise<string> {
 }
 
 /**
+ * 立即执行一次（对应后端 SysJobOperationController.runOnce）
+ * @param id 任务主键
+ */
+export function runJobOnce(id: string): Promise<string> {
+  return http.post<string, undefined>(`/system/job/${id}/run`);
+}
+
+/**
  * 白名单任务类列表
  */
 export function getJobCatalogClasses(): Promise<QuartzTaskClassRow[]> {

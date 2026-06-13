@@ -46,3 +46,4 @@ scheduleTask:
   misfirePolicyDoNothing: Do Nothing
   concurrentAllowed: Allowed
   concurrentForbidden: Forbidden
+  actionRunOnce: Run Once

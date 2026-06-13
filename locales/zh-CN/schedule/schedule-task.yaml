@@ -46,3 +46,4 @@ scheduleTask:
   misfirePolicyDoNothing: 不补跑
   concurrentAllowed: 允许并发
   concurrentForbidden: 禁止并发
+  actionRunOnce: 立即执行
