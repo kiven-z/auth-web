@@ -158,6 +158,22 @@ export function updateJob(data: SysJobUpdateForm): Promise<string> {
 }
 
 /**
+ * 批量启停请求体（对应后端 SysJobStatusForm）
+ */
+export interface SysJobBatchStatusRequest {
+  ids: string[];
+  status: boolean;
+}
+
+/**
+ * 批量启停任务（对应后端 SysJobOperationController.batchStatus）
+ * @param data 任务 ID 列表与目标状态
+ */
+export function batchUpdateJobStatus(data: SysJobBatchStatusRequest): Promise<string> {
+  return http.request<string>('put', '/system/job/status', { data });
+}
+
+/**
  * 立即执行一次（对应后端 SysJobOperationController.runOnce）
  * @param id 任务主键
  */

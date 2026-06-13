@@ -24,7 +24,7 @@ scheduleTask:
   remark: 备注
   previousFireTime: 上次触发
   nextFireTime: 下次触发
-  tableTitle: 任务调度任务
+  tableTitle: 调度任务
   dialogCreateTitle: 新增定时任务
   dialogEditTitle: 编辑定时任务
   dialogViewTitle: 查看定时任务详情

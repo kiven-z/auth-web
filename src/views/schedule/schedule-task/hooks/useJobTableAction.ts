@@ -1,5 +1,6 @@
-import type { TableActionDeps } from '@/api/common';
+import type { TableActionWithSelectionDeps } from '@/api/common';
 import {
+  batchUpdateJobStatus,
   createJob,
   deleteJob,
   getJobDetail,
@@ -25,11 +26,10 @@ import { useI18n } from 'vue-i18n';
  * @param deps 表格操作依赖
  * @returns 表格操作方法
  */
-function useJobTableAction(deps: TableActionDeps) {
-  const { fetchTableData } = deps;
+function useJobTableAction(deps: TableActionWithSelectionDeps) {
+  const { fetchTableData, selectedRows } = deps;
   const { t } = useI18n();
   const { createFormBeforeSure } = useFormOverlaySubmit();
-  const selectedRows = ref<string[]>([]);
   const { deleteBatchRows } = useBatchDeleteAction({
     selectedRows,
     deleteApi: async (ids) => {
@@ -120,6 +120,30 @@ function useJobTableAction(deps: TableActionDeps) {
   };
 
   /**
+   * 批量或单行启停
+   * @param ids 任务主键列表
+   * @param enabled 是否启用调度
+   */
+  const batchUpdateStatus = async (ids: string[], enabled: boolean) => {
+    if (ids.length <= 0) {
+      return;
+    }
+
+    const confirmed = await operationConfirm();
+    if (!confirmed) {
+      return;
+    }
+
+    try {
+      await batchUpdateJobStatus({ ids, status: enabled });
+      message(t('tips.editSuccess'), { type: 'success' });
+      await fetchTableData();
+    } catch (error: unknown) {
+      errorMessage(error, { defaultI18nKey: 'scheduleTask.loadFailed' });
+    }
+  };
+
+  /**
    * 查看详情
    * @param row 表格行
    */
@@ -146,6 +170,7 @@ function useJobTableAction(deps: TableActionDeps) {
     openEditDialog,
     runOnce,
     deleteBatchRows,
+    batchUpdateStatus,
   };
 }
 

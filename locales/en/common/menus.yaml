@@ -89,7 +89,7 @@ routes:
 
   schedule: Task Scheduling
   scheduleGroup: Schedule Groups
-  scheduleTask: Schedule Tasks
+  scheduleTask: Scheduled Tasks
 
   authorizationAudit: Authorization Audit
   logManagement: Log Management

@@ -30,11 +30,13 @@ const jobState = usePaginationState({
   errorI18nKey: 'scheduleTask.loadFailed',
 });
 
-const { loading, searchForm, fetchTableData, resetQuery } = jobState;
+const { loading, selectedRows, searchForm, fetchTableData, resetQuery } = jobState;
 
-const { openCreateDialog, openDetailDialog, openEditDialog, runOnce, deleteBatchRows } = useJobTableAction({
-  fetchTableData,
-});
+const { openCreateDialog, openDetailDialog, openEditDialog, runOnce, deleteBatchRows, batchUpdateStatus } =
+  useJobTableAction({
+    fetchTableData,
+    selectedRows,
+  });
 
 onMounted(() => {
   fetchTableData();
@@ -102,6 +104,21 @@ onMounted(() => {
         <el-button-group type="primary">
           <!-- 新增 -->
           <el-button @click="openCreateDialog">{{ t('buttons.actionAdd') }}</el-button>
+
+          <!-- 批量启停 -->
+          <el-dropdown v-if="hasAuth('sysJob:update')" trigger="click">
+            <el-button :disabled="selectedRows.length <= 0" type="warning">
+              {{ t('buttons.actionBatchStatus') }}
+            </el-button>
+            <template #dropdown>
+              <el-dropdown-item :disabled="selectedRows.length <= 0" @click="batchUpdateStatus(selectedRows, true)">
+                {{ t('buttons.actionBatchEnable') }}
+              </el-dropdown-item>
+              <el-dropdown-item :disabled="selectedRows.length <= 0" @click="batchUpdateStatus(selectedRows, false)">
+                {{ t('buttons.actionBatchDisable') }}
+              </el-dropdown-item>
+            </template>
+          </el-dropdown>
         </el-button-group>
       </template>
 
@@ -125,6 +142,20 @@ onMounted(() => {
           <el-button v-if="hasAuth('sysJob:delete')" link type="danger" @click="deleteBatchRows([row.id])">
             {{ t('buttons.actionDelete') }}
           </el-button>
+          <!-- 更多 -->
+          <el-dropdown v-if="hasAuth('sysJob:update')" class="ml-2" trigger="click">
+            <el-button class="el-dropdown-link" link type="primary">{{ t('buttons.actionMore') }}</el-button>
+            <template #dropdown>
+              <el-dropdown-menu>
+                <el-dropdown-item :disabled="row.status === true" @click="batchUpdateStatus([row.id], true)">
+                  {{ t('buttons.statusActiveText') }}
+                </el-dropdown-item>
+                <el-dropdown-item :disabled="row.status === false" @click="batchUpdateStatus([row.id], false)">
+                  {{ t('buttons.statusInactiveText') }}
+                </el-dropdown-item>
+              </el-dropdown-menu>
+            </template>
+          </el-dropdown>
         </div>
       </template>
     </AuthPagedTable>

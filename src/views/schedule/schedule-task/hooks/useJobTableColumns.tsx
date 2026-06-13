@@ -20,6 +20,7 @@ function useJobTableColumns() {
   const { t } = useI18n();
 
   const columns = computed<TableColumnList>(() => [
+    { type: 'selection', align: 'left', width: 48 },
     {
       type: 'index',
       index: (index: number) => index + 1,

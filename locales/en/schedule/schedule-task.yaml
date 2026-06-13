@@ -24,7 +24,7 @@ scheduleTask:
   remark: Remark
   previousFireTime: Previous Fire Time
   nextFireTime: Next Fire Time
-  tableTitle: Schedule Tasks
+  tableTitle: Scheduled Tasks
   dialogCreateTitle: Add Schedule Task
   dialogEditTitle: Edit Schedule Task
   dialogViewTitle: View Schedule Task Details
