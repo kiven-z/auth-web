@@ -23,18 +23,18 @@ export function useDeptTreeDrag(options: UseDeptTreeDragOptions) {
     onMoved,
     moveNode: (id, parentId) => moveDept(id, { parentId }),
     messages: {
-      confirmTitle: t('dept.moveConfirmTitle'),
+      confirmTitle: t('dept.move.confirmTitle'),
       confirmInner: (dragged, dropTarget) =>
-        t('dept.moveConfirmInner', { dept: dragged.deptName, parent: dropTarget.deptName }),
+        t('dept.move.confirmInner', { dept: dragged.deptName, parent: dropTarget.deptName }),
       confirmSibling: (dragged, dropTarget, parentLabel) =>
-        t('dept.moveConfirmSibling', {
+        t('dept.move.confirmSibling', {
           dept: dragged.deptName,
           peer: dropTarget.deptName,
           parent: parentLabel,
         }),
-      success: t('dept.moveSuccess'),
-      failedI18nKey: 'dept.moveFailed',
-      topLevelLabel: t('dept.parentTopLevel'),
+      success: t('dept.message.moveSuccess'),
+      failedI18nKey: 'dept.message.moveFailed',
+      topLevelLabel: t('dept.field.parentTopLevel'),
     },
   });
 }

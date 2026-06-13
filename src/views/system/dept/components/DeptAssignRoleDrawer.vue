@@ -32,7 +32,7 @@ defineExpose({
   <OrgGrantRoleAssignDrawer
     ref="innerRef"
     :left-subtitle="`${deptName}（${deptCode}）`"
-    :left-title="t('dept.assignCurrentDept')"
+    :left-title="t('dept.assign.currentDept')"
     :load-assigned="loadAssigned"
   />
 </template>

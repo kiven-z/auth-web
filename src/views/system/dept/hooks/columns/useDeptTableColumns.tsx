@@ -20,21 +20,21 @@ function useDeptTableColumns() {
       width: 60,
     },
     // 部门名称
-    { label: t('dept.deptName'), prop: 'deptName', minWidth: 160 },
+    { label: t('dept.field.deptName'), prop: 'deptName', minWidth: 160 },
     // 部门编码
-    { label: t('dept.deptCode'), prop: 'deptCode', minWidth: 140 },
+    { label: t('dept.field.deptCode'), prop: 'deptCode', minWidth: 140 },
     // 显示顺序
-    { label: t('dept.orderNum'), prop: 'orderNum', width: 100 },
+    { label: t('dept.field.orderNum'), prop: 'orderNum', width: 100 },
     // 状态
     {
-      label: t('dept.status'),
+      label: t('dept.field.status'),
       prop: 'status',
       width: 100,
       formatter: (row: SysDeptRow) => {
         const isNormal = row.status === true;
         return (
           <ElTag type={isNormal ? 'success' : 'danger'} effect="plain">
-            {isNormal ? t('dept.statusNormal') : t('dept.statusDisabled')}
+            {isNormal ? t('dept.enum.status.normal') : t('dept.enum.status.disabled')}
           </ElTag>
         );
       },

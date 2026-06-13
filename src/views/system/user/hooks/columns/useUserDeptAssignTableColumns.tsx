@@ -16,25 +16,25 @@ function useUserDeptAssignTableColumns() {
   const columns = computed<TableColumnList>(() => [
     { type: 'selection', align: 'left', width: 48 },
     { type: 'index', index: (index: number) => index + 1, label: t('table.idx'), minWidth: 60 },
-    { label: t('dept.deptCode'), prop: 'deptCode', minWidth: 120, showOverflowTooltip: true },
-    { label: t('dept.deptName'), prop: 'deptName', minWidth: 140, showOverflowTooltip: true },
+    { label: t('dept.field.deptCode'), prop: 'deptCode', minWidth: 120, showOverflowTooltip: true },
+    { label: t('dept.field.deptName'), prop: 'deptName', minWidth: 140, showOverflowTooltip: true },
     {
-      label: t('dept.isPrimaryDepartment'),
+      label: t('dept.relation.isPrimary'),
       prop: 'isPrimary',
       minWidth: 110,
       formatter: (row: UserDeptPageRow) =>
         row.isPrimary ? (
           <ElCheckTag checked type="danger">
-            {t('dept.primaryDepartment')}
+            {t('dept.relation.primary')}
           </ElCheckTag>
         ) : (
           <ElCheckTag checked type="primary">
-            {t('dept.secondaryDepartment')}
+            {t('dept.relation.secondary')}
           </ElCheckTag>
         ),
     },
     {
-      label: t('dept.relationStatus'),
+      label: t('dept.relation.status'),
       prop: 'status',
       minWidth: 100,
       formatter: (row: UserDeptPageRow) => renderRelationStatus(row.status),

@@ -44,16 +44,31 @@ onMounted(() => {
 <template>
   <div>
     <el-form ref="searchFormRef" :model="searchForm" class="bg-bg_color w-[99/100] overflow-auto pl-8 pt-3" inline>
-      <el-form-item :label="t('dept.deptName')" prop="deptName">
-        <el-input v-model="searchForm.deptName" :placeholder="ph.input('dept.deptName')" class="w-45!" clearable />
+      <el-form-item :label="t('dept.field.deptName')" prop="deptName">
+        <el-input
+          v-model="searchForm.deptName"
+          :placeholder="ph.input('dept.field.deptName')"
+          class="w-45!"
+          clearable
+        />
       </el-form-item>
 
-      <el-form-item :label="t('dept.deptCode')" prop="deptCode">
-        <el-input v-model="searchForm.deptCode" :placeholder="ph.input('dept.deptCode')" class="w-45!" clearable />
+      <el-form-item :label="t('dept.field.deptCode')" prop="deptCode">
+        <el-input
+          v-model="searchForm.deptCode"
+          :placeholder="ph.input('dept.field.deptCode')"
+          class="w-45!"
+          clearable
+        />
       </el-form-item>
 
-      <el-form-item :label="t('dept.status')" prop="status">
-        <el-select v-model="searchForm.status" :placeholder="ph.selectFilter('dept.status')" class="w-45!" clearable>
+      <el-form-item :label="t('dept.field.status')" prop="status">
+        <el-select
+          v-model="searchForm.status"
+          :placeholder="ph.selectFilter('dept.field.status')"
+          class="w-45!"
+          clearable
+        >
           <el-option
             v-for="opt in DEPT_STATUS_FILTER_OPTIONS"
             :key="`${opt.labelKey}:${String(opt.value)}`"
@@ -79,7 +94,7 @@ onMounted(() => {
       :adaptive-config="{ offsetBottom: 96 }"
       :columns="tableColumns"
       :state="deptState"
-      :title="t('dept.pageTitle')"
+      :title="t('dept.page.title')"
       show-overflow-tooltip
     >
       <template #buttons>

@@ -45,9 +45,9 @@ const parentCascaderModel = computed({
 });
 
 const rules = reactive<FormRules>({
-  deptName: [{ required: true, message: t('dept.deptName'), trigger: 'blur' }],
-  deptCode: [{ required: true, message: t('dept.deptCode'), trigger: 'blur' }],
-  status: [{ required: true, message: t('dept.status'), trigger: 'change' }],
+  deptName: [{ required: true, message: t('dept.field.deptName'), trigger: 'blur' }],
+  deptCode: [{ required: true, message: t('dept.field.deptCode'), trigger: 'blur' }],
+  status: [{ required: true, message: t('dept.field.status'), trigger: 'change' }],
 });
 
 /**
@@ -58,7 +58,7 @@ const loadParentTree = async () => {
     const list = await getDeptList();
     parentTree.value = buildDeptParentTree(list ?? []);
   } catch (e: unknown) {
-    errorMessage(e, { defaultI18nKey: 'dept.loadFailed' });
+    errorMessage(e, { defaultI18nKey: 'dept.message.loadFailed' });
     parentTree.value = [];
     form.value.parentId = DEPT_ROOT_PARENT_ID;
   }
@@ -75,7 +75,7 @@ defineExpose({ formRef, form });
   <el-form ref="formRef" :model="form" :rules="rules" label-width="auto">
     <el-row :gutter="14">
       <el-col :span="24">
-        <el-form-item :label="t('dept.parentDept')" prop="parentId">
+        <el-form-item :label="t('dept.field.parentDept')" prop="parentId">
           <el-cascader
             v-model="parentCascaderModel"
             :options="parentTree"
@@ -95,37 +95,37 @@ defineExpose({ formRef, form });
       </el-col>
 
       <el-col :lg="12" :md="12" :sm="12" :xs="24">
-        <el-form-item :label="t('dept.deptCode')" prop="deptCode">
-          <el-input v-model="form.deptCode" :placeholder="t('dept.deptCode')" clearable />
+        <el-form-item :label="t('dept.field.deptCode')" prop="deptCode">
+          <el-input v-model="form.deptCode" :placeholder="t('dept.field.deptCode')" clearable />
         </el-form-item>
       </el-col>
 
       <el-col :lg="12" :md="12" :sm="12" :xs="24">
-        <el-form-item :label="t('dept.deptName')" prop="deptName">
-          <el-input v-model="form.deptName" :placeholder="t('dept.deptName')" clearable />
+        <el-form-item :label="t('dept.field.deptName')" prop="deptName">
+          <el-input v-model="form.deptName" :placeholder="t('dept.field.deptName')" clearable />
         </el-form-item>
       </el-col>
 
       <el-col :lg="12" :md="12" :sm="12" :xs="24">
-        <el-form-item :label="t('dept.status')" prop="status">
+        <el-form-item :label="t('dept.field.status')" prop="status">
           <el-radio-group v-model="form.status">
-            <el-radio :value="true">{{ t('dept.statusNormal') }}</el-radio>
-            <el-radio :value="false">{{ t('dept.statusDisabled') }}</el-radio>
+            <el-radio :value="true">{{ t('dept.enum.status.normal') }}</el-radio>
+            <el-radio :value="false">{{ t('dept.enum.status.disabled') }}</el-radio>
           </el-radio-group>
         </el-form-item>
       </el-col>
 
       <el-col :lg="12" :md="12" :sm="12" :xs="24">
-        <el-form-item :label="t('dept.orderNum')" prop="orderNum">
+        <el-form-item :label="t('dept.field.orderNum')" prop="orderNum">
           <el-input-number v-model="form.orderNum" :max="9999" :min="0" />
         </el-form-item>
       </el-col>
 
       <el-col :span="24">
-        <el-form-item :label="t('dept.remark')" prop="remark">
+        <el-form-item :label="t('dept.field.remark')" prop="remark">
           <el-input
             v-model="form.remark"
-            :placeholder="t('dept.remark')"
+            :placeholder="t('dept.field.remark')"
             :rows="3"
             maxlength="500"
             show-word-limit

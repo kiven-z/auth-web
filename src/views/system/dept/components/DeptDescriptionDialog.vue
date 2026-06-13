@@ -38,28 +38,28 @@ const parentLabel = computed(() => {
   }
   const parentId = props.data?.parentId;
   if (!parentId || parentId === '0') {
-    return t('dept.parentTopLevel');
+    return t('dept.field.parentTopLevel');
   }
   return parentId;
 });
 
 // 部门基础信息表格列
 const descriptionColumns = computed(() => [
-  { label: t('dept.deptCode'), prop: 'deptCode', labelWidth: 120, copy: true },
-  { label: t('dept.deptName'), prop: 'deptName', labelWidth: 120, copy: true },
+  { label: t('dept.field.deptCode'), prop: 'deptCode', labelWidth: 120, copy: true },
+  { label: t('dept.field.deptName'), prop: 'deptName', labelWidth: 120, copy: true },
   {
-    label: t('dept.parentDept'),
+    label: t('dept.field.parentDept'),
     prop: 'parentId',
     labelWidth: 120,
     cellRenderer: () => <span>{parentLabel.value}</span>,
   },
   {
-    label: t('dept.status'),
+    label: t('dept.field.status'),
     prop: 'status',
     labelWidth: 120,
     cellRenderer: ({ value }: { value: boolean }) => {
       const option = DEPT_STATUS_FILTER_OPTIONS.find((item) => item.value === value);
-      const labelKey = option?.labelKey ?? (value ? 'dept.statusNormal' : 'dept.statusDisabled');
+      const labelKey = option?.labelKey ?? (value ? 'dept.enum.status.normal' : 'dept.enum.status.disabled');
       return (
         <ElTag type={value ? 'success' : 'danger'} effect="plain">
           {t(labelKey)}
@@ -67,8 +67,8 @@ const descriptionColumns = computed(() => [
       );
     },
   },
-  { label: t('dept.orderNum'), prop: 'orderNum', labelWidth: 120 },
-  { label: t('dept.remark'), prop: 'remark', labelWidth: 120, span: 2 },
+  { label: t('dept.field.orderNum'), prop: 'orderNum', labelWidth: 120 },
+  { label: t('dept.field.remark'), prop: 'remark', labelWidth: 120, span: 2 },
   { label: t('table.createTime'), prop: 'createTime', labelWidth: 120 },
   { label: t('table.updateTime'), prop: 'updateTime', labelWidth: 120 },
   { label: t('table.createUsername'), prop: 'createUsername', labelWidth: 120 },
@@ -85,18 +85,18 @@ const descriptionColumns = computed(() => [
     <!-- 绑定用户 -->
     <DetailRelationListSection
       :columns="userBindingColumns"
-      :empty-text="t('dept.boundUsersEmpty')"
+      :empty-text="t('dept.binding.users.empty')"
       :items="boundUsers"
-      :title="t('dept.boundUsersTitle')"
+      :title="t('dept.binding.users.title')"
       row-key="userId"
     />
 
     <!-- 绑定岗位 -->
     <DetailRelationListSection
       :columns="postBindingColumns"
-      :empty-text="t('dept.boundPostsEmpty')"
+      :empty-text="t('dept.binding.posts.empty')"
       :items="boundPosts"
-      :title="t('dept.boundPostsTitle')"
+      :title="t('dept.binding.posts.title')"
       class="mt-4"
       row-key="id"
     />
@@ -104,9 +104,9 @@ const descriptionColumns = computed(() => [
     <!-- 绑定角色 -->
     <DetailRelationListSection
       :columns="roleBindingColumns"
-      :empty-text="t('dept.boundRolesEmpty')"
+      :empty-text="t('dept.binding.roles.empty')"
       :items="boundRoles"
-      :title="t('dept.boundRolesTitle')"
+      :title="t('dept.binding.roles.title')"
       class="mt-4"
       row-key="roleCode"
     />

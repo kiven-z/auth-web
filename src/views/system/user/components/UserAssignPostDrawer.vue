@@ -69,10 +69,10 @@ onMounted(() => {
         <el-input v-model="searchForm.postName" :placeholder="ph.input('post.postName')" class="w-45!" clearable />
       </el-form-item>
       <!-- 关联状态 -->
-      <el-form-item :label="t('dept.relationStatus')" prop="status">
+      <el-form-item :label="t('dept.relation.status')" prop="status">
         <el-select
           v-model="searchForm.status"
-          :placeholder="ph.selectFilter('dept.relationStatus')"
+          :placeholder="ph.selectFilter('dept.relation.status')"
           class="w-45!"
           clearable
         >

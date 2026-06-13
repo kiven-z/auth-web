@@ -12,8 +12,8 @@ defineOptions({
 const { t } = useI18n();
 
 const segmentedOptions = computed(() => [
-  { label: t('dept.viewTableTitle'), value: 'table' as const },
-  { label: t('dept.viewTreeTitle'), value: 'tree' as const },
+  { label: t('dept.page.view.table'), value: 'table' as const },
+  { label: t('dept.page.view.tree'), value: 'tree' as const },
 ]);
 
 const { viewMode } = useDeptPageState();

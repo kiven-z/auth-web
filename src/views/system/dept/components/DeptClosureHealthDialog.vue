@@ -27,7 +27,7 @@ async function reload() {
   try {
     data.value = await getDeptClosureHealth();
   } catch (error: unknown) {
-    errorMessage(error, { defaultI18nKey: 'dept.closureHealthLoadFailed' });
+    errorMessage(error, { defaultI18nKey: 'dept.closureHealth.message.loadFailed' });
   } finally {
     loading.value = false;
   }
@@ -70,7 +70,7 @@ defineExpose({ reload });
 <template>
   <div v-loading="loading" class="min-h-40">
     <el-alert
-      :title="data?.passed ? t('dept.closureHealthAlertPass') : t('dept.closureHealthAlertFail')"
+      :title="data?.passed ? t('dept.closureHealth.alert.pass') : t('dept.closureHealth.alert.fail')"
       :type="data?.passed ? 'success' : 'error'"
       class="mb-2!"
       closable
@@ -78,7 +78,7 @@ defineExpose({ reload });
     />
 
     <template v-if="data">
-      <Description :column="2" :columns="summaryColumns" :data="summaryData" :title="t('dept.closureHealthSummary')" />
+      <Description :column="2" :columns="summaryColumns" :data="summaryData" :title="t('dept.closureHealth.summary')" />
 
       <el-divider />
 
@@ -86,7 +86,7 @@ defineExpose({ reload });
         :column="2"
         :columns="healthStatsColumns"
         :data="healthStatsData"
-        :title="t('dept.closureHealthStatsTitle')"
+        :title="t('dept.closureHealth.statsTitle')"
       />
 
       <el-divider />
@@ -95,10 +95,10 @@ defineExpose({ reload });
         :column="2"
         :columns="parentLinkColumns"
         :data="data.parentLinkAnomalies"
-        :title="t('dept.closureHealthParentLinkTitle')"
+        :title="t('dept.closureHealth.parentLinkTitle')"
       />
       <el-text v-if="data.parentLinkAnomalies.length === 0" class="mb-4" type="info">
-        {{ t('dept.closureHealthAnomalyEmpty') }}
+        {{ t('dept.closureHealth.anomalyEmpty') }}
       </el-text>
 
       <el-divider />
@@ -107,10 +107,10 @@ defineExpose({ reload });
         :column="2"
         :columns="depthChainColumns"
         :data="data.depthChainAnomalies"
-        :title="t('dept.closureHealthDepthChainTitle')"
+        :title="t('dept.closureHealth.depthChainTitle')"
       />
       <el-text v-if="data.depthChainAnomalies.length === 0" type="info">
-        {{ t('dept.closureHealthAnomalyEmpty') }}
+        {{ t('dept.closureHealth.anomalyEmpty') }}
       </el-text>
     </template>
   </div>

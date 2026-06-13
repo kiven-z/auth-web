@@ -40,7 +40,7 @@ function useDeptAdvancedAction(options: UseDeptAdvancedActionOptions) {
   const { exporting, openExportDialog } = usePagedTableExport<SysDeptPageQuery>({
     searchForm: options.searchForm,
     pagination: options.pagination,
-    fileNamePrefix: t('dept.moduleName'),
+    fileNamePrefix: t('dept.page.moduleName'),
     exportApi: exportDeptExcel,
     buildFilter: ({ searchForm }) => ({
       deptName: searchForm.deptName as string | undefined,
@@ -57,7 +57,7 @@ function useDeptAdvancedAction(options: UseDeptAdvancedActionOptions) {
 
     const footerButtons: DialogOptions['footerButtons'] = [
       {
-        label: t('dept.closureHealthRecheck'),
+        label: t('dept.closureHealth.recheck'),
         type: 'primary',
         btnClick: async () => {
           await panelRef.value?.reload();
@@ -74,7 +74,7 @@ function useDeptAdvancedAction(options: UseDeptAdvancedActionOptions) {
     ];
 
     addDialog({
-      title: t('dept.closureHealthTitle'),
+      title: t('dept.closureHealth.title'),
       width: '72%',
       draggable: true,
       fullscreenIcon: true,

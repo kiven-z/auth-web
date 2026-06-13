@@ -61,18 +61,28 @@ onMounted(() => {
     <el-alert :title="t('users.deptAssignDrawerTip')" closable show-icon type="info" />
     <el-form ref="searchFormRef" :model="searchForm" class="pt-2 pl-6" inline>
       <!-- 部门名称 -->
-      <el-form-item :label="t('dept.deptName')" prop="deptName">
-        <el-input v-model="searchForm.deptName" :placeholder="ph.input('dept.deptName')" class="w-45!" clearable />
+      <el-form-item :label="t('dept.field.deptName')" prop="deptName">
+        <el-input
+          v-model="searchForm.deptName"
+          :placeholder="ph.input('dept.field.deptName')"
+          class="w-45!"
+          clearable
+        />
       </el-form-item>
       <!-- 部门编码 -->
-      <el-form-item :label="t('dept.deptCode')" prop="deptCode">
-        <el-input v-model="searchForm.deptCode" :placeholder="ph.input('dept.deptCode')" class="w-45!" clearable />
+      <el-form-item :label="t('dept.field.deptCode')" prop="deptCode">
+        <el-input
+          v-model="searchForm.deptCode"
+          :placeholder="ph.input('dept.field.deptCode')"
+          class="w-45!"
+          clearable
+        />
       </el-form-item>
       <!-- 关联状态 -->
-      <el-form-item :label="t('dept.relationStatus')" prop="status">
+      <el-form-item :label="t('dept.relation.status')" prop="status">
         <el-select
           v-model="searchForm.status"
-          :placeholder="ph.selectFilter('dept.relationStatus')"
+          :placeholder="ph.selectFilter('dept.relation.status')"
           class="w-45!"
           clearable
         >

@@ -52,7 +52,7 @@ function useDeptTableAction(deps: DeptTableActionDeps) {
    */
   const resolveParentDeptLabel = (detailParentId: string, flatList: SysDeptListVO[]): string => {
     if (!detailParentId || detailParentId === ROOT_PARENT_ID) {
-      return t('dept.parentTopLevel');
+      return t('dept.field.parentTopLevel');
     }
     const parent = flatList.find((item) => item.id === detailParentId);
     return parent?.deptName ?? detailParentId;
@@ -68,7 +68,7 @@ function useDeptTableAction(deps: DeptTableActionDeps) {
       const parentDeptLabel = resolveParentDeptLabel(detail.parentId, flatList);
 
       addDialog({
-        title: t('dept.dialogViewTitle'),
+        title: t('dept.title.view'),
         draggable: true,
         fullscreenIcon: true,
         closeOnPressEscape: false,
@@ -77,7 +77,7 @@ function useDeptTableAction(deps: DeptTableActionDeps) {
         contentRenderer: () => h(DeptDescriptionDialog, { data: detail, parentDeptLabel }),
       });
     } catch (error: unknown) {
-      errorMessage(error, { defaultI18nKey: 'dept.loadDetailFailed' });
+      errorMessage(error, { defaultI18nKey: 'dept.message.loadDetailFailed' });
     }
   };
 
@@ -96,7 +96,7 @@ function useDeptTableAction(deps: DeptTableActionDeps) {
     const dialogFormRef = ref<FormOverlayExpose<SysDeptCreateForm> | null>(null);
 
     addDialog({
-      title: t('dept.dialogCreateTitle'),
+      title: t('dept.title.create'),
       draggable: true,
       fullscreenIcon: true,
       closeOnClickModal: false,
@@ -124,7 +124,7 @@ function useDeptTableAction(deps: DeptTableActionDeps) {
       const dialogFormRef = ref<FormOverlayExpose<SysDeptUpdateForm> | null>(null);
 
       addDialog({
-        title: t('dept.dialogEditTitle'),
+        title: t('dept.title.edit'),
         draggable: true,
         fullscreenIcon: true,
         closeOnClickModal: false,
@@ -142,7 +142,7 @@ function useDeptTableAction(deps: DeptTableActionDeps) {
         }),
       });
     } catch (error: unknown) {
-      errorMessage(error, { defaultI18nKey: 'dept.loadDetailFailed' });
+      errorMessage(error, { defaultI18nKey: 'dept.message.loadDetailFailed' });
     }
   };
 

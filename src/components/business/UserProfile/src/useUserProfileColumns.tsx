@@ -44,19 +44,19 @@ function useUserProfileColumns() {
    * 部门列
    */
   const deptColumns = computed(() => [
-    { label: t('dept.deptName'), prop: 'deptName', copy: true },
-    { label: t('dept.deptCode'), prop: 'deptCode', copy: true },
+    { label: t('dept.field.deptName'), prop: 'deptName', copy: true },
+    { label: t('dept.field.deptCode'), prop: 'deptCode', copy: true },
     {
-      label: t('dept.isPrimaryDepartment'),
+      label: t('dept.relation.isPrimary'),
       prop: 'isPrimary',
       cellRenderer: ({ value }: { value: boolean }) => {
         return value ? (
           <ElCheckTag checked type="danger">
-            {t('dept.primaryDepartment')}
+            {t('dept.relation.primary')}
           </ElCheckTag>
         ) : (
           <ElCheckTag checked={false} type="info">
-            {t('dept.nonPrimaryDepartment')}
+            {t('dept.relation.nonPrimary')}
           </ElCheckTag>
         );
       },

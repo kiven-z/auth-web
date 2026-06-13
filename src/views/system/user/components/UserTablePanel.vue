@@ -84,10 +84,10 @@ const handleView = (row: SysUserPageRow) => {
       </el-form-item>
       <template v-if="showAdvancedSearchToggle">
         <!-- 工号 -->
-        <el-form-item v-show="searchExpanded" :label="t('dept.employeeNo')" prop="employeeNo">
+        <el-form-item v-show="searchExpanded" :label="t('dept.relation.employeeNo')" prop="employeeNo">
           <el-input
             v-model="searchForm.employeeNo"
-            :placeholder="ph.input('dept.employeeNo')"
+            :placeholder="ph.input('dept.relation.employeeNo')"
             class="w-45!"
             clearable
           />

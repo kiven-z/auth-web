@@ -46,7 +46,7 @@ const { exporting, openExportDialog, openImportDialog, openClosureHealthDialog }
             {{ t('buttons.exportExcel') }}
           </el-dropdown-item>
           <el-dropdown-item v-if="hasAuth(['sysDept:diagnose'])" @click="openClosureHealthDialog()">
-            {{ t('dept.closureHealthCheck') }}
+            {{ t('dept.closureHealth.action') }}
           </el-dropdown-item>
         </el-dropdown-menu>
       </template>

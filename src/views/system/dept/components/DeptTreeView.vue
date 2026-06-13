@@ -59,11 +59,11 @@ onMounted(() => {
   <AuthElTreePanel
     :allow-drag="allowDrag"
     :allow-drop="allowDrop"
-    :collapse-all-label="t('dept.collapseAll')"
+    :collapse-all-label="t('dept.page.tree.collapseAll')"
     :draggable="true"
-    :expand-all-label="t('dept.expandAll')"
+    :expand-all-label="t('dept.page.tree.expandAll')"
     :loading="loading"
-    :title="t('dept.pageTitle')"
+    :title="t('dept.page.title')"
     :tree-data="treeData"
     :tree-props="treeProps"
     @refresh="fetchTreeData"
@@ -86,7 +86,7 @@ onMounted(() => {
       <span :class="{ 'text-(--el-text-color-secondary)': !data.status }" class="font-medium">{{ data.deptName }}</span>
       <el-text type="info">({{ data.deptCode }})</el-text>
       <el-tag :type="data.status ? 'success' : 'danger'" effect="plain" size="small">
-        {{ data.status ? t('dept.statusNormal') : t('dept.statusDisabled') }}
+        {{ data.status ? t('dept.enum.status.normal') : t('dept.enum.status.disabled') }}
       </el-tag>
     </template>
 

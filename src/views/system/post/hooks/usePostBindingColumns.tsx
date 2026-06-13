@@ -39,7 +39,7 @@ function usePostBindingColumns() {
         ),
     },
     {
-      label: t('dept.relationStatus'),
+      label: t('dept.relation.status'),
       prop: 'relationStatus',
       minWidth: 100,
       formatter: (row: SysPostBoundUserItem) => renderRelationStatus(row.relationStatus),
@@ -49,15 +49,15 @@ function usePostBindingColumns() {
   ]);
 
   const deptSnapshotColumns = computed(() => [
-    { label: t('dept.deptCode'), prop: 'deptCode', labelWidth: 120, copy: true },
-    { label: t('dept.deptName'), prop: 'deptName', labelWidth: 120, copy: true },
+    { label: t('dept.field.deptCode'), prop: 'deptCode', labelWidth: 120, copy: true },
+    { label: t('dept.field.deptName'), prop: 'deptName', labelWidth: 120, copy: true },
     {
-      label: t('dept.status'),
+      label: t('dept.field.status'),
       prop: 'status',
       labelWidth: 120,
       cellRenderer: ({ value }: { value: boolean }) => {
         const option = DEPT_STATUS_FILTER_OPTIONS.find((item) => item.value === value);
-        const labelKey = option?.labelKey ?? (value ? 'dept.statusNormal' : 'dept.statusDisabled');
+        const labelKey = option?.labelKey ?? (value ? 'dept.enum.status.normal' : 'dept.enum.status.disabled');
         return (
           <ElTag type={value ? 'success' : 'danger'} effect="plain">
             {t(labelKey)}
@@ -66,11 +66,11 @@ function usePostBindingColumns() {
       },
     },
     {
-      label: t('dept.parentDept'),
+      label: t('dept.field.parentDept'),
       prop: 'parentId',
       labelWidth: 120,
       cellRenderer: ({ value }: { value: string }) => (
-        <span>{!value || value === '0' ? t('dept.parentTopLevel') : value}</span>
+        <span>{!value || value === '0' ? t('dept.field.parentTopLevel') : value}</span>
       ),
     },
   ]);

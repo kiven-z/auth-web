@@ -34,7 +34,7 @@ function useUserPostAssignTableColumns() {
         ),
     },
     {
-      label: t('dept.relationStatus'),
+      label: t('dept.relation.status'),
       prop: 'status',
       minWidth: 100,
       formatter: (row: UserPostPageRow) => renderRelationStatus(row.status),

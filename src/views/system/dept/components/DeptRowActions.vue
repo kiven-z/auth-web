@@ -46,7 +46,7 @@ const buttonSize = props.compact ? ('small' as const) : undefined;
       type="primary"
       @click="openCreateDialog(row)"
     >
-      {{ t('dept.addChild') }}
+      {{ t('dept.action.addChild') }}
     </el-button>
 
     <!-- 编辑 -->
