@@ -26,7 +26,7 @@ function useUserTableColumns() {
     },
     { label: t('users.field.phone'), prop: 'phone', minWidth: 130, showOverflowTooltip: true },
     { label: t('users.field.email'), prop: 'email', minWidth: 160, showOverflowTooltip: true },
-    { label: t('dept.relation.employeeNo'), prop: 'employeeNo', minWidth: 100, showOverflowTooltip: true },
+    { label: t('relation.employeeNo'), prop: 'employeeNo', minWidth: 100, showOverflowTooltip: true },
     {
       label: t('users.field.status'),
       prop: 'status',

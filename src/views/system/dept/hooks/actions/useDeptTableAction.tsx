@@ -68,7 +68,7 @@ function useDeptTableAction(deps: DeptTableActionDeps) {
       const parentDeptLabel = resolveParentDeptLabel(detail.parentId, flatList);
 
       addDialog({
-        title: t('dept.title.view'),
+        title: t('dept.dialog.view'),
         draggable: true,
         fullscreenIcon: true,
         closeOnPressEscape: false,
@@ -96,7 +96,7 @@ function useDeptTableAction(deps: DeptTableActionDeps) {
     const dialogFormRef = ref<FormOverlayExpose<SysDeptCreateForm> | null>(null);
 
     addDialog({
-      title: t('dept.title.create'),
+      title: t('dept.dialog.create'),
       draggable: true,
       fullscreenIcon: true,
       closeOnClickModal: false,
@@ -124,7 +124,7 @@ function useDeptTableAction(deps: DeptTableActionDeps) {
       const dialogFormRef = ref<FormOverlayExpose<SysDeptUpdateForm> | null>(null);
 
       addDialog({
-        title: t('dept.title.edit'),
+        title: t('dept.dialog.edit'),
         draggable: true,
         fullscreenIcon: true,
         closeOnClickModal: false,

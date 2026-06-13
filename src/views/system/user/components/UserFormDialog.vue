@@ -76,8 +76,8 @@ defineExpose({ formRef, form });
       </el-col>
       <!-- 工号 -->
       <el-col :lg="12" :md="12" :sm="12" :xs="24">
-        <el-form-item :label="t('dept.relation.employeeNo')" prop="employeeNo">
-          <el-input v-model="form.employeeNo" :placeholder="t('dept.relation.employeeNo')" clearable />
+        <el-form-item :label="t('relation.employeeNo')" prop="employeeNo">
+          <el-input v-model="form.employeeNo" :placeholder="t('relation.employeeNo')" clearable />
         </el-form-item>
       </el-col>
       <!-- 状态 -->

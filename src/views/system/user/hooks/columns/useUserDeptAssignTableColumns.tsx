@@ -19,22 +19,22 @@ function useUserDeptAssignTableColumns() {
     { label: t('dept.field.deptCode'), prop: 'deptCode', minWidth: 120, showOverflowTooltip: true },
     { label: t('dept.field.deptName'), prop: 'deptName', minWidth: 140, showOverflowTooltip: true },
     {
-      label: t('dept.relation.isPrimary'),
+      label: t('relation.isPrimary'),
       prop: 'isPrimary',
       minWidth: 110,
       formatter: (row: UserDeptPageRow) =>
         row.isPrimary ? (
           <ElCheckTag checked type="danger">
-            {t('dept.relation.primary')}
+            {t('relation.primary')}
           </ElCheckTag>
         ) : (
           <ElCheckTag checked type="primary">
-            {t('dept.relation.secondary')}
+            {t('relation.secondary')}
           </ElCheckTag>
         ),
     },
     {
-      label: t('dept.relation.status'),
+      label: t('relation.status'),
       prop: 'status',
       minWidth: 100,
       formatter: (row: UserDeptPageRow) => renderRelationStatus(row.status),

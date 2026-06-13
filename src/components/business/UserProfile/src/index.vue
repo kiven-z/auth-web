@@ -78,7 +78,7 @@ watch(
 
     <div class="section">
       <div class="section-header">
-        <h3 class="section-title">{{ t('dept.tips.affiliatedDeptInfo') }}</h3>
+        <h3 class="section-title">{{ t('relation.section.dept') }}</h3>
         <el-badge :value="deptInfos.length" class="badge" type="success" />
       </div>
 

@@ -39,7 +39,7 @@ function usePostBindingColumns() {
         ),
     },
     {
-      label: t('dept.relation.status'),
+      label: t('relation.status'),
       prop: 'relationStatus',
       minWidth: 100,
       formatter: (row: SysPostBoundUserItem) => renderRelationStatus(row.relationStatus),

@@ -31,7 +31,7 @@ const { postOptions, postSearchLoading, loadPostListByKeyword } = useRemotePostS
 
 const rules = computed<FormRules>(() => {
   const baseRules: FormRules = {
-    status: [{ required: true, message: t('dept.relation.status'), trigger: 'change' }],
+    status: [{ required: true, message: t('relation.status'), trigger: 'change' }],
     isPrimary: [{ required: true, message: t('post.isPrimaryPosition'), trigger: 'change' }],
   };
   if (!props.editMode) {
@@ -79,8 +79,8 @@ defineExpose({ formRef, form });
       </el-col>
       <!-- 关联状态 -->
       <el-col :lg="12" :md="12" :sm="12" :xs="24">
-        <el-form-item :label="t('dept.relation.status')" prop="status">
-          <el-select v-model="form.status" :placeholder="t('dept.relation.status')" class="w-full">
+        <el-form-item :label="t('relation.status')" prop="status">
+          <el-select v-model="form.status" :placeholder="t('relation.status')" class="w-full">
             <el-option
               v-for="option in USER_DEPT_RELATION_STATUS_FILTER_OPTIONS"
               :key="`${option.labelKey}:${String(option.value)}`"

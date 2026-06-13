@@ -36,8 +36,8 @@ const deptTree = ref<PostDeptCascaderNode[]>([]);
 
 const rules = reactive<FormRules>({
   deptId: [{ required: true, message: t('dept.field.deptName'), trigger: 'change' }],
-  status: [{ required: true, message: t('dept.relation.status'), trigger: 'change' }],
-  isPrimary: [{ required: true, message: t('dept.relation.isPrimary'), trigger: 'change' }],
+  status: [{ required: true, message: t('relation.status'), trigger: 'change' }],
+  isPrimary: [{ required: true, message: t('relation.isPrimary'), trigger: 'change' }],
 });
 
 /**
@@ -85,8 +85,8 @@ defineExpose({ formRef, form });
       </el-col>
       <!-- 关联状态 -->
       <el-col :lg="12" :md="12" :sm="12" :xs="24">
-        <el-form-item :label="t('dept.relation.status')" prop="status">
-          <el-select v-model="form.status" :placeholder="t('dept.relation.status')" class="w-full">
+        <el-form-item :label="t('relation.status')" prop="status">
+          <el-select v-model="form.status" :placeholder="t('relation.status')" class="w-full">
             <el-option
               v-for="option in USER_DEPT_RELATION_STATUS_FILTER_OPTIONS"
               :key="`${option.labelKey}:${String(option.value)}`"
@@ -98,10 +98,10 @@ defineExpose({ formRef, form });
       </el-col>
       <!-- 是否主部门 -->
       <el-col :lg="12" :md="12" :sm="12" :xs="24">
-        <el-form-item :label="t('dept.relation.isPrimary')" prop="isPrimary">
+        <el-form-item :label="t('relation.isPrimary')" prop="isPrimary">
           <el-radio-group v-model="form.isPrimary">
-            <el-radio :value="true">{{ t('dept.relation.primary') }}</el-radio>
-            <el-radio :value="false">{{ t('dept.relation.secondary') }}</el-radio>
+            <el-radio :value="true">{{ t('relation.primary') }}</el-radio>
+            <el-radio :value="false">{{ t('relation.secondary') }}</el-radio>
           </el-radio-group>
         </el-form-item>
       </el-col>

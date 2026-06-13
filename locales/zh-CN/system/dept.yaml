@@ -8,7 +8,7 @@ dept:
     tree:
       expandAll: 展开全部
       collapseAll: 收起全部
-  title:
+  dialog:
     view: 查看部门详情
     create: 新增部门
     edit: 编辑部门
@@ -35,15 +35,8 @@ dept:
     confirmTitle: 确认移动部门
     confirmInner: 确定将「{dept}」调整为「{parent}」的下级部门吗？
     confirmSibling: 确定将「{dept}」调整为与「{peer}」同级吗？新的上级为「{parent}」。
-  assign:
+  assignRole:
     currentDept: 当前部门
-  relation:
-    status: 关联状态
-    isPrimary: 是否主部门
-    primary: 主部门
-    nonPrimary: 非主部门
-    secondary: 兼职部门
-    employeeNo: 工号
   binding:
     users:
       title: 关联用户
@@ -86,5 +79,3 @@ dept:
       childCnt: 子节点闭包行数
       parentCnt: 父节点闭包行数
       expectedCnt: 期望行数
-  tips:
-    affiliatedDeptInfo: 所属部门
