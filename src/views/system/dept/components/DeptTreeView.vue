@@ -25,14 +25,6 @@ const { t } = useI18n();
 const { loading, selectedRows, treeData, treeKeyword, viewMode, fetchTableData, fetchTreeData, refresh } =
   useDeptPageState();
 
-const debouncedFetchTree = useDebounceFn(() => {
-  fetchTreeData();
-}, 300);
-
-watch(treeKeyword, () => {
-  debouncedFetchTree();
-});
-
 const tableActionDeps = {
   fetchTableData,
   fetchTreeData,
@@ -44,6 +36,14 @@ const tableActionDeps = {
 const { openCreateDialog, openDetailDialog, openEditDialog, deleteBatchRows } = useDeptTableAction(tableActionDeps);
 
 const { openAssignRoleDrawer } = useDeptMoreAction(tableActionDeps);
+
+const debouncedFetchTree = useDebounceFn(() => {
+  fetchTreeData();
+}, 300);
+
+watch(treeKeyword, () => {
+  debouncedFetchTree();
+});
 
 const { allowDrag, allowDrop, handleNodeDrop } = useDeptTreeDrag({
   treeData,
@@ -63,6 +63,7 @@ onMounted(() => {
     :draggable="true"
     :expand-all-label="t('dept.page.tree.expandAll')"
     :loading="loading"
+    :show-actions-on-hover="true"
     :title="t('dept.page.title')"
     :tree-data="treeData"
     :tree-props="treeProps"
@@ -93,6 +94,7 @@ onMounted(() => {
     <template #actions="{ data }">
       <DeptRowActions
         :delete-batch-rows="deleteBatchRows"
+        :dropdown-teleported="false"
         :open-assign-role-drawer="openAssignRoleDrawer"
         :open-create-dialog="openCreateDialog"
         :open-detail-dialog="openDetailDialog"

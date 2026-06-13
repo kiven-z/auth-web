@@ -12,6 +12,8 @@ interface DeptRowActionsProps {
   row: SysDeptRow;
   /** 树视图展示「新增下级」 */
   showAddChild?: boolean;
+  /** 下拉菜单是否 Teleport 到 body */
+  dropdownTeleported?: boolean;
   openDetailDialog: (row: SysDeptRow) => void;
   openEditDialog: (row: SysDeptRow) => void;
   openCreateDialog?: (row: SysDeptRow) => void;
@@ -21,6 +23,7 @@ interface DeptRowActionsProps {
 
 withDefaults(defineProps<DeptRowActionsProps>(), {
   showAddChild: false,
+  dropdownTeleported: true,
 });
 
 const { t } = useI18n();
@@ -49,7 +52,7 @@ const { t } = useI18n();
     </el-button>
 
     <!-- 更多 -->
-    <el-dropdown class="ml-1" trigger="click" @click.stop>
+    <el-dropdown :teleported="dropdownTeleported" class="ml-1" trigger="click" @click.stop>
       <el-button class="el-dropdown-link" link type="primary">
         {{ t('buttons.actionMore') }}
       </el-button>
