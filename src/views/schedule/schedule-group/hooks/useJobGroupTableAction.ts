@@ -4,6 +4,8 @@ import {
   type CreateJobGroupRequest,
   deleteJobGroup,
   getJobGroupDetail,
+  pauseJobGroupJobs,
+  resumeJobGroupJobs,
   type SysJobGroupPageRow,
   updateJobGroup,
   type UpdateJobGroupRequest,
@@ -11,7 +13,8 @@ import {
 import { addDialog } from '@/components/ui/Dialog';
 import useBatchDeleteAction from '@/composables/table/useBatchDeleteAction';
 import { type FormOverlayExpose, useFormOverlaySubmit } from '@/composables/table/useFormOverlaySubmit';
-import { errorMessage } from '@/ui/feedback/message';
+import { operationConfirm } from '@/ui/feedback/dialog';
+import { errorMessage, message } from '@/ui/feedback/message';
 import ScheduleGroupDescriptionDialog from '@/views/schedule/schedule-group/components/ScheduleGroupDescriptionDialog.vue';
 import ScheduleGroupFormDialog from '@/views/schedule/schedule-group/components/ScheduleGroupFormDialog.vue';
 import { h, ref } from 'vue';
@@ -116,11 +119,51 @@ function useJobGroupTableAction(deps: TableActionDeps) {
     }
   };
 
+  /**
+   * 暂停分组下全部任务
+   * @param row 任务分组行
+   */
+  const pauseAllJobsInGroup = async (row: SysJobGroupPageRow) => {
+    const confirmed = await operationConfirm();
+    if (!confirmed) {
+      return;
+    }
+
+    try {
+      await pauseJobGroupJobs(row.groupCode);
+      message(t('tips.operationSuccess'), { type: 'success' });
+      await fetchTableData();
+    } catch (error: unknown) {
+      errorMessage(error, { defaultI18nKey: 'scheduleGroup.loadFailed' });
+    }
+  };
+
+  /**
+   * 恢复分组下全部任务
+   * @param row 任务分组行
+   */
+  const resumeAllJobsInGroup = async (row: SysJobGroupPageRow) => {
+    const confirmed = await operationConfirm();
+    if (!confirmed) {
+      return;
+    }
+
+    try {
+      await resumeJobGroupJobs(row.groupCode);
+      message(t('tips.operationSuccess'), { type: 'success' });
+      await fetchTableData();
+    } catch (error: unknown) {
+      errorMessage(error, { defaultI18nKey: 'scheduleGroup.loadFailed' });
+    }
+  };
+
   return {
     openCreateDialog,
     openEditDialog,
     openDetailDialog,
     deleteBatchRows,
+    pauseAllJobsInGroup,
+    resumeAllJobsInGroup,
   };
 }
 

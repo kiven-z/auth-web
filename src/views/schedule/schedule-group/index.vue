@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import { hasAuth } from '@/auth/permission';
 import { getJobGroupPage } from '@/api/schedule/job-group';
 import AuthPagedTable, { usePaginationState } from '@/components/business/AuthPagedTable';
 import { COMMON_BOOLEAN_STATUS_FILTER_OPTIONS } from '@/constants/boolean-status';
@@ -30,7 +31,14 @@ const jobGroupState = usePaginationState({
 
 const { loading, searchForm, fetchTableData, resetQuery } = jobGroupState;
 
-const { openCreateDialog, openEditDialog, openDetailDialog, deleteBatchRows } = useJobGroupTableAction({
+const {
+  openCreateDialog,
+  openEditDialog,
+  openDetailDialog,
+  deleteBatchRows,
+  pauseAllJobsInGroup,
+  resumeAllJobsInGroup,
+} = useJobGroupTableAction({
   fetchTableData,
 });
 
@@ -111,6 +119,20 @@ onMounted(() => {
           <el-button :disabled="row.isSystem" link type="danger" @click="deleteBatchRows([row.id])">
             {{ t('buttons.actionDelete') }}
           </el-button>
+          <!-- 更多：分组下任务批量启停 -->
+          <el-dropdown v-if="hasAuth('sysJob:update')" class="ml-2" trigger="click">
+            <el-button class="el-dropdown-link" link type="primary">{{ t('buttons.actionMore') }}</el-button>
+            <template #dropdown>
+              <el-dropdown-menu>
+                <el-dropdown-item @click="pauseAllJobsInGroup(row)">
+                  {{ t('scheduleGroup.actionPauseAllJobs') }}
+                </el-dropdown-item>
+                <el-dropdown-item @click="resumeAllJobsInGroup(row)">
+                  {{ t('scheduleGroup.actionResumeAllJobs') }}
+                </el-dropdown-item>
+              </el-dropdown-menu>
+            </template>
+          </el-dropdown>
         </div>
       </template>
     </AuthPagedTable>

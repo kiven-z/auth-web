@@ -10,6 +10,8 @@ scheduleGroup:
   editTitle: Edit Schedule Group
   detailTitle: View Schedule Group Details
   loadFailed: Failed to load schedule groups
+  actionPauseAllJobs: Pause all jobs in this group
+  actionResumeAllJobs: Resume all jobs in this group
   placeholder:
     code: Enter group code (uppercase, digits, underscore)
     name: Enter group name

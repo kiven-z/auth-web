@@ -92,8 +92,8 @@ function useJobGroupTableColumns() {
     },
     {
       label: t('table.actions'),
-      fixed: 'right' as const,
-      width: 160,
+      fixed: 'right',
+      width: 200,
       slot: 'actions',
     },
   ]);
