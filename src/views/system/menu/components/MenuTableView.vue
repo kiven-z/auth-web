@@ -1,9 +1,9 @@
 <script lang="ts" setup>
 import AuthPagedTable from '@/components/business/AuthPagedTable';
 import { menuTypeFilterOptions } from '@/views/system/menu/constants/menu-type';
-import useMenuMoreAction from '@/views/system/menu/hooks/useMenuMoreAction';
+import useMenuMoreAction from '@/views/system/menu/hooks/actions/useMenuMoreAction';
 import useMenuPageState from '@/views/system/menu/hooks/useMenuPageState';
-import useMenuTableAction from '@/views/system/menu/hooks/useMenuTableAction';
+import useMenuTableAction from '@/views/system/menu/hooks/actions/useMenuTableAction';
 import useMenuTableColumns from '@/views/system/menu/hooks/useMenuTableColumns';
 import { useFormPlaceholder } from '@/composables/i18n/useFormPlaceholder';
 import type { FormInstance } from 'element-plus';

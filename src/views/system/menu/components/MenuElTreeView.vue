@@ -1,9 +1,9 @@
 <script lang="ts" setup>
 import { AuthElTreePanel } from '@/components/business/AuthElTreePanel';
 import { transformI18n } from '@/plugins/i18n';
-import useMenuMoreAction from '@/views/system/menu/hooks/useMenuMoreAction';
+import useMenuMoreAction from '@/views/system/menu/hooks/actions/useMenuMoreAction';
 import useMenuPageState from '@/views/system/menu/hooks/useMenuPageState';
-import useMenuTableAction from '@/views/system/menu/hooks/useMenuTableAction';
+import useMenuTableAction from '@/views/system/menu/hooks/actions/useMenuTableAction';
 import { useMenuTreeDrag } from '@/views/system/menu/hooks/useMenuTreeDrag';
 import { onMounted } from 'vue';
 import { useI18n } from 'vue-i18n';
@@ -85,17 +85,17 @@ onMounted(() => {
     </template>
 
     <template #actions="{ data }">
-      <el-button link size="small" type="primary" @click="openDetailDialog(data)">
+      <el-button link type="primary" @click="openDetailDialog(data)">
         {{ t('buttons.actionView') }}
       </el-button>
-      <el-button link size="small" type="primary" @click="openEditDialog(data)">
+      <el-button link type="primary" @click="openEditDialog(data)">
         {{ t('buttons.actionEdit') }}
       </el-button>
-      <el-button link size="small" type="danger" @click="deleteBatchRows([data.id])">
+      <el-button link type="danger" @click="deleteBatchRows([data.id])">
         {{ t('buttons.actionDelete') }}
       </el-button>
       <el-dropdown class="ml-1" trigger="click" @click.stop>
-        <el-button class="el-dropdown-link" link size="small" type="primary">
+        <el-button class="el-dropdown-link" link type="primary">
           {{ t('buttons.actionMore') }}
         </el-button>
         <template #dropdown>

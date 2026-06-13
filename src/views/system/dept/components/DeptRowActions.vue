@@ -10,8 +10,6 @@ defineOptions({
 interface DeptRowActionsProps {
   /** 部门行数据 */
   row: SysDeptRow;
-  /** 树节点内使用较小按钮 */
-  compact?: boolean;
   /** 树视图展示「新增下级」 */
   showAddChild?: boolean;
   openDetailDialog: (row: SysDeptRow) => void;
@@ -21,47 +19,38 @@ interface DeptRowActionsProps {
   openAssignRoleDrawer: (row: SysDeptRow) => void;
 }
 
-const props = withDefaults(defineProps<DeptRowActionsProps>(), {
-  compact: false,
+withDefaults(defineProps<DeptRowActionsProps>(), {
   showAddChild: false,
 });
 
 const { t } = useI18n();
-
-const buttonSize = props.compact ? ('small' as const) : undefined;
 </script>
 
 <template>
-  <div class="dept-row-actions flex flex-wrap items-center gap-x-1" :class="{ 'dept-row-actions--compact': compact }">
+  <div class="dept-row-actions flex flex-wrap items-center gap-x-1">
     <!-- 查看 -->
-    <el-button link :size="buttonSize" type="primary" @click="openDetailDialog(row)">
+    <el-button link type="primary" @click="openDetailDialog(row)">
       {{ t('buttons.actionView') }}
     </el-button>
 
     <!-- 新增下级（树视图） -->
-    <el-button
-      v-if="showAddChild && openCreateDialog && row.status"
-      link
-      :size="buttonSize"
-      type="primary"
-      @click="openCreateDialog(row)"
-    >
+    <el-button v-if="showAddChild && row.status" link type="primary" @click="openCreateDialog(row)">
       {{ t('dept.action.addChild') }}
     </el-button>
 
     <!-- 编辑 -->
-    <el-button link :size="buttonSize" type="primary" @click="openEditDialog(row)">
+    <el-button link type="primary" @click="openEditDialog(row)">
       {{ t('buttons.actionEdit') }}
     </el-button>
 
     <!-- 删除 -->
-    <el-button link :size="buttonSize" type="danger" @click="deleteBatchRows([row.id])">
+    <el-button link type="danger" @click="deleteBatchRows([row.id])">
       {{ t('buttons.actionDelete') }}
     </el-button>
 
     <!-- 更多 -->
     <el-dropdown class="ml-1" trigger="click" @click.stop>
-      <el-button class="el-dropdown-link" link :size="buttonSize" type="primary">
+      <el-button class="el-dropdown-link" link type="primary">
         {{ t('buttons.actionMore') }}
       </el-button>
       <template #dropdown>

@@ -98,7 +98,6 @@ onMounted(() => {
         :open-detail-dialog="openDetailDialog"
         :open-edit-dialog="openEditDialog"
         :row="data"
-        compact
         show-add-child
       />
     </template>
