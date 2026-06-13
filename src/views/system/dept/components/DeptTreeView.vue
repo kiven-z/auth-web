@@ -94,7 +94,6 @@ onMounted(() => {
     <template #actions="{ data }">
       <DeptRowActions
         :delete-batch-rows="deleteBatchRows"
-        :dropdown-teleported="false"
         :open-assign-role-drawer="openAssignRoleDrawer"
         :open-create-dialog="openCreateDialog"
         :open-detail-dialog="openDetailDialog"
