@@ -24,17 +24,17 @@ const form = ref<SysRoleCreateForm | SysRoleUpdateForm>({
 
 const rules = reactive<FormRules>({
   roleCode: [
-    { required: true, message: t('roles.roleCode'), trigger: 'blur' },
-    { max: 64, message: t('roles.roleCodeLengthLimit'), trigger: 'blur' },
-    { pattern: ROLE_CODE_REGEX, message: t('roles.roleCodeFormat'), trigger: 'blur' },
+    { required: true, message: t('roles.field.roleCode'), trigger: 'blur' },
+    { max: 64, message: t('roles.validation.roleCodeLengthLimit'), trigger: 'blur' },
+    { pattern: ROLE_CODE_REGEX, message: t('roles.validation.roleCodeFormat'), trigger: 'blur' },
   ],
   roleName: [
-    { required: true, message: t('roles.roleName'), trigger: 'blur' },
-    { max: 128, message: t('roles.roleNameLengthLimit'), trigger: 'blur' },
+    { required: true, message: t('roles.field.roleName'), trigger: 'blur' },
+    { max: 128, message: t('roles.validation.roleNameLengthLimit'), trigger: 'blur' },
   ],
-  status: [{ required: true, message: t('roles.status'), trigger: 'change' }],
-  roleType: [{ required: true, message: t('roles.roleType'), trigger: 'change' }],
-  remark: [{ max: 500, message: t('roles.remarkLengthLimit'), trigger: 'blur' }],
+  status: [{ required: true, message: t('roles.field.status'), trigger: 'change' }],
+  roleType: [{ required: true, message: t('roles.field.roleType'), trigger: 'change' }],
+  remark: [{ max: 500, message: t('roles.validation.remarkLengthLimit'), trigger: 'blur' }],
 });
 
 defineExpose({ formRef, form });
@@ -45,29 +45,29 @@ defineExpose({ formRef, form });
     <el-row :gutter="14">
       <!-- 角色编码 -->
       <el-col :lg="12" :md="12" :sm="12" :xs="24">
-        <el-form-item :label="t('roles.roleCode')" prop="roleCode">
-          <el-input v-model="form.roleCode" :placeholder="t('roles.roleCode')" />
+        <el-form-item :label="t('roles.field.roleCode')" prop="roleCode">
+          <el-input v-model="form.roleCode" :placeholder="t('roles.field.roleCode')" />
         </el-form-item>
       </el-col>
       <!-- 角色名称 -->
       <el-col :lg="12" :md="12" :sm="12" :xs="24">
-        <el-form-item :label="t('roles.roleName')" prop="roleName">
-          <el-input v-model="form.roleName" :placeholder="t('roles.roleName')" />
+        <el-form-item :label="t('roles.field.roleName')" prop="roleName">
+          <el-input v-model="form.roleName" :placeholder="t('roles.field.roleName')" />
         </el-form-item>
       </el-col>
       <!-- 状态 -->
       <el-col :lg="12" :md="12" :sm="12" :xs="24">
-        <el-form-item :label="t('roles.status')" prop="status">
+        <el-form-item :label="t('roles.field.status')" prop="status">
           <el-radio-group v-model="form.status">
-            <el-radio :value="true">{{ t('roles.statusNormal') }}</el-radio>
-            <el-radio :value="false">{{ t('roles.statusDisabled') }}</el-radio>
+            <el-radio :value="true">{{ t('roles.status.normal') }}</el-radio>
+            <el-radio :value="false">{{ t('roles.status.disabled') }}</el-radio>
           </el-radio-group>
         </el-form-item>
       </el-col>
       <!-- 角色类型 -->
       <el-col :lg="12" :md="12" :sm="12" :xs="24">
-        <el-form-item :label="t('roles.roleType')" prop="roleType">
-          <el-select v-model="form.roleType" :placeholder="t('roles.roleType')" class="w-full">
+        <el-form-item :label="t('roles.field.roleType')" prop="roleType">
+          <el-select v-model="form.roleType" :placeholder="t('roles.field.roleType')" class="w-full">
             <el-option
               v-for="opt in ROLE_TYPE_FILTER_OPTIONS"
               :key="opt.value"
@@ -79,16 +79,16 @@ defineExpose({ formRef, form });
       </el-col>
       <!-- 显示顺序 -->
       <el-col :lg="12" :md="12" :sm="12" :xs="24">
-        <el-form-item :label="t('roles.orderNum')" prop="orderNum">
+        <el-form-item :label="t('roles.field.orderNum')" prop="orderNum">
           <el-input-number v-model="form.orderNum" :max="9999" :min="0" />
         </el-form-item>
       </el-col>
       <!-- 备注 -->
       <el-col :span="24">
-        <el-form-item :label="t('roles.remark')" prop="remark">
+        <el-form-item :label="t('roles.field.remark')" prop="remark">
           <el-input
             v-model="form.remark"
-            :placeholder="t('roles.remark')"
+            :placeholder="t('roles.field.remark')"
             :rows="3"
             maxlength="500"
             show-word-limit

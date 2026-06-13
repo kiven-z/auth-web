@@ -45,7 +45,7 @@ onMounted(() => {
       >
         <template #default="{ node, data }">
           <span :title="node.label" class="block truncate text-sm">
-            {{ data.id === USER_DEPT_ALL_NODE_ID ? t('users.allDepts') : node.label }}
+            {{ data.id === USER_DEPT_ALL_NODE_ID ? t('users.filter.allDepts') : node.label }}
           </span>
         </template>
       </el-tree>

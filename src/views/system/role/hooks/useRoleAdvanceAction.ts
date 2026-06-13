@@ -23,7 +23,7 @@ function useRoleAdvanceAction(options: UseRoleExportActionOptions) {
 
   return usePagedTableExport<SysRolePageQuery>({
     ...options,
-    fileNamePrefix: t('roles.moduleName'),
+    fileNamePrefix: t('roles.title.module'),
     exportApi: exportRoleExcel,
     buildFilter: ({ searchForm }) => {
       const roleTypes = searchForm.roleTypes as number[] | undefined;

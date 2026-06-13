@@ -1,34 +1,42 @@
 roles:
-  moduleName: Roles
-  pageTitle: Role Management
-  actionAssignPermission: Assign permissions
-  assignPermissionTitle: Assign permissions
-  assignCurrentRole: Current role
-  menuDataScope: Data scope
-  menuPolicyBind: Policy binding
-  menuGrantSubjects: Grant subjects (reverse)
-  menuImpactAnalysis: Impact analysis and refresh
-  loadFailed: Failed to load roles
-  deleteInUse: This role is still assigned via grants. Remove grants before deleting.
-  dialogViewTitle: View role details
-  boundPermissionsTitle: Assigned Permissions
-  boundPermissionsEmpty: No permissions assigned
-  dialogCreateTitle: Add Role
-  dialogEditTitle: Edit Role
-  assignedRolesSectionLabel: Assigned roles
-  roleCode: Role Code
-  roleName: Role Name
-  status: Status
-  roleType: Role Type
-  orderNum: Order
-  remark: Remark
-  statusNormal: Normal
-  statusDisabled: Disabled
-  roleTypeSystem: System Role
-  roleTypeMenu: Menu Role
-  roleTypeBusiness: Business Role
-  roleTypeCustom: Custom Role
-  roleCodeLengthLimit: Role code cannot exceed 64 characters
-  roleCodeFormat: Role code must use uppercase letters and underscores, starting with a letter
-  roleNameLengthLimit: Role name cannot exceed 128 characters
-  remarkLengthLimit: Remark cannot exceed 500 characters
+  title:
+    module: Roles
+    page: Role Management
+    create: Add Role
+    edit: Edit Role
+    view: View role details
+  field:
+    roleCode: Role Code
+    roleName: Role Name
+    status: Status
+    roleType: Role Type
+    orderNum: Order
+    remark: Remark
+  status:
+    normal: Normal
+    disabled: Disabled
+  roleType:
+    system: System Role
+    menu: Menu Role
+    business: Business Role
+    custom: Custom Role
+  assign:
+    permission: Assign permissions
+    current: Current role
+    section: Assigned roles
+  bound:
+    permissionsTitle: Assigned Permissions
+    permissionsEmpty: No permissions assigned
+  validation:
+    roleCodeLengthLimit: Role code cannot exceed 64 characters
+    roleCodeFormat: Role code must use uppercase letters and underscores, starting with a letter
+    roleNameLengthLimit: Role name cannot exceed 128 characters
+    remarkLengthLimit: Remark cannot exceed 500 characters
+  message:
+    loadFailed: Failed to load roles
+    deleteInUse: This role is still assigned via grants. Remove grants before deleting.
+  menu:
+    dataScope: Data scope
+    policyBind: Policy binding
+    grantSubjects: Grant subjects (reverse)
+    impactAnalysis: Impact analysis and refresh

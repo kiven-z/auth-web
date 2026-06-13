@@ -35,7 +35,7 @@ defineExpose({
   <OrgGrantRoleAssignDrawer
     ref="innerRef"
     :left-subtitle="nickname || username"
-    :left-title="t('users.assignCurrentUser')"
+    :left-title="t('users.assign.current')"
     :load-assigned="loadAssigned"
   />
 </template>

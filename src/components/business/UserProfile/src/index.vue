@@ -41,7 +41,7 @@ const loadUserDetailInfo = async () => {
     deptInfos.value = deptList ?? [];
     postInfos.value = postList ?? [];
   } catch (error: unknown) {
-    errorMessage(error, { defaultI18nKey: 'users.loadFailed' });
+    errorMessage(error, { defaultI18nKey: 'users.message.loadFailed' });
     userDetailInfo.value = [];
     deptInfos.value = [];
     postInfos.value = [];
@@ -63,8 +63,8 @@ watch(
   <div class="user-dept-info-container">
     <div class="section">
       <div class="section-header">
-        <h3 class="section-title">{{ t('users.userBaseInfo') }}</h3>
-        <el-tag type="primary">{{ t('users.profile') }}</el-tag>
+        <h3 class="section-title">{{ t('users.section.baseInfo') }}</h3>
+        <el-tag type="primary">{{ t('users.section.profile') }}</el-tag>
       </div>
       <ReDescription
         v-loading="loading"
@@ -103,7 +103,7 @@ watch(
         <el-icon>
           <User />
         </el-icon>
-        <span>{{ t('users.userPostInfo') }}</span>
+        <span>{{ t('users.section.postInfo') }}</span>
         <el-tooltip :content="t('users.tips.showUserPostInfoTip')" placement="top">
           <el-icon>
             <QuestionFilled />

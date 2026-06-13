@@ -49,7 +49,7 @@ function useUserAssignDeptDrawerAction(deps: UserAssignDeptDrawerActionDeps) {
     const dialogFormRef = ref<FormOverlayExpose<UserDeptAssignForm> | null>(null);
 
     addDialog({
-      title: t('users.deptAssignEditTitle'),
+      title: t('users.deptAssign.editTitle'),
       draggable: true,
       fullscreenIcon: true,
       closeOnClickModal: false,
@@ -83,7 +83,7 @@ function useUserAssignDeptDrawerAction(deps: UserAssignDeptDrawerActionDeps) {
     const dialogFormRef = ref<FormOverlayExpose<UserDeptAssignForm> | null>(null);
 
     addDialog({
-      title: t('users.deptAssignCreateTitle'),
+      title: t('users.deptAssign.createTitle'),
       draggable: true,
       fullscreenIcon: true,
       closeOnClickModal: false,
@@ -107,8 +107,8 @@ function useUserAssignDeptDrawerAction(deps: UserAssignDeptDrawerActionDeps) {
   const clearAllDepts = async () => {
     const confirmed = await multiConfirm([
       {
-        title: t('users.deptAssignClearAllConfirm'),
-        message: t('users.deptAssignClearAllConfirm'),
+        title: t('users.deptAssign.clearAllConfirm'),
+        message: t('users.deptAssign.clearAllConfirm'),
       },
       {
         title: t('tips.lastTimeConfirmDeleteTitle'),
@@ -125,7 +125,7 @@ function useUserAssignDeptDrawerAction(deps: UserAssignDeptDrawerActionDeps) {
       selectedRows.value = [];
       await fetchTableData();
     } catch (error: unknown) {
-      errorMessage(error, { defaultI18nKey: 'users.deptAssignClearFailed' });
+      errorMessage(error, { defaultI18nKey: 'users.deptAssign.clearFailed' });
     }
   };
 

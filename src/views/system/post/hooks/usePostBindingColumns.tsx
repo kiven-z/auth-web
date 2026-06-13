@@ -14,11 +14,11 @@ function usePostBindingColumns() {
   const { renderUserAccountStatus, renderRelationStatus } = useUserProfileDisplay();
 
   const userBindingColumns = computed<TableColumnList>(() => [
-    { label: t('users.username'), prop: 'username', minWidth: 120, showOverflowTooltip: true },
-    { label: t('users.nickname'), prop: 'nickname', minWidth: 120, showOverflowTooltip: true },
+    { label: t('users.field.username'), prop: 'username', minWidth: 120, showOverflowTooltip: true },
+    { label: t('users.field.nickname'), prop: 'nickname', minWidth: 120, showOverflowTooltip: true },
     { label: t('post.employeeNo'), prop: 'employeeNo', minWidth: 100, showOverflowTooltip: true },
     {
-      label: t('users.status'),
+      label: t('users.field.status'),
       prop: 'userStatus',
       minWidth: 90,
       formatter: (row: SysPostBoundUserItem) => renderUserAccountStatus(row.userStatus),

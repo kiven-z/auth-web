@@ -1,43 +1,82 @@
 users:
-  moduleName: 用户
-  allDepts: 全部
-  assignCurrentUser: 当前用户
-  resetPassword: 修改密码
-  oldPassword: 旧密码
-  newPassword: 新密码
-  passwordConfirm: 确认密码
-  kickSessions: 用户下线
-  batchKickSessions: 批量用户下线
-  refreshAuth: 刷新授权
-  batchRefreshAuth: 批量刷新授权
-  refreshAuthSuccess: 授权刷新成功
-  refreshAuthFailed: 授权刷新失败
-  viewSessions: 查看会话
-  sessionDialogSubtitle: '{username} 的活跃会话'
-  sessionDevice: 设备
-  sessionBrowser: 浏览器
-  sessionOs: 操作系统
-  sessionRememberMe: 记住我
-  sessionExpiresAt: 会话过期时间
-  sessionKickOne: 踢下线
-  sessionKickAll: 全部踢下线
-  sessionEmpty: 该用户暂无活跃会话
-  sessionLoadFailed: 加载用户会话失败
-  sessionKickSuccess: 会话已踢下线
-  sessionKickFailed: 踢下线失败
-  sessionKickAllSuccess: 已全部踢下线
-  sessionKickAllFailed: 全部踢下线失败
-  kickSessionsSuccess: 用户已全部下线
-  kickSessionsFailed: 用户下线失败
-  batchKickSessionsSuccess: 批量用户下线成功
-  batchKickSessionsFailed: 批量用户下线失败
-  importExcelComingSoon: 从 Excel 导入（敬请期待）
-  statusFailed: 用户状态更新失败
-  loadPageFailed: 加载用户列表失败
-  loadFailed: 加载用户档案失败
-  dialogCreateTitle: 新增用户
-  dialogEditTitle: 编辑用户
-  remark: 备注
+  title:
+    module: 用户
+    create: 新增用户
+    edit: 编辑用户
+    profile: 用户档案
+  field:
+    username: 用户名
+    nickname: 昵称
+    email: 邮箱
+    phone: 手机号
+    avatarURL: 头像
+    status: 状态
+    gender: 性别
+    birthday: 生日
+    introduction: 个人简介
+    remark: 备注
+    lastLoginIp: 最后登录 IP
+    lastLoginRegion: 最后登录地区
+  section:
+    baseInfo: 用户基本信息
+    postInfo: 用户岗位信息
+    profile: 档案
+  filter:
+    allDepts: 全部
+  assign:
+    current: 当前用户
+  password:
+    reset: 修改密码
+    old: 旧密码
+    new: 新密码
+    confirm: 确认密码
+  session:
+    view: 查看会话
+    subtitle: '{username} 的活跃会话'
+    device: 设备
+    browser: 浏览器
+    os: 操作系统
+    rememberMe: 记住我
+    expiresAt: 会话过期时间
+    kickOne: 踢下线
+    kickAll: 全部踢下线
+    empty: 该用户暂无活跃会话
+    loadFailed: 加载用户会话失败
+    kickSuccess: 会话已踢下线
+    kickFailed: 踢下线失败
+    kickAllSuccess: 已全部踢下线
+    kickAllFailed: 全部踢下线失败
+  kick:
+    action: 用户下线
+    batchAction: 批量用户下线
+    success: 用户已全部下线
+    failed: 用户下线失败
+    batchSuccess: 批量用户下线成功
+    batchFailed: 批量用户下线失败
+  authRefresh:
+    action: 刷新授权
+    batchAction: 批量刷新授权
+    success: 授权刷新成功
+    failed: 授权刷新失败
+  deptAssign:
+    drawerTip: 维护用户的组织隶属，部门角色据此生效。
+    createTitle: 新增部门关联
+    editTitle: 编辑部门关联
+    clearFailed: 清空用户部门关联失败
+    clearAllConfirm: 将清空该用户的全部部门关联，是否继续？
+    currentPrimary: 当前主部门
+    noPrimary: 暂无主部门
+    setPrimary: 设为主部门
+    transfer: 调离
+    setPrimarySuccess: 已设为主部门
+    transferSuccess: 已调离该部门
+  postAssign:
+    drawerTip: 维护用户的任职岗位，与部门隶属分开配置，岗位角色据此生效。
+    createTitle: 新增岗位关联
+    editTitle: 编辑岗位关联
+    searchPlaceholder: 输入岗位名称或编码搜索
+    clearFailed: 清空用户岗位关联失败
+    clearAllConfirm: 将清空该用户的全部岗位关联，是否继续？
   validation:
     passwordConfirmMismatch: 两次输入的密码不一致
     usernameMaxLength: 用户名长度不能超过64个字符
@@ -47,21 +86,6 @@ users:
     phoneMaxLength: 手机号长度不能超过32个字符
     employeeNoMaxLength: 工号长度不能超过64个字符
     remarkMaxLength: 备注长度不能超过500个字符
-  username: 用户名
-  nickname: 昵称
-  email: 邮箱
-  phone: 手机号
-  avatarURL: 头像
-  status: 状态
-  gender: 性别
-  birthday: 生日
-  introduction: 个人简介
-  lastLoginIp: 最后登录 IP
-  lastLoginRegion: 最后登录地区
-  userBaseInfo: 用户基本信息
-  profile: 档案
-  dialogUserProfileTitle: 用户档案
-  userPostInfo: 用户岗位信息
   tips:
     showUserPostInfoTip: 展示该用户在各岗位上的任职信息
     currentUserHasNotPostInfo: 该用户暂无岗位信息
@@ -74,24 +98,11 @@ users:
     unknown: 未知
     male: 男
     female: 女
-  deptAssignClearFailed: 清空用户部门关联失败
-  deptAssignClearAllConfirm: 将清空该用户的全部部门关联，是否继续？
-  deptAssignDrawerTip: 维护用户的组织隶属，部门角色据此生效。
-  postAssignDrawerTip: 维护用户的任职岗位，与部门隶属分开配置，岗位角色据此生效。
-  deptAssignCreateTitle: 新增部门关联
-  deptAssignEditTitle: 编辑部门关联
-  postAssignCreateTitle: 新增岗位关联
-  postAssignEditTitle: 编辑岗位关联
-  postAssignSearchPlaceholder: 输入岗位名称或编码搜索
-  postAssignClearFailed: 清空用户岗位关联失败
-  postAssignClearAllConfirm: 将清空该用户的全部岗位关联，是否继续？
-  deptAssignCurrentPrimary: 当前主部门
-  deptAssignNoPrimary: 暂无主部门
-  deptAssignSetPrimary: 设为主部门
-  deptAssignTransfer: 调离
-  deptAssignSetPrimarySuccess: 已设为主部门
-  deptAssignTransferSuccess: 已调离该部门
   relationStatus:
     normal: 正常
     transferred: 已调离
     partTime: 兼职
+  message:
+    statusFailed: 用户状态更新失败
+    loadPageFailed: 加载用户列表失败
+    loadFailed: 加载用户档案失败

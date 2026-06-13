@@ -28,9 +28,9 @@ defineExpose({
   <PermissionAssignDrawer
     ref="innerRef"
     :left-subtitle="`${roleName} (${roleCode})`"
-    :left-title="t('roles.assignCurrentRole')"
+    :left-title="t('roles.assign.current')"
     :load-assigned="loadAssigned"
-    :table-title="t('roles.assignPermissionTitle')"
+    :table-title="t('roles.assign.permission')"
     show-permission-type-filter
   />
 </template>

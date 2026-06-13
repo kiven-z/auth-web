@@ -107,10 +107,10 @@ defineExpose({ formRef, form });
       </el-col>
       <!-- 备注 -->
       <el-col :span="24">
-        <el-form-item :label="t('users.remark')" prop="remark">
+        <el-form-item :label="t('users.field.remark')" prop="remark">
           <el-input
             v-model="form.remark"
-            :placeholder="t('users.remark')"
+            :placeholder="t('users.field.remark')"
             :rows="3"
             maxlength="255"
             show-word-limit

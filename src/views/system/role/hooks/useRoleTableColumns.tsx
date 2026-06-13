@@ -15,25 +15,25 @@ function useRoleTableColumns() {
   const columns = computed<TableColumnList>(() => [
     { type: 'index', index: (index: number) => index + 1, label: t('table.idx'), minWidth: 60 },
     // 角色编码
-    { label: t('roles.roleCode'), prop: 'roleCode', minWidth: 130 },
+    { label: t('roles.field.roleCode'), prop: 'roleCode', minWidth: 130 },
     // 角色名称
-    { label: t('roles.roleName'), prop: 'roleName', minWidth: 140 },
+    { label: t('roles.field.roleName'), prop: 'roleName', minWidth: 140 },
     // 状态
     {
-      label: t('roles.status'),
+      label: t('roles.field.status'),
       prop: 'status',
       minWidth: 100,
       formatter: (row: SysRolePageRow) => {
         return (
           <ElTag type={row.status ? 'success' : 'danger'} effect="plain">
-            {row.status ? t('roles.statusNormal') : t('roles.statusDisabled')}
+            {row.status ? t('roles.status.normal') : t('roles.status.disabled')}
           </ElTag>
         );
       },
     },
     // 角色类型
     {
-      label: t('roles.roleType'),
+      label: t('roles.field.roleType'),
       prop: 'roleType',
       minWidth: 120,
       formatter: (row: SysRolePageRow) => {
@@ -47,7 +47,7 @@ function useRoleTableColumns() {
       },
     },
     // 排序号
-    { label: t('roles.orderNum'), prop: 'orderNum', width: 100 },
+    { label: t('roles.field.orderNum'), prop: 'orderNum', width: 100 },
     { label: t('table.createTime'), prop: 'createTime', minWidth: 170 },
     { label: t('table.updateTime'), prop: 'updateTime', minWidth: 170 },
     {

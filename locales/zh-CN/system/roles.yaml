@@ -1,34 +1,42 @@
 roles:
-  moduleName: 角色
-  pageTitle: 角色管理
-  actionAssignPermission: 分配权限
-  assignPermissionTitle: 分配权限
-  assignCurrentRole: 当前角色
-  menuDataScope: 数据范围配置
-  menuPolicyBind: 策略绑定
-  menuGrantSubjects: 授权对象管理（反向）
-  menuImpactAnalysis: 影响分析与刷新
-  loadFailed: 加载角色列表失败
-  deleteInUse: 该角色仍被授权对象引用，请先解除授权后再删除
-  dialogViewTitle: 查看角色详情
-  boundPermissionsTitle: 已分配权限
-  boundPermissionsEmpty: 暂未分配权限
-  dialogCreateTitle: 新增角色
-  dialogEditTitle: 编辑角色
-  assignedRolesSectionLabel: 已分配角色
-  roleCode: 角色编码
-  roleName: 角色名称
-  status: 状态
-  roleType: 角色类型
-  orderNum: 显示顺序
-  remark: 备注说明
-  statusNormal: 正常
-  statusDisabled: 禁用
-  roleTypeSystem: 系统角色
-  roleTypeMenu: 菜单角色
-  roleTypeBusiness: 业务角色
-  roleTypeCustom: 自定义角色
-  roleCodeLengthLimit: 角色编码长度不能超过64个字符
-  roleCodeFormat: 角色编码须为大写字母与下划线，且首字符为大写字母
-  roleNameLengthLimit: 角色名称长度不能超过128个字符
-  remarkLengthLimit: 备注长度不能超过500个字符
+  title:
+    module: 角色
+    page: 角色管理
+    create: 新增角色
+    edit: 编辑角色
+    view: 查看角色详情
+  field:
+    roleCode: 角色编码
+    roleName: 角色名称
+    status: 状态
+    roleType: 角色类型
+    orderNum: 显示顺序
+    remark: 备注说明
+  status:
+    normal: 正常
+    disabled: 禁用
+  roleType:
+    system: 系统角色
+    menu: 菜单角色
+    business: 业务角色
+    custom: 自定义角色
+  assign:
+    permission: 分配权限
+    current: 当前角色
+    section: 已分配角色
+  bound:
+    permissionsTitle: 已分配权限
+    permissionsEmpty: 暂未分配权限
+  validation:
+    roleCodeLengthLimit: 角色编码长度不能超过64个字符
+    roleCodeFormat: 角色编码须为大写字母与下划线，且首字符为大写字母
+    roleNameLengthLimit: 角色名称长度不能超过128个字符
+    remarkLengthLimit: 备注长度不能超过500个字符
+  message:
+    loadFailed: 加载角色列表失败
+    deleteInUse: 该角色仍被授权对象引用，请先解除授权后再删除
+  menu:
+    dataScope: 数据范围配置
+    policyBind: 策略绑定
+    grantSubjects: 授权对象管理（反向）
+    impactAnalysis: 影响分析与刷新

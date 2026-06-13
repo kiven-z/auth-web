@@ -31,7 +31,7 @@ const roleState = usePaginationState({
     status: undefined,
     roleTypes: [],
   }),
-  errorI18nKey: 'roles.loadFailed',
+  errorI18nKey: 'roles.message.loadFailed',
 });
 
 const { loading, searchForm, pagination, fetchTableData, resetQuery } = roleState;
@@ -53,16 +53,31 @@ onMounted(() => {
   <div>
     <el-form ref="searchFormRef" :model="searchForm" class="bg-bg_color w-[99/100] overflow-auto pl-8 pt-3" inline>
       <!-- 角色编码 -->
-      <el-form-item :label="t('roles.roleCode')" prop="roleCode">
-        <el-input v-model="searchForm.roleCode" :placeholder="ph.input('roles.roleCode')" class="w-45!" clearable />
+      <el-form-item :label="t('roles.field.roleCode')" prop="roleCode">
+        <el-input
+          v-model="searchForm.roleCode"
+          :placeholder="ph.input('roles.field.roleCode')"
+          class="w-45!"
+          clearable
+        />
       </el-form-item>
       <!-- 角色名称 -->
-      <el-form-item :label="t('roles.roleName')" prop="roleName">
-        <el-input v-model="searchForm.roleName" :placeholder="ph.input('roles.roleName')" class="w-45!" clearable />
+      <el-form-item :label="t('roles.field.roleName')" prop="roleName">
+        <el-input
+          v-model="searchForm.roleName"
+          :placeholder="ph.input('roles.field.roleName')"
+          class="w-45!"
+          clearable
+        />
       </el-form-item>
       <!-- 状态 -->
-      <el-form-item :label="t('roles.status')" prop="status">
-        <el-select v-model="searchForm.status" :placeholder="ph.selectFilter('roles.status')" class="w-45!" clearable>
+      <el-form-item :label="t('roles.field.status')" prop="status">
+        <el-select
+          v-model="searchForm.status"
+          :placeholder="ph.selectFilter('roles.field.status')"
+          class="w-45!"
+          clearable
+        >
           <el-option
             v-for="opt in ROLE_STATUS_FILTER_OPTIONS"
             :key="`${opt.labelKey}:${String(opt.value)}`"
@@ -72,10 +87,10 @@ onMounted(() => {
         </el-select>
       </el-form-item>
       <!-- 角色类型 -->
-      <el-form-item :label="t('roles.roleType')" prop="roleTypes">
+      <el-form-item :label="t('roles.field.roleType')" prop="roleTypes">
         <el-select
           v-model="searchForm.roleTypes"
-          :placeholder="ph.selectFilter('roles.roleType')"
+          :placeholder="ph.selectFilter('roles.field.roleType')"
           class="w-52!"
           clearable
           collapse-tags
@@ -103,7 +118,7 @@ onMounted(() => {
       </el-form-item>
     </el-form>
 
-    <AuthPagedTable :columns="columns" :state="roleState" :title="t('roles.pageTitle')">
+    <AuthPagedTable :columns="columns" :state="roleState" :title="t('roles.title.page')">
       <template #buttons>
         <el-button-group type="primary">
           <el-button type="primary" @click="openCreateDialog">{{ t('buttons.actionAdd') }}</el-button>
@@ -139,12 +154,12 @@ onMounted(() => {
             <template #dropdown>
               <el-dropdown-menu>
                 <el-dropdown-item @click="openAssignPermissionDrawer(row)">
-                  {{ t('roles.actionAssignPermission') }}
+                  {{ t('roles.assign.permission') }}
                 </el-dropdown-item>
-                <el-dropdown-item>{{ t('roles.menuDataScope') }}</el-dropdown-item>
-                <el-dropdown-item>{{ t('roles.menuPolicyBind') }}</el-dropdown-item>
-                <el-dropdown-item>{{ t('roles.menuGrantSubjects') }}</el-dropdown-item>
-                <el-dropdown-item>{{ t('roles.menuImpactAnalysis') }}</el-dropdown-item>
+                <el-dropdown-item>{{ t('roles.menu.dataScope') }}</el-dropdown-item>
+                <el-dropdown-item>{{ t('roles.menu.policyBind') }}</el-dropdown-item>
+                <el-dropdown-item>{{ t('roles.menu.grantSubjects') }}</el-dropdown-item>
+                <el-dropdown-item>{{ t('roles.menu.impactAnalysis') }}</el-dropdown-item>
               </el-dropdown-menu>
             </template>
           </el-dropdown>

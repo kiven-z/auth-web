@@ -53,7 +53,7 @@ const roleState = usePaginationState({
     status: true,
     roleTypes: ORG_GRANT_DEFAULT_ROLE_TYPES,
   }),
-  errorI18nKey: 'roles.loadFailed',
+  errorI18nKey: 'roles.message.loadFailed',
 });
 
 const { tableData, loading, searchForm, fetchTableData, resetQuery } = roleState;
@@ -72,22 +72,22 @@ const normalizeRoleTypes = (values: number[]) => {
 useAssignTableLabels(assign, tableData);
 
 // 角色分配标签
-const sectionLabelText = computed(() => props.sectionLabel ?? t('roles.assignedRolesSectionLabel'));
+const sectionLabelText = computed(() => props.sectionLabel ?? t('roles.assign.section'));
 // 角色模块名称
-const tableTitleText = computed(() => props.tableTitle ?? t('roles.moduleName'));
+const tableTitleText = computed(() => props.tableTitle ?? t('roles.title.module'));
 
 const roleDrawerDataColumns = computed<TableColumnList>(() => [
   createAssignCheckboxColumn(assign, 'roleCode', { label: t('table.assigned') }),
   {
-    label: t('roles.roleCode'),
+    label: t('roles.field.roleCode'),
     prop: 'roleCode',
   },
   {
-    label: t('roles.roleName'),
+    label: t('roles.field.roleName'),
     prop: 'roleName',
   },
   {
-    label: t('roles.roleType'),
+    label: t('roles.field.roleType'),
     prop: 'roleType',
     width: 120,
     formatter: (row: SysRolePageRow) => {
@@ -132,16 +132,26 @@ defineExpose({ getSelectedKeys });
 <template>
   <AssignPanel :assign="assign" :left-subtitle="leftSubtitle" :left-title="leftTitle" :section-label="sectionLabelText">
     <el-form ref="searchFormRef" :model="searchForm" class="bg-bg_color w-[99/100] overflow-auto pl-8 pt-3" inline>
-      <el-form-item :label="t('roles.roleCode')" prop="roleCode">
-        <el-input v-model="searchForm.roleCode" :placeholder="ph.input('roles.roleCode')" class="w-45!" clearable />
+      <el-form-item :label="t('roles.field.roleCode')" prop="roleCode">
+        <el-input
+          v-model="searchForm.roleCode"
+          :placeholder="ph.input('roles.field.roleCode')"
+          class="w-45!"
+          clearable
+        />
       </el-form-item>
-      <el-form-item :label="t('roles.roleName')" prop="roleName">
-        <el-input v-model="searchForm.roleName" :placeholder="ph.input('roles.roleName')" class="w-45!" clearable />
+      <el-form-item :label="t('roles.field.roleName')" prop="roleName">
+        <el-input
+          v-model="searchForm.roleName"
+          :placeholder="ph.input('roles.field.roleName')"
+          class="w-45!"
+          clearable
+        />
       </el-form-item>
-      <el-form-item :label="t('roles.roleType')" prop="roleTypes">
+      <el-form-item :label="t('roles.field.roleType')" prop="roleTypes">
         <el-select
           v-model="searchForm.roleTypes"
-          :placeholder="ph.selectFilter('roles.roleType')"
+          :placeholder="ph.selectFilter('roles.field.roleType')"
           class="w-52!"
           clearable
           collapse-tags

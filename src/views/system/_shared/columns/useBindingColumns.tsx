@@ -8,20 +8,20 @@ function useBindingColumns() {
   const { t } = useI18n();
 
   const roleBindingColumns = computed<TableColumnList>(() => [
-    { label: t('roles.roleCode'), prop: 'roleCode', minWidth: 120, showOverflowTooltip: true },
-    { label: t('roles.roleName'), prop: 'roleName', minWidth: 120, showOverflowTooltip: true },
+    { label: t('roles.field.roleCode'), prop: 'roleCode', minWidth: 120, showOverflowTooltip: true },
+    { label: t('roles.field.roleName'), prop: 'roleName', minWidth: 120, showOverflowTooltip: true },
     {
-      label: t('roles.status'),
+      label: t('roles.field.status'),
       prop: 'status',
       minWidth: 90,
       formatter: (row: SysDeptBoundRoleItem) => (
         <ElTag type={row.status ? 'success' : 'danger'} effect="plain">
-          {t(row.status ? 'roles.statusNormal' : 'roles.statusDisabled')}
+          {t(row.status ? 'roles.status.normal' : 'roles.status.disabled')}
         </ElTag>
       ),
     },
     {
-      label: t('roles.roleType'),
+      label: t('roles.field.roleType'),
       prop: 'roleType',
       minWidth: 110,
       formatter: (row: SysDeptBoundRoleItem) => {

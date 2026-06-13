@@ -36,7 +36,7 @@ function useUserAdvanceAction(options: UseUserAdvanceActionOptions) {
   const { exporting, openExportDialog } = usePagedTableExport<SysUserPageQuery>({
     searchForm,
     pagination,
-    fileNamePrefix: t('users.moduleName'),
+    fileNamePrefix: t('users.title.module'),
     exportApi: exportUserExcel,
     buildFilter: ({ searchForm: form }) => ({
       username: form.username as string | undefined,
@@ -65,10 +65,10 @@ function useUserAdvanceAction(options: UseUserAdvanceActionOptions) {
 
     try {
       await batchKickAllUserSessions(targetIds);
-      message(t('users.batchKickSessionsSuccess'), { type: 'success' });
+      message(t('users.kick.batchSuccess'), { type: 'success' });
       selectedRows.value = [];
     } catch (error: unknown) {
-      errorMessage(error, { defaultI18nKey: 'users.batchKickSessionsFailed' });
+      errorMessage(error, { defaultI18nKey: 'users.kick.batchFailed' });
     }
   };
 
@@ -88,10 +88,10 @@ function useUserAdvanceAction(options: UseUserAdvanceActionOptions) {
 
     try {
       await refreshUserAuthorization(targetIds);
-      message(t('users.refreshAuthSuccess'), { type: 'success' });
+      message(t('users.authRefresh.success'), { type: 'success' });
       selectedRows.value = [];
     } catch (error: unknown) {
-      errorMessage(error, { defaultI18nKey: 'users.refreshAuthFailed' });
+      errorMessage(error, { defaultI18nKey: 'users.authRefresh.failed' });
     }
   };
 

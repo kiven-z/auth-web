@@ -26,20 +26,20 @@ const boundPermissions = computed(() => props.data.boundPermissions ?? []);
 
 // 角色基础信息表格列
 const descriptionColumns = computed(() => [
-  { label: t('roles.roleCode'), prop: 'roleCode', labelWidth: 120, copy: true },
-  { label: t('roles.roleName'), prop: 'roleName', labelWidth: 120, copy: true },
+  { label: t('roles.field.roleCode'), prop: 'roleCode', labelWidth: 120, copy: true },
+  { label: t('roles.field.roleName'), prop: 'roleName', labelWidth: 120, copy: true },
   {
-    label: t('roles.status'),
+    label: t('roles.field.status'),
     prop: 'status',
     labelWidth: 120,
     cellRenderer: ({ value }: { value: boolean }) => (
       <ElTag type={value ? 'success' : 'danger'} effect="plain">
-        {t(value ? 'roles.statusNormal' : 'roles.statusDisabled')}
+        {t(value ? 'roles.status.normal' : 'roles.status.disabled')}
       </ElTag>
     ),
   },
   {
-    label: t('roles.roleType'),
+    label: t('roles.field.roleType'),
     prop: 'roleType',
     labelWidth: 120,
     cellRenderer: ({ value }: { value: number }) => {
@@ -51,8 +51,8 @@ const descriptionColumns = computed(() => [
       );
     },
   },
-  { label: t('roles.orderNum'), prop: 'orderNum', labelWidth: 120 },
-  { label: t('roles.remark'), prop: 'remark', labelWidth: 120, span: 2 },
+  { label: t('roles.field.orderNum'), prop: 'orderNum', labelWidth: 120 },
+  { label: t('roles.field.remark'), prop: 'remark', labelWidth: 120, span: 2 },
   { label: t('table.createTime'), prop: 'createTime', labelWidth: 120 },
   { label: t('table.updateTime'), prop: 'updateTime', labelWidth: 120 },
   { label: t('table.createUsername'), prop: 'createUsername', labelWidth: 120 },
@@ -70,9 +70,9 @@ const descriptionColumns = computed(() => [
 
     <DetailRelationListSection
       :columns="permissionBindingColumns"
-      :empty-text="t('roles.boundPermissionsEmpty')"
+      :empty-text="t('roles.bound.permissionsEmpty')"
       :items="boundPermissions"
-      :title="t('roles.boundPermissionsTitle')"
+      :title="t('roles.bound.permissionsTitle')"
       row-key="permissionCode"
     />
   </div>

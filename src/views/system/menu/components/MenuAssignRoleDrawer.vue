@@ -40,7 +40,7 @@ const roleState = usePaginationState({
     status: true,
     roleTypes: [2],
   }),
-  errorI18nKey: 'roles.loadFailed',
+  errorI18nKey: 'roles.message.loadFailed',
 });
 
 const { tableData, loading, searchForm, fetchTableData, resetQuery } = roleState;
@@ -50,11 +50,11 @@ useAssignTableLabels(assign, tableData);
 const roleDrawerDataColumns = computed<TableColumnList>(() => [
   createAssignCheckboxColumn(assign, 'roleCode', { label: t('table.assigned') }),
   {
-    label: t('roles.roleCode'),
+    label: t('roles.field.roleCode'),
     prop: 'roleCode',
   },
   {
-    label: t('roles.roleName'),
+    label: t('roles.field.roleName'),
     prop: 'roleName',
   },
 ]);
@@ -93,15 +93,25 @@ defineExpose({ getSelectedKeys });
 </script>
 
 <template>
-  <AssignPanel :assign="assign" :left-title="t('sysMenu.name')" :section-label="t('roles.assignedRolesSectionLabel')">
+  <AssignPanel :assign="assign" :left-title="t('sysMenu.name')" :section-label="t('roles.assign.section')">
     <el-form ref="searchFormRef" :model="searchForm" class="bg-bg_color w-[99/100] overflow-auto pl-8 pt-3" inline>
       <!-- 角色编码 -->
-      <el-form-item :label="t('roles.roleCode')" prop="roleCode">
-        <el-input v-model="searchForm.roleCode" :placeholder="ph.input('roles.roleCode')" class="w-45!" clearable />
+      <el-form-item :label="t('roles.field.roleCode')" prop="roleCode">
+        <el-input
+          v-model="searchForm.roleCode"
+          :placeholder="ph.input('roles.field.roleCode')"
+          class="w-45!"
+          clearable
+        />
       </el-form-item>
       <!-- 角色名称 -->
-      <el-form-item :label="t('roles.roleName')" prop="roleName">
-        <el-input v-model="searchForm.roleName" :placeholder="ph.input('roles.roleName')" class="w-45!" clearable />
+      <el-form-item :label="t('roles.field.roleName')" prop="roleName">
+        <el-input
+          v-model="searchForm.roleName"
+          :placeholder="ph.input('roles.field.roleName')"
+          class="w-45!"
+          clearable
+        />
       </el-form-item>
 
       <el-form-item>
@@ -119,7 +129,7 @@ defineExpose({ getSelectedKeys });
     <AuthPagedTable
       :columns="roleDrawerDataColumns"
       :state="roleState"
-      :title="t('roles.moduleName')"
+      :title="t('roles.title.module')"
       @row-dblclick="handleRowDblclick"
     />
   </AssignPanel>

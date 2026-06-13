@@ -24,7 +24,7 @@ function useRoleMoreAction() {
     const drawerRef = ref<AssignPanelExpose | null>(null);
 
     addDrawer({
-      title: t('roles.assignPermissionTitle'),
+      title: t('roles.assign.permission'),
       size: '100%',
       resizable: true,
       closeOnClickModal: false,

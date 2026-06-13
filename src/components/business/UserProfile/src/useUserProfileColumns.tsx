@@ -11,33 +11,33 @@ function useUserProfileColumns() {
    * 用户列
    */
   const userColumns = computed(() => [
-    { label: t('users.username'), prop: 'username', copy: true },
-    { label: t('users.nickname'), prop: 'nickname', copy: true },
-    { label: t('users.email'), prop: 'email', copy: true },
-    { label: t('users.phone'), prop: 'phone', copy: true, span: 2 },
+    { label: t('users.field.username'), prop: 'username', copy: true },
+    { label: t('users.field.nickname'), prop: 'nickname', copy: true },
+    { label: t('users.field.email'), prop: 'email', copy: true },
+    { label: t('users.field.phone'), prop: 'phone', copy: true, span: 2 },
     {
-      label: t('users.avatarURL'),
+      label: t('users.field.avatarURL'),
       prop: 'avatar',
       cellRenderer: ({ value }: { value: string }) => {
         return <ElAvatar src={value} size={40} />;
       },
     },
     {
-      label: t('users.status'),
+      label: t('users.field.status'),
       prop: 'status',
       cellRenderer: ({ value }: { value: number }) => {
         return renderUserAccountStatus(value);
       },
     },
     {
-      label: t('users.gender'),
+      label: t('users.field.gender'),
       prop: 'gender',
       cellRenderer: ({ value }: { value: number }) => {
         return renderUserGender(value);
       },
     },
-    { label: t('users.birthday'), prop: 'birthday', span: 2 },
-    { label: t('users.introduction'), prop: 'introduction', span: 2 },
+    { label: t('users.field.birthday'), prop: 'birthday', span: 2 },
+    { label: t('users.field.introduction'), prop: 'introduction', span: 2 },
   ]);
 
   /**
@@ -62,7 +62,7 @@ function useUserProfileColumns() {
       },
     },
     {
-      label: t('users.status'),
+      label: t('users.field.status'),
       prop: 'status',
       cellRenderer: ({ value }: { value: number }) => {
         return renderRelationStatus(value);
@@ -93,7 +93,7 @@ function useUserProfileColumns() {
       },
     },
     {
-      label: t('users.status'),
+      label: t('users.field.status'),
       prop: 'status',
       cellRenderer: ({ value }: { value: number }) => {
         return renderRelationStatus(value);

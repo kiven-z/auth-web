@@ -50,7 +50,7 @@ function useUserAssignPostDrawerAction(deps: UserAssignPostDrawerActionDeps) {
     const dialogFormRef = ref<FormOverlayExpose<UserPostRelationUpdateForm> | null>(null);
 
     addDialog({
-      title: t('users.postAssignEditTitle'),
+      title: t('users.postAssign.editTitle'),
       draggable: true,
       fullscreenIcon: true,
       closeOnClickModal: false,
@@ -84,7 +84,7 @@ function useUserAssignPostDrawerAction(deps: UserAssignPostDrawerActionDeps) {
     const dialogFormRef = ref<FormOverlayExpose<UserPostAssignForm> | null>(null);
 
     addDialog({
-      title: t('users.postAssignCreateTitle'),
+      title: t('users.postAssign.createTitle'),
       draggable: true,
       fullscreenIcon: true,
       closeOnClickModal: false,
@@ -108,8 +108,8 @@ function useUserAssignPostDrawerAction(deps: UserAssignPostDrawerActionDeps) {
   const clearAllPosts = async () => {
     const confirmed = await multiConfirm([
       {
-        title: t('users.postAssignClearAllConfirm'),
-        message: t('users.postAssignClearAllConfirm'),
+        title: t('users.postAssign.clearAllConfirm'),
+        message: t('users.postAssign.clearAllConfirm'),
       },
       {
         title: t('tips.lastTimeConfirmDeleteTitle'),
@@ -126,7 +126,7 @@ function useUserAssignPostDrawerAction(deps: UserAssignPostDrawerActionDeps) {
       selectedRows.value = [];
       await fetchTableData();
     } catch (error: unknown) {
-      errorMessage(error, { defaultI18nKey: 'users.postAssignClearFailed' });
+      errorMessage(error, { defaultI18nKey: 'users.postAssign.clearFailed' });
     }
   };
 

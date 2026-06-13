@@ -30,8 +30,8 @@ function useChangePasswordAction() {
     const dialogFormRef = ref<FormOverlayExpose<ChangePasswordDialogForm> | null>(null);
     const title =
       mode === 'admin-reset' && options?.username
-        ? `${t('users.resetPassword')} - ${options.username}`
-        : t('users.resetPassword');
+        ? `${t('users.password.reset')} - ${options.username}`
+        : t('users.password.reset');
 
     addDialog({
       title,

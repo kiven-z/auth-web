@@ -27,7 +27,7 @@ function useRoleTableAction(deps: TableActionDeps) {
     const dialogFormRef = ref<FormOverlayExpose<SysRoleCreateForm> | null>(null);
 
     addDialog({
-      title: t('roles.dialogCreateTitle'),
+      title: t('roles.title.create'),
       draggable: true,
       fullscreenIcon: true,
       closeOnClickModal: false,
@@ -35,7 +35,7 @@ function useRoleTableAction(deps: TableActionDeps) {
       contentRenderer: () => h(RoleFormDialog, { ref: dialogFormRef }),
       beforeSure: createFormBeforeSure<SysRoleCreateForm>({
         formExposeRef: dialogFormRef,
-        errorI18nKey: 'roles.loadFailed',
+        errorI18nKey: 'roles.message.loadFailed',
         successI18nKey: 'tips.addSuccess',
         onSubmit: async (formPayload) => {
           await createRole(formPayload);
@@ -53,7 +53,7 @@ function useRoleTableAction(deps: TableActionDeps) {
     try {
       const detail = await getRoleDetail(row.id);
       addDialog({
-        title: t('roles.dialogViewTitle'),
+        title: t('roles.title.view'),
         draggable: true,
         fullscreenIcon: true,
         closeOnPressEscape: false,
@@ -62,7 +62,7 @@ function useRoleTableAction(deps: TableActionDeps) {
         contentRenderer: () => h(RoleDescriptionDialog, { data: detail }),
       });
     } catch (error: unknown) {
-      errorMessage(error, { defaultI18nKey: 'roles.loadFailed' });
+      errorMessage(error, { defaultI18nKey: 'roles.message.loadFailed' });
     }
   };
 
@@ -75,7 +75,7 @@ function useRoleTableAction(deps: TableActionDeps) {
     const dialogFormRef = ref<FormOverlayExpose<SysRoleUpdateForm> | null>(null);
 
     addDialog({
-      title: t('roles.dialogEditTitle'),
+      title: t('roles.title.edit'),
       draggable: true,
       fullscreenIcon: true,
       closeOnClickModal: false,
@@ -84,7 +84,7 @@ function useRoleTableAction(deps: TableActionDeps) {
       beforeSure: createFormBeforeSure<SysRoleUpdateForm>({
         formExposeRef: dialogFormRef,
         requireId: true,
-        errorI18nKey: 'roles.loadFailed',
+        errorI18nKey: 'roles.message.loadFailed',
         successI18nKey: 'tips.editSuccess',
         onSubmit: async (formData) => {
           await updateRole(row.id, formData);

@@ -121,10 +121,10 @@ function useUserMoreAction(deps: TableActionDeps) {
 
     try {
       await kickAllUserSessions(userId);
-      message(t(kickOptions?.successI18nKey ?? 'users.kickSessionsSuccess'), { type: 'success' });
+      message(t(kickOptions?.successI18nKey ?? 'users.kick.success'), { type: 'success' });
       await kickOptions?.onSuccess?.();
     } catch (error: unknown) {
-      errorMessage(error, { defaultI18nKey: kickOptions?.failedI18nKey ?? 'users.kickSessionsFailed' });
+      errorMessage(error, { defaultI18nKey: kickOptions?.failedI18nKey ?? 'users.kick.failed' });
     }
   };
 
@@ -134,7 +134,7 @@ function useUserMoreAction(deps: TableActionDeps) {
    */
   const openViewSessionsDialog = (row: SysUserPageRow) => {
     addDialog({
-      title: t('users.viewSessions'),
+      title: t('users.session.view'),
       draggable: false,
       closeOnClickModal: false,
       closeOnPressEscape: false,
@@ -155,9 +155,9 @@ function useUserMoreAction(deps: TableActionDeps) {
 
     try {
       await refreshUserAuthorization([row.id]);
-      message(t('users.refreshAuthSuccess'), { type: 'success' });
+      message(t('users.authRefresh.success'), { type: 'success' });
     } catch (error: unknown) {
-      errorMessage(error, { defaultI18nKey: 'users.refreshAuthFailed' });
+      errorMessage(error, { defaultI18nKey: 'users.authRefresh.failed' });
     }
   };
 

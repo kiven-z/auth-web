@@ -29,7 +29,7 @@ async function loadSessions() {
   try {
     sessions.value = await listUserSessions(props.userId);
   } catch (error: unknown) {
-    errorMessage(error, { defaultI18nKey: 'users.sessionLoadFailed' });
+    errorMessage(error, { defaultI18nKey: 'users.session.loadFailed' });
     sessions.value = [];
   } finally {
     loading.value = false;
@@ -49,10 +49,10 @@ async function handleKickSession(sessionId: string) {
   kickingSessionId.value = sessionId;
   try {
     await kickUserSession(props.userId, sessionId);
-    message(t('users.sessionKickSuccess'), { type: 'success' });
+    message(t('users.session.kickSuccess'), { type: 'success' });
     await loadSessions();
   } catch (error: unknown) {
-    errorMessage(error, { defaultI18nKey: 'users.sessionKickFailed' });
+    errorMessage(error, { defaultI18nKey: 'users.session.kickFailed' });
   } finally {
     kickingSessionId.value = null;
   }
@@ -65,8 +65,8 @@ async function handleKickAllSessions() {
   kickingAll.value = true;
   try {
     await props.kickAllForUser(props.userId, {
-      successI18nKey: 'users.sessionKickAllSuccess',
-      failedI18nKey: 'users.sessionKickAllFailed',
+      successI18nKey: 'users.session.kickAllSuccess',
+      failedI18nKey: 'users.session.kickAllFailed',
       onSuccess: loadSessions,
     });
   } finally {
@@ -83,7 +83,7 @@ onMounted(() => {
   <div class="user-session-dialog">
     <div class="mb-3 flex items-center justify-between gap-2">
       <el-text type="info">
-        {{ t('users.sessionDialogSubtitle', { username }) }}
+        {{ t('users.session.subtitle', { username }) }}
       </el-text>
 
       <div class="flex items-center gap-2">
@@ -94,7 +94,7 @@ onMounted(() => {
           type="danger"
           @click="handleKickAllSessions"
         >
-          {{ t('users.sessionKickAll') }}
+          {{ t('users.session.kickAll') }}
         </el-button>
         <el-button :loading="loading" link type="primary" @click="loadSessions">
           {{ t('tableBar.refresh') }}
@@ -102,7 +102,7 @@ onMounted(() => {
       </div>
     </div>
 
-    <el-empty v-if="!loading && sessions.length <= 0" :description="t('users.sessionEmpty')" />
+    <el-empty v-if="!loading && sessions.length <= 0" :description="t('users.session.empty')" />
 
     <AuthDataTable
       v-else
@@ -122,7 +122,7 @@ onMounted(() => {
           type="danger"
           @click="handleKickSession(row.sessionId)"
         >
-          {{ t('users.sessionKickOne') }}
+          {{ t('users.session.kickOne') }}
         </el-button>
       </template>
     </AuthDataTable>

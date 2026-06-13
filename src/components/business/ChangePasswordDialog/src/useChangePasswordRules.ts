@@ -26,7 +26,7 @@ export function useChangePasswordRules(
     const confirmRule = {
       validator: (_rule: unknown, value: string, callback: (error?: Error) => void) => {
         if (!value) {
-          callback(new Error(t('users.passwordConfirm')));
+          callback(new Error(t('users.password.confirm')));
           return;
         }
         if (value !== newPassword.value) {
@@ -40,7 +40,7 @@ export function useChangePasswordRules(
 
     if (mode.value === 'self-change') {
       return {
-        oldPassword: [{ required: true, message: t('users.oldPassword'), trigger: 'blur' }],
+        oldPassword: [{ required: true, message: t('users.password.old'), trigger: 'blur' }],
         newPassword: passwordFieldRules,
         confirmPassword: [confirmRule],
       };

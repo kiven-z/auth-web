@@ -39,7 +39,7 @@ function useUserPostAssignTableColumns() {
       minWidth: 100,
       formatter: (row: UserPostPageRow) => renderRelationStatus(row.status),
     },
-    { label: t('users.remark'), prop: 'remark', minWidth: 160, showOverflowTooltip: true },
+    { label: t('users.field.remark'), prop: 'remark', minWidth: 160, showOverflowTooltip: true },
     { label: t('table.createTime'), prop: 'createTime', minWidth: 170 },
     { label: t('table.updateTime'), prop: 'updateTime', minWidth: 170 },
     {

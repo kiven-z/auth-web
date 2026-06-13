@@ -31,7 +31,7 @@ function useUserTableAction(deps: TableActionWithSelectionDeps) {
     const dialogFormRef = ref<FormOverlayExpose<SysUserCreateForm> | null>(null);
 
     addDialog({
-      title: t('users.dialogCreateTitle'),
+      title: t('users.title.create'),
       draggable: true,
       fullscreenIcon: true,
       closeOnClickModal: false,
@@ -59,7 +59,7 @@ function useUserTableAction(deps: TableActionWithSelectionDeps) {
       const dialogFormRef = ref<FormOverlayExpose<SysUserCreateForm> | null>(null);
 
       addDialog({
-        title: t('users.dialogEditTitle'),
+        title: t('users.title.edit'),
         draggable: true,
         fullscreenIcon: true,
         closeOnClickModal: false,
@@ -76,7 +76,7 @@ function useUserTableAction(deps: TableActionWithSelectionDeps) {
         }),
       });
     } catch (error: unknown) {
-      errorMessage(error, { defaultI18nKey: 'users.loadFailed' });
+      errorMessage(error, { defaultI18nKey: 'users.message.loadFailed' });
     }
   };
 
@@ -96,7 +96,7 @@ function useUserTableAction(deps: TableActionWithSelectionDeps) {
       selectedRows.value = [];
       await fetchTableData();
     } catch (error: unknown) {
-      errorMessage(error, { defaultI18nKey: 'users.statusFailed' });
+      errorMessage(error, { defaultI18nKey: 'users.message.statusFailed' });
     }
   };
 

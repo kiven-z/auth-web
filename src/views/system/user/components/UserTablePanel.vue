@@ -67,20 +67,30 @@ const handleView = (row: SysUserPageRow) => {
   <div>
     <el-form ref="searchFormRef" :model="searchForm" class="bg-bg_color w-[99/100] overflow-auto pl-8 pt-3" inline>
       <!-- 用户名 -->
-      <el-form-item :label="t('users.username')" prop="username">
-        <el-input v-model="searchForm.username" :placeholder="ph.input('users.username')" class="w-45!" clearable />
+      <el-form-item :label="t('users.field.username')" prop="username">
+        <el-input
+          v-model="searchForm.username"
+          :placeholder="ph.input('users.field.username')"
+          class="w-45!"
+          clearable
+        />
       </el-form-item>
       <!-- 昵称 -->
-      <el-form-item :label="t('users.nickname')" prop="nickname">
-        <el-input v-model="searchForm.nickname" :placeholder="ph.input('users.nickname')" class="w-45!" clearable />
+      <el-form-item :label="t('users.field.nickname')" prop="nickname">
+        <el-input
+          v-model="searchForm.nickname"
+          :placeholder="ph.input('users.field.nickname')"
+          class="w-45!"
+          clearable
+        />
       </el-form-item>
       <!-- 手机号 -->
-      <el-form-item :label="t('users.phone')" prop="phone">
-        <el-input v-model="searchForm.phone" :placeholder="ph.input('users.phone')" class="w-45!" clearable />
+      <el-form-item :label="t('users.field.phone')" prop="phone">
+        <el-input v-model="searchForm.phone" :placeholder="ph.input('users.field.phone')" class="w-45!" clearable />
       </el-form-item>
       <!-- 邮箱 -->
-      <el-form-item :label="t('users.email')" prop="email">
-        <el-input v-model="searchForm.email" :placeholder="ph.input('users.email')" class="w-45!" clearable />
+      <el-form-item :label="t('users.field.email')" prop="email">
+        <el-input v-model="searchForm.email" :placeholder="ph.input('users.field.email')" class="w-45!" clearable />
       </el-form-item>
       <template v-if="showAdvancedSearchToggle">
         <!-- 工号 -->
@@ -93,8 +103,13 @@ const handleView = (row: SysUserPageRow) => {
           />
         </el-form-item>
         <!-- 状态 -->
-        <el-form-item v-show="searchExpanded" :label="t('users.status')" prop="status">
-          <el-select v-model="searchForm.status" :placeholder="ph.selectFilter('users.status')" class="w-45!" clearable>
+        <el-form-item v-show="searchExpanded" :label="t('users.field.status')" prop="status">
+          <el-select
+            v-model="searchForm.status"
+            :placeholder="ph.selectFilter('users.field.status')"
+            class="w-45!"
+            clearable
+          >
             <el-option
               v-for="opt in USER_STATUS_FILTER_OPTIONS"
               :key="opt.value"
@@ -157,7 +172,7 @@ const handleView = (row: SysUserPageRow) => {
           <el-dropdown trigger="click">
             <el-button type="danger">{{ t('buttons.actionAdvanced') }}</el-button>
             <template #dropdown>
-              <el-dropdown-item disabled>{{ t('users.importExcelComingSoon') }}</el-dropdown-item>
+              <el-dropdown-item disabled>从 Excel 导入（敬请期待）</el-dropdown-item>
               <el-dropdown-item :disabled="exporting" @click="openExportDialog">
                 {{ t('buttons.exportExcel') }}
               </el-dropdown-item>
@@ -165,10 +180,10 @@ const handleView = (row: SysUserPageRow) => {
                 {{ t('buttons.actionBatchDelete') }}
               </el-dropdown-item>
               <el-dropdown-item :disabled="!hasSelection" @click="batchKickAll()">
-                {{ t('users.batchKickSessions') }}
+                {{ t('users.kick.batchAction') }}
               </el-dropdown-item>
               <el-dropdown-item :disabled="!hasSelection" @click="batchRefreshAuth()">
-                {{ t('users.batchRefreshAuth') }}
+                {{ t('users.authRefresh.batchAction') }}
               </el-dropdown-item>
             </template>
           </el-dropdown>
@@ -198,17 +213,17 @@ const handleView = (row: SysUserPageRow) => {
                 {{ t('assign.post') }}
               </el-dropdown-item>
               <el-dropdown-item @click="openAdminResetPasswordDialog(row.id, row.username)">
-                {{ t('users.resetPassword') }}
+                {{ t('users.password.reset') }}
               </el-dropdown-item>
               <!-- 查看会话 -->
               <el-dropdown-item @click="openViewSessionsDialog(row)">
-                {{ t('users.viewSessions') }}
+                {{ t('users.session.view') }}
               </el-dropdown-item>
               <el-dropdown-item @click="kickAllForUser(row.id)">
-                {{ t('users.kickSessions') }}
+                {{ t('users.kick.action') }}
               </el-dropdown-item>
               <el-dropdown-item @click="refreshUserAuth(row)">
-                {{ t('users.refreshAuth') }}
+                {{ t('users.authRefresh.action') }}
               </el-dropdown-item>
             </template>
           </el-dropdown>
