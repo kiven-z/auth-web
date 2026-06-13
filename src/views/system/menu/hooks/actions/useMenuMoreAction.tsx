@@ -1,12 +1,12 @@
 import type { TableActionDeps } from '@/api/common';
-import { getMenuRoles, putMenuPermissions, putMenuRoles } from '@/api/system/menu';
+import { getMenuPermissions, getMenuRoles, putMenuPermissions, putMenuRoles } from '@/api/system/menu';
 import { addDrawer } from '@/components/ui/Drawer';
 import { transformI18n } from '@/plugins/i18n';
 import { errorMessage, message } from '@/ui/feedback/message';
 import OrgGrantRoleAssignDrawer from '@/views/system/_shared/components/OrgGrantRoleAssignDrawer.vue';
-import MenuAssignPermissionDrawer from '@/views/system/menu/components/MenuAssignPermissionDrawer.vue';
+import PermissionAssignDrawer from '@/views/system/_shared/components/PermissionAssignDrawer.vue';
 import type { SysMenuRow } from '@/views/system/menu/hooks/useMenuPageState';
-import { h, ref } from 'vue';
+import { ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 /** 菜单「更多」操作依赖 */
@@ -87,13 +87,24 @@ function useMenuMoreAction(deps: MenuTableActionDeps) {
       closeOnClickModal: false,
       closeOnPressEscape: false,
       showClose: true,
-      contentRenderer: () =>
-        h(MenuAssignPermissionDrawer, {
-          ref: drawerRef,
-          menuId: row.id,
-          menuTitle: row.title,
-          menuName: row.name,
-        }),
+      contentRenderer: () => (
+        <PermissionAssignDrawer
+          ref={drawerRef}
+          fixedPermissionType={0}
+          leftTitle={t('sysMenu.assignCurrentMenu')}
+          leftSubtitle={`${transformI18n(row.title)} (${row.name})`}
+          loadAssigned={async () => {
+            const list = await getMenuPermissions(row.id);
+            return list
+              .filter((permissionRow) => permissionRow.assigned)
+              .map((permissionRow) => ({
+                key: permissionRow.permissionCode,
+                label: permissionRow.permissionName,
+              }));
+          }}
+          tableTitle={t('sysMenu.assignPermissionTitle')}
+        />
+      ),
       beforeSure: async (done) => {
         try {
           const permissionCodes = drawerRef.value?.getSelectedKeys() ?? [];

@@ -1,8 +1,8 @@
-import { assignRolePermissions, type SysRolePageRow } from '@/api/system/role';
+import { assignRolePermissions, getRolePermissions, type SysRolePageRow } from '@/api/system/role';
 import { addDrawer } from '@/components/ui/Drawer';
 import { errorMessage, message } from '@/ui/feedback/message';
-import RoleAssignPermissionDrawer from '@/views/system/role/components/RoleAssignPermissionDrawer.vue';
-import { h, ref } from 'vue';
+import PermissionAssignDrawer from '@/views/system/_shared/components/PermissionAssignDrawer.vue';
+import { ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 interface AssignPanelExpose {
@@ -30,12 +30,22 @@ function useRoleMoreAction() {
       closeOnClickModal: false,
       closeOnPressEscape: false,
       showClose: true,
-      contentRenderer: () =>
-        h(RoleAssignPermissionDrawer, {
-          ref: drawerRef,
-          roleCode: row.roleCode,
-          roleName: row.roleName,
-        }),
+      contentRenderer: () => (
+        <PermissionAssignDrawer
+          ref={drawerRef}
+          leftTitle={t('roles.assign.current')}
+          leftSubtitle={`${row.roleName} (${row.roleCode})`}
+          loadAssigned={async () => {
+            const rows = await getRolePermissions(row.roleCode);
+            return rows.map((permissionRow) => ({
+              key: permissionRow.permissionCode,
+              label: permissionRow.permissionName,
+            }));
+          }}
+          showPermissionTypeFilter
+          tableTitle={t('roles.assign.permission')}
+        />
+      ),
       beforeSure: async (done) => {
         try {
           const permissionCodes = drawerRef.value?.getSelectedKeys() ?? [];
