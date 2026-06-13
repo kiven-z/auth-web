@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { getUserProfile, type SysUserDeptProfileItem, type SysUserPostProfileItem } from '@/api/system/user-base';
-import ReDescription from '@/components/ui/Description/index';
+import ReDescription from '@/components/ui/Description';
 import useUserProfileColumns from '@/components/business/UserProfile/src/useUserProfileColumns';
 import { errorMessage } from '@/ui/feedback/message';
 import { QuestionFilled, User } from '@element-plus/icons-vue';

@@ -1,9 +1,9 @@
 import type { TableActionDeps } from '@/api/common';
-import { putPostRoles, type SysPostPageRow } from '@/api/system/post';
+import { getPostRoles, putPostRoles, type SysPostPageRow } from '@/api/system/post';
 import { addDrawer } from '@/components/ui/Drawer';
 import { errorMessage, message } from '@/ui/feedback/message';
-import PostAssignRoleDrawer from '@/views/system/post/components/PostAssignRoleDrawer.vue';
-import { h, ref } from 'vue';
+import OrgGrantRoleAssignDrawer from '@/views/system/_shared/components/OrgGrantRoleAssignDrawer.vue';
+import { ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 /** 岗位「更多」操作依赖 */
@@ -35,13 +35,17 @@ function usePostMoreAction(deps: PostMoreActionDeps) {
       closeOnClickModal: false,
       closeOnPressEscape: false,
       showClose: true,
-      contentRenderer: () =>
-        h(PostAssignRoleDrawer, {
-          ref: drawerRef,
-          postId: row.id,
-          postName: row.postName,
-          postCode: row.postCode,
-        }),
+      contentRenderer: () => (
+        <OrgGrantRoleAssignDrawer
+          ref={drawerRef}
+          leftTitle={t('post.assign.current')}
+          leftSubtitle={`${row.postName}（${row.postCode}）`}
+          loadAssigned={async () => {
+            const rows = await getPostRoles(row.id);
+            return rows.map((roleRow) => ({ key: roleRow.roleCode, label: roleRow.roleName }));
+          }}
+        />
+      ),
       beforeSure: async (done) => {
         try {
           const roleCodes = drawerRef.value?.getSelectedKeys() ?? [];

@@ -1,9 +1,9 @@
 import type { TableActionDeps } from '@/api/common';
-import { putDeptRoles, type SysDeptListVO } from '@/api/system/dept';
+import { getDeptRoles, putDeptRoles, type SysDeptListVO } from '@/api/system/dept';
 import { addDrawer } from '@/components/ui/Drawer';
 import { errorMessage, message } from '@/ui/feedback/message';
-import DeptAssignRoleDrawer from '@/views/system/dept/components/DeptAssignRoleDrawer.vue';
-import { h, ref } from 'vue';
+import OrgGrantRoleAssignDrawer from '@/views/system/_shared/components/OrgGrantRoleAssignDrawer.vue';
+import { ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 /** 部门「更多」操作依赖 */
@@ -37,13 +37,17 @@ function useDeptMoreAction(deps: DeptMoreActionDeps) {
       closeOnClickModal: false,
       closeOnPressEscape: false,
       showClose: true,
-      contentRenderer: () =>
-        h(DeptAssignRoleDrawer, {
-          ref: drawerRef,
-          deptId: row.id,
-          deptName: row.deptName,
-          deptCode: row.deptCode,
-        }),
+      contentRenderer: () => (
+        <OrgGrantRoleAssignDrawer
+          ref={drawerRef}
+          leftTitle={t('dept.assignRole.currentDept')}
+          leftSubtitle={`${row.deptName}（${row.deptCode}）`}
+          loadAssigned={async () => {
+            const rows = await getDeptRoles(row.id);
+            return rows.map((roleRow) => ({ key: roleRow.roleCode, label: roleRow.roleName }));
+          }}
+        />
+      ),
       beforeSure: async (done) => {
         try {
           const roleCodes = drawerRef.value?.getSelectedKeys() ?? [];

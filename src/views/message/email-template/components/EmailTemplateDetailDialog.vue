@@ -4,7 +4,7 @@ import {
   getEmailTemplateById,
   getEmailTemplatePreviewHtml,
 } from '@/api/system/email-template';
-import ReDescription from '@/components/ui/Description/index';
+import ReDescription from '@/components/ui/Description';
 import { errorMessage } from '@/ui/feedback/message';
 import { ElTag } from 'element-plus';
 import { computed, nextTick, onMounted, ref, watch } from 'vue';

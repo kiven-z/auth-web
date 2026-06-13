@@ -1,9 +1,10 @@
 import type { TableActionDeps } from '@/api/common';
-import { putMenuPermissions, putMenuRoles } from '@/api/system/menu';
+import { getMenuRoles, putMenuPermissions, putMenuRoles } from '@/api/system/menu';
 import { addDrawer } from '@/components/ui/Drawer';
+import { transformI18n } from '@/plugins/i18n';
 import { errorMessage, message } from '@/ui/feedback/message';
+import OrgGrantRoleAssignDrawer from '@/views/system/_shared/components/OrgGrantRoleAssignDrawer.vue';
 import MenuAssignPermissionDrawer from '@/views/system/menu/components/MenuAssignPermissionDrawer.vue';
-import MenuAssignRoleDrawer from '@/views/system/menu/components/MenuAssignRoleDrawer.vue';
 import type { SysMenuRow } from '@/views/system/menu/hooks/useMenuPageState';
 import { h, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
@@ -17,6 +18,9 @@ export interface MenuTableActionDeps extends TableActionDeps {
 interface AssignPanelExpose {
   getSelectedKeys: () => string[];
 }
+
+/** 菜单分配角色默认筛选类型（菜单角色） */
+const MENU_ASSIGN_ROLE_TYPES = [2];
 
 /**
  * 菜单「更多」操作
@@ -41,13 +45,20 @@ function useMenuMoreAction(deps: MenuTableActionDeps) {
       closeOnClickModal: false,
       closeOnPressEscape: false,
       showClose: true,
-      contentRenderer: () =>
-        h(MenuAssignRoleDrawer, {
-          ref: drawerRef,
-          menuId: row.id,
-          menuTitle: row.title,
-          menuName: row.name,
-        }),
+      contentRenderer: () => (
+        <OrgGrantRoleAssignDrawer
+          ref={drawerRef}
+          defaultRoleTypes={MENU_ASSIGN_ROLE_TYPES}
+          leftTitle={t('sysMenu.name')}
+          leftSubtitle={`${transformI18n(row.title)} (${row.name})`}
+          loadAssigned={async () => {
+            const rows = await getMenuRoles(row.id);
+            return rows.map((roleRow) => ({ key: roleRow.roleCode, label: roleRow.roleName }));
+          }}
+          showRoleTypeColumn={false}
+          showRoleTypeFilter={false}
+        />
+      ),
       beforeSure: async (done) => {
         try {
           const roleCodes = drawerRef.value?.getSelectedKeys() ?? [];

@@ -1,14 +1,14 @@
 import type { TableActionDeps } from '@/api/common';
 import { kickAllUserSessions } from '@/api/auth/session';
-import { putUserRoles } from '@/api/system/user-role';
+import { putUserRoles, getUserRoles } from '@/api/system/user-role';
 import { refreshUserAuthorization, type SysUserPageRow } from '@/api/system/user';
 import { addDialog } from '@/components/ui/Dialog';
 import { addDrawer } from '@/components/ui/Drawer';
 import { operationConfirm } from '@/ui/feedback/dialog';
 import { errorMessage, message } from '@/ui/feedback/message';
+import OrgGrantRoleAssignDrawer from '@/views/system/_shared/components/OrgGrantRoleAssignDrawer.vue';
 import UserAssignDeptDrawer from '@/views/system/user/components/UserAssignDeptDrawer.vue';
 import UserAssignPostDrawer from '@/views/system/user/components/UserAssignPostDrawer.vue';
-import UserAssignRoleDrawer from '@/views/system/user/components/UserAssignRoleDrawer.vue';
 import UserSessionDialog from '@/views/system/user/components/UserSessionDialog.vue';
 import { h, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
@@ -78,7 +78,7 @@ function useUserMoreAction(deps: TableActionDeps) {
    * @param row 用户行
    */
   const openAssignRoleDrawer = (row: SysUserPageRow) => {
-    const drawerRef = ref(null);
+    const drawerRef = ref<{ getSelectedKeys: () => string[] } | null>(null);
 
     addDrawer({
       title: t('assign.role'),
@@ -87,13 +87,17 @@ function useUserMoreAction(deps: TableActionDeps) {
       closeOnClickModal: false,
       closeOnPressEscape: false,
       showClose: true,
-      contentRenderer: () =>
-        h(UserAssignRoleDrawer, {
-          ref: drawerRef,
-          userId: row.id,
-          username: row.username,
-          nickname: row.nickname,
-        }),
+      contentRenderer: () => (
+        <OrgGrantRoleAssignDrawer
+          ref={drawerRef}
+          leftTitle={t('users.assign.current')}
+          leftSubtitle={row.nickname || row.username}
+          loadAssigned={async () => {
+            const rows = await getUserRoles(row.id);
+            return rows.map((roleRow) => ({ key: roleRow.roleCode, label: roleRow.roleName }));
+          }}
+        />
+      ),
       beforeSure: async (done) => {
         try {
           const roleCodes = drawerRef.value?.getSelectedKeys() ?? [];
