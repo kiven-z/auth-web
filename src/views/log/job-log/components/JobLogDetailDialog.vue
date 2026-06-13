@@ -17,17 +17,17 @@ defineProps<JobLogDetailDialogProps>();
 const { t } = useI18n();
 
 const columns = computed(() => [
-  { label: t('logJob.jobId'), prop: 'jobId', labelWidth: 120, copy: true },
-  { label: t('logJob.jobName'), prop: 'jobName', labelWidth: 120, copy: true },
+  { label: t('logJob.field.jobId'), prop: 'jobId', labelWidth: 120, copy: true },
+  { label: t('logJob.field.jobName'), prop: 'jobName', labelWidth: 120, copy: true },
   // 任务分组
-  { label: t('logJob.jobGroup'), prop: 'jobGroup', labelWidth: 120, copy: true },
+  { label: t('logJob.field.jobGroup'), prop: 'jobGroup', labelWidth: 120, copy: true },
   // 调用目标
-  { label: t('logJob.invokeTarget'), prop: 'invokeTarget', labelWidth: 120, copy: true },
-  { label: t('logJob.triggerType'), prop: 'triggerType', labelWidth: 120, copy: true },
-  { label: t('logJob.jobMessage'), prop: 'jobMessage', labelWidth: 120, copy: true },
+  { label: t('logJob.field.invokeTarget'), prop: 'invokeTarget', labelWidth: 120, copy: true },
+  { label: t('logJob.field.triggerType'), prop: 'triggerType', labelWidth: 120, copy: true },
+  { label: t('logJob.field.jobMessage'), prop: 'jobMessage', labelWidth: 120, copy: true },
   // 执行状态（展示文案）
   {
-    label: t('logJob.status'),
+    label: t('logJob.field.status'),
     prop: 'status',
     labelWidth: 120,
     cellRenderer: ({ value }: { value: boolean }) => {
@@ -40,11 +40,11 @@ const columns = computed(() => [
     },
   },
   // 异常信息
-  { label: t('logJob.exceptionInfo'), prop: 'exceptionInfo', labelWidth: 120, copy: true },
+  { label: t('logJob.field.exceptionInfo'), prop: 'exceptionInfo', labelWidth: 120, copy: true },
   // 耗时(ms)
-  { label: t('logJob.elapsedTime'), prop: 'elapsedTime' },
+  { label: t('logJob.field.elapsedTime'), prop: 'elapsedTime' },
   // 记录时间
-  { label: t('logJob.createTime'), prop: 'createTime' },
+  { label: t('logJob.field.createTime'), prop: 'createTime' },
 ]);
 </script>
 

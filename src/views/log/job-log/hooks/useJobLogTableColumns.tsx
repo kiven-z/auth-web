@@ -28,37 +28,37 @@ function useJobLogTableColumns() {
     },
     // 任务 ID
     {
-      label: t('logJob.jobId'),
+      label: t('logJob.field.jobId'),
       prop: 'jobId',
       minWidth: 180,
     },
     // 任务名称
     {
-      label: t('logJob.jobName'),
+      label: t('logJob.field.jobName'),
       prop: 'jobName',
       minWidth: 160,
     },
     // 任务分组
     {
-      label: t('logJob.jobGroup'),
+      label: t('logJob.field.jobGroup'),
       prop: 'jobGroup',
       minWidth: 140,
     },
     // 调用目标
     {
-      label: t('logJob.invokeTarget'),
+      label: t('logJob.field.invokeTarget'),
       prop: 'invokeTarget',
       minWidth: 200,
     },
     // 触发类型
     {
-      label: t('logJob.triggerType'),
+      label: t('logJob.field.triggerType'),
       prop: 'triggerType',
       minWidth: 120,
     },
     // 执行状态
     {
-      label: t('logJob.status'),
+      label: t('logJob.field.status'),
       prop: 'status',
       minWidth: 100,
       formatter: (row: JobLogPageRow) => {
@@ -72,13 +72,13 @@ function useJobLogTableColumns() {
     },
     // 耗时(ms)
     {
-      label: t('logJob.elapsedTime'),
+      label: t('logJob.field.elapsedTime'),
       prop: 'elapsedTime',
       minWidth: 120,
     },
     // 记录时间
     {
-      label: t('logJob.createTime'),
+      label: t('logJob.field.createTime'),
       prop: 'createTime',
       sortable: true,
       minWidth: 170,

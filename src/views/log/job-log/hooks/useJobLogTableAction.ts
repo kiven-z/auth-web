@@ -21,7 +21,7 @@ function useJobLogTableAction(deps: TableActionWithSelectionDeps) {
     selectedRows,
     deleteApi: deleteJobLog,
     onSuccess: fetchTableData,
-    errorDefaultI18nKey: 'logJob.loadFailed',
+    errorDefaultI18nKey: 'logJob.message.loadFailed',
   });
 
   /**
@@ -33,7 +33,7 @@ function useJobLogTableAction(deps: TableActionWithSelectionDeps) {
       const detailData = await getJobLogDetail(row.id);
 
       addDialog({
-        title: t('logJob.detailTitle'),
+        title: t('logJob.title.detail'),
         width: '100%',
         draggable: false,
         closeOnClickModal: false,
@@ -42,7 +42,7 @@ function useJobLogTableAction(deps: TableActionWithSelectionDeps) {
         contentRenderer: () => h(JobLogDetailDialog, { data: detailData }),
       });
     } catch (error: unknown) {
-      errorMessage(error, { defaultI18nKey: 'logJob.loadFailed' });
+      errorMessage(error, { defaultI18nKey: 'logJob.message.loadFailed' });
       return;
     }
   };

@@ -1,19 +1,24 @@
 logJob:
-  jobId: Job ID
-  jobName: Job Name
-  jobGroup: Job Group
-  invokeTarget: Invoke Target
-  triggerType: Trigger Type
-  jobMessage: Execution Report
-  status: Status
-  elapsedTime: Elapsed (ms)
-  exceptionInfo: Exception Info
-  createTime: Recorded At
-  tableTitle: Job Logs
-  detailTitle: Job Log Detail
-  loadFailed: Failed to load job logs
-  statusSuccess: Success
-  statusFailed: Failed
-  triggerSchedule: Schedule
-  triggerManual: Manual
-  triggerRetry: Retry
+  title:
+    table: Job Logs
+    detail: Job Log Detail
+  field:
+    jobId: Job ID
+    jobName: Job Name
+    jobGroup: Job Group
+    invokeTarget: Invoke Target
+    triggerType: Trigger Type
+    jobMessage: Execution Report
+    status: Status
+    elapsedTime: Elapsed (ms)
+    exceptionInfo: Exception Info
+    createTime: Recorded At
+  status:
+    success: Success
+    failed: Failed
+  triggerType:
+    schedule: Schedule
+    manual: Manual
+    retry: Retry
+  message:
+    loadFailed: Failed to load job logs

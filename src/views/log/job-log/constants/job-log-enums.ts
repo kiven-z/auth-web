@@ -1,7 +1,7 @@
 /** 执行结果展示/筛选项 */
 export const LOG_JOB_STATUS_ITEMS = [
-  { value: true, labelKey: 'logJob.statusSuccess', tagType: 'success' as const },
-  { value: false, labelKey: 'logJob.statusFailed', tagType: 'danger' as const },
+  { value: true, labelKey: 'logJob.status.success', tagType: 'success' as const },
+  { value: false, labelKey: 'logJob.status.failed', tagType: 'danger' as const },
 ];
 
 /**
@@ -14,7 +14,7 @@ export function resolveJobLogStatusMeta(status: boolean) {
 
 /** 触发类型筛选项 */
 export const LOG_JOB_TRIGGER_TYPE_FILTER_OPTIONS = [
-  { value: 'SCHEDULE', labelKey: 'logJob.triggerSchedule' },
-  { value: 'MANUAL', labelKey: 'logJob.triggerManual' },
-  { value: 'RETRY', labelKey: 'logJob.triggerRetry' },
+  { value: 'SCHEDULE', labelKey: 'logJob.triggerType.schedule' },
+  { value: 'MANUAL', labelKey: 'logJob.triggerType.manual' },
+  { value: 'RETRY', labelKey: 'logJob.triggerType.retry' },
 ] as const;

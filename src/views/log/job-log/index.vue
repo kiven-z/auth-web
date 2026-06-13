@@ -30,7 +30,7 @@ const jobLogState = usePaginationState({
     elapsedTime: undefined,
     status: undefined,
   }),
-  errorI18nKey: 'logJob.loadFailed',
+  errorI18nKey: 'logJob.message.loadFailed',
 });
 
 const { selectedRows, loading, searchForm, fetchTableData, resetQuery } = jobLogState;
@@ -48,20 +48,35 @@ onMounted(() => {
   <div>
     <el-form ref="searchFormRef" :model="searchForm" class="bg-bg_color w-[99/100] overflow-auto pl-8 pt-3" inline>
       <!-- 任务 ID -->
-      <el-form-item :label="t('logJob.jobId')" prop="jobId">
-        <el-input v-model="searchForm.jobId" :placeholder="ph.input('logJob.jobId')" class="w-45!" clearable />
+      <el-form-item :label="t('logJob.field.jobId')" prop="jobId">
+        <el-input v-model="searchForm.jobId" :placeholder="ph.input('logJob.field.jobId')" class="w-45!" clearable />
       </el-form-item>
       <!-- 任务名称 -->
-      <el-form-item :label="t('logJob.jobName')" prop="jobName">
-        <el-input v-model="searchForm.jobName" :placeholder="ph.input('logJob.jobName')" class="w-45!" clearable />
+      <el-form-item :label="t('logJob.field.jobName')" prop="jobName">
+        <el-input
+          v-model="searchForm.jobName"
+          :placeholder="ph.input('logJob.field.jobName')"
+          class="w-45!"
+          clearable
+        />
       </el-form-item>
       <!-- 任务分组 -->
-      <el-form-item :label="t('logJob.jobGroup')" prop="jobGroup">
-        <el-input v-model="searchForm.jobGroup" :placeholder="ph.input('logJob.jobGroup')" class="w-45!" clearable />
+      <el-form-item :label="t('logJob.field.jobGroup')" prop="jobGroup">
+        <el-input
+          v-model="searchForm.jobGroup"
+          :placeholder="ph.input('logJob.field.jobGroup')"
+          class="w-45!"
+          clearable
+        />
       </el-form-item>
       <!-- 状态 -->
-      <el-form-item :label="t('logJob.status')" prop="status">
-        <el-select v-model="searchForm.status" :placeholder="ph.selectFilter('logJob.status')" class="w-45!" clearable>
+      <el-form-item :label="t('logJob.field.status')" prop="status">
+        <el-select
+          v-model="searchForm.status"
+          :placeholder="ph.selectFilter('logJob.field.status')"
+          class="w-45!"
+          clearable
+        >
           <el-option
             v-for="opt in LOG_JOB_STATUS_ITEMS"
             :key="`${opt.labelKey}:${String(opt.value)}`"
@@ -73,19 +88,19 @@ onMounted(() => {
 
       <template v-if="showAdvancedSearchToggle">
         <!-- 调用目标 -->
-        <el-form-item v-show="searchExpanded" :label="t('logJob.invokeTarget')" prop="invokeTarget">
+        <el-form-item v-show="searchExpanded" :label="t('logJob.field.invokeTarget')" prop="invokeTarget">
           <el-input
             v-model="searchForm.invokeTarget"
-            :placeholder="ph.input('logJob.invokeTarget')"
+            :placeholder="ph.input('logJob.field.invokeTarget')"
             class="w-45!"
             clearable
           />
         </el-form-item>
         <!-- 触发类型 -->
-        <el-form-item v-show="searchExpanded" :label="t('logJob.triggerType')" prop="triggerType">
+        <el-form-item v-show="searchExpanded" :label="t('logJob.field.triggerType')" prop="triggerType">
           <el-select
             v-model="searchForm.triggerType"
-            :placeholder="ph.selectFilter('logJob.triggerType')"
+            :placeholder="ph.selectFilter('logJob.field.triggerType')"
             class="w-45!"
             clearable
           >
@@ -98,10 +113,10 @@ onMounted(() => {
           </el-select>
         </el-form-item>
         <!-- 执行耗时(ms) -->
-        <el-form-item v-show="searchExpanded" :label="t('logJob.elapsedTime')" prop="elapsedTime">
+        <el-form-item v-show="searchExpanded" :label="t('logJob.field.elapsedTime')" prop="elapsedTime">
           <el-input-number
             v-model="searchForm.elapsedTime"
-            :placeholder="ph.input('logJob.elapsedTime')"
+            :placeholder="ph.input('logJob.field.elapsedTime')"
             class="w-40!"
             clearable
           />
@@ -124,7 +139,7 @@ onMounted(() => {
       </el-form-item>
     </el-form>
 
-    <AuthPagedTable :columns="columns" :state="jobLogState" :title="t('logJob.tableTitle')" show-overflow-tooltip>
+    <AuthPagedTable :columns="columns" :state="jobLogState" :title="t('logJob.title.table')" show-overflow-tooltip>
       <template #buttons>
         <el-dropdown trigger="click">
           <el-button type="danger">
