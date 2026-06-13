@@ -3,7 +3,10 @@
  */
 import type { LoginLogPageRow } from '@/api/log/login-log';
 import { selectUserinfo } from '@/components/business/UserProfile';
-import { resolveLoginLogResultMeta } from '@/views/log/login-log/constants/login-log-enums';
+import {
+  LOGIN_LOG_TYPE_FILTER_OPTIONS,
+  resolveLoginLogResultMeta,
+} from '@/views/log/login-log/constants/login-log-enums';
 import { ElButton, ElTag } from 'element-plus';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
@@ -17,9 +20,8 @@ function useLoginLogTableColumns() {
 
   const loginTypeLabel = (type: string | null | undefined) => {
     if (!type) return '';
-    const key = `loginLog.loginTypeEnum.${type}` as const;
-    const label = t(key);
-    return label === key ? type : label;
+    const option = LOGIN_LOG_TYPE_FILTER_OPTIONS.find((item) => item.value === type);
+    return option ? t(option.labelKey) : type;
   };
 
   const columns = computed<TableColumnList>(() => [
@@ -35,7 +37,7 @@ function useLoginLogTableColumns() {
     },
     // 用户
     {
-      label: t('loginLog.user'),
+      label: t('loginLog.field.user'),
       prop: 'username',
       minWidth: 130,
       formatter: (row: LoginLogPageRow) => {
@@ -53,39 +55,38 @@ function useLoginLogTableColumns() {
     },
     // 登录结果
     {
-      label: t('loginLog.loginResult'),
+      label: t('loginLog.field.loginResult'),
       prop: 'loginResult',
       minWidth: 140,
       formatter: (row: LoginLogPageRow) => {
         const code = row.loginResult;
         if (code === undefined || code === null) return <span>—</span>;
         const meta = resolveLoginLogResultMeta(code);
-        const key = `loginLog.loginResultEnum.${code}` as const;
-        const label = t(key);
+        if (!meta) return <span>{String(code)}</span>;
 
         return (
           <ElTag type={meta.tagType} effect="plain">
-            {label === key ? String(code) : label}
+            {t(meta.labelKey)}
           </ElTag>
         );
       },
     },
     // 登录时间
     {
-      label: t('loginLog.loginTime'),
+      label: t('loginLog.field.loginTime'),
       prop: 'loginTime',
       sortable: true,
       minWidth: 170,
     },
     // 登录地区
     {
-      label: t('loginLog.loginRegion'),
+      label: t('loginLog.field.loginRegion'),
       prop: 'loginRegion',
       minWidth: 140,
     },
     // 登录类型
     {
-      label: t('loginLog.loginType'),
+      label: t('loginLog.field.loginType'),
       prop: 'loginType',
       minWidth: 130,
       formatter: (row: LoginLogPageRow) => loginTypeLabel(row.loginType),

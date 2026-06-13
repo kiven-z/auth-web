@@ -5,12 +5,12 @@ export type LoginLogResultTagType = NonNullable<TagProps['type']>;
 
 /** log_login.login_result ↔ AuthLoginLogResult.code */
 export const LOGIN_LOG_RESULT_ITEMS = [
-  { code: 0, tagType: 'success' },
-  { code: 1, tagType: 'danger' },
-  { code: 2, tagType: 'warning' },
-  { code: 3, tagType: 'info' },
-  { code: 4, tagType: 'info' },
-] as const satisfies ReadonlyArray<{ code: number; tagType: LoginLogResultTagType }>;
+  { code: 0, labelKey: 'loginLog.result.success', tagType: 'success' as const },
+  { code: 1, labelKey: 'loginLog.result.badCredential', tagType: 'danger' as const },
+  { code: 2, labelKey: 'loginLog.result.accountLocked', tagType: 'warning' as const },
+  { code: 3, labelKey: 'loginLog.result.captchaError', tagType: 'info' as const },
+  { code: 4, labelKey: 'loginLog.result.accountDisabled', tagType: 'info' as const },
+] as const satisfies ReadonlyArray<{ code: number; labelKey: string; tagType: LoginLogResultTagType }>;
 
 /**
  * 解析登录结果展示元数据
@@ -20,5 +20,11 @@ export function resolveLoginLogResultMeta(code: number) {
   return LOGIN_LOG_RESULT_ITEMS.find((item) => item.code === code);
 }
 
-// AuthLoginLogType.name()
-export const LOGIN_LOG_TYPE_CODES = ['LOGIN_EMAIL', 'LOGIN_SMS', 'LOGIN_PASSWORD', 'REFRESH_TOKEN', 'LOGOUT'] as const;
+/** AuthLoginLogType.name() 筛选项 */
+export const LOGIN_LOG_TYPE_FILTER_OPTIONS = [
+  { value: 'LOGIN_EMAIL', labelKey: 'loginLog.type.LOGIN_EMAIL' },
+  { value: 'LOGIN_SMS', labelKey: 'loginLog.type.LOGIN_SMS' },
+  { value: 'LOGIN_PASSWORD', labelKey: 'loginLog.type.LOGIN_PASSWORD' },
+  { value: 'REFRESH_TOKEN', labelKey: 'loginLog.type.REFRESH_TOKEN' },
+  { value: 'LOGOUT', labelKey: 'loginLog.type.LOGOUT' },
+] as const;

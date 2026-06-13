@@ -19,7 +19,7 @@ function useLoginLogTableAction(deps: TableActionWithSelectionDeps) {
     selectedRows,
     deleteApi: deleteLoginLog,
     onSuccess: fetchTableData,
-    errorDefaultI18nKey: 'loginLog.loadFailed',
+    errorDefaultI18nKey: 'loginLog.message.loadFailed',
   });
 
   /**
@@ -31,7 +31,7 @@ function useLoginLogTableAction(deps: TableActionWithSelectionDeps) {
       const detailData = await getLoginLogDetail(row.id);
 
       addDialog({
-        title: t('loginLog.detailTitle'),
+        title: t('loginLog.title.detail'),
         draggable: false,
         closeOnClickModal: false,
         closeOnPressEscape: false,
@@ -39,7 +39,7 @@ function useLoginLogTableAction(deps: TableActionWithSelectionDeps) {
         contentRenderer: () => h(LoginLogDetailDialog, { data: detailData }),
       });
     } catch (error: unknown) {
-      errorMessage(error, { defaultI18nKey: 'loginLog.loadFailed' });
+      errorMessage(error, { defaultI18nKey: 'loginLog.message.loadFailed' });
       return;
     }
   };

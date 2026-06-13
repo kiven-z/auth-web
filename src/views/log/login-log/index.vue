@@ -2,7 +2,7 @@
 import { getLoginLogPage } from '@/api/log/login-log';
 import AuthPagedTable, { usePaginationState } from '@/components/business/AuthPagedTable';
 import useRemoteUserSearch from '@/composables/dialog/useRemoteUserSearch';
-import { LOGIN_LOG_RESULT_ITEMS, LOGIN_LOG_TYPE_CODES } from '@/views/log/login-log/constants/login-log-enums';
+import { LOGIN_LOG_RESULT_ITEMS, LOGIN_LOG_TYPE_FILTER_OPTIONS } from '@/views/log/login-log/constants/login-log-enums';
 import useLoginLogTableAction from '@/views/log/login-log/hooks/useLoginLogTableAction';
 import useLoginLogTableColumns from '@/views/log/login-log/hooks/useLoginLogTableColumns';
 import { useFormPlaceholder } from '@/composables/i18n/useFormPlaceholder';
@@ -28,7 +28,7 @@ const loginLogState = usePaginationState({
     loginResult: undefined,
     loginType: undefined,
   }),
-  errorI18nKey: 'loginLog.loadFailed',
+  errorI18nKey: 'loginLog.message.loadFailed',
 });
 
 const { selectedRows, loading, searchForm, fetchTableData, resetQuery } = loginLogState;
@@ -36,7 +36,7 @@ const { selectedRows, loading, searchForm, fetchTableData, resetQuery } = loginL
 const { openDetailDialog, deleteBatchRows } = useLoginLogTableAction({ fetchTableData, selectedRows });
 
 const { userOptions, userSearchLoading, loadUserListByKeyword } = useRemoteUserSearch({
-  errorDefaultI18nKey: 'loginLog.loadFailed',
+  errorDefaultI18nKey: 'loginLog.message.loadFailed',
 });
 
 onMounted(() => {
@@ -47,11 +47,11 @@ onMounted(() => {
 <template>
   <div>
     <el-form ref="searchFormRef" :model="searchForm" class="bg-bg_color w-[99/100] overflow-auto pl-8 pt-3" inline>
-      <el-form-item :label="t('loginLog.user')" prop="userId">
+      <el-form-item :label="t('loginLog.field.user')" prop="userId">
         <el-select
           v-model="searchForm.userId"
           :loading="userSearchLoading"
-          :placeholder="ph.keyword('loginLog.user')"
+          :placeholder="ph.keyword('loginLog.field.user')"
           :remote-method="loadUserListByKeyword"
           class="w-45!"
           clearable
@@ -62,23 +62,23 @@ onMounted(() => {
         </el-select>
       </el-form-item>
 
-      <el-form-item :label="t('loginLog.loginResult')" prop="loginResult">
+      <el-form-item :label="t('loginLog.field.loginResult')" prop="loginResult">
         <el-select
           v-model="searchForm.loginResult"
-          :placeholder="ph.selectFilter('loginLog.loginResult')"
+          :placeholder="ph.selectFilter('loginLog.field.loginResult')"
           class="w-45!"
           clearable
         >
           <el-option
             v-for="item in LOGIN_LOG_RESULT_ITEMS"
             :key="item.code"
-            :label="t(`loginLog.loginResultEnum.${item.code}`)"
+            :label="t(item.labelKey)"
             :value="item.code"
           />
         </el-select>
       </el-form-item>
 
-      <el-form-item :label="t('loginLog.loginTime')" prop="loginTime">
+      <el-form-item :label="t('loginLog.field.loginTime')" prop="loginTime">
         <el-date-picker
           v-model="searchForm.loginTimeStart"
           :placeholder="ph.rangeStart()"
@@ -96,18 +96,18 @@ onMounted(() => {
         />
       </el-form-item>
 
-      <el-form-item :label="t('loginLog.loginType')" prop="loginType">
+      <el-form-item :label="t('loginLog.field.loginType')" prop="loginType">
         <el-select
           v-model="searchForm.loginType"
-          :placeholder="ph.selectFilter('loginLog.loginType')"
+          :placeholder="ph.selectFilter('loginLog.field.loginType')"
           class="w-45!"
           clearable
         >
           <el-option
-            v-for="lt in LOGIN_LOG_TYPE_CODES"
-            :key="lt"
-            :label="t(`loginLog.loginTypeEnum.${lt}`)"
-            :value="lt"
+            v-for="item in LOGIN_LOG_TYPE_FILTER_OPTIONS"
+            :key="item.value"
+            :label="t(item.labelKey)"
+            :value="item.value"
           />
         </el-select>
       </el-form-item>
@@ -124,7 +124,7 @@ onMounted(() => {
       </el-form-item>
     </el-form>
 
-    <AuthPagedTable :columns="columns" :state="loginLogState" :title="t('loginLog.tableTitle')" show-overflow-tooltip>
+    <AuthPagedTable :columns="columns" :state="loginLogState" :title="t('loginLog.title.table')" show-overflow-tooltip>
       <template #buttons>
         <el-dropdown trigger="click">
           <el-button type="danger">
