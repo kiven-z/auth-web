@@ -6,8 +6,8 @@ import {
   AUTHORIZATION_CHANGE_KIND_ITEMS,
   PROCESSING_FILTER_ITEMS,
 } from '@/views/ops/authorization-invalidation/constants/authorization-invalidation-enums';
-import useAuthorizationInvalidationEventTableAction from '@/views/ops/authorization-invalidation/hooks/useAuthorizationInvalidationEventTableAction';
-import useAuthorizationInvalidationEventTableColumns from '@/views/ops/authorization-invalidation/hooks/useAuthorizationInvalidationEventTableColumns';
+import useAuthorizationInvalidationEventTableAction from '@/views/ops/authorization-invalidation/hooks/actions/useAuthorizationInvalidationEventTableAction';
+import useAuthorizationInvalidationEventTableColumns from '@/views/ops/authorization-invalidation/hooks/columns/useAuthorizationInvalidationEventTableColumns';
 import { useFormPlaceholder } from '@/composables/i18n/useFormPlaceholder';
 import type { FormInstance } from 'element-plus';
 import { onMounted, reactive, ref } from 'vue';

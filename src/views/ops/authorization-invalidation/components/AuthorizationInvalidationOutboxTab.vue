@@ -7,8 +7,8 @@ import {
   isOutboxRetryable,
   OUTBOX_STATUS_ITEMS,
 } from '@/views/ops/authorization-invalidation/constants/authorization-invalidation-enums';
-import useAuthorizationInvalidationOutboxTableAction from '@/views/ops/authorization-invalidation/hooks/useAuthorizationInvalidationOutboxTableAction';
-import useAuthorizationInvalidationOutboxTableColumns from '@/views/ops/authorization-invalidation/hooks/useAuthorizationInvalidationOutboxTableColumns';
+import useAuthorizationInvalidationOutboxTableAction from '@/views/ops/authorization-invalidation/hooks/actions/useAuthorizationInvalidationOutboxTableAction';
+import useAuthorizationInvalidationOutboxTableColumns from '@/views/ops/authorization-invalidation/hooks/columns/useAuthorizationInvalidationOutboxTableColumns';
 import { useFormPlaceholder } from '@/composables/i18n/useFormPlaceholder';
 import { useCollapsibleSearchForm } from '@/composables/search/useCollapsibleSearchForm';
 import type { FormInstance } from 'element-plus';

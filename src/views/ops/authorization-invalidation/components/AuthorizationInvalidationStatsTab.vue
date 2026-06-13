@@ -4,7 +4,7 @@ import {
   getAuthorizationInvalidationSummary,
 } from '@/api/ops/authorization-invalidation-summary';
 import { errorMessage } from '@/ui/feedback/message';
-import useAuthorizationInvalidationStatsTableColumns from '@/views/ops/authorization-invalidation/hooks/useAuthorizationInvalidationStatsTableColumns';
+import useAuthorizationInvalidationStatsTableColumns from '@/views/ops/authorization-invalidation/hooks/columns/useAuthorizationInvalidationStatsTableColumns';
 import { computed, onMounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 

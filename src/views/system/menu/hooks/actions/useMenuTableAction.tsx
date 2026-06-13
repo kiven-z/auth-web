@@ -14,7 +14,8 @@ import { type FormOverlayExpose, useFormOverlaySubmit } from '@/composables/tabl
 import { errorMessage, message } from '@/ui/feedback/message';
 import MenuDialog from '@/views/system/menu/components/MenuDialog.vue';
 import type { MenuViewMode, SysMenuRow } from '@/views/system/menu/hooks/useMenuPageState';
-import { detailToForm, formToSaveRequest } from '@/views/system/menu/utils/menu-form-mapper';
+import { createDefaultMenuForm, detailToForm, formToSaveRequest } from '@/views/system/menu/utils/menu-form-mapper';
+import { MENU_ROOT_PARENT_ID } from '@/views/system/menu/utils/menu-parent';
 import type { Ref } from 'vue';
 import { h, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
@@ -45,9 +46,11 @@ function useMenuTableAction(deps: MenuTableActionDeps) {
 
   /**
    * 打开创建抽屉
+   * @param parentRow 树视图「新增下级」时传入，预填父菜单
    */
-  const openCreateDialog = () => {
+  const openCreateDialog = (parentRow?: SysMenuRow) => {
     const drawerFormRef = ref<FormOverlayExpose<MenuForm> | null>(null);
+    const initialForm = createDefaultMenuForm(parentRow?.id ?? MENU_ROOT_PARENT_ID);
 
     addDrawer({
       title: t('sysMenu.addDialogTitle'),
@@ -59,6 +62,7 @@ function useMenuTableAction(deps: MenuTableActionDeps) {
       contentRenderer: () =>
         h(MenuDialog, {
           ref: drawerFormRef,
+          form: initialForm,
           isFormDisabled: false,
         }),
       beforeSure: createFormBeforeSure<MenuForm>({

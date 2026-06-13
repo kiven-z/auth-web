@@ -1,5 +1,25 @@
 import type { MenuForm, MenuSaveRequest, SysMenuDetailVO } from '@/api/system/menu';
 import { MenuTypeEnums } from '@/views/system/menu/constants/menu-type';
+import { MENU_ROOT_PARENT_ID } from '@/views/system/menu/utils/menu-parent';
+
+/**
+ * 新增菜单时的默认表单
+ */
+export function createDefaultMenuForm(parentId: string = MENU_ROOT_PARENT_ID): MenuForm {
+  return {
+    parentId,
+    menuType: MenuTypeEnums.MENU,
+    menuRank: 0,
+    showLink: true,
+    showParent: true,
+    keepAlive: false,
+    status: true,
+    hiddenTag: false,
+    fixedTag: false,
+    frameLoading: true,
+    dynamicLevel: 1,
+  };
+}
 
 /**
  * 详情 → 表单

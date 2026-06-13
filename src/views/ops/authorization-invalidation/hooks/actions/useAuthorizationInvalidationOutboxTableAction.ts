@@ -3,7 +3,7 @@ import {
   getAuthorizationInvalidationOutboxDetail,
   retryAuthorizationInvalidationOutbox,
 } from '@/api/ops/authorization-invalidation-outbox';
-import { addDialog } from '@/components/ui/Dialog';
+import { addDialog } from '@/components/ui/Dialog/index';
 import { hasAuth } from '@/auth/permission';
 import { operationConfirm } from '@/ui/feedback/dialog';
 import { errorMessage, message } from '@/ui/feedback/message';

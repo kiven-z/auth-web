@@ -36,3 +36,5 @@ sysMenu:
   editDialogTitle: 编辑菜单
   detailDialogTitle: 菜单详情
   assignPermission: 分配权限
+  action:
+    addChild: 新增下级

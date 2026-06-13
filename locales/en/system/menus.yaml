@@ -36,3 +36,5 @@ sysMenu:
   editDialogTitle: Edit menu
   detailDialogTitle: Menu detail
   assignPermission: Assign permissions
+  action:
+    addChild: Add Child

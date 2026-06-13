@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import { AuthElTreePanel } from '@/components/business/AuthElTreePanel';
 import { transformI18n } from '@/plugins/i18n';
+import MenuRowActions from '@/views/system/menu/components/MenuRowActions.vue';
 import useMenuMoreAction from '@/views/system/menu/hooks/actions/useMenuMoreAction';
 import useMenuPageState from '@/views/system/menu/hooks/useMenuPageState';
 import useMenuTableAction from '@/views/system/menu/hooks/actions/useMenuTableAction';
@@ -61,6 +62,7 @@ onMounted(() => {
     :draggable="true"
     :expand-all-label="t('sysMenu.expandAll')"
     :loading="loading"
+    :show-actions-on-hover="true"
     :title="t('sysMenu.tableTitle')"
     :tree-data="treeData"
     :tree-props="treeProps"
@@ -68,7 +70,7 @@ onMounted(() => {
     @node-drop="handleNodeDrop"
   >
     <template #toolbar>
-      <el-button type="primary" @click="openCreateDialog">{{ t('buttons.actionAdd') }}</el-button>
+      <el-button type="primary" @click="openCreateDialog()">{{ t('buttons.actionAdd') }}</el-button>
     </template>
 
     <template #meta="{ data }">
@@ -85,30 +87,17 @@ onMounted(() => {
     </template>
 
     <template #actions="{ data }">
-      <el-button link type="primary" @click="openDetailDialog(data)">
-        {{ t('buttons.actionView') }}
-      </el-button>
-      <el-button link type="primary" @click="openEditDialog(data)">
-        {{ t('buttons.actionEdit') }}
-      </el-button>
-      <el-button link type="danger" @click="deleteBatchRows([data.id])">
-        {{ t('buttons.actionDelete') }}
-      </el-button>
-      <el-dropdown class="ml-1" trigger="click" @click.stop>
-        <el-button class="el-dropdown-link" link type="primary">
-          {{ t('buttons.actionMore') }}
-        </el-button>
-        <template #dropdown>
-          <el-dropdown-menu>
-            <el-dropdown-item @click="openAssignRoleDrawer(data)">
-              {{ t('assign.role') }}
-            </el-dropdown-item>
-            <el-dropdown-item @click="openAssignPermissionDrawer(data)">
-              {{ t('sysMenu.assignPermission') }}
-            </el-dropdown-item>
-          </el-dropdown-menu>
-        </template>
-      </el-dropdown>
+      <MenuRowActions
+        :delete-batch-rows="deleteBatchRows"
+        :dropdown-teleported="false"
+        :open-assign-permission-drawer="openAssignPermissionDrawer"
+        :open-assign-role-drawer="openAssignRoleDrawer"
+        :open-create-dialog="openCreateDialog"
+        :open-detail-dialog="openDetailDialog"
+        :open-edit-dialog="openEditDialog"
+        :row="data"
+        show-add-child
+      />
     </template>
   </AuthElTreePanel>
 </template>
