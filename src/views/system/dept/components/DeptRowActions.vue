@@ -1,5 +1,7 @@
 <script lang="ts" setup>
+import { treeRowActionsLockKey } from '@/components/business/AuthElTreePanel/src/treeRowActionsLock';
 import type { SysDeptRow } from '@/views/system/dept/hooks/useDeptPageState';
+import { inject, onUnmounted } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 defineOptions({
@@ -21,12 +23,40 @@ interface DeptRowActionsProps {
   openAssignRoleDrawer: (row: SysDeptRow) => void;
 }
 
-withDefaults(defineProps<DeptRowActionsProps>(), {
+const props = withDefaults(defineProps<DeptRowActionsProps>(), {
   showAddChild: false,
   dropdownTeleported: true,
 });
 
 const { t } = useI18n();
+const treeRowActionsLock = inject(treeRowActionsLockKey, null);
+
+/**
+ * 按下「更多」前锁定行，避免 visible-change 之前 hover 卸载
+ */
+function lockRowForDropdown() {
+  treeRowActionsLock?.lock(props.row.id);
+}
+
+/**
+ * 下拉展开期间锁定树行操作区，关闭后解除
+ * @param visible 下拉是否可见
+ */
+function handleDropdownVisibleChange(visible: boolean) {
+  if (!treeRowActionsLock) {
+    return;
+  }
+  const key = props.row.id;
+  if (visible) {
+    treeRowActionsLock.lock(key);
+    return;
+  }
+  treeRowActionsLock.unlock(key);
+}
+
+onUnmounted(() => {
+  treeRowActionsLock?.unlock(props.row.id);
+});
 </script>
 
 <template>
@@ -52,8 +82,14 @@ const { t } = useI18n();
     </el-button>
 
     <!-- 更多 -->
-    <el-dropdown :teleported="dropdownTeleported" class="ml-1" trigger="click" @click.stop>
-      <el-button class="el-dropdown-link" link type="primary">
+    <el-dropdown
+      :teleported="dropdownTeleported"
+      class="ml-1"
+      trigger="click"
+      @click.stop
+      @visible-change="handleDropdownVisibleChange"
+    >
+      <el-button class="el-dropdown-link" link type="primary" @pointerdown.stop="lockRowForDropdown">
         {{ t('buttons.actionMore') }}
       </el-button>
       <template #dropdown>

@@ -17,10 +17,7 @@ const innerRef = ref<InstanceType<typeof OrgGrantRoleAssignDrawer> | null>(null)
 
 const loadAssigned = async () => {
   const rows = await getDeptRoles(props.deptId);
-  return rows.map((row) => ({
-    key: row.roleCode,
-    label: row.roleName,
-  }));
+  return rows.map((row) => ({ key: row.roleCode, label: row.roleName }));
 };
 
 defineExpose({
