@@ -3,6 +3,7 @@ import { hasAuth } from '@/auth/permission';
 import { getJobPage } from '@/api/schedule/job';
 import AuthPagedTable, { usePaginationState } from '@/components/business/AuthPagedTable';
 import { COMMON_BOOLEAN_STATUS_FILTER_OPTIONS } from '@/constants/boolean-status';
+import { BUSY_QUARTZ_RUNTIME_STATUSES } from '@/views/schedule/schedule-task/constants/job-quartz-runtime-status';
 import useJobTableAction from '@/views/schedule/schedule-task/hooks/useJobTableAction';
 import useJobTableColumns from '@/views/schedule/schedule-task/hooks/useJobTableColumns';
 import { useFormPlaceholder } from '@/composables/i18n/useFormPlaceholder';
@@ -108,8 +109,14 @@ onMounted(() => {
           <el-button link type="primary" @click="openDetailDialog(row)">{{ t('buttons.actionView') }}</el-button>
           <!-- 修改 -->
           <el-button link type="primary" @click="openEditDialog(row)">{{ t('buttons.actionEdit') }}</el-button>
-          <!-- 立即执行 -->
-          <el-button v-if="hasAuth('sysJob:update')" link type="warning" @click="runOnce(row)">
+          <!-- 立即执行：调度暂停且 Quartz 非执行/排队时可用 -->
+          <el-button
+            v-if="hasAuth('sysJob:update')"
+            :disabled="BUSY_QUARTZ_RUNTIME_STATUSES.has(row.quartzRuntimeStatus)"
+            link
+            type="warning"
+            @click="runOnce(row)"
+          >
             {{ t('scheduleTask.actionRunOnce') }}
           </el-button>
         </div>

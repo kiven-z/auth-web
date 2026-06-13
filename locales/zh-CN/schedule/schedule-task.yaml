@@ -46,4 +46,12 @@ scheduleTask:
   misfirePolicyDoNothing: 不补跑
   concurrentAllowed: 允许并发
   concurrentForbidden: 禁止并发
+  quartzRuntimeStatus: 执行状态
+  quartzStatusNotRegistered: 未注册
+  quartzStatusIdle: 空闲
+  quartzStatusRunning: 执行中
+  quartzStatusPending: 排队中
+  quartzStatusPaused: 已暂停
+  quartzStatusError: 异常
+  quartzStatusFailed: 上次失败
   actionRunOnce: 立即执行

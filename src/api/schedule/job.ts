@@ -1,5 +1,6 @@
 import type { BaseResponseDetail, BaseResponsePageRow, PageResponse, SortSpec } from '@/api/common';
 import { http } from '@/infrastructure/http-core';
+import type { SysJobQuartzRuntimeStatus } from '@/views/schedule/schedule-task/constants/job-quartz-runtime-status';
 import type { AxiosRequestConfig } from 'axios';
 
 /**
@@ -12,6 +13,15 @@ export interface SysJobPageQuery {
   jobName?: string;
   jobGroup?: string;
   status?: boolean;
+}
+
+/** Quartz 运行时状态查询结果（对应后端 SysJobQuartzRuntimeStatusVO） */
+export interface SysJobQuartzRuntimeStatusRow {
+  jobName: string;
+  jobGroup: string;
+  status: SysJobQuartzRuntimeStatus;
+  fireTime?: string;
+  lastFailedTime?: string;
 }
 
 /**
@@ -35,6 +45,9 @@ export interface SysJobPageRow extends BaseResponsePageRow {
   remark?: string;
   previousFireTime?: string;
   nextFireTime?: string;
+  quartzRuntimeStatus?: SysJobQuartzRuntimeStatus;
+  quartzFireTime?: string;
+  quartzLastFailedTime?: string;
 }
 
 /**
@@ -159,6 +172,17 @@ export function updateJob(data: SysJobUpdateForm): Promise<string> {
  */
 export function runJobOnce(id: string): Promise<string> {
   return http.post<string, undefined>(`/system/job/${id}/run`);
+}
+
+/**
+ * 查询 Quartz 运行时状态（对应后端 SysJobOperationController.runtime）
+ * @param jobName 任务名称
+ * @param jobGroup 任务分组
+ */
+export function getJobQuartzRuntimeStatus(jobName: string, jobGroup: string): Promise<SysJobQuartzRuntimeStatusRow> {
+  return http.get<SysJobQuartzRuntimeStatusRow, AxiosRequestConfig>('/system/job/runtime', {
+    params: { jobName, jobGroup },
+  });
 }
 
 /**

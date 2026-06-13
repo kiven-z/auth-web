@@ -1,0 +1,29 @@
+/**
+ * Quartz 运行时状态（对应后端 SysJobQuartzRuntimeStatus，与 sys_job.status 无关）
+ */
+export type SysJobQuartzRuntimeStatus =
+  | 'NOT_REGISTERED'
+  | 'IDLE'
+  | 'RUNNING'
+  | 'PENDING'
+  | 'PAUSED'
+  | 'ERROR'
+  | 'FAILED';
+
+/** 列表展示与 i18n 映射 */
+export const JOB_QUARTZ_RUNTIME_STATUS_OPTIONS: ReadonlyArray<{
+  value: SysJobQuartzRuntimeStatus;
+  labelKey: string;
+  tagType: 'primary' | 'success' | 'info' | 'warning' | 'danger';
+}> = [
+  { value: 'NOT_REGISTERED', labelKey: 'scheduleTask.quartzStatusNotRegistered', tagType: 'info' },
+  { value: 'IDLE', labelKey: 'scheduleTask.quartzStatusIdle', tagType: 'success' },
+  { value: 'RUNNING', labelKey: 'scheduleTask.quartzStatusRunning', tagType: 'warning' },
+  { value: 'PENDING', labelKey: 'scheduleTask.quartzStatusPending', tagType: 'warning' },
+  { value: 'PAUSED', labelKey: 'scheduleTask.quartzStatusPaused', tagType: 'info' },
+  { value: 'ERROR', labelKey: 'scheduleTask.quartzStatusError', tagType: 'danger' },
+  { value: 'FAILED', labelKey: 'scheduleTask.quartzStatusFailed', tagType: 'danger' },
+] as const;
+
+/** 与后端 SysJobQuartzRuntimeQueryService.isBusy 一致 */
+export const BUSY_QUARTZ_RUNTIME_STATUSES: ReadonlySet<SysJobQuartzRuntimeStatus> = new Set(['RUNNING', 'PENDING']);

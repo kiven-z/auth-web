@@ -3,6 +3,7 @@
  */
 import type { SysJobPageRow } from '@/api/schedule/job';
 import { selectUserinfo } from '@/components/business/UserProfile';
+import { JOB_QUARTZ_RUNTIME_STATUS_OPTIONS } from '@/views/schedule/schedule-task/constants/job-quartz-runtime-status';
 import {
   JOB_MISFIRE_POLICY_OPTIONS,
   JOB_TASK_TYPE_OPTIONS,
@@ -43,11 +44,6 @@ function useJobTableColumns() {
         const option = JOB_TASK_TYPE_OPTIONS.find((item) => item.value === row.taskType);
         return option ? t(option.labelKey) : (row.taskType ?? '-');
       },
-    },
-    {
-      label: t('scheduleTask.invokeTarget'),
-      prop: 'invokeTarget',
-      minWidth: 180,
     },
     {
       label: t('scheduleTask.cronExpression'),
@@ -92,6 +88,27 @@ function useJobTableColumns() {
           </ElTag>
         );
       },
+    },
+    {
+      label: t('scheduleTask.quartzRuntimeStatus'),
+      prop: 'quartzRuntimeStatus',
+      minWidth: 110,
+      formatter: (row: SysJobPageRow) => {
+        const option = JOB_QUARTZ_RUNTIME_STATUS_OPTIONS.find((item) => item.value === row.quartzRuntimeStatus);
+        if (!option) {
+          return row.quartzRuntimeStatus;
+        }
+        return (
+          <ElTag type={option.tagType} effect="plain">
+            {t(option.labelKey)}
+          </ElTag>
+        );
+      },
+    },
+    {
+      label: t('scheduleTask.invokeTarget'),
+      prop: 'invokeTarget',
+      minWidth: 180,
     },
     {
       label: t('scheduleTask.previousFireTime'),

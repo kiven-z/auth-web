@@ -46,4 +46,12 @@ scheduleTask:
   misfirePolicyDoNothing: Do Nothing
   concurrentAllowed: Allowed
   concurrentForbidden: Forbidden
+  quartzRuntimeStatus: Execution Status
+  quartzStatusNotRegistered: Not Registered
+  quartzStatusIdle: Idle
+  quartzStatusRunning: Running
+  quartzStatusPending: Pending
+  quartzStatusPaused: Paused
+  quartzStatusError: Error
+  quartzStatusFailed: Last Failed
   actionRunOnce: Run Once
