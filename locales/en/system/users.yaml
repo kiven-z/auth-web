@@ -37,6 +37,7 @@ users:
     browser: Browser
     os: OS
     rememberMe: Remember me
+    loginAt: Login time
     expiresAt: Session expires at
     kickOne: Kick
     kickAll: Kick all

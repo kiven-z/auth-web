@@ -1,3 +1,17 @@
+import dayjs from 'dayjs';
+/**
+ * 将毫秒时间戳格式化为展示文案
+ * @param value 毫秒时间戳
+ * @param pattern 格式，默认 YYYY-MM-DD HH:mm:ss
+ * @returns 展示文案，无效值返回 —
+ */
+export function formatMillisTimestamp(value: number | null | undefined, pattern = 'YYYY-MM-DD HH:mm:ss'): string {
+  if (value == null || value <= 0) {
+    return '-';
+  }
+  return dayjs(value).format(pattern);
+}
+
 /**
  * 将后端返回的过期时间转为毫秒时间戳（兼容 yyyy/MM/dd HH:mm:ss）。
  * @param expires 过期时间

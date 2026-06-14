@@ -14,6 +14,8 @@ export interface UserSessionIndex {
   osType?: string | null;
   rememberMe?: boolean | null;
   refreshTokenExpiresAt?: number | null;
+  /** 登录时间戳（毫秒） */
+  loginAt?: number | null;
 }
 
 /**

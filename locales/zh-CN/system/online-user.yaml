@@ -1,0 +1,15 @@
+onlineUser:
+  field:
+    username: 用户名
+    ipAddress: IP 地址
+    loginAt: 登录时间
+    sessionCount: 在线会话数
+  summary:
+    sessionCount: 当前在线会话 {count} 条
+  action:
+    kickOne: 踢下线
+  message:
+    loadFailed: 加载在线会话列表失败
+    summaryFailed: 加载在线统计失败
+    kickSuccess: 会话已踢下线
+    kickFailed: 踢下线失败

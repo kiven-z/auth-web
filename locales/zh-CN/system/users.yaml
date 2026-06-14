@@ -37,6 +37,7 @@ users:
     browser: 浏览器
     os: 操作系统
     rememberMe: 记住我
+    loginAt: 登录时间
     expiresAt: 会话过期时间
     kickOne: 踢下线
     kickAll: 全部踢下线

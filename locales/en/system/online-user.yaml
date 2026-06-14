@@ -1,0 +1,15 @@
+onlineUser:
+  field:
+    username: Username
+    ipAddress: IP address
+    loginAt: Login time
+    sessionCount: Online sessions
+  summary:
+    sessionCount: '{count} active session(s)'
+  action:
+    kickOne: Kick
+  message:
+    loadFailed: Failed to load online sessions
+    summaryFailed: Failed to load online session summary
+    kickSuccess: Session kicked successfully
+    kickFailed: Failed to kick session
