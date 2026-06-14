@@ -18,7 +18,9 @@ scheduleTask:
     remark: Remark
     previousFireTime: Previous Fire Time
     nextFireTime: Next Fire Time
-    quartzRuntimeStatus: Execution Status
+    quartzRuntimeStatus: Runtime Status
+    lastExecutionStatus: Last Result
+    lastExecutionTime: Last Execution Time
   page:
     tableTitle: Scheduled Tasks
     dialogCreateTitle: Add Schedule Task
@@ -43,7 +45,10 @@ scheduleTask:
       PENDING: Pending
       PAUSED: Paused
       ERROR: Error
-      FAILED: Last Failed
+    lastExecutionStatus:
+      SUCCESS: Success
+      FAILED: Failed
+      UNKNOWN: Unknown
   cronPresets:
     every3Seconds: Every 3 Seconds
     every5Minutes: Every 5 Minutes

@@ -3,6 +3,7 @@
  */
 import type { SysJobPageRow } from '@/api/schedule/job';
 import { selectUserinfo } from '@/components/business/UserProfile';
+import { JOB_LAST_EXECUTION_STATUS_OPTIONS } from '@/views/schedule/schedule-task/constants/job-last-execution-status';
 import { JOB_QUARTZ_RUNTIME_STATUS_OPTIONS } from '@/views/schedule/schedule-task/constants/job-quartz-runtime-status';
 import {
   JOB_MISFIRE_POLICY_OPTIONS,
@@ -105,6 +106,27 @@ function useJobTableColumns() {
           </ElTag>
         );
       },
+    },
+    {
+      label: t('scheduleTask.fields.lastExecutionStatus'),
+      prop: 'lastExecutionStatus',
+      minWidth: 110,
+      formatter: (row: SysJobPageRow) => {
+        const option = JOB_LAST_EXECUTION_STATUS_OPTIONS.find((item) => item.value === row.lastExecutionStatus);
+        if (!option) {
+          return row.lastExecutionStatus ?? '-';
+        }
+        return (
+          <ElTag type={option.tagType} effect="plain">
+            {t(option.labelKey)}
+          </ElTag>
+        );
+      },
+    },
+    {
+      label: t('scheduleTask.fields.lastExecutionTime'),
+      prop: 'lastExecutionTime',
+      minWidth: 170,
     },
     {
       label: t('scheduleTask.fields.invokeTarget'),

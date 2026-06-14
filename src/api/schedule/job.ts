@@ -1,5 +1,6 @@
 import type { BaseResponseDetail, BaseResponsePageRow, PageResponse, SortSpec } from '@/api/common';
 import { http } from '@/infrastructure/http-core';
+import type { SysJobLastExecutionStatus } from '@/views/schedule/schedule-task/constants/job-last-execution-status';
 import type { SysJobQuartzRuntimeStatus } from '@/views/schedule/schedule-task/constants/job-quartz-runtime-status';
 import type { AxiosRequestConfig } from 'axios';
 
@@ -38,7 +39,8 @@ export interface SysJobPageRow extends BaseResponsePageRow {
   nextFireTime?: string;
   quartzRuntimeStatus?: SysJobQuartzRuntimeStatus;
   quartzFireTime?: string;
-  quartzLastFailedTime?: string;
+  lastExecutionStatus?: SysJobLastExecutionStatus;
+  lastExecutionTime?: string;
 }
 
 /**
@@ -166,7 +168,7 @@ export interface SysJobBatchStatusRequest {
 }
 
 /**
- * 批量启停任务（对应后端 SysJobOperationController.batchStatus）
+ * 批量启停任务（对应后端 SysJobController.batchStatus）
  * @param data 任务 ID 列表与目标状态
  */
 export function batchUpdateJobStatus(data: SysJobBatchStatusRequest): Promise<string> {
@@ -174,7 +176,7 @@ export function batchUpdateJobStatus(data: SysJobBatchStatusRequest): Promise<st
 }
 
 /**
- * 立即执行一次（对应后端 SysJobOperationController.runOnce）
+ * 立即执行一次（对应后端 SysJobController.runOnce）
  * @param id 任务主键
  */
 export function runJobOnce(id: string): Promise<string> {

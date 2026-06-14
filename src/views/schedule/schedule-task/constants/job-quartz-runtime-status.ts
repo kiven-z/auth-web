@@ -1,14 +1,7 @@
 /**
- * Quartz 运行时状态（对应后端 SysJobQuartzRuntimeStatus，与 sys_job.status 无关）
+ * Quartz 运行态（对应后端 SysJobQuartzRuntimeStatus，与 sys_job.status 无关）
  */
-export type SysJobQuartzRuntimeStatus =
-  | 'NOT_REGISTERED'
-  | 'IDLE'
-  | 'RUNNING'
-  | 'PENDING'
-  | 'PAUSED'
-  | 'ERROR'
-  | 'FAILED';
+export type SysJobQuartzRuntimeStatus = 'NOT_REGISTERED' | 'IDLE' | 'RUNNING' | 'PENDING' | 'PAUSED' | 'ERROR';
 
 /** 列表展示与 i18n 映射 */
 export const JOB_QUARTZ_RUNTIME_STATUS_OPTIONS: ReadonlyArray<{
@@ -22,7 +15,6 @@ export const JOB_QUARTZ_RUNTIME_STATUS_OPTIONS: ReadonlyArray<{
   { value: 'PENDING', labelKey: 'scheduleTask.enums.quartzStatus.PENDING', tagType: 'warning' },
   { value: 'PAUSED', labelKey: 'scheduleTask.enums.quartzStatus.PAUSED', tagType: 'info' },
   { value: 'ERROR', labelKey: 'scheduleTask.enums.quartzStatus.ERROR', tagType: 'danger' },
-  { value: 'FAILED', labelKey: 'scheduleTask.enums.quartzStatus.FAILED', tagType: 'danger' },
 ] as const;
 
 /** 与后端 SysJobQuartzRuntimeQueryService.isBusy 一致 */

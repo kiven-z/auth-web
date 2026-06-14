@@ -18,7 +18,9 @@ scheduleTask:
     remark: 备注
     previousFireTime: 上次触发
     nextFireTime: 下次触发
-    quartzRuntimeStatus: 执行状态
+    quartzRuntimeStatus: 运行态
+    lastExecutionStatus: 最近结果
+    lastExecutionTime: 最近执行时间
   page:
     tableTitle: 调度任务
     dialogCreateTitle: 新增定时任务
@@ -43,7 +45,10 @@ scheduleTask:
       PENDING: 排队中
       PAUSED: 已暂停
       ERROR: 异常
-      FAILED: 上次失败
+    lastExecutionStatus:
+      SUCCESS: 成功
+      FAILED: 失败
+      UNKNOWN: 未知
   cronPresets:
     every3Seconds: 每 3 秒
     every5Minutes: 每 5 分钟
