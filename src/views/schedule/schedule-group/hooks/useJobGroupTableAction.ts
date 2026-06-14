@@ -4,10 +4,9 @@ import {
   type CreateJobGroupRequest,
   deleteJobGroup,
   getJobGroupDetail,
-  pauseJobGroupJobs,
-  resumeJobGroupJobs,
   type SysJobGroupPageRow,
   updateJobGroup,
+  updateJobGroupJobsStatus,
   type UpdateJobGroupRequest,
 } from '@/api/schedule/job-group';
 import { addDialog } from '@/components/ui/Dialog';
@@ -120,36 +119,18 @@ function useJobGroupTableAction(deps: TableActionDeps) {
   };
 
   /**
-   * 暂停分组下全部任务
+   * 批量变更分组下全部任务运行状态
    * @param row 任务分组行
+   * @param status true=恢复调度，false=暂停
    */
-  const pauseAllJobsInGroup = async (row: SysJobGroupPageRow) => {
+  const updateAllJobsStatusInGroup = async (row: SysJobGroupPageRow, status: boolean) => {
     const confirmed = await operationConfirm();
     if (!confirmed) {
       return;
     }
 
     try {
-      await pauseJobGroupJobs(row.groupCode);
-      message(t('tips.operationSuccess'), { type: 'success' });
-      await fetchTableData();
-    } catch (error: unknown) {
-      errorMessage(error, { defaultI18nKey: 'scheduleGroup.loadFailed' });
-    }
-  };
-
-  /**
-   * 恢复分组下全部任务
-   * @param row 任务分组行
-   */
-  const resumeAllJobsInGroup = async (row: SysJobGroupPageRow) => {
-    const confirmed = await operationConfirm();
-    if (!confirmed) {
-      return;
-    }
-
-    try {
-      await resumeJobGroupJobs(row.groupCode);
+      await updateJobGroupJobsStatus(row.groupCode, status);
       message(t('tips.operationSuccess'), { type: 'success' });
       await fetchTableData();
     } catch (error: unknown) {
@@ -162,8 +143,7 @@ function useJobGroupTableAction(deps: TableActionDeps) {
     openEditDialog,
     openDetailDialog,
     deleteBatchRows,
-    pauseAllJobsInGroup,
-    resumeAllJobsInGroup,
+    updateAllJobsStatusInGroup,
   };
 }
 

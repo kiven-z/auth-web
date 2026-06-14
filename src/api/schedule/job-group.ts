@@ -123,19 +123,11 @@ export function updateJobGroup(data: UpdateJobGroupRequest): Promise<string> {
 export function deleteJobGroup(id: string): Promise<string> {
   return http.request<string>('delete', `/system/job-group/${id}`);
 }
-
 /**
- * 暂停分组下全部任务（同步 Quartz 并更新 sys_job.status）
+ * 批量启停分组下全部任务
  * @param groupCode 分组编码
+ * @param status 目标运行状态
  */
-export function pauseJobGroupJobs(groupCode: string): Promise<string> {
-  return http.request<string>('put', `/system/job-group/${groupCode}/pause-jobs`);
-}
-
-/**
- * 恢复分组下全部任务（同步 Quartz 并更新 sys_job.status）
- * @param groupCode 分组编码
- */
-export function resumeJobGroupJobs(groupCode: string): Promise<string> {
-  return http.request<string>('put', `/system/job-group/${groupCode}/resume-jobs`);
+export function updateJobGroupJobsStatus(groupCode: string, status: boolean): Promise<string> {
+  return http.request<string>('put', `/system/job-group/${groupCode}/jobs/status`, { params: { status } });
 }

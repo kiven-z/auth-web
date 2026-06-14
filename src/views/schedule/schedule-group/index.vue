@@ -31,16 +31,10 @@ const jobGroupState = usePaginationState({
 
 const { loading, searchForm, fetchTableData, resetQuery } = jobGroupState;
 
-const {
-  openCreateDialog,
-  openEditDialog,
-  openDetailDialog,
-  deleteBatchRows,
-  pauseAllJobsInGroup,
-  resumeAllJobsInGroup,
-} = useJobGroupTableAction({
-  fetchTableData,
-});
+const { openCreateDialog, openEditDialog, openDetailDialog, deleteBatchRows, updateAllJobsStatusInGroup } =
+  useJobGroupTableAction({
+    fetchTableData,
+  });
 
 onMounted(() => {
   fetchTableData();
@@ -124,10 +118,10 @@ onMounted(() => {
             <el-button class="el-dropdown-link" link type="primary">{{ t('buttons.actionMore') }}</el-button>
             <template #dropdown>
               <el-dropdown-menu>
-                <el-dropdown-item @click="pauseAllJobsInGroup(row)">
+                <el-dropdown-item @click="updateAllJobsStatusInGroup(row, false)">
                   {{ t('scheduleGroup.actionPauseAllJobs') }}
                 </el-dropdown-item>
-                <el-dropdown-item @click="resumeAllJobsInGroup(row)">
+                <el-dropdown-item @click="updateAllJobsStatusInGroup(row, true)">
                   {{ t('scheduleGroup.actionResumeAllJobs') }}
                 </el-dropdown-item>
               </el-dropdown-menu>
