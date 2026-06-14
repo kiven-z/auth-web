@@ -19,6 +19,7 @@ scheduleTask:
     previousFireTime: Previous Fire Time
     nextFireTime: Next Fire Time
     quartzRuntimeStatus: Runtime Status
+    quartzFireTime: Current Fire Time
     lastExecutionStatus: Last Result
     lastExecutionTime: Last Execution Time
   page:

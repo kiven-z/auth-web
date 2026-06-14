@@ -4,7 +4,6 @@
 import type { SysJobPageRow } from '@/api/schedule/job';
 import { selectUserinfo } from '@/components/business/UserProfile';
 import { JOB_LAST_EXECUTION_STATUS_OPTIONS } from '@/views/schedule/schedule-task/constants/job-last-execution-status';
-import { JOB_QUARTZ_RUNTIME_STATUS_OPTIONS } from '@/views/schedule/schedule-task/constants/job-quartz-runtime-status';
 import {
   JOB_MISFIRE_POLICY_OPTIONS,
   JOB_TASK_TYPE_OPTIONS,
@@ -92,22 +91,6 @@ function useJobTableColumns() {
       },
     },
     {
-      label: t('scheduleTask.fields.quartzRuntimeStatus'),
-      prop: 'quartzRuntimeStatus',
-      minWidth: 110,
-      formatter: (row: SysJobPageRow) => {
-        const option = JOB_QUARTZ_RUNTIME_STATUS_OPTIONS.find((item) => item.value === row.quartzRuntimeStatus);
-        if (!option) {
-          return row.quartzRuntimeStatus;
-        }
-        return (
-          <ElTag type={option.tagType} effect="plain">
-            {t(option.labelKey)}
-          </ElTag>
-        );
-      },
-    },
-    {
       label: t('scheduleTask.fields.lastExecutionStatus'),
       prop: 'lastExecutionStatus',
       minWidth: 110,
@@ -132,16 +115,6 @@ function useJobTableColumns() {
       label: t('scheduleTask.fields.invokeTarget'),
       prop: 'invokeTarget',
       minWidth: 180,
-    },
-    {
-      label: t('scheduleTask.fields.previousFireTime'),
-      prop: 'previousFireTime',
-      minWidth: 170,
-    },
-    {
-      label: t('scheduleTask.fields.nextFireTime'),
-      prop: 'nextFireTime',
-      minWidth: 170,
     },
     {
       label: t('table.updateTime'),

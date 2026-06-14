@@ -35,10 +35,6 @@ export interface SysJobPageRow extends BaseResponsePageRow {
   jobParams?: string;
   payloadJson?: string;
   remark?: string;
-  previousFireTime?: string;
-  nextFireTime?: string;
-  quartzRuntimeStatus?: SysJobQuartzRuntimeStatus;
-  quartzFireTime?: string;
   lastExecutionStatus?: SysJobLastExecutionStatus;
   lastExecutionTime?: string;
 }
@@ -102,6 +98,10 @@ export interface SysJobDetailRow extends BaseResponseDetail {
   remark?: string;
   previousFireTime?: string;
   nextFireTime?: string;
+  quartzRuntimeStatus?: SysJobQuartzRuntimeStatus;
+  quartzFireTime?: string;
+  lastExecutionStatus?: SysJobLastExecutionStatus;
+  lastExecutionTime?: string;
 }
 
 /**

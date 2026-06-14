@@ -16,6 +16,3 @@ export const JOB_QUARTZ_RUNTIME_STATUS_OPTIONS: ReadonlyArray<{
   { value: 'PAUSED', labelKey: 'scheduleTask.enums.quartzStatus.PAUSED', tagType: 'info' },
   { value: 'ERROR', labelKey: 'scheduleTask.enums.quartzStatus.ERROR', tagType: 'danger' },
 ] as const;
-
-/** 与后端 SysJobQuartzRuntimeQueryService.isBusy 一致 */
-export const BUSY_QUARTZ_RUNTIME_STATUSES: ReadonlySet<SysJobQuartzRuntimeStatus> = new Set(['RUNNING', 'PENDING']);

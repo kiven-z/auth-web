@@ -19,6 +19,7 @@ scheduleTask:
     previousFireTime: 上次触发
     nextFireTime: 下次触发
     quartzRuntimeStatus: 运行态
+    quartzFireTime: 本次开始执行时间
     lastExecutionStatus: 最近结果
     lastExecutionTime: 最近执行时间
   page:

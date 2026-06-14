@@ -3,6 +3,8 @@ import type { DetailDialog } from '@/api/common';
 import type { SysJobDetailRow } from '@/api/schedule/job';
 import { selectUserinfo } from '@/components/business/UserProfile';
 import Description from '@/components/ui/Description';
+import { JOB_LAST_EXECUTION_STATUS_OPTIONS } from '@/views/schedule/schedule-task/constants/job-last-execution-status';
+import { JOB_QUARTZ_RUNTIME_STATUS_OPTIONS } from '@/views/schedule/schedule-task/constants/job-quartz-runtime-status';
 import {
   JOB_MISFIRE_POLICY_OPTIONS,
   JOB_TASK_TYPE_OPTIONS,
@@ -135,6 +137,40 @@ const descriptionColumns = computed(() => {
     { label: t('scheduleTask.fields.endTime'), prop: 'endTime', labelWidth: 120 },
     { label: t('scheduleTask.fields.previousFireTime'), prop: 'previousFireTime', labelWidth: 120 },
     { label: t('scheduleTask.fields.nextFireTime'), prop: 'nextFireTime', labelWidth: 120 },
+    {
+      label: t('scheduleTask.fields.quartzRuntimeStatus'),
+      prop: 'quartzRuntimeStatus',
+      labelWidth: 120,
+      cellRenderer: ({ value }) => {
+        const option = JOB_QUARTZ_RUNTIME_STATUS_OPTIONS.find((item) => item.value === value);
+        if (!option) {
+          return <span>{value ?? dash}</span>;
+        }
+        return (
+          <ElTag effect="plain" type={option.tagType}>
+            {t(option.labelKey)}
+          </ElTag>
+        );
+      },
+    },
+    { label: t('scheduleTask.fields.quartzFireTime'), prop: 'quartzFireTime', labelWidth: 120 },
+    {
+      label: t('scheduleTask.fields.lastExecutionStatus'),
+      prop: 'lastExecutionStatus',
+      labelWidth: 120,
+      cellRenderer: ({ value }) => {
+        const option = JOB_LAST_EXECUTION_STATUS_OPTIONS.find((item) => item.value === value);
+        if (!option) {
+          return <span>{value ?? dash}</span>;
+        }
+        return (
+          <ElTag effect="plain" type={option.tagType}>
+            {t(option.labelKey)}
+          </ElTag>
+        );
+      },
+    },
+    { label: t('scheduleTask.fields.lastExecutionTime'), prop: 'lastExecutionTime', labelWidth: 120 },
     {
       label: t('scheduleTask.fields.jobParams'),
       prop: 'jobParams',
