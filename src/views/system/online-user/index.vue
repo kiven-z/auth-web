@@ -1,11 +1,11 @@
 <script lang="ts" setup>
-import { getOnlineSessionSummary } from '@/api/auth/online-session';
+import { getOnlineUserSummary } from '@/api/auth/online-user';
 import AuthPagedTable from '@/components/business/AuthPagedTable';
 import { useFormPlaceholder } from '@/composables/i18n/useFormPlaceholder';
 import { errorMessage } from '@/ui/feedback/message';
-import useOnlineSessionPageState from '@/views/system/online-user/hooks/useOnlineSessionPageState';
-import useOnlineSessionTableAction from '@/views/system/online-user/hooks/useOnlineSessionTableAction';
-import useOnlineSessionTableColumns from '@/views/system/online-user/hooks/useOnlineSessionTableColumns';
+import useOnlineUserPageState from '@/views/system/online-user/hooks/useOnlineUserPageState';
+import useOnlineUserTableAction from '@/views/system/online-user/hooks/useOnlineUserTableAction';
+import useOnlineUserTableColumns from '@/views/system/online-user/hooks/useOnlineUserTableColumns';
 import type { FormInstance } from 'element-plus';
 import { onMounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
@@ -16,25 +16,25 @@ defineOptions({
 
 const { t } = useI18n();
 const ph = useFormPlaceholder();
-const { columns } = useOnlineSessionTableColumns();
+const { columns } = useOnlineUserTableColumns();
 const searchFormRef = ref<FormInstance>();
-const summarySessionCount = ref<number | null>(null);
+const summaryUserCount = ref<number | null>(null);
 const summaryLoading = ref(false);
 
-const { tableState, searchForm } = useOnlineSessionPageState();
-const { loading, fetchTableData: fetchOnlineSessionPage } = tableState;
+const { tableState, searchForm } = useOnlineUserPageState();
+const { loading, fetchTableData: fetchOnlineUserPage } = tableState;
 
 /**
- * 拉取在线会话统计摘要
+ * 拉取在线用户统计摘要
  */
-async function loadSessionSummary() {
+async function loadUserSummary() {
   summaryLoading.value = true;
   try {
-    const summary = await getOnlineSessionSummary();
-    summarySessionCount.value = summary.sessionCount ?? 0;
+    const summary = await getOnlineUserSummary();
+    summaryUserCount.value = summary.onlineUserCount ?? 0;
   } catch (error: unknown) {
     errorMessage(error, { defaultI18nKey: 'onlineUser.message.summaryFailed' });
-    summarySessionCount.value = null;
+    summaryUserCount.value = null;
   } finally {
     summaryLoading.value = false;
   }
@@ -44,12 +44,12 @@ async function loadSessionSummary() {
  * 刷新列表并同步统计摘要（表格工具栏刷新、踢人后复用）
  */
 async function refreshTableAndSummary() {
-  await Promise.all([fetchOnlineSessionPage(), loadSessionSummary()]);
+  await Promise.all([fetchOnlineUserPage(), loadUserSummary()]);
 }
 
 tableState.fetchTableData = refreshTableAndSummary;
 
-const { kickingSessionId, kickSessionRow } = useOnlineSessionTableAction({
+const { kickingUserId, openViewSessionsDialog, kickAllSessionsRow } = useOnlineUserTableAction({
   fetchTableData: refreshTableAndSummary,
 });
 
@@ -80,15 +80,6 @@ onMounted(() => {
           clearable
         />
       </el-form-item>
-      <!-- IP 地址 -->
-      <el-form-item :label="t('onlineUser.field.ipAddress')" prop="ipAddress">
-        <el-input
-          v-model="searchForm.ipAddress"
-          :placeholder="ph.input('onlineUser.field.ipAddress')"
-          class="w-45!"
-          clearable
-        />
-      </el-form-item>
 
       <el-form-item>
         <el-button-group>
@@ -106,20 +97,22 @@ onMounted(() => {
       :columns="columns"
       :state="tableState"
       :title="t('routes.onlineUser')"
-      row-key="sessionId"
+      row-key="userId"
       show-overflow-tooltip
     >
       <template #title>
-        <span>{{ t('routes.onlineUser') }}</span>
-        <el-text v-if="summarySessionCount != null" class="ml-3!" type="info">
-          {{ t('onlineUser.summary.sessionCount', { count: summarySessionCount }) }}
+        <h4>{{ t('routes.onlineUser') }}</h4>
+        <el-text v-if="summaryUserCount != null" class="ml-3!" type="info">
+          {{ t('onlineUser.summary.userCount', { count: summaryUserCount }) }}
         </el-text>
-        <el-text v-else-if="summaryLoading" class="ml-3!" type="info">…</el-text>
       </template>
 
       <template #actions="{ row }">
-        <el-button :loading="kickingSessionId === row.sessionId" link type="danger" @click="kickSessionRow(row)">
-          {{ t('onlineUser.action.kickOne') }}
+        <el-button link type="primary" @click="openViewSessionsDialog(row)">
+          {{ t('onlineUser.action.viewSessions') }}
+        </el-button>
+        <el-button :loading="kickingUserId === row.userId" link type="danger" @click="kickAllSessionsRow(row)">
+          {{ t('onlineUser.action.kickAll') }}
         </el-button>
       </template>
     </AuthPagedTable>
