@@ -1,8 +1,8 @@
 <script lang="ts" setup>
-import { hasAuth } from '@/auth/permission';
 import { getJobPage } from '@/api/schedule/job';
 import AuthPagedTable, { usePaginationState } from '@/components/business/AuthPagedTable';
 import { COMMON_BOOLEAN_STATUS_FILTER_OPTIONS } from '@/constants/boolean-status';
+import { SYS_JOB_PERMS } from '@/views/schedule/schedule-task/constants/permissions';
 import useJobTableAction from '@/views/schedule/schedule-task/hooks/useJobTableAction';
 import useJobTableColumns from '@/views/schedule/schedule-task/hooks/useJobTableColumns';
 import { useFormPlaceholder } from '@/composables/i18n/useFormPlaceholder';
@@ -83,11 +83,13 @@ onMounted(() => {
       <el-form-item>
         <el-button-group>
           <!-- 搜索 -->
-          <el-button :loading="loading" type="primary" @click="fetchTableData">
+          <el-button v-perms="SYS_JOB_PERMS.QUERY" :loading="loading" type="primary" @click="fetchTableData">
             {{ t('buttons.actionSearch') }}
           </el-button>
           <!-- 重置 -->
-          <el-button @click="resetQuery(searchFormRef)">{{ t('buttons.actionReset') }}</el-button>
+          <el-button v-perms="SYS_JOB_PERMS.QUERY" @click="resetQuery(searchFormRef)">
+            {{ t('buttons.actionReset') }}
+          </el-button>
         </el-button-group>
       </el-form-item>
     </el-form>
@@ -102,55 +104,67 @@ onMounted(() => {
       <template #buttons>
         <el-button-group type="primary">
           <!-- 新增 -->
-          <el-button @click="openCreateDialog">{{ t('buttons.actionAdd') }}</el-button>
+          <el-button v-perms="SYS_JOB_PERMS.CREATE" @click="openCreateDialog">{{ t('buttons.actionAdd') }}</el-button>
 
           <!-- 批量启停 -->
-          <el-dropdown v-if="hasAuth('sysJob:update')" trigger="click">
-            <el-button :disabled="selectedRows.length <= 0" type="warning">
-              {{ t('buttons.actionBatchStatus') }}
-            </el-button>
-            <template #dropdown>
-              <el-dropdown-item :disabled="selectedRows.length <= 0" @click="batchUpdateStatus(selectedRows, true)">
-                {{ t('buttons.actionBatchEnable') }}
-              </el-dropdown-item>
-              <el-dropdown-item :disabled="selectedRows.length <= 0" @click="batchUpdateStatus(selectedRows, false)">
-                {{ t('buttons.actionBatchDisable') }}
-              </el-dropdown-item>
-            </template>
-          </el-dropdown>
+          <Perms :value="SYS_JOB_PERMS.UPDATE">
+            <el-dropdown trigger="click">
+              <el-button :disabled="selectedRows.length <= 0" type="warning">
+                {{ t('buttons.actionBatchStatus') }}
+              </el-button>
+              <template #dropdown>
+                <el-dropdown-item :disabled="selectedRows.length <= 0" @click="batchUpdateStatus(selectedRows, true)">
+                  {{ t('buttons.actionBatchEnable') }}
+                </el-dropdown-item>
+                <el-dropdown-item :disabled="selectedRows.length <= 0" @click="batchUpdateStatus(selectedRows, false)">
+                  {{ t('buttons.actionBatchDisable') }}
+                </el-dropdown-item>
+              </template>
+            </el-dropdown>
+          </Perms>
         </el-button-group>
       </template>
 
       <template #actions="{ row }">
         <div class="flex justify-center">
           <!-- 查看 -->
-          <el-button link type="primary" @click="openDetailDialog(row)">{{ t('buttons.actionView') }}</el-button>
+          <el-button v-perms="SYS_JOB_PERMS.DETAIL" link type="primary" @click="openDetailDialog(row)">
+            {{ t('buttons.actionView') }}
+          </el-button>
           <!-- 修改 -->
-          <el-button v-if="row.taskType !== 'MESSAGE_DISPATCH'" link type="primary" @click="openEditDialog(row)">
+          <el-button
+            v-if="row.taskType !== 'MESSAGE_DISPATCH'"
+            v-perms="SYS_JOB_PERMS.UPDATE"
+            link
+            type="primary"
+            @click="openEditDialog(row)"
+          >
             {{ t('buttons.actionEdit') }}
           </el-button>
           <!-- 立即执行 -->
-          <el-button v-if="hasAuth('sysJob:update')" link type="warning" @click="runOnce(row)">
+          <el-button v-perms="SYS_JOB_PERMS.UPDATE" link type="warning" @click="runOnce(row)">
             {{ t('scheduleTask.actions.runOnce') }}
           </el-button>
           <!-- 删除 -->
-          <el-button v-if="hasAuth('sysJob:delete')" link type="danger" @click="deleteBatchRows([row.id])">
+          <el-button v-perms="SYS_JOB_PERMS.DELETE" link type="danger" @click="deleteBatchRows([row.id])">
             {{ t('buttons.actionDelete') }}
           </el-button>
           <!-- 更多 -->
-          <el-dropdown v-if="hasAuth('sysJob:update')" class="ml-2" trigger="click">
-            <el-button class="el-dropdown-link" link type="primary">{{ t('buttons.actionMore') }}</el-button>
-            <template #dropdown>
-              <el-dropdown-menu>
-                <el-dropdown-item :disabled="row.status === true" @click="batchUpdateStatus([row.id], true)">
-                  {{ t('buttons.statusActiveText') }}
-                </el-dropdown-item>
-                <el-dropdown-item :disabled="row.status === false" @click="batchUpdateStatus([row.id], false)">
-                  {{ t('buttons.statusInactiveText') }}
-                </el-dropdown-item>
-              </el-dropdown-menu>
-            </template>
-          </el-dropdown>
+          <Perms :value="SYS_JOB_PERMS.UPDATE">
+            <el-dropdown class="ml-2" trigger="click">
+              <el-button class="el-dropdown-link" link type="primary">{{ t('buttons.actionMore') }}</el-button>
+              <template #dropdown>
+                <el-dropdown-menu>
+                  <el-dropdown-item :disabled="row.status === true" @click="batchUpdateStatus([row.id], true)">
+                    {{ t('buttons.statusActiveText') }}
+                  </el-dropdown-item>
+                  <el-dropdown-item :disabled="row.status === false" @click="batchUpdateStatus([row.id], false)">
+                    {{ t('buttons.statusInactiveText') }}
+                  </el-dropdown-item>
+                </el-dropdown-menu>
+              </template>
+            </el-dropdown>
+          </Perms>
         </div>
       </template>
     </AuthPagedTable>
