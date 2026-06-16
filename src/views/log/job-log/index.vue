@@ -2,6 +2,7 @@
 import { getJobLogPage } from '@/api/log/job-log';
 import AuthPagedTable, { usePaginationState } from '@/components/business/AuthPagedTable';
 import { LOG_JOB_STATUS_ITEMS, LOG_JOB_TRIGGER_TYPE_FILTER_OPTIONS } from '@/views/log/job-log/constants/job-log-enums';
+import { SYS_JOB_LOG_PERMS } from '@/views/log/job-log/constants/permissions';
 import useJobLogTableAction from '@/views/log/job-log/hooks/useJobLogTableAction';
 import useJobLogTableColumns from '@/views/log/job-log/hooks/useJobLogTableColumns';
 import { useCollapsibleSearchForm } from '@/composables/search/useCollapsibleSearchForm';
@@ -126,11 +127,13 @@ onMounted(() => {
       <el-form-item>
         <el-button-group>
           <!-- 搜索 -->
-          <el-button :loading="loading" type="primary" @click="fetchTableData">
+          <el-button v-perms="SYS_JOB_LOG_PERMS.QUERY" :loading="loading" type="primary" @click="fetchTableData">
             {{ t('buttons.actionSearch') }}
           </el-button>
           <!-- 重置 -->
-          <el-button @click="resetQuery(searchFormRef)">{{ t('buttons.actionReset') }}</el-button>
+          <el-button v-perms="SYS_JOB_LOG_PERMS.QUERY" @click="resetQuery(searchFormRef)">
+            {{ t('buttons.actionReset') }}
+          </el-button>
           <!-- 高级搜索 -->
           <el-button v-if="showAdvancedSearchToggle" @click="toggleAdvancedSearch">
             {{ searchExpanded ? t('buttons.actionCollapseSearch') : t('buttons.actionAdvancedSearch') }}
@@ -141,23 +144,27 @@ onMounted(() => {
 
     <AuthPagedTable :columns="columns" :state="jobLogState" :title="t('logJob.title.table')" show-overflow-tooltip>
       <template #buttons>
-        <el-dropdown trigger="click">
-          <el-button type="danger">
-            {{ t('buttons.actionAdvanced') }}
-          </el-button>
+        <Perms :value="SYS_JOB_LOG_PERMS.DELETE">
+          <el-dropdown trigger="click">
+            <el-button type="danger">
+              {{ t('buttons.actionAdvanced') }}
+            </el-button>
 
-          <template #dropdown>
-            <el-dropdown-item :disabled="selectedRows.length <= 0" @click="deleteBatchRows()">
-              {{ t('buttons.actionBatchDelete') }}
-            </el-dropdown-item>
-          </template>
-        </el-dropdown>
+            <template #dropdown>
+              <el-dropdown-item :disabled="selectedRows.length <= 0" @click="deleteBatchRows()">
+                {{ t('buttons.actionBatchDelete') }}
+              </el-dropdown-item>
+            </template>
+          </el-dropdown>
+        </Perms>
       </template>
 
       <template #actions="{ row }">
         <div class="flex justify-center">
-          <el-button link type="primary" @click="openDetailDialog(row)">{{ t('buttons.actionView') }}</el-button>
-          <el-button link type="danger" @click="deleteBatchRows([row.id])">
+          <el-button v-perms="SYS_JOB_LOG_PERMS.DETAIL" link type="primary" @click="openDetailDialog(row)">
+            {{ t('buttons.actionView') }}
+          </el-button>
+          <el-button v-perms="SYS_JOB_LOG_PERMS.DELETE" link type="danger" @click="deleteBatchRows([row.id])">
             {{ t('buttons.actionDelete') }}
           </el-button>
         </div>
