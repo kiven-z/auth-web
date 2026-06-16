@@ -134,9 +134,11 @@ onMounted(() => {
             </el-button>
             <template #dropdown>
               <el-dropdown-item disabled>从 Excel 导入（敬请期待）</el-dropdown-item>
-              <el-dropdown-item v-perms="SYS_ROLE_PERMS.EXPORT" :disabled="exporting" @click="openExportDialog">
-                {{ t('buttons.exportExcel') }}
-              </el-dropdown-item>
+              <Perms :value="SYS_ROLE_PERMS.EXPORT">
+                <el-dropdown-item :disabled="exporting" @click="openExportDialog">
+                  {{ t('buttons.exportExcel') }}
+                </el-dropdown-item>
+              </Perms>
             </template>
           </el-dropdown>
         </el-button-group>
@@ -162,9 +164,11 @@ onMounted(() => {
             <el-button class="el-dropdown-link" link type="primary">{{ t('buttons.actionMore') }}</el-button>
             <template #dropdown>
               <el-dropdown-menu>
-                <el-dropdown-item v-perms="SYS_ROLE_PERMS.UPDATE" @click="openAssignPermissionDrawer(row)">
-                  {{ t('roles.assign.permission') }}
-                </el-dropdown-item>
+                <Perms :value="SYS_ROLE_PERMS.UPDATE">
+                  <el-dropdown-item @click="openAssignPermissionDrawer(row)">
+                    {{ t('roles.assign.permission') }}
+                  </el-dropdown-item>
+                </Perms>
                 <el-dropdown-item>{{ t('roles.menu.dataScope') }}</el-dropdown-item>
                 <el-dropdown-item>{{ t('roles.menu.policyBind') }}</el-dropdown-item>
                 <el-dropdown-item>{{ t('roles.menu.grantSubjects') }}</el-dropdown-item>

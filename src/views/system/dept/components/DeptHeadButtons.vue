@@ -41,15 +41,21 @@ const { exporting, openExportDialog, openImportDialog, openClosureHealthDialog }
       <template #dropdown>
         <el-dropdown-menu>
           <!-- 从 Excel 导入 -->
-          <el-dropdown-item v-perms="SYS_DEPT_PERMS.IMPORT" @click="openImportDialog()">
-            {{ t('buttons.importExcel') }}
-          </el-dropdown-item>
-          <el-dropdown-item v-perms="SYS_DEPT_PERMS.EXPORT" :disabled="exporting" @click="openExportDialog()">
-            {{ t('buttons.exportExcel') }}
-          </el-dropdown-item>
-          <el-dropdown-item v-perms="SYS_DEPT_PERMS.DIAGNOSE" @click="openClosureHealthDialog()">
-            {{ t('dept.closureHealth.action') }}
-          </el-dropdown-item>
+          <Perms :value="SYS_DEPT_PERMS.IMPORT">
+            <el-dropdown-item @click="openImportDialog()">
+              {{ t('buttons.importExcel') }}
+            </el-dropdown-item>
+          </Perms>
+          <Perms :value="SYS_DEPT_PERMS.EXPORT">
+            <el-dropdown-item :disabled="exporting" @click="openExportDialog()">
+              {{ t('buttons.exportExcel') }}
+            </el-dropdown-item>
+          </Perms>
+          <Perms :value="SYS_DEPT_PERMS.DIAGNOSE">
+            <el-dropdown-item @click="openClosureHealthDialog()">
+              {{ t('dept.closureHealth.action') }}
+            </el-dropdown-item>
+          </Perms>
         </el-dropdown-menu>
       </template>
     </el-dropdown>

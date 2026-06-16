@@ -89,24 +89,25 @@ onUnmounted(() => {
     </el-button>
 
     <!-- 更多 -->
-    <el-dropdown
-      v-perms="SYS_DEPT_PERMS.UPDATE"
-      :teleported="dropdownTeleported"
-      class="ml-1"
-      trigger="click"
-      @click.stop
-      @visible-change="handleDropdownVisibleChange"
-    >
-      <el-button class="el-dropdown-link" link type="primary" @pointerdown.stop="lockRowForDropdown">
-        {{ t('buttons.actionMore') }}
-      </el-button>
-      <template #dropdown>
-        <el-dropdown-menu>
-          <el-dropdown-item @click="openAssignRoleDrawer(row)">
-            {{ t('assign.role') }}
-          </el-dropdown-item>
-        </el-dropdown-menu>
-      </template>
-    </el-dropdown>
+    <Perms :value="SYS_DEPT_PERMS.UPDATE">
+      <el-dropdown
+        :teleported="dropdownTeleported"
+        class="ml-1"
+        trigger="click"
+        @click.stop
+        @visible-change="handleDropdownVisibleChange"
+      >
+        <el-button class="el-dropdown-link" link type="primary" @pointerdown.stop="lockRowForDropdown">
+          {{ t('buttons.actionMore') }}
+        </el-button>
+        <template #dropdown>
+          <el-dropdown-menu>
+            <el-dropdown-item @click="openAssignRoleDrawer(row)">
+              {{ t('assign.role') }}
+            </el-dropdown-item>
+          </el-dropdown-menu>
+        </template>
+      </el-dropdown>
+    </Perms>
   </div>
 </template>

@@ -185,22 +185,26 @@ const handleView = (row: SysUserPageRow) => {
             <el-button type="danger">{{ t('buttons.actionAdvanced') }}</el-button>
             <template #dropdown>
               <el-dropdown-item disabled>从 Excel 导入（敬请期待）</el-dropdown-item>
-              <el-dropdown-item v-perms="SYS_USER_PERMS.EXPORT" :disabled="exporting" @click="openExportDialog">
-                {{ t('buttons.exportExcel') }}
-              </el-dropdown-item>
-              <el-dropdown-item v-perms="SYS_USER_PERMS.DELETE" :disabled="!hasSelection" @click="deleteBatchRows()">
-                {{ t('buttons.actionBatchDelete') }}
-              </el-dropdown-item>
-              <el-dropdown-item v-perms="SYS_USER_PERMS.KICK_ALL" :disabled="!hasSelection" @click="batchKickAll()">
-                {{ t('users.kick.batchAction') }}
-              </el-dropdown-item>
-              <el-dropdown-item
-                v-perms="SYS_USER_PERMS.AUTH_REFRESH"
-                :disabled="!hasSelection"
-                @click="batchRefreshAuth()"
-              >
-                {{ t('users.authRefresh.batchAction') }}
-              </el-dropdown-item>
+              <Perms :value="SYS_USER_PERMS.EXPORT">
+                <el-dropdown-item :disabled="exporting" @click="openExportDialog">
+                  {{ t('buttons.exportExcel') }}
+                </el-dropdown-item>
+              </Perms>
+              <Perms :value="SYS_USER_PERMS.DELETE">
+                <el-dropdown-item :disabled="!hasSelection" @click="deleteBatchRows()">
+                  {{ t('buttons.actionBatchDelete') }}
+                </el-dropdown-item>
+              </Perms>
+              <Perms :value="SYS_USER_PERMS.KICK_ALL">
+                <el-dropdown-item :disabled="!hasSelection" @click="batchKickAll()">
+                  {{ t('users.kick.batchAction') }}
+                </el-dropdown-item>
+              </Perms>
+              <Perms :value="SYS_USER_PERMS.AUTH_REFRESH">
+                <el-dropdown-item :disabled="!hasSelection" @click="batchRefreshAuth()">
+                  {{ t('users.authRefresh.batchAction') }}
+                </el-dropdown-item>
+              </Perms>
             </template>
           </el-dropdown>
         </el-button-group>
@@ -225,31 +229,42 @@ const handleView = (row: SysUserPageRow) => {
           <el-dropdown trigger="click">
             <el-button class="ml-2!" link type="primary">{{ t('buttons.actionMore') }}</el-button>
             <template #dropdown>
-              <el-dropdown-item v-perms="SYS_USER_ROLE_PERMS.UPDATE" @click="openAssignRoleDrawer(row)">
-                {{ t('assign.role') }}
-              </el-dropdown-item>
-              <el-dropdown-item v-perms="SYS_USER_DEPT_PERMS.QUERY" @click="openAssignDeptDrawer(row)">
-                {{ t('assign.dept') }}
-              </el-dropdown-item>
-              <el-dropdown-item v-perms="SYS_USER_POST_PERMS.QUERY" @click="openAssignPostDrawer(row)">
-                {{ t('assign.post') }}
-              </el-dropdown-item>
-              <el-dropdown-item
-                v-perms="SYS_USER_PERMS.UPDATE"
-                @click="openAdminResetPasswordDialog(row.id, row.username)"
-              >
-                {{ t('users.password.reset') }}
-              </el-dropdown-item>
+              <Perms :value="SYS_USER_ROLE_PERMS.UPDATE">
+                <el-dropdown-item @click="openAssignRoleDrawer(row)">
+                  {{ t('assign.role') }}
+                </el-dropdown-item>
+              </Perms>
+              <Perms :value="SYS_USER_DEPT_PERMS.QUERY">
+                <el-dropdown-item @click="openAssignDeptDrawer(row)">
+                  {{ t('assign.dept') }}
+                </el-dropdown-item>
+              </Perms>
+              <Perms :value="SYS_USER_POST_PERMS.QUERY">
+                <el-dropdown-item @click="openAssignPostDrawer(row)">
+                  {{ t('assign.post') }}
+                </el-dropdown-item>
+              </Perms>
+              <Perms :value="SYS_USER_PERMS.UPDATE">
+                <el-dropdown-item @click="openAdminResetPasswordDialog(row.id, row.username)">
+                  {{ t('users.password.reset') }}
+                </el-dropdown-item>
+              </Perms>
               <!-- 查看会话 -->
-              <el-dropdown-item v-perms="SYS_USER_PERMS.VIEW_SESSIONS" @click="openViewSessionsDialog(row)">
-                {{ t('users.session.view') }}
-              </el-dropdown-item>
-              <el-dropdown-item v-perms="SYS_USER_PERMS.KICK_ALL" @click="kickAllForUser(row.id)">
-                {{ t('users.kick.action') }}
-              </el-dropdown-item>
-              <el-dropdown-item v-perms="SYS_USER_PERMS.AUTH_REFRESH" @click="refreshUserAuth(row)">
-                {{ t('users.authRefresh.action') }}
-              </el-dropdown-item>
+              <Perms :value="SYS_USER_PERMS.VIEW_SESSIONS">
+                <el-dropdown-item @click="openViewSessionsDialog(row)">
+                  {{ t('users.session.view') }}
+                </el-dropdown-item>
+              </Perms>
+              <Perms :value="SYS_USER_PERMS.KICK_ALL">
+                <el-dropdown-item @click="kickAllForUser(row.id)">
+                  {{ t('users.kick.action') }}
+                </el-dropdown-item>
+              </Perms>
+              <Perms :value="SYS_USER_PERMS.AUTH_REFRESH">
+                <el-dropdown-item @click="refreshUserAuth(row)">
+                  {{ t('users.authRefresh.action') }}
+                </el-dropdown-item>
+              </Perms>
             </template>
           </el-dropdown>
         </div>

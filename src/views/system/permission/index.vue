@@ -126,9 +126,11 @@ onMounted(() => {
             </el-button>
             <template #dropdown>
               <el-dropdown-item disabled>从 Excel 导入（敬请期待）</el-dropdown-item>
-              <el-dropdown-item v-perms="SYS_PERMISSION_PERMS.EXPORT" :disabled="exporting" @click="openExportDialog">
-                {{ t('buttons.exportExcel') }}
-              </el-dropdown-item>
+              <Perms :value="SYS_PERMISSION_PERMS.EXPORT">
+                <el-dropdown-item :disabled="exporting" @click="openExportDialog">
+                  {{ t('buttons.exportExcel') }}
+                </el-dropdown-item>
+              </Perms>
             </template>
           </el-dropdown>
         </el-button-group>
