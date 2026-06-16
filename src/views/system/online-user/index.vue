@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import { getOnlineUserSummary } from '@/api/auth/online-user';
 import AuthPagedTable from '@/components/business/AuthPagedTable';
+import useRemoteUserSearch from '@/composables/dialog/useRemoteUserSearch';
 import { useFormPlaceholder } from '@/composables/i18n/useFormPlaceholder';
 import { errorMessage } from '@/ui/feedback/message';
 import useOnlineUserPageState from '@/views/system/online-user/hooks/useOnlineUserPageState';
@@ -23,6 +24,10 @@ const summaryLoading = ref(false);
 
 const { tableState, searchForm } = useOnlineUserPageState();
 const { loading, fetchTableData: fetchOnlineUserPage } = tableState;
+
+const { userOptions, userSearchLoading, loadUserListByKeyword } = useRemoteUserSearch({
+  errorDefaultI18nKey: 'onlineUser.message.loadFailed',
+});
 
 /**
  * 拉取在线用户统计摘要
@@ -71,14 +76,20 @@ onMounted(() => {
 <template>
   <div>
     <el-form ref="searchFormRef" :model="searchForm" class="bg-bg_color w-[99/100] overflow-auto pl-8 pt-3" inline>
-      <!-- 用户名 -->
-      <el-form-item :label="t('onlineUser.field.username')" prop="username">
-        <el-input
-          v-model="searchForm.username"
-          :placeholder="ph.input('onlineUser.field.username')"
+      <!-- 用户 -->
+      <el-form-item :label="t('onlineUser.field.user')" prop="userId">
+        <el-select
+          v-model="searchForm.userId"
+          :loading="userSearchLoading"
+          :placeholder="ph.keyword('onlineUser.field.user')"
+          :remote-method="loadUserListByKeyword"
           class="w-45!"
           clearable
-        />
+          filterable
+          remote
+        >
+          <el-option v-for="item in userOptions" :key="item.id" :label="item.username" :value="item.id" />
+        </el-select>
       </el-form-item>
 
       <el-form-item>

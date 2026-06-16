@@ -1,5 +1,6 @@
 onlineUser:
   field:
+    user: 用户
     username: 用户名
     loginAt: 最近登录
     sessionCount: 活跃会话数

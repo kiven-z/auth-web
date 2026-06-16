@@ -8,7 +8,7 @@ import { reactive } from 'vue';
  */
 function useOnlineUserPageState() {
   const searchForm = reactive({
-    username: undefined as string | undefined,
+    userId: undefined as string,
   });
 
   const tableState = usePaginationState<OnlineUserPageRow & { id: string }>({

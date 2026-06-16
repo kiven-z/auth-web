@@ -8,8 +8,8 @@ import type { AxiosRequestConfig } from 'axios';
 export interface OnlineUserPageQuery {
   pageIndex?: number;
   pageSize?: number;
-  /** 用户名模糊匹配 */
-  username?: string;
+  /** 用户 ID */
+  userId?: string;
 }
 
 /**

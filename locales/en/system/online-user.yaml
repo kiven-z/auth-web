@@ -1,5 +1,6 @@
 onlineUser:
   field:
+    user: User
     username: Username
     loginAt: Last login
     sessionCount: Active sessions
