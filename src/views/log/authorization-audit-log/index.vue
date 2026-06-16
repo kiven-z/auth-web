@@ -3,6 +3,7 @@ import { getAuthorizationAuditPage } from '@/api/log/authorization-audit';
 import AuthPagedTable, { usePaginationState } from '@/components/business/AuthPagedTable';
 import useRemoteUserSearch from '@/composables/dialog/useRemoteUserSearch';
 import { AUDIT_EVENT_TYPE_ITEMS } from '@/views/log/authorization-audit-log/constants/authorization-audit-enums';
+import { SYS_LOG_AUTHORIZATION_AUDIT_PERMS } from '@/views/log/authorization-audit-log/constants/permissions';
 import useAuthorizationAuditTableAction from '@/views/log/authorization-audit-log/hooks/useAuthorizationAuditTableAction';
 import useAuthorizationAuditTableColumns from '@/views/log/authorization-audit-log/hooks/useAuthorizationAuditTableColumns';
 import { useFormPlaceholder } from '@/composables/i18n/useFormPlaceholder';
@@ -102,11 +103,18 @@ onMounted(() => {
       <el-form-item>
         <el-button-group>
           <!-- 搜索 -->
-          <el-button :loading="loading" type="primary" @click="fetchTableData">
+          <el-button
+            v-perms="SYS_LOG_AUTHORIZATION_AUDIT_PERMS.QUERY"
+            :loading="loading"
+            type="primary"
+            @click="fetchTableData"
+          >
             {{ t('buttons.actionSearch') }}
           </el-button>
           <!-- 重置 -->
-          <el-button @click="resetQuery(searchFormRef)">{{ t('buttons.actionReset') }}</el-button>
+          <el-button v-perms="SYS_LOG_AUTHORIZATION_AUDIT_PERMS.QUERY" @click="resetQuery(searchFormRef)">
+            {{ t('buttons.actionReset') }}
+          </el-button>
         </el-button-group>
       </el-form-item>
     </el-form>
@@ -118,25 +126,39 @@ onMounted(() => {
       show-overflow-tooltip
     >
       <template #buttons>
-        <el-dropdown trigger="click">
-          <el-button type="danger">
-            {{ t('buttons.actionAdvanced') }}
-          </el-button>
+        <Perms :value="SYS_LOG_AUTHORIZATION_AUDIT_PERMS.DELETE">
+          <el-dropdown trigger="click">
+            <el-button type="danger">
+              {{ t('buttons.actionAdvanced') }}
+            </el-button>
 
-          <template #dropdown>
-            <el-dropdown-item :disabled="selectedRows.length <= 0" @click="deleteBatchRows()">
-              {{ t('buttons.actionBatchDelete') }}
-            </el-dropdown-item>
-          </template>
-        </el-dropdown>
+            <template #dropdown>
+              <el-dropdown-item :disabled="selectedRows.length <= 0" @click="deleteBatchRows()">
+                {{ t('buttons.actionBatchDelete') }}
+              </el-dropdown-item>
+            </template>
+          </el-dropdown>
+        </Perms>
       </template>
 
       <template #actions="{ row }">
         <div class="flex justify-center">
           <!-- 查看 -->
-          <el-button link type="primary" @click="openDetailDialog(row)">{{ t('buttons.actionView') }}</el-button>
+          <el-button
+            v-perms="SYS_LOG_AUTHORIZATION_AUDIT_PERMS.DETAIL"
+            link
+            type="primary"
+            @click="openDetailDialog(row)"
+          >
+            {{ t('buttons.actionView') }}
+          </el-button>
           <!-- 删除 -->
-          <el-button link type="danger" @click="deleteBatchRows([row.id])">
+          <el-button
+            v-perms="SYS_LOG_AUTHORIZATION_AUDIT_PERMS.DELETE"
+            link
+            type="danger"
+            @click="deleteBatchRows([row.id])"
+          >
             {{ t('buttons.actionDelete') }}
           </el-button>
         </div>
