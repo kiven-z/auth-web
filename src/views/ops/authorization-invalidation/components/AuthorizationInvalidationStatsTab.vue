@@ -4,6 +4,7 @@ import {
   getAuthorizationInvalidationSummary,
 } from '@/api/ops/authorization-invalidation-summary';
 import { errorMessage } from '@/ui/feedback/message';
+import { SYS_AUTH_INVALIDATION_OUTBOX_PERMS } from '@/views/ops/authorization-invalidation/constants/permissions';
 import useAuthorizationInvalidationStatsTableColumns from '@/views/ops/authorization-invalidation/hooks/columns/useAuthorizationInvalidationStatsTableColumns';
 import { computed, onMounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
@@ -43,7 +44,7 @@ onMounted(() => {
 <template>
   <div class="px-4 pb-4">
     <div class="mb-3 flex justify-end">
-      <el-button :loading="loading" type="primary" @click="reload">
+      <el-button v-perms="SYS_AUTH_INVALIDATION_OUTBOX_PERMS.QUERY" :loading="loading" type="primary" @click="reload">
         {{ t('authorizationInvalidation.statsRefresh') }}
       </el-button>
     </div>

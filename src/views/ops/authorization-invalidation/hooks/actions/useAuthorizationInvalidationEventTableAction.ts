@@ -4,7 +4,6 @@ import {
   releaseAuthorizationInvalidationEventClaim,
 } from '@/api/ops/authorization-invalidation-event';
 import { addDialog } from '@/components/ui/Dialog';
-import { hasAuth } from '@/auth/permission';
 import { operationConfirm } from '@/ui/feedback/dialog';
 import { errorMessage, message } from '@/ui/feedback/message';
 import AuthorizationInvalidationEventDetailDialog from '@/views/ops/authorization-invalidation/components/AuthorizationInvalidationEventDetailDialog.vue';
@@ -55,7 +54,7 @@ function useAuthorizationInvalidationEventTableAction(deps: AuthorizationInvalid
    * @param row 行数据
    */
   const releaseClaimRow = useDebounceFn(async (row: AuthorizationInvalidationEventPageRow) => {
-    if (!hasAuth('sysAuthInvalidationEvent:releaseClaim') || !row.processing) {
+    if (!row.processing) {
       return;
     }
 

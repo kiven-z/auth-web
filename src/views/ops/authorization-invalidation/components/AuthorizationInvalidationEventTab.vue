@@ -1,11 +1,11 @@
 <script lang="ts" setup>
 import { getAuthorizationInvalidationEventPage } from '@/api/ops/authorization-invalidation-event';
 import AuthPagedTable, { usePaginationState } from '@/components/business/AuthPagedTable';
-import { hasAuth } from '@/auth/permission';
 import {
   AUTHORIZATION_CHANGE_KIND_ITEMS,
   PROCESSING_FILTER_ITEMS,
 } from '@/views/ops/authorization-invalidation/constants/authorization-invalidation-enums';
+import { SYS_AUTH_INVALIDATION_EVENT_PERMS } from '@/views/ops/authorization-invalidation/constants/permissions';
 import useAuthorizationInvalidationEventTableAction from '@/views/ops/authorization-invalidation/hooks/actions/useAuthorizationInvalidationEventTableAction';
 import useAuthorizationInvalidationEventTableColumns from '@/views/ops/authorization-invalidation/hooks/columns/useAuthorizationInvalidationEventTableColumns';
 import { useFormPlaceholder } from '@/composables/i18n/useFormPlaceholder';
@@ -110,11 +110,18 @@ onMounted(() => {
       <el-form-item>
         <el-button-group>
           <!-- 搜索 -->
-          <el-button :loading="loading" type="primary" @click="fetchTableData">
+          <el-button
+            v-perms="SYS_AUTH_INVALIDATION_EVENT_PERMS.QUERY"
+            :loading="loading"
+            type="primary"
+            @click="fetchTableData"
+          >
             {{ t('buttons.actionSearch') }}
           </el-button>
           <!-- 重置 -->
-          <el-button @click="resetQuery(searchFormRef)">{{ t('buttons.actionReset') }}</el-button>
+          <el-button v-perms="SYS_AUTH_INVALIDATION_EVENT_PERMS.QUERY" @click="resetQuery(searchFormRef)">
+            {{ t('buttons.actionReset') }}
+          </el-button>
         </el-button-group>
       </el-form-item>
     </el-form>
@@ -127,9 +134,17 @@ onMounted(() => {
     >
       <template #actions="{ row }">
         <div class="flex justify-center gap-1">
-          <el-button link type="primary" @click="openDetailDialog(row)">{{ t('buttons.actionView') }}</el-button>
           <el-button
-            v-if="hasAuth('sysAuthInvalidationEvent:releaseClaim') && row.processing"
+            v-perms="SYS_AUTH_INVALIDATION_EVENT_PERMS.DETAIL"
+            link
+            type="primary"
+            @click="openDetailDialog(row)"
+          >
+            {{ t('buttons.actionView') }}
+          </el-button>
+          <el-button
+            v-if="row.processing"
+            v-perms="SYS_AUTH_INVALIDATION_EVENT_PERMS.RELEASE_CLAIM"
             link
             type="warning"
             @click="releaseClaimRow(row)"

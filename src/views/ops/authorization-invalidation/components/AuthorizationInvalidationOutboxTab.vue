@@ -1,12 +1,12 @@
 <script lang="ts" setup>
 import { getAuthorizationInvalidationOutboxPage } from '@/api/ops/authorization-invalidation-outbox';
 import AuthPagedTable, { usePaginationState } from '@/components/business/AuthPagedTable';
-import { hasAuth } from '@/auth/permission';
 import {
   AUTHORIZATION_CHANGE_KIND_ITEMS,
   isOutboxRetryable,
   OUTBOX_STATUS_ITEMS,
 } from '@/views/ops/authorization-invalidation/constants/authorization-invalidation-enums';
+import { SYS_AUTH_INVALIDATION_OUTBOX_PERMS } from '@/views/ops/authorization-invalidation/constants/permissions';
 import useAuthorizationInvalidationOutboxTableAction from '@/views/ops/authorization-invalidation/hooks/actions/useAuthorizationInvalidationOutboxTableAction';
 import useAuthorizationInvalidationOutboxTableColumns from '@/views/ops/authorization-invalidation/hooks/columns/useAuthorizationInvalidationOutboxTableColumns';
 import { useFormPlaceholder } from '@/composables/i18n/useFormPlaceholder';
@@ -154,11 +154,18 @@ onMounted(() => {
       <el-form-item>
         <el-button-group>
           <!-- 搜索 -->
-          <el-button :loading="loading" type="primary" @click="fetchTableData">
+          <el-button
+            v-perms="SYS_AUTH_INVALIDATION_OUTBOX_PERMS.QUERY"
+            :loading="loading"
+            type="primary"
+            @click="fetchTableData"
+          >
             {{ t('buttons.actionSearch') }}
           </el-button>
           <!-- 重置 -->
-          <el-button @click="resetQuery(searchFormRef)">{{ t('buttons.actionReset') }}</el-button>
+          <el-button v-perms="SYS_AUTH_INVALIDATION_OUTBOX_PERMS.QUERY" @click="resetQuery(searchFormRef)">
+            {{ t('buttons.actionReset') }}
+          </el-button>
           <!-- 高级搜索 -->
           <el-button v-if="showAdvancedSearchToggle" @click="toggleAdvancedSearch">
             {{ searchExpanded ? t('buttons.actionCollapseSearch') : t('buttons.actionAdvancedSearch') }}
@@ -175,9 +182,17 @@ onMounted(() => {
     >
       <template #actions="{ row }">
         <div class="flex justify-center gap-1">
-          <el-button link type="primary" @click="openDetailDialog(row)">{{ t('buttons.actionView') }}</el-button>
           <el-button
-            v-if="hasAuth('sysAuthInvalidationOutbox:retry') && isOutboxRetryable(row.status)"
+            v-perms="SYS_AUTH_INVALIDATION_OUTBOX_PERMS.DETAIL"
+            link
+            type="primary"
+            @click="openDetailDialog(row)"
+          >
+            {{ t('buttons.actionView') }}
+          </el-button>
+          <el-button
+            v-if="isOutboxRetryable(row.status)"
+            v-perms="SYS_AUTH_INVALIDATION_OUTBOX_PERMS.RETRY"
             link
             type="warning"
             @click="retryOutboxRow(row)"

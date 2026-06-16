@@ -6,6 +6,7 @@ import {
   resolveAuthorizationChangeKindMeta,
   resolveProcessingMeta,
 } from '@/views/ops/authorization-invalidation/constants/authorization-invalidation-enums';
+import { SYS_AUTH_INVALIDATION_OUTBOX_PERMS } from '@/views/ops/authorization-invalidation/constants/permissions';
 import useAuthorizationInvalidationLinkedRecord from '@/views/ops/authorization-invalidation/hooks/useAuthorizationInvalidationLinkedRecord';
 import { ElTag } from 'element-plus';
 import { computed } from 'vue';
@@ -94,7 +95,12 @@ const columns = computed(() => [
 <template>
   <div>
     <div v-if="data.eventId" class="mb-3 flex justify-end">
-      <el-button link type="primary" @click="openLinkedOutboxByEventId(data.eventId)">
+      <el-button
+        v-perms="SYS_AUTH_INVALIDATION_OUTBOX_PERMS.DETAIL"
+        link
+        type="primary"
+        @click="openLinkedOutboxByEventId(data.eventId)"
+      >
         {{ t('authorizationInvalidation.viewLinkedOutbox') }}
       </el-button>
     </div>

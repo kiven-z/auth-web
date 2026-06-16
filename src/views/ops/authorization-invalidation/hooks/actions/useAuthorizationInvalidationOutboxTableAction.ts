@@ -4,7 +4,6 @@ import {
   retryAuthorizationInvalidationOutbox,
 } from '@/api/ops/authorization-invalidation-outbox';
 import { addDialog } from '@/components/ui/Dialog';
-import { hasAuth } from '@/auth/permission';
 import { operationConfirm } from '@/ui/feedback/dialog';
 import { errorMessage, message } from '@/ui/feedback/message';
 import AuthorizationInvalidationOutboxDetailDialog from '@/views/ops/authorization-invalidation/components/AuthorizationInvalidationOutboxDetailDialog.vue';
@@ -56,9 +55,6 @@ function useAuthorizationInvalidationOutboxTableAction(deps: AuthorizationInvali
    * @param row 行数据
    */
   const retryOutboxRow = useDebounceFn(async (row: AuthorizationInvalidationOutboxPageRow) => {
-    if (!hasAuth('sysAuthInvalidationOutbox:retry')) {
-      return;
-    }
     if (!isOutboxRetryable(row.status)) {
       return;
     }
