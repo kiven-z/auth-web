@@ -1,17 +1,12 @@
 <script lang="ts" setup>
 import type { FormDialog } from '@/api/common';
-import {
-  getJobCatalogClasses,
-  getJobCatalogMethods,
-  type QuartzTaskClassRow,
-  type QuartzTaskMethodRow,
-  type SysJobCreateForm,
-} from '@/api/schedule/job';
+import type { SysJobCreateForm } from '@/api/schedule/job';
 import { useFormPlaceholder } from '@/composables/i18n/useFormPlaceholder';
-import { errorMessage } from '@/ui/feedback/message';
 import JobCatalogClassPicker from '@/views/schedule/schedule-task/components/JobCatalogClassPicker.vue';
 import JobFormScheduleExtrasFields from '@/views/schedule/schedule-task/components/JobFormScheduleExtrasFields.vue';
 import { JOB_TASK_TYPE_FORM_OPTIONS } from '@/views/schedule/schedule-task/constants/job-task-enums';
+import useBeanInvokePicker from '@/views/schedule/schedule-task/hooks/useBeanInvokePicker';
+import useJobCatalog from '@/views/schedule/schedule-task/hooks/useJobCatalog';
 import useJobGroupRemoteSearch from '@/views/schedule/schedule-task/hooks/useJobGroupRemoteSearch';
 import type { FormInstance, FormRules } from 'element-plus';
 import { computed, onMounted, ref, watch } from 'vue';
@@ -40,26 +35,23 @@ const form = ref<SysJobCreateForm>({
 });
 
 const { jobGroupOptions, loadingJobGroups, loadJobGroupByKeyword } = useJobGroupRemoteSearch();
-const catalogClasses = ref<QuartzTaskClassRow[]>([]);
-const catalogMethods = ref<QuartzTaskMethodRow[]>([]);
-const selectedBeanClass = ref<string>();
-const selectedBeanMethod = ref<string>();
-const loadingMethods = ref(false);
+const { catalogByMode, findJobParamsExample, formatJobParamsExample, loadCatalogClasses } = useJobCatalog();
+const {
+  selectedBeanClass,
+  selectedBeanMethod,
+  catalogMethods,
+  loadingMethods,
+  reset: resetBeanInvokePicker,
+} = useBeanInvokePicker(form);
 
 const isBeanInvoke = computed(() => form.value.taskType === 'BEAN_INVOKE');
 const isCustomClass = computed(() => form.value.taskType === 'CUSTOM_CLASS');
 
-const beanCatalogClasses = computed(() =>
-  catalogClasses.value.filter((item) => item.invokeModes?.includes('BEAN_INVOKE'))
-);
-const customCatalogClasses = computed(() =>
-  catalogClasses.value.filter((item) => item.invokeModes?.includes('CUSTOM_CLASS'))
-);
 const jobParamsExample = computed(() => {
   if (!isCustomClass.value || !form.value.jobClass) {
     return undefined;
   }
-  return customCatalogClasses.value.find((item) => item.className === form.value.jobClass)?.jobParamsExample;
+  return findJobParamsExample(form.value.jobClass);
 });
 
 const rules = computed<FormRules>(() => ({
@@ -84,34 +76,6 @@ const rules = computed<FormRules>(() => ({
     : {}),
 }));
 
-/**
- * 加载白名单任务类
- */
-async function loadCatalogClasses() {
-  try {
-    catalogClasses.value = await getJobCatalogClasses();
-  } catch (error: unknown) {
-    errorMessage(error, { defaultI18nKey: 'scheduleTask.messages.loadCatalogFailed' });
-  }
-}
-
-/**
- * 加载 Bean 调用可选方法
- * @param className 类全限定名
- */
-async function loadCatalogMethods(className: string) {
-  loadingMethods.value = true;
-  catalogMethods.value = [];
-  selectedBeanMethod.value = undefined;
-  try {
-    catalogMethods.value = await getJobCatalogMethods(className);
-  } catch (error: unknown) {
-    errorMessage(error, { defaultI18nKey: 'scheduleTask.messages.loadCatalogFailed' });
-  } finally {
-    loadingMethods.value = false;
-  }
-}
-
 watch(
   () => form.value.taskType,
   (taskType) => {
@@ -122,9 +86,7 @@ watch(
     }
     if (taskType === 'CUSTOM_CLASS') {
       form.value.invokeTarget = undefined;
-      selectedBeanClass.value = undefined;
-      selectedBeanMethod.value = undefined;
-      catalogMethods.value = [];
+      resetBeanInvokePicker();
     }
   }
 );
@@ -135,32 +97,13 @@ watch(
     if (!isCustomClass.value || !className) {
       return;
     }
-    const catalogClass = customCatalogClasses.value.find((item) => item.className === className);
-    if (!catalogClass?.jobParamsExample) {
+    const example = findJobParamsExample(className);
+    if (!example) {
       return;
     }
-    form.value.jobParams = JSON.stringify(JSON.parse(catalogClass.jobParamsExample), null, 2);
+    form.value.jobParams = formatJobParamsExample(example);
   }
 );
-
-watch(selectedBeanClass, (className) => {
-  if (!className) {
-    catalogMethods.value = [];
-    selectedBeanMethod.value = undefined;
-    return;
-  }
-  void loadCatalogMethods(className);
-});
-
-watch(selectedBeanMethod, (methodKey) => {
-  if (!methodKey) {
-    return;
-  }
-  const method = catalogMethods.value.find((item) => `${item.methodName}:${item.parameterSignature}` === methodKey);
-  if (method) {
-    form.value.invokeTarget = method.invokeTargetExample;
-  }
-});
 
 onMounted(() => {
   void loadJobGroupByKeyword(undefined);
@@ -216,7 +159,7 @@ defineExpose({ formRef, form });
           <el-form-item :label="t('scheduleTask.beanInvoke.class')">
             <JobCatalogClassPicker
               v-model="selectedBeanClass"
-              :options="beanCatalogClasses"
+              :options="catalogByMode.BEAN_INVOKE"
               :placeholder="ph.select('scheduleTask.beanInvoke.class')"
             />
           </el-form-item>
@@ -258,7 +201,7 @@ defineExpose({ formRef, form });
           <el-form-item :label="t('scheduleTask.fields.jobClass')" prop="jobClass">
             <JobCatalogClassPicker
               v-model="form.jobClass"
-              :options="customCatalogClasses"
+              :options="catalogByMode.CUSTOM_CLASS"
               :placeholder="ph.select('scheduleTask.fields.jobClass')"
             />
           </el-form-item>

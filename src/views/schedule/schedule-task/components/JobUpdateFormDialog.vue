@@ -1,9 +1,9 @@
 <script lang="ts" setup>
-import { getJobCatalogClasses, type SysJobDetailRow, type SysJobUpdateForm } from '@/api/schedule/job';
+import type { SysJobDetailRow, SysJobUpdateForm } from '@/api/schedule/job';
 import { useFormPlaceholder } from '@/composables/i18n/useFormPlaceholder';
-import { errorMessage } from '@/ui/feedback/message';
 import JobFormScheduleExtrasFields from '@/views/schedule/schedule-task/components/JobFormScheduleExtrasFields.vue';
 import { JOB_TASK_TYPE_OPTIONS } from '@/views/schedule/schedule-task/constants/job-task-enums';
+import useJobCatalog from '@/views/schedule/schedule-task/hooks/useJobCatalog';
 import type { FormInstance, FormRules } from 'element-plus';
 import { computed, onMounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
@@ -21,9 +21,10 @@ const props = defineProps<JobUpdateFormDialogProps>();
 const { t } = useI18n();
 const ph = useFormPlaceholder();
 const formRef = ref<FormInstance>();
-const jobParamsExample = ref<string>();
 
 const form = ref(props.detail as SysJobUpdateForm);
+
+const { findJobParamsExample, loadCatalogClasses } = useJobCatalog();
 
 const taskTypeLabel = computed(() => {
   const option = JOB_TASK_TYPE_OPTIONS.find((item) => item.value === props.detail.taskType);
@@ -32,6 +33,13 @@ const taskTypeLabel = computed(() => {
 
 const isBeanInvoke = computed(() => form.value.taskType === 'BEAN_INVOKE');
 const isCustomClass = computed(() => form.value.taskType === 'CUSTOM_CLASS');
+
+const jobParamsExample = computed(() => {
+  if (!isCustomClass.value || !props.detail.jobClass) {
+    return undefined;
+  }
+  return findJobParamsExample(props.detail.jobClass);
+});
 
 const rules = computed<FormRules>(() => ({
   cronExpression: [
@@ -46,24 +54,8 @@ const rules = computed<FormRules>(() => ({
     : {}),
 }));
 
-/**
- * 编辑页按 jobClass 解析 job_params 示例
- */
-async function loadJobParamsExample() {
-  if (!isCustomClass.value || !props.detail.jobClass) {
-    return;
-  }
-  try {
-    const classes = await getJobCatalogClasses();
-    const matched = classes.find((item) => item.className === props.detail.jobClass);
-    jobParamsExample.value = matched?.jobParamsExample;
-  } catch (error: unknown) {
-    errorMessage(error, { defaultI18nKey: 'scheduleTask.messages.loadCatalogFailed' });
-  }
-}
-
 onMounted(() => {
-  loadJobParamsExample();
+  void loadCatalogClasses();
 });
 
 defineExpose({ formRef, form });

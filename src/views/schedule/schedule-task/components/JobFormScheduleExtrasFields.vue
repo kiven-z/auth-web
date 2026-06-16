@@ -156,7 +156,7 @@ onMounted(() => {
         <CodeEditor
           v-model:value="form.jobParams"
           class="w-full border"
-          height="150"
+          height="260"
           language="json"
           show-progress
           theme="vs"

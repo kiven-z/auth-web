@@ -32,8 +32,6 @@ type DescriptionColumn = Partial<DescriptionItemProps> & {
 const props = defineProps<JobDescriptionDialogProps>();
 const { t } = useI18n();
 
-const dash = '—';
-
 const descriptionColumns = computed(() => {
   const data = props.data;
   const columns: DescriptionColumn[] = [
@@ -52,7 +50,7 @@ const descriptionColumns = computed(() => {
       cellRenderer: ({ value }) => {
         const option = JOB_TASK_TYPE_OPTIONS.find((item) => item.value === value);
         if (!option) {
-          return <span>{value ?? dash}</span>;
+          return <span>{value ?? '—'}</span>;
         }
         return (
           <ElTag effect="plain" type="info">
@@ -67,7 +65,7 @@ const descriptionColumns = computed(() => {
       labelWidth: 120,
       cellRenderer: ({ value }) => {
         if (value == null) {
-          return <span>{dash}</span>;
+          return <span>{'—'}</span>;
         }
         return (
           <ElTag effect="plain" type={value ? 'success' : 'danger'}>
@@ -115,7 +113,7 @@ const descriptionColumns = computed(() => {
       labelWidth: 120,
       cellRenderer: ({ value }) => {
         const option = JOB_MISFIRE_POLICY_OPTIONS.find((item) => item.value === value);
-        return <span>{option ? t(option.labelKey) : dash}</span>;
+        return <span>{option ? t(option.labelKey) : '—'}</span>;
       },
     },
     {
@@ -124,7 +122,7 @@ const descriptionColumns = computed(() => {
       labelWidth: 120,
       cellRenderer: ({ value }) => {
         if (value == null) {
-          return <span>{dash}</span>;
+          return <span>{'—'}</span>;
         }
         return (
           <ElTag effect="plain" type={value ? 'success' : 'info'}>
@@ -144,7 +142,7 @@ const descriptionColumns = computed(() => {
       cellRenderer: ({ value }) => {
         const option = JOB_QUARTZ_RUNTIME_STATUS_OPTIONS.find((item) => item.value === value);
         if (!option) {
-          return <span>{value ?? dash}</span>;
+          return <span>{value ?? '—'}</span>;
         }
         return (
           <ElTag effect="plain" type={option.tagType}>
@@ -161,7 +159,7 @@ const descriptionColumns = computed(() => {
       cellRenderer: ({ value }) => {
         const option = JOB_LAST_EXECUTION_STATUS_OPTIONS.find((item) => item.value === value);
         if (!option) {
-          return <span>{value ?? dash}</span>;
+          return <span>{value ?? '—'}</span>;
         }
         return (
           <ElTag effect="plain" type={option.tagType}>
@@ -205,7 +203,7 @@ const descriptionColumns = computed(() => {
       labelWidth: 120,
       cellRenderer: ({ row }) => {
         if (!row.createUser) {
-          return <span>{dash}</span>;
+          return <span>{'—'}</span>;
         }
         return (
           <ElButton link type="primary" onClick={() => selectUserinfo(row.createUser!, row.createUsername ?? '')}>
@@ -220,7 +218,7 @@ const descriptionColumns = computed(() => {
       labelWidth: 120,
       cellRenderer: ({ row }) => {
         if (!row.updateUser) {
-          return <span>{dash}</span>;
+          return <span>{'—'}</span>;
         }
         return (
           <ElButton link type="primary" onClick={() => selectUserinfo(row.updateUser!, row.updateUsername ?? '')}>

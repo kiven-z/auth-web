@@ -20,6 +20,7 @@ import JobDescriptionDialog from '@/views/schedule/schedule-task/components/JobD
 import JobUpdateFormDialog from '@/views/schedule/schedule-task/components/JobUpdateFormDialog.vue';
 import { h, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
+import { addDrawer } from '@/components/ui/Drawer';
 
 /**
  * 定时任务表格操作：新增弹窗与写接口
@@ -45,12 +46,13 @@ function useJobTableAction(deps: TableActionWithSelectionDeps) {
   const openCreateDialog = () => {
     const dialogFormRef = ref<FormOverlayExpose<SysJobCreateForm> | null>(null);
 
-    addDialog({
+    addDrawer({
       title: t('scheduleTask.page.dialogCreateTitle'),
-      draggable: true,
-      fullscreenIcon: true,
+      size: '100%',
+      resizable: true,
       closeOnClickModal: false,
       closeOnPressEscape: false,
+      showClose: true,
       contentRenderer: () => h(JobCreateFormDialog, { ref: dialogFormRef }),
       beforeSure: createFormBeforeSure<SysJobCreateForm>({
         formExposeRef: dialogFormRef,
@@ -78,12 +80,13 @@ function useJobTableAction(deps: TableActionWithSelectionDeps) {
       const detail = await getJobDetail(row.id);
       const dialogFormRef = ref<FormOverlayExpose<SysJobUpdateForm> | null>(null);
 
-      addDialog({
+      addDrawer({
         title: t('scheduleTask.page.dialogEditTitle'),
-        draggable: true,
-        fullscreenIcon: true,
+        size: '100%',
+        resizable: true,
         closeOnClickModal: false,
         closeOnPressEscape: false,
+        showClose: true,
         contentRenderer: () =>
           h(JobUpdateFormDialog, {
             ref: dialogFormRef,

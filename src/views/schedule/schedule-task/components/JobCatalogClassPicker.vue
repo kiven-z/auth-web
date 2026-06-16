@@ -8,21 +8,17 @@ defineOptions({
 
 const props = withDefaults(
   defineProps<{
-    modelValue?: string;
     options: QuartzTaskClassRow[];
     placeholder?: string;
     disabled?: boolean;
   }>(),
   {
-    modelValue: undefined,
     placeholder: '',
     disabled: false,
   }
 );
 
-const emit = defineEmits<{
-  'update:modelValue': [value: string | undefined];
-}>();
+const modelValue = defineModel<string>();
 
 interface CatalogSelectOption {
   value: string;
@@ -45,6 +41,7 @@ function formatJobCatalogClassLabel(item: Pick<QuartzTaskClassRow, 'name' | 'cla
   return `${title}（${item.description}）`;
 }
 
+// 计算属性：下拉选项
 const selectOptions = computed<CatalogSelectOption[]>(() =>
   props.options.map((item) => ({
     value: item.className,
@@ -54,28 +51,19 @@ const selectOptions = computed<CatalogSelectOption[]>(() =>
     className: item.className,
   }))
 );
-
-/**
- * 同步 v-model
- * @param value 选中的类全限定名
- */
-function handleChange(value: string | undefined) {
-  emit('update:modelValue', value);
-}
 </script>
 
 <template>
   <el-select-v2
+    v-model="modelValue"
     :disabled="disabled"
     :item-height="46"
-    :model-value="modelValue"
     :options="selectOptions"
     :placeholder="placeholder"
     class="w-full job-catalog-class-picker"
     clearable
     filterable
     popper-class="job-catalog-class-picker-popper"
-    @update:model-value="handleChange"
   >
     <template #default="{ item }">
       <div class="job-catalog-class-picker__option">

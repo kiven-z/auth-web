@@ -1,0 +1,47 @@
+import { getJobCatalogClasses, type QuartzTaskClassRow } from '@/api/schedule/job';
+import { errorMessage } from '@/ui/feedback/message';
+import { computed, ref } from 'vue';
+
+/** 表单可选的任务类调用模式 */
+export type JobCatalogInvokeMode = 'BEAN_INVOKE' | 'CUSTOM_CLASS';
+
+/**
+ * 白名单任务类目录：加载、按调用模式分组、解析 job_params 示例
+ */
+export default function useJobCatalog() {
+  const catalogClasses = ref<QuartzTaskClassRow[]>([]);
+
+  const catalogByMode = computed<Record<JobCatalogInvokeMode, QuartzTaskClassRow[]>>(() => ({
+    BEAN_INVOKE: catalogClasses.value.filter((item) => item.invokeModes?.includes('BEAN_INVOKE')),
+    CUSTOM_CLASS: catalogClasses.value.filter((item) => item.invokeModes?.includes('CUSTOM_CLASS')),
+  }));
+
+  /**
+   * 按类名解析 job_params 示例原文
+   * @param className 类全限定名
+   */
+  function findJobParamsExample(className: string): string | undefined {
+    return catalogByMode.value.CUSTOM_CLASS.find((item) => item.className === className)?.jobParamsExample;
+  }
+
+  /**
+   * 将 catalog 中的 job_params 示例格式化为可编辑 JSON 文本
+   * @param example catalog 原始示例字符串
+   */
+  function formatJobParamsExample(example: string): string {
+    return JSON.stringify(JSON.parse(example), null, 2);
+  }
+
+  /**
+   * 加载白名单任务类
+   */
+  async function loadCatalogClasses() {
+    try {
+      catalogClasses.value = await getJobCatalogClasses();
+    } catch (error: unknown) {
+      errorMessage(error, { defaultI18nKey: 'scheduleTask.messages.loadCatalogFailed' });
+    }
+  }
+
+  return { catalogClasses, catalogByMode, findJobParamsExample, formatJobParamsExample, loadCatalogClasses };
+}
