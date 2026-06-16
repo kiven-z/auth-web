@@ -2,6 +2,7 @@
 import { getRolePage } from '@/api/system/role';
 import AuthPagedTable, { usePaginationState } from '@/components/business/AuthPagedTable';
 import { ROLE_TYPE_FILTER_OPTIONS } from '@/views/system/_shared/constants/role-type-options';
+import { SYS_ROLE_PERMS } from '@/views/system/role/constants/permissions';
 import { ROLE_STATUS_FILTER_OPTIONS } from '@/views/system/role/constants/role-search-options';
 import useRoleAdvanceAction from '@/views/system/role/hooks/useRoleAdvanceAction';
 import useRoleMoreAction from '@/views/system/role/hooks/useRoleMoreAction';
@@ -109,11 +110,13 @@ onMounted(() => {
       <el-form-item>
         <el-button-group>
           <!-- 搜索 -->
-          <el-button :loading="loading" type="primary" @click="fetchTableData">
+          <el-button v-perms="SYS_ROLE_PERMS.QUERY" :loading="loading" type="primary" @click="fetchTableData">
             {{ t('buttons.actionSearch') }}
           </el-button>
           <!-- 重置 -->
-          <el-button @click="resetQuery(searchFormRef)">{{ t('buttons.actionReset') }}</el-button>
+          <el-button v-perms="SYS_ROLE_PERMS.QUERY" @click="resetQuery(searchFormRef)">
+            {{ t('buttons.actionReset') }}
+          </el-button>
         </el-button-group>
       </el-form-item>
     </el-form>
@@ -121,7 +124,9 @@ onMounted(() => {
     <AuthPagedTable :columns="columns" :state="roleState" :title="t('roles.title.page')">
       <template #buttons>
         <el-button-group type="primary">
-          <el-button type="primary" @click="openCreateDialog">{{ t('buttons.actionAdd') }}</el-button>
+          <el-button v-perms="SYS_ROLE_PERMS.CREATE" type="primary" @click="openCreateDialog">
+            {{ t('buttons.actionAdd') }}
+          </el-button>
 
           <el-dropdown trigger="click">
             <el-button type="danger">
@@ -129,7 +134,7 @@ onMounted(() => {
             </el-button>
             <template #dropdown>
               <el-dropdown-item disabled>从 Excel 导入（敬请期待）</el-dropdown-item>
-              <el-dropdown-item :disabled="exporting" @click="openExportDialog">
+              <el-dropdown-item v-perms="SYS_ROLE_PERMS.EXPORT" :disabled="exporting" @click="openExportDialog">
                 {{ t('buttons.exportExcel') }}
               </el-dropdown-item>
             </template>
@@ -140,11 +145,15 @@ onMounted(() => {
       <template #actions="{ row }">
         <div class="flex justify-center">
           <!-- 查看 -->
-          <el-button link type="primary" @click="openDetailDialog(row)">{{ t('buttons.actionView') }}</el-button>
+          <el-button v-perms="SYS_ROLE_PERMS.DETAIL" link type="primary" @click="openDetailDialog(row)">
+            {{ t('buttons.actionView') }}
+          </el-button>
           <!-- 修改/编辑 -->
-          <el-button link type="primary" @click="openEditDialog(row)">{{ t('buttons.actionEdit') }}</el-button>
+          <el-button v-perms="SYS_ROLE_PERMS.UPDATE" link type="primary" @click="openEditDialog(row)">
+            {{ t('buttons.actionEdit') }}
+          </el-button>
           <!-- 删除 -->
-          <el-button link type="danger" @click="deleteRow(row)">
+          <el-button v-perms="SYS_ROLE_PERMS.DELETE" link type="danger" @click="deleteRow(row)">
             {{ t('buttons.actionDelete') }}
           </el-button>
 
@@ -153,7 +162,7 @@ onMounted(() => {
             <el-button class="el-dropdown-link" link type="primary">{{ t('buttons.actionMore') }}</el-button>
             <template #dropdown>
               <el-dropdown-menu>
-                <el-dropdown-item @click="openAssignPermissionDrawer(row)">
+                <el-dropdown-item v-perms="SYS_ROLE_PERMS.UPDATE" @click="openAssignPermissionDrawer(row)">
                   {{ t('roles.assign.permission') }}
                 </el-dropdown-item>
                 <el-dropdown-item>{{ t('roles.menu.dataScope') }}</el-dropdown-item>
