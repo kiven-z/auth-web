@@ -1,3 +1,5 @@
+import { SYS_SESSION_PERMS } from '@/views/system/_shared/constants/session-permissions';
+
 /**
  * 用户管理模块按钮权限码（对齐后端 {@code SysUserController}、{@code AdminSessionController}、
  * {@code AdminAuthorizationController}）
@@ -13,12 +15,7 @@ export const SYS_USER_PERMS = {
   DELETE: 'sysUser:delete',
   /** Excel 导出 */
   EXPORT: 'sysUser:export',
-  /** 查看用户活跃会话 */
-  VIEW_SESSIONS: 'ADMIN',
-  /** 踢出全部/批量踢出会话 */
-  KICK_ALL: 'ADMIN',
-  /** 踢出单条会话 */
-  KICK_SESSION: 'ADMIN',
+  ...SYS_SESSION_PERMS,
   /** 刷新用户授权画像缓存 */
   AUTH_REFRESH: 'ADMIN',
 } as const;

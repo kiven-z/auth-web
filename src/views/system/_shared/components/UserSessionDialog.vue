@@ -3,8 +3,8 @@ import { kickUserSession, listUserSessions, type UserSessionIndex } from '@/api/
 import AuthDataTable from '@/components/ui/AuthDataTable';
 import { operationConfirm } from '@/ui/feedback/dialog';
 import { errorMessage, message } from '@/ui/feedback/message';
-import { SYS_USER_PERMS } from '@/views/system/user/constants/permissions';
-import useUserSessionTableColumns from '@/views/system/user/hooks/columns/useUserSessionTableColumns';
+import useUserSessionTableColumns from '@/views/system/_shared/columns/useUserSessionTableColumns';
+import { SYS_SESSION_PERMS } from '@/views/system/_shared/constants/session-permissions';
 import { onMounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 
@@ -89,7 +89,7 @@ onMounted(() => {
 
       <div class="flex items-center gap-2">
         <el-button
-          v-perms="SYS_USER_PERMS.KICK_ALL"
+          v-perms="SYS_SESSION_PERMS.KICK_ALL"
           :disabled="sessions.length <= 0"
           :loading="kickingAll"
           link
@@ -98,7 +98,13 @@ onMounted(() => {
         >
           {{ t('users.session.kickAll') }}
         </el-button>
-        <el-button v-perms="SYS_USER_PERMS.VIEW_SESSIONS" :loading="loading" link type="primary" @click="loadSessions">
+        <el-button
+          v-perms="SYS_SESSION_PERMS.VIEW_SESSIONS"
+          :loading="loading"
+          link
+          type="primary"
+          @click="loadSessions"
+        >
           {{ t('tableBar.refresh') }}
         </el-button>
       </div>
@@ -119,7 +125,7 @@ onMounted(() => {
     >
       <template #actions="{ row }">
         <el-button
-          v-perms="SYS_USER_PERMS.KICK_SESSION"
+          v-perms="SYS_SESSION_PERMS.KICK_SESSION"
           :loading="kickingSessionId === row.sessionId"
           link
           type="danger"

@@ -3,7 +3,7 @@ import { kickAllUserSessions } from '@/api/auth/session';
 import { addDialog } from '@/components/ui/Dialog';
 import { operationConfirm } from '@/ui/feedback/dialog';
 import { errorMessage, message } from '@/ui/feedback/message';
-import UserSessionDialog from '@/views/system/user/components/UserSessionDialog.vue';
+import UserSessionDialog from '@/views/system/_shared/components/UserSessionDialog.vue';
 import { h, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 

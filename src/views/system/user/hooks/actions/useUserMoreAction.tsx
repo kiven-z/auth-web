@@ -9,7 +9,7 @@ import { errorMessage, message } from '@/ui/feedback/message';
 import OrgGrantRoleAssignDrawer from '@/views/system/_shared/components/OrgGrantRoleAssignDrawer.vue';
 import UserAssignDeptDrawer from '@/views/system/user/components/UserAssignDeptDrawer.vue';
 import UserAssignPostDrawer from '@/views/system/user/components/UserAssignPostDrawer.vue';
-import UserSessionDialog from '@/views/system/user/components/UserSessionDialog.vue';
+import UserSessionDialog from '@/views/system/_shared/components/UserSessionDialog.vue';
 import { h, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 
