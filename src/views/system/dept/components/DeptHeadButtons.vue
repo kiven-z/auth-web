@@ -1,8 +1,8 @@
 <script lang="ts" setup>
 import { SYS_DEPT_PERMS } from '@/views/system/dept/constants/permissions';
 import useDeptAdvancedAction from '@/views/system/dept/hooks/actions/useDeptAdvancedAction';
-import useDeptPageState from '@/views/system/dept/hooks/useDeptPageState';
 import useDeptTableAction from '@/views/system/dept/hooks/actions/useDeptTableAction';
+import useDeptPageState from '@/views/system/dept/hooks/useDeptPageState';
 import { useI18n } from 'vue-i18n';
 
 defineOptions({

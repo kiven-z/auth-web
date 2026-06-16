@@ -1,19 +1,25 @@
 <script lang="ts" setup>
 import type { SysUserPageRow } from '@/api/system/user';
 import AuthPagedTable from '@/components/business/AuthPagedTable';
+import { useChangePasswordAction } from '@/components/business/ChangePasswordDialog';
 import { selectUserinfo } from '@/components/business/UserProfile';
 import { useFormPlaceholder } from '@/composables/i18n/useFormPlaceholder';
 import { useCollapsibleSearchForm } from '@/composables/search/useCollapsibleSearchForm';
+import {
+  SYS_USER_DEPT_PERMS,
+  SYS_USER_PERMS,
+  SYS_USER_POST_PERMS,
+  SYS_USER_ROLE_PERMS,
+} from '@/views/system/user/constants/permissions';
 import { USER_ACCOUNT_STATUS, USER_STATUS_FILTER_OPTIONS } from '@/views/system/user/constants/user-account-status';
 import useUserAdvanceAction from '@/views/system/user/hooks/actions/useUserAdvanceAction';
 import useUserMoreAction from '@/views/system/user/hooks/actions/useUserMoreAction';
-import useUserPageState from '@/views/system/user/hooks/useUserPageState';
 import useUserTableAction from '@/views/system/user/hooks/actions/useUserTableAction';
 import useUserTableColumns from '@/views/system/user/hooks/columns/useUserTableColumns';
+import useUserPageState from '@/views/system/user/hooks/useUserPageState';
 import type { FormInstance } from 'element-plus';
 import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { useChangePasswordAction } from '@/components/business/ChangePasswordDialog';
 
 defineOptions({
   name: 'UserTablePanel',
@@ -123,11 +129,13 @@ const handleView = (row: SysUserPageRow) => {
       <el-form-item>
         <el-button-group>
           <!-- 搜索 -->
-          <el-button :loading="loading" type="primary" @click="fetchUserTable">
+          <el-button v-perms="SYS_USER_PERMS.QUERY" :loading="loading" type="primary" @click="fetchUserTable">
             {{ t('buttons.actionSearch') }}
           </el-button>
           <!-- 重置 -->
-          <el-button @click="resetUserSearch(searchFormRef)">{{ t('buttons.actionReset') }}</el-button>
+          <el-button v-perms="SYS_USER_PERMS.QUERY" @click="resetUserSearch(searchFormRef)">
+            {{ t('buttons.actionReset') }}
+          </el-button>
           <!-- 高级搜索 -->
           <el-button v-if="showAdvancedSearchToggle" @click="toggleAdvancedSearch">
             {{ searchExpanded ? t('buttons.actionCollapseSearch') : t('buttons.actionAdvancedSearch') }}
@@ -139,50 +147,58 @@ const handleView = (row: SysUserPageRow) => {
     <AuthPagedTable :columns="columns" :state="tableState" :title="t('routes.userManagement')">
       <template #buttons>
         <el-button-group type="primary">
-          <el-button type="primary" @click="openCreateDialog">{{ t('buttons.actionAdd') }}</el-button>
+          <el-button v-perms="SYS_USER_PERMS.CREATE" type="primary" @click="openCreateDialog">
+            {{ t('buttons.actionAdd') }}
+          </el-button>
 
           <!-- 修改状态 -->
-          <el-dropdown trigger="click">
-            <el-button :disabled="!hasSelection" type="warning">
-              {{ t('buttons.actionBatchStatus') }}
-            </el-button>
-            <template #dropdown>
-              <el-dropdown-item
-                :disabled="!hasSelection"
-                @click="batchUpdateStatus(selectedRows, USER_ACCOUNT_STATUS.normal)"
-              >
-                {{ t('buttons.actionBatchEnable') }}
-              </el-dropdown-item>
-              <el-dropdown-item
-                :disabled="!hasSelection"
-                @click="batchUpdateStatus(selectedRows, USER_ACCOUNT_STATUS.locked)"
-              >
-                {{ t('buttons.actionBatchLock') }}
-              </el-dropdown-item>
-              <el-dropdown-item
-                :disabled="!hasSelection"
-                @click="batchUpdateStatus(selectedRows, USER_ACCOUNT_STATUS.disabled)"
-              >
-                {{ t('buttons.actionBatchDisable') }}
-              </el-dropdown-item>
-            </template>
-          </el-dropdown>
+          <Perms :value="SYS_USER_PERMS.UPDATE">
+            <el-dropdown trigger="click">
+              <el-button :disabled="!hasSelection" type="warning">
+                {{ t('buttons.actionBatchStatus') }}
+              </el-button>
+              <template #dropdown>
+                <el-dropdown-item
+                  :disabled="!hasSelection"
+                  @click="batchUpdateStatus(selectedRows, USER_ACCOUNT_STATUS.normal)"
+                >
+                  {{ t('buttons.actionBatchEnable') }}
+                </el-dropdown-item>
+                <el-dropdown-item
+                  :disabled="!hasSelection"
+                  @click="batchUpdateStatus(selectedRows, USER_ACCOUNT_STATUS.locked)"
+                >
+                  {{ t('buttons.actionBatchLock') }}
+                </el-dropdown-item>
+                <el-dropdown-item
+                  :disabled="!hasSelection"
+                  @click="batchUpdateStatus(selectedRows, USER_ACCOUNT_STATUS.disabled)"
+                >
+                  {{ t('buttons.actionBatchDisable') }}
+                </el-dropdown-item>
+              </template>
+            </el-dropdown>
+          </Perms>
 
           <!-- 高级功能 -->
           <el-dropdown trigger="click">
             <el-button type="danger">{{ t('buttons.actionAdvanced') }}</el-button>
             <template #dropdown>
               <el-dropdown-item disabled>从 Excel 导入（敬请期待）</el-dropdown-item>
-              <el-dropdown-item :disabled="exporting" @click="openExportDialog">
+              <el-dropdown-item v-perms="SYS_USER_PERMS.EXPORT" :disabled="exporting" @click="openExportDialog">
                 {{ t('buttons.exportExcel') }}
               </el-dropdown-item>
-              <el-dropdown-item :disabled="!hasSelection" @click="deleteBatchRows()">
+              <el-dropdown-item v-perms="SYS_USER_PERMS.DELETE" :disabled="!hasSelection" @click="deleteBatchRows()">
                 {{ t('buttons.actionBatchDelete') }}
               </el-dropdown-item>
-              <el-dropdown-item :disabled="!hasSelection" @click="batchKickAll()">
+              <el-dropdown-item v-perms="SYS_USER_PERMS.KICK_ALL" :disabled="!hasSelection" @click="batchKickAll()">
                 {{ t('users.kick.batchAction') }}
               </el-dropdown-item>
-              <el-dropdown-item :disabled="!hasSelection" @click="batchRefreshAuth()">
+              <el-dropdown-item
+                v-perms="SYS_USER_PERMS.AUTH_REFRESH"
+                :disabled="!hasSelection"
+                @click="batchRefreshAuth()"
+              >
                 {{ t('users.authRefresh.batchAction') }}
               </el-dropdown-item>
             </template>
@@ -193,36 +209,45 @@ const handleView = (row: SysUserPageRow) => {
       <template #actions="{ row }">
         <div class="flex justify-center gap-x-1">
           <!-- 查看 -->
-          <el-button link type="primary" @click="handleView(row)">{{ t('buttons.actionView') }}</el-button>
+          <el-button v-perms="SYS_USER_PERMS.QUERY" link type="primary" @click="handleView(row)">
+            {{ t('buttons.actionView') }}
+          </el-button>
           <!-- 修改 -->
-          <el-button link type="primary" @click="openEditDialog(row)">{{ t('buttons.actionEdit') }}</el-button>
+          <el-button v-perms="SYS_USER_PERMS.UPDATE" link type="primary" @click="openEditDialog(row)">
+            {{ t('buttons.actionEdit') }}
+          </el-button>
           <!-- 删除 -->
-          <el-button link type="danger" @click="deleteBatchRows([row.id])">{{ t('buttons.actionDelete') }}</el-button>
+          <el-button v-perms="SYS_USER_PERMS.DELETE" link type="danger" @click="deleteBatchRows([row.id])">
+            {{ t('buttons.actionDelete') }}
+          </el-button>
 
           <!-- 更多 -->
           <el-dropdown trigger="click">
             <el-button class="ml-2!" link type="primary">{{ t('buttons.actionMore') }}</el-button>
             <template #dropdown>
-              <el-dropdown-item @click="openAssignRoleDrawer(row)">
+              <el-dropdown-item v-perms="SYS_USER_ROLE_PERMS.UPDATE" @click="openAssignRoleDrawer(row)">
                 {{ t('assign.role') }}
               </el-dropdown-item>
-              <el-dropdown-item @click="openAssignDeptDrawer(row)">
+              <el-dropdown-item v-perms="SYS_USER_DEPT_PERMS.QUERY" @click="openAssignDeptDrawer(row)">
                 {{ t('assign.dept') }}
               </el-dropdown-item>
-              <el-dropdown-item @click="openAssignPostDrawer(row)">
+              <el-dropdown-item v-perms="SYS_USER_POST_PERMS.QUERY" @click="openAssignPostDrawer(row)">
                 {{ t('assign.post') }}
               </el-dropdown-item>
-              <el-dropdown-item @click="openAdminResetPasswordDialog(row.id, row.username)">
+              <el-dropdown-item
+                v-perms="SYS_USER_PERMS.UPDATE"
+                @click="openAdminResetPasswordDialog(row.id, row.username)"
+              >
                 {{ t('users.password.reset') }}
               </el-dropdown-item>
               <!-- 查看会话 -->
-              <el-dropdown-item @click="openViewSessionsDialog(row)">
+              <el-dropdown-item v-perms="SYS_USER_PERMS.VIEW_SESSIONS" @click="openViewSessionsDialog(row)">
                 {{ t('users.session.view') }}
               </el-dropdown-item>
-              <el-dropdown-item @click="kickAllForUser(row.id)">
+              <el-dropdown-item v-perms="SYS_USER_PERMS.KICK_ALL" @click="kickAllForUser(row.id)">
                 {{ t('users.kick.action') }}
               </el-dropdown-item>
-              <el-dropdown-item @click="refreshUserAuth(row)">
+              <el-dropdown-item v-perms="SYS_USER_PERMS.AUTH_REFRESH" @click="refreshUserAuth(row)">
                 {{ t('users.authRefresh.action') }}
               </el-dropdown-item>
             </template>

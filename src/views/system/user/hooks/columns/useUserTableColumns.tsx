@@ -1,6 +1,8 @@
 import type { SysUserPageRow } from '@/api/system/user';
 import { selectUserinfo } from '@/components/business/UserProfile';
 import useUserProfileDisplay from '@/components/business/UserProfile/src/hooks/useUserProfileDisplay';
+import { Perms } from '@/components/ui/Perms';
+import { SYS_USER_PERMS } from '@/views/system/user/constants/permissions';
 import { ElAvatar, ElButton } from 'element-plus';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
@@ -42,9 +44,11 @@ function useUserTableColumns() {
       formatter: (row: SysUserPageRow) => {
         return (
           row.createUser && (
-            <ElButton link type="primary" onClick={() => selectUserinfo(row.createUser, row.createUsername)}>
-              {row.createUsername}
-            </ElButton>
+            <Perms value={SYS_USER_PERMS.QUERY}>
+              <ElButton link type="primary" onClick={() => selectUserinfo(row.createUser, row.createUsername)}>
+                {row.createUsername}
+              </ElButton>
+            </Perms>
           )
         );
       },
@@ -56,9 +60,11 @@ function useUserTableColumns() {
       formatter: (row: SysUserPageRow) => {
         return (
           row.updateUser && (
-            <ElButton link type="primary" onClick={() => selectUserinfo(row.updateUser, row.updateUsername)}>
-              {row.updateUsername}
-            </ElButton>
+            <Perms value={SYS_USER_PERMS.QUERY}>
+              <ElButton link type="primary" onClick={() => selectUserinfo(row.updateUser, row.updateUsername)}>
+                {row.updateUsername}
+              </ElButton>
+            </Perms>
           )
         );
       },

@@ -1,16 +1,16 @@
 <script lang="ts" setup>
 import { getPermissionPage } from '@/api/system/permission';
 import AuthPagedTable, { usePaginationState } from '@/components/business/AuthPagedTable';
+import { useFormPlaceholder } from '@/composables/i18n/useFormPlaceholder';
+import { COMMON_BOOLEAN_STATUS_FILTER_OPTIONS } from '@/constants/boolean-status';
 import { PERMISSION_TYPE_FILTER_OPTIONS } from '@/views/system/_shared/constants/permission-type-options';
 import { SYS_PERMISSION_PERMS } from '@/views/system/permission/constants/permissions';
 import usePermissionAdvanceAction from '@/views/system/permission/hooks/usePermissionAdvanceAction';
 import usePermissionTableAction from '@/views/system/permission/hooks/usePermissionTableAction';
 import usePermissionTableColumns from '@/views/system/permission/hooks/usePermissionTableColumns';
-import { useFormPlaceholder } from '@/composables/i18n/useFormPlaceholder';
 import type { FormInstance } from 'element-plus';
 import { onMounted, reactive, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { COMMON_BOOLEAN_STATUS_FILTER_OPTIONS } from '@/constants/boolean-status';
 
 defineOptions({
   name: 'SystemPermission',

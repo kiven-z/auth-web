@@ -3,6 +3,7 @@ import AuthPagedTable, { usePaginationState } from '@/components/business/AuthPa
 import { getUserPostPage, type UserPostPageRow } from '@/api/system/user-post';
 import useUserAssignPostDrawerAction from '@/views/system/user/hooks/actions/useUserAssignPostDrawerAction';
 import useUserPostAssignTableColumns from '@/views/system/user/hooks/columns/useUserPostAssignTableColumns';
+import { SYS_USER_POST_PERMS } from '@/views/system/user/constants/permissions';
 import { USER_DEPT_RELATION_STATUS_FILTER_OPTIONS } from '@/views/system/user/constants/user-dept-relation-status';
 import { useFormPlaceholder } from '@/composables/i18n/useFormPlaceholder';
 import type { FormInstance } from 'element-plus';
@@ -98,11 +99,13 @@ onMounted(() => {
       <el-form-item>
         <el-button-group>
           <!-- 搜索 -->
-          <el-button :loading="loading" type="primary" @click="fetchTableData">
+          <el-button v-perms="SYS_USER_POST_PERMS.QUERY" :loading="loading" type="primary" @click="fetchTableData">
             {{ t('buttons.actionSearch') }}
           </el-button>
           <!-- 重置 -->
-          <el-button @click="resetQuery(searchFormRef)">{{ t('buttons.actionReset') }}</el-button>
+          <el-button v-perms="SYS_USER_POST_PERMS.QUERY" @click="resetQuery(searchFormRef)">
+            {{ t('buttons.actionReset') }}
+          </el-button>
         </el-button-group>
       </el-form-item>
     </el-form>
@@ -116,17 +119,28 @@ onMounted(() => {
     >
       <template #buttons>
         <el-button-group>
-          <el-button type="primary" @click="openCreateDialog">{{ t('buttons.actionAdd') }}</el-button>
-          <el-button :disabled="!hasSelection" type="danger" @click="deleteBatchRows()">
+          <el-button v-perms="SYS_USER_POST_PERMS.CREATE" type="primary" @click="openCreateDialog">
+            {{ t('buttons.actionAdd') }}
+          </el-button>
+          <el-button
+            v-perms="SYS_USER_POST_PERMS.DELETE"
+            :disabled="!hasSelection"
+            type="danger"
+            @click="deleteBatchRows()"
+          >
             {{ t('buttons.actionBatchDelete') }}
           </el-button>
-          <el-button type="danger" @click="clearAllPosts">{{ t('buttons.assignClearAll') }}</el-button>
+          <el-button v-perms="SYS_USER_POST_PERMS.DELETE" type="danger" @click="clearAllPosts">
+            {{ t('buttons.assignClearAll') }}
+          </el-button>
         </el-button-group>
       </template>
 
       <template #actions="{ row }">
-        <el-button link type="primary" @click="openEditDialog(row)">{{ t('buttons.actionEdit') }}</el-button>
-        <el-button link type="danger" @click="deleteBatchRows([row.id])">
+        <el-button v-perms="SYS_USER_POST_PERMS.UPDATE" link type="primary" @click="openEditDialog(row)">
+          {{ t('buttons.actionEdit') }}
+        </el-button>
+        <el-button v-perms="SYS_USER_POST_PERMS.DELETE" link type="danger" @click="deleteBatchRows([row.id])">
           {{ t('buttons.actionDelete') }}
         </el-button>
       </template>

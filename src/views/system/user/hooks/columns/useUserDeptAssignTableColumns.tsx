@@ -1,6 +1,8 @@
 import type { UserDeptPageRow } from '@/api/system/user-dept';
 import { selectUserinfo } from '@/components/business/UserProfile';
 import useUserProfileDisplay from '@/components/business/UserProfile/src/hooks/useUserProfileDisplay';
+import { Perms } from '@/components/ui/Perms';
+import { SYS_USER_PERMS } from '@/views/system/user/constants/permissions';
 import { ElButton, ElCheckTag } from 'element-plus';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
@@ -48,9 +50,11 @@ function useUserDeptAssignTableColumns() {
       minWidth: 120,
       formatter: (row: UserDeptPageRow) =>
         row.createUser && (
-          <ElButton link type="primary" onClick={() => selectUserinfo(row.createUser, row.createUsername)}>
-            {row.createUsername}
-          </ElButton>
+          <Perms value={SYS_USER_PERMS.QUERY}>
+            <ElButton link type="primary" onClick={() => selectUserinfo(row.createUser, row.createUsername)}>
+              {row.createUsername}
+            </ElButton>
+          </Perms>
         ),
     },
     {
@@ -59,9 +63,11 @@ function useUserDeptAssignTableColumns() {
       minWidth: 120,
       formatter: (row: UserDeptPageRow) =>
         row.updateUser && (
-          <ElButton link type="primary" onClick={() => selectUserinfo(row.updateUser, row.updateUsername)}>
-            {row.updateUsername}
-          </ElButton>
+          <Perms value={SYS_USER_PERMS.QUERY}>
+            <ElButton link type="primary" onClick={() => selectUserinfo(row.updateUser, row.updateUsername)}>
+              {row.updateUsername}
+            </ElButton>
+          </Perms>
         ),
     },
     {

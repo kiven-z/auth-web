@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import { getRolePage } from '@/api/system/role';
 import AuthPagedTable, { usePaginationState } from '@/components/business/AuthPagedTable';
+import { useFormPlaceholder } from '@/composables/i18n/useFormPlaceholder';
 import { ROLE_TYPE_FILTER_OPTIONS } from '@/views/system/_shared/constants/role-type-options';
 import { SYS_ROLE_PERMS } from '@/views/system/role/constants/permissions';
 import { ROLE_STATUS_FILTER_OPTIONS } from '@/views/system/role/constants/role-search-options';
@@ -8,7 +9,6 @@ import useRoleAdvanceAction from '@/views/system/role/hooks/useRoleAdvanceAction
 import useRoleMoreAction from '@/views/system/role/hooks/useRoleMoreAction';
 import useRoleTableAction from '@/views/system/role/hooks/useRoleTableAction';
 import useRoleTableColumns from '@/views/system/role/hooks/useRoleTableColumns';
-import { useFormPlaceholder } from '@/composables/i18n/useFormPlaceholder';
 import type { FormInstance } from 'element-plus';
 import { onMounted, reactive, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
