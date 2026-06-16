@@ -3,6 +3,7 @@ import { getLoginLogPage } from '@/api/log/login-log';
 import AuthPagedTable, { usePaginationState } from '@/components/business/AuthPagedTable';
 import useRemoteUserSearch from '@/composables/dialog/useRemoteUserSearch';
 import { LOGIN_LOG_RESULT_ITEMS, LOGIN_LOG_TYPE_FILTER_OPTIONS } from '@/views/log/login-log/constants/login-log-enums';
+import { SYS_LOG_LOGIN_PERMS } from '@/views/log/login-log/constants/permissions';
 import useLoginLogTableAction from '@/views/log/login-log/hooks/useLoginLogTableAction';
 import useLoginLogTableColumns from '@/views/log/login-log/hooks/useLoginLogTableColumns';
 import { useFormPlaceholder } from '@/composables/i18n/useFormPlaceholder';
@@ -115,34 +116,40 @@ onMounted(() => {
       <el-form-item>
         <el-button-group>
           <!-- 搜索 -->
-          <el-button :loading="loading" type="primary" @click="fetchTableData">
+          <el-button v-perms="SYS_LOG_LOGIN_PERMS.QUERY" :loading="loading" type="primary" @click="fetchTableData">
             {{ t('buttons.actionSearch') }}
           </el-button>
           <!-- 重置 -->
-          <el-button @click="resetQuery(searchFormRef)">{{ t('buttons.actionReset') }}</el-button>
+          <el-button v-perms="SYS_LOG_LOGIN_PERMS.QUERY" @click="resetQuery(searchFormRef)">
+            {{ t('buttons.actionReset') }}
+          </el-button>
         </el-button-group>
       </el-form-item>
     </el-form>
 
     <AuthPagedTable :columns="columns" :state="loginLogState" :title="t('loginLog.title.table')" show-overflow-tooltip>
       <template #buttons>
-        <el-dropdown trigger="click">
-          <el-button type="danger">
-            {{ t('buttons.actionAdvanced') }}
-          </el-button>
+        <Perms :value="SYS_LOG_LOGIN_PERMS.DELETE">
+          <el-dropdown trigger="click">
+            <el-button type="danger">
+              {{ t('buttons.actionAdvanced') }}
+            </el-button>
 
-          <template #dropdown>
-            <el-dropdown-item :disabled="selectedRows.length <= 0" type="danger" @click="deleteBatchRows()">
-              {{ t('buttons.actionBatchDelete') }}
-            </el-dropdown-item>
-          </template>
-        </el-dropdown>
+            <template #dropdown>
+              <el-dropdown-item :disabled="selectedRows.length <= 0" type="danger" @click="deleteBatchRows()">
+                {{ t('buttons.actionBatchDelete') }}
+              </el-dropdown-item>
+            </template>
+          </el-dropdown>
+        </Perms>
       </template>
 
       <template #actions="{ row }">
         <div class="flex justify-center">
-          <el-button link type="primary" @click="openDetailDialog(row)">{{ t('buttons.actionView') }}</el-button>
-          <el-button link type="danger" @click="deleteBatchRows([row.id])">
+          <el-button v-perms="SYS_LOG_LOGIN_PERMS.DETAIL" link type="primary" @click="openDetailDialog(row)">
+            {{ t('buttons.actionView') }}
+          </el-button>
+          <el-button v-perms="SYS_LOG_LOGIN_PERMS.DELETE" link type="danger" @click="deleteBatchRows([row.id])">
             {{ t('buttons.actionDelete') }}
           </el-button>
         </div>
