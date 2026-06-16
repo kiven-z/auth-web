@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import { AuthElTreePanel } from '@/components/business/AuthElTreePanel';
 import { transformI18n } from '@/plugins/i18n';
+import { SYS_MENU_PERMS } from '@/views/system/menu/constants/permissions';
 import MenuRowActions from '@/views/system/menu/components/MenuRowActions.vue';
 import useMenuMoreAction from '@/views/system/menu/hooks/actions/useMenuMoreAction';
 import useMenuPageState from '@/views/system/menu/hooks/useMenuPageState';
@@ -70,7 +71,9 @@ onMounted(() => {
     @node-drop="handleNodeDrop"
   >
     <template #toolbar>
-      <el-button type="primary" @click="openCreateDialog()">{{ t('buttons.actionAdd') }}</el-button>
+      <el-button v-perms="SYS_MENU_PERMS.CREATE" type="primary" @click="openCreateDialog()">
+        {{ t('buttons.actionAdd') }}
+      </el-button>
     </template>
 
     <template #meta="{ data }">

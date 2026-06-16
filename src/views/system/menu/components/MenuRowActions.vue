@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import { treeRowActionsLockKey } from '@/components/business/AuthElTreePanel/src/treeRowActionsLock';
+import { SYS_MENU_PERMS } from '@/views/system/menu/constants/permissions';
 import type { SysMenuRow } from '@/views/system/menu/hooks/useMenuPageState';
 import { inject, onUnmounted } from 'vue';
 import { useI18n } from 'vue-i18n';
@@ -63,27 +64,34 @@ onUnmounted(() => {
 <template>
   <div class="menu-row-actions flex flex-wrap items-center gap-x-1">
     <!-- 查看 -->
-    <el-button link type="primary" @click="openDetailDialog(row)">
+    <el-button v-perms="SYS_MENU_PERMS.QUERY" link type="primary" @click="openDetailDialog(row)">
       {{ t('buttons.actionView') }}
     </el-button>
 
     <!-- 新增下级（树视图） -->
-    <el-button v-if="showAddChild && row.status" link type="primary" @click="openCreateDialog(row)">
+    <el-button
+      v-if="showAddChild && row.status"
+      v-perms="SYS_MENU_PERMS.CREATE"
+      link
+      type="primary"
+      @click="openCreateDialog(row)"
+    >
       {{ t('sysMenu.action.addChild') }}
     </el-button>
 
     <!-- 编辑 -->
-    <el-button link type="primary" @click="openEditDialog(row)">
+    <el-button v-perms="SYS_MENU_PERMS.UPDATE" link type="primary" @click="openEditDialog(row)">
       {{ t('buttons.actionEdit') }}
     </el-button>
 
     <!-- 删除 -->
-    <el-button link type="danger" @click="deleteBatchRows([row.id])">
+    <el-button v-perms="SYS_MENU_PERMS.DELETE" link type="danger" @click="deleteBatchRows([row.id])">
       {{ t('buttons.actionDelete') }}
     </el-button>
 
     <!-- 更多 -->
     <el-dropdown
+      v-perms="SYS_MENU_PERMS.UPDATE"
       :teleported="dropdownTeleported"
       class="ml-1"
       trigger="click"

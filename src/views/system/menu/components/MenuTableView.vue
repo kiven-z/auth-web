@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import AuthPagedTable from '@/components/business/AuthPagedTable';
+import { SYS_MENU_PERMS } from '@/views/system/menu/constants/permissions';
 import { menuTypeFilterOptions } from '@/views/system/menu/constants/menu-type';
 import useMenuMoreAction from '@/views/system/menu/hooks/actions/useMenuMoreAction';
 import useMenuPageState from '@/views/system/menu/hooks/useMenuPageState';
@@ -107,9 +108,11 @@ onMounted(() => {
     >
       <template #buttons>
         <el-button-group type="primary">
-          <el-button type="primary" @click="openCreateDialog">{{ t('buttons.actionAdd') }}</el-button>
+          <el-button v-perms="SYS_MENU_PERMS.CREATE" type="primary" @click="openCreateDialog()">
+            {{ t('buttons.actionAdd') }}
+          </el-button>
 
-          <el-dropdown trigger="click">
+          <el-dropdown v-perms="SYS_MENU_PERMS.UPDATE" trigger="click">
             <el-button type="warning">
               {{ t('buttons.actionBatchStatus') }}
             </el-button>
@@ -126,7 +129,11 @@ onMounted(() => {
           <el-dropdown trigger="click">
             <el-button type="danger">{{ t('buttons.actionAdvanced') }}</el-button>
             <template #dropdown>
-              <el-dropdown-item :disabled="selectedRows.length <= 0" @click="deleteBatchRows()">
+              <el-dropdown-item
+                v-perms="SYS_MENU_PERMS.DELETE"
+                :disabled="selectedRows.length <= 0"
+                @click="deleteBatchRows()"
+              >
                 {{ t('buttons.actionBatchDelete') }}
               </el-dropdown-item>
             </template>
@@ -136,12 +143,16 @@ onMounted(() => {
 
       <template #actions="{ row }">
         <div class="flex justify-center flex-wrap gap-x-1">
-          <el-button link type="primary" @click="openDetailDialog(row)">{{ t('buttons.actionView') }}</el-button>
-          <el-button link type="primary" @click="openEditDialog(row)">{{ t('buttons.actionEdit') }}</el-button>
-          <el-button link type="danger" @click="deleteBatchRows([row.id])">
+          <el-button v-perms="SYS_MENU_PERMS.QUERY" link type="primary" @click="openDetailDialog(row)">
+            {{ t('buttons.actionView') }}
+          </el-button>
+          <el-button v-perms="SYS_MENU_PERMS.UPDATE" link type="primary" @click="openEditDialog(row)">
+            {{ t('buttons.actionEdit') }}
+          </el-button>
+          <el-button v-perms="SYS_MENU_PERMS.DELETE" link type="danger" @click="deleteBatchRows([row.id])">
             {{ t('buttons.actionDelete') }}
           </el-button>
-          <el-dropdown class="ml-1" trigger="click">
+          <el-dropdown v-perms="SYS_MENU_PERMS.UPDATE" class="ml-1" trigger="click">
             <el-button class="el-dropdown-link" link type="primary">{{ t('buttons.actionMore') }}</el-button>
             <template #dropdown>
               <el-dropdown-menu>
