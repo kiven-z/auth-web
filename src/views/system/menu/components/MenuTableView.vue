@@ -112,32 +112,32 @@ onMounted(() => {
             {{ t('buttons.actionAdd') }}
           </el-button>
 
-          <el-dropdown v-perms="SYS_MENU_PERMS.UPDATE" trigger="click">
-            <el-button type="warning">
-              {{ t('buttons.actionBatchStatus') }}
-            </el-button>
-            <template #dropdown>
-              <el-dropdown-item :disabled="selectedRows.length <= 0" @click="batchUpdateStatus(selectedRows, true)">
-                {{ t('buttons.actionBatchEnable') }}
-              </el-dropdown-item>
-              <el-dropdown-item :disabled="selectedRows.length <= 0" @click="batchUpdateStatus(selectedRows, false)">
-                {{ t('buttons.actionBatchDisable') }}
-              </el-dropdown-item>
-            </template>
-          </el-dropdown>
+          <Perms :value="SYS_MENU_PERMS.UPDATE">
+            <el-dropdown trigger="click">
+              <el-button type="warning">
+                {{ t('buttons.actionBatchStatus') }}
+              </el-button>
+              <template #dropdown>
+                <el-dropdown-item :disabled="selectedRows.length <= 0" @click="batchUpdateStatus(selectedRows, true)">
+                  {{ t('buttons.actionBatchEnable') }}
+                </el-dropdown-item>
+                <el-dropdown-item :disabled="selectedRows.length <= 0" @click="batchUpdateStatus(selectedRows, false)">
+                  {{ t('buttons.actionBatchDisable') }}
+                </el-dropdown-item>
+              </template>
+            </el-dropdown>
+          </Perms>
 
-          <el-dropdown trigger="click">
-            <el-button type="danger">{{ t('buttons.actionAdvanced') }}</el-button>
-            <template #dropdown>
-              <el-dropdown-item
-                v-perms="SYS_MENU_PERMS.DELETE"
-                :disabled="selectedRows.length <= 0"
-                @click="deleteBatchRows()"
-              >
-                {{ t('buttons.actionBatchDelete') }}
-              </el-dropdown-item>
-            </template>
-          </el-dropdown>
+          <Perms :value="SYS_MENU_PERMS.DELETE">
+            <el-dropdown trigger="click">
+              <el-button type="danger">{{ t('buttons.actionAdvanced') }}</el-button>
+              <template #dropdown>
+                <el-dropdown-item :disabled="selectedRows.length <= 0" @click="deleteBatchRows()">
+                  {{ t('buttons.actionBatchDelete') }}
+                </el-dropdown-item>
+              </template>
+            </el-dropdown>
+          </Perms>
         </el-button-group>
       </template>
 
@@ -152,19 +152,21 @@ onMounted(() => {
           <el-button v-perms="SYS_MENU_PERMS.DELETE" link type="danger" @click="deleteBatchRows([row.id])">
             {{ t('buttons.actionDelete') }}
           </el-button>
-          <el-dropdown v-perms="SYS_MENU_PERMS.UPDATE" class="ml-1" trigger="click">
-            <el-button class="el-dropdown-link" link type="primary">{{ t('buttons.actionMore') }}</el-button>
-            <template #dropdown>
-              <el-dropdown-menu>
-                <el-dropdown-item @click="openAssignRoleDrawer(row)">
-                  {{ t('assign.role') }}
-                </el-dropdown-item>
-                <el-dropdown-item @click="openAssignPermissionDrawer(row)">
-                  {{ t('sysMenu.assignPermission') }}
-                </el-dropdown-item>
-              </el-dropdown-menu>
-            </template>
-          </el-dropdown>
+          <Perms :value="SYS_MENU_PERMS.UPDATE">
+            <el-dropdown class="ml-1" trigger="click">
+              <el-button class="el-dropdown-link" link type="primary">{{ t('buttons.actionMore') }}</el-button>
+              <template #dropdown>
+                <el-dropdown-menu>
+                  <el-dropdown-item @click="openAssignRoleDrawer(row)">
+                    {{ t('assign.role') }}
+                  </el-dropdown-item>
+                  <el-dropdown-item @click="openAssignPermissionDrawer(row)">
+                    {{ t('sysMenu.assignPermission') }}
+                  </el-dropdown-item>
+                </el-dropdown-menu>
+              </template>
+            </el-dropdown>
+          </Perms>
         </div>
       </template>
     </AuthPagedTable>
