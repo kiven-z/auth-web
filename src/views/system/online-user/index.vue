@@ -1,9 +1,7 @@
 <script lang="ts" setup>
-import { getOnlineUserSummary } from '@/api/auth/online-user';
 import AuthPagedTable from '@/components/business/AuthPagedTable';
 import useRemoteUserSearch from '@/composables/dialog/useRemoteUserSearch';
 import { useFormPlaceholder } from '@/composables/i18n/useFormPlaceholder';
-import { errorMessage } from '@/ui/feedback/message';
 import { SYS_ONLINE_USER_PERMS } from '@/views/system/online-user/constants/permissions';
 import useOnlineUserPageState from '@/views/system/online-user/hooks/useOnlineUserPageState';
 import useOnlineUserTableAction from '@/views/system/online-user/hooks/useOnlineUserTableAction';
@@ -20,43 +18,16 @@ const { t } = useI18n();
 const ph = useFormPlaceholder();
 const { columns } = useOnlineUserTableColumns();
 const searchFormRef = ref<FormInstance>();
-const summaryUserCount = ref<number | null>(null);
-const summaryLoading = ref(false);
 
 const { tableState, searchForm } = useOnlineUserPageState();
-const { loading, fetchTableData: fetchOnlineUserPage } = tableState;
+const { loading, fetchTableData, pagination } = tableState;
 
 const { userOptions, userSearchLoading, loadUserListByKeyword } = useRemoteUserSearch({
   errorDefaultI18nKey: 'onlineUser.message.loadFailed',
 });
 
-/**
- * 拉取在线用户统计摘要
- */
-async function loadUserSummary() {
-  summaryLoading.value = true;
-  try {
-    const summary = await getOnlineUserSummary();
-    summaryUserCount.value = summary.onlineUserCount ?? 0;
-  } catch (error: unknown) {
-    errorMessage(error, { defaultI18nKey: 'onlineUser.message.summaryFailed' });
-    summaryUserCount.value = null;
-  } finally {
-    summaryLoading.value = false;
-  }
-}
-
-/**
- * 刷新列表并同步统计摘要（表格工具栏刷新、踢人后复用）
- */
-async function refreshTableAndSummary() {
-  await Promise.all([fetchOnlineUserPage(), loadUserSummary()]);
-}
-
-tableState.fetchTableData = refreshTableAndSummary;
-
 const { kickingUserId, openViewSessionsDialog, kickAllSessionsRow } = useOnlineUserTableAction({
-  fetchTableData: refreshTableAndSummary,
+  fetchTableData,
 });
 
 /**
@@ -66,11 +37,11 @@ const { kickingUserId, openViewSessionsDialog, kickAllSessionsRow } = useOnlineU
 async function handleResetSearch(formRef?: FormInstance) {
   tableState.pagination.currentPage = 1;
   formRef?.resetFields();
-  await refreshTableAndSummary();
+  await fetchTableData();
 }
 
 onMounted(() => {
-  refreshTableAndSummary();
+  fetchTableData();
 });
 </script>
 
@@ -96,12 +67,7 @@ onMounted(() => {
       <el-form-item>
         <el-button-group>
           <!-- 搜索 -->
-          <el-button
-            v-perms="SYS_ONLINE_USER_PERMS.QUERY"
-            :loading="loading"
-            type="primary"
-            @click="refreshTableAndSummary"
-          >
+          <el-button v-perms="SYS_ONLINE_USER_PERMS.QUERY" :loading="loading" type="primary" @click="fetchTableData">
             {{ t('buttons.actionSearch') }}
           </el-button>
           <!-- 重置 -->
@@ -121,8 +87,8 @@ onMounted(() => {
     >
       <template #title>
         <h4>{{ t('routes.onlineUser') }}</h4>
-        <el-text v-if="summaryUserCount != null" class="ml-3!" type="info">
-          {{ t('onlineUser.summary.userCount', { count: summaryUserCount }) }}
+        <el-text v-if="!loading" class="ml-3!" type="info">
+          {{ t('onlineUser.summary.userCount', { count: pagination.total }) }}
         </el-text>
       </template>
 

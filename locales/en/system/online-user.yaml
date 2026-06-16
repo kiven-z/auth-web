@@ -5,12 +5,12 @@ onlineUser:
     loginAt: Last login
     sessionCount: Active sessions
   summary:
-    userCount: '{count} user(s) online'
+    userCount: ~{count} user(s) with valid session(s)
   action:
     viewSessions: View sessions
     kickAll: Kick all
   message:
-    loadFailed: Failed to load online users
-    summaryFailed: Failed to load online user summary
+    loadFailed: Failed to load session users
+    summaryFailed: Failed to load session user summary
     kickAllSuccess: All sessions kicked successfully
     kickAllFailed: Failed to kick all sessions

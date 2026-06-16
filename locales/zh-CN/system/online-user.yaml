@@ -5,12 +5,12 @@ onlineUser:
     loginAt: 最近登录
     sessionCount: 活跃会话数
   summary:
-    userCount: 当前在线用户 {count} 人
+    userCount: 约 {count} 人持有有效会话
   action:
     viewSessions: 查看会话
     kickAll: 踢出全部
   message:
-    loadFailed: 加载在线用户列表失败
-    summaryFailed: 加载在线统计失败
+    loadFailed: 加载会话用户列表失败
+    summaryFailed: 加载会话用户统计失败
     kickAllSuccess: 已踢出该用户全部会话
     kickAllFailed: 踢出全部会话失败

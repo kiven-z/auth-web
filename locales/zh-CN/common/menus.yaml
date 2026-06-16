@@ -82,7 +82,7 @@ routes:
   deptManagement: 部门管理
   postManagement: 岗位管理
   menuManagement: 菜单管理
-  onlineUser: 在线用户
+  onlineUser: 会话用户
 
   messageManagement: 消息管理
   emailTemplate: 邮件消息模板

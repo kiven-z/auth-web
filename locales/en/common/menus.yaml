@@ -82,7 +82,7 @@ routes:
   deptManagement: Department Management
   postManagement: Post Management
   menuManagement: Menu Management
-  onlineUser: Online Users
+  onlineUser: Session Users
 
   messageManagement: Message Management
   emailTemplate: Email message templates
