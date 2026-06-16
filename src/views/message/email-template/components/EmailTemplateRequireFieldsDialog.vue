@@ -5,6 +5,7 @@ import {
   updateEmailTemplateRequireFields,
 } from '@/api/system/email-template';
 import { errorMessage, message } from '@/ui/feedback/message';
+import { EMAIL_TEMPLATE_PERMS } from '@/views/message/email-template/constants/permissions';
 import {
   type EditableRequireFieldRow,
   toEditableRequireFields,
@@ -143,11 +144,15 @@ defineExpose({ submit });
       </el-table-column>
       <el-table-column :label="t('table.actions')" align="center" fixed="right" width="100">
         <template #default="{ row }">
-          <el-button link type="danger" @click="onDel(row)">{{ t('buttons.actionDelete') }}</el-button>
+          <el-button v-perms="EMAIL_TEMPLATE_PERMS.UPDATE" link type="danger" @click="onDel(row)">
+            {{ t('buttons.actionDelete') }}
+          </el-button>
         </template>
       </el-table-column>
     </el-table>
-    <el-button class="w-full mt-2" plain @click="onAdd">{{ t('buttons.actionAdd') }}</el-button>
+    <el-button v-perms="EMAIL_TEMPLATE_PERMS.UPDATE" class="w-full mt-2" plain @click="onAdd">
+      {{ t('buttons.actionAdd') }}
+    </el-button>
   </div>
 </template>
 

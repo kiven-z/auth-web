@@ -8,6 +8,7 @@ import type { FormInstance } from 'element-plus';
 import { onMounted, reactive, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { COMMON_BOOLEAN_STATUS_FILTER_OPTIONS } from '@/constants/boolean-status';
+import { EMAIL_TEMPLATE_PERMS } from '@/views/message/email-template/constants/permissions';
 import { useEmailTemplateTableMoreAction } from '@/views/message/email-template/hooks/useEmailTemplateTableMoreAction';
 
 defineOptions({
@@ -98,11 +99,13 @@ onMounted(() => {
       <el-form-item>
         <el-button-group>
           <!-- 搜索 -->
-          <el-button :loading="loading" type="primary" @click="fetchTableData">
+          <el-button v-perms="EMAIL_TEMPLATE_PERMS.QUERY" :loading="loading" type="primary" @click="fetchTableData">
             {{ t('buttons.actionSearch') }}
           </el-button>
           <!-- 重置 -->
-          <el-button @click="resetQuery(searchFormRef)">{{ t('buttons.actionReset') }}</el-button>
+          <el-button v-perms="EMAIL_TEMPLATE_PERMS.QUERY" @click="resetQuery(searchFormRef)">
+            {{ t('buttons.actionReset') }}
+          </el-button>
         </el-button-group>
       </el-form-item>
     </el-form>
@@ -117,26 +120,30 @@ onMounted(() => {
       <template #buttons>
         <el-button-group type="primary">
           <!-- 添加 -->
-          <el-button @click="openCreateDialog">{{ t('buttons.actionAdd') }}</el-button>
+          <el-button v-perms="EMAIL_TEMPLATE_PERMS.CREATE" @click="openCreateDialog">
+            {{ t('buttons.actionAdd') }}
+          </el-button>
 
           <!-- 修改状态 -->
-          <el-dropdown trigger="click">
-            <el-button :disabled="selectedRows.length <= 0" type="warning">
-              {{ t('buttons.actionBatchStatus') }}
-            </el-button>
+          <Perms :value="EMAIL_TEMPLATE_PERMS.UPDATE">
+            <el-dropdown trigger="click">
+              <el-button :disabled="selectedRows.length <= 0" type="warning">
+                {{ t('buttons.actionBatchStatus') }}
+              </el-button>
 
-            <template #dropdown>
-              <!-- 批量启用 -->
-              <el-dropdown-item @click="batchUpdateStatus(selectedRows, true)">
-                {{ t('buttons.actionBatchEnable') }}
-              </el-dropdown-item>
+              <template #dropdown>
+                <!-- 批量启用 -->
+                <el-dropdown-item @click="batchUpdateStatus(selectedRows, true)">
+                  {{ t('buttons.actionBatchEnable') }}
+                </el-dropdown-item>
 
-              <!-- 批量停用 -->
-              <el-dropdown-item @click="batchUpdateStatus(selectedRows, false)">
-                {{ t('buttons.actionBatchDisable') }}
-              </el-dropdown-item>
-            </template>
-          </el-dropdown>
+                <!-- 批量停用 -->
+                <el-dropdown-item @click="batchUpdateStatus(selectedRows, false)">
+                  {{ t('buttons.actionBatchDisable') }}
+                </el-dropdown-item>
+              </template>
+            </el-dropdown>
+          </Perms>
 
           <!-- 高级功能 -->
           <el-dropdown trigger="click">
@@ -146,9 +153,11 @@ onMounted(() => {
 
             <template #dropdown>
               <!-- 批量删除 -->
-              <el-dropdown-item :disabled="selectedRows.length <= 0" @click="deleteBatchRows()">
-                {{ t('buttons.actionBatchDelete') }}
-              </el-dropdown-item>
+              <Perms :value="EMAIL_TEMPLATE_PERMS.DELETE">
+                <el-dropdown-item :disabled="selectedRows.length <= 0" @click="deleteBatchRows()">
+                  {{ t('buttons.actionBatchDelete') }}
+                </el-dropdown-item>
+              </Perms>
             </template>
           </el-dropdown>
         </el-button-group>
@@ -156,11 +165,15 @@ onMounted(() => {
 
       <template #actions="{ row }">
         <!-- 查看 -->
-        <el-button link type="primary" @click="openDetailDialog(row)">{{ t('buttons.actionView') }}</el-button>
+        <el-button v-perms="EMAIL_TEMPLATE_PERMS.DETAIL" link type="primary" @click="openDetailDialog(row)">
+          {{ t('buttons.actionView') }}
+        </el-button>
         <!-- 编辑 -->
-        <el-button link type="primary" @click="openEditDialog(row)">{{ t('buttons.actionEdit') }}</el-button>
+        <el-button v-perms="EMAIL_TEMPLATE_PERMS.UPDATE" link type="primary" @click="openEditDialog(row)">
+          {{ t('buttons.actionEdit') }}
+        </el-button>
         <!-- 删除 -->
-        <el-button link type="danger" @click="deleteBatchRows([row.id])">
+        <el-button v-perms="EMAIL_TEMPLATE_PERMS.DELETE" link type="danger" @click="deleteBatchRows([row.id])">
           {{ t('buttons.actionDelete') }}
         </el-button>
         <!-- 更多 -->
@@ -169,19 +182,29 @@ onMounted(() => {
           <template #dropdown>
             <el-dropdown-menu>
               <!-- 预览 -->
-              <el-dropdown-item @click="openPreview(row)">{{ t('emailTemplate.preview') }}</el-dropdown-item>
+              <Perms :value="EMAIL_TEMPLATE_PERMS.DETAIL">
+                <el-dropdown-item @click="openPreview(row)">
+                  {{ t('emailTemplate.preview') }}
+                </el-dropdown-item>
+              </Perms>
               <!-- 必填字段 -->
-              <el-dropdown-item @click="openRequireFields(row)">
-                {{ t('emailTemplate.requireFieldsMenu') }}
-              </el-dropdown-item>
+              <Perms :value="EMAIL_TEMPLATE_PERMS.UPDATE">
+                <el-dropdown-item @click="openRequireFields(row)">
+                  {{ t('emailTemplate.requireFieldsMenu') }}
+                </el-dropdown-item>
+              </Perms>
               <!-- 测试发送 -->
-              <el-dropdown-item @click="openTestSend(row)">
-                {{ t('emailTemplate.testSendMenu') }}
-              </el-dropdown-item>
+              <Perms :value="EMAIL_TEMPLATE_PERMS.UPDATE">
+                <el-dropdown-item @click="openTestSend(row)">
+                  {{ t('emailTemplate.testSendMenu') }}
+                </el-dropdown-item>
+              </Perms>
               <!-- 模板编辑 -->
-              <el-dropdown-item @click="openTemplateContentEdit(row)">
-                {{ t('emailTemplate.templateEditMenu') }}
-              </el-dropdown-item>
+              <Perms :value="EMAIL_TEMPLATE_PERMS.UPDATE">
+                <el-dropdown-item @click="openTemplateContentEdit(row)">
+                  {{ t('emailTemplate.templateEditMenu') }}
+                </el-dropdown-item>
+              </Perms>
             </el-dropdown-menu>
           </template>
         </el-dropdown>
