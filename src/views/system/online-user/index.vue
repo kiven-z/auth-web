@@ -4,6 +4,7 @@ import AuthPagedTable from '@/components/business/AuthPagedTable';
 import useRemoteUserSearch from '@/composables/dialog/useRemoteUserSearch';
 import { useFormPlaceholder } from '@/composables/i18n/useFormPlaceholder';
 import { errorMessage } from '@/ui/feedback/message';
+import { SYS_ONLINE_USER_PERMS } from '@/views/system/online-user/constants/permissions';
 import useOnlineUserPageState from '@/views/system/online-user/hooks/useOnlineUserPageState';
 import useOnlineUserTableAction from '@/views/system/online-user/hooks/useOnlineUserTableAction';
 import useOnlineUserTableColumns from '@/views/system/online-user/hooks/useOnlineUserTableColumns';
@@ -95,11 +96,18 @@ onMounted(() => {
       <el-form-item>
         <el-button-group>
           <!-- 搜索 -->
-          <el-button :loading="loading" type="primary" @click="refreshTableAndSummary">
+          <el-button
+            v-perms="SYS_ONLINE_USER_PERMS.QUERY"
+            :loading="loading"
+            type="primary"
+            @click="refreshTableAndSummary"
+          >
             {{ t('buttons.actionSearch') }}
           </el-button>
           <!-- 重置 -->
-          <el-button @click="handleResetSearch(searchFormRef)">{{ t('buttons.actionReset') }}</el-button>
+          <el-button v-perms="SYS_ONLINE_USER_PERMS.QUERY" @click="handleResetSearch(searchFormRef)">
+            {{ t('buttons.actionReset') }}
+          </el-button>
         </el-button-group>
       </el-form-item>
     </el-form>
@@ -119,10 +127,21 @@ onMounted(() => {
       </template>
 
       <template #actions="{ row }">
-        <el-button link type="primary" @click="openViewSessionsDialog(row)">
+        <el-button
+          v-perms="SYS_ONLINE_USER_PERMS.VIEW_SESSIONS"
+          link
+          type="primary"
+          @click="openViewSessionsDialog(row)"
+        >
           {{ t('onlineUser.action.viewSessions') }}
         </el-button>
-        <el-button :loading="kickingUserId === row.userId" link type="danger" @click="kickAllSessionsRow(row)">
+        <el-button
+          v-perms="SYS_ONLINE_USER_PERMS.KICK_ALL"
+          :loading="kickingUserId === row.userId"
+          link
+          type="danger"
+          @click="kickAllSessionsRow(row)"
+        >
           {{ t('onlineUser.action.kickAll') }}
         </el-button>
       </template>
