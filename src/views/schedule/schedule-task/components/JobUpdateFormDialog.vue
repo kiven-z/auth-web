@@ -1,11 +1,11 @@
 <script lang="ts" setup>
-import type { SysJobDetailRow, SysJobUpdateForm } from '@/api/schedule/job';
+import { getJobCatalogClasses, type SysJobDetailRow, type SysJobUpdateForm } from '@/api/schedule/job';
 import { useFormPlaceholder } from '@/composables/i18n/useFormPlaceholder';
+import { errorMessage } from '@/ui/feedback/message';
 import JobFormScheduleExtrasFields from '@/views/schedule/schedule-task/components/JobFormScheduleExtrasFields.vue';
 import { JOB_TASK_TYPE_OPTIONS } from '@/views/schedule/schedule-task/constants/job-task-enums';
 import type { FormInstance, FormRules } from 'element-plus';
-import { CodeEditor } from 'monaco-editor-vue3';
-import { computed, ref } from 'vue';
+import { computed, onMounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 defineOptions({
@@ -21,6 +21,7 @@ const props = defineProps<JobUpdateFormDialogProps>();
 const { t } = useI18n();
 const ph = useFormPlaceholder();
 const formRef = ref<FormInstance>();
+const jobParamsExample = ref<string>();
 
 const form = ref(props.detail as SysJobUpdateForm);
 
@@ -30,7 +31,7 @@ const taskTypeLabel = computed(() => {
 });
 
 const isBeanInvoke = computed(() => form.value.taskType === 'BEAN_INVOKE');
-const isMessageDispatch = computed(() => form.value.taskType === 'MESSAGE_DISPATCH');
+const isCustomClass = computed(() => form.value.taskType === 'CUSTOM_CLASS');
 
 const rules = computed<FormRules>(() => ({
   cronExpression: [
@@ -44,6 +45,26 @@ const rules = computed<FormRules>(() => ({
     ? { invokeTarget: [{ required: true, message: ph.input('scheduleTask.fields.invokeTarget'), trigger: 'blur' }] }
     : {}),
 }));
+
+/**
+ * 编辑页按 jobClass 解析 job_params 示例
+ */
+async function loadJobParamsExample() {
+  if (!isCustomClass.value || !props.detail.jobClass) {
+    return;
+  }
+  try {
+    const classes = await getJobCatalogClasses();
+    const matched = classes.find((item) => item.className === props.detail.jobClass);
+    jobParamsExample.value = matched?.jobParamsExample;
+  } catch (error: unknown) {
+    errorMessage(error, { defaultI18nKey: 'scheduleTask.messages.loadCatalogFailed' });
+  }
+}
+
+onMounted(() => {
+  loadJobParamsExample();
+});
 
 defineExpose({ formRef, form });
 </script>
@@ -83,27 +104,7 @@ defineExpose({ formRef, form });
         </el-form-item>
       </el-col>
 
-      <template v-if="isMessageDispatch">
-        <el-col :lg="12" :md="12" :sm="24" :xs="24">
-          <el-form-item :label="t('scheduleTask.fields.handlerCode')" prop="handlerCode">
-            <el-input v-model="form.handlerCode" :placeholder="ph.input('scheduleTask.fields.handlerCode')" />
-          </el-form-item>
-        </el-col>
-        <el-col :span="24">
-          <el-form-item :label="t('scheduleTask.fields.payloadJson')" prop="payloadJson">
-            <CodeEditor
-              v-model:value="form.payloadJson"
-              class="border"
-              height="150"
-              language="json"
-              show-progress
-              theme="vs"
-            />
-          </el-form-item>
-        </el-col>
-      </template>
-
-      <JobFormScheduleExtrasFields v-model:form="form" />
+      <JobFormScheduleExtrasFields v-model:form="form" :job-params-example="jobParamsExample" />
     </el-row>
   </el-form>
 </template>

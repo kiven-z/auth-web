@@ -1,9 +1,11 @@
 <script lang="ts" setup>
 import { useFormPlaceholder } from '@/composables/i18n/useFormPlaceholder';
+import { message } from '@/ui/feedback/message';
 import { JOB_CRON_PRESET_OPTIONS } from '@/views/schedule/schedule-task/constants/job-cron-presets';
 import { JOB_MISFIRE_POLICY_OPTIONS } from '@/views/schedule/schedule-task/constants/job-task-enums';
-import { useI18n } from 'vue-i18n';
 import { CodeEditor } from 'monaco-editor-vue3';
+import { onMounted } from 'vue';
+import { useI18n } from 'vue-i18n';
 
 defineOptions({
   name: 'JobFormScheduleExtrasFields',
@@ -21,10 +23,43 @@ export interface JobFormScheduleExtrasModel {
   remark?: string;
 }
 
+const props = withDefaults(defineProps<{ jobParamsExample?: string }>(), {});
+
 const form = defineModel<JobFormScheduleExtrasModel>('form', { required: true });
 
 const { t } = useI18n();
 const ph = useFormPlaceholder();
+
+/**
+ * 格式化后写入 job_params；force 为 true 时始终覆盖
+ * @param raw 原始 JSON 文本
+ * @param _force 是否强制覆盖当前值
+ */
+function setFormattedJobParams(raw: string | undefined, _force = false) {
+  if (!raw) return;
+
+  try {
+    form.value.jobParams = JSON.stringify(JSON.parse(raw), null, 2);
+  } catch {
+    return;
+  }
+}
+
+/**
+ * 将目录示例填入 job_params 编辑器
+ */
+function applyJobParamsExample() {
+  if (!props.jobParamsExample) {
+    message(t('scheduleTask.messages.templateExampleUnavailable'), { type: 'warning' });
+    return;
+  }
+
+  setFormattedJobParams(props.jobParamsExample, true);
+}
+
+onMounted(() => {
+  setFormattedJobParams(form.value.jobParams);
+});
 </script>
 
 <template>
@@ -112,7 +147,21 @@ const ph = useFormPlaceholder();
   <!-- 执行参数 JSON -->
   <el-col :span="24">
     <el-form-item :label="t('scheduleTask.fields.jobParams')" prop="jobParams">
-      <CodeEditor v-model:value="form.jobParams" class="border" height="150" language="json" show-progress theme="vs" />
+      <div class="flex w-full min-w-0 flex-col gap-2">
+        <div class="flex w-full justify-end">
+          <el-button link type="primary" @click.prevent="applyJobParamsExample">
+            {{ t('scheduleTask.actions.fillTemplateExample') }}
+          </el-button>
+        </div>
+        <CodeEditor
+          v-model:value="form.jobParams"
+          class="w-full border"
+          height="150"
+          language="json"
+          show-progress
+          theme="vs"
+        />
+      </div>
     </el-form-item>
   </el-col>
   <!-- 备注 -->

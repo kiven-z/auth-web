@@ -55,6 +55,12 @@ const beanCatalogClasses = computed(() =>
 const customCatalogClasses = computed(() =>
   catalogClasses.value.filter((item) => item.invokeModes?.includes('CUSTOM_CLASS'))
 );
+const jobParamsExample = computed(() => {
+  if (!isCustomClass.value || !form.value.jobClass) {
+    return undefined;
+  }
+  return customCatalogClasses.value.find((item) => item.className === form.value.jobClass)?.jobParamsExample;
+});
 
 const rules = computed<FormRules>(() => ({
   jobName: [
@@ -111,6 +117,7 @@ watch(
   (taskType) => {
     if (taskType === 'BEAN_INVOKE') {
       form.value.jobClass = undefined;
+      form.value.jobParams = undefined;
       return;
     }
     if (taskType === 'CUSTOM_CLASS') {
@@ -119,6 +126,20 @@ watch(
       selectedBeanMethod.value = undefined;
       catalogMethods.value = [];
     }
+  }
+);
+
+watch(
+  () => form.value.jobClass,
+  (className) => {
+    if (!isCustomClass.value || !className) {
+      return;
+    }
+    const catalogClass = customCatalogClasses.value.find((item) => item.className === className);
+    if (!catalogClass?.jobParamsExample) {
+      return;
+    }
+    form.value.jobParams = JSON.stringify(JSON.parse(catalogClass.jobParamsExample), null, 2);
   }
 );
 
@@ -214,7 +235,7 @@ defineExpose({ formRef, form });
               <el-option
                 v-for="item in catalogMethods"
                 :key="`${item.methodName}:${item.parameterSignature}`"
-                :label="`${item.methodName}(${item.parameterSignature})`"
+                :label="`${item.methodName}${item.parameterSignature}`"
                 :value="`${item.methodName}:${item.parameterSignature}`"
               />
             </el-select>
@@ -244,7 +265,7 @@ defineExpose({ formRef, form });
         </el-col>
       </template>
 
-      <JobFormScheduleExtrasFields v-model:form="form" />
+      <JobFormScheduleExtrasFields v-model:form="form" :job-params-example="jobParamsExample" />
     </el-row>
   </el-form>
 </template>

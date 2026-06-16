@@ -67,9 +67,11 @@ scheduleTask:
     loadFailed: Failed to load schedule tasks
     loadJobGroupFailed: Failed to load job groups
     loadCatalogFailed: Failed to load task catalog
+    templateExampleUnavailable: No template example is available for the current task class
+    messageDispatchEditForbidden: Message dispatch jobs must be maintained in the message module
   actions:
     runOnce: Run Once
-    loadPayloadTemplate: Load Message Template
+    fillTemplateExample: Fill Example
   beanInvoke:
     class: Invoke Class
     method: Invoke Method

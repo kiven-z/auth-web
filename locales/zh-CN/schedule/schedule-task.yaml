@@ -67,9 +67,11 @@ scheduleTask:
     loadFailed: 加载定时任务列表失败
     loadJobGroupFailed: 加载任务分组失败
     loadCatalogFailed: 加载任务目录失败
+    templateExampleUnavailable: 当前任务类暂无模板示例
+    messageDispatchEditForbidden: 消息派发任务请在消息模块中维护
   actions:
     runOnce: 立即执行
-    loadPayloadTemplate: 加载消息模板
+    fillTemplateExample: 填入示例
   beanInvoke:
     class: 调用类
     method: 调用方法
