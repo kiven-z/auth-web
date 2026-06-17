@@ -36,7 +36,7 @@ function useUserTableAction(deps: TableActionWithSelectionDeps) {
       fullscreenIcon: true,
       closeOnClickModal: false,
       closeOnPressEscape: false,
-      contentRenderer: () => h(UserFormDialog, { ref: dialogFormRef }),
+      contentRenderer: () => h(UserFormDialog, { ref: dialogFormRef, mode: 'add' }),
       beforeSure: createFormBeforeSure<SysUserCreateForm>({
         formExposeRef: dialogFormRef,
         errorI18nKey: 'tips.addFailed',
@@ -64,7 +64,7 @@ function useUserTableAction(deps: TableActionWithSelectionDeps) {
         fullscreenIcon: true,
         closeOnClickModal: false,
         closeOnPressEscape: false,
-        contentRenderer: () => h(UserFormDialog, { ref: dialogFormRef, form: profile as SysUserCreateForm }),
+        contentRenderer: () => h(UserFormDialog, { ref: dialogFormRef, mode: 'edit', form: profile as SysUserCreateForm }),
         beforeSure: createFormBeforeSure<SysUserCreateForm>({
           formExposeRef: dialogFormRef,
           errorI18nKey: 'tips.editFailed',

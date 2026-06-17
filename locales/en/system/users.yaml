@@ -27,6 +27,7 @@ users:
     current: Current user
   password:
     reset: Reset password
+    initial: Initial password
     old: Current password
     new: New password
     confirm: Confirm password
@@ -87,6 +88,7 @@ users:
     phoneMaxLength: Phone must be at most 32 characters
     employeeNoMaxLength: Employee no. must be at most 64 characters
     remarkMaxLength: Remark must be at most 500 characters
+    initialPasswordMinLength: Initial password must be 8-18 characters
   tips:
     showUserPostInfoTip: Post assignments for this user
     currentUserHasNotPostInfo: No post information for this user

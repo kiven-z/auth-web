@@ -4,13 +4,16 @@ import type { SysUserCreateForm } from '@/api/system/user';
 import { USER_ACCOUNT_STATUS, USER_STATUS_FILTER_OPTIONS } from '@/views/system/user/constants/user-account-status';
 import { USER_GENDER, USER_GENDER_OPTIONS } from '@/views/system/user/constants/user-gender';
 import type { FormInstance, FormRules } from 'element-plus';
-import { reactive, ref } from 'vue';
+import { computed, reactive, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 
-type UserFormDialogProps = FormDialog<SysUserCreateForm>;
+interface UserFormDialogProps extends FormDialog<SysUserCreateForm> {
+  mode?: 'add' | 'edit';
+}
 
 const props = withDefaults(defineProps<UserFormDialogProps>(), {
   form: () => ({}) as SysUserCreateForm,
+  mode: 'add',
 });
 
 const { t } = useI18n();
@@ -21,27 +24,40 @@ const form = ref<SysUserCreateForm>({
   ...props.form,
 });
 
-const rules = reactive<FormRules>({
-  username: [
-    { required: true, message: t('users.field.username'), trigger: 'blur' },
-    { max: 64, message: t('users.validation.usernameMaxLength'), trigger: 'blur' },
-  ],
-  email: [
-    { required: true, message: t('users.field.email'), trigger: 'blur' },
-    { type: 'email', message: t('users.validation.emailInvalid'), trigger: 'blur' },
-    { max: 128, message: t('users.validation.emailMaxLength'), trigger: 'blur' },
-  ],
-  employeeNo: [{ max: 64, message: t('users.validation.employeeNoMaxLength'), trigger: 'blur' }],
-  status: [{ required: true, message: t('users.field.status'), trigger: 'change' }],
-  nickname: [
-    { required: true, message: t('users.field.nickname'), trigger: 'blur' },
-    { max: 64, message: t('users.validation.nicknameMaxLength'), trigger: 'blur' },
-  ],
-  phone: [
-    { required: true, message: t('users.field.phone'), trigger: 'blur' },
-    { max: 32, message: t('users.validation.phoneMaxLength'), trigger: 'blur' },
-  ],
-  remark: [{ max: 500, message: t('users.validation.remarkMaxLength'), trigger: 'blur' }],
+const isCreateMode = computed(() => props.mode === 'add');
+
+const rules = computed<FormRules>(() => {
+  const baseRules: FormRules = {
+    username: [
+      { required: true, message: t('users.field.username'), trigger: 'blur' },
+      { max: 64, message: t('users.validation.usernameMaxLength'), trigger: 'blur' },
+    ],
+    email: [
+      { required: true, message: t('users.field.email'), trigger: 'blur' },
+      { type: 'email', message: t('users.validation.emailInvalid'), trigger: 'blur' },
+      { max: 128, message: t('users.validation.emailMaxLength'), trigger: 'blur' },
+    ],
+    employeeNo: [{ max: 64, message: t('users.validation.employeeNoMaxLength'), trigger: 'blur' }],
+    status: [{ required: true, message: t('users.field.status'), trigger: 'change' }],
+    nickname: [
+      { required: true, message: t('users.field.nickname'), trigger: 'blur' },
+      { max: 64, message: t('users.validation.nicknameMaxLength'), trigger: 'blur' },
+    ],
+    phone: [
+      { required: true, message: t('users.field.phone'), trigger: 'blur' },
+      { max: 32, message: t('users.validation.phoneMaxLength'), trigger: 'blur' },
+    ],
+    remark: [{ max: 500, message: t('users.validation.remarkMaxLength'), trigger: 'blur' }],
+  };
+
+  if (isCreateMode.value) {
+    baseRules.initialPassword = [
+      { required: true, message: t('users.password.initial'), trigger: 'blur' },
+      { min: 8, max: 18, message: t('users.validation.initialPasswordMinLength'), trigger: 'blur' },
+    ];
+  }
+
+  return baseRules;
 });
 
 defineExpose({ formRef, form });
@@ -54,6 +70,18 @@ defineExpose({ formRef, form });
       <el-col :lg="12" :md="12" :sm="12" :xs="24">
         <el-form-item :label="t('users.field.username')" prop="username">
           <el-input v-model="form.username" :placeholder="t('users.field.username')" clearable />
+        </el-form-item>
+      </el-col>
+      <!-- 初始密码（仅新增） -->
+      <el-col v-if="isCreateMode" :lg="12" :md="12" :sm="12" :xs="24">
+        <el-form-item :label="t('users.password.initial')" prop="initialPassword">
+          <el-input
+            v-model="form.initialPassword"
+            :placeholder="t('users.password.initial')"
+            autocomplete="new-password"
+            clearable
+            show-password
+          />
         </el-form-item>
       </el-col>
       <!-- 昵称 -->

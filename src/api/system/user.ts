@@ -61,6 +61,7 @@ export function exportUserExcel(filter: SysUserPageQuery, scope: ExportScopeQuer
  */
 export interface SysUserCreateForm {
   username: string;
+  initialPassword?: string;
   nickname: string;
   email: string;
   phone: string;
