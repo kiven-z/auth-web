@@ -1,15 +1,7 @@
 /**
- * 定时任务类型（对应后端 SysJobTaskType，含列表展示用全量枚举）
+ * 调度管理页任务类型（对应后端 SysJobTaskType 中 BEAN_INVOKE / CUSTOM_CLASS）
  */
 export const JOB_TASK_TYPE_OPTIONS = [
-  { value: 'BEAN_INVOKE', labelKey: 'scheduleTask.enums.taskType.BEAN_INVOKE' },
-  { value: 'CUSTOM_CLASS', labelKey: 'scheduleTask.enums.taskType.CUSTOM_CLASS' },
-  { value: 'MESSAGE_DISPATCH', labelKey: 'scheduleTask.enums.taskType.MESSAGE_DISPATCH' },
-] as const;
-/**
- * 调度管理页表单可选任务类型（消息派发由消息模块维护，不在此创建）
- */
-export const JOB_TASK_TYPE_FORM_OPTIONS = [
   { value: 'BEAN_INVOKE', labelKey: 'scheduleTask.enums.taskType.BEAN_INVOKE' },
   { value: 'CUSTOM_CLASS', labelKey: 'scheduleTask.enums.taskType.CUSTOM_CLASS' },
 ] as const;

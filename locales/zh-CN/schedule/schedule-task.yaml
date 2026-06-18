@@ -6,7 +6,6 @@ scheduleTask:
     jobClass: 任务类
     taskType: 任务类型
     invokeTarget: 调用目标
-    handlerCode: 执行处理器
     cronExpression: Cron 表达式
     misfirePolicy: 错失策略
     concurrent: 是否并发
@@ -14,7 +13,6 @@ scheduleTask:
     startTime: 开始时间
     endTime: 结束时间
     jobParams: 执行参数 JSON
-    payloadJson: 扩展载荷 JSON
     remark: 备注
     previousFireTime: 上次触发
     nextFireTime: 下次触发
@@ -31,7 +29,6 @@ scheduleTask:
     taskType:
       BEAN_INVOKE: Bean 调用
       CUSTOM_CLASS: 自定义类
-      MESSAGE_DISPATCH: 消息派发
     misfirePolicy:
       '1': 补跑全部（慎用）
       '2': 补跑一次
@@ -66,14 +63,12 @@ scheduleTask:
   validation:
     jobNameLengthLimit: 任务名称不能超过 64 个字符
     cronExpressionLengthLimit: Cron 表达式不能超过 255 个字符
-    handlerCodeLengthLimit: 执行处理器不能超过 64 个字符
     remarkLengthLimit: 备注不能超过 500 个字符
   messages:
     loadFailed: 加载定时任务列表失败
     loadJobGroupFailed: 加载任务分组失败
     loadCatalogFailed: 加载任务目录失败
     templateExampleUnavailable: 当前任务类暂无模板示例
-    messageDispatchEditForbidden: 消息派发任务请在消息模块中维护
   actions:
     runOnce: 立即执行
     fillTemplateExample: 填入示例

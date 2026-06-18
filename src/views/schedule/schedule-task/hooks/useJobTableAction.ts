@@ -71,11 +71,6 @@ function useJobTableAction(deps: TableActionWithSelectionDeps) {
    * @param row 表格行
    */
   const openEditDialog = async (row: SysJobPageRow) => {
-    // if (row.taskType === 'MESSAGE_DISPATCH') {
-    //   message(t('scheduleTask.messages.messageDispatchEditForbidden'), { type: 'warning' });
-    //   return;
-    // }
-
     try {
       const detail = await getJobDetail(row.id);
       const dialogFormRef = ref<FormOverlayExpose<SysJobUpdateForm> | null>(null);

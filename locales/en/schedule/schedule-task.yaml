@@ -6,7 +6,6 @@ scheduleTask:
     jobClass: Job Class
     taskType: Task Type
     invokeTarget: Invoke Target
-    handlerCode: Handler Code
     cronExpression: Cron Expression
     misfirePolicy: Misfire Policy
     concurrent: Concurrent
@@ -14,7 +13,6 @@ scheduleTask:
     startTime: Start Time
     endTime: End Time
     jobParams: Job Params JSON
-    payloadJson: Payload JSON
     remark: Remark
     previousFireTime: Previous Fire Time
     nextFireTime: Next Fire Time
@@ -31,7 +29,6 @@ scheduleTask:
     taskType:
       BEAN_INVOKE: Bean Invoke
       CUSTOM_CLASS: Custom Class
-      MESSAGE_DISPATCH: Message Dispatch
     misfirePolicy:
       '1': Ignore All (caution)
       '2': Fire Once
@@ -66,14 +63,12 @@ scheduleTask:
   validation:
     jobNameLengthLimit: Job name must not exceed 64 characters
     cronExpressionLengthLimit: Cron expression must not exceed 255 characters
-    handlerCodeLengthLimit: Handler code must not exceed 64 characters
     remarkLengthLimit: Remark must not exceed 500 characters
   messages:
     loadFailed: Failed to load schedule tasks
     loadJobGroupFailed: Failed to load job groups
     loadCatalogFailed: Failed to load task catalog
     templateExampleUnavailable: No template example is available for the current task class
-    messageDispatchEditForbidden: Message dispatch jobs must be maintained in the message module
   actions:
     runOnce: Run Once
     fillTemplateExample: Fill Example

@@ -4,7 +4,7 @@ import type { SysJobCreateForm } from '@/api/schedule/job';
 import { useFormPlaceholder } from '@/composables/i18n/useFormPlaceholder';
 import JobCatalogClassPicker from '@/views/schedule/schedule-task/components/JobCatalogClassPicker.vue';
 import JobFormScheduleExtrasFields from '@/views/schedule/schedule-task/components/JobFormScheduleExtrasFields.vue';
-import { JOB_TASK_TYPE_FORM_OPTIONS } from '@/views/schedule/schedule-task/constants/job-task-enums';
+import { JOB_TASK_TYPE_OPTIONS } from '@/views/schedule/schedule-task/constants/job-task-enums';
 import useBeanInvokePicker from '@/views/schedule/schedule-task/hooks/useBeanInvokePicker';
 import useJobCatalog from '@/views/schedule/schedule-task/hooks/useJobCatalog';
 import useJobGroupRemoteSearch from '@/views/schedule/schedule-task/hooks/useJobGroupRemoteSearch';
@@ -145,7 +145,7 @@ defineExpose({ formRef, form });
         <el-form-item :label="t('scheduleTask.fields.taskType')" prop="taskType">
           <el-select v-model="form.taskType" :placeholder="ph.select('scheduleTask.fields.taskType')" class="w-full">
             <el-option
-              v-for="opt in JOB_TASK_TYPE_FORM_OPTIONS"
+              v-for="opt in JOB_TASK_TYPE_OPTIONS"
               :key="opt.value"
               :label="t(opt.labelKey)"
               :value="opt.value"

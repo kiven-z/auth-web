@@ -96,15 +96,6 @@ const descriptionColumns = computed(() => {
     });
   }
 
-  if (data.taskType === 'MESSAGE_DISPATCH' || data.handlerCode) {
-    columns.push({
-      label: t('scheduleTask.fields.handlerCode'),
-      prop: 'handlerCode',
-      labelWidth: 120,
-      copy: true,
-    });
-  }
-
   columns.push(
     { label: t('scheduleTask.fields.cronExpression'), prop: 'cronExpression', labelWidth: 120, copy: true },
     {
@@ -177,16 +168,6 @@ const descriptionColumns = computed(() => {
       copy: true,
     }
   );
-
-  if (data.taskType === 'MESSAGE_DISPATCH' || data.payloadJson) {
-    columns.push({
-      label: t('scheduleTask.fields.payloadJson'),
-      prop: 'payloadJson',
-      labelWidth: 120,
-      span: 2,
-      copy: true,
-    });
-  }
 
   columns.push(
     {
