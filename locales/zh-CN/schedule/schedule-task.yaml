@@ -33,9 +33,9 @@ scheduleTask:
       CUSTOM_CLASS: 自定义类
       MESSAGE_DISPATCH: 消息派发
     misfirePolicy:
-      '1': 补跑全部
+      '1': 补跑全部（慎用）
       '2': 补跑一次
-      '3': 不补跑
+      '3': 不补跑（推荐）
     concurrent:
       allowed: 允许并发
       forbidden: 禁止并发
@@ -50,6 +50,11 @@ scheduleTask:
       SUCCESS: 成功
       FAILED: 失败
       UNKNOWN: 未知
+  scheduleHints:
+    title: 调度建议
+    misfirePolicy: 错失策略：推荐「不补跑」；「补跑一次」最多补 1 次。
+    concurrent: 是否并发：远程调用建议「禁止并发」。
+    misfireAllWarning: 「补跑全部」⚠️ 恢复时可能瞬间大量执行，仅在有补历史需求时使用。
   cronPresets:
     every3Seconds: 每 3 秒
     every5Minutes: 每 5 分钟

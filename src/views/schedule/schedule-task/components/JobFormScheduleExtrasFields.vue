@@ -63,6 +63,16 @@ onMounted(() => {
 </script>
 
 <template>
+  <el-col :span="24">
+    <el-alert :title="t('scheduleTask.scheduleHints.title')" class="mb-3!" closable show-icon type="info">
+      <ul>
+        <li>{{ t('scheduleTask.scheduleHints.misfirePolicy') }}</li>
+        <li>{{ t('scheduleTask.scheduleHints.concurrent') }}</li>
+        <li>{{ t('scheduleTask.scheduleHints.misfireAllWarning') }}</li>
+      </ul>
+    </el-alert>
+  </el-col>
+
   <!-- Cron 表达式 -->
   <el-col :lg="12" :md="12" :sm="24" :xs="24">
     <el-form-item :label="t('scheduleTask.fields.cronExpression')" prop="cronExpression">

@@ -28,7 +28,7 @@ const formRef = ref<FormInstance>();
 
 const form = ref<SysJobCreateForm>({
   taskType: 'BEAN_INVOKE',
-  misfirePolicy: 2,
+  misfirePolicy: 3,
   concurrent: false,
   status: true,
   ...props.form,

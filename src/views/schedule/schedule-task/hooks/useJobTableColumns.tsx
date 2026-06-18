@@ -54,7 +54,7 @@ function useJobTableColumns() {
     {
       label: t('scheduleTask.fields.misfirePolicy'),
       prop: 'misfirePolicy',
-      minWidth: 110,
+      minWidth: 130,
       formatter: (row: SysJobPageRow) => {
         const option = JOB_MISFIRE_POLICY_OPTIONS.find((item) => item.value === row.misfirePolicy);
         return option ? t(option.labelKey) : '-';

@@ -132,13 +132,7 @@ onMounted(() => {
             {{ t('buttons.actionView') }}
           </el-button>
           <!-- 修改 -->
-          <el-button
-            v-if="row.taskType !== 'MESSAGE_DISPATCH'"
-            v-perms="SYS_JOB_PERMS.UPDATE"
-            link
-            type="primary"
-            @click="openEditDialog(row)"
-          >
+          <el-button v-perms="SYS_JOB_PERMS.UPDATE" link type="primary" @click="openEditDialog(row)">
             {{ t('buttons.actionEdit') }}
           </el-button>
           <!-- 立即执行 -->

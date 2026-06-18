@@ -33,9 +33,9 @@ scheduleTask:
       CUSTOM_CLASS: Custom Class
       MESSAGE_DISPATCH: Message Dispatch
     misfirePolicy:
-      '1': Ignore All Misfires
+      '1': Ignore All (caution)
       '2': Fire Once
-      '3': Do Nothing
+      '3': Do Nothing (recommended)
     concurrent:
       allowed: Allowed
       forbidden: Forbidden
@@ -50,6 +50,11 @@ scheduleTask:
       SUCCESS: Success
       FAILED: Failed
       UNKNOWN: Unknown
+  scheduleHints:
+    title: Scheduling Tips
+    misfirePolicy: 'Misfire policy: prefer "Do Nothing"; "Fire Once" runs at most one catch-up.'
+    concurrent: 'Concurrent: prefer "Forbidden" for remote HTTP/Feign calls.'
+    misfireAllWarning: '"Ignore All" ⚠️ may trigger many executions at once when recovering. Use only when backfill is required.'
   cronPresets:
     every3Seconds: Every 3 Seconds
     every5Minutes: Every 5 Minutes
