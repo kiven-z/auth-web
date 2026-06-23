@@ -9,6 +9,18 @@ authorizationInvalidation:
   statsEventSection: Idempotency Event Stats
   statsTotalCount: Total Records
   statsFailureRate: Failure Rate
+  statsTrendSection: Failure Rate Trend
+  statsTrendGranularityDay: Daily
+  statsTrendGranularityWeek: Weekly
+  statsTrendRange7Days: Last 7 Days
+  statsTrendRange30Days: Last 30 Days
+  statsTrendRange90Days: Last 90 Days
+  statsTrendLoadFailed: Failed to load failure rate trend
+  statsTrendYAxis: Failure Rate (%)
+  statsTrendTooltipFailureRate: Failure Rate
+  statsTrendTooltipTotal: Total
+  statsTrendTooltipFailed: Failed
+  statsTrendTooltipDead: Dead Letter
   eventId: Event ID
   changeKind: Change Kind
   processing: Processing Status

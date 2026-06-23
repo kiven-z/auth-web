@@ -9,6 +9,18 @@ authorizationInvalidation:
   statsEventSection: 幂等事件统计
   statsTotalCount: 总记录数
   statsFailureRate: 失败率
+  statsTrendSection: 失败率趋势
+  statsTrendGranularityDay: 按日
+  statsTrendGranularityWeek: 按周
+  statsTrendRange7Days: 近 7 天
+  statsTrendRange30Days: 近 30 天
+  statsTrendRange90Days: 近 90 天
+  statsTrendLoadFailed: 获取失败率趋势失败
+  statsTrendYAxis: 失败率 (%)
+  statsTrendTooltipFailureRate: 失败率
+  statsTrendTooltipTotal: 总数
+  statsTrendTooltipFailed: 待重试
+  statsTrendTooltipDead: 死信
   eventId: 业务事件 ID
   changeKind: 变更维度
   processing: 处理状态

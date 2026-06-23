@@ -84,7 +84,7 @@ watch(
 
       <el-empty v-if="deptInfos.length === 0 && !loading" :description="t('users.tips.noDeptInfo')" :image-size="100" />
 
-      <el-collapse v-else accordion class="dept-collapse">
+      <el-collapse v-else accordion>
         <el-collapse-item v-for="dept in deptInfos" :key="dept.id" :name="dept.id" :title="dept.deptName">
           <ReDescription v-loading="loading" :column="2" :columns="deptColumns" :data="[dept]" border row-key="id" />
         </el-collapse-item>
@@ -117,7 +117,7 @@ watch(
         :image-size="100"
       />
 
-      <el-collapse v-else accordion class="post-collapse">
+      <el-collapse v-else accordion>
         <el-collapse-item v-for="post in postInfos" :key="post.id" :name="post.id" :title="post.postName">
           <ReDescription v-loading="loading" :column="2" :columns="postColumns" :data="[post]" border />
         </el-collapse-item>
