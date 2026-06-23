@@ -1,29 +1,9 @@
 import type { AxiosRequestConfig } from 'axios';
 
+import type { UserDeptReference, UserPostReference } from '@/api/system/grant-table';
 import { http } from '@/infrastructure/http-core';
 
-/**
- * 用户档案-部门项（对齐 {@code SysUserDeptProfileItemResponse}）
- */
-export interface SysUserDeptProfileItem {
-  deptId: string;
-  deptName: string;
-  deptCode: string;
-  isPrimary: boolean;
-  status: number;
-}
-
-/**
- * 用户档案-岗位项（对齐 {@code SysUserPostProfileItemResponse}）
- */
-export interface SysUserPostProfileItem {
-  id: string;
-  postId: string;
-  postName: string;
-  postCode: string;
-  isPrimary: boolean;
-  status: number;
-}
+export type { UserDeptReference, UserPostReference };
 
 /**
  * 用户远程搜索选项（对齐 {@code SysUserSearchItemResponse}）
@@ -50,8 +30,8 @@ export interface SysUserProfileResponse {
   birthday?: string | null;
   introduction?: string | null;
   remark?: string | null;
-  deptList: SysUserDeptProfileItem[];
-  postList: SysUserPostProfileItem[];
+  deptList: UserDeptReference[];
+  postList: UserPostReference[];
 }
 
 /**

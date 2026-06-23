@@ -12,11 +12,13 @@ import type {
 import { mergePagedExportParams } from '@/api/common';
 
 export type { SpreadsheetImportResult };
-import type { SysDeptBoundRoleItem } from '@/api/system/dept';
-import type { GrantTableAssignedRoleRow, GrantTableAssignRoleRequest } from '@/api/system/grant-table';
+import type {
+  RoleReference,
+  GrantTableAssignRoleRequest,
+  DeptReference,
+  PostBoundUserReference,
+} from '@/api/system/grant-table';
 import { http } from '@/infrastructure/http-core';
-
-export type { GrantTableAssignedRoleRow, GrantTableAssignRoleRequest };
 
 /**
  * 岗位分页查询参数（对齐 {@code SysPostQuery}）
@@ -63,32 +65,6 @@ export interface SysPostUpdateForm extends SysPostCreateForm {
 }
 
 /**
- * 岗位详情：所属部门项（对齐 {@code SysPostBoundDeptItemVO}）
- */
-export interface SysPostBoundDeptItem {
-  deptId: string;
-  deptCode: string;
-  deptName: string;
-  status: boolean;
-  parentId: string;
-}
-
-/**
- * 岗位详情：关联用户项（对齐 {@code SysPostBoundUserItemVO}）
- */
-export interface SysPostBoundUserItem {
-  userId: string;
-  username: string;
-  nickname: string;
-  employeeNo?: string;
-  userStatus: number;
-  isPrimary: boolean;
-  relationStatus: number;
-  createTime?: string;
-  updateTime?: string;
-}
-
-/**
  * 岗位详情（对齐 {@code SysPostDetailVO} + BaseResponse）
  */
 export interface SysPostDetail extends BaseResponseDetail {
@@ -98,9 +74,9 @@ export interface SysPostDetail extends BaseResponseDetail {
   status: boolean;
   orderNum: number;
   remark?: string;
-  boundDept?: SysPostBoundDeptItem | null;
-  boundUsers: SysPostBoundUserItem[];
-  boundRoles: SysDeptBoundRoleItem[];
+  boundDept?: DeptReference | null;
+  boundUsers: PostBoundUserReference[];
+  boundRoles: RoleReference[];
 }
 
 /**
@@ -198,8 +174,8 @@ export function deletePost(id: string): Promise<void> {
  * 查询岗位已分配角色
  * @param postId 岗位主键
  */
-export function getPostRoles(postId: string): Promise<GrantTableAssignedRoleRow[]> {
-  return http.get<GrantTableAssignedRoleRow[], unknown>(`/system/post/${postId}/roles`);
+export function getPostRoles(postId: string): Promise<RoleReference[]> {
+  return http.get<RoleReference[], unknown>(`/system/post/${postId}/roles`);
 }
 
 /**

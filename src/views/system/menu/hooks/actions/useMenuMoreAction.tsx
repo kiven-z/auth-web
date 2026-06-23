@@ -1,12 +1,14 @@
 import type { TableActionDeps } from '@/api/common';
-import { getMenuPermissions, getMenuRoles, putMenuPermissions, putMenuRoles } from '@/api/system/menu';
+import { getMenuDetail, getMenuPermissions, getMenuRoles, putMenuPermissions, putMenuRoles } from '@/api/system/menu';
+import { addDialog } from '@/components/ui/Dialog';
 import { addDrawer } from '@/components/ui/Drawer';
 import { transformI18n } from '@/plugins/i18n';
 import { errorMessage, message } from '@/ui/feedback/message';
 import OrgGrantRoleAssignDrawer from '@/views/system/_shared/components/OrgGrantRoleAssignDrawer.vue';
 import PermissionAssignDrawer from '@/views/system/_shared/components/PermissionAssignDrawer.vue';
+import MenuBindingDescriptionDialog from '@/views/system/menu/components/MenuBindingDescriptionDialog.vue';
 import type { SysMenuRow } from '@/views/system/menu/hooks/useMenuPageState';
-import { ref } from 'vue';
+import { h, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 /** 菜单「更多」操作依赖 */
@@ -18,9 +20,6 @@ export interface MenuTableActionDeps extends TableActionDeps {
 interface AssignPanelExpose {
   getSelectedKeys: () => string[];
 }
-
-/** 菜单分配角色默认筛选类型（菜单角色） */
-const MENU_ASSIGN_ROLE_TYPES = [2];
 
 /**
  * 菜单「更多」操作
@@ -48,21 +47,18 @@ function useMenuMoreAction(deps: MenuTableActionDeps) {
       contentRenderer: () => (
         <OrgGrantRoleAssignDrawer
           ref={drawerRef}
-          defaultRoleTypes={MENU_ASSIGN_ROLE_TYPES}
           leftTitle={t('sysMenu.name')}
           leftSubtitle={`${transformI18n(row.title)} (${row.name})`}
           loadAssigned={async () => {
             const rows = await getMenuRoles(row.id);
-            return rows.map((roleRow) => ({ key: roleRow.roleCode, label: roleRow.roleName }));
+            return rows.map((roleRow) => ({ key: roleRow.id, label: roleRow.roleName }));
           }}
-          showRoleTypeColumn={false}
-          showRoleTypeFilter={false}
         />
       ),
       beforeSure: async (done) => {
         try {
-          const roleCodes = drawerRef.value?.getSelectedKeys() ?? [];
-          await putMenuRoles(row.id, { roleCodes });
+          const roleIds = drawerRef.value?.getSelectedKeys() ?? [];
+          await putMenuRoles(row.id, { roleIds });
           message(t('tips.assignSaveSuccess'), { type: 'success' });
           await refresh();
           done();
@@ -98,7 +94,7 @@ function useMenuMoreAction(deps: MenuTableActionDeps) {
             return list
               .filter((permissionRow) => permissionRow.assigned)
               .map((permissionRow) => ({
-                key: permissionRow.permissionCode,
+                key: permissionRow.id,
                 label: permissionRow.permissionName,
               }));
           }}
@@ -107,8 +103,8 @@ function useMenuMoreAction(deps: MenuTableActionDeps) {
       ),
       beforeSure: async (done) => {
         try {
-          const permissionCodes = drawerRef.value?.getSelectedKeys() ?? [];
-          await putMenuPermissions(row.id, { permissionCodes });
+          const permissionIds = drawerRef.value?.getSelectedKeys() ?? [];
+          await putMenuPermissions(row.id, { permissionIds });
           message(t('tips.assignSaveSuccess'), { type: 'success' });
           await refresh();
           done();
@@ -119,9 +115,32 @@ function useMenuMoreAction(deps: MenuTableActionDeps) {
     });
   };
 
+  /**
+   * 打开绑定关系查看弹窗
+   * @param row 行数据
+   */
+  const openBindingDialog = async (row: SysMenuRow) => {
+    try {
+      const detail = await getMenuDetail(row.id);
+
+      addDialog({
+        title: t('sysMenu.bindingDialogTitle'),
+        draggable: true,
+        fullscreenIcon: true,
+        closeOnClickModal: false,
+        closeOnPressEscape: false,
+        hideFooter: true,
+        contentRenderer: () => h(MenuBindingDescriptionDialog, { data: detail }),
+      });
+    } catch (error: unknown) {
+      errorMessage(error, { defaultI18nKey: 'sysMenu.loadFailed' });
+    }
+  };
+
   return {
     openAssignRoleDrawer,
     openAssignPermissionDrawer,
+    openBindingDialog,
   };
 }
 

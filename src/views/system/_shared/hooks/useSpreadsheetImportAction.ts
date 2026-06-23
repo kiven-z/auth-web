@@ -2,10 +2,15 @@ import type { SpreadsheetImportResult } from '@/api/common';
 import { addDialog, closeDialog } from '@/components/ui/Dialog';
 import type { DialogOptions } from '@/components/ui/Dialog/type';
 import { errorMessage } from '@/ui/feedback/message';
-import type { SpreadsheetImportDialogExpose } from '@/views/system/_shared/components/SpreadsheetImportDialog.vue';
 import SpreadsheetImportDialog from '@/views/system/_shared/components/SpreadsheetImportDialog.vue';
 import { h, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
+
+/** 导入面板对外暴露方法 */
+export interface SpreadsheetImportDialogExpose {
+  /** 提交导入（成功返回 `true`） */
+  submitImport: () => Promise<boolean>;
+}
 
 /** 打开通用 Excel 导入弹窗参数 */
 export interface SpreadsheetImportActionOptions {

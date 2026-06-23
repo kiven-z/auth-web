@@ -9,17 +9,11 @@ roles:
     roleCode: Role Code
     roleName: Role Name
     status: Status
-    roleType: Role Type
     orderNum: Order
     remark: Remark
   status:
     normal: Normal
     disabled: Disabled
-  roleType:
-    system: System Role
-    menu: Menu Role
-    business: Business Role
-    custom: Custom Role
   assign:
     permission: Assign permissions
     current: Current role
@@ -27,6 +21,18 @@ roles:
   bound:
     permissionsTitle: Assigned Permissions
     permissionsEmpty: No permissions assigned
+    menus:
+      title: Bound Menus
+      empty: No menus bound
+    users:
+      title: Granted Users
+      empty: No users granted
+    depts:
+      title: Granted Departments
+      empty: No departments granted
+    posts:
+      title: Granted Posts
+      empty: No posts granted
   validation:
     roleCodeLengthLimit: Role code cannot exceed 64 characters
     roleCodeFormat: Role code must use uppercase letters and underscores, starting with a letter

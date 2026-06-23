@@ -1,6 +1,6 @@
 import type { TableActionDeps } from '@/api/common';
 import { kickAllUserSessions } from '@/api/auth/session';
-import { putUserRoles, getUserRoles } from '@/api/system/user-role';
+import { getUserRoles, putUserRoles } from '@/api/system/user-role';
 import { refreshUserAuthorization, type SysUserPageRow } from '@/api/system/user';
 import { addDialog } from '@/components/ui/Dialog';
 import { addDrawer } from '@/components/ui/Drawer';
@@ -94,14 +94,14 @@ function useUserMoreAction(deps: TableActionDeps) {
           leftSubtitle={row.nickname || row.username}
           loadAssigned={async () => {
             const rows = await getUserRoles(row.id);
-            return rows.map((roleRow) => ({ key: roleRow.roleCode, label: roleRow.roleName }));
+            return rows.map((roleRow) => ({ key: roleRow.id, label: roleRow.roleName }));
           }}
         />
       ),
       beforeSure: async (done) => {
         try {
-          const roleCodes = drawerRef.value?.getSelectedKeys() ?? [];
-          await putUserRoles(row.id, { roleCodes });
+          const roleIds = drawerRef.value?.getSelectedKeys();
+          await putUserRoles(row.id, { roleIds });
           message(t('tips.assignSaveSuccess'), { type: 'success' });
           await fetchTableData();
           done();

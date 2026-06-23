@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import AuthPagedTable from '@/components/business/AuthPagedTable';
 import { SYS_MENU_PERMS } from '@/views/system/menu/constants/permissions';
-import { menuTypeFilterOptions } from '@/views/system/menu/constants/menu-type';
+import { MENU_TYPE_OPTIONS } from '@/views/system/menu/constants/menu-type';
 import useMenuMoreAction from '@/views/system/menu/hooks/actions/useMenuMoreAction';
 import useMenuPageState from '@/views/system/menu/hooks/useMenuPageState';
 import useMenuTableAction from '@/views/system/menu/hooks/actions/useMenuTableAction';
@@ -34,7 +34,7 @@ const { openCreateDialog, openEditDialog, openDetailDialog, deleteBatchRows, bat
   selectedRows,
 });
 
-const { openAssignRoleDrawer, openAssignPermissionDrawer } = useMenuMoreAction({
+const { openAssignRoleDrawer, openAssignPermissionDrawer, openBindingDialog } = useMenuMoreAction({
   fetchTableData,
   fetchTreeData,
   refresh,
@@ -63,12 +63,7 @@ onMounted(() => {
           class="w-40!"
           clearable
         >
-          <el-option
-            v-for="opt in menuTypeFilterOptions"
-            :key="opt.value"
-            :label="t(opt.labelKey)"
-            :value="opt.value"
-          />
+          <el-option v-for="opt in MENU_TYPE_OPTIONS" :key="opt.value" :label="t(opt.labelKey)" :value="opt.value" />
         </el-select>
       </el-form-item>
 
@@ -152,17 +147,22 @@ onMounted(() => {
           <el-button v-perms="SYS_MENU_PERMS.DELETE" link type="danger" @click="deleteBatchRows([row.id])">
             {{ t('buttons.actionDelete') }}
           </el-button>
-          <Perms :value="SYS_MENU_PERMS.UPDATE">
+          <Perms :value="SYS_MENU_PERMS.QUERY">
             <el-dropdown class="ml-1" trigger="click">
               <el-button class="el-dropdown-link" link type="primary">{{ t('buttons.actionMore') }}</el-button>
               <template #dropdown>
                 <el-dropdown-menu>
-                  <el-dropdown-item @click="openAssignRoleDrawer(row)">
-                    {{ t('assign.role') }}
+                  <el-dropdown-item @click="openBindingDialog(row)">
+                    {{ t('sysMenu.viewBindings') }}
                   </el-dropdown-item>
-                  <el-dropdown-item @click="openAssignPermissionDrawer(row)">
-                    {{ t('sysMenu.assignPermission') }}
-                  </el-dropdown-item>
+                  <Perms :value="SYS_MENU_PERMS.UPDATE">
+                    <el-dropdown-item @click="openAssignRoleDrawer(row)">
+                      {{ t('assign.role') }}
+                    </el-dropdown-item>
+                    <el-dropdown-item @click="openAssignPermissionDrawer(row)">
+                      {{ t('sysMenu.assignPermission') }}
+                    </el-dropdown-item>
+                  </Perms>
                 </el-dropdown-menu>
               </template>
             </el-dropdown>

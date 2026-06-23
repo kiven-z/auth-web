@@ -34,7 +34,6 @@ permissions:
     menus:
       title: Bound Menus
       empty: No menus bound
-      notApplicable: API permissions are not linked to menu buttons
   messages:
     loadFailed: Failed to load permissions
     typeImmutableHint: Permission type cannot be changed after creation. Delete and recreate to change it.

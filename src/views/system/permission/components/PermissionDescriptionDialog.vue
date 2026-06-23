@@ -3,12 +3,12 @@ import type { DetailDialog } from '@/api/common';
 import type { SysPermissionDetail } from '@/api/system/permission';
 import DetailRelationListSection from '@/components/business/DetailRelationListSection/index.vue';
 import Description from '@/components/ui/Description';
+import useMenuColumns from '@/views/system/_shared/columns/useMenuColumns';
+import useRoleColumns from '@/views/system/_shared/columns/useRoleColumns';
 import { PERMISSION_TYPE_FILTER_OPTIONS } from '@/views/system/_shared/constants/permission-type-options';
 import { ElTag } from 'element-plus';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
-import useBindingColumns from '@/views/system/_shared/columns/useBindingColumns';
-import usePermissionBindingColumns from '@/views/system/permission/hooks/usePermissionBindingColumns';
 
 defineOptions({
   name: 'PermissionDescriptionDialog',
@@ -16,22 +16,11 @@ defineOptions({
 
 type PermissionDescriptionDialogProps = DetailDialog<SysPermissionDetail>;
 
-const props = defineProps<PermissionDescriptionDialogProps>();
+defineProps<PermissionDescriptionDialogProps>();
 const { t } = useI18n();
 
-// 绑定角色、菜单表格列
-const { roleBindingColumns } = useBindingColumns();
-const { menuBindingColumns } = usePermissionBindingColumns();
-
-// 按钮权限类型
-const buttonPermissionType = PERMISSION_TYPE_FILTER_OPTIONS[0].value;
-
-// 绑定角色、菜单数据
-const boundRoles = computed(() => props.data.boundRoles ?? []);
-const boundMenus = computed(() => props.data.boundMenus ?? []);
-
-// 按钮权限才展示菜单绑定；API 权限仅展示「不适用」提示
-const isButtonPermission = computed(() => props.data.permissionType === buttonPermissionType);
+const { roleColumns } = useRoleColumns();
+const { menuColumns } = useMenuColumns();
 
 const descriptionColumns = computed(() => [
   { label: t('permissions.field.permissionCode'), prop: 'permissionCode', labelWidth: 120, copy: true },
@@ -81,28 +70,21 @@ const descriptionColumns = computed(() => [
 
     <!-- 已绑定角色 -->
     <DetailRelationListSection
-      :columns="roleBindingColumns"
+      :columns="roleColumns"
       :empty-text="t('permissions.bound.roles.empty')"
-      :items="boundRoles"
+      :items="data.boundRoles"
       :title="t('permissions.bound.roles.title')"
-      row-key="roleCode"
+      row-key="id"
     />
 
     <!-- 已绑定菜单 -->
     <DetailRelationListSection
-      :columns="menuBindingColumns"
+      :columns="menuColumns"
       :empty-text="t('permissions.bound.menus.empty')"
-      :items="boundMenus"
-      :show-badge="isButtonPermission"
+      :items="data.boundMenus"
       :title="t('permissions.bound.menus.title')"
       class="mt-4"
       row-key="id"
-    >
-      <template v-if="!isButtonPermission" #body>
-        <el-text class="block py-2" type="info">
-          {{ t('permissions.bound.menus.notApplicable') }}
-        </el-text>
-      </template>
-    </DetailRelationListSection>
+    />
   </div>
 </template>

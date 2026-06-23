@@ -23,6 +23,7 @@ interface MenuRowActionsProps {
   deleteBatchRows: (ids?: unknown) => void;
   openAssignRoleDrawer: (row: SysMenuRow) => void;
   openAssignPermissionDrawer: (row: SysMenuRow) => void;
+  openBindingDialog: (row: SysMenuRow) => void;
 }
 
 const props = withDefaults(defineProps<MenuRowActionsProps>(), {
@@ -90,7 +91,7 @@ onUnmounted(() => {
     </el-button>
 
     <!-- 更多 -->
-    <Perms :value="SYS_MENU_PERMS.UPDATE">
+    <Perms :value="SYS_MENU_PERMS.QUERY">
       <el-dropdown
         :teleported="dropdownTeleported"
         class="ml-1"
@@ -103,12 +104,17 @@ onUnmounted(() => {
         </el-button>
         <template #dropdown>
           <el-dropdown-menu>
-            <el-dropdown-item @click="openAssignRoleDrawer(row)">
-              {{ t('assign.role') }}
+            <el-dropdown-item @click="openBindingDialog(row)">
+              {{ t('sysMenu.viewBindings') }}
             </el-dropdown-item>
-            <el-dropdown-item @click="openAssignPermissionDrawer(row)">
-              {{ t('sysMenu.assignPermission') }}
-            </el-dropdown-item>
+            <Perms :value="SYS_MENU_PERMS.UPDATE">
+              <el-dropdown-item @click="openAssignRoleDrawer(row)">
+                {{ t('assign.role') }}
+              </el-dropdown-item>
+              <el-dropdown-item @click="openAssignPermissionDrawer(row)">
+                {{ t('sysMenu.assignPermission') }}
+              </el-dropdown-item>
+            </Perms>
           </el-dropdown-menu>
         </template>
       </el-dropdown>

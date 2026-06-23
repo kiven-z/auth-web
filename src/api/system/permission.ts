@@ -8,6 +8,7 @@ import type {
   SortSpec,
 } from '@/api/common';
 import { mergePagedExportParams } from '@/api/common';
+import type { RoleReference } from '@/api/system/grant-table';
 import { http } from '@/infrastructure/http-core';
 
 /**
@@ -62,18 +63,6 @@ export function exportPermissionExcel(filter: SysPermissionPageQuery, scope: Exp
 }
 
 /**
- * 权限详情：已绑定角色项（对齐 {@code SysPermissionBoundRoleItemVO}）
- */
-export interface SysPermissionBoundRoleItem {
-  roleCode: string;
-  roleName: string;
-  status: boolean;
-  roleType: number;
-  createTime?: string;
-  updateTime?: string;
-}
-
-/**
  * 权限详情：已绑定菜单项（对齐 {@code SysPermissionBoundMenuItemVO}）
  */
 export interface SysPermissionBoundMenuItem {
@@ -95,7 +84,7 @@ export interface SysPermissionDetail extends BaseResponseDetail {
   orderNum: number;
   status: boolean;
   remark?: string;
-  boundRoles: SysPermissionBoundRoleItem[];
+  boundRoles: RoleReference[];
   boundMenus: SysPermissionBoundMenuItem[];
 }
 

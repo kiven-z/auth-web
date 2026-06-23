@@ -36,9 +36,9 @@ function useRoleMoreAction() {
           leftTitle={t('roles.assign.current')}
           leftSubtitle={`${row.roleName} (${row.roleCode})`}
           loadAssigned={async () => {
-            const rows = await getRolePermissions(row.roleCode);
+            const rows = await getRolePermissions(row.id);
             return rows.map((permissionRow) => ({
-              key: permissionRow.permissionCode,
+              key: permissionRow.id,
               label: permissionRow.permissionName,
             }));
           }}
@@ -48,8 +48,8 @@ function useRoleMoreAction() {
       ),
       beforeSure: async (done) => {
         try {
-          const permissionCodes = drawerRef.value?.getSelectedKeys() ?? [];
-          await assignRolePermissions(row.roleCode, { permissionCodes });
+          const permissionIds = drawerRef.value?.getSelectedKeys() ?? [];
+          await assignRolePermissions(row.id, { permissionIds });
           message(t('tips.assignSaveSuccess'), { type: 'success' });
           done();
         } catch (error: unknown) {

@@ -7,13 +7,16 @@ import type {
   SpreadsheetImportResult,
 } from '@/api/common';
 import { mergePagedExportParams } from '@/api/common';
-
-export type { SpreadsheetImportResult };
-import type { GrantTableAssignedRoleRow, GrantTableAssignRoleRequest } from '@/api/system/grant-table';
+import type {
+  DeptBoundUserReference,
+  GrantTableAssignRoleRequest,
+  PostReference,
+  RoleReference,
+} from '@/api/system/grant-table';
 import { http } from '@/infrastructure/http-core';
 import type { AxiosRequestConfig } from 'axios';
 
-export type { GrantTableAssignedRoleRow, GrantTableAssignRoleRequest };
+export type { SpreadsheetImportResult };
 
 /** 顶级部门 parentId（与后端一致） */
 export const DEPT_ROOT_PARENT_ID = '0';
@@ -64,41 +67,6 @@ export interface SysDeptPageQuery extends SysDeptTableFilter {
 }
 
 /**
- * 部门详情：关联用户项（对齐 {@code SysDeptBoundUserItemVO}）
- */
-export interface SysDeptBoundUserItem {
-  userId: string;
-  username: string;
-  nickname: string;
-  employeeNo?: string;
-  userStatus: number;
-  isPrimary: boolean;
-  relationStatus: number;
-}
-
-/**
- * 部门详情：下属岗位项（对齐 {@code SysDeptBoundPostItemVO}）
- */
-export interface SysDeptBoundPostItem {
-  id: string;
-  postCode: string;
-  postName: string;
-  status: boolean;
-}
-
-/**
- * 部门详情：已授权角色项（对齐 {@code SysDeptBoundRoleItemVO}）
- */
-export interface SysDeptBoundRoleItem {
-  roleCode: string;
-  roleName: string;
-  status: boolean;
-  roleType: number;
-  createTime?: string;
-  updateTime?: string;
-}
-
-/**
  * 部门新增表单（对齐 {@code SysDeptForm} 创建场景）
  */
 export interface SysDeptCreateForm {
@@ -135,9 +103,9 @@ export interface SysDeptDetail extends BaseResponseDetail {
   status: boolean;
   orderNum: number;
   remark?: string;
-  boundUsers: SysDeptBoundUserItem[];
-  boundPosts: SysDeptBoundPostItem[];
-  boundRoles: SysDeptBoundRoleItem[];
+  boundUsers: DeptBoundUserReference[];
+  boundPosts: PostReference[];
+  boundRoles: RoleReference[];
 }
 
 /**
@@ -232,8 +200,8 @@ export async function deleteDepts(ids: string[]): Promise<void> {
  * 查询部门已分配角色
  * @param deptId 部门主键
  */
-export function getDeptRoles(deptId: string): Promise<GrantTableAssignedRoleRow[]> {
-  return http.get<GrantTableAssignedRoleRow[], unknown>(`/system/dept/${deptId}/roles`);
+export function getDeptRoles(deptId: string): Promise<RoleReference[]> {
+  return http.get<RoleReference[], unknown>(`/system/dept/${deptId}/roles`);
 }
 
 /**

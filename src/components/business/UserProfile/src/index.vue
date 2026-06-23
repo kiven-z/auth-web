@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { getUserProfile, type SysUserDeptProfileItem, type SysUserPostProfileItem } from '@/api/system/user-base';
+import { getUserProfile, type UserDeptReference, type UserPostReference } from '@/api/system/user-base';
 import ReDescription from '@/components/ui/Description';
 import useUserProfileColumns from '@/components/business/UserProfile/src/useUserProfileColumns';
 import { errorMessage } from '@/ui/feedback/message';
@@ -19,8 +19,8 @@ const { userColumns, deptColumns, postColumns } = useUserProfileColumns();
 
 const loading = ref(false);
 const userDetailInfo = ref<Record<string, unknown>[]>([]);
-const deptInfos = ref<SysUserDeptProfileItem[]>([]);
-const postInfos = ref<SysUserPostProfileItem[]>([]);
+const deptInfos = ref<UserDeptReference[]>([]);
+const postInfos = ref<UserPostReference[]>([]);
 
 /**
  * 按 userId 拉取用户档案并拆分为基本信息与部门、岗位列表。
@@ -85,15 +85,8 @@ watch(
       <el-empty v-if="deptInfos.length === 0 && !loading" :description="t('users.tips.noDeptInfo')" :image-size="100" />
 
       <el-collapse v-else accordion class="dept-collapse">
-        <el-collapse-item v-for="dept in deptInfos" :key="dept.deptId" :name="dept.deptId" :title="dept.deptName">
-          <ReDescription
-            v-loading="loading"
-            :column="2"
-            :columns="deptColumns"
-            :data="[dept]"
-            border
-            row-key="deptId"
-          />
+        <el-collapse-item v-for="dept in deptInfos" :key="dept.id" :name="dept.id" :title="dept.deptName">
+          <ReDescription v-loading="loading" :column="2" :columns="deptColumns" :data="[dept]" border row-key="id" />
         </el-collapse-item>
       </el-collapse>
     </div>

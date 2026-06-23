@@ -2,6 +2,7 @@
 import { getPostPage } from '@/api/system/post';
 import AuthPagedTable, { usePaginationState } from '@/components/business/AuthPagedTable';
 import { useFormPlaceholder } from '@/composables/i18n/useFormPlaceholder';
+import { SYS_POST_PERMS } from '@/views/system/post/constants/permissions';
 import { POST_STATUS_FILTER_OPTIONS } from '@/views/system/post/constants/post-search-options';
 import usePostAdvanceAction from '@/views/system/post/hooks/usePostAdvanceAction';
 import usePostMoreAction from '@/views/system/post/hooks/usePostMoreAction';
@@ -102,11 +103,13 @@ onMounted(() => {
       <el-form-item>
         <el-button-group>
           <!-- 搜索 -->
-          <el-button :loading="loading" type="primary" @click="fetchTableData">
+          <el-button v-perms="SYS_POST_PERMS.QUERY" :loading="loading" type="primary" @click="fetchTableData">
             {{ t('buttons.actionSearch') }}
           </el-button>
           <!-- 重置 -->
-          <el-button @click="resetQuery(searchFormRef)">{{ t('buttons.actionReset') }}</el-button>
+          <el-button v-perms="SYS_POST_PERMS.QUERY" @click="resetQuery(searchFormRef)">
+            {{ t('buttons.actionReset') }}
+          </el-button>
         </el-button-group>
       </el-form-item>
     </el-form>
@@ -115,7 +118,9 @@ onMounted(() => {
       <template #buttons>
         <el-button-group type="primary">
           <!-- 添加 -->
-          <el-button type="primary" @click="openCreateDialog">{{ t('buttons.actionAdd') }}</el-button>
+          <el-button v-perms="SYS_POST_PERMS.CREATE" type="primary" @click="openCreateDialog">
+            {{ t('buttons.actionAdd') }}
+          </el-button>
 
           <el-dropdown trigger="click">
             <el-button type="danger">
@@ -123,12 +128,16 @@ onMounted(() => {
             </el-button>
             <template #dropdown>
               <!-- 从 Excel 导入 -->
-              <el-dropdown-item @click="openImportDialog">
-                {{ t('buttons.importExcel') }}
-              </el-dropdown-item>
-              <el-dropdown-item :disabled="exporting" @click="openExportDialog">
-                {{ t('buttons.exportExcel') }}
-              </el-dropdown-item>
+              <Perms :value="SYS_POST_PERMS.IMPORT">
+                <el-dropdown-item @click="openImportDialog">
+                  {{ t('buttons.importExcel') }}
+                </el-dropdown-item>
+              </Perms>
+              <Perms :value="SYS_POST_PERMS.EXPORT">
+                <el-dropdown-item :disabled="exporting" @click="openExportDialog">
+                  {{ t('buttons.exportExcel') }}
+                </el-dropdown-item>
+              </Perms>
             </template>
           </el-dropdown>
         </el-button-group>
@@ -137,20 +146,26 @@ onMounted(() => {
       <template #actions="{ row }">
         <div class="flex justify-center">
           <!-- 查看 -->
-          <el-button link type="primary" @click="openDetailDialog(row)">{{ t('buttons.actionView') }}</el-button>
+          <el-button v-perms="SYS_POST_PERMS.QUERY" link type="primary" @click="openDetailDialog(row)">
+            {{ t('buttons.actionView') }}
+          </el-button>
           <!-- 修改 -->
-          <el-button link type="primary" @click="openEditDialog(row)">{{ t('buttons.actionEdit') }}</el-button>
+          <el-button v-perms="SYS_POST_PERMS.UPDATE" link type="primary" @click="openEditDialog(row)">
+            {{ t('buttons.actionEdit') }}
+          </el-button>
           <!-- 删除 -->
-          <el-button link type="danger" @click="deleteRow(row)">
+          <el-button v-perms="SYS_POST_PERMS.DELETE" link type="danger" @click="deleteRow(row)">
             {{ t('buttons.actionDelete') }}
           </el-button>
 
           <el-dropdown class="ml-1" trigger="click">
             <el-button class="el-dropdown-link" link type="primary">{{ t('buttons.actionMore') }}</el-button>
             <template #dropdown>
-              <el-dropdown-item @click="openAssignRoleDrawer(row)">
-                {{ t('assign.role') }}
-              </el-dropdown-item>
+              <Perms :value="SYS_POST_PERMS.UPDATE">
+                <el-dropdown-item @click="openAssignRoleDrawer(row)">
+                  {{ t('assign.role') }}
+                </el-dropdown-item>
+              </Perms>
             </template>
           </el-dropdown>
         </div>

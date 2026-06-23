@@ -35,6 +35,15 @@ sysMenu:
   addDialogTitle: 新增菜单
   editDialogTitle: 编辑菜单
   detailDialogTitle: 菜单详情
+  bindingDialogTitle: 菜单绑定关系
+  viewBindings: 查看绑定
   assignPermission: 分配权限
+  bound:
+    roles:
+      title: 已绑定角色
+      empty: 暂无绑定角色
+    permissions:
+      title: 已绑定权限
+      empty: 暂无绑定权限
   action:
     addChild: 新增下级

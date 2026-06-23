@@ -7,13 +7,7 @@ import type { SysMenuRow } from '@/views/system/menu/hooks/useMenuPageState';
 import { ElTag, ElText } from 'element-plus';
 import { computed, h } from 'vue';
 import { useI18n } from 'vue-i18n';
-
-// 菜单类型标签样式映射
-const MENU_TYPE_TAG_MAP: Record<number, { type: 'primary' | 'success' | 'warning'; labelKey: string }> = {
-  0: { type: 'primary', labelKey: 'sysMenu.menuTypeMenu' },
-  1: { type: 'warning', labelKey: 'sysMenu.menuTypeIframe' },
-  2: { type: 'success', labelKey: 'sysMenu.menuTypeLink' },
-};
+import { MENU_TYPE_OPTIONS } from '@/views/system/menu/constants/menu-type';
 
 /**
  * 表格列配置
@@ -50,11 +44,11 @@ function useMenuTableColumns() {
       prop: 'menuType',
       width: 100,
       formatter: (row: SysMenuRow) => {
-        const cfg = MENU_TYPE_TAG_MAP[row.menuType];
-        if (!cfg) return '-';
+        const option = MENU_TYPE_OPTIONS.find((item) => item.value === row.menuType);
+        if (!option) return '-';
         return (
-          <ElTag type={cfg.type} effect="plain">
-            {t(cfg.labelKey)}
+          <ElTag type={option.tagType} effect="plain">
+            {t(option.labelKey)}
           </ElTag>
         );
       },

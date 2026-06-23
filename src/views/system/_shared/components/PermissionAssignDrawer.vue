@@ -39,7 +39,7 @@ const ph = useFormPlaceholder();
 const searchFormRef = ref<FormInstance>();
 
 const assign = useAssignChecked({
-  rowKey: 'permissionCode',
+  rowKey: 'id',
   getRowLabel: (row) => String(row.permissionName ?? ''),
 });
 
@@ -73,7 +73,7 @@ const sectionLabelText = computed(() => props.sectionLabel ?? t('permissions.ass
 
 // 权限分配列
 const permissionDrawerColumns = computed<TableColumnList>(() => [
-  createAssignCheckboxColumn(assign, 'permissionCode', { label: t('table.assigned') }),
+  createAssignCheckboxColumn(assign, 'id', { label: t('table.assigned') }),
   {
     label: t('permissions.field.permissionName'),
     prop: 'permissionName',
@@ -167,7 +167,7 @@ defineExpose({ getSelectedKeys });
       :columns="permissionDrawerColumns"
       :state="permissionState"
       :title="tableTitle"
-      row-key="permissionCode"
+      row-key="id"
       @row-dblclick="handleRowDblclick"
     />
   </AssignPanel>

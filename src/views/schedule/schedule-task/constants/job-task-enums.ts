@@ -9,7 +9,7 @@ export const JOB_TASK_TYPE_OPTIONS = [
  * 错失策略（对应后端 SysJobSchedulerManager.applyMisfire）
  */
 export const JOB_MISFIRE_POLICY_OPTIONS = [
-  { value: 1, labelKey: 'scheduleTask.enums.misfirePolicy.1' },
-  { value: 2, labelKey: 'scheduleTask.enums.misfirePolicy.2' },
-  { value: 3, labelKey: 'scheduleTask.enums.misfirePolicy.3' },
+  { value: 1, labelKey: 'scheduleTask.enums.misfirePolicy.catchUpAll' },
+  { value: 2, labelKey: 'scheduleTask.enums.misfirePolicy.catchUpOnce' },
+  { value: 3, labelKey: 'scheduleTask.enums.misfirePolicy.ignore' },
 ] as const;

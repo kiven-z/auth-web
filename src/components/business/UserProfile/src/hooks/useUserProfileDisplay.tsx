@@ -1,4 +1,4 @@
-import { ElTag } from 'element-plus';
+import { ElCheckTag, ElTag } from 'element-plus';
 import { useI18n } from 'vue-i18n';
 
 const ACCOUNT_STATUS_META = {
@@ -68,10 +68,46 @@ function useUserProfileDisplay() {
     );
   }
 
+  /**
+   * 用户-部门主部门标识
+   * @param isPrimary 是否主部门
+   * @returns 主部门标签
+   */
+  function renderIsPrimary(isPrimary: boolean) {
+    return isPrimary ? (
+      <ElCheckTag checked type="danger">
+        {t('relation.primary')}
+      </ElCheckTag>
+    ) : (
+      <ElCheckTag checked={false} type="info">
+        {t('relation.nonPrimary')}
+      </ElCheckTag>
+    );
+  }
+
+  /**
+   * 用户-岗位主岗位标识
+   * @param isPrimary 是否主岗位
+   * @returns 主岗位标签
+   */
+  function renderPostIsPrimary(isPrimary: boolean) {
+    return isPrimary ? (
+      <ElCheckTag checked type="danger">
+        {t('post.enums.primary.yes')}
+      </ElCheckTag>
+    ) : (
+      <ElCheckTag checked type="primary">
+        {t('post.enums.primary.no')}
+      </ElCheckTag>
+    );
+  }
+
   return {
     renderUserAccountStatus,
     renderUserGender,
     renderRelationStatus,
+    renderIsPrimary,
+    renderPostIsPrimary,
   };
 }
 

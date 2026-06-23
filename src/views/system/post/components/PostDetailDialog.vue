@@ -1,14 +1,15 @@
 <script lang="tsx" setup>
 import type { DetailDialog } from '@/api/common';
 import type { SysPostDetail } from '@/api/system/post';
+import useUserProfileColumns from '@/components/business/UserProfile/src/useUserProfileColumns';
 import DetailRelationListSection from '@/components/business/DetailRelationListSection/index.vue';
 import Description from '@/components/ui/Description';
+import useDeptColumns from '@/views/system/_shared/columns/useDeptColumns';
+import useRoleColumns from '@/views/system/_shared/columns/useRoleColumns';
 import { POST_STATUS_FILTER_OPTIONS } from '@/views/system/post/constants/post-search-options';
-import usePostBindingColumns from '@/views/system/post/hooks/usePostBindingColumns';
 import { ElTag } from 'element-plus';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
-import useBindingColumns from '@/views/system/_shared/columns/useBindingColumns';
 
 defineOptions({
   name: 'PostDetailDialog',
@@ -19,11 +20,9 @@ type PostDetailDialogProps = DetailDialog<SysPostDetail>;
 const props = defineProps<PostDetailDialogProps>();
 const { t } = useI18n();
 
-const { userBindingColumns, deptSnapshotColumns } = usePostBindingColumns();
-const { roleBindingColumns } = useBindingColumns();
-
-const boundUsers = computed(() => props.data?.boundUsers ?? []);
-const boundRoles = computed(() => props.data?.boundRoles ?? []);
+const { userRelationBindingColumns } = useUserProfileColumns();
+const { roleColumns } = useRoleColumns();
+const { deptDescriptionColumns } = useDeptColumns();
 
 const descriptionColumns = computed(() => [
   { label: t('post.field.postCode'), prop: 'postCode', labelWidth: 120, copy: true },
@@ -60,25 +59,25 @@ const descriptionColumns = computed(() => [
     <p class="mb-2 text-sm font-medium text-(--el-text-color-primary)">
       {{ t('post.bound.dept.title') }}
     </p>
-    <Description :column="2" :columns="deptSnapshotColumns" :data="[data.boundDept]" />
+    <Description :column="2" :columns="deptDescriptionColumns" :data="[data.boundDept]" />
 
     <el-divider />
 
     <DetailRelationListSection
-      :columns="userBindingColumns"
+      :columns="userRelationBindingColumns"
       :empty-text="t('post.bound.users.empty')"
-      :items="boundUsers"
+      :items="data.boundUsers"
       :title="t('post.bound.users.title')"
-      row-key="userId"
+      row-key="id"
     />
 
     <DetailRelationListSection
-      :columns="roleBindingColumns"
+      :columns="roleColumns"
       :empty-text="t('post.bound.roles.empty')"
-      :items="boundRoles"
+      :items="data.boundRoles"
       :title="t('post.bound.roles.title')"
       class="mt-4"
-      row-key="roleCode"
+      row-key="id"
     />
   </div>
 </template>

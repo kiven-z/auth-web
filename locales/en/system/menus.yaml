@@ -35,6 +35,15 @@ sysMenu:
   addDialogTitle: New menu
   editDialogTitle: Edit menu
   detailDialogTitle: Menu detail
+  bindingDialogTitle: Menu bindings
+  viewBindings: View bindings
   assignPermission: Assign permissions
+  bound:
+    roles:
+      title: Bound roles
+      empty: No roles bound
+    permissions:
+      title: Bound permissions
+      empty: No permissions bound
   action:
     addChild: Add Child

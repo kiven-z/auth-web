@@ -11,7 +11,7 @@ import { errorMessage } from '@/ui/feedback/message';
 import MenuTypeIframeDialog from '@/views/system/menu/components/MenuTypeIframeDialog.vue';
 import MenuTypeLinkDialog from '@/views/system/menu/components/MenuTypeLinkDialog.vue';
 import MenuTypeMenuDialog from '@/views/system/menu/components/MenuTypeMenuDialog.vue';
-import { MenuTypeEnums, menuTypeSegmentItems } from '@/views/system/menu/constants/menu-type';
+import { MenuTypeEnums, MENU_TYPE_OPTIONS } from '@/views/system/menu/constants/menu-type';
 import { findMenuIdPath } from '@/views/system/menu/utils/menu-tree';
 import type { CascaderProps, FormInstance, FormRules } from 'element-plus';
 import { computed, onMounted, ref, watch } from 'vue';
@@ -101,7 +101,7 @@ const deptTree = ref<DeptNode[]>([]);
 const parentIdPath = ref<string[]>([]);
 
 const typeSegmentOptions = computed(() =>
-  menuTypeSegmentItems.map((item) => ({ label: t(item.labelKey), value: item.value }))
+  MENU_TYPE_OPTIONS.map((item) => ({ label: t(item.labelKey), value: item.value }))
 );
 
 /**

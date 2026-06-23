@@ -2,7 +2,6 @@
 import type { FormDialog } from '@/api/common';
 import type { SysRoleCreateForm, SysRoleUpdateForm } from '@/api/system/role';
 import { ROLE_CODE_REGEX } from '@/views/system/role/constants/role-code-convention';
-import { ROLE_TYPE_FILTER_OPTIONS } from '@/views/system/_shared/constants/role-type-options';
 import type { FormInstance, FormRules } from 'element-plus';
 import { reactive, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
@@ -17,7 +16,6 @@ const { t } = useI18n();
 const formRef = ref<FormInstance>();
 const form = ref<SysRoleCreateForm | SysRoleUpdateForm>({
   status: true,
-  roleType: 1,
   orderNum: 0,
   ...props.form,
 });
@@ -33,7 +31,6 @@ const rules = reactive<FormRules>({
     { max: 128, message: t('roles.validation.roleNameLengthLimit'), trigger: 'blur' },
   ],
   status: [{ required: true, message: t('roles.field.status'), trigger: 'change' }],
-  roleType: [{ required: true, message: t('roles.field.roleType'), trigger: 'change' }],
   remark: [{ max: 500, message: t('roles.validation.remarkLengthLimit'), trigger: 'blur' }],
 });
 
@@ -62,19 +59,6 @@ defineExpose({ formRef, form });
             <el-radio :value="true">{{ t('roles.status.normal') }}</el-radio>
             <el-radio :value="false">{{ t('roles.status.disabled') }}</el-radio>
           </el-radio-group>
-        </el-form-item>
-      </el-col>
-      <!-- 角色类型 -->
-      <el-col :lg="12" :md="12" :sm="12" :xs="24">
-        <el-form-item :label="t('roles.field.roleType')" prop="roleType">
-          <el-select v-model="form.roleType" :placeholder="t('roles.field.roleType')" class="w-full">
-            <el-option
-              v-for="opt in ROLE_TYPE_FILTER_OPTIONS"
-              :key="opt.value"
-              :label="t(opt.labelKey)"
-              :value="opt.value"
-            />
-          </el-select>
         </el-form-item>
       </el-col>
       <!-- 显示顺序 -->

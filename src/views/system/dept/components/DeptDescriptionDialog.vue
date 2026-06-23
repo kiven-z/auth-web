@@ -1,14 +1,15 @@
 <script lang="tsx" setup>
 import type { DetailDialog } from '@/api/common';
 import type { SysDeptDetail } from '@/api/system/dept';
+import useUserProfileColumns from '@/components/business/UserProfile/src/useUserProfileColumns';
 import DetailRelationListSection from '@/components/business/DetailRelationListSection/index.vue';
 import Description from '@/components/ui/Description';
+import usePostColumns from '@/views/system/_shared/columns/usePostColumns';
+import useRoleColumns from '@/views/system/_shared/columns/useRoleColumns';
 import { DEPT_STATUS_FILTER_OPTIONS } from '@/views/system/dept/constants/dept-search-options';
 import { ElTag } from 'element-plus';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
-import useDeptBindingColumns from '@/views/system/dept/hooks/columns/useDeptBindingColumns';
-import useBindingColumns from '@/views/system/_shared/columns/useBindingColumns';
 
 defineOptions({
   name: 'DeptDescriptionDialog',
@@ -22,16 +23,10 @@ type DeptDescriptionDialogProps = DetailDialog<SysDeptDetail> & {
 const props = defineProps<DeptDescriptionDialogProps>();
 const { t } = useI18n();
 
-// 绑定用户、岗位、角色表格列
-const { userBindingColumns, postBindingColumns } = useDeptBindingColumns();
-const { roleBindingColumns } = useBindingColumns();
+const { userRelationBindingColumns } = useUserProfileColumns();
+const { postColumns } = usePostColumns();
+const { roleColumns } = useRoleColumns();
 
-// 绑定用户、岗位、角色数据
-const boundUsers = computed(() => props.data?.boundUsers ?? []);
-const boundPosts = computed(() => props.data?.boundPosts ?? []);
-const boundRoles = computed(() => props.data?.boundRoles ?? []);
-
-// 父部门展示名
 const parentLabel = computed(() => {
   if (props.parentDeptLabel) {
     return props.parentDeptLabel;
@@ -43,7 +38,6 @@ const parentLabel = computed(() => {
   return parentId;
 });
 
-// 部门基础信息表格列
 const descriptionColumns = computed(() => [
   { label: t('dept.field.deptCode'), prop: 'deptCode', labelWidth: 120, copy: true },
   { label: t('dept.field.deptName'), prop: 'deptName', labelWidth: 120, copy: true },
@@ -84,18 +78,18 @@ const descriptionColumns = computed(() => [
 
     <!-- 绑定用户 -->
     <DetailRelationListSection
-      :columns="userBindingColumns"
+      :columns="userRelationBindingColumns"
       :empty-text="t('dept.binding.users.empty')"
-      :items="boundUsers"
+      :items="data.boundUsers"
       :title="t('dept.binding.users.title')"
-      row-key="userId"
+      row-key="id"
     />
 
     <!-- 绑定岗位 -->
     <DetailRelationListSection
-      :columns="postBindingColumns"
+      :columns="postColumns"
       :empty-text="t('dept.binding.posts.empty')"
-      :items="boundPosts"
+      :items="data.boundPosts"
       :title="t('dept.binding.posts.title')"
       class="mt-4"
       row-key="id"
@@ -103,12 +97,12 @@ const descriptionColumns = computed(() => [
 
     <!-- 绑定角色 -->
     <DetailRelationListSection
-      :columns="roleBindingColumns"
+      :columns="roleColumns"
       :empty-text="t('dept.binding.roles.empty')"
-      :items="boundRoles"
+      :items="data.boundRoles"
       :title="t('dept.binding.roles.title')"
       class="mt-4"
-      row-key="roleCode"
+      row-key="id"
     />
   </div>
 </template>

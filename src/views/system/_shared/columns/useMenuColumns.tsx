@@ -1,29 +1,35 @@
 import type { SysPermissionBoundMenuItem } from '@/api/system/permission';
-import { menuTypeFilterOptions } from '@/views/system/menu/constants/menu-type';
+import { MENU_TYPE_OPTIONS } from '@/views/system/menu/constants/menu-type';
 import { ElTag } from 'element-plus';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 /**
- * 权限详情：已绑定菜单表格列
- * @returns 表格列定义
+ * 菜单固定列（权限/角色详情「已绑菜单」）
+ * @returns 菜单表格列定义
  */
-function usePermissionBindingColumns() {
+function useMenuColumns() {
   const { t } = useI18n();
 
-  const menuBindingColumns = computed<TableColumnList>(() => [
-    { label: t('sysMenu.menuTitle'), prop: 'title', minWidth: 120, showOverflowTooltip: true },
+  const menuColumns = computed<TableColumnList>(() => [
+    {
+      label: t('sysMenu.menuTitle'),
+      prop: 'title',
+      minWidth: 120,
+      showOverflowTooltip: true,
+      formatter: (row: SysPermissionBoundMenuItem) => <span>{t(row.title)}</span>,
+    },
     { label: t('sysMenu.path'), prop: 'path', minWidth: 140, showOverflowTooltip: true },
     {
       label: t('sysMenu.menuType'),
       prop: 'menuType',
       minWidth: 100,
       formatter: (row: SysPermissionBoundMenuItem) => {
-        const labelKey = menuTypeFilterOptions.find((option) => option.value === row.menuType)?.labelKey;
-        if (!labelKey) {
+        const option = MENU_TYPE_OPTIONS.find((item) => item.value === row.menuType);
+        if (!option) {
           return <span>{String(row.menuType ?? '')}</span>;
         }
-        return <span>{t(labelKey)}</span>;
+        return <span>{t(option.labelKey)}</span>;
       },
     },
     {
@@ -38,7 +44,7 @@ function usePermissionBindingColumns() {
     },
   ]);
 
-  return { menuBindingColumns };
+  return { menuColumns };
 }
 
-export default usePermissionBindingColumns;
+export default useMenuColumns;

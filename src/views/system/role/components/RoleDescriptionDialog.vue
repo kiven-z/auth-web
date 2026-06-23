@@ -1,10 +1,13 @@
 <script lang="tsx" setup>
 import type { DetailDialog } from '@/api/common';
 import type { SysRoleDetail } from '@/api/system/role';
+import useUserProfileColumns from '@/components/business/UserProfile/src/useUserProfileColumns';
 import DetailRelationListSection from '@/components/business/DetailRelationListSection/index.vue';
 import Description from '@/components/ui/Description';
-import { ROLE_TYPE_FILTER_OPTIONS } from '@/views/system/_shared/constants/role-type-options';
-import useRoleBindingPermissionColumns from '@/views/system/role/hooks/useRoleBindingPermissionColumns';
+import useDeptColumns from '@/views/system/_shared/columns/useDeptColumns';
+import useMenuColumns from '@/views/system/_shared/columns/useMenuColumns';
+import usePermissionColumns from '@/views/system/_shared/columns/usePermissionColumns';
+import usePostColumns from '@/views/system/_shared/columns/usePostColumns';
 import { ElTag } from 'element-plus';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
@@ -18,13 +21,12 @@ type RoleDescriptionDialogProps = DetailDialog<SysRoleDetail>;
 const props = defineProps<RoleDescriptionDialogProps>();
 const { t } = useI18n();
 
-// 绑定权限表格列
-const { columns: permissionBindingColumns } = useRoleBindingPermissionColumns();
+const { permissionColumns } = usePermissionColumns();
+const { menuColumns } = useMenuColumns();
+const { userBindingColumns } = useUserProfileColumns();
+const { deptColumns } = useDeptColumns();
+const { postColumns } = usePostColumns();
 
-// 绑定权限数据
-const boundPermissions = computed(() => props.data.boundPermissions ?? []);
-
-// 角色基础信息表格列
 const descriptionColumns = computed(() => [
   { label: t('roles.field.roleCode'), prop: 'roleCode', labelWidth: 120, copy: true },
   { label: t('roles.field.roleName'), prop: 'roleName', labelWidth: 120, copy: true },
@@ -38,19 +40,6 @@ const descriptionColumns = computed(() => [
       </ElTag>
     ),
   },
-  {
-    label: t('roles.field.roleType'),
-    prop: 'roleType',
-    labelWidth: 120,
-    cellRenderer: ({ value }: { value: number }) => {
-      const option = ROLE_TYPE_FILTER_OPTIONS.find((item) => item.value === value);
-      return (
-        <ElTag type={option.tagType} effect="plain">
-          {t(option.labelKey)}
-        </ElTag>
-      );
-    },
-  },
   { label: t('roles.field.orderNum'), prop: 'orderNum', labelWidth: 120 },
   { label: t('roles.field.remark'), prop: 'remark', labelWidth: 120, span: 2 },
   { label: t('table.createTime'), prop: 'createTime', labelWidth: 120 },
@@ -62,18 +51,52 @@ const descriptionColumns = computed(() => [
 
 <template>
   <div>
-    <!-- 角色基础信息 -->
     <Description :column="2" :columns="descriptionColumns" :data="[data]" />
 
-    <!-- 已分配权限（sys_role_permission 正查） -->
     <el-divider />
 
     <DetailRelationListSection
-      :columns="permissionBindingColumns"
+      :columns="permissionColumns"
       :empty-text="t('roles.bound.permissionsEmpty')"
-      :items="boundPermissions"
+      :items="data.boundPermissions"
       :title="t('roles.bound.permissionsTitle')"
-      row-key="permissionCode"
+      row-key="id"
+    />
+
+    <DetailRelationListSection
+      :columns="menuColumns"
+      :empty-text="t('roles.bound.menus.empty')"
+      :items="data.boundMenus"
+      :title="t('roles.bound.menus.title')"
+      class="mt-4"
+      row-key="id"
+    />
+
+    <DetailRelationListSection
+      :columns="userBindingColumns"
+      :empty-text="t('roles.bound.users.empty')"
+      :items="data.boundUsers"
+      :title="t('roles.bound.users.title')"
+      class="mt-4"
+      row-key="id"
+    />
+
+    <DetailRelationListSection
+      :columns="deptColumns"
+      :empty-text="t('roles.bound.depts.empty')"
+      :items="data.boundDepts"
+      :title="t('roles.bound.depts.title')"
+      class="mt-4"
+      row-key="id"
+    />
+
+    <DetailRelationListSection
+      :columns="postColumns"
+      :empty-text="t('roles.bound.posts.empty')"
+      :items="data.boundPosts"
+      :title="t('roles.bound.posts.title')"
+      class="mt-4"
+      row-key="id"
     />
   </div>
 </template>

@@ -6,6 +6,7 @@ import { downloadBlob } from '@/utils/fileDownload';
 import type { UploadFile, UploadInstance, UploadProps, UploadRawFile } from 'element-plus';
 import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
+import { SpreadsheetImportDialogExpose } from '@/views/system/_shared/hooks/useSpreadsheetImportAction';
 
 defineOptions({ name: 'SpreadsheetImportPanel' });
 
@@ -26,12 +27,6 @@ interface SpreadsheetImportDialogProps {
 }
 
 const props = defineProps<SpreadsheetImportDialogProps>();
-
-/** 导入面板对外暴露方法 */
-export interface SpreadsheetImportDialogExpose {
-  /** 提交导入（成功返回 `true`） */
-  submitImport: () => Promise<boolean>;
-}
 
 const { t } = useI18n();
 

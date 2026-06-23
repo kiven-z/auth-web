@@ -9,17 +9,11 @@ roles:
     roleCode: 角色编码
     roleName: 角色名称
     status: 状态
-    roleType: 角色类型
     orderNum: 显示顺序
     remark: 备注说明
   status:
     normal: 正常
     disabled: 禁用
-  roleType:
-    system: 系统角色
-    menu: 菜单角色
-    business: 业务角色
-    custom: 自定义角色
   assign:
     permission: 分配权限
     current: 当前角色
@@ -27,6 +21,18 @@ roles:
   bound:
     permissionsTitle: 已分配权限
     permissionsEmpty: 暂未分配权限
+    menus:
+      title: 已绑定菜单
+      empty: 暂无绑定菜单
+    users:
+      title: 已授权用户
+      empty: 暂无授权用户
+    depts:
+      title: 已授权部门
+      empty: 暂无授权部门
+    posts:
+      title: 已授权岗位
+      empty: 暂无授权岗位
   validation:
     roleCodeLengthLimit: 角色编码长度不能超过64个字符
     roleCodeFormat: 角色编码须为大写字母与下划线，且首字符为大写字母

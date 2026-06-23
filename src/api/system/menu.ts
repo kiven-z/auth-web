@@ -1,11 +1,16 @@
 import type { BaseResponse, PageResponse, SortSpec } from '@/api/common';
-import type { MenuAssignedRoleRow, MenuAssignRoleRequest } from '@/api/system/grant-table';
+import type {
+  MenuAssignedPermissionRow,
+  MenuAssignedRoleRow,
+  MenuAssignRoleRequest,
+  PermissionReference,
+  RoleReference,
+} from '@/api/system/grant-table';
 import type { MenuTypeValue } from '@/views/system/menu/constants/menu-type';
 import type { AxiosRequestConfig } from 'axios';
 
 import { http } from '@/infrastructure/http-core';
 
-export type { MenuAssignedRoleRow, MenuAssignRoleRequest };
 /** 菜单弹窗/编辑表单（与 MenuDialog 字段对齐；Boolean 字段直接用 boolean，提交前经 mapper 转换） */
 export interface MenuForm {
   id?: string;
@@ -134,6 +139,8 @@ export interface SysMenuDetailVO extends SysMenuListVO {
   dynamicLevel?: number;
   activePath?: string;
   remark?: string;
+  boundRoles: RoleReference[];
+  boundPermissions: PermissionReference[];
 }
 
 /**
@@ -155,16 +162,14 @@ export interface SysMenuBatchStatusRequest {
  * 分配权限
  */
 export interface SysMenuAssignPermissionRequest {
-  permissionCodes: string[];
+  permissionIds: string[];
 }
 
 /**
- * 菜单已关联权限行（抽屉表格）
+ * 查询菜单已分配权限（对齐 {@code MenuAssignedPermissionReferenceVO}）
  */
-export interface SysMenuAssignedPermissionRow {
-  permissionCode: string;
-  permissionName: string;
-  assigned: boolean;
+export function getMenuPermissions(id: string): Promise<MenuAssignedPermissionRow[]> {
+  return http.get<MenuAssignedPermissionRow[], AxiosRequestConfig>(`/system/menu/${id}/permissions`);
 }
 
 /**
@@ -244,15 +249,6 @@ export function getMenuRoles(id: string): Promise<MenuAssignedRoleRow[]> {
  */
 export function putMenuRoles(id: string, data: MenuAssignRoleRequest): Promise<string> {
   return http.request<string>('put', `/system/menu/${id}/roles`, { data });
-}
-
-/**
- * 查询菜单权限分配情况：返回 `sys_permission` 中启用且未删除的全量行，并以 `assigned` 标记是否已写入 `sys_menu_permission`。
- * @param id 菜单ID
- * @returns 菜单已分配权限行
- */
-export function getMenuPermissions(id: string): Promise<SysMenuAssignedPermissionRow[]> {
-  return http.get<SysMenuAssignedPermissionRow[], AxiosRequestConfig>(`/system/menu/${id}/permissions`);
 }
 
 /**

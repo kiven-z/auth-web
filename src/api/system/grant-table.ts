@@ -1,35 +1,117 @@
 /**
- * grant_table 与角色分配抽屉共用类型（对齐后端 contract）
+ * grant_table 与角色分配抽屉共用类型（对齐后端 ReferenceVO）
  */
 
 /**
- * 角色编码与名称最小展示行（对齐 {@code RoleCodeNameRow}）
+ * 角色关联回显（对齐 {@code RoleReferenceVO}）
  */
-export interface RoleCodeNameRow {
+export interface RoleReference {
+  id: string;
   roleCode: string;
   roleName: string;
+  status: boolean;
 }
 
 /**
- * grant_table 主体已分配角色行（对齐 {@code GrantTableAssignedRoleRow}）
+ * 用户关联回显（对齐 {@code UserReferenceVO}）
  */
-export type GrantTableAssignedRoleRow = RoleCodeNameRow;
+export interface UserReference {
+  id: string;
+  username: string;
+  status: number;
+  nickname: string;
+  avatar?: string;
+  gender?: number;
+  employeeNo?: string;
+}
+
+/**
+ * 部门关联回显（对齐 {@code DeptReferenceVO}）
+ */
+export interface DeptReference {
+  id: string;
+  deptName: string;
+  deptCode: string;
+  status: boolean;
+}
+
+/**
+ * 岗位关联回显（对齐 {@code PostReferenceVO}）
+ */
+export interface PostReference {
+  id: string;
+  postCode: string;
+  postName: string;
+  status: boolean;
+}
+
+/**
+ * 权限关联回显（对齐 {@code PermissionReferenceVO}）
+ */
+export interface PermissionReference {
+  id: string;
+  permissionCode: string;
+  permissionName: string;
+  permissionType: number;
+  status: boolean;
+}
+
+/**
+ * 用户-部门关联回显（对齐 {@code UserDeptReferenceVO}）
+ */
+export type UserDeptReference = DeptReference & {
+  isPrimary: boolean;
+  relationStatus: number;
+};
+
+/**
+ * 用户-岗位关联回显（对齐 {@code UserPostReferenceVO}）
+ */
+export type UserPostReference = PostReference & {
+  isPrimary: boolean;
+  relationStatus: number;
+};
+
+/**
+ * 部门详情-关联用户回显（对齐 {@code DeptBoundUserReferenceVO}）
+ */
+export type DeptBoundUserReference = UserReference & {
+  isPrimary: boolean;
+  relationStatus: number;
+};
+
+/**
+ * 岗位详情-关联用户回显（对齐 {@code PostBoundUserReferenceVO}）
+ */
+export type PostBoundUserReference = UserReference & {
+  isPrimary: boolean;
+  relationStatus: number;
+};
 
 /**
  * 全量覆盖主体角色授权请求（对齐 {@code GrantTableAssignRoleForm}）
  */
 export interface GrantTableAssignRoleRequest {
-  roleCodes: string[];
+  roleIds: string[];
 }
 
 /**
- * 菜单已分配角色行（对齐 {@code SysMenuAssignedRoleRow}）
+ * 菜单已分配角色回显（对齐 {@code MenuAssignedRoleReferenceVO}）
  */
-export type MenuAssignedRoleRow = RoleCodeNameRow & {
+export type MenuAssignedRoleRow = RoleReference & {
   assigned: boolean;
 };
 
 /**
- * 菜单全量覆盖角色请求（与 grant_table 请求体一致）
+ * 菜单已分配权限回显（对齐 {@code MenuAssignedPermissionReferenceVO}）
  */
-export type MenuAssignRoleRequest = GrantTableAssignRoleRequest;
+export type MenuAssignedPermissionRow = PermissionReference & {
+  assigned: boolean;
+};
+
+/**
+ * 菜单全量覆盖角色请求（对齐 {@code SysMenuAssignRoleForm}）
+ */
+export interface MenuAssignRoleRequest {
+  roleIds: string[];
+}

@@ -25,15 +25,11 @@ function useRoleAdvanceAction(options: UseRoleExportActionOptions) {
     ...options,
     fileNamePrefix: t('roles.title.module'),
     exportApi: exportRoleExcel,
-    buildFilter: ({ searchForm }) => {
-      const roleTypes = searchForm.roleTypes as number[] | undefined;
-      return {
-        roleCode: searchForm.roleCode as string | undefined,
-        roleName: searchForm.roleName as string | undefined,
-        status: searchForm.status as boolean | undefined,
-        roleTypes: roleTypes?.length ? roleTypes : undefined,
-      };
-    },
+    buildFilter: ({ searchForm }) => ({
+      roleCode: searchForm.roleCode as string | undefined,
+      roleName: searchForm.roleName as string | undefined,
+      status: searchForm.status as boolean | undefined,
+    }),
   });
 }
 

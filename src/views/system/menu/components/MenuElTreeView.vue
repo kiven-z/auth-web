@@ -30,7 +30,7 @@ const { openCreateDialog, openEditDialog, openDetailDialog, deleteBatchRows } = 
   selectedRows,
 });
 
-const { openAssignRoleDrawer, openAssignPermissionDrawer } = useMenuMoreAction({
+const { openAssignRoleDrawer, openAssignPermissionDrawer, openBindingDialog } = useMenuMoreAction({
   fetchTableData,
   fetchTreeData,
   refresh,
@@ -94,6 +94,7 @@ onMounted(() => {
         :delete-batch-rows="deleteBatchRows"
         :open-assign-permission-drawer="openAssignPermissionDrawer"
         :open-assign-role-drawer="openAssignRoleDrawer"
+        :open-binding-dialog="openBindingDialog"
         :open-create-dialog="openCreateDialog"
         :open-detail-dialog="openDetailDialog"
         :open-edit-dialog="openEditDialog"

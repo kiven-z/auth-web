@@ -2,7 +2,6 @@
 import { getRolePage } from '@/api/system/role';
 import AuthPagedTable, { usePaginationState } from '@/components/business/AuthPagedTable';
 import { useFormPlaceholder } from '@/composables/i18n/useFormPlaceholder';
-import { ROLE_TYPE_FILTER_OPTIONS } from '@/views/system/_shared/constants/role-type-options';
 import { SYS_ROLE_PERMS } from '@/views/system/role/constants/permissions';
 import { ROLE_STATUS_FILTER_OPTIONS } from '@/views/system/role/constants/role-search-options';
 import useRoleAdvanceAction from '@/views/system/role/hooks/useRoleAdvanceAction';
@@ -30,7 +29,6 @@ const roleState = usePaginationState({
     roleCode: undefined,
     roleName: undefined,
     status: undefined,
-    roleTypes: [],
   }),
   errorI18nKey: 'roles.message.loadFailed',
 });
@@ -82,25 +80,6 @@ onMounted(() => {
           <el-option
             v-for="opt in ROLE_STATUS_FILTER_OPTIONS"
             :key="`${opt.labelKey}:${String(opt.value)}`"
-            :label="t(opt.labelKey)"
-            :value="opt.value"
-          />
-        </el-select>
-      </el-form-item>
-      <!-- 角色类型 -->
-      <el-form-item :label="t('roles.field.roleType')" prop="roleTypes">
-        <el-select
-          v-model="searchForm.roleTypes"
-          :placeholder="ph.selectFilter('roles.field.roleType')"
-          class="w-52!"
-          clearable
-          collapse-tags
-          collapse-tags-tooltip
-          multiple
-        >
-          <el-option
-            v-for="opt in ROLE_TYPE_FILTER_OPTIONS"
-            :key="opt.value"
             :label="t(opt.labelKey)"
             :value="opt.value"
           />

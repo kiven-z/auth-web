@@ -64,11 +64,28 @@ onMounted(() => {
 
 <template>
   <el-col :span="24">
-    <el-alert :title="t('scheduleTask.scheduleHints.title')" class="mb-3!" closable show-icon type="info">
-      <ul>
-        <li>{{ t('scheduleTask.scheduleHints.misfirePolicy') }}</li>
-        <li>{{ t('scheduleTask.scheduleHints.concurrent') }}</li>
-        <li>{{ t('scheduleTask.scheduleHints.misfireAllWarning') }}</li>
+    <el-alert class="mb-3!" closable show-icon title="调度说明" type="info">
+      <ul class="m-0 pl-4 leading-relaxed">
+        <li>
+          勾选「不补跑」和「禁止并发」并不能保证保存或重启后只执行一次。若服务曾停机、热重启，或 Cron 频率很高（如每 3
+          秒），日志里仍可能短时间出现多条记录，多数是调度器在消化积压，不一定是接口或配置错误。
+        </li>
+        <li>
+          「禁止并发」表示同一任务同一时刻不会重叠执行；前一次结束后可以立刻跑下一次。任务很快结束时，多条日志间隔可能只有几毫秒，看起来像并发，实为排队快进。
+        </li>
+        <li>
+          <strong>错失策略：</strong>
+          不补跑（推荐）跳过错失触发，等下次正常 Cron；补跑一次在停机恢复后最多补 1
+          次；补跑全部（慎用）会把停机期间错过的每一次都尽快补跑，高频 Cron 下可能瞬间大量执行。
+        </li>
+        <li>
+          保存任务会重建 Quartz 调度。开发环境常伴随热重启，配合高频 Cron
+          时更容易在改完后看到连跑几次再恢复正常；生产环境用分钟级 Cron 且选「不补跑」通常不会出现明显爆发。
+        </li>
+        <li>
+          业务任务推荐不补跑 + 禁止并发（远程调用）；开发 Demo 避免「每 3 秒」类 Cron；多个任务调用同一微服务时尽量错开
+          Cron。
+        </li>
       </ul>
     </el-alert>
   </el-col>

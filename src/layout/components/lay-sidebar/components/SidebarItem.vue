@@ -1,6 +1,5 @@
 <script lang="ts" setup>
 import { getConfig } from '@/config';
-import { posix } from 'path-browserify';
 import { menuType } from '@/layout/types';
 import { ReText } from '@/components/ui/ReText';
 import { useNav } from '@/layout/hooks/useNav';
@@ -96,13 +95,20 @@ function hasOneShowingChild(children: menuType[] = [], parent: menuType) {
   return false;
 }
 
-function resolvePath(routePath) {
+/** 拼接菜单路由路径（替代 path-browserify，避免浏览器端 process 未定义） */
+function resolvePath(routePath: string) {
   const httpReg = /^http(s?):\/\//;
   if (httpReg.test(routePath) || httpReg.test(props.basePath)) {
     return routePath || props.basePath;
-  } else {
-    return posix.resolve(props.basePath, routePath);
   }
+  if (!routePath) {
+    return props.basePath;
+  }
+  if (routePath.startsWith('/')) {
+    return routePath;
+  }
+  const base = props.basePath.replace(/\/+$/, '');
+  return base ? `${base}/${routePath}` : `/${routePath}`;
 }
 </script>
 

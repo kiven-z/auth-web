@@ -12,6 +12,36 @@ export default [
       showLink: false,
     },
   },
+  // {
+  //   path: '个人中心路径',
+  //   name: '个人中心名称',
+  //   component: null,
+  //   redirect: '/个人中心路径/个人信息',
+  //   meta: {
+  //     icon: '你看应该是什么图标，还是这个不需要图标',
+  //     title: '个人中心',
+  //     rank: 1,
+  //   },
+  //   children: [
+  //     // TODO 个人信息中最下面展示 【我的会话】
+  //     {
+  //       path: '个人信息',
+  //       component: null,
+  //       meta: {
+  //         icon: '你看应该是什么图标，还是这个不需要图标',
+  //         title: '个人信息',
+  //       },
+  //     },
+  //     {
+  //       path: '登录日志',
+  //       component: null,
+  //       meta: {
+  //         icon: '你看应该是什么图标，还是这个不需要图标',
+  //         title: '登录日志',
+  //       },
+  //     },
+  //   ],
+  // },
   // 全屏403（无权访问）页面
   {
     path: '/access-denied',

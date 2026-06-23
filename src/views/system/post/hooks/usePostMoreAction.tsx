@@ -42,14 +42,17 @@ function usePostMoreAction(deps: PostMoreActionDeps) {
           leftSubtitle={`${row.postName}（${row.postCode}）`}
           loadAssigned={async () => {
             const rows = await getPostRoles(row.id);
-            return rows.map((roleRow) => ({ key: roleRow.roleCode, label: roleRow.roleName }));
+            return rows.map((roleRow) => ({
+              key: roleRow.id,
+              label: roleRow.roleName,
+            }));
           }}
         />
       ),
       beforeSure: async (done) => {
         try {
-          const roleCodes = drawerRef.value?.getSelectedKeys() ?? [];
-          await putPostRoles(row.id, { roleCodes });
+          const roleIds = drawerRef.value?.getSelectedKeys() ?? [];
+          await putPostRoles(row.id, { roleIds });
           message(t('tips.assignSaveSuccess'), { type: 'success' });
           await fetchTableData();
           done();

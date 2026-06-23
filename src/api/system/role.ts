@@ -1,6 +1,8 @@
 import type { AxiosRequestConfig } from 'axios';
 
 import type { BaseResponse, BaseResponsePageRow, ExportScopeQueryFields, PageResponse, SortSpec } from '@/api/common';
+import type { DeptReference, PermissionReference, PostReference, UserReference } from '@/api/system/grant-table';
+import type { SysPermissionBoundMenuItem } from '@/api/system/permission';
 import { mergePagedExportParams } from '@/api/common';
 import { http } from '@/infrastructure/http-core';
 
@@ -14,7 +16,6 @@ export interface SysRolePageQuery {
   roleCode?: string;
   roleName?: string;
   status?: boolean;
-  roleTypes?: number[];
 }
 
 /**
@@ -24,7 +25,6 @@ export interface SysRolePageRow extends BaseResponsePageRow {
   roleCode: string;
   roleName: string;
   status: boolean;
-  roleType: number;
   orderNum: number;
   remark?: string;
 }
@@ -36,7 +36,6 @@ export interface SysRoleCreateForm {
   roleCode: string;
   roleName: string;
   status: boolean;
-  roleType: number;
   orderNum?: number;
   remark?: string;
 }
@@ -67,29 +66,19 @@ export function exportRoleExcel(filter: SysRolePageQuery, scope: ExportScopeQuer
 }
 
 /**
- * 角色详情：已分配权限项（对齐 {@code SysRoleBoundPermissionItemVO}）
- */
-export interface SysRoleBoundPermissionItem {
-  permissionCode: string;
-  permissionName: string;
-  permissionType: number;
-  status: boolean;
-  createTime?: string;
-  updateTime?: string;
-}
-
-/**
  * 角色详情（对齐 {@code SysRoleDetailVO} + BaseResponse）
  */
 export interface SysRoleDetail extends BaseResponse {
   roleCode: string;
   roleName: string;
   status: boolean;
-  roleType: number;
-  roleTypeDesc?: string;
   orderNum: number;
   remark?: string;
-  boundPermissions: SysRoleBoundPermissionItem[];
+  boundPermissions: PermissionReference[];
+  boundMenus: SysPermissionBoundMenuItem[];
+  boundUsers: UserReference[];
+  boundDepts: DeptReference[];
+  boundPosts: PostReference[];
 }
 
 /**
@@ -100,7 +89,6 @@ export interface SysRoleUpdateForm {
   roleCode: string;
   roleName: string;
   status: boolean;
-  roleType: number;
   orderNum?: number;
   remark?: string;
 }
@@ -143,32 +131,24 @@ export function deleteRole(id: string): Promise<void> {
  * 角色权限全量分配请求（对齐 {@code SysRolePermissionAssignForm}）
  */
 export interface SysRolePermissionAssignRequest {
-  permissionCodes: string[];
-}
-
-/**
- * 角色已分配权限行
- */
-export interface SysRoleAssignedPermissionRow {
-  permissionCode: string;
-  permissionName: string;
+  permissionIds: string[];
 }
 
 /**
  * 查询角色已分配权限
- * @param roleCode 角色编码
+ * @param roleId 角色 ID
  */
-export function getRolePermissions(roleCode: string): Promise<SysRoleAssignedPermissionRow[]> {
-  return http.get<SysRoleAssignedPermissionRow[], unknown>(`/system/role/${roleCode}/permissions`);
+export function getRolePermissions(roleId: string): Promise<PermissionReference[]> {
+  return http.get<PermissionReference[], unknown>(`/system/role/${roleId}/permissions`);
 }
 
 /**
- * 全量分配角色权限码
- * @param roleCode 角色编码
- * @param data 权限码列表
+ * 全量分配角色权限
+ * @param roleId 角色 ID
+ * @param data 权限 ID 列表
  */
-export function assignRolePermissions(roleCode: string, data: SysRolePermissionAssignRequest): Promise<void> {
-  return http.post<void, SysRolePermissionAssignRequest>(`/system/role/${roleCode}/permissions`, {
+export function assignRolePermissions(roleId: string, data: SysRolePermissionAssignRequest): Promise<void> {
+  return http.post<void, SysRolePermissionAssignRequest>(`/system/role/${roleId}/permissions`, {
     data,
   });
 }

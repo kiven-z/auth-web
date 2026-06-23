@@ -8,10 +8,8 @@ import AssignPanel, {
 } from '@/components/business/AssignManagePanel';
 import AuthPagedTable, { usePaginationState } from '@/components/business/AuthPagedTable';
 import { errorMessage } from '@/ui/feedback/message';
-import { ORG_GRANT_DEFAULT_ROLE_TYPES } from '@/views/system/_shared/constants/org-grant-role-options';
-import { ROLE_TYPE_FILTER_OPTIONS } from '@/views/system/_shared/constants/role-type-options';
 import { useFormPlaceholder } from '@/composables/i18n/useFormPlaceholder';
-import { ElTag, type FormInstance } from 'element-plus';
+import type { FormInstance } from 'element-plus';
 import { computed, onMounted, reactive, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 
@@ -24,19 +22,10 @@ const props = withDefaults(
     loadAssigned: () => Promise<AssignSeedItem[]>;
     sectionLabel?: string;
     tableTitle?: string;
-    /** 角色列表默认筛选类型 */
-    defaultRoleTypes?: number[];
-    /** 是否展示角色类型筛选项 */
-    showRoleTypeFilter?: boolean;
-    /** 是否展示角色类型列 */
-    showRoleTypeColumn?: boolean;
+    assignRowKey?: string;
   }>(),
   {
-    sectionLabel: undefined,
-    tableTitle: undefined,
-    defaultRoleTypes: () => ORG_GRANT_DEFAULT_ROLE_TYPES,
-    showRoleTypeFilter: true,
-    showRoleTypeColumn: true,
+    assignRowKey: 'id',
   }
 );
 
@@ -45,80 +34,40 @@ const ph = useFormPlaceholder();
 const searchFormRef = ref<FormInstance>();
 
 const assign = useAssignChecked({
-  rowKey: 'roleCode',
+  rowKey: props.assignRowKey,
   getRowLabel: (row) => String(row.roleName ?? ''),
 });
 
-const { getSelectedKeys, toggle, applySeed } = assign;
+const { toggle, applySeed } = assign;
 
-const roleTypeOptions = computed(() =>
-  ROLE_TYPE_FILTER_OPTIONS.filter((option) => props.defaultRoleTypes.includes(option.value))
-);
-
-// 角色状态
 const roleState = usePaginationState({
   fetchApi: getRolePage,
   searchForm: reactive({
     roleCode: undefined,
     roleName: undefined,
     status: true,
-    roleTypes: [...props.defaultRoleTypes],
   }),
   errorI18nKey: 'roles.message.loadFailed',
 });
 
 const { tableData, loading, searchForm, fetchTableData, resetQuery } = roleState;
 
-/**
- * 角色类型筛选项清空时回退为默认值
- */
-const normalizeRoleTypes = (values: number[]) => {
-  if (values.length === 0) {
-    searchForm.roleTypes = [...props.defaultRoleTypes];
-  }
-};
-
 useAssignTableLabels(assign, tableData);
 
-// 角色分配标签
 const sectionLabelText = computed(() => props.sectionLabel ?? t('roles.assign.section'));
-// 角色模块名称
 const tableTitleText = computed(() => props.tableTitle ?? t('roles.title.module'));
 
-const roleDrawerDataColumns = computed<TableColumnList>(() => {
-  const columns: TableColumnList = [
-    createAssignCheckboxColumn(assign, 'roleCode', { label: t('table.assigned') }),
-    {
-      label: t('roles.field.roleCode'),
-      prop: 'roleCode',
-    },
-    {
-      label: t('roles.field.roleName'),
-      prop: 'roleName',
-    },
-  ];
-
-  if (props.showRoleTypeColumn) {
-    columns.push({
-      label: t('roles.field.roleType'),
-      prop: 'roleType',
-      width: 120,
-      formatter: (row: SysRolePageRow) => {
-        const option = roleTypeOptions.value.find((item) => item.value === row.roleType);
-        if (!option) {
-          return null;
-        }
-        return (
-          <ElTag type={option.tagType} effect="plain">
-            {t(option.labelKey)}
-          </ElTag>
-        );
-      },
-    });
-  }
-
-  return columns;
-});
+const roleDrawerDataColumns = computed<TableColumnList>(() => [
+  createAssignCheckboxColumn(assign, props.assignRowKey, { label: t('table.assigned') }),
+  {
+    label: t('roles.field.roleCode'),
+    prop: 'roleCode',
+  },
+  {
+    label: t('roles.field.roleName'),
+    prop: 'roleName',
+  },
+]);
 
 /**
  * 双击行切换分配状态
@@ -145,7 +94,9 @@ onMounted(() => {
   refreshAssignedSeed();
 });
 
-defineExpose({ getSelectedKeys });
+defineExpose({
+  getSelectedKeys: assign.getSelectedKeys,
+});
 </script>
 
 <template>
@@ -166,20 +117,6 @@ defineExpose({ getSelectedKeys });
           class="w-45!"
           clearable
         />
-      </el-form-item>
-      <el-form-item v-if="showRoleTypeFilter" :label="t('roles.field.roleType')" prop="roleTypes">
-        <el-select
-          v-model="searchForm.roleTypes"
-          :placeholder="ph.selectFilter('roles.field.roleType')"
-          class="w-52!"
-          clearable
-          collapse-tags
-          collapse-tags-tooltip
-          multiple
-          @change="normalizeRoleTypes"
-        >
-          <el-option v-for="opt in roleTypeOptions" :key="opt.value" :label="t(opt.labelKey)" :value="opt.value" />
-        </el-select>
       </el-form-item>
 
       <el-form-item>

@@ -44,14 +44,17 @@ function useDeptMoreAction(deps: DeptMoreActionDeps) {
           leftSubtitle={`${row.deptName}（${row.deptCode}）`}
           loadAssigned={async () => {
             const rows = await getDeptRoles(row.id);
-            return rows.map((roleRow) => ({ key: roleRow.roleCode, label: roleRow.roleName }));
+            return rows.map((roleRow) => ({
+              key: roleRow.id,
+              label: roleRow.roleName,
+            }));
           }}
         />
       ),
       beforeSure: async (done) => {
         try {
-          const roleCodes = drawerRef.value?.getSelectedKeys() ?? [];
-          await putDeptRoles(row.id, { roleCodes });
+          const roleIds = drawerRef.value?.getSelectedKeys() ?? [];
+          await putDeptRoles(row.id, { roleIds });
           message(t('tips.assignSaveSuccess'), { type: 'success' });
           await refresh();
           done();

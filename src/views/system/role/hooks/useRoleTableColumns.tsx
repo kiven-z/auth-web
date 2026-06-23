@@ -1,6 +1,5 @@
 import type { SysRolePageRow } from '@/api/system/role';
 import { selectUserinfo } from '@/components/business/UserProfile';
-import { ROLE_TYPE_FILTER_OPTIONS } from '@/views/system/_shared/constants/role-type-options';
 import { ElButton, ElTag } from 'element-plus';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
@@ -27,21 +26,6 @@ function useRoleTableColumns() {
         return (
           <ElTag type={row.status ? 'success' : 'danger'} effect="plain">
             {row.status ? t('roles.status.normal') : t('roles.status.disabled')}
-          </ElTag>
-        );
-      },
-    },
-    // 角色类型
-    {
-      label: t('roles.field.roleType'),
-      prop: 'roleType',
-      minWidth: 120,
-      formatter: (row: SysRolePageRow) => {
-        const option = ROLE_TYPE_FILTER_OPTIONS.find((item) => item.value === row.roleType);
-        if (!option) return String(row.roleType ?? '');
-        return (
-          <ElTag type={option.tagType} effect="plain">
-            {t(option.labelKey)}
           </ElTag>
         );
       },
