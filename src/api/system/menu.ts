@@ -6,58 +6,20 @@ import type {
   PermissionReference,
   RoleReference,
 } from '@/api/system/grant-table';
-import type { MenuTypeValue } from '@/views/system/menu/constants/menu-type';
 import type { AxiosRequestConfig } from 'axios';
 
 import { http } from '@/infrastructure/http-core';
 
-/** 菜单弹窗/编辑表单（与 MenuDialog 字段对齐；Boolean 字段直接用 boolean，提交前经 mapper 转换） */
-export interface MenuForm {
-  id?: string;
+/** 菜单新增表单（对齐 {@code SysMenuSaveForm} 创建场景，不含 id） */
+export interface MenuCreateForm {
   parentId?: string | null;
   /** 菜单类型 0/1/2 */
-  menuType?: MenuTypeValue;
-  path?: string;
-  name?: string;
-  redirect?: string;
-  component?: string;
-  /** 标题（可为 i18n key 或展示文案） */
-  title?: string;
-  icon?: string;
-  /** UI: boolean；提交映射 show_link 0/1 */
-  showLink?: boolean;
-  menuRank?: number;
-  extraIcon?: string;
-  showParent?: boolean;
-  /** 页面级角色（若后端仍支持内联字段；主流程在分配抽屉） */
-  roles?: string[];
-  auths?: string[];
-  keepAlive?: boolean;
-  frameSrc?: string;
-  /** iframe 首次加载动画 0/1，UI boolean */
-  frameLoading?: boolean;
-  transitionName?: string;
-  enterTransition?: string;
-  leaveTransition?: string;
-  hiddenTag?: boolean;
-  dynamicLevel?: number;
-  activePath?: string;
-  fixedTag?: boolean;
-  /** UI: boolean；提交映射 status 0/1 */
-  status?: boolean;
-  meta?: Record<string, unknown>;
-  remark?: string;
-}
-
-/** 创建/更新请求体（camelCase，与后端约定对齐；Boolean 字段直接传 true/false） */
-export interface MenuSaveRequest {
-  id?: string;
-  parentId?: string | null;
   menuType: number;
   path?: string;
   name: string;
   redirect?: string;
   component?: string;
+  /** 标题（可为 i18n key 或展示文案） */
   title: string;
   icon?: string;
   showLink: boolean;
@@ -77,6 +39,14 @@ export interface MenuSaveRequest {
   status: boolean;
   remark?: string;
 }
+
+/** 菜单更新表单（与新增字段一致，须含 id） */
+export interface MenuUpdateForm extends MenuCreateForm {
+  id: string;
+}
+
+/** 菜单弹窗表单（新建 / 编辑共用） */
+export type MenuFormModel = MenuCreateForm | MenuUpdateForm;
 
 /**
  * 列表查询条件（与文档查询字段一致）
@@ -197,18 +167,18 @@ export function getMenuDetail(id: string): Promise<SysMenuDetailVO> {
 
 /**
  * 新增菜单
- * @param data 保存请求体（不含 id）
+ * @param data 菜单新增表单
  */
-export function createMenu(data: Omit<MenuSaveRequest, 'id'>): Promise<string> {
-  return http.post<string, Omit<MenuSaveRequest, 'id'>>('/system/menu', { data });
+export function createMenu(data: MenuCreateForm): Promise<string> {
+  return http.post<string, MenuCreateForm>('/system/menu', { data });
 }
 
 /**
  * 修改菜单
- * @param data 保存请求体（须含 id）
+ * @param data 菜单更新表单（须含 id）
  */
-export function updateMenu(data: MenuSaveRequest): Promise<string> {
-  return http.put<string, MenuSaveRequest>('/system/menu', { data });
+export function updateMenu(data: MenuUpdateForm): Promise<string> {
+  return http.put<string, MenuUpdateForm>('/system/menu', { data });
 }
 
 /**

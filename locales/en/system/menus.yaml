@@ -34,9 +34,7 @@ sysMenu:
   collapseAll: Collapse all
   addDialogTitle: New menu
   editDialogTitle: Edit menu
-  detailDialogTitle: Menu detail
   bindingDialogTitle: Menu bindings
-  viewBindings: View bindings
   assignPermission: Assign permissions
   bound:
     roles:

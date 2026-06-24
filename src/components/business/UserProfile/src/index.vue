@@ -1,13 +1,15 @@
 <script lang="ts" setup>
 import { getUserProfile, type UserDeptReference, type UserPostReference } from '@/api/system/user-base';
-import ReDescription from '@/components/ui/Description';
 import useUserProfileColumns from '@/components/business/UserProfile/src/useUserProfileColumns';
+import ReDescription from '@/components/ui/Description';
 import { errorMessage } from '@/ui/feedback/message';
 import { QuestionFilled, User } from '@element-plus/icons-vue';
 import { ElTooltip } from 'element-plus';
 import type { PropType } from 'vue';
 import { ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
+
+defineOptions({ name: 'UserProfile' });
 
 const props = defineProps({
   userId: { type: String as PropType<string | undefined>, required: false },
@@ -127,5 +129,5 @@ watch(
 </template>
 
 <style lang="scss" scoped>
-@use 'index';
+@use './index.scss';
 </style>

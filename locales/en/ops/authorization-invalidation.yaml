@@ -14,6 +14,7 @@ authorizationInvalidation:
   statsTrendGranularityWeek: Weekly
   statsTrendRange7Days: Last 7 Days
   statsTrendRange30Days: Last 30 Days
+  statsTrendRange60Days: Last 60 Days
   statsTrendRange90Days: Last 90 Days
   statsTrendLoadFailed: Failed to load failure rate trend
   statsTrendYAxis: Failure Rate (%)

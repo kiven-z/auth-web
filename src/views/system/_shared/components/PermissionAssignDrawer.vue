@@ -8,9 +8,9 @@ import AssignPanel, {
   useAssignTableLabels,
 } from '@/components/business/AssignManagePanel';
 import AuthPagedTable, { usePaginationState } from '@/components/business/AuthPagedTable';
+import { useFormPlaceholder } from '@/composables/i18n/useFormPlaceholder';
 import { errorMessage } from '@/ui/feedback/message';
 import { PERMISSION_TYPE_FILTER_OPTIONS } from '@/views/system/_shared/constants/permission-type-options';
-import { useFormPlaceholder } from '@/composables/i18n/useFormPlaceholder';
 import type { FormInstance } from 'element-plus';
 import { computed, onMounted, reactive, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
@@ -69,8 +69,6 @@ const { tableData, loading, searchForm, fetchTableData, resetQuery } = permissio
 
 useAssignTableLabels(assign, tableData);
 
-const sectionLabelText = computed(() => props.sectionLabel ?? t('permissions.assign.sectionLabel'));
-
 // 权限分配列
 const permissionDrawerColumns = computed<TableColumnList>(() => [
   createAssignCheckboxColumn(assign, 'id', { label: t('table.assigned') }),
@@ -86,14 +84,6 @@ const permissionDrawerColumns = computed<TableColumnList>(() => [
 
 /**
  * 双击行切换分配状态
- * @param row 权限行
- */
-const handleRowDblclick = (row: SysPermissionPageRow) => {
-  toggle(row as unknown as Record<string, unknown>);
-};
-
-/**
- * 刷新已分配权限
  */
 const refreshAssignedSeed = async () => {
   try {
@@ -113,7 +103,12 @@ defineExpose({ getSelectedKeys });
 </script>
 
 <template>
-  <AssignPanel :assign="assign" :left-subtitle="leftSubtitle" :left-title="leftTitle" :section-label="sectionLabelText">
+  <AssignPanel
+    :assign="assign"
+    :left-subtitle="leftSubtitle"
+    :left-title="leftTitle"
+    :section-label="sectionLabel ?? t('permissions.assign.sectionLabel')"
+  >
     <el-form ref="searchFormRef" :model="searchForm" class="mb-3 w-full overflow-auto pl-8 pt-3" inline>
       <el-form-item :label="t('permissions.field.permissionName')" prop="permissionName">
         <el-input
@@ -168,7 +163,7 @@ defineExpose({ getSelectedKeys });
       :state="permissionState"
       :title="tableTitle"
       row-key="id"
-      @row-dblclick="handleRowDblclick"
+      @row-dblclick="(row: Record<string, unknown>) => toggle(row)"
     />
   </AssignPanel>
 </template>

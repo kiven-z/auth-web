@@ -1,6 +1,6 @@
 import type { SysPermissionBoundMenuItem } from '@/api/system/permission';
+import { renderBooleanStatusTag } from '@/composables/layout/renderBooleanStatusTag';
 import { MENU_TYPE_OPTIONS } from '@/views/system/menu/constants/menu-type';
-import { ElTag } from 'element-plus';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 
@@ -27,7 +27,7 @@ function useMenuColumns() {
       formatter: (row: SysPermissionBoundMenuItem) => {
         const option = MENU_TYPE_OPTIONS.find((item) => item.value === row.menuType);
         if (!option) {
-          return <span>{String(row.menuType ?? '')}</span>;
+          return <span>{row.menuType ?? ''}</span>;
         }
         return <span>{t(option.labelKey)}</span>;
       },
@@ -36,11 +36,7 @@ function useMenuColumns() {
       label: t('permissions.field.status'),
       prop: 'status',
       minWidth: 90,
-      formatter: (row: SysPermissionBoundMenuItem) => (
-        <ElTag type={row.status ? 'success' : 'danger'} effect="plain">
-          {t(row.status ? 'buttons.statusActiveText' : 'buttons.statusInactiveText')}
-        </ElTag>
-      ),
+      formatter: (row: SysPermissionBoundMenuItem) => renderBooleanStatusTag(row.status),
     },
   ]);
 

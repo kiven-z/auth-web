@@ -3,7 +3,8 @@
  */
 import type { SysJobGroupPageRow } from '@/api/schedule/job-group';
 import { selectUserinfo } from '@/components/business/UserProfile';
-import { ElButton, ElTag } from 'element-plus';
+import { renderBooleanStatusTag } from '@/composables/layout/renderBooleanStatusTag';
+import { ElButton } from 'element-plus';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 
@@ -30,13 +31,7 @@ function useJobGroupTableColumns() {
       label: t('scheduleGroup.status'),
       prop: 'status',
       minWidth: 100,
-      formatter: (row: SysJobGroupPageRow) => {
-        return (
-          <ElTag type={row.status ? 'success' : 'danger'} effect="plain">
-            {row.status ? t('buttons.statusActiveText') : t('buttons.statusInactiveText')}
-          </ElTag>
-        );
-      },
+      formatter: (row: SysJobGroupPageRow) => renderBooleanStatusTag(row.status),
     },
     // 是否系统内置
     {
@@ -69,7 +64,7 @@ function useJobGroupTableColumns() {
       formatter: (row: SysJobGroupPageRow) => {
         return (
           row.createUser && (
-            <ElButton link type="primary" onClick={() => selectUserinfo(row.createUser!, row.createUsername ?? '')}>
+            <ElButton link type="primary" onClick={() => selectUserinfo(row.createUser, row.createUsername)}>
               {row.createUsername}
             </ElButton>
           )
@@ -83,7 +78,7 @@ function useJobGroupTableColumns() {
       formatter: (row: SysJobGroupPageRow) => {
         return (
           row.updateUser && (
-            <ElButton link type="primary" onClick={() => selectUserinfo(row.updateUser!, row.updateUsername ?? '')}>
+            <ElButton link type="primary" onClick={() => selectUserinfo(row.updateUser, row.updateUsername)}>
               {row.updateUsername}
             </ElButton>
           )

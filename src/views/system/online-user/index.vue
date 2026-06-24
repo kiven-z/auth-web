@@ -1,13 +1,13 @@
 <script lang="ts" setup>
-import AuthPagedTable from '@/components/business/AuthPagedTable';
+import { getOnlineUserPage, type OnlineUserPageRow } from '@/api/auth/online-user';
+import AuthPagedTable, { usePaginationState } from '@/components/business/AuthPagedTable';
 import useRemoteUserSearch from '@/composables/dialog/useRemoteUserSearch';
 import { useFormPlaceholder } from '@/composables/i18n/useFormPlaceholder';
 import { SYS_ONLINE_USER_PERMS } from '@/views/system/online-user/constants/permissions';
-import useOnlineUserPageState from '@/views/system/online-user/hooks/useOnlineUserPageState';
 import useOnlineUserTableAction from '@/views/system/online-user/hooks/useOnlineUserTableAction';
 import useOnlineUserTableColumns from '@/views/system/online-user/hooks/useOnlineUserTableColumns';
 import type { FormInstance } from 'element-plus';
-import { onMounted, ref } from 'vue';
+import { onMounted, reactive, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 defineOptions({
@@ -19,7 +19,23 @@ const ph = useFormPlaceholder();
 const { columns } = useOnlineUserTableColumns();
 const searchFormRef = ref<FormInstance>();
 
-const { tableState, searchForm } = useOnlineUserPageState();
+const searchForm = reactive({
+  userId: undefined as string,
+});
+
+const tableState = usePaginationState<OnlineUserPageRow & { id: string }>({
+  searchForm,
+  errorI18nKey: 'onlineUser.message.loadFailed',
+  defaultPageSize: 30,
+  fetchApi: async (params) => {
+    const page = await getOnlineUserPage(params);
+    const list = (page.list ?? []).map((row) => ({
+      ...row,
+      id: row.userId,
+    }));
+    return { ...page, list };
+  },
+});
 const { loading, fetchTableData, pagination } = tableState;
 
 const { userOptions, userSearchLoading, loadUserListByKeyword } = useRemoteUserSearch({

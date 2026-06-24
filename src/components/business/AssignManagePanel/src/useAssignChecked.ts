@@ -90,7 +90,7 @@ export function useAssignChecked(options: UseAssignCheckedOptions) {
    */
   function isSelected(row: Record<string, unknown>): boolean {
     const key = resolveRowKey(row);
-    return !!key && selectedKeys.value.includes(key);
+    return key ? selectedKeys.value.includes(key) : false;
   }
 
   /**

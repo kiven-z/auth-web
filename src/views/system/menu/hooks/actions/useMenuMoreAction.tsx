@@ -1,14 +1,12 @@
 import type { TableActionDeps } from '@/api/common';
-import { getMenuDetail, getMenuPermissions, getMenuRoles, putMenuPermissions, putMenuRoles } from '@/api/system/menu';
-import { addDialog } from '@/components/ui/Dialog';
+import { getMenuPermissions, getMenuRoles, putMenuPermissions, putMenuRoles } from '@/api/system/menu';
 import { addDrawer } from '@/components/ui/Drawer';
 import { transformI18n } from '@/plugins/i18n';
 import { errorMessage, message } from '@/ui/feedback/message';
 import OrgGrantRoleAssignDrawer from '@/views/system/_shared/components/OrgGrantRoleAssignDrawer.vue';
 import PermissionAssignDrawer from '@/views/system/_shared/components/PermissionAssignDrawer.vue';
-import MenuBindingDescriptionDialog from '@/views/system/menu/components/MenuBindingDescriptionDialog.vue';
 import type { SysMenuRow } from '@/views/system/menu/hooks/useMenuPageState';
-import { h, ref } from 'vue';
+import { ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 /** 菜单「更多」操作依赖 */
@@ -115,32 +113,9 @@ function useMenuMoreAction(deps: MenuTableActionDeps) {
     });
   };
 
-  /**
-   * 打开绑定关系查看弹窗
-   * @param row 行数据
-   */
-  const openBindingDialog = async (row: SysMenuRow) => {
-    try {
-      const detail = await getMenuDetail(row.id);
-
-      addDialog({
-        title: t('sysMenu.bindingDialogTitle'),
-        draggable: true,
-        fullscreenIcon: true,
-        closeOnClickModal: false,
-        closeOnPressEscape: false,
-        hideFooter: true,
-        contentRenderer: () => h(MenuBindingDescriptionDialog, { data: detail }),
-      });
-    } catch (error: unknown) {
-      errorMessage(error, { defaultI18nKey: 'sysMenu.loadFailed' });
-    }
-  };
-
   return {
     openAssignRoleDrawer,
     openAssignPermissionDrawer,
-    openBindingDialog,
   };
 }
 

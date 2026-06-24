@@ -8,7 +8,7 @@ export type JobCatalogInvokeMode = 'BEAN_INVOKE' | 'CUSTOM_CLASS';
 /**
  * 白名单任务类目录：加载、按调用模式分组、解析 job_params 示例
  */
-export default function useJobCatalog() {
+function useJobCatalog() {
   const catalogClasses = ref<QuartzTaskClassRow[]>([]);
 
   const catalogByMode = computed<Record<JobCatalogInvokeMode, QuartzTaskClassRow[]>>(() => ({
@@ -45,3 +45,5 @@ export default function useJobCatalog() {
 
   return { catalogClasses, catalogByMode, findJobParamsExample, formatJobParamsExample, loadCatalogClasses };
 }
+
+export default useJobCatalog;

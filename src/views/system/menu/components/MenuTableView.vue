@@ -34,7 +34,7 @@ const { openCreateDialog, openEditDialog, openDetailDialog, deleteBatchRows, bat
   selectedRows,
 });
 
-const { openAssignRoleDrawer, openAssignPermissionDrawer, openBindingDialog } = useMenuMoreAction({
+const { openAssignRoleDrawer, openAssignPermissionDrawer } = useMenuMoreAction({
   fetchTableData,
   fetchTreeData,
   refresh,
@@ -147,22 +147,17 @@ onMounted(() => {
           <el-button v-perms="SYS_MENU_PERMS.DELETE" link type="danger" @click="deleteBatchRows([row.id])">
             {{ t('buttons.actionDelete') }}
           </el-button>
-          <Perms :value="SYS_MENU_PERMS.QUERY">
+          <Perms :value="SYS_MENU_PERMS.UPDATE">
             <el-dropdown class="ml-1" trigger="click">
               <el-button class="el-dropdown-link" link type="primary">{{ t('buttons.actionMore') }}</el-button>
               <template #dropdown>
                 <el-dropdown-menu>
-                  <el-dropdown-item @click="openBindingDialog(row)">
-                    {{ t('sysMenu.viewBindings') }}
+                  <el-dropdown-item @click="openAssignRoleDrawer(row)">
+                    {{ t('assign.role') }}
                   </el-dropdown-item>
-                  <Perms :value="SYS_MENU_PERMS.UPDATE">
-                    <el-dropdown-item @click="openAssignRoleDrawer(row)">
-                      {{ t('assign.role') }}
-                    </el-dropdown-item>
-                    <el-dropdown-item @click="openAssignPermissionDrawer(row)">
-                      {{ t('sysMenu.assignPermission') }}
-                    </el-dropdown-item>
-                  </Perms>
+                  <el-dropdown-item @click="openAssignPermissionDrawer(row)">
+                    {{ t('sysMenu.assignPermission') }}
+                  </el-dropdown-item>
                 </el-dropdown-menu>
               </template>
             </el-dropdown>

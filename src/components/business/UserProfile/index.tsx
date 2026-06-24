@@ -8,9 +8,9 @@ import { addDialog } from '@/components/ui/Dialog';
  * @param userId 用户Id
  * @param username 用户名
  */
-export const selectUserinfo = async (userId: string, username: string) => {
+export const selectUserinfo = async (userId: string, username?: string | null) => {
   addDialog({
-    title: username,
+    title: username ?? userId ?? '',
     draggable: false,
     contentRenderer: (): JSX.Element => <UserProfile userId={userId} />,
   });

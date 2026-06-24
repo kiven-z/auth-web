@@ -3,7 +3,8 @@ import {
   createMenu,
   deleteMenus,
   getMenuDetail,
-  type MenuForm,
+  type MenuCreateForm,
+  type MenuUpdateForm,
   updateMenu,
   updateMenuBatchStatus,
 } from '@/api/system/menu';
@@ -12,10 +13,9 @@ import { addDrawer } from '@/components/ui/Drawer';
 import useBatchDeleteAction from '@/composables/table/useBatchDeleteAction';
 import { type FormOverlayExpose, useFormOverlaySubmit } from '@/composables/table/useFormOverlaySubmit';
 import { errorMessage, message } from '@/ui/feedback/message';
+import MenuDescriptionDialog from '@/views/system/menu/components/MenuDescriptionDialog.vue';
 import MenuDialog from '@/views/system/menu/components/MenuDialog.vue';
 import type { MenuViewMode, SysMenuRow } from '@/views/system/menu/hooks/useMenuPageState';
-import { createDefaultMenuForm, detailToForm, formToSaveRequest } from '@/views/system/menu/utils/menu-form-mapper';
-import { MENU_ROOT_PARENT_ID } from '@/views/system/menu/utils/menu-parent';
 import type { Ref } from 'vue';
 import { h, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
@@ -49,8 +49,7 @@ function useMenuTableAction(deps: MenuTableActionDeps) {
    * @param parentRow 树视图「新增下级」时传入，预填父菜单
    */
   const openCreateDialog = (parentRow?: SysMenuRow) => {
-    const drawerFormRef = ref<FormOverlayExpose<MenuForm> | null>(null);
-    const initialForm = createDefaultMenuForm(parentRow?.id ?? MENU_ROOT_PARENT_ID);
+    const drawerFormRef = ref<FormOverlayExpose<MenuCreateForm> | null>(null);
 
     addDrawer({
       title: t('sysMenu.addDialogTitle'),
@@ -62,16 +61,15 @@ function useMenuTableAction(deps: MenuTableActionDeps) {
       contentRenderer: () =>
         h(MenuDialog, {
           ref: drawerFormRef,
-          form: initialForm,
+          form: parentRow ? { parentId: parentRow.id } : {},
           isFormDisabled: false,
         }),
-      beforeSure: createFormBeforeSure<MenuForm>({
+      beforeSure: createFormBeforeSure<MenuCreateForm>({
         formExposeRef: drawerFormRef,
         errorI18nKey: 'sysMenu.saveFailed',
         successI18nKey: 'tips.addSuccess',
         onSubmit: async (formPayload) => {
-          const { id: _omitId, ...body } = formToSaveRequest(formPayload);
-          await createMenu(body);
+          await createMenu(formPayload);
           await refresh();
         },
       }),
@@ -85,8 +83,7 @@ function useMenuTableAction(deps: MenuTableActionDeps) {
   const openEditDialog = async (row: SysMenuRow) => {
     try {
       const detail = await getMenuDetail(row.id);
-      const formData = detailToForm(detail);
-      const drawerFormRef = ref<FormOverlayExpose<MenuForm> | null>(null);
+      const drawerFormRef = ref<FormOverlayExpose<MenuUpdateForm> | null>(null);
 
       addDrawer({
         title: t('sysMenu.editDialogTitle'),
@@ -98,16 +95,16 @@ function useMenuTableAction(deps: MenuTableActionDeps) {
         contentRenderer: () =>
           h(MenuDialog, {
             ref: drawerFormRef,
-            form: formData,
+            form: detail,
             isFormDisabled: false,
           }),
-        beforeSure: createFormBeforeSure<MenuForm>({
+        beforeSure: createFormBeforeSure<MenuUpdateForm>({
           formExposeRef: drawerFormRef,
           errorI18nKey: 'sysMenu.saveFailed',
           successI18nKey: 'tips.editSuccess',
           requireId: true,
           onSubmit: async (formPayload) => {
-            await updateMenu(formToSaveRequest(formPayload));
+            await updateMenu(formPayload);
             await refresh();
           },
         }),
@@ -124,20 +121,15 @@ function useMenuTableAction(deps: MenuTableActionDeps) {
   const openDetailDialog = async (row: SysMenuRow) => {
     try {
       const detail = await getMenuDetail(row.id);
-      const formData = detailToForm(detail);
 
       addDialog({
-        title: t('sysMenu.detailDialogTitle'),
+        title: t('sysMenu.bindingDialogTitle'),
         draggable: true,
         fullscreenIcon: true,
         closeOnClickModal: false,
         closeOnPressEscape: false,
         hideFooter: true,
-        contentRenderer: () =>
-          h(MenuDialog, {
-            form: formData,
-            isFormDisabled: true,
-          }),
+        contentRenderer: () => h(MenuDescriptionDialog, { data: detail }),
       });
     } catch (error: unknown) {
       errorMessage(error, { defaultI18nKey: 'sysMenu.loadFailed' });

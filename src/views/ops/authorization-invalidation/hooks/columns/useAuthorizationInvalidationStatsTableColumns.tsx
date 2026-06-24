@@ -7,15 +7,12 @@ import { useI18n } from 'vue-i18n';
  * @param value 失败率百分比
  * @returns 展示文本
  */
-function formatFailureRate(value: number | string | undefined): string {
-  if (value === undefined || value === null || value === '') {
+function formatFailureRate(value: number | string | undefined | null): string {
+  if (!value) {
     return '0.00%';
   }
-  const numeric = typeof value === 'number' ? value : Number(value);
-  if (Number.isNaN(numeric)) {
-    return '0.00%';
-  }
-  return `${numeric.toFixed(2)}%`;
+  const numeric = Number(value);
+  return Number.isNaN(numeric) ? '0.00%' : `${numeric.toFixed(2)}%`;
 }
 
 /**

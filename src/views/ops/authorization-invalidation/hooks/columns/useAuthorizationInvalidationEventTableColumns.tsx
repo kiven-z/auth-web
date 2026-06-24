@@ -15,11 +15,6 @@ import { useI18n } from 'vue-i18n';
 function useAuthorizationInvalidationEventTableColumns() {
   const { t } = useI18n();
 
-  const formatCount = (value: number | null | undefined) => {
-    if (value === undefined || value === null) return '—';
-    return String(value);
-  };
-
   const columns = computed<TableColumnList>(() => [
     {
       type: 'index',
@@ -39,7 +34,7 @@ function useAuthorizationInvalidationEventTableColumns() {
       formatter: (row: AuthorizationInvalidationEventPageRow) => {
         const meta = resolveAuthorizationChangeKindMeta(row.changeKind ?? '');
         if (!meta) {
-          return row.changeKind ?? '—';
+          return row.changeKind ?? '-';
         }
         return t(meta.labelKey);
       },
@@ -49,8 +44,8 @@ function useAuthorizationInvalidationEventTableColumns() {
       prop: 'processing',
       minWidth: 110,
       formatter: (row: AuthorizationInvalidationEventPageRow) => {
-        if (row.processing === undefined || row.processing === null) {
-          return <span>—</span>;
+        if (!row.processing) {
+          return '-';
         }
         const meta = resolveProcessingMeta(row.processing);
         return (
@@ -64,25 +59,25 @@ function useAuthorizationInvalidationEventTableColumns() {
       label: t('authorizationInvalidation.impactedUserCount'),
       prop: 'impactedUserCount',
       minWidth: 110,
-      formatter: (row: AuthorizationInvalidationEventPageRow) => formatCount(row.impactedUserCount),
+      formatter: (row: AuthorizationInvalidationEventPageRow) => row.impactedUserCount ?? '-',
     },
     {
       label: t('authorizationInvalidation.versionBumpedCount'),
       prop: 'versionBumpedCount',
       minWidth: 130,
-      formatter: (row: AuthorizationInvalidationEventPageRow) => formatCount(row.versionBumpedCount),
+      formatter: (row: AuthorizationInvalidationEventPageRow) => row.versionBumpedCount ?? '-',
     },
     {
       label: t('authorizationInvalidation.profileRefreshedCount'),
       prop: 'profileRefreshedCount',
       minWidth: 130,
-      formatter: (row: AuthorizationInvalidationEventPageRow) => formatCount(row.profileRefreshedCount),
+      formatter: (row: AuthorizationInvalidationEventPageRow) => row.profileRefreshedCount ?? '-',
     },
     {
       label: t('authorizationInvalidation.profileEvictedCount'),
       prop: 'profileEvictedCount',
       minWidth: 130,
-      formatter: (row: AuthorizationInvalidationEventPageRow) => formatCount(row.profileEvictedCount),
+      formatter: (row: AuthorizationInvalidationEventPageRow) => row.profileEvictedCount ?? '-',
     },
     {
       label: t('authorizationInvalidation.processedAt'),
@@ -102,10 +97,10 @@ function useAuthorizationInvalidationEventTableColumns() {
       minWidth: 130,
       formatter: (row: AuthorizationInvalidationEventPageRow) => {
         if (!row.createUser) {
-          return <span>—</span>;
+          return '-';
         }
         return (
-          <ElButton link type="primary" onClick={() => selectUserinfo(row.createUser!, row.createUsername ?? '')}>
+          <ElButton link type="primary" onClick={() => selectUserinfo(row.createUser, row.createUsername)}>
             {row.createUsername}
           </ElButton>
         );

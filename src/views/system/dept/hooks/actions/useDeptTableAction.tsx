@@ -86,13 +86,6 @@ function useDeptTableAction(deps: DeptTableActionDeps) {
    * @param parentRow 树视图「新增下级」时传入，预填父部门
    */
   const openCreateDialog = (parentRow?: SysDeptRow) => {
-    const initialForm: SysDeptCreateForm = {
-      parentId: parentRow?.id ?? DEPT_ROOT_PARENT_ID,
-      deptName: '',
-      deptCode: '',
-      status: true,
-      orderNum: 0,
-    };
     const dialogFormRef = ref<FormOverlayExpose<SysDeptCreateForm> | null>(null);
 
     addDialog({
@@ -101,7 +94,7 @@ function useDeptTableAction(deps: DeptTableActionDeps) {
       fullscreenIcon: true,
       closeOnClickModal: false,
       closeOnPressEscape: false,
-      contentRenderer: () => h(DeptFormDialog, { ref: dialogFormRef, form: initialForm }),
+      contentRenderer: () => h(DeptFormDialog, { ref: dialogFormRef, form: parentRow as SysDeptCreateForm }),
       beforeSure: createFormBeforeSure<SysDeptCreateForm>({
         formExposeRef: dialogFormRef,
         errorI18nKey: 'tips.addFailed',

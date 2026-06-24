@@ -9,7 +9,7 @@ const JOB_GROUP_REMOTE_SEARCH_LIMIT = 20;
  * 任务分组远程搜索（用于新增任务表单 el-select remote）
  * @returns 分组选项、加载状态与搜索方法
  */
-export default function useJobGroupRemoteSearch() {
+function useJobGroupRemoteSearch() {
   const jobGroupOptions = ref<SysJobGroupPageRow[]>([]);
   const loadingJobGroups = ref(false);
 
@@ -34,3 +34,5 @@ export default function useJobGroupRemoteSearch() {
 
   return { jobGroupOptions, loadingJobGroups, loadJobGroupByKeyword };
 }
+
+export default useJobGroupRemoteSearch;

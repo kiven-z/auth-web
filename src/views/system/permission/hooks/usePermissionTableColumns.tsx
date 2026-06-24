@@ -1,5 +1,6 @@
 import type { SysPermissionPageRow } from '@/api/system/permission';
 import { selectUserinfo } from '@/components/business/UserProfile';
+import { renderBooleanStatusTag } from '@/composables/layout/renderBooleanStatusTag';
 import { PERMISSION_TYPE_FILTER_OPTIONS } from '@/views/system/_shared/constants/permission-type-options';
 import { ElButton, ElTag } from 'element-plus';
 import { computed } from 'vue';
@@ -38,13 +39,7 @@ function usePermissionTableColumns() {
       label: t('permissions.field.status'),
       prop: 'status',
       minWidth: 100,
-      formatter: (row: SysPermissionPageRow) => {
-        return (
-          <ElTag type={row.status ? 'success' : 'danger'} effect="plain">
-            {row.status ? t('buttons.statusActiveText') : t('buttons.statusInactiveText')}
-          </ElTag>
-        );
-      },
+      formatter: (row: SysPermissionPageRow) => renderBooleanStatusTag(row.status),
     },
     // 排序号
     { label: t('permissions.field.orderNum'), prop: 'orderNum', width: 100 },

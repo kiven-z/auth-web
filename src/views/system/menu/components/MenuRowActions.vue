@@ -1,6 +1,9 @@
 <script lang="ts" setup>
 import { treeRowActionsLockKey } from '@/components/business/AuthElTreePanel/src/treeRowActionsLock';
 import { SYS_MENU_PERMS } from '@/views/system/menu/constants/permissions';
+import useMenuMoreAction from '@/views/system/menu/hooks/actions/useMenuMoreAction';
+import useMenuTableAction from '@/views/system/menu/hooks/actions/useMenuTableAction';
+import useMenuPageState from '@/views/system/menu/hooks/useMenuPageState';
 import type { SysMenuRow } from '@/views/system/menu/hooks/useMenuPageState';
 import { inject, onUnmounted } from 'vue';
 import { useI18n } from 'vue-i18n';
@@ -17,13 +20,6 @@ interface MenuRowActionsProps {
   showAddChild?: boolean;
   /** 下拉菜单是否 Teleport 到 body */
   dropdownTeleported?: boolean;
-  openDetailDialog: (row: SysMenuRow) => void;
-  openEditDialog: (row: SysMenuRow) => void;
-  openCreateDialog?: (row: SysMenuRow) => void;
-  deleteBatchRows: (ids?: unknown) => void;
-  openAssignRoleDrawer: (row: SysMenuRow) => void;
-  openAssignPermissionDrawer: (row: SysMenuRow) => void;
-  openBindingDialog: (row: SysMenuRow) => void;
 }
 
 const props = withDefaults(defineProps<MenuRowActionsProps>(), {
@@ -32,6 +28,20 @@ const props = withDefaults(defineProps<MenuRowActionsProps>(), {
 });
 
 const { t } = useI18n();
+const { fetchTableData, fetchTreeData, refresh, viewMode, selectedRows } = useMenuPageState();
+const { openDetailDialog, openEditDialog, openCreateDialog, deleteBatchRows } = useMenuTableAction({
+  fetchTableData,
+  fetchTreeData,
+  refresh,
+  viewMode,
+  selectedRows,
+});
+const { openAssignRoleDrawer, openAssignPermissionDrawer } = useMenuMoreAction({
+  fetchTableData,
+  fetchTreeData,
+  refresh,
+});
+
 const treeRowActionsLock = inject(treeRowActionsLockKey, null);
 
 /**
@@ -91,7 +101,7 @@ onUnmounted(() => {
     </el-button>
 
     <!-- 更多 -->
-    <Perms :value="SYS_MENU_PERMS.QUERY">
+    <Perms :value="SYS_MENU_PERMS.UPDATE">
       <el-dropdown
         :teleported="dropdownTeleported"
         class="ml-1"
@@ -104,17 +114,12 @@ onUnmounted(() => {
         </el-button>
         <template #dropdown>
           <el-dropdown-menu>
-            <el-dropdown-item @click="openBindingDialog(row)">
-              {{ t('sysMenu.viewBindings') }}
+            <el-dropdown-item @click="openAssignRoleDrawer(row)">
+              {{ t('assign.role') }}
             </el-dropdown-item>
-            <Perms :value="SYS_MENU_PERMS.UPDATE">
-              <el-dropdown-item @click="openAssignRoleDrawer(row)">
-                {{ t('assign.role') }}
-              </el-dropdown-item>
-              <el-dropdown-item @click="openAssignPermissionDrawer(row)">
-                {{ t('sysMenu.assignPermission') }}
-              </el-dropdown-item>
-            </Perms>
+            <el-dropdown-item @click="openAssignPermissionDrawer(row)">
+              {{ t('sysMenu.assignPermission') }}
+            </el-dropdown-item>
           </el-dropdown-menu>
         </template>
       </el-dropdown>

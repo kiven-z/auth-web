@@ -75,7 +75,7 @@ function useAuthorizationAuditTableColumns() {
       formatter: (row: AuthorizationAuditPageRow) => {
         return (
           row.createUser && (
-            <ElButton link type="primary" onClick={() => selectUserinfo(row.createUser!, row.createUsername ?? '')}>
+            <ElButton link type="primary" onClick={() => selectUserinfo(row.createUser, row.createUsername)}>
               {row.createUsername}
             </ElButton>
           )
@@ -89,7 +89,7 @@ function useAuthorizationAuditTableColumns() {
       formatter: (row: AuthorizationAuditPageRow) => {
         return (
           row.updateUser && (
-            <ElButton link type="primary" onClick={() => selectUserinfo(row.updateUser!, row.updateUsername ?? '')}>
+            <ElButton link type="primary" onClick={() => selectUserinfo(row.updateUser, row.updateUsername)}>
               {row.updateUsername}
             </ElButton>
           )

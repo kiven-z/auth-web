@@ -47,7 +47,7 @@ function useLoginLogTableColumns() {
           return <span>{displayName}</span>;
         }
         return (
-          <ElButton link type="primary" onClick={() => selectUserinfo(uid, row.username ?? '')}>
+          <ElButton link type="primary" onClick={() => selectUserinfo(uid, row.username)}>
             {displayName}
           </ElButton>
         );
@@ -107,7 +107,7 @@ function useLoginLogTableColumns() {
         }
         return (
           row.createUser && (
-            <ElButton link type="primary" onClick={() => selectUserinfo(row.createUser!, row.createUsername ?? '')}>
+            <ElButton link type="primary" onClick={() => selectUserinfo(row.createUser, row.createUsername)}>
               {row.createUsername}
             </ElButton>
           )

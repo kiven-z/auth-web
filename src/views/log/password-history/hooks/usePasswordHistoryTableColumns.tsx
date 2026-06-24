@@ -36,7 +36,7 @@ function usePasswordHistoryTableColumns() {
           return <span>—</span>;
         }
         return (
-          <ElButton link type="primary" onClick={() => selectUserinfo(uid, row.username ?? '')}>
+          <ElButton link type="primary" onClick={() => selectUserinfo(uid, row.username)}>
             {row.username ?? uid}
           </ElButton>
         );
@@ -72,7 +72,7 @@ function usePasswordHistoryTableColumns() {
           return <span>—</span>;
         }
         return (
-          <ElButton link type="primary" onClick={() => selectUserinfo(row.createUser!, row.createUsername ?? '')}>
+          <ElButton link type="primary" onClick={() => selectUserinfo(row.createUser, row.createUsername)}>
             {row.createUsername ?? row.createUser}
           </ElButton>
         );
@@ -88,7 +88,7 @@ function usePasswordHistoryTableColumns() {
           return <span>—</span>;
         }
         return (
-          <ElButton link type="primary" onClick={() => selectUserinfo(row.updateUser!, row.updateUsername ?? '')}>
+          <ElButton link type="primary" onClick={() => selectUserinfo(row.updateUser, row.updateUsername)}>
             {row.updateUsername ?? row.updateUser}
           </ElButton>
         );

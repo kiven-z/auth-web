@@ -91,7 +91,7 @@ function useJobLogTableColumns() {
       formatter: (row: JobLogPageRow) => {
         return (
           row.createUser && (
-            <ElButton link type="primary" onClick={() => selectUserinfo(row.createUser!, row.createUsername ?? '')}>
+            <ElButton link type="primary" onClick={() => selectUserinfo(row.createUser, row.createUsername)}>
               {row.createUsername}
             </ElButton>
           )

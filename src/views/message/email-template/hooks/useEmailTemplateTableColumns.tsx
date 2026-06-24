@@ -1,9 +1,7 @@
-/**
- * 邮件模板表格列
- */
 import type { EmailTemplatePageRow } from '@/api/system/email-template';
 import { selectUserinfo } from '@/components/business/UserProfile';
-import { ElButton, ElTag } from 'element-plus';
+import { renderBooleanStatusTag } from '@/composables/layout/renderBooleanStatusTag';
+import { ElButton } from 'element-plus';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 
@@ -35,13 +33,7 @@ function useEmailTemplateTableColumns() {
       label: t('emailTemplate.status'),
       prop: 'status',
       width: 110,
-      formatter: (row: EmailTemplatePageRow) => {
-        return (
-          <ElTag type={row.status ? 'success' : 'danger'} effect="plain">
-            {row.status ? t('buttons.statusActiveText') : t('buttons.statusInactiveText')}
-          </ElTag>
-        );
-      },
+      formatter: (row: EmailTemplatePageRow) => renderBooleanStatusTag(row.status),
     },
     { label: t('table.updateTime'), prop: 'updateTime', sortable: true, minWidth: 170 },
     { label: t('table.createTime'), prop: 'createTime', sortable: true, minWidth: 170 },
@@ -52,7 +44,7 @@ function useEmailTemplateTableColumns() {
       formatter: (row: EmailTemplatePageRow) => {
         return (
           row.createUser && (
-            <ElButton link type="primary" onClick={() => selectUserinfo(row.createUser!, row.createUsername ?? '')}>
+            <ElButton link type="primary" onClick={() => selectUserinfo(row.createUser, row.createUsername)}>
               {row.createUsername}
             </ElButton>
           )
@@ -66,7 +58,7 @@ function useEmailTemplateTableColumns() {
       formatter: (row: EmailTemplatePageRow) => {
         return (
           row.updateUser && (
-            <ElButton link type="primary" onClick={() => selectUserinfo(row.updateUser!, row.updateUsername ?? '')}>
+            <ElButton link type="primary" onClick={() => selectUserinfo(row.updateUser, row.updateUsername)}>
               {row.updateUsername}
             </ElButton>
           )

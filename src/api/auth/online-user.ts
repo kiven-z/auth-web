@@ -8,7 +8,6 @@ import type { AxiosRequestConfig } from 'axios';
 export interface OnlineUserPageQuery {
   pageIndex?: number;
   pageSize?: number;
-  /** 用户 ID */
   userId?: string;
 }
 

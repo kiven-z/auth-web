@@ -36,7 +36,7 @@ function useOperationLogTableColumns() {
           return <span>—</span>;
         }
         return (
-          <ElButton link type="primary" onClick={() => selectUserinfo(uid, row.username ?? '')}>
+          <ElButton link type="primary" onClick={() => selectUserinfo(uid, row.username)}>
             {row.username ?? uid}
           </ElButton>
         );
@@ -105,7 +105,7 @@ function useOperationLogTableColumns() {
       formatter: (row: OperationLogPageRow) => {
         return (
           row.createUser && (
-            <ElButton link type="primary" onClick={() => selectUserinfo(row.createUser!, row.createUsername ?? '')}>
+            <ElButton link type="primary" onClick={() => selectUserinfo(row.createUser, row.createUsername)}>
               {row.createUsername}
             </ElButton>
           )
@@ -120,7 +120,7 @@ function useOperationLogTableColumns() {
       formatter: (row: OperationLogPageRow) => {
         return (
           row.updateUser && (
-            <ElButton link type="primary" onClick={() => selectUserinfo(row.updateUser!, row.updateUsername ?? '')}>
+            <ElButton link type="primary" onClick={() => selectUserinfo(row.updateUser, row.updateUsername)}>
               {row.updateUsername}
             </ElButton>
           )

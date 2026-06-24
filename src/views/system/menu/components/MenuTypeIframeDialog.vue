@@ -1,24 +1,16 @@
 <script lang="ts" setup>
-import type { MenuForm } from '@/api/system/menu';
-import type { PropType } from 'vue';
-import { computed } from 'vue';
+import type { MenuFormModel } from '@/api/system/menu';
 import { useI18n } from 'vue-i18n';
 
 defineOptions({ name: 'MenuDialogTypeIframe' });
 
-const props = defineProps({
-  form: { type: Object as PropType<MenuForm>, required: true },
+defineProps({
   formDisabled: { type: Boolean, default: false },
 });
 
-const emit = defineEmits(['update:form']);
+const formModel = defineModel<MenuFormModel>('form', { required: true });
 
 const { t } = useI18n();
-
-const formModel = computed({
-  get: () => props.form,
-  set: (value) => emit('update:form', value),
-});
 </script>
 
 <template>

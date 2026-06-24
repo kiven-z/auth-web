@@ -34,9 +34,7 @@ sysMenu:
   collapseAll: 折叠全部
   addDialogTitle: 新增菜单
   editDialogTitle: 编辑菜单
-  detailDialogTitle: 菜单详情
   bindingDialogTitle: 菜单绑定关系
-  viewBindings: 查看绑定
   assignPermission: 分配权限
   bound:
     roles:

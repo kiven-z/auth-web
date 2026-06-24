@@ -6,7 +6,7 @@ export function findMenuIdPath(
   targetId: string | null | undefined,
   path: string[] = []
 ): string[] {
-  if (targetId == null || targetId === '') {
+  if (!targetId) {
     return [];
   }
   for (const n of nodes) {

@@ -24,7 +24,7 @@ const activeTab = ref('event');
         <AuthorizationInvalidationOutboxTab />
       </el-tab-pane>
 
-      <el-tab-pane :label="t('authorizationInvalidation.tabStats')" name="stats">
+      <el-tab-pane :label="t('authorizationInvalidation.tabStats')" lazy name="stats">
         <AuthorizationInvalidationStatsTab />
       </el-tab-pane>
     </el-tabs>

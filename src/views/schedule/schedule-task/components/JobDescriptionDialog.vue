@@ -3,6 +3,7 @@ import type { DetailDialog } from '@/api/common';
 import type { SysJobDetailRow } from '@/api/schedule/job';
 import { selectUserinfo } from '@/components/business/UserProfile';
 import Description from '@/components/ui/Description';
+import { renderBooleanStatusTag } from '@/composables/layout/renderBooleanStatusTag';
 import { JOB_LAST_EXECUTION_STATUS_OPTIONS } from '@/views/schedule/schedule-task/constants/job-last-execution-status';
 import { JOB_QUARTZ_RUNTIME_STATUS_OPTIONS } from '@/views/schedule/schedule-task/constants/job-quartz-runtime-status';
 import {
@@ -67,11 +68,7 @@ const descriptionColumns = computed(() => {
         if (value == null) {
           return <span>{'—'}</span>;
         }
-        return (
-          <ElTag effect="plain" type={value ? 'success' : 'danger'}>
-            {t(value ? 'buttons.statusActiveText' : 'buttons.statusInactiveText')}
-          </ElTag>
-        );
+        return renderBooleanStatusTag(value);
       },
     },
   ];
@@ -166,10 +163,8 @@ const descriptionColumns = computed(() => {
       labelWidth: 120,
       span: 2,
       copy: true,
-    }
-  );
+    },
 
-  columns.push(
     {
       label: t('scheduleTask.fields.remark'),
       prop: 'remark',
@@ -187,7 +182,7 @@ const descriptionColumns = computed(() => {
           return <span>{'—'}</span>;
         }
         return (
-          <ElButton link type="primary" onClick={() => selectUserinfo(row.createUser!, row.createUsername ?? '')}>
+          <ElButton link type="primary" onClick={() => selectUserinfo(row.createUser, row.createUsername)}>
             {row.createUsername ?? row.createUser}
           </ElButton>
         );
@@ -202,7 +197,7 @@ const descriptionColumns = computed(() => {
           return <span>{'—'}</span>;
         }
         return (
-          <ElButton link type="primary" onClick={() => selectUserinfo(row.updateUser!, row.updateUsername ?? '')}>
+          <ElButton link type="primary" onClick={() => selectUserinfo(row.updateUser, row.updateUsername)}>
             {row.updateUsername ?? row.updateUser}
           </ElButton>
         );

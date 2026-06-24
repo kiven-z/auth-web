@@ -18,7 +18,7 @@ defineOptions({
 
 type RoleDescriptionDialogProps = DetailDialog<SysRoleDetail>;
 
-const props = defineProps<RoleDescriptionDialogProps>();
+defineProps<RoleDescriptionDialogProps>();
 const { t } = useI18n();
 
 const { permissionColumns } = usePermissionColumns();

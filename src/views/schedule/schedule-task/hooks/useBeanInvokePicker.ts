@@ -6,7 +6,7 @@ import { type Ref, ref, watch } from 'vue';
  * Bean 调用表单：类 → 方法 → invokeTarget 级联选择
  * @param form 含 invokeTarget 的表单引用
  */
-export default function useBeanInvokePicker(form: Ref<Pick<SysJobCreateForm, 'invokeTarget'>>) {
+function useBeanInvokePicker(form: Ref<Pick<SysJobCreateForm, 'invokeTarget'>>) {
   const selectedBeanClass = ref<string>();
   const selectedBeanMethod = ref<string>();
   const catalogMethods = ref<QuartzTaskMethodRow[]>([]);
@@ -57,3 +57,5 @@ export default function useBeanInvokePicker(form: Ref<Pick<SysJobCreateForm, 'in
 
   return { selectedBeanClass, selectedBeanMethod, catalogMethods, loadingMethods, reset };
 }
+
+export default useBeanInvokePicker;

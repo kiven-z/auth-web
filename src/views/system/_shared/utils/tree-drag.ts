@@ -11,7 +11,7 @@ export interface TreeMoveNode {
  * 规范父节点 ID（与后端 ROOT=0 一致）
  */
 export function normalizeTreeParentId(parentId: string | undefined | null, rootParentId: string): string {
-  if (parentId == null || parentId === '' || parentId === rootParentId) {
+  if (!parentId || parentId === rootParentId) {
     return rootParentId;
   }
   return parentId;

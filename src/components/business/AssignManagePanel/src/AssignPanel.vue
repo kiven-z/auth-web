@@ -16,9 +16,6 @@ const props = withDefaults(
     saving?: boolean;
   }>(),
   {
-    leftTitle: '',
-    leftSubtitle: '',
-    sectionLabel: '',
     leftSpan: 8,
     saving: false,
   }

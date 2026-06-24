@@ -3,6 +3,7 @@
  */
 import type { SysJobPageRow } from '@/api/schedule/job';
 import { selectUserinfo } from '@/components/business/UserProfile';
+import { renderBooleanStatusTag } from '@/composables/layout/renderBooleanStatusTag';
 import { JOB_LAST_EXECUTION_STATUS_OPTIONS } from '@/views/schedule/schedule-task/constants/job-last-execution-status';
 import {
   JOB_MISFIRE_POLICY_OPTIONS,
@@ -83,11 +84,7 @@ function useJobTableColumns() {
         if (row.status == null) {
           return '-';
         }
-        return (
-          <ElTag type={row.status ? 'success' : 'danger'} effect="plain">
-            {row.status ? t('buttons.statusActiveText') : t('buttons.statusInactiveText')}
-          </ElTag>
-        );
+        return renderBooleanStatusTag(row.status);
       },
     },
     {
@@ -135,7 +132,7 @@ function useJobTableColumns() {
       formatter: (row: SysJobPageRow) => {
         return (
           row.createUser && (
-            <ElButton link type="primary" onClick={() => selectUserinfo(row.createUser!, row.createUsername ?? '')}>
+            <ElButton link type="primary" onClick={() => selectUserinfo(row.createUser, row.createUsername)}>
               {row.createUsername}
             </ElButton>
           )
@@ -149,7 +146,7 @@ function useJobTableColumns() {
       formatter: (row: SysJobPageRow) => {
         return (
           row.updateUser && (
-            <ElButton link type="primary" onClick={() => selectUserinfo(row.updateUser!, row.updateUsername ?? '')}>
+            <ElButton link type="primary" onClick={() => selectUserinfo(row.updateUser, row.updateUsername)}>
               {row.updateUsername}
             </ElButton>
           )

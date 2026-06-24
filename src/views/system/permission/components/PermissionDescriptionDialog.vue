@@ -3,6 +3,7 @@ import type { DetailDialog } from '@/api/common';
 import type { SysPermissionDetail } from '@/api/system/permission';
 import DetailRelationListSection from '@/components/business/DetailRelationListSection/index.vue';
 import Description from '@/components/ui/Description';
+import { renderBooleanStatusTag } from '@/composables/layout/renderBooleanStatusTag';
 import useMenuColumns from '@/views/system/_shared/columns/useMenuColumns';
 import useRoleColumns from '@/views/system/_shared/columns/useRoleColumns';
 import { PERMISSION_TYPE_FILTER_OPTIONS } from '@/views/system/_shared/constants/permission-type-options';
@@ -45,11 +46,7 @@ const descriptionColumns = computed(() => [
     label: t('permissions.field.status'),
     prop: 'status',
     labelWidth: 120,
-    cellRenderer: ({ value }: { value: boolean }) => (
-      <ElTag type={value ? 'success' : 'danger'} effect="plain">
-        {t(value ? 'buttons.statusActiveText' : 'buttons.statusInactiveText')}
-      </ElTag>
-    ),
+    cellRenderer: ({ value }: { value: boolean }) => renderBooleanStatusTag(value),
   },
   { label: t('permissions.field.orderNum'), prop: 'orderNum', labelWidth: 120 },
   { label: t('permissions.field.remark'), prop: 'remark', labelWidth: 120, span: 2 },

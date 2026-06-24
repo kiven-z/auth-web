@@ -1,9 +1,9 @@
 <script lang="ts" setup>
 import { AuthElTreePanel } from '@/components/business/AuthElTreePanel';
 import { transformI18n } from '@/plugins/i18n';
+import { MENU_TYPE_OPTIONS } from '@/views/system/menu/constants/menu-type';
 import { SYS_MENU_PERMS } from '@/views/system/menu/constants/permissions';
 import MenuRowActions from '@/views/system/menu/components/MenuRowActions.vue';
-import useMenuMoreAction from '@/views/system/menu/hooks/actions/useMenuMoreAction';
 import useMenuPageState from '@/views/system/menu/hooks/useMenuPageState';
 import useMenuTableAction from '@/views/system/menu/hooks/actions/useMenuTableAction';
 import { useMenuTreeDrag } from '@/views/system/menu/hooks/useMenuTreeDrag';
@@ -22,7 +22,7 @@ const treeProps = {
 const { t } = useI18n();
 const { loading, selectedRows, treeData, viewMode, fetchTableData, fetchTreeData, refresh } = useMenuPageState();
 
-const { openCreateDialog, openEditDialog, openDetailDialog, deleteBatchRows } = useMenuTableAction({
+const { openCreateDialog } = useMenuTableAction({
   fetchTableData,
   fetchTreeData,
   refresh,
@@ -30,25 +30,10 @@ const { openCreateDialog, openEditDialog, openDetailDialog, deleteBatchRows } = 
   selectedRows,
 });
 
-const { openAssignRoleDrawer, openAssignPermissionDrawer, openBindingDialog } = useMenuMoreAction({
-  fetchTableData,
-  fetchTreeData,
-  refresh,
-});
-
 const { allowDrag, allowDrop, handleNodeDrop } = useMenuTreeDrag({
   treeData,
   onMoved: fetchTreeData,
 });
-
-const menuTypeTag = (menuType: number) => {
-  const map: Record<number, { type: 'primary' | 'success' | 'warning'; key: string }> = {
-    0: { type: 'primary', key: 'sysMenu.menuTypeMenu' },
-    1: { type: 'warning', key: 'sysMenu.menuTypeIframe' },
-    2: { type: 'success', key: 'sysMenu.menuTypeLink' },
-  };
-  return map[menuType];
-};
 
 onMounted(() => {
   fetchTreeData();
@@ -79,28 +64,22 @@ onMounted(() => {
     <template #meta="{ data }">
       <span class="font-medium">{{ transformI18n(data.title) }}</span>
       <el-text type="info">({{ transformI18n(data.name) }})</el-text>
-      <template v-if="menuTypeTag(data.menuType)">
-        <el-tag :type="menuTypeTag(data.menuType)!.type" effect="plain" size="small">
-          {{ t(menuTypeTag(data.menuType)!.key) }}
-        </el-tag>
-      </template>
+      <el-tag
+        v-for="option in MENU_TYPE_OPTIONS.filter((item) => item.value === data.menuType)"
+        :key="option.value"
+        :type="option.tagType"
+        effect="plain"
+        size="small"
+      >
+        {{ t(option.labelKey) }}
+      </el-tag>
       <el-tag :type="data.status ? 'success' : 'danger'" effect="plain" size="small">
         {{ data.status ? t('buttons.statusActiveText') : t('buttons.statusInactiveText') }}
       </el-tag>
     </template>
 
     <template #actions="{ data }">
-      <MenuRowActions
-        :delete-batch-rows="deleteBatchRows"
-        :open-assign-permission-drawer="openAssignPermissionDrawer"
-        :open-assign-role-drawer="openAssignRoleDrawer"
-        :open-binding-dialog="openBindingDialog"
-        :open-create-dialog="openCreateDialog"
-        :open-detail-dialog="openDetailDialog"
-        :open-edit-dialog="openEditDialog"
-        :row="data"
-        show-add-child
-      />
+      <MenuRowActions :row="data" show-add-child />
     </template>
   </AuthElTreePanel>
 </template>

@@ -35,10 +35,10 @@ function usePostAdvanceAction(options: UsePostExportActionOptions) {
     fileNamePrefix: t('post.moduleName'),
     exportApi: exportPostExcel,
     buildFilter: ({ searchForm }) => ({
-      postCode: searchForm.postCode as string | undefined,
-      postName: searchForm.postName as string | undefined,
-      deptName: searchForm.deptName as string | undefined,
-      status: searchForm.status as boolean | undefined,
+      postCode: searchForm.postCode as string,
+      postName: searchForm.postName as string,
+      deptName: searchForm.deptName as string,
+      status: searchForm.status as boolean,
     }),
   });
 

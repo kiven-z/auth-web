@@ -1,4 +1,5 @@
 import type { PermissionReference } from '@/api/system/grant-table';
+import { renderBooleanStatusTag } from '@/composables/layout/renderBooleanStatusTag';
 import { PERMISSION_TYPE_FILTER_OPTIONS } from '@/views/system/_shared/constants/permission-type-options';
 import { ElTag } from 'element-plus';
 import { computed } from 'vue';
@@ -21,7 +22,7 @@ function usePermissionColumns() {
       formatter: (row: PermissionReference) => {
         const option = PERMISSION_TYPE_FILTER_OPTIONS.find((item) => item.value === row.permissionType);
         if (!option) {
-          return <span>{String(row.permissionType ?? '')}</span>;
+          return <span>{row.permissionType ?? ''}</span>;
         }
         return (
           <ElTag type={option.tagType} effect="plain">
@@ -34,11 +35,7 @@ function usePermissionColumns() {
       label: t('permissions.field.status'),
       prop: 'status',
       minWidth: 90,
-      formatter: (row: PermissionReference) => (
-        <ElTag type={row.status ? 'success' : 'danger'} effect="plain">
-          {t(row.status ? 'buttons.statusActiveText' : 'buttons.statusInactiveText')}
-        </ElTag>
-      ),
+      formatter: (row: PermissionReference) => renderBooleanStatusTag(row.status),
     },
   ]);
 

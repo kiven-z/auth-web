@@ -5,8 +5,8 @@ import {
   getEmailTemplatePreviewHtml,
 } from '@/api/system/email-template';
 import ReDescription from '@/components/ui/Description';
+import { renderBooleanStatusTag } from '@/composables/layout/renderBooleanStatusTag';
 import { errorMessage } from '@/ui/feedback/message';
-import { ElTag } from 'element-plus';
 import { computed, nextTick, onMounted, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 
@@ -37,11 +37,7 @@ const columns = computed(() => [
     label: t('emailTemplate.status'),
     prop: 'status',
     labelWidth: 120,
-    cellRenderer: ({ value }: { value: boolean }) => (
-      <ElTag type={value ? 'success' : 'danger'} effect="plain">
-        {t(value ? 'buttons.statusActiveText' : 'buttons.statusInactiveText')}
-      </ElTag>
-    ),
+    cellRenderer: ({ value }: { value: boolean }) => renderBooleanStatusTag(value),
   },
   {
     label: t('emailTemplate.requireFieldsJson'),

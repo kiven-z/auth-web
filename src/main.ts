@@ -5,7 +5,7 @@ import { MotionPlugin } from '@vueuse/motion';
 import App from './App.vue';
 import { getPlatformConfig } from './config';
 import router from './router';
-// import { useEcharts } from "@/plugins/echarts";
+import { useEcharts } from '@/plugins/echarts';
 import { useElementPlus } from '@/plugins/elementPlus';
 import { injectResponsiveStorage } from '@/bootstrap/responsive';
 import { createApp, type Directive } from 'vue';
@@ -56,7 +56,6 @@ getPlatformConfig(app).then(async (config) => {
   await router.isReady();
   injectResponsiveStorage(app, config);
   installAuthDataTable(app);
-  app.use(MotionPlugin).use(useI18n).use(useElementPlus).use(Description);
-  // .use(useEcharts);
+  app.use(MotionPlugin).use(useI18n).use(useElementPlus).use(Description).use(useEcharts);
   app.mount('#app');
 });

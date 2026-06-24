@@ -14,6 +14,7 @@ authorizationInvalidation:
   statsTrendGranularityWeek: 按周
   statsTrendRange7Days: 近 7 天
   statsTrendRange30Days: 近 30 天
+  statsTrendRange60Days: 近 60 天
   statsTrendRange90Days: 近 90 天
   statsTrendLoadFailed: 获取失败率趋势失败
   statsTrendYAxis: 失败率 (%)

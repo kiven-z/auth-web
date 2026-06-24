@@ -17,7 +17,7 @@ defineOptions({
 
 type PostDetailDialogProps = DetailDialog<SysPostDetail>;
 
-const props = defineProps<PostDetailDialogProps>();
+defineProps<PostDetailDialogProps>();
 const { t } = useI18n();
 
 const { userRelationBindingColumns } = useUserProfileColumns();

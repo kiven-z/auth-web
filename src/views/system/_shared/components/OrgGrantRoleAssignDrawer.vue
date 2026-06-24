@@ -1,5 +1,5 @@
-<script lang="tsx" setup>
-import { getRolePage, type SysRolePageRow } from '@/api/system/role';
+<script lang="ts" setup>
+import { getRolePage } from '@/api/system/role';
 import type { AssignSeedItem } from '@/components/business/AssignManagePanel';
 import AssignPanel, {
   createAssignCheckboxColumn,
@@ -7,8 +7,8 @@ import AssignPanel, {
   useAssignTableLabels,
 } from '@/components/business/AssignManagePanel';
 import AuthPagedTable, { usePaginationState } from '@/components/business/AuthPagedTable';
-import { errorMessage } from '@/ui/feedback/message';
 import { useFormPlaceholder } from '@/composables/i18n/useFormPlaceholder';
+import { errorMessage } from '@/ui/feedback/message';
 import type { FormInstance } from 'element-plus';
 import { computed, onMounted, reactive, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
@@ -54,9 +54,6 @@ const { tableData, loading, searchForm, fetchTableData, resetQuery } = roleState
 
 useAssignTableLabels(assign, tableData);
 
-const sectionLabelText = computed(() => props.sectionLabel ?? t('roles.assign.section'));
-const tableTitleText = computed(() => props.tableTitle ?? t('roles.title.module'));
-
 const roleDrawerDataColumns = computed<TableColumnList>(() => [
   createAssignCheckboxColumn(assign, props.assignRowKey, { label: t('table.assigned') }),
   {
@@ -68,14 +65,6 @@ const roleDrawerDataColumns = computed<TableColumnList>(() => [
     prop: 'roleName',
   },
 ]);
-
-/**
- * 双击行切换分配状态
- * @param row 角色行
- */
-const handleRowDblclick = (row: SysRolePageRow) => {
-  toggle(row as unknown as Record<string, unknown>);
-};
 
 /**
  * 刷新已分配角色
@@ -100,7 +89,12 @@ defineExpose({
 </script>
 
 <template>
-  <AssignPanel :assign="assign" :left-subtitle="leftSubtitle" :left-title="leftTitle" :section-label="sectionLabelText">
+  <AssignPanel
+    :assign="assign"
+    :left-subtitle="leftSubtitle"
+    :left-title="leftTitle"
+    :section-label="sectionLabel ?? t('roles.assign.section')"
+  >
     <el-form ref="searchFormRef" :model="searchForm" class="bg-bg_color w-[99/100] overflow-auto pl-8 pt-3" inline>
       <el-form-item :label="t('roles.field.roleCode')" prop="roleCode">
         <el-input
@@ -134,8 +128,8 @@ defineExpose({
     <AuthPagedTable
       :columns="roleDrawerDataColumns"
       :state="roleState"
-      :title="tableTitleText"
-      @row-dblclick="handleRowDblclick"
+      :title="tableTitle ?? t('roles.title.module')"
+      @row-dblclick="(row: Record<string, unknown>) => toggle(row)"
     />
   </AssignPanel>
 </template>

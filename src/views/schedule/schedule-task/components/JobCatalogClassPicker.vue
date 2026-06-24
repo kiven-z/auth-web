@@ -13,7 +13,6 @@ const props = withDefaults(
     disabled?: boolean;
   }>(),
   {
-    placeholder: '',
     disabled: false,
   }
 );
@@ -28,24 +27,11 @@ interface CatalogSelectOption {
   className: string;
 }
 
-/**
- * 任务目录类展示文案：名称（说明）
- * @param item 白名单任务类
- * @returns 下拉选中态展示文本
- */
-function formatJobCatalogClassLabel(item: Pick<QuartzTaskClassRow, 'name' | 'className' | 'description'>): string {
-  const title = item.name || item.className;
-  if (!item.description) {
-    return title;
-  }
-  return `${title}（${item.description}）`;
-}
-
 // 计算属性：下拉选项
 const selectOptions = computed<CatalogSelectOption[]>(() =>
   props.options.map((item) => ({
     value: item.className,
-    label: formatJobCatalogClassLabel(item),
+    label: `${item.name || item.className}（${item.description ?? '-'}）`,
     name: item.name || item.className,
     description: item.description,
     className: item.className,
@@ -74,7 +60,7 @@ const selectOptions = computed<CatalogSelectOption[]>(() =>
   </el-select-v2>
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
 .job-catalog-class-picker__option {
   padding: 6px 0;
   line-height: 1.4;

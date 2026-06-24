@@ -36,9 +36,8 @@ const ph = useFormPlaceholder();
  * @param _force 是否强制覆盖当前值
  */
 function setFormattedJobParams(raw: string | undefined, _force = false) {
-  if (!raw) return;
-
   try {
+    if (!raw) return;
     form.value.jobParams = JSON.stringify(JSON.parse(raw), null, 2);
   } catch {
     return;

@@ -2,6 +2,7 @@
  * 菜单管理表格列定义（表格视图与树形视图共用）
  */
 import { useRenderIcon } from '@/components/ui/Icon/src/hooks';
+import { renderBooleanStatusTag } from '@/composables/layout/renderBooleanStatusTag';
 import { transformI18n } from '@/plugins/i18n';
 import type { SysMenuRow } from '@/views/system/menu/hooks/useMenuPageState';
 import { ElTag, ElText } from 'element-plus';
@@ -69,11 +70,7 @@ function useMenuTableColumns() {
       label: t('sysMenu.status'),
       prop: 'status',
       width: 90,
-      formatter: (row: SysMenuRow) => (
-        <ElTag type={row.status ? 'success' : 'danger'} effect="plain">
-          {row.status ? t('buttons.statusActiveText') : t('buttons.statusInactiveText')}
-        </ElTag>
-      ),
+      formatter: (row: SysMenuRow) => renderBooleanStatusTag(row.status),
     },
     // 显示
     {

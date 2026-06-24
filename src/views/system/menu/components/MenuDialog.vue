@@ -1,24 +1,26 @@
 <script lang="ts" setup>
-import type { FormDialog } from '@/api/common';
-import type { MenuForm } from '@/api/system/menu';
+import type { MenuFormModel } from '@/api/system/menu';
 import { getMenuList } from '@/api/system/menu';
 import AnimateSelector from '@/components/ui/AnimateSelecto/src/index.vue';
 import IconSelect from '@/components/ui/Icon/src/Select.vue';
 import { useRenderIcon } from '@/components/ui/Icon/src/hooks';
-import { transformI18n } from '@/plugins/i18n';
 import { handleTree } from '@/lib/tree';
+import { transformI18n } from '@/plugins/i18n';
 import { errorMessage } from '@/ui/feedback/message';
 import MenuTypeIframeDialog from '@/views/system/menu/components/MenuTypeIframeDialog.vue';
 import MenuTypeLinkDialog from '@/views/system/menu/components/MenuTypeLinkDialog.vue';
 import MenuTypeMenuDialog from '@/views/system/menu/components/MenuTypeMenuDialog.vue';
-import { MenuTypeEnums, MENU_TYPE_OPTIONS } from '@/views/system/menu/constants/menu-type';
+import { MENU_TYPE_OPTIONS, MenuTypeEnums } from '@/views/system/menu/constants/menu-type';
+import { MENU_ROOT_PARENT_ID } from '@/views/system/menu/utils/menu-parent';
 import { findMenuIdPath } from '@/views/system/menu/utils/menu-tree';
 import type { CascaderProps, FormInstance, FormRules } from 'element-plus';
 import { computed, onMounted, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 
-interface MenuDialogProps extends FormDialog<MenuForm> {
+interface MenuDialogProps {
   isFormDisabled?: boolean;
+  /** 预填字段；未传字段由弹窗内默认值补齐 */
+  form?: Partial<MenuFormModel>;
 }
 
 type IconInputMode = 'select' | 'manual';
@@ -34,23 +36,7 @@ interface DeptNode {
 
 const props = withDefaults(defineProps<MenuDialogProps>(), {
   isFormDisabled: false,
-  form: () => ({}) as MenuForm,
-});
-
-/**
- * 新增菜单时的默认表单（仅组件内使用，不放入 mapper）
- */
-const createEmptyMenuForm = () => ({
-  menuType: MenuTypeEnums.MENU,
-  menuRank: 0,
-  showLink: true,
-  showParent: true,
-  keepAlive: false,
-  status: true,
-  hiddenTag: false,
-  fixedTag: false,
-  frameLoading: true,
-  dynamicLevel: 1,
+  form: () => ({}) as MenuFormModel,
 });
 
 // IconSelect 内置 Tab 前缀；其它 Iconify 集合默认走手动输入模式
@@ -82,7 +68,20 @@ function deriveIconInputMode(icon: string | undefined | null): IconInputMode {
 const { t } = useI18n();
 
 const formRef = ref<FormInstance>();
-const form = ref<MenuForm>({ ...createEmptyMenuForm(), ...props.form });
+const form = ref<MenuFormModel>({
+  parentId: MENU_ROOT_PARENT_ID,
+  menuType: MenuTypeEnums.MENU,
+  menuRank: 0,
+  showLink: true,
+  showParent: true,
+  keepAlive: false,
+  status: true,
+  hiddenTag: false,
+  fixedTag: false,
+  frameLoading: true,
+  dynamicLevel: 1,
+  ...props.form,
+} as MenuFormModel);
 
 // 表单规则
 const rules = computed<FormRules>(() => ({
@@ -104,21 +103,6 @@ const typeSegmentOptions = computed(() =>
   MENU_TYPE_OPTIONS.map((item) => ({ label: t(item.labelKey), value: item.value }))
 );
 
-/**
- * 将当前表单的 parentId 同步为 cascader 路径
- */
-const syncParentPath = () => {
-  parentIdPath.value = findMenuIdPath(deptTree.value, form.value.parentId ?? null);
-};
-
-watch(parentIdPath, (path) => {
-  const next = path.length ? path[path.length - 1]! : null;
-  const cur = form.value.parentId ?? null;
-  if (next !== cur) {
-    form.value.parentId = next;
-  }
-});
-
 const iconInputMode = ref<IconInputMode>(deriveIconInputMode(form.value.icon));
 const extraIconInputMode = ref<IconInputMode>(deriveIconInputMode(form.value.extraIcon));
 
@@ -136,12 +120,20 @@ const loadMenuTree = async () => {
       name: item.name,
     }));
     deptTree.value = handleTree(nodes, 'id', 'parentId', 'children') as DeptNode[];
-    syncParentPath();
+    parentIdPath.value = findMenuIdPath(deptTree.value, form.value.parentId ?? null);
   } catch (e: unknown) {
     errorMessage(e, { defaultI18nKey: 'sysMenu.loadFailed' });
     deptTree.value = [];
   }
 };
+
+watch(parentIdPath, (path) => {
+  const next = path.length ? path[path.length - 1]! : null;
+  const cur = form.value.parentId ?? null;
+  if (next !== cur) {
+    form.value.parentId = next;
+  }
+});
 
 onMounted(() => {
   loadMenuTree();

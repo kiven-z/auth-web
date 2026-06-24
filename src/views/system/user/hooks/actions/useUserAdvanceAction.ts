@@ -39,13 +39,13 @@ function useUserAdvanceAction(options: UseUserAdvanceActionOptions) {
     fileNamePrefix: t('users.title.module'),
     exportApi: exportUserExcel,
     buildFilter: ({ searchForm: form }) => ({
-      username: form.username as string | undefined,
-      nickname: form.nickname as string | undefined,
-      phone: form.phone as string | undefined,
-      email: form.email as string | undefined,
-      employeeNo: form.employeeNo as string | undefined,
-      status: form.status as number | undefined,
-      deptId: form.deptId as string | undefined,
+      username: form.username as string,
+      nickname: form.nickname as string,
+      phone: form.phone as string,
+      email: form.email as string,
+      employeeNo: form.employeeNo as string,
+      status: form.status as number,
+      deptId: form.deptId as string,
     }),
   });
 

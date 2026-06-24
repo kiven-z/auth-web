@@ -2,7 +2,7 @@
 import type { DetailDialog } from '@/api/common';
 import type { SysJobGroupDetailRow } from '@/api/schedule/job-group';
 import Description from '@/components/ui/Description';
-import { ElTag } from 'element-plus';
+import { renderBooleanStatusTag } from '@/composables/layout/renderBooleanStatusTag';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 
@@ -22,11 +22,7 @@ const columns = computed(() => [
   {
     label: t('scheduleGroup.status'),
     prop: 'status',
-    cellRenderer: ({ value }: { value: boolean }) => (
-      <ElTag type={value ? 'success' : 'danger'} effect="plain">
-        {t(value ? 'buttons.statusActiveText' : 'buttons.statusInactiveText')}
-      </ElTag>
-    ),
+    cellRenderer: ({ value }: { value: boolean }) => renderBooleanStatusTag(value),
   },
   {
     label: t('scheduleGroup.isSystem'),

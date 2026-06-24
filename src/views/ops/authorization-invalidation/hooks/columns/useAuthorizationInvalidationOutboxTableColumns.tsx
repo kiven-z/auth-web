@@ -34,7 +34,7 @@ function useAuthorizationInvalidationOutboxTableColumns() {
       formatter: (row: AuthorizationInvalidationOutboxPageRow) => {
         const meta = resolveAuthorizationChangeKindMeta(row.changeKind ?? '');
         if (!meta) {
-          return row.changeKind ?? '—';
+          return row.changeKind ?? '-';
         }
         return t(meta.labelKey);
       },
@@ -45,7 +45,7 @@ function useAuthorizationInvalidationOutboxTableColumns() {
       minWidth: 110,
       formatter: (row: AuthorizationInvalidationOutboxPageRow) => {
         if (!row.status) {
-          return <span>—</span>;
+          return '-';
         }
         const meta = resolveOutboxStatusMeta(row.status);
         return (
@@ -59,8 +59,9 @@ function useAuthorizationInvalidationOutboxTableColumns() {
       label: t('authorizationInvalidation.retryCount'),
       prop: 'retryCount',
       minWidth: 90,
-      formatter: (row: AuthorizationInvalidationOutboxPageRow) =>
-        row.retryCount === undefined || row.retryCount === null ? '—' : `${row.retryCount}/${row.maxRetry ?? '—'}`,
+      formatter: (row: AuthorizationInvalidationOutboxPageRow) => {
+        return `${row.retryCount}/${row.maxRetry}`;
+      },
     },
     {
       label: t('authorizationInvalidation.nextRetryAt'),
@@ -73,7 +74,7 @@ function useAuthorizationInvalidationOutboxTableColumns() {
       minWidth: 180,
       formatter: (row: AuthorizationInvalidationOutboxPageRow) => {
         const error = row.lastError;
-        if (!error) return '—';
+        if (!error) return '-';
         return error.length > 40 ? `${error.slice(0, 40)}…` : error;
       },
     },
@@ -104,13 +105,12 @@ function useAuthorizationInvalidationOutboxTableColumns() {
       prop: 'createUser',
       minWidth: 130,
       formatter: (row: AuthorizationInvalidationOutboxPageRow) => {
-        if (!row.createUser) {
-          return <span>—</span>;
-        }
-        return (
-          <ElButton link type="primary" onClick={() => selectUserinfo(row.createUser!, row.createUsername ?? '')}>
+        return row.createUser ? (
+          <ElButton link type="primary" onClick={() => selectUserinfo(row.createUser, row.createUsername)}>
             {row.createUsername}
           </ElButton>
+        ) : (
+          '-'
         );
       },
     },
