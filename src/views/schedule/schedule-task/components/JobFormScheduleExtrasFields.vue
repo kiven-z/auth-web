@@ -1,6 +1,7 @@
 <script lang="ts" setup>
-import { useFormPlaceholder } from '@/composables/i18n/useFormPlaceholder';
-import { message } from '@/ui/feedback/message';
+import { useFormPlaceholder } from '@/shared/composables/i18n/useFormPlaceholder';
+import { useMonacoTheme } from '@/shared/composables/monaco/useMonacoTheme';
+import { message } from '@/services/feedback/message';
 import { JOB_CRON_PRESET_OPTIONS } from '@/views/schedule/schedule-task/constants/job-cron-presets';
 import { JOB_MISFIRE_POLICY_OPTIONS } from '@/views/schedule/schedule-task/constants/job-task-enums';
 import { CodeEditor } from 'monaco-editor-vue3';
@@ -29,6 +30,7 @@ const form = defineModel<JobFormScheduleExtrasModel>('form', { required: true })
 
 const { t } = useI18n();
 const ph = useFormPlaceholder();
+const monacoTheme = useMonacoTheme();
 
 /**
  * 格式化后写入 job_params；force 为 true 时始终覆盖
@@ -181,11 +183,11 @@ onMounted(() => {
         </div>
         <CodeEditor
           v-model:value="form.jobParams"
+          :theme="monacoTheme"
           class="w-full border"
           height="260"
           language="json"
           show-progress
-          theme="vs"
         />
       </div>
     </el-form-item>

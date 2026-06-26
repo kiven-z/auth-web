@@ -6,7 +6,7 @@ const { mockReadSessionPreferences, mockSetLoginPreferences, mockEstablishSessio
   mockEstablishSessionFromLogin: vi.fn(),
 }));
 
-vi.mock('@/infrastructure/session', () => ({
+vi.mock('@/core/session', () => ({
   readSessionPreferences: mockReadSessionPreferences,
   establishSessionFromLogin: mockEstablishSessionFromLogin,
 }));

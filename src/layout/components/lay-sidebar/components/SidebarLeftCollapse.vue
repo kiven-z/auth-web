@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script lang="ts" setup>
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useGlobal } from '@pureadmin/utils';
@@ -51,8 +51,8 @@ const toggleClick = () => {
         hideOnClick: 'toggle',
         placement: 'right',
       }"
-      :icon="MenuFold"
       :class="[iconClass, themeColor === 'light' ? '' : 'text-primary']"
+      :icon="MenuFold"
       :style="{ transform: isActive ? 'none' : 'rotateY(180deg)' }"
       @click="toggleClick"
     />

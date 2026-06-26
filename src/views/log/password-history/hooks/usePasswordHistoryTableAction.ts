@@ -5,8 +5,8 @@ import {
   type PasswordHistoryPageRow,
 } from '@/api/log/password-history';
 import { addDialog } from '@/components/ui/Dialog';
-import useBatchDeleteAction from '@/composables/table/useBatchDeleteAction';
-import { errorMessage } from '@/ui/feedback/message';
+import useBatchDeleteAction from '@/shared/composables/table/useBatchDeleteAction';
+import { errorMessage } from '@/services/feedback/message';
 import PasswordHistoryDescriptionDialog from '@/views/log/password-history/components/PasswordHistoryDescriptionDialog.vue';
 import { h } from 'vue';
 import { useI18n } from 'vue-i18n';

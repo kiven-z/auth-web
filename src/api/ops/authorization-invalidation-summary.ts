@@ -1,4 +1,4 @@
-import { http } from '@/infrastructure/http-core';
+import { http } from '@/core/http';
 import type { AxiosRequestConfig } from 'axios';
 
 /**

@@ -1,8 +1,8 @@
 import type { OnlineUserPageRow } from '@/api/auth/online-user';
 import { kickAllUserSessions } from '@/api/auth/session';
 import { addDialog } from '@/components/ui/Dialog';
-import { operationConfirm } from '@/ui/feedback/dialog';
-import { errorMessage, message } from '@/ui/feedback/message';
+import { operationConfirm } from '@/services/feedback/dialog';
+import { errorMessage, message } from '@/services/feedback/message';
 import UserSessionDialog from '@/views/system/_shared/components/UserSessionDialog.vue';
 import { h, ref } from 'vue';
 import { useI18n } from 'vue-i18n';

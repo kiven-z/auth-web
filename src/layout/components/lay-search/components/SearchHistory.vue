@@ -1,11 +1,11 @@
-<script setup lang="ts">
+<script lang="ts" setup>
 import Sortable from 'sortablejs';
 import { useI18n } from 'vue-i18n';
 import SearchHistoryItem from './SearchHistoryItem.vue';
-import type { optionsItem, dragItem, Props } from '../types';
+import type { dragItem, optionsItem, Props } from '../types';
 import { useEpThemeStoreHook } from '@/store/modules/epTheme';
-import { useResizeObserver, isArray, delay } from '@pureadmin/utils';
-import { ref, watch, nextTick, computed, getCurrentInstance } from 'vue';
+import { delay, isArray, useResizeObserver } from '@pureadmin/utils';
+import { computed, getCurrentInstance, nextTick, ref, watch } from 'vue';
 
 interface Emits {
   (e: 'update:value', val: string): void;
@@ -146,8 +146,8 @@ defineExpose({ handleScroll });
         v-for="(item, index) in historyList"
         :key="item.path"
         :ref="'historyItemRef' + index"
-        class="history-item dark:bg-[#1d1d1d]"
         :style="itemStyle(item)"
+        class="history-item dark:bg-[#1d1d1d]"
         @click="handleTo"
         @mouseenter="handleMouse(item)"
       >
@@ -163,8 +163,8 @@ defineExpose({ handleScroll });
           v-for="(item, index) in collectList"
           :key="item.path"
           :ref="'historyItemRef' + (index + historyList.length)"
-          class="history-item dark:bg-[#1d1d1d]"
           :style="itemStyle(item)"
+          class="history-item dark:bg-[#1d1d1d]"
           @click="handleTo"
           @mouseenter="handleMouse(item)"
         >

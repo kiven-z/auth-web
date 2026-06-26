@@ -1,12 +1,9 @@
 // 多组件库的国际化和本地项目国际化兼容
-import { responsiveStorageNameSpace } from '@/config';
+import { responsiveStorageNameSpace } from '@/auth/config';
+import { getLocaleDef, locales } from '@/auth/config/locales';
 import { isObject, storageLocal } from '@pureadmin/utils';
 import type { App, WritableComputedRef } from 'vue';
 import { createI18n, type I18n } from 'vue-i18n';
-
-// element-plus国际化
-import enLocale from 'element-plus/es/locale/lang/en';
-import zhLocale from 'element-plus/es/locale/lang/zh-cn';
 
 /**
  * 扫描子目录（如 zh-CN/buttons.yaml, en/panel.yaml）
@@ -35,16 +32,9 @@ const siphonI18n = (function () {
   };
 })();
 
-export const localesConfigs = {
-  zh: {
-    ...siphonI18n('zh-CN'),
-    ...zhLocale,
-  },
-  en: {
-    ...siphonI18n('en'),
-    ...enLocale,
-  },
-};
+const localesConfigs = Object.fromEntries(
+  locales.map(({ locale, folder, el }) => [locale, { ...siphonI18n(folder), ...el }])
+);
 
 /**
  * 获取对象中所有嵌套对象的key键，并将它们用点号分割组成字符串
@@ -106,10 +96,12 @@ export function transformI18n(message: any = '') {
   }
 
   const key = message.match(/(\S*)\./)?.input;
+  const locale: string | WritableComputedRef<string> | any = i18n.global.locale;
+  const folder = getLocaleDef(locale?.value).folder;
 
-  if (key && flatI18n('zh-CN').has(key)) {
+  if (key && flatI18n(folder).has(key)) {
     return i18n.global.t.call(i18n.global.locale, message);
-  } else if (!key && Object.hasOwn(siphonI18n('zh-CN'), message)) {
+  } else if (!key && Object.hasOwn(siphonI18n(folder), message)) {
     // 兼容非嵌套形式的国际化写法
     return i18n.global.t.call(i18n.global.locale, message);
   } else {

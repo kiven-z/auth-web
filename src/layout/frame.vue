@@ -1,7 +1,7 @@
-<script setup lang="ts">
+<script lang="ts" setup>
 import { useI18n } from 'vue-i18n';
 import { useRoute } from 'vue-router';
-import { ref, unref, watch, onMounted, nextTick } from 'vue';
+import { nextTick, onMounted, ref, unref, watch } from 'vue';
 
 defineOptions({
   name: 'LayFrame',
@@ -83,7 +83,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div v-loading="loading" class="frame" :element-loading-text="t('status.pureLoad')">
+  <div v-loading="loading" :element-loading-text="t('status.pureLoad')" class="frame">
     <iframe ref="frameRef" :src="frameSrc" class="frame-iframe" />
   </div>
 </template>

@@ -9,8 +9,8 @@ import {
 import { SYS_AUTH_INVALIDATION_OUTBOX_PERMS } from '@/views/ops/authorization-invalidation/constants/permissions';
 import useAuthorizationInvalidationOutboxTableAction from '@/views/ops/authorization-invalidation/hooks/actions/useAuthorizationInvalidationOutboxTableAction';
 import useAuthorizationInvalidationOutboxTableColumns from '@/views/ops/authorization-invalidation/hooks/columns/useAuthorizationInvalidationOutboxTableColumns';
-import { useFormPlaceholder } from '@/composables/i18n/useFormPlaceholder';
-import { useCollapsibleSearchForm } from '@/composables/search/useCollapsibleSearchForm';
+import { useFormPlaceholder } from '@/shared/composables/i18n/useFormPlaceholder';
+import { useCollapsibleSearchForm } from '@/shared/composables/search/useCollapsibleSearchForm';
 import type { FormInstance } from 'element-plus';
 import { onMounted, reactive, ref } from 'vue';
 import { useI18n } from 'vue-i18n';

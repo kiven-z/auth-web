@@ -1,6 +1,6 @@
-<script setup lang="ts">
+<script lang="ts" setup>
 import { useI18n } from 'vue-i18n';
-import { ref, computed } from 'vue';
+import { computed, ref } from 'vue';
 import { noticesData } from './data';
 import NoticeList from './components/NoticeList.vue';
 import BellIcon from '~icons/ep/bell';
@@ -16,9 +16,9 @@ const getLabel = computed(() => (item) => t(item.name) + (item.list.length > 0 ?
 </script>
 
 <template>
-  <el-dropdown trigger="click" placement="bottom-end">
+  <el-dropdown placement="bottom-end" trigger="click">
     <span :class="['dropdown-badge', 'navbar-bg-hover', 'select-none', Number(noticesNum) !== 0 && 'mr-[10px]']">
-      <el-badge :value="Number(noticesNum) === 0 ? '' : noticesNum" :max="99">
+      <el-badge :max="99" :value="Number(noticesNum) === 0 ? '' : noticesNum">
         <span class="header-notice-icon">
           <IconifyIconOffline :icon="BellIcon" />
         </span>
@@ -29,8 +29,8 @@ const getLabel = computed(() => (item) => t(item.name) + (item.list.length > 0 ?
         <el-tabs
           v-model="activeKey"
           :stretch="true"
-          class="dropdown-tabs"
           :style="{ width: notices.length === 0 ? '200px' : '330px' }"
+          class="dropdown-tabs"
         >
           <el-empty v-if="notices.length === 0" :description="t('status.pureNoMessage')" :image-size="60" />
           <span v-else>
@@ -38,7 +38,7 @@ const getLabel = computed(() => (item) => t(item.name) + (item.list.length > 0 ?
               <el-tab-pane :label="getLabel(item)" :name="`${item.key}`">
                 <el-scrollbar max-height="330px">
                   <div class="noticeList-container">
-                    <NoticeList :list="item.list" :emptyText="item.emptyText" />
+                    <NoticeList :emptyText="item.emptyText" :list="item.list" />
                   </div>
                 </el-scrollbar>
               </el-tab-pane>

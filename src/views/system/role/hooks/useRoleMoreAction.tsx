@@ -1,6 +1,6 @@
 import { assignRolePermissions, getRolePermissions, type SysRolePageRow } from '@/api/system/role';
 import { addDrawer } from '@/components/ui/Drawer';
-import { errorMessage, message } from '@/ui/feedback/message';
+import { errorMessage, message } from '@/services/feedback/message';
 import PermissionAssignDrawer from '@/views/system/_shared/components/PermissionAssignDrawer.vue';
 import { ref } from 'vue';
 import { useI18n } from 'vue-i18n';
@@ -42,7 +42,6 @@ function useRoleMoreAction() {
               label: permissionRow.permissionName,
             }));
           }}
-          showPermissionTypeFilter
           tableTitle={t('roles.assign.permission')}
         />
       ),

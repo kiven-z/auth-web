@@ -1,10 +1,9 @@
 import type { TableActionDeps } from '@/api/common';
-import { getMenuPermissions, getMenuRoles, putMenuPermissions, putMenuRoles } from '@/api/system/menu';
+import { getMenuRoles, putMenuRoles } from '@/api/system/menu';
 import { addDrawer } from '@/components/ui/Drawer';
 import { transformI18n } from '@/plugins/i18n';
-import { errorMessage, message } from '@/ui/feedback/message';
+import { errorMessage, message } from '@/services/feedback/message';
 import OrgGrantRoleAssignDrawer from '@/views/system/_shared/components/OrgGrantRoleAssignDrawer.vue';
-import PermissionAssignDrawer from '@/views/system/_shared/components/PermissionAssignDrawer.vue';
 import type { SysMenuRow } from '@/views/system/menu/hooks/useMenuPageState';
 import { ref } from 'vue';
 import { useI18n } from 'vue-i18n';
@@ -67,55 +66,8 @@ function useMenuMoreAction(deps: MenuTableActionDeps) {
     });
   };
 
-  /**
-   * 打开分配权限抽屉
-   * @param row 行数据
-   */
-  const openAssignPermissionDrawer = (row: SysMenuRow) => {
-    const drawerRef = ref<AssignPanelExpose | null>(null);
-
-    addDrawer({
-      title: t('sysMenu.assignPermissionTitle'),
-      size: '100%',
-      resizable: true,
-      closeOnClickModal: false,
-      closeOnPressEscape: false,
-      showClose: true,
-      contentRenderer: () => (
-        <PermissionAssignDrawer
-          ref={drawerRef}
-          fixedPermissionType={0}
-          leftTitle={t('sysMenu.assignCurrentMenu')}
-          leftSubtitle={`${transformI18n(row.title)} (${row.name})`}
-          loadAssigned={async () => {
-            const list = await getMenuPermissions(row.id);
-            return list
-              .filter((permissionRow) => permissionRow.assigned)
-              .map((permissionRow) => ({
-                key: permissionRow.id,
-                label: permissionRow.permissionName,
-              }));
-          }}
-          tableTitle={t('sysMenu.assignPermissionTitle')}
-        />
-      ),
-      beforeSure: async (done) => {
-        try {
-          const permissionIds = drawerRef.value?.getSelectedKeys() ?? [];
-          await putMenuPermissions(row.id, { permissionIds });
-          message(t('tips.assignSaveSuccess'), { type: 'success' });
-          await refresh();
-          done();
-        } catch (error: unknown) {
-          errorMessage(error, { defaultI18nKey: 'tips.assignSaveFailed' });
-        }
-      },
-    });
-  };
-
   return {
     openAssignRoleDrawer,
-    openAssignPermissionDrawer,
   };
 }
 

@@ -1,8 +1,7 @@
 import type { SysPermissionPageRow } from '@/api/system/permission';
 import { selectUserinfo } from '@/components/business/UserProfile';
-import { renderBooleanStatusTag } from '@/composables/layout/renderBooleanStatusTag';
-import { PERMISSION_TYPE_FILTER_OPTIONS } from '@/views/system/_shared/constants/permission-type-options';
-import { ElButton, ElTag } from 'element-plus';
+import { renderBooleanStatusTag } from '@/shared/composables/layout/renderBooleanStatusTag';
+import { ElButton } from 'element-plus';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 
@@ -19,21 +18,6 @@ function usePermissionTableColumns() {
     { label: t('permissions.field.permissionCode'), prop: 'permissionCode', minWidth: 150 },
     // 权限名称
     { label: t('permissions.field.permissionName'), prop: 'permissionName', minWidth: 150 },
-    // 权限类型
-    {
-      label: t('permissions.field.permissionType'),
-      prop: 'permissionType',
-      minWidth: 120,
-      formatter: (row: SysPermissionPageRow) => {
-        const option = PERMISSION_TYPE_FILTER_OPTIONS.find((item) => item.value === row.permissionType);
-        if (!option) return '-';
-        return (
-          <ElTag type={option.tagType} effect="plain">
-            {t(option.labelKey)}
-          </ElTag>
-        );
-      },
-    },
     // 状态
     {
       label: t('permissions.field.status'),

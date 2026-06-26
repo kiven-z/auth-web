@@ -1,7 +1,7 @@
 import type { TableActionDeps } from '@/api/common';
 import { getDeptRoles, putDeptRoles, type SysDeptListVO } from '@/api/system/dept';
 import { addDrawer } from '@/components/ui/Drawer';
-import { errorMessage, message } from '@/ui/feedback/message';
+import { errorMessage, message } from '@/services/feedback/message';
 import OrgGrantRoleAssignDrawer from '@/views/system/_shared/components/OrgGrantRoleAssignDrawer.vue';
 import { ref } from 'vue';
 import { useI18n } from 'vue-i18n';

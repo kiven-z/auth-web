@@ -1,4 +1,5 @@
 import type { FunctionalComponent } from 'vue';
+
 const { VITE_HIDE_HOME } = import.meta.env;
 
 export const routerArrays: Array<RouteConfigs> =
@@ -21,7 +22,6 @@ export interface routeMetaType {
   icon?: string | FunctionalComponent;
   showLink?: boolean;
   savedPosition?: boolean;
-  auths?: Array<string>;
 }
 
 /** 路由配置（菜单 / 标签页） */

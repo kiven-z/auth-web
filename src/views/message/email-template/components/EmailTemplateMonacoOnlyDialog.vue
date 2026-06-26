@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import type { FormDialog } from '@/api/common';
 import { type EmailTemplateMonacoFormModel, renderEmailTemplate } from '@/api/system/email-template';
+import { useMonacoTheme } from '@/shared/composables/monaco/useMonacoTheme';
 import { MONACO_COMMON_EDITOR_OPTIONS } from '@/views/message/email-template/config/monaco-config';
 import { registerEmailTemplateMonaco } from '@/views/message/email-template/monaco/register-email-template-monaco';
 import type { FormInstance, FormRules } from 'element-plus';
@@ -20,6 +21,7 @@ const props = withDefaults(defineProps<FormDialog<EmailTemplateMonacoFormModel>>
 });
 
 const { t } = useI18n();
+const monacoTheme = useMonacoTheme();
 
 const formRef = ref<FormInstance>();
 
@@ -151,9 +153,9 @@ defineExpose({ formRef, form });
           <CodeEditor
             v-model:value="form.content"
             :options="MONACO_COMMON_EDITOR_OPTIONS"
+            :theme="monacoTheme"
             class="min-h-[65vh] border"
             language="html"
-            theme="vs"
             @editor-did-mount="onMonacoReady"
           />
         </el-form-item>

@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { computed, nextTick, onBeforeMount, onUnmounted, reactive, ref, unref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { emitter } from '@/ui/event-bus/mitt';
+import { emitter } from '@/services/event-bus/mitt';
 import LayPanel from '../lay-panel/index.vue';
 import { useNav } from '@/layout/hooks/useNav';
 import { useAppStoreHook } from '@/store/modules/app';

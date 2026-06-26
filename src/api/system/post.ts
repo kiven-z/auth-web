@@ -10,15 +10,15 @@ import type {
   TableActionDeps,
 } from '@/api/common';
 import { mergePagedExportParams } from '@/api/common';
+import type {
+  DeptReference,
+  GrantTableAssignRoleRequest,
+  PostBoundUserReference,
+  RoleReference,
+} from '@/api/system/grant-table';
+import { http } from '@/core/http';
 
 export type { SpreadsheetImportResult };
-import type {
-  RoleReference,
-  GrantTableAssignRoleRequest,
-  DeptReference,
-  PostBoundUserReference,
-} from '@/api/system/grant-table';
-import { http } from '@/infrastructure/http-core';
 
 /**
  * 岗位分页查询参数（对齐 {@code SysPostQuery}）

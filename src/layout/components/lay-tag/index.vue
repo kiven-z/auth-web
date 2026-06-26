@@ -2,8 +2,8 @@
 import { routerArrays } from '@/layout/types';
 import { $t } from '@/plugins/i18n';
 import { getTopMenu, handleAliveRoute } from '@/router/utils/misc';
-import NProgress from '@/ui/progress';
-import { emitter } from '@/ui/event-bus/mitt';
+import NProgress from '@/services/progress';
+import { emitter } from '@/services/event-bus/mitt';
 import { useMultiTagsStoreHook } from '@/store/modules/multiTags';
 import { usePermissionStoreHook } from '@/store/modules/permission';
 import { useSettingStoreHook } from '@/store/modules/settings';

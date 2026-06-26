@@ -1,7 +1,7 @@
-import { ApiBusinessError, ApiConflictError } from '@/infrastructure/http-core';
+import { ApiBusinessError, ApiConflictError } from '@/core/http';
 import { getTopMenu } from '@/router/utils/misc';
 import { initRouter } from '@/router/utils/route-registry';
-import { message } from '@/ui/feedback/message';
+import { message } from '@/services/feedback/message';
 import { defaultLoginMode } from '@/views/home/login/constants/login-registry';
 import type { LoginMode } from '@/views/home/login/constants/types';
 import { ref } from 'vue';

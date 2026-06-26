@@ -1,9 +1,9 @@
-<script setup lang="ts">
-import { getConfig } from '@/config';
+<script lang="ts" setup>
+import { getConfig } from '@/auth/config';
 import { useMultiFrame } from '@/layout/hooks/useMultiFrame';
 import { useMultiTagsStoreHook } from '@/store/modules/multiTags';
-import { type Component, shallowRef, watch, computed } from 'vue';
-import { type RouteRecordRaw, RouteLocationNormalizedLoaded } from 'vue-router';
+import { type Component, computed, shallowRef, watch } from 'vue';
+import { RouteLocationNormalizedLoaded, type RouteRecordRaw } from 'vue-router';
 
 const props = defineProps<{
   currRoute: RouteLocationNormalizedLoaded;
@@ -62,7 +62,7 @@ watch(
 <template>
   <template v-for="[fullPath, Comp] in compList" :key="fullPath">
     <div v-show="fullPath === currRoute.fullPath" class="w-full h-full">
-      <slot :fullPath="fullPath" :Comp="Comp" :frameInfo="{ frameSrc: currRoute.meta?.frameSrc, fullPath }" />
+      <slot :Comp="Comp" :frameInfo="{ frameSrc: currRoute.meta?.frameSrc, fullPath }" :fullPath="fullPath" />
     </div>
   </template>
   <div v-show="!keep" class="w-full h-full">

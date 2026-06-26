@@ -1,11 +1,11 @@
 <script lang="ts" setup>
 import { getPasswordHistoryPage } from '@/api/log/password-history';
 import AuthPagedTable, { usePaginationState } from '@/components/business/AuthPagedTable';
-import useRemoteUserSearch from '@/composables/dialog/useRemoteUserSearch';
+import useRemoteUserSearch from '@/shared/composables/dialog/useRemoteUserSearch';
 import { SYS_LOG_PASSWORD_HISTORY_PERMS } from '@/views/log/password-history/constants/permissions';
 import usePasswordHistoryTableAction from '@/views/log/password-history/hooks/usePasswordHistoryTableAction';
 import usePasswordHistoryTableColumns from '@/views/log/password-history/hooks/usePasswordHistoryTableColumns';
-import { useFormPlaceholder } from '@/composables/i18n/useFormPlaceholder';
+import { useFormPlaceholder } from '@/shared/composables/i18n/useFormPlaceholder';
 import type { FormInstance } from 'element-plus';
 import { onMounted, reactive, ref } from 'vue';
 import { useI18n } from 'vue-i18n';

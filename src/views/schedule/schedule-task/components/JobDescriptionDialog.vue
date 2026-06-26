@@ -3,7 +3,7 @@ import type { DetailDialog } from '@/api/common';
 import type { SysJobDetailRow } from '@/api/schedule/job';
 import { selectUserinfo } from '@/components/business/UserProfile';
 import Description from '@/components/ui/Description';
-import { renderBooleanStatusTag } from '@/composables/layout/renderBooleanStatusTag';
+import { renderBooleanStatusTag } from '@/shared/composables/layout/renderBooleanStatusTag';
 import { JOB_LAST_EXECUTION_STATUS_OPTIONS } from '@/views/schedule/schedule-task/constants/job-last-execution-status';
 import { JOB_QUARTZ_RUNTIME_STATUS_OPTIONS } from '@/views/schedule/schedule-task/constants/job-quartz-runtime-status';
 import {

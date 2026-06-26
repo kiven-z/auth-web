@@ -20,7 +20,7 @@ describe('rememberPreferences', () => {
   });
 
   it('writes loginDay from readMeDay when remembered', async () => {
-    const { applyRememberPreferencesFromResponse } = await import('@/infrastructure/session/rememberPreferences');
+    const { applyRememberPreferencesFromResponse } = await import('@/core/session/rememberPreferences');
 
     applyRememberPreferencesFromResponse(true, 14);
 
@@ -31,7 +31,7 @@ describe('rememberPreferences', () => {
   });
 
   it('writes loginDay 0 when not remembered', async () => {
-    const { applyRememberPreferencesFromResponse } = await import('@/infrastructure/session/rememberPreferences');
+    const { applyRememberPreferencesFromResponse } = await import('@/core/session/rememberPreferences');
 
     applyRememberPreferencesFromResponse(false, 14);
 

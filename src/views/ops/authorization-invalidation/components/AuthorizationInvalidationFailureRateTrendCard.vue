@@ -4,7 +4,7 @@ import {
   type AuthorizationInvalidationFailureRateTrendGranularity,
   getAuthorizationInvalidationFailureRateTrend,
 } from '@/api/ops/authorization-invalidation-summary';
-import { errorMessage } from '@/ui/feedback/message';
+import { errorMessage } from '@/services/feedback/message';
 import { useECharts } from '@pureadmin/utils';
 import { computed, onMounted, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';

@@ -1,7 +1,7 @@
 // 全局路由类型声明
 
-import type { RouteComponent, RouteLocationNormalized } from "vue-router";
-import type { FunctionalComponent } from "vue";
+import type { RouteComponent, RouteLocationNormalized } from 'vue-router';
+import type { FunctionalComponent } from 'vue';
 
 declare global {
   interface ToRouteType extends RouteLocationNormalized {
@@ -24,8 +24,6 @@ declare global {
     showParent?: boolean;
     /** 页面级别权限设置 `可选` */
     roles?: Array<string>;
-    /** 按钮级别权限设置 `可选` */
-    auths?: Array<string>;
     /** 路由组件缓存（开启 `true`、关闭 `false`）`可选` */
     keepAlive?: boolean;
     /** 内嵌的`iframe`链接 `可选` */
@@ -105,7 +103,7 @@ declare global {
 }
 
 // https://router.vuejs.org/zh/guide/advanced/meta.html#typescript
-declare module "vue-router" {
+declare module 'vue-router' {
   // eslint-disable-next-line
   interface RouteMeta extends CustomizeRouteMeta {}
 }

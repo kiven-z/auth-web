@@ -1,10 +1,9 @@
 import type { AxiosRequestConfig } from 'axios';
 
 import type { BaseResponse, BaseResponsePageRow, ExportScopeQueryFields, PageResponse, SortSpec } from '@/api/common';
-import type { DeptReference, PermissionReference, PostReference, UserReference } from '@/api/system/grant-table';
-import type { SysPermissionBoundMenuItem } from '@/api/system/permission';
 import { mergePagedExportParams } from '@/api/common';
-import { http } from '@/infrastructure/http-core';
+import type { DeptReference, PermissionReference, PostReference, UserReference } from '@/api/system/grant-table';
+import { http } from '@/core/http';
 
 /**
  * 角色分页查询参数（对齐 {@code SysRoleQuery}）
@@ -66,6 +65,18 @@ export function exportRoleExcel(filter: SysRolePageQuery, scope: ExportScopeQuer
 }
 
 /**
+ * 角色详情-已绑定菜单项（对齐 {@code SysPermissionBoundMenuItemVO}，数据来自 sys_menu_role）
+ */
+export interface RoleBoundMenuItem {
+  id: string;
+  title: string;
+  name?: string;
+  path?: string;
+  menuType: number;
+  status: boolean;
+}
+
+/**
  * 角色详情（对齐 {@code SysRoleDetailVO} + BaseResponse）
  */
 export interface SysRoleDetail extends BaseResponse {
@@ -75,7 +86,7 @@ export interface SysRoleDetail extends BaseResponse {
   orderNum: number;
   remark?: string;
   boundPermissions: PermissionReference[];
-  boundMenus: SysPermissionBoundMenuItem[];
+  boundMenus: RoleBoundMenuItem[];
   boundUsers: UserReference[];
   boundDepts: DeptReference[];
   boundPosts: PostReference[];

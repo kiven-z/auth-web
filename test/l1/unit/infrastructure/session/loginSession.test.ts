@@ -6,11 +6,11 @@ const { mockSetToken, mockApplyRemember } = vi.hoisted(() => ({
   mockApplyRemember: vi.fn(),
 }));
 
-vi.mock('@/infrastructure/session/sessionToken', () => ({
+vi.mock('@/core/session/sessionToken', () => ({
   setToken: mockSetToken,
 }));
 
-vi.mock('@/infrastructure/session/rememberPreferences', () => ({
+vi.mock('@/core/session/rememberPreferences', () => ({
   applyRememberPreferencesFromResponse: mockApplyRemember,
 }));
 
@@ -26,7 +26,7 @@ describe('establishSessionFromLogin', () => {
       readMeDay: 14,
     };
 
-    const { establishSessionFromLogin } = await import('@/infrastructure/session/loginSession');
+    const { establishSessionFromLogin } = await import('@/core/session/loginSession');
     const result = await establishSessionFromLogin(async () => loginResponse, { isRemembered: true });
 
     expect(result).toBe(loginResponse);

@@ -1,4 +1,5 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { DevLocalStorageAccessTokenStore, MemoryAccessTokenStore } from '@/core/session/accessTokenReadWriter';
 
 const mocks = vi.hoisted(() => ({
   mockGetItem: vi.fn(),
@@ -22,11 +23,6 @@ vi.mock('js-cookie', () => ({
     remove: mocks.cookiesRemove,
   },
 }));
-
-import {
-  DevLocalStorageAccessTokenStore,
-  MemoryAccessTokenStore,
-} from '@/infrastructure/session/accessTokenReadWriter';
 
 describe('MemoryAccessTokenStore', () => {
   it('returns empty until set, then get/has reflect value', () => {

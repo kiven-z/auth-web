@@ -2,9 +2,9 @@ import type { TableActionDeps } from '@/api/common';
 import type { SysPermissionCreateForm, SysPermissionPageRow, SysPermissionUpdateForm } from '@/api/system/permission';
 import { createPermission, deletePermission, getPermissionDetail, updatePermission } from '@/api/system/permission';
 import { addDialog } from '@/components/ui/Dialog';
-import { type FormOverlayExpose, useFormOverlaySubmit } from '@/composables/table/useFormOverlaySubmit';
-import { deleteConfirm } from '@/ui/feedback/dialog';
-import { errorMessage, message } from '@/ui/feedback/message';
+import { type FormOverlayExpose, useFormOverlaySubmit } from '@/shared/composables/table/useFormOverlaySubmit';
+import { deleteConfirm } from '@/services/feedback/dialog';
+import { errorMessage, message } from '@/services/feedback/message';
 import PermissionDescriptionDialog from '@/views/system/permission/components/PermissionDescriptionDialog.vue';
 import PermissionFormDialog from '@/views/system/permission/components/PermissionFormDialog.vue';
 import { h, ref } from 'vue';
@@ -85,8 +85,6 @@ function usePermissionTableAction(deps: TableActionDeps) {
           h(PermissionFormDialog, {
             ref: dialogFormRef,
             form: detail,
-            mode: 'edit',
-            displayPermissionType: detail.permissionType,
           }),
         beforeSure: createFormBeforeSure<SysPermissionUpdateForm>({
           formExposeRef: dialogFormRef,

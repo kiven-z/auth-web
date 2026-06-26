@@ -1,8 +1,8 @@
 <script lang="ts" setup>
-import { responsiveStorageNameSpace } from '@/config';
+import { responsiveStorageNameSpace } from '@/auth/config';
 import { useNav } from '@/layout/hooks/useNav';
 import { findRouteByPath, getParentPaths } from '@/router/utils/route-tree';
-import { emitter } from '@/ui/event-bus/mitt';
+import { emitter } from '@/services/event-bus/mitt';
 import { usePermissionStoreHook } from '@/store/modules/permission';
 import { isAllEmpty, storageLocal } from '@pureadmin/utils';
 import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue';

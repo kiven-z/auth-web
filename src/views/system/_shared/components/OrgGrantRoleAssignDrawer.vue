@@ -7,8 +7,8 @@ import AssignPanel, {
   useAssignTableLabels,
 } from '@/components/business/AssignManagePanel';
 import AuthPagedTable, { usePaginationState } from '@/components/business/AuthPagedTable';
-import { useFormPlaceholder } from '@/composables/i18n/useFormPlaceholder';
-import { errorMessage } from '@/ui/feedback/message';
+import { useFormPlaceholder } from '@/shared/composables/i18n/useFormPlaceholder';
+import { errorMessage } from '@/services/feedback/message';
 import type { FormInstance } from 'element-plus';
 import { computed, onMounted, reactive, ref } from 'vue';
 import { useI18n } from 'vue-i18n';

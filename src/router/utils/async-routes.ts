@@ -1,4 +1,4 @@
-import { modulesRoutes, modulesRoutesKeys } from '@/config/page-resolver';
+import { modulesRoutes, modulesRoutesKeys } from '@/auth/config/page-resolver';
 import type { RouteRecordRaw } from 'vue-router';
 
 const IFrame = () => import('@/layout/frame.vue');

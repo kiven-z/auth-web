@@ -85,7 +85,7 @@ function handleSubmit() {
 - **例外（占位提示）**：含「即将上线」「待开发」等临时占位文案，直接写中文硬编码，**不要**加入多语言文件。
 - **Vue 文件**：使用 `const { t } = useI18n()`，模板中通过 `t('key')` 调用。
 - **目录结构**：`src/locales/{lang}/{module}/{page}.yaml`。Key 格式为 `文件名.属性名`。
-- **表单 placeholder（列表搜索 / 弹窗）**：统一使用 `useFormPlaceholder()`（`@/composables/i18n/useFormPlaceholder`），按控件类型调用：
+- **表单 placeholder（列表搜索 / 弹窗）**：统一使用 `useFormPlaceholder()`（`@/shared/composables/i18n/useFormPlaceholder`），按控件类型调用：
   - `ph.input(labelKey)`：文本输入
   - `ph.selectFilter(labelKey)`：列表筛选下拉（清空 = 查全部）
   - `ph.select(labelKey)`：弹窗/表单录入下拉
@@ -146,7 +146,7 @@ views文件目录参考：
 ### 5. API 接口规范
 
 - **位置**：`src/api/{module}/`。
-- **调用**：使用从 `@/infrastructure/http` 导出的 `http` 实例。
+- **调用**：使用从 `@/core/http` 导出的 `http` 实例。
 - **方法封装**：
   - GET 请求：`http.request<T>('get', url, { params })`。
   - POST 请求：`http.request<T>('post', url, { data })`。
@@ -154,7 +154,7 @@ views文件目录参考：
 
 ### 6. 批量删除规范
 
-- **统一 Hook**：表格批量删除必须使用 `@/composables/table/useBatchDeleteAction`，禁止在各页面 Hook 内重复实现确认/提示/刷新逻辑。
+- **统一 Hook**：表格批量删除必须使用 `@/shared/composables/table/useBatchDeleteAction`，禁止在各页面 Hook 内重复实现确认/提示/刷新逻辑。
 - **函数名**：`deleteBatchRows(ids?: unknown)`；工具栏批量 `@click="deleteBatchRows()"`，行内
   `@click="deleteBatchRows([row.id])"`。
 - **禁止**：`@click="deleteBatchRows"`（无括号会把 Event 当作 ids）；Hook 内禁止 `ids = ids || selectedRows`。

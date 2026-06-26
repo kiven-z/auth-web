@@ -117,6 +117,12 @@ function handleRowLeave() {
 function handleRefresh() {
   emit('refresh');
 }
+
+defineExpose({
+  filterTree(keyword: string) {
+    treeRef.value?.filter(keyword);
+  },
+});
 </script>
 
 <template>

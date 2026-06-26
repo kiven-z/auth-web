@@ -1,12 +1,12 @@
 <script lang="ts" setup>
 import { getLoginLogPage } from '@/api/log/login-log';
 import AuthPagedTable, { usePaginationState } from '@/components/business/AuthPagedTable';
-import useRemoteUserSearch from '@/composables/dialog/useRemoteUserSearch';
+import useRemoteUserSearch from '@/shared/composables/dialog/useRemoteUserSearch';
 import { LOGIN_LOG_RESULT_ITEMS, LOGIN_LOG_TYPE_FILTER_OPTIONS } from '@/views/log/login-log/constants/login-log-enums';
 import { SYS_LOG_LOGIN_PERMS } from '@/views/log/login-log/constants/permissions';
 import useLoginLogTableAction from '@/views/log/login-log/hooks/useLoginLogTableAction';
 import useLoginLogTableColumns from '@/views/log/login-log/hooks/useLoginLogTableColumns';
-import { useFormPlaceholder } from '@/composables/i18n/useFormPlaceholder';
+import { useFormPlaceholder } from '@/shared/composables/i18n/useFormPlaceholder';
 import type { FormInstance } from 'element-plus';
 import { onMounted, reactive, ref } from 'vue';
 import { useI18n } from 'vue-i18n';

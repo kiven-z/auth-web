@@ -2,7 +2,7 @@
 import type { FormDialog } from '@/api/common';
 import { getDeptList } from '@/api/system/dept';
 import type { UserDeptAssignForm } from '@/api/system/user-dept';
-import { errorMessage } from '@/ui/feedback/message';
+import { errorMessage } from '@/services/feedback/message';
 import { USER_DEPT_RELATION_STATUS_FILTER_OPTIONS } from '@/views/system/user/constants/user-dept-relation-status';
 import { buildPostDeptCascaderTree, type PostDeptCascaderNode } from '@/views/system/post/utils/post-dept-cascader';
 import type { CascaderProps, FormInstance, FormRules } from 'element-plus';

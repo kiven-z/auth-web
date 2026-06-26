@@ -1,5 +1,5 @@
 import type { BaseResponseDetail, BaseResponsePageRow, PageResponse, SortSpec } from '@/api/common';
-import { http } from '@/infrastructure/http-core';
+import { http } from '@/core/http';
 import type { SysJobLastExecutionStatus } from '@/views/schedule/schedule-task/constants/job-last-execution-status';
 import type { SysJobQuartzRuntimeStatus } from '@/views/schedule/schedule-task/constants/job-quartz-runtime-status';
 import type { AxiosRequestConfig } from 'axios';

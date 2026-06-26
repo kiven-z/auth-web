@@ -2,7 +2,7 @@ import { transformI18n } from '@/plugins/i18n';
 import { cloneDeep, getKeyList, isBoolean, isFunction } from '@pureadmin/utils';
 import Sortable from 'sortablejs';
 import type { Ref } from 'vue';
-import { onBeforeUnmount, ref, nextTick as vueNextTick, watch } from 'vue';
+import { nextTick as vueNextTick, onBeforeUnmount, ref, watch } from 'vue';
 
 function filterVisibleColumns(columns: TableColumnList): TableColumns[] {
   return cloneDeep(columns).filter((column) =>

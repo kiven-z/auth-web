@@ -13,7 +13,7 @@ import type {
   PostReference,
   RoleReference,
 } from '@/api/system/grant-table';
-import { http } from '@/infrastructure/http-core';
+import { http } from '@/core/http';
 import type { AxiosRequestConfig } from 'axios';
 
 export type { SpreadsheetImportResult };

@@ -1,5 +1,5 @@
 import { getJobCatalogClasses, type QuartzTaskClassRow } from '@/api/schedule/job';
-import { errorMessage } from '@/ui/feedback/message';
+import { errorMessage } from '@/services/feedback/message';
 import { computed, ref } from 'vue';
 
 /** 表单可选的任务类调用模式 */

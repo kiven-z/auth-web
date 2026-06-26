@@ -5,7 +5,7 @@ import useUserAssignPostDrawerAction from '@/views/system/user/hooks/actions/use
 import useUserPostAssignTableColumns from '@/views/system/user/hooks/columns/useUserPostAssignTableColumns';
 import { SYS_USER_POST_PERMS } from '@/views/system/user/constants/permissions';
 import { USER_DEPT_RELATION_STATUS_FILTER_OPTIONS } from '@/views/system/user/constants/user-dept-relation-status';
-import { useFormPlaceholder } from '@/composables/i18n/useFormPlaceholder';
+import { useFormPlaceholder } from '@/shared/composables/i18n/useFormPlaceholder';
 import type { FormInstance } from 'element-plus';
 import { computed, onMounted, reactive, ref } from 'vue';
 import { useI18n } from 'vue-i18n';

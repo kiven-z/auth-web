@@ -1,11 +1,11 @@
-import { ref, unref, computed, reactive, onMounted, type CSSProperties, getCurrentInstance } from 'vue';
+import { computed, type CSSProperties, getCurrentInstance, onMounted, reactive, ref, unref } from 'vue';
 import type { tagsViewsType } from '../types';
 import { useRoute, useRouter } from 'vue-router';
-import { transformI18n, $t } from '@/plugins/i18n';
-import { responsiveStorageNameSpace } from '@/config';
+import { $t, transformI18n } from '@/plugins/i18n';
+import { responsiveStorageNameSpace } from '@/auth/config';
 import { useSettingStoreHook } from '@/store/modules/settings';
 import { useMultiTagsStoreHook } from '@/store/modules/multiTags';
-import { isEqual, isBoolean, storageLocal, toggleClass, hasClass } from '@pureadmin/utils';
+import { hasClass, isBoolean, isEqual, storageLocal, toggleClass } from '@pureadmin/utils';
 
 import Fullscreen from '~icons/ri/fullscreen-fill';
 import CloseAllTags from '~icons/ri/subtract-line';

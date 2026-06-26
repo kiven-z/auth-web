@@ -4,9 +4,8 @@ import type { SysMenuDetailVO } from '@/api/system/menu';
 import { useRenderIcon } from '@/components/ui/Icon/src/hooks';
 import DetailRelationListSection from '@/components/business/DetailRelationListSection/index.vue';
 import Description from '@/components/ui/Description';
-import { renderBooleanStatusTag } from '@/composables/layout/renderBooleanStatusTag';
+import { renderBooleanStatusTag } from '@/shared/composables/layout/renderBooleanStatusTag';
 import { transformI18n } from '@/plugins/i18n';
-import usePermissionColumns from '@/views/system/_shared/columns/usePermissionColumns';
 import useRoleColumns from '@/views/system/_shared/columns/useRoleColumns';
 import { MENU_TYPE_OPTIONS } from '@/views/system/menu/constants/menu-type';
 import { MENU_ROOT_PARENT_ID } from '@/views/system/menu/utils/menu-parent';
@@ -27,7 +26,6 @@ const props = defineProps<MenuDescriptionDialogProps>();
 const { t } = useI18n();
 
 const { roleColumns } = useRoleColumns();
-const { permissionColumns } = usePermissionColumns();
 
 const parentLabel = computed(() => {
   if (props.parentMenuLabel) {
@@ -164,15 +162,6 @@ const descriptionColumns = computed(() => [
       :empty-text="t('sysMenu.bound.roles.empty')"
       :items="data.boundRoles"
       :title="t('sysMenu.bound.roles.title')"
-      row-key="id"
-    />
-
-    <DetailRelationListSection
-      :columns="permissionColumns"
-      :empty-text="t('sysMenu.bound.permissions.empty')"
-      :items="data.boundPermissions"
-      :title="t('sysMenu.bound.permissions.title')"
-      class="mt-4"
       row-key="id"
     />
   </div>

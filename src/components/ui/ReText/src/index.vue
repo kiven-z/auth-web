@@ -1,6 +1,6 @@
-<script setup lang="ts">
+<script lang="ts" setup>
 import { h, onMounted, ref } from 'vue';
-import { type TippyOptions, type TippyContent, useTippy } from 'vue-tippy';
+import { type TippyContent, type TippyOptions, useTippy } from 'vue-tippy';
 
 defineOptions({
   name: 'ReText',
@@ -56,12 +56,12 @@ onMounted(() => {
 
 <template>
   <el-text
+    ref="textRef"
     v-bind="{
       truncated: !lineClamp,
       lineClamp,
       ...$attrs,
     }"
-    ref="textRef"
     @mouseover.self="handleHover"
   >
     <slot />

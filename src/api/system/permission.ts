@@ -9,7 +9,7 @@ import type {
 } from '@/api/common';
 import { mergePagedExportParams } from '@/api/common';
 import type { RoleReference } from '@/api/system/grant-table';
-import { http } from '@/infrastructure/http-core';
+import { http } from '@/core/http';
 
 /**
  * 权限分页查询参数
@@ -20,7 +20,6 @@ export interface SysPermissionPageQuery {
   sort?: SortSpec[];
   permissionCode?: string;
   permissionName?: string;
-  permissionType?: number;
   status?: boolean;
 }
 
@@ -30,7 +29,6 @@ export interface SysPermissionPageQuery {
 export interface SysPermissionPageRow extends BaseResponsePageRow {
   permissionCode: string;
   permissionName: string;
-  permissionType: number;
   orderNum: number;
   status: boolean;
   remark?: string;
@@ -63,29 +61,15 @@ export function exportPermissionExcel(filter: SysPermissionPageQuery, scope: Exp
 }
 
 /**
- * 权限详情：已绑定菜单项（对齐 {@code SysPermissionBoundMenuItemVO}）
- */
-export interface SysPermissionBoundMenuItem {
-  id: string;
-  title: string;
-  name?: string;
-  path?: string;
-  menuType: number;
-  status: boolean;
-}
-
-/**
  * 权限详情（对齐 {@code SysPermissionDetailVO} + BaseResponse）
  */
 export interface SysPermissionDetail extends BaseResponseDetail {
   permissionCode: string;
   permissionName: string;
-  permissionType: number;
   orderNum: number;
   status: boolean;
   remark?: string;
   boundRoles: RoleReference[];
-  boundMenus: SysPermissionBoundMenuItem[];
 }
 
 /**
@@ -94,7 +78,6 @@ export interface SysPermissionDetail extends BaseResponseDetail {
 export interface SysPermissionCreateForm {
   permissionCode: string;
   permissionName: string;
-  permissionType: number;
   orderNum?: number;
   status?: boolean;
   remark?: string;

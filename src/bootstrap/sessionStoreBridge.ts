@@ -1,5 +1,5 @@
-import { registerSessionLogout } from '@/config/auth/auth-session-effects';
-import { registerUserProfileSync } from '@/infrastructure/session';
+import { registerSessionLogout } from '@/auth/config/auth/auth-session-effects';
+import { registerUserProfileSync } from '@/core/session';
 import { store } from '@/store';
 import { useUserStore } from '@/store/modules/user';
 

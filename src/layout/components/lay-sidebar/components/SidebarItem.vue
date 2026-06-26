@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { getConfig } from '@/config';
+import { getConfig } from '@/auth/config';
 import { menuType } from '@/layout/types';
 import { ReText } from '@/components/ui/ReText';
 import { useNav } from '@/layout/hooks/useNav';

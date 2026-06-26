@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script lang="ts" setup>
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useGlobal } from '@pureadmin/utils';
@@ -45,8 +45,8 @@ const toggleClick = () => {
     @click="toggleClick"
   >
     <IconifyIconOffline
-      :icon="ArrowLeft"
       :class="[iconClass, themeColor === 'light' ? '' : 'text-primary']"
+      :icon="ArrowLeft"
       :style="{ transform: isActive ? 'none' : 'rotateY(180deg)' }"
     />
   </div>

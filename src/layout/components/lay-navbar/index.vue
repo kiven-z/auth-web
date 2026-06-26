@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script lang="ts" setup>
 import { useNav } from '@/layout/hooks/useNav';
 import { useTranslationLang } from '@/layout/hooks/useTranslationLang';
 import LayNotice from '../lay-notice/index.vue';
@@ -34,8 +34,8 @@ const { t, locale, translation, localeOptions } = useTranslationLang();
   <div class="navbar bg-[#fff] shadow-xs shadow-[rgba(0,21,41,0.08)]">
     <LaySidebarTopCollapse
       v-if="device === 'mobile'"
-      class="hamburger-container"
       :is-active="pureApp.sidebar.opened"
+      class="hamburger-container"
       @toggleClick="toggleSideBar"
     />
 
@@ -54,11 +54,11 @@ const { t, locale, translation, localeOptions } = useTranslationLang();
             <el-dropdown-item
               v-for="item in localeOptions"
               :key="item.locale"
-              :style="getDropdownItemStyle(locale, item.locale)"
               :class="['dark:text-white!', getDropdownItemClass(locale, item.locale)]"
+              :style="getDropdownItemStyle(locale, item.locale)"
               @click="translation(item.locale)"
             >
-              <IconifyIconOffline v-show="locale === item.locale" class="check-icon" :icon="Check" />
+              <IconifyIconOffline v-show="locale === item.locale" :icon="Check" class="check-icon" />
               {{ item.label }}
             </el-dropdown-item>
           </el-dropdown-menu>
@@ -83,7 +83,7 @@ const { t, locale, translation, localeOptions } = useTranslationLang();
           </el-dropdown-menu>
         </template>
       </el-dropdown>
-      <span class="set-icon navbar-bg-hover" :title="t('buttons.pureOpenSystemSet')" @click="onPanel">
+      <span :title="t('buttons.pureOpenSystemSet')" class="set-icon navbar-bg-hover" @click="onPanel">
         <IconifyIconOffline :icon="Setting" />
       </span>
     </div>

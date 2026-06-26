@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script lang="ts" setup>
 import { useBoolean } from '../../hooks/useBoolean';
 import SearchModal from './components/SearchModal.vue';
 

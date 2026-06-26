@@ -1,4 +1,4 @@
-import { API_SUCCESS_CODE } from '@/config/http-config';
+import { API_SUCCESS_CODE } from '@/auth/config/http-config';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 const { mockPost, mockSetToken } = vi.hoisted(() => ({
@@ -6,13 +6,13 @@ const { mockPost, mockSetToken } = vi.hoisted(() => ({
   mockSetToken: vi.fn(),
 }));
 
-vi.mock('@/infrastructure/http-core/axiosDefaults', () => ({
+vi.mock('@/core/http/axiosDefaults', () => ({
   createHttpAxiosInstance: () => ({
     post: mockPost,
   }),
 }));
 
-vi.mock('@/infrastructure/session/sessionToken', () => ({
+vi.mock('@/core/session/sessionToken', () => ({
   setToken: mockSetToken,
 }));
 
@@ -34,7 +34,7 @@ describe('refreshAccessToken', () => {
       },
     });
 
-    const { refreshAccessToken } = await import('@/infrastructure/auth-flow/refreshAccessToken');
+    const { refreshAccessToken } = await import('@/core/auth/refreshAccessToken');
     const result = await refreshAccessToken();
 
     expect(mockPost).toHaveBeenCalledWith('auth/refresh-token');
@@ -55,8 +55,8 @@ describe('refreshAccessToken', () => {
       },
     });
 
-    const { refreshAccessToken } = await import('@/infrastructure/auth-flow/refreshAccessToken');
-    const { ApiBusinessError } = await import('@/infrastructure/http-core/apiError');
+    const { refreshAccessToken } = await import('@/core/auth/refreshAccessToken');
+    const { ApiBusinessError } = await import('@/core/http/apiError');
 
     await expect(refreshAccessToken()).rejects.toBeInstanceOf(ApiBusinessError);
     expect(mockSetToken).not.toHaveBeenCalled();

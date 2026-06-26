@@ -4,7 +4,7 @@ import {
   readUserProfileFromStorage,
   removeToken,
   writeSessionPreferences,
-} from '@/infrastructure/session';
+} from '@/core/session';
 import { routerArrays } from '@/layout/types';
 import { resetRouter, router } from '@/router';
 import { store } from '@/store';

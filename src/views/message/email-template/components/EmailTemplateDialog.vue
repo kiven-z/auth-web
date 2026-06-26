@@ -2,6 +2,7 @@
 import type { FormDialog } from '@/api/common';
 import type { EmailTemplateFormModel } from '@/api/system/email-template';
 import type { FormInstance, FormRules } from 'element-plus';
+import { useMonacoTheme } from '@/shared/composables/monaco/useMonacoTheme';
 import { CodeEditor } from 'monaco-editor-vue3';
 import { reactive, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
@@ -17,6 +18,7 @@ const props = withDefaults(defineProps<EmailTemplateDialogProps>(), {
 });
 
 const { t } = useI18n();
+const monacoTheme = useMonacoTheme();
 const formRef = ref<FormInstance>();
 
 const form = ref<EmailTemplateFormModel>({
@@ -127,7 +129,7 @@ defineExpose({ formRef, form });
       <el-col :span="24">
         <!-- 模板正文（body_content）；复杂编辑可用「更多 → 模板编辑」 -->
         <el-form-item :label="t('emailTemplate.content')" prop="content">
-          <CodeEditor v-model:value="form.content" class="min-h-[65vh] border" language="html" theme="vs" />
+          <CodeEditor v-model:value="form.content" :theme="monacoTheme" class="min-h-[65vh] border" language="html" />
         </el-form-item>
       </el-col>
     </el-row>

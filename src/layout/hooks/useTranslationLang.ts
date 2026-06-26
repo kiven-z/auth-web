@@ -1,5 +1,5 @@
-import { localeOptions, type LocaleType } from '@/config/locales';
-import { onBeforeMount, watch, type Ref } from 'vue';
+import { localeOptions, type LocaleType } from '@/auth/config/locales';
+import { onBeforeMount, type Ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRoute } from 'vue-router';
 import { useNav } from './useNav';

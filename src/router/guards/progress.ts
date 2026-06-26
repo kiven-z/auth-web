@@ -1,4 +1,4 @@
-import NProgress from '@/ui/progress';
+import NProgress from '@/services/progress';
 import type { Router } from 'vue-router';
 
 /**

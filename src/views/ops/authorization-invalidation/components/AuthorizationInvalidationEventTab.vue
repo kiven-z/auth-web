@@ -8,7 +8,7 @@ import {
 import { SYS_AUTH_INVALIDATION_EVENT_PERMS } from '@/views/ops/authorization-invalidation/constants/permissions';
 import useAuthorizationInvalidationEventTableAction from '@/views/ops/authorization-invalidation/hooks/actions/useAuthorizationInvalidationEventTableAction';
 import useAuthorizationInvalidationEventTableColumns from '@/views/ops/authorization-invalidation/hooks/columns/useAuthorizationInvalidationEventTableColumns';
-import { useFormPlaceholder } from '@/composables/i18n/useFormPlaceholder';
+import { useFormPlaceholder } from '@/shared/composables/i18n/useFormPlaceholder';
 import type { FormInstance } from 'element-plus';
 import { onMounted, reactive, ref } from 'vue';
 import { useI18n } from 'vue-i18n';

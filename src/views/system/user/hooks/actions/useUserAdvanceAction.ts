@@ -2,9 +2,9 @@ import type { TableActionWithSelectionDeps } from '@/api/common';
 import { batchKickAllUserSessions } from '@/api/auth/session';
 import { deleteUsers, exportUserExcel, refreshUserAuthorization, type SysUserPageQuery } from '@/api/system/user';
 import { usePagedTableExport } from '@/components/business/ExportDialog';
-import useBatchDeleteAction from '@/composables/table/useBatchDeleteAction';
-import { operationConfirm } from '@/ui/feedback/dialog';
-import { errorMessage, message } from '@/ui/feedback/message';
+import useBatchDeleteAction from '@/shared/composables/table/useBatchDeleteAction';
+import { operationConfirm } from '@/services/feedback/dialog';
+import { errorMessage, message } from '@/services/feedback/message';
 import { useI18n } from 'vue-i18n';
 
 /** 用户页高级功能 composable 配置 */

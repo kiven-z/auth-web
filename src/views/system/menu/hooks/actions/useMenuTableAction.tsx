@@ -10,9 +10,9 @@ import {
 } from '@/api/system/menu';
 import { addDialog } from '@/components/ui/Dialog';
 import { addDrawer } from '@/components/ui/Drawer';
-import useBatchDeleteAction from '@/composables/table/useBatchDeleteAction';
-import { type FormOverlayExpose, useFormOverlaySubmit } from '@/composables/table/useFormOverlaySubmit';
-import { errorMessage, message } from '@/ui/feedback/message';
+import useBatchDeleteAction from '@/shared/composables/table/useBatchDeleteAction';
+import { type FormOverlayExpose, useFormOverlaySubmit } from '@/shared/composables/table/useFormOverlaySubmit';
+import { errorMessage, message } from '@/services/feedback/message';
 import MenuDescriptionDialog from '@/views/system/menu/components/MenuDescriptionDialog.vue';
 import MenuDialog from '@/views/system/menu/components/MenuDialog.vue';
 import type { MenuViewMode, SysMenuRow } from '@/views/system/menu/hooks/useMenuPageState';

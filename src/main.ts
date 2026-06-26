@@ -3,7 +3,7 @@ import { useI18n } from '@/plugins/i18n';
 import { setupStore } from '@/store';
 import { MotionPlugin } from '@vueuse/motion';
 import App from './App.vue';
-import { getPlatformConfig } from './config';
+import { getPlatformConfig } from './auth/config';
 import router from './router';
 import { useEcharts } from '@/plugins/echarts';
 import { useElementPlus } from '@/plugins/elementPlus';
@@ -23,12 +23,11 @@ import './style/tailwind.css';
 import './assets/iconfont/iconfont.css';
 import './assets/iconfont/iconfont.js';
 // 自定义指令
-import * as directives from '@/directives';
+import * as directives from '@/app/directives';
 // 全局注册@iconify/vue图标库
 import { FontIcon, IconifyIconOffline, IconifyIconOnline } from './components/ui/Icon';
 // 全局注册按钮级别权限组件
-import { Auth } from '@/components/ui/Auth';
-import { Perms } from '@/components/ui/Perms';
+import { Perms } from '@/auth/permission';
 // 全局注册vue-tippy
 import 'tippy.js/dist/tippy.css';
 import 'tippy.js/themes/light.css';
@@ -44,7 +43,6 @@ app.component('IconifyIconOffline', IconifyIconOffline);
 app.component('IconifyIconOnline', IconifyIconOnline);
 app.component('FontIcon', FontIcon);
 
-app.component('Auth', Auth);
 app.component('Perms', Perms);
 
 app.use(VueTippy);

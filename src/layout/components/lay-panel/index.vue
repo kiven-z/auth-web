@@ -1,8 +1,8 @@
 <script lang="ts" setup>
 import { useI18n } from 'vue-i18n';
-import { emitter } from '@/ui/event-bus/mitt';
+import { emitter } from '@/services/event-bus/mitt';
 import { onClickOutside } from '@vueuse/core';
-import { ref, computed, onMounted, onBeforeUnmount } from 'vue';
+import { computed, onBeforeUnmount, onMounted, ref } from 'vue';
 import { useDataThemeChange } from '@/layout/hooks/useDataThemeChange';
 import CloseIcon from '~icons/ep/close';
 

@@ -1,8 +1,8 @@
 <script lang="ts" setup>
 import { kickUserSession, listUserSessions, type UserSessionIndex } from '@/api/auth/session';
 import AuthDataTable from '@/components/ui/AuthDataTable';
-import { operationConfirm } from '@/ui/feedback/dialog';
-import { errorMessage, message } from '@/ui/feedback/message';
+import { operationConfirm } from '@/services/feedback/dialog';
+import { errorMessage, message } from '@/services/feedback/message';
 import useUserSessionTableColumns from '@/views/system/_shared/columns/useUserSessionTableColumns';
 import { SYS_SESSION_PERMS } from '@/views/system/_shared/constants/session-permissions';
 import { onMounted, ref } from 'vue';

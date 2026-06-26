@@ -1,13 +1,13 @@
 <script lang="ts" setup>
 import { getOperationLogPage } from '@/api/log/operation-log';
 import AuthPagedTable, { usePaginationState } from '@/components/business/AuthPagedTable';
-import useRemoteUserSearch from '@/composables/dialog/useRemoteUserSearch';
+import useRemoteUserSearch from '@/shared/composables/dialog/useRemoteUserSearch';
 import { OPERATION_TYPES, REQUEST_METHODS } from '@/views/log/operation-log/constants/operation-log-enums';
 import { SYS_LOG_OPERATION_PERMS } from '@/views/log/operation-log/constants/permissions';
 import useOperationLogTableAction from '@/views/log/operation-log/hooks/useOperationLogTableAction';
 import useOperationLogTableColumns from '@/views/log/operation-log/hooks/useOperationLogTableColumns';
-import { useCollapsibleSearchForm } from '@/composables/search/useCollapsibleSearchForm';
-import { useFormPlaceholder } from '@/composables/i18n/useFormPlaceholder';
+import { useCollapsibleSearchForm } from '@/shared/composables/search/useCollapsibleSearchForm';
+import { useFormPlaceholder } from '@/shared/composables/i18n/useFormPlaceholder';
 import type { FormInstance } from 'element-plus';
 import { onMounted, reactive, ref } from 'vue';
 import { useI18n } from 'vue-i18n';

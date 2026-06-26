@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import type { FormDialog } from '@/api/common';
 import type { UserPostAssignForm, UserPostRelationUpdateForm } from '@/api/system/user-post';
-import useRemotePostSearch from '@/composables/dialog/useRemotePostSearch';
+import useRemotePostSearch from '@/shared/composables/dialog/useRemotePostSearch';
 import { USER_DEPT_RELATION_STATUS_FILTER_OPTIONS } from '@/views/system/user/constants/user-dept-relation-status';
 import type { FormInstance, FormRules } from 'element-plus';
 import { computed, ref } from 'vue';

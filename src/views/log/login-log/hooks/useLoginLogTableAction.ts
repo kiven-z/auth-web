@@ -1,8 +1,8 @@
 import type { TableActionWithSelectionDeps } from '@/api/common';
 import { deleteLoginLog, getLoginLogDetail, type LoginLogPageRow } from '@/api/log/login-log';
 import { addDialog } from '@/components/ui/Dialog';
-import useBatchDeleteAction from '@/composables/table/useBatchDeleteAction';
-import { errorMessage } from '@/ui/feedback/message';
+import useBatchDeleteAction from '@/shared/composables/table/useBatchDeleteAction';
+import { errorMessage } from '@/services/feedback/message';
 import LoginLogDetailDialog from '@/views/log/login-log/components/LoginLogDetailDialog.vue';
 import { h } from 'vue';
 import { useI18n } from 'vue-i18n';

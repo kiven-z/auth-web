@@ -1,4 +1,4 @@
-import { getConfig } from '@/config';
+import { getConfig } from '@/auth/config';
 import { routerArrays } from '@/layout/types';
 import { useMultiTagsStoreHook } from '@/store/modules/multiTags';
 import { usePermissionStoreHook } from '@/store/modules/permission';
@@ -9,9 +9,9 @@ import { addAsyncRoutes } from './async-routes';
 import { ascending } from './menu-sort';
 import { addPathMatch } from './misc';
 import { formatFlatteningRoutes } from './route-tree';
-import { ASYNC_ROUTES_STORAGE_KEY } from '@/config/http-config';
+import { ASYNC_ROUTES_STORAGE_KEY } from '@/auth/config/http-config';
 import { getAsyncRoutes } from '@/api/system/routes';
-import { message } from '@/ui/feedback/message';
+import { message } from '@/services/feedback/message';
 import { transformI18n } from '@/plugins/i18n';
 
 /**

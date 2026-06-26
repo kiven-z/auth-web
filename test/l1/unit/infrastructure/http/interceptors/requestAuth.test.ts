@@ -1,4 +1,4 @@
-import { attachRequestAuthInterceptor } from '@/infrastructure/http-core/interceptors/requestAuth';
+import { attachRequestAuthInterceptor } from '@/core/http/interceptors/requestAuth';
 import axios, { type AxiosAdapter, type AxiosRequestConfig } from 'axios';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
@@ -6,7 +6,7 @@ const { getTokenMock } = vi.hoisted(() => ({
   getTokenMock: vi.fn(),
 }));
 
-vi.mock('@/infrastructure/session', () => ({
+vi.mock('@/core/session', () => ({
   getToken: getTokenMock,
   formatToken: (token: string) => `Bearer ${token}`,
 }));

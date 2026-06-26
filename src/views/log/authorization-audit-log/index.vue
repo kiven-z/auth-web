@@ -1,12 +1,12 @@
 <script lang="ts" setup>
 import { getAuthorizationAuditPage } from '@/api/log/authorization-audit';
 import AuthPagedTable, { usePaginationState } from '@/components/business/AuthPagedTable';
-import useRemoteUserSearch from '@/composables/dialog/useRemoteUserSearch';
+import useRemoteUserSearch from '@/shared/composables/dialog/useRemoteUserSearch';
 import { AUDIT_EVENT_TYPE_ITEMS } from '@/views/log/authorization-audit-log/constants/authorization-audit-enums';
 import { SYS_LOG_AUTHORIZATION_AUDIT_PERMS } from '@/views/log/authorization-audit-log/constants/permissions';
 import useAuthorizationAuditTableAction from '@/views/log/authorization-audit-log/hooks/useAuthorizationAuditTableAction';
 import useAuthorizationAuditTableColumns from '@/views/log/authorization-audit-log/hooks/useAuthorizationAuditTableColumns';
-import { useFormPlaceholder } from '@/composables/i18n/useFormPlaceholder';
+import { useFormPlaceholder } from '@/shared/composables/i18n/useFormPlaceholder';
 import type { FormInstance } from 'element-plus';
 import { onMounted, reactive, ref } from 'vue';
 import { useI18n } from 'vue-i18n';

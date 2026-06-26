@@ -1,7 +1,7 @@
 import type { UserDeptPageRow } from '@/api/system/user-dept';
 import { selectUserinfo } from '@/components/business/UserProfile';
 import useUserProfileDisplay from '@/components/business/UserProfile/src/hooks/useUserProfileDisplay';
-import { Perms } from '@/components/ui/Perms';
+import { Perms } from '@/auth/permission';
 import { SYS_USER_PERMS } from '@/views/system/user/constants/permissions';
 import { ElButton, ElCheckTag } from 'element-plus';
 import { computed } from 'vue';

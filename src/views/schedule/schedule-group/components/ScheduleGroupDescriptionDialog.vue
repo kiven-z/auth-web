@@ -2,7 +2,7 @@
 import type { DetailDialog } from '@/api/common';
 import type { SysJobGroupDetailRow } from '@/api/schedule/job-group';
 import Description from '@/components/ui/Description';
-import { renderBooleanStatusTag } from '@/composables/layout/renderBooleanStatusTag';
+import { renderBooleanStatusTag } from '@/shared/composables/layout/renderBooleanStatusTag';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 

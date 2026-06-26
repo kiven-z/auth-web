@@ -28,7 +28,6 @@ function usePermissionAdvanceAction(options: UsePermissionExportActionOptions) {
     buildFilter: ({ searchForm }) => ({
       permissionCode: searchForm.permissionCode as string | undefined,
       permissionName: searchForm.permissionName as string | undefined,
-      permissionType: searchForm.permissionType as number | undefined,
       status: searchForm.status as boolean | undefined,
     }),
   });

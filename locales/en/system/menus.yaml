@@ -10,10 +10,9 @@ sysMenu:
   parentTopLevel: Top-level menu
   saveFailed: Failed to save menu
   statusFailed: Failed to update menu status
-  assignPermissionTitle: Assign permissions
-  assignCurrentMenu: Current menu
   routeName: Route name
   menuTitle: Menu title
+  treeKeyword: Search by menu title or route name
   menuType: Menu type
   menuTypeMenu: Menu
   menuTypeIframe: Iframe
@@ -35,13 +34,9 @@ sysMenu:
   addDialogTitle: New menu
   editDialogTitle: Edit menu
   bindingDialogTitle: Menu bindings
-  assignPermission: Assign permissions
   bound:
     roles:
       title: Bound roles
       empty: No roles bound
-    permissions:
-      title: Bound permissions
-      empty: No permissions bound
   action:
     addChild: Add Child

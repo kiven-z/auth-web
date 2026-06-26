@@ -4,7 +4,7 @@ import type { SysUserCreateForm } from '@/api/system/user';
 import { USER_ACCOUNT_STATUS, USER_STATUS_FILTER_OPTIONS } from '@/views/system/user/constants/user-account-status';
 import { USER_GENDER, USER_GENDER_OPTIONS } from '@/views/system/user/constants/user-gender';
 import type { FormInstance, FormRules } from 'element-plus';
-import { computed, reactive, ref } from 'vue';
+import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 interface UserFormDialogProps extends FormDialog<SysUserCreateForm> {

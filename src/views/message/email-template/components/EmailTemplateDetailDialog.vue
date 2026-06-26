@@ -5,8 +5,8 @@ import {
   getEmailTemplatePreviewHtml,
 } from '@/api/system/email-template';
 import ReDescription from '@/components/ui/Description';
-import { renderBooleanStatusTag } from '@/composables/layout/renderBooleanStatusTag';
-import { errorMessage } from '@/ui/feedback/message';
+import { renderBooleanStatusTag } from '@/shared/composables/layout/renderBooleanStatusTag';
+import { errorMessage } from '@/services/feedback/message';
 import { computed, nextTick, onMounted, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 

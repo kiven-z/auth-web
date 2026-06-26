@@ -1,5 +1,5 @@
-import { findMatchedAuthRecoveryRule } from '@/infrastructure/auth-flow/recovery/matcher';
-import type { AuthRecoveryRule } from '@/infrastructure/auth-flow/recovery/types';
+import { findMatchedAuthRecoveryRule } from '@/core/auth/recovery/matcher';
+import type { AuthRecoveryRule } from '@/core/auth/recovery/types';
 import { describe, expect, it } from 'vitest';
 
 describe('findMatchedAuthRecoveryRule', () => {
@@ -14,14 +14,14 @@ describe('findMatchedAuthRecoveryRule', () => {
       {
         id: 'high-priority',
         priority: 100,
-        matcher: { statuses: [401], errorCodePatterns: ['GATEWAY_TOKEN_EXPIRED'] },
+        matcher: { statuses: [401], errorCodePatterns: ['TOKEN_EXPIRED'] },
         action: 'refresh_and_retry',
       },
     ];
 
     const matched = findMatchedAuthRecoveryRule(rules, {
       status: 401,
-      errorCode: 'GATEWAY_TOKEN_EXPIRED',
+      errorCode: 'TOKEN_EXPIRED',
       requestUrl: 'system/user/page',
       isNoAuthPath: false,
       retryCount: 0,
@@ -35,7 +35,7 @@ describe('findMatchedAuthRecoveryRule', () => {
       {
         id: 'prefix-wildcard',
         priority: 50,
-        matcher: { statuses: [401], errorCodePatterns: ['GATEWAY_TOKEN_*'] },
+        matcher: { statuses: [401], errorCodePatterns: ['TOKEN_*'] },
         action: 'logout',
       },
       {
@@ -47,7 +47,7 @@ describe('findMatchedAuthRecoveryRule', () => {
 
     const matched = findMatchedAuthRecoveryRule(rules, {
       status: 401,
-      errorCode: 'GATEWAY_TOKEN_INVALID',
+      errorCode: 'TOKEN_INVALID',
       requestUrl: 'system/user/page',
       isNoAuthPath: false,
       retryCount: 0,

@@ -2,7 +2,7 @@
 import type { FormDialog } from '@/api/common';
 import { getDeptList } from '@/api/system/dept';
 import type { SysPostCreateForm } from '@/api/system/post';
-import { errorMessage } from '@/ui/feedback/message';
+import { errorMessage } from '@/services/feedback/message';
 import { buildPostDeptCascaderTree, type PostDeptCascaderNode } from '@/views/system/post/utils/post-dept-cascader';
 import type { CascaderProps, FormInstance, FormRules } from 'element-plus';
 import { onMounted, reactive, ref } from 'vue';

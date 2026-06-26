@@ -1,8 +1,8 @@
 import type { ExportScope, ExportScopeQueryFields } from '@/api/common';
 import { EXPORT_MAX_ROWS } from '@/api/common';
 import { addDialog } from '@/components/ui/Dialog';
-import { errorMessage, message } from '@/ui/feedback/message';
-import { downloadBlob } from '@/utils/fileDownload';
+import { errorMessage, message } from '@/services/feedback/message';
+import { downloadBlob } from '@/shared/utils/fileDownload';
 import ExportDialogPanel from './ExportDialogPanel.vue';
 import type { ExportDialogFormState, ExportDialogPanelExpose } from './types';
 import { h, ref, type Ref } from 'vue';

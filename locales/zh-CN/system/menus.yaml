@@ -10,10 +10,9 @@ sysMenu:
   parentTopLevel: 顶级菜单
   saveFailed: 菜单保存失败
   statusFailed: 菜单状态更新失败
-  assignPermissionTitle: 分配权限
-  assignCurrentMenu: 当前菜单
   routeName: 路由名称
   menuTitle: 菜单标题
+  treeKeyword: 搜索菜单标题或路由名称
   menuType: 菜单类型
   menuTypeMenu: 菜单
   menuTypeIframe: Iframe
@@ -35,13 +34,9 @@ sysMenu:
   addDialogTitle: 新增菜单
   editDialogTitle: 编辑菜单
   bindingDialogTitle: 菜单绑定关系
-  assignPermission: 分配权限
   bound:
     roles:
       title: 已绑定角色
       empty: 暂无绑定角色
-    permissions:
-      title: 已绑定权限
-      empty: 暂无绑定权限
   action:
     addChild: 新增下级

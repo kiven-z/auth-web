@@ -1,4 +1,4 @@
-import { getConfig, responsiveStorageNameSpace } from '@/config';
+import { getConfig, responsiveStorageNameSpace } from '@/auth/config';
 import { store } from '@/store';
 import { storageLocal } from '@pureadmin/utils';
 import { defineStore } from 'pinia';

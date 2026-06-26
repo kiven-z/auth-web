@@ -1,14 +1,8 @@
 import type { BaseResponse, PageResponse, SortSpec } from '@/api/common';
-import type {
-  MenuAssignedPermissionRow,
-  MenuAssignedRoleRow,
-  MenuAssignRoleRequest,
-  PermissionReference,
-  RoleReference,
-} from '@/api/system/grant-table';
+import type { MenuAssignedRoleRow, MenuAssignRoleRequest, RoleReference } from '@/api/system/grant-table';
 import type { AxiosRequestConfig } from 'axios';
 
-import { http } from '@/infrastructure/http-core';
+import { http } from '@/core/http';
 
 /** 菜单新增表单（对齐 {@code SysMenuSaveForm} 创建场景，不含 id） */
 export interface MenuCreateForm {
@@ -110,7 +104,6 @@ export interface SysMenuDetailVO extends SysMenuListVO {
   activePath?: string;
   remark?: string;
   boundRoles: RoleReference[];
-  boundPermissions: PermissionReference[];
 }
 
 /**
@@ -126,20 +119,6 @@ export interface SysMenuMoveForm {
 export interface SysMenuBatchStatusRequest {
   ids: string[];
   status: boolean;
-}
-
-/**
- * 分配权限
- */
-export interface SysMenuAssignPermissionRequest {
-  permissionIds: string[];
-}
-
-/**
- * 查询菜单已分配权限（对齐 {@code MenuAssignedPermissionReferenceVO}）
- */
-export function getMenuPermissions(id: string): Promise<MenuAssignedPermissionRow[]> {
-  return http.get<MenuAssignedPermissionRow[], AxiosRequestConfig>(`/system/menu/${id}/permissions`);
 }
 
 /**
@@ -219,14 +198,4 @@ export function getMenuRoles(id: string): Promise<MenuAssignedRoleRow[]> {
  */
 export function putMenuRoles(id: string, data: MenuAssignRoleRequest): Promise<string> {
   return http.request<string>('put', `/system/menu/${id}/roles`, { data });
-}
-
-/**
- * 分配权限
- * @param id 菜单ID
- * @param data 分配权限请求
- * @returns 分配权限响应
- */
-export function putMenuPermissions(id: string, data: SysMenuAssignPermissionRequest): Promise<string> {
-  return http.request<string>('put', `/system/menu/${id}/permissions`, { data });
 }

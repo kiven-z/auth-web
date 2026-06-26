@@ -1,5 +1,5 @@
 import { LoginMode, type LoginModeMeta } from '@/views/home/login/constants/types';
-import { defineAsyncComponent, markRaw, type Component } from 'vue';
+import { type Component, defineAsyncComponent, markRaw } from 'vue';
 
 /**
  * 登录方式注册表（切换按钮 + 表单组件）

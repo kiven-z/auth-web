@@ -11,10 +11,10 @@ import {
   updateJob,
 } from '@/api/schedule/job';
 import { addDialog } from '@/components/ui/Dialog';
-import useBatchDeleteAction from '@/composables/table/useBatchDeleteAction';
-import { type FormOverlayExpose, useFormOverlaySubmit } from '@/composables/table/useFormOverlaySubmit';
-import { operationConfirm } from '@/ui/feedback/dialog';
-import { errorMessage, message } from '@/ui/feedback/message';
+import useBatchDeleteAction from '@/shared/composables/table/useBatchDeleteAction';
+import { type FormOverlayExpose, useFormOverlaySubmit } from '@/shared/composables/table/useFormOverlaySubmit';
+import { operationConfirm } from '@/services/feedback/dialog';
+import { errorMessage, message } from '@/services/feedback/message';
 import JobCreateFormDialog from '@/views/schedule/schedule-task/components/JobCreateFormDialog.vue';
 import JobDescriptionDialog from '@/views/schedule/schedule-task/components/JobDescriptionDialog.vue';
 import JobUpdateFormDialog from '@/views/schedule/schedule-task/components/JobUpdateFormDialog.vue';

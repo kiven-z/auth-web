@@ -1,4 +1,4 @@
-import { getConfig } from '@/config';
+import { getConfig } from '@/auth/config';
 import { store } from '@/store';
 import { defineStore } from 'pinia';
 import type { setType } from '../types';

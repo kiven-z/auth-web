@@ -3,8 +3,8 @@ import type { SysUserPageRow } from '@/api/system/user';
 import AuthPagedTable from '@/components/business/AuthPagedTable';
 import { useChangePasswordAction } from '@/components/business/ChangePasswordDialog';
 import { selectUserinfo } from '@/components/business/UserProfile';
-import { useFormPlaceholder } from '@/composables/i18n/useFormPlaceholder';
-import { useCollapsibleSearchForm } from '@/composables/search/useCollapsibleSearchForm';
+import { useFormPlaceholder } from '@/shared/composables/i18n/useFormPlaceholder';
+import { useCollapsibleSearchForm } from '@/shared/composables/search/useCollapsibleSearchForm';
 import {
   SYS_USER_DEPT_PERMS,
   SYS_USER_PERMS,

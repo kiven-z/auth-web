@@ -6,12 +6,12 @@ const { mockGetToken, mockFormatToken, mockRefreshAccessToken } = vi.hoisted(() 
   mockRefreshAccessToken: vi.fn(),
 }));
 
-vi.mock('@/infrastructure/session', () => ({
+vi.mock('@/core/session', () => ({
   getToken: mockGetToken,
   formatToken: mockFormatToken,
 }));
 
-vi.mock('@/infrastructure/auth-flow/refreshAccessToken', () => ({
+vi.mock('@/core/auth/refreshAccessToken', () => ({
   refreshAccessToken: mockRefreshAccessToken,
 }));
 
@@ -32,7 +32,7 @@ describe('tokenRefreshCoordinator', () => {
       refreshed = true;
     });
 
-    const { refreshAccessTokenSingleFlight } = await import('@/infrastructure/auth-flow/tokenRefreshCoordinator');
+    const { refreshAccessTokenSingleFlight } = await import('@/core/auth/tokenRefreshCoordinator');
     const [token1, token2] = await Promise.all([refreshAccessTokenSingleFlight(), refreshAccessTokenSingleFlight()]);
 
     expect(token1).toBe('access-token-1');
@@ -44,7 +44,7 @@ describe('tokenRefreshCoordinator', () => {
     mockGetToken.mockReturnValue({});
     mockRefreshAccessToken.mockResolvedValue(undefined);
 
-    const { refreshAccessTokenSingleFlight } = await import('@/infrastructure/auth-flow/tokenRefreshCoordinator');
+    const { refreshAccessTokenSingleFlight } = await import('@/core/auth/tokenRefreshCoordinator');
 
     await expect(refreshAccessTokenSingleFlight()).rejects.toThrow('Access token is missing after refresh.');
   });
@@ -61,7 +61,7 @@ describe('tokenRefreshCoordinator', () => {
       refreshed = true;
     });
     const request = vi.fn().mockResolvedValue({ data: { ok: true } });
-    const { replayRequestWithRefreshedToken } = await import('@/infrastructure/auth-flow/tokenRefreshCoordinator');
+    const { replayRequestWithRefreshedToken } = await import('@/core/auth/tokenRefreshCoordinator');
     const config: any = { url: 'system/user/page' };
 
     const result = await replayRequestWithRefreshedToken({ request } as any, config);

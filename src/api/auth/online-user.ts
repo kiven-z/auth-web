@@ -1,5 +1,5 @@
 import type { PageResponse } from '@/api/common';
-import { http } from '@/infrastructure/http-core';
+import { http } from '@/core/http';
 import type { AxiosRequestConfig } from 'axios';
 
 /**
@@ -24,13 +24,6 @@ export interface OnlineUserPageRow {
 }
 
 /**
- * 在线用户统计摘要（对齐 {@code OnlineUserSummaryVO}）
- */
-export interface OnlineUserSummary {
-  onlineUserCount?: number | null;
-}
-
-/**
  * 分页查询在线用户
  * @param params 查询参数
  * @returns 分页结果
@@ -39,12 +32,4 @@ export function getOnlineUserPage(params: OnlineUserPageQuery): Promise<PageResp
   return http.get<PageResponse<OnlineUserPageRow>, AxiosRequestConfig<OnlineUserPageQuery>>('auth/admin/users/online', {
     params,
   });
-}
-
-/**
- * 查询在线用户统计摘要
- * @returns 在线用户数
- */
-export function getOnlineUserSummary(): Promise<OnlineUserSummary> {
-  return http.get<OnlineUserSummary, AxiosRequestConfig>('auth/admin/users/online/summary');
 }

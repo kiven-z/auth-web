@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import AuthPagedTable from '@/components/business/AuthPagedTable';
-import { useFormPlaceholder } from '@/composables/i18n/useFormPlaceholder';
+import { useFormPlaceholder } from '@/shared/composables/i18n/useFormPlaceholder';
 import DeptRowActions from '@/views/system/dept/components/DeptRowActions.vue';
 import { DEPT_STATUS_FILTER_OPTIONS } from '@/views/system/dept/constants/dept-search-options';
 import useDeptMoreAction from '@/views/system/dept/hooks/actions/useDeptMoreAction';

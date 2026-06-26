@@ -8,8 +8,8 @@ import {
   updateUser,
 } from '@/api/system/user';
 import { addDialog } from '@/components/ui/Dialog';
-import { type FormOverlayExpose, useFormOverlaySubmit } from '@/composables/table/useFormOverlaySubmit';
-import { errorMessage, message } from '@/ui/feedback/message';
+import { type FormOverlayExpose, useFormOverlaySubmit } from '@/shared/composables/table/useFormOverlaySubmit';
+import { errorMessage, message } from '@/services/feedback/message';
 import UserFormDialog from '@/views/system/user/components/UserFormDialog.vue';
 import { h, ref } from 'vue';
 import { useI18n } from 'vue-i18n';

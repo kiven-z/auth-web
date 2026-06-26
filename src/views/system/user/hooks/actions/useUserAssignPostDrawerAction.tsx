@@ -9,10 +9,10 @@ import {
 } from '@/api/system/user-post';
 import type { TableActionDeps } from '@/api/common';
 import { addDialog } from '@/components/ui/Dialog';
-import useBatchDeleteAction from '@/composables/table/useBatchDeleteAction';
-import { type FormOverlayExpose, useFormOverlaySubmit } from '@/composables/table/useFormOverlaySubmit';
-import { errorMessage, message } from '@/ui/feedback/message';
-import { multiConfirm } from '@/ui/feedback/dialog';
+import useBatchDeleteAction from '@/shared/composables/table/useBatchDeleteAction';
+import { type FormOverlayExpose, useFormOverlaySubmit } from '@/shared/composables/table/useFormOverlaySubmit';
+import { errorMessage, message } from '@/services/feedback/message';
+import { multiConfirm } from '@/services/feedback/dialog';
 import UserPostAssignFormDialog from '@/views/system/user/components/UserPostAssignFormDialog.vue';
 import { h, ref, type Ref } from 'vue';
 import { useI18n } from 'vue-i18n';

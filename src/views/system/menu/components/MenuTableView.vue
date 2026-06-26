@@ -6,11 +6,11 @@ import useMenuMoreAction from '@/views/system/menu/hooks/actions/useMenuMoreActi
 import useMenuPageState from '@/views/system/menu/hooks/useMenuPageState';
 import useMenuTableAction from '@/views/system/menu/hooks/actions/useMenuTableAction';
 import useMenuTableColumns from '@/views/system/menu/hooks/useMenuTableColumns';
-import { useFormPlaceholder } from '@/composables/i18n/useFormPlaceholder';
+import { useFormPlaceholder } from '@/shared/composables/i18n/useFormPlaceholder';
 import type { FormInstance } from 'element-plus';
 import { onMounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { COMMON_BOOLEAN_STATUS_FILTER_OPTIONS } from '@/constants/boolean-status';
+import { COMMON_BOOLEAN_STATUS_FILTER_OPTIONS } from '@/shared/constants/boolean-status';
 
 defineOptions({
   name: 'MenuTableView',
@@ -34,7 +34,7 @@ const { openCreateDialog, openEditDialog, openDetailDialog, deleteBatchRows, bat
   selectedRows,
 });
 
-const { openAssignRoleDrawer, openAssignPermissionDrawer } = useMenuMoreAction({
+const { openAssignRoleDrawer } = useMenuMoreAction({
   fetchTableData,
   fetchTreeData,
   refresh,
@@ -154,9 +154,6 @@ onMounted(() => {
                 <el-dropdown-menu>
                   <el-dropdown-item @click="openAssignRoleDrawer(row)">
                     {{ t('assign.role') }}
-                  </el-dropdown-item>
-                  <el-dropdown-item @click="openAssignPermissionDrawer(row)">
-                    {{ t('sysMenu.assignPermission') }}
                   </el-dropdown-item>
                 </el-dropdown-menu>
               </template>

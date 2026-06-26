@@ -1,5 +1,5 @@
 import type { PageResponse } from '@/api/common';
-import { errorMessage } from '@/ui/feedback/message';
+import { errorMessage } from '@/services/feedback/message';
 import type { Ref } from 'vue';
 
 /**

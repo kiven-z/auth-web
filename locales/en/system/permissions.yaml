@@ -11,7 +11,6 @@ permissions:
   field:
     permissionCode: Permission Code
     permissionName: Permission Name
-    permissionType: Permission Type
     status: Status
     orderNum: Order
     remark: Remark
@@ -19,9 +18,6 @@ permissions:
     status:
       active: Active
       inactive: Inactive
-    type:
-      button: Button Permission
-      api: API Permission
   validation:
     permissionCodeLengthLimit: Permission code must be at most 128 characters
     permissionCodeFormat: Permission code must be 1–3 lowercase segments separated by colons; each segment is * or a lowercase identifier
@@ -31,9 +27,5 @@ permissions:
     roles:
       title: Bound Roles
       empty: No roles bound
-    menus:
-      title: Bound Menus
-      empty: No menus bound
   messages:
     loadFailed: Failed to load permissions
-    typeImmutableHint: Permission type cannot be changed after creation. Delete and recreate to change it.

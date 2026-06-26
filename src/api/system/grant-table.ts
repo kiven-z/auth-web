@@ -52,7 +52,6 @@ export interface PermissionReference {
   id: string;
   permissionCode: string;
   permissionName: string;
-  permissionType: number;
   status: boolean;
 }
 
@@ -99,13 +98,6 @@ export interface GrantTableAssignRoleRequest {
  * 菜单已分配角色回显（对齐 {@code MenuAssignedRoleReferenceVO}）
  */
 export type MenuAssignedRoleRow = RoleReference & {
-  assigned: boolean;
-};
-
-/**
- * 菜单已分配权限回显（对齐 {@code MenuAssignedPermissionReferenceVO}）
- */
-export type MenuAssignedPermissionRow = PermissionReference & {
   assigned: boolean;
 };
 

@@ -8,15 +8,15 @@
         <use xlink:href="#geometry-left" />
       </symbol>
       <clipPath>
-        <rect width="100%" height="100%" x="0" />
+        <rect height="100%" width="100%" x="0" />
       </clipPath>
     </defs>
-    <svg width="51%" height="100%">
-      <use xlink:href="#geometry-left" width="214" height="36" fill="currentColor" />
+    <svg height="100%" width="51%">
+      <use fill="currentColor" height="36" width="214" xlink:href="#geometry-left" />
     </svg>
     <g transform="scale(-1, 1)">
-      <svg width="51%" height="100%" x="-100%" y="0">
-        <use xlink:href="#geometry-right" width="214" height="36" fill="currentColor" />
+      <svg height="100%" width="51%" x="-100%" y="0">
+        <use fill="currentColor" height="36" width="214" xlink:href="#geometry-right" />
       </svg>
     </g>
   </svg>

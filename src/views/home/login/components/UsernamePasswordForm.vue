@@ -10,7 +10,7 @@ import { useI18n } from 'vue-i18n';
 import { useLoginRemember } from '@/views/home/login/hooks/useLoginRemember';
 import Motion from './Motion';
 
-import { errorMessage } from '@/ui/feedback/message';
+import { errorMessage } from '@/services/feedback/message';
 import Lock from '~icons/ri/lock-fill';
 import User from '~icons/ri/user-3-fill';
 

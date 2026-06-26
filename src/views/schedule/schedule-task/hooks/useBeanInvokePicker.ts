@@ -1,5 +1,5 @@
 import { getJobCatalogMethods, type QuartzTaskMethodRow, type SysJobCreateForm } from '@/api/schedule/job';
-import { errorMessage } from '@/ui/feedback/message';
+import { errorMessage } from '@/services/feedback/message';
 import { type Ref, ref, watch } from 'vue';
 
 /**

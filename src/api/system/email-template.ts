@@ -1,7 +1,7 @@
 import type { AxiosRequestConfig } from 'axios';
 
 import type { BaseResponseDetail, BaseResponsePageRow, PageResponse, SortSpec } from '@/api/common';
-import { http } from '@/infrastructure/http-core';
+import { http } from '@/core/http';
 
 /**
  * 邮件模板管理 API（后端 `/api/system/email-template`）。

@@ -4,8 +4,8 @@ import {
   releaseAuthorizationInvalidationEventClaim,
 } from '@/api/ops/authorization-invalidation-event';
 import { addDialog } from '@/components/ui/Dialog';
-import { operationConfirm } from '@/ui/feedback/dialog';
-import { errorMessage, message } from '@/ui/feedback/message';
+import { operationConfirm } from '@/services/feedback/dialog';
+import { errorMessage, message } from '@/services/feedback/message';
 import AuthorizationInvalidationEventDetailDialog from '@/views/ops/authorization-invalidation/components/AuthorizationInvalidationEventDetailDialog.vue';
 import { useDebounceFn } from '@vueuse/core';
 import { h } from 'vue';

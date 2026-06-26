@@ -191,7 +191,7 @@ declare global {
    * 扩展 `Element`
    */
   interface Element {
-    // v-ripple 作用于 src/directives/ripple/index.ts 文件
+    // v-ripple 作用于 src/app/directives/ripple/index.ts 文件
     _ripple?: {
       enabled?: boolean;
       centered?: boolean;

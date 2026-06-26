@@ -1,11 +1,11 @@
-import { refreshAccessTokenSingleFlight } from '@/infrastructure/auth-flow/tokenRefreshCoordinator';
-import { ApiConflictError } from '@/infrastructure/http-core';
-import { hasAccessToken, isLoggedIn, readUserProfileFromStorage, removeToken } from '@/infrastructure/session';
+import { refreshAccessTokenSingleFlight } from '@/core/auth/tokenRefreshCoordinator';
+import { ApiConflictError } from '@/core/http';
+import { hasAccessToken, isLoggedIn, readUserProfileFromStorage, removeToken } from '@/core/session';
 import { getTopMenu } from '@/router/utils/misc';
 import { initRouter } from '@/router/utils/route-registry';
 import { findRouteByPath } from '@/router/utils/route-tree';
 import { isOneOfArray } from '@/auth/permission';
-import { errorMessage } from '@/ui/feedback/message';
+import { errorMessage } from '@/services/feedback/message';
 import { useMultiTagsStoreHook } from '@/store/modules/multiTags';
 import { usePermissionStoreHook } from '@/store/modules/permission';
 import { isAllEmpty, isUrl, openLink } from '@pureadmin/utils';

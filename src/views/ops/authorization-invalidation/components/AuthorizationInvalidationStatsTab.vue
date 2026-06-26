@@ -3,7 +3,7 @@ import {
   type AuthorizationInvalidationSummary,
   getAuthorizationInvalidationSummary,
 } from '@/api/ops/authorization-invalidation-summary';
-import { errorMessage } from '@/ui/feedback/message';
+import { errorMessage } from '@/services/feedback/message';
 import AuthorizationInvalidationFailureRateTrendCard from '@/views/ops/authorization-invalidation/components/AuthorizationInvalidationFailureRateTrendCard.vue';
 import { SYS_AUTH_INVALIDATION_OUTBOX_PERMS } from '@/views/ops/authorization-invalidation/constants/permissions';
 import useAuthorizationInvalidationStatsTableColumns from '@/views/ops/authorization-invalidation/hooks/columns/useAuthorizationInvalidationStatsTableColumns';

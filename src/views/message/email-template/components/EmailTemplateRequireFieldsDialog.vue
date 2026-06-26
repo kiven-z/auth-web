@@ -4,16 +4,17 @@ import {
   getEmailTemplateById,
   updateEmailTemplateRequireFields,
 } from '@/api/system/email-template';
-import { errorMessage, message } from '@/ui/feedback/message';
+import { errorMessage, message } from '@/services/feedback/message';
 import { EMAIL_TEMPLATE_PERMS } from '@/views/message/email-template/constants/permissions';
 import {
   type EditableRequireFieldRow,
   toEditableRequireFields,
   toRequireFieldsPayload,
 } from '@/views/message/email-template/utils/require-fields';
+import { useMonacoTheme } from '@/shared/composables/monaco/useMonacoTheme';
+import { CodeEditor } from 'monaco-editor-vue3';
 import { onMounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { CodeEditor } from 'monaco-editor-vue3';
 
 defineOptions({
   name: 'EmailTemplateRequireFieldsDialog',
@@ -28,6 +29,7 @@ interface EmailTemplateRequireFieldsDialogProps {
 
 const props = defineProps<EmailTemplateRequireFieldsDialogProps>();
 const { t } = useI18n();
+const monacoTheme = useMonacoTheme();
 
 const loading = ref(false);
 // 数据列表
@@ -138,7 +140,7 @@ defineExpose({ submit });
             <!--   :rows="2" -->
             <!--   type="textarea" -->
             <!-- /> -->
-            <CodeEditor v-model:value="row.exampleValueJson" language="json" theme="vs" />
+            <CodeEditor v-model:value="row.exampleValueJson" :theme="monacoTheme" language="json" />
           </div>
         </template>
       </el-table-column>

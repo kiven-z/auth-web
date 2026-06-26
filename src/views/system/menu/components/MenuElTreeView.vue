@@ -1,13 +1,15 @@
 <script lang="ts" setup>
 import { AuthElTreePanel } from '@/components/business/AuthElTreePanel';
+import { useRenderIcon } from '@/components/ui/Icon/src/hooks';
 import { transformI18n } from '@/plugins/i18n';
+import MenuRowActions from '@/views/system/menu/components/MenuRowActions.vue';
 import { MENU_TYPE_OPTIONS } from '@/views/system/menu/constants/menu-type';
 import { SYS_MENU_PERMS } from '@/views/system/menu/constants/permissions';
-import MenuRowActions from '@/views/system/menu/components/MenuRowActions.vue';
-import useMenuPageState from '@/views/system/menu/hooks/useMenuPageState';
 import useMenuTableAction from '@/views/system/menu/hooks/actions/useMenuTableAction';
+import useMenuPageState from '@/views/system/menu/hooks/useMenuPageState';
 import { useMenuTreeDrag } from '@/views/system/menu/hooks/useMenuTreeDrag';
-import { onMounted } from 'vue';
+import { useMenuTreeFilter } from '@/views/system/menu/hooks/useMenuTreeFilter';
+import { onMounted, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 defineOptions({
@@ -19,8 +21,23 @@ const treeProps = {
   children: 'children',
 } as const;
 
-const { t } = useI18n();
-const { loading, selectedRows, treeData, viewMode, fetchTableData, fetchTreeData, refresh } = useMenuPageState();
+const { t, locale } = useI18n();
+
+const { loading, selectedRows, treeData, treeKeyword, viewMode, fetchTableData, fetchTreeData, refresh } =
+  useMenuPageState();
+
+const { filterMenuNode } = useMenuTreeFilter();
+const panelRef = ref<{ filterTree: (keyword: string) => void } | null>(null);
+
+// 监听树形视图关键词
+watch(treeKeyword, (val) => {
+  panelRef.value?.filterTree(val);
+});
+
+// 监听语言
+watch(locale, () => {
+  panelRef.value?.filterTree(treeKeyword.value);
+});
 
 const { openCreateDialog } = useMenuTableAction({
   fetchTableData,
@@ -42,11 +59,13 @@ onMounted(() => {
 
 <template>
   <AuthElTreePanel
+    ref="panelRef"
     :allow-drag="allowDrag"
     :allow-drop="allowDrop"
     :collapse-all-label="t('sysMenu.collapseAll')"
     :draggable="true"
     :expand-all-label="t('sysMenu.expandAll')"
+    :filter-node-method="(value, data) => filterMenuNode(value, data)"
     :loading="loading"
     :show-actions-on-hover="true"
     :title="t('sysMenu.tableTitle')"
@@ -61,9 +80,18 @@ onMounted(() => {
       </el-button>
     </template>
 
+    <template #search>
+      <el-input
+        v-model="treeKeyword"
+        :placeholder="t('sysMenu.treeKeyword')"
+        :prefix-icon="useRenderIcon('ri/search-line')"
+        clearable
+      />
+    </template>
+
     <template #meta="{ data }">
       <span class="font-medium">{{ transformI18n(data.title) }}</span>
-      <el-text type="info">({{ transformI18n(data.name) }})</el-text>
+      <el-text type="info">({{ data.name }})</el-text>
       <el-tag
         v-for="option in MENU_TYPE_OPTIONS.filter((item) => item.value === data.menuType)"
         :key="option.value"

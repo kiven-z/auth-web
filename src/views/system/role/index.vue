@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { getRolePage } from '@/api/system/role';
 import AuthPagedTable, { usePaginationState } from '@/components/business/AuthPagedTable';
-import { useFormPlaceholder } from '@/composables/i18n/useFormPlaceholder';
+import { useFormPlaceholder } from '@/shared/composables/i18n/useFormPlaceholder';
 import { SYS_ROLE_PERMS } from '@/views/system/role/constants/permissions';
 import { ROLE_STATUS_FILTER_OPTIONS } from '@/views/system/role/constants/role-search-options';
 import useRoleAdvanceAction from '@/views/system/role/hooks/useRoleAdvanceAction';

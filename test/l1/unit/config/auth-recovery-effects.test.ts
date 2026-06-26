@@ -1,5 +1,5 @@
-import { AUTH_RECOVERY_RULE_IDS } from '@/config/auth/auth-recovery-rule-ids';
-import { ASYNC_ROUTES_STORAGE_KEY } from '@/config/http-config';
+import { AUTH_RECOVERY_RULE_IDS } from '@/auth/config/auth/auth-recovery-rule-ids';
+import { ASYNC_ROUTES_STORAGE_KEY } from '@/auth/config/http-config';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 const { messageMock, storageRemoveMock } = vi.hoisted(() => ({
@@ -7,8 +7,18 @@ const { messageMock, storageRemoveMock } = vi.hoisted(() => ({
   storageRemoveMock: vi.fn(),
 }));
 
-vi.mock('@/ui/feedback/message', () => ({
+vi.mock('@/services/feedback/message', () => ({
   message: messageMock,
+}));
+
+vi.mock('@/plugins/i18n', () => ({
+  transformI18n: (key: string) => {
+    const messages: Record<string, string> = {
+      'tips.tokenExpiredRefreshRetry': '访问令牌过期或失效，若尝试刷新失败，请重新登录后重试',
+      'tips.permissionMismatchRefreshRetry': '权限已更新，若刷新失败，请重新登录后重试',
+    };
+    return messages[key] ?? key;
+  },
 }));
 
 vi.mock('@pureadmin/utils', () => ({
@@ -24,7 +34,7 @@ describe('runAuthRecoverySideEffect', () => {
   });
 
   it('shows warning toast when token expired rule matches', async () => {
-    const { runAuthRecoverySideEffect } = await import('@/config/auth/auth-recovery-effects');
+    const { runAuthRecoverySideEffect } = await import('@/auth/config/auth/auth-recovery-effects');
 
     runAuthRecoverySideEffect(AUTH_RECOVERY_RULE_IDS.TOKEN_EXPIRED_REFRESH);
 
@@ -37,7 +47,7 @@ describe('runAuthRecoverySideEffect', () => {
   });
 
   it('clears async routes cache and shows toast on permission mismatch', async () => {
-    const { runAuthRecoverySideEffect } = await import('@/config/auth/auth-recovery-effects');
+    const { runAuthRecoverySideEffect } = await import('@/auth/config/auth/auth-recovery-effects');
 
     runAuthRecoverySideEffect(AUTH_RECOVERY_RULE_IDS.PERMISSION_MISMATCH_REFRESH);
 
@@ -50,7 +60,7 @@ describe('runAuthRecoverySideEffect', () => {
   });
 
   it('does nothing for rules without configured side effects', async () => {
-    const { runAuthRecoverySideEffect } = await import('@/config/auth/auth-recovery-effects');
+    const { runAuthRecoverySideEffect } = await import('@/auth/config/auth/auth-recovery-effects');
 
     runAuthRecoverySideEffect(AUTH_RECOVERY_RULE_IDS.UNKNOWN_401_LOGOUT);
 

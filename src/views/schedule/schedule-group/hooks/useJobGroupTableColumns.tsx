@@ -3,7 +3,7 @@
  */
 import type { SysJobGroupPageRow } from '@/api/schedule/job-group';
 import { selectUserinfo } from '@/components/business/UserProfile';
-import { renderBooleanStatusTag } from '@/composables/layout/renderBooleanStatusTag';
+import { renderBooleanStatusTag } from '@/shared/composables/layout/renderBooleanStatusTag';
 import { ElButton } from 'element-plus';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';

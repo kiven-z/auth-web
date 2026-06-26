@@ -1,4 +1,4 @@
-import { getConfig } from '@/config';
+import { getConfig } from '@/auth/config';
 import { useAppStoreHook } from '@/store/modules/app';
 import { useEpThemeStoreHook } from '@/store/modules/epTheme';
 import { useMultiTagsStoreHook } from '@/store/modules/multiTags';

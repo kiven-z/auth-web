@@ -1,7 +1,7 @@
 import type { PageResponse } from '@/api/common';
 import { usePaginationState } from '@/components/business/AuthPagedTable/src/usePaginationState';
-import { handleTree } from '@/lib/tree';
-import { errorMessage } from '@/ui/feedback/message';
+import { handleTree } from '@/shared/utils/tree';
+import { errorMessage } from '@/services/feedback/message';
 import type { FormInstance } from 'element-plus';
 import { ref, type Ref } from 'vue';
 

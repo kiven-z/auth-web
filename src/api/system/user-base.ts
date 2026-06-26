@@ -1,7 +1,7 @@
 import type { AxiosRequestConfig } from 'axios';
 
 import type { UserDeptReference, UserPostReference } from '@/api/system/grant-table';
-import { http } from '@/infrastructure/http-core';
+import { http } from '@/core/http';
 
 export type { UserDeptReference, UserPostReference };
 

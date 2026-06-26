@@ -29,7 +29,7 @@ describe('sessionAuth', () => {
     mocks.cookiesGet.mockReturnValue('true');
     mocks.mockGetItem.mockReturnValue({ username: 'alice', roles: ['admin'] });
 
-    const { isLoggedIn } = await import('@/infrastructure/session/sessionAuth');
+    const { isLoggedIn } = await import('@/core/session/sessionAuth');
     expect(isLoggedIn()).toBe(true);
   });
 
@@ -37,7 +37,7 @@ describe('sessionAuth', () => {
     mocks.cookiesGet.mockReturnValue('true');
     mocks.mockGetItem.mockReturnValue(null);
 
-    const { isLoggedIn } = await import('@/infrastructure/session/sessionAuth');
+    const { isLoggedIn } = await import('@/core/session/sessionAuth');
     expect(isLoggedIn()).toBe(false);
   });
 });

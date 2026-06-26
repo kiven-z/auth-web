@@ -1,18 +1,17 @@
-<script setup lang="ts">
-import { match } from 'pinyin-pro';
+<script lang="ts" setup>
 import { useI18n } from 'vue-i18n';
-import { getConfig } from '@/config';
+import { getConfig } from '@/auth/config';
 import { useRouter } from 'vue-router';
 import SearchResult from './SearchResult.vue';
 import SearchFooter from './SearchFooter.vue';
 import { useNav } from '@/layout/hooks/useNav';
 import { transformI18n } from '@/plugins/i18n';
 import SearchHistory from './SearchHistory.vue';
-import type { optionsItem, dragItem } from '../types';
-import { ref, computed, shallowRef, watch } from 'vue';
-import { useDebounceFn, onKeyStroke } from '@vueuse/core';
+import type { dragItem, optionsItem } from '../types';
+import { computed, ref, shallowRef, watch } from 'vue';
+import { onKeyStroke, useDebounceFn } from '@vueuse/core';
 import { usePermissionStoreHook } from '@/store/modules/permission';
-import { cloneDeep, isAllEmpty, storageLocal } from '@pureadmin/utils';
+import { cloneDeep, storageLocal } from '@pureadmin/utils';
 import SearchIcon from '~icons/ri/search-line';
 
 interface Props {
@@ -29,7 +28,7 @@ const emit = defineEmits<Emits>();
 const props = withDefaults(defineProps<Props>(), {});
 
 const router = useRouter();
-const { t, locale } = useI18n();
+const { t } = useI18n();
 
 const HISTORY_TYPE = 'history';
 const COLLECT_TYPE = 'collect';
@@ -107,11 +106,7 @@ function search() {
   const flatMenusData = flatTree(menusData.value);
   resultOptions.value = flatMenusData.filter((menu) =>
     keyword.value
-      ? transformI18n(menu.meta?.title).toLocaleLowerCase().includes(keyword.value.toLocaleLowerCase().trim()) ||
-        (locale.value === 'zh' &&
-          !isAllEmpty(
-            match(transformI18n(menu.meta?.title).toLocaleLowerCase(), keyword.value.toLocaleLowerCase().trim())
-          ))
+      ? transformI18n(menu.meta?.title).toLocaleLowerCase().includes(keyword.value.toLocaleLowerCase().trim())
       : false
   );
   activePath.value = resultOptions.value?.length > 0 ? resultOptions.value[0].path : '';
@@ -258,24 +253,24 @@ onKeyStroke('ArrowDown', handleDown);
 <template>
   <el-dialog
     v-model="show"
-    top="5vh"
-    class="pure-search-dialog"
-    :show-close="false"
-    :width="device === 'mobile' ? '80vw' : '40vw'"
     :before-close="handleClose"
+    :show-close="false"
     :style="{
       borderRadius: '6px',
     }"
+    :width="device === 'mobile' ? '80vw' : '40vw'"
     append-to-body
-    @opened="inputRef.focus()"
+    class="pure-search-dialog"
+    top="5vh"
     @closed="inputRef.blur()"
+    @opened="inputRef.focus()"
   >
     <el-input
       ref="inputRef"
       v-model="keyword"
-      size="large"
-      clearable
       :placeholder="t('search.purePlaceholder')"
+      clearable
+      size="large"
       @input="handleSearch"
     >
       <template #prefix>
@@ -291,8 +286,8 @@ onKeyStroke('ArrowDown', handleDown);
           v-model:value="historyPath"
           :options="historyOptions"
           @click="handleEnter"
-          @delete="handleDelete"
           @collect="handleCollect"
+          @delete="handleDelete"
           @drag="handleDrag"
         />
         <SearchResult

@@ -1,15 +1,15 @@
-import { executeAuthRecovery } from '@/infrastructure/auth-flow/recovery/executor';
+import { executeAuthRecovery } from '@/core/auth/recovery/executor';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 const { replayRequestWithRefreshedTokenMock } = vi.hoisted(() => ({
   replayRequestWithRefreshedTokenMock: vi.fn(),
 }));
 
-vi.mock('@/infrastructure/auth-flow/tokenRefreshCoordinator', () => ({
+vi.mock('@/core/auth/tokenRefreshCoordinator', () => ({
   replayRequestWithRefreshedToken: replayRequestWithRefreshedTokenMock,
 }));
 
-vi.mock('@/config/auth/auth-recovery-effects', () => ({
+vi.mock('@/auth/config/auth/auth-recovery-effects', () => ({
   runAuthRecoverySideEffect: vi.fn(),
 }));
 
@@ -27,7 +27,7 @@ describe('executeAuthRecovery', () => {
       requestConfig,
       context: {
         status: 401,
-        errorCode: 'GATEWAY_TOKEN_EXPIRED',
+        errorCode: 'TOKEN_EXPIRED',
         requestUrl: 'system/user/page',
         isNoAuthPath: false,
         retryCount: 0,
@@ -69,7 +69,7 @@ describe('executeAuthRecovery', () => {
       requestConfig: { url: 'system/user/page' } as any,
       context: {
         status: 401,
-        errorCode: 'GATEWAY_TOKEN_EXPIRED',
+        errorCode: 'TOKEN_EXPIRED',
         requestUrl: 'system/user/page',
         isNoAuthPath: false,
         retryCount: 0,
@@ -87,7 +87,7 @@ describe('executeAuthRecovery', () => {
       requestConfig: undefined,
       context: {
         status: 401,
-        errorCode: 'GATEWAY_TOKEN_EXPIRED',
+        errorCode: 'TOKEN_EXPIRED',
         requestUrl: 'system/user/page',
         isNoAuthPath: false,
         retryCount: 0,

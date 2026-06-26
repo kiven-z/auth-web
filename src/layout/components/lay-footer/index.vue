@@ -1,5 +1,5 @@
-<script setup lang="ts">
-import { getConfig } from '@/config';
+<script lang="ts" setup>
+import { getConfig } from '@/auth/config';
 
 const TITLE = getConfig('Title');
 </script>

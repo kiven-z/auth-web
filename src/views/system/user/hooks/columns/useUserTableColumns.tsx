@@ -1,7 +1,7 @@
 import type { SysUserPageRow } from '@/api/system/user';
 import { selectUserinfo } from '@/components/business/UserProfile';
 import useUserProfileDisplay from '@/components/business/UserProfile/src/hooks/useUserProfileDisplay';
-import { Perms } from '@/components/ui/Perms';
+import { Perms } from '@/auth/permission';
 import { SYS_USER_PERMS } from '@/views/system/user/constants/permissions';
 import { ElAvatar, ElButton } from 'element-plus';
 import { computed } from 'vue';

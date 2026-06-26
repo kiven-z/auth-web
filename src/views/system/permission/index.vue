@@ -1,9 +1,8 @@
 <script lang="ts" setup>
 import { getPermissionPage } from '@/api/system/permission';
 import AuthPagedTable, { usePaginationState } from '@/components/business/AuthPagedTable';
-import { useFormPlaceholder } from '@/composables/i18n/useFormPlaceholder';
-import { COMMON_BOOLEAN_STATUS_FILTER_OPTIONS } from '@/constants/boolean-status';
-import { PERMISSION_TYPE_FILTER_OPTIONS } from '@/views/system/_shared/constants/permission-type-options';
+import { useFormPlaceholder } from '@/shared/composables/i18n/useFormPlaceholder';
+import { COMMON_BOOLEAN_STATUS_FILTER_OPTIONS } from '@/shared/constants/boolean-status';
 import { SYS_PERMISSION_PERMS } from '@/views/system/permission/constants/permissions';
 import usePermissionAdvanceAction from '@/views/system/permission/hooks/usePermissionAdvanceAction';
 import usePermissionTableAction from '@/views/system/permission/hooks/usePermissionTableAction';
@@ -28,7 +27,6 @@ const permissionState = usePaginationState({
   searchForm: reactive({
     permissionCode: undefined,
     permissionName: undefined,
-    permissionType: undefined,
     status: undefined,
   }),
   errorI18nKey: 'permissions.messages.loadFailed',
@@ -65,22 +63,6 @@ onMounted(() => {
           class="w-45!"
           clearable
         />
-      </el-form-item>
-      <!-- 权限类型 -->
-      <el-form-item :label="t('permissions.field.permissionType')" prop="permissionType">
-        <el-select
-          v-model="searchForm.permissionType"
-          :placeholder="ph.selectFilter('permissions.field.permissionType')"
-          class="w-40!"
-          clearable
-        >
-          <el-option
-            v-for="opt in PERMISSION_TYPE_FILTER_OPTIONS"
-            :key="opt.value"
-            :label="t(opt.labelKey)"
-            :value="opt.value"
-          />
-        </el-select>
       </el-form-item>
       <!-- 状态 -->
       <el-form-item :label="t('permissions.field.status')" prop="status">

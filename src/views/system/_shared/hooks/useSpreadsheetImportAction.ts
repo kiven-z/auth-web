@@ -1,7 +1,7 @@
 import type { SpreadsheetImportResult } from '@/api/common';
 import { addDialog, closeDialog } from '@/components/ui/Dialog';
 import type { DialogOptions } from '@/components/ui/Dialog/type';
-import { errorMessage } from '@/ui/feedback/message';
+import { errorMessage } from '@/services/feedback/message';
 import SpreadsheetImportDialog from '@/views/system/_shared/components/SpreadsheetImportDialog.vue';
 import { h, ref } from 'vue';
 import { useI18n } from 'vue-i18n';

@@ -5,8 +5,8 @@ import { LOG_JOB_STATUS_ITEMS, LOG_JOB_TRIGGER_TYPE_FILTER_OPTIONS } from '@/vie
 import { SYS_JOB_LOG_PERMS } from '@/views/log/job-log/constants/permissions';
 import useJobLogTableAction from '@/views/log/job-log/hooks/useJobLogTableAction';
 import useJobLogTableColumns from '@/views/log/job-log/hooks/useJobLogTableColumns';
-import { useCollapsibleSearchForm } from '@/composables/search/useCollapsibleSearchForm';
-import { useFormPlaceholder } from '@/composables/i18n/useFormPlaceholder';
+import { useCollapsibleSearchForm } from '@/shared/composables/search/useCollapsibleSearchForm';
+import { useFormPlaceholder } from '@/shared/composables/i18n/useFormPlaceholder';
 import type { FormInstance } from 'element-plus';
 import { onMounted, reactive, ref } from 'vue';
 import { useI18n } from 'vue-i18n';

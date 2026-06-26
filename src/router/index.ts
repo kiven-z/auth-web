@@ -1,4 +1,4 @@
-import { buildHierarchyTree } from '@/lib/tree';
+import { buildHierarchyTree } from '@/shared/utils/tree';
 import { usePermissionStoreHook } from '@/store/modules/permission';
 import { cloneDeep } from '@pureadmin/utils';
 import { createRouter, type RouteComponent, type Router, type RouteRecordRaw } from 'vue-router';

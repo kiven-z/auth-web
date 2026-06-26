@@ -6,8 +6,7 @@ declare module 'vue' {
     IconifyIconOffline: (typeof import('@/components/ui/Icon'))['IconifyIconOffline'];
     IconifyIconOnline: (typeof import('@/components/ui/Icon'))['IconifyIconOnline'];
     FontIcon: (typeof import('@/components/ui/Icon'))['FontIcon'];
-    Auth: (typeof import('@/components/ui/Auth'))['Auth'];
-    Perms: (typeof import('@/components/ui/Perms'))['Perms'];
+    Perms: (typeof import('@/auth/permission'))['Perms'];
   }
 }
 

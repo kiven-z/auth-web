@@ -1,5 +1,5 @@
-import { AUTH_RECOVERY_RULE_IDS } from '@/config/auth/auth-recovery-rule-ids';
-import { attachResponseInterceptors } from '@/infrastructure/http-core/interceptors/responseHandlers';
+import { AUTH_RECOVERY_RULE_IDS } from '@/auth/config/auth/auth-recovery-rule-ids';
+import { attachResponseInterceptors } from '@/core/http/interceptors/responseHandlers';
 import axios, { type AxiosAdapter, type AxiosRequestConfig } from 'axios';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
@@ -9,15 +9,15 @@ const { executeAuthRecoveryMock, logOutMock, rejectWithApiEnvelopeErrorMock } = 
   rejectWithApiEnvelopeErrorMock: vi.fn(),
 }));
 
-vi.mock('@/infrastructure/auth-flow/recovery', () => ({
+vi.mock('@/core/auth/recovery', () => ({
   executeAuthRecovery: executeAuthRecoveryMock,
 }));
 
-vi.mock('@/config/auth/auth-session-effects', () => ({
+vi.mock('@/auth/config/auth/auth-session-effects', () => ({
   runSessionLogout: logOutMock,
 }));
 
-vi.mock('@/infrastructure/http-core/errorAdapter', () => ({
+vi.mock('@/core/http/errorAdapter', () => ({
   rejectWithApiEnvelopeError: rejectWithApiEnvelopeErrorMock,
 }));
 
@@ -66,9 +66,9 @@ describe('responseHandlers auth recovery integration', () => {
       url: 'system/email-template/page',
       method: 'get',
       adapter: rejectedAdapter(401, {
-        code: 10204,
-        error: 'GATEWAY_TOKEN_EXPIRED',
-        subCode: 'GATEWAY_TOKEN_EXPIRED',
+        code: 40104,
+        error: 'TOKEN_EXPIRED',
+        subCode: 'TOKEN_EXPIRED',
       }),
     });
 
@@ -91,9 +91,9 @@ describe('responseHandlers auth recovery integration', () => {
         url: 'system/email-template/page',
         method: 'get',
         adapter: rejectedAdapter(401, {
-          code: 10203,
-          error: 'GATEWAY_TOKEN_INVALID',
-          subCode: 'GATEWAY_TOKEN_INVALID',
+          code: 40103,
+          error: 'TOKEN_INVALID',
+          subCode: 'TOKEN_INVALID',
         }),
       })
     ).rejects.toBeTruthy();
@@ -143,9 +143,9 @@ describe('responseHandlers auth recovery integration', () => {
         url: 'system/email-template/page',
         method: 'get',
         adapter: rejectedAdapter(401, {
-          code: 10204,
-          error: 'GATEWAY_TOKEN_EXPIRED',
-          subCode: 'GATEWAY_TOKEN_EXPIRED',
+          code: 40104,
+          error: 'TOKEN_EXPIRED',
+          subCode: 'TOKEN_EXPIRED',
         }),
       })
     ).rejects.toThrow('refresh replay failed');

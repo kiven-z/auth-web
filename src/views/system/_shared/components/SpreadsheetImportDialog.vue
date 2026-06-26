@@ -1,8 +1,8 @@
 <script lang="ts" setup>
 import type { SpreadsheetImportResult } from '@/api/common';
 import AuthDataTable from '@/components/ui/AuthDataTable';
-import { errorMessage, message } from '@/ui/feedback/message';
-import { downloadBlob } from '@/utils/fileDownload';
+import { errorMessage, message } from '@/services/feedback/message';
+import { downloadBlob } from '@/shared/utils/fileDownload';
 import type { UploadFile, UploadInstance, UploadProps, UploadRawFile } from 'element-plus';
 import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';

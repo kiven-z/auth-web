@@ -11,9 +11,9 @@ import {
   updateDept,
 } from '@/api/system/dept';
 import { addDialog } from '@/components/ui/Dialog';
-import useBatchDeleteAction from '@/composables/table/useBatchDeleteAction';
-import { type FormOverlayExpose, useFormOverlaySubmit } from '@/composables/table/useFormOverlaySubmit';
-import { errorMessage } from '@/ui/feedback/message';
+import useBatchDeleteAction from '@/shared/composables/table/useBatchDeleteAction';
+import { type FormOverlayExpose, useFormOverlaySubmit } from '@/shared/composables/table/useFormOverlaySubmit';
+import { errorMessage } from '@/services/feedback/message';
 import DeptDescriptionDialog from '@/views/system/dept/components/DeptDescriptionDialog.vue';
 import DeptFormDialog from '@/views/system/dept/components/DeptFormDialog.vue';
 import type { DeptViewMode, SysDeptRow } from '@/views/system/dept/hooks/useDeptPageState';

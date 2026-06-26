@@ -3,8 +3,8 @@ import { treeRowActionsLockKey } from '@/components/business/AuthElTreePanel/src
 import { SYS_MENU_PERMS } from '@/views/system/menu/constants/permissions';
 import useMenuMoreAction from '@/views/system/menu/hooks/actions/useMenuMoreAction';
 import useMenuTableAction from '@/views/system/menu/hooks/actions/useMenuTableAction';
-import useMenuPageState from '@/views/system/menu/hooks/useMenuPageState';
 import type { SysMenuRow } from '@/views/system/menu/hooks/useMenuPageState';
+import useMenuPageState from '@/views/system/menu/hooks/useMenuPageState';
 import { inject, onUnmounted } from 'vue';
 import { useI18n } from 'vue-i18n';
 
@@ -36,7 +36,7 @@ const { openDetailDialog, openEditDialog, openCreateDialog, deleteBatchRows } = 
   viewMode,
   selectedRows,
 });
-const { openAssignRoleDrawer, openAssignPermissionDrawer } = useMenuMoreAction({
+const { openAssignRoleDrawer } = useMenuMoreAction({
   fetchTableData,
   fetchTreeData,
   refresh,
@@ -116,9 +116,6 @@ onUnmounted(() => {
           <el-dropdown-menu>
             <el-dropdown-item @click="openAssignRoleDrawer(row)">
               {{ t('assign.role') }}
-            </el-dropdown-item>
-            <el-dropdown-item @click="openAssignPermissionDrawer(row)">
-              {{ t('sysMenu.assignPermission') }}
             </el-dropdown-item>
           </el-dropdown-menu>
         </template>

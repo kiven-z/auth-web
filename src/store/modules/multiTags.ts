@@ -1,5 +1,5 @@
-import { getConfig, responsiveStorageNameSpace } from '@/config';
-import { routerArrays, type RouteConfigs } from '@/layout/types';
+import { getConfig, responsiveStorageNameSpace } from '@/auth/config';
+import { type RouteConfigs, routerArrays } from '@/layout/types';
 import { store } from '@/store';
 import { isBoolean, isEqual, isNumber, isUrl, storageLocal } from '@pureadmin/utils';
 import { defineStore } from 'pinia';

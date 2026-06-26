@@ -1,5 +1,5 @@
 import { searchJobGroupOptions, type SysJobGroupPageRow } from '@/api/schedule/job-group';
-import { errorMessage } from '@/ui/feedback/message';
+import { errorMessage } from '@/services/feedback/message';
 import { ref } from 'vue';
 
 /** 任务分组远程搜索单次返回条数 */

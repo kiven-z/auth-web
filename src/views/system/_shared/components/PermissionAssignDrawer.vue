@@ -8,31 +8,21 @@ import AssignPanel, {
   useAssignTableLabels,
 } from '@/components/business/AssignManagePanel';
 import AuthPagedTable, { usePaginationState } from '@/components/business/AuthPagedTable';
-import { useFormPlaceholder } from '@/composables/i18n/useFormPlaceholder';
-import { errorMessage } from '@/ui/feedback/message';
-import { PERMISSION_TYPE_FILTER_OPTIONS } from '@/views/system/_shared/constants/permission-type-options';
+import { useFormPlaceholder } from '@/shared/composables/i18n/useFormPlaceholder';
+import { errorMessage } from '@/services/feedback/message';
 import type { FormInstance } from 'element-plus';
 import { computed, onMounted, reactive, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 defineOptions({ name: 'PermissionAssignDrawer' });
 
-const props = withDefaults(
-  defineProps<{
-    leftTitle: string;
-    leftSubtitle: string;
-    tableTitle: string;
-    loadAssigned: () => Promise<AssignSeedItem[]>;
-    sectionLabel?: string;
-    showPermissionTypeFilter?: boolean;
-    fixedPermissionType?: number;
-  }>(),
-  {
-    sectionLabel: undefined,
-    showPermissionTypeFilter: false,
-    fixedPermissionType: undefined,
-  }
-);
+const props = defineProps<{
+  leftTitle: string;
+  leftSubtitle: string;
+  tableTitle: string;
+  loadAssigned: () => Promise<AssignSeedItem[]>;
+  sectionLabel?: string;
+}>();
 
 const { t } = useI18n();
 const ph = useFormPlaceholder();
@@ -50,7 +40,6 @@ const permissionState = usePaginationState<SysPermissionPageRow>({
   searchForm: reactive({
     permissionName: undefined,
     permissionCode: undefined,
-    permissionType: undefined,
   }),
   defaultPageSize: 30,
   errorI18nKey: 'tips.assignLoadFailed',
@@ -61,7 +50,6 @@ const permissionState = usePaginationState<SysPermissionPageRow>({
       permissionName: query.permissionName as string,
       permissionCode: query.permissionCode as string,
       status: true,
-      permissionType: props.fixedPermissionType ?? (query.permissionType as number),
     }),
 });
 
@@ -125,25 +113,6 @@ defineExpose({ getSelectedKeys });
           class="w-45!"
           clearable
         />
-      </el-form-item>
-      <el-form-item
-        v-if="showPermissionTypeFilter"
-        :label="t('permissions.field.permissionType')"
-        prop="permissionType"
-      >
-        <el-select
-          v-model="searchForm.permissionType"
-          :placeholder="ph.selectFilter('permissions.field.permissionType')"
-          class="w-40!"
-          clearable
-        >
-          <el-option
-            v-for="opt in PERMISSION_TYPE_FILTER_OPTIONS"
-            :key="opt.value"
-            :label="t(opt.labelKey)"
-            :value="opt.value"
-          />
-        </el-select>
       </el-form-item>
 
       <el-form-item>

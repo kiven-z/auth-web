@@ -1,6 +1,10 @@
 import { changeOwnPassword, resetUserPassword } from '@/api/system/user';
 import ChangePasswordDialogPanel from '@/components/business/ChangePasswordDialog/src/ChangePasswordDialogPanel.vue';
 import type { ChangePasswordMode } from '@/components/business/ChangePasswordDialog/src/types';
+import { addDialog } from '@/components/ui/Dialog';
+import { type FormOverlayExpose, useFormOverlaySubmit } from '@/shared/composables/table/useFormOverlaySubmit';
+import { h, ref } from 'vue';
+import { useI18n } from 'vue-i18n';
 
 /** 修改密码弹窗表单 */
 interface ChangePasswordDialogForm {
@@ -8,10 +12,6 @@ interface ChangePasswordDialogForm {
   newPassword: string;
   confirmPassword: string;
 }
-import { addDialog } from '@/components/ui/Dialog';
-import { type FormOverlayExpose, useFormOverlaySubmit } from '@/composables/table/useFormOverlaySubmit';
-import { h, ref } from 'vue';
-import { useI18n } from 'vue-i18n';
 
 /**
  * 修改密码弹窗操作

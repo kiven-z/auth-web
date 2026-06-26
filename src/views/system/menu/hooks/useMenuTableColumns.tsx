@@ -2,7 +2,7 @@
  * 菜单管理表格列定义（表格视图与树形视图共用）
  */
 import { useRenderIcon } from '@/components/ui/Icon/src/hooks';
-import { renderBooleanStatusTag } from '@/composables/layout/renderBooleanStatusTag';
+import { renderBooleanStatusTag } from '@/shared/composables/layout/renderBooleanStatusTag';
 import { transformI18n } from '@/plugins/i18n';
 import type { SysMenuRow } from '@/views/system/menu/hooks/useMenuPageState';
 import { ElTag, ElText } from 'element-plus';

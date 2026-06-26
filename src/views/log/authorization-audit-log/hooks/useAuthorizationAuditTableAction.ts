@@ -5,8 +5,8 @@ import {
   getAuthorizationAuditDetail,
 } from '@/api/log/authorization-audit';
 import { addDialog } from '@/components/ui/Dialog';
-import useBatchDeleteAction from '@/composables/table/useBatchDeleteAction';
-import { errorMessage } from '@/ui/feedback/message';
+import useBatchDeleteAction from '@/shared/composables/table/useBatchDeleteAction';
+import { errorMessage } from '@/services/feedback/message';
 import AuthorizationAuditDetailDialog from '@/views/log/authorization-audit-log/components/AuthorizationAuditDetailDialog.vue';
 import { useDebounceFn } from '@vueuse/core';
 import { h } from 'vue';
