@@ -1,0 +1,27 @@
+account:
+  title: Account Center
+  back: Back
+  backHome: Back to Home
+  profile: Profile
+  loginLog: Login History
+  field:
+    username: Username
+    nickname: Nickname
+    email: Email
+    phone: Phone
+    employeeNo: Employee No.
+    basicInfo: Basic Information
+    security: Security
+  session:
+    title: Active Sessions
+    subtitle: Manage signed-in devices and sessions
+    device: Device
+    region: Region
+    loginAt: Last active
+    current: Current device
+    revoke: Revoke
+  message:
+    revokeSuccess: Session revoked
+    loadFailed: Failed to load data
+  hint:
+    loginLogRetention: Only login records from the last 180 days are shown

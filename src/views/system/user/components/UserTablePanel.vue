@@ -1,8 +1,6 @@
 <script lang="ts" setup>
-import type { SysUserPageRow } from '@/api/system/user';
 import AuthPagedTable from '@/components/business/AuthPagedTable';
 import { useChangePasswordAction } from '@/components/business/ChangePasswordDialog';
-import { selectUserinfo } from '@/components/business/UserProfile';
 import { useFormPlaceholder } from '@/shared/composables/i18n/useFormPlaceholder';
 import { useCollapsibleSearchForm } from '@/shared/composables/search/useCollapsibleSearchForm';
 import {
@@ -33,7 +31,7 @@ const searchFormRef = ref<FormInstance>();
 const { tableState, fetchUserTable, resetUserSearch } = useUserPageState();
 const { loading, searchForm, selectedRows, pagination } = tableState;
 
-const { openCreateDialog, openEditDialog, batchUpdateStatus } = useUserTableAction({
+const { openCreateDialog, openUserDetailDialog, openEditDialog, batchUpdateStatus } = useUserTableAction({
   fetchTableData: fetchUserTable,
   selectedRows,
 });
@@ -59,14 +57,6 @@ const { openAdminResetPasswordDialog } = useChangePasswordAction();
 const { searchExpanded, showAdvancedSearchToggle, toggleAdvancedSearch } = useCollapsibleSearchForm(6);
 
 const hasSelection = computed(() => selectedRows.value.length > 0);
-
-/**
- * 打开用户档案弹窗
- * @param row 用户行
- */
-const handleView = (row: SysUserPageRow) => {
-  selectUserinfo(row.id, row.username);
-};
 </script>
 
 <template>
@@ -213,7 +203,7 @@ const handleView = (row: SysUserPageRow) => {
       <template #actions="{ row }">
         <div class="flex justify-center gap-x-1">
           <!-- 查看 -->
-          <el-button v-perms="SYS_USER_PERMS.QUERY" link type="primary" @click="handleView(row)">
+          <el-button v-perms="SYS_USER_PERMS.QUERY" link type="primary" @click="openUserDetailDialog(row)">
             {{ t('buttons.actionView') }}
           </el-button>
           <!-- 修改 -->

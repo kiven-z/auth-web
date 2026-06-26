@@ -12,36 +12,39 @@ export default [
       showLink: false,
     },
   },
-  // {
-  //   path: '个人中心路径',
-  //   name: '个人中心名称',
-  //   component: null,
-  //   redirect: '/个人中心路径/个人信息',
-  //   meta: {
-  //     icon: '你看应该是什么图标，还是这个不需要图标',
-  //     title: '个人中心',
-  //     rank: 1,
-  //   },
-  //   children: [
-  //     // TODO 个人信息中最下面展示 【我的会话】
-  //     {
-  //       path: '个人信息',
-  //       component: null,
-  //       meta: {
-  //         icon: '你看应该是什么图标，还是这个不需要图标',
-  //         title: '个人信息',
-  //       },
-  //     },
-  //     {
-  //       path: '登录日志',
-  //       component: null,
-  //       meta: {
-  //         icon: '你看应该是什么图标，还是这个不需要图标',
-  //         title: '登录日志',
-  //       },
-  //     },
-  //   ],
-  // },
+  // 个人中心
+  {
+    path: '/account',
+    name: 'Account',
+    component: () => import('@/views/home/account/index.vue'),
+    redirect: '/account/profile',
+    meta: {
+      showLink: false,
+      title: $t('account.title'),
+      icon: 'ri/user-settings-line',
+      rank: 1,
+    },
+    children: [
+      {
+        path: 'profile',
+        name: 'AccountProfile',
+        component: () => import('@/views/home/account/profile/index.vue'),
+        meta: {
+          title: $t('account.profile'),
+          showLink: false,
+        },
+      },
+      {
+        path: 'login-log',
+        name: 'AccountLoginLog',
+        component: () => import('@/views/home/account/login-log/index.vue'),
+        meta: {
+          title: $t('account.loginLog'),
+          showLink: false,
+        },
+      },
+    ],
+  },
   // 全屏403（无权访问）页面
   {
     path: '/access-denied',

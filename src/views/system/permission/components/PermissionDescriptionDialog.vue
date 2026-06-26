@@ -42,10 +42,8 @@ const descriptionColumns = computed(() => [
     <!-- 权限基础信息 -->
     <Description :column="2" :columns="descriptionColumns" :data="[data]" />
 
-    <!-- 关联引用：角色 -->
-    <el-divider />
-
     <!-- 已绑定角色 -->
+    <el-divider />
     <DetailRelationListSection
       :columns="roleColumns"
       :empty-text="t('permissions.bound.roles.empty')"

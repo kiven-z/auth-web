@@ -4,6 +4,7 @@ users:
     create: Add User
     edit: Edit User
     profile: User profile
+    view: View user details
   field:
     username: Username
     nickname: Nickname
@@ -25,6 +26,20 @@ users:
     allDepts: All
   assign:
     current: Current user
+  bound:
+    depts:
+      title: Department assignments
+      empty: No department assignments
+    posts:
+      title: Post assignments
+      empty: No post assignments
+  effective:
+    roles:
+      title: Effective roles
+      empty: No effective roles
+    permissions:
+      title: Effective permissions
+      empty: No effective permissions
   password:
     reset: Reset password
     initial: Initial password

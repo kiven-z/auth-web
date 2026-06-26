@@ -4,6 +4,7 @@ users:
     create: 新增用户
     edit: 编辑用户
     profile: 用户档案
+    view: 查看用户详情
   field:
     username: 用户名
     nickname: 昵称
@@ -25,6 +26,20 @@ users:
     allDepts: 全部
   assign:
     current: 当前用户
+  bound:
+    depts:
+      title: 部门关联
+      empty: 暂无部门关联
+    posts:
+      title: 岗位关联
+      empty: 暂无岗位关联
+  effective:
+    roles:
+      title: 生效角色
+      empty: 暂无生效角色
+    permissions:
+      title: 生效权限
+      empty: 暂无生效权限
   password:
     reset: 修改密码
     initial: 初始密码

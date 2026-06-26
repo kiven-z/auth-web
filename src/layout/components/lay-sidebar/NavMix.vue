@@ -16,6 +16,10 @@ import GlobalizationIcon from '@/assets/svg/globalization.svg?component';
 import Check from '~icons/ep/check';
 import LogoutCircleRLine from '~icons/ri/logout-circle-r-line';
 import Setting from '~icons/ri/settings-3-line';
+import UserSettingsLine from '~icons/ri/user-settings-line';
+import { useAccountNavigation } from '@/shared/composables/layout/useAccountNavigation';
+
+const { openAccount } = useAccountNavigation();
 
 const menuRef = ref();
 const defaultActive = ref(null);
@@ -96,7 +100,7 @@ watch(
       <LaySearch id="header-search" />
       <!-- 国际化 -->
       <el-dropdown id="header-translation" trigger="click">
-        <GlobalizationIcon class="navbar-bg-hover w-[40px] h-[48px] p-[11px] cursor-pointer outline-hidden" />
+        <GlobalizationIcon class="navbar-bg-hover w-10 h-12 p-2.75 cursor-pointer outline-hidden" />
         <template #dropdown>
           <el-dropdown-menu class="translation">
             <el-dropdown-item
@@ -121,11 +125,15 @@ watch(
       <!-- 退出登录 -->
       <el-dropdown trigger="click">
         <span class="el-dropdown-link navbar-bg-hover select-none">
-          <img :src="userAvatar" :style="avatarsStyle" />
+          <img :src="userAvatar" :style="avatarsStyle" alt="avatar" />
           <p v-if="username" class="dark:text-white">{{ username }}</p>
         </span>
         <template #dropdown>
           <el-dropdown-menu class="logout">
+            <el-dropdown-item @click="openAccount">
+              <IconifyIconOffline :icon="UserSettingsLine" style="margin: 5px" />
+              {{ t('account.title') }}
+            </el-dropdown-item>
             <el-dropdown-item @click="logout">
               <IconifyIconOffline :icon="LogoutCircleRLine" style="margin: 5px" />
               {{ t('buttons.pureLoginOut') }}
@@ -157,7 +165,7 @@ watch(
 }
 
 .logout {
-  width: 120px;
+  width: 140px;
 
   ::v-deep(.el-dropdown-menu__item) {
     display: inline-flex;

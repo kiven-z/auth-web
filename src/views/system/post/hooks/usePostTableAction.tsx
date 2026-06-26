@@ -5,7 +5,7 @@ import { addDialog } from '@/components/ui/Dialog';
 import { type FormOverlayExpose, useFormOverlaySubmit } from '@/shared/composables/table/useFormOverlaySubmit';
 import { deleteConfirm } from '@/services/feedback/dialog';
 import { errorMessage, message } from '@/services/feedback/message';
-import PostDetailDialog from '@/views/system/post/components/PostDetailDialog.vue';
+import PostDescriptionDialog from '@/views/system/post/components/PostDescriptionDialog.vue';
 import PostFormDialog from '@/views/system/post/components/PostFormDialog.vue';
 import { h, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
@@ -59,7 +59,7 @@ function usePostTableAction(deps: TableActionDeps) {
         closeOnPressEscape: false,
         closeOnClickModal: false,
         hideFooter: true,
-        contentRenderer: () => h(PostDetailDialog, { data: detail }),
+        contentRenderer: () => h(PostDescriptionDialog, { data: detail }),
       });
     } catch (error: unknown) {
       errorMessage(error, { defaultI18nKey: 'post.messages.loadFailed' });

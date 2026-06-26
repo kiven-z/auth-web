@@ -18,7 +18,19 @@ function useUserTableColumns() {
   const columns = computed<TableColumnList>(() => [
     { type: 'selection', align: 'left' },
     { type: 'index', index: (index: number) => index + 1, label: t('table.idx'), minWidth: 60 },
-    { label: t('users.field.username'), prop: 'username', minWidth: 120, showOverflowTooltip: true },
+    {
+      label: t('users.field.username'),
+      prop: 'username',
+      minWidth: 120,
+      showOverflowTooltip: true,
+      formatter: (row: SysUserPageRow) => (
+        <Perms value={SYS_USER_PERMS.QUERY}>
+          <ElButton link type="primary" onClick={() => selectUserinfo(row.id, row.username)}>
+            {row.username}
+          </ElButton>
+        </Perms>
+      ),
+    },
     { label: t('users.field.nickname'), prop: 'nickname', minWidth: 120, showOverflowTooltip: true },
     {
       label: t('users.field.avatarURL'),

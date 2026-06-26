@@ -1,5 +1,5 @@
 import type { TableActionWithSelectionDeps } from '@/api/common';
-import { getUserProfile } from '@/api/system/user-base';
+import { getUserDetail, getUserProfile } from '@/api/system/user-base';
 import {
   batchUpdateUserStatus,
   createUser,
@@ -10,6 +10,7 @@ import {
 import { addDialog } from '@/components/ui/Dialog';
 import { type FormOverlayExpose, useFormOverlaySubmit } from '@/shared/composables/table/useFormOverlaySubmit';
 import { errorMessage, message } from '@/services/feedback/message';
+import UserDescriptionDialog from '@/views/system/user/components/UserDescriptionDialog.vue';
 import UserFormDialog from '@/views/system/user/components/UserFormDialog.vue';
 import { h, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
@@ -47,6 +48,27 @@ function useUserTableAction(deps: TableActionWithSelectionDeps) {
         },
       }),
     });
+  };
+
+  /**
+   * 查看用户详情
+   * @param row 用户行
+   */
+  const openUserDetailDialog = async (row: SysUserPageRow) => {
+    try {
+      const detail = await getUserDetail(row.id);
+      addDialog({
+        title: t('users.title.view'),
+        draggable: true,
+        fullscreenIcon: true,
+        closeOnPressEscape: false,
+        closeOnClickModal: false,
+        hideFooter: true,
+        contentRenderer: () => h(UserDescriptionDialog, { data: detail }),
+      });
+    } catch (error: unknown) {
+      errorMessage(error, { defaultI18nKey: 'users.message.loadFailed' });
+    }
   };
 
   /**
@@ -103,6 +125,7 @@ function useUserTableAction(deps: TableActionWithSelectionDeps) {
 
   return {
     openCreateDialog,
+    openUserDetailDialog,
     openEditDialog,
     batchUpdateStatus,
   };

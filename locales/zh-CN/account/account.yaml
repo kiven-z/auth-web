@@ -1,0 +1,27 @@
+account:
+  title: 个人中心
+  back: 返回
+  backHome: 回到首页
+  profile: 个人信息
+  loginLog: 登录日志
+  field:
+    username: 用户名
+    nickname: 昵称
+    email: 邮箱
+    phone: 手机号
+    employeeNo: 工号
+    basicInfo: 基本信息
+    security: 安全设置
+  session:
+    title: 活跃会话
+    subtitle: 管理已登录的设备与会话
+    device: 设备
+    region: 登录地区
+    loginAt: 最近活跃
+    current: 当前设备
+    revoke: 下线
+  message:
+    revokeSuccess: 会话已下线
+    loadFailed: 加载数据失败
+  hint:
+    loginLogRetention: 仅展示最近 180 天的登录记录
