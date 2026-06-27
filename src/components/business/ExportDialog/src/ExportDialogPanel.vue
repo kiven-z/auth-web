@@ -1,7 +1,8 @@
 <script lang="ts" setup>
 import type { FormInstance, FormRules } from 'element-plus';
-import { computed, reactive, ref, watch } from 'vue';
+import { computed, reactive, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
+import { message } from '@/services/feedback/message';
 import { DEFAULT_MAX_EXPORT_ROWS } from './constants';
 import type { ExportDialogFormState, ExportDialogPanelExpose, ExportDialogPanelProps, ExportScope } from './types';
 
@@ -28,30 +29,8 @@ const estimatedRowCount = computed(() => {
   return (form.toPage - form.fromPage + 1) * props.pageSize;
 });
 const rowLimitExceeded = computed(() => estimatedRowCount.value > props.maxExportRows);
-const currentPageSummary = computed(() =>
-  t('export.currentPageSummary', { page: props.currentPage, size: props.pageSize })
-);
-const estimatedRowsHint = computed(() =>
-  t('export.estimatedRows', { count: estimatedRowCount.value, max: props.maxExportRows })
-);
 
 const rules = computed<FormRules>(() => ({
-  fromPage: [
-    {
-      validator: (_rule, value: number, callback) => {
-        if (form.exportScope !== 'PAGE_RANGE') {
-          callback();
-          return;
-        }
-        if (value < 1 || value > maxPage.value) {
-          callback(new Error(t('export.pageRangeInvalid')));
-          return;
-        }
-        callback();
-      },
-      trigger: 'change',
-    },
-  ],
   toPage: [
     {
       validator: (_rule, value: number, callback) => {
@@ -59,7 +38,7 @@ const rules = computed<FormRules>(() => ({
           callback();
           return;
         }
-        if (value < form.fromPage || value > maxPage.value) {
+        if (value < form.fromPage) {
           callback(new Error(t('export.pageRangeInvalid')));
           return;
         }
@@ -74,15 +53,6 @@ const rules = computed<FormRules>(() => ({
   ],
 }));
 
-watch(
-  () => props.currentPage,
-  (page) => {
-    form.fromPage = page;
-    form.toPage = page;
-  },
-  { immediate: true }
-);
-
 /**
  * 校验导出表单
  * @returns 校验通过为 `true`
@@ -92,9 +62,7 @@ const validate = async (): Promise<boolean> => {
     return false;
   }
   if (form.exportScope === 'CURRENT_PAGE' && props.pageSize > props.maxExportRows) {
-    return false;
-  }
-  if (form.exportScope === 'PAGE_RANGE' && rowLimitExceeded.value) {
+    message(t('export.rowLimitExceeded', { max: props.maxExportRows }));
     return false;
   }
   const formInstance = formRef.value;
@@ -137,7 +105,7 @@ defineExpose<ExportDialogPanelExpose>({ validate, getFormState });
 
     <!-- 当前页说明 -->
     <p v-if="form.exportScope === 'CURRENT_PAGE'">
-      {{ currentPageSummary }}
+      {{ t('export.currentPageSummary', { page: props.currentPage, size: props.pageSize }) }}
     </p>
 
     <!-- 页码区间 -->
@@ -150,7 +118,7 @@ defineExpose<ExportDialogPanelExpose>({ validate, getFormState });
       <el-form-item :label="t('export.toPage')" prop="toPage">
         <el-input-number v-model="form.toPage" :max="maxPage" :min="1" />
       </el-form-item>
-      <p>{{ estimatedRowsHint }}</p>
+      <p>{{ t('export.estimatedRows', { count: estimatedRowCount, max: props.maxExportRows }) }}</p>
     </template>
   </el-form>
 </template>
