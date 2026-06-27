@@ -1,11 +1,19 @@
-export type { ExportDialogFormState, ExportDialogPanelExpose, ExportDialogPanelProps } from './src/types';
+export { DEFAULT_MAX_EXPORT_ROWS, EXPORT_DIALOG_WIDTH } from './src/constants';
 
-export { default as usePagedTableExport, resolveExportPageParams } from './src/usePagedTableExport';
+export { resolveExportPageParams, toApiScopeQueryFields } from './src/toApiScope';
 
 export type {
+  ExportDialogFormState,
+  ExportDialogPanelExpose,
+  ExportDialogPanelProps,
+  ExportScope,
+  ExportScopeFields,
   PagedTableExportBuildContext,
   PagedTableExportPagination,
+  ResolvedExportPageParams,
   UsePagedTableExportOptions,
-} from './src/usePagedTableExport';
+} from './src/types';
+
+export { default as usePagedTableExport } from './src/usePagedTableExport';
 
 export { default as ExportDialogPanel } from './src/ExportDialogPanel.vue';

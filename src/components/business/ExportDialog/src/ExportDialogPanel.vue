@@ -1,15 +1,19 @@
 <script lang="ts" setup>
-import type { ExportScope } from '@/api/common';
-import { EXPORT_MAX_ROWS } from '@/api/common';
 import type { FormInstance, FormRules } from 'element-plus';
 import { computed, reactive, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
-import type { ExportDialogFormState, ExportDialogPanelExpose, ExportDialogPanelProps } from './types';
+import { DEFAULT_MAX_EXPORT_ROWS } from './constants';
+import type {
+  ExportDialogFormState,
+  ExportDialogPanelExpose,
+  ExportDialogPanelProps,
+  ExportScope,
+} from './types';
 
 defineOptions({ name: 'ExportDialogPanel' });
 
 const props = withDefaults(defineProps<ExportDialogPanelProps>(), {
-  maxExportRows: EXPORT_MAX_ROWS,
+  maxExportRows: DEFAULT_MAX_EXPORT_ROWS,
 });
 
 const { t } = useI18n();
@@ -127,7 +131,7 @@ defineExpose<ExportDialogPanelExpose>({ validate, getFormState });
         <el-radio value="CURRENT_PAGE">{{ t('export.scopeCurrentPage') }}</el-radio>
         <!-- 指定页码范围 -->
         <el-radio value="PAGE_RANGE">{{ t('export.scopePageRange') }}</el-radio>
-        <!-- 全量异步（预留，提示文案未开发功能暂不走 i18n） -->
+        <!-- 全量异步（预留，未开发；提示文案故意不走 i18n） -->
         <el-tooltip content="敬请期待，全量异步导出将在后续版本提供" placement="top">
           <span>
             <el-radio disabled value="FULL_ASYNC">{{ t('export.scopeFullAsync') }}</el-radio>

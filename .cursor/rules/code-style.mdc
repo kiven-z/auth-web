@@ -178,6 +178,9 @@ views文件目录参考：
 ### 示例
 
 ```ts
+/** 导出范围（组件内定义，toApiScope 映射至 @/api/common） */
+export type ExportScope = 'CURRENT_PAGE' | 'PAGE_RANGE' | 'FULL_ASYNC';
+
 /** 导出弹窗表单状态 */
 export interface ExportDialogFormState {
   /** 导出范围 */
@@ -187,7 +190,7 @@ export interface ExportDialogFormState {
 }
 
 /**
- * 根据弹窗选择与分页状态组装导出页码参数
+ * 根据弹窗选择与分页状态组装导出页码参数（见 ExportDialog/src/toApiScope.ts）
  * @param form 弹窗表单
  * @param pagination 列表分页状态
  * @returns 导出范围及后端 pageIndex / pageSize
