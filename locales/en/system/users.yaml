@@ -109,7 +109,7 @@ users:
     currentUserHasNotPostInfo: No post information for this user
     noDeptInfo: No department information for this user
   accountStatus:
-    normal: Active
+    normal: Enabled
     disabled: Disabled
     locked: Locked
   genderLabel:

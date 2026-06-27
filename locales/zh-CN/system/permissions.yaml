@@ -17,7 +17,7 @@ permissions:
   enums:
     status:
       active: 启用
-      inactive: 停用
+      inactive: 禁用
   validation:
     permissionCodeLengthLimit: 权限编码长度不能超过128个字符
     permissionCodeFormat: 权限编码须为全小写 1～3 段（段间冒号），每段为 * 或小写字母开头的标识

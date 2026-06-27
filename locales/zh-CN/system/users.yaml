@@ -109,7 +109,7 @@ users:
     currentUserHasNotPostInfo: 该用户暂无岗位信息
     noDeptInfo: 该用户暂无部门信息
   accountStatus:
-    normal: 正常
+    normal: 启用
     disabled: 禁用
     locked: 锁定
   genderLabel:

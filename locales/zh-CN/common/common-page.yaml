@@ -81,7 +81,7 @@ buttons:
   actionBatchStatus: 修改状态
   actionBatchEnable: 批量启用
   actionBatchLock: 批量锁定
-  actionBatchDisable: 批量停用
+  actionBatchDisable: 批量禁用
   actionAdvanced: 高级功能
   actionAdvancedSearch: 高级搜索
   actionCollapseSearch: 收起
@@ -92,7 +92,7 @@ buttons:
   fixedText: 固定
   unFixedText: 不固定
   statusActiveText: 启用
-  statusInactiveText: 停用
+  statusInactiveText: 禁用
   assignClearAll: 全部清空
 assign:
   role: 分配角色

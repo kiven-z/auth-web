@@ -22,7 +22,7 @@ dept:
     parentTopLevel: 顶级部门
   enum:
     status:
-      normal: 正常
+      normal: 启用
       disabled: 禁用
   action:
     addChild: 新增下级

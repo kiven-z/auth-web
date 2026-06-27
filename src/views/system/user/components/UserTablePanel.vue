@@ -38,11 +38,11 @@ const { openCreateDialog, openUserDetailDialog, openEditDialog, batchUpdateStatu
 
 const { exporting, openExportDialog, openImportDialog, deleteBatchRows, batchKickAll, batchRefreshAuth } =
   useUserAdvanceAction({
-  fetchTableData: fetchUserTable,
-  selectedRows,
-  searchForm,
-  pagination,
-});
+    fetchTableData: fetchUserTable,
+    selectedRows,
+    searchForm,
+    pagination,
+  });
 
 const {
   openAssignDeptDrawer,

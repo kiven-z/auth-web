@@ -19,7 +19,7 @@ post:
     isPrimaryPosition: 是否主岗位
   enums:
     status:
-      normal: 正常
+      normal: 启用
       disabled: 禁用
     primary:
       yes: 主岗位
