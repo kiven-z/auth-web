@@ -3,11 +3,11 @@
  */
 export const SYS_AUTH_INVALIDATION_EVENT_PERMS = {
   /** 分页查询 */
-  QUERY: 'sysAuthInvalidationEvent:query',
+  QUERY: 'ops:invalidationevent:query',
   /** 事件详情 */
-  DETAIL: 'sysAuthInvalidationEvent:detail',
+  DETAIL: 'ops:invalidationevent:detail',
   /** 释放 processing 占位 */
-  RELEASE_CLAIM: 'sysAuthInvalidationEvent:releaseClaim',
+  RELEASE_CLAIM: 'ops:invalidationevent:releaseclaim',
 } as const;
 
 /**
@@ -16,9 +16,9 @@ export const SYS_AUTH_INVALIDATION_EVENT_PERMS = {
  */
 export const SYS_AUTH_INVALIDATION_OUTBOX_PERMS = {
   /** 分页查询、运维统计摘要 */
-  QUERY: 'sysAuthInvalidationOutbox:query',
+  QUERY: 'ops:invalidationoutbox:query',
   /** Outbox 详情 */
-  DETAIL: 'sysAuthInvalidationOutbox:detail',
+  DETAIL: 'ops:invalidationoutbox:detail',
   /** 人工重试投递 */
-  RETRY: 'sysAuthInvalidationOutbox:retry',
+  RETRY: 'ops:invalidationoutbox:retry',
 } as const;

@@ -3,17 +3,17 @@
  */
 export const SYS_PERMISSION_PERMS = {
   /** 分页查询 */
-  QUERY: 'sysPermission:query',
+  QUERY: 'sys:permission:query',
   /** 查看详情 */
-  DETAIL: 'sysPermission:detail',
+  DETAIL: 'sys:permission:detail',
   /** 新增 */
-  CREATE: 'sysPermission:create',
+  CREATE: 'sys:permission:create',
   /** 编辑 */
-  UPDATE: 'sysPermission:update',
+  UPDATE: 'sys:permission:update',
   /** 删除 */
-  DELETE: 'sysPermission:delete',
+  DELETE: 'sys:permission:delete',
   /** Excel 导出 */
-  EXPORT: 'sysPermission:export',
+  EXPORT: 'sys:permission:export',
   /** Excel 导入、导入模板下载 */
-  IMPORT: 'sysPermission:import',
+  IMPORT: 'sys:permission:import',
 } as const;

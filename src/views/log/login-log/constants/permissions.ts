@@ -3,9 +3,9 @@
  */
 export const SYS_LOG_LOGIN_PERMS = {
   /** 分页查询 */
-  QUERY: 'sysLogLogin:query',
+  QUERY: 'log:login:query',
   /** 登录日志详情 */
-  DETAIL: 'sysLogLogin:detail',
+  DETAIL: 'log:login:detail',
   /** 批量删除、单条删除 */
-  DELETE: 'sysLogLogin:delete',
+  DELETE: 'log:login:delete',
 } as const;

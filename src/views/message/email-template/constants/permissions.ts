@@ -3,13 +3,13 @@
  */
 export const EMAIL_TEMPLATE_PERMS = {
   /** 分页查询 */
-  QUERY: 'emailTemplate:query',
+  QUERY: 'message:template:query',
   /** 详情、预览、离线渲染 */
-  DETAIL: 'emailTemplate:detail',
+  DETAIL: 'message:template:detail',
   /** 新增 */
-  CREATE: 'emailTemplate:create',
+  CREATE: 'message:template:create',
   /** 编辑、批量启停、测试发送、正文与变量维护 */
-  UPDATE: 'emailTemplate:update',
+  UPDATE: 'message:template:update',
   /** 删除 */
-  DELETE: 'emailTemplate:delete',
+  DELETE: 'message:template:delete',
 } as const;

@@ -3,9 +3,9 @@
  */
 export const SYS_JOB_LOG_PERMS = {
   /** 分页查询 */
-  QUERY: 'sysJobLog:query',
+  QUERY: 'schedule:joblog:query',
   /** 日志详情 */
-  DETAIL: 'sysJobLog:detail',
+  DETAIL: 'schedule:joblog:detail',
   /** 批量删除、单条删除 */
-  DELETE: 'sysJobLog:delete',
+  DELETE: 'schedule:joblog:delete',
 } as const;

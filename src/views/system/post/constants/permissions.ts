@@ -3,15 +3,15 @@
  */
 export const SYS_POST_PERMS = {
   /** 分页查询、详情、关键词搜索、已分配角色查询 */
-  QUERY: 'sysPost:query',
+  QUERY: 'sys:post:query',
   /** 新增 */
-  CREATE: 'sysPost:create',
+  CREATE: 'sys:post:create',
   /** 编辑、分配角色 */
-  UPDATE: 'sysPost:update',
+  UPDATE: 'sys:post:update',
   /** 删除 */
-  DELETE: 'sysPost:delete',
+  DELETE: 'sys:post:delete',
   /** Excel 导出 */
-  EXPORT: 'sysPost:export',
+  EXPORT: 'sys:post:export',
   /** Excel 导入、导入模板下载 */
-  IMPORT: 'sysPost:import',
+  IMPORT: 'sys:post:import',
 } as const;

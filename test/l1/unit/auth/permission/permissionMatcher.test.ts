@@ -6,7 +6,7 @@ describe('permissionMatcher', () => {
     expect(isAdminPermission(['*'])).toBe(true);
     expect(isAdminPermission(['*:*', 'sys:user:add'])).toBe(true);
     expect(isAdminPermission(['sys:user:add'])).toBe(false);
-    expect(satisfiesAllRequired(['sysDept:diagnose'], ['*', '*:*', '*:*:*'])).toBe(true);
+    expect(satisfiesAllRequired(['sys:dept:diagnose'], ['*', '*:*', '*:*:*'])).toBe(true);
   });
 
   it('matches segment wildcards like backend PermissionMatcher', () => {

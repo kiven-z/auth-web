@@ -3,9 +3,9 @@
  */
 export const SYS_LOG_AUTHORIZATION_AUDIT_PERMS = {
   /** 分页查询 */
-  QUERY: 'sysLogAuthorizationAudit:query',
+  QUERY: 'log:authaudit:query',
   /** 权限决策审计详情 */
-  DETAIL: 'sysLogAuthorizationAudit:detail',
+  DETAIL: 'log:authaudit:detail',
   /** 批量删除、单条删除 */
-  DELETE: 'sysLogAuthorizationAudit:delete',
+  DELETE: 'log:authaudit:delete',
 } as const;

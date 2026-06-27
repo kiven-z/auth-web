@@ -6,15 +6,15 @@ import { SYS_SESSION_PERMS } from '@/views/system/_shared/constants/session-perm
  */
 export const SYS_USER_PERMS = {
   /** 分页查询、用户档案查看 */
-  QUERY: 'sysUser:query',
+  QUERY: 'sys:user:query',
   /** 新增用户 */
-  CREATE: 'sysUser:create',
+  CREATE: 'sys:user:create',
   /** 编辑、批量状态、管理员重置密码 */
-  UPDATE: 'sysUser:update',
+  UPDATE: 'sys:user:update',
   /** 删除用户 */
-  DELETE: 'sysUser:delete',
+  DELETE: 'sys:user:delete',
   /** Excel 导出 */
-  EXPORT: 'sysUser:export',
+  EXPORT: 'sys:user:export',
   ...SYS_SESSION_PERMS,
   /** 刷新用户授权画像缓存 */
   AUTH_REFRESH: 'ADMIN',
@@ -25,9 +25,9 @@ export const SYS_USER_PERMS = {
  */
 export const SYS_USER_ROLE_PERMS = {
   /** 查询已分配角色 */
-  QUERY: 'sysUserRole:query',
+  QUERY: 'sys:userrole:query',
   /** 保存角色分配 */
-  UPDATE: 'sysUserRole:update',
+  UPDATE: 'sys:userrole:update',
 } as const;
 
 /**
@@ -35,13 +35,13 @@ export const SYS_USER_ROLE_PERMS = {
  */
 export const SYS_USER_DEPT_PERMS = {
   /** 分页查询用户部门关联 */
-  QUERY: 'sysUserDept:query',
+  QUERY: 'sys:userdept:query',
   /** 新增用户部门关联 */
-  CREATE: 'sysUserDept:create',
+  CREATE: 'sys:userdept:create',
   /** 更新用户部门关联 */
-  UPDATE: 'sysUserDept:update',
+  UPDATE: 'sys:userdept:update',
   /** 删除用户部门关联、清空全部 */
-  DELETE: 'sysUserDept:delete',
+  DELETE: 'sys:userdept:delete',
 } as const;
 
 /**
@@ -49,11 +49,11 @@ export const SYS_USER_DEPT_PERMS = {
  */
 export const SYS_USER_POST_PERMS = {
   /** 分页查询用户岗位关联 */
-  QUERY: 'sysUserPost:query',
+  QUERY: 'sys:userpost:query',
   /** 新增用户岗位关联 */
-  CREATE: 'sysUserPost:create',
+  CREATE: 'sys:userpost:create',
   /** 更新用户岗位关联 */
-  UPDATE: 'sysUserPost:update',
+  UPDATE: 'sys:userpost:update',
   /** 删除用户岗位关联、清空全部 */
-  DELETE: 'sysUserPost:delete',
+  DELETE: 'sys:userpost:delete',
 } as const;

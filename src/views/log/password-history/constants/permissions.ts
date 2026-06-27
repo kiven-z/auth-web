@@ -3,9 +3,9 @@
  */
 export const SYS_LOG_PASSWORD_HISTORY_PERMS = {
   /** 分页查询 */
-  QUERY: 'sysLogPasswordHistory:query',
+  QUERY: 'log:passwordhistory:query',
   /** 密码历史详情 */
-  DETAIL: 'sysLogPasswordHistory:detail',
+  DETAIL: 'log:passwordhistory:detail',
   /** 批量删除、单条删除 */
-  DELETE: 'sysLogPasswordHistory:delete',
+  DELETE: 'log:passwordhistory:delete',
 } as const;
