@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import { getUserProfile, type SysUserProfileResponse } from '@/api/system/user-base';
 import { listMySessions, type MeUserSession } from '@/api/system/user-me';
+import { readStoredUserProfileEntry, writeUserProfileToStorage } from '@/core/session/userProfileStorage';
 import { errorMessage } from '@/services/feedback/message';
 import { useUserStoreHook } from '@/store/modules/user';
 import { onMounted, ref } from 'vue';
@@ -40,6 +41,45 @@ async function loadProfileData() {
   }
 }
 
+/**
+ * 资料保存成功后合并本地档案、同步 Store 与缓存，并刷新会话列表
+ */
+async function handleProfileSaved(updated: Partial<SysUserProfileResponse>) {
+  if (!profile.value) {
+    return;
+  }
+
+  profile.value = { ...profile.value, ...updated };
+
+  if (updated.nickname !== undefined) {
+    userStore.SET_NICKNAME(updated.nickname);
+  }
+  if (updated.avatar !== undefined) {
+    userStore.SET_AVATAR(updated.avatar);
+  }
+
+  const stored = readStoredUserProfileEntry();
+  if (stored) {
+    writeUserProfileToStorage(
+      {
+        avatar: userStore.avatar,
+        username: stored.username ?? userStore.username,
+        nickname: userStore.nickname,
+        roles: stored.roles ?? userStore.roles,
+        permissions: stored.permissions ?? userStore.permissions,
+        userId: stored.userId ?? userStore.userId,
+      },
+      stored.expires ?? 0
+    );
+  }
+
+  try {
+    sessions.value = await listMySessions();
+  } catch (error: unknown) {
+    errorMessage(error, { defaultI18nKey: 'account.message.loadFailed' });
+  }
+}
+
 onMounted(() => {
   loadProfileData();
 });
@@ -54,7 +94,7 @@ onMounted(() => {
       </el-collapse-item>
 
       <el-collapse-item :title="t('account.field.basicInfo')" name="basic">
-        <ProfileBasicInfoCard v-if="profile" :profile="profile" />
+        <ProfileBasicInfoCard v-if="profile" :profile="profile" @saved="handleProfileSaved" />
         <el-empty v-else-if="!loading" :description="t('account.message.loadFailed')" />
       </el-collapse-item>
 

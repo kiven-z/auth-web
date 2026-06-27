@@ -32,6 +32,19 @@ export interface MeLoginLogPageQuery {
 }
 
 /**
+ * 当前用户资料更新请求（对齐 {@code MeProfileUpdateForm}）
+ */
+export interface MeProfileUpdateRequest {
+  nickname: string;
+  email: string;
+  phone: string;
+  gender?: number | null;
+  birthday?: string | null;
+  introduction?: string | null;
+  avatar?: string | null;
+}
+
+/**
  * 个人中心登录日志分页行（对齐 {@code MeLoginLogPageVO}）
  */
 export interface MeLoginLogPageRow {
@@ -39,6 +52,14 @@ export interface MeLoginLogPageRow {
   loginRegion?: string | null;
   loginResult: number;
   loginType?: string | null;
+}
+
+/**
+ * 更新当前用户个人资料
+ * @param data 资料更新表单
+ */
+export function updateMyProfile(data: MeProfileUpdateRequest): Promise<string> {
+  return http.request<string>('put', '/system/user/me/profile', { data });
 }
 
 /**
