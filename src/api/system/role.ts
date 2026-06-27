@@ -1,9 +1,18 @@
 import type { AxiosRequestConfig } from 'axios';
 
-import type { BaseResponse, BaseResponsePageRow, ExportScopeQueryFields, PageResponse, SortSpec } from '@/api/common';
+import type {
+  BaseResponse,
+  BaseResponsePageRow,
+  ExportScopeQueryFields,
+  PageResponse,
+  SortSpec,
+  SpreadsheetImportResult,
+} from '@/api/common';
 import { mergePagedExportParams } from '@/api/common';
 import type { DeptReference, PermissionReference, PostReference, UserReference } from '@/api/system/grant-table';
 import { http } from '@/core/http';
+
+export type { SpreadsheetImportResult };
 
 /**
  * 角色分页查询参数（对齐 {@code SysRoleQuery}）
@@ -162,4 +171,26 @@ export function assignRolePermissions(roleId: string, data: SysRolePermissionAss
   return http.post<void, SysRolePermissionAssignRequest>(`/system/role/${roleId}/permissions`, {
     data,
   });
+}
+
+/**
+ * 导入角色 Excel（multipart/form-data）
+ * @param file 上传的 Excel 文件
+ * @returns 导入结果
+ */
+export function importRoleExcel(file: File): Promise<SpreadsheetImportResult> {
+  const formData = new FormData();
+  formData.append('file', file);
+  return http.post<SpreadsheetImportResult, FormData>('/system/role/import', {
+    data: formData,
+    headers: { 'Content-Type': 'multipart/form-data' },
+  });
+}
+
+/**
+ * 下载角色导入模板
+ * @returns 模板 Blob
+ */
+export function downloadRoleImportTemplate(): Promise<Blob> {
+  return http.get<Blob, unknown>('/system/role/import/template', { responseType: 'blob' });
 }

@@ -286,5 +286,5 @@ export function importDeptExcel(file: File): Promise<SpreadsheetImportResult> {
  * @returns 模板 Blob
  */
 export function downloadDeptImportTemplate(): Promise<Blob> {
-  return http.get<Blob, unknown>('/system/dept/import/template', {}, { responseType: 'blob' });
+  return http.get<Blob, unknown>('/system/dept/import/template', { responseType: 'blob' });
 }

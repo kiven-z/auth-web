@@ -35,7 +35,11 @@ const roleState = usePaginationState({
 
 const { loading, searchForm, pagination, fetchTableData, resetQuery } = roleState;
 
-const { exporting, openExportDialog } = useRoleAdvanceAction({ searchForm, pagination });
+const { exporting, openExportDialog, openImportDialog } = useRoleAdvanceAction({
+  searchForm,
+  pagination,
+  fetchTableData,
+});
 
 const { openCreateDialog, openDetailDialog, openEditDialog, deleteRow } = useRoleTableAction({
   fetchTableData,
@@ -112,7 +116,12 @@ onMounted(() => {
               {{ t('buttons.actionAdvanced') }}
             </el-button>
             <template #dropdown>
-              <el-dropdown-item disabled>从 Excel 导入（敬请期待）</el-dropdown-item>
+              <!-- 从 Excel 导入 -->
+              <Perms :value="SYS_ROLE_PERMS.IMPORT">
+                <el-dropdown-item @click="openImportDialog">
+                  {{ t('buttons.importExcel') }}
+                </el-dropdown-item>
+              </Perms>
               <Perms :value="SYS_ROLE_PERMS.EXPORT">
                 <el-dropdown-item :disabled="exporting" @click="openExportDialog">
                   {{ t('buttons.exportExcel') }}

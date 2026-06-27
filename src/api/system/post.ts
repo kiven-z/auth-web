@@ -206,7 +206,7 @@ export function importPostExcel(file: File): Promise<SpreadsheetImportResult> {
  * @returns 模板 Blob
  */
 export function downloadPostImportTemplate(): Promise<Blob> {
-  return http.get<Blob, unknown>('/system/post/import/template', {}, { responseType: 'blob' });
+  return http.get<Blob, unknown>('/system/post/import/template', { responseType: 'blob' });
 }
 
 export type { TableActionDeps };

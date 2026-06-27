@@ -14,4 +14,6 @@ export const SYS_ROLE_PERMS = {
   DELETE: 'sysRole:delete',
   /** Excel 导出 */
   EXPORT: 'sysRole:export',
+  /** Excel 导入、导入模板下载 */
+  IMPORT: 'sysRole:import',
 } as const;
