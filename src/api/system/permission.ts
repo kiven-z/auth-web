@@ -6,10 +6,13 @@ import type {
   ExportScopeQueryFields,
   PageResponse,
   SortSpec,
+  SpreadsheetImportResult,
 } from '@/api/common';
 import { mergePagedExportParams } from '@/api/common';
 import type { RoleReference } from '@/api/system/grant-table';
 import { http } from '@/core/http';
+
+export type { SpreadsheetImportResult };
 
 /**
  * 权限分页查询参数
@@ -127,4 +130,26 @@ export function getPermissionDetail(id: string): Promise<SysPermissionDetail> {
  */
 export function deletePermission(id: string): Promise<void> {
   return http.request<void>('delete', `/system/permission/${id}`);
+}
+
+/**
+ * 导入权限 Excel（multipart/form-data）
+ * @param file 上传的 Excel 文件
+ * @returns 导入结果
+ */
+export function importPermissionExcel(file: File): Promise<SpreadsheetImportResult> {
+  const formData = new FormData();
+  formData.append('file', file);
+  return http.post<SpreadsheetImportResult, FormData>('/system/permission/import', {
+    data: formData,
+    headers: { 'Content-Type': 'multipart/form-data' },
+  });
+}
+
+/**
+ * 下载权限导入模板
+ * @returns 模板 Blob
+ */
+export function downloadPermissionImportTemplate(): Promise<Blob> {
+  return http.get<Blob, unknown>('/system/permission/import/template', { responseType: 'blob' });
 }

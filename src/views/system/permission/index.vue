@@ -34,7 +34,11 @@ const permissionState = usePaginationState({
 
 const { loading, searchForm, pagination, fetchTableData, resetQuery } = permissionState;
 
-const { exporting, openExportDialog } = usePermissionAdvanceAction({ searchForm, pagination });
+const { exporting, openExportDialog, openImportDialog } = usePermissionAdvanceAction({
+  searchForm,
+  pagination,
+  fetchTableData,
+});
 
 const { openCreateDialog, openDetailDialog, openEditDialog, deleteRow } = usePermissionTableAction({ fetchTableData });
 
@@ -107,7 +111,12 @@ onMounted(() => {
               {{ t('buttons.actionAdvanced') }}
             </el-button>
             <template #dropdown>
-              <el-dropdown-item disabled>从 Excel 导入（敬请期待）</el-dropdown-item>
+              <!-- 从 Excel 导入 -->
+              <Perms :value="SYS_PERMISSION_PERMS.IMPORT">
+                <el-dropdown-item @click="openImportDialog">
+                  {{ t('buttons.importExcel') }}
+                </el-dropdown-item>
+              </Perms>
               <Perms :value="SYS_PERMISSION_PERMS.EXPORT">
                 <el-dropdown-item :disabled="exporting" @click="openExportDialog">
                   {{ t('buttons.exportExcel') }}

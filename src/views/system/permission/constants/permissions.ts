@@ -14,4 +14,6 @@ export const SYS_PERMISSION_PERMS = {
   DELETE: 'sysPermission:delete',
   /** Excel 导出 */
   EXPORT: 'sysPermission:export',
+  /** Excel 导入、导入模板下载 */
+  IMPORT: 'sysPermission:import',
 } as const;
