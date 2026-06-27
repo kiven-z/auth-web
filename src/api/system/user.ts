@@ -1,4 +1,4 @@
-import type { BaseResponsePageRow, ExportScopeQueryFields, PageResponse } from '@/api/common';
+import type { BaseResponsePageRow, ExportScopeQueryFields, PageResponse, SpreadsheetImportResult } from '@/api/common';
 import { mergePagedExportParams } from '@/api/common';
 import { http } from '@/core/http';
 import type { AxiosRequestConfig } from 'axios';
@@ -54,6 +54,28 @@ export function exportUserExcel(filter: SysUserPageQuery, scope: ExportScopeQuer
     { params: mergePagedExportParams(filter, scope) },
     { responseType: 'blob' }
   );
+}
+
+/**
+ * 上传用户 Excel 批量导入
+ * @param file Excel 文件
+ * @returns 导入结果
+ */
+export function importUserExcel(file: File): Promise<SpreadsheetImportResult> {
+  const formData = new FormData();
+  formData.append('file', file);
+  return http.post<SpreadsheetImportResult, FormData>('/system/user/import', {
+    data: formData,
+    headers: { 'Content-Type': 'multipart/form-data' },
+  });
+}
+
+/**
+ * 下载用户导入模板
+ * @returns 模板 Blob
+ */
+export function downloadUserImportTemplate(): Promise<Blob> {
+  return http.get<Blob, unknown>('/system/user/import/template', { responseType: 'blob' });
 }
 
 /**

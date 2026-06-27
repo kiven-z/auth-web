@@ -36,7 +36,8 @@ const { openCreateDialog, openUserDetailDialog, openEditDialog, batchUpdateStatu
   selectedRows,
 });
 
-const { exporting, openExportDialog, deleteBatchRows, batchKickAll, batchRefreshAuth } = useUserAdvanceAction({
+const { exporting, openExportDialog, openImportDialog, deleteBatchRows, batchKickAll, batchRefreshAuth } =
+  useUserAdvanceAction({
   fetchTableData: fetchUserTable,
   selectedRows,
   searchForm,
@@ -174,7 +175,11 @@ const hasSelection = computed(() => selectedRows.value.length > 0);
           <el-dropdown trigger="click">
             <el-button type="danger">{{ t('buttons.actionAdvanced') }}</el-button>
             <template #dropdown>
-              <el-dropdown-item disabled>从 Excel 导入（敬请期待）</el-dropdown-item>
+              <Perms :value="SYS_USER_PERMS.IMPORT">
+                <el-dropdown-item @click="openImportDialog()">
+                  {{ t('buttons.importExcel') }}
+                </el-dropdown-item>
+              </Perms>
               <Perms :value="SYS_USER_PERMS.EXPORT">
                 <el-dropdown-item :disabled="exporting" @click="openExportDialog">
                   {{ t('buttons.exportExcel') }}

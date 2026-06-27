@@ -15,6 +15,8 @@ export const SYS_USER_PERMS = {
   DELETE: 'sys:user:delete',
   /** Excel 导出 */
   EXPORT: 'sys:user:export',
+  /** Excel 导入 */
+  IMPORT: 'sys:user:import',
   ...SYS_SESSION_PERMS,
   /** 刷新用户授权画像缓存 */
   AUTH_REFRESH: 'ADMIN',

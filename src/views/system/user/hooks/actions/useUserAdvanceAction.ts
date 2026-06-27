@@ -1,8 +1,16 @@
 import type { TableActionWithSelectionDeps } from '@/api/common';
 import { batchKickAllUserSessions } from '@/api/auth/session';
-import { deleteUsers, exportUserExcel, refreshUserAuthorization, type SysUserPageQuery } from '@/api/system/user';
+import {
+  deleteUsers,
+  downloadUserImportTemplate,
+  exportUserExcel,
+  importUserExcel,
+  refreshUserAuthorization,
+  type SysUserPageQuery,
+} from '@/api/system/user';
 import { usePagedTableExport } from '@/components/business/ExportDialog';
 import useBatchDeleteAction from '@/shared/composables/table/useBatchDeleteAction';
+import useSpreadsheetImportAction from '@/views/system/_shared/hooks/useSpreadsheetImportAction';
 import { operationConfirm } from '@/services/feedback/dialog';
 import { errorMessage, message } from '@/services/feedback/message';
 import { useI18n } from 'vue-i18n';
@@ -25,6 +33,13 @@ export interface UseUserAdvanceActionOptions extends TableActionWithSelectionDep
 function useUserAdvanceAction(options: UseUserAdvanceActionOptions) {
   const { fetchTableData, selectedRows, searchForm, pagination } = options;
   const { t } = useI18n();
+
+  const { openImportDialog } = useSpreadsheetImportAction({
+    onImport: importUserExcel,
+    onDownloadTemplate: downloadUserImportTemplate,
+    templateFilename: 'user_import_template.xlsx',
+    onSuccess: fetchTableData,
+  });
 
   const { deleteBatchRows } = useBatchDeleteAction({
     selectedRows,
@@ -98,6 +113,7 @@ function useUserAdvanceAction(options: UseUserAdvanceActionOptions) {
   return {
     exporting,
     openExportDialog,
+    openImportDialog,
     deleteBatchRows,
     batchKickAll,
     batchRefreshAuth,
