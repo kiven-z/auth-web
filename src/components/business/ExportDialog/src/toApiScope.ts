@@ -1,10 +1,14 @@
 import type { ExportScopeQueryFields } from '@/api/common';
-import type {
-  ExportDialogFormState,
-  ExportScopeFields,
-  PagedTableExportPagination,
-  ResolvedExportPageParams,
-} from './types';
+import type { ExportDialogFormState, ExportScope, ExportScopeFields, PagedTableExportPagination } from './types';
+
+/** 弹窗选择解析后的导出分页参数 */
+interface ResolvedExportPageParams {
+  exportScope: ExportScope;
+  pageIndex: number;
+  pageSize: number;
+  fromPage: number;
+  toPage: number;
+}
 
 /**
  * 根据弹窗选择与分页状态组装导出页码参数

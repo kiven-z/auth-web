@@ -3,12 +3,7 @@ import type { FormInstance, FormRules } from 'element-plus';
 import { computed, reactive, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { DEFAULT_MAX_EXPORT_ROWS } from './constants';
-import type {
-  ExportDialogFormState,
-  ExportDialogPanelExpose,
-  ExportDialogPanelProps,
-  ExportScope,
-} from './types';
+import type { ExportDialogFormState, ExportDialogPanelExpose, ExportDialogPanelProps, ExportScope } from './types';
 
 defineOptions({ name: 'ExportDialogPanel' });
 

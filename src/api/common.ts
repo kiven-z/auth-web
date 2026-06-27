@@ -44,11 +44,6 @@ export function mergePagedExportParams<TFilter extends object>(
 }
 
 /**
- * 同步导出最大行数（与后端 ExportLimits.MAX_EXPORT_ROWS 一致）
- */
-export const EXPORT_MAX_ROWS = 1000;
-
-/**
  * 与后端 PageResponse<T> 一致
  */
 export interface PageResponse<T> {

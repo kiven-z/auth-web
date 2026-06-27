@@ -68,17 +68,3 @@ export interface UsePagedTableExportOptions<TFilter extends object> {
   /** 单次导出最大行数，默认 1000 */
   maxExportRows?: number;
 }
-
-/** 弹窗选择解析后的导出分页参数 */
-export interface ResolvedExportPageParams {
-  /** 导出范围 */
-  exportScope: ExportScope;
-  /** 列表请求页码（1-based） */
-  pageIndex: number;
-  /** 每页条数 */
-  pageSize: number;
-  /** 起始页码（1-based，含） */
-  fromPage: number;
-  /** 结束页码（1-based，含） */
-  toPage: number;
-}
