@@ -1,5 +1,5 @@
 import type { TableActionDeps } from '@/api/common';
-import type { SysPostCreateForm, SysPostPageRow } from '@/api/system/post';
+import type { SysPostCreateForm, SysPostPageRow, SysPostUpdateForm } from '@/api/system/post';
 import { createPost, deletePost, getPostDetail, updatePost } from '@/api/system/post';
 import { addDialog } from '@/components/ui/Dialog';
 import { type FormOverlayExpose, useFormOverlaySubmit } from '@/shared/composables/table/useFormOverlaySubmit';
@@ -73,7 +73,7 @@ function usePostTableAction(deps: TableActionDeps) {
   const openEditDialog = async (row: SysPostPageRow) => {
     try {
       const detail = await getPostDetail(row.id);
-      const dialogFormRef = ref<FormOverlayExpose<SysPostCreateForm> | null>(null);
+      const dialogFormRef = ref<FormOverlayExpose<SysPostUpdateForm> | null>(null);
 
       addDialog({
         title: t('post.dialog.edit'),
@@ -82,12 +82,13 @@ function usePostTableAction(deps: TableActionDeps) {
         closeOnClickModal: false,
         closeOnPressEscape: false,
         contentRenderer: () => h(PostFormDialog, { ref: dialogFormRef, form: detail }),
-        beforeSure: createFormBeforeSure<SysPostCreateForm>({
+        beforeSure: createFormBeforeSure<SysPostUpdateForm>({
           formExposeRef: dialogFormRef,
           errorI18nKey: 'post.messages.loadFailed',
           successI18nKey: 'tips.editSuccess',
+          requireId: true,
           onSubmit: async (formData) => {
-            await updatePost(row.id, formData);
+            await updatePost(formData);
             await fetchTableData();
           },
         }),

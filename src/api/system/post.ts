@@ -155,11 +155,10 @@ export function createPost(data: SysPostCreateForm): Promise<void> {
 
 /**
  * 更新岗位
- * @param id 岗位主键
- * @param data 保存表单
+ * @param data 岗位更新表单（须含 id）
  */
-export function updatePost(id: string, data: SysPostCreateForm): Promise<void> {
-  return http.put<void, SysPostCreateForm>(`/system/post/${id}`, { data });
+export function updatePost(data: SysPostUpdateForm): Promise<void> {
+  return http.put<void, SysPostUpdateForm>('/system/post', { data });
 }
 
 /**
