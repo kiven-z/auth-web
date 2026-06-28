@@ -1,3 +1,4 @@
+import { DISPLAY_DATETIME_FORMAT } from '@/shared/utils/dateTime';
 import dayjs from 'dayjs';
 /**
  * 将毫秒时间戳格式化为展示文案
@@ -5,7 +6,7 @@ import dayjs from 'dayjs';
  * @param pattern 格式，默认 YYYY-MM-DD HH:mm:ss
  * @returns 展示文案，无效值返回 —
  */
-export function formatMillisTimestamp(value: number | null | undefined, pattern = 'YYYY-MM-DD HH:mm:ss'): string {
+export function formatMillisTimestamp(value: number | null | undefined, pattern = DISPLAY_DATETIME_FORMAT): string {
   if (value == null || value <= 0) {
     return '-';
   }

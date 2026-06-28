@@ -43,6 +43,9 @@ import:
   importFailureWithRows: 导入失败，请修正后重试（共 {count} 行错误）
   errorRowIndex: 行号
   errorMessage: 错误信息
+  downloadErrorReport: 下载错误报告
+  clearErrors: 清空错误
+  errorsCleared: 已清空错误记录
   templateDownloadFailed: 模板下载失败
   importFailed: 导入请求失败
   fileRequired: 请先选择要上传的文件

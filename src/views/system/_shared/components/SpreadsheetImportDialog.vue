@@ -3,6 +3,8 @@ import type { SpreadsheetImportResult } from '@/api/common';
 import AuthDataTable from '@/components/ui/AuthDataTable';
 import { errorMessage, message } from '@/services/feedback/message';
 import { downloadBlob } from '@/shared/utils/fileDownload';
+import { buildExportFilenameStamp } from '@/shared/utils/dateTime';
+import { buildImportErrorReportFilename, downloadImportErrorsExcel } from '@/shared/utils/spreadsheetExport';
 import type { UploadFile, UploadInstance, UploadProps, UploadRawFile } from 'element-plus';
 import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
@@ -103,6 +105,29 @@ async function handleImport() {
 }
 
 /**
+ * 点击「下载错误报告」
+ */
+function handleDownloadErrorReport() {
+  if (!importResult.value?.errors.length) {
+    return;
+  }
+  const stamp = buildExportFilenameStamp();
+  const filename = buildImportErrorReportFilename(props.templateFilename, stamp);
+  downloadImportErrorsExcel(importResult.value.errors, filename, [
+    { header: t('import.errorRowIndex'), key: 'rowIndex' },
+    { header: t('import.errorMessage'), key: 'message' },
+  ]);
+}
+
+/**
+ * 点击「清空错误」
+ */
+function handleClearErrors() {
+  importResult.value = null;
+  message(t('import.errorsCleared'), { type: 'info' });
+}
+
+/**
  * 点击「下载模板」
  */
 async function handleDownloadTemplate() {
@@ -150,6 +175,14 @@ defineExpose<SpreadsheetImportDialogExpose>({ submitImport: handleImport });
     <!-- 导入结果：行级错误 -->
     <template v-if="importResult && !importResult.success">
       <el-divider>{{ t('import.importFailureWithRows', { count: importResult.errors.length }) }}</el-divider>
+      <div class="spreadsheet-import-dialog__error-actions">
+        <el-button size="small" type="primary" @click="handleDownloadErrorReport">
+          {{ t('import.downloadErrorReport') }}
+        </el-button>
+        <el-button size="small" @click="handleClearErrors">
+          {{ t('import.clearErrors') }}
+        </el-button>
+      </div>
       <AuthDataTable
         :adaptive="false"
         :columns="errorColumns"

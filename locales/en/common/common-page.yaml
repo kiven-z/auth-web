@@ -43,6 +43,9 @@ import:
   importFailureWithRows: Import failed. Please fix and retry ({count} rows with errors).
   errorRowIndex: Row
   errorMessage: Error
+  downloadErrorReport: Download Error Report
+  clearErrors: Clear Errors
+  errorsCleared: Error records cleared
   templateDownloadFailed: Failed to download template
   importFailed: Import request failed
   fileRequired: Please select a file first

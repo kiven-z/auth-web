@@ -1,6 +1,7 @@
 import { addDialog } from '@/components/ui/Dialog';
 import { errorMessage, message } from '@/services/feedback/message';
 import { downloadBlob } from '@/shared/utils/fileDownload';
+import { buildExportFilenameStamp } from '@/shared/utils/dateTime';
 import { DEFAULT_MAX_EXPORT_ROWS, EXPORT_DIALOG_WIDTH } from './constants';
 import ExportDialogPanel from './ExportDialogPanel.vue';
 import { resolveExportPageParams, toApiScopeQueryFields } from './toApiScope';
@@ -59,7 +60,7 @@ function usePagedTableExport<TFilter extends object>(options: UsePagedTableExpor
             toPage: pageParams.toPage,
           });
           const blob = await options.exportApi(filter, scope);
-          const stamp = new Date().toISOString().replace(/[-:T]/g, '').slice(0, 14);
+          const stamp = buildExportFilenameStamp();
           downloadBlob(blob, `${options.fileNamePrefix}_${stamp}.xlsx`);
           message(t('tips.exportSuccess'), { type: 'success' });
           done();
