@@ -132,11 +132,10 @@ export function getRoleDetail(id: string): Promise<SysRoleDetail> {
 
 /**
  * 更新角色
- * @param id 角色主键
  * @param data 角色更新表单
  */
-export function updateRole(id: string, data: SysRoleUpdateForm): Promise<void> {
-  return http.put<void, SysRoleUpdateForm>(`/system/role/${id}`, { data });
+export function updateRole(data: SysRoleUpdateForm): Promise<void> {
+  return http.put<void, SysRoleUpdateForm>('/system/role', { data });
 }
 
 /**

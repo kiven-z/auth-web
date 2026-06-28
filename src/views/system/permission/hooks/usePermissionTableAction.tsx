@@ -92,7 +92,7 @@ function usePermissionTableAction(deps: TableActionDeps) {
           errorI18nKey: 'permissions.messages.loadFailed',
           successI18nKey: 'tips.editSuccess',
           onSubmit: async (formData) => {
-            await updatePermission(row.id, formData);
+            await updatePermission(formData);
             await fetchTableData();
           },
         }),

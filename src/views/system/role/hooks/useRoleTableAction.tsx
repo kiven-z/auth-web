@@ -87,7 +87,7 @@ function useRoleTableAction(deps: TableActionDeps) {
         errorI18nKey: 'roles.message.loadFailed',
         successI18nKey: 'tips.editSuccess',
         onSubmit: async (formData) => {
-          await updateRole(row.id, formData);
+          await updateRole(formData);
           await fetchTableData();
         },
       }),

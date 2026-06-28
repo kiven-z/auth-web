@@ -129,7 +129,7 @@ function useDeptTableAction(deps: DeptTableActionDeps) {
           errorI18nKey: 'tips.editFailed',
           successI18nKey: 'tips.editSuccess',
           onSubmit: async (formData) => {
-            await updateDept(row.id, formData);
+            await updateDept(formData);
             await refresh();
           },
         }),

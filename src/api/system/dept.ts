@@ -152,15 +152,14 @@ export function createDept(data: SysDeptCreateForm): Promise<void> {
 
 /**
  * 更新部门（含可选变更父部门）
- * @param id 部门主键
  * @param data 保存表单
  */
-export function updateDept(id: string, data: SysDeptUpdateForm): Promise<void> {
+export function updateDept(data: SysDeptUpdateForm): Promise<void> {
   const body = {
     ...data,
     parentId: data.parentId && data.parentId.length > 0 ? data.parentId : DEPT_ROOT_PARENT_ID,
   };
-  return http.put<void, SysDeptUpdateForm>(`/system/dept/${id}`, { data: body });
+  return http.put<void, SysDeptUpdateForm>('/system/dept', { data: body });
 }
 
 /**

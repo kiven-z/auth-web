@@ -112,12 +112,18 @@ export function createUser(data: SysUserCreateForm): Promise<void> {
 }
 
 /**
- * 更新用户基础资料
- * @param id 用户主键
- * @param data 用户表单
+ * 用户更新表单（与新增字段一致，编辑弹层内部带 id）
  */
-export function updateUser(id: string, data: SysUserCreateForm): Promise<void> {
-  return http.request<void>('put', `/system/user/${id}`, { data });
+export interface SysUserUpdateForm extends SysUserCreateForm {
+  id: string;
+}
+
+/**
+ * 更新用户基础资料
+ * @param data 用户更新表单
+ */
+export function updateUser(data: SysUserUpdateForm): Promise<void> {
+  return http.request<void>('put', '/system/user', { data });
 }
 
 /**

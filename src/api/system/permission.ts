@@ -108,11 +108,10 @@ export interface SysPermissionUpdateForm {
 
 /**
  * 更新权限
- * @param id 权限主键
  * @param data 权限更新表单
  */
-export function updatePermission(id: string, data: SysPermissionUpdateForm): Promise<void> {
-  return http.put<void, SysPermissionUpdateForm>(`/system/permission/${id}`, { data });
+export function updatePermission(data: SysPermissionUpdateForm): Promise<void> {
+  return http.put<void, SysPermissionUpdateForm>('/system/permission', { data });
 }
 
 /**

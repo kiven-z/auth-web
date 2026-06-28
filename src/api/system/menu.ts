@@ -154,7 +154,7 @@ export function createMenu(data: MenuCreateForm): Promise<string> {
 
 /**
  * 修改菜单
- * @param data 菜单更新表单（须含 id）
+ * @param data 菜单更新表单
  */
 export function updateMenu(data: MenuUpdateForm): Promise<string> {
   return http.put<string, MenuUpdateForm>('/system/menu', { data });

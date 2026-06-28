@@ -5,6 +5,7 @@ import {
   createUser,
   type SysUserCreateForm,
   type SysUserPageRow,
+  type SysUserUpdateForm,
   updateUser,
 } from '@/api/system/user';
 import { addDialog } from '@/components/ui/Dialog';
@@ -78,7 +79,7 @@ function useUserTableAction(deps: TableActionWithSelectionDeps) {
   const openEditDialog = async (row: SysUserPageRow) => {
     try {
       const profile = await getUserProfile(row.id);
-      const dialogFormRef = ref<FormOverlayExpose<SysUserCreateForm> | null>(null);
+      const dialogFormRef = ref<FormOverlayExpose<SysUserUpdateForm> | null>(null);
 
       addDialog({
         title: t('users.title.edit'),
@@ -87,13 +88,14 @@ function useUserTableAction(deps: TableActionWithSelectionDeps) {
         closeOnClickModal: false,
         closeOnPressEscape: false,
         contentRenderer: () =>
-          h(UserFormDialog, { ref: dialogFormRef, mode: 'edit', form: profile as SysUserCreateForm }),
-        beforeSure: createFormBeforeSure<SysUserCreateForm>({
+          h(UserFormDialog, { ref: dialogFormRef, mode: 'edit', form: profile as SysUserUpdateForm }),
+        beforeSure: createFormBeforeSure<SysUserUpdateForm>({
           formExposeRef: dialogFormRef,
+          requireId: true,
           errorI18nKey: 'tips.editFailed',
           successI18nKey: 'tips.editSuccess',
           onSubmit: async (formData) => {
-            await updateUser(row.id, formData);
+            await updateUser(formData);
             await fetchTableData();
           },
         }),
