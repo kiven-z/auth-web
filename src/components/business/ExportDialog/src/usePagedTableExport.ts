@@ -1,6 +1,6 @@
 import { addDialog } from '@/components/ui/Dialog';
 import { errorMessage, message } from '@/services/feedback/message';
-import { downloadBlob } from '@/shared/utils/fileDownload';
+import { downloadBlob } from '@/shared/utils/fileExport';
 import { buildExportFilenameStamp } from '@/shared/utils/dateTime';
 import { DEFAULT_MAX_EXPORT_ROWS, EXPORT_DIALOG_WIDTH } from './constants';
 import ExportDialogPanel from './ExportDialogPanel.vue';

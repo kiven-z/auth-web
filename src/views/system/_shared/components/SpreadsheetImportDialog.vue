@@ -2,9 +2,8 @@
 import type { SpreadsheetImportResult } from '@/api/common';
 import AuthDataTable from '@/components/ui/AuthDataTable';
 import { errorMessage, message } from '@/services/feedback/message';
-import { downloadBlob } from '@/shared/utils/fileDownload';
 import { buildExportFilenameStamp } from '@/shared/utils/dateTime';
-import { buildImportErrorReportFilename, downloadImportErrorsExcel } from '@/shared/utils/spreadsheetExport';
+import { buildImportErrorReportFilename, downloadBlob, downloadImportErrorsExcel } from '@/shared/utils/fileExport';
 import type { UploadFile, UploadInstance, UploadProps, UploadRawFile } from 'element-plus';
 import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
