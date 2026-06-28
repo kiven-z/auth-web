@@ -64,6 +64,9 @@ export interface SysPostUpdateForm extends SysPostCreateForm {
   id: string;
 }
 
+/** 岗位新增/编辑弹层共用表单模型 */
+export type SysPostFormModel = SysPostCreateForm | SysPostUpdateForm;
+
 /**
  * 岗位详情（对齐 {@code SysPostDetailVO} + BaseResponse）
  */

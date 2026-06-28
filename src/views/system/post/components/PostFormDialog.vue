@@ -1,22 +1,22 @@
 <script lang="ts" setup>
 import type { FormDialog } from '@/api/common';
 import { getDeptList } from '@/api/system/dept';
-import type { SysPostCreateForm } from '@/api/system/post';
+import type { SysPostFormModel } from '@/api/system/post';
 import { errorMessage } from '@/services/feedback/message';
 import { buildPostDeptCascaderTree, type PostDeptCascaderNode } from '@/views/system/post/utils/post-dept-cascader';
 import type { CascaderProps, FormInstance, FormRules } from 'element-plus';
 import { onMounted, reactive, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 
-type PostFormDialogProps = FormDialog<SysPostCreateForm>;
+type PostFormDialogProps = FormDialog<SysPostFormModel>;
 
 const props = withDefaults(defineProps<PostFormDialogProps>(), {
-  form: () => ({}) as SysPostCreateForm,
+  form: () => ({}) as SysPostFormModel,
 });
 
 const { t } = useI18n();
 const formRef = ref<FormInstance>();
-const form = ref<SysPostCreateForm>({
+const form = ref<SysPostFormModel>({
   status: true,
   orderNum: 0,
   ...props.form,
