@@ -4,10 +4,10 @@ import AuthDataTable from '@/components/ui/AuthDataTable';
 import { errorMessage, message } from '@/services/feedback/message';
 import { buildExportFilenameStamp } from '@/shared/utils/dateTime';
 import { buildImportErrorReportFilename, downloadBlob, downloadImportErrorsExcel } from '@/shared/utils/fileExport';
-import type { UploadFile, UploadInstance, UploadProps, UploadRawFile } from 'element-plus';
+import { SpreadsheetImportDialogExpose } from '@/views/system/_shared/hooks/useSpreadsheetImportAction';
+import type { UploadFile, UploadProps, UploadRawFile } from 'element-plus';
 import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { SpreadsheetImportDialogExpose } from '@/views/system/_shared/hooks/useSpreadsheetImportAction';
 
 defineOptions({ name: 'SpreadsheetImportPanel' });
 
@@ -33,7 +33,6 @@ const { t } = useI18n();
 
 const importing = ref(false);
 const downloadingTemplate = ref(false);
-const uploadRef = ref<UploadInstance>();
 
 const selectedFile = ref<File | null>(null);
 const importResult = ref<SpreadsheetImportResult | null>(null);
@@ -123,7 +122,7 @@ function handleDownloadErrorReport() {
  */
 function handleClearErrors() {
   importResult.value = null;
-  message(t('import.errorsCleared'), { type: 'info' });
+  message(t('import.errorsCleared'), { type: 'success' });
 }
 
 /**
@@ -145,7 +144,7 @@ defineExpose<SpreadsheetImportDialogExpose>({ submitImport: handleImport });
 </script>
 
 <template>
-  <div>
+  <div class="spreadsheet-import">
     <!-- 上传区域 -->
     <el-upload
       ref="uploadRef"
@@ -174,18 +173,21 @@ defineExpose<SpreadsheetImportDialogExpose>({ submitImport: handleImport });
     <!-- 导入结果：行级错误 -->
     <template v-if="importResult && !importResult.success">
       <el-divider>{{ t('import.importFailureWithRows', { count: importResult.errors.length }) }}</el-divider>
-      <div class="spreadsheet-import-dialog__error-actions">
-        <el-button size="small" type="primary" @click="handleDownloadErrorReport">
+
+      <el-button-group class="spreadsheet-import-dialog__error-actions" type="primary">
+        <el-button size="small" @click="handleDownloadErrorReport">
           {{ t('import.downloadErrorReport') }}
         </el-button>
-        <el-button size="small" @click="handleClearErrors">
+        <el-button size="small" type="default" @click="handleClearErrors">
           {{ t('import.clearErrors') }}
         </el-button>
-      </div>
+      </el-button-group>
+
       <AuthDataTable
         :adaptive="false"
         :columns="errorColumns"
         :data="importResult.errors"
+        class="spreadsheet-import-dialog__error-table"
         :max-height="240"
         border
         size="small"
@@ -194,3 +196,15 @@ defineExpose<SpreadsheetImportDialogExpose>({ submitImport: handleImport });
     </template>
   </div>
 </template>
+
+<style lang="scss" scoped>
+.spreadsheet-import-dialog {
+  &__error-actions {
+    margin-bottom: 18px;
+  }
+
+  &__error-table {
+    margin-bottom: 18px;
+  }
+}
+</style>
