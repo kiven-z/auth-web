@@ -1,6 +1,6 @@
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { routerArrays } from '../types';
+import { routerArrays } from '../../types';
 import { useGlobal } from '@pureadmin/utils';
 import { useMultiTagsStore } from '@/store/modules/multiTags';
 

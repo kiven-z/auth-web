@@ -2,7 +2,7 @@
 import { kickMySession, listMySessions, type MeUserSession } from '@/api/system/user-me';
 import AuthDataTable from '@/components/ui/AuthDataTable';
 import { errorMessage, message } from '@/services/feedback/message';
-import useMeSessionTableColumns from '@/views/home/account/profile/hooks/useMeSessionTableColumns';
+import useMeSessionTableColumns from '@/views/home/account/security/hooks/useMeSessionTableColumns';
 import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 
@@ -51,7 +51,7 @@ async function handleRevokeSession(sessionId: string) {
 
 <template>
   <div class="profile-sessions-panel">
-    <el-text class="mb-3 block" type="info">{{ t('account.session.subtitle') }}</el-text>
+    <el-text class="profile-sessions-panel__subtitle" type="info">{{ t('account.session.subtitle') }}</el-text>
 
     <el-empty v-if="sessionList.length <= 0" :description="t('users.session.empty')" />
     <AuthDataTable
@@ -63,7 +63,6 @@ async function handleRevokeSession(sessionId: string) {
       border
       row-key="sessionId"
       show-overflow-tooltip
-      size="small"
     >
       <template #actions="{ row }">
         <el-button
@@ -81,11 +80,18 @@ async function handleRevokeSession(sessionId: string) {
 </template>
 
 <style lang="scss" scoped>
-:deep(.session-row--current) {
-  background-color: var(--el-color-primary-light-9);
+.profile-sessions-panel {
+  &__subtitle {
+    display: block;
+    margin-bottom: 12px;
+  }
 
-  td {
-    background-color: var(--el-color-primary-light-9) !important;
+  :deep(.session-row--current) {
+    background-color: var(--el-color-primary-light-9);
+
+    td {
+      background-color: var(--el-color-primary-light-9) !important;
+    }
   }
 }
 </style>

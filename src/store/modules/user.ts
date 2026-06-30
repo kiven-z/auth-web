@@ -1,4 +1,5 @@
 import { logoutApi } from '@/api/auth';
+import { stopSync } from '@/core/preferences';
 import {
   readSessionPreferences,
   readUserProfileFromStorage,
@@ -60,6 +61,7 @@ export const useUserStore = defineStore('pure-user', {
      * 清理本地用户态、Token、标签与动态路由，并跳转登录页。
      */
     async clearLocalSession() {
+      stopSync();
       this.avatar = '';
       this.username = '';
       this.nickname = '';

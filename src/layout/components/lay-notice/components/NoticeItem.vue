@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { ListItem } from '../data';
 import { nextTick, PropType, ref } from 'vue';
-import { useNav } from '@/layout/hooks/useNav';
+import { useNav } from '@/layout/hooks';
 import { deviceDetection } from '@pureadmin/utils';
 
 defineProps({

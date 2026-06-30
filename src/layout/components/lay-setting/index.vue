@@ -1,14 +1,14 @@
 <script lang="ts" setup>
 import { computed, nextTick, onBeforeMount, onUnmounted, reactive, ref, unref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { emitter } from '@/services/event-bus/mitt';
 import LayPanel from '../lay-panel/index.vue';
-import { useNav } from '@/layout/hooks/useNav';
+import { useNav } from '@/layout/hooks/navigation/useNav';
+import { useUiConfigure } from '@/layout/hooks/configure/useUiConfigure';
+import { useUiLayout } from '@/layout/hooks/layout/useUiLayout';
 import { useAppStoreHook } from '@/store/modules/app';
-import { useMultiTagsStoreHook } from '@/store/modules/multiTags';
 import Segmented, { type OptionsType } from '@/components/ui/Segmented';
-import { useDataThemeChange } from '@/layout/hooks/useDataThemeChange';
-import { debounce, isNumber, useDark, useGlobal } from '@pureadmin/utils';
+import { useUiTheme } from '@/layout/hooks/theme/useUiTheme';
+import { debounce, isNumber, toggleClass, useDark, useGlobal } from '@pureadmin/utils';
 
 import Check from '~icons/ep/check';
 import LeftArrow from '~icons/ri/arrow-left-s-line?width=20&height=20';
@@ -26,15 +26,17 @@ const mixRef = ref();
 const verticalRef = ref();
 const horizontalRef = ref();
 
-const { dataTheme, overallStyle, layoutTheme, themeColors, toggleClass, dataThemeChange, setLayoutThemeColor } =
-  useDataThemeChange();
+const { patchConfigureField } = useUiConfigure();
+const { setLayoutMode } = useUiLayout();
+
+const { dataTheme, overallStyle, layoutTheme, themeColors, dataThemeChange, setLayoutThemeColor } = useUiTheme();
 
 /* body添加layout属性，作用于src/style/sidebar.scss */
 if (unref(layoutTheme)) {
   const layout = unref(layoutTheme).layout;
   const theme = unref(layoutTheme).theme;
   document.documentElement.setAttribute('data-theme', theme);
-  setLayoutModel(layout);
+  setLayoutMode(layout);
 }
 
 /** 默认灵动模式 */
@@ -66,57 +68,40 @@ const showThemeColors = computed(() => {
   };
 });
 
-function storageConfigureChange<T>(key: string, val: T): void {
-  const storageConfigure = $storage.configure;
-  storageConfigure[key] = val;
-  $storage.configure = storageConfigure;
-}
-
 /** 灰色模式设置 */
 const greyChange = (value): void => {
-  const htmlEl = document.querySelector('html');
-  toggleClass(settings.greyVal, 'html-grey', htmlEl);
-  storageConfigureChange('grey', value);
+  patchConfigureField({ grey: value });
 };
 
 /** 色弱模式设置 */
 const weekChange = (value): void => {
-  const htmlEl = document.querySelector('html');
-  toggleClass(settings.weakVal, 'html-weakness', htmlEl);
-  storageConfigureChange('weak', value);
+  patchConfigureField({ weak: value });
 };
 
 /** 隐藏标签页设置 */
 const tagsChange = () => {
-  const showVal = settings.tabsVal;
-  storageConfigureChange('hideTabs', showVal);
-  emitter.emit('tagViewsChange', showVal as unknown as string);
+  patchConfigureField({ hideTabs: settings.tabsVal });
 };
 
 /** 隐藏页脚设置 */
 const hideFooterChange = () => {
-  const hideFooter = settings.hideFooter;
-  storageConfigureChange('hideFooter', hideFooter);
+  patchConfigureField({ hideFooter: settings.hideFooter });
 };
 
 /** 标签页持久化设置 */
 const multiTagsCacheChange = () => {
-  const multiTagsCache = settings.multiTagsCache;
-  storageConfigureChange('multiTagsCache', multiTagsCache);
-  useMultiTagsStoreHook().multiTagsCacheChange(multiTagsCache);
+  patchConfigureField({ multiTagsCache: settings.multiTagsCache });
 };
 
 function onChange({ option }) {
   const { value } = option;
   markValue.value = value;
-  storageConfigureChange('showModel', value);
-  emitter.emit('tagViewsShowModel', value);
+  patchConfigureField({ showModel: value });
 }
 
 /** 侧边栏Logo */
 function logoChange() {
-  unref(logoVal) ? storageConfigureChange('showLogo', true) : storageConfigureChange('showLogo', false);
-  emitter.emit('logoChange', unref(logoVal));
+  patchConfigureField({ showLogo: unref(logoVal) });
 }
 
 function setFalse(Doms): any {
@@ -143,7 +128,7 @@ const stretchTypeOptions = computed<Array<OptionsType>>(() => {
 
 const setStretch = (value) => {
   settings.stretch = value;
-  storageConfigureChange('stretch', value);
+  patchConfigureField({ stretch: value }, { emitEvents: false });
 };
 
 const stretchTypeChange = ({ option }) => {
@@ -216,18 +201,7 @@ const markOptions = computed<Array<OptionsType>>(() => {
 
 /** 设置导航模式 */
 function setLayoutModel(layout: string) {
-  layoutTheme.value.layout = layout;
-  window.document.body.setAttribute('layout', layout);
-  $storage.layout = {
-    layout,
-    theme: layoutTheme.value.theme,
-    darkMode: $storage.layout?.darkMode,
-    sidebarStatus: $storage.layout?.sidebarStatus,
-    epThemeColor: $storage.layout?.epThemeColor,
-    themeColor: $storage.layout?.themeColor,
-    overallStyle: $storage.layout?.overallStyle,
-  };
-  useAppStoreHook().setLayout(layout);
+  setLayoutMode(layout);
 }
 
 watch($storage, ({ layout }) => {
@@ -384,7 +358,7 @@ onUnmounted(() => removeMatchMedia);
         <button
           v-else
           v-ripple="{ class: 'text-gray-300' }"
-          class="bg-transparent flex-c w-full h-20 rounded-md border border-[var(--pure-border-color)]"
+          class="bg-transparent flex-c w-full h-20 rounded-md border border-(--pure-border-color)"
           @click="setStretch(!settings.stretch)"
         >
           <div

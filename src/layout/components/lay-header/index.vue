@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { useLayout } from '@/layout/hooks/useLayout';
+import { useLayout } from '@/layout/hooks';
 import type { setType } from '@/layout/types';
 import { useAppStoreHook } from '@/store/modules/app';
 import { useSettingStoreHook } from '@/store/modules/settings';

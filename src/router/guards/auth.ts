@@ -1,5 +1,6 @@
 import { refreshAccessTokenSingleFlight } from '@/core/auth/tokenRefreshCoordinator';
 import { ApiConflictError } from '@/core/http';
+import { hasSessionHydrated, hydrateUiPreferencesOnSession } from '@/core/preferences';
 import { hasAccessToken, isLoggedIn, readUserProfileFromStorage, removeToken } from '@/core/session';
 import { getTopMenu } from '@/router/utils/misc';
 import { initRouter } from '@/router/utils/route-registry';
@@ -49,6 +50,10 @@ export function createAuthGuard(router: Router): void {
     }
 
     if (isLoggedIn()) {
+      if (!hasSessionHydrated()) {
+        void hydrateUiPreferencesOnSession().catch(() => undefined);
+      }
+
       if (to.path !== '/login' && !hasAccessToken()) {
         const restored = await ensureAccessTokenOnBoot();
         if (!restored) {

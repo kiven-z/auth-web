@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { useBoolean } from '../../hooks/useBoolean';
+import { useBoolean } from '@/layout/hooks';
 import SearchModal from './components/SearchModal.vue';
 
 const { bool: show, toggle } = useBoolean();
@@ -10,7 +10,7 @@ function handleSearch() {
 
 <template>
   <div>
-    <div class="search-container w-[40px] h-[48px] flex-c cursor-pointer navbar-bg-hover" @click="handleSearch">
+    <div class="search-container w-10 h-12 flex-c cursor-pointer navbar-bg-hover" @click="handleSearch">
       <IconifyIconOffline icon="ri/search-line" />
     </div>
     <SearchModal v-model:value="show" />

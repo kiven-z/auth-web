@@ -1,4 +1,5 @@
 import type { UserLoginResponse } from '@/api/auth/types';
+import { hasSessionHydrated, hydrateUiPreferencesOnSession } from '@/core/preferences';
 import { applyRememberPreferencesFromResponse } from './rememberPreferences';
 import { setToken } from './sessionToken';
 import type { SessionTokenPayload } from './types';
@@ -41,5 +42,8 @@ export async function establishSessionFromLogin(
   const body = await fetchLogin();
   applyRememberPreferencesFromResponse(rememberOptions.isRemembered, body.readMeDay);
   setToken(mapLoginResponseToSession(body));
+  if (!hasSessionHydrated()) {
+    void hydrateUiPreferencesOnSession().catch(() => undefined);
+  }
   return body;
 }

@@ -2,7 +2,7 @@
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useGlobal } from '@pureadmin/utils';
-import { useNav } from '@/layout/hooks/useNav';
+import { useNav } from '@/layout/hooks';
 
 import MenuFold from '~icons/ri/menu-fold-fill';
 

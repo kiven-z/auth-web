@@ -4,7 +4,7 @@ import { getConfig } from '@/auth/config';
 import { useRouter } from 'vue-router';
 import SearchResult from './SearchResult.vue';
 import SearchFooter from './SearchFooter.vue';
-import { useNav } from '@/layout/hooks/useNav';
+import { useNav } from '@/layout/hooks';
 import { transformI18n } from '@/plugins/i18n';
 import SearchHistory from './SearchHistory.vue';
 import type { dragItem, optionsItem } from '../types';

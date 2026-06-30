@@ -10,7 +10,7 @@ import { useSettingStoreHook } from '@/store/modules/settings';
 import { delay, isAllEmpty, isEqual, useResizeObserver } from '@pureadmin/utils';
 import { onClickOutside } from '@vueuse/core';
 import { nextTick, onBeforeUnmount, ref, toRaw, unref, watch } from 'vue';
-import { useTags } from '../../hooks/useTag';
+import { useTags } from '@/layout/hooks';
 import { RouteConfigs } from '../../types';
 import TagChrome from './components/TagChrome.vue';
 

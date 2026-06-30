@@ -1,11 +1,10 @@
 <script lang="ts" setup>
 import { responsiveStorageNameSpace } from '@/auth/config';
-import { useNav } from '@/layout/hooks/useNav';
+import { useNav, useTranslationLang } from '@/layout/hooks';
 import { emitter } from '@/services/event-bus/mitt';
 import { usePermissionStoreHook } from '@/store/modules/permission';
 import { isAllEmpty, storageLocal } from '@pureadmin/utils';
 import { computed, nextTick, onMounted, ref } from 'vue';
-import { useTranslationLang } from '../../hooks/useTranslationLang';
 import LayNotice from '../lay-notice/index.vue';
 import LaySearch from '../lay-search/index.vue';
 import LaySidebarFullScreen from '../lay-sidebar/components/SidebarFullScreen.vue';

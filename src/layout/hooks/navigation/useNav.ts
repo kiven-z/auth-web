@@ -15,7 +15,7 @@ import { computed, type CSSProperties } from 'vue';
 import { useRouter } from 'vue-router';
 import ExitFullscreen from '~icons/ri/fullscreen-exit-fill';
 import Fullscreen from '~icons/ri/fullscreen-fill';
-import type { routeMetaType } from '../types';
+import type { routeMetaType } from '../../types';
 
 const errorInfo = 'The current routing configuration is incorrect, please check the configuration';
 

@@ -3,18 +3,23 @@ account:
   back: 返回
   backHome: 回到首页
   profile: 个人信息
+  security: 账号与安全
   loginLog: 登录日志
   action:
     save: 保存
     reset: 重置
   field:
     username: 用户名
-    nickname: 昵称
-    email: 邮箱
-    phone: 手机号
     employeeNo: 工号
     basicInfo: 基本信息
-    security: 安全设置
+  section:
+    accountActions: 账号操作
+  preferences:
+    title: 偏好设置
+    subtitle: 重置界面布局、主题等个人 UI 偏好为系统默认
+    reset: 重置界面偏好
+    confirmFirst: 确定要重置所有界面偏好吗？此操作不可撤销。
+    resetSuccess: 界面偏好已重置
   session:
     title: 活跃会话
     subtitle: 管理已登录的设备与会话

@@ -35,18 +35,13 @@ onMounted(() => {
 </script>
 
 <template>
-  <div>
-    <el-form
-      ref="searchFormRef"
-      :model="loginLogState.searchForm"
-      class="bg-bg_color w-[99/100] overflow-auto pl-2 pt-1"
-      inline
-    >
+  <div class="account-login-log">
+    <el-form ref="searchFormRef" :model="loginLogState.searchForm" class="account-login-log__filter" inline>
       <el-form-item :label="t('loginLog.field.loginResult')" prop="loginResult">
         <el-select
           v-model="loginLogState.searchForm.loginResult"
           :placeholder="ph.selectFilter('loginLog.field.loginResult')"
-          class="w-45!"
+          class="account-login-log__select"
           clearable
         >
           <el-option
@@ -62,7 +57,7 @@ onMounted(() => {
         <el-select
           v-model="loginLogState.searchForm.loginType"
           :placeholder="ph.selectFilter('loginLog.field.loginType')"
-          class="w-45!"
+          class="account-login-log__select"
           clearable
         >
           <el-option
@@ -86,7 +81,7 @@ onMounted(() => {
       </el-form-item>
     </el-form>
 
-    <el-alert :closable="false" class="mx-2 mb-2!" show-icon type="info">
+    <el-alert :closable="false" class="account-login-log__hint" show-icon type="info">
       {{ t('account.hint.loginLogRetention') }}
     </el-alert>
 
@@ -98,3 +93,22 @@ onMounted(() => {
     />
   </div>
 </template>
+
+<style lang="scss" scoped>
+.account-login-log {
+  &__filter {
+    width: 99%;
+    overflow: auto;
+    padding: 4px 0 0 8px;
+    background: var(--el-bg-color);
+  }
+
+  &__select {
+    width: 180px;
+  }
+
+  &__hint {
+    margin: 0 8px 8px;
+  }
+}
+</style>

@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { ref, watch } from 'vue';
-import { useNav } from '@/layout/hooks/useNav';
+import { useNav } from '@/layout/hooks';
 
 const screenIcon = ref();
 const { toggle, isFullscreen, Fullscreen, ExitFullscreen } = useNav();

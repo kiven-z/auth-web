@@ -3,7 +3,7 @@ import { useI18n } from 'vue-i18n';
 import { emitter } from '@/services/event-bus/mitt';
 import { onClickOutside } from '@vueuse/core';
 import { computed, onBeforeUnmount, onMounted, ref } from 'vue';
-import { useDataThemeChange } from '@/layout/hooks/useDataThemeChange';
+import { resetUiPreferences } from '@/core/preferences';
 import CloseIcon from '~icons/ep/close';
 
 const target = ref(null);
@@ -27,7 +27,7 @@ const iconClass = computed(() => {
 });
 
 const { t } = useI18n();
-const { resetQuery: onReset } = useDataThemeChange();
+const onReset = resetUiPreferences;
 
 onClickOutside(target, (event: any) => {
   if (event.clientX > target.value.offsetLeft) return;
@@ -50,7 +50,7 @@ onBeforeUnmount(() => {
   <div :class="{ show }">
     <div class="right-panel-background" />
     <div ref="target" class="right-panel bg-bg_color">
-      <div class="project-configuration border-0 border-b-[1px] border-solid border-[var(--pure-border-color)]">
+      <div class="project-configuration border-0 border-b border-solid border-(--pure-border-color)">
         <h4 class="dark:text-white">
           {{ t('panel.pureSystemSet') }}
         </h4>
@@ -75,7 +75,7 @@ onBeforeUnmount(() => {
         <slot />
       </el-scrollbar>
 
-      <div class="flex justify-end p-3 border-0 border-t-[1px] border-solid border-[var(--pure-border-color)]">
+      <div class="flex justify-end p-3 border-0 border-t border-solid border-(--pure-border-color)">
         <el-button
           v-tippy="{
             content: t('panel.pureClearCacheAndToLogin'),

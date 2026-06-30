@@ -8,6 +8,7 @@ import router from './router';
 import { useEcharts } from '@/plugins/echarts';
 import { useElementPlus } from '@/plugins/elementPlus';
 import { injectResponsiveStorage } from '@/bootstrap/responsive';
+import { applyHydratedUiPreferences } from '@/core/preferences';
 import { createApp, type Directive } from 'vue';
 
 import { installAuthDataTable } from '@/components/ui/AuthDataTable';
@@ -55,5 +56,6 @@ getPlatformConfig(app).then(async (config) => {
   injectResponsiveStorage(app, config);
   installAuthDataTable(app);
   app.use(MotionPlugin).use(useI18n).use(useElementPlus).use(Description).use(useEcharts);
+  applyHydratedUiPreferences();
   app.mount('#app');
 });

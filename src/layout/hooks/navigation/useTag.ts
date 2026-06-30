@@ -1,11 +1,12 @@
 import { computed, type CSSProperties, getCurrentInstance, onMounted, reactive, ref, unref } from 'vue';
-import type { tagsViewsType } from '../types';
+import type { tagsViewsType } from '../../types';
 import { useRoute, useRouter } from 'vue-router';
+import { getConfigureSnapshot } from '@/core/preferences';
+import { useUiConfigure } from '@/layout/hooks';
 import { $t, transformI18n } from '@/plugins/i18n';
-import { responsiveStorageNameSpace } from '@/auth/config';
 import { useSettingStoreHook } from '@/store/modules/settings';
 import { useMultiTagsStoreHook } from '@/store/modules/multiTags';
-import { hasClass, isBoolean, isEqual, storageLocal, toggleClass } from '@pureadmin/utils';
+import { hasClass, isBoolean, isEqual, toggleClass } from '@pureadmin/utils';
 
 import Fullscreen from '~icons/ri/fullscreen-fill';
 import CloseAllTags from '~icons/ri/subtract-line';
@@ -30,13 +31,12 @@ export function useTags() {
   const currentSelect = ref({});
   const isScrolling = ref(false);
 
+  const configureSnapshot = getConfigureSnapshot();
+
   /** 显示模式，默认灵动模式 */
-  const showModel = ref(
-    storageLocal().getItem<StorageConfigs>(`${responsiveStorageNameSpace()}configure`)?.showModel || 'smart'
-  );
+  const showModel = ref(configureSnapshot.showModel || 'smart');
   /** 是否隐藏标签页，默认显示 */
-  const showTags =
-    ref(storageLocal().getItem<StorageConfigs>(`${responsiveStorageNameSpace()}configure`).hideTabs) ?? ref('false');
+  const showTags = ref(configureSnapshot.hideTabs) ?? ref('false');
   const multiTags: any = computed(() => {
     return useMultiTagsStoreHook().multiTags;
   });
@@ -53,35 +53,35 @@ export function useTags() {
       icon: Close,
       text: $t('buttons.pureCloseCurrentTab'),
       divided: false,
-      disabled: multiTags.value.length > 1 ? false : true,
+      disabled: multiTags.value.length <= 1,
       show: true,
     },
     {
       icon: CloseLeftTags,
       text: $t('buttons.pureCloseLeftTabs'),
       divided: true,
-      disabled: multiTags.value.length > 1 ? false : true,
+      disabled: multiTags.value.length <= 1,
       show: true,
     },
     {
       icon: CloseRightTags,
       text: $t('buttons.pureCloseRightTabs'),
       divided: false,
-      disabled: multiTags.value.length > 1 ? false : true,
+      disabled: multiTags.value.length <= 1,
       show: true,
     },
     {
       icon: CloseOtherTags,
       text: $t('buttons.pureCloseOtherTabs'),
       divided: true,
-      disabled: multiTags.value.length > 2 ? false : true,
+      disabled: multiTags.value.length <= 2,
       show: true,
     },
     {
       icon: CloseAllTags,
       text: $t('buttons.pureCloseAllTabs'),
       divided: false,
-      disabled: multiTags.value.length > 1 ? false : true,
+      disabled: multiTags.value.length <= 1,
       show: true,
     },
     {
@@ -182,11 +182,12 @@ export function useTags() {
       : pureSetting.changeSetting({ key: 'hiddenSideBar', value: true });
   }
 
+  const { patchConfigureField } = useUiConfigure();
+
   onMounted(() => {
     if (!showModel.value) {
-      const configure = storageLocal().getItem<StorageConfigs>(`${responsiveStorageNameSpace()}configure`);
-      configure.showModel = 'card';
-      storageLocal().setItem(`${responsiveStorageNameSpace()}configure`, configure);
+      patchConfigureField({ showModel: 'card' });
+      showModel.value = 'card';
     }
   });
 

@@ -37,6 +37,7 @@ const activeTab = computed(() => String(route.name));
         @tab-change="(name: string) => $router.replace({ name })"
       >
         <el-tab-pane :label="t('account.profile')" name="AccountProfile" />
+        <el-tab-pane :label="t('account.security')" name="AccountSecurity" />
         <el-tab-pane :label="t('account.loginLog')" name="AccountLoginLog" />
       </el-tabs>
     </div>
@@ -50,30 +51,30 @@ const activeTab = computed(() => String(route.name));
 <style scoped lang="scss">
 .account-layout {
   min-height: 100%;
-}
 
-.account-layout__header {
-  position: sticky;
-  top: 0;
-  z-index: 10;
-  background: var(--el-bg-color);
-}
+  &__header {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background: var(--el-bg-color);
+  }
 
-.account-layout__toolbar {
-  display: flex;
-  align-items: center;
-  padding: 12px 16px;
-}
+  &__toolbar {
+    display: flex;
+    align-items: center;
+    padding: 12px 16px;
+  }
 
-.account-layout__tabs {
-  padding: 8px 16px 0;
-}
+  &__tabs {
+    padding: 8px 16px 0;
 
-.account-layout__tabs :deep(.el-tabs__header) {
-  margin-bottom: 0;
-}
+    :deep(.el-tabs__header) {
+      margin-bottom: 0;
+    }
+  }
 
-.account-layout__content {
-  padding: 0 16px 16px;
+  &__content {
+    padding: 0 16px 16px;
+  }
 }
 </style>

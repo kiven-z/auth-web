@@ -1,16 +1,16 @@
-import { getConfig, responsiveStorageNameSpace } from '@/auth/config';
+import { getLayoutSnapshot, patchLayout } from '@/core/preferences';
+import { getConfig } from '@/auth/config';
 import { store } from '@/store';
-import { storageLocal } from '@pureadmin/utils';
 import { defineStore } from 'pinia';
 
 export const useEpThemeStore = defineStore('pure-epTheme', {
-  state: () => ({
-    epThemeColor:
-      storageLocal().getItem<StorageConfigs>(`${responsiveStorageNameSpace()}layout`)?.epThemeColor ??
-      getConfig().EpThemeColor,
-    epTheme:
-      storageLocal().getItem<StorageConfigs>(`${responsiveStorageNameSpace()}layout`)?.theme ?? getConfig().Theme,
-  }),
+  state: () => {
+    const layout = getLayoutSnapshot();
+    return {
+      epThemeColor: layout.epThemeColor ?? getConfig().EpThemeColor,
+      epTheme: layout.theme ?? getConfig().Theme,
+    };
+  },
   getters: {
     getEpThemeColor(state) {
       return state.epThemeColor;
@@ -19,19 +19,20 @@ export const useEpThemeStore = defineStore('pure-epTheme', {
     fill(state) {
       if (state.epTheme === 'light') {
         return '#409eff';
-      } else {
-        return '#fff';
       }
+      return '#fff';
     },
   },
   actions: {
+    /**
+     * 设置 Element 主色（经 preferences layout 网关持久化）
+     * @param newColor 色值
+     */
     setEpThemeColor(newColor: string): void {
-      const layout = storageLocal().getItem<StorageConfigs>(`${responsiveStorageNameSpace()}layout`);
-      this.epTheme = layout?.theme;
+      const layout = getLayoutSnapshot();
+      this.epTheme = layout.theme ?? getConfig().Theme;
       this.epThemeColor = newColor;
-      if (!layout) return;
-      layout.epThemeColor = newColor;
-      storageLocal().setItem(`${responsiveStorageNameSpace()}layout`, layout);
+      patchLayout({ ...layout, epThemeColor: newColor, theme: this.epTheme });
     },
   },
 });

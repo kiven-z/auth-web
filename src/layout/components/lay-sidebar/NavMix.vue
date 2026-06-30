@@ -1,12 +1,11 @@
 <script lang="ts" setup>
 import { useRenderIcon } from '@/components/ui/Icon/src/hooks';
-import { useNav } from '@/layout/hooks/useNav';
+import { useNav, useTranslationLang } from '@/layout/hooks';
 import { transformI18n } from '@/plugins/i18n';
 import { findRouteByPath, getParentPaths } from '@/router/utils/route-tree';
 import { usePermissionStoreHook } from '@/store/modules/permission';
 import { isAllEmpty } from '@pureadmin/utils';
 import { nextTick, onMounted, ref, toRaw, watch } from 'vue';
-import { useTranslationLang } from '../../hooks/useTranslationLang';
 import LayNotice from '../lay-notice/index.vue';
 import LaySearch from '../lay-search/index.vue';
 import LaySidebarExtraIcon from '../lay-sidebar/components/SidebarExtraIcon.vue';

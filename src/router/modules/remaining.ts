@@ -35,6 +35,15 @@ export default [
         },
       },
       {
+        path: 'security',
+        name: 'AccountSecurity',
+        component: () => import('@/views/home/account/security/index.vue'),
+        meta: {
+          title: $t('account.security'),
+          showLink: false,
+        },
+      },
+      {
         path: 'login-log',
         name: 'AccountLoginLog',
         component: () => import('@/views/home/account/login-log/index.vue'),

@@ -1,4 +1,5 @@
-import { changeOwnPassword, resetUserPassword } from '@/api/system/user';
+import { changeOwnPassword } from '@/api/system/user-me';
+import { resetUserPassword } from '@/api/system/user';
 import ChangePasswordDialogPanel from '@/components/business/ChangePasswordDialog/src/ChangePasswordDialogPanel.vue';
 import type { ChangePasswordMode } from '@/components/business/ChangePasswordDialog/src/types';
 import { addDialog } from '@/components/ui/Dialog';

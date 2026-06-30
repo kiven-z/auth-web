@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { responsiveStorageNameSpace } from '@/auth/config';
-import { useNav } from '@/layout/hooks/useNav';
+import { useNav } from '@/layout/hooks';
 import { findRouteByPath, getParentPaths } from '@/router/utils/route-tree';
 import { emitter } from '@/services/event-bus/mitt';
 import { usePermissionStoreHook } from '@/store/modules/permission';
@@ -28,7 +28,7 @@ const menuData = computed(() => {
     : usePermissionStoreHook().wholeMenus;
 });
 
-const loading = computed(() => (pureApp.layout === 'mix' ? false : menuData.value.length === 0 ? true : false));
+const loading = computed(() => (pureApp.layout === 'mix' ? false : menuData.value.length === 0));
 
 const defaultActive = computed(() => (!isAllEmpty(route.meta?.activePath) ? route.meta.activePath : route.path));
 

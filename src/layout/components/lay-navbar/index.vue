@@ -1,6 +1,5 @@
 <script lang="ts" setup>
-import { useNav } from '@/layout/hooks/useNav';
-import { useTranslationLang } from '@/layout/hooks/useTranslationLang';
+import { useNav, useTranslationLang } from '@/layout/hooks';
 import LayNotice from '../lay-notice/index.vue';
 import LaySearch from '../lay-search/index.vue';
 import LayNavMix from '../lay-sidebar/NavMix.vue';
@@ -35,7 +34,7 @@ const { t, locale, translation, localeOptions } = useTranslationLang();
 </script>
 
 <template>
-  <div class="navbar bg-[#fff] shadow-xs shadow-[rgba(0,21,41,0.08)]">
+  <div class="navbar bg-white shadow-xs shadow-[rgba(0,21,41,0.08)]">
     <LaySidebarTopCollapse
       v-if="device === 'mobile'"
       :is-active="pureApp.sidebar.opened"
@@ -52,7 +51,7 @@ const { t, locale, translation, localeOptions } = useTranslationLang();
       <LaySearch id="header-search" />
       <!-- 国际化 -->
       <el-dropdown id="header-translation" trigger="click">
-        <GlobalizationIcon class="navbar-bg-hover w-[40px] h-[48px] p-[11px] cursor-pointer outline-hidden" />
+        <GlobalizationIcon class="navbar-bg-hover w-10 h-12 p-2.75 cursor-pointer outline-hidden" />
         <template #dropdown>
           <el-dropdown-menu class="translation">
             <el-dropdown-item

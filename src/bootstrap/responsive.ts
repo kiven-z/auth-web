@@ -2,7 +2,45 @@
 import type { App } from 'vue';
 import Storage from 'responsive-storage';
 import { routerArrays } from '@/layout/types';
-import { responsiveStorageNameSpace } from '@/auth/config';
+import { getConfig, responsiveStorageNameSpace } from '@/auth/config';
+
+/** 注入后的响应式 $storage，供 preferences 网关在无组件实例时读写 */
+let responsiveStorageMemory: ResponsiveStorage | null = null;
+
+/**
+ * 获取 responsive-storage 内存对象（优先已注入实例，否则从 localStorage 回退）
+ * @returns layout / locale / configure 响应式或快照对象
+ */
+export function getResponsiveStorage(): ResponsiveStorage {
+  if (responsiveStorageMemory) {
+    return responsiveStorageMemory;
+  }
+
+  const nameSpace = responsiveStorageNameSpace();
+  const config = getConfig();
+  return {
+    locale: Storage.getData('locale', nameSpace) ?? { locale: config.Locale ?? 'zh' },
+    layout: Storage.getData('layout', nameSpace) ?? {
+      layout: config.Layout ?? 'vertical',
+      theme: config.Theme ?? 'light',
+      darkMode: config.DarkMode ?? false,
+      sidebarStatus: config.SidebarStatus ?? true,
+      epThemeColor: config.EpThemeColor ?? '#409EFF',
+      themeColor: config.Theme ?? 'light',
+      overallStyle: config.OverallStyle ?? 'light',
+    },
+    configure: Storage.getData('configure', nameSpace) ?? {
+      grey: config.Grey ?? false,
+      weak: config.Weak ?? false,
+      hideTabs: config.HideTabs ?? false,
+      hideFooter: config.HideFooter ?? true,
+      showLogo: config.ShowLogo ?? true,
+      showModel: config.ShowModel ?? 'smart',
+      multiTagsCache: config.MultiTagsCache ?? false,
+      stretch: config.Stretch ?? false,
+    },
+  };
+}
 
 export const injectResponsiveStorage = (app: App, config: PlatformConfigs) => {
   const nameSpace = responsiveStorageNameSpace();
@@ -43,4 +81,5 @@ export const injectResponsiveStorage = (app: App, config: PlatformConfigs) => {
   );
 
   app.use(Storage, { nameSpace, memory: configObj });
+  responsiveStorageMemory = app.config.globalProperties.$storage as ResponsiveStorage;
 };

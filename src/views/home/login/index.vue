@@ -1,8 +1,5 @@
 <script lang="ts" setup>
-import { useDataThemeChange } from '@/layout/hooks/useDataThemeChange';
-import { useLayout } from '@/layout/hooks/useLayout';
-import { useNav } from '@/layout/hooks/useNav';
-import { useTranslationLang } from '@/layout/hooks/useTranslationLang';
+import { useLayout, useNav, useTranslationLang, useUiTheme } from '@/layout/hooks';
 import useLogin from './hooks/useLogin';
 
 import avatar from '@/assets/login/avatar.svg?component';
@@ -27,7 +24,7 @@ const { t } = useI18n();
 
 const { initStorage } = useLayout();
 
-const { dataTheme, overallStyle, dataThemeChange } = useDataThemeChange();
+const { dataTheme, overallStyle, dataThemeChange } = useUiTheme();
 const { title, getDropdownItemStyle, getDropdownItemClass } = useNav();
 const { locale, translation, localeOptions } = useTranslationLang();
 

@@ -1,13 +1,14 @@
 <script lang="ts" setup>
 import 'animate.css';
 import '@/components/ui/Icon/src/offlineIcon';
-import { useDataThemeChange } from '@/layout/hooks/useDataThemeChange';
+import { useUiTheme } from '@/layout/hooks/theme/useUiTheme';
+import { useUiLayout } from '@/layout/hooks/layout/useUiLayout';
 import { useAppStoreHook } from '@/store/modules/app';
 import { useSettingStoreHook } from '@/store/modules/settings';
 import { deviceDetection, useGlobal, useResizeObserver } from '@pureadmin/utils';
 import { computed, onBeforeMount, onMounted, reactive, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { useLayout } from './hooks/useLayout';
+import { useLayout } from '@/layout/hooks/layout/useLayout';
 import { setType } from './types';
 
 import BackTopIcon from '@/assets/svg/back_top.svg?component';
@@ -18,6 +19,8 @@ import NavVertical from './components/lay-sidebar/NavVertical.vue';
 
 const { t } = useI18n();
 const { layout } = useLayout();
+const { setResponsiveLayoutTheme } = useUiLayout();
+const { dataThemeChange } = useUiTheme();
 const appWrapperRef = ref();
 const isMobile = deviceDetection();
 const authSetting = useSettingStoreHook();
@@ -50,19 +53,6 @@ const set: setType = reactive({
   }),
 });
 
-function setTheme(layoutModel: string) {
-  window.document.body.setAttribute('layout', layoutModel);
-  $storage.layout = {
-    layout: `${layoutModel}`,
-    theme: $storage.layout?.theme,
-    darkMode: $storage.layout?.darkMode,
-    sidebarStatus: $storage.layout?.sidebarStatus,
-    epThemeColor: $storage.layout?.epThemeColor,
-    themeColor: $storage.layout?.themeColor,
-    overallStyle: $storage.layout?.overallStyle,
-  };
-}
-
 function toggle(device: string, bool: boolean) {
   useAppStoreHook().toggleDevice(device);
   useAppStoreHook().toggleSideBar(bool, 'resize');
@@ -76,7 +66,7 @@ useResizeObserver(appWrapperRef, (entries) => {
   const entry = entries[0];
   const [{ inlineSize: width, blockSize: height }] = entry.borderBoxSize;
   useAppStoreHook().setViewportSize({ width, height });
-  width <= 760 ? setTheme('vertical') : setTheme(useAppStoreHook().layout);
+  width <= 760 ? setResponsiveLayoutTheme('vertical') : setResponsiveLayoutTheme(useAppStoreHook().layout);
   /** width app-wrapper类容器宽度
    * 0 < width <= 760 隐藏侧边栏
    * 760 < width <= 990 折叠侧边栏
@@ -106,7 +96,7 @@ onMounted(() => {
 });
 
 onBeforeMount(() => {
-  useDataThemeChange().dataThemeChange($storage.layout?.overallStyle);
+  dataThemeChange($storage.layout?.overallStyle);
 });
 </script>
 

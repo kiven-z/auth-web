@@ -3,18 +3,23 @@ account:
   back: Back
   backHome: Back to Home
   profile: Profile
+  security: Account & Security
   loginLog: Login History
   action:
     save: Save
     reset: Reset
   field:
     username: Username
-    nickname: Nickname
-    email: Email
-    phone: Phone
     employeeNo: Employee No.
     basicInfo: Basic Information
-    security: Security
+  section:
+    accountActions: Account Actions
+  preferences:
+    title: Preferences
+    subtitle: Reset layout, theme, and other UI preferences to system defaults
+    reset: Reset UI Preferences
+    confirmFirst: Reset all UI preferences? This cannot be undone.
+    resetSuccess: UI preferences have been reset
   session:
     title: Active Sessions
     subtitle: Manage signed-in devices and sessions

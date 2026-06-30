@@ -176,7 +176,7 @@ async function handleSave() {
             v-model="form.birthday"
             :disabled-date="(date) => date.getTime() > Date.now()"
             :placeholder="t('users.field.birthday')"
-            class="w-full!"
+            class="profile-basic-info-card__date-picker"
             clearable
             type="date"
             value-format="YYYY-MM-DD"
@@ -202,9 +202,22 @@ async function handleSave() {
       </el-col>
     </el-row>
 
-    <div class="flex justify-end">
+    <div class="profile-basic-info-card__actions">
       <el-button :loading="submitting" type="primary" @click="handleSave">{{ t('account.action.save') }}</el-button>
       <el-button @click="resetForm">{{ t('account.action.reset') }}</el-button>
     </div>
   </el-form>
 </template>
+
+<style lang="scss" scoped>
+.profile-basic-info-card {
+  &__actions {
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  &__date-picker {
+    width: 100%;
+  }
+}
+</style>

@@ -159,27 +159,10 @@ export interface SysUserAdminResetPasswordRequest {
 }
 
 /**
- * 当前用户修改密码
- */
-export interface SysUserChangePasswordRequest {
-  oldPassword: string;
-  newPassword: string;
-  confirmPassword: string;
-}
-
-/**
  * 管理员重置用户密码
  * @param id 用户主键
  * @param data 新密码表单
  */
 export function resetUserPassword(id: string, data: SysUserAdminResetPasswordRequest): Promise<string> {
   return http.request<string>('put', `/system/user/${id}/password`, { data });
-}
-
-/**
- * 当前用户修改自己的密码
- * @param data 密码表单
- */
-export function changeOwnPassword(data: SysUserChangePasswordRequest): Promise<string> {
-  return http.request<string>('put', '/system/user/me/password', { data });
 }

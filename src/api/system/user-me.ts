@@ -59,14 +59,14 @@ export interface MeLoginLogPageRow {
  * @param data 资料更新表单
  */
 export function updateMyProfile(data: MeProfileUpdateRequest): Promise<string> {
-  return http.request<string>('put', '/system/user/me/profile', { data });
+  return http.request<string>('put', '/system/me/profile', { data });
 }
 
 /**
  * 查询当前用户活跃会话列表
  */
 export function listMySessions(): Promise<MeUserSession[]> {
-  return http.get<MeUserSession[], AxiosRequestConfig>('/system/user/me/sessions');
+  return http.get<MeUserSession[], AxiosRequestConfig>('/system/me/sessions');
 }
 
 /**
@@ -74,7 +74,7 @@ export function listMySessions(): Promise<MeUserSession[]> {
  * @param sessionId 会话 ID（jti）
  */
 export function kickMySession(sessionId: string): Promise<void> {
-  return http.post<void, unknown>(`/system/user/me/sessions/${sessionId}/kick`);
+  return http.post<void, unknown>(`/system/me/sessions/${sessionId}/kick`);
 }
 
 /**
@@ -83,7 +83,24 @@ export function kickMySession(sessionId: string): Promise<void> {
  */
 export function getMyLoginLogPage(params: MeLoginLogPageQuery): Promise<PageResponse<MeLoginLogPageRow>> {
   return http.get<PageResponse<MeLoginLogPageRow>, AxiosRequestConfig<MeLoginLogPageQuery>>(
-    '/system/user/me/login-logs/page',
+    '/system/me/login-logs/page',
     { params }
   );
+}
+
+/**
+ * 当前用户修改密码
+ */
+export interface SysUserChangePasswordRequest {
+  oldPassword: string;
+  newPassword: string;
+  confirmPassword: string;
+}
+
+/**
+ * 当前用户修改自己的密码
+ * @param data 密码表单
+ */
+export function changeOwnPassword(data: SysUserChangePasswordRequest): Promise<string> {
+  return http.request<string>('put', '/system/me/password', { data });
 }

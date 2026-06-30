@@ -15,18 +15,18 @@ const { t } = useI18n();
 
 <template>
   <div class="profile-header-card">
-    <div class="flex flex-wrap items-center gap-4">
-      <el-avatar :size="72" :src="profile.avatar" />
+    <div class="profile-header-card__body">
+      <el-avatar :size="72" :src="profile.avatar" class="profile-header-card__avatar" />
 
-      <div class="min-w-0 flex-1">
-        <div class="flex flex-wrap items-center gap-2">
-          <h3 class="m-0 text-lg font-medium">{{ profile.nickname }}</h3>
+      <div class="profile-header-card__content">
+        <div class="profile-header-card__name-row">
+          <h3 class="profile-header-card__nickname">{{ profile.nickname }}</h3>
           <el-text type="info">@{{ profile.username }}</el-text>
         </div>
 
-        <div class="mt-2 flex flex-col gap-2 text-sm">
+        <div class="profile-header-card__meta">
           <!-- 所属部门 -->
-          <div v-if="profile.deptList?.length" class="flex flex-wrap items-center gap-2">
+          <div v-if="profile.deptList?.length" class="profile-header-card__meta-row">
             <span>{{ t('assign.dept') }}：</span>
             <el-tag
               v-for="dept in profile.deptList"
@@ -39,7 +39,7 @@ const { t } = useI18n();
           </div>
 
           <!-- 任职岗位 -->
-          <div v-if="profile.postList?.length" class="flex flex-wrap items-center gap-2">
+          <div v-if="profile.postList?.length" class="profile-header-card__meta-row">
             <span>{{ t('assign.post') }}：</span>
             <el-tag
               v-for="post in profile.postList"
@@ -55,3 +55,47 @@ const { t } = useI18n();
     </div>
   </div>
 </template>
+
+<style lang="scss" scoped>
+.profile-header-card {
+  &__body {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 16px;
+  }
+
+  &__content {
+    min-width: 0;
+    flex: 1;
+  }
+
+  &__name-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+  }
+
+  &__nickname {
+    margin: 0;
+    font-size: 18px;
+    font-weight: 500;
+  }
+
+  &__meta {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: 8px;
+    font-size: 14px;
+  }
+
+  &__meta-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+  }
+}
+</style>
