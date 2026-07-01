@@ -45,9 +45,10 @@ const __APP_INFO__ = {
 const wrapperEnv = (envConf: Recordable): ViteEnv => {
   // 默认值
   const ret: ViteEnv = {
-    VITE_PORT: 8848,
+    VITE_PORT: 5173,
     VITE_PUBLIC_PATH: '',
     VITE_ROUTER_HISTORY: '',
+    VITE_PROXY_TARGET: 'http://localhost:8080',
     VITE_CDN: false,
     VITE_HIDE_HOME: 'false',
     VITE_COMPRESSION: 'none',
