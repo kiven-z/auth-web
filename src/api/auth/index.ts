@@ -1,12 +1,6 @@
 import { http } from '@/core/http';
 import { AUTH_API_PATHS } from './paths';
-import type {
-  EmailLoginRequest,
-  RefreshTokenResponse,
-  SmsLoginRequest,
-  UserLoginResponse,
-  UsernamePasswordLoginRequest,
-} from './types';
+import type { EmailLoginRequest, SmsLoginRequest, UserLoginResponse, UsernamePasswordLoginRequest } from './types';
 
 export { AUTH_API_PATHS, AUTH_PUBLIC_API_PATH_SUFFIXES } from './paths';
 export type {
@@ -61,15 +55,6 @@ export const loginBySmsApi = (data: SmsLoginRequest) => {
 export const sendSmsCodeApi = (params: { phone: string }) => {
   return http.request<string>('post', AUTH_API_PATHS.SMS_SEND_CODE, { params });
 };
-
-/**
- * 刷新令牌
- * @returns 刷新令牌响应
- */
-export const refreshTokenApi = () => {
-  return http.request<RefreshTokenResponse>('post', AUTH_API_PATHS.REFRESH_TOKEN);
-};
-
 /**
  * 退出登录
  * @returns 退出登录响应
