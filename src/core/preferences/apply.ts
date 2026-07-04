@@ -1,6 +1,6 @@
 import { getConfig } from '@/auth/config';
 import type { LocaleType } from '@/auth/config/locales';
-import { i18n } from '@/plugins/i18n';
+import { i18n } from '@/app/plugins/i18n';
 import { emitter } from '@/services/event-bus/mitt';
 import { useAppStoreHook } from '@/store/modules/app';
 import { useEpThemeStoreHook } from '@/store/modules/epTheme';

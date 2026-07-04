@@ -1,4 +1,4 @@
-import { i18n } from '@/plugins/i18n';
+import { i18n } from '@/app/plugins/i18n';
 import { ElMessageBox } from 'element-plus';
 
 /** 单层确认文案（标题、正文与按钮文案均可选） */

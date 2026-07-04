@@ -1,5 +1,5 @@
 import type { SysMenuTreeNode } from '@/api/system/menu';
-import { transformI18n } from '@/plugins/i18n';
+import { transformI18n } from '@/app/plugins/i18n';
 
 /**
  * 树形视图客户端筛选：匹配展示标题、路由名称与 i18n key。

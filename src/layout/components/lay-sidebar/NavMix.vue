@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { useRenderIcon } from '@/components/ui/Icon/src/hooks';
 import { useNav, useTranslationLang } from '@/layout/hooks';
-import { transformI18n } from '@/plugins/i18n';
+import { transformI18n } from '@/app/plugins/i18n';
 import { findRouteByPath, getParentPaths } from '@/router/utils/route-tree';
 import { usePermissionStoreHook } from '@/store/modules/permission';
 import { isAllEmpty } from '@pureadmin/utils';

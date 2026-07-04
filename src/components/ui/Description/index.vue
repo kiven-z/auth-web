@@ -1,108 +1,5 @@
-<template>
-  <div>
-    <div v-if="columns.length">
-      <!-- 数组 -> 多个描述 (一行一个表格) -->
-      <template v-if="isArrayData">
-        <el-descriptions
-          v-for="(row, rowIndex) in rows"
-          :key="getRowKey(row, rowIndex)"
-          :border="border"
-          :column="column"
-          :title="rowIndex === 0 ? title : undefined"
-          v-bind="$attrs"
-        >
-          <!-- 描述项 -->
-          <el-descriptions-item
-            v-for="item in columns"
-            :key="`${getRowKey(row, rowIndex)}-${item.prop}`"
-            v-bind="getItemProps(item)"
-          >
-            <template v-if="item.labelRenderer" #label>
-              <component :is="item.labelRenderer({ data: currentData })" />
-            </template>
-
-            <!-- 描述项内容 -->
-            <template v-if="item.cellRenderer">
-              <component
-                :is="
-                  item.cellRenderer({
-                    value: getValue(row, item),
-                    data: currentData,
-                    index: rowIndex,
-                    row,
-                  })
-                "
-              />
-            </template>
-
-            <!-- 描述项内容 -->
-            <template v-else>
-              <span class="re-description__cell">
-                <span class="re-description__value">{{ formatValue(getValue(row, item)) }}</span>
-                <el-icon
-                  v-if="item.copy && canCopy(getValue(row, item))"
-                  :size="16"
-                  class="re-description__copy-icon"
-                  color="var(--el-color-primary)"
-                  @click="handleCopy(getValue(row, item))"
-                >
-                  <CopyDocument />
-                </el-icon>
-              </span>
-            </template>
-          </el-descriptions-item>
-        </el-descriptions>
-      </template>
-
-      <!-- 单个对象 -> 单个描述 -->
-      <el-descriptions v-else :border="border" :column="column" :title="title" v-bind="$attrs">
-        <el-descriptions-item v-for="item in columns" :key="item.prop" v-bind="getItemProps(item)">
-          <!-- 描述项 -->
-          <template v-if="item.labelRenderer" #label>
-            <!-- 描述项标签 -->
-            <component :is="item.labelRenderer({ data: currentData })" />
-          </template>
-
-          <!-- 描述项内容 -->
-          <template v-if="item.cellRenderer">
-            <!-- 描述项内容 -->
-            <component
-              :is="
-                item.cellRenderer({
-                  value: getValue(rows[0], item),
-                  data: currentData,
-                  index: 0,
-                  row: rows[0],
-                })
-              "
-            />
-          </template>
-
-          <template v-else>
-            <!-- 描述项内容 -->
-            <span class="re-description__cell">
-              <span class="re-description__value">{{ formatValue(getValue(rows[0], item)) }}</span>
-              <!-- 复制按钮 -->
-              <el-icon
-                v-if="item.copy && canCopy(getValue(rows[0], item))"
-                :size="16"
-                class="re-description__copy-icon"
-                color="var(--el-color-primary)"
-                @click="handleCopy(getValue(rows[0], item))"
-              >
-                <CopyDocument />
-              </el-icon>
-            </span>
-          </template>
-        </el-descriptions-item>
-      </el-descriptions>
-    </div>
-    <el-empty v-else />
-  </div>
-</template>
-
 <script lang="ts" setup>
-import { message } from '@/services/feedback/message';
+import { copyToClipboard } from '@/shared/lib/clipboard';
 import { CopyDocument } from '@element-plus/icons-vue';
 import type { DescriptionItemProps } from 'element-plus';
 import get from 'lodash/get';
@@ -152,21 +49,11 @@ const props = withDefaults(
 );
 
 /**
- * 当前数据
- */
-const currentData = computed(() => props.data);
-
-/**
  * 行数据
  */
 const rows = computed<Row[]>(() => {
   return Array.isArray(props.data) ? props.data : [props.data];
 });
-
-/**
- * 是否是数组数据
- */
-const isArrayData = computed(() => Array.isArray(props.data));
 
 /**
  * 获取描述项属性
@@ -221,35 +108,102 @@ const formatValue = (value: any) => {
   if (value === undefined || value === null || value === '') return props.placeholder;
   return value;
 };
-
-/**
- * 复制
- * @param text 文本
- */
-const handleCopy = (text: any) => {
-  if (!canCopy(text)) return;
-
-  let copyText: string;
-  if (typeof text === 'object') {
-    try {
-      copyText = JSON.stringify(text);
-    } catch {
-      copyText = text;
-    }
-  } else {
-    copyText = text;
-  }
-
-  if (navigator.clipboard?.writeText) {
-    navigator.clipboard
-      .writeText(copyText)
-      .then(() => message('复制成功', { type: 'success' }))
-      .catch(() => message('复制失败', { type: 'error' }));
-  } else {
-    message('当前浏览器不支持复制功能', { type: 'warning' });
-  }
-};
 </script>
+
+<template>
+  <div>
+    <div v-if="columns.length">
+      <!-- 数组 -> 多个描述 (一行一个表格) -->
+      <template v-if="Array.isArray(data)">
+        <el-descriptions
+          v-for="(row, rowIndex) in rows"
+          :key="getRowKey(row, rowIndex)"
+          :border="border"
+          :column="column"
+          :title="rowIndex === 0 ? title : undefined"
+          v-bind="$attrs"
+        >
+          <!-- 描述项 -->
+          <el-descriptions-item
+            v-for="item in columns"
+            :key="`${getRowKey(row, rowIndex)}-${item.prop}`"
+            v-bind="getItemProps(item)"
+          >
+            <template v-if="item.labelRenderer" #label>
+              <component :is="item.labelRenderer({ data })" />
+            </template>
+
+            <span class="re-description__cell">
+              <template v-if="item.cellRenderer">
+                <component
+                  :is="
+                    item.cellRenderer({
+                      value: getValue(row, item),
+                      data,
+                      index: rowIndex,
+                      row,
+                    })
+                  "
+                />
+              </template>
+              <template v-else>
+                <span class="re-description__value">{{ formatValue(getValue(row, item)) }}</span>
+              </template>
+              <el-icon
+                v-if="item.copy && canCopy(getValue(row, item))"
+                :size="16"
+                class="re-description__copy-icon"
+                color="var(--el-color-primary)"
+                @click="copyToClipboard(getValue(row, item))"
+              >
+                <CopyDocument />
+              </el-icon>
+            </span>
+          </el-descriptions-item>
+        </el-descriptions>
+      </template>
+
+      <!-- 单个对象 -> 单个描述 -->
+      <el-descriptions v-else :border="border" :column="column" :title="title" v-bind="$attrs">
+        <el-descriptions-item v-for="item in columns" :key="item.prop" v-bind="getItemProps(item)">
+          <!-- 描述项 -->
+          <template v-if="item.labelRenderer" #label>
+            <!-- 描述项标签 -->
+            <component :is="item.labelRenderer({ data })" />
+          </template>
+
+          <span class="re-description__cell">
+            <template v-if="item.cellRenderer">
+              <component
+                :is="
+                  item.cellRenderer({
+                    value: getValue(rows[0], item),
+                    data,
+                    index: 0,
+                    row: rows[0],
+                  })
+                "
+              />
+            </template>
+            <template v-else>
+              <span class="re-description__value">{{ formatValue(getValue(rows[0], item)) }}</span>
+            </template>
+            <el-icon
+              v-if="item.copy && canCopy(getValue(rows[0], item))"
+              :size="16"
+              class="re-description__copy-icon"
+              color="var(--el-color-primary)"
+              @click="copyToClipboard(getValue(rows[0], item))"
+            >
+              <CopyDocument />
+            </el-icon>
+          </span>
+        </el-descriptions-item>
+      </el-descriptions>
+    </div>
+    <el-empty v-else />
+  </div>
+</template>
 
 <style scoped>
 .re-description__cell {

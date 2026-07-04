@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { AuthElTreePanel } from '@/components/business/AuthElTreePanel';
 import { useRenderIcon } from '@/components/ui/Icon/src/hooks';
-import { transformI18n } from '@/plugins/i18n';
+import { transformI18n } from '@/app/plugins/i18n';
 import MenuRowActions from '@/views/system/menu/components/MenuRowActions.vue';
 import { MENU_TYPE_OPTIONS } from '@/views/system/menu/constants/menu-type';
 import { SYS_MENU_PERMS } from '@/views/system/menu/constants/permissions';

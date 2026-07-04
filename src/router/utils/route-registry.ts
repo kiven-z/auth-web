@@ -12,7 +12,7 @@ import { formatFlatteningRoutes } from './route-tree';
 import { ASYNC_ROUTES_STORAGE_KEY } from '@/auth/config/http-config';
 import { getAsyncRoutes } from '@/api/system/routes';
 import { message } from '@/services/feedback/message';
-import { transformI18n } from '@/plugins/i18n';
+import { transformI18n } from '@/app/plugins/i18n';
 
 /**
  * 处理动态路由（后端返回的路由）

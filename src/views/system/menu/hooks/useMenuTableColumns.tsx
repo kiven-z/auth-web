@@ -3,7 +3,7 @@
  */
 import { useRenderIcon } from '@/components/ui/Icon/src/hooks';
 import { renderBooleanStatusTag } from '@/shared/composables/layout/renderBooleanStatusTag';
-import { transformI18n } from '@/plugins/i18n';
+import { transformI18n } from '@/app/plugins/i18n';
 import type { SysMenuRow } from '@/views/system/menu/hooks/useMenuPageState';
 import { ElTag, ElText } from 'element-plus';
 import { computed, h } from 'vue';

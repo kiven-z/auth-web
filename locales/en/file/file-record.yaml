@@ -1,6 +1,8 @@
 fileRecord:
   page:
     tableTitle: File Records
+  dialog:
+    detailTitle: File Detail
   fields:
     ownerUserId: Owner User ID
     bizType: Business Type
@@ -11,8 +13,13 @@ fileRecord:
     uploadMode: Upload Mode
     bucket: Bucket
     objectKey: Object Key
+    url: Access URL
+    accessUrl: Temporary Access URL
+    extension: Extension
     contentType: Content Type
     size: File Size
+    etag: Object ETag
     remark: Remark
   messages:
     loadFailed: Failed to load file records
+    loadDetailFailed: Failed to load file detail

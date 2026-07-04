@@ -2,8 +2,12 @@
 import type { SpreadsheetImportResult } from '@/api/common';
 import AuthDataTable from '@/components/ui/AuthDataTable';
 import { errorMessage, message } from '@/services/feedback/message';
-import { buildExportFilenameStamp } from '@/shared/utils/dateTime';
-import { buildImportErrorReportFilename, downloadBlob, downloadImportErrorsExcel } from '@/shared/utils/fileExport';
+import { buildExportFilenameStamp } from '@/shared/utils/date/dateTime';
+import {
+  buildImportErrorReportFilename,
+  downloadBlob,
+  downloadImportErrorsExcel,
+} from '@/shared/utils/file/fileExport';
 import { SpreadsheetImportDialogExpose } from '@/views/system/_shared/hooks/useSpreadsheetImportAction';
 import type { UploadFile, UploadProps, UploadRawFile } from 'element-plus';
 import { computed, ref } from 'vue';
@@ -187,9 +191,9 @@ defineExpose<SpreadsheetImportDialogExpose>({ submitImport: handleImport });
         :adaptive="false"
         :columns="errorColumns"
         :data="importResult.errors"
-        class="spreadsheet-import-dialog__error-table"
         :max-height="240"
         border
+        class="spreadsheet-import-dialog__error-table"
         size="small"
         stripe
       />

@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { routerArrays } from '@/layout/types';
-import { $t } from '@/plugins/i18n';
+import { $t } from '@/app/plugins/i18n';
 import { getTopMenu, handleAliveRoute } from '@/router/utils/misc';
 import NProgress from '@/services/progress';
 import { emitter } from '@/services/event-bus/mitt';

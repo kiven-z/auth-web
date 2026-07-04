@@ -1,6 +1,6 @@
 import { AUTH_RECOVERY_RULE_IDS } from '@/auth/config/auth/auth-recovery-rule-ids';
 import { ASYNC_ROUTES_STORAGE_KEY } from '@/auth/config/http-config';
-import { transformI18n } from '@/plugins/i18n';
+import { transformI18n } from '@/app/plugins/i18n';
 import { message } from '@/services/feedback/message';
 import { storageLocal } from '@pureadmin/utils';
 

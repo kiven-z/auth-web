@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import type { Props } from '../types';
-import { transformI18n } from '@/plugins/i18n';
+import { transformI18n } from '@/app/plugins/i18n';
 import { useResizeObserver } from '@pureadmin/utils';
 import { useEpThemeStoreHook } from '@/store/modules/epTheme';
 import { useRenderIcon } from '@/components/ui/Icon/src/hooks';

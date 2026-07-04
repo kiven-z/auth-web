@@ -1,7 +1,7 @@
 import { uploadFile } from '@/api/file/file-upload';
 import { openImageCropDialog } from '@/components/ui/ImageCropper';
 import { errorMessage, message } from '@/services/feedback/message';
-import { validateUploadFile } from '@/shared/utils/validateUploadFile';
+import { validateUploadFile } from '@/shared/utils/file/validateUploadFile';
 import type { UploadFile, UploadInstance, UploadRawFile } from 'element-plus';
 import { onBeforeUnmount, ref } from 'vue';
 import { useI18n } from 'vue-i18n';

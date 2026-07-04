@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { transformI18n } from '@/plugins/i18n';
+import { transformI18n } from '@/app/plugins/i18n';
 import { findRouteByPath, getParentPaths } from '@/router/utils/route-tree';
 import { useMultiTagsStoreHook } from '@/store/modules/multiTags';
 import { isEqual } from '@pureadmin/utils';

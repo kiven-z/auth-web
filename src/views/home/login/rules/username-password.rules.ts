@@ -1,4 +1,4 @@
-import { transformI18n } from '@/plugins/i18n';
+import { transformI18n } from '@/app/plugins/i18n';
 import type { FormRules } from 'element-plus';
 
 /**

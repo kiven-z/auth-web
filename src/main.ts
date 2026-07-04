@@ -1,13 +1,13 @@
-import { wireSessionStoreBridge } from '@/bootstrap';
-import { useI18n } from '@/plugins/i18n';
+import { wireSessionStoreBridge } from '@/app/bootstrap';
+import { useI18n } from '@/app/plugins/i18n';
 import { setupStore } from '@/store';
 import { MotionPlugin } from '@vueuse/motion';
 import App from './App.vue';
 import { getPlatformConfig } from './auth/config';
 import router from './router';
-import { useEcharts } from '@/plugins/echarts';
-import { useElementPlus } from '@/plugins/elementPlus';
-import { injectResponsiveStorage } from '@/bootstrap/responsive';
+import { useEcharts } from '@/app/plugins/echarts';
+import { useElementPlus } from '@/app/plugins/elementPlus';
+import { injectResponsiveStorage } from '@/app/bootstrap/responsive';
 import { applyHydratedUiPreferences } from '@/core/preferences';
 import { createApp, type Directive } from 'vue';
 

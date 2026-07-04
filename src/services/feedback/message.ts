@@ -1,4 +1,4 @@
-import { transformI18n } from '@/plugins/i18n';
+import { transformI18n } from '@/app/plugins/i18n';
 import { isFunction } from '@pureadmin/utils';
 import { ElMessage, type MessageHandler } from 'element-plus';
 import type { VNode } from 'vue';

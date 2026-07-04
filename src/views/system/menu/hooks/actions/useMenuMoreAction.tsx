@@ -1,7 +1,7 @@
 import type { TableActionDeps } from '@/api/common';
 import { getMenuRoles, putMenuRoles } from '@/api/system/menu';
 import { addDrawer } from '@/components/ui/Drawer';
-import { transformI18n } from '@/plugins/i18n';
+import { transformI18n } from '@/app/plugins/i18n';
 import { errorMessage, message } from '@/services/feedback/message';
 import OrgGrantRoleAssignDrawer from '@/views/system/_shared/components/OrgGrantRoleAssignDrawer.vue';
 import type { SysMenuRow } from '@/views/system/menu/hooks/useMenuPageState';

@@ -1,4 +1,4 @@
-import { transformI18n } from '@/plugins/i18n';
+import { transformI18n } from '@/app/plugins/i18n';
 import { cloneDeep, getKeyList, isBoolean, isFunction } from '@pureadmin/utils';
 import Sortable from 'sortablejs';
 import type { Ref } from 'vue';

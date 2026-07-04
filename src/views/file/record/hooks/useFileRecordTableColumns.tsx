@@ -1,6 +1,6 @@
 import type { FileRecordPageRow } from '@/api/file/file-record';
 import { selectUserinfo } from '@/components/business/UserProfile';
-import { formatFileSize } from '@/shared/utils/fileSize';
+import { formatFileSize } from '@/shared/utils/file/fileSize';
 import { ElButton } from 'element-plus';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
@@ -127,6 +127,12 @@ function useFileRecordTableColumns() {
       label: t('fileRecord.fields.remark'),
       prop: 'remark',
       minWidth: 180,
+    },
+    {
+      label: t('table.actions'),
+      fixed: 'right' as const,
+      width: 120,
+      slot: 'actions',
     },
   ]);
 

@@ -1,4 +1,4 @@
-import { $t } from '@/plugins/i18n';
+import { $t } from '@/app/plugins/i18n';
 
 export default {
   path: '/error',

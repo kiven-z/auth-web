@@ -5,7 +5,7 @@ import { useRouter } from 'vue-router';
 import SearchResult from './SearchResult.vue';
 import SearchFooter from './SearchFooter.vue';
 import { useNav } from '@/layout/hooks';
-import { transformI18n } from '@/plugins/i18n';
+import { transformI18n } from '@/app/plugins/i18n';
 import SearchHistory from './SearchHistory.vue';
 import type { dragItem, optionsItem } from '../types';
 import { computed, ref, shallowRef, watch } from 'vue';

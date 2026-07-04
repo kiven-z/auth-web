@@ -1,4 +1,4 @@
-import { transformI18n } from '@/plugins/i18n';
+import { transformI18n } from '@/app/plugins/i18n';
 import { useEpThemeStoreHook } from '@/store/modules/epTheme';
 import { delay } from '@pureadmin/utils';
 import { computed, defineComponent, nextTick, type PropType, ref, toRef } from 'vue';

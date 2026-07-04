@@ -1,4 +1,4 @@
-import { getResponsiveStorage } from '@/bootstrap/responsive';
+import { getResponsiveStorage } from '@/app/bootstrap/responsive';
 import { UI_PREFERENCE_KEYS } from './keys';
 import { getIsHydrating, schedulePreferenceSync } from './sync';
 

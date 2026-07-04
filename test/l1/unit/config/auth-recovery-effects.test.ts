@@ -11,7 +11,7 @@ vi.mock('@/services/feedback/message', () => ({
   message: messageMock,
 }));
 
-vi.mock('@/plugins/i18n', () => ({
+vi.mock('@/app/plugins/i18n', () => ({
   transformI18n: (key: string) => {
     const messages: Record<string, string> = {
       'tips.tokenExpiredRefreshRetry': '访问令牌过期或失效，若尝试刷新失败，请重新登录后重试',

@@ -1,8 +1,10 @@
 <script lang="ts" setup>
 import { queryFileRecordPage } from '@/api/file/file-record';
 import AuthPagedTable, { usePaginationState } from '@/components/business/AuthPagedTable';
+import useRemoteUserSearch from '@/shared/composables/dialog/useRemoteUserSearch';
 import { useFormPlaceholder } from '@/shared/composables/i18n/useFormPlaceholder';
 import { FILE_RECORD_PERMS } from '@/views/file/record/constants/permissions';
+import useFileRecordTableAction from '@/views/file/record/hooks/useFileRecordTableAction';
 import useFileRecordTableColumns from '@/views/file/record/hooks/useFileRecordTableColumns';
 import type { FormInstance } from 'element-plus';
 import { onMounted, reactive, ref } from 'vue';
@@ -31,6 +33,11 @@ const fileRecordState = usePaginationState({
 });
 
 const { loading, searchForm, pagination, fetchTableData, resetQuery } = fileRecordState;
+const { detailLoadingId, openDetailDialog } = useFileRecordTableAction();
+
+const { userOptions, userSearchLoading, loadUserListByKeyword } = useRemoteUserSearch({
+  errorDefaultI18nKey: 'fileRecord.messages.loadFailed',
+});
 
 /**
  * 执行分页查询（切回第一页）。
@@ -46,6 +53,8 @@ async function handleSearch(): Promise<void> {
  * @returns 无
  */
 async function handleReset(): Promise<void> {
+  fileRecordState.searchForm.startTime = undefined;
+  fileRecordState.searchForm.endTime = undefined;
   await resetQuery(searchFormRef.value);
 }
 
@@ -57,14 +66,20 @@ onMounted(() => {
 <template>
   <div>
     <el-form ref="searchFormRef" :model="searchForm" class="bg-bg_color w-[99/100] overflow-auto pl-8 pt-3" inline>
-      <!-- 归属用户ID筛选 -->
+      <!-- 归属用户筛选 -->
       <el-form-item :label="t('fileRecord.fields.ownerUserId')" prop="ownerUserId">
-        <el-input
+        <el-select
           v-model="searchForm.ownerUserId"
-          :placeholder="placeholderBuilder.input('fileRecord.fields.ownerUserId')"
-          class="w-42!"
+          :loading="userSearchLoading"
+          :placeholder="placeholderBuilder.keyword('fileRecord.fields.ownerUserId')"
+          :remote-method="loadUserListByKeyword"
+          class="w-45!"
           clearable
-        />
+          filterable
+          remote
+        >
+          <el-option v-for="item in userOptions" :key="item.id" :label="item.username" :value="item.id" />
+        </el-select>
       </el-form-item>
       <!-- 业务类型筛选 -->
       <el-form-item :label="t('fileRecord.fields.bizType')" prop="bizType">
@@ -132,6 +147,21 @@ onMounted(() => {
       :state="fileRecordState"
       :title="t('fileRecord.page.tableTitle')"
       show-overflow-tooltip
-    />
+    >
+      <template #actions="{ row }">
+        <div class="flex justify-center">
+          <!-- 查看详情 -->
+          <el-button
+            v-perms="FILE_RECORD_PERMS.QUERY"
+            :loading="detailLoadingId === row.id"
+            link
+            type="primary"
+            @click="openDetailDialog(row)"
+          >
+            {{ t('buttons.actionView') }}
+          </el-button>
+        </div>
+      </template>
+    </AuthPagedTable>
   </div>
 </template>

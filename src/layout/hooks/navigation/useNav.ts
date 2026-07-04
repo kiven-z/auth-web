@@ -1,6 +1,6 @@
 import Avatar from '@/assets/user.jpg';
 import { getConfig } from '@/auth/config';
-import { transformI18n } from '@/plugins/i18n';
+import { transformI18n } from '@/app/plugins/i18n';
 import { remainingPaths, router } from '@/router';
 import { getTopMenu } from '@/router/utils/misc';
 import { emitter } from '@/services/event-bus/mitt';

@@ -5,7 +5,7 @@ import { useRenderIcon } from '@/components/ui/Icon/src/hooks';
 import DetailRelationListSection from '@/components/business/DetailRelationListSection/index.vue';
 import Description from '@/components/ui/Description';
 import { renderBooleanStatusTag } from '@/shared/composables/layout/renderBooleanStatusTag';
-import { transformI18n } from '@/plugins/i18n';
+import { transformI18n } from '@/app/plugins/i18n';
 import useRoleColumns from '@/views/system/_shared/columns/useRoleColumns';
 import { MENU_TYPE_OPTIONS } from '@/views/system/menu/constants/menu-type';
 import { MENU_ROOT_PARENT_ID } from '@/views/system/menu/utils/menu-parent';

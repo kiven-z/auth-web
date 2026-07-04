@@ -3,7 +3,7 @@ import type { tagsViewsType } from '../../types';
 import { useRoute, useRouter } from 'vue-router';
 import { getConfigureSnapshot } from '@/core/preferences';
 import { useUiConfigure } from '@/layout/hooks';
-import { $t, transformI18n } from '@/plugins/i18n';
+import { $t, transformI18n } from '@/app/plugins/i18n';
 import { useSettingStoreHook } from '@/store/modules/settings';
 import { useMultiTagsStoreHook } from '@/store/modules/multiTags';
 import { hasClass, isBoolean, isEqual, toggleClass } from '@pureadmin/utils';
