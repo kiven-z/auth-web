@@ -30,6 +30,7 @@ menus:
   redirect: Redirect
   activePath: Active menu path
   showLink: Visible in menu
+  publicAccess: Visible to all logged-in users
   showParent: Show parent
   keepAlive: Keep alive
   hiddenTag: Tab behavior
@@ -101,3 +102,9 @@ routes:
 
   opsManagement: Operations Center
   authorizationInvalidation: Authorization Invalidation Ops
+
+  fileManagement: File Management
+  fileRecord: File Record
+  fileRecycle: File Recycle
+  myFiles: My Files
+  myFileRecycle: My Recycle Bin

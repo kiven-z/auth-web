@@ -9,6 +9,7 @@ services:
     container_name: auth-web-test
     ports:
       - "18081:80"
+    restart: unless-stopped
     networks:
       - auth-network
 

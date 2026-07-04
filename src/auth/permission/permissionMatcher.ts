@@ -1,5 +1,5 @@
 /** 管理员通配权限（与后端 PermissionConstant.ADMIN_WILDCARD_PERMISSIONS 一致） */
-const ADMIN_WILDCARD_PERMISSIONS = ['*', '*:*', '*:*:*'] as const;
+const ADMIN_WILDCARD_PERMISSIONS = ['*', '*:*', '*:*:*', '*:*:*:*'] as const;
 
 const ASTERISK = '*';
 

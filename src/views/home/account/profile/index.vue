@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import { getUserProfile, type SysUserProfileResponse } from '@/api/system/user-base';
+import type { MeProfileUpdateRequest } from '@/api/system/user-me';
 import { readStoredUserProfileEntry, writeUserProfileToStorage } from '@/core/session/userProfileStorage';
 import { errorMessage } from '@/services/feedback/message';
 import { useUserStoreHook } from '@/store/modules/user';
@@ -36,7 +37,7 @@ async function loadProfileData() {
 /**
  * 资料保存成功后合并本地档案、同步 Store 与缓存
  */
-function handleProfileSaved(updated: Partial<SysUserProfileResponse>) {
+function handleProfileSaved(updated: MeProfileUpdateRequest) {
   if (!profile.value) {
     return;
   }

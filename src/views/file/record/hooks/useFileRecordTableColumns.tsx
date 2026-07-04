@@ -1,0 +1,136 @@
+import type { FileRecordPageRow } from '@/api/file/file-record';
+import { selectUserinfo } from '@/components/business/UserProfile';
+import { formatFileSize } from '@/shared/utils/fileSize';
+import { ElButton } from 'element-plus';
+import { computed } from 'vue';
+import { useI18n } from 'vue-i18n';
+
+/**
+ * 文件记录表格列配置。
+ * @returns 表格列定义
+ */
+function useFileRecordTableColumns() {
+  const { t } = useI18n();
+
+  const columns = computed<TableColumnList>(() => [
+    {
+      type: 'index',
+      index: (index: number) => index + 1,
+      label: t('table.idx'),
+      width: 70,
+    },
+    // 文件名称
+    {
+      label: t('fileRecord.fields.originalName'),
+      prop: 'originalName',
+      minWidth: 220,
+    },
+    // 存储平台
+    {
+      label: t('fileRecord.fields.storagePlatform'),
+      prop: 'storagePlatform',
+      minWidth: 120,
+    },
+    // 上传模式
+    {
+      label: t('fileRecord.fields.uploadMode'),
+      prop: 'uploadMode',
+      minWidth: 110,
+    },
+    // 文件大小
+    {
+      label: t('fileRecord.fields.size'),
+      prop: 'size',
+      minWidth: 120,
+      formatter: (row: FileRecordPageRow) => formatFileSize(row.size),
+    },
+    // 文件类型
+    {
+      label: t('fileRecord.fields.contentType'),
+      prop: 'contentType',
+      minWidth: 180,
+    },
+    // 业务类型
+    {
+      label: t('fileRecord.fields.bizType'),
+      prop: 'bizType',
+      minWidth: 130,
+    },
+    // 业务 ID
+    {
+      label: t('fileRecord.fields.bizId'),
+      prop: 'bizId',
+      minWidth: 150,
+    },
+    // 创建时间
+    {
+      label: t('table.createTime'),
+      prop: 'createTime',
+      sortable: true,
+      minWidth: 170,
+    },
+    // 创建人
+    {
+      label: t('table.createUsername'),
+      prop: 'createUser',
+      minWidth: 130,
+      formatter: (row: FileRecordPageRow) => {
+        const createUser = row.createUser;
+        if (!createUser) {
+          return <span>—</span>;
+        }
+        return (
+          <ElButton link type="primary" onClick={() => selectUserinfo(createUser, row.createUsername)}>
+            {row.createUsername ?? createUser}
+          </ElButton>
+        );
+      },
+    },
+    // 更新时间
+    {
+      label: t('table.updateTime'),
+      prop: 'updateTime',
+      sortable: true,
+      minWidth: 170,
+    },
+    // 更新人
+    {
+      label: t('table.updateUsername'),
+      prop: 'updateUser',
+      minWidth: 130,
+      formatter: (row: FileRecordPageRow) => {
+        const updateUser = row.updateUser;
+        if (!updateUser) {
+          return <span>—</span>;
+        }
+        return (
+          <ElButton link type="primary" onClick={() => selectUserinfo(updateUser, row.updateUsername)}>
+            {row.updateUsername ?? updateUser}
+          </ElButton>
+        );
+      },
+    },
+    // 存储桶
+    {
+      label: t('fileRecord.fields.bucket'),
+      prop: 'bucket',
+      minWidth: 160,
+    },
+    // 对象键
+    {
+      label: t('fileRecord.fields.objectKey'),
+      prop: 'objectKey',
+      minWidth: 260,
+    },
+    // 备注
+    {
+      label: t('fileRecord.fields.remark'),
+      prop: 'remark',
+      minWidth: 180,
+    },
+  ]);
+
+  return { columns };
+}
+
+export default useFileRecordTableColumns;

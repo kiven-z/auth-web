@@ -1,0 +1,18 @@
+fileRecord:
+  page:
+    tableTitle: File Records
+  fields:
+    ownerUserId: Owner User ID
+    bizType: Business Type
+    bizId: Business ID
+    originalName: Original File Name
+    createTimeRange: Created Time Range
+    storagePlatform: Storage Platform
+    uploadMode: Upload Mode
+    bucket: Bucket
+    objectKey: Object Key
+    contentType: Content Type
+    size: File Size
+    remark: Remark
+  messages:
+    loadFailed: Failed to load file records

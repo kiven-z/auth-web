@@ -35,14 +35,24 @@ function filterTree(data: RouteComponent[]) {
 }
 
 /**
- * 从localStorage里取出当前登录用户的角色roles，过滤无权限的菜单
+ * 按角色过滤菜单；publicAccess 为 true 时对所有登录用户可见，不校验角色。
+ * roles 为空数组仍不可见（isOneOfArray 语义不变）。
  * @param data 菜单数据
  * @returns 过滤后的菜单数据
  */
 function filterNoPermissionTree(data: RouteComponent[]) {
   const currentRoles = useUserStoreHook().roles ?? [];
-  const newTree = cloneDeep(data).filter((v: any) => isOneOfArray(v.meta?.roles, currentRoles));
-  newTree.forEach((v: any) => v.children && (v.children = filterNoPermissionTree(v.children)));
+  const newTree = cloneDeep(data).filter((v: any) => {
+    if (v.meta?.publicAccess === true) {
+      return true;
+    }
+    return isOneOfArray(v.meta?.roles, currentRoles);
+  });
+  newTree.forEach((v: any) => {
+    if (v.children) {
+      v.children = filterNoPermissionTree(v.children);
+    }
+  });
   return newTree;
 }
 

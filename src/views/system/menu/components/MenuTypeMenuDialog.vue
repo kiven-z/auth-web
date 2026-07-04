@@ -59,6 +59,18 @@ const { t } = useI18n();
     </el-col>
 
     <el-col :lg="8" :md="12" :sm="12" :xs="24">
+      <el-form-item :label="t('menus.publicAccess')" prop="publicAccess">
+        <el-switch
+          v-model="formModel.publicAccess"
+          :active-text="t('status.yes')"
+          :disabled="formDisabled"
+          :inactive-text="t('status.no')"
+          inline-prompt
+        />
+      </el-form-item>
+    </el-col>
+
+    <el-col :lg="8" :md="12" :sm="12" :xs="24">
       <el-form-item :label="t('menus.showParent')" prop="showParent">
         <el-switch
           v-model="formModel.showParent"

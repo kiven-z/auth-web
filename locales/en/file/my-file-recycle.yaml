@@ -1,0 +1,5 @@
+myFileRecycle:
+  page:
+    tableTitle: My Recycle Bin
+  messages:
+    loadFailed: Failed to load my recycle bin

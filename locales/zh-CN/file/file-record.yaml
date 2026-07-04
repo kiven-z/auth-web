@@ -1,0 +1,18 @@
+fileRecord:
+  page:
+    tableTitle: 文件记录
+  fields:
+    ownerUserId: 归属用户ID
+    bizType: 业务类型
+    bizId: 业务ID
+    originalName: 原始文件名
+    createTimeRange: 创建时间范围
+    storagePlatform: 存储平台
+    uploadMode: 上传模式
+    bucket: 存储桶
+    objectKey: 对象键
+    contentType: 文件类型
+    size: 文件大小
+    remark: 备注
+  messages:
+    loadFailed: 获取文件记录列表失败

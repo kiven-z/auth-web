@@ -1,9 +1,11 @@
 <script lang="ts" setup>
 import type { SysUserProfileResponse } from '@/api/system/user-base';
 import { type MeProfileUpdateRequest, updateMyProfile } from '@/api/system/user-me';
+import { multiConfirm } from '@/services/feedback/dialog';
 import { errorMessage, message } from '@/services/feedback/message';
+import { useAvatarCropFlow } from '@/views/home/account/profile/hooks/useAvatarCropFlow';
 import { USER_GENDER_OPTIONS } from '@/views/system/user/constants/user-gender';
-import { ElMessageBox, type FormInstance, type FormRules } from 'element-plus';
+import { type FormInstance, type FormRules } from 'element-plus';
 import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 
@@ -16,7 +18,7 @@ const props = defineProps<{
 }>();
 
 const emit = defineEmits<{
-  saved: [updatedProfilePartial: Partial<SysUserProfileResponse>];
+  saved: [updatedProfile: MeProfileUpdateRequest];
 }>();
 
 const { t } = useI18n();
@@ -51,6 +53,12 @@ const rules = computed<FormRules>(() => ({
   ],
 }));
 
+const { avatarUploading, avatarCropping, handleAvatarChange } = useAvatarCropFlow({
+  onAvatarUploaded: (avatarUrl: string) => {
+    form.value.avatar = avatarUrl;
+  },
+});
+
 /**
  * 重置表单为当前档案
  */
@@ -66,38 +74,23 @@ function resetForm() {
   });
   initialEmail.value = props.profile.email;
   initialPhone.value = props.profile.phone;
-  formRef.value?.clearValidate();
-}
-
-resetForm();
-
-/**
- * 邮箱或手机号是否相对初始值发生变化
- */
-function hasContactFieldChanged(): boolean {
-  return form.value.email !== initialEmail.value || form.value.phone !== initialPhone.value;
+  formRef.value?.resetFields();
 }
 
 /**
  * 在修改联系方式前提示会话将全部下线
  */
 async function confirmContactFieldChange(): Promise<boolean> {
-  if (!hasContactFieldChanged()) {
+  if (!(form.value.email !== initialEmail.value || form.value.phone !== initialPhone.value)) {
     return true;
   }
 
-  try {
-    await ElMessageBox.confirm(t('account.hint.contactChangeSessionRevoke'), t('account.hint.contactChangeTitle'), {
-      confirmButtonText: t('buttons.pureConfirm'),
-      cancelButtonText: t('buttons.pureClose'),
-      type: 'warning',
-      draggable: true,
-      showClose: false,
-    });
-    return true;
-  } catch {
-    return false;
-  }
+  return multiConfirm([
+    {
+      title: t('account.hint.contactChangeTitle'),
+      message: t('account.hint.contactChangeSessionRevoke'),
+    },
+  ]);
 }
 
 /**
@@ -122,9 +115,11 @@ async function handleSave() {
   try {
     await updateMyProfile(form.value);
     message(t('tips.editSuccess'), { type: 'success' });
+
     initialEmail.value = form.value.email;
     initialPhone.value = form.value.phone;
-    emit('saved', form.value);
+
+    emit('saved', form.value as any);
   } catch (error: unknown) {
     errorMessage(error, { defaultI18nKey: 'tips.editFailed' });
   } finally {
@@ -136,6 +131,28 @@ async function handleSave() {
 <template>
   <el-form ref="formRef" :model="form" :rules="rules" label-width="auto">
     <el-row :gutter="14">
+      <el-col :span="24">
+        <!-- 用户在个人中心上传并更新自己的头像 -->
+        <el-form-item :label="t('users.field.avatarURL')" prop="avatar">
+          <div class="profile-basic-info-card__avatar-upload">
+            <el-avatar :size="72" :src="form.avatar || undefined" class="profile-basic-info-card__avatar-preview" />
+            <el-upload
+              ref="avatarUploadRef"
+              :auto-upload="false"
+              :disabled="avatarUploading || avatarCropping"
+              :show-file-list="false"
+              accept="image/jpeg,image/png,image/webp"
+              @change="handleAvatarChange"
+            >
+              <el-button :loading="avatarUploading || avatarCropping" link type="primary">
+                {{ t('account.avatar.select') }}
+              </el-button>
+            </el-upload>
+            <el-text type="info">{{ t('account.avatar.uploadHint') }}</el-text>
+          </div>
+        </el-form-item>
+      </el-col>
+
       <el-col :lg="12" :md="12" :sm="12" :xs="24">
         <el-form-item :label="t('account.field.username')">
           <el-input :model-value="profile.username" disabled />
@@ -165,7 +182,7 @@ async function handleSave() {
         <el-form-item :label="t('users.field.gender')" prop="gender">
           <el-radio-group v-model="form.gender">
             <el-radio v-for="opt in USER_GENDER_OPTIONS" :key="opt.value" :value="opt.value">
-              {{ t(opt.labelKey) }}
+              {{ t(String(opt.labelKey)) }}
             </el-radio>
           </el-radio-group>
         </el-form-item>
@@ -181,11 +198,6 @@ async function handleSave() {
             type="date"
             value-format="YYYY-MM-DD"
           />
-        </el-form-item>
-      </el-col>
-      <el-col :span="24">
-        <el-form-item :label="t('users.field.avatarURL')" prop="avatar">
-          <el-input v-model="form.avatar" :placeholder="t('users.field.avatarURL')" clearable maxlength="512" />
         </el-form-item>
       </el-col>
       <el-col :span="24">
@@ -218,6 +230,13 @@ async function handleSave() {
 
   &__date-picker {
     width: 100%;
+  }
+
+  &__avatar-upload {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 12px;
   }
 }
 </style>

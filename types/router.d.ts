@@ -20,6 +20,8 @@ declare global {
     extraIcon?: string | FunctionalComponent;
     /** 是否在菜单中显示（默认`true`）`可选` */
     showLink?: boolean;
+    /** 登录可见：所有登录用户可见，不校验角色（默认`false`）`可选` */
+    publicAccess?: boolean;
     /** 是否显示父级菜单 `可选` */
     showParent?: boolean;
     /** 页面级别权限设置 `可选` */

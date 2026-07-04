@@ -63,7 +63,8 @@ export function createAuthGuard(router: Router): void {
         }
       }
 
-      if (to.meta?.roles && !isOneOfArray(to.meta?.roles, userInfo?.roles)) {
+      // publicAccess 菜单对所有登录用户放行；空 roles 仍走 isOneOfArray（不可见/不可进）
+      if (to.meta?.publicAccess !== true && to.meta?.roles && !isOneOfArray(to.meta?.roles, userInfo?.roles)) {
         next({ path: '/error/403' });
         return;
       }

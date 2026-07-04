@@ -3,7 +3,7 @@
   "editor.formatOnType": true,
   "editor.formatOnSave": true,
   "[vue]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
+    "editor.defaultFormatter": "rvest.vs-code-prettier-eslint"
   },
   "editor.tabSize": 2,
   "editor.formatOnPaste": true,

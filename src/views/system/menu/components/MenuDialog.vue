@@ -73,6 +73,7 @@ const form = ref<MenuFormModel>({
   menuType: MenuTypeEnums.MENU,
   menuRank: 0,
   showLink: true,
+  publicAccess: false,
   showParent: true,
   keepAlive: false,
   status: true,
@@ -100,7 +101,7 @@ const deptTree = ref<DeptNode[]>([]);
 const parentIdPath = ref<string[]>([]);
 
 const typeSegmentOptions = computed(() =>
-  MENU_TYPE_OPTIONS.map((item) => ({ label: t(item.labelKey), value: item.value }))
+  MENU_TYPE_OPTIONS.map((item) => ({ label: t(String(item.labelKey)), value: item.value }))
 );
 
 const iconInputMode = ref<IconInputMode>(deriveIconInputMode(form.value.icon));

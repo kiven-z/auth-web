@@ -25,6 +25,8 @@ sysMenu:
   keepAlive: Keep alive
   showLinkYes: Visible
   showLinkNo: Hidden
+  publicAccessYes: Yes
+  publicAccessNo: No
   keepAliveYes: Cached
   keepAliveNo: Not cached
   viewTableTitle: Table view

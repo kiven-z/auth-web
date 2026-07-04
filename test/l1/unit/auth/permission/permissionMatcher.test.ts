@@ -5,14 +5,17 @@ describe('permissionMatcher', () => {
   it('admin wildcards grant any required permission', () => {
     expect(isAdminPermission(['*'])).toBe(true);
     expect(isAdminPermission(['*:*', 'sys:user:add'])).toBe(true);
+    expect(isAdminPermission(['*:*:*:*'])).toBe(true);
     expect(isAdminPermission(['sys:user:add'])).toBe(false);
-    expect(satisfiesAllRequired(['sys:dept:diagnose'], ['*', '*:*', '*:*:*'])).toBe(true);
+    expect(satisfiesAllRequired(['sys:dept:diagnose'], ['*', '*:*', '*:*:*', '*:*:*:*'])).toBe(true);
   });
 
   it('matches segment wildcards like backend PermissionMatcher', () => {
     expect(matchPermission('*', 'sys:user:add')).toBe(true);
     expect(matchPermission('*:*', 'sys:user:add')).toBe(true);
     expect(matchPermission('*:*:*', 'sys:user:add')).toBe(true);
+    expect(matchPermission('*:*:*:*', 'sys:user:add')).toBe(true);
+    expect(matchPermission('*:*:*:*', 'sys:file:recycle:query')).toBe(true);
     expect(matchPermission('sys:user:add', 'sys:user:add')).toBe(true);
     expect(matchPermission('sys:user:add', 'sys:user:del')).toBe(false);
     expect(matchPermission('sys:*:*', 'sys:user:add')).toBe(true);

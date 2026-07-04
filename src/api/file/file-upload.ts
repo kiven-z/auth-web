@@ -1,0 +1,42 @@
+import { http } from '@/core/http';
+
+/**
+ * 文件上传请求参数（multipart/form-data）
+ */
+export interface FileUploadRequest {
+  /** 上传文件 */
+  file: File;
+  /** 存储平台（可选） */
+  storagePlatform?: string;
+  /** 业务类型（可选） */
+  bizType?: string;
+}
+
+/**
+ * 文件上传响应
+ */
+export interface FileUploadResponse {
+  /** 文件访问地址 */
+  url: string;
+}
+
+/**
+ * 上传文件
+ * @param payload 上传参数
+ * @returns 上传结果（包含文件 URL）
+ */
+export function uploadFile(payload: FileUploadRequest): Promise<FileUploadResponse> {
+  const formData = new FormData();
+  formData.append('file', payload.file);
+  if (payload.storagePlatform) {
+    formData.append('storagePlatform', payload.storagePlatform);
+  }
+  if (payload.bizType) {
+    formData.append('bizType', payload.bizType);
+  }
+
+  return http.post<FileUploadResponse, unknown>('/system/file/upload', {
+    data: formData,
+    headers: { 'Content-Type': 'multipart/form-data' },
+  });
+}

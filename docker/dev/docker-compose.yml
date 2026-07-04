@@ -9,6 +9,7 @@ services:
     container_name: auth-web
     ports:
       - "18080:80"
+    restart: unless-stopped
     networks:
       - auth-network
 

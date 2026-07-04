@@ -25,6 +25,8 @@ sysMenu:
   keepAlive: 缓存
   showLinkYes: 显示
   showLinkNo: 隐藏
+  publicAccessYes: 是
+  publicAccessNo: 否
   keepAliveYes: 缓存
   keepAliveNo: 不缓存
   viewTableTitle: 表格视图

@@ -73,7 +73,7 @@ const descriptionColumns = computed(() => [
       }
       return (
         <ElTag type={option.tagType} effect="plain">
-          {t(option.labelKey)}
+          {t(option.labelKey as string)}
         </ElTag>
       );
     },
@@ -106,6 +106,13 @@ const descriptionColumns = computed(() => [
     prop: 'showLink',
     labelWidth: 120,
     cellRenderer: ({ value }: { value: boolean }) => renderYesNoTag(value, 'sysMenu.showLinkYes', 'sysMenu.showLinkNo'),
+  },
+  {
+    label: t('menus.publicAccess'),
+    prop: 'publicAccess',
+    labelWidth: 120,
+    cellRenderer: ({ value }: { value: boolean }) =>
+      renderYesNoTag(value, 'sysMenu.publicAccessYes', 'sysMenu.publicAccessNo'),
   },
   {
     label: t('menus.showParent'),

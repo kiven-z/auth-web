@@ -1,5 +1,5 @@
 /**
  * 权限编码格式约定（对齐后端 {@code AuthCodeConvention.PERMISSION_CODE_REGEX}）。
- * 全小写 1～3 段，段间冒号；每段为 * 或小写 [a-z][a-z0-9]*。
+ * 全小写 1～4 段，段间冒号；每段为 * 或小写 [a-z][a-z0-9]*。
  */
-export const PERMISSION_CODE_REGEX = /^(?:\*|[a-z][a-z0-9]*)(?::(?:\*|[a-z][a-z0-9]*)){0,2}$/;
+export const PERMISSION_CODE_REGEX = /^(?:\*|[a-z][a-z0-9]*)(?::(?:\*|[a-z][a-z0-9]*)){0,3}$/;

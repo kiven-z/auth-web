@@ -30,6 +30,7 @@ menus:
   redirect: 重定向
   activePath: 激活路径
   showLink: 是否显示
+  publicAccess: 登录可见（不校验角色）
   showParent: 显示父级
   keepAlive: 缓存页面
   hiddenTag: 标签页
@@ -101,3 +102,9 @@ routes:
 
   opsManagement: 运维中心
   authorizationInvalidation: 授权失效运维
+
+  fileManagement: 文件管理
+  fileRecord: 文件记录
+  fileRecycle: 文件回收站
+  myFiles: 我的文件
+  myFileRecycle: 我的回收站

@@ -17,6 +17,8 @@ export interface MenuCreateForm {
   title: string;
   icon?: string;
   showLink: boolean;
+  /** 登录可见：true=所有登录用户可见，不校验角色 */
+  publicAccess: boolean;
   menuRank: number;
   extraIcon?: string;
   showParent?: boolean;
@@ -64,6 +66,8 @@ export interface SysMenuListVO extends BaseResponse {
   menuType: number;
   status: boolean;
   showLink: boolean;
+  /** 登录可见：true=所有登录用户可见，不校验角色 */
+  publicAccess: boolean;
   menuRank: number;
   keepAlive: boolean;
   fixedTag: boolean;
