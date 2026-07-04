@@ -23,3 +23,8 @@ fileRecord:
   messages:
     loadFailed: 获取文件记录列表失败
     loadDetailFailed: 获取文件详情失败
+    deleteFailed: 删除文件记录失败
+    downloadSuccess: 下载成功
+    downloadFailed: 下载文件失败
+    batchDownloadSuccess: 已开始下载 {count} 个文件
+    batchDownloadFailed: 批量下载文件失败

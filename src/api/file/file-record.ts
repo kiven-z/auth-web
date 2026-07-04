@@ -71,3 +71,21 @@ export function queryFileRecordPage(params: FileRecordPageQuery): Promise<PageRe
 export function getFileRecordDetail(id: string): Promise<FileRecordDetail> {
   return http.get<FileRecordDetail, AxiosRequestConfig>(`/system/file/${id}`);
 }
+
+/**
+ * 批量删除文件记录
+ * @param ids 文件记录ID数组
+ * @returns 删除响应
+ */
+export function deleteFileRecord(ids: string[]): Promise<string> {
+  return http.request<string>('delete', '/system/file', { data: ids });
+}
+
+/**
+ * 批量下载文件记录（ZIP）。
+ * @param ids 文件记录ID数组
+ * @returns ZIP 文件 Blob
+ */
+export function downloadFileRecord(ids: string[]): Promise<Blob> {
+  return http.post<Blob, string[]>('/system/file/download', { data: ids }, { responseType: 'blob' });
+}

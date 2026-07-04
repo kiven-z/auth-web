@@ -3,7 +3,7 @@ import { deleteJobLog, getJobLogDetail, type JobLogPageRow } from '@/api/log/job
 import { addDialog } from '@/components/ui/Dialog';
 import useBatchDeleteAction from '@/shared/composables/table/useBatchDeleteAction';
 import { errorMessage } from '@/services/feedback/message';
-import JobLogDetailDialog from '@/views/log/job-log/components/JobLogDetailDialog.vue';
+import JobLogDetailDialog from '@/views/schedule/schedule-log/components/JobLogDetailDialog.vue';
 import { h } from 'vue';
 import { useI18n } from 'vue-i18n';
 
@@ -16,7 +16,6 @@ function useJobLogTableAction(deps: TableActionWithSelectionDeps) {
   const { fetchTableData, selectedRows } = deps;
   const { t } = useI18n();
 
-  // 删除操作
   const { deleteBatchRows } = useBatchDeleteAction({
     selectedRows,
     deleteApi: deleteJobLog,

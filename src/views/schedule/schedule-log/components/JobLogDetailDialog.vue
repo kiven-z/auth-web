@@ -1,8 +1,8 @@
 <script lang="tsx" setup>
 import type { DetailDialog } from '@/api/common';
 import type { JobLogDetailRow } from '@/api/log/job-log';
-import Description from '@/components/ui/Description';
-import { resolveJobLogStatusMeta } from '@/views/log/job-log/constants/job-log-enums';
+import Description from '@/components/ui/Description/index';
+import { resolveJobLogStatusMeta } from '@/views/schedule/schedule-log/constants/job-log-enums';
 import { ElTag } from 'element-plus';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';

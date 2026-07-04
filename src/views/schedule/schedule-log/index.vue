@@ -1,10 +1,13 @@
 <script lang="ts" setup>
 import { getJobLogPage } from '@/api/log/job-log';
 import AuthPagedTable, { usePaginationState } from '@/components/business/AuthPagedTable';
-import { LOG_JOB_STATUS_ITEMS, LOG_JOB_TRIGGER_TYPE_FILTER_OPTIONS } from '@/views/log/job-log/constants/job-log-enums';
-import { SYS_JOB_LOG_PERMS } from '@/views/log/job-log/constants/permissions';
-import useJobLogTableAction from '@/views/log/job-log/hooks/useJobLogTableAction';
-import useJobLogTableColumns from '@/views/log/job-log/hooks/useJobLogTableColumns';
+import {
+  LOG_JOB_STATUS_ITEMS,
+  LOG_JOB_TRIGGER_TYPE_FILTER_OPTIONS,
+} from '@/views/schedule/schedule-log/constants/job-log-enums';
+import { SYS_JOB_LOG_PERMS } from '@/views/schedule/schedule-log/constants/permissions';
+import useJobLogTableAction from '@/views/schedule/schedule-log/hooks/useJobLogTableAction';
+import useJobLogTableColumns from '@/views/schedule/schedule-log/hooks/useJobLogTableColumns';
 import { useCollapsibleSearchForm } from '@/shared/composables/search/useCollapsibleSearchForm';
 import { useFormPlaceholder } from '@/shared/composables/i18n/useFormPlaceholder';
 import type { FormInstance } from 'element-plus';
@@ -108,7 +111,7 @@ onMounted(() => {
             <el-option
               v-for="opt in LOG_JOB_TRIGGER_TYPE_FILTER_OPTIONS"
               :key="opt.value"
-              :label="t(opt.labelKey)"
+              :label="t(opt.labelKey as string)"
               :value="opt.value"
             />
           </el-select>
@@ -144,19 +147,19 @@ onMounted(() => {
 
     <AuthPagedTable :columns="columns" :state="jobLogState" :title="t('logJob.title.table')" show-overflow-tooltip>
       <template #buttons>
-        <Perms :value="SYS_JOB_LOG_PERMS.DELETE">
-          <el-dropdown trigger="click">
-            <el-button type="danger">
-              {{ t('buttons.actionAdvanced') }}
-            </el-button>
+        <el-dropdown trigger="click">
+          <el-button type="danger">
+            {{ t('buttons.actionAdvanced') }}
+          </el-button>
 
-            <template #dropdown>
+          <template #dropdown>
+            <Perms :value="SYS_JOB_LOG_PERMS.DELETE">
               <el-dropdown-item :disabled="selectedRows.length <= 0" @click="deleteBatchRows()">
                 {{ t('buttons.actionBatchDelete') }}
               </el-dropdown-item>
-            </template>
-          </el-dropdown>
-        </Perms>
+            </Perms>
+          </template>
+        </el-dropdown>
       </template>
 
       <template #actions="{ row }">

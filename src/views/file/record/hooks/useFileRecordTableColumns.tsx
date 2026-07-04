@@ -14,6 +14,10 @@ function useFileRecordTableColumns() {
 
   const columns = computed<TableColumnList>(() => [
     {
+      type: 'selection',
+      width: 50,
+    },
+    {
       type: 'index',
       index: (index: number) => index + 1,
       label: t('table.idx'),
@@ -75,14 +79,12 @@ function useFileRecordTableColumns() {
       prop: 'createUser',
       minWidth: 130,
       formatter: (row: FileRecordPageRow) => {
-        const createUser = row.createUser;
-        if (!createUser) {
-          return <span>—</span>;
-        }
         return (
-          <ElButton link type="primary" onClick={() => selectUserinfo(createUser, row.createUsername)}>
-            {row.createUsername ?? createUser}
-          </ElButton>
+          row.createUser && (
+            <ElButton link type="primary" onClick={() => selectUserinfo(row.createUser, row.createUsername)}>
+              {row.createUsername}
+            </ElButton>
+          )
         );
       },
     },
@@ -99,14 +101,12 @@ function useFileRecordTableColumns() {
       prop: 'updateUser',
       minWidth: 130,
       formatter: (row: FileRecordPageRow) => {
-        const updateUser = row.updateUser;
-        if (!updateUser) {
-          return <span>—</span>;
-        }
         return (
-          <ElButton link type="primary" onClick={() => selectUserinfo(updateUser, row.updateUsername)}>
-            {row.updateUsername ?? updateUser}
-          </ElButton>
+          row.updateUser && (
+            <ElButton link type="primary" onClick={() => selectUserinfo(row.updateUser, row.updateUsername)}>
+              {row.updateUsername}
+            </ElButton>
+          )
         );
       },
     },
@@ -131,7 +131,7 @@ function useFileRecordTableColumns() {
     {
       label: t('table.actions'),
       fixed: 'right' as const,
-      width: 120,
+      width: 220,
       slot: 'actions',
     },
   ]);

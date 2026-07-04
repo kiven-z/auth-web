@@ -3,7 +3,7 @@
  */
 import type { JobLogPageRow } from '@/api/log/job-log';
 import { selectUserinfo } from '@/components/business/UserProfile';
-import { resolveJobLogStatusMeta } from '@/views/log/job-log/constants/job-log-enums';
+import { resolveJobLogStatusMeta } from '@/views/schedule/schedule-log/constants/job-log-enums';
 import { ElButton, ElTag } from 'element-plus';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';

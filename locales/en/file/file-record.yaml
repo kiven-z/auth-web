@@ -23,3 +23,8 @@ fileRecord:
   messages:
     loadFailed: Failed to load file records
     loadDetailFailed: Failed to load file detail
+    deleteFailed: Failed to delete file records
+    downloadSuccess: Download succeeded
+    downloadFailed: Failed to download file
+    batchDownloadSuccess: Started downloading {count} files
+    batchDownloadFailed: Failed to download files in batch

@@ -32,8 +32,15 @@ const fileRecordState = usePaginationState({
   errorI18nKey: 'fileRecord.messages.loadFailed',
 });
 
-const { loading, searchForm, pagination, fetchTableData, resetQuery } = fileRecordState;
-const { detailLoadingId, openDetailDialog } = useFileRecordTableAction();
+const { selectedRows, loading, searchForm, pagination, fetchTableData, resetQuery } = fileRecordState;
+const {
+  deleteBatchRows,
+  openDetailDialog,
+  downloadRow,
+  downloadBatchRows,
+  batchDownloadLoading,
+  currentDownloadingRowId,
+} = useFileRecordTableAction({ fetchTableData, selectedRows });
 
 const { userOptions, userSearchLoading, loadUserListByKeyword } = useRemoteUserSearch({
   errorDefaultI18nKey: 'fileRecord.messages.loadFailed',
@@ -41,7 +48,6 @@ const { userOptions, userSearchLoading, loadUserListByKeyword } = useRemoteUserS
 
 /**
  * 执行分页查询（切回第一页）。
- * @returns 无
  */
 async function handleSearch(): Promise<void> {
   pagination.currentPage = 1;
@@ -50,7 +56,6 @@ async function handleSearch(): Promise<void> {
 
 /**
  * 重置查询条件并重新查询。
- * @returns 无
  */
 async function handleReset(): Promise<void> {
   fileRecordState.searchForm.startTime = undefined;
@@ -148,17 +153,47 @@ onMounted(() => {
       :title="t('fileRecord.page.tableTitle')"
       show-overflow-tooltip
     >
+      <template #buttons>
+        <el-button-group type="primary">
+          <el-button
+            v-perms="FILE_RECORD_PERMS.DOWNLOAD"
+            :disabled="selectedRows.length <= 0"
+            :loading="batchDownloadLoading"
+            type="primary"
+            @click="downloadBatchRows"
+          >
+            {{ t('buttons.actionBatchDownload') }}
+          </el-button>
+          <el-button
+            v-perms="FILE_RECORD_PERMS.DELETE"
+            :disabled="selectedRows.length <= 0"
+            type="danger"
+            @click="deleteBatchRows(selectedRows)"
+          >
+            {{ t('buttons.actionBatchDelete') }}
+          </el-button>
+        </el-button-group>
+      </template>
+
       <template #actions="{ row }">
         <div class="flex justify-center">
-          <!-- 查看详情 -->
+          <!-- 下载文件 -->
           <el-button
-            v-perms="FILE_RECORD_PERMS.QUERY"
-            :loading="detailLoadingId === row.id"
+            v-perms="FILE_RECORD_PERMS.DOWNLOAD"
+            :loading="currentDownloadingRowId === row.id"
             link
             type="primary"
-            @click="openDetailDialog(row)"
+            @click="downloadRow(row.id)"
           >
+            {{ t('buttons.actionDownload') }}
+          </el-button>
+          <!-- 查看详情 -->
+          <el-button v-perms="FILE_RECORD_PERMS.QUERY" link type="primary" @click="openDetailDialog(row)">
             {{ t('buttons.actionView') }}
+          </el-button>
+          <!-- 删除文件记录 -->
+          <el-button v-perms="FILE_RECORD_PERMS.DELETE" link type="danger" @click="deleteBatchRows([row.id])">
+            {{ t('buttons.actionDelete') }}
           </el-button>
         </div>
       </template>

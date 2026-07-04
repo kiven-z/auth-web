@@ -1,8 +1,10 @@
 <script lang="tsx" setup>
 import type { DetailDialog } from '@/api/common';
 import type { FileRecordDetail } from '@/api/file/file-record';
+import { selectUserinfo } from '@/components/business/UserProfile';
 import Description from '@/components/ui/Description';
 import { formatFileSize } from '@/shared/utils/file/fileSize';
+import { ElButton, ElImage } from 'element-plus';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 
@@ -19,7 +21,7 @@ const columns = computed(() => [
   { label: t('fileRecord.fields.originalName'), prop: 'originalName', labelWidth: 120, copy: true },
   { label: t('fileRecord.fields.extension'), prop: 'extension', labelWidth: 120 },
   { label: t('fileRecord.fields.storagePlatform'), prop: 'storagePlatform', labelWidth: 120 },
-  { label: t('fileRecord.fields.uploadMode'), prop: 'uploadMode', labelWidth: 120 },
+  { label: t('fileRecord.fields.uploadMode'), prop: 'uploadMode', labelWidth: 120, copy: true },
   {
     label: t('fileRecord.fields.size'),
     prop: 'size',
@@ -34,6 +36,23 @@ const columns = computed(() => [
     prop: 'url',
     labelWidth: 120,
     span: 2,
+    cellRenderer: ({ value, row }) => {
+      if (!value) {
+        return <span>—</span>;
+      }
+      if (row.contentType?.toLowerCase().startsWith('image/')) {
+        return (
+          <ElImage
+            src={value}
+            fit="cover"
+            previewSrcList={[value]}
+            previewTeleported
+            style={{ width: '40px', height: '40px' }}
+          />
+        );
+      }
+      return <span>{value}</span>;
+    },
     copy: true,
   },
   {
@@ -49,8 +68,38 @@ const columns = computed(() => [
   { label: t('fileRecord.fields.remark'), prop: 'remark', labelWidth: 120, span: 2 },
   { label: t('table.createTime'), prop: 'createTime', labelWidth: 120 },
   { label: t('table.updateTime'), prop: 'updateTime', labelWidth: 120 },
-  { label: t('table.createUsername'), prop: 'createUsername', labelWidth: 120 },
-  { label: t('table.updateUsername'), prop: 'updateUsername', labelWidth: 120 },
+  {
+    label: t('table.createUsername'),
+    prop: 'createUsername',
+    labelWidth: 120,
+    cellRenderer({ value, row }) {
+      const createUser = row.createUser;
+      if (!createUser) {
+        return <span>—</span>;
+      }
+      return (
+        <ElButton link type="primary" onClick={() => selectUserinfo(createUser, value)}>
+          {value ?? createUser}
+        </ElButton>
+      );
+    },
+  },
+  {
+    label: t('table.updateUsername'),
+    prop: 'updateUsername',
+    labelWidth: 120,
+    cellRenderer({ value, row }) {
+      const updateUser = row.updateUser;
+      if (!updateUser) {
+        return <span>—</span>;
+      }
+      return (
+        <ElButton link type="primary" onClick={() => selectUserinfo(updateUser, value)}>
+          {value ?? updateUser}
+        </ElButton>
+      );
+    },
+  },
 ]);
 </script>
 

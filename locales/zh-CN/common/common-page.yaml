@@ -76,8 +76,10 @@ buttons:
   actionAdd: 添加
   actionEdit: 修改
   actionView: 查看
+  actionDownload: 下载
   actionDelete: 删除
   actionForceDelete: 强制删除
+  actionBatchDownload: 批量下载
   actionBatchDelete: 批量删除
   actionMore: 更多
   actionBatchAdd: 批量添加
