@@ -3,9 +3,7 @@ import AuthPagedTable from '@/components/business/AuthPagedTable';
 import { useFormPlaceholder } from '@/shared/composables/i18n/useFormPlaceholder';
 import DeptRowActions from '@/views/system/dept/components/DeptRowActions.vue';
 import { DEPT_STATUS_FILTER_OPTIONS } from '@/views/system/dept/constants/dept-search-options';
-import useDeptMoreAction from '@/views/system/dept/hooks/actions/useDeptMoreAction';
 import useDeptPageState from '@/views/system/dept/hooks/useDeptPageState';
-import useDeptTableAction from '@/views/system/dept/hooks/actions/useDeptTableAction';
 import DeptHeadButtons from '@/views/system/dept/components/DeptHeadButtons.vue';
 import useDeptTableColumns from '@/views/system/dept/hooks/columns/useDeptTableColumns';
 import type { FormInstance } from 'element-plus';
@@ -22,19 +20,7 @@ const searchFormRef = ref<FormInstance>();
 
 const { tableColumns } = useDeptTableColumns();
 const deptState = useDeptPageState();
-const { loading, selectedRows, searchForm, viewMode, fetchTableData, fetchTreeData, resetQuery, refresh } = deptState;
-
-const tableActionDeps = {
-  fetchTableData,
-  fetchTreeData,
-  refresh,
-  viewMode,
-  selectedRows,
-};
-
-const { openDetailDialog, openEditDialog, deleteBatchRows } = useDeptTableAction(tableActionDeps);
-
-const { openAssignRoleDrawer } = useDeptMoreAction(tableActionDeps);
+const { loading, searchForm, fetchTableData, resetQuery } = deptState;
 
 onMounted(() => {
   fetchTableData();
@@ -72,7 +58,7 @@ onMounted(() => {
           <el-option
             v-for="opt in DEPT_STATUS_FILTER_OPTIONS"
             :key="`${opt.labelKey}:${String(opt.value)}`"
-            :label="t(opt.labelKey)"
+            :label="t(opt.labelKey as string)"
             :value="opt.value"
           />
         </el-select>
@@ -102,13 +88,7 @@ onMounted(() => {
       </template>
 
       <template #actions="{ row }">
-        <DeptRowActions
-          :delete-batch-rows="deleteBatchRows"
-          :open-assign-role-drawer="openAssignRoleDrawer"
-          :open-detail-dialog="openDetailDialog"
-          :open-edit-dialog="openEditDialog"
-          :row="row"
-        />
+        <DeptRowActions :row="row" />
       </template>
     </AuthPagedTable>
   </div>

@@ -5,7 +5,7 @@ import useRemoteUserSearch from '@/shared/composables/dialog/useRemoteUserSearch
 import { useFormPlaceholder } from '@/shared/composables/i18n/useFormPlaceholder';
 import { FILE_RECORD_PERMS } from '@/views/file/record/constants/permissions';
 import useFileRecordTableAction from '@/views/file/record/hooks/useFileRecordTableAction';
-import useFileRecordTableColumns from '@/views/file/record/hooks/useFileRecordTableColumns';
+import useFileRecordTableColumns from '@/views/file/_shared/columns/useFileRecordTableColumns';
 import type { FormInstance } from 'element-plus';
 import { onMounted, reactive, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
@@ -45,14 +45,6 @@ const {
 const { userOptions, userSearchLoading, loadUserListByKeyword } = useRemoteUserSearch({
   errorDefaultI18nKey: 'fileRecord.messages.loadFailed',
 });
-
-/**
- * 执行分页查询（切回第一页）。
- */
-async function handleSearch(): Promise<void> {
-  pagination.currentPage = 1;
-  await fetchTableData();
-}
 
 /**
  * 重置查询条件并重新查询。
@@ -135,7 +127,7 @@ onMounted(() => {
       <el-form-item>
         <el-button-group>
           <!-- 搜索 -->
-          <el-button v-perms="FILE_RECORD_PERMS.QUERY" :loading="loading" type="primary" @click="handleSearch">
+          <el-button v-perms="FILE_RECORD_PERMS.QUERY" :loading="loading" type="primary" @click="fetchTableData">
             {{ t('buttons.actionSearch') }}
           </el-button>
           <!-- 重置 -->
@@ -168,7 +160,7 @@ onMounted(() => {
             v-perms="FILE_RECORD_PERMS.DELETE"
             :disabled="selectedRows.length <= 0"
             type="danger"
-            @click="deleteBatchRows(selectedRows)"
+            @click="deleteBatchRows()"
           >
             {{ t('buttons.actionBatchDelete') }}
           </el-button>

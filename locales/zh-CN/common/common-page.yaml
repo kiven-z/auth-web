@@ -80,6 +80,8 @@ buttons:
   actionDelete: 删除
   actionForceDelete: 强制删除
   actionBatchDownload: 批量下载
+  actionRestore: 恢复
+  actionBatchRestore: 批量恢复
   actionBatchDelete: 批量删除
   actionMore: 更多
   actionBatchAdd: 批量添加

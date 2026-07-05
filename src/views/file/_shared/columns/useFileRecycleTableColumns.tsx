@@ -1,0 +1,148 @@
+import type { FileRecordPageRow } from '@/api/file/file-record';
+import { selectUserinfo } from '@/components/business/UserProfile';
+import { formatFileSize } from '@/shared/utils/file/fileSize';
+import { ElButton } from 'element-plus';
+import { computed } from 'vue';
+import { useI18n } from 'vue-i18n';
+
+/**
+ * 文件回收站表格列配置。
+ * @returns 表格列定义
+ */
+function useFileRecycleTableColumns() {
+  const { t } = useI18n();
+
+  const columns = computed<TableColumnList>(() => [
+    {
+      type: 'selection',
+      width: 50,
+    },
+    {
+      type: 'index',
+      index: (index: number) => index + 1,
+      label: t('table.idx'),
+      width: 70,
+    },
+    // 文件名称
+    {
+      label: t('fileRecycle.fields.originalName'),
+      prop: 'originalName',
+      minWidth: 220,
+    },
+    // 存储平台
+    {
+      label: t('fileRecycle.fields.storagePlatform'),
+      prop: 'storagePlatform',
+      minWidth: 120,
+    },
+    // 上传模式
+    {
+      label: t('fileRecycle.fields.uploadMode'),
+      prop: 'uploadMode',
+      minWidth: 110,
+    },
+    // 文件大小
+    {
+      label: t('fileRecycle.fields.size'),
+      prop: 'size',
+      minWidth: 120,
+      formatter: (row: FileRecordPageRow) => formatFileSize(row.size),
+    },
+    // 文件类型
+    {
+      label: t('fileRecycle.fields.contentType'),
+      prop: 'contentType',
+      minWidth: 180,
+    },
+    // 业务类型
+    {
+      label: t('fileRecycle.fields.bizType'),
+      prop: 'bizType',
+      minWidth: 130,
+    },
+    // 业务 ID
+    {
+      label: t('fileRecycle.fields.bizId'),
+      prop: 'bizId',
+      minWidth: 150,
+    },
+    // 创建时间
+    {
+      label: t('table.createTime'),
+      prop: 'createTime',
+      sortable: true,
+      minWidth: 170,
+    },
+    // 创建人
+    {
+      label: t('table.createUsername'),
+      prop: 'createUser',
+      minWidth: 130,
+      formatter: (row: FileRecordPageRow) => {
+        return (
+          row.createUser && (
+            <ElButton link type="primary" onClick={() => selectUserinfo(row.createUser, row.createUsername)}>
+              {row.createUsername}
+            </ElButton>
+          )
+        );
+      },
+    },
+    // 更新时间
+    {
+      label: t('table.updateTime'),
+      prop: 'updateTime',
+      sortable: true,
+      minWidth: 170,
+    },
+    // 更新人
+    {
+      label: t('table.updateUsername'),
+      prop: 'updateUser',
+      minWidth: 130,
+      formatter: (row: FileRecordPageRow) => {
+        return (
+          row.updateUser && (
+            <ElButton link type="primary" onClick={() => selectUserinfo(row.updateUser, row.updateUsername)}>
+              {row.updateUsername}
+            </ElButton>
+          )
+        );
+      },
+    },
+    // 存储桶
+    {
+      label: t('fileRecycle.fields.bucket'),
+      prop: 'bucket',
+      minWidth: 160,
+    },
+    // 对象键
+    {
+      label: t('fileRecycle.fields.objectKey'),
+      prop: 'objectKey',
+      minWidth: 260,
+    },
+    // 访问 URL
+    {
+      label: t('fileRecycle.fields.url'),
+      prop: 'url',
+      minWidth: 260,
+    },
+    // 临时访问 URL
+    {
+      label: t('fileRecycle.fields.accessUrl'),
+      prop: 'accessUrl',
+      minWidth: 260,
+    },
+    {
+      label: t('table.actions'),
+      fixed: 'right' as const,
+      width: 200,
+      slot: 'actions',
+    },
+  ]);
+
+  return { columns };
+}
+
+export default useFileRecycleTableColumns;

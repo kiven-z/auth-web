@@ -15,18 +15,6 @@ export interface UseBatchDeleteActionOptions {
   /** 请求失败时 {@link errorMessage} 的 defaultI18nKey */
   errorDefaultI18nKey: string;
 }
-
-/**
- * 解析批量删除目标主键。
- * 仅当参数为 string[] 时使用；否则回退多选列表，避免模板 @click="deleteBatchRows" 误传 Event。
- *
- * @param ids 调用方传入的主键列表
- * @param selectedRows 表格多选主键
- */
-function resolveBatchDeleteIds(ids: unknown, selectedRows: Ref<string[]>): string[] {
-  return Array.isArray(ids) ? ids : selectedRows.value;
-}
-
 /**
  * 表格批量删除动作：标准两次确认、成功提示、清空多选、刷新列表
  *
@@ -46,7 +34,8 @@ function useBatchDeleteAction(options: UseBatchDeleteActionOptions) {
    * @param ids 主键列表；不传或非法时使用 selectedRows
    */
   const deleteBatchRows = async (ids?: unknown) => {
-    const targetIds = resolveBatchDeleteIds(ids, selectedRows);
+    // 解析批量删除目标主键
+    const targetIds = Array.isArray(ids) ? ids : selectedRows.value;
     if (targetIds.length <= 0) {
       return;
     }

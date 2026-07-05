@@ -2,7 +2,7 @@
 import type { DetailDialog } from '@/api/common';
 import type { FileRecordDetail } from '@/api/file/file-record';
 import { selectUserinfo } from '@/components/business/UserProfile';
-import Description from '@/components/ui/Description';
+import Description from '@/components/ui/Description/index';
 import { formatFileSize } from '@/shared/utils/file/fileSize';
 import { ElButton, ElImage } from 'element-plus';
 import { computed } from 'vue';

@@ -15,15 +15,14 @@ fileRecord:
     objectKey: Object Key
     url: Access URL
     accessUrl: Temporary Access URL
-    extension: Extension
     contentType: Content Type
     size: File Size
-    etag: Object ETag
     remark: Remark
+    extension: Extension
+    etag: Object ETag
   messages:
     loadFailed: Failed to load file records
     loadDetailFailed: Failed to load file detail
-    deleteFailed: Failed to delete file records
     downloadSuccess: Download succeeded
     downloadFailed: Failed to download file
     batchDownloadSuccess: Started downloading {count} files

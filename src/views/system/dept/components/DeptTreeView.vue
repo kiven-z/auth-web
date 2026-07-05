@@ -3,9 +3,7 @@ import { AuthElTreePanel } from '@/components/business/AuthElTreePanel';
 import { useRenderIcon } from '@/components/ui/Icon/src/hooks';
 import DeptHeadButtons from '@/views/system/dept/components/DeptHeadButtons.vue';
 import DeptRowActions from '@/views/system/dept/components/DeptRowActions.vue';
-import useDeptMoreAction from '@/views/system/dept/hooks/actions/useDeptMoreAction';
 import useDeptPageState from '@/views/system/dept/hooks/useDeptPageState';
-import useDeptTableAction from '@/views/system/dept/hooks/actions/useDeptTableAction';
 import { useDeptTreeDrag } from '@/views/system/dept/hooks/useDeptTreeDrag';
 import { useDebounceFn } from '@vueuse/core';
 import { onMounted, watch } from 'vue';
@@ -22,20 +20,7 @@ const treeProps = {
 
 const { t } = useI18n();
 
-const { loading, selectedRows, treeData, treeKeyword, viewMode, fetchTableData, fetchTreeData, refresh } =
-  useDeptPageState();
-
-const tableActionDeps = {
-  fetchTableData,
-  fetchTreeData,
-  refresh,
-  viewMode,
-  selectedRows,
-};
-
-const { openCreateDialog, openDetailDialog, openEditDialog, deleteBatchRows } = useDeptTableAction(tableActionDeps);
-
-const { openAssignRoleDrawer } = useDeptMoreAction(tableActionDeps);
+const { loading, treeData, treeKeyword, fetchTreeData } = useDeptPageState();
 
 const debouncedFetchTree = useDebounceFn(() => {
   fetchTreeData();
@@ -92,15 +77,7 @@ onMounted(() => {
     </template>
 
     <template #actions="{ data }">
-      <DeptRowActions
-        :delete-batch-rows="deleteBatchRows"
-        :open-assign-role-drawer="openAssignRoleDrawer"
-        :open-create-dialog="openCreateDialog"
-        :open-detail-dialog="openDetailDialog"
-        :open-edit-dialog="openEditDialog"
-        :row="data"
-        show-add-child
-      />
+      <DeptRowActions :row="data" show-add-child />
     </template>
   </AuthElTreePanel>
 </template>

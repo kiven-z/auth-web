@@ -80,6 +80,8 @@ buttons:
   actionDelete: Delete
   actionForceDelete: Force delete
   actionBatchDownload: Batch download
+  actionRestore: Restore
+  actionBatchRestore: Batch restore
   actionBatchDelete: Batch delete
   actionMore: More
   actionBatchAdd: Batch add

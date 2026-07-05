@@ -1,7 +1,10 @@
 <script lang="ts" setup>
 import { treeRowActionsLockKey } from '@/components/business/AuthElTreePanel/src/treeRowActionsLock';
 import { SYS_DEPT_PERMS } from '@/views/system/dept/constants/permissions';
+import useDeptMoreAction from '@/views/system/dept/hooks/actions/useDeptMoreAction';
+import useDeptTableAction from '@/views/system/dept/hooks/actions/useDeptTableAction';
 import type { SysDeptRow } from '@/views/system/dept/hooks/useDeptPageState';
+import useDeptPageState from '@/views/system/dept/hooks/useDeptPageState';
 import { inject, onUnmounted } from 'vue';
 import { useI18n } from 'vue-i18n';
 
@@ -17,11 +20,6 @@ interface DeptRowActionsProps {
   showAddChild?: boolean;
   /** 下拉菜单是否 Teleport 到 body */
   dropdownTeleported?: boolean;
-  openDetailDialog: (row: SysDeptRow) => void;
-  openEditDialog: (row: SysDeptRow) => void;
-  openCreateDialog?: (row: SysDeptRow) => void;
-  deleteBatchRows: (ids?: unknown) => void;
-  openAssignRoleDrawer: (row: SysDeptRow) => void;
 }
 
 const props = withDefaults(defineProps<DeptRowActionsProps>(), {
@@ -30,6 +28,19 @@ const props = withDefaults(defineProps<DeptRowActionsProps>(), {
 });
 
 const { t } = useI18n();
+const { fetchTableData, fetchTreeData, refresh, viewMode, selectedRows } = useDeptPageState();
+const { openDetailDialog, openEditDialog, openCreateDialog, deleteBatchRows } = useDeptTableAction({
+  fetchTableData,
+  fetchTreeData,
+  refresh,
+  viewMode,
+  selectedRows,
+});
+const { openAssignRoleDrawer } = useDeptMoreAction({
+  fetchTableData,
+  fetchTreeData,
+  refresh,
+});
 const treeRowActionsLock = inject(treeRowActionsLockKey, null);
 
 /**

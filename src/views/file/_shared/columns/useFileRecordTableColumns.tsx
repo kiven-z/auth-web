@@ -122,12 +122,6 @@ function useFileRecordTableColumns() {
       prop: 'objectKey',
       minWidth: 260,
     },
-    // 备注
-    {
-      label: t('fileRecord.fields.remark'),
-      prop: 'remark',
-      minWidth: 180,
-    },
     {
       label: t('table.actions'),
       fixed: 'right' as const,
