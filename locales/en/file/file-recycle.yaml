@@ -16,10 +16,12 @@ fileRecycle:
     url: Access URL
     accessUrl: Temporary Access URL
     contentType: Content Type
+    isPrivate: Private File
     size: File Size
     remark: Remark
   messages:
     loadFailed: Failed to load recycle bin records
+    loadDetailFailed: Failed to load file detail
     batchRestoreSuccess: Restored {count} files
     restoreFailed: Failed to restore files
     purgeFailed: Failed to permanently delete files

@@ -1,7 +1,7 @@
 import { http } from '@/core/http';
 import type { PageResponse } from '@/api/common';
 import type { AxiosRequestConfig } from 'axios';
-import type { FileRecordPageQuery, FileRecordPageRow } from '@/api/file/file-record';
+import type { FileRecordDetail, FileRecordPageQuery, FileRecordPageRow } from '@/api/file/file-record';
 
 /**
  * 回收站分页查询
@@ -11,6 +11,15 @@ export function getFileRecyclePage(params: FileRecordPageQuery): Promise<PageRes
     '/system/file/recycle/page',
     { params }
   );
+}
+
+/**
+ * 回收站文件详情
+ * @param id 文件记录ID
+ * @returns 文件记录详情
+ */
+export function getFileRecycleDetail(id: string): Promise<FileRecordDetail> {
+  return http.get<FileRecordDetail, AxiosRequestConfig>(`/system/file/recycle/${id}`);
 }
 
 /**

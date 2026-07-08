@@ -9,7 +9,7 @@ export interface JobLogPageQuery {
   pageIndex?: number;
   pageSize?: number;
   sort?: SortSpec[];
-  /** 任务 ID（sys_job.id） */
+  /** 任务 ID（job.id） */
   jobId?: string;
   /** 任务名称（模糊） */
   jobName?: string;

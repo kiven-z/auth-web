@@ -1,5 +1,5 @@
 /**
- * Quartz 运行态（对应后端 SysJobQuartzRuntimeStatus，与 sys_job.status 无关）
+ * Quartz 运行态（对应后端 SysJobQuartzRuntimeStatus，与 job.status 无关）
  */
 export type SysJobQuartzRuntimeStatus = 'NOT_REGISTERED' | 'IDLE' | 'RUNNING' | 'PENDING' | 'PAUSED' | 'ERROR';
 

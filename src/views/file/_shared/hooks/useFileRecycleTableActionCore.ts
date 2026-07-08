@@ -1,5 +1,5 @@
 import type { TableActionWithSelectionDeps } from '@/api/common';
-import type { FileRecordPageRow } from '@/api/file/file-record';
+import type { FileRecordDetail, FileRecordPageRow } from '@/api/file/file-record';
 import { addDialog } from '@/components/ui/Dialog';
 import { operationConfirm } from '@/services/feedback/dialog';
 import { errorMessage, message } from '@/services/feedback/message';
@@ -14,6 +14,8 @@ export interface UseFileRecycleTableActionCoreOptions extends TableActionWithSel
   restoreApi: (ids: string[]) => Promise<void>;
   /** 批量彻底删除 API。 */
   purgeApi: (ids: string[]) => Promise<void>;
+  /** 详情查询 API。 */
+  detailApi: (id: string) => Promise<FileRecordDetail>;
 }
 
 /**
@@ -22,7 +24,7 @@ export interface UseFileRecycleTableActionCoreOptions extends TableActionWithSel
  * @returns 详情、恢复与删除相关方法
  */
 function useFileRecycleTableActionCore(options: UseFileRecycleTableActionCoreOptions) {
-  const { fetchTableData, selectedRows, restoreApi, purgeApi } = options;
+  const { fetchTableData, selectedRows, restoreApi, purgeApi, detailApi } = options;
   const { t } = useI18n();
 
   const { deleteBatchRows } = useBatchDeleteAction({
@@ -33,20 +35,25 @@ function useFileRecycleTableActionCore(options: UseFileRecycleTableActionCoreOpt
   });
 
   /**
-   * 打开回收站文件详情弹窗（直接展示当前行数据，不请求详情接口）。
+   * 打开回收站文件详情弹窗。
    * @param row 回收站分页行
    * @returns 无返回值
    */
-  const openDetailDialog = (row: FileRecordPageRow): void => {
-    addDialog({
-      title: t('fileRecycle.dialog.detailTitle'),
-      width: '80%',
-      draggable: false,
-      closeOnClickModal: false,
-      closeOnPressEscape: false,
-      hideFooter: true,
-      contentRenderer: () => h(FileRecycleDescriptionDialog, { data: row }),
-    });
+  const openDetailDialog = async (row: FileRecordPageRow): Promise<void> => {
+    try {
+      const detail = await detailApi(row.id);
+      addDialog({
+        title: t('fileRecycle.dialog.detailTitle'),
+        width: '80%',
+        draggable: false,
+        closeOnClickModal: false,
+        closeOnPressEscape: false,
+        hideFooter: true,
+        contentRenderer: () => h(FileRecycleDescriptionDialog, { data: detail }),
+      });
+    } catch (error: unknown) {
+      errorMessage(error, { defaultI18nKey: 'fileRecycle.messages.loadDetailFailed' });
+    }
   };
 
   /**

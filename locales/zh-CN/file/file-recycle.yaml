@@ -16,10 +16,12 @@ fileRecycle:
     url: 访问URL
     accessUrl: 临时访问URL
     contentType: 文件类型
+    isPrivate: 是否私有文件
     size: 文件大小
     remark: 备注
   messages:
     loadFailed: 获取回收站列表失败
+    loadDetailFailed: 获取文件详情失败
     batchRestoreSuccess: 已恢复 {count} 个文件
     restoreFailed: 恢复文件失败
     purgeFailed: 彻底删除文件失败

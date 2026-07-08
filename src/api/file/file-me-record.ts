@@ -8,9 +8,7 @@ import type { AxiosRequestConfig } from 'axios';
  * @param parameters 分页与筛选参数
  * @returns 文件记录分页数据
  */
-export function queryPersonalFileRecordPage(
-  parameters: FileRecordPageQuery
-): Promise<PageResponse<FileRecordPageRow>> {
+export function queryPersonalFileRecordPage(parameters: FileRecordPageQuery): Promise<PageResponse<FileRecordPageRow>> {
   return http.get<PageResponse<FileRecordPageRow>, AxiosRequestConfig<FileRecordPageQuery>>('/system/me/file/page', {
     params: parameters,
   });

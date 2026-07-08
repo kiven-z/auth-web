@@ -1,5 +1,9 @@
 import type { TableActionWithSelectionDeps } from '@/api/common';
-import { purgePersonalFileRecycle, restorePersonalFileRecycle } from '@/api/file/file-me-recycle';
+import {
+  getPersonalFileRecycleDetail,
+  purgePersonalFileRecycle,
+  restorePersonalFileRecycle,
+} from '@/api/file/file-me-recycle';
 import useFileRecycleTableActionCore from '@/views/file/_shared/hooks/useFileRecycleTableActionCore';
 
 type PersonalFileRecycleTableActionDeps = TableActionWithSelectionDeps;
@@ -14,6 +18,7 @@ function usePersonalFileRecycleTableAction(dependencies: PersonalFileRecycleTabl
     ...dependencies,
     restoreApi: restorePersonalFileRecycle,
     purgeApi: purgePersonalFileRecycle,
+    detailApi: getPersonalFileRecycleDetail,
   });
 }
 

@@ -11,9 +11,11 @@ export interface FileRecordPageQuery {
   ownerUserId?: string;
   bizType?: string;
   bizId?: string;
+  contentType?: string;
   originalName?: string;
   startTime?: string;
   endTime?: string;
+  isPrivate?: boolean;
 }
 
 /**
@@ -22,16 +24,12 @@ export interface FileRecordPageQuery {
 export interface FileRecordPageRow extends BaseResponsePageRow {
   storagePlatform?: string;
   uploadMode?: string;
-  bucket?: string;
-  objectKey?: string;
-  url?: string;
-  accessUrl?: string;
   originalName?: string;
   contentType?: string;
   size?: number;
+  isPrivate?: boolean;
   bizType?: string;
   bizId?: string;
-  remark?: string;
 }
 
 /**
@@ -48,10 +46,14 @@ export interface FileRecordDetail extends BaseResponseDetail {
   extension?: string;
   contentType?: string;
   size?: number;
+  isPrivate?: boolean;
   etag?: string;
   bizType?: string;
   bizId?: string;
   remark?: string;
+  deleteSource?: string;
+  deletedBy?: string;
+  deletedAt?: string;
 }
 
 /**
@@ -88,4 +90,22 @@ export function deleteFileRecord(ids: string[]): Promise<string> {
  */
 export function downloadFileRecord(ids: string[]): Promise<Blob> {
   return http.post<Blob, string[]>('/system/file/download', { data: ids }, { responseType: 'blob' });
+}
+
+/**
+ * 文件隐私切换请求体
+ */
+export interface FilePrivacyUpdateForm {
+  ids: string[];
+  isPrivate: boolean;
+}
+
+/**
+ * 批量切换文件隐私属性
+ * @param ids 文件记录ID数组
+ * @param isPrivate 目标是否私有
+ * @returns 操作响应
+ */
+export function updateFileRecordPrivacy(ids: string[], isPrivate: boolean): Promise<string> {
+  return http.post<string, FilePrivacyUpdateForm>('/system/file/privacy', { data: { ids, isPrivate } });
 }

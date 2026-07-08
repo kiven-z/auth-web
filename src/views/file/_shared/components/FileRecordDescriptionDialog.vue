@@ -4,7 +4,7 @@ import type { FileRecordDetail } from '@/api/file/file-record';
 import { selectUserinfo } from '@/components/business/UserProfile';
 import Description from '@/components/ui/Description/index';
 import { formatFileSize } from '@/shared/utils/file/fileSize';
-import { ElButton, ElImage } from 'element-plus';
+import { ElButton, ElImage, ElLink, ElTag } from 'element-plus';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 
@@ -29,6 +29,19 @@ const columns = computed(() => [
     cellRenderer: ({ value }: { value?: number | null }) => <span>{formatFileSize(value ?? undefined)}</span>,
   },
   { label: t('fileRecord.fields.contentType'), prop: 'contentType', labelWidth: 120 },
+  {
+    label: t('fileRecord.fields.isPrivate'),
+    prop: 'isPrivate',
+    labelWidth: 120,
+    cellRenderer: ({ value }: { value?: boolean | null }) =>
+      value != null ? (
+        <ElTag type={value ? 'warning' : 'success'} effect="plain">
+          {value ? t('status.yes') : t('status.no')}
+        </ElTag>
+      ) : (
+        <span>—</span>
+      ),
+  },
   { label: t('fileRecord.fields.bucket'), prop: 'bucket', labelWidth: 120, span: 2, copy: true },
   { label: t('fileRecord.fields.objectKey'), prop: 'objectKey', labelWidth: 120, span: 2, copy: true },
   {
@@ -36,22 +49,12 @@ const columns = computed(() => [
     prop: 'url',
     labelWidth: 120,
     span: 2,
-    cellRenderer: ({ value, row }) => {
-      if (!value) {
-        return <span>—</span>;
-      }
-      if (row.contentType?.toLowerCase().startsWith('image/')) {
-        return (
-          <ElImage
-            src={value}
-            fit="cover"
-            previewSrcList={[value]}
-            previewTeleported
-            style={{ width: '40px', height: '40px' }}
-          />
-        );
-      }
-      return <span>{value}</span>;
+    cellRenderer({ value }) {
+      return (
+        <ElLink type="primary" target="_blank" href={value} underline="hover">
+          {value}
+        </ElLink>
+      );
     },
     copy: true,
   },
@@ -60,6 +63,28 @@ const columns = computed(() => [
     prop: 'accessUrl',
     labelWidth: 120,
     span: 2,
+    cellRenderer: ({ value, row }) => {
+      if (!value) {
+        return <span>—</span>;
+      }
+      if (row.contentType?.toLowerCase().startsWith('image/')) {
+        return (
+          <div class="flex flex-col space-x-2">
+            <ElImage
+              src={value}
+              fit="cover"
+              previewSrcList={[value]}
+              previewTeleported
+              style={{ width: '40px', height: '40px' }}
+            />
+            <ElLink type="primary" target="_blank" href={value} underline="hover">
+              {value}
+            </ElLink>
+          </div>
+        );
+      }
+      return <span>{value}</span>;
+    },
     copy: true,
   },
   { label: t('fileRecord.fields.etag'), prop: 'etag', labelWidth: 120 },

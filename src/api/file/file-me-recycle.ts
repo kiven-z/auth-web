@@ -1,5 +1,5 @@
 import type { PageResponse } from '@/api/common';
-import type { FileRecordPageQuery, FileRecordPageRow } from '@/api/file/file-record';
+import type { FileRecordDetail, FileRecordPageQuery, FileRecordPageRow } from '@/api/file/file-record';
 import { http } from '@/core/http';
 import type { AxiosRequestConfig } from 'axios';
 
@@ -17,6 +17,15 @@ export function queryPersonalFileRecyclePage(
       params: parameters,
     }
   );
+}
+
+/**
+ * 个人回收站文件详情查询。
+ * @param id 文件记录主键
+ * @returns 文件记录详情
+ */
+export function getPersonalFileRecycleDetail(id: string): Promise<FileRecordDetail> {
+  return http.get<FileRecordDetail, AxiosRequestConfig>(`/system/me/file/recycle/${id}`);
 }
 
 /**

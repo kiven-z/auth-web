@@ -2,6 +2,7 @@
 import { queryPersonalFileRecordPage } from '@/api/file/file-me-record';
 import AuthPagedTable, { usePaginationState } from '@/components/business/AuthPagedTable';
 import { useFormPlaceholder } from '@/shared/composables/i18n/useFormPlaceholder';
+import { useCollapsibleSearchForm } from '@/shared/composables/search/useCollapsibleSearchForm';
 import usePersonalFileRecordTableAction from '@/views/file/me/record/hooks/usePersonalFileRecordTableAction';
 import useFileRecordTableColumns from '@/views/file/_shared/columns/useFileRecordTableColumns';
 import type { FormInstance } from 'element-plus';
@@ -22,9 +23,11 @@ const personalFileRecordState = usePaginationState({
   searchForm: reactive({
     bizType: undefined,
     bizId: undefined,
+    contentType: undefined,
     originalName: undefined,
     startTime: undefined,
     endTime: undefined,
+    isPrivate: undefined,
   }),
   errorI18nKey: 'fileRecord.messages.loadFailed',
 });
@@ -38,6 +41,8 @@ const {
   batchDownloadLoading,
   currentDownloadingRowId,
 } = usePersonalFileRecordTableAction({ fetchTableData, selectedRows });
+
+const { searchExpanded, showAdvancedSearchToggle, toggleAdvancedSearch } = useCollapsibleSearchForm(6);
 
 /**
  * 重置查询条件并重新查询。
@@ -83,24 +88,42 @@ onMounted(() => {
           clearable
         />
       </el-form-item>
-      <!-- 创建时间范围筛选 -->
-      <el-form-item :label="t('fileRecord.fields.createTimeRange')" prop="startTime">
-        <el-date-picker
-          v-model="searchForm.startTime"
-          :placeholder="placeholderBuilder.rangeStart()"
+      <!-- 文件类型筛选 -->
+      <el-form-item :label="t('fileRecord.fields.contentType')" prop="contentType">
+        <el-input
+          v-model="searchForm.contentType"
+          :placeholder="placeholderBuilder.input('fileRecord.fields.contentType')"
           class="w-42!"
-          type="datetime"
-          value-format="YYYY-MM-DDTHH:mm:ss"
-        />
-        <span class="mx-2">-</span>
-        <el-date-picker
-          v-model="searchForm.endTime"
-          :placeholder="placeholderBuilder.rangeEnd()"
-          class="w-42!"
-          type="datetime"
-          value-format="YYYY-MM-DDTHH:mm:ss"
+          clearable
         />
       </el-form-item>
+      <template v-if="showAdvancedSearchToggle">
+        <!-- 是否私有文件筛选 -->
+        <el-form-item v-show="searchExpanded" :label="t('fileRecord.fields.isPrivate')" prop="isPrivate">
+          <el-select v-model="searchForm.isPrivate" class="w-42!" clearable>
+            <el-option :label="t('status.yes')" :value="true" />
+            <el-option :label="t('status.no')" :value="false" />
+          </el-select>
+        </el-form-item>
+        <!-- 创建时间范围筛选 -->
+        <el-form-item v-show="searchExpanded" :label="t('fileRecord.fields.createTimeRange')" prop="startTime">
+          <el-date-picker
+            v-model="searchForm.startTime"
+            :placeholder="placeholderBuilder.rangeStart()"
+            class="w-42!"
+            type="datetime"
+            value-format="YYYY-MM-DDTHH:mm:ss"
+          />
+          <span class="mx-2">-</span>
+          <el-date-picker
+            v-model="searchForm.endTime"
+            :placeholder="placeholderBuilder.rangeEnd()"
+            class="w-42!"
+            type="datetime"
+            value-format="YYYY-MM-DDTHH:mm:ss"
+          />
+        </el-form-item>
+      </template>
 
       <el-form-item>
         <el-button-group>
@@ -111,6 +134,10 @@ onMounted(() => {
           <!-- 重置 -->
           <el-button @click="handleReset">
             {{ t('buttons.actionReset') }}
+          </el-button>
+          <!-- 高级搜索 -->
+          <el-button v-if="showAdvancedSearchToggle" @click="toggleAdvancedSearch">
+            {{ searchExpanded ? t('buttons.actionCollapseSearch') : t('buttons.actionAdvancedSearch') }}
           </el-button>
         </el-button-group>
       </el-form-item>

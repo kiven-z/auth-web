@@ -5,4 +5,5 @@ export const FILE_RECORD_PERMS = {
   QUERY: 'sys:file:query',
   DOWNLOAD: 'sys:file:download',
   DELETE: 'sys:file:delete',
+  PRIVACY: 'sys:file:privacy',
 } as const;

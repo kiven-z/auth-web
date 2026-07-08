@@ -5,7 +5,7 @@ import { http } from '@/core/http';
 
 /**
  * 邮件模板管理 API（后端 `/api/system/email-template`）。
- * 持久化表：sys_message_template；本模块仅 channel = EMAIL 的行。
+ * 持久化表：message_template；本模块仅 channel = EMAIL 的行。
  * 请求/响应中的 `templateCode` 与库字段 scene_code 一致（与统一发送命令 templateCode 一致）。
  */
 export interface EmailTemplatePageQuery {
@@ -32,7 +32,7 @@ export interface EmailTemplateRequireFieldRow {
  * 分页行（EmailTemplatePageResponse + BaseResponse）
  */
 export interface EmailTemplatePageRow extends BaseResponsePageRow {
-  /** 场景编码，对应 sys_message_template.scene_code */
+  /** 场景编码，对应 message_template.scene_code */
   templateCode: string;
   templateName: string;
   subject: string;
@@ -45,7 +45,7 @@ export interface EmailTemplatePageRow extends BaseResponsePageRow {
  * 详情（EmailTemplateDetailVO + BaseResponse）
  */
 export interface EmailTemplateDetailVO extends BaseResponseDetail {
-  /** 场景编码，对应 sys_message_template.scene_code */
+  /** 场景编码，对应 message_template.scene_code */
   templateCode: string;
   templateName: string;
   description?: string;

@@ -16,6 +16,7 @@ fileRecord:
     url: Access URL
     accessUrl: Temporary Access URL
     contentType: Content Type
+    isPrivate: Private File
     size: File Size
     remark: Remark
     extension: Extension
@@ -27,3 +28,10 @@ fileRecord:
     downloadFailed: Failed to download file
     batchDownloadSuccess: Started downloading {count} files
     batchDownloadFailed: Failed to download files in batch
+    privacyUpdateSuccess: Privacy updated successfully
+    privacyUpdateFailed: Failed to update privacy
+  actions:
+    setPrivate: Set private
+    setPublic: Set public
+    batchSetPrivate: Batch set private
+    batchSetPublic: Batch set public

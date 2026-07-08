@@ -1,5 +1,5 @@
 import type { TableActionWithSelectionDeps } from '@/api/common';
-import { purgeFileRecycle, restoreFileRecycle } from '@/api/file/file-recycle';
+import { getFileRecycleDetail, purgeFileRecycle, restoreFileRecycle } from '@/api/file/file-recycle';
 import useFileRecycleTableActionCore from '@/views/file/_shared/hooks/useFileRecycleTableActionCore';
 
 type FileRecycleTableActionDeps = TableActionWithSelectionDeps;
@@ -14,6 +14,7 @@ function useFileRecycleTableAction(deps: FileRecycleTableActionDeps) {
     ...deps,
     restoreApi: restoreFileRecycle,
     purgeApi: purgeFileRecycle,
+    detailApi: getFileRecycleDetail,
   });
 }
 

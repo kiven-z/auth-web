@@ -1,7 +1,7 @@
 import type { FileRecordPageRow } from '@/api/file/file-record';
 import { selectUserinfo } from '@/components/business/UserProfile';
 import { formatFileSize } from '@/shared/utils/file/fileSize';
-import { ElButton } from 'element-plus';
+import { ElButton, ElTag } from 'element-plus';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 
@@ -53,6 +53,19 @@ function useFileRecycleTableColumns() {
       label: t('fileRecycle.fields.contentType'),
       prop: 'contentType',
       minWidth: 180,
+    },
+    // 是否私有文件
+    {
+      label: t('fileRecycle.fields.isPrivate'),
+      prop: 'isPrivate',
+      minWidth: 110,
+      formatter: (row: FileRecordPageRow) => {
+        return (
+          <ElTag type={row.isPrivate ? 'warning' : 'success'} effect="plain">
+            {row.isPrivate ? t('status.yes') : t('status.no')}
+          </ElTag>
+        );
+      },
     },
     // 业务类型
     {
@@ -109,30 +122,6 @@ function useFileRecycleTableColumns() {
           )
         );
       },
-    },
-    // 存储桶
-    {
-      label: t('fileRecycle.fields.bucket'),
-      prop: 'bucket',
-      minWidth: 160,
-    },
-    // 对象键
-    {
-      label: t('fileRecycle.fields.objectKey'),
-      prop: 'objectKey',
-      minWidth: 260,
-    },
-    // 访问 URL
-    {
-      label: t('fileRecycle.fields.url'),
-      prop: 'url',
-      minWidth: 260,
-    },
-    // 临时访问 URL
-    {
-      label: t('fileRecycle.fields.accessUrl'),
-      prop: 'accessUrl',
-      minWidth: 260,
     },
     {
       label: t('table.actions'),

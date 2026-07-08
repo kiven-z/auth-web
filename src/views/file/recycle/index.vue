@@ -3,6 +3,7 @@ import { getFileRecyclePage } from '@/api/file/file-recycle';
 import AuthPagedTable, { usePaginationState } from '@/components/business/AuthPagedTable';
 import useRemoteUserSearch from '@/shared/composables/dialog/useRemoteUserSearch';
 import { useFormPlaceholder } from '@/shared/composables/i18n/useFormPlaceholder';
+import { useCollapsibleSearchForm } from '@/shared/composables/search/useCollapsibleSearchForm';
 import { FILE_RECYCLE_PERMS } from '@/views/file/recycle/constants/permissions';
 import useFileRecycleTableAction from '@/views/file/recycle/hooks/useFileRecycleTableAction';
 import useFileRecycleTableColumns from '@/views/file/_shared/columns/useFileRecycleTableColumns';
@@ -25,6 +26,7 @@ const fileRecycleState = usePaginationState({
     ownerUserId: undefined,
     bizType: undefined,
     bizId: undefined,
+    contentType: undefined,
     originalName: undefined,
     startTime: undefined,
     endTime: undefined,
@@ -41,6 +43,8 @@ const { openDetailDialog, deleteBatchRows, restoreBatchRows } = useFileRecycleTa
 const { userOptions, userSearchLoading, loadUserListByKeyword } = useRemoteUserSearch({
   errorDefaultI18nKey: 'fileRecycle.messages.loadFailed',
 });
+
+const { searchExpanded, showAdvancedSearchToggle, toggleAdvancedSearch } = useCollapsibleSearchForm(6);
 
 /**
  * 重置查询条件并重新查询。
@@ -101,24 +105,35 @@ onMounted(() => {
           clearable
         />
       </el-form-item>
-      <!-- 创建时间范围筛选 -->
-      <el-form-item :label="t('fileRecycle.fields.createTimeRange')" prop="startTime">
-        <el-date-picker
-          v-model="searchForm.startTime"
-          :placeholder="placeholderBuilder.rangeStart()"
-          class="w-42!"
-          type="datetime"
-          value-format="YYYY-MM-DDTHH:mm:ss"
-        />
-        <span class="mx-2">-</span>
-        <el-date-picker
-          v-model="searchForm.endTime"
-          :placeholder="placeholderBuilder.rangeEnd()"
-          class="w-42!"
-          type="datetime"
-          value-format="YYYY-MM-DDTHH:mm:ss"
-        />
-      </el-form-item>
+      <template v-if="showAdvancedSearchToggle">
+        <!-- 文件类型筛选 -->
+        <el-form-item v-show="searchExpanded" :label="t('fileRecycle.fields.contentType')" prop="contentType">
+          <el-input
+            v-model="searchForm.contentType"
+            :placeholder="placeholderBuilder.input('fileRecycle.fields.contentType')"
+            class="w-42!"
+            clearable
+          />
+        </el-form-item>
+        <!-- 创建时间范围筛选 -->
+        <el-form-item v-show="searchExpanded" :label="t('fileRecycle.fields.createTimeRange')" prop="startTime">
+          <el-date-picker
+            v-model="searchForm.startTime"
+            :placeholder="placeholderBuilder.rangeStart()"
+            class="w-42!"
+            type="datetime"
+            value-format="YYYY-MM-DDTHH:mm:ss"
+          />
+          <span class="mx-2">-</span>
+          <el-date-picker
+            v-model="searchForm.endTime"
+            :placeholder="placeholderBuilder.rangeEnd()"
+            class="w-42!"
+            type="datetime"
+            value-format="YYYY-MM-DDTHH:mm:ss"
+          />
+        </el-form-item>
+      </template>
 
       <el-form-item>
         <el-button-group>
@@ -129,6 +144,10 @@ onMounted(() => {
           <!-- 重置 -->
           <el-button v-perms="FILE_RECYCLE_PERMS.QUERY" @click="handleReset">
             {{ t('buttons.actionReset') }}
+          </el-button>
+          <!-- 高级搜索 -->
+          <el-button v-if="showAdvancedSearchToggle" @click="toggleAdvancedSearch">
+            {{ searchExpanded ? t('buttons.actionCollapseSearch') : t('buttons.actionAdvancedSearch') }}
           </el-button>
         </el-button-group>
       </el-form-item>
