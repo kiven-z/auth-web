@@ -7,7 +7,7 @@ import { useUserStoreHook } from '@/store/modules/user';
 import { onMounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import ProfileBasicInfoCard from './components/ProfileBasicInfoCard.vue';
-import ProfileHeaderCard from './components/ProfileHeaderCard.vue';
+import ProfilePersonalInfoCard from './components/ProfilePersonalInfoCard.vue';
 
 defineOptions({
   name: 'AccountProfile',
@@ -35,20 +35,14 @@ async function loadProfileData() {
 }
 
 /**
- * 资料保存成功后合并本地档案、同步 Store 与缓存
+ * 同步 Store 与本地缓存
  */
-function handleProfileSaved(updated: MeProfileUpdateRequest) {
-  if (!profile.value) {
-    return;
+function syncStoreAndCache(updates: { nickname?: string; avatar?: string | null }) {
+  if (updates.nickname !== undefined) {
+    userStore.SET_NICKNAME(updates.nickname);
   }
-
-  profile.value = { ...profile.value, ...updated };
-
-  if (updated.nickname !== undefined) {
-    userStore.SET_NICKNAME(updated.nickname);
-  }
-  if (updated.avatar !== undefined) {
-    userStore.SET_AVATAR(updated.avatar);
+  if (updates.avatar !== undefined) {
+    userStore.SET_AVATAR(updates.avatar);
   }
 
   const stored = readStoredUserProfileEntry();
@@ -67,6 +61,30 @@ function handleProfileSaved(updated: MeProfileUpdateRequest) {
   }
 }
 
+/**
+ * 资料保存成功后合并本地档案
+ */
+function handleProfileSaved(updated: MeProfileUpdateRequest) {
+  if (!profile.value) {
+    return;
+  }
+
+  profile.value = { ...profile.value, ...updated };
+  syncStoreAndCache({ nickname: updated.nickname });
+}
+
+/**
+ * 头像更新成功后同步展示
+ */
+function handleAvatarUpdated(avatarUrl: string) {
+  if (!profile.value) {
+    return;
+  }
+
+  profile.value = { ...profile.value, avatar: avatarUrl };
+  syncStoreAndCache({ avatar: avatarUrl });
+}
+
 onMounted(() => {
   loadProfileData();
 });
@@ -74,26 +92,23 @@ onMounted(() => {
 
 <template>
   <div v-loading="loading" class="account-profile">
-    <section class="account-profile__section">
+    <template v-if="profile">
       <el-divider content-position="left">{{ t('account.profile') }}</el-divider>
-      <ProfileHeaderCard v-if="profile" :profile="profile" />
-      <el-empty v-else-if="!loading" :description="t('account.message.loadFailed')" />
-    </section>
+      <ProfilePersonalInfoCard :profile="profile" @avatar-updated="handleAvatarUpdated" />
 
-    <section class="account-profile__section">
       <el-divider content-position="left">{{ t('account.field.basicInfo') }}</el-divider>
-      <ProfileBasicInfoCard v-if="profile" :profile="profile" @saved="handleProfileSaved" />
-      <el-empty v-else-if="!loading" :description="t('account.message.loadFailed')" />
-    </section>
+      <ProfileBasicInfoCard :profile="profile" @saved="handleProfileSaved" />
+    </template>
+    <el-empty v-else-if="!loading" :description="t('account.message.loadFailed')" />
   </div>
 </template>
 
 <style lang="scss" scoped>
 .account-profile {
-  &__section {
-    &:not(:last-child) {
-      margin-bottom: 24px;
-    }
+  min-height: 120px;
+
+  > :not(:last-child) {
+    margin-bottom: 24px;
   }
 }
 </style>

@@ -12,7 +12,9 @@ const ALLOWED_AVATAR_MIME_TYPES = ['image/jpeg', 'image/png', 'image/webp'];
 /** 头像裁剪上传流程配置 */
 export interface UseAvatarCropFlowOptions {
   /** 上传成功后的回调 */
-  onAvatarUploaded: (avatarUrl: string) => void;
+  onAvatarUploaded: (avatarUrl: string) => void | Promise<void>;
+  /** 是否在回调成功后展示默认成功提示，默认 true */
+  showSuccessMessage?: boolean;
 }
 
 /**
@@ -21,7 +23,7 @@ export interface UseAvatarCropFlowOptions {
  * @returns 头像流程状态与交互处理函数
  */
 export function useAvatarCropFlow(options: UseAvatarCropFlowOptions) {
-  const { onAvatarUploaded } = options;
+  const { onAvatarUploaded, showSuccessMessage = true } = options;
   const { t } = useI18n();
 
   const avatarUploadRef = ref<UploadInstance>();
@@ -100,8 +102,10 @@ export function useAvatarCropFlow(options: UseAvatarCropFlowOptions) {
         try {
           const file = new File([croppedBlob], 'avatar-cropped.png', { type: 'image/png' });
           const uploaded = await uploadFile({ file, bizType: 'avatar' });
-          onAvatarUploaded(uploaded.url);
-          message(t('tips.operationSuccess'), { type: 'success' });
+          await onAvatarUploaded(uploaded.url);
+          if (showSuccessMessage) {
+            message(t('tips.operationSuccess'), { type: 'success' });
+          }
           handleAvatarCropCancel();
         } catch (error: unknown) {
           errorMessage(error);

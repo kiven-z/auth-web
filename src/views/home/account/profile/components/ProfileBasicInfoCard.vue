@@ -3,7 +3,6 @@ import type { SysUserProfileResponse } from '@/api/system/user-base';
 import { type MeProfileUpdateRequest, updateMyProfile } from '@/api/system/user-me';
 import { multiConfirm } from '@/services/feedback/dialog';
 import { errorMessage, message } from '@/services/feedback/message';
-import { useAvatarCropFlow } from '@/views/home/account/profile/hooks/useAvatarCropFlow';
 import { USER_GENDER_OPTIONS } from '@/views/system/user/constants/user-gender';
 import { type FormInstance, type FormRules } from 'element-plus';
 import { computed, ref } from 'vue';
@@ -34,8 +33,7 @@ const form = ref<MeProfileUpdateRequest>({
   gender: props.profile.gender,
   birthday: props.profile.birthday,
   introduction: props.profile.introduction,
-  avatar: props.profile.avatar,
-} as MeProfileUpdateRequest);
+});
 
 const rules = computed<FormRules>(() => ({
   nickname: [
@@ -53,12 +51,6 @@ const rules = computed<FormRules>(() => ({
   ],
 }));
 
-const { avatarUploading, avatarCropping, handleAvatarChange } = useAvatarCropFlow({
-  onAvatarUploaded: (avatarUrl: string) => {
-    form.value.avatar = avatarUrl;
-  },
-});
-
 /**
  * 重置表单为当前档案
  */
@@ -70,7 +62,6 @@ function resetForm() {
     gender: props.profile.gender,
     birthday: props.profile.birthday,
     introduction: props.profile.introduction,
-    avatar: props.profile.avatar,
   });
   initialEmail.value = props.profile.email;
   initialPhone.value = props.profile.phone;
@@ -119,7 +110,7 @@ async function handleSave() {
     initialEmail.value = form.value.email;
     initialPhone.value = form.value.phone;
 
-    emit('saved', form.value as any);
+    emit('saved', { ...form.value });
   } catch (error: unknown) {
     errorMessage(error, { defaultI18nKey: 'tips.editFailed' });
   } finally {
@@ -129,96 +120,76 @@ async function handleSave() {
 </script>
 
 <template>
-  <el-form ref="formRef" :model="form" :rules="rules" label-width="auto">
-    <el-row :gutter="14">
-      <el-col :span="24">
-        <!-- 用户在个人中心上传并更新自己的头像 -->
-        <el-form-item :label="t('users.field.avatarURL')" prop="avatar">
-          <div class="profile-basic-info-card__avatar-upload">
-            <el-avatar :size="72" :src="form.avatar || undefined" class="profile-basic-info-card__avatar-preview" />
-            <el-upload
-              ref="avatarUploadRef"
-              :auto-upload="false"
-              :disabled="avatarUploading || avatarCropping"
-              :show-file-list="false"
-              accept="image/jpeg,image/png,image/webp"
-              @change="handleAvatarChange"
-            >
-              <el-button :loading="avatarUploading || avatarCropping" link type="primary">
-                {{ t('account.avatar.select') }}
-              </el-button>
-            </el-upload>
-            <el-text type="info">{{ t('account.avatar.uploadHint') }}</el-text>
-          </div>
-        </el-form-item>
-      </el-col>
+  <section class="profile-basic-info-card">
+    <el-form ref="formRef" :model="form" :rules="rules" label-width="auto">
+      <el-row :gutter="14">
+        <el-col :lg="12" :md="12" :sm="12" :xs="24">
+          <el-form-item :label="t('account.field.username')">
+            <el-input :model-value="profile.username" disabled />
+          </el-form-item>
+        </el-col>
+        <el-col :lg="12" :md="12" :sm="12" :xs="24">
+          <el-form-item :label="t('account.field.employeeNo')">
+            <el-input :model-value="profile.employeeNo" disabled />
+          </el-form-item>
+        </el-col>
+        <el-col :lg="12" :md="12" :sm="12" :xs="24">
+          <el-form-item :label="t('users.field.nickname')" prop="nickname">
+            <el-input v-model="form.nickname" :placeholder="t('users.field.nickname')" clearable />
+          </el-form-item>
+        </el-col>
+        <el-col :lg="12" :md="12" :sm="12" :xs="24">
+          <el-form-item :label="t('users.field.email')" prop="email">
+            <el-input v-model="form.email" :placeholder="t('users.field.email')" clearable />
+          </el-form-item>
+        </el-col>
+        <el-col :lg="12" :md="12" :sm="12" :xs="24">
+          <el-form-item :label="t('users.field.phone')" prop="phone">
+            <el-input v-model="form.phone" :placeholder="t('users.field.phone')" clearable />
+          </el-form-item>
+        </el-col>
+        <el-col :lg="12" :md="12" :sm="12" :xs="24">
+          <el-form-item :label="t('users.field.gender')" prop="gender">
+            <el-radio-group v-model="form.gender">
+              <el-radio v-for="opt in USER_GENDER_OPTIONS" :key="opt.value" :value="opt.value">
+                {{ t(String(opt.labelKey)) }}
+              </el-radio>
+            </el-radio-group>
+          </el-form-item>
+        </el-col>
+        <el-col :lg="12" :md="12" :sm="12" :xs="24">
+          <el-form-item :label="t('users.field.birthday')" prop="birthday">
+            <el-date-picker
+              v-model="form.birthday"
+              :disabled-date="(date) => date.getTime() > Date.now()"
+              :placeholder="t('users.field.birthday')"
+              class="profile-basic-info-card__date-picker"
+              clearable
+              type="date"
+              value-format="YYYY-MM-DD"
+            />
+          </el-form-item>
+        </el-col>
+        <el-col :span="24">
+          <el-form-item :label="t('users.field.introduction')" prop="introduction">
+            <el-input
+              v-model="form.introduction"
+              :placeholder="t('users.field.introduction')"
+              :rows="3"
+              maxlength="500"
+              show-word-limit
+              type="textarea"
+            />
+          </el-form-item>
+        </el-col>
+      </el-row>
 
-      <el-col :lg="12" :md="12" :sm="12" :xs="24">
-        <el-form-item :label="t('account.field.username')">
-          <el-input :model-value="profile.username" disabled />
-        </el-form-item>
-      </el-col>
-      <el-col :lg="12" :md="12" :sm="12" :xs="24">
-        <el-form-item :label="t('account.field.employeeNo')">
-          <el-input :model-value="profile.employeeNo" disabled />
-        </el-form-item>
-      </el-col>
-      <el-col :lg="12" :md="12" :sm="12" :xs="24">
-        <el-form-item :label="t('users.field.nickname')" prop="nickname">
-          <el-input v-model="form.nickname" :placeholder="t('users.field.nickname')" clearable />
-        </el-form-item>
-      </el-col>
-      <el-col :lg="12" :md="12" :sm="12" :xs="24">
-        <el-form-item :label="t('users.field.email')" prop="email">
-          <el-input v-model="form.email" :placeholder="t('users.field.email')" clearable />
-        </el-form-item>
-      </el-col>
-      <el-col :lg="12" :md="12" :sm="12" :xs="24">
-        <el-form-item :label="t('users.field.phone')" prop="phone">
-          <el-input v-model="form.phone" :placeholder="t('users.field.phone')" clearable />
-        </el-form-item>
-      </el-col>
-      <el-col :lg="12" :md="12" :sm="12" :xs="24">
-        <el-form-item :label="t('users.field.gender')" prop="gender">
-          <el-radio-group v-model="form.gender">
-            <el-radio v-for="opt in USER_GENDER_OPTIONS" :key="opt.value" :value="opt.value">
-              {{ t(String(opt.labelKey)) }}
-            </el-radio>
-          </el-radio-group>
-        </el-form-item>
-      </el-col>
-      <el-col :lg="12" :md="12" :sm="12" :xs="24">
-        <el-form-item :label="t('users.field.birthday')" prop="birthday">
-          <el-date-picker
-            v-model="form.birthday"
-            :disabled-date="(date) => date.getTime() > Date.now()"
-            :placeholder="t('users.field.birthday')"
-            class="profile-basic-info-card__date-picker"
-            clearable
-            type="date"
-            value-format="YYYY-MM-DD"
-          />
-        </el-form-item>
-      </el-col>
-      <el-col :span="24">
-        <el-form-item :label="t('users.field.introduction')" prop="introduction">
-          <el-input
-            v-model="form.introduction"
-            :placeholder="t('users.field.introduction')"
-            :rows="3"
-            maxlength="500"
-            show-word-limit
-            type="textarea"
-          />
-        </el-form-item>
-      </el-col>
-    </el-row>
-
-    <div class="profile-basic-info-card__actions">
-      <el-button :loading="submitting" type="primary" @click="handleSave">{{ t('account.action.save') }}</el-button>
-      <el-button @click="resetForm">{{ t('account.action.reset') }}</el-button>
-    </div>
-  </el-form>
+      <div class="profile-basic-info-card__actions">
+        <el-button :loading="submitting" type="primary" @click="handleSave">{{ t('account.action.save') }}</el-button>
+        <el-button @click="resetForm">{{ t('account.action.reset') }}</el-button>
+      </div>
+    </el-form>
+  </section>
 </template>
 
 <style lang="scss" scoped>
@@ -230,13 +201,6 @@ async function handleSave() {
 
   &__date-picker {
     width: 100%;
-  }
-
-  &__avatar-upload {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 12px;
   }
 }
 </style>

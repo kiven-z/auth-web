@@ -41,7 +41,13 @@ export interface MeProfileUpdateRequest {
   gender?: number | null;
   birthday?: string | null;
   introduction?: string | null;
-  avatar?: string | null;
+}
+
+/**
+ * 当前用户头像更新请求（对齐 {@code MeAvatarUpdateForm}）
+ */
+export interface MeAvatarUpdateRequest {
+  avatar: string;
 }
 
 /**
@@ -60,6 +66,14 @@ export interface MeLoginLogPageRow {
  */
 export function updateMyProfile(data: MeProfileUpdateRequest): Promise<string> {
   return http.request<string>('put', '/system/me/profile', { data });
+}
+
+/**
+ * 更新当前用户头像
+ * @param data 头像更新表单
+ */
+export function updateMyAvatar(data: MeAvatarUpdateRequest): Promise<string> {
+  return http.request<string>('put', '/system/me/avatar', { data });
 }
 
 /**

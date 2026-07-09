@@ -35,7 +35,7 @@ const fileRecordState = usePaginationState({
   errorI18nKey: 'fileRecord.messages.loadFailed',
 });
 
-const { selectedRows, loading, searchForm, pagination, fetchTableData, resetQuery } = fileRecordState;
+const { selectedRows, loading, searchForm, fetchTableData, resetQuery } = fileRecordState;
 const {
   deleteBatchRows,
   openDetailDialog,
