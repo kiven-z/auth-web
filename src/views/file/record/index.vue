@@ -10,6 +10,7 @@ import useFileRecordTableColumns from '@/views/file/_shared/columns/useFileRecor
 import type { FormInstance } from 'element-plus';
 import { onMounted, reactive, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
+import { hasAuth } from '@/auth/permission';
 
 defineOptions({
   name: 'FileRecord',
@@ -185,32 +186,36 @@ onMounted(() => {
           >
             {{ t('buttons.actionBatchDownload') }}
           </el-button>
-          <el-button
-            v-perms="FILE_RECORD_PERMS.PRIVACY"
-            :disabled="selectedRows.length <= 0"
-            :loading="privacyUpdateLoading"
-            type="primary"
-            @click="updatePrivacyRows(true)"
-          >
-            {{ t('fileRecord.actions.batchSetPrivate') }}
-          </el-button>
-          <el-button
-            v-perms="FILE_RECORD_PERMS.PRIVACY"
-            :disabled="selectedRows.length <= 0"
-            :loading="privacyUpdateLoading"
-            type="primary"
-            @click="updatePrivacyRows(false)"
-          >
-            {{ t('fileRecord.actions.batchSetPublic') }}
-          </el-button>
-          <el-button
-            v-perms="FILE_RECORD_PERMS.DELETE"
-            :disabled="selectedRows.length <= 0"
-            type="danger"
-            @click="deleteBatchRows()"
-          >
-            {{ t('buttons.actionBatchDelete') }}
-          </el-button>
+
+          <el-dropdown trigger="click">
+            <el-button type="danger">
+              {{ t('buttons.actionAdvanced') }}
+            </el-button>
+            <template #dropdown>
+              <el-dropdown-item
+                v-if="hasAuth(FILE_RECORD_PERMS.DELETE)"
+                :disabled="selectedRows.length <= 0"
+                @click="deleteBatchRows()"
+              >
+                {{ t('buttons.actionBatchDelete') }}
+              </el-dropdown-item>
+              <el-dropdown-item
+                v-if="hasAuth(FILE_RECORD_PERMS.PRIVACY)"
+                :disabled="selectedRows.length <= 0 || privacyUpdateLoading"
+                @click="updatePrivacyRows(true)"
+              >
+                {{ t('fileRecord.actions.batchSetPrivate') }}
+              </el-dropdown-item>
+              <Perms :value="FILE_RECORD_PERMS.PRIVACY">
+                <el-dropdown-item
+                  :disabled="selectedRows.length <= 0 || privacyUpdateLoading"
+                  @click="updatePrivacyRows(false)"
+                >
+                  {{ t('fileRecord.actions.batchSetPublic') }}
+                </el-dropdown-item>
+              </Perms>
+            </template>
+          </el-dropdown>
         </el-button-group>
       </template>
 
@@ -230,32 +235,30 @@ onMounted(() => {
           <el-button v-perms="FILE_RECORD_PERMS.QUERY" link type="primary" @click="openDetailDialog(row)">
             {{ t('buttons.actionView') }}
           </el-button>
-          <!-- 设为私有 -->
-          <el-button
-            v-if="!row.isPrivate"
-            v-perms="FILE_RECORD_PERMS.PRIVACY"
-            :loading="privacyUpdateLoading"
-            link
-            type="warning"
-            @click="updatePrivacyRows(true, [row.id])"
-          >
-            {{ t('fileRecord.actions.setPrivate') }}
-          </el-button>
-          <!-- 设为公开 -->
-          <el-button
-            v-if="row.isPrivate"
-            v-perms="FILE_RECORD_PERMS.PRIVACY"
-            :loading="privacyUpdateLoading"
-            link
-            type="success"
-            @click="updatePrivacyRows(false, [row.id])"
-          >
-            {{ t('fileRecord.actions.setPublic') }}
-          </el-button>
           <!-- 删除文件记录 -->
           <el-button v-perms="FILE_RECORD_PERMS.DELETE" link type="danger" @click="deleteBatchRows([row.id])">
             {{ t('buttons.actionDelete') }}
           </el-button>
+
+          <Perms :value="FILE_RECORD_PERMS.PRIVACY">
+            <el-dropdown class="ml-1" trigger="click">
+              <el-button class="el-dropdown-link" link type="primary">{{ t('buttons.actionMore') }}</el-button>
+              <template #dropdown>
+                <el-dropdown-item
+                  :disabled="row.isPrivate || privacyUpdateLoading"
+                  @click="updatePrivacyRows(true, [row.id])"
+                >
+                  {{ t('fileRecord.actions.setPrivate') }}
+                </el-dropdown-item>
+                <el-dropdown-item
+                  :disabled="!row.isPrivate || privacyUpdateLoading"
+                  @click="updatePrivacyRows(false, [row.id])"
+                >
+                  {{ t('fileRecord.actions.setPublic') }}
+                </el-dropdown-item>
+              </template>
+            </el-dropdown>
+          </Perms>
         </div>
       </template>
     </AuthPagedTable>

@@ -15,9 +15,7 @@ export function wireSessionStoreBridge(): void {
     userStore.SET_NICKNAME(profile.nickname);
     userStore.SET_ROLES(profile.roles);
     userStore.SET_PERMS(profile.permissions);
-    if (profile.userId !== undefined) {
-      userStore.SET_USER_ID(profile.userId);
-    }
+    userStore.SET_USER_ID(profile.userId);
   });
 
   registerSessionLogout(() => useUserStore(store).logOut());

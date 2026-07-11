@@ -1,24 +1,19 @@
-/** 用户登录响应（对齐 auth-server UserLoginResponse） */
-export interface UserLoginResponse {
-  id?: string;
-  username?: string;
-  nickname?: string;
-  avatar?: string;
-  roles?: string[];
-  permissions?: string[];
+/** 刷新令牌响应（对齐 auth-server RefreshTokenResponse） */
+export interface RefreshTokenResponse {
+  id: string;
+  username: string;
+  roles: string[];
+  permissions: string[];
   accessToken: string;
   /** 令牌过期时间，后端 LocalDateTime，格式 `yyyy/MM/dd HH:mm:ss` */
   expires: string;
   readMeDay?: number;
 }
 
-/**
- * 刷新令牌响应（对齐 RefreshTokenResponse）
- */
-export interface RefreshTokenResponse {
-  accessToken: string;
-  expires: string;
-  readMeDay?: number;
+/** 用户登录响应（对齐 auth-server UserLoginResponse） */
+export interface UserLoginResponse extends RefreshTokenResponse {
+  nickname?: string;
+  avatar?: string;
 }
 
 /**

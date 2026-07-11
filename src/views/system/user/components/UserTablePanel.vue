@@ -48,6 +48,7 @@ const {
   openAssignDeptDrawer,
   openAssignPostDrawer,
   openAssignRoleDrawer,
+  openAdminUpdateAvatarDialog,
   openViewSessionsDialog,
   kickAllForUser,
   refreshUserAuth,
@@ -237,6 +238,11 @@ const hasSelection = computed(() => selectedRows.value.length > 0);
               <Perms :value="SYS_USER_POST_PERMS.QUERY">
                 <el-dropdown-item @click="openAssignPostDrawer(row)">
                   {{ t('assign.post') }}
+                </el-dropdown-item>
+              </Perms>
+              <Perms :value="SYS_USER_PERMS.UPDATE">
+                <el-dropdown-item @click="openAdminUpdateAvatarDialog(row.id, row.username, row.avatar)">
+                  {{ t('users.avatar.update') }}
                 </el-dropdown-item>
               </Perms>
               <Perms :value="SYS_USER_PERMS.UPDATE">

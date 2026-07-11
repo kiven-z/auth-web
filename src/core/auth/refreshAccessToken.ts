@@ -4,7 +4,8 @@ import { API_SUCCESS_CODE } from '@/auth/config/http-config';
 import { ApiBusinessError } from '@/core/http/apiError';
 import { isApiResultEnvelope } from '@/core/http/apiResult';
 import { createHttpAxiosInstance } from '@/core/http/axiosDefaults';
-import { applyRememberPreferencesFromResponse, readSessionPreferences } from '@/core/session';
+import { applyRememberPreferencesFromResponse } from '@/core/session/rememberPreferences';
+import { readSessionPreferences } from '@/core/session/sessionPreferences';
 import { setToken } from '@/core/session/sessionToken';
 import type { AxiosInstance } from 'axios';
 
@@ -22,7 +23,7 @@ function getRefreshAxiosClient(): AxiosInstance {
 }
 
 /**
- * 调用 refresh-token 接口并写入会话。
+ * 调用 refresh-token 接口并写入会话（含授权快照）。
  * 不经 {@link http} 拦截器，供 {@link refreshAccessTokenSingleFlight} 与鉴权恢复链路使用。
  * @returns 刷新后的令牌载荷
  */
@@ -38,8 +39,8 @@ export async function refreshAccessToken(): Promise<RefreshTokenResponse> {
   }
 
   const body = raw.data as RefreshTokenResponse;
-  if (!body?.accessToken) {
-    throw new Error('Refresh token response is missing accessToken.');
+  if (!body?.accessToken || !body.username || !body.id || !body.roles || !body.permissions) {
+    throw new Error('Refresh token response is missing required session fields.');
   }
 
   const { isRemembered } = readSessionPreferences();
@@ -50,6 +51,10 @@ export async function refreshAccessToken(): Promise<RefreshTokenResponse> {
   setToken({
     accessToken: body.accessToken,
     expires: body.expires,
+    username: body.username,
+    userId: body.id,
+    roles: body.roles,
+    permissions: body.permissions,
   });
   return body;
 }

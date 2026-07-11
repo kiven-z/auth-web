@@ -90,7 +90,6 @@ export function useAvatarCropFlow(options: UseAvatarCropFlowOptions) {
         hint: t('account.avatar.cropper.hint'),
       },
       onCancel: handleAvatarCropCancel,
-      // 确认裁剪后上传头像并回调外部
       onConfirm: async (croppedBlob: Blob) => {
         if (!pendingAvatarRawFile.value || avatarUploading.value) {
           return;

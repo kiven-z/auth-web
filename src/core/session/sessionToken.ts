@@ -13,7 +13,7 @@ import {
 import { syncUserProfileToStore } from './userProfileSync';
 
 /**
- * 格式化 token（JWT 格式，供 Authorization 头使用）。
+ * 格式化 token（JWT 格式，供 Authorization 头使用）
  * @param token token
  * @returns 格式化后的 token
  */
@@ -45,7 +45,7 @@ export function getToken(): DataInfo<number> {
 /**
  * 设置 token 以及一些必要信息并采用无感刷新 token 方案
  * 无感刷新：后端返回 accessToken（访问接口使用的 token）与 expires（accessToken 过期时间）
- * accessToken 的存放介质由 `getAccessTokenStore()` 按环境决定（生产内存 / 开发 localStorage）。
+ * accessToken 的存放介质由 `getAccessTokenStore()` 按环境决定（生产内存 / 开发 localStorage）
  * 用户资料与过期时间保存在 key 为 userKey 的 localStorage 里
  * @param data 会话所需载荷
  */
@@ -76,7 +76,7 @@ export function removeToken(): void {
 }
 
 /**
- * 设置多标签页 Cookie 标志。
+ * 设置多标签页 Cookie 标志
  * @param isRemembered 是否记住登录
  * @param loginDay 记住登录天数
  */
@@ -85,28 +85,19 @@ function setMultipleTabsCookie(isRemembered: boolean, loginDay: number): void {
 }
 
 /**
- * 根据 setToken 载荷解析待写入的用户资料（完整登录用 data，仅刷新 token 时合并历史资料）。
+ * 根据 setToken 载荷解析待写入的用户资料。
+ * 授权字段一律以本次载荷为准；nickname/avatar 刷新响应不带回时沿用本地缓存。
  * @param data 会话所需载荷
  * @returns 用户资料快照
  */
 function resolveProfileForSetToken(data: SessionTokenPayload): UserProfileSnapshot {
-  if (data.username && data.roles) {
-    return {
-      avatar: data.avatar ?? '',
-      username: data.username,
-      nickname: data.nickname ?? '',
-      roles: data.roles,
-      permissions: data.permissions ?? [],
-      userId: data.userId,
-    };
-  }
   const previous = readStoredUserProfileEntry();
   return {
-    avatar: previous?.avatar ?? '',
-    username: previous?.username ?? '',
-    nickname: previous?.nickname ?? '',
-    roles: previous?.roles ?? [],
-    permissions: previous?.permissions ?? [],
-    userId: previous?.userId,
+    avatar: data.avatar ?? previous?.avatar ?? '',
+    username: data.username,
+    nickname: data.nickname ?? previous?.nickname ?? '',
+    roles: data.roles,
+    permissions: data.permissions,
+    userId: data.userId,
   };
 }

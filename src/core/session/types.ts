@@ -19,19 +19,19 @@ export interface DataInfo<T> {
 }
 
 /**
- * 写入会话所需的字段（登录或刷新后）；SSO 等场景可缺省 expires，由默认值补齐
+ * 写入会话所需的字段（登录或刷新后均须携带完整授权快照）
  */
 export interface SessionTokenPayload {
   accessToken: string;
   /** `accessToken` 过期时间（时间戳） */
   expires?: string | number | Date;
   avatar?: string;
-  username?: string;
+  username: string;
   nickname?: string;
-  roles?: Array<string>;
-  permissions?: Array<string>;
+  roles: Array<string>;
+  permissions: Array<string>;
   /** 用户 ID（与后端 Long 字符串化一致） */
-  userId?: string;
+  userId: string;
 }
 
 /** 用户资料快照（写入 localStorage 与同步 Pinia 时使用） */
@@ -41,5 +41,5 @@ export interface UserProfileSnapshot {
   nickname: string;
   roles: Array<string>;
   permissions: Array<string>;
-  userId?: string;
+  userId: string;
 }

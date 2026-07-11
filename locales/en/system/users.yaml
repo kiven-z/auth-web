@@ -40,6 +40,9 @@ users:
     permissions:
       title: Effective permissions
       empty: No effective permissions
+  avatar:
+    update: Update avatar
+    updateHint: Click the avatar to choose an image; changes save immediately after cropping
   password:
     reset: Reset password
     initial: Initial password

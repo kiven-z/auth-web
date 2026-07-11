@@ -1,9 +1,8 @@
 <script lang="ts" setup>
 import type { SysUserProfileResponse } from '@/api/system/user-base';
 import { updateMyAvatar } from '@/api/system/user-me';
+import { AvatarEditor } from '@/components/business/AvatarEditor';
 import { message } from '@/services/feedback/message';
-import { useAvatarCropFlow } from '@/views/home/account/profile/hooks/useAvatarCropFlow';
-import { Camera, Loading } from '@element-plus/icons-vue';
 import { ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 
@@ -20,18 +19,7 @@ const emit = defineEmits<{
 }>();
 
 const { t } = useI18n();
-const avatarHovering = ref(false);
 const displayAvatar = ref(props.profile.avatar);
-
-const { avatarUploadRef, avatarUploading, avatarCropping, handleAvatarChange } = useAvatarCropFlow({
-  showSuccessMessage: false,
-  onAvatarUploaded: async (avatarUrl: string) => {
-    await updateMyAvatar({ avatar: avatarUrl });
-    displayAvatar.value = avatarUrl;
-    message(t('tips.editSuccess'), { type: 'success' });
-    emit('avatarUpdated', avatarUrl);
-  },
-});
 
 watch(
   () => props.profile.avatar,
@@ -39,6 +27,17 @@ watch(
     displayAvatar.value = avatar;
   }
 );
+
+/**
+ * 头像上传成功后保存至当前用户
+ * @param avatarUrl 新头像 URL
+ */
+async function handleAvatarUploaded(avatarUrl: string): Promise<void> {
+  await updateMyAvatar({ avatar: avatarUrl });
+  displayAvatar.value = avatarUrl;
+  message(t('tips.editSuccess'), { type: 'success' });
+  emit('avatarUpdated', avatarUrl);
+}
 </script>
 
 <template>
@@ -52,31 +51,7 @@ watch(
     />
 
     <div class="profile-personal-info-card__summary">
-      <div
-        class="profile-personal-info-card__avatar-editor"
-        @mouseenter="avatarHovering = true"
-        @mouseleave="avatarHovering = false"
-      >
-        <el-avatar :size="72" :src="displayAvatar || undefined" class="profile-personal-info-card__avatar-preview" />
-        <div
-          v-show="avatarHovering && !avatarUploading && !avatarCropping"
-          class="profile-personal-info-card__avatar-mask"
-        >
-          <el-icon :size="24"><Camera /></el-icon>
-        </div>
-        <el-icon v-if="avatarUploading || avatarCropping" :size="24" class="profile-personal-info-card__avatar-loading">
-          <Loading />
-        </el-icon>
-        <el-upload
-          ref="avatarUploadRef"
-          :auto-upload="false"
-          :disabled="avatarUploading || avatarCropping"
-          :show-file-list="false"
-          accept="image/jpeg,image/png,image/webp"
-          class="profile-personal-info-card__avatar-upload"
-          @change="handleAvatarChange"
-        />
-      </div>
+      <AvatarEditor :avatar="displayAvatar" @uploaded="handleAvatarUploaded" />
 
       <div class="profile-personal-info-card__summary-content">
         <div class="profile-personal-info-card__name-row">
@@ -158,73 +133,8 @@ watch(
     gap: 8px;
   }
 
-  &__avatar-editor {
-    position: relative;
-    width: 72px;
-    height: 72px;
-    flex-shrink: 0;
-    cursor: pointer;
-  }
-
-  &__avatar-preview {
-    width: 72px;
-    height: 72px;
-  }
-
-  &__avatar-mask {
-    position: absolute;
-    inset: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 50%;
-    background: rgb(0 0 0 / 45%);
-    color: #fff;
-    pointer-events: none;
-  }
-
-  &__avatar-loading {
-    position: absolute;
-    inset: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 50%;
-    background: rgb(0 0 0 / 45%);
-    color: #fff;
-    animation: rotating 1.5s linear infinite;
-    pointer-events: none;
-  }
-
-  &__avatar-upload {
-    position: absolute;
-    inset: 0;
-    opacity: 0;
-
-    :deep(.el-upload) {
-      width: 100%;
-      height: 100%;
-    }
-  }
-
   &__avatar-hint {
     margin-bottom: 16px;
-  }
-}
-
-@keyframes rotating {
-  from {
-    transform: rotate(0deg);
-  }
-
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-@media (hover: none) {
-  .profile-personal-info-card__avatar-mask {
-    opacity: 0.85;
   }
 }
 </style>

@@ -20,11 +20,11 @@ export function mapLoginResponseToSession(response: UserLoginResponse): SessionT
   return {
     accessToken: response.accessToken,
     expires: response.expires,
-    avatar: response.avatar,
+    avatar: response.avatar ?? '',
     username: response.username,
     nickname: response.nickname ?? '',
-    roles: response.roles ?? [],
-    permissions: response.permissions ?? [],
+    roles: response.roles,
+    permissions: response.permissions,
     userId: response.id,
   };
 }

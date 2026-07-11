@@ -14,6 +14,11 @@ vi.mock('@/core/session/rememberPreferences', () => ({
   applyRememberPreferencesFromResponse: mockApplyRemember,
 }));
 
+vi.mock('@/core/preferences', () => ({
+  hasSessionHydrated: () => true,
+  hydrateUiPreferencesOnSession: vi.fn(),
+}));
+
 describe('establishSessionFromLogin', () => {
   beforeEach(() => {
     vi.clearAllMocks();
@@ -21,6 +26,10 @@ describe('establishSessionFromLogin', () => {
 
   it('applies remember preferences from response before setToken', async () => {
     const loginResponse: UserLoginResponse = {
+      id: '1',
+      username: 'alice',
+      roles: ['ROLE_USER'],
+      permissions: ['sys:user:query'],
       accessToken: 'access-1',
       expires: '2026/05/20 12:00:00',
       readMeDay: 14,

@@ -40,6 +40,9 @@ users:
     permissions:
       title: 生效权限
       empty: 暂无生效权限
+  avatar:
+    update: 修改头像
+    updateHint: 点击头像选择图片，裁剪后将立即保存
   password:
     reset: 修改密码
     initial: 初始密码

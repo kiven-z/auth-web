@@ -35,6 +35,7 @@ describe('userProfileSync', () => {
         nickname: 'Bob',
         roles: [],
         permissions: [],
+        userId: '2',
       })
     ).not.toThrow();
   });

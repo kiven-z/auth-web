@@ -2,16 +2,27 @@ import type { TableActionDeps } from '@/api/common';
 import { kickAllUserSessions } from '@/api/auth/session';
 import { getUserRoles, putUserRoles } from '@/api/system/user-role';
 import { refreshUserAuthorization, type SysUserPageRow } from '@/api/system/user';
-import { addDialog } from '@/components/ui/Dialog';
+import { addDialog, closeDialog } from '@/components/ui/Dialog';
 import { addDrawer } from '@/components/ui/Drawer';
 import { operationConfirm } from '@/services/feedback/dialog';
 import { errorMessage, message } from '@/services/feedback/message';
 import OrgGrantRoleAssignDrawer from '@/views/system/_shared/components/OrgGrantRoleAssignDrawer.vue';
+import AvatarUpdateDialogPanel from '@/views/system/user/components/AvatarUpdateDialogPanel.vue';
 import UserAssignDeptDrawer from '@/views/system/user/components/UserAssignDeptDrawer.vue';
 import UserAssignPostDrawer from '@/views/system/user/components/UserAssignPostDrawer.vue';
 import UserSessionDialog from '@/views/system/_shared/components/UserSessionDialog.vue';
 import { h, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
+
+/** 管理员更新用户头像弹窗面板属性 */
+export interface AvatarUpdateDialogPanelProps {
+  /** 目标用户主键 */
+  userId: string;
+  /** 目标用户名 */
+  username: string;
+  /** 当前头像 URL */
+  avatar?: string | null;
+}
 
 interface KickAllForUserOptions {
   /** 成功后回调（如弹窗内刷新会话列表） */
@@ -133,6 +144,33 @@ function useUserMoreAction(deps: TableActionDeps) {
   };
 
   /**
+   * 打开管理员更新用户头像弹窗
+   * @param userId 目标用户主键
+   * @param username 目标用户名
+   * @param avatar 当前头像 URL
+   */
+  const openAdminUpdateAvatarDialog = (userId: string, username: string, avatar?: string | null) => {
+    addDialog({
+      title: `${t('users.avatar.update')} - ${username}`,
+      width: '480px',
+      draggable: true,
+      closeOnClickModal: false,
+      closeOnPressEscape: false,
+      hideFooter: true,
+      contentRenderer: ({ options, index }) =>
+        h(AvatarUpdateDialogPanel, {
+          userId,
+          username,
+          avatar,
+          onSuccess: async () => {
+            await fetchTableData();
+            closeDialog(options, index, { command: 'close' });
+          },
+        }),
+    });
+  };
+
+  /**
    * 打开查看会话弹窗
    * @param row 用户行
    */
@@ -169,6 +207,7 @@ function useUserMoreAction(deps: TableActionDeps) {
     openAssignDeptDrawer,
     openAssignPostDrawer,
     openAssignRoleDrawer,
+    openAdminUpdateAvatarDialog,
     openViewSessionsDialog,
     kickAllForUser,
     refreshUserAuth,

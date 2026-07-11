@@ -151,6 +151,22 @@ export function refreshUserAuthorization(ids: string[]): Promise<void> {
 }
 
 /**
+ * 管理员更新用户头像（对齐 {@code SysUserAvatarUpdateForm}）
+ */
+export interface SysUserAvatarUpdateRequest {
+  userId: string;
+  avatar: string;
+}
+
+/**
+ * 管理员更新用户头像
+ * @param data 头像更新表单
+ */
+export function updateUserAvatar(data: SysUserAvatarUpdateRequest): Promise<string> {
+  return http.request<string>('put', '/system/user/avatar', { data });
+}
+
+/**
  * 管理员重置用户密码
  */
 export interface SysUserAdminResetPasswordRequest {
