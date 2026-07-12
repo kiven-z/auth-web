@@ -1,6 +1,6 @@
 <script lang="ts" setup>
-import { EmailTemplateRequireFieldRow, updateEmailTemplateRequireFields } from '@/api/message/email-template';
-import { getMessageTemplateById } from '@/api/message/message-template';
+import type { EmailTemplateRequireFieldRow } from '@/api/message/email-template';
+import { getMessageTemplateById, updateMessageTemplateRequireFields } from '@/api/message/message-template';
 import { errorMessage, message } from '@/services/feedback/message';
 import { EMAIL_TEMPLATE_CHANNEL } from '@/views/message/email-template/constants/channel';
 import { EMAIL_TEMPLATE_PERMS } from '@/views/message/email-template/constants/permissions';
@@ -74,7 +74,9 @@ const submit = async (): Promise<boolean> => {
 
   try {
     // 更新 require_fields
-    await updateEmailTemplateRequireFields(props.templateId, { requireFields: transformResult.payload });
+    await updateMessageTemplateRequireFields(props.templateId, EMAIL_TEMPLATE_CHANNEL, {
+      requireFields: transformResult.payload,
+    });
     message(t('tips.editSuccess'), { type: 'success' });
     return true;
   } catch (error: unknown) {
