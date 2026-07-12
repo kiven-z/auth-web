@@ -3,7 +3,7 @@ import {
   EmailTemplateRequireFieldRow,
   getEmailTemplateById,
   updateEmailTemplateRequireFields,
-} from '@/api/system/email-template';
+} from '@/api/message/email-template';
 import { errorMessage, message } from '@/services/feedback/message';
 import { EMAIL_TEMPLATE_PERMS } from '@/views/message/email-template/constants/permissions';
 import {

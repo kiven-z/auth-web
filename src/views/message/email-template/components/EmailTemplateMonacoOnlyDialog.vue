@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import type { FormDialog } from '@/api/common';
-import { type EmailTemplateMonacoFormModel, renderEmailTemplate } from '@/api/system/email-template';
+import { type EmailTemplateMonacoFormModel, renderEmailTemplate } from '@/api/message/email-template';
 import { useMonacoTheme } from '@/shared/composables/monaco/useMonacoTheme';
 import { MONACO_COMMON_EDITOR_OPTIONS } from '@/views/message/email-template/config/monaco-config';
 import { registerEmailTemplateMonaco } from '@/views/message/email-template/monaco/register-email-template-monaco';

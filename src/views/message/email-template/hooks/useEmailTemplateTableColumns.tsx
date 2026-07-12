@@ -1,4 +1,4 @@
-import type { EmailTemplatePageRow } from '@/api/system/email-template';
+import type { EmailTemplatePageRow } from '@/api/message/email-template';
 import { selectUserinfo } from '@/components/business/UserProfile';
 import { renderBooleanStatusTag } from '@/shared/composables/layout/renderBooleanStatusTag';
 import { ElButton } from 'element-plus';

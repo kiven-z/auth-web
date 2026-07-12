@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import type { FormDialog } from '@/api/common';
-import type { EmailTemplateFormModel } from '@/api/system/email-template';
+import type { EmailTemplateFormModel } from '@/api/message/email-template';
 import type { FormInstance, FormRules } from 'element-plus';
 import { useMonacoTheme } from '@/shared/composables/monaco/useMonacoTheme';
 import { CodeEditor } from 'monaco-editor-vue3';

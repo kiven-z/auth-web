@@ -1,4 +1,4 @@
-import type { EmailTemplateRequireFieldRow } from '@/api/system/email-template';
+import type { EmailTemplateRequireFieldRow } from '@/api/message/email-template';
 import { EMAIL_TEMPLATE_MARKER_DEBOUNCE_MS } from '@/views/message/email-template/config/monaco-config';
 import { registerEmailTemplateProviders } from '@/views/message/email-template/monaco/providers';
 import {

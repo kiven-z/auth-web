@@ -1,12 +1,12 @@
 import type { TableActionDeps } from '@/api/common';
-import type { EmailTemplateMonacoFormModel } from '@/api/system/email-template';
+import type { EmailTemplateMonacoFormModel } from '@/api/message/email-template';
 import {
   type EmailTemplatePageRow,
   getEmailTemplateById,
   getEmailTemplatePreviewHtml,
   testSendEmailTemplate,
   updateEmailTemplateContent,
-} from '@/api/system/email-template';
+} from '@/api/message/email-template';
 import { addDialog } from '@/components/ui/Dialog';
 import { addDrawer } from '@/components/ui/Drawer';
 import { type FormOverlayExpose, useFormOverlaySubmit } from '@/shared/composables/table/useFormOverlaySubmit';

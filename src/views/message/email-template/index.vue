@@ -3,7 +3,7 @@ import {
   getMessageTemplatePage,
   type MessageTemplatePageQuery,
   type MessageTemplatePageRow,
-} from '@/api/system/message-template';
+} from '@/api/message/message-template';
 import AuthPagedTable, { usePaginationState } from '@/components/business/AuthPagedTable';
 import useEmailTemplateTableAction from '@/views/message/email-template/hooks/useEmailTemplateTableAction';
 import useEmailTemplateTableColumns from '@/views/message/email-template/hooks/useEmailTemplateTableColumns';

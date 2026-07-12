@@ -1,4 +1,4 @@
-import type { EmailTemplateRequireFieldRow } from '@/api/system/email-template';
+import type { EmailTemplateRequireFieldRow } from '@/api/message/email-template';
 
 export interface EditableRequireFieldRow {
   _id: number;

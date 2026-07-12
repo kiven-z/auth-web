@@ -3,7 +3,7 @@ import {
   type EmailTemplateDetailVO,
   getEmailTemplateById,
   getEmailTemplatePreviewHtml,
-} from '@/api/system/email-template';
+} from '@/api/message/email-template';
 import ReDescription from '@/components/ui/Description';
 import { renderBooleanStatusTag } from '@/shared/composables/layout/renderBooleanStatusTag';
 import { errorMessage } from '@/services/feedback/message';

@@ -1,5 +1,5 @@
 import type { TableActionWithSelectionDeps } from '@/api/common';
-import type { EmailTemplateFormModel } from '@/api/system/email-template';
+import type { EmailTemplateFormModel } from '@/api/message/email-template';
 import {
   batchDeleteEmailTemplates,
   batchUpdateEmailTemplateStatus,
@@ -7,7 +7,7 @@ import {
   type EmailTemplatePageRow,
   getEmailTemplateById,
   updateEmailTemplate,
-} from '@/api/system/email-template';
+} from '@/api/message/email-template';
 import { addDialog } from '@/components/ui/Dialog';
 import { addDrawer } from '@/components/ui/Drawer';
 import useBatchDeleteAction from '@/shared/composables/table/useBatchDeleteAction';
