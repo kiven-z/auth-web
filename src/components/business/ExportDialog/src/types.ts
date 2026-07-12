@@ -49,18 +49,21 @@ export interface PagedTableExportPagination {
 }
 
 /** 组装导出 API 参数时的上下文 */
-export interface PagedTableExportBuildContext {
-  searchForm: Record<string, unknown>;
+export interface PagedTableExportBuildContext<TSearch extends Record<string, any> = Record<string, any>> {
+  searchForm: TSearch;
   pagination: PagedTableExportPagination;
   form: ExportDialogFormState;
 }
 
 /** 分页表格导出 composable 配置 */
-export interface UsePagedTableExportOptions<TFilter extends object> {
-  searchForm: Record<string, unknown>;
+export interface UsePagedTableExportOptions<
+  TFilter extends object,
+  TSearch extends Record<string, any> = Record<string, any>,
+> {
+  searchForm: TSearch;
   pagination: PagedTableExportPagination;
   /** 根据列表上下文组装筛选参数（不含分页与导出范围） */
-  buildFilter: (context: PagedTableExportBuildContext) => TFilter;
+  buildFilter: (context: PagedTableExportBuildContext<TSearch>) => TFilter;
   /** 导出 API：筛选 + 导出范围（请求时合并为扁平 query） */
   exportApi: (filter: TFilter, scope: ExportScopeFields) => Promise<Blob>;
   /** 下载文件名前缀（不含扩展名与时间戳） */

@@ -10,7 +10,7 @@ import { useI18n } from 'vue-i18n';
 
 /** 权限页 Excel 导出 composable 配置 */
 export interface UsePermissionExportActionOptions {
-  searchForm: Record<string, unknown>;
+  searchForm: SysPermissionPageQuery;
   pagination: {
     currentPage: number;
     pageSize: number;
@@ -33,15 +33,15 @@ function usePermissionAdvanceAction(options: UsePermissionExportActionOptions) {
     onSuccess: options.fetchTableData,
   });
 
-  const { exporting, openExportDialog } = usePagedTableExport<SysPermissionPageQuery>({
+  const { exporting, openExportDialog } = usePagedTableExport<SysPermissionPageQuery, SysPermissionPageQuery>({
     searchForm: options.searchForm,
     pagination: options.pagination,
     fileNamePrefix: t('permissions.moduleName'),
     exportApi: exportPermissionExcel,
     buildFilter: ({ searchForm }) => ({
-      permissionCode: searchForm.permissionCode as string | undefined,
-      permissionName: searchForm.permissionName as string | undefined,
-      status: searchForm.status as boolean | undefined,
+      permissionCode: searchForm.permissionCode,
+      permissionName: searchForm.permissionName,
+      status: searchForm.status,
     }),
   });
 

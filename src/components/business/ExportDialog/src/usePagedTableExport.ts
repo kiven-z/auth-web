@@ -14,7 +14,9 @@ import type { ExportDialogPanelExpose, PagedTableExportBuildContext, UsePagedTab
  * @param options 导出配置
  * @returns `exporting` 加载状态与 `openExportDialog` 打开弹窗方法
  */
-function usePagedTableExport<TFilter extends object>(options: UsePagedTableExportOptions<TFilter>) {
+function usePagedTableExport<TFilter extends object, TSearch extends Record<string, any> = Record<string, any>>(
+  options: UsePagedTableExportOptions<TFilter, TSearch>
+) {
   const { t } = useI18n();
   const exporting: Ref<boolean> = ref(false);
 
@@ -43,7 +45,7 @@ function usePagedTableExport<TFilter extends object>(options: UsePagedTableExpor
         const form = panelRef.value!.getFormState();
         exporting.value = true;
         try {
-          const context: PagedTableExportBuildContext = {
+          const context: PagedTableExportBuildContext<TSearch> = {
             searchForm: options.searchForm,
             pagination: options.pagination,
             form,

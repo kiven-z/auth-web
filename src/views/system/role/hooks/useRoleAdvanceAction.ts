@@ -6,7 +6,7 @@ import { useI18n } from 'vue-i18n';
 
 /** 角色页 Excel 导出 composable 配置 */
 export interface UseRoleExportActionOptions {
-  searchForm: Record<string, unknown>;
+  searchForm: SysRolePageQuery;
   pagination: {
     currentPage: number;
     pageSize: number;
@@ -29,15 +29,15 @@ function useRoleAdvanceAction(options: UseRoleExportActionOptions) {
     onSuccess: options.fetchTableData,
   });
 
-  const { exporting, openExportDialog } = usePagedTableExport<SysRolePageQuery>({
+  const { exporting, openExportDialog } = usePagedTableExport<SysRolePageQuery, SysRolePageQuery>({
     searchForm: options.searchForm,
     pagination: options.pagination,
     fileNamePrefix: t('roles.title.module'),
     exportApi: exportRoleExcel,
     buildFilter: ({ searchForm }) => ({
-      roleCode: searchForm.roleCode as string | undefined,
-      roleName: searchForm.roleName as string | undefined,
-      status: searchForm.status as boolean | undefined,
+      roleCode: searchForm.roleCode,
+      roleName: searchForm.roleName,
+      status: searchForm.status,
     }),
   });
 

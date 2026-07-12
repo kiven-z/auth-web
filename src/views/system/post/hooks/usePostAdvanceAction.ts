@@ -6,7 +6,7 @@ import { useI18n } from 'vue-i18n';
 
 /** 岗位页 Excel 导出 composable 配置 */
 export interface UsePostExportActionOptions {
-  searchForm: Record<string, unknown>;
+  searchForm: SysPostPageQuery;
   pagination: {
     currentPage: number;
     pageSize: number;
@@ -29,16 +29,16 @@ function usePostAdvanceAction(options: UsePostExportActionOptions) {
     onSuccess: options.fetchTableData,
   });
 
-  const { exporting, openExportDialog } = usePagedTableExport<SysPostPageQuery>({
+  const { exporting, openExportDialog } = usePagedTableExport<SysPostPageQuery, SysPostPageQuery>({
     searchForm: options.searchForm,
     pagination: options.pagination,
     fileNamePrefix: t('post.moduleName'),
     exportApi: exportPostExcel,
     buildFilter: ({ searchForm }) => ({
-      postCode: searchForm.postCode as string,
-      postName: searchForm.postName as string,
-      deptName: searchForm.deptName as string,
-      status: searchForm.status as boolean,
+      postCode: searchForm.postCode,
+      postName: searchForm.postName,
+      deptName: searchForm.deptName,
+      status: searchForm.status,
     }),
   });
 
