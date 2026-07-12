@@ -11,25 +11,16 @@ emailTemplate:
   content: 模板正文
   liveRenderPreview: 实时渲染预览
   renderedEffect: 渲染效果
-  requireFieldsJson: 必填变量（JSON）
   addDialogTitle: 新增邮件模板
   editDialogTitle: 编辑邮件模板
   templateEditDialogTitle: 编辑模板正文
   detailDialogTitle: 邮件模板详情
   previewDialogTitle: 邮件预览
-  requireFieldsDialogTitle: 维护必填变量
   testSendDialogTitle: 测试发送
   preview: 预览
-  requireFieldsMenu: 必填变量
   testSendMenu: 测试发送
   templateEditMenu: 模板编辑
   previewTips: 以下为按示例值渲染后的 HTML，可能与实际发信略有差异。
-  fieldKey: 变量名
-  fieldDescription: 说明
-  fieldExampleValue: 示例值（JSON）
-  requireFieldKeyDuplicate: 变量名不能重复
-  requireFieldKeyRequired: 请填写变量名
-  requireFieldExampleRequired: 请填写示例值
   testSendEmail: 收件邮箱
   testSendEmailPlaceholder: 请输入收件邮箱
   testSendEmailInvalid: 邮箱格式不正确
@@ -41,8 +32,5 @@ emailTemplate:
     description: 请输入模板描述
     priority: 请选择优先级
     content: 请输入 HTML / FreeMarker 模板正文
-    fieldKey: 变量 key，如 userName
-    fieldDescription: 字段含义说明
-    fieldExampleValue: 'JSON，如 "text"'
   rules:
     templateCodeReg: 仅允许字母、下划线、连字符，且须包含至少一个字母

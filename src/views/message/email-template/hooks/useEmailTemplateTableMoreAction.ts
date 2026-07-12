@@ -12,15 +12,11 @@ import { type FormOverlayExpose, useFormOverlaySubmit } from '@/shared/composabl
 import { errorMessage } from '@/services/feedback/message';
 import EmailTemplateMonacoOnlyDialog from '@/views/message/email-template/components/EmailTemplateMonacoOnlyDialog.vue';
 import EmailTemplatePreviewDialog from '@/views/message/email-template/components/EmailTemplatePreviewDialog.vue';
-import EmailTemplateRequireFieldsDialog from '@/views/message/email-template/components/EmailTemplateRequireFieldsDialog.vue';
 import EmailTemplateTestSendDialog from '@/views/message/email-template/components/EmailTemplateTestSendDialog.vue';
 import { EMAIL_TEMPLATE_CHANNEL } from '@/views/message/email-template/constants/channel';
+import { useOpenMessageTemplateRequireFields } from '@/views/message/_shared/hooks/useOpenMessageTemplateRequireFields';
 import { h, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
-
-interface RequireFieldsExpose {
-  submit: () => Promise<boolean>;
-}
 
 /**
  * 测试发送弹窗表单
@@ -39,6 +35,7 @@ export function useEmailTemplateTableMoreAction(options: TableActionDeps) {
   const { fetchTableData } = options;
   const { t } = useI18n();
   const { createFormBeforeSure } = useFormOverlaySubmit();
+  const { openRequireFields: openSharedRequireFields } = useOpenMessageTemplateRequireFields();
 
   /**
    * 打开 HTML 预览（只读）
@@ -65,41 +62,17 @@ export function useEmailTemplateTableMoreAction(options: TableActionDeps) {
    * 打开 require_fields 维护弹窗
    * @param row 邮件模板行数据
    */
-  const openRequireFields = async (row: EmailTemplatePageRow) => {
-    try {
-      const detail = await getMessageTemplateById(row.id, EMAIL_TEMPLATE_CHANNEL);
-      const dialogRef = ref<RequireFieldsExpose | null>(null);
-
-      addDrawer({
-        title: t('emailTemplate.requireFieldsDialogTitle'),
-        size: '100%',
-        direction: 'ttb',
-        resizable: true,
-        closeOnClickModal: false,
-        closeOnPressEscape: false,
-        showClose: true,
-        contentRenderer: () =>
-          h(EmailTemplateRequireFieldsDialog, {
-            ref: dialogRef,
-            templateId: row.id,
-            initialRequireFields: detail.requireFields ?? [],
-          }),
-        beforeSure: async (done) => {
-          const submitted = await dialogRef.value?.submit();
-          if (!submitted) {
-            return;
-          }
-          await fetchTableData();
-          done();
-        },
-      });
-    } catch (error: unknown) {
-      errorMessage(error, { defaultI18nKey: 'emailTemplate.loadFailed' });
-    }
-  };
+  const openRequireFields = (row: EmailTemplatePageRow) =>
+    openSharedRequireFields({
+      templateId: row.id,
+      channel: EMAIL_TEMPLATE_CHANNEL,
+      fetchTableData,
+      loadFailedI18nKey: 'emailTemplate.loadFailed',
+    });
 
   /**
    * 打开测试发送弹窗
+   * @param row 邮件模板行数据
    */
   const openTestSend = (row: EmailTemplatePageRow) => {
     const sendFormRef = ref<FormOverlayExpose<EmailTestSendForm> | null>(null);

@@ -1,38 +1,42 @@
 <script lang="ts" setup>
-import type { EmailTemplateRequireFieldRow } from '@/api/message/email-template';
+import type { MessageChannelCode, MessageTemplateRequireFieldRow } from '@/api/message/message-template';
 import { getMessageTemplateById, updateMessageTemplateRequireFields } from '@/api/message/message-template';
+import { useMonacoTheme } from '@/shared/composables/monaco/useMonacoTheme';
 import { errorMessage, message } from '@/services/feedback/message';
-import { EMAIL_TEMPLATE_CHANNEL } from '@/views/message/email-template/constants/channel';
-import { EMAIL_TEMPLATE_PERMS } from '@/views/message/email-template/constants/permissions';
+import { MESSAGE_TEMPLATE_PERMS } from '@/views/message/_shared/constants/permissions';
 import {
   type EditableRequireFieldRow,
   toEditableRequireFields,
   toRequireFieldsPayload,
-} from '@/views/message/email-template/utils/require-fields';
-import { useMonacoTheme } from '@/shared/composables/monaco/useMonacoTheme';
+} from '@/views/message/_shared/utils/require-fields';
 import { CodeEditor } from 'monaco-editor-vue3';
 import { onMounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 defineOptions({
-  name: 'EmailTemplateRequireFieldsDialog',
+  name: 'MessageTemplateRequireFieldsDialog',
 });
 
-/** 邮件模板变量表编辑弹窗 props */
-interface EmailTemplateRequireFieldsDialogProps {
+/** 消息模板变量表编辑弹窗 props */
+interface MessageTemplateRequireFieldsDialogProps {
   templateId: string;
+  channel: MessageChannelCode;
   /** 打开方已拉取的变量表初始数据 */
-  initialRequireFields: EmailTemplateRequireFieldRow[];
+  initialRequireFields?: MessageTemplateRequireFieldRow[];
+  /** 加载失败默认 i18n key */
+  loadFailedI18nKey?: string;
 }
 
-const props = defineProps<EmailTemplateRequireFieldsDialogProps>();
+const props = withDefaults(defineProps<MessageTemplateRequireFieldsDialogProps>(), {
+  initialRequireFields: () => [],
+  loadFailedI18nKey: 'messageTemplate.loadFailed',
+});
+
 const { t } = useI18n();
 const monacoTheme = useMonacoTheme();
 
 const loading = ref(false);
-// 数据列表
 const dataList = ref<EditableRequireFieldRow[]>([]);
-// 行序号
 let rowSeq = dataList.value.length + 1;
 
 /**
@@ -49,8 +53,7 @@ const onAdd = () => {
 
 /**
  * 删除行
- * @param row 删除行
- * @returns 删除行后，更新行序号
+ * @param row 待删除行
  */
 const onDel = (row: EditableRequireFieldRow) => {
   const index = dataList.value.indexOf(row);
@@ -64,23 +67,20 @@ const onDel = (row: EditableRequireFieldRow) => {
  * @returns 是否可关闭弹窗
  */
 const submit = async (): Promise<boolean> => {
-  // 转换为请求体
   const transformResult = toRequireFieldsPayload(dataList.value);
-  // 转换失败
   if (!transformResult.ok) {
     message(t(transformResult.error.messageKey), { type: 'warning' });
     return false;
   }
 
   try {
-    // 更新 require_fields
-    await updateMessageTemplateRequireFields(props.templateId, EMAIL_TEMPLATE_CHANNEL, {
+    await updateMessageTemplateRequireFields(props.templateId, props.channel, {
       requireFields: transformResult.payload,
     });
     message(t('tips.editSuccess'), { type: 'success' });
     return true;
   } catch (error: unknown) {
-    errorMessage(error, { defaultI18nKey: 'emailTemplate.loadFailed' });
+    errorMessage(error, { defaultI18nKey: props.loadFailedI18nKey });
     return false;
   }
 };
@@ -89,14 +89,11 @@ onMounted(async () => {
   loading.value = true;
 
   try {
-    // 获取详情
-    const detail = await getMessageTemplateById(props.templateId, EMAIL_TEMPLATE_CHANNEL);
-    // 转换为可编辑行
-    dataList.value = toEditableRequireFields(detail?.requireFields ?? []);
-    // 更新行序号
+    const detail = await getMessageTemplateById(props.templateId, props.channel);
+    dataList.value = toEditableRequireFields(detail?.requireFields ?? props.initialRequireFields);
     rowSeq = dataList.value.length + 1;
   } catch (error: unknown) {
-    errorMessage(error, { defaultI18nKey: 'emailTemplate.loadFailed' });
+    errorMessage(error, { defaultI18nKey: props.loadFailedI18nKey });
   } finally {
     loading.value = false;
   }
@@ -117,36 +114,36 @@ defineExpose({ submit });
       border
       class="w-full"
     >
-      <el-table-column :label="t('emailTemplate.fieldKey')" min-width="120">
+      <el-table-column :label="t('messageTemplate.fieldKey')" min-width="120">
         <template #default="{ row }">
-          <el-input v-model="row.key" :placeholder="t('emailTemplate.placeholder.fieldKey')" clearable />
+          <el-input v-model="row.key" :placeholder="t('messageTemplate.placeholder.fieldKey')" clearable />
         </template>
       </el-table-column>
-      <el-table-column :label="t('emailTemplate.fieldDescription')" min-width="140">
+      <el-table-column :label="t('messageTemplate.fieldDescription')" min-width="140">
         <template #default="{ row }">
           <el-input
             v-model="row.description"
-            :placeholder="t('emailTemplate.placeholder.fieldDescription')"
+            :placeholder="t('messageTemplate.placeholder.fieldDescription')"
             clearable
           />
         </template>
       </el-table-column>
-      <el-table-column :label="t('emailTemplate.fieldExampleValue')" min-width="200">
+      <el-table-column :label="t('messageTemplate.fieldExampleValue')" min-width="200">
         <template #default="{ row }">
-          <div class="h-[200px]">
+          <div class="h-50">
             <CodeEditor v-model:value="row.exampleValueJson" :theme="monacoTheme" language="json" />
           </div>
         </template>
       </el-table-column>
       <el-table-column :label="t('table.actions')" align="center" fixed="right" width="100">
         <template #default="{ row }">
-          <el-button v-perms="EMAIL_TEMPLATE_PERMS.UPDATE" link type="danger" @click="onDel(row)">
+          <el-button v-perms="MESSAGE_TEMPLATE_PERMS.UPDATE" link type="danger" @click="onDel(row)">
             {{ t('buttons.actionDelete') }}
           </el-button>
         </template>
       </el-table-column>
     </el-table>
-    <el-button v-perms="EMAIL_TEMPLATE_PERMS.UPDATE" class="w-full mt-2" plain @click="onAdd">
+    <el-button v-perms="MESSAGE_TEMPLATE_PERMS.UPDATE" class="w-full mt-2" plain @click="onAdd">
       {{ t('buttons.actionAdd') }}
     </el-button>
   </div>

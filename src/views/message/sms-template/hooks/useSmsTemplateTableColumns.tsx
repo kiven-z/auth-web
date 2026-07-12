@@ -63,7 +63,7 @@ function useSmsTemplateTableColumns() {
     {
       label: t('table.actions'),
       fixed: 'right' as const,
-      width: 160,
+      width: 200,
       slot: 'actions',
     },
   ]);

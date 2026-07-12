@@ -10,7 +10,6 @@ smsTemplate:
   description: 模板描述
   providerTemplateCode: 厂商模板编码
   content: 模板正文
-  requireFieldsJson: 必填变量（JSON）
   priority: 发送优先级
   status: 状态
   placeholder:

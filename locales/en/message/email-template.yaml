@@ -11,25 +11,16 @@ emailTemplate:
   content: Template body
   liveRenderPreview: Live render preview
   renderedEffect: Rendered output
-  requireFieldsJson: Required variables (JSON)
   addDialogTitle: New email template
   editDialogTitle: Edit email template
   templateEditDialogTitle: Edit template body
   detailDialogTitle: Email template detail
   previewDialogTitle: Email preview
-  requireFieldsDialogTitle: Required variables
   testSendDialogTitle: Test send
   preview: Preview
-  requireFieldsMenu: Variables
   testSendMenu: Test send
   templateEditMenu: Edit body
   previewTips: HTML rendered with sample values; actual emails may differ slightly.
-  fieldKey: Variable name
-  fieldDescription: Description
-  fieldExampleValue: Sample value (JSON)
-  requireFieldKeyDuplicate: Duplicate variable names are not allowed
-  requireFieldKeyRequired: Please enter a variable name
-  requireFieldExampleRequired: Please enter a sample value
   testSendEmail: Recipient email
   testSendEmailPlaceholder: Enter recipient email
   testSendEmailInvalid: Invalid email format
@@ -41,8 +32,5 @@ emailTemplate:
     description: Enter description
     priority: Select priority
     content: Enter HTML / FreeMarker body
-    fieldKey: Variable key, e.g. userName
-    fieldDescription: Field description
-    fieldExampleValue: 'JSON, e.g. "text"'
   rules:
     templateCodeReg: Only letters, underscore, hyphen; must include at least one letter

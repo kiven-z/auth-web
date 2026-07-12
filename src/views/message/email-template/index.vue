@@ -182,7 +182,7 @@ onMounted(() => {
               <!-- 必填字段 -->
               <Perms :value="EMAIL_TEMPLATE_PERMS.UPDATE">
                 <el-dropdown-item @click="openRequireFields(row)">
-                  {{ t('emailTemplate.requireFieldsMenu') }}
+                  {{ t('messageTemplate.requireFieldsMenu') }}
                 </el-dropdown-item>
               </Perms>
               <!-- 测试发送 -->

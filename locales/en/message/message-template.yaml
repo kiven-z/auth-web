@@ -1,0 +1,15 @@
+messageTemplate:
+  loadFailed: Failed to load message templates
+  requireFieldsDialogTitle: Required variables
+  requireFieldsMenu: Variables
+  requireFieldsJson: Required variables (JSON)
+  fieldKey: Variable name
+  fieldDescription: Description
+  fieldExampleValue: Example value (JSON)
+  requireFieldKeyDuplicate: Variable names must be unique
+  requireFieldKeyRequired: Please enter a variable name
+  requireFieldExampleRequired: Please enter an example value
+  placeholder:
+    fieldKey: Variable key, e.g. code
+    fieldDescription: Field meaning
+    fieldExampleValue: 'JSON, e.g. "123456"'

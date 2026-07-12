@@ -46,7 +46,7 @@ const columns = computed(() => [
     ),
   },
   {
-    label: t('smsTemplate.requireFieldsJson'),
+    label: t('messageTemplate.requireFieldsJson'),
     prop: 'requireFields',
     labelWidth: 140,
     span: 2,

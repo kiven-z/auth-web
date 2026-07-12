@@ -10,7 +10,6 @@ smsTemplate:
   description: Description
   providerTemplateCode: Provider template code
   content: Template body
-  requireFieldsJson: Required variables (JSON)
   priority: Send priority
   status: Status
   placeholder:

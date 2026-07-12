@@ -38,7 +38,7 @@ const columns = computed(() => [
     cellRenderer: ({ value }: { value: boolean }) => renderBooleanStatusTag(value),
   },
   {
-    label: t('emailTemplate.requireFieldsJson'),
+    label: t('messageTemplate.requireFieldsJson'),
     prop: 'requireFields',
     labelWidth: 120,
     span: 2,

@@ -1,0 +1,76 @@
+import type { MessageChannelCode } from '@/api/message/message-template';
+import { getMessageTemplateById } from '@/api/message/message-template';
+import { addDrawer } from '@/components/ui/Drawer';
+import { errorMessage } from '@/services/feedback/message';
+import MessageTemplateRequireFieldsDialog from '@/views/message/_shared/components/MessageTemplateRequireFieldsDialog.vue';
+import { h, ref } from 'vue';
+import { useI18n } from 'vue-i18n';
+
+interface RequireFieldsExpose {
+  submit: () => Promise<boolean>;
+}
+
+/**
+ * 打开消息模板必填变量维护抽屉的参数
+ */
+export interface OpenMessageTemplateRequireFieldsOptions {
+  /** 模板主键 */
+  templateId: string;
+  /** 消息渠道 */
+  channel: MessageChannelCode;
+  /** 保存成功后刷新列表 */
+  fetchTableData: () => Promise<void>;
+  /** 加载失败默认 i18n key */
+  loadFailedI18nKey?: string;
+}
+
+/**
+ * 打开消息模板 require_fields 维护抽屉（各渠道复用）
+ * @param options 模板 ID、渠道与刷新回调
+ */
+export function useOpenMessageTemplateRequireFields() {
+  const { t } = useI18n();
+
+  /**
+   * 打开必填变量维护抽屉
+   * @param options 打开参数
+   */
+  const openRequireFields = async (options: OpenMessageTemplateRequireFieldsOptions) => {
+    const { templateId, channel, fetchTableData, loadFailedI18nKey = 'messageTemplate.loadFailed' } = options;
+
+    try {
+      const detail = await getMessageTemplateById(templateId, channel);
+      const dialogRef = ref<RequireFieldsExpose | null>(null);
+
+      addDrawer({
+        title: t('messageTemplate.requireFieldsDialogTitle'),
+        size: '100%',
+        direction: 'ttb',
+        resizable: true,
+        closeOnClickModal: false,
+        closeOnPressEscape: false,
+        showClose: true,
+        contentRenderer: () =>
+          h(MessageTemplateRequireFieldsDialog, {
+            ref: dialogRef,
+            templateId,
+            channel,
+            initialRequireFields: detail.requireFields ?? [],
+            loadFailedI18nKey,
+          }),
+        beforeSure: async (done) => {
+          const submitted = await dialogRef.value?.submit();
+          if (!submitted) {
+            return;
+          }
+          await fetchTableData();
+          done();
+        },
+      });
+    } catch (error: unknown) {
+      errorMessage(error, { defaultI18nKey: loadFailedI18nKey });
+    }
+  };
+
+  return { openRequireFields };
+}

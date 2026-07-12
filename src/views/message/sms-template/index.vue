@@ -11,6 +11,7 @@ import { SMS_TEMPLATE_CHANNEL } from '@/views/message/sms-template/constants/cha
 import { SMS_TEMPLATE_PERMS } from '@/views/message/sms-template/constants/permissions';
 import useSmsTemplateTableAction from '@/views/message/sms-template/hooks/useSmsTemplateTableAction';
 import useSmsTemplateTableColumns from '@/views/message/sms-template/hooks/useSmsTemplateTableColumns';
+import { useSmsTemplateTableMoreAction } from '@/views/message/sms-template/hooks/useSmsTemplateTableMoreAction';
 import type { FormInstance } from 'element-plus';
 import { onMounted, reactive, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
@@ -41,6 +42,7 @@ const { openCreateDialog, openEditDialog, openDetailDialog, deleteBatchRows, bat
     fetchTableData,
     selectedRows,
   });
+const { openRequireFields } = useSmsTemplateTableMoreAction({ fetchTableData });
 
 onMounted(() => {
   fetchTableData();
@@ -156,6 +158,20 @@ onMounted(() => {
         <el-button v-perms="SMS_TEMPLATE_PERMS.DELETE" link type="danger" @click="deleteBatchRows([row.id])">
           {{ t('buttons.actionDelete') }}
         </el-button>
+        <!-- 更多 -->
+        <el-dropdown class="ml-1" trigger="click">
+          <el-button class="el-dropdown-link" link type="primary">{{ t('buttons.actionMore') }}</el-button>
+          <template #dropdown>
+            <el-dropdown-menu>
+              <!-- 必填变量 -->
+              <Perms :value="SMS_TEMPLATE_PERMS.UPDATE">
+                <el-dropdown-item @click="openRequireFields(row)">
+                  {{ t('messageTemplate.requireFieldsMenu') }}
+                </el-dropdown-item>
+              </Perms>
+            </el-dropdown-menu>
+          </template>
+        </el-dropdown>
       </template>
     </AuthPagedTable>
   </div>

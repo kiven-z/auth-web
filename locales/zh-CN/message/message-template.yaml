@@ -1,0 +1,15 @@
+messageTemplate:
+  loadFailed: 消息模板数据加载失败
+  requireFieldsDialogTitle: 维护必填变量
+  requireFieldsMenu: 必填变量
+  requireFieldsJson: 必填变量（JSON）
+  fieldKey: 变量名
+  fieldDescription: 说明
+  fieldExampleValue: 示例值（JSON）
+  requireFieldKeyDuplicate: 变量名不能重复
+  requireFieldKeyRequired: 请填写变量名
+  requireFieldExampleRequired: 请填写示例值
+  placeholder:
+    fieldKey: 变量 key，如 code
+    fieldDescription: 字段含义说明
+    fieldExampleValue: 'JSON，如 "123456"'
