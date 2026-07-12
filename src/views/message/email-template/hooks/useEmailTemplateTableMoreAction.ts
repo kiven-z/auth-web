@@ -3,10 +3,9 @@ import type { EmailTemplateMonacoFormModel } from '@/api/message/email-template'
 import {
   type EmailTemplatePageRow,
   getEmailTemplatePreviewHtml,
-  testSendEmailTemplate,
   updateEmailTemplateContent,
 } from '@/api/message/email-template';
-import { getMessageTemplateById } from '@/api/message/message-template';
+import { getMessageTemplateById, testSendMessageTemplate } from '@/api/message/message-template';
 import { addDialog } from '@/components/ui/Dialog';
 import { addDrawer } from '@/components/ui/Drawer';
 import { type FormOverlayExpose, useFormOverlaySubmit } from '@/shared/composables/table/useFormOverlaySubmit';
@@ -118,7 +117,11 @@ export function useEmailTemplateTableMoreAction(options: TableActionDeps) {
         successI18nKey: 'tips.operationSuccess',
         requireId: true,
         onSubmit: async (formData) => {
-          await testSendEmailTemplate(formData);
+          await testSendMessageTemplate({
+            id: formData.id,
+            channel: EMAIL_TEMPLATE_CHANNEL,
+            target: formData.email,
+          });
         },
       }),
     });

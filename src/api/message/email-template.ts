@@ -65,14 +65,6 @@ export interface EmailTemplateRenderRequest {
 }
 
 /**
- * 测试发送
- */
-export interface EmailTemplateTestSendRequest {
-  id: string;
-  email: string;
-}
-
-/**
  * 预览已渲染 HTML
  * @param id 邮件模板ID
  * @returns 已渲染 HTML
@@ -88,15 +80,6 @@ export function getEmailTemplatePreviewHtml(id: string): Promise<string> {
  */
 export function renderEmailTemplate(data: EmailTemplateRenderRequest): Promise<string> {
   return http.post<string, EmailTemplateRenderRequest>('/system/email-template/render', { data });
-}
-
-/**
- * 测试发送
- * @param data 邮件模板ID与邮箱
- * @returns 测试发送响应
- */
-export function testSendEmailTemplate(data: EmailTemplateTestSendRequest): Promise<string> {
-  return http.post<string, EmailTemplateTestSendRequest>('/system/email-template/test-send', { data });
 }
 
 /**

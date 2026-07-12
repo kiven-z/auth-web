@@ -143,3 +143,22 @@ export function updateMessageTemplateRequireFields(
     params: { channel },
   });
 }
+
+/**
+ * 测试发送请求
+ */
+export interface MessageTemplateTestSendRequest {
+  id: string;
+  channel: MessageChannelCode;
+  /** 接收目标：邮箱 / 手机号 / 用户 ID 等，由 channel 解释 */
+  target: string;
+}
+
+/**
+ * 测试发送（按模板 require_fields 示例值）
+ * @param data 模板 ID、渠道与接收目标
+ * @returns 测试发送响应
+ */
+export function testSendMessageTemplate(data: MessageTemplateTestSendRequest) {
+  return http.post<string, MessageTemplateTestSendRequest>('/system/message-template/test-send', { data });
+}
