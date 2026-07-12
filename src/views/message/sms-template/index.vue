@@ -36,7 +36,7 @@ const smsTemplateState = usePaginationState<MessageTemplatePageRow, MessageTempl
 });
 
 const { loading, selectedRows, searchForm, fetchTableData, resetQuery } = smsTemplateState;
-const { openDetailDialog, deleteBatchRows, batchUpdateStatus } = useSmsTemplateTableAction({
+const { openCreateDialog, openDetailDialog, deleteBatchRows, batchUpdateStatus } = useSmsTemplateTableAction({
   fetchTableData,
   selectedRows,
 });
@@ -107,6 +107,11 @@ onMounted(() => {
     >
       <template #buttons>
         <el-button-group type="primary">
+          <!-- 添加 -->
+          <el-button v-perms="SMS_TEMPLATE_PERMS.CREATE" @click="openCreateDialog">
+            {{ t('buttons.actionAdd') }}
+          </el-button>
+
           <!-- 高级功能 -->
           <el-dropdown trigger="click">
             <el-button type="danger">

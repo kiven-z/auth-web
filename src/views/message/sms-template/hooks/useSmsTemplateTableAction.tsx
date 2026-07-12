@@ -4,23 +4,27 @@ import {
   batchUpdateMessageTemplateStatus,
   type MessageTemplatePageRow,
 } from '@/api/message/message-template';
+import { createSmsTemplate, type SmsTemplateFormModel } from '@/api/message/sms-template';
 import { addDialog } from '@/components/ui/Dialog';
 import useBatchDeleteAction from '@/shared/composables/table/useBatchDeleteAction';
+import { type FormOverlayExpose, useFormOverlaySubmit } from '@/shared/composables/table/useFormOverlaySubmit';
 import { operationConfirm } from '@/services/feedback/dialog';
 import { errorMessage, message } from '@/services/feedback/message';
 import SmsTemplateDetailDialog from '@/views/message/sms-template/components/SmsTemplateDetailDialog.vue';
+import SmsTemplateDialog from '@/views/message/sms-template/components/SmsTemplateDialog.vue';
 import { SMS_TEMPLATE_CHANNEL } from '@/views/message/sms-template/constants/channel';
-import { h } from 'vue';
+import { h, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 /**
- * 短信模板表格操作：详情、删除与批量启停
+ * 短信模板表格操作：新增、详情、删除与批量启停
  * @param deps 表格操作依赖（含多选）
  * @returns 表格操作方法
  */
 function useSmsTemplateTableAction(deps: TableActionWithSelectionDeps) {
   const { fetchTableData, selectedRows } = deps;
   const { t } = useI18n();
+  const { createFormBeforeSure } = useFormOverlaySubmit();
 
   const { deleteBatchRows } = useBatchDeleteAction({
     selectedRows,
@@ -28,6 +32,31 @@ function useSmsTemplateTableAction(deps: TableActionWithSelectionDeps) {
     onSuccess: fetchTableData,
     errorDefaultI18nKey: 'smsTemplate.loadFailed',
   });
+
+  /**
+   * 打开新增弹窗
+   */
+  const openCreateDialog = () => {
+    const dialogFormRef = ref<FormOverlayExpose<SmsTemplateFormModel> | null>(null);
+
+    addDialog({
+      title: t('smsTemplate.addDialogTitle'),
+      draggable: true,
+      fullscreenIcon: true,
+      closeOnClickModal: false,
+      closeOnPressEscape: false,
+      contentRenderer: () => h(SmsTemplateDialog, { ref: dialogFormRef }),
+      beforeSure: createFormBeforeSure<SmsTemplateFormModel>({
+        formExposeRef: dialogFormRef,
+        errorI18nKey: 'smsTemplate.loadFailed',
+        successI18nKey: 'tips.addSuccess',
+        onSubmit: async (formData) => {
+          await createSmsTemplate(formData);
+          await fetchTableData();
+        },
+      }),
+    });
+  };
 
   /**
    * 打开详情弹窗
@@ -74,6 +103,7 @@ function useSmsTemplateTableAction(deps: TableActionWithSelectionDeps) {
   };
 
   return {
+    openCreateDialog,
     openDetailDialog,
     deleteBatchRows,
     batchUpdateStatus,

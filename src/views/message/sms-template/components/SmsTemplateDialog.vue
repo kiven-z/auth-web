@@ -1,0 +1,142 @@
+<script lang="ts" setup>
+import type { FormDialog } from '@/api/common';
+import type { SmsTemplateFormModel } from '@/api/message/sms-template';
+import type { FormInstance, FormRules } from 'element-plus';
+import { reactive, ref } from 'vue';
+import { useI18n } from 'vue-i18n';
+
+defineOptions({
+  name: 'SmsTemplateDialog',
+});
+
+type SmsTemplateDialogProps = FormDialog<SmsTemplateFormModel>;
+
+const props = withDefaults(defineProps<SmsTemplateDialogProps>(), {
+  form: () => ({}) as SmsTemplateFormModel,
+});
+
+const { t } = useI18n();
+const formRef = ref<FormInstance>();
+
+const form = ref<SmsTemplateFormModel>({
+  status: true,
+  priority: 5,
+  content: '',
+  ...props.form,
+});
+
+const rules = reactive<FormRules>({
+  // 场景编码
+  templateCode: [
+    { required: true, message: t('smsTemplate.placeholder.templateCode'), trigger: 'blur' },
+    {
+      pattern: '^(?=.*[a-zA-Z])[a-zA-Z_-]+$',
+      message: t('smsTemplate.rules.templateCodeReg'),
+      trigger: 'change',
+    },
+  ],
+  // 模板名称
+  templateName: [{ required: true, message: t('smsTemplate.placeholder.templateName'), trigger: 'blur' }],
+  // 厂商模板编码
+  providerTemplateCode: [
+    { required: true, message: t('smsTemplate.placeholder.providerTemplateCode'), trigger: 'blur' },
+  ],
+  // 状态
+  status: [{ required: true, message: t('smsTemplate.placeholder.status'), trigger: 'change' }],
+  // 优先级
+  priority: [{ required: true, message: t('smsTemplate.placeholder.priority'), trigger: 'change' }],
+});
+
+defineExpose({ formRef, form });
+</script>
+
+<template>
+  <el-form ref="formRef" :model="form" :rules="rules" label-width="auto">
+    <el-row :gutter="14">
+      <!-- 场景编码（scene_code） -->
+      <el-col :lg="12" :md="12" :sm="12" :xs="24">
+        <el-form-item :label="t('smsTemplate.templateCode')" prop="templateCode">
+          <el-input
+            v-model="form.templateCode"
+            :placeholder="t('smsTemplate.placeholder.templateCode')"
+            autocomplete="off"
+            clearable
+          />
+        </el-form-item>
+      </el-col>
+
+      <!-- 模板名称 -->
+      <el-col :lg="12" :md="12" :sm="12" :xs="24">
+        <el-form-item :label="t('smsTemplate.templateName')" prop="templateName">
+          <el-input
+            v-model="form.templateName"
+            :placeholder="t('smsTemplate.placeholder.templateName')"
+            autocomplete="off"
+            clearable
+          />
+        </el-form-item>
+      </el-col>
+
+      <!-- 厂商模板编码 -->
+      <el-col :span="24">
+        <el-form-item :label="t('smsTemplate.providerTemplateCode')" prop="providerTemplateCode">
+          <el-input
+            v-model="form.providerTemplateCode"
+            :placeholder="t('smsTemplate.placeholder.providerTemplateCode')"
+            autocomplete="off"
+            clearable
+          />
+        </el-form-item>
+      </el-col>
+
+      <el-col :lg="12" :md="12" :sm="12" :xs="24">
+        <!-- 优先级 -->
+        <el-form-item :label="t('smsTemplate.priority')" prop="priority">
+          <el-input-number v-model="form.priority" :max="10" :min="1" class="w-full" controls-position="right" />
+        </el-form-item>
+      </el-col>
+
+      <el-col :lg="12" :md="12" :sm="12" :xs="24">
+        <!-- 状态 -->
+        <el-form-item :label="t('smsTemplate.status')" prop="status">
+          <el-switch
+            v-model="form.status"
+            :active-text="t('buttons.statusActiveText')"
+            :active-value="true"
+            :inactive-text="t('buttons.statusInactiveText')"
+            :inactive-value="false"
+            inline-prompt
+            style="--el-switch-on-color: #13ce66; --el-switch-off-color: #ff4949"
+          />
+        </el-form-item>
+      </el-col>
+
+      <el-col :span="24">
+        <!-- 描述 -->
+        <el-form-item :label="t('smsTemplate.description')" prop="description">
+          <el-input
+            v-model="form.description"
+            :placeholder="t('smsTemplate.placeholder.description')"
+            autocomplete="off"
+            maxlength="500"
+            show-word-limit
+            type="textarea"
+          />
+        </el-form-item>
+      </el-col>
+
+      <el-col :span="24">
+        <!-- 模板正文备注（发送以厂商模板为准） -->
+        <el-form-item :label="t('smsTemplate.content')" prop="content">
+          <el-input
+            v-model="form.content"
+            :placeholder="t('smsTemplate.placeholder.content')"
+            :rows="6"
+            autocomplete="off"
+            type="textarea"
+          />
+        </el-form-item>
+      </el-col>
+    </el-row>
+  </el-form>
+</template>
