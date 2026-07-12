@@ -87,6 +87,7 @@ routes:
 
   messageManagement: Message Management
   emailTemplate: Email message templates
+  smsTemplate: SMS message templates
 
   schedule: Task Scheduling
   scheduleGroup: Schedule Groups

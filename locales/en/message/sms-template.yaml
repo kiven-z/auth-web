@@ -1,0 +1,9 @@
+smsTemplate:
+  name: SMS message template
+  loadFailed: Failed to load SMS templates
+  tableTitle: SMS templates
+  templateCode: Scene code
+  templateName: Template name
+  description: Description
+  priority: Send priority
+  status: Status

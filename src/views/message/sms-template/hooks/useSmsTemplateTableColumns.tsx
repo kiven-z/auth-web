@@ -1,0 +1,68 @@
+import type { MessageTemplatePageRow } from '@/api/message/message-template';
+import { selectUserinfo } from '@/components/business/UserProfile';
+import { renderBooleanStatusTag } from '@/shared/composables/layout/renderBooleanStatusTag';
+import { ElButton } from 'element-plus';
+import { computed } from 'vue';
+import { useI18n } from 'vue-i18n';
+
+/**
+ * 短信模板表格列配置
+ * @returns 表格列定义
+ */
+function useSmsTemplateTableColumns() {
+  const { t } = useI18n();
+
+  const columns = computed<TableColumnList>(() => [
+    { type: 'selection', align: 'left' },
+    {
+      type: 'index',
+      index: (index: number) => index + 1,
+      label: t('table.idx'),
+      minWidth: 60,
+    },
+    { label: t('smsTemplate.templateCode'), prop: 'templateCode', minWidth: 160 },
+    { label: t('smsTemplate.templateName'), prop: 'templateName', minWidth: 160 },
+    { label: t('smsTemplate.description'), prop: 'description', minWidth: 200 },
+    { label: t('smsTemplate.priority'), prop: 'priority', width: 120 },
+    {
+      label: t('smsTemplate.status'),
+      prop: 'status',
+      width: 110,
+      formatter: (row: MessageTemplatePageRow) => renderBooleanStatusTag(row.status),
+    },
+    { label: t('table.updateTime'), prop: 'updateTime', sortable: true, minWidth: 170 },
+    { label: t('table.createTime'), prop: 'createTime', sortable: true, minWidth: 170 },
+    {
+      label: t('table.createUsername'),
+      prop: 'createUser',
+      minWidth: 130,
+      formatter: (row: MessageTemplatePageRow) => {
+        return (
+          row.createUser && (
+            <ElButton link type="primary" onClick={() => selectUserinfo(row.createUser, row.createUsername)}>
+              {row.createUsername}
+            </ElButton>
+          )
+        );
+      },
+    },
+    {
+      label: t('table.updateUsername'),
+      prop: 'updateUser',
+      minWidth: 130,
+      formatter: (row: MessageTemplatePageRow) => {
+        return (
+          row.updateUser && (
+            <ElButton link type="primary" onClick={() => selectUserinfo(row.updateUser, row.updateUsername)}>
+              {row.updateUsername}
+            </ElButton>
+          )
+        );
+      },
+    },
+  ]);
+
+  return { columns };
+}
+
+export default useSmsTemplateTableColumns;

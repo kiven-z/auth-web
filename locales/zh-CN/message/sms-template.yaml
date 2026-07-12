@@ -1,0 +1,9 @@
+smsTemplate:
+  name: 短信消息模板
+  loadFailed: 短信模板数据加载失败
+  tableTitle: 短信消息模板
+  templateCode: 场景编码
+  templateName: 模板名称
+  description: 模板描述
+  priority: 发送优先级
+  status: 状态
