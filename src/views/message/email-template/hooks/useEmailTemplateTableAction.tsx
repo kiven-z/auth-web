@@ -1,12 +1,11 @@
 import type { TableActionWithSelectionDeps } from '@/api/common';
 import type { EmailTemplateFormModel } from '@/api/message/email-template';
+import { createEmailTemplate, type EmailTemplatePageRow, updateEmailTemplate } from '@/api/message/email-template';
 import {
-  batchUpdateEmailTemplateStatus,
-  createEmailTemplate,
-  type EmailTemplatePageRow,
-  updateEmailTemplate,
-} from '@/api/message/email-template';
-import { batchDeleteMessageTemplates, getMessageTemplateById } from '@/api/message/message-template';
+  batchDeleteMessageTemplates,
+  batchUpdateMessageTemplateStatus,
+  getMessageTemplateById,
+} from '@/api/message/message-template';
 import { addDialog } from '@/components/ui/Dialog';
 import { addDrawer } from '@/components/ui/Drawer';
 import useBatchDeleteAction from '@/shared/composables/table/useBatchDeleteAction';
@@ -122,7 +121,11 @@ function useEmailTemplateTableAction(deps: TableActionWithSelectionDeps) {
       return;
     }
     try {
-      await batchUpdateEmailTemplateStatus({ ids, status: enabled });
+      await batchUpdateMessageTemplateStatus({
+        ids,
+        status: enabled,
+        channel: EMAIL_TEMPLATE_CHANNEL,
+      });
       message(t('tips.editSuccess'), { type: 'success' });
       await fetchTableData();
     } catch (error: unknown) {

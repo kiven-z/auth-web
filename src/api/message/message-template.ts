@@ -100,3 +100,21 @@ export function batchDeleteMessageTemplates(ids: string[], channel: MessageChann
     params: { channel },
   });
 }
+
+/**
+ * 批量启停请求
+ */
+export interface MessageTemplateBatchStatusRequest {
+  ids: string[];
+  status: boolean;
+  channel: MessageChannelCode;
+}
+
+/**
+ * 批量启用/禁用消息模板（按渠道限定，避免跨渠道误改）
+ * @param data ID 列表、目标状态与渠道
+ * @returns 启停响应
+ */
+export function batchUpdateMessageTemplateStatus(data: MessageTemplateBatchStatusRequest) {
+  return http.request<string>('put', '/system/message-template/status', { data });
+}

@@ -64,14 +64,6 @@ export interface EmailTemplateRequireFieldsUpdateRequest {
 }
 
 /**
- * 批量启停
- */
-export interface EmailTemplateBatchStatusRequest {
-  ids: string[];
-  status: boolean;
-}
-
-/**
  * 离线渲染
  */
 export interface EmailTemplateRenderRequest {
@@ -152,13 +144,4 @@ export function updateEmailTemplateRequireFields(
   data: EmailTemplateRequireFieldsUpdateRequest
 ): Promise<string> {
   return http.request<string>('put', `/system/email-template/${id}/require-fields`, { data });
-}
-
-/**
- * 批量启用/禁用
- * @param data ID 列表与目标状态请求
- * @returns 批量启用/禁用响应
- */
-export function batchUpdateEmailTemplateStatus(data: EmailTemplateBatchStatusRequest): Promise<string> {
-  return http.request<string>('put', '/system/email-template/status', { data });
 }
