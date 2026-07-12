@@ -122,13 +122,13 @@ onMounted(() => {
               </Perms>
               <!-- 批量启用 -->
               <Perms :value="SMS_TEMPLATE_PERMS.UPDATE">
-                <el-dropdown-item :disabled="selectedRows.length <= 0" @click="batchUpdateStatus(selectedRows, true)">
+                <el-dropdown-item :disabled="selectedRows.length <= 0" @click="batchUpdateStatus(true)">
                   {{ t('buttons.actionBatchEnable') }}
                 </el-dropdown-item>
               </Perms>
               <!-- 批量停用 -->
               <Perms :value="SMS_TEMPLATE_PERMS.UPDATE">
-                <el-dropdown-item :disabled="selectedRows.length <= 0" @click="batchUpdateStatus(selectedRows, false)">
+                <el-dropdown-item :disabled="selectedRows.length <= 0" @click="batchUpdateStatus(false)">
                   {{ t('buttons.actionBatchDisable') }}
                 </el-dropdown-item>
               </Perms>

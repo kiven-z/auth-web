@@ -10,6 +10,7 @@ import { addDialog } from '@/components/ui/Dialog';
 import { addDrawer } from '@/components/ui/Drawer';
 import useBatchDeleteAction from '@/shared/composables/table/useBatchDeleteAction';
 import { type FormOverlayExpose, useFormOverlaySubmit } from '@/shared/composables/table/useFormOverlaySubmit';
+import { operationConfirm } from '@/services/feedback/dialog';
 import { errorMessage, message } from '@/services/feedback/message';
 import EmailTemplateDetailDialog from '@/views/message/email-template/components/EmailTemplateDetailDialog.vue';
 import EmailTemplateDialog from '@/views/message/email-template/components/EmailTemplateDialog.vue';
@@ -112,14 +113,20 @@ function useEmailTemplateTableAction(deps: TableActionWithSelectionDeps) {
   };
 
   /**
-   * 批量启用或停用
-   * @param ids 模板 ID 数组
+   * 批量启用或停用当前多选行
    * @param enabled 是否启用
    */
-  const batchUpdateStatus = async (ids: string[], enabled: boolean) => {
+  const batchUpdateStatus = async (enabled: boolean) => {
+    const ids = selectedRows.value;
     if (ids.length <= 0) {
       return;
     }
+
+    const confirmed = await operationConfirm();
+    if (!confirmed) {
+      return;
+    }
+
     try {
       await batchUpdateMessageTemplateStatus({
         ids,

@@ -125,27 +125,6 @@ onMounted(() => {
             {{ t('buttons.actionAdd') }}
           </el-button>
 
-          <!-- 修改状态 -->
-          <Perms :value="EMAIL_TEMPLATE_PERMS.UPDATE">
-            <el-dropdown trigger="click">
-              <el-button :disabled="selectedRows.length <= 0" type="warning">
-                {{ t('buttons.actionBatchStatus') }}
-              </el-button>
-
-              <template #dropdown>
-                <!-- 批量启用 -->
-                <el-dropdown-item @click="batchUpdateStatus(selectedRows, true)">
-                  {{ t('buttons.actionBatchEnable') }}
-                </el-dropdown-item>
-
-                <!-- 批量停用 -->
-                <el-dropdown-item @click="batchUpdateStatus(selectedRows, false)">
-                  {{ t('buttons.actionBatchDisable') }}
-                </el-dropdown-item>
-              </template>
-            </el-dropdown>
-          </Perms>
-
           <!-- 高级功能 -->
           <el-dropdown trigger="click">
             <el-button type="danger">
@@ -157,6 +136,18 @@ onMounted(() => {
               <Perms :value="EMAIL_TEMPLATE_PERMS.DELETE">
                 <el-dropdown-item :disabled="selectedRows.length <= 0" @click="deleteBatchRows()">
                   {{ t('buttons.actionBatchDelete') }}
+                </el-dropdown-item>
+              </Perms>
+              <!-- 批量启用 -->
+              <Perms :value="EMAIL_TEMPLATE_PERMS.UPDATE">
+                <el-dropdown-item :disabled="selectedRows.length <= 0" @click="batchUpdateStatus(true)">
+                  {{ t('buttons.actionBatchEnable') }}
+                </el-dropdown-item>
+              </Perms>
+              <!-- 批量停用 -->
+              <Perms :value="EMAIL_TEMPLATE_PERMS.UPDATE">
+                <el-dropdown-item :disabled="selectedRows.length <= 0" @click="batchUpdateStatus(false)">
+                  {{ t('buttons.actionBatchDisable') }}
                 </el-dropdown-item>
               </Perms>
             </template>

@@ -6,6 +6,7 @@ import {
 } from '@/api/message/message-template';
 import { addDialog } from '@/components/ui/Dialog';
 import useBatchDeleteAction from '@/shared/composables/table/useBatchDeleteAction';
+import { operationConfirm } from '@/services/feedback/dialog';
 import { errorMessage, message } from '@/services/feedback/message';
 import SmsTemplateDetailDialog from '@/views/message/sms-template/components/SmsTemplateDetailDialog.vue';
 import { SMS_TEMPLATE_CHANNEL } from '@/views/message/sms-template/constants/channel';
@@ -45,14 +46,20 @@ function useSmsTemplateTableAction(deps: TableActionWithSelectionDeps) {
   };
 
   /**
-   * 批量启用或停用
-   * @param ids 模板 ID 数组
+   * 批量启用或停用当前多选行
    * @param enabled 是否启用
    */
-  const batchUpdateStatus = async (ids: string[], enabled: boolean) => {
+  const batchUpdateStatus = async (enabled: boolean) => {
+    const ids = selectedRows.value;
     if (ids.length <= 0) {
       return;
     }
+
+    const confirmed = await operationConfirm();
+    if (!confirmed) {
+      return;
+    }
+
     try {
       await batchUpdateMessageTemplateStatus({
         ids,
