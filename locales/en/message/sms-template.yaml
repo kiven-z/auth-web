@@ -3,6 +3,7 @@ smsTemplate:
   loadFailed: Failed to load SMS templates
   tableTitle: SMS templates
   addDialogTitle: Add SMS template
+  editDialogTitle: Edit SMS template
   detailDialogTitle: SMS template detail
   templateCode: Scene code
   templateName: Template name

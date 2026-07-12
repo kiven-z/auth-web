@@ -3,6 +3,7 @@ smsTemplate:
   loadFailed: 短信模板数据加载失败
   tableTitle: 短信消息模板
   addDialogTitle: 新增短信模板
+  editDialogTitle: 编辑短信模板
   detailDialogTitle: 短信模板详情
   templateCode: 场景编码
   templateName: 模板名称

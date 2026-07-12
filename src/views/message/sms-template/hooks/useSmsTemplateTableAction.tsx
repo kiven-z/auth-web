@@ -2,9 +2,10 @@ import type { TableActionWithSelectionDeps } from '@/api/common';
 import {
   batchDeleteMessageTemplates,
   batchUpdateMessageTemplateStatus,
+  getMessageTemplateById,
   type MessageTemplatePageRow,
 } from '@/api/message/message-template';
-import { createSmsTemplate, type SmsTemplateFormModel } from '@/api/message/sms-template';
+import { createSmsTemplate, type SmsTemplateFormModel, updateSmsTemplate } from '@/api/message/sms-template';
 import { addDialog } from '@/components/ui/Dialog';
 import useBatchDeleteAction from '@/shared/composables/table/useBatchDeleteAction';
 import { type FormOverlayExpose, useFormOverlaySubmit } from '@/shared/composables/table/useFormOverlaySubmit';
@@ -17,7 +18,7 @@ import { h, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 /**
- * 短信模板表格操作：新增、详情、删除与批量启停
+ * 短信模板表格操作
  * @param deps 表格操作依赖（含多选）
  * @returns 表格操作方法
  */
@@ -56,6 +57,38 @@ function useSmsTemplateTableAction(deps: TableActionWithSelectionDeps) {
         },
       }),
     });
+  };
+
+  /**
+   * 打开编辑弹窗
+   * @param row 表格行数据
+   */
+  const openEditDialog = async (row: MessageTemplatePageRow) => {
+    try {
+      const detail = await getMessageTemplateById(row.id, SMS_TEMPLATE_CHANNEL);
+      const dialogFormRef = ref<FormOverlayExpose<SmsTemplateFormModel> | null>(null);
+
+      addDialog({
+        title: t('smsTemplate.editDialogTitle'),
+        draggable: true,
+        fullscreenIcon: true,
+        closeOnClickModal: false,
+        closeOnPressEscape: false,
+        contentRenderer: () => h(SmsTemplateDialog, { ref: dialogFormRef, form: detail }),
+        beforeSure: createFormBeforeSure<SmsTemplateFormModel>({
+          formExposeRef: dialogFormRef,
+          errorI18nKey: 'smsTemplate.loadFailed',
+          successI18nKey: 'tips.editSuccess',
+          requireId: true,
+          onSubmit: async (formPayload) => {
+            await updateSmsTemplate(formPayload);
+            await fetchTableData();
+          },
+        }),
+      });
+    } catch (error: unknown) {
+      errorMessage(error, { defaultI18nKey: 'smsTemplate.loadFailed' });
+    }
   };
 
   /**
@@ -104,6 +137,7 @@ function useSmsTemplateTableAction(deps: TableActionWithSelectionDeps) {
 
   return {
     openCreateDialog,
+    openEditDialog,
     openDetailDialog,
     deleteBatchRows,
     batchUpdateStatus,

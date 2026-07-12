@@ -30,3 +30,12 @@ export type SmsTemplateSaveRequest = SmsTemplateFormModel;
 export function createSmsTemplate(data: SmsTemplateSaveRequest): Promise<string> {
   return http.post<string, SmsTemplateSaveRequest>('/system/sms-template', { data });
 }
+
+/**
+ * 更新短信模板
+ * @param data 保存请求（须含 id）
+ * @returns 更新响应
+ */
+export function updateSmsTemplate(data: SmsTemplateSaveRequest): Promise<string> {
+  return http.request<string>('put', '/system/sms-template', { data });
+}
