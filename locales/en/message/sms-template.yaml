@@ -2,8 +2,12 @@ smsTemplate:
   name: SMS message template
   loadFailed: Failed to load SMS templates
   tableTitle: SMS templates
+  detailDialogTitle: SMS template detail
   templateCode: Scene code
   templateName: Template name
   description: Description
+  providerTemplateCode: Provider template code
+  content: Template body
+  requireFieldsJson: Required variables (JSON)
   priority: Send priority
   status: Status

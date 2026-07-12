@@ -2,8 +2,12 @@ smsTemplate:
   name: 短信消息模板
   loadFailed: 短信模板数据加载失败
   tableTitle: 短信消息模板
+  detailDialogTitle: 短信模板详情
   templateCode: 场景编码
   templateName: 模板名称
   description: 模板描述
+  providerTemplateCode: 厂商模板编码
+  content: 模板正文
+  requireFieldsJson: 必填变量（JSON）
   priority: 发送优先级
   status: 状态

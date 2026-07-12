@@ -9,6 +9,7 @@ import { useFormPlaceholder } from '@/shared/composables/i18n/useFormPlaceholder
 import { COMMON_BOOLEAN_STATUS_FILTER_OPTIONS } from '@/shared/constants/boolean-status';
 import { SMS_TEMPLATE_CHANNEL } from '@/views/message/sms-template/constants/channel';
 import { SMS_TEMPLATE_PERMS } from '@/views/message/sms-template/constants/permissions';
+import useSmsTemplateTableAction from '@/views/message/sms-template/hooks/useSmsTemplateTableAction';
 import useSmsTemplateTableColumns from '@/views/message/sms-template/hooks/useSmsTemplateTableColumns';
 import type { FormInstance } from 'element-plus';
 import { onMounted, reactive, ref } from 'vue';
@@ -35,6 +36,7 @@ const smsTemplateState = usePaginationState<MessageTemplatePageRow, MessageTempl
 });
 
 const { loading, searchForm, fetchTableData, resetQuery } = smsTemplateState;
+const { openDetailDialog } = useSmsTemplateTableAction();
 
 onMounted(() => {
   fetchTableData();
@@ -99,6 +101,13 @@ onMounted(() => {
       :state="smsTemplateState"
       :title="t('smsTemplate.tableTitle')"
       show-overflow-tooltip
-    />
+    >
+      <template #actions="{ row }">
+        <!-- 查看 -->
+        <el-button v-perms="SMS_TEMPLATE_PERMS.DETAIL" link type="primary" @click="openDetailDialog(row)">
+          {{ t('buttons.actionView') }}
+        </el-button>
+      </template>
+    </AuthPagedTable>
   </div>
 </template>
