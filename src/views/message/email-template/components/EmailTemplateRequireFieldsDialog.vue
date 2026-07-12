@@ -1,10 +1,8 @@
 <script lang="ts" setup>
-import {
-  EmailTemplateRequireFieldRow,
-  getEmailTemplateById,
-  updateEmailTemplateRequireFields,
-} from '@/api/message/email-template';
+import { EmailTemplateRequireFieldRow, updateEmailTemplateRequireFields } from '@/api/message/email-template';
+import { getMessageTemplateById } from '@/api/message/message-template';
 import { errorMessage, message } from '@/services/feedback/message';
+import { EMAIL_TEMPLATE_CHANNEL } from '@/views/message/email-template/constants/channel';
 import { EMAIL_TEMPLATE_PERMS } from '@/views/message/email-template/constants/permissions';
 import {
   type EditableRequireFieldRow,
@@ -90,7 +88,7 @@ onMounted(async () => {
 
   try {
     // 获取详情
-    const detail = await getEmailTemplateById(props.templateId);
+    const detail = await getMessageTemplateById(props.templateId, EMAIL_TEMPLATE_CHANNEL);
     // 转换为可编辑行
     dataList.value = toEditableRequireFields(detail?.requireFields ?? []);
     // 更新行序号
@@ -134,12 +132,6 @@ defineExpose({ submit });
       <el-table-column :label="t('emailTemplate.fieldExampleValue')" min-width="200">
         <template #default="{ row }">
           <div class="h-[200px]">
-            <!-- <el-input -->
-            <!--   v-model="row.exampleValueJson" -->
-            <!--   :placeholder="t('emailTemplate.placeholder.fieldExampleValue')" -->
-            <!--   :rows="2" -->
-            <!--   type="textarea" -->
-            <!-- /> -->
             <CodeEditor v-model:value="row.exampleValueJson" :theme="monacoTheme" language="json" />
           </div>
         </template>

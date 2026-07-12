@@ -2,11 +2,11 @@ import type { TableActionDeps } from '@/api/common';
 import type { EmailTemplateMonacoFormModel } from '@/api/message/email-template';
 import {
   type EmailTemplatePageRow,
-  getEmailTemplateById,
   getEmailTemplatePreviewHtml,
   testSendEmailTemplate,
   updateEmailTemplateContent,
 } from '@/api/message/email-template';
+import { getMessageTemplateById } from '@/api/message/message-template';
 import { addDialog } from '@/components/ui/Dialog';
 import { addDrawer } from '@/components/ui/Drawer';
 import { type FormOverlayExpose, useFormOverlaySubmit } from '@/shared/composables/table/useFormOverlaySubmit';
@@ -15,6 +15,7 @@ import EmailTemplateMonacoOnlyDialog from '@/views/message/email-template/compon
 import EmailTemplatePreviewDialog from '@/views/message/email-template/components/EmailTemplatePreviewDialog.vue';
 import EmailTemplateRequireFieldsDialog from '@/views/message/email-template/components/EmailTemplateRequireFieldsDialog.vue';
 import EmailTemplateTestSendDialog from '@/views/message/email-template/components/EmailTemplateTestSendDialog.vue';
+import { EMAIL_TEMPLATE_CHANNEL } from '@/views/message/email-template/constants/channel';
 import { h, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 
@@ -67,7 +68,7 @@ export function useEmailTemplateTableMoreAction(options: TableActionDeps) {
    */
   const openRequireFields = async (row: EmailTemplatePageRow) => {
     try {
-      const detail = await getEmailTemplateById(row.id);
+      const detail = await getMessageTemplateById(row.id, EMAIL_TEMPLATE_CHANNEL);
       const dialogRef = ref<RequireFieldsExpose | null>(null);
 
       addDrawer({
@@ -129,7 +130,7 @@ export function useEmailTemplateTableMoreAction(options: TableActionDeps) {
    */
   const openTemplateContentEdit = async (row: EmailTemplatePageRow) => {
     try {
-      const detail = await getEmailTemplateById(row.id);
+      const detail = await getMessageTemplateById(row.id, EMAIL_TEMPLATE_CHANNEL);
       const dialogFormRef = ref<FormOverlayExpose<EmailTemplateMonacoFormModel> | null>(null);
 
       addDrawer({

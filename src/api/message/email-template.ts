@@ -1,8 +1,7 @@
 import type { AxiosRequestConfig } from 'axios';
 
 import type { BaseResponsePageRow } from '@/api/common';
-import type { MessageTemplateDetailVO, MessageTemplateRequireFieldRow } from '@/api/message/message-template';
-import { getMessageTemplateById } from '@/api/message/message-template';
+import type { MessageTemplateRequireFieldRow } from '@/api/message/message-template';
 import { http } from '@/core/http';
 
 /**
@@ -22,11 +21,6 @@ export interface EmailTemplatePageRow extends BaseResponsePageRow {
   status: boolean;
   description?: string;
 }
-
-/**
- * 详情（公共详情 VO；邮件页固定 channel=EMAIL）
- */
-export type EmailTemplateDetailVO = MessageTemplateDetailVO;
 
 /**
  * 新增/编辑弹窗表单
@@ -91,15 +85,6 @@ export interface EmailTemplateRenderRequest {
 export interface EmailTemplateTestSendRequest {
   id: string;
   email: string;
-}
-
-/**
- * 邮件模板详情（走公共读接口，固定 EMAIL）
- * @param id 邮件模板ID
- * @returns 邮件模板详情
- */
-export function getEmailTemplateById(id: string): Promise<EmailTemplateDetailVO> {
-  return getMessageTemplateById(id, 'EMAIL');
 }
 
 /**

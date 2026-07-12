@@ -5,9 +5,9 @@ import {
   batchUpdateEmailTemplateStatus,
   createEmailTemplate,
   type EmailTemplatePageRow,
-  getEmailTemplateById,
   updateEmailTemplate,
 } from '@/api/message/email-template';
+import { getMessageTemplateById } from '@/api/message/message-template';
 import { addDialog } from '@/components/ui/Dialog';
 import { addDrawer } from '@/components/ui/Drawer';
 import useBatchDeleteAction from '@/shared/composables/table/useBatchDeleteAction';
@@ -15,6 +15,7 @@ import { type FormOverlayExpose, useFormOverlaySubmit } from '@/shared/composabl
 import { errorMessage, message } from '@/services/feedback/message';
 import EmailTemplateDetailDialog from '@/views/message/email-template/components/EmailTemplateDetailDialog.vue';
 import EmailTemplateDialog from '@/views/message/email-template/components/EmailTemplateDialog.vue';
+import { EMAIL_TEMPLATE_CHANNEL } from '@/views/message/email-template/constants/channel';
 import { h, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 
@@ -69,7 +70,7 @@ function useEmailTemplateTableAction(deps: TableActionWithSelectionDeps) {
    */
   const openEditDialog = async (row: EmailTemplatePageRow) => {
     try {
-      const detail = await getEmailTemplateById(row.id);
+      const detail = await getMessageTemplateById(row.id, EMAIL_TEMPLATE_CHANNEL);
       const dialogFormRef = ref<FormOverlayExpose<EmailTemplateFormModel> | null>(null);
 
       addDrawer({

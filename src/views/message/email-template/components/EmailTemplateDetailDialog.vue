@@ -1,12 +1,10 @@
 <script lang="tsx" setup>
-import {
-  type EmailTemplateDetailVO,
-  getEmailTemplateById,
-  getEmailTemplatePreviewHtml,
-} from '@/api/message/email-template';
+import { getEmailTemplatePreviewHtml } from '@/api/message/email-template';
+import { getMessageTemplateById, type MessageTemplateDetailVO } from '@/api/message/message-template';
 import ReDescription from '@/components/ui/Description';
 import { renderBooleanStatusTag } from '@/shared/composables/layout/renderBooleanStatusTag';
 import { errorMessage } from '@/services/feedback/message';
+import { EMAIL_TEMPLATE_CHANNEL } from '@/views/message/email-template/constants/channel';
 import { computed, nextTick, onMounted, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 
@@ -23,7 +21,7 @@ const loading = ref(false);
 // 预览 iframe 引用
 const previewFrameRef = ref<HTMLIFrameElement | null>(null);
 // 详情数据
-const detail = ref<EmailTemplateDetailVO | null>(null);
+const detail = ref<MessageTemplateDetailVO | null>(null);
 // 渲染后的 HTML
 const renderedHtml = ref('');
 
@@ -57,7 +55,7 @@ const columns = computed(() => [
 const onLoadData = async () => {
   loading.value = true;
   try {
-    detail.value = await getEmailTemplateById(props.id);
+    detail.value = await getMessageTemplateById(props.id, EMAIL_TEMPLATE_CHANNEL);
     renderedHtml.value = await getEmailTemplatePreviewHtml(props.id);
   } catch (error: unknown) {
     errorMessage(error, { defaultI18nKey: 'emailTemplate.loadFailed' });
