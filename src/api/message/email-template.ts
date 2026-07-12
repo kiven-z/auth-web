@@ -162,12 +162,3 @@ export function updateEmailTemplateRequireFields(
 export function batchUpdateEmailTemplateStatus(data: EmailTemplateBatchStatusRequest): Promise<string> {
   return http.request<string>('put', '/system/email-template/status', { data });
 }
-
-/**
- * 批量删除
- * @param ids 邮件模板ID列表
- * @returns 批量删除响应
- */
-export function batchDeleteEmailTemplates(ids: string[]): Promise<string> {
-  return http.request<string>('delete', '/system/email-template', { data: ids });
-}

@@ -1,13 +1,12 @@
 import type { TableActionWithSelectionDeps } from '@/api/common';
 import type { EmailTemplateFormModel } from '@/api/message/email-template';
 import {
-  batchDeleteEmailTemplates,
   batchUpdateEmailTemplateStatus,
   createEmailTemplate,
   type EmailTemplatePageRow,
   updateEmailTemplate,
 } from '@/api/message/email-template';
-import { getMessageTemplateById } from '@/api/message/message-template';
+import { batchDeleteMessageTemplates, getMessageTemplateById } from '@/api/message/message-template';
 import { addDialog } from '@/components/ui/Dialog';
 import { addDrawer } from '@/components/ui/Drawer';
 import useBatchDeleteAction from '@/shared/composables/table/useBatchDeleteAction';
@@ -31,7 +30,7 @@ function useEmailTemplateTableAction(deps: TableActionWithSelectionDeps) {
   // 删除操作
   const { deleteBatchRows } = useBatchDeleteAction({
     selectedRows,
-    deleteApi: batchDeleteEmailTemplates,
+    deleteApi: (ids) => batchDeleteMessageTemplates(ids, EMAIL_TEMPLATE_CHANNEL),
     onSuccess: fetchTableData,
     errorDefaultI18nKey: 'emailTemplate.loadFailed',
   });

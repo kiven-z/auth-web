@@ -3,12 +3,6 @@ import type { AxiosRequestConfig } from 'axios';
 import type { BaseResponseDetail, BaseResponsePageRow, PageResponse, SortSpec } from '@/api/common';
 import { http } from '@/core/http';
 
-/**
- * 消息模板管理公共读 API（后端 `/api/system/message-template`）。
- * 持久化表：message_template；按 channel 过滤。
- * `templateCode` 与库字段 scene_code 一致。
- */
-
 /** 消息渠道（与后端 MessageChannel 枚举名一致） */
 export type MessageChannelCode = 'EMAIL' | 'SMS_ALIYUN_DYPNS' | 'DING_TALK' | 'IN_APP';
 
@@ -92,4 +86,17 @@ export function getMessageTemplateById(id: string, channel: MessageChannelCode) 
     `/system/message-template/${id}`,
     { params: { channel } }
   );
+}
+
+/**
+ * 批量删除消息模板（按渠道限定，避免跨渠道误删）
+ * @param ids 模板主键列表
+ * @param channel 消息渠道
+ * @returns 删除响应
+ */
+export function batchDeleteMessageTemplates(ids: string[], channel: MessageChannelCode) {
+  return http.request<string>('delete', '/system/message-template', {
+    data: ids,
+    params: { channel },
+  });
 }
