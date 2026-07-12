@@ -1,17 +1,14 @@
 import type { AxiosRequestConfig } from 'axios';
 
-import type { BaseResponseDetail, BaseResponsePageRow } from '@/api/common';
+import type { BaseResponsePageRow } from '@/api/common';
+import type { MessageTemplateDetailVO, MessageTemplateRequireFieldRow } from '@/api/message/message-template';
+import { getMessageTemplateById } from '@/api/message/message-template';
 import { http } from '@/core/http';
 
 /**
- * 变量声明行（对齐 EmailTemplateRequireFieldRow）
+ * 变量声明行（邮件页沿用别名，结构与公共 MessageTemplateRequireFieldRow 一致）
  */
-export interface EmailTemplateRequireFieldRow {
-  key: string;
-  description?: string;
-  /** 与后端 JsonNode 一致，可为任意 JSON 可序列化值 */
-  exampleValue: unknown;
-}
+export type EmailTemplateRequireFieldRow = MessageTemplateRequireFieldRow;
 
 /**
  * 分页行（列表列/操作仍用邮件语义类型；数据来自公共分页接口）
@@ -27,19 +24,9 @@ export interface EmailTemplatePageRow extends BaseResponsePageRow {
 }
 
 /**
- * 详情（EmailTemplateDetailVO + BaseResponse）
+ * 详情（公共详情 VO；邮件页固定 channel=EMAIL）
  */
-export interface EmailTemplateDetailVO extends BaseResponseDetail {
-  /** 场景编码，对应 message_template.scene_code */
-  templateCode: string;
-  templateName: string;
-  description?: string;
-  subject: string;
-  content?: string;
-  requireFields?: EmailTemplateRequireFieldRow[];
-  priority: number;
-  status: boolean;
-}
+export type EmailTemplateDetailVO = MessageTemplateDetailVO;
 
 /**
  * 新增/编辑弹窗表单
@@ -107,12 +94,12 @@ export interface EmailTemplateTestSendRequest {
 }
 
 /**
- * 邮件模板详情
+ * 邮件模板详情（走公共读接口，固定 EMAIL）
  * @param id 邮件模板ID
  * @returns 邮件模板详情
  */
 export function getEmailTemplateById(id: string): Promise<EmailTemplateDetailVO> {
-  return http.get<EmailTemplateDetailVO, AxiosRequestConfig>(`/system/email-template/${id}`);
+  return getMessageTemplateById(id, 'EMAIL');
 }
 
 /**
