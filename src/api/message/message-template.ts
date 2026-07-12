@@ -4,7 +4,7 @@ import type { BaseResponseDetail, BaseResponsePageRow, PageResponse, SortSpec } 
 import { http } from '@/core/http';
 
 /** 消息渠道*/
-export type MessageChannelCode = 'EMAIL' | 'SMS_ALIYUN_DYPNS' | 'DING_TALK' | 'IN_APP';
+export type MessageChannelCode = 'EMAIL' | 'SMS' | 'DING_TALK' | 'IN_APP';
 
 /**
  * 变量声明行
