@@ -12,9 +12,9 @@ export interface AuthPagedTableExpose {
 }
 
 /** 分页表格壳组件 props */
-export interface AuthPagedTableProps<TData = unknown> {
+export interface AuthPagedTableProps<TData = unknown, TQuery extends Record<string, any> = Record<string, any>> {
   /** {@link usePaginationState} 返回值 */
-  state: PaginationTableState<TData>;
+  state: PaginationTableState<TData, TQuery>;
   /** 列配置（传给 TableBar / AuthDataTable） */
   columns: TableColumnList;
   /** 无 title 插槽时显示的工具栏标题 */

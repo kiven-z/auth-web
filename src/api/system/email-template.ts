@@ -1,22 +1,7 @@
 import type { AxiosRequestConfig } from 'axios';
 
-import type { BaseResponseDetail, BaseResponsePageRow, PageResponse, SortSpec } from '@/api/common';
+import type { BaseResponseDetail, BaseResponsePageRow } from '@/api/common';
 import { http } from '@/core/http';
-
-/**
- * 邮件模板管理 API（后端 `/api/system/email-template`）。
- * 持久化表：message_template；本模块仅 channel = EMAIL 的行。
- * 请求/响应中的 `templateCode` 与库字段 scene_code 一致（与统一发送命令 templateCode 一致）。
- */
-export interface EmailTemplatePageQuery {
-  pageIndex?: number;
-  pageSize?: number;
-  sort?: SortSpec[];
-  templateCode?: string;
-  templateName?: string;
-  subject?: string;
-  status?: boolean;
-}
 
 /**
  * 变量声明行（对齐 EmailTemplateRequireFieldRow）
@@ -29,7 +14,7 @@ export interface EmailTemplateRequireFieldRow {
 }
 
 /**
- * 分页行（EmailTemplatePageResponse + BaseResponse）
+ * 分页行（列表列/操作仍用邮件语义类型；数据来自公共分页接口）
  */
 export interface EmailTemplatePageRow extends BaseResponsePageRow {
   /** 场景编码，对应 message_template.scene_code */
@@ -119,18 +104,6 @@ export interface EmailTemplateRenderRequest {
 export interface EmailTemplateTestSendRequest {
   id: string;
   email: string;
-}
-
-/**
- * 分页查询邮件模板
- * @param params 邮件模板分页查询参数
- * @returns 邮件模板分页行
- */
-export function getEmailTemplatePage(params: EmailTemplatePageQuery): Promise<PageResponse<EmailTemplatePageRow>> {
-  return http.get<PageResponse<EmailTemplatePageRow>, AxiosRequestConfig<EmailTemplatePageQuery>>(
-    '/system/email-template',
-    { params }
-  );
 }
 
 /**

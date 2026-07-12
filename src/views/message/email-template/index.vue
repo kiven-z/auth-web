@@ -1,5 +1,9 @@
 <script lang="ts" setup>
-import { getEmailTemplatePage } from '@/api/system/email-template';
+import {
+  getMessageTemplatePage,
+  type MessageTemplatePageQuery,
+  type MessageTemplatePageRow,
+} from '@/api/system/message-template';
 import AuthPagedTable, { usePaginationState } from '@/components/business/AuthPagedTable';
 import useEmailTemplateTableAction from '@/views/message/email-template/hooks/useEmailTemplateTableAction';
 import useEmailTemplateTableColumns from '@/views/message/email-template/hooks/useEmailTemplateTableColumns';
@@ -20,9 +24,10 @@ const ph = useFormPlaceholder();
 const { columns } = useEmailTemplateTableColumns();
 const searchFormRef = ref<FormInstance>();
 
-const emailTemplateState = usePaginationState({
-  fetchApi: getEmailTemplatePage,
-  searchForm: reactive({
+const emailTemplateState = usePaginationState<MessageTemplatePageRow, MessageTemplatePageQuery>({
+  fetchApi: getMessageTemplatePage,
+  searchForm: reactive<MessageTemplatePageQuery>({
+    channel: 'EMAIL',
     templateCode: undefined,
     templateName: undefined,
     subject: undefined,

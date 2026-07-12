@@ -27,32 +27,36 @@ export function applyPaginationFromPageResponse(
  * @param pageSize 每页条数
  * @returns 分页查询参数
  */
-const buildPaginationQuery = (searchForm: Record<string, unknown>, currentPage: number, pageSize: number) => {
+const buildPaginationQuery = <TQuery extends Record<string, any>>(
+  searchForm: TQuery,
+  currentPage: number,
+  pageSize: number
+): TQuery => {
   const query: Record<string, unknown> = {
     ...searchForm,
     pageIndex: currentPage,
     pageSize,
   };
+
   Object.keys(query).forEach((key) => {
     const v = query[key];
     if (v === undefined || v === '' || (Array.isArray(v) && v.length === 0)) {
       delete query[key];
     }
   });
-  return query;
+  return query as TQuery;
 };
 
 /**
  * 执行表格分页请求（失败清空列表与 total）。
  * @param options 选项
- * @returns 分页请求
  */
-export async function runPagedTableFetch<TRow>(options: {
+export async function runPagedTableFetch<TRow, TQuery extends Record<string, any> = Record<string, any>>(options: {
   loading: Ref<boolean>;
-  searchForm: Record<string, unknown>;
+  searchForm: TQuery;
   pagination: { total: number; pageSize: number; currentPage: number };
   tableData: Ref<unknown>;
-  fetchApi: (query: Record<string, unknown>) => Promise<PageResponse<TRow>>;
+  fetchApi: (query: TQuery) => Promise<PageResponse<TRow>>;
   errorI18nKey: string;
 }): Promise<void> {
   options.loading.value = true;

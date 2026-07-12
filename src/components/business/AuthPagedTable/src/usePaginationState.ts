@@ -5,14 +5,13 @@ import { reactive, ref } from 'vue';
 import { runPagedTableFetch } from '@/components/business/AuthPagedTable/src/pagination';
 
 /** {@link usePaginationState} 配置 */
-export interface UsePaginationStateOptions<TData = unknown> {
+export interface UsePaginationStateOptions<TData = unknown, TQuery extends Record<string, any> = Record<string, any>> {
   /**
-   * 分页查询 API 函数。接收完整 query 参数（含 pageIndex/pageSize），返回分页响应。
-   * 若项目内分页 Query 为强类型，可写为 `(q) => getXxxPage(q as XxxPageQuery)`。
+   * 分页查询 API。参数类型由 {@link TQuery} 约束，可与强类型 PageQuery（含必填字段）直接对齐。
    */
-  fetchApi: (params: Record<string, unknown>) => Promise<PageResponse<TData>>;
-  /** 搜索表单（使用 reactive 包裹后传入） */
-  searchForm: Record<string, any>;
+  fetchApi: (params: TQuery) => Promise<PageResponse<TData>>;
+  /** 搜索表单（使用 reactive 包裹后传入；须满足 TQuery，含固定查询字段） */
+  searchForm: TQuery;
   /** 每页条数，默认 30 */
   defaultPageSize?: number;
   /** 加载失败时的 i18n 兜底键 */
@@ -37,7 +36,9 @@ export interface UsePaginationStateOptions<TData = unknown> {
  * @param options 分页状态配置
  * @returns 分页表格状态与方法
  */
-export function usePaginationState<TData = unknown>(options: UsePaginationStateOptions<TData>) {
+export function usePaginationState<TData = unknown, TQuery extends Record<string, any> = Record<string, any>>(
+  options: UsePaginationStateOptions<TData, TQuery>
+) {
   const { fetchApi, searchForm, defaultPageSize = 30, errorI18nKey } = options;
 
   const loading = ref(false);
@@ -54,9 +55,9 @@ export function usePaginationState<TData = unknown>(options: UsePaginationStateO
    * 获取表格数据。构造 query 后调用 fetchApi，更新 tableData 与 pagination。
    */
   const fetchTableData = async () => {
-    await runPagedTableFetch<TData>({
+    await runPagedTableFetch<TData, TQuery>({
       loading,
-      searchForm: searchForm as Record<string, unknown>,
+      searchForm,
       pagination,
       tableData,
       fetchApi,
@@ -116,4 +117,7 @@ export function usePaginationState<TData = unknown>(options: UsePaginationStateO
 }
 
 /** {@link usePaginationState} 返回值类型，供 AuthPagedTable 等组件 props 标注 */
-export type PaginationTableState<TData = unknown> = ReturnType<typeof usePaginationState<TData>>;
+export type PaginationTableState<
+  TData = unknown,
+  TQuery extends Record<string, any> = Record<string, any>,
+> = ReturnType<typeof usePaginationState<TData, TQuery>>;
