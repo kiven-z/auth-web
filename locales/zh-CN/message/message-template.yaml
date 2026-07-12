@@ -2,14 +2,18 @@ messageTemplate:
   loadFailed: 消息模板数据加载失败
   requireFieldsDialogTitle: 维护必填变量
   requireFieldsMenu: 必填变量
-  requireFieldsJson: 必填变量（JSON）
+  requireFieldsJson: 必填变量
+  testSendDialogTitle: 测试发送
+  testSendMenu: 测试发送
+  testSendTarget: 接收目标
   fieldKey: 变量名
   fieldDescription: 说明
-  fieldExampleValue: 示例值（JSON）
+  fieldExampleValue: 示例值
   requireFieldKeyDuplicate: 变量名不能重复
   requireFieldKeyRequired: 请填写变量名
   requireFieldExampleRequired: 请填写示例值
   placeholder:
     fieldKey: 变量 key，如 code
     fieldDescription: 字段含义说明
-    fieldExampleValue: 'JSON，如 "123456"'
+    fieldExampleValue: '如 "123456"'
+    testSendTarget: 请输入接收目标（邮箱 / 手机号 / 用户 ID 等）

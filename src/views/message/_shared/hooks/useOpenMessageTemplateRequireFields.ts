@@ -25,8 +25,7 @@ export interface OpenMessageTemplateRequireFieldsOptions {
 }
 
 /**
- * 打开消息模板 require_fields 维护抽屉（各渠道复用）
- * @param options 模板 ID、渠道与刷新回调
+ * 打开消息模板 require_fields 维护抽屉
  */
 export function useOpenMessageTemplateRequireFields() {
   const { t } = useI18n();

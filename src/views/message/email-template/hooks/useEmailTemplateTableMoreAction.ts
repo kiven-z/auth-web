@@ -5,26 +5,18 @@ import {
   getEmailTemplatePreviewHtml,
   updateEmailTemplateContent,
 } from '@/api/message/email-template';
-import { getMessageTemplateById, testSendMessageTemplate } from '@/api/message/message-template';
+import { getMessageTemplateById } from '@/api/message/message-template';
 import { addDialog } from '@/components/ui/Dialog';
 import { addDrawer } from '@/components/ui/Drawer';
 import { type FormOverlayExpose, useFormOverlaySubmit } from '@/shared/composables/table/useFormOverlaySubmit';
 import { errorMessage } from '@/services/feedback/message';
+import { useOpenMessageTemplateRequireFields } from '@/views/message/_shared/hooks/useOpenMessageTemplateRequireFields';
+import { useOpenMessageTemplateTestSend } from '@/views/message/_shared/hooks/useOpenMessageTemplateTestSend';
 import EmailTemplateMonacoOnlyDialog from '@/views/message/email-template/components/EmailTemplateMonacoOnlyDialog.vue';
 import EmailTemplatePreviewDialog from '@/views/message/email-template/components/EmailTemplatePreviewDialog.vue';
-import EmailTemplateTestSendDialog from '@/views/message/email-template/components/EmailTemplateTestSendDialog.vue';
 import { EMAIL_TEMPLATE_CHANNEL } from '@/views/message/email-template/constants/channel';
-import { useOpenMessageTemplateRequireFields } from '@/views/message/_shared/hooks/useOpenMessageTemplateRequireFields';
 import { h, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
-
-/**
- * 测试发送弹窗表单
- */
-export interface EmailTestSendForm {
-  id: string;
-  email: string;
-}
 
 /**
  * 邮件模板表格「更多」菜单相关操作
@@ -36,6 +28,7 @@ export function useEmailTemplateTableMoreAction(options: TableActionDeps) {
   const { t } = useI18n();
   const { createFormBeforeSure } = useFormOverlaySubmit();
   const { openRequireFields: openSharedRequireFields } = useOpenMessageTemplateRequireFields();
+  const { openTestSend: openSharedTestSend } = useOpenMessageTemplateTestSend();
 
   /**
    * 打开 HTML 预览（只读）
@@ -74,31 +67,14 @@ export function useEmailTemplateTableMoreAction(options: TableActionDeps) {
    * 打开测试发送弹窗
    * @param row 邮件模板行数据
    */
-  const openTestSend = (row: EmailTemplatePageRow) => {
-    const sendFormRef = ref<FormOverlayExpose<EmailTestSendForm> | null>(null);
-
-    addDialog({
-      title: t('emailTemplate.testSendDialogTitle'),
-      draggable: true,
-      fullscreenIcon: true,
-      closeOnClickModal: false,
-      closeOnPressEscape: false,
-      contentRenderer: () => h(EmailTemplateTestSendDialog, { ref: sendFormRef, form: { id: row.id, email: '' } }),
-      beforeSure: createFormBeforeSure<EmailTestSendForm>({
-        formExposeRef: sendFormRef,
-        errorI18nKey: 'emailTemplate.loadFailed',
-        successI18nKey: 'tips.operationSuccess',
-        requireId: true,
-        onSubmit: async (formData) => {
-          await testSendMessageTemplate({
-            id: formData.id,
-            channel: EMAIL_TEMPLATE_CHANNEL,
-            target: formData.email,
-          });
-        },
-      }),
+  const openTestSend = (row: EmailTemplatePageRow) =>
+    openSharedTestSend({
+      templateId: row.id,
+      channel: EMAIL_TEMPLATE_CHANNEL,
+      loadFailedI18nKey: 'emailTemplate.loadFailed',
+      targetLabelI18nKey: 'emailTemplate.testSendEmail',
+      targetPlaceholderI18nKey: 'emailTemplate.testSendEmailPlaceholder',
     });
-  };
 
   /**
    * 打开 Monaco 正文编辑弹窗

@@ -188,7 +188,7 @@ onMounted(() => {
               <!-- 测试发送 -->
               <Perms :value="EMAIL_TEMPLATE_PERMS.UPDATE">
                 <el-dropdown-item @click="openTestSend(row)">
-                  {{ t('emailTemplate.testSendMenu') }}
+                  {{ t('messageTemplate.testSendMenu') }}
                 </el-dropdown-item>
               </Perms>
               <!-- 模板编辑 -->

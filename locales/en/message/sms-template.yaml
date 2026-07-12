@@ -12,6 +12,10 @@ smsTemplate:
   content: Template body
   priority: Send priority
   status: Status
+  testSendDialogTitle: Test send
+  testSendMenu: Test send
+  testSendPhone: Recipient phone
+  testSendPhonePlaceholder: Enter recipient phone number
   placeholder:
     templateCode: Enter scene code, e.g. sms_login
     templateName: Enter template name

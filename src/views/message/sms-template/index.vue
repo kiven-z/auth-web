@@ -42,7 +42,7 @@ const { openCreateDialog, openEditDialog, openDetailDialog, deleteBatchRows, bat
     fetchTableData,
     selectedRows,
   });
-const { openRequireFields } = useSmsTemplateTableMoreAction({ fetchTableData });
+const { openRequireFields, openTestSend } = useSmsTemplateTableMoreAction({ fetchTableData });
 
 onMounted(() => {
   fetchTableData();
@@ -167,6 +167,12 @@ onMounted(() => {
               <Perms :value="SMS_TEMPLATE_PERMS.UPDATE">
                 <el-dropdown-item @click="openRequireFields(row)">
                   {{ t('messageTemplate.requireFieldsMenu') }}
+                </el-dropdown-item>
+              </Perms>
+              <!-- 测试发送 -->
+              <Perms :value="SMS_TEMPLATE_PERMS.UPDATE">
+                <el-dropdown-item @click="openTestSend(row)">
+                  {{ t('messageTemplate.testSendMenu') }}
                 </el-dropdown-item>
               </Perms>
             </el-dropdown-menu>

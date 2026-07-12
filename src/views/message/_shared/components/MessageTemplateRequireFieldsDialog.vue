@@ -1,7 +1,6 @@
 <script lang="ts" setup>
 import type { MessageChannelCode, MessageTemplateRequireFieldRow } from '@/api/message/message-template';
 import { getMessageTemplateById, updateMessageTemplateRequireFields } from '@/api/message/message-template';
-import { useMonacoTheme } from '@/shared/composables/monaco/useMonacoTheme';
 import { errorMessage, message } from '@/services/feedback/message';
 import { MESSAGE_TEMPLATE_PERMS } from '@/views/message/_shared/constants/permissions';
 import {
@@ -9,7 +8,6 @@ import {
   toEditableRequireFields,
   toRequireFieldsPayload,
 } from '@/views/message/_shared/utils/require-fields';
-import { CodeEditor } from 'monaco-editor-vue3';
 import { onMounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 
@@ -33,7 +31,6 @@ const props = withDefaults(defineProps<MessageTemplateRequireFieldsDialogProps>(
 });
 
 const { t } = useI18n();
-const monacoTheme = useMonacoTheme();
 
 const loading = ref(false);
 const dataList = ref<EditableRequireFieldRow[]>([]);
@@ -130,9 +127,12 @@ defineExpose({ submit });
       </el-table-column>
       <el-table-column :label="t('messageTemplate.fieldExampleValue')" min-width="200">
         <template #default="{ row }">
-          <div class="h-50">
-            <CodeEditor v-model:value="row.exampleValueJson" :theme="monacoTheme" language="json" />
-          </div>
+          <el-input
+            v-model="row.exampleValueJson"
+            :autosize="{ minRows: 1, maxRows: 4 }"
+            :placeholder="t('messageTemplate.placeholder.fieldExampleValue')"
+            type="textarea"
+          />
         </template>
       </el-table-column>
       <el-table-column :label="t('table.actions')" align="center" fixed="right" width="100">

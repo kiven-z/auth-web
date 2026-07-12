@@ -23,7 +23,6 @@ emailTemplate:
   previewTips: HTML rendered with sample values; actual emails may differ slightly.
   testSendEmail: Recipient email
   testSendEmailPlaceholder: Enter recipient email
-  testSendEmailInvalid: Invalid email format
   placeholder:
     templateCode: e.g. login-email-code (scene_code)
     templateName: Enter template name

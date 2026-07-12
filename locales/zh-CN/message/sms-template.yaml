@@ -12,6 +12,10 @@ smsTemplate:
   content: 模板正文
   priority: 发送优先级
   status: 状态
+  testSendDialogTitle: 测试发送
+  testSendMenu: 测试发送
+  testSendPhone: 收件手机号
+  testSendPhonePlaceholder: 请输入收件手机号
   placeholder:
     templateCode: 请输入场景编码，如 sms_login
     templateName: 请输入模板名称

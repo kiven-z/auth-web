@@ -23,7 +23,6 @@ emailTemplate:
   previewTips: 以下为按示例值渲染后的 HTML，可能与实际发信略有差异。
   testSendEmail: 收件邮箱
   testSendEmailPlaceholder: 请输入收件邮箱
-  testSendEmailInvalid: 邮箱格式不正确
   placeholder:
     templateCode: 请输入场景编码，如 login-email-code
     templateName: 请输入模板名称
