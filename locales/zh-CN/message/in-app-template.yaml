@@ -8,5 +8,6 @@ inAppTemplate:
   subject: 标题
   description: 模板描述
   content: 模板正文
+  contentType: 正文类型
   priority: 发送优先级
   status: 状态

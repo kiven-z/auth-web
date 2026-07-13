@@ -8,5 +8,6 @@ inAppTemplate:
   subject: Title
   description: Description
   content: Template body
+  contentType: Content type
   priority: Send priority
   status: Status
