@@ -39,7 +39,7 @@ const inAppTemplateState = usePaginationState<MessageTemplatePageRow, MessageTem
 });
 
 const { loading, selectedRows, searchForm, fetchTableData, resetQuery } = inAppTemplateState;
-const { openDetailDialog, deleteBatchRows } = useInAppTemplateTableAction({
+const { openDetailDialog, deleteBatchRows, batchUpdateStatus } = useInAppTemplateTableAction({
   fetchTableData,
   selectedRows,
 });
@@ -140,6 +140,18 @@ onMounted(() => {
               <Perms :value="IN_APP_TEMPLATE_PERMS.DELETE">
                 <el-dropdown-item :disabled="selectedRows.length <= 0" @click="deleteBatchRows()">
                   {{ t('buttons.actionBatchDelete') }}
+                </el-dropdown-item>
+              </Perms>
+              <!-- 批量启用 -->
+              <Perms :value="IN_APP_TEMPLATE_PERMS.UPDATE">
+                <el-dropdown-item :disabled="selectedRows.length <= 0" @click="batchUpdateStatus(true)">
+                  {{ t('buttons.actionBatchEnable') }}
+                </el-dropdown-item>
+              </Perms>
+              <!-- 批量停用 -->
+              <Perms :value="IN_APP_TEMPLATE_PERMS.UPDATE">
+                <el-dropdown-item :disabled="selectedRows.length <= 0" @click="batchUpdateStatus(false)">
+                  {{ t('buttons.actionBatchDisable') }}
                 </el-dropdown-item>
               </Perms>
             </template>

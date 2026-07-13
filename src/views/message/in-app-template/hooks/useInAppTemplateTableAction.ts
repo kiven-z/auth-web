@@ -1,7 +1,13 @@
 import type { TableActionWithSelectionDeps } from '@/api/common';
-import { batchDeleteMessageTemplates, type MessageTemplatePageRow } from '@/api/message/message-template';
+import {
+  batchDeleteMessageTemplates,
+  batchUpdateMessageTemplateStatus,
+  type MessageTemplatePageRow,
+} from '@/api/message/message-template';
 import { addDialog } from '@/components/ui/Dialog';
 import useBatchDeleteAction from '@/shared/composables/table/useBatchDeleteAction';
+import { operationConfirm } from '@/services/feedback/dialog';
+import { errorMessage, message } from '@/services/feedback/message';
 import InAppTemplateDetailDialog from '@/views/message/in-app-template/components/InAppTemplateDetailDialog.vue';
 import { IN_APP_TEMPLATE_CHANNEL } from '@/views/message/in-app-template/constants/channel';
 import { h } from 'vue';
@@ -39,9 +45,38 @@ function useInAppTemplateTableAction(deps: TableActionWithSelectionDeps) {
     });
   };
 
+  /**
+   * 批量启用或停用当前多选行
+   * @param enabled 是否启用
+   */
+  const batchUpdateStatus = async (enabled: boolean) => {
+    const ids = selectedRows.value;
+    if (ids.length <= 0) {
+      return;
+    }
+
+    const confirmed = await operationConfirm();
+    if (!confirmed) {
+      return;
+    }
+
+    try {
+      await batchUpdateMessageTemplateStatus({
+        ids,
+        status: enabled,
+        channel: IN_APP_TEMPLATE_CHANNEL,
+      });
+      message(t('tips.editSuccess'), { type: 'success' });
+      await fetchTableData();
+    } catch (error: unknown) {
+      errorMessage(error, { defaultI18nKey: 'inAppTemplate.loadFailed' });
+    }
+  };
+
   return {
     openDetailDialog,
     deleteBatchRows,
+    batchUpdateStatus,
   };
 }
 
