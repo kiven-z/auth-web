@@ -28,6 +28,8 @@ export interface MessageTemplatePageQuery {
   templateCode?: string;
   templateName?: string;
   subject?: string;
+  /** 站内信正文类型：TEXT / MARKDOWN / HTML */
+  imMessageType?: string;
   status?: boolean;
 }
 
@@ -40,6 +42,8 @@ export interface MessageTemplatePageRow extends BaseResponsePageRow {
   templateCode: string;
   templateName: string;
   subject: string;
+  /** 站内信正文类型：TEXT / MARKDOWN / HTML */
+  imMessageType?: string;
   priority: number;
   status: boolean;
   description?: string;

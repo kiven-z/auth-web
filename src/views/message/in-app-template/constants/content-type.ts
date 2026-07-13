@@ -1,5 +1,8 @@
-/** 站内信正文类型（与后端 InAppContentType / im_message_type 对齐） */
+/** 站内信正文类型 */
 export type InAppContentTypeCode = 'TEXT' | 'MARKDOWN' | 'HTML';
+
+/** 正文类型可选值 */
+export const IN_APP_CONTENT_TYPES: InAppContentTypeCode[] = ['TEXT', 'MARKDOWN', 'HTML'];
 
 /**
  * 解析站内信正文类型；空或未知按 TEXT

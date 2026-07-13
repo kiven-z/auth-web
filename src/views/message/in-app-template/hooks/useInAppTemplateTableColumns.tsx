@@ -22,6 +22,7 @@ function useInAppTemplateTableColumns() {
     { label: t('inAppTemplate.templateCode'), prop: 'templateCode', minWidth: 160 },
     { label: t('inAppTemplate.templateName'), prop: 'templateName', minWidth: 160 },
     { label: t('inAppTemplate.subject'), prop: 'subject', minWidth: 200 },
+    { label: t('inAppTemplate.contentType'), prop: 'imMessageType', width: 120 },
     { label: t('inAppTemplate.description'), prop: 'description', minWidth: 200 },
     { label: t('inAppTemplate.priority'), prop: 'priority', width: 120 },
     {

@@ -8,6 +8,7 @@ import AuthPagedTable, { usePaginationState } from '@/components/business/AuthPa
 import { useFormPlaceholder } from '@/shared/composables/i18n/useFormPlaceholder';
 import { COMMON_BOOLEAN_STATUS_FILTER_OPTIONS } from '@/shared/constants/boolean-status';
 import { IN_APP_TEMPLATE_CHANNEL } from '@/views/message/in-app-template/constants/channel';
+import { IN_APP_CONTENT_TYPES } from '@/views/message/in-app-template/constants/content-type';
 import { IN_APP_TEMPLATE_PERMS } from '@/views/message/in-app-template/constants/permissions';
 import useInAppTemplateTableAction from '@/views/message/in-app-template/hooks/useInAppTemplateTableAction';
 import useInAppTemplateTableColumns from '@/views/message/in-app-template/hooks/useInAppTemplateTableColumns';
@@ -31,6 +32,7 @@ const inAppTemplateState = usePaginationState<MessageTemplatePageRow, MessageTem
     templateCode: undefined,
     templateName: undefined,
     subject: undefined,
+    imMessageType: undefined,
     status: undefined,
   }),
   errorI18nKey: 'inAppTemplate.loadFailed',
@@ -73,6 +75,17 @@ onMounted(() => {
           class="w-45!"
           clearable
         />
+      </el-form-item>
+      <!-- 正文类型 -->
+      <el-form-item :label="t('inAppTemplate.contentType')" prop="imMessageType">
+        <el-select
+          v-model="searchForm.imMessageType"
+          :placeholder="ph.selectFilter('inAppTemplate.contentType')"
+          class="w-45!"
+          clearable
+        >
+          <el-option v-for="type in IN_APP_CONTENT_TYPES" :key="type" :label="type" :value="type" />
+        </el-select>
       </el-form-item>
       <!-- 状态 -->
       <el-form-item :label="t('inAppTemplate.status')" prop="status">
