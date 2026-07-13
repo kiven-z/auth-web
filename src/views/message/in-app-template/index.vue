@@ -9,6 +9,7 @@ import { useFormPlaceholder } from '@/shared/composables/i18n/useFormPlaceholder
 import { COMMON_BOOLEAN_STATUS_FILTER_OPTIONS } from '@/shared/constants/boolean-status';
 import { IN_APP_TEMPLATE_CHANNEL } from '@/views/message/in-app-template/constants/channel';
 import { IN_APP_TEMPLATE_PERMS } from '@/views/message/in-app-template/constants/permissions';
+import useInAppTemplateTableAction from '@/views/message/in-app-template/hooks/useInAppTemplateTableAction';
 import useInAppTemplateTableColumns from '@/views/message/in-app-template/hooks/useInAppTemplateTableColumns';
 import type { FormInstance } from 'element-plus';
 import { onMounted, reactive, ref } from 'vue';
@@ -36,6 +37,7 @@ const inAppTemplateState = usePaginationState<MessageTemplatePageRow, MessageTem
 });
 
 const { loading, searchForm, fetchTableData, resetQuery } = inAppTemplateState;
+const { openDetailDialog } = useInAppTemplateTableAction();
 
 onMounted(() => {
   fetchTableData();
@@ -108,6 +110,13 @@ onMounted(() => {
       :state="inAppTemplateState"
       :title="t('inAppTemplate.tableTitle')"
       show-overflow-tooltip
-    />
+    >
+      <template #actions="{ row }">
+        <!-- 查看 -->
+        <el-button v-perms="IN_APP_TEMPLATE_PERMS.DETAIL" link type="primary" @click="openDetailDialog(row)">
+          {{ t('buttons.actionView') }}
+        </el-button>
+      </template>
+    </AuthPagedTable>
   </div>
 </template>

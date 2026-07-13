@@ -60,6 +60,12 @@ function useInAppTemplateTableColumns() {
         );
       },
     },
+    {
+      label: t('table.actions'),
+      fixed: 'right' as const,
+      width: 200,
+      slot: 'actions',
+    },
   ]);
 
   return { columns };

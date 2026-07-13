@@ -2,9 +2,11 @@ inAppTemplate:
   name: In-app message template
   loadFailed: Failed to load in-app message templates
   tableTitle: In-app message templates
+  detailDialogTitle: In-app template detail
   templateCode: Scene code
   templateName: Template name
   subject: Title
   description: Description
+  content: Template body
   priority: Send priority
   status: Status
