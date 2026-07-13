@@ -112,7 +112,6 @@ onMounted(() => {
     </el-form>
 
     <AuthPagedTable
-      :adaptive-config="{ offsetBottom: 96 }"
       :columns="columns"
       :state="emailTemplateState"
       :title="t('emailTemplate.tableTitle')"

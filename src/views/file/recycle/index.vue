@@ -154,7 +154,6 @@ onMounted(() => {
     </el-form>
 
     <AuthPagedTable
-      :adaptive-config="{ offsetBottom: 96 }"
       :columns="columns"
       :state="fileRecycleState"
       :title="t('fileRecycle.page.tableTitle')"

@@ -95,7 +95,6 @@ onMounted(() => {
     </el-form>
 
     <AuthPagedTable
-      :adaptive-config="{ offsetBottom: 96 }"
       :columns="columns"
       :state="jobState"
       :title="t('scheduleTask.page.tableTitle')"

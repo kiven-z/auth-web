@@ -169,7 +169,6 @@ onMounted(() => {
     </el-form>
 
     <AuthPagedTable
-      :adaptive-config="{ offsetBottom: 96 }"
       :columns="columns"
       :state="fileRecordState"
       :title="t('fileRecord.page.tableTitle')"

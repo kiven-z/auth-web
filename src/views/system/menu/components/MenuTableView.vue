@@ -95,7 +95,6 @@ onMounted(() => {
     </el-form>
 
     <AuthPagedTable
-      :adaptive-config="{ offsetBottom: 96 }"
       :columns="tableColumns"
       :state="menuPageState"
       :title="t('sysMenu.tableTitle')"
