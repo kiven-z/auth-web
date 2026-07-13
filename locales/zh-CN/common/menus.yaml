@@ -88,6 +88,7 @@ routes:
   messageManagement: 消息管理
   emailTemplate: 邮件消息模板
   smsTemplate: 短信消息模板
+  inAppTemplate: 站内信模板
 
   schedule: 任务调度
   scheduleGroup: 任务调度分组

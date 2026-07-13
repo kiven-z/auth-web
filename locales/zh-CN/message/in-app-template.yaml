@@ -1,0 +1,10 @@
+inAppTemplate:
+  name: 站内信模板
+  loadFailed: 站内信模板数据加载失败
+  tableTitle: 站内信模板
+  templateCode: 场景编码
+  templateName: 模板名称
+  subject: 标题
+  description: 模板描述
+  priority: 发送优先级
+  status: 状态

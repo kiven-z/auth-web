@@ -1,0 +1,10 @@
+inAppTemplate:
+  name: In-app message template
+  loadFailed: Failed to load in-app message templates
+  tableTitle: In-app message templates
+  templateCode: Scene code
+  templateName: Template name
+  subject: Title
+  description: Description
+  priority: Send priority
+  status: Status
