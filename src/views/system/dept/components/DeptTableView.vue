@@ -76,12 +76,7 @@ onMounted(() => {
       </el-form-item>
     </el-form>
 
-    <AuthPagedTable
-      :columns="tableColumns"
-      :state="deptState"
-      :title="t('dept.page.title')"
-      show-overflow-tooltip
-    >
+    <AuthPagedTable :columns="tableColumns" :state="deptState" :title="t('dept.page.title')" show-overflow-tooltip>
       <template #buttons>
         <DeptHeadButtons />
       </template>

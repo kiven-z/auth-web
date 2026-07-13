@@ -38,8 +38,11 @@ const inAppTemplateState = usePaginationState<MessageTemplatePageRow, MessageTem
   errorI18nKey: 'inAppTemplate.loadFailed',
 });
 
-const { loading, searchForm, fetchTableData, resetQuery } = inAppTemplateState;
-const { openDetailDialog } = useInAppTemplateTableAction();
+const { loading, selectedRows, searchForm, fetchTableData, resetQuery } = inAppTemplateState;
+const { openDetailDialog, deleteBatchRows } = useInAppTemplateTableAction({
+  fetchTableData,
+  selectedRows,
+});
 
 onMounted(() => {
   fetchTableData();
@@ -124,10 +127,34 @@ onMounted(() => {
       :title="t('inAppTemplate.tableTitle')"
       show-overflow-tooltip
     >
+      <template #buttons>
+        <el-button-group type="primary">
+          <!-- 高级功能 -->
+          <el-dropdown trigger="click">
+            <el-button type="danger">
+              {{ t('buttons.actionAdvanced') }}
+            </el-button>
+
+            <template #dropdown>
+              <!-- 批量删除 -->
+              <Perms :value="IN_APP_TEMPLATE_PERMS.DELETE">
+                <el-dropdown-item :disabled="selectedRows.length <= 0" @click="deleteBatchRows()">
+                  {{ t('buttons.actionBatchDelete') }}
+                </el-dropdown-item>
+              </Perms>
+            </template>
+          </el-dropdown>
+        </el-button-group>
+      </template>
+
       <template #actions="{ row }">
         <!-- 查看 -->
         <el-button v-perms="IN_APP_TEMPLATE_PERMS.DETAIL" link type="primary" @click="openDetailDialog(row)">
           {{ t('buttons.actionView') }}
+        </el-button>
+        <!-- 删除 -->
+        <el-button v-perms="IN_APP_TEMPLATE_PERMS.DELETE" link type="danger" @click="deleteBatchRows([row.id])">
+          {{ t('buttons.actionDelete') }}
         </el-button>
       </template>
     </AuthPagedTable>

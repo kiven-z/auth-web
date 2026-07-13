@@ -13,6 +13,7 @@ function useInAppTemplateTableColumns() {
   const { t } = useI18n();
 
   const columns = computed<TableColumnList>(() => [
+    { type: 'selection', align: 'left' },
     {
       type: 'index',
       index: (index: number) => index + 1,

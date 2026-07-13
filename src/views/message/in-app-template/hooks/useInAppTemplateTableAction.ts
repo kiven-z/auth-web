@@ -1,15 +1,27 @@
-import type { MessageTemplatePageRow } from '@/api/message/message-template';
+import type { TableActionWithSelectionDeps } from '@/api/common';
+import { batchDeleteMessageTemplates, type MessageTemplatePageRow } from '@/api/message/message-template';
 import { addDialog } from '@/components/ui/Dialog';
+import useBatchDeleteAction from '@/shared/composables/table/useBatchDeleteAction';
 import InAppTemplateDetailDialog from '@/views/message/in-app-template/components/InAppTemplateDetailDialog.vue';
+import { IN_APP_TEMPLATE_CHANNEL } from '@/views/message/in-app-template/constants/channel';
 import { h } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 /**
- * 站内信模板表格操作（当前仅详情）
+ * 站内信模板表格操作
+ * @param deps 表格操作依赖（含多选）
  * @returns 表格操作方法
  */
-function useInAppTemplateTableAction() {
+function useInAppTemplateTableAction(deps: TableActionWithSelectionDeps) {
+  const { fetchTableData, selectedRows } = deps;
   const { t } = useI18n();
+
+  const { deleteBatchRows } = useBatchDeleteAction({
+    selectedRows,
+    deleteApi: (ids) => batchDeleteMessageTemplates(ids, IN_APP_TEMPLATE_CHANNEL),
+    onSuccess: fetchTableData,
+    errorDefaultI18nKey: 'inAppTemplate.loadFailed',
+  });
 
   /**
    * 打开详情弹窗
@@ -29,6 +41,7 @@ function useInAppTemplateTableAction() {
 
   return {
     openDetailDialog,
+    deleteBatchRows,
   };
 }
 
