@@ -184,20 +184,18 @@ onMounted(() => {
       </template>
 
       <template #actions="{ row }">
-        <div class="flex justify-center">
-          <!-- 恢复 -->
-          <el-button v-perms="FILE_RECYCLE_PERMS.RESTORE" link type="primary" @click="restoreBatchRows([row.id])">
-            {{ t('buttons.actionRestore') }}
-          </el-button>
-          <!-- 查看详情 -->
-          <el-button v-perms="FILE_RECYCLE_PERMS.QUERY" link type="primary" @click="openDetailDialog(row)">
-            {{ t('buttons.actionView') }}
-          </el-button>
-          <!-- 彻底删除 -->
-          <el-button v-perms="FILE_RECYCLE_PERMS.PURGE" link type="danger" @click="deleteBatchRows([row.id])">
-            {{ t('buttons.actionDelete') }}
-          </el-button>
-        </div>
+        <!-- 恢复 -->
+        <el-button v-perms="FILE_RECYCLE_PERMS.RESTORE" link type="primary" @click="restoreBatchRows([row.id])">
+          {{ t('buttons.actionRestore') }}
+        </el-button>
+        <!-- 查看详情 -->
+        <el-button v-perms="FILE_RECYCLE_PERMS.QUERY" link type="primary" @click="openDetailDialog(row)">
+          {{ t('buttons.actionView') }}
+        </el-button>
+        <!-- 彻底删除 -->
+        <el-button v-perms="FILE_RECYCLE_PERMS.PURGE" link type="danger" @click="deleteBatchRows([row.id])">
+          {{ t('buttons.actionDelete') }}
+        </el-button>
       </template>
     </AuthPagedTable>
   </div>

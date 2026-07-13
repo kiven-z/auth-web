@@ -169,8 +169,8 @@ onMounted(() => {
           {{ t('buttons.actionDelete') }}
         </el-button>
         <!-- 更多 -->
-        <el-dropdown class="ml-1" trigger="click">
-          <el-button class="el-dropdown-link" link type="primary">{{ t('buttons.actionMore') }}</el-button>
+        <el-dropdown trigger="click">
+          <el-button link type="primary">{{ t('buttons.actionMore') }}</el-button>
           <template #dropdown>
             <el-dropdown-menu>
               <!-- 预览 -->

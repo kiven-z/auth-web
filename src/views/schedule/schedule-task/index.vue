@@ -126,40 +126,38 @@ onMounted(() => {
       </template>
 
       <template #actions="{ row }">
-        <div class="flex justify-center">
-          <!-- 查看 -->
-          <el-button v-perms="SYS_JOB_PERMS.DETAIL" link type="primary" @click="openDetailDialog(row)">
-            {{ t('buttons.actionView') }}
-          </el-button>
-          <!-- 修改 -->
-          <el-button v-perms="SYS_JOB_PERMS.UPDATE" link type="primary" @click="openEditDialog(row)">
-            {{ t('buttons.actionEdit') }}
-          </el-button>
-          <!-- 立即执行 -->
-          <el-button v-perms="SYS_JOB_PERMS.UPDATE" link type="warning" @click="runOnce(row)">
-            {{ t('scheduleTask.actions.runOnce') }}
-          </el-button>
-          <!-- 删除 -->
-          <el-button v-perms="SYS_JOB_PERMS.DELETE" link type="danger" @click="deleteBatchRows([row.id])">
-            {{ t('buttons.actionDelete') }}
-          </el-button>
-          <!-- 更多 -->
-          <Perms :value="SYS_JOB_PERMS.UPDATE">
-            <el-dropdown class="ml-2" trigger="click">
-              <el-button class="el-dropdown-link" link type="primary">{{ t('buttons.actionMore') }}</el-button>
-              <template #dropdown>
-                <el-dropdown-menu>
-                  <el-dropdown-item :disabled="row.status === true" @click="batchUpdateStatus([row.id], true)">
-                    {{ t('buttons.statusActiveText') }}
-                  </el-dropdown-item>
-                  <el-dropdown-item :disabled="row.status === false" @click="batchUpdateStatus([row.id], false)">
-                    {{ t('buttons.statusInactiveText') }}
-                  </el-dropdown-item>
-                </el-dropdown-menu>
-              </template>
-            </el-dropdown>
-          </Perms>
-        </div>
+        <!-- 查看 -->
+        <el-button v-perms="SYS_JOB_PERMS.DETAIL" link type="primary" @click="openDetailDialog(row)">
+          {{ t('buttons.actionView') }}
+        </el-button>
+        <!-- 修改 -->
+        <el-button v-perms="SYS_JOB_PERMS.UPDATE" link type="primary" @click="openEditDialog(row)">
+          {{ t('buttons.actionEdit') }}
+        </el-button>
+        <!-- 立即执行 -->
+        <el-button v-perms="SYS_JOB_PERMS.UPDATE" link type="warning" @click="runOnce(row)">
+          {{ t('scheduleTask.actions.runOnce') }}
+        </el-button>
+        <!-- 删除 -->
+        <el-button v-perms="SYS_JOB_PERMS.DELETE" link type="danger" @click="deleteBatchRows([row.id])">
+          {{ t('buttons.actionDelete') }}
+        </el-button>
+        <!-- 更多 -->
+        <Perms :value="SYS_JOB_PERMS.UPDATE">
+          <el-dropdown trigger="click">
+            <el-button link type="primary">{{ t('buttons.actionMore') }}</el-button>
+            <template #dropdown>
+              <el-dropdown-menu>
+                <el-dropdown-item :disabled="row.status === true" @click="batchUpdateStatus([row.id], true)">
+                  {{ t('buttons.statusActiveText') }}
+                </el-dropdown-item>
+                <el-dropdown-item :disabled="row.status === false" @click="batchUpdateStatus([row.id], false)">
+                  {{ t('buttons.statusInactiveText') }}
+                </el-dropdown-item>
+              </el-dropdown-menu>
+            </template>
+          </el-dropdown>
+        </Perms>
       </template>
     </AuthPagedTable>
   </div>

@@ -145,14 +145,12 @@ onMounted(() => {
       </template>
 
       <template #actions="{ row }">
-        <div class="flex justify-center">
-          <el-button v-perms="SYS_LOG_LOGIN_PERMS.DETAIL" link type="primary" @click="openDetailDialog(row)">
-            {{ t('buttons.actionView') }}
-          </el-button>
-          <el-button v-perms="SYS_LOG_LOGIN_PERMS.DELETE" link type="danger" @click="deleteBatchRows([row.id])">
-            {{ t('buttons.actionDelete') }}
-          </el-button>
-        </div>
+        <el-button v-perms="SYS_LOG_LOGIN_PERMS.DETAIL" link type="primary" @click="openDetailDialog(row)">
+          {{ t('buttons.actionView') }}
+        </el-button>
+        <el-button v-perms="SYS_LOG_LOGIN_PERMS.DELETE" link type="danger" @click="deleteBatchRows([row.id])">
+          {{ t('buttons.actionDelete') }}
+        </el-button>
       </template>
     </AuthPagedTable>
   </div>

@@ -133,38 +133,36 @@ onMounted(() => {
       </template>
 
       <template #actions="{ row }">
-        <div class="flex justify-center">
-          <!-- 查看 -->
-          <el-button v-perms="SYS_ROLE_PERMS.DETAIL" link type="primary" @click="openDetailDialog(row)">
-            {{ t('buttons.actionView') }}
-          </el-button>
-          <!-- 修改/编辑 -->
-          <el-button v-perms="SYS_ROLE_PERMS.UPDATE" link type="primary" @click="openEditDialog(row)">
-            {{ t('buttons.actionEdit') }}
-          </el-button>
-          <!-- 删除 -->
-          <el-button v-perms="SYS_ROLE_PERMS.DELETE" link type="danger" @click="deleteRow(row)">
-            {{ t('buttons.actionDelete') }}
-          </el-button>
+        <!-- 查看 -->
+        <el-button v-perms="SYS_ROLE_PERMS.DETAIL" link type="primary" @click="openDetailDialog(row)">
+          {{ t('buttons.actionView') }}
+        </el-button>
+        <!-- 修改/编辑 -->
+        <el-button v-perms="SYS_ROLE_PERMS.UPDATE" link type="primary" @click="openEditDialog(row)">
+          {{ t('buttons.actionEdit') }}
+        </el-button>
+        <!-- 删除 -->
+        <el-button v-perms="SYS_ROLE_PERMS.DELETE" link type="danger" @click="deleteRow(row)">
+          {{ t('buttons.actionDelete') }}
+        </el-button>
 
-          <el-dropdown class="ml-1" trigger="click">
-            <!-- 更多 -->
-            <el-button class="el-dropdown-link" link type="primary">{{ t('buttons.actionMore') }}</el-button>
-            <template #dropdown>
-              <el-dropdown-menu>
-                <Perms :value="SYS_ROLE_PERMS.UPDATE">
-                  <el-dropdown-item @click="openAssignPermissionDrawer(row)">
-                    {{ t('roles.assign.permission') }}
-                  </el-dropdown-item>
-                </Perms>
-                <el-dropdown-item>{{ t('roles.menu.dataScope') }}</el-dropdown-item>
-                <el-dropdown-item>{{ t('roles.menu.policyBind') }}</el-dropdown-item>
-                <el-dropdown-item>{{ t('roles.menu.grantSubjects') }}</el-dropdown-item>
-                <el-dropdown-item>{{ t('roles.menu.impactAnalysis') }}</el-dropdown-item>
-              </el-dropdown-menu>
-            </template>
-          </el-dropdown>
-        </div>
+        <el-dropdown trigger="click">
+          <!-- 更多 -->
+          <el-button link type="primary">{{ t('buttons.actionMore') }}</el-button>
+          <template #dropdown>
+            <el-dropdown-menu>
+              <Perms :value="SYS_ROLE_PERMS.UPDATE">
+                <el-dropdown-item @click="openAssignPermissionDrawer(row)">
+                  {{ t('roles.assign.permission') }}
+                </el-dropdown-item>
+              </Perms>
+              <el-dropdown-item>{{ t('roles.menu.dataScope') }}</el-dropdown-item>
+              <el-dropdown-item>{{ t('roles.menu.policyBind') }}</el-dropdown-item>
+              <el-dropdown-item>{{ t('roles.menu.grantSubjects') }}</el-dropdown-item>
+              <el-dropdown-item>{{ t('roles.menu.impactAnalysis') }}</el-dropdown-item>
+            </el-dropdown-menu>
+          </template>
+        </el-dropdown>
       </template>
     </AuthPagedTable>
   </div>

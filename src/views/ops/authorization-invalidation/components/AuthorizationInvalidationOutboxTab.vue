@@ -181,25 +181,23 @@ onMounted(() => {
       show-overflow-tooltip
     >
       <template #actions="{ row }">
-        <div class="flex justify-center gap-1">
-          <el-button
-            v-perms="SYS_AUTH_INVALIDATION_OUTBOX_PERMS.DETAIL"
-            link
-            type="primary"
-            @click="openDetailDialog(row)"
-          >
-            {{ t('buttons.actionView') }}
-          </el-button>
-          <el-button
-            v-if="isOutboxRetryable(row.status)"
-            v-perms="SYS_AUTH_INVALIDATION_OUTBOX_PERMS.RETRY"
-            link
-            type="warning"
-            @click="retryOutboxRow(row)"
-          >
-            {{ t('authorizationInvalidation.retryAction') }}
-          </el-button>
-        </div>
+        <el-button
+          v-perms="SYS_AUTH_INVALIDATION_OUTBOX_PERMS.DETAIL"
+          link
+          type="primary"
+          @click="openDetailDialog(row)"
+        >
+          {{ t('buttons.actionView') }}
+        </el-button>
+        <el-button
+          v-if="isOutboxRetryable(row.status)"
+          v-perms="SYS_AUTH_INVALIDATION_OUTBOX_PERMS.RETRY"
+          link
+          type="warning"
+          @click="retryOutboxRow(row)"
+        >
+          {{ t('authorizationInvalidation.retryAction') }}
+        </el-button>
       </template>
     </AuthPagedTable>
   </div>

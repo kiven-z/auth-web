@@ -167,20 +167,18 @@ onMounted(() => {
       </template>
 
       <template #actions="{ row }">
-        <div class="flex justify-center">
-          <!-- 下载文件 -->
-          <el-button :loading="currentDownloadingRowId === row.id" link type="primary" @click="downloadRow(row.id)">
-            {{ t('buttons.actionDownload') }}
-          </el-button>
-          <!-- 查看详情 -->
-          <el-button link type="primary" @click="openDetailDialog(row)">
-            {{ t('buttons.actionView') }}
-          </el-button>
-          <!-- 删除文件记录 -->
-          <el-button link type="danger" @click="deleteBatchRows([row.id])">
-            {{ t('buttons.actionDelete') }}
-          </el-button>
-        </div>
+        <!-- 下载文件 -->
+        <el-button :loading="currentDownloadingRowId === row.id" link type="primary" @click="downloadRow(row.id)">
+          {{ t('buttons.actionDownload') }}
+        </el-button>
+        <!-- 查看详情 -->
+        <el-button link type="primary" @click="openDetailDialog(row)">
+          {{ t('buttons.actionView') }}
+        </el-button>
+        <!-- 删除文件记录 -->
+        <el-button link type="danger" @click="deleteBatchRows([row.id])">
+          {{ t('buttons.actionDelete') }}
+        </el-button>
       </template>
     </AuthPagedTable>
   </div>

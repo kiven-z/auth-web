@@ -133,25 +133,23 @@ onMounted(() => {
       show-overflow-tooltip
     >
       <template #actions="{ row }">
-        <div class="flex justify-center gap-1">
-          <el-button
-            v-perms="SYS_AUTH_INVALIDATION_EVENT_PERMS.DETAIL"
-            link
-            type="primary"
-            @click="openDetailDialog(row)"
-          >
-            {{ t('buttons.actionView') }}
-          </el-button>
-          <el-button
-            v-if="row.processing"
-            v-perms="SYS_AUTH_INVALIDATION_EVENT_PERMS.RELEASE_CLAIM"
-            link
-            type="warning"
-            @click="releaseClaimRow(row)"
-          >
-            {{ t('authorizationInvalidation.releaseClaimAction') }}
-          </el-button>
-        </div>
+        <el-button
+          v-perms="SYS_AUTH_INVALIDATION_EVENT_PERMS.DETAIL"
+          link
+          type="primary"
+          @click="openDetailDialog(row)"
+        >
+          {{ t('buttons.actionView') }}
+        </el-button>
+        <el-button
+          v-if="row.processing"
+          v-perms="SYS_AUTH_INVALIDATION_EVENT_PERMS.RELEASE_CLAIM"
+          link
+          type="warning"
+          @click="releaseClaimRow(row)"
+        >
+          {{ t('authorizationInvalidation.releaseClaimAction') }}
+        </el-button>
       </template>
     </AuthPagedTable>
   </div>

@@ -128,20 +128,18 @@ onMounted(() => {
       </template>
 
       <template #actions="{ row }">
-        <div class="flex justify-center">
-          <!-- 查看 -->
-          <el-button v-perms="SYS_PERMISSION_PERMS.DETAIL" link type="primary" @click="openDetailDialog(row)">
-            {{ t('buttons.actionView') }}
-          </el-button>
-          <!-- 修改/编辑 -->
-          <el-button v-perms="SYS_PERMISSION_PERMS.UPDATE" link type="primary" @click="openEditDialog(row)">
-            {{ t('buttons.actionEdit') }}
-          </el-button>
-          <!-- 删除 -->
-          <el-button v-perms="SYS_PERMISSION_PERMS.DELETE" link type="danger" @click="deleteRow(row)">
-            {{ t('buttons.actionDelete') }}
-          </el-button>
-        </div>
+        <!-- 查看 -->
+        <el-button v-perms="SYS_PERMISSION_PERMS.DETAIL" link type="primary" @click="openDetailDialog(row)">
+          {{ t('buttons.actionView') }}
+        </el-button>
+        <!-- 修改/编辑 -->
+        <el-button v-perms="SYS_PERMISSION_PERMS.UPDATE" link type="primary" @click="openEditDialog(row)">
+          {{ t('buttons.actionEdit') }}
+        </el-button>
+        <!-- 删除 -->
+        <el-button v-perms="SYS_PERMISSION_PERMS.DELETE" link type="danger" @click="deleteRow(row)">
+          {{ t('buttons.actionDelete') }}
+        </el-button>
       </template>
     </AuthPagedTable>
   </div>

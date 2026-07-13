@@ -136,21 +136,19 @@ onMounted(() => {
       </template>
 
       <template #actions="{ row }">
-        <div class="flex justify-center">
-          <!-- 查看 -->
-          <el-button v-perms="SYS_LOG_PASSWORD_HISTORY_PERMS.DETAIL" link type="primary" @click="openDetailDialog(row)">
-            {{ t('buttons.actionView') }}
-          </el-button>
-          <!-- 删除 -->
-          <el-button
-            v-perms="SYS_LOG_PASSWORD_HISTORY_PERMS.DELETE"
-            link
-            type="danger"
-            @click="deleteBatchRows([row.id])"
-          >
-            {{ t('buttons.actionDelete') }}
-          </el-button>
-        </div>
+        <!-- 查看 -->
+        <el-button v-perms="SYS_LOG_PASSWORD_HISTORY_PERMS.DETAIL" link type="primary" @click="openDetailDialog(row)">
+          {{ t('buttons.actionView') }}
+        </el-button>
+        <!-- 删除 -->
+        <el-button
+          v-perms="SYS_LOG_PASSWORD_HISTORY_PERMS.DELETE"
+          link
+          type="danger"
+          @click="deleteBatchRows([row.id])"
+        >
+          {{ t('buttons.actionDelete') }}
+        </el-button>
       </template>
     </AuthPagedTable>
   </div>

@@ -117,7 +117,9 @@ defineExpose<AuthPagedTableExpose>({
         @selection-change="handleSelectionChange"
       >
         <template v-if="$slots.actions" #actions="slotProps">
-          <slot name="actions" v-bind="slotProps" />
+          <div class="flex items-center justify-center gap-x-1">
+            <slot name="actions" v-bind="slotProps" />
+          </div>
         </template>
 
         <template v-if="$slots.append" #append>

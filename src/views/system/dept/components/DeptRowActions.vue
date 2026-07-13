@@ -103,12 +103,11 @@ onUnmounted(() => {
     <Perms :value="SYS_DEPT_PERMS.UPDATE">
       <el-dropdown
         :teleported="dropdownTeleported"
-        class="ml-1"
         trigger="click"
         @click.stop
         @visible-change="handleDropdownVisibleChange"
       >
-        <el-button class="el-dropdown-link" link type="primary" @pointerdown.stop="lockRowForDropdown">
+        <el-button link type="primary" @pointerdown.stop="lockRowForDropdown">
           {{ t('buttons.actionMore') }}
         </el-button>
         <template #dropdown>

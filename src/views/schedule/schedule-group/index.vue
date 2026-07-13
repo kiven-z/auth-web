@@ -108,42 +108,40 @@ onMounted(() => {
       </template>
 
       <template #actions="{ row }">
-        <div class="flex justify-center">
-          <!-- 查看 -->
-          <el-button v-perms="SYS_JOB_GROUP_PERMS.QUERY" link type="primary" @click="openDetailDialog(row)">
-            {{ t('buttons.actionView') }}
-          </el-button>
-          <!-- 修改/编辑 -->
-          <el-button v-perms="SYS_JOB_GROUP_PERMS.UPDATE" link type="primary" @click="openEditDialog(row)">
-            {{ t('buttons.actionEdit') }}
-          </el-button>
-          <!-- 删除 -->
-          <el-button
-            v-perms="SYS_JOB_GROUP_PERMS.DELETE"
-            :disabled="row.isSystem"
-            link
-            type="danger"
-            @click="deleteBatchRows([row.id])"
-          >
-            {{ t('buttons.actionDelete') }}
-          </el-button>
-          <!-- 更多：分组下任务批量启停 -->
-          <Perms :value="SYS_JOB_GROUP_PERMS.BATCH_UPDATE_JOBS_IN_GROUP">
-            <el-dropdown class="ml-2" trigger="click">
-              <el-button class="el-dropdown-link" link type="primary">{{ t('buttons.actionMore') }}</el-button>
-              <template #dropdown>
-                <el-dropdown-menu>
-                  <el-dropdown-item @click="updateAllJobsStatusInGroup(row, false)">
-                    {{ t('scheduleGroup.actionPauseAllJobs') }}
-                  </el-dropdown-item>
-                  <el-dropdown-item @click="updateAllJobsStatusInGroup(row, true)">
-                    {{ t('scheduleGroup.actionResumeAllJobs') }}
-                  </el-dropdown-item>
-                </el-dropdown-menu>
-              </template>
-            </el-dropdown>
-          </Perms>
-        </div>
+        <!-- 查看 -->
+        <el-button v-perms="SYS_JOB_GROUP_PERMS.QUERY" link type="primary" @click="openDetailDialog(row)">
+          {{ t('buttons.actionView') }}
+        </el-button>
+        <!-- 修改/编辑 -->
+        <el-button v-perms="SYS_JOB_GROUP_PERMS.UPDATE" link type="primary" @click="openEditDialog(row)">
+          {{ t('buttons.actionEdit') }}
+        </el-button>
+        <!-- 删除 -->
+        <el-button
+          v-perms="SYS_JOB_GROUP_PERMS.DELETE"
+          :disabled="row.isSystem"
+          link
+          type="danger"
+          @click="deleteBatchRows([row.id])"
+        >
+          {{ t('buttons.actionDelete') }}
+        </el-button>
+        <!-- 更多：分组下任务批量启停 -->
+        <Perms :value="SYS_JOB_GROUP_PERMS.BATCH_UPDATE_JOBS_IN_GROUP">
+          <el-dropdown trigger="click">
+            <el-button link type="primary">{{ t('buttons.actionMore') }}</el-button>
+            <template #dropdown>
+              <el-dropdown-menu>
+                <el-dropdown-item @click="updateAllJobsStatusInGroup(row, false)">
+                  {{ t('scheduleGroup.actionPauseAllJobs') }}
+                </el-dropdown-item>
+                <el-dropdown-item @click="updateAllJobsStatusInGroup(row, true)">
+                  {{ t('scheduleGroup.actionResumeAllJobs') }}
+                </el-dropdown-item>
+              </el-dropdown-menu>
+            </template>
+          </el-dropdown>
+        </Perms>
       </template>
     </AuthPagedTable>
   </div>
