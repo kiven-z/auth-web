@@ -2,23 +2,23 @@
 import type { FormDialog } from '@/api/common';
 import type { EmailTemplateFormModel } from '@/api/message/email-template';
 import type { FormInstance, FormRules } from 'element-plus';
-import { useMonacoTheme } from '@/shared/composables/monaco/useMonacoTheme';
+import { useEditorTheme } from '@/shared/composables/editor/useEditorTheme';
 import { CodeEditor } from 'monaco-editor-vue3';
 import { reactive, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 defineOptions({
-  name: 'EmailTemplateDialog',
+  name: 'EmailTemplateDrawer',
 });
 
-type EmailTemplateDialogProps = FormDialog<EmailTemplateFormModel>;
+type EmailTemplateDrawerProps = FormDialog<EmailTemplateFormModel>;
 
-const props = withDefaults(defineProps<EmailTemplateDialogProps>(), {
+const props = withDefaults(defineProps<EmailTemplateDrawerProps>(), {
   form: () => ({}) as EmailTemplateFormModel,
 });
 
 const { t } = useI18n();
-const monacoTheme = useMonacoTheme();
+const { monacoTheme } = useEditorTheme();
 const formRef = ref<FormInstance>();
 
 const form = ref<EmailTemplateFormModel>({

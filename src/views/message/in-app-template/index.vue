@@ -8,10 +8,11 @@ import AuthPagedTable, { usePaginationState } from '@/components/business/AuthPa
 import { useFormPlaceholder } from '@/shared/composables/i18n/useFormPlaceholder';
 import { COMMON_BOOLEAN_STATUS_FILTER_OPTIONS } from '@/shared/constants/boolean-status';
 import { IN_APP_TEMPLATE_CHANNEL } from '@/views/message/in-app-template/constants/channel';
-import { IN_APP_CONTENT_TYPES } from '@/views/message/in-app-template/constants/content-type';
+import { MESSAGE_TEMPLATE_CONTENT_TYPES } from '@/views/message/_shared/constants/content-type';
 import { IN_APP_TEMPLATE_PERMS } from '@/views/message/in-app-template/constants/permissions';
 import useInAppTemplateTableAction from '@/views/message/in-app-template/hooks/useInAppTemplateTableAction';
 import useInAppTemplateTableColumns from '@/views/message/in-app-template/hooks/useInAppTemplateTableColumns';
+import { useInAppTemplateTableMoreAction } from '@/views/message/in-app-template/hooks/useInAppTemplateTableMoreAction';
 import type { FormInstance } from 'element-plus';
 import { onMounted, reactive, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
@@ -39,10 +40,12 @@ const inAppTemplateState = usePaginationState<MessageTemplatePageRow, MessageTem
 });
 
 const { loading, selectedRows, searchForm, fetchTableData, resetQuery } = inAppTemplateState;
-const { openDetailDialog, deleteBatchRows, batchUpdateStatus } = useInAppTemplateTableAction({
-  fetchTableData,
-  selectedRows,
-});
+const { openCreateDrawer, openEditDrawer, openDetailDialog, deleteBatchRows, batchUpdateStatus } =
+  useInAppTemplateTableAction({
+    fetchTableData,
+    selectedRows,
+  });
+const { openRequireFields } = useInAppTemplateTableMoreAction({ fetchTableData });
 
 onMounted(() => {
   fetchTableData();
@@ -87,7 +90,7 @@ onMounted(() => {
           class="w-45!"
           clearable
         >
-          <el-option v-for="type in IN_APP_CONTENT_TYPES" :key="type" :label="type" :value="type" />
+          <el-option v-for="type in MESSAGE_TEMPLATE_CONTENT_TYPES" :key="type" :label="type" :value="type" />
         </el-select>
       </el-form-item>
       <!-- 状态 -->
@@ -129,6 +132,11 @@ onMounted(() => {
     >
       <template #buttons>
         <el-button-group type="primary">
+          <!-- 添加 -->
+          <el-button v-perms="IN_APP_TEMPLATE_PERMS.CREATE" @click="openCreateDrawer">
+            {{ t('buttons.actionAdd') }}
+          </el-button>
+
           <!-- 高级功能 -->
           <el-dropdown trigger="click">
             <el-button type="danger">
@@ -164,10 +172,28 @@ onMounted(() => {
         <el-button v-perms="IN_APP_TEMPLATE_PERMS.DETAIL" link type="primary" @click="openDetailDialog(row)">
           {{ t('buttons.actionView') }}
         </el-button>
+        <!-- 编辑 -->
+        <el-button v-perms="IN_APP_TEMPLATE_PERMS.UPDATE" link type="primary" @click="openEditDrawer(row)">
+          {{ t('buttons.actionEdit') }}
+        </el-button>
         <!-- 删除 -->
         <el-button v-perms="IN_APP_TEMPLATE_PERMS.DELETE" link type="danger" @click="deleteBatchRows([row.id])">
           {{ t('buttons.actionDelete') }}
         </el-button>
+        <!-- 更多 -->
+        <el-dropdown trigger="click">
+          <el-button link type="primary" class="ml-2!">{{ t('buttons.actionMore') }}</el-button>
+          <template #dropdown>
+            <el-dropdown-menu>
+              <!-- 必填变量 -->
+              <Perms :value="IN_APP_TEMPLATE_PERMS.UPDATE">
+                <el-dropdown-item @click="openRequireFields(row)">
+                  {{ t('messageTemplate.requireFieldsMenu') }}
+                </el-dropdown-item>
+              </Perms>
+            </el-dropdown-menu>
+          </template>
+        </el-dropdown>
       </template>
     </AuthPagedTable>
   </div>

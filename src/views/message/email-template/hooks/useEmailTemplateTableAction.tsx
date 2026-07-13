@@ -13,7 +13,7 @@ import { type FormOverlayExpose, useFormOverlaySubmit } from '@/shared/composabl
 import { operationConfirm } from '@/services/feedback/dialog';
 import { errorMessage, message } from '@/services/feedback/message';
 import EmailTemplateDetailDialog from '@/views/message/email-template/components/EmailTemplateDetailDialog.vue';
-import EmailTemplateDialog from '@/views/message/email-template/components/EmailTemplateDialog.vue';
+import EmailTemplateDrawer from '@/views/message/email-template/components/EmailTemplateDrawer.vue';
 import { EMAIL_TEMPLATE_CHANNEL } from '@/views/message/email-template/constants/channel';
 import { h, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
@@ -50,7 +50,7 @@ function useEmailTemplateTableAction(deps: TableActionWithSelectionDeps) {
       closeOnClickModal: false,
       closeOnPressEscape: false,
       showClose: true,
-      contentRenderer: () => h(EmailTemplateDialog, { ref: dialogFormRef }),
+      contentRenderer: () => h(EmailTemplateDrawer, { ref: dialogFormRef }),
       beforeSure: createFormBeforeSure<EmailTemplateFormModel>({
         formExposeRef: dialogFormRef,
         errorI18nKey: 'emailTemplate.loadFailed',
@@ -79,7 +79,7 @@ function useEmailTemplateTableAction(deps: TableActionWithSelectionDeps) {
         closeOnClickModal: false,
         closeOnPressEscape: false,
         showClose: true,
-        contentRenderer: () => h(EmailTemplateDialog, { ref: dialogFormRef, form: detail as EmailTemplateFormModel }),
+        contentRenderer: () => h(EmailTemplateDrawer, { ref: dialogFormRef, form: detail as EmailTemplateFormModel }),
         beforeSure: createFormBeforeSure<EmailTemplateFormModel>({
           formExposeRef: dialogFormRef,
           errorI18nKey: 'emailTemplate.loadFailed',

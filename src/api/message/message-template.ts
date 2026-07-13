@@ -60,6 +60,8 @@ export interface MessageTemplateDetailVO extends BaseResponseDetail {
   description?: string;
   subject: string;
   content?: string;
+  previewContent?: string;
+  contentType?: string;
   requireFields?: MessageTemplateRequireFieldRow[];
   providerTemplateCode?: string;
   imMessageType?: string;

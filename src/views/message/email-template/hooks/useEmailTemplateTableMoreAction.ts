@@ -1,19 +1,13 @@
 import type { TableActionDeps } from '@/api/common';
 import type { EmailTemplateMonacoFormModel } from '@/api/message/email-template';
-import {
-  type EmailTemplatePageRow,
-  getEmailTemplatePreviewHtml,
-  updateEmailTemplateContent,
-} from '@/api/message/email-template';
+import { type EmailTemplatePageRow, updateEmailTemplateContent } from '@/api/message/email-template';
 import { getMessageTemplateById } from '@/api/message/message-template';
-import { addDialog } from '@/components/ui/Dialog';
 import { addDrawer } from '@/components/ui/Drawer';
 import { type FormOverlayExpose, useFormOverlaySubmit } from '@/shared/composables/table/useFormOverlaySubmit';
 import { errorMessage } from '@/services/feedback/message';
 import { useOpenMessageTemplateRequireFields } from '@/views/message/_shared/hooks/useOpenMessageTemplateRequireFields';
 import { useOpenMessageTemplateTestSend } from '@/views/message/_shared/hooks/useOpenMessageTemplateTestSend';
-import EmailTemplateMonacoOnlyDialog from '@/views/message/email-template/components/EmailTemplateMonacoOnlyDialog.vue';
-import EmailTemplatePreviewDialog from '@/views/message/email-template/components/EmailTemplatePreviewDialog.vue';
+import EmailTemplateMonacoOnlyDrawer from '@/views/message/email-template/components/EmailTemplateMonacoOnlyDrawer.vue';
 import { EMAIL_TEMPLATE_CHANNEL } from '@/views/message/email-template/constants/channel';
 import { h, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
@@ -29,27 +23,6 @@ export function useEmailTemplateTableMoreAction(options: TableActionDeps) {
   const { createFormBeforeSure } = useFormOverlaySubmit();
   const { openRequireFields: openSharedRequireFields } = useOpenMessageTemplateRequireFields();
   const { openTestSend: openSharedTestSend } = useOpenMessageTemplateTestSend();
-
-  /**
-   * 打开 HTML 预览（只读）
-   * @param row 邮件模板行数据
-   */
-  const openPreview = async (row: EmailTemplatePageRow) => {
-    try {
-      const html = await getEmailTemplatePreviewHtml(row.id);
-      addDialog({
-        title: t('emailTemplate.previewDialogTitle'),
-        draggable: true,
-        fullscreenIcon: true,
-        closeOnClickModal: false,
-        closeOnPressEscape: false,
-        hideFooter: true,
-        contentRenderer: () => h(EmailTemplatePreviewDialog, { html }),
-      });
-    } catch (error: unknown) {
-      errorMessage(error, { defaultI18nKey: 'emailTemplate.loadFailed' });
-    }
-  };
 
   /**
    * 打开 require_fields 维护弹窗
@@ -94,7 +67,7 @@ export function useEmailTemplateTableMoreAction(options: TableActionDeps) {
         closeOnPressEscape: false,
         showClose: true,
         contentRenderer: () =>
-          h(EmailTemplateMonacoOnlyDialog, { ref: dialogFormRef, form: detail as EmailTemplateMonacoFormModel }),
+          h(EmailTemplateMonacoOnlyDrawer, { ref: dialogFormRef, form: detail as EmailTemplateMonacoFormModel }),
         beforeSure: createFormBeforeSure<EmailTemplateMonacoFormModel>({
           formExposeRef: dialogFormRef,
           errorI18nKey: 'emailTemplate.loadFailed',
@@ -112,7 +85,6 @@ export function useEmailTemplateTableMoreAction(options: TableActionDeps) {
   };
 
   return {
-    openPreview,
     openRequireFields,
     openTestSend,
     openTemplateContentEdit,

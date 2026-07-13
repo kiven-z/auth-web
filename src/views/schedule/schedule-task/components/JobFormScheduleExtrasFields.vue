@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { useFormPlaceholder } from '@/shared/composables/i18n/useFormPlaceholder';
-import { useMonacoTheme } from '@/shared/composables/monaco/useMonacoTheme';
+import { useEditorTheme } from '@/shared/composables/editor/useEditorTheme';
 import { message } from '@/services/feedback/message';
 import { JOB_CRON_PRESET_OPTIONS } from '@/views/schedule/schedule-task/constants/job-cron-presets';
 import { JOB_MISFIRE_POLICY_OPTIONS } from '@/views/schedule/schedule-task/constants/job-task-enums';
@@ -30,7 +30,7 @@ const form = defineModel<JobFormScheduleExtrasModel>('form', { required: true })
 
 const { t } = useI18n();
 const ph = useFormPlaceholder();
-const monacoTheme = useMonacoTheme();
+const { monacoTheme } = useEditorTheme();
 
 /**
  * 格式化后写入 job_params；force 为 true 时始终覆盖

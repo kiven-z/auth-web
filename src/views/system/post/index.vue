@@ -158,7 +158,7 @@ onMounted(() => {
         </el-button>
 
         <el-dropdown trigger="click">
-          <el-button link type="primary">{{ t('buttons.actionMore') }}</el-button>
+          <el-button link type="primary" class="ml-2!">{{ t('buttons.actionMore') }}</el-button>
           <template #dropdown>
             <Perms :value="SYS_POST_PERMS.UPDATE">
               <el-dropdown-item @click="openAssignRoleDrawer(row)">

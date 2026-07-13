@@ -3,6 +3,7 @@ messageTemplate:
   requireFieldsDialogTitle: Required variables
   requireFieldsMenu: Variables
   requireFieldsJson: Required variables
+  previewTips: Preview rendered with sample values; actual delivery may differ slightly.
   testSendDialogTitle: Test send
   testSendMenu: Test send
   testSendTarget: Recipient

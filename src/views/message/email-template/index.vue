@@ -41,7 +41,7 @@ const { loading, selectedRows, searchForm, fetchTableData, resetQuery } = emailT
 
 const { openCreateDialog, openEditDialog, openDetailDialog, deleteBatchRows, batchUpdateStatus } =
   useEmailTemplateTableAction({ fetchTableData, selectedRows });
-const { openPreview, openRequireFields, openTestSend, openTemplateContentEdit } = useEmailTemplateTableMoreAction({
+const { openRequireFields, openTestSend, openTemplateContentEdit } = useEmailTemplateTableMoreAction({
   fetchTableData,
 });
 
@@ -169,15 +169,9 @@ onMounted(() => {
         </el-button>
         <!-- 更多 -->
         <el-dropdown trigger="click">
-          <el-button link type="primary">{{ t('buttons.actionMore') }}</el-button>
+          <el-button link type="primary" class="ml-2!">{{ t('buttons.actionMore') }}</el-button>
           <template #dropdown>
             <el-dropdown-menu>
-              <!-- 预览 -->
-              <Perms :value="EMAIL_TEMPLATE_PERMS.DETAIL">
-                <el-dropdown-item @click="openPreview(row)">
-                  {{ t('emailTemplate.preview') }}
-                </el-dropdown-item>
-              </Perms>
               <!-- 必填字段 -->
               <Perms :value="EMAIL_TEMPLATE_PERMS.UPDATE">
                 <el-dropdown-item @click="openRequireFields(row)">

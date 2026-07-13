@@ -148,7 +148,7 @@ onMounted(() => {
 
         <el-dropdown trigger="click">
           <!-- 更多 -->
-          <el-button link type="primary">{{ t('buttons.actionMore') }}</el-button>
+          <el-button link type="primary" class="ml-2!">{{ t('buttons.actionMore') }}</el-button>
           <template #dropdown>
             <el-dropdown-menu>
               <Perms :value="SYS_ROLE_PERMS.UPDATE">

@@ -3,6 +3,7 @@ messageTemplate:
   requireFieldsDialogTitle: 维护必填变量
   requireFieldsMenu: 必填变量
   requireFieldsJson: 必填变量
+  previewTips: 以下为按示例值渲染后的效果，可能与实际发送略有差异。
   testSendDialogTitle: 测试发送
   testSendMenu: 测试发送
   testSendTarget: 接收目标

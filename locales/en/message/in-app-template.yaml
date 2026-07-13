@@ -2,6 +2,8 @@ inAppTemplate:
   name: In-app message template
   loadFailed: Failed to load in-app message templates
   tableTitle: In-app message templates
+  addDrawerTitle: Create in-app template
+  editDrawerTitle: Edit in-app template
   detailDialogTitle: In-app template detail
   templateCode: Scene code
   templateName: Template name
@@ -11,3 +13,19 @@ inAppTemplate:
   contentType: Content type
   priority: Send priority
   status: Status
+  placeholder:
+    templateCode: Enter scene code, e.g. login-in-app-notice
+    templateName: Enter template name
+    subject: Enter title template
+    contentType: Select content type
+    status: Select status
+    description: Enter description
+    priority: Select priority
+    content: Enter template body
+    contentMd: Enter Markdown body
+    contentHtml: Enter HTML body (sanitized by the server whitelist)
+  image:
+    fileTypeInvalid: Only JPG/PNG/GIF/WEBP images are supported
+    fileSizeExceeded: Image size must not exceed 5MB
+  rules:
+    templateCodeReg: Letters, underscores and hyphens only; at least one letter required

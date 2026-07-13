@@ -1,14 +1,15 @@
 <script lang="tsx" setup>
-import { getEmailTemplatePreviewHtml } from '@/api/message/email-template';
 import { getMessageTemplateById, type MessageTemplateDetailVO } from '@/api/message/message-template';
 import ReDescription from '@/components/ui/Description';
 import { renderBooleanStatusTag } from '@/shared/composables/layout/renderBooleanStatusTag';
 import { errorMessage } from '@/services/feedback/message';
+import MessageTemplateContentView from '@/views/message/_shared/components/MessageTemplateContentView.vue';
+import type { MessageTemplateContentTypeCode } from '@/views/message/_shared/constants/content-type';
 import { EMAIL_TEMPLATE_CHANNEL } from '@/views/message/email-template/constants/channel';
-import { computed, nextTick, onMounted, ref, watch } from 'vue';
+import { computed, onMounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 
-/** 详情 + 预览：仅主键，组件内拉取接口 */
+/** 详情：元信息 + 按示例值渲染后的正文 */
 interface EmailTemplateDetailDialogProps {
   id: string;
 }
@@ -17,13 +18,16 @@ const props = defineProps<EmailTemplateDetailDialogProps>();
 const { t } = useI18n();
 
 const loading = ref(false);
-
-// 预览 iframe 引用
-const previewFrameRef = ref<HTMLIFrameElement | null>(null);
-// 详情数据
 const detail = ref<MessageTemplateDetailVO | null>(null);
-// 渲染后的 HTML
-const renderedHtml = ref('');
+
+/** 空或未知按 TEXT */
+const renderedContentType = computed<MessageTemplateContentTypeCode>(() => {
+  const normalized = (detail.value?.contentType ?? '').trim().toUpperCase();
+  if (normalized === 'MARKDOWN' || normalized === 'HTML') {
+    return normalized;
+  }
+  return 'TEXT';
+});
 
 const columns = computed(() => [
   { label: t('emailTemplate.templateCode'), prop: 'templateCode', labelWidth: 120, copy: true },
@@ -49,35 +53,18 @@ const columns = computed(() => [
 ]);
 
 /**
- * 加载数据
- * @returns 加载数据后，更新详情数据、渲染后的 HTML
+ * 加载详情（含示例值渲染预览）
  */
 const onLoadData = async () => {
   loading.value = true;
   try {
     detail.value = await getMessageTemplateById(props.id, EMAIL_TEMPLATE_CHANNEL);
-    renderedHtml.value = await getEmailTemplatePreviewHtml(props.id);
   } catch (error: unknown) {
     errorMessage(error, { defaultI18nKey: 'emailTemplate.loadFailed' });
   } finally {
     loading.value = false;
   }
 };
-
-/**
- * 监听渲染后的 HTML 变化，更新 iframe 的 srcdoc
- * @param html 渲染后的 HTML
- */
-watch(
-  () => renderedHtml.value,
-  async (html) => {
-    await nextTick();
-    const el = previewFrameRef.value;
-    if (!el) return;
-    el.srcdoc = html;
-  },
-  { immediate: true }
-);
 
 onMounted(() => {
   onLoadData();
@@ -88,14 +75,13 @@ onMounted(() => {
   <div v-loading="loading">
     <ReDescription :column="2" :columns="columns" :data="detail ? [detail] : []" border />
 
-    <div class="text-sm font-medium mb-2">{{ t('emailTemplate.renderedEffect') }}</div>
-    <div class="border border-(--el-border-color) overflow-auto rounded bg-(--el-fill-color-blank)">
-      <iframe
-        ref="previewFrameRef"
-        class="w-full h-105 border-0 block"
-        sandbox="allow-same-origin"
-        title="email-template-preview"
-      />
-    </div>
+    <!-- 正文：按示例值 FreeMarker 渲染后展示 -->
+    <div class="mb-2 mt-4 text-sm font-medium">{{ t('emailTemplate.content') }}</div>
+    <el-alert :closable="false" :title="t('messageTemplate.previewTips')" class="mb-3" type="info" />
+    <MessageTemplateContentView
+      :content="detail?.previewContent"
+      :content-type="renderedContentType"
+      frame-title="email-template-rendered-content"
+    />
   </div>
 </template>

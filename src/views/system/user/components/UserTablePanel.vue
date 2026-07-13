@@ -222,7 +222,7 @@ const hasSelection = computed(() => selectedRows.value.length > 0);
 
         <!-- 更多 -->
         <el-dropdown trigger="click">
-          <el-button link type="primary">{{ t('buttons.actionMore') }}</el-button>
+          <el-button link type="primary" class="ml-2!">{{ t('buttons.actionMore') }}</el-button>
           <template #dropdown>
             <Perms :value="SYS_USER_ROLE_PERMS.UPDATE">
               <el-dropdown-item @click="openAssignRoleDrawer(row)">

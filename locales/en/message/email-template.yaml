@@ -10,17 +10,13 @@ emailTemplate:
   status: Status
   content: Template body
   liveRenderPreview: Live render preview
-  renderedEffect: Rendered output
   addDialogTitle: New email template
   editDialogTitle: Edit email template
   templateEditDialogTitle: Edit template body
   detailDialogTitle: Email template detail
-  previewDialogTitle: Email preview
   testSendDialogTitle: Test send
-  preview: Preview
   testSendMenu: Test send
   templateEditMenu: Edit body
-  previewTips: HTML rendered with sample values; actual emails may differ slightly.
   testSendEmail: Recipient email
   testSendEmailPlaceholder: Enter recipient email
   placeholder:

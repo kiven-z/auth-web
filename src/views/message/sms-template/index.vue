@@ -159,7 +159,7 @@ onMounted(() => {
         </el-button>
         <!-- 更多 -->
         <el-dropdown trigger="click">
-          <el-button link type="primary">{{ t('buttons.actionMore') }}</el-button>
+          <el-button link type="primary" class="ml-2!">{{ t('buttons.actionMore') }}</el-button>
           <template #dropdown>
             <el-dropdown-menu>
               <!-- 必填变量 -->

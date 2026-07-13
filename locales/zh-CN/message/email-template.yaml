@@ -10,17 +10,13 @@ emailTemplate:
   status: 状态
   content: 模板正文
   liveRenderPreview: 实时渲染预览
-  renderedEffect: 渲染效果
   addDialogTitle: 新增邮件模板
   editDialogTitle: 编辑邮件模板
   templateEditDialogTitle: 编辑模板正文
   detailDialogTitle: 邮件模板详情
-  previewDialogTitle: 邮件预览
   testSendDialogTitle: 测试发送
-  preview: 预览
   testSendMenu: 测试发送
   templateEditMenu: 模板编辑
-  previewTips: 以下为按示例值渲染后的 HTML，可能与实际发信略有差异。
   testSendEmail: 收件邮箱
   testSendEmailPlaceholder: 请输入收件邮箱
   placeholder:

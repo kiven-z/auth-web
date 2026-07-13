@@ -1,16 +1,21 @@
 import type { TableActionWithSelectionDeps } from '@/api/common';
+import { createInAppTemplate, type InAppTemplateFormModel, updateInAppTemplate } from '@/api/message/in-app-template';
 import {
   batchDeleteMessageTemplates,
   batchUpdateMessageTemplateStatus,
+  getMessageTemplateById,
   type MessageTemplatePageRow,
 } from '@/api/message/message-template';
 import { addDialog } from '@/components/ui/Dialog';
+import { addDrawer } from '@/components/ui/Drawer';
 import useBatchDeleteAction from '@/shared/composables/table/useBatchDeleteAction';
+import { type FormOverlayExpose, useFormOverlaySubmit } from '@/shared/composables/table/useFormOverlaySubmit';
 import { operationConfirm } from '@/services/feedback/dialog';
 import { errorMessage, message } from '@/services/feedback/message';
 import InAppTemplateDetailDialog from '@/views/message/in-app-template/components/InAppTemplateDetailDialog.vue';
+import InAppTemplateDrawer from '@/views/message/in-app-template/components/InAppTemplateDrawer.vue';
 import { IN_APP_TEMPLATE_CHANNEL } from '@/views/message/in-app-template/constants/channel';
-import { h } from 'vue';
+import { h, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 /**
@@ -21,6 +26,7 @@ import { useI18n } from 'vue-i18n';
 function useInAppTemplateTableAction(deps: TableActionWithSelectionDeps) {
   const { fetchTableData, selectedRows } = deps;
   const { t } = useI18n();
+  const { createFormBeforeSure } = useFormOverlaySubmit();
 
   const { deleteBatchRows } = useBatchDeleteAction({
     selectedRows,
@@ -28,6 +34,65 @@ function useInAppTemplateTableAction(deps: TableActionWithSelectionDeps) {
     onSuccess: fetchTableData,
     errorDefaultI18nKey: 'inAppTemplate.loadFailed',
   });
+
+  /**
+   * 打开新增抽屉
+   */
+  const openCreateDrawer = () => {
+    const drawerFormRef = ref<FormOverlayExpose<InAppTemplateFormModel> | null>(null);
+
+    addDrawer({
+      title: t('inAppTemplate.addDrawerTitle'),
+      size: '100%',
+      resizable: true,
+      closeOnClickModal: false,
+      closeOnPressEscape: false,
+      showClose: true,
+      contentRenderer: () => h(InAppTemplateDrawer, { ref: drawerFormRef }),
+      beforeSure: createFormBeforeSure<InAppTemplateFormModel>({
+        formExposeRef: drawerFormRef,
+        errorI18nKey: 'inAppTemplate.loadFailed',
+        successI18nKey: 'tips.addSuccess',
+        onSubmit: async (formData) => {
+          await createInAppTemplate(formData);
+          await fetchTableData();
+        },
+      }),
+    });
+  };
+
+  /**
+   * 打开编辑抽屉
+   * @param row 表格行数据
+   */
+  const openEditDrawer = async (row: MessageTemplatePageRow) => {
+    try {
+      const detail = await getMessageTemplateById(row.id, IN_APP_TEMPLATE_CHANNEL);
+      const drawerFormRef = ref<FormOverlayExpose<InAppTemplateFormModel> | null>(null);
+
+      addDrawer({
+        title: t('inAppTemplate.editDrawerTitle'),
+        size: '100%',
+        resizable: true,
+        closeOnClickModal: false,
+        closeOnPressEscape: false,
+        showClose: true,
+        contentRenderer: () => h(InAppTemplateDrawer, { ref: drawerFormRef, form: detail as InAppTemplateFormModel }),
+        beforeSure: createFormBeforeSure<InAppTemplateFormModel>({
+          formExposeRef: drawerFormRef,
+          errorI18nKey: 'inAppTemplate.loadFailed',
+          successI18nKey: 'tips.editSuccess',
+          requireId: true,
+          onSubmit: async (formPayload) => {
+            await updateInAppTemplate(formPayload);
+            await fetchTableData();
+          },
+        }),
+      });
+    } catch (error: unknown) {
+      errorMessage(error, { defaultI18nKey: 'inAppTemplate.loadFailed' });
+    }
+  };
 
   /**
    * 打开详情弹窗
@@ -74,6 +139,8 @@ function useInAppTemplateTableAction(deps: TableActionWithSelectionDeps) {
   };
 
   return {
+    openCreateDrawer,
+    openEditDrawer,
     openDetailDialog,
     deleteBatchRows,
     batchUpdateStatus,

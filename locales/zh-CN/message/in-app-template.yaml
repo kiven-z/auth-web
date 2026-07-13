@@ -2,6 +2,8 @@ inAppTemplate:
   name: 站内信模板
   loadFailed: 站内信模板数据加载失败
   tableTitle: 站内信模板
+  addDrawerTitle: 新增站内信模板
+  editDrawerTitle: 编辑站内信模板
   detailDialogTitle: 站内信模板详情
   templateCode: 场景编码
   templateName: 模板名称
@@ -11,3 +13,19 @@ inAppTemplate:
   contentType: 正文类型
   priority: 发送优先级
   status: 状态
+  placeholder:
+    templateCode: 请输入场景编码，如 login-in-app-notice
+    templateName: 请输入模板名称
+    subject: 请输入标题模板
+    contentType: 请选择正文类型
+    status: 请选择状态
+    description: 请输入模板描述
+    priority: 请选择优先级
+    content: 请输入模板正文
+    contentMd: 请输入 Markdown 正文
+    contentHtml: 请输入 HTML 正文（将按后端白名单消毒）
+  image:
+    fileTypeInvalid: 仅支持 JPG/PNG/GIF/WEBP 图片
+    fileSizeExceeded: 图片大小不能超过 5MB
+  rules:
+    templateCodeReg: 仅允许字母、下划线、连字符，且须包含至少一个字母

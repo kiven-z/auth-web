@@ -1,5 +1,3 @@
-import type { AxiosRequestConfig } from 'axios';
-
 import type { BaseResponsePageRow } from '@/api/common';
 import type { MessageTemplateRequireFieldRow } from '@/api/message/message-template';
 import { http } from '@/core/http';
@@ -62,15 +60,6 @@ export interface EmailTemplateContentUpdateRequest {
 export interface EmailTemplateRenderRequest {
   content: string;
   requireFields: EmailTemplateRequireFieldRow[];
-}
-
-/**
- * 预览已渲染 HTML
- * @param id 邮件模板ID
- * @returns 已渲染 HTML
- */
-export function getEmailTemplatePreviewHtml(id: string): Promise<string> {
-  return http.get<string, AxiosRequestConfig>(`/system/email-template/${id}/preview`);
 }
 
 /**
