@@ -24,9 +24,9 @@ defineOptions({
 .account-action-row {
   display: flex;
   flex-wrap: wrap;
+  gap: 12px;
   align-items: center;
   justify-content: space-between;
-  gap: 12px;
 
   &__main {
     min-width: 0;
@@ -45,8 +45,8 @@ defineOptions({
   &__actions {
     display: flex;
     flex-wrap: wrap;
-    align-items: center;
     gap: 12px;
+    align-items: center;
   }
 }
 </style>

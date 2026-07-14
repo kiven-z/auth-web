@@ -1,31 +1,13 @@
 <script lang="ts" setup>
 import { copyToClipboard } from '@/shared/lib/clipboard';
 import { CopyDocument } from '@element-plus/icons-vue';
-import type { DescriptionItemProps } from 'element-plus';
 import get from 'lodash/get';
 import { computed } from 'vue';
+import { ColumnProps, Row, RowKey, RowKeyProp } from './types';
 
 defineOptions({
   name: 'UiDescription',
 });
-
-type Row = Record<string, any>;
-type RowKey = string | number;
-
-/**
- * 描述项属性
- */
-interface ColumnProps extends Partial<DescriptionItemProps> {
-  label: string;
-  /** 支持 lodash path，如 `a.b.c` */
-  prop: string;
-  copy?: boolean;
-  cellRenderer?: (params: { value: any; data: Row | Row[]; index: number; row: Row }) => any;
-  labelRenderer?: (params: { data: Row | Row[] }) => any;
-  [key: string]: any;
-}
-
-type RowKeyProp = string | ((row: Row, index: number) => RowKey);
 
 /**
  * 属性

@@ -4,15 +4,15 @@ messageTemplate:
   requireFieldsMenu: Variables
   requireFieldsJson: Required variables
   previewTips: Preview rendered with sample values; actual delivery may differ slightly.
+  previewFailed: Preview failed; check that required variable example values are set
+  previewTab: Rendered
+  sourceTab: Source
   testSendDialogTitle: Test send
   testSendMenu: Test send
   testSendTarget: Recipient
   fieldKey: Variable name
   fieldDescription: Description
   fieldExampleValue: Example value
-  requireFieldKeyDuplicate: Variable names must be unique
-  requireFieldKeyRequired: Please enter a variable name
-  requireFieldExampleRequired: Please enter an example value
   placeholder:
     fieldKey: Variable key, e.g. code
     fieldDescription: Field meaning

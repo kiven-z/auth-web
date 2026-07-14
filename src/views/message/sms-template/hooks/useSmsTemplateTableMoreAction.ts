@@ -20,7 +20,7 @@ export function useSmsTemplateTableMoreAction(options: TableActionDeps) {
    */
   const openRequireFields = (row: MessageTemplatePageRow) =>
     openSharedRequireFields({
-      templateId: row.id,
+      id: row.id,
       channel: SMS_TEMPLATE_CHANNEL,
       fetchTableData,
       loadFailedI18nKey: 'smsTemplate.loadFailed',
@@ -32,7 +32,7 @@ export function useSmsTemplateTableMoreAction(options: TableActionDeps) {
    */
   const openTestSend = (row: MessageTemplatePageRow) =>
     openSharedTestSend({
-      templateId: row.id,
+      id: row.id,
       channel: SMS_TEMPLATE_CHANNEL,
       loadFailedI18nKey: 'smsTemplate.loadFailed',
       targetLabelI18nKey: 'smsTemplate.testSendPhone',

@@ -17,8 +17,8 @@
 
 .table-bar__toolbar {
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  justify-content: space-between;
   width: 100%;
   height: 60px;
   padding: 16px;
@@ -34,8 +34,8 @@
   display: flex;
   justify-content: space-between;
   padding-top: 3px;
-  padding-left: 11px;
   padding-right: 11px;
+  padding-left: 11px;
   border-bottom: 1px solid var(--el-border-color);
 }
 

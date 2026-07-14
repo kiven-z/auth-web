@@ -98,8 +98,8 @@ onMounted(() => {
 .account-login-log {
   &__filter {
     width: 99%;
-    overflow: auto;
     padding: 4px 0 0 8px;
+    overflow: auto;
     background: var(--el-bg-color);
   }
 

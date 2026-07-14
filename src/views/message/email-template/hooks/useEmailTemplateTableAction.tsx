@@ -12,10 +12,11 @@ import useBatchDeleteAction from '@/shared/composables/table/useBatchDeleteActio
 import { type FormOverlayExpose, useFormOverlaySubmit } from '@/shared/composables/table/useFormOverlaySubmit';
 import { operationConfirm } from '@/services/feedback/dialog';
 import { errorMessage, message } from '@/services/feedback/message';
-import EmailTemplateDetailDialog from '@/views/message/email-template/components/EmailTemplateDetailDialog.vue';
+import MessageTemplateDetailView from '@/views/message/_shared/components/MessageTemplateDetailView.vue';
 import EmailTemplateDrawer from '@/views/message/email-template/components/EmailTemplateDrawer.vue';
 import { EMAIL_TEMPLATE_CHANNEL } from '@/views/message/email-template/constants/channel';
-import { h, ref } from 'vue';
+import useEmailTemplateDetailColumns from '@/views/message/email-template/hooks/useEmailTemplateDetailColumns';
+import { ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 /**
@@ -26,6 +27,7 @@ import { useI18n } from 'vue-i18n';
 function useEmailTemplateTableAction(deps: TableActionWithSelectionDeps) {
   const { fetchTableData, selectedRows } = deps;
   const { t } = useI18n();
+  const { detailColumns } = useEmailTemplateDetailColumns();
 
   // 删除操作
   const { deleteBatchRows } = useBatchDeleteAction({
@@ -50,7 +52,7 @@ function useEmailTemplateTableAction(deps: TableActionWithSelectionDeps) {
       closeOnClickModal: false,
       closeOnPressEscape: false,
       showClose: true,
-      contentRenderer: () => h(EmailTemplateDrawer, { ref: dialogFormRef }),
+      contentRenderer: () => <EmailTemplateDrawer ref={dialogFormRef} />,
       beforeSure: createFormBeforeSure<EmailTemplateFormModel>({
         formExposeRef: dialogFormRef,
         errorI18nKey: 'emailTemplate.loadFailed',
@@ -79,7 +81,7 @@ function useEmailTemplateTableAction(deps: TableActionWithSelectionDeps) {
         closeOnClickModal: false,
         closeOnPressEscape: false,
         showClose: true,
-        contentRenderer: () => h(EmailTemplateDrawer, { ref: dialogFormRef, form: detail as EmailTemplateFormModel }),
+        contentRenderer: () => <EmailTemplateDrawer ref={dialogFormRef} form={detail as EmailTemplateFormModel} />,
         beforeSure: createFormBeforeSure<EmailTemplateFormModel>({
           formExposeRef: dialogFormRef,
           errorI18nKey: 'emailTemplate.loadFailed',
@@ -108,7 +110,15 @@ function useEmailTemplateTableAction(deps: TableActionWithSelectionDeps) {
       closeOnClickModal: false,
       closeOnPressEscape: false,
       hideFooter: true,
-      contentRenderer: () => h(EmailTemplateDetailDialog, { id: row.id }),
+      contentRenderer: () => (
+        <MessageTemplateDetailView
+          id={row.id}
+          channel={EMAIL_TEMPLATE_CHANNEL}
+          columns={detailColumns.value}
+          contentLabel={t('emailTemplate.content')}
+          frameTitle="email-template-rendered-content"
+        />
+      ),
     });
   };
 

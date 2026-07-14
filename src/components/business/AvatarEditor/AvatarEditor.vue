@@ -82,10 +82,10 @@ const { avatarUploadRef, avatarUploading, avatarCropping, handleAvatarChange } =
     display: flex;
     align-items: center;
     justify-content: center;
-    border-radius: 50%;
-    background: rgb(0 0 0 / 45%);
     color: #fff;
     pointer-events: none;
+    background: rgb(0 0 0 / 45%);
+    border-radius: 50%;
   }
 
   &__loading {
@@ -94,11 +94,11 @@ const { avatarUploadRef, avatarUploading, avatarCropping, handleAvatarChange } =
     display: flex;
     align-items: center;
     justify-content: center;
-    border-radius: 50%;
-    background: rgb(0 0 0 / 45%);
     color: #fff;
-    animation: avatar-editor-rotating 1.5s linear infinite;
     pointer-events: none;
+    background: rgb(0 0 0 / 45%);
+    border-radius: 50%;
+    animation: avatar-editor-rotating 1.5s linear infinite;
   }
 
   &__upload {

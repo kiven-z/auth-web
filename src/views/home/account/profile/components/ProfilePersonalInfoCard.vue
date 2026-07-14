@@ -96,20 +96,20 @@ async function handleAvatarUploaded(avatarUrl: string): Promise<void> {
   &__summary {
     display: flex;
     flex-wrap: wrap;
-    align-items: center;
     gap: 16px;
+    align-items: center;
   }
 
   &__summary-content {
-    min-width: 0;
     flex: 1;
+    min-width: 0;
   }
 
   &__name-row {
     display: flex;
     flex-wrap: wrap;
-    align-items: center;
     gap: 8px;
+    align-items: center;
   }
 
   &__nickname {
@@ -129,8 +129,8 @@ async function handleAvatarUploaded(avatarUrl: string): Promise<void> {
   &__meta-row {
     display: flex;
     flex-wrap: wrap;
-    align-items: center;
     gap: 8px;
+    align-items: center;
   }
 
   &__avatar-hint {

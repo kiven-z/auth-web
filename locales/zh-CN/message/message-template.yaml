@@ -4,15 +4,15 @@ messageTemplate:
   requireFieldsMenu: 必填变量
   requireFieldsJson: 必填变量
   previewTips: 以下为按示例值渲染后的效果，可能与实际发送略有差异。
+  previewFailed: 预览渲染失败，请检查必填变量示例值是否完整
+  previewTab: 渲染结果
+  sourceTab: 原文
   testSendDialogTitle: 测试发送
   testSendMenu: 测试发送
   testSendTarget: 接收目标
   fieldKey: 变量名
   fieldDescription: 说明
   fieldExampleValue: 示例值
-  requireFieldKeyDuplicate: 变量名不能重复
-  requireFieldKeyRequired: 请填写变量名
-  requireFieldExampleRequired: 请填写示例值
   placeholder:
     fieldKey: 变量 key，如 code
     fieldDescription: 字段含义说明

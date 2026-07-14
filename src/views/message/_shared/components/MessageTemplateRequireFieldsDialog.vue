@@ -1,6 +1,6 @@
 <script lang="ts" setup>
-import type { MessageChannelCode, MessageTemplateRequireFieldRow } from '@/api/message/message-template';
-import { getMessageTemplateById, updateMessageTemplateRequireFields } from '@/api/message/message-template';
+import type { MessageChannelCode } from '@/api/message/message-template';
+import { getMessageTemplateRequireFields, updateMessageTemplateRequireFields } from '@/api/message/message-template';
 import { errorMessage, message } from '@/services/feedback/message';
 import { MESSAGE_TEMPLATE_PERMS } from '@/views/message/_shared/constants/permissions';
 import {
@@ -17,16 +17,13 @@ defineOptions({
 
 /** 消息模板变量表编辑弹窗 props */
 interface MessageTemplateRequireFieldsDialogProps {
-  templateId: string;
+  id: string;
   channel: MessageChannelCode;
-  /** 打开方已拉取的变量表初始数据 */
-  initialRequireFields?: MessageTemplateRequireFieldRow[];
   /** 加载失败默认 i18n key */
   loadFailedI18nKey?: string;
 }
 
 const props = withDefaults(defineProps<MessageTemplateRequireFieldsDialogProps>(), {
-  initialRequireFields: () => [],
   loadFailedI18nKey: 'messageTemplate.loadFailed',
 });
 
@@ -34,7 +31,7 @@ const { t } = useI18n();
 
 const loading = ref(false);
 const dataList = ref<EditableRequireFieldRow[]>([]);
-let rowSeq = dataList.value.length + 1;
+let rowSeq = 1;
 
 /**
  * 添加行
@@ -64,15 +61,11 @@ const onDel = (row: EditableRequireFieldRow) => {
  * @returns 是否可关闭弹窗
  */
 const submit = async (): Promise<boolean> => {
-  const transformResult = toRequireFieldsPayload(dataList.value);
-  if (!transformResult.ok) {
-    message(t(transformResult.error.messageKey), { type: 'warning' });
-    return false;
-  }
-
   try {
-    await updateMessageTemplateRequireFields(props.templateId, props.channel, {
-      requireFields: transformResult.payload,
+    await updateMessageTemplateRequireFields({
+      id: props.id,
+      channel: props.channel,
+      requireFields: toRequireFieldsPayload(dataList.value),
     });
     message(t('tips.editSuccess'), { type: 'success' });
     return true;
@@ -84,10 +77,9 @@ const submit = async (): Promise<boolean> => {
 
 onMounted(async () => {
   loading.value = true;
-
   try {
-    const detail = await getMessageTemplateById(props.templateId, props.channel);
-    dataList.value = toEditableRequireFields(detail?.requireFields ?? props.initialRequireFields);
+    const requireFields = await getMessageTemplateRequireFields(props.id, props.channel);
+    dataList.value = toEditableRequireFields(requireFields ?? []);
     rowSeq = dataList.value.length + 1;
   } catch (error: unknown) {
     errorMessage(error, { defaultI18nKey: props.loadFailedI18nKey });

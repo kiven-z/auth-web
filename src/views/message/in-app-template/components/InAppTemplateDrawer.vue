@@ -98,7 +98,6 @@ defineExpose({ formRef, form });
       <el-col :lg="12" :md="12" :sm="12" :xs="24">
         <el-form-item :label="t('inAppTemplate.contentType')" prop="contentType">
           <el-radio-group v-model="form.contentType">
-            <!-- HTML 编辑器未就绪，先禁用 -->
             <el-radio-button v-for="type in MESSAGE_TEMPLATE_CONTENT_TYPES" :key="type" :value="type">
               {{ type }}
             </el-radio-button>
@@ -123,7 +122,7 @@ defineExpose({ formRef, form });
             :inactive-text="t('buttons.statusInactiveText')"
             :inactive-value="false"
             inline-prompt
-            style="--el-switch-on-color: #13ce66; --el-switch-off-color: #ff4949"
+            style="--el-switch-on-color: var(--el-color-success); --el-switch-off-color: var(--el-color-danger)"
           />
         </el-form-item>
       </el-col>

@@ -12,10 +12,11 @@ import useBatchDeleteAction from '@/shared/composables/table/useBatchDeleteActio
 import { type FormOverlayExpose, useFormOverlaySubmit } from '@/shared/composables/table/useFormOverlaySubmit';
 import { operationConfirm } from '@/services/feedback/dialog';
 import { errorMessage, message } from '@/services/feedback/message';
-import InAppTemplateDetailDialog from '@/views/message/in-app-template/components/InAppTemplateDetailDialog.vue';
+import MessageTemplateDetailView from '@/views/message/_shared/components/MessageTemplateDetailView.vue';
 import InAppTemplateDrawer from '@/views/message/in-app-template/components/InAppTemplateDrawer.vue';
 import { IN_APP_TEMPLATE_CHANNEL } from '@/views/message/in-app-template/constants/channel';
-import { h, ref } from 'vue';
+import useInAppTemplateDetailColumns from '@/views/message/in-app-template/hooks/useInAppTemplateDetailColumns';
+import { ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 /**
@@ -27,6 +28,7 @@ function useInAppTemplateTableAction(deps: TableActionWithSelectionDeps) {
   const { fetchTableData, selectedRows } = deps;
   const { t } = useI18n();
   const { createFormBeforeSure } = useFormOverlaySubmit();
+  const { detailColumns } = useInAppTemplateDetailColumns();
 
   const { deleteBatchRows } = useBatchDeleteAction({
     selectedRows,
@@ -48,7 +50,7 @@ function useInAppTemplateTableAction(deps: TableActionWithSelectionDeps) {
       closeOnClickModal: false,
       closeOnPressEscape: false,
       showClose: true,
-      contentRenderer: () => h(InAppTemplateDrawer, { ref: drawerFormRef }),
+      contentRenderer: () => <InAppTemplateDrawer ref={drawerFormRef} />,
       beforeSure: createFormBeforeSure<InAppTemplateFormModel>({
         formExposeRef: drawerFormRef,
         errorI18nKey: 'inAppTemplate.loadFailed',
@@ -77,7 +79,7 @@ function useInAppTemplateTableAction(deps: TableActionWithSelectionDeps) {
         closeOnClickModal: false,
         closeOnPressEscape: false,
         showClose: true,
-        contentRenderer: () => h(InAppTemplateDrawer, { ref: drawerFormRef, form: detail as InAppTemplateFormModel }),
+        contentRenderer: () => <InAppTemplateDrawer ref={drawerFormRef} form={detail as InAppTemplateFormModel} />,
         beforeSure: createFormBeforeSure<InAppTemplateFormModel>({
           formExposeRef: drawerFormRef,
           errorI18nKey: 'inAppTemplate.loadFailed',
@@ -106,7 +108,15 @@ function useInAppTemplateTableAction(deps: TableActionWithSelectionDeps) {
       closeOnClickModal: false,
       closeOnPressEscape: false,
       hideFooter: true,
-      contentRenderer: () => h(InAppTemplateDetailDialog, { id: row.id }),
+      contentRenderer: () => (
+        <MessageTemplateDetailView
+          id={row.id}
+          channel={IN_APP_TEMPLATE_CHANNEL}
+          columns={detailColumns.value}
+          contentLabel={t('inAppTemplate.content')}
+          frameTitle="in-app-template-rendered-content"
+        />
+      ),
     });
   };
 

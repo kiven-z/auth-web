@@ -11,21 +11,23 @@ import useBatchDeleteAction from '@/shared/composables/table/useBatchDeleteActio
 import { type FormOverlayExpose, useFormOverlaySubmit } from '@/shared/composables/table/useFormOverlaySubmit';
 import { operationConfirm } from '@/services/feedback/dialog';
 import { errorMessage, message } from '@/services/feedback/message';
-import SmsTemplateDetailDialog from '@/views/message/sms-template/components/SmsTemplateDetailDialog.vue';
+import MessageTemplateDetailView from '@/views/message/_shared/components/MessageTemplateDetailView.vue';
 import SmsTemplateDialog from '@/views/message/sms-template/components/SmsTemplateDialog.vue';
 import { SMS_TEMPLATE_CHANNEL } from '@/views/message/sms-template/constants/channel';
-import { h, ref } from 'vue';
+import useSmsTemplateDetailColumns from '@/views/message/sms-template/hooks/useSmsTemplateDetailColumns';
+import { ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 /**
  * 短信模板表格操作
- * @param deps 表格操作依赖（含多选）
+ * @param deps 表格操作依赖
  * @returns 表格操作方法
  */
 function useSmsTemplateTableAction(deps: TableActionWithSelectionDeps) {
   const { fetchTableData, selectedRows } = deps;
   const { t } = useI18n();
   const { createFormBeforeSure } = useFormOverlaySubmit();
+  const { detailColumns } = useSmsTemplateDetailColumns();
 
   const { deleteBatchRows } = useBatchDeleteAction({
     selectedRows,
@@ -46,7 +48,7 @@ function useSmsTemplateTableAction(deps: TableActionWithSelectionDeps) {
       fullscreenIcon: true,
       closeOnClickModal: false,
       closeOnPressEscape: false,
-      contentRenderer: () => h(SmsTemplateDialog, { ref: dialogFormRef }),
+      contentRenderer: () => <SmsTemplateDialog ref={dialogFormRef} />,
       beforeSure: createFormBeforeSure<SmsTemplateFormModel>({
         formExposeRef: dialogFormRef,
         errorI18nKey: 'smsTemplate.loadFailed',
@@ -74,7 +76,7 @@ function useSmsTemplateTableAction(deps: TableActionWithSelectionDeps) {
         fullscreenIcon: true,
         closeOnClickModal: false,
         closeOnPressEscape: false,
-        contentRenderer: () => h(SmsTemplateDialog, { ref: dialogFormRef, form: detail }),
+        contentRenderer: () => <SmsTemplateDialog ref={dialogFormRef} form={detail} />,
         beforeSure: createFormBeforeSure<SmsTemplateFormModel>({
           formExposeRef: dialogFormRef,
           errorI18nKey: 'smsTemplate.loadFailed',
@@ -103,7 +105,14 @@ function useSmsTemplateTableAction(deps: TableActionWithSelectionDeps) {
       closeOnClickModal: false,
       closeOnPressEscape: false,
       hideFooter: true,
-      contentRenderer: () => h(SmsTemplateDetailDialog, { id: row.id }),
+      contentRenderer: () => (
+        <MessageTemplateDetailView
+          id={row.id}
+          channel={SMS_TEMPLATE_CHANNEL}
+          columns={detailColumns.value}
+          contentLabel={t('smsTemplate.content')}
+        />
+      ),
     });
   };
 

@@ -60,6 +60,7 @@ export interface MessageTemplateDetailVO extends BaseResponseDetail {
   description?: string;
   subject: string;
   content?: string;
+  /** 按 require_fields 示例值渲染；缺 exampleValue 或渲染失败时可能为空 */
   previewContent?: string;
   contentType?: string;
   requireFields?: MessageTemplateRequireFieldRow[];
@@ -82,7 +83,7 @@ export function getMessageTemplatePage(params: MessageTemplatePageQuery) {
 }
 
 /**
- * 消息模板详情
+ * 消息模板详情（含原文 content 与示例值渲染 previewContent）
  * @param id 模板主键
  * @param channel 消息渠道（须与库中一致）
  * @returns 模板详情
@@ -126,28 +127,34 @@ export function batchUpdateMessageTemplateStatus(data: MessageTemplateBatchStatu
 }
 
 /**
- * 变量列表更新请求
+ * 变量列表更新请求（body 含 id、channel、requireFields）
  */
 export interface MessageTemplateRequireFieldsUpdateRequest {
+  id: string;
+  channel: MessageChannelCode;
   requireFields: MessageTemplateRequireFieldRow[];
 }
 
 /**
- * 仅更新 require_fields
+ * 查询模板变量声明
  * @param id 模板主键
  * @param channel 消息渠道
- * @param data 变量列表
+ * @returns 变量列表
+ */
+export function getMessageTemplateRequireFields(id: string, channel: MessageChannelCode) {
+  return http.get<MessageTemplateRequireFieldRow[], AxiosRequestConfig<{ channel: MessageChannelCode }>>(
+    `/system/message-template/${id}/require-fields`,
+    { params: { channel } }
+  );
+}
+
+/**
+ * 仅更新 require_fields
+ * @param data 模板 ID、渠道与变量列表
  * @returns 更新响应
  */
-export function updateMessageTemplateRequireFields(
-  id: string,
-  channel: MessageChannelCode,
-  data: MessageTemplateRequireFieldsUpdateRequest
-) {
-  return http.request<string>('put', `/system/message-template/${id}/require-fields`, {
-    data,
-    params: { channel },
-  });
+export function updateMessageTemplateRequireFields(data: MessageTemplateRequireFieldsUpdateRequest) {
+  return http.request<string>('put', '/system/message-template/require-fields', { data });
 }
 
 /**

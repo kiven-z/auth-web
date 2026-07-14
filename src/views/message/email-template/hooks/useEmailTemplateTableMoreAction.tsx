@@ -9,7 +9,7 @@ import { useOpenMessageTemplateRequireFields } from '@/views/message/_shared/hoo
 import { useOpenMessageTemplateTestSend } from '@/views/message/_shared/hooks/useOpenMessageTemplateTestSend';
 import EmailTemplateMonacoOnlyDrawer from '@/views/message/email-template/components/EmailTemplateMonacoOnlyDrawer.vue';
 import { EMAIL_TEMPLATE_CHANNEL } from '@/views/message/email-template/constants/channel';
-import { h, ref } from 'vue';
+import { ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 /**
@@ -30,7 +30,7 @@ export function useEmailTemplateTableMoreAction(options: TableActionDeps) {
    */
   const openRequireFields = (row: EmailTemplatePageRow) =>
     openSharedRequireFields({
-      templateId: row.id,
+      id: row.id,
       channel: EMAIL_TEMPLATE_CHANNEL,
       fetchTableData,
       loadFailedI18nKey: 'emailTemplate.loadFailed',
@@ -42,7 +42,7 @@ export function useEmailTemplateTableMoreAction(options: TableActionDeps) {
    */
   const openTestSend = (row: EmailTemplatePageRow) =>
     openSharedTestSend({
-      templateId: row.id,
+      id: row.id,
       channel: EMAIL_TEMPLATE_CHANNEL,
       loadFailedI18nKey: 'emailTemplate.loadFailed',
       targetLabelI18nKey: 'emailTemplate.testSendEmail',
@@ -66,15 +66,19 @@ export function useEmailTemplateTableMoreAction(options: TableActionDeps) {
         closeOnClickModal: false,
         closeOnPressEscape: false,
         showClose: true,
-        contentRenderer: () =>
-          h(EmailTemplateMonacoOnlyDrawer, { ref: dialogFormRef, form: detail as EmailTemplateMonacoFormModel }),
+        contentRenderer: () => (
+          <EmailTemplateMonacoOnlyDrawer ref={dialogFormRef} form={detail as EmailTemplateMonacoFormModel} />
+        ),
         beforeSure: createFormBeforeSure<EmailTemplateMonacoFormModel>({
           formExposeRef: dialogFormRef,
           errorI18nKey: 'emailTemplate.loadFailed',
           successI18nKey: 'tips.editSuccess',
           requireId: true,
           onSubmit: async (formPayload) => {
-            await updateEmailTemplateContent(String(formPayload.id), { content: formPayload.content ?? '' });
+            await updateEmailTemplateContent({
+              id: formPayload.id!,
+              content: formPayload.content ?? '',
+            });
             await fetchTableData();
           },
         }),

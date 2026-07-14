@@ -16,8 +16,7 @@
 
 .auth-data-table--adaptive .auth-data-table__table-wrap {
   min-height: 0;
-  overflow-x: auto;
-  overflow-y: hidden;
+  overflow: auto hidden;
 }
 
 /** 分页外包：对齐用 BEM 修饰符，勿在 ElPagination 根上写 flex */

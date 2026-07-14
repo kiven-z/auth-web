@@ -51,6 +51,7 @@ export type EmailTemplateSaveRequest = EmailTemplateFormModel;
  * 正文对应库字段
  */
 export interface EmailTemplateContentUpdateRequest {
+  id: string;
   content: string;
 }
 
@@ -91,9 +92,9 @@ export function updateEmailTemplate(data: EmailTemplateSaveRequest): Promise<str
 
 /**
  * 仅更新正文
- * @param id 邮件模板ID
- * @param data 正文
+ * @param data 模板 ID 与正文
+ * @returns 更新响应
  */
-export function updateEmailTemplateContent(id: string, data: EmailTemplateContentUpdateRequest): Promise<string> {
-  return http.request<string>('put', `/system/email-template/${id}/content`, { data });
+export function updateEmailTemplateContent(data: EmailTemplateContentUpdateRequest): Promise<string> {
+  return http.request<string>('put', '/system/email-template/content', { data });
 }

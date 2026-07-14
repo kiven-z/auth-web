@@ -18,7 +18,7 @@ export function useInAppTemplateTableMoreAction(options: TableActionDeps) {
    */
   const openRequireFields = (row: MessageTemplatePageRow) =>
     openSharedRequireFields({
-      templateId: row.id,
+      id: row.id,
       channel: IN_APP_TEMPLATE_CHANNEL,
       fetchTableData,
       loadFailedI18nKey: 'inAppTemplate.loadFailed',

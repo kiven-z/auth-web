@@ -2,18 +2,24 @@ import type { MessageChannelCode } from '@/api/message/message-template';
 import { testSendMessageTemplate } from '@/api/message/message-template';
 import { addDialog } from '@/components/ui/Dialog';
 import { type FormOverlayExpose, useFormOverlaySubmit } from '@/shared/composables/table/useFormOverlaySubmit';
-import MessageTemplateTestSendDialog, {
-  type MessageTemplateTestSendForm,
-} from '@/views/message/_shared/components/MessageTemplateTestSendDialog.vue';
-import { h, ref } from 'vue';
+import MessageTemplateTestSendDialog from '@/views/message/_shared/components/MessageTemplateTestSendDialog.vue';
+import { ref } from 'vue';
 import { useI18n } from 'vue-i18n';
+
+/**
+ * 测试发送表单（与弹窗字段一致；target 语义由渠道解释）
+ */
+interface MessageTemplateTestSendForm {
+  id: string;
+  target: string;
+}
 
 /**
  * 打开消息模板测试发送弹窗的参数
  */
 export interface OpenMessageTemplateTestSendOptions {
   /** 模板主键 */
-  templateId: string;
+  id: string;
   /** 消息渠道 */
   channel: MessageChannelCode;
   /** 加载失败默认 i18n key */
@@ -37,7 +43,7 @@ export function useOpenMessageTemplateTestSend() {
    */
   const openTestSend = (options: OpenMessageTemplateTestSendOptions) => {
     const {
-      templateId,
+      id,
       channel,
       loadFailedI18nKey = 'messageTemplate.loadFailed',
       targetLabelI18nKey = 'messageTemplate.testSendTarget',
@@ -52,13 +58,14 @@ export function useOpenMessageTemplateTestSend() {
       fullscreenIcon: true,
       closeOnClickModal: false,
       closeOnPressEscape: false,
-      contentRenderer: () =>
-        h(MessageTemplateTestSendDialog, {
-          ref: sendFormRef,
-          form: { id: templateId, target: '' },
-          targetLabelI18nKey,
-          targetPlaceholderI18nKey,
-        }),
+      contentRenderer: () => (
+        <MessageTemplateTestSendDialog
+          ref={sendFormRef}
+          form={{ id, target: '' }}
+          targetLabelI18nKey={targetLabelI18nKey}
+          targetPlaceholderI18nKey={targetPlaceholderI18nKey}
+        />
+      ),
       beforeSure: createFormBeforeSure<MessageTemplateTestSendForm>({
         formExposeRef: sendFormRef,
         errorI18nKey: loadFailedI18nKey,

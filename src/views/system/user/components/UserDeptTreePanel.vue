@@ -57,7 +57,7 @@ onMounted(() => {
 .user-dept-tree {
   display: flex;
   flex-direction: column;
-  overflow: hidden;
   height: calc(100vh - 80px);
+  overflow: hidden;
 }
 </style>

@@ -11,7 +11,7 @@ defineOptions({
 /**
  * 测试发送表单（target 语义由渠道解释）
  */
-export interface MessageTemplateTestSendForm {
+interface MessageTemplateTestSendForm {
   id: string;
   target: string;
 }

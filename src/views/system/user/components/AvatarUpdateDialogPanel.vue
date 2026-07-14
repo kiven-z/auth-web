@@ -67,13 +67,13 @@ async function handleAvatarUploaded(avatarUrl: string): Promise<void> {
   &__editor {
     display: flex;
     flex-wrap: wrap;
-    align-items: center;
     gap: 20px;
+    align-items: center;
   }
 
   &__meta {
-    min-width: 0;
     flex: 1;
+    min-width: 0;
   }
 
   &__username {

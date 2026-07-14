@@ -107,7 +107,7 @@ defineExpose({ formRef, form });
             :inactive-text="t('buttons.statusInactiveText')"
             :inactive-value="false"
             inline-prompt
-            style="--el-switch-on-color: #13ce66; --el-switch-off-color: #ff4949"
+            style="--el-switch-on-color: var(--el-color-success); --el-switch-off-color: var(--el-color-danger)"
           />
         </el-form-item>
       </el-col>
