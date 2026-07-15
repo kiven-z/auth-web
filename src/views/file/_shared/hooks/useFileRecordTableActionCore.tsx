@@ -1,11 +1,12 @@
 import type { TableActionWithSelectionDeps } from '@/api/common';
 import type { FileRecordDetail, FileRecordPageRow } from '@/api/file/file-record';
+import { Description } from '@/components/ui/Description';
 import { addDialog } from '@/components/ui/Dialog';
 import { errorMessage, message } from '@/services/feedback/message';
 import useBatchDeleteAction from '@/shared/composables/table/useBatchDeleteAction';
 import { downloadBlob } from '@/shared/utils/file/fileExport';
-import FileRecordDescriptionDialog from '@/views/file/_shared/components/FileRecordDescriptionDialog.vue';
-import { h, ref, type Ref } from 'vue';
+import useFileRecordDetailColumns from '@/views/file/_shared/columns/useFileRecordDetailColumns';
+import { ref, type Ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 /** 文件记录表格动作核心配置。 */
@@ -26,6 +27,7 @@ export interface UseFileRecordTableActionCoreOptions extends TableActionWithSele
 function useFileRecordTableActionCore(options: UseFileRecordTableActionCoreOptions) {
   const { fetchTableData, selectedRows, deleteApi, downloadApi, detailApi } = options;
   const { t } = useI18n();
+  const { detailColumns } = useFileRecordDetailColumns();
   const batchDownloadLoading: Ref<boolean> = ref(false);
   const currentDownloadingRowId: Ref<string | null> = ref(null);
 
@@ -93,7 +95,7 @@ function useFileRecordTableActionCore(options: UseFileRecordTableActionCoreOptio
         closeOnClickModal: false,
         closeOnPressEscape: false,
         hideFooter: true,
-        contentRenderer: () => h(FileRecordDescriptionDialog, { data: detail }),
+        contentRenderer: () => <Description column={2} columns={detailColumns.value} data={detail} />,
       });
     } catch (error: unknown) {
       errorMessage(error, { defaultI18nKey: 'fileRecord.messages.loadDetailFailed' });

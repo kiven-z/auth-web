@@ -72,11 +72,7 @@ export function useOpenMessageTemplateTestSend() {
         successI18nKey: 'tips.operationSuccess',
         requireId: true,
         onSubmit: async (formData) => {
-          await testSendMessageTemplate({
-            id: formData.id,
-            channel,
-            target: formData.target,
-          });
+          await testSendMessageTemplate({ id: formData.id, channel, target: formData.target });
         },
       }),
     });

@@ -23,7 +23,6 @@ inAppTemplate:
     priority: Select priority
     content: Enter template body
     contentMd: Enter Markdown body
-    contentHtml: Enter HTML body (sanitized by the server whitelist)
   image:
     fileTypeInvalid: Only JPG/PNG/GIF/WEBP images are supported
     fileSizeExceeded: Image size must not exceed 5MB

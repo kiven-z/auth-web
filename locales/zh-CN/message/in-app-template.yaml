@@ -23,7 +23,6 @@ inAppTemplate:
     priority: 请选择优先级
     content: 请输入模板正文
     contentMd: 请输入 Markdown 正文
-    contentHtml: 请输入 HTML 正文（将按后端白名单消毒）
   image:
     fileTypeInvalid: 仅支持 JPG/PNG/GIF/WEBP 图片
     fileSizeExceeded: 图片大小不能超过 5MB

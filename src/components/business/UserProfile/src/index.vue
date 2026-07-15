@@ -88,7 +88,14 @@ watch(
 
       <el-collapse v-else accordion>
         <el-collapse-item v-for="dept in deptInfos" :key="dept.id" :name="dept.id" :title="dept.deptName">
-          <ReDescription v-loading="loading" :column="2" :columns="deptColumns" :data="[dept]" border row-key="id" />
+          <ReDescription
+            v-loading="loading"
+            :column="2"
+            :columns="deptColumns"
+            :data="dept ?? {}"
+            border
+            row-key="id"
+          />
         </el-collapse-item>
       </el-collapse>
     </div>
@@ -121,7 +128,7 @@ watch(
 
       <el-collapse v-else accordion>
         <el-collapse-item v-for="post in postInfos" :key="post.id" :name="post.id" :title="post.postName">
-          <ReDescription v-loading="loading" :column="2" :columns="postColumns" :data="[post]" border />
+          <ReDescription v-loading="loading" :column="2" :columns="postColumns" :data="post ?? {}" border />
         </el-collapse-item>
       </el-collapse>
     </div>

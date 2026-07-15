@@ -1,7 +1,7 @@
 import { http } from '@/core/http';
 
-/** 站内信正文类型（对齐后端 InAppContentType） */
-export type InAppTemplateContentType = 'TEXT' | 'MARKDOWN' | 'HTML';
+/** 站内信正文类型 */
+export type InAppTemplateContentType = 'TEXT' | 'MARKDOWN';
 
 /**
  * 站内信模板新增/编辑表单（对齐后端 InAppTemplateForm）
@@ -12,7 +12,7 @@ export interface InAppTemplateFormModel {
   templateCode?: string;
   templateName?: string;
   subject?: string;
-  /** TEXT / MARKDOWN / HTML → im_message_type */
+  /** im_message_type */
   contentType: InAppTemplateContentType;
   content: string;
   description?: string;

@@ -55,9 +55,7 @@ authorizationInvalidation:
   retrySuccess: 人工重试投递成功
   retryFailed: 人工重试已执行，但投递仍未成功
   releaseClaimSuccess: processing 占位已释放
-  viewLinkedEvent: 查看关联幂等事件
   viewLinkedOutbox: 查看关联投递队列
-  linkedEventNotFound: 未找到关联的幂等事件
   linkedOutboxNotFound: 未找到关联的投递队列
   processingEnum:
     'true': 处理中

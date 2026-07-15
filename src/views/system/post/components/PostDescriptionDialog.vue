@@ -52,14 +52,14 @@ const descriptionColumns = computed(() => [
 
 <template>
   <div>
-    <Description :column="2" :columns="descriptionColumns" :data="[data]" />
+    <Description :column="2" :columns="descriptionColumns" :data="data ?? {}" />
 
     <el-divider />
 
     <p class="mb-2 text-sm font-medium text-(--el-text-color-primary)">
       {{ t('post.bound.dept.title') }}
     </p>
-    <Description :column="2" :columns="deptDescriptionColumns" :data="[data.boundDept]" />
+    <Description :column="2" :columns="deptDescriptionColumns" :data="data.boundDept ?? {}" />
 
     <el-divider />
 

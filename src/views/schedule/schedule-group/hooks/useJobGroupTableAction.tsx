@@ -9,13 +9,14 @@ import {
   updateJobGroupJobsStatus,
   type UpdateJobGroupRequest,
 } from '@/api/schedule/job-group';
+import { Description } from '@/components/ui/Description';
 import { addDialog } from '@/components/ui/Dialog';
-import useBatchDeleteAction from '@/shared/composables/table/useBatchDeleteAction';
-import { type FormOverlayExpose, useFormOverlaySubmit } from '@/shared/composables/table/useFormOverlaySubmit';
 import { operationConfirm } from '@/services/feedback/dialog';
 import { errorMessage, message } from '@/services/feedback/message';
-import ScheduleGroupDescriptionDialog from '@/views/schedule/schedule-group/components/ScheduleGroupDescriptionDialog.vue';
+import useBatchDeleteAction from '@/shared/composables/table/useBatchDeleteAction';
+import { type FormOverlayExpose, useFormOverlaySubmit } from '@/shared/composables/table/useFormOverlaySubmit';
 import ScheduleGroupFormDialog from '@/views/schedule/schedule-group/components/ScheduleGroupFormDialog.vue';
+import useJobGroupDetailColumns from '@/views/schedule/schedule-group/hooks/useJobGroupDetailColumns';
 import { h, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 
@@ -29,6 +30,7 @@ type JobGroupForm = CreateJobGroupRequest & UpdateJobGroupRequest;
 function useJobGroupTableAction(deps: TableActionDeps) {
   const { fetchTableData } = deps;
   const { t } = useI18n();
+  const { detailColumns } = useJobGroupDetailColumns();
   const { createFormBeforeSure } = useFormOverlaySubmit();
   const selectedRows = ref<string[]>([]);
   const { deleteBatchRows } = useBatchDeleteAction({
@@ -111,7 +113,7 @@ function useJobGroupTableAction(deps: TableActionDeps) {
         closeOnClickModal: false,
         closeOnPressEscape: false,
         hideFooter: true,
-        contentRenderer: () => h(ScheduleGroupDescriptionDialog, { data: detail }),
+        contentRenderer: () => <Description column={2} columns={detailColumns.value} data={detail ?? {}} />,
       });
     } catch (error: unknown) {
       errorMessage(error, { defaultI18nKey: 'scheduleGroup.loadFailed' });

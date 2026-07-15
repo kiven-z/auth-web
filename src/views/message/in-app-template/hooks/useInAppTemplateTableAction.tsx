@@ -114,7 +114,6 @@ function useInAppTemplateTableAction(deps: TableActionWithSelectionDeps) {
           channel={IN_APP_TEMPLATE_CHANNEL}
           columns={detailColumns.value}
           contentLabel={t('inAppTemplate.content')}
-          frameTitle="in-app-template-rendered-content"
         />
       ),
     });
@@ -136,12 +135,9 @@ function useInAppTemplateTableAction(deps: TableActionWithSelectionDeps) {
     }
 
     try {
-      await batchUpdateMessageTemplateStatus({
-        ids,
-        status: enabled,
-        channel: IN_APP_TEMPLATE_CHANNEL,
-      });
+      await batchUpdateMessageTemplateStatus({ ids, status: enabled, channel: IN_APP_TEMPLATE_CHANNEL });
       message(t('tips.editSuccess'), { type: 'success' });
+
       await fetchTableData();
     } catch (error: unknown) {
       errorMessage(error, { defaultI18nKey: 'inAppTemplate.loadFailed' });

@@ -105,6 +105,6 @@ const columns = computed(() => [
       </el-button>
     </div>
 
-    <Description :column="2" :columns="columns" :data="[data]" />
+    <Description :column="2" :columns="columns" :data="data ?? {}" />
   </div>
 </template>

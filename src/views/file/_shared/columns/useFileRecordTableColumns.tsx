@@ -86,6 +86,13 @@ function useFileRecordTableColumns() {
       sortable: true,
       minWidth: 170,
     },
+    // 更新时间
+    {
+      label: t('table.updateTime'),
+      prop: 'updateTime',
+      sortable: true,
+      minWidth: 170,
+    },
     // 创建人
     {
       label: t('table.createUsername'),
@@ -100,13 +107,6 @@ function useFileRecordTableColumns() {
           )
         );
       },
-    },
-    // 更新时间
-    {
-      label: t('table.updateTime'),
-      prop: 'updateTime',
-      sortable: true,
-      minWidth: 170,
     },
     // 更新人
     {

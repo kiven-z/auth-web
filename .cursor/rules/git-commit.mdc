@@ -1,11 +1,12 @@
 ---
-description: Git 提交信息格式规范
-globs: **/*.vue,**/*.tsx,**/*.ts
+description: 
+globs: **/*.vue, **/*.tsx, **/*.ts
+alwaysApply: false
 ---
 
 ## Git提交规范
 
-当生成 Git Commit Message 时，必须严格遵循以下格式。
+当生成 Git Commit Message 时，必须严格遵循以下格式且使用中文。
 
 ### 标准格式
 
@@ -40,7 +41,7 @@ globs: **/*.vue,**/*.tsx,**/*.ts
 > **注意**：提交消息内容必须使用中文。
 
 | emoji                       | emoji 代码                      | commit 说明       |
-|-----------------------------|-------------------------------|-----------------|
+|-----|----|-----|
 | :tada:                      | `:tada:`                      | 初次提交            |
 | :sparkles:                  | `:sparkles:`                  | 新增功能            |
 | :recycle:                   | `:recycle:`                   | 重构              |

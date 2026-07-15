@@ -50,8 +50,6 @@
     "@pureadmin/utils": "^2.6.2",
     "@vueuse/core": "^14.0.0",
     "@vueuse/motion": "^3.0.3",
-    "@wangeditor/editor": "^5.1.23",
-    "@wangeditor/editor-for-vue": "^5.1.12",
     "animate.css": "^4.1.1",
     "axios": "^1.12.2",
     "cropperjs": "^1.6.2",

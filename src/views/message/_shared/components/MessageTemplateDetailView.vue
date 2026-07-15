@@ -17,12 +17,9 @@ interface MessageTemplateDetailViewProps {
   columns: ColumnProps[];
   /** 正文区块标题 */
   contentLabel: string;
-  frameTitle?: string;
 }
 
-const props = withDefaults(defineProps<MessageTemplateDetailViewProps>(), {
-  frameTitle: 'message-template-content',
-});
+const props = defineProps<MessageTemplateDetailViewProps>();
 
 const { t } = useI18n();
 
@@ -30,13 +27,9 @@ const loading = ref(false);
 const detail = ref<MessageTemplateDetailVO | null>(null);
 const contentTab = ref<'preview' | 'source'>('preview');
 
-/** 空或未知按 TEXT；仅用于「渲染结果」Tab */
-const previewContentType = computed<MessageTemplateContentTypeCode>(() => {
-  const normalized = (detail.value?.contentType ?? '').trim().toUpperCase();
-  if (normalized === 'MARKDOWN' || normalized === 'HTML') {
-    return normalized;
-  }
-  return 'TEXT';
+/** 预览类型，缺省 TEXT */
+const previewContentType = computed(() => {
+  return (detail.value?.contentType ?? 'TEXT') as MessageTemplateContentTypeCode;
 });
 
 /**
@@ -67,16 +60,12 @@ onMounted(load);
       <!-- 按示例值渲染后的效果 -->
       <el-tab-pane :label="t('messageTemplate.previewTab')" lazy name="preview">
         <el-alert :closable="false" :title="t('messageTemplate.previewTips')" class="mb-3" type="info" />
-        <MessageTemplateContentView
-          :content="detail?.previewContent ?? ''"
-          :content-type="previewContentType"
-          :frame-title="frameTitle"
-        />
+        <MessageTemplateContentView :content="detail?.previewContent ?? ''" :content-type="previewContentType" />
       </el-tab-pane>
 
       <!-- FreeMarker 原文，固定纯文本展示 -->
       <el-tab-pane :label="t('messageTemplate.sourceTab')" lazy name="source">
-        <MessageTemplateContentView :content="detail?.content ?? ''" :frame-title="frameTitle" content-type="TEXT" />
+        <MessageTemplateContentView :content="detail?.content ?? ''" content-type="TEXT" />
       </el-tab-pane>
     </el-tabs>
   </div>

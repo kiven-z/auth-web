@@ -8,7 +8,7 @@ import router from './router';
 import { useEcharts } from '@/app/plugins/echarts';
 import { useElementPlus } from '@/app/plugins/elementPlus';
 import { injectResponsiveStorage } from '@/app/bootstrap/responsive';
-import { applyHydratedUiPreferences } from '@/core/preferences';
+import { applyHydratedUiPreferences, startSystemThemeWatch, syncSystemThemeFromOs } from '@/core/preferences';
 import { createApp, type Directive } from 'vue';
 
 import { installAuthDataTable } from '@/components/ui/AuthDataTable';
@@ -57,5 +57,7 @@ getPlatformConfig(app).then(async (config) => {
   installAuthDataTable(app);
   app.use(MotionPlugin).use(useI18n).use(useElementPlus).use(Description).use(useEcharts);
   applyHydratedUiPreferences();
+  syncSystemThemeFromOs();
+  startSystemThemeWatch();
   app.mount('#app');
 });

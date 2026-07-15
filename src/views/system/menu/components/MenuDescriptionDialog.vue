@@ -160,7 +160,7 @@ const descriptionColumns = computed(() => [
 
 <template>
   <div>
-    <Description :column="2" :columns="descriptionColumns" :data="[data]" />
+    <Description :column="2" :columns="descriptionColumns" :data="data ?? {}" />
 
     <el-divider />
 

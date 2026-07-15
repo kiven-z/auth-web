@@ -1,10 +1,10 @@
 import type { TableActionWithSelectionDeps } from '@/api/common';
 import { deleteJobLog, getJobLogDetail, type JobLogPageRow } from '@/api/log/job-log';
+import { Description } from '@/components/ui/Description';
 import { addDialog } from '@/components/ui/Dialog';
-import useBatchDeleteAction from '@/shared/composables/table/useBatchDeleteAction';
 import { errorMessage } from '@/services/feedback/message';
-import JobLogDetailDialog from '@/views/schedule/schedule-log/components/JobLogDetailDialog.vue';
-import { h } from 'vue';
+import useBatchDeleteAction from '@/shared/composables/table/useBatchDeleteAction';
+import useJobLogDetailColumns from '@/views/schedule/schedule-log/hooks/useJobLogDetailColumns';
 import { useI18n } from 'vue-i18n';
 
 /**
@@ -15,6 +15,7 @@ import { useI18n } from 'vue-i18n';
 function useJobLogTableAction(deps: TableActionWithSelectionDeps) {
   const { fetchTableData, selectedRows } = deps;
   const { t } = useI18n();
+  const { detailColumns } = useJobLogDetailColumns();
 
   const { deleteBatchRows } = useBatchDeleteAction({
     selectedRows,
@@ -38,7 +39,7 @@ function useJobLogTableAction(deps: TableActionWithSelectionDeps) {
         closeOnClickModal: false,
         closeOnPressEscape: false,
         hideFooter: true,
-        contentRenderer: () => h(JobLogDetailDialog, { data: detailData }),
+        contentRenderer: () => <Description column={2} columns={detailColumns.value} data={detailData ?? {}} />,
       });
     } catch (error: unknown) {
       errorMessage(error, { defaultI18nKey: 'logJob.message.loadFailed' });

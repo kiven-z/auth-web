@@ -210,5 +210,5 @@ const descriptionColumns = computed(() => {
 </script>
 
 <template>
-  <Description :column="2" :columns="descriptionColumns" :data="[data]" />
+  <Description :column="2" :columns="descriptionColumns" :data="data ?? {}" />
 </template>

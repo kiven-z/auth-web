@@ -1,11 +1,11 @@
 import type { TableActionWithSelectionDeps } from '@/api/common';
 import type { FileRecordDetail, FileRecordPageRow } from '@/api/file/file-record';
+import { Description } from '@/components/ui/Description';
 import { addDialog } from '@/components/ui/Dialog';
 import { operationConfirm } from '@/services/feedback/dialog';
 import { errorMessage, message } from '@/services/feedback/message';
 import useBatchDeleteAction from '@/shared/composables/table/useBatchDeleteAction';
-import FileRecycleDescriptionDialog from '@/views/file/_shared/components/FileRecycleDescriptionDialog.vue';
-import { h } from 'vue';
+import useFileRecycleDetailColumns from '@/views/file/_shared/columns/useFileRecycleDetailColumns';
 import { useI18n } from 'vue-i18n';
 
 /** 文件回收站表格动作核心配置。 */
@@ -26,6 +26,7 @@ export interface UseFileRecycleTableActionCoreOptions extends TableActionWithSel
 function useFileRecycleTableActionCore(options: UseFileRecycleTableActionCoreOptions) {
   const { fetchTableData, selectedRows, restoreApi, purgeApi, detailApi } = options;
   const { t } = useI18n();
+  const { detailColumns } = useFileRecycleDetailColumns();
 
   const { deleteBatchRows } = useBatchDeleteAction({
     selectedRows,
@@ -49,7 +50,7 @@ function useFileRecycleTableActionCore(options: UseFileRecycleTableActionCoreOpt
         closeOnClickModal: false,
         closeOnPressEscape: false,
         hideFooter: true,
-        contentRenderer: () => h(FileRecycleDescriptionDialog, { data: detail }),
+        contentRenderer: () => <Description column={2} columns={detailColumns.value} data={detail} />,
       });
     } catch (error: unknown) {
       errorMessage(error, { defaultI18nKey: 'fileRecycle.messages.loadDetailFailed' });

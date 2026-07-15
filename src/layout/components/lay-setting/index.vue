@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { computed, nextTick, onBeforeMount, onUnmounted, reactive, ref, unref, watch } from 'vue';
+import { computed, nextTick, onBeforeMount, reactive, ref, unref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import LayPanel from '../lay-panel/index.vue';
 import { useNav } from '@/layout/hooks/navigation/useNav';
@@ -8,6 +8,7 @@ import { useUiLayout } from '@/layout/hooks/layout/useUiLayout';
 import { useAppStoreHook } from '@/store/modules/app';
 import Segmented, { type OptionsType } from '@/components/ui/Segmented';
 import { useUiTheme } from '@/layout/hooks/theme/useUiTheme';
+import { syncSystemThemeFromOs } from '@/core/preferences';
 import { debounce, isNumber, toggleClass, useDark, useGlobal } from '@pureadmin/utils';
 
 import Check from '~icons/ep/check';
@@ -224,34 +225,9 @@ watch($storage, ({ layout }) => {
   }
 });
 
-const mediaQueryList = window.matchMedia('(prefers-color-scheme: dark)');
-
-/** 根据操作系统主题设置平台整体风格 */
-function updateTheme() {
-  if (overallStyle.value !== 'system') return;
-  if (mediaQueryList.matches) {
-    dataTheme.value = true;
-  } else {
-    dataTheme.value = false;
-  }
-  dataThemeChange(overallStyle.value);
-}
-
-function removeMatchMedia() {
-  mediaQueryList.removeEventListener('change', updateTheme);
-}
-
-/** 监听操作系统主题改变 */
-function watchSystemThemeChange() {
-  updateTheme();
-  removeMatchMedia();
-  mediaQueryList.addEventListener('change', updateTheme);
-}
-
 onBeforeMount(() => {
   /* 初始化系统配置 */
   nextTick(() => {
-    watchSystemThemeChange();
     settings.greyVal && document.querySelector('html')?.classList.add('html-grey');
     settings.weakVal && document.querySelector('html')?.classList.add('html-weakness');
     settings.tabsVal && tagsChange();
@@ -259,7 +235,19 @@ onBeforeMount(() => {
   });
 });
 
-onUnmounted(() => removeMatchMedia);
+/** 切换浅色 / 深色 / 跟随系统 */
+function handleOverallStyleChange(theme: { index: number; option: { theme: string } }): void {
+  if (theme.index === 2) {
+    dataTheme.value = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    overallStyle.value = theme.option.theme;
+    dataThemeChange(theme.option.theme);
+    syncSystemThemeFromOs();
+    return;
+  }
+  dataTheme.value = theme.index === 1;
+  overallStyle.value = theme.option.theme;
+  dataThemeChange(theme.option.theme);
+}
 </script>
 
 <template>
@@ -271,14 +259,7 @@ onUnmounted(() => removeMatchMedia);
         :options="themeOptions"
         class="select-none"
         resize
-        @change="
-          (theme) => {
-            theme.index === 1 && theme.index !== 2 ? (dataTheme = true) : (dataTheme = false);
-            overallStyle = theme.option.theme;
-            dataThemeChange(theme.option.theme);
-            theme.index === 2 && watchSystemThemeChange();
-          }
-        "
+        @change="handleOverallStyleChange"
       />
 
       <p :class="['mt-5!', pClass]">{{ t('panel.pureThemeColor') }}</p>

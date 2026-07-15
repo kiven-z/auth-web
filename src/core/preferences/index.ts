@@ -14,6 +14,7 @@ export {
   applyLayoutPreferences,
   applyThemePreferences,
 } from './apply';
+export { startSystemThemeWatch, syncSystemThemeFromOs } from './system-theme';
 export { hydrateUiPreferencesOnSession } from './session';
 export { resetUiPreferences, setSidebarOpened } from './actions';
 export type { SetSidebarOpenedOptions } from './actions';

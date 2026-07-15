@@ -40,7 +40,7 @@ const descriptionColumns = computed(() => [
 <template>
   <div>
     <!-- 权限基础信息 -->
-    <Description :column="2" :columns="descriptionColumns" :data="[data]" />
+    <Description :column="2" :columns="descriptionColumns" :data="data ?? {}" />
 
     <!-- 已绑定角色 -->
     <el-divider />

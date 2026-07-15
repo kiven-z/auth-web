@@ -33,32 +33,24 @@ async function reload() {
   }
 }
 
-// 检查摘要数据
+/** 检查摘要（单条） */
 const summaryData = computed(() => {
   const health = data.value;
   if (!health) {
-    return [];
+    return {};
   }
-  return [
-    {
-      passed: health.passed,
-      checkedAt: health.checkedAt,
-      missingParentLinkCount: health.missingParentLinkCount,
-      depthChainAnomalyCount: health.depthChainAnomalyCount,
-      parentLinkSampleTruncated: health.parentLinkSampleTruncated,
-      depthChainSampleTruncated: health.depthChainSampleTruncated,
-    },
-  ];
+  return {
+    passed: health.passed,
+    checkedAt: health.checkedAt,
+    missingParentLinkCount: health.missingParentLinkCount,
+    depthChainAnomalyCount: health.depthChainAnomalyCount,
+    parentLinkSampleTruncated: health.parentLinkSampleTruncated,
+    depthChainSampleTruncated: health.depthChainSampleTruncated,
+  };
 });
 
-// 健康度统计数据
-const healthStatsData = computed(() => {
-  const stats = data.value?.healthStats;
-  if (!stats) {
-    return [];
-  }
-  return [stats];
-});
+/** 健康度统计（单条） */
+const healthStatsData = computed(() => data.value?.healthStats ?? {});
 
 onMounted(() => {
   reload();

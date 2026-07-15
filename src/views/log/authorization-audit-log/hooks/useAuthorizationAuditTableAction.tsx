@@ -4,12 +4,12 @@ import {
   deleteAuthorizationAudit,
   getAuthorizationAuditDetail,
 } from '@/api/log/authorization-audit';
+import { Description } from '@/components/ui/Description';
 import { addDialog } from '@/components/ui/Dialog';
-import useBatchDeleteAction from '@/shared/composables/table/useBatchDeleteAction';
 import { errorMessage } from '@/services/feedback/message';
-import AuthorizationAuditDetailDialog from '@/views/log/authorization-audit-log/components/AuthorizationAuditDetailDialog.vue';
+import useBatchDeleteAction from '@/shared/composables/table/useBatchDeleteAction';
+import useAuthorizationAuditDetailColumns from '@/views/log/authorization-audit-log/hooks/useAuthorizationAuditDetailColumns';
 import { useDebounceFn } from '@vueuse/core';
-import { h } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 /**
@@ -20,6 +20,7 @@ import { useI18n } from 'vue-i18n';
 function useAuthorizationAuditTableAction(deps: TableActionWithSelectionDeps) {
   const { fetchTableData, selectedRows } = deps;
   const { t } = useI18n();
+  const { detailColumns } = useAuthorizationAuditDetailColumns();
 
   // 删除操作
   const { deleteBatchRows } = useBatchDeleteAction({
@@ -45,7 +46,7 @@ function useAuthorizationAuditTableAction(deps: TableActionWithSelectionDeps) {
         closeOnClickModal: false,
         closeOnPressEscape: false,
         hideFooter: true,
-        contentRenderer: () => h(AuthorizationAuditDetailDialog, { data: detailData }),
+        contentRenderer: () => <Description column={2} columns={detailColumns.value} data={detailData ?? {}} />,
       });
     } catch (error: unknown) {
       errorMessage(error, { defaultI18nKey: 'authorizationAudit.loadFailed' });

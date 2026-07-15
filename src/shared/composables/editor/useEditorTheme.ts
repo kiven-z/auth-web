@@ -12,7 +12,7 @@ export interface EditorTheme {
 }
 
 /**
- * 统一导出 md-editor / Monaco / wangEditor 等共用明暗状态
+ * 统一导出 md-editor / Monaco 等共用明暗状态
  * @returns 编辑器主题
  */
 export function useEditorTheme(): EditorTheme {

@@ -28,26 +28,28 @@ export function useEmailTemplateTableMoreAction(options: TableActionDeps) {
    * 打开 require_fields 维护弹窗
    * @param row 邮件模板行数据
    */
-  const openRequireFields = (row: EmailTemplatePageRow) =>
-    openSharedRequireFields({
+  const openRequireFields = (row: EmailTemplatePageRow) => {
+    return openSharedRequireFields({
       id: row.id,
       channel: EMAIL_TEMPLATE_CHANNEL,
       fetchTableData,
       loadFailedI18nKey: 'emailTemplate.loadFailed',
     });
+  };
 
   /**
    * 打开测试发送弹窗
    * @param row 邮件模板行数据
    */
-  const openTestSend = (row: EmailTemplatePageRow) =>
-    openSharedTestSend({
+  const openTestSend = (row: EmailTemplatePageRow) => {
+    return openSharedTestSend({
       id: row.id,
       channel: EMAIL_TEMPLATE_CHANNEL,
       loadFailedI18nKey: 'emailTemplate.loadFailed',
       targetLabelI18nKey: 'emailTemplate.testSendEmail',
       targetPlaceholderI18nKey: 'emailTemplate.testSendEmailPlaceholder',
     });
+  };
 
   /**
    * 打开 Monaco 正文编辑弹窗
@@ -75,10 +77,7 @@ export function useEmailTemplateTableMoreAction(options: TableActionDeps) {
           successI18nKey: 'tips.editSuccess',
           requireId: true,
           onSubmit: async (formPayload) => {
-            await updateEmailTemplateContent({
-              id: formPayload.id!,
-              content: formPayload.content ?? '',
-            });
+            await updateEmailTemplateContent({ id: formPayload.id!, content: formPayload.content ?? '' });
             await fetchTableData();
           },
         }),

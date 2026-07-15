@@ -55,9 +55,7 @@ authorizationInvalidation:
   retrySuccess: Manual retry dispatched successfully
   retryFailed: Manual retry executed but dispatch still failed
   releaseClaimSuccess: Processing placeholder released
-  viewLinkedEvent: View linked idempotency event
   viewLinkedOutbox: View linked outbox record
-  linkedEventNotFound: No linked idempotency event found
   linkedOutboxNotFound: No linked outbox record found
   processingEnum:
     'true': Processing

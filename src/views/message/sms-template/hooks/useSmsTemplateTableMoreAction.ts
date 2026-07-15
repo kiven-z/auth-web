@@ -18,26 +18,28 @@ export function useSmsTemplateTableMoreAction(options: TableActionDeps) {
    * 打开 require_fields 维护弹窗
    * @param row 短信模板行数据
    */
-  const openRequireFields = (row: MessageTemplatePageRow) =>
-    openSharedRequireFields({
+  const openRequireFields = (row: MessageTemplatePageRow) => {
+    return openSharedRequireFields({
       id: row.id,
       channel: SMS_TEMPLATE_CHANNEL,
       fetchTableData,
       loadFailedI18nKey: 'smsTemplate.loadFailed',
     });
+  };
 
   /**
    * 打开测试发送弹窗
    * @param row 短信模板行数据
    */
-  const openTestSend = (row: MessageTemplatePageRow) =>
-    openSharedTestSend({
+  const openTestSend = (row: MessageTemplatePageRow) => {
+    return openSharedTestSend({
       id: row.id,
       channel: SMS_TEMPLATE_CHANNEL,
       loadFailedI18nKey: 'smsTemplate.loadFailed',
       targetLabelI18nKey: 'smsTemplate.testSendPhone',
       targetPlaceholderI18nKey: 'smsTemplate.testSendPhonePlaceholder',
     });
+  };
 
   return {
     openRequireFields,

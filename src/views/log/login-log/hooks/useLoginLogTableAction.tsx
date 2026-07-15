@@ -1,10 +1,10 @@
 import type { TableActionWithSelectionDeps } from '@/api/common';
 import { deleteLoginLog, getLoginLogDetail, type LoginLogPageRow } from '@/api/log/login-log';
+import { Description } from '@/components/ui/Description';
 import { addDialog } from '@/components/ui/Dialog';
-import useBatchDeleteAction from '@/shared/composables/table/useBatchDeleteAction';
 import { errorMessage } from '@/services/feedback/message';
-import LoginLogDetailDialog from '@/views/log/login-log/components/LoginLogDetailDialog.vue';
-import { h } from 'vue';
+import useBatchDeleteAction from '@/shared/composables/table/useBatchDeleteAction';
+import useLoginLogDetailColumns from '@/views/log/login-log/hooks/useLoginLogDetailColumns';
 import { useI18n } from 'vue-i18n';
 
 /**
@@ -15,6 +15,7 @@ import { useI18n } from 'vue-i18n';
 function useLoginLogTableAction(deps: TableActionWithSelectionDeps) {
   const { fetchTableData, selectedRows } = deps;
   const { t } = useI18n();
+  const { detailColumns } = useLoginLogDetailColumns();
   const { deleteBatchRows } = useBatchDeleteAction({
     selectedRows,
     deleteApi: deleteLoginLog,
@@ -36,7 +37,7 @@ function useLoginLogTableAction(deps: TableActionWithSelectionDeps) {
         closeOnClickModal: false,
         closeOnPressEscape: false,
         hideFooter: true,
-        contentRenderer: () => h(LoginLogDetailDialog, { data: detailData }),
+        contentRenderer: () => <Description column={2} columns={detailColumns.value} data={detailData ?? {}} />,
       });
     } catch (error: unknown) {
       errorMessage(error, { defaultI18nKey: 'loginLog.message.loadFailed' });

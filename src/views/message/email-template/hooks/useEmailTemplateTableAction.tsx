@@ -116,7 +116,6 @@ function useEmailTemplateTableAction(deps: TableActionWithSelectionDeps) {
           channel={EMAIL_TEMPLATE_CHANNEL}
           columns={detailColumns.value}
           contentLabel={t('emailTemplate.content')}
-          frameTitle="email-template-rendered-content"
         />
       ),
     });

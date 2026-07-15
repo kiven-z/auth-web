@@ -16,13 +16,14 @@ export function useInAppTemplateTableMoreAction(options: TableActionDeps) {
    * 打开 require_fields 维护弹窗
    * @param row 站内信模板行数据
    */
-  const openRequireFields = (row: MessageTemplatePageRow) =>
-    openSharedRequireFields({
+  const openRequireFields = (row: MessageTemplatePageRow) => {
+    return openSharedRequireFields({
       id: row.id,
       channel: IN_APP_TEMPLATE_CHANNEL,
       fetchTableData,
       loadFailedI18nKey: 'inAppTemplate.loadFailed',
     });
+  };
 
   return {
     openRequireFields,
