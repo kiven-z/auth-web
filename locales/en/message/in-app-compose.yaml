@@ -1,0 +1,40 @@
+inAppCompose:
+  pageTitle: Compose in-app message
+  sendFailed: Failed to send in-app message
+  sendSuccess: Sent successfully
+  sendButton: Send now
+  importTemplate: Import from template
+  importTemplateDialogTitle: Select in-app template
+  importTemplateConfirm: Import
+  importContent: Import original
+  importPreview: Import preview
+  importTemplateFailed: Failed to load template
+  templateCodeTrace: Source template
+  recipientScope: Recipients
+  scope:
+    user: Specific users
+    post: Specific posts
+    dept: Specific departments
+    all: All users
+  includeChildren: Include sub-departments
+  selectUsers: Select users
+  selectPosts: Select posts
+  selectDepts: Select departments
+  allScopeHint: Message will be sent to all enabled users. Confirm before submitting.
+  title: Title
+  body: Body
+  contentType: Content type
+  bizType: Business type
+  linkUrl: Link URL
+  placeholder:
+    title: Enter message title
+    bizType: Optional, e.g. NOTICE
+    linkUrl: Optional URL when notification is clicked
+    selectUsers: Search users by keyword
+    selectPosts: Search posts by keyword
+    selectDepts: Select departments
+  rules:
+    recipientScopeIds: Select at least one recipient target
+    title: Title is required
+    body: Body is required
+    contentType: Content type is required

@@ -14,7 +14,7 @@ import { useI18n } from 'vue-i18n';
 import { COMMON_BOOLEAN_STATUS_FILTER_OPTIONS } from '@/shared/constants/boolean-status';
 import { EMAIL_TEMPLATE_PERMS } from '@/views/message/email-template/constants/permissions';
 import { useEmailTemplateTableMoreAction } from '@/views/message/email-template/hooks/useEmailTemplateTableMoreAction';
-import { EMAIL_TEMPLATE_CHANNEL } from '@/views/message/email-template/constants/channel';
+import { EMAIL_TEMPLATE_CHANNEL } from '@/views/message/_shared/constants/channel';
 
 defineOptions({
   name: 'SystemEmailTemplate',

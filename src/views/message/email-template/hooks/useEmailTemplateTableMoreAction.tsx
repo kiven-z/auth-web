@@ -8,7 +8,7 @@ import { errorMessage } from '@/services/feedback/message';
 import { useOpenMessageTemplateRequireFields } from '@/views/message/_shared/hooks/useOpenMessageTemplateRequireFields';
 import { useOpenMessageTemplateTestSend } from '@/views/message/_shared/hooks/useOpenMessageTemplateTestSend';
 import EmailTemplateMonacoOnlyDrawer from '@/views/message/email-template/components/EmailTemplateMonacoOnlyDrawer.vue';
-import { EMAIL_TEMPLATE_CHANNEL } from '@/views/message/email-template/constants/channel';
+import { EMAIL_TEMPLATE_CHANNEL } from '@/views/message/_shared/constants/channel';
 import { ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 

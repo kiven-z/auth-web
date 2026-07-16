@@ -14,7 +14,7 @@ import { operationConfirm } from '@/services/feedback/dialog';
 import { errorMessage, message } from '@/services/feedback/message';
 import MessageTemplateDetailView from '@/views/message/_shared/components/MessageTemplateDetailView.vue';
 import InAppTemplateDrawer from '@/views/message/in-app-template/components/InAppTemplateDrawer.vue';
-import { IN_APP_TEMPLATE_CHANNEL } from '@/views/message/in-app-template/constants/channel';
+import { IN_APP_TEMPLATE_CHANNEL } from '@/views/message/_shared/constants/channel';
 import useInAppTemplateDetailColumns from '@/views/message/in-app-template/hooks/useInAppTemplateDetailColumns';
 import { ref } from 'vue';
 import { useI18n } from 'vue-i18n';
@@ -103,6 +103,7 @@ function useInAppTemplateTableAction(deps: TableActionWithSelectionDeps) {
   const openDetailDialog = (row: MessageTemplatePageRow) => {
     addDialog({
       title: t('inAppTemplate.detailDialogTitle'),
+      width: '80%',
       draggable: true,
       fullscreenIcon: true,
       closeOnClickModal: false,

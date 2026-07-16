@@ -14,7 +14,7 @@ import { operationConfirm } from '@/services/feedback/dialog';
 import { errorMessage, message } from '@/services/feedback/message';
 import MessageTemplateDetailView from '@/views/message/_shared/components/MessageTemplateDetailView.vue';
 import EmailTemplateDrawer from '@/views/message/email-template/components/EmailTemplateDrawer.vue';
-import { EMAIL_TEMPLATE_CHANNEL } from '@/views/message/email-template/constants/channel';
+import { EMAIL_TEMPLATE_CHANNEL } from '@/views/message/_shared/constants/channel';
 import useEmailTemplateDetailColumns from '@/views/message/email-template/hooks/useEmailTemplateDetailColumns';
 import { ref } from 'vue';
 import { useI18n } from 'vue-i18n';

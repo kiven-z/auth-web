@@ -7,7 +7,7 @@ import {
 import AuthPagedTable, { usePaginationState } from '@/components/business/AuthPagedTable';
 import { useFormPlaceholder } from '@/shared/composables/i18n/useFormPlaceholder';
 import { COMMON_BOOLEAN_STATUS_FILTER_OPTIONS } from '@/shared/constants/boolean-status';
-import { SMS_TEMPLATE_CHANNEL } from '@/views/message/sms-template/constants/channel';
+import { SMS_TEMPLATE_CHANNEL } from '@/views/message/_shared/constants/channel';
 import { SMS_TEMPLATE_PERMS } from '@/views/message/sms-template/constants/permissions';
 import useSmsTemplateTableAction from '@/views/message/sms-template/hooks/useSmsTemplateTableAction';
 import useSmsTemplateTableColumns from '@/views/message/sms-template/hooks/useSmsTemplateTableColumns';

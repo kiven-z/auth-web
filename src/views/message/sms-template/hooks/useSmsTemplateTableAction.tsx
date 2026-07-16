@@ -13,7 +13,7 @@ import { operationConfirm } from '@/services/feedback/dialog';
 import { errorMessage, message } from '@/services/feedback/message';
 import MessageTemplateDetailView from '@/views/message/_shared/components/MessageTemplateDetailView.vue';
 import SmsTemplateDialog from '@/views/message/sms-template/components/SmsTemplateDialog.vue';
-import { SMS_TEMPLATE_CHANNEL } from '@/views/message/sms-template/constants/channel';
+import { SMS_TEMPLATE_CHANNEL } from '@/views/message/_shared/constants/channel';
 import useSmsTemplateDetailColumns from '@/views/message/sms-template/hooks/useSmsTemplateDetailColumns';
 import { ref } from 'vue';
 import { useI18n } from 'vue-i18n';

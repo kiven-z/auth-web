@@ -1,7 +1,7 @@
 import type { TableActionDeps } from '@/api/common';
 import type { MessageTemplatePageRow } from '@/api/message/message-template';
 import { useOpenMessageTemplateRequireFields } from '@/views/message/_shared/hooks/useOpenMessageTemplateRequireFields';
-import { IN_APP_TEMPLATE_CHANNEL } from '@/views/message/in-app-template/constants/channel';
+import { IN_APP_TEMPLATE_CHANNEL } from '@/views/message/_shared/constants/channel';
 
 /**
  * 站内信模板表格「更多」菜单相关操作

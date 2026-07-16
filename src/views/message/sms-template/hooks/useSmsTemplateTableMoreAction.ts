@@ -2,7 +2,7 @@ import type { TableActionDeps } from '@/api/common';
 import type { MessageTemplatePageRow } from '@/api/message/message-template';
 import { useOpenMessageTemplateRequireFields } from '@/views/message/_shared/hooks/useOpenMessageTemplateRequireFields';
 import { useOpenMessageTemplateTestSend } from '@/views/message/_shared/hooks/useOpenMessageTemplateTestSend';
-import { SMS_TEMPLATE_CHANNEL } from '@/views/message/sms-template/constants/channel';
+import { SMS_TEMPLATE_CHANNEL } from '@/views/message/_shared/constants/channel';
 
 /**
  * 短信模板表格「更多」菜单相关操作
