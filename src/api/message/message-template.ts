@@ -77,7 +77,7 @@ export interface MessageTemplateDetailVO extends BaseResponseDetail {
  */
 export function getMessageTemplatePage(params: MessageTemplatePageQuery) {
   return http.get<PageResponse<MessageTemplatePageRow>, AxiosRequestConfig<MessageTemplatePageQuery>>(
-    '/system/message-template',
+    '/system/message/template',
     { params }
   );
 }
@@ -90,7 +90,7 @@ export function getMessageTemplatePage(params: MessageTemplatePageQuery) {
  */
 export function getMessageTemplateById(id: string, channel: MessageChannelCode) {
   return http.get<MessageTemplateDetailVO, AxiosRequestConfig<{ channel: MessageChannelCode }>>(
-    `/system/message-template/${id}`,
+    `/system/message/template/${id}`,
     { params: { channel } }
   );
 }
@@ -102,7 +102,7 @@ export function getMessageTemplateById(id: string, channel: MessageChannelCode) 
  * @returns 删除响应
  */
 export function batchDeleteMessageTemplates(ids: string[], channel: MessageChannelCode) {
-  return http.request<string>('delete', '/system/message-template', {
+  return http.request<string>('delete', '/system/message/template', {
     data: ids,
     params: { channel },
   });
@@ -123,7 +123,7 @@ export interface MessageTemplateBatchStatusRequest {
  * @returns 启停响应
  */
 export function batchUpdateMessageTemplateStatus(data: MessageTemplateBatchStatusRequest) {
-  return http.request<string>('put', '/system/message-template/status', { data });
+  return http.request<string>('put', '/system/message/template/status', { data });
 }
 
 /**
@@ -143,7 +143,7 @@ export interface MessageTemplateRequireFieldsUpdateRequest {
  */
 export function getMessageTemplateRequireFields(id: string, channel: MessageChannelCode) {
   return http.get<MessageTemplateRequireFieldRow[], AxiosRequestConfig<{ channel: MessageChannelCode }>>(
-    `/system/message-template/${id}/require-fields`,
+    `/system/message/template/${id}/require-fields`,
     { params: { channel } }
   );
 }
@@ -154,7 +154,7 @@ export function getMessageTemplateRequireFields(id: string, channel: MessageChan
  * @returns 更新响应
  */
 export function updateMessageTemplateRequireFields(data: MessageTemplateRequireFieldsUpdateRequest) {
-  return http.request<string>('put', '/system/message-template/require-fields', { data });
+  return http.request<string>('put', '/system/message/template/require-fields', { data });
 }
 
 /**
@@ -173,5 +173,5 @@ export interface MessageTemplateTestSendRequest {
  * @returns 测试发送响应
  */
 export function testSendMessageTemplate(data: MessageTemplateTestSendRequest) {
-  return http.post<string, MessageTemplateTestSendRequest>('/system/message-template/test-send', { data });
+  return http.post<string, MessageTemplateTestSendRequest>('/system/message/template/test-send', { data });
 }

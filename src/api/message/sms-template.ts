@@ -28,7 +28,7 @@ export type SmsTemplateSaveRequest = SmsTemplateFormModel;
  * @returns 新建响应
  */
 export function createSmsTemplate(data: SmsTemplateSaveRequest): Promise<string> {
-  return http.post<string, SmsTemplateSaveRequest>('/system/sms-template', { data });
+  return http.post<string, SmsTemplateSaveRequest>('/system/message/sms-template', { data });
 }
 
 /**
@@ -37,5 +37,5 @@ export function createSmsTemplate(data: SmsTemplateSaveRequest): Promise<string>
  * @returns 更新响应
  */
 export function updateSmsTemplate(data: SmsTemplateSaveRequest): Promise<string> {
-  return http.request<string>('put', '/system/sms-template', { data });
+  return http.request<string>('put', '/system/message/sms-template', { data });
 }

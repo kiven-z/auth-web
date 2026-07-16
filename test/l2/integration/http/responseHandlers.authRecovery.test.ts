@@ -63,7 +63,7 @@ describe('responseHandlers auth recovery integration', () => {
 
     const client = buildClient();
     const result = await client.request({
-      url: 'system/email-template/page',
+      url: 'system/message/email-template',
       method: 'get',
       adapter: rejectedAdapter(401, {
         code: 40104,
@@ -88,7 +88,7 @@ describe('responseHandlers auth recovery integration', () => {
 
     await expect(
       client.request({
-        url: 'system/email-template/page',
+        url: 'system/message/email-template',
         method: 'get',
         adapter: rejectedAdapter(401, {
           code: 40103,
@@ -113,7 +113,7 @@ describe('responseHandlers auth recovery integration', () => {
 
     await expect(
       client.request({
-        url: 'system/email-template/page',
+        url: 'system/message/email-template',
         method: 'get',
         adapter: rejectedAdapter(409, {
           code: 406,
@@ -140,7 +140,7 @@ describe('responseHandlers auth recovery integration', () => {
 
     await expect(
       client.request({
-        url: 'system/email-template/page',
+        url: 'system/message/email-template',
         method: 'get',
         adapter: rejectedAdapter(401, {
           code: 40104,

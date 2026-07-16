@@ -69,7 +69,7 @@ export interface EmailTemplateRenderRequest {
  * @returns 离线渲染模板响应
  */
 export function renderEmailTemplate(data: EmailTemplateRenderRequest): Promise<string> {
-  return http.post<string, EmailTemplateRenderRequest>('/system/email-template/render', { data });
+  return http.post<string, EmailTemplateRenderRequest>('/system/message/email-template/render', { data });
 }
 
 /**
@@ -78,7 +78,7 @@ export function renderEmailTemplate(data: EmailTemplateRenderRequest): Promise<s
  * @returns 新建邮件模板响应
  */
 export function createEmailTemplate(data: EmailTemplateSaveRequest): Promise<string> {
-  return http.post<string, EmailTemplateSaveRequest>('/system/email-template', { data });
+  return http.post<string, EmailTemplateSaveRequest>('/system/message/email-template', { data });
 }
 
 /**
@@ -87,7 +87,7 @@ export function createEmailTemplate(data: EmailTemplateSaveRequest): Promise<str
  * @returns 更新响应
  */
 export function updateEmailTemplate(data: EmailTemplateSaveRequest): Promise<string> {
-  return http.request<string>('put', '/system/email-template', { data });
+  return http.request<string>('put', '/system/message/email-template', { data });
 }
 
 /**
@@ -96,5 +96,5 @@ export function updateEmailTemplate(data: EmailTemplateSaveRequest): Promise<str
  * @returns 更新响应
  */
 export function updateEmailTemplateContent(data: EmailTemplateContentUpdateRequest): Promise<string> {
-  return http.request<string>('put', '/system/email-template/content', { data });
+  return http.request<string>('put', '/system/message/email-template/content', { data });
 }
