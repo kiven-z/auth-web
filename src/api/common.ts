@@ -1,25 +1,16 @@
 import type { Ref } from 'vue';
 
-/**
- * 与后端 {@code SortDirection} 一致
- */
 export type SortDirectionApi = 'ASC' | 'DESC';
 
-/**
- * 与后端 {@code SortSpec} 一致
- */
 export interface SortSpec {
   field: string;
   direction?: SortDirectionApi;
 }
 
-/**
- * 与后端 {@code ExportScope} 一致
- */
 export type ExportScope = 'CURRENT_PAGE' | 'PAGE_RANGE' | 'FULL_ASYNC';
 
 /**
- * 与后端 {@code ExportScopeQueryFields} 一致（导出范围参数）
+ * 导出范围参数
  */
 export interface ExportScopeQueryFields {
   /** 导出范围；未传时后端按 PAGE_RANGE 处理 */
@@ -43,9 +34,6 @@ export function mergePagedExportParams<TFilter extends object>(
   return { ...filter, ...scope };
 }
 
-/**
- * 与后端 PageResponse<T> 一致
- */
 export interface PageResponse<T> {
   pageNo: number;
   pageSize: number;
@@ -55,7 +43,7 @@ export interface PageResponse<T> {
 }
 
 /**
- * 与后端 {@code BaseResponse} 一致（Long 主键与用户 ID 序列化为 string）
+ * Long 主键与用户 ID 序列化为 string
  */
 export interface BaseResponse {
   id?: string;
@@ -83,9 +71,6 @@ export interface BaseResponseDetail extends BaseResponse {
   id: string;
 }
 
-/**
- * 与后端 PageRequest 一致
- */
 export interface TableActionDeps {
   fetchTableData: () => Promise<void>;
 }
@@ -103,7 +88,7 @@ export interface FormDialog<T> {
 }
 
 /**
- * 单行导入失败信息（对齐后端 {@code ImportRowError}）
+ * 单行导入失败信息
  */
 export interface ImportRowError {
   /** 行号（1-based，不含表头） */
@@ -113,7 +98,7 @@ export interface ImportRowError {
 }
 
 /**
- * Excel 批量导入结果（对齐后端 {@code SpreadsheetImportResult}）
+ * Excel 批量导入结果
  */
 export interface SpreadsheetImportResult {
   /** 是否全部成功 */

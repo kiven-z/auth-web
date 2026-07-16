@@ -4,7 +4,7 @@ import type { PageResponse } from '@/api/common';
 import { http } from '@/core/http';
 
 /**
- * 个人中心活跃会话（对齐 {@code MeUserSessionVO}）
+ * 个人中心活跃会话
  */
 export interface MeUserSession {
   sessionId: string;
@@ -22,7 +22,7 @@ export interface MeUserSession {
 }
 
 /**
- * 个人中心登录日志分页查询参数（对齐 {@code MeLoginLogPageQuery}）
+ * 个人中心登录日志分页查询参数
  */
 export interface MeLoginLogPageQuery {
   pageIndex?: number;
@@ -32,7 +32,7 @@ export interface MeLoginLogPageQuery {
 }
 
 /**
- * 当前用户资料更新请求（对齐 {@code MeProfileUpdateForm}）
+ * 当前用户资料更新请求
  */
 export interface MeProfileUpdateRequest {
   nickname: string;
@@ -44,14 +44,14 @@ export interface MeProfileUpdateRequest {
 }
 
 /**
- * 当前用户头像更新请求（对齐 {@code MeAvatarUpdateForm}）
+ * 当前用户头像更新请求
  */
 export interface MeAvatarUpdateRequest {
   avatar: string;
 }
 
 /**
- * 个人中心登录日志分页行（对齐 {@code MeLoginLogPageVO}）
+ * 个人中心登录日志分页行
  */
 export interface MeLoginLogPageRow {
   loginTime: string;

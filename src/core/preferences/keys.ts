@@ -1,4 +1,4 @@
-/** 与后端 UserPreferenceKeys 对齐的 UI 偏好配置键 */
+/** UI 偏好配置键 */
 export const UI_PREFERENCE_KEYS = {
   LOCALE: 'ui.locale',
   LAYOUT: 'ui.layout',

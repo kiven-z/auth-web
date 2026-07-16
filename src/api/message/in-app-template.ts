@@ -4,7 +4,7 @@ import { http } from '@/core/http';
 export type InAppTemplateContentType = 'TEXT' | 'MARKDOWN';
 
 /**
- * 站内信模板新增/编辑表单（对齐后端 InAppTemplateForm）
+ * 站内信模板新增/编辑表单
  */
 export interface InAppTemplateFormModel {
   id?: string;

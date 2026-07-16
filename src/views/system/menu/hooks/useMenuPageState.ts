@@ -4,7 +4,7 @@ import { useCreateModuleTableTreePageState } from '@/views/system/_shared/hooks/
 import { reactive, ref } from 'vue';
 
 /**
- * 列表行（与后端 SysMenuListVO 一致）
+ * 列表行
  */
 export type SysMenuRow = SysMenuListVO;
 

@@ -46,7 +46,7 @@ export interface userType {
   avatar?: string;
   username?: string;
   nickname?: string;
-  /** 用户 ID（与后端 Long 字符串化一致） */
+  /** 用户 ID（Long 字符串化） */
   userId?: string;
   roles?: Array<string>;
   permissions?: Array<string>;

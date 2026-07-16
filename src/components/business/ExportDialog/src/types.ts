@@ -1,4 +1,4 @@
-/** 导出范围（与后端 ExportScope 一致） */
+/** 导出范围 */
 export type ExportScope = 'CURRENT_PAGE' | 'PAGE_RANGE' | 'FULL_ASYNC';
 
 /** 导出范围查询字段（与 API 层 ExportScopeQueryFields 同构） */

@@ -1,11 +1,11 @@
-/** 用户账号状态码（与后端 {@code UserStatus} 一致） */
+/** 用户账号状态码 */
 export const USER_ACCOUNT_STATUS = {
   disabled: 0,
   normal: 1,
   locked: 2,
 } as const;
 
-/** 用户账号状态展示元数据（与后端 status 码一致） */
+/** 用户账号状态展示元数据 */
 export const USER_ACCOUNT_STATUS_META = {
   1: { labelKey: 'users.accountStatus.normal', tagType: 'success' },
   2: { labelKey: 'users.accountStatus.locked', tagType: 'warning' },
@@ -23,7 +23,7 @@ export function resolveUserAccountStatusMeta(status: number) {
   return USER_ACCOUNT_STATUS_META[status as keyof typeof USER_ACCOUNT_STATUS_META] ?? DEFAULT_USER_ACCOUNT_STATUS_META;
 }
 
-/** 用户列表状态筛选项：value 与后端 {@code SysUserPageQuery.status} 一致 */
+/** 用户列表状态筛选项 */
 export const USER_STATUS_FILTER_OPTIONS = [
   { value: 1, labelKey: 'users.accountStatus.normal' },
   { value: 0, labelKey: 'users.accountStatus.disabled' },

@@ -18,7 +18,7 @@ import type { AxiosRequestConfig } from 'axios';
 
 export type { SpreadsheetImportResult };
 
-/** 顶级部门 parentId（与后端一致） */
+/** 顶级部门 parentId */
 export const DEPT_ROOT_PARENT_ID = '0';
 
 /**
@@ -40,7 +40,7 @@ export interface SysDeptTableFilter {
 }
 
 /**
- * 部门列表行 / 扁平 VO（对齐列表 VO + BaseResponse）
+ * 部门列表行 / 扁平 VO
  */
 export interface SysDeptListVO extends BaseResponse {
   id: string;
@@ -67,7 +67,7 @@ export interface SysDeptPageQuery extends SysDeptTableFilter {
 }
 
 /**
- * 部门新增表单（对齐 {@code SysDeptForm} 创建场景）
+ * 部门新增表单（创建场景）
  */
 export interface SysDeptCreateForm {
   parentId: string;
@@ -86,7 +86,7 @@ export interface SysDeptUpdateForm extends SysDeptCreateForm {
 }
 
 /**
- * 部门移动表单（对齐 {@code SysDeptMoveForm}）
+ * 部门移动表单
  */
 export interface SysDeptMoveForm {
   /** 新父部门 ID；顶级传 0 */
@@ -94,7 +94,7 @@ export interface SysDeptMoveForm {
 }
 
 /**
- * 部门详情（对齐 {@code SysDeptDetailVO} + BaseResponse）
+ * 部门详情
  */
 export interface SysDeptDetail extends BaseResponseDetail {
   parentId: string;
@@ -213,7 +213,7 @@ export function putDeptRoles(deptId: string, data: GrantTableAssignRoleRequest):
 }
 
 /**
- * 闭包健康度统计（对齐 {@code DeptClosureHealthStatsVO}）
+ * 闭包健康度统计
  */
 export interface DeptClosureHealthStats {
   onlySelf: number;
@@ -223,7 +223,7 @@ export interface DeptClosureHealthStats {
 }
 
 /**
- * 父子直连缺失异常行（对齐 {@code DeptClosureParentLinkAnomalyVO}）
+ * 父子直连缺失异常行
  */
 export interface DeptClosureParentLinkAnomaly {
   id: string;
@@ -233,7 +233,7 @@ export interface DeptClosureParentLinkAnomaly {
 }
 
 /**
- * 深度链条异常行（对齐 {@code DeptClosureDepthChainAnomalyVO}）
+ * 深度链条异常行
  */
 export interface DeptClosureDepthChainAnomaly {
   id: string;
@@ -245,7 +245,7 @@ export interface DeptClosureDepthChainAnomaly {
 }
 
 /**
- * 部门闭包表健康检查（对齐 {@code DeptClosureHealthVO}）
+ * 部门闭包表健康检查
  */
 export interface DeptClosureHealth {
   passed: boolean;

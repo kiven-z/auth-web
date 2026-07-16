@@ -1,5 +1,5 @@
 /**
- * 授权失效幂等事件按钮权限码（对齐后端 {@code AuthorizationInvalidationEventOpsController}）
+ * 授权失效幂等事件按钮权限码
  */
 export const SYS_AUTH_INVALIDATION_EVENT_PERMS = {
   /** 分页查询 */
@@ -11,8 +11,7 @@ export const SYS_AUTH_INVALIDATION_EVENT_PERMS = {
 } as const;
 
 /**
- * 授权失效 Outbox 按钮权限码（对齐后端 {@code AuthorizationInvalidationOutboxOpsController}、
- * {@code AuthorizationInvalidationStatsOpsController}）
+ * 授权失效 Outbox 按钮权限码
  */
 export const SYS_AUTH_INVALIDATION_OUTBOX_PERMS = {
   /** 分页查询、运维统计摘要 */

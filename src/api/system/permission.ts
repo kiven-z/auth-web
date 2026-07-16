@@ -64,7 +64,7 @@ export function exportPermissionExcel(filter: SysPermissionPageQuery, scope: Exp
 }
 
 /**
- * 权限详情（对齐 {@code SysPermissionDetailVO} + BaseResponse）
+ * 权限详情
  */
 export interface SysPermissionDetail extends BaseResponseDetail {
   permissionCode: string;
@@ -76,7 +76,7 @@ export interface SysPermissionDetail extends BaseResponseDetail {
 }
 
 /**
- * 权限新增表单（对齐 {@code SysPermissionCreateForm}）
+ * 权限新增表单
  */
 export interface SysPermissionCreateForm {
   permissionCode: string;

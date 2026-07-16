@@ -1,5 +1,5 @@
 /**
- * 权限管理模块按钮权限码（对齐后端 {@code SysPermissionController}）
+ * 权限管理模块按钮权限码
  */
 export const SYS_PERMISSION_PERMS = {
   /** 分页查询 */

@@ -1,9 +1,9 @@
 /**
- * grant_table 与角色分配抽屉共用类型（对齐后端 ReferenceVO）
+ * grant_table 与角色分配抽屉共用类型
  */
 
 /**
- * 角色关联回显（对齐 {@code RoleReferenceVO}）
+ * 角色关联回显
  */
 export interface RoleReference {
   id: string;
@@ -13,7 +13,7 @@ export interface RoleReference {
 }
 
 /**
- * 用户关联回显（对齐 {@code UserReferenceVO}）
+ * 用户关联回显
  */
 export interface UserReference {
   id: string;
@@ -26,7 +26,7 @@ export interface UserReference {
 }
 
 /**
- * 部门关联回显（对齐 {@code DeptReferenceVO}）
+ * 部门关联回显
  */
 export interface DeptReference {
   id: string;
@@ -36,7 +36,7 @@ export interface DeptReference {
 }
 
 /**
- * 岗位关联回显（对齐 {@code PostReferenceVO}）
+ * 岗位关联回显
  */
 export interface PostReference {
   id: string;
@@ -46,7 +46,7 @@ export interface PostReference {
 }
 
 /**
- * 权限关联回显（对齐 {@code PermissionReferenceVO}）
+ * 权限关联回显
  */
 export interface PermissionReference {
   id: string;
@@ -56,7 +56,7 @@ export interface PermissionReference {
 }
 
 /**
- * 用户-部门关联回显（对齐 {@code UserDeptReferenceVO}）
+ * 用户-部门关联回显
  */
 export type UserDeptReference = DeptReference & {
   isPrimary: boolean;
@@ -64,7 +64,7 @@ export type UserDeptReference = DeptReference & {
 };
 
 /**
- * 用户-岗位关联回显（对齐 {@code UserPostReferenceVO}）
+ * 用户-岗位关联回显
  */
 export type UserPostReference = PostReference & {
   isPrimary: boolean;
@@ -72,7 +72,7 @@ export type UserPostReference = PostReference & {
 };
 
 /**
- * 部门详情-关联用户回显（对齐 {@code DeptBoundUserReferenceVO}）
+ * 部门详情-关联用户回显
  */
 export type DeptBoundUserReference = UserReference & {
   isPrimary: boolean;
@@ -80,7 +80,7 @@ export type DeptBoundUserReference = UserReference & {
 };
 
 /**
- * 岗位详情-关联用户回显（对齐 {@code PostBoundUserReferenceVO}）
+ * 岗位详情-关联用户回显
  */
 export type PostBoundUserReference = UserReference & {
   isPrimary: boolean;
@@ -88,21 +88,21 @@ export type PostBoundUserReference = UserReference & {
 };
 
 /**
- * 全量覆盖主体角色授权请求（对齐 {@code GrantTableAssignRoleForm}）
+ * 全量覆盖主体角色授权请求
  */
 export interface GrantTableAssignRoleRequest {
   roleIds: string[];
 }
 
 /**
- * 菜单已分配角色回显（对齐 {@code MenuAssignedRoleReferenceVO}）
+ * 菜单已分配角色回显
  */
 export type MenuAssignedRoleRow = RoleReference & {
   assigned: boolean;
 };
 
 /**
- * 菜单全量覆盖角色请求（对齐 {@code SysMenuAssignRoleForm}）
+ * 菜单全量覆盖角色请求
  */
 export interface MenuAssignRoleRequest {
   roleIds: string[];

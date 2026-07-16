@@ -7,7 +7,7 @@ export const MenuTypeEnums = {
 export type MenuTypeValue = (typeof MenuTypeEnums)[keyof typeof MenuTypeEnums];
 
 /**
- * 菜单类型选项：筛选、分段控件、表格 Tag 共用；value 与后端一致，labelKey 供 `t(labelKey)` 使用。
+ * 菜单类型选项：筛选、分段控件、表格 Tag 共用；labelKey 供 `t(labelKey)` 使用。
  */
 export const MENU_TYPE_OPTIONS = [
   { value: MenuTypeEnums.MENU, labelKey: 'sysMenu.menuTypeMenu', tagType: 'primary' as const },

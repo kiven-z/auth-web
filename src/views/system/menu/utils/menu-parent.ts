@@ -1,2 +1,2 @@
-/** 顶级菜单 parentId（与后端一致） */
+/** 顶级菜单 parentId */
 export const MENU_ROOT_PARENT_ID = '0';

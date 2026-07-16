@@ -1,7 +1,7 @@
 import { http } from '@/core/http';
 
 /**
- * 短信模板新增/编辑弹窗表单（对齐 SmsTemplateForm）
+ * 短信模板新增/编辑弹窗表单
  */
 export interface SmsTemplateFormModel {
   id?: string;

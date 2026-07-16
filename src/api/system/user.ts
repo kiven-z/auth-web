@@ -4,7 +4,7 @@ import { http } from '@/core/http';
 import type { AxiosRequestConfig } from 'axios';
 
 /**
- * 用户分页查询条件（对齐 {@code SysUserPageQuery}）
+ * 用户分页查询条件
  */
 export interface SysUserPageQuery {
   username?: string;
@@ -19,7 +19,7 @@ export interface SysUserPageQuery {
 }
 
 /**
- * 用户分页行（对齐 {@code SysUserPageVO} + BaseResponse）
+ * 用户分页行
  */
 export interface SysUserPageRow extends BaseResponsePageRow {
   username: string;
@@ -151,7 +151,7 @@ export function refreshUserAuthorization(ids: string[]): Promise<void> {
 }
 
 /**
- * 管理员更新用户头像（对齐 {@code SysUserAvatarUpdateForm}）
+ * 管理员更新用户头像
  */
 export interface SysUserAvatarUpdateRequest {
   userId: string;

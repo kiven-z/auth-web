@@ -1,4 +1,4 @@
-/** 用户性别码（与后端 {@code GenderStatus} 一致） */
+/** 用户性别码 */
 export const USER_GENDER = {
   unknown: 0,
   male: 1,

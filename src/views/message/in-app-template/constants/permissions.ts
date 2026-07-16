@@ -1,5 +1,5 @@
 /**
- * 站内信模板模块按钮权限码（与 message:template:* 对齐）
+ * 站内信模板模块按钮权限码
  */
 export const IN_APP_TEMPLATE_PERMS = {
   /** 分页查询 */

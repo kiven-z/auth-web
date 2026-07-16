@@ -21,7 +21,7 @@ import { http } from '@/core/http';
 export type { SpreadsheetImportResult };
 
 /**
- * 岗位分页查询参数（对齐 {@code SysPostQuery}）
+ * 岗位分页查询参数
  */
 export interface SysPostPageQuery {
   pageIndex?: number;
@@ -34,7 +34,7 @@ export interface SysPostPageQuery {
 }
 
 /**
- * 分页行（对齐 {@code SysPostPageResponse} + BaseResponse）
+ * 分页行
  */
 export interface SysPostPageRow extends BaseResponsePageRow {
   deptId: string;
@@ -46,7 +46,7 @@ export interface SysPostPageRow extends BaseResponsePageRow {
 }
 
 /**
- * 岗位保存表单（对齐 {@code SysPostForm}）
+ * 岗位保存表单
  */
 export interface SysPostCreateForm {
   deptId: string;
@@ -68,7 +68,7 @@ export interface SysPostUpdateForm extends SysPostCreateForm {
 export type SysPostFormModel = SysPostCreateForm | SysPostUpdateForm;
 
 /**
- * 岗位详情（对齐 {@code SysPostDetailVO} + BaseResponse）
+ * 岗位详情
  */
 export interface SysPostDetail extends BaseResponseDetail {
   deptId: string;
@@ -83,7 +83,7 @@ export interface SysPostDetail extends BaseResponseDetail {
 }
 
 /**
- * 岗位远程搜索项（对齐 {@code SysPostSearchItemResponse}）
+ * 岗位远程搜索项
  */
 export interface SysPostSearchOption {
   id: string;

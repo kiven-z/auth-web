@@ -1,4 +1,4 @@
-/** 管理员通配权限（与后端 PermissionConstant.ADMIN_WILDCARD_PERMISSIONS 一致） */
+/** 管理员通配权限 */
 const ADMIN_WILDCARD_PERMISSIONS = ['*', '*:*', '*:*:*', '*:*:*:*'] as const;
 
 const ASTERISK = '*';
@@ -15,7 +15,7 @@ function isAdminPermission(userPermissions: string[]): boolean {
 }
 
 /**
- * 单条授予权限是否满足所需权限（对齐后端 PermissionMatcher.matches）
+ * 单条授予权限是否满足所需权限
  * @param granted 授予的权限
  * @param required 所需的权限
  * @returns 是否匹配

@@ -3,7 +3,7 @@ import { http } from '@/core/http';
 import type { AxiosRequestConfig } from 'axios';
 
 /**
- * 用户部门关联分页查询（对齐 {@code UserDeptPageQuery}）
+ * 用户部门关联分页查询
  */
 export interface UserDeptPageQuery {
   deptName?: string;
@@ -14,7 +14,7 @@ export interface UserDeptPageQuery {
 }
 
 /**
- * 用户部门关联分页行（对齐 {@code UserDeptPageVO}）
+ * 用户部门关联分页行
  */
 export interface UserDeptPageRow extends BaseResponsePageRow {
   userId: string;
@@ -27,7 +27,7 @@ export interface UserDeptPageRow extends BaseResponsePageRow {
 }
 
 /**
- * 用户部门关联表单（对齐 {@code UserDeptAssignForm}）
+ * 用户部门关联表单
  */
 export interface UserDeptAssignForm {
   deptId?: string;

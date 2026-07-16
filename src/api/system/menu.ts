@@ -4,7 +4,7 @@ import type { AxiosRequestConfig } from 'axios';
 
 import { http } from '@/core/http';
 
-/** 菜单新增表单（对齐 {@code SysMenuSaveForm} 创建场景，不含 id） */
+/** 菜单新增表单（创建场景，不含 id） */
 export interface MenuCreateForm {
   parentId?: string | null;
   /** 菜单类型 0/1/2 */
@@ -82,7 +82,7 @@ export interface SysMenuListVO extends BaseResponse {
 export type SysMenuTreeNode = SysMenuListVO & { children?: SysMenuTreeNode[] };
 
 /**
- * 表格分页查询（字段需与后端分页接口一致，见 {@link getMenuPage}）
+ * 表格分页查询（字段见 {@link getMenuPage}）
  */
 export interface SysMenuPageQuery extends SysMenuListQuery {
   pageIndex?: number;

@@ -1,5 +1,5 @@
 /**
- * 任务调度日志模块按钮权限码（对齐后端 {@code LogJobController}）
+ * 任务调度日志模块按钮权限码
  */
 export const SYS_JOB_LOG_PERMS = {
   /** 分页查询 */

@@ -2,7 +2,7 @@ import { http } from '@/core/http';
 import type { AxiosRequestConfig } from 'axios';
 
 /**
- * 用户活跃会话（对齐 {@code UserSessionIndex}）
+ * 用户活跃会话
  */
 export interface UserSessionIndex {
   userId?: string;

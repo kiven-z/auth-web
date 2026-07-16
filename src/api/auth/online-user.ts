@@ -3,7 +3,7 @@ import { http } from '@/core/http';
 import type { AxiosRequestConfig } from 'axios';
 
 /**
- * 在线用户分页查询参数（对齐 {@code OnlineUserPageQuery}）
+ * 在线用户分页查询参数
  */
 export interface OnlineUserPageQuery {
   pageIndex?: number;
@@ -12,7 +12,7 @@ export interface OnlineUserPageQuery {
 }
 
 /**
- * 在线用户分页行（对齐 {@code OnlineUserPageVO}）
+ * 在线用户分页行
  */
 export interface OnlineUserPageRow {
   userId?: string;

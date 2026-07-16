@@ -17,7 +17,7 @@ function normalizeRequiredPermissions(value: string | Array<string>): string[] {
 /**
  * 是否有按钮级别的权限。
  *
- * 仅依据当前用户 `permissions` 判断；匹配规则与后端 PermissionMatcher / 管理员通配符一致。
+ * 仅依据当前用户 `permissions` 判断。
  * 数组入参表示 AND（需同时满足）；用户无权限或未登录时全部按钮隐藏。
  *
  * @param value 单个权限标识或数组（数组表示 AND）

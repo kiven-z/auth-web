@@ -1,5 +1,5 @@
 /**
- * 消息模板公共权限码（与后端 message:template:* 对齐）
+ * 消息模板公共权限码
  */
 export const MESSAGE_TEMPLATE_PERMS = {
   /** 分页查询 */

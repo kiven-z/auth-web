@@ -1,7 +1,7 @@
 import type { ApiResult } from './apiResult';
 
 /**
- * 信封业务码非 0（与后端 {@code Result.SUCCESS_CODE} 一致）或 HTTP 层失败时的可抛出错误，便于页面展示 message / ext。
+ * 信封业务码非 0 或 HTTP 层失败时的可抛出错误，便于页面展示 message / ext。
  * @param result 响应
  * @param httpStatus 响应状态
  */

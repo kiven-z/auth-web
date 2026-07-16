@@ -15,7 +15,7 @@ import { http } from '@/core/http';
 export type { SpreadsheetImportResult };
 
 /**
- * 角色分页查询参数（对齐 {@code SysRoleQuery}）
+ * 角色分页查询参数
  */
 export interface SysRolePageQuery {
   pageIndex?: number;
@@ -27,7 +27,7 @@ export interface SysRolePageQuery {
 }
 
 /**
- * 分页行（对齐 {@code SysRolePageResponse} + BaseResponse）
+ * 分页行
  */
 export interface SysRolePageRow extends BaseResponsePageRow {
   roleCode: string;
@@ -38,7 +38,7 @@ export interface SysRolePageRow extends BaseResponsePageRow {
 }
 
 /**
- * 角色新增表单（对齐 {@code SysRoleCreateForm}）
+ * 角色新增表单
  */
 export interface SysRoleCreateForm {
   roleCode: string;
@@ -74,7 +74,7 @@ export function exportRoleExcel(filter: SysRolePageQuery, scope: ExportScopeQuer
 }
 
 /**
- * 角色详情-已绑定菜单项（对齐 {@code SysPermissionBoundMenuItemVO}，数据来自 sys_menu_role）
+ * 角色详情-已绑定菜单项（数据来自 sys_menu_role）
  */
 export interface RoleBoundMenuItem {
   id: string;
@@ -86,7 +86,7 @@ export interface RoleBoundMenuItem {
 }
 
 /**
- * 角色详情（对齐 {@code SysRoleDetailVO} + BaseResponse）
+ * 角色详情
  */
 export interface SysRoleDetail extends BaseResponse {
   roleCode: string;
@@ -147,7 +147,7 @@ export function deleteRole(id: string): Promise<void> {
 }
 
 /**
- * 角色权限全量分配请求（对齐 {@code SysRolePermissionAssignForm}）
+ * 角色权限全量分配请求
  */
 export interface SysRolePermissionAssignRequest {
   permissionIds: string[];

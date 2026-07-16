@@ -12,7 +12,7 @@ import { http } from '@/core/http';
 export type { UserDeptReference, UserPostReference };
 
 /**
- * 用户远程搜索选项（对齐 {@code SysUserSearchItemResponse}）
+ * 用户远程搜索选项
  */
 export interface UserSearchOption {
   id: string;
@@ -21,7 +21,7 @@ export interface UserSearchOption {
 }
 
 /**
- * 用户档案（对齐 {@code SysUserProfileResponse}）
+ * 用户档案
  */
 export interface SysUserProfileResponse {
   id: string;
@@ -41,7 +41,7 @@ export interface SysUserProfileResponse {
 }
 
 /**
- * 用户详情（对齐 {@code SysUserDetailVO} + BaseResponse）
+ * 用户详情
  */
 export interface SysUserDetail extends BaseResponse {
   username: string;

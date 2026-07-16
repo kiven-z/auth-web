@@ -1,8 +1,7 @@
 import { SYS_SESSION_PERMS } from '@/views/system/_shared/constants/session-permissions';
 
 /**
- * 用户管理模块按钮权限码（对齐后端 {@code SysUserController}、{@code AdminSessionController}、
- * {@code AdminAuthorizationController}）
+ * 用户管理模块按钮权限码
  */
 export const SYS_USER_PERMS = {
   /** 分页查询、用户档案查看 */
@@ -23,7 +22,7 @@ export const SYS_USER_PERMS = {
 } as const;
 
 /**
- * 用户角色分配权限码（对齐后端 {@code SysUserRoleController}）
+ * 用户角色分配权限码
  */
 export const SYS_USER_ROLE_PERMS = {
   /** 查询已分配角色 */
@@ -33,7 +32,7 @@ export const SYS_USER_ROLE_PERMS = {
 } as const;
 
 /**
- * 用户部门关联权限码（对齐后端 {@code SysUserDeptController}）
+ * 用户部门关联权限码
  */
 export const SYS_USER_DEPT_PERMS = {
   /** 分页查询用户部门关联 */
@@ -47,7 +46,7 @@ export const SYS_USER_DEPT_PERMS = {
 } as const;
 
 /**
- * 用户岗位关联权限码（对齐后端 {@code SysUserPostController}）
+ * 用户岗位关联权限码
  */
 export const SYS_USER_POST_PERMS = {
   /** 分页查询用户岗位关联 */

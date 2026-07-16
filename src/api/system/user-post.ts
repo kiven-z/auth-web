@@ -3,7 +3,7 @@ import { http } from '@/core/http';
 import type { AxiosRequestConfig } from 'axios';
 
 /**
- * 用户岗位关联分页查询（对齐 {@code UserPostPageQuery}）
+ * 用户岗位关联分页查询
  */
 export interface UserPostPageQuery {
   postCode?: string;
@@ -14,7 +14,7 @@ export interface UserPostPageQuery {
 }
 
 /**
- * 用户岗位关联分页行（对齐 {@code UserPostPageVO}）
+ * 用户岗位关联分页行
  */
 export interface UserPostPageRow extends BaseResponsePageRow {
   userId: string;
@@ -27,7 +27,7 @@ export interface UserPostPageRow extends BaseResponsePageRow {
 }
 
 /**
- * 用户岗位关联新增表单（对齐 {@code UserPostAssignForm}）
+ * 用户岗位关联新增表单
  */
 export interface UserPostAssignForm {
   postId?: string;
@@ -37,7 +37,7 @@ export interface UserPostAssignForm {
 }
 
 /**
- * 用户岗位关联更新表单（对齐 {@code UserPostRelationUpdateForm}）
+ * 用户岗位关联更新表单
  */
 export interface UserPostRelationUpdateForm {
   status: number;

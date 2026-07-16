@@ -1,4 +1,4 @@
-/** 刷新令牌响应（对齐 auth-server RefreshTokenResponse） */
+/** 刷新令牌响应 */
 export interface RefreshTokenResponse {
   id: string;
   username: string;
@@ -10,7 +10,7 @@ export interface RefreshTokenResponse {
   readMeDay?: number;
 }
 
-/** 用户登录响应（对齐 auth-server UserLoginResponse） */
+/** 用户登录响应 */
 export interface UserLoginResponse extends RefreshTokenResponse {
   nickname?: string;
   avatar?: string;

@@ -1,5 +1,5 @@
 /**
- * 操作日志模块按钮权限码（对齐后端 {@code LogOperationController}）
+ * 操作日志模块按钮权限码
  */
 export const SYS_LOG_OPERATION_PERMS = {
   /** 分页查询 */

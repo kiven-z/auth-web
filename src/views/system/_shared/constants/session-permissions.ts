@@ -1,5 +1,5 @@
 /**
- * 用户会话管理按钮权限码（对齐后端 {@code AdminSessionController}）
+ * 用户会话管理按钮权限码
  */
 export const SYS_SESSION_PERMS = {
   /** 查看用户活跃会话 */

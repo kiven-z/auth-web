@@ -1,5 +1,5 @@
 /**
- * 权限决策审计日志模块按钮权限码（对齐后端 {@code LogAuthorizationAuditController}）
+ * 权限决策审计日志模块按钮权限码
  */
 export const SYS_LOG_AUTHORIZATION_AUDIT_PERMS = {
   /** 分页查询 */

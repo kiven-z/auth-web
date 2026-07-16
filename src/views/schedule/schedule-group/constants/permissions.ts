@@ -1,5 +1,5 @@
 /**
- * 任务分组模块按钮权限码（对齐后端 {@code SysJobGroupController}）
+ * 任务分组模块按钮权限码
  */
 export const SYS_JOB_GROUP_PERMS = {
   /** 分页查询、详情查看 */

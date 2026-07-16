@@ -2,11 +2,11 @@ import { http } from '@/core/http';
 
 import type { InAppTemplateContentType } from '@/api/message/in-app-template';
 
-/** 站内信接收范围类型（对齐后端 RecipientScopeType） */
+/** 站内信接收范围类型 */
 export type InAppRecipientScopeType = 'USER' | 'POST' | 'DEPT' | 'ALL';
 
 /**
- * 管理端站内信按范围发送请求（对齐 {@code InAppComposeForm}）
+ * 管理端站内信按范围发送请求
  */
 export interface InAppComposeRequest {
   recipientScopeType: InAppRecipientScopeType;
@@ -24,7 +24,7 @@ export interface InAppComposeRequest {
 }
 
 /**
- * 站内信发送结果（对齐 {@code InAppComposeResultVO}）
+ * 站内信发送结果
  */
 export interface InAppComposeResult {
   taskId: string;

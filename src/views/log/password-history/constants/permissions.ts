@@ -1,5 +1,5 @@
 /**
- * 密码历史日志模块按钮权限码（对齐后端 {@code LogUserPasswordHistoryController}）
+ * 密码历史日志模块按钮权限码
  */
 export const SYS_LOG_PASSWORD_HISTORY_PERMS = {
   /** 分页查询 */

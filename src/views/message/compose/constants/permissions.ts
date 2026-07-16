@@ -3,5 +3,5 @@
  */
 export const IN_APP_COMPOSE_PERMS = {
   /** 按范围发送站内信 */
-  SEND: 'message:in-app:send',
+  SEND: 'message:inapp:send',
 } as const;

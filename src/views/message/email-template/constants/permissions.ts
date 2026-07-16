@@ -1,5 +1,5 @@
 /**
- * 邮件模板模块按钮权限码（对齐后端 {@code SysEmailTemplateController}）
+ * 邮件模板模块按钮权限码
  */
 export const EMAIL_TEMPLATE_PERMS = {
   /** 分页查询 */
