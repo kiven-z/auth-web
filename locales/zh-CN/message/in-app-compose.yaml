@@ -1,7 +1,7 @@
 inAppCompose:
   pageTitle: 编写站内信
   sendFailed: 站内信发送失败
-  sendSuccess: 发送成功
+  sendSuccess: 已提交，系统正在后台投递给接收人
   sendButton: 立即发送
   importTemplate: 从模板导入
   importTemplateDialogTitle: 选择站内信模板

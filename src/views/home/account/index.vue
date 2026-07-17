@@ -43,12 +43,16 @@ const activeTab = computed(() => String(route.name));
     </div>
 
     <div class="account-layout__content">
-      <router-view />
+      <router-view v-slot="{ Component, route }">
+        <Transition mode="out-in" name="fade-transform">
+          <component :is="Component" :key="route.fullPath" />
+        </Transition>
+      </router-view>
     </div>
   </div>
 </template>
 
-<style scoped lang="scss">
+<style lang="scss" scoped>
 .account-layout {
   min-height: 100%;
 
