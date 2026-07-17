@@ -6,19 +6,9 @@ import { useAppStoreHook } from '@/store/modules/app';
 import { useEpThemeStoreHook } from '@/store/modules/epTheme';
 import { useMultiTagsStoreHook } from '@/store/modules/multiTags';
 import { darken, lighten } from '@pureadmin/utils';
+import { NAV_THEME_COLORS } from './nav-theme-colors';
 import { resolveEffectiveLayout } from './runtime-layout';
 import { getConfigureSnapshot, getLayoutSnapshot, getLocaleSnapshot } from './storage';
-
-const NAV_THEME_COLORS: Record<string, string> = {
-  light: '#ffffff',
-  default: '#1b2a47',
-  saucePurple: '#722ed1',
-  pink: '#eb2f96',
-  dusk: '#f5222d',
-  volcano: '#fa541c',
-  mingQing: '#13c2c2',
-  auroraGreen: '#52c41a',
-};
 
 /**
  * 根据 overallStyle 与 OS 偏好解析是否深色

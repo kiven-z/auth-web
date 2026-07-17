@@ -1,22 +1,22 @@
 <script lang="ts" setup>
+import Segmented, { type OptionsType } from '@/components/ui/Segmented';
+import { syncSystemThemeFromOs } from '@/core/preferences';
+import { useUiConfigure } from '@/layout/hooks/configure/useUiConfigure';
+import { useUiLayout } from '@/layout/hooks/layout/useUiLayout';
+import { useNav } from '@/layout/hooks/navigation/useNav';
+import { useUiTheme } from '@/layout/hooks/theme/useUiTheme';
+import { useAppStoreHook } from '@/store/modules/app';
+import { debounce, isNumber, toggleClass, useDark, useGlobal } from '@pureadmin/utils';
 import { computed, nextTick, onBeforeMount, reactive, ref, unref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import LayPanel from '../lay-panel/index.vue';
-import { useNav } from '@/layout/hooks/navigation/useNav';
-import { useUiConfigure } from '@/layout/hooks/configure/useUiConfigure';
-import { useUiLayout } from '@/layout/hooks/layout/useUiLayout';
-import { useAppStoreHook } from '@/store/modules/app';
-import Segmented, { type OptionsType } from '@/components/ui/Segmented';
-import { useUiTheme } from '@/layout/hooks/theme/useUiTheme';
-import { syncSystemThemeFromOs } from '@/core/preferences';
-import { debounce, isNumber, toggleClass, useDark, useGlobal } from '@pureadmin/utils';
 
+import DarkIcon from '@/assets/svg/dark.svg?component';
+import DayIcon from '@/assets/svg/day.svg?component';
+import SystemIcon from '@/assets/svg/system.svg?component';
 import Check from '~icons/ep/check';
 import LeftArrow from '~icons/ri/arrow-left-s-line?width=20&height=20';
 import RightArrow from '~icons/ri/arrow-right-s-line?width=20&height=20';
-import DayIcon from '@/assets/svg/day.svg?component';
-import DarkIcon from '@/assets/svg/dark.svg?component';
-import SystemIcon from '@/assets/svg/system.svg?component';
 
 const { t } = useI18n();
 const { device } = useNav();
@@ -56,18 +56,24 @@ const settings = reactive({
   stretch: $storage.configure.stretch,
 });
 
-const getThemeColorStyle = computed(() => {
-  return (color) => {
-    return { background: color };
-  };
+/** 浅色色板：选中勾用深色，并加描边以免融进背景 */
+const LIGHT_THEME_SWATCHES = new Set(['light', 'amberYellow']);
+
+/**
+ * 当前整体风格下可见的主题色（暗色模式隐藏亮白）
+ */
+const visibleThemeColors = computed(() => {
+  return themeColors.value.filter((item) => !(item.themeColor === 'light' && isDark.value));
 });
 
-/** 当网页整体为暗色风格时不显示亮白色主题配色切换选项 */
-const showThemeColors = computed(() => {
-  return (themeColor) => {
-    return themeColor === 'light' && isDark.value ? false : true;
-  };
-});
+/**
+ * 是否为需要描边的浅色色板
+ * @param themeColor 主题标识
+ * @returns 是否浅色色板
+ */
+function isLightThemeSwatch(themeColor: string): boolean {
+  return LIGHT_THEME_SWATCHES.has(themeColor);
+}
 
 /** 灰色模式设置 */
 const greyChange = (value): void => {
@@ -137,18 +143,17 @@ const stretchTypeChange = ({ option }) => {
   value === 'custom' ? setStretch(1440) : setStretch(false);
 };
 
-/** 主题色 激活选择项 */
-const getThemeColor = computed(() => {
-  return (current) => {
-    if (current === layoutTheme.value.theme && layoutTheme.value.theme !== 'light') {
-      return '#fff';
-    } else if (current === layoutTheme.value.theme && layoutTheme.value.theme === 'light') {
-      return '#1d2b45';
-    } else {
-      return 'transparent';
-    }
-  };
-});
+/**
+ * 主题色选中勾颜色（浅色板用深色勾，其余用白色勾）
+ * @param current 主题标识
+ * @returns 勾选图标颜色
+ */
+function getThemeCheckColor(current: string): string {
+  if (current !== layoutTheme.value.theme) {
+    return 'transparent';
+  }
+  return isLightThemeSwatch(current) ? '#1d2b45' : '#ffffff';
+}
 
 const pClass = computed(() => {
   return ['mb-[12px]!', 'font-medium', 'text-sm', 'dark:text-white'];
@@ -265,13 +270,14 @@ function handleOverallStyleChange(theme: { index: number; option: { theme: strin
       <p :class="['mt-5!', pClass]">{{ t('panel.pureThemeColor') }}</p>
       <ul class="theme-color">
         <li
-          v-for="(item, index) in themeColors"
-          v-show="showThemeColors(item.themeColor)"
-          :key="index"
-          :style="getThemeColorStyle(item.color)"
+          v-for="item in visibleThemeColors"
+          :key="item.themeColor"
+          :class="{ 'theme-color__swatch--light': isLightThemeSwatch(item.themeColor) }"
+          :style="{ background: item.color }"
+          class="theme-color__swatch"
           @click="setLayoutThemeColor(item.themeColor)"
         >
-          <el-icon :color="getThemeColor(item.themeColor)" :size="17" style="margin: 0.1em 0.1em 0 0">
+          <el-icon :color="getThemeCheckColor(item.themeColor)" :size="14" class="theme-color__check">
             <IconifyIconOffline :icon="Check" />
           </el-icon>
         </li>
@@ -454,17 +460,27 @@ function handleOverallStyleChange(theme: { index: number; option: { theme: strin
 }
 
 .theme-color {
-  height: 20px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, 28px);
+  gap: 10px;
 
-  li {
-    float: left;
-    height: 20px;
-    margin-right: 8px;
+  &__swatch {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
     cursor: pointer;
-    border-radius: 4px;
+    border-radius: 6px;
+    box-sizing: border-box;
+    transition: transform 0.15s ease;
 
-    &:nth-child(1) {
-      border: 1px solid #ddd;
+    &:hover {
+      transform: scale(1.08);
+    }
+
+    &--light {
+      border: 1px solid var(--el-border-color, #dcdfe6);
     }
   }
 }

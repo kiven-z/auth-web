@@ -1,10 +1,11 @@
 import { getConfig } from '@/auth/config';
 import { applyThemePreferences, getLayoutSnapshot, patchLayout } from '@/core/preferences';
+import { NAV_THEME_COLOR_ITEMS } from '@/core/preferences/nav-theme-colors';
+import { useLayout } from '@/layout/hooks';
 import { useEpThemeStoreHook } from '@/store/modules/epTheme';
 import { useGlobal } from '@pureadmin/utils';
 import { ref } from 'vue';
 import type { themeColorsType } from '../../types';
-import { useLayout } from '@/layout/hooks';
 
 /**
  * UI 主题与 layout 色相关写入（经 preferences storage 网关）
@@ -15,16 +16,7 @@ export function useUiTheme() {
   const { $storage } = useGlobal<GlobalPropertiesApi>();
   const epThemeStore = useEpThemeStoreHook();
 
-  const themeColors = ref<Array<themeColorsType>>([
-    { color: '#ffffff', themeColor: 'light' },
-    { color: '#1b2a47', themeColor: 'default' },
-    { color: '#722ed1', themeColor: 'saucePurple' },
-    { color: '#eb2f96', themeColor: 'pink' },
-    { color: '#f5222d', themeColor: 'dusk' },
-    { color: '#fa541c', themeColor: 'volcano' },
-    { color: '#13c2c2', themeColor: 'mingQing' },
-    { color: '#52c41a', themeColor: 'auroraGreen' },
-  ]);
+  const themeColors = ref<Array<themeColorsType>>([...NAV_THEME_COLOR_ITEMS]);
 
   const dataTheme = ref<boolean>($storage?.layout?.darkMode ?? false);
   const overallStyle = ref<string>($storage?.layout?.overallStyle ?? 'light');

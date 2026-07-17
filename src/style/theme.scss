@@ -93,3 +93,75 @@ html[data-theme='auroraGreen'] {
   --pure-theme-menu-title-hover: #fff;
   --pure-theme-menu-active-before: #60ac80;
 }
+
+/* 科技蓝 */
+html[data-theme='techBlue'] {
+  --pure-theme-sub-menu-active-text: #fff;
+  --pure-theme-menu-bg: #001529;
+  --pure-theme-menu-hover: rgb(22 119 255 / 15%);
+  --pure-theme-sub-menu-bg: #000c17;
+  --pure-theme-menu-text: rgb(254 254 254 / 65%);
+  --pure-theme-sidebar-logo: #002140;
+  --pure-theme-menu-title-hover: #fff;
+  --pure-theme-menu-active-before: #1677ff;
+}
+
+/* 极客蓝 */
+html[data-theme='geekBlue'] {
+  --pure-theme-sub-menu-active-text: #fff;
+  --pure-theme-menu-bg: #061178;
+  --pure-theme-menu-hover: rgb(47 84 235 / 18%);
+  --pure-theme-sub-menu-bg: #030852;
+  --pure-theme-menu-text: rgb(254 254 254 / 65%);
+  --pure-theme-sidebar-logo: #10239e;
+  --pure-theme-menu-title-hover: #fff;
+  --pure-theme-menu-active-before: #2f54eb;
+}
+
+/* 日落橙 */
+html[data-theme='sunsetOrange'] {
+  --pure-theme-sub-menu-active-text: #fff;
+  --pure-theme-menu-bg: #2b1600;
+  --pure-theme-menu-hover: rgb(250 140 22 / 15%);
+  --pure-theme-sub-menu-bg: #1a0d00;
+  --pure-theme-menu-text: rgb(254 254 254 / 65%);
+  --pure-theme-sidebar-logo: #441f00;
+  --pure-theme-menu-title-hover: #fff;
+  --pure-theme-menu-active-before: #fa8c16;
+}
+
+/* 琥珀黄 */
+html[data-theme='amberYellow'] {
+  --pure-theme-sub-menu-active-text: #fff;
+  --pure-theme-menu-bg: #2b1d00;
+  --pure-theme-menu-hover: rgb(250 173 20 / 15%);
+  --pure-theme-sub-menu-bg: #1a1200;
+  --pure-theme-menu-text: rgb(254 254 254 / 65%);
+  --pure-theme-sidebar-logo: #443000;
+  --pure-theme-menu-title-hover: #fff;
+  --pure-theme-menu-active-before: #faad14;
+}
+
+/* 赛博绿 */
+html[data-theme='cyberGreen'] {
+  --pure-theme-sub-menu-active-text: #fff;
+  --pure-theme-menu-bg: #002b1a;
+  --pure-theme-menu-hover: rgb(0 185 107 / 15%);
+  --pure-theme-sub-menu-bg: #001a10;
+  --pure-theme-menu-text: rgb(254 254 254 / 65%);
+  --pure-theme-sidebar-logo: #004d2e;
+  --pure-theme-menu-title-hover: #fff;
+  --pure-theme-menu-active-before: #00b96b;
+}
+
+/* 深石墨 */
+html[data-theme='darkSlate'] {
+  --pure-theme-sub-menu-active-text: #fff;
+  --pure-theme-menu-bg: #1a1d24;
+  --pure-theme-menu-hover: rgb(43 48 58 / 35%);
+  --pure-theme-sub-menu-bg: #12151a;
+  --pure-theme-menu-text: rgb(254 254 254 / 65%);
+  --pure-theme-sidebar-logo: #2b303a;
+  --pure-theme-menu-title-hover: #fff;
+  --pure-theme-menu-active-before: #4b5563;
+}

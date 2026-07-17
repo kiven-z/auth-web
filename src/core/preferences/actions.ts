@@ -28,7 +28,8 @@ export function setSidebarOpened(opened?: boolean, options?: SetSidebarOpenedOpt
     return;
   }
 
-  if (!opened) {
+  // 未传参：用户点击切换
+  if (opened === undefined) {
     appStore.sidebar.withoutAnimation = false;
     appStore.sidebar.opened = !appStore.sidebar.opened;
     appStore.sidebar.isClickCollapse = !appStore.sidebar.opened;
@@ -36,10 +37,9 @@ export function setSidebarOpened(opened?: boolean, options?: SetSidebarOpenedOpt
     return;
   }
 
-  if (opened !== undefined) {
-    appStore.sidebar.opened = opened;
-    patchLayout({ sidebarStatus: opened });
-  }
+  // 显式 true / false：直接设置并持久化
+  appStore.sidebar.opened = opened;
+  patchLayout({ sidebarStatus: opened });
 }
 
 /**
