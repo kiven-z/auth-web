@@ -6,6 +6,7 @@ import { useAppStoreHook } from '@/store/modules/app';
 import { useEpThemeStoreHook } from '@/store/modules/epTheme';
 import { useMultiTagsStoreHook } from '@/store/modules/multiTags';
 import { darken, lighten } from '@pureadmin/utils';
+import { resolveEffectiveLayout } from './runtime-layout';
 import { getConfigureSnapshot, getLayoutSnapshot, getLocaleSnapshot } from './storage';
 
 const NAV_THEME_COLORS: Record<string, string> = {
@@ -86,7 +87,7 @@ export function applyLocalePreferences(): void {
  */
 export function applyLayoutPreferences(): void {
   const snapshot = getLayoutSnapshot();
-  const layoutModel = snapshot.layout ?? getConfig().Layout ?? 'vertical';
+  const layoutModel = resolveEffectiveLayout(snapshot.layout ?? getConfig().Layout ?? 'vertical');
   window.document.body.setAttribute('layout', layoutModel);
   useAppStoreHook().setLayout(layoutModel);
   if (snapshot.sidebarStatus !== undefined) {

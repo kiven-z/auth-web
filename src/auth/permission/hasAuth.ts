@@ -31,11 +31,7 @@ function hasAuth(value: string | Array<string>): boolean {
 
   const { permissions } = useUserStoreHook();
 
-  if (permissions?.length && satisfiesAllRequired(required, permissions)) {
-    return true;
-  }
-
-  return false;
+  return permissions?.length && satisfiesAllRequired(required, permissions);
 }
 
 export { hasAuth };

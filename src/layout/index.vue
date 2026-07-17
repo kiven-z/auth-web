@@ -1,14 +1,15 @@
 <script lang="ts" setup>
 import 'animate.css';
 import '@/components/ui/Icon/src/offlineIcon';
-import { useUiTheme } from '@/layout/hooks/theme/useUiTheme';
+import { getLayoutSnapshot } from '@/core/preferences';
 import { useUiLayout } from '@/layout/hooks/layout/useUiLayout';
+import { useLayout } from '@/layout/hooks/layout/useLayout';
+import { useUiTheme } from '@/layout/hooks/theme/useUiTheme';
 import { useAppStoreHook } from '@/store/modules/app';
 import { useSettingStoreHook } from '@/store/modules/settings';
 import { deviceDetection, useGlobal, useResizeObserver } from '@pureadmin/utils';
 import { computed, onBeforeMount, onMounted, reactive, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { useLayout } from '@/layout/hooks/layout/useLayout';
 import { setType } from './types';
 
 import BackTopIcon from '@/assets/svg/back_top.svg?component';
@@ -66,7 +67,9 @@ useResizeObserver(appWrapperRef, (entries) => {
   const entry = entries[0];
   const [{ inlineSize: width, blockSize: height }] = entry.borderBoxSize;
   useAppStoreHook().setViewportSize({ width, height });
-  width <= 760 ? setResponsiveLayoutTheme('vertical') : setResponsiveLayoutTheme(useAppStoreHook().layout);
+  // 窄屏仅运行时覆盖为 vertical，宽屏恢复用户偏好中的布局（不写回 storage）
+  const preferredLayout = getLayoutSnapshot().layout ?? useAppStoreHook().layout;
+  width <= 760 ? setResponsiveLayoutTheme('vertical') : setResponsiveLayoutTheme(preferredLayout);
   /** width app-wrapper类容器宽度
    * 0 < width <= 760 隐藏侧边栏
    * 760 < width <= 990 折叠侧边栏

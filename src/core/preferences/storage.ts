@@ -11,6 +11,21 @@ function getStorage(): ResponsiveStorage {
 }
 
 /**
+ * 浅比较两个偏好对象是否一致（键集合与各值严格相等）
+ * @param left 左侧对象
+ * @param right 右侧对象
+ * @returns 是否浅相等
+ */
+function isShallowEqualRecord(left: Record<string, unknown>, right: Record<string, unknown>): boolean {
+  const leftKeys = Object.keys(left);
+  const rightKeys = Object.keys(right);
+  if (leftKeys.length !== rightKeys.length) {
+    return false;
+  }
+  return leftKeys.every((key) => left[key] === right[key]);
+}
+
+/**
  * 读取当前 locale 快照
  * @returns locale 配置
  */
@@ -40,7 +55,11 @@ export function getConfigureSnapshot(): ResponsiveStorage['configure'] {
  */
 export function patchLocale(patch: Partial<ResponsiveStorage['locale']>): void {
   const $storage = getStorage();
-  $storage.locale = { ...$storage.locale, ...patch };
+  const next = { ...$storage.locale, ...patch };
+  if (isShallowEqualRecord($storage.locale, next)) {
+    return;
+  }
+  $storage.locale = next;
   if (!getIsHydrating()) {
     schedulePreferenceSync(UI_PREFERENCE_KEYS.LOCALE);
   }
@@ -52,7 +71,11 @@ export function patchLocale(patch: Partial<ResponsiveStorage['locale']>): void {
  */
 export function patchLayout(patch: Partial<ResponsiveStorage['layout']>): void {
   const $storage = getStorage();
-  $storage.layout = { ...$storage.layout, ...patch };
+  const next = { ...$storage.layout, ...patch };
+  if (isShallowEqualRecord($storage.layout, next)) {
+    return;
+  }
+  $storage.layout = next;
   if (!getIsHydrating()) {
     schedulePreferenceSync(UI_PREFERENCE_KEYS.LAYOUT);
   }
@@ -64,7 +87,11 @@ export function patchLayout(patch: Partial<ResponsiveStorage['layout']>): void {
  */
 export function patchConfigure(patch: Partial<ResponsiveStorage['configure']>): void {
   const $storage = getStorage();
-  $storage.configure = { ...$storage.configure, ...patch };
+  const next = { ...$storage.configure, ...patch };
+  if (isShallowEqualRecord($storage.configure, next)) {
+    return;
+  }
+  $storage.configure = next;
   if (!getIsHydrating()) {
     schedulePreferenceSync(UI_PREFERENCE_KEYS.CONFIGURE);
   }

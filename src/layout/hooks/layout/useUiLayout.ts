@@ -1,5 +1,6 @@
-import { applyLayoutPreferences, patchLayout } from '@/core/preferences';
+import { applyLayoutPreferences, getLayoutSnapshot, patchLayout } from '@/core/preferences';
 import { setSidebarOpened } from '@/core/preferences/actions';
+import { setRuntimeLayoutOverride } from '@/core/preferences/runtime-layout';
 import { useLayout } from './useLayout';
 
 /**
@@ -19,12 +20,12 @@ export function useUiLayout() {
   }
 
   /**
-   * 响应式容器宽度变化时覆盖布局模式（仅改 storage，不切换 app layout 模式）
-   * @param layoutModel 当前应使用的布局
+   * 响应式容器宽度变化时覆盖布局展示（不写偏好 storage，不同步服务端）
+   * @param layoutModel 当前视口应展示的布局
    */
   function setResponsiveLayoutTheme(layoutModel: string): void {
-    patchLayout({ layout: layoutModel });
-    applyLayoutPreferences();
+    const preferredLayout = getLayoutSnapshot().layout;
+    setRuntimeLayoutOverride(layoutModel === preferredLayout ? null : layoutModel);
   }
 
   return {

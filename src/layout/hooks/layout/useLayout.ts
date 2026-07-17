@@ -1,11 +1,13 @@
+import { getRuntimeLayoutOverrideRef } from '@/core/preferences/runtime-layout';
+import { useMultiTagsStore } from '@/store/modules/multiTags';
+import { useGlobal } from '@pureadmin/utils';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { routerArrays } from '../../types';
-import { useGlobal } from '@pureadmin/utils';
-import { useMultiTagsStore } from '@/store/modules/multiTags';
 
 export function useLayout() {
   const { $storage, $config } = useGlobal<GlobalPropertiesApi>();
+  const runtimeLayoutOverride = getRuntimeLayoutOverrideRef();
 
   const initStorage = () => {
     /** 路由 */
@@ -44,9 +46,9 @@ export function useLayout() {
     }
   };
 
-  /** 清空缓存后从platform-config.json读取默认配置并赋值到storage中 */
+  /** 断点覆盖优先，否则为用户偏好中的布局模式 */
   const layout = computed(() => {
-    return $storage?.layout.layout;
+    return runtimeLayoutOverride.value ?? $storage?.layout.layout;
   });
 
   const layoutTheme = computed(() => {

@@ -13,7 +13,7 @@ export interface SetSidebarOpenedOptions {
 }
 
 /**
- * 更新侧栏展开状态并持久化（可在 Pinia action 等非 setup 上下文调用）
+ * 更新侧栏展开状态；用户操作会持久化，视口 resize 仅改运行时 store
  * @param opened 是否展开；省略时切换当前状态
  * @param options withoutAnimation、resize 与 store 行为一致
  */
@@ -21,20 +21,22 @@ export function setSidebarOpened(opened?: boolean, options?: SetSidebarOpenedOpt
   const resize = options?.resize;
   const appStore = useAppStoreHook();
 
-  if (opened && resize) {
+  // 视口断点适配：只改运行时侧栏，不写入偏好、不同步服务端
+  if (resize) {
     appStore.sidebar.withoutAnimation = true;
-    appStore.sidebar.opened = true;
-    patchLayout({ sidebarStatus: true });
-  } else if (!opened && resize) {
-    appStore.sidebar.withoutAnimation = true;
-    appStore.sidebar.opened = false;
-    patchLayout({ sidebarStatus: false });
-  } else if (!opened && !resize) {
+    appStore.sidebar.opened = Boolean(opened);
+    return;
+  }
+
+  if (!opened) {
     appStore.sidebar.withoutAnimation = false;
     appStore.sidebar.opened = !appStore.sidebar.opened;
     appStore.sidebar.isClickCollapse = !appStore.sidebar.opened;
     patchLayout({ sidebarStatus: appStore.sidebar.opened });
-  } else if (opened !== undefined) {
+    return;
+  }
+
+  if (opened !== undefined) {
     appStore.sidebar.opened = opened;
     patchLayout({ sidebarStatus: opened });
   }
