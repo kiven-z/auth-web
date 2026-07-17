@@ -95,8 +95,6 @@ onMounted(() => {
         :remote-method="loadUserListByKeyword"
         class="w-full"
         clearable
-        collapse-tags
-        collapse-tags-tooltip
         filterable
         multiple
         remote

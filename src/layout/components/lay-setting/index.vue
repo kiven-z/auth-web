@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import Segmented, { type OptionsType } from '@/components/ui/Segmented';
-import { syncSystemThemeFromOs } from '@/core/preferences';
+import { applyThemePreferences, syncSystemThemeFromOs } from '@/core/preferences';
 import { useUiConfigure } from '@/layout/hooks/configure/useUiConfigure';
 import { useUiLayout } from '@/layout/hooks/layout/useUiLayout';
 import { useNav } from '@/layout/hooks/navigation/useNav';
@@ -32,12 +32,10 @@ const { setLayoutMode } = useUiLayout();
 
 const { dataTheme, overallStyle, layoutTheme, themeColors, dataThemeChange, setLayoutThemeColor } = useUiTheme();
 
-/* body添加layout属性，作用于src/style/sidebar.scss */
+/* 初始化布局与主题：主题必须走 apply，避免 theme/themeColor 分叉时写错 data-theme */
 if (unref(layoutTheme)) {
-  const layout = unref(layoutTheme).layout;
-  const theme = unref(layoutTheme).theme;
-  document.documentElement.setAttribute('data-theme', theme);
-  setLayoutMode(layout);
+  setLayoutMode(unref(layoutTheme).layout);
+  applyThemePreferences();
 }
 
 /** 默认灵动模式 */

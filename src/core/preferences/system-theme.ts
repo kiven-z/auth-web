@@ -1,10 +1,11 @@
 import { applyThemePreferences } from './apply';
+import { reconcileNavTheme } from './reconcile-nav-theme';
 import { getLayoutSnapshot, patchLayout } from './storage';
 
 let stopWatch: (() => void) | null = null;
 
 /**
- * 在 overallStyle 为 system 时，按 OS 偏好写入 darkMode 并应用到 DOM
+ * 在 overallStyle 为 system 时，按 OS 偏好写入 darkMode、校正 theme 并应用到 DOM
  */
 export function syncSystemThemeFromOs(): void {
   const snapshot = getLayoutSnapshot();
@@ -12,7 +13,8 @@ export function syncSystemThemeFromOs(): void {
     return;
   }
   const darkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
-  patchLayout({ darkMode });
+  const theme = reconcileNavTheme(snapshot, darkMode);
+  patchLayout({ darkMode, theme });
   applyThemePreferences();
 }
 

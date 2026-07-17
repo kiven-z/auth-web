@@ -1,11 +1,14 @@
 import { getConfig } from '@/auth/config';
 import { applyThemePreferences, getLayoutSnapshot, patchLayout } from '@/core/preferences';
 import { NAV_THEME_COLOR_ITEMS } from '@/core/preferences/nav-theme-colors';
+import { reconcileNavTheme } from '@/core/preferences/reconcile-nav-theme';
 import { useLayout } from '@/layout/hooks';
 import { useEpThemeStoreHook } from '@/store/modules/epTheme';
 import { useGlobal } from '@pureadmin/utils';
 import { ref } from 'vue';
 import type { themeColorsType } from '../../types';
+
+const OVERALL_STYLES = new Set(['light', 'dark', 'system']);
 
 /**
  * UI 主题与 layout 色相关写入（经 preferences storage 网关）
@@ -70,21 +73,23 @@ export function useUiTheme() {
 
   /**
    * 浅色 / 深色 / 跟随系统整体风格切换
-   * @param overall 整体风格
+   * @param overall 整体风格；登录页开关可能传入非标准值，此时按 dataTheme 同步为 light/dark
    */
   function dataThemeChange(overall?: string): void {
-    overallStyle.value = overall;
-    const skipApply = { skipApply: true };
-
-    if (epThemeStore.epTheme === 'light' && dataTheme.value) {
-      setLayoutThemeColor('default', false, skipApply);
+    if (overall && OVERALL_STYLES.has(overall)) {
+      overallStyle.value = overall;
     } else {
-      setLayoutThemeColor(epThemeStore.epTheme, false, skipApply);
+      overallStyle.value = dataTheme.value ? 'dark' : 'light';
     }
 
-    if (!dataTheme.value && getLayoutSnapshot().themeColor === 'light') {
-      setLayoutThemeColor('light', false, skipApply);
+    if (overallStyle.value === 'system') {
+      dataTheme.value = window.matchMedia('(prefers-color-scheme: dark)').matches;
     }
+
+    const snapshot = getLayoutSnapshot();
+    const baseTheme = epThemeStore.epTheme ?? snapshot.theme ?? getConfig().Theme ?? 'light';
+    const nextTheme = reconcileNavTheme({ theme: baseTheme, themeColor: snapshot.themeColor }, dataTheme.value);
+    setLayoutThemeColor(nextTheme, false, { skipApply: true });
 
     patchLayout({ darkMode: dataTheme.value, overallStyle: overallStyle.value });
     applyThemePreferences();
