@@ -13,6 +13,9 @@ inAppTemplate:
   contentType: Content type
   priority: Send priority
   status: Status
+  testSendDialogTitle: Test send
+  testSendUser: Recipient
+  testSendUserPlaceholder: Search and select a recipient
   placeholder:
     templateCode: Enter scene code, e.g. login-in-app-notice
     templateName: Enter template name

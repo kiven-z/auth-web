@@ -13,6 +13,9 @@ inAppTemplate:
   contentType: 正文类型
   priority: 发送优先级
   status: 状态
+  testSendDialogTitle: 测试发送
+  testSendUser: 接收用户
+  testSendUserPlaceholder: 请搜索并选择接收用户
   placeholder:
     templateCode: 请输入场景编码，如 login-in-app-notice
     templateName: 请输入模板名称
