@@ -110,6 +110,12 @@ function useSendRecordTableColumns() {
         );
       },
     },
+    {
+      label: t('table.actions'),
+      fixed: 'right' as const,
+      width: 100,
+      slot: 'actions',
+    },
   ]);
 
   return { columns };

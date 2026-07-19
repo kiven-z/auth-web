@@ -1,4 +1,4 @@
-import type { BaseResponsePageRow, PageResponse, SortSpec } from '@/api/common';
+import type { BaseResponseDetail, BaseResponsePageRow, PageResponse, SortSpec } from '@/api/common';
 import type { MessageChannelCode } from '@/api/message/message-template';
 import { http } from '@/core/http';
 import type { AxiosRequestConfig } from 'axios';
@@ -42,4 +42,31 @@ export function getChannelDeliveryPage(params: ChannelDeliveryPageQuery) {
     '/system/message/channel-delivery',
     { params }
   );
+}
+
+/**
+ * 渠道投递记录详情
+ */
+export interface ChannelDeliveryDetailVO extends BaseResponseDetail {
+  /** 任务/批次 ID */
+  taskId: string;
+  channel: MessageChannelCode | string;
+  /** 投递目标 */
+  targetValue?: string | null;
+  status: MessageDeliveryStatusCode | string;
+  providerMsgId?: string | null;
+  errorCode?: string | null;
+  errorMessage?: string | null;
+  sentAt?: string | null;
+  retryCount?: number | null;
+  remark?: string | null;
+}
+
+/**
+ * 按主键查询渠道投递记录详情
+ * @param id 投递记录主键
+ * @returns 投递记录详情
+ */
+export function getChannelDeliveryById(id: string) {
+  return http.get<ChannelDeliveryDetailVO, AxiosRequestConfig>(`/system/message/channel-delivery/${id}`);
 }

@@ -7,6 +7,7 @@ import {
   SEND_RECORD_STATUS_ITEMS,
 } from '@/views/message/send-record/constants/delivery-enums';
 import { SEND_RECORD_PERMS } from '@/views/message/send-record/constants/permissions';
+import useSendRecordTableAction from '@/views/message/send-record/hooks/useSendRecordTableAction';
 import useSendRecordTableColumns from '@/views/message/send-record/hooks/useSendRecordTableColumns';
 import type { FormInstance } from 'element-plus';
 import { onMounted, reactive, ref } from 'vue';
@@ -30,6 +31,8 @@ const sendRecordState = usePaginationState({
   }),
 });
 const { loading, searchForm, fetchTableData, resetQuery } = sendRecordState;
+
+const { openDetailDialog } = useSendRecordTableAction();
 
 onMounted(() => {
   fetchTableData();
@@ -100,6 +103,12 @@ onMounted(() => {
       :state="sendRecordState"
       :title="t('sendRecord.title.table')"
       show-overflow-tooltip
-    />
+    >
+      <template #actions="{ row }">
+        <el-button v-perms="SEND_RECORD_PERMS.DETAIL" link type="primary" @click="openDetailDialog(row)">
+          {{ t('buttons.actionView') }}
+        </el-button>
+      </template>
+    </AuthPagedTable>
   </div>
 </template>

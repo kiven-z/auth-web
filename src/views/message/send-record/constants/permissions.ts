@@ -4,4 +4,6 @@
 export const SEND_RECORD_PERMS = {
   /** 分页查询 */
   QUERY: 'message:delivery:query',
+  /** 详情 */
+  DETAIL: 'message:delivery:detail',
 } as const;

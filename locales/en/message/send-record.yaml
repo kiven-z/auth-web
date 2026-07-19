@@ -1,13 +1,18 @@
 sendRecord:
   title:
     table: Message send records
+    detail: Delivery record detail
   field:
     taskId: Task batch ID
     channel: Channel
+    targetValue: Target
     status: Delivery status
     providerMsgId: Provider message ID
     errorCode: Error code
+    errorMessage: Error message
     sentAt: Sent at
+    retryCount: Retry count
+    remark: Remark
   channel:
     EMAIL: Email
     SMS: SMS
