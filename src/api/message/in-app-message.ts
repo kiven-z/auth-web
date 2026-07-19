@@ -147,3 +147,12 @@ export function getInAppSendTaskPage(params: InAppSendTaskPageQuery) {
 export function getInAppSendTaskById(taskId: string) {
   return http.get<InAppSendTaskDetailVO, AxiosRequestConfig>(`/system/message/in-app/tasks/${taskId}`);
 }
+
+/**
+ * 补发站内信发送任务（仅 PUSH 定向任务）
+ * @param taskId 任务 ID（雪花，字符串传递）
+ * @returns 补发受理结果
+ */
+export function retryInAppSendTask(taskId: string) {
+  return http.post<InAppComposeResult, undefined>(`/system/message/in-app/tasks/${taskId}/retry`);
+}

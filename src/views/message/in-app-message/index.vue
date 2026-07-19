@@ -4,6 +4,7 @@ import AuthPagedTable, { usePaginationState } from '@/components/business/AuthPa
 import { useFormPlaceholder } from '@/shared/composables/i18n/useFormPlaceholder';
 import { IN_APP_MESSAGE_PERMS } from '@/views/message/in-app-message/constants/permissions';
 import {
+  canRetryInAppSendTask,
   IN_APP_MESSAGE_DELIVERY_OPTIONS,
   IN_APP_MESSAGE_SCOPE_OPTIONS,
   IN_APP_MESSAGE_SOURCE_OPTIONS,
@@ -22,7 +23,6 @@ defineOptions({
 const { t } = useI18n();
 const ph = useFormPlaceholder();
 const { columns } = useInAppMessageTableColumns();
-const { openDetailDialog } = useInAppMessageTableAction();
 const searchFormRef = ref<FormInstance>();
 
 const inAppMessageState = usePaginationState({
@@ -37,6 +37,7 @@ const inAppMessageState = usePaginationState({
   }),
 });
 const { loading, searchForm, fetchTableData, resetQuery } = inAppMessageState;
+const { openDetailDialog, retryTask } = useInAppMessageTableAction({ fetchTableData });
 
 onMounted(() => {
   fetchTableData();
@@ -153,6 +154,16 @@ onMounted(() => {
         <!-- 查看 -->
         <el-button v-perms="IN_APP_MESSAGE_PERMS.DETAIL" link type="primary" @click="openDetailDialog(row)">
           {{ t('buttons.actionView') }}
+        </el-button>
+        <!-- 补发：仅 PUSH 定向且状态可恢复 -->
+        <el-button
+          v-if="canRetryInAppSendTask(row)"
+          v-perms="IN_APP_MESSAGE_PERMS.SEND"
+          link
+          type="warning"
+          @click="retryTask(row)"
+        >
+          {{ t('buttons.actionRetry') }}
         </el-button>
       </template>
     </AuthPagedTable>

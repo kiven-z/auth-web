@@ -69,6 +69,7 @@ buttons:
   actionAdd: Add
   actionEdit: Edit
   actionView: View
+  actionRetry: Retry
   actionDownload: Download
   actionDelete: Delete
   actionForceDelete: Force delete
