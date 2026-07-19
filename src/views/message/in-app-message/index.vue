@@ -4,8 +4,9 @@ import AuthPagedTable, { usePaginationState } from '@/components/business/AuthPa
 import { useFormPlaceholder } from '@/shared/composables/i18n/useFormPlaceholder';
 import { IN_APP_MESSAGE_PERMS } from '@/views/message/in-app-message/constants/permissions';
 import {
-  canRetryInAppSendTask,
   IN_APP_MESSAGE_DELIVERY_OPTIONS,
+  IN_APP_MESSAGE_RECALLABLE_STATUS,
+  IN_APP_MESSAGE_RETRYABLE_STATUS,
   IN_APP_MESSAGE_SCOPE_OPTIONS,
   IN_APP_MESSAGE_SOURCE_OPTIONS,
   IN_APP_MESSAGE_STATUS_ITEMS,
@@ -37,7 +38,7 @@ const inAppMessageState = usePaginationState({
   }),
 });
 const { loading, searchForm, fetchTableData, resetQuery } = inAppMessageState;
-const { openDetailDialog, retryTask } = useInAppMessageTableAction({ fetchTableData });
+const { openDetailDialog, retryTask, recallTask } = useInAppMessageTableAction({ fetchTableData });
 
 onMounted(() => {
   fetchTableData();
@@ -155,15 +156,29 @@ onMounted(() => {
         <el-button v-perms="IN_APP_MESSAGE_PERMS.DETAIL" link type="primary" @click="openDetailDialog(row)">
           {{ t('buttons.actionView') }}
         </el-button>
-        <!-- 补发：仅 PUSH 定向且状态可恢复 -->
+        <!-- 补发：管理端编排 + PUSH + 可恢复状态 -->
         <el-button
-          v-if="canRetryInAppSendTask(row)"
+          v-if="
+            row.sourceType === 'ADMIN_COMPOSE' &&
+            row.deliveryMode === 'PUSH' &&
+            IN_APP_MESSAGE_RETRYABLE_STATUS.has(row.status)
+          "
           v-perms="IN_APP_MESSAGE_PERMS.SEND"
           link
           type="warning"
           @click="retryTask(row)"
         >
           {{ t('buttons.actionRetry') }}
+        </el-button>
+        <!-- 撤回：仅 SUCCESS / PARTIAL -->
+        <el-button
+          v-if="IN_APP_MESSAGE_RECALLABLE_STATUS.has(row.status)"
+          v-perms="IN_APP_MESSAGE_PERMS.RECALL"
+          link
+          type="warning"
+          @click="recallTask(row)"
+        >
+          {{ t('buttons.actionRecall') }}
         </el-button>
       </template>
     </AuthPagedTable>

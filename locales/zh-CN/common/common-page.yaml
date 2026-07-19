@@ -70,6 +70,7 @@ buttons:
   actionEdit: 修改
   actionView: 查看
   actionRetry: 补发
+  actionRecall: 撤回
   actionDownload: 下载
   actionDelete: 删除
   actionForceDelete: 强制删除

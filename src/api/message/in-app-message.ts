@@ -151,8 +151,15 @@ export function getInAppSendTaskById(taskId: string) {
 /**
  * 补发站内信发送任务（仅 PUSH 定向任务）
  * @param taskId 任务 ID（雪花，字符串传递）
- * @returns 补发受理结果
  */
 export function retryInAppSendTask(taskId: string) {
-  return http.post<InAppComposeResult, undefined>(`/system/message/in-app/tasks/${taskId}/retry`);
+  return http.post<void, undefined>(`/system/message/in-app/tasks/${taskId}/retry`);
+}
+
+/**
+ * 撤回站内信发送任务（仅 SUCCESS / PARTIAL）
+ * @param taskId 任务 ID（雪花，字符串传递）
+ */
+export function recallInAppSendTask(taskId: string) {
+  return http.post<void, undefined>(`/system/message/in-app/tasks/${taskId}/recall`);
 }

@@ -3,7 +3,6 @@ import type {
   InAppMessageSourceType,
   InAppMessageStatusCode,
   InAppRecipientScopeType,
-  InAppSendTaskPageRow,
 } from '@/api/message/in-app-message';
 import type { TagProps } from 'element-plus';
 
@@ -11,7 +10,18 @@ import type { TagProps } from 'element-plus';
 export type InAppMessageStatusTagType = NonNullable<TagProps['type']>;
 
 /** 与后端 InAppMessageStatus#isRetryable 对齐的可补发状态 */
-const IN_APP_MESSAGE_RETRYABLE_STATUS = new Set<InAppMessageStatusCode>(['PENDING', 'SENDING', 'PARTIAL', 'FAILED']);
+export const IN_APP_MESSAGE_RETRYABLE_STATUS: ReadonlySet<string> = new Set<InAppMessageStatusCode>([
+  'PENDING',
+  'SENDING',
+  'PARTIAL',
+  'FAILED',
+]);
+
+/** 与后端 InAppMessageStatus#isRecallable 对齐的可撤回状态 */
+export const IN_APP_MESSAGE_RECALLABLE_STATUS: ReadonlySet<string> = new Set<InAppMessageStatusCode>([
+  'SUCCESS',
+  'PARTIAL',
+]);
 
 interface InAppMessageStatusMeta {
   value: InAppMessageStatusCode;
@@ -63,16 +73,3 @@ export const IN_APP_MESSAGE_DELIVERY_OPTIONS: readonly InAppMessageEnumMeta<InAp
   { value: 'PUSH', labelKey: 'inAppMessage.deliveryMode.PUSH' },
   { value: 'PULL', labelKey: 'inAppMessage.deliveryMode.PULL' },
 ];
-
-/**
- * 列表行是否允许展示补发：管理端编排 + PUSH + 可恢复状态（ALL/PULL 不可补发）
- * @param row 分页行
- * @returns 是否可补发
- */
-export function canRetryInAppSendTask(row: InAppSendTaskPageRow): boolean {
-  return (
-    row.sourceType === 'ADMIN_COMPOSE' &&
-    row.deliveryMode === 'PUSH' &&
-    IN_APP_MESSAGE_RETRYABLE_STATUS.has(row.status as InAppMessageStatusCode)
-  );
-}

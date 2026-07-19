@@ -8,4 +8,6 @@ export const IN_APP_MESSAGE_PERMS = {
   DETAIL: 'message:inapp:detail',
   /** 按范围发送 */
   SEND: 'message:inapp:send',
+  /** 撤回 */
+  RECALL: 'message:inapp:recall',
 } as const;
