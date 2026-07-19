@@ -54,6 +54,16 @@ export default [
       },
     ],
   },
+  // 我的消息
+  {
+    path: '/inbox',
+    name: 'HomeMessage',
+    component: () => import('@/views/home/message/index.vue'),
+    meta: {
+      showLink: false,
+      title: $t('routes.myInbox'),
+    },
+  },
   // 全屏403（无权访问）页面
   {
     path: '/access-denied',

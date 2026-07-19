@@ -6,10 +6,10 @@ import { http } from '@/core/http';
 export interface FileUploadRequest {
   /** 上传文件 */
   file: File;
+  /** 业务类型（对应后端 FileBizType.code，必填） */
+  bizType: string;
   /** 存储平台（可选） */
   storagePlatform?: string;
-  /** 业务类型（可选） */
-  bizType?: string;
 }
 
 /**
@@ -28,11 +28,9 @@ export interface FileUploadResponse {
 export function uploadFile(payload: FileUploadRequest): Promise<FileUploadResponse> {
   const formData = new FormData();
   formData.append('file', payload.file);
+  formData.append('bizType', payload.bizType);
   if (payload.storagePlatform) {
     formData.append('storagePlatform', payload.storagePlatform);
-  }
-  if (payload.bizType) {
-    formData.append('bizType', payload.bizType);
   }
 
   return http.post<FileUploadResponse, unknown>('/system/file/upload', {

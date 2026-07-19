@@ -1,0 +1,24 @@
+inAppInbox:
+  badgeTitle: My messages
+  title: My messages
+  back: Back
+  backHome: Home
+  tab:
+    pull: Public
+    push: System
+  empty: No messages
+  loadMore: Load more
+  loading: Loading…
+  noMore: No more
+  unread: Unread
+  read: Read
+  field:
+    title: Title
+    bizType: Category
+    createTime: Time
+    deliveryMode: Type
+    linkUrl: Link
+    readStatus: Read status
+  detail:
+    title: Message detail
+    noContentHint: Message body will be available when the detail API is ready

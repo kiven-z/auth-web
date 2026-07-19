@@ -113,3 +113,4 @@ routes:
   fileRecycle: 文件回收站
   myFiles: 我的文件
   myFileRecycle: 我的回收站
+  myInbox: 我的消息
