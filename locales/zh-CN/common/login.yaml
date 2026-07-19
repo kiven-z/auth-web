@@ -20,5 +20,4 @@ login:
   authCodeReg: 请输入验证码
   authSendCode: 发送验证码
   authSendCodeSuccess: 验证码已发送
-  authSendCodeFail: 验证码发送失败
   authRememberMe: 记住登录

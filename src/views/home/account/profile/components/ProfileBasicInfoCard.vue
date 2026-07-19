@@ -112,7 +112,7 @@ async function handleSave() {
 
     emit('saved', { ...form.value });
   } catch (error: unknown) {
-    errorMessage(error, { defaultI18nKey: 'tips.editFailed' });
+    errorMessage(error);
   } finally {
     submitting.value = false;
   }

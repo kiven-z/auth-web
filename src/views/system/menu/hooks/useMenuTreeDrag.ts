@@ -37,7 +37,6 @@ export function useMenuTreeDrag(options: UseMenuTreeDragOptions) {
           parent: parentLabel,
         }),
       success: t('sysMenu.moveSuccess'),
-      failedI18nKey: 'sysMenu.moveFailed',
       topLevelLabel: t('sysMenu.parentTopLevel'),
     },
   });

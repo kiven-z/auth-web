@@ -25,7 +25,7 @@ function useJobGroupRemoteSearch() {
         limit: JOB_GROUP_REMOTE_SEARCH_LIMIT,
       });
     } catch (error: unknown) {
-      errorMessage(error, { defaultI18nKey: 'scheduleTask.messages.loadJobGroupFailed' });
+      errorMessage(error);
       jobGroupOptions.value = [];
     } finally {
       loadingJobGroups.value = false;

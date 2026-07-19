@@ -99,7 +99,7 @@ async function handleImport() {
     }
     return result.success;
   } catch (error: unknown) {
-    errorMessage(error, { defaultI18nKey: 'import.importFailed' });
+    errorMessage(error);
     return false;
   } finally {
     importing.value = false;
@@ -138,7 +138,7 @@ async function handleDownloadTemplate() {
     const blob = await props.onDownloadTemplate();
     downloadBlob(blob, props.templateFilename);
   } catch (error: unknown) {
-    errorMessage(error, { defaultI18nKey: 'import.templateDownloadFailed' });
+    errorMessage(error);
   } finally {
     downloadingTemplate.value = false;
   }

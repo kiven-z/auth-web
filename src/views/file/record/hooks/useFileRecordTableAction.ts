@@ -53,7 +53,7 @@ function useFileRecordTableAction(deps: FileRecordTableActionDeps) {
       selectedRows.value = [];
       await fetchTableData();
     } catch (error: unknown) {
-      errorMessage(error, { defaultI18nKey: 'fileRecord.messages.privacyUpdateFailed' });
+      errorMessage(error);
     } finally {
       privacyUpdateLoading.value = false;
     }

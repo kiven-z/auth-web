@@ -2,13 +2,10 @@ sysMenu:
   name: 菜单管理
   tableTitle: 菜单列表
   moveSuccess: 移动菜单成功
-  moveFailed: 移动菜单失败
   moveConfirmTitle: 确认移动菜单
   moveConfirmInner: 确定将「{menu}」调整为「{parent}」的下级菜单吗？
   moveConfirmSibling: 确定将「{menu}」调整为与「{peer}」同级吗？新的上级为「{parent}」。
   parentTopLevel: 顶级菜单
-  saveFailed: 菜单保存失败
-  statusFailed: 菜单状态更新失败
   routeName: 路由名称
   menuTitle: 菜单标题
   treeKeyword: 搜索菜单标题或路由名称

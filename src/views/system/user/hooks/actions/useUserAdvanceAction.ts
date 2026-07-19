@@ -82,7 +82,7 @@ function useUserAdvanceAction(options: UseUserAdvanceActionOptions) {
       message(t('users.kick.batchSuccess'), { type: 'success' });
       selectedRows.value = [];
     } catch (error: unknown) {
-      errorMessage(error, { defaultI18nKey: 'users.kick.batchFailed' });
+      errorMessage(error);
     }
   };
 
@@ -105,7 +105,7 @@ function useUserAdvanceAction(options: UseUserAdvanceActionOptions) {
       message(t('users.authRefresh.success'), { type: 'success' });
       selectedRows.value = [];
     } catch (error: unknown) {
-      errorMessage(error, { defaultI18nKey: 'users.authRefresh.failed' });
+      errorMessage(error);
     }
   };
 

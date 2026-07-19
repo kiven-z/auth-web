@@ -3,7 +3,6 @@ authorizationInvalidation:
   tabEvent: 幂等事件
   tabOutbox: 投递队列
   tabStats: 失败率统计
-  statsLoadFailed: 获取授权失效统计失败
   statsRefresh: 刷新统计
   statsOutboxSection: 投递队列统计
   statsEventSection: 幂等事件统计
@@ -16,7 +15,6 @@ authorizationInvalidation:
   statsTrendRange30Days: 近 30 天
   statsTrendRange60Days: 近 60 天
   statsTrendRange90Days: 近 90 天
-  statsTrendLoadFailed: 获取失败率趋势失败
   statsTrendYAxis: 失败率 (%)
   statsTrendTooltipFailureRate: 失败率
   statsTrendTooltipTotal: 总数

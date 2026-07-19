@@ -21,7 +21,6 @@ export interface ElTreeMoveDragMessages<T> {
   confirmInner: (dragged: T, dropTarget: T) => string;
   confirmSibling: (dragged: T, dropTarget: T, parentLabel: string) => string;
   success: string;
-  failedI18nKey: string;
   topLevelLabel: string;
 }
 
@@ -112,7 +111,7 @@ export function useElTreeMoveDrag<T extends TreeMoveNode>(options: UseElTreeMove
       message(messages.success, { type: 'success' });
       await onMoved();
     } catch (error: unknown) {
-      errorMessage(error, { defaultI18nKey: messages.failedI18nKey });
+      errorMessage(error);
       await onMoved();
     }
   };

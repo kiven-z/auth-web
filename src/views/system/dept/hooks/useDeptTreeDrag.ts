@@ -33,7 +33,6 @@ export function useDeptTreeDrag(options: UseDeptTreeDragOptions) {
           parent: parentLabel,
         }),
       success: t('dept.message.moveSuccess'),
-      failedI18nKey: 'dept.message.moveFailed',
       topLevelLabel: t('dept.field.parentTopLevel'),
     },
   });

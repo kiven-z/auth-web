@@ -23,7 +23,7 @@ function useBeanInvokePicker(form: Ref<Pick<SysJobCreateForm, 'invokeTarget'>>) 
     try {
       catalogMethods.value = await getJobCatalogMethods(className);
     } catch (error: unknown) {
-      errorMessage(error, { defaultI18nKey: 'scheduleTask.messages.loadCatalogFailed' });
+      errorMessage(error);
     } finally {
       loadingMethods.value = false;
     }

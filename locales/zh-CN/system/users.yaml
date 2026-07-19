@@ -62,26 +62,20 @@ users:
     kickAll: 全部踢下线
     empty: 该用户暂无活跃会话
     kickSuccess: 会话已踢下线
-    kickFailed: 踢下线失败
     kickAllSuccess: 已全部踢下线
-    kickAllFailed: 全部踢下线失败
   kick:
     action: 用户下线
     batchAction: 批量用户下线
     success: 用户已全部下线
-    failed: 用户下线失败
     batchSuccess: 批量用户下线成功
-    batchFailed: 批量用户下线失败
   authRefresh:
     action: 刷新授权
     batchAction: 批量刷新授权
     success: 授权刷新成功
-    failed: 授权刷新失败
   deptAssign:
     drawerTip: 维护用户的组织隶属，部门角色据此生效。
     createTitle: 新增部门关联
     editTitle: 编辑部门关联
-    clearFailed: 清空用户部门关联失败
     clearAllConfirm: 将清空该用户的全部部门关联，是否继续？
     currentPrimary: 当前主部门
     noPrimary: 暂无主部门
@@ -94,7 +88,6 @@ users:
     createTitle: 新增岗位关联
     editTitle: 编辑岗位关联
     searchPlaceholder: 输入岗位名称或编码搜索
-    clearFailed: 清空用户岗位关联失败
     clearAllConfirm: 将清空该用户的全部岗位关联，是否继续？
   validation:
     passwordConfirmMismatch: 两次输入的密码不一致
@@ -123,4 +116,3 @@ users:
     transferred: 已调离
     partTime: 兼职
   message:
-    statusFailed: 用户状态更新失败

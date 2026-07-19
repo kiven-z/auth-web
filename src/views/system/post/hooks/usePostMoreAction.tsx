@@ -57,7 +57,7 @@ function usePostMoreAction(deps: PostMoreActionDeps) {
           await fetchTableData();
           done();
         } catch (error: unknown) {
-          errorMessage(error, { defaultI18nKey: 'tips.assignSaveFailed' });
+          errorMessage(error);
         }
       },
     });

@@ -6,19 +6,14 @@ tips:
   lastTimeConfirmTitle: 最后一次提醒，是否继续？
   operationSuccess: 操作成功
   addSuccess: 添加成功
-  addFailed: 添加失败
   editSuccess: 修改成功
-  editFailed: 修改失败
   deleteSuccess: 删除成功
-  deleteFailed: 删除失败
   animationIsNotExist: 动画不存在
   assignEmptySelected: 暂无已选项，请选择
-  assignLoadFailed: 分配数据加载失败
   asyncRoutesDegraded: 菜单加载失败，当前仅显示基础页面，请稍后刷新或联系管理员
   tokenExpiredRefreshRetry: 访问令牌过期或失效，若尝试刷新失败，请重新登录后重试
   permissionMismatchRefreshRetry: 权限已更新，若刷新失败，请重新登录后重试
   assignSaveSuccess: 分配保存成功
-  assignSaveFailed: 分配保存失败
   exportSuccess: 导出成功
   exportFailed: 导出失败
 export:
@@ -46,8 +41,6 @@ import:
   downloadErrorReport: 下载错误报告
   clearErrors: 清空错误
   errorsCleared: 已清空错误记录
-  templateDownloadFailed: 模板下载失败
-  importFailed: 导入请求失败
   fileRequired: 请先选择要上传的文件
   fileLimitExceeded: 文件大小不能超过 10MB
   fileTypeInvalid: 仅支持 .xlsx 格式

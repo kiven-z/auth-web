@@ -45,7 +45,6 @@ const templateImportState = usePaginationState<MessageTemplatePageRow, MessageTe
     imMessageType: undefined,
     status: true,
   }),
-  errorI18nKey: 'inAppCompose.importTemplateFailed',
 });
 
 const { loading, searchForm, fetchTableData, resetQuery } = templateImportState;
@@ -89,7 +88,7 @@ async function handleImport(row: MessageTemplatePageRow, bodySource: string): Pr
       contentType: detail.contentType as InAppTemplateContentType,
     });
   } catch (error: unknown) {
-    errorMessage(error, { defaultI18nKey: 'inAppCompose.importTemplateFailed' });
+    errorMessage(error);
   } finally {
     importingId.value = '';
   }

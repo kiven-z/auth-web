@@ -22,13 +22,9 @@ fileRecord:
     extension: 扩展名
     etag: 对象ETag
   messages:
-    loadDetailFailed: 获取文件详情失败
     downloadSuccess: 下载成功
-    downloadFailed: 下载文件失败
     batchDownloadSuccess: 已开始下载 {count} 个文件
-    batchDownloadFailed: 批量下载文件失败
     privacyUpdateSuccess: 隐私属性更新成功
-    privacyUpdateFailed: 隐私属性更新失败
   actions:
     setPrivate: 设为私有
     setPublic: 设为公开

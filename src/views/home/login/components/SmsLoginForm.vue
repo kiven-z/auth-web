@@ -46,7 +46,7 @@ const handleSendCode = async () => {
     // 开始倒计时
     startCountdown();
   } catch (error: unknown) {
-    errorMessage(error, { defaultI18nKey: 'login.authSendCodeFail' });
+    errorMessage(error);
   }
 };
 
@@ -68,7 +68,7 @@ const handleSubmit = async () => {
     await loginAndEstablishSession(() => loginBySmsApi({ ...formData, rememberMe: isRemembered.value }));
     emit('login-success');
   } catch (error: unknown) {
-    errorMessage(error, { defaultI18nKey: 'login.authLoginFail' });
+    errorMessage(error);
   } finally {
     loading.value = false;
   }

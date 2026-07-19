@@ -1,6 +1,5 @@
 inAppCompose:
   pageTitle: 编写站内信
-  sendFailed: 站内信发送失败
   sendSuccess: 已提交，系统正在后台投递给接收人
   sendButton: 立即发送
   importTemplate: 从模板导入
@@ -8,7 +7,6 @@ inAppCompose:
   importTemplateConfirm: 导入
   importContent: 导入原文
   importPreview: 导入预览
-  importTemplateFailed: 模板加载失败
   templateCodeTrace: 来源模板
   recipientScope: 接收范围
   scope:

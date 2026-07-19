@@ -2,25 +2,24 @@ import debounce from 'lodash/debounce';
 import { onScopeDispose, ref } from 'vue';
 
 import { searchUserByKeyword, type UserSearchOption } from '@/api/system/user-base';
-import { DEFAULT_ERROR_FALLBACK_I18N_KEY, errorMessage } from '@/services/feedback/message';
+import { errorMessage } from '@/services/feedback/message';
 
 /** 远程用户关键字请求防抖间隔 */
 const REMOTE_USER_SEARCH_DEBOUNCE_MS = 300;
 
 /** {@link useRemoteUserSearch} 配置 */
 export interface UseRemoteUserSearchOptions {
-  errorDefaultI18nKey?: string;
   /** 透传后端的返回条数上限，不传则使用后端默认 */
   limit?: number;
 }
 
 /**
  * 远程按关键字搜索用户（用于 `el-select` remote）。
- * @param options 错误文案键与可选 limit
+ * @param options 可选 limit
  * @returns 远程用户选项、加载状态与搜索方法
  */
 export default function useRemoteUserSearch(options: UseRemoteUserSearchOptions = {}) {
-  const { errorDefaultI18nKey = DEFAULT_ERROR_FALLBACK_I18N_KEY, limit } = options;
+  const { limit } = options;
 
   const userOptions = ref<UserSearchOption[]>([]);
   const userSearchLoading = ref(false);
@@ -44,7 +43,7 @@ export default function useRemoteUserSearch(options: UseRemoteUserSearchOptions 
       if (generation !== searchGeneration) {
         return;
       }
-      errorMessage(error, { defaultI18nKey: errorDefaultI18nKey });
+      errorMessage(error);
       userOptions.value = [];
     } finally {
       if (generation === searchGeneration) {

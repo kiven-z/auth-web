@@ -72,7 +72,7 @@ const refreshAssignedSeed = async () => {
   try {
     applySeed(await props.loadAssigned());
   } catch (error: unknown) {
-    errorMessage(error, { defaultI18nKey: 'tips.assignLoadFailed' });
+    errorMessage(error);
     applySeed([]);
   }
 };

@@ -11,4 +11,3 @@ onlineUser:
     kickAll: Kick all
   message:
     kickAllSuccess: All sessions kicked successfully
-    kickAllFailed: Failed to kick all sessions

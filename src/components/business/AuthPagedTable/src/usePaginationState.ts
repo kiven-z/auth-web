@@ -1,21 +1,18 @@
 import type { PageResponse } from '@/api/common';
 import { runPagedTableFetch } from '@/components/business/AuthPagedTable/src/pagination';
-import { DEFAULT_ERROR_FALLBACK_I18N_KEY } from '@/services/feedback/message';
 import type { FormInstance } from 'element-plus';
 import { reactive, ref } from 'vue';
 
 /** {@link usePaginationState} 配置 */
 export interface UsePaginationStateOptions<TData = unknown, TQuery extends Record<string, any> = Record<string, any>> {
   /**
-   * 分页查询 API。参数类型由 {@link TQuery} 约束，可与强类型 PageQuery（含必填字段）直接对齐。
+   * 分页查询 API
    */
   fetchApi: (params: TQuery) => Promise<PageResponse<TData>>;
   /** 搜索表单（使用 reactive 包裹后传入；须满足 TQuery，含固定查询字段） */
   searchForm: TQuery;
   /** 每页条数，默认 30 */
   defaultPageSize?: number;
-  /** 加载失败时的 i18n 兜底键 */
-  errorI18nKey?: string;
 }
 
 /**
@@ -38,7 +35,7 @@ export interface UsePaginationStateOptions<TData = unknown, TQuery extends Recor
 export function usePaginationState<TData = unknown, TQuery extends Record<string, any> = Record<string, any>>(
   options: UsePaginationStateOptions<TData, TQuery>
 ) {
-  const { fetchApi, searchForm, defaultPageSize = 30, errorI18nKey = DEFAULT_ERROR_FALLBACK_I18N_KEY } = options;
+  const { fetchApi, searchForm, defaultPageSize = 30 } = options;
 
   const loading = ref(false);
   const tableData = ref<TData[]>([]);
@@ -60,7 +57,6 @@ export function usePaginationState<TData = unknown, TQuery extends Record<string
       pagination,
       tableData,
       fetchApi,
-      errorI18nKey,
     });
   };
 

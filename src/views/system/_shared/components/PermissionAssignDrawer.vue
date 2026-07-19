@@ -42,7 +42,6 @@ const permissionState = usePaginationState<SysPermissionPageRow>({
     permissionCode: undefined,
   }),
   defaultPageSize: 30,
-  errorI18nKey: 'tips.assignLoadFailed',
   fetchApi: (query) =>
     getPermissionPage({
       pageIndex: query.pageIndex as number,
@@ -77,7 +76,7 @@ const refreshAssignedSeed = async () => {
   try {
     applySeed(await props.loadAssigned());
   } catch (error: unknown) {
-    errorMessage(error, { defaultI18nKey: 'tips.assignLoadFailed' });
+    errorMessage(error);
     applySeed([]);
   }
 };

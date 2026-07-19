@@ -66,7 +66,6 @@ function useUserAssignPostDrawerAction(deps: UserAssignPostDrawerActionDeps) {
         }),
       beforeSure: createFormBeforeSure<UserPostRelationUpdateForm>({
         formExposeRef: dialogFormRef,
-        errorI18nKey: 'tips.assignSaveFailed',
         successI18nKey: 'tips.editSuccess',
         onSubmit: async (formPayload) => {
           await updateUserPost(userId, row.id, formPayload);
@@ -91,7 +90,6 @@ function useUserAssignPostDrawerAction(deps: UserAssignPostDrawerActionDeps) {
       contentRenderer: () => h(UserPostAssignFormDialog, { ref: dialogFormRef }),
       beforeSure: createFormBeforeSure<UserPostAssignForm>({
         formExposeRef: dialogFormRef,
-        errorI18nKey: 'tips.assignSaveFailed',
         successI18nKey: 'tips.addSuccess',
         onSubmit: async (formPayload) => {
           await createUserPost(userId, formPayload);
@@ -125,7 +123,7 @@ function useUserAssignPostDrawerAction(deps: UserAssignPostDrawerActionDeps) {
       selectedRows.value = [];
       await fetchTableData();
     } catch (error: unknown) {
-      errorMessage(error, { defaultI18nKey: 'users.postAssign.clearFailed' });
+      errorMessage(error);
     }
   };
 

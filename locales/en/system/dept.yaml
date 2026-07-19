@@ -27,9 +27,7 @@ dept:
   action:
     addChild: Add Child
   message:
-    loadDetailFailed: Failed to load department details
     moveSuccess: Department moved successfully
-    moveFailed: Failed to move department
   move:
     confirmTitle: Confirm department move
     confirmInner: Move "{dept}" under "{parent}" as a child department?

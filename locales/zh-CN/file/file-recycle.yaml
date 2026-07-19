@@ -20,7 +20,4 @@ fileRecycle:
     size: 文件大小
     remark: 备注
   messages:
-    loadDetailFailed: 获取文件详情失败
     batchRestoreSuccess: 已恢复 {count} 个文件
-    restoreFailed: 恢复文件失败
-    purgeFailed: 彻底删除文件失败

@@ -11,4 +11,3 @@ onlineUser:
     kickAll: 踢出全部
   message:
     kickAllSuccess: 已踢出该用户全部会话
-    kickAllFailed: 踢出全部会话失败

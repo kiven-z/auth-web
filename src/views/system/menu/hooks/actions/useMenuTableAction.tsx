@@ -65,7 +65,6 @@ function useMenuTableAction(deps: MenuTableActionDeps) {
         }),
       beforeSure: createFormBeforeSure<MenuCreateForm>({
         formExposeRef: drawerFormRef,
-        errorI18nKey: 'sysMenu.saveFailed',
         successI18nKey: 'tips.addSuccess',
         onSubmit: async (formPayload) => {
           await createMenu(formPayload);
@@ -99,7 +98,6 @@ function useMenuTableAction(deps: MenuTableActionDeps) {
           }),
         beforeSure: createFormBeforeSure<MenuUpdateForm>({
           formExposeRef: drawerFormRef,
-          errorI18nKey: 'sysMenu.saveFailed',
           successI18nKey: 'tips.editSuccess',
           requireId: true,
           onSubmit: async (formPayload) => {
@@ -149,7 +147,7 @@ function useMenuTableAction(deps: MenuTableActionDeps) {
       message(t('tips.editSuccess'), { type: 'success' });
       await refresh();
     } catch (error: unknown) {
-      errorMessage(error, { defaultI18nKey: 'sysMenu.statusFailed' });
+      errorMessage(error);
     }
   };
 

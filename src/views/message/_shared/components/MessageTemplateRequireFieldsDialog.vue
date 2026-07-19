@@ -66,7 +66,7 @@ const submit = async (): Promise<boolean> => {
     message(t('tips.editSuccess'), { type: 'success' });
     return true;
   } catch (error: unknown) {
-    errorMessage(error, { defaultI18nKey: 'tips.editFailed' });
+    errorMessage(error);
     return false;
   }
 };

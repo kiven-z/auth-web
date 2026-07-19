@@ -47,7 +47,7 @@ const handleSubmit = async () => {
     await loginAndEstablishSession(() => loginByUsernameApi({ ...formData, rememberMe: isRemembered.value }));
     emit('login-success');
   } catch (error: unknown) {
-    errorMessage(error, { defaultI18nKey: 'login.authLoginFail' });
+    errorMessage(error);
   } finally {
     loading.value = false;
   }

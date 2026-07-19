@@ -111,7 +111,7 @@ function usePostTableAction(deps: TableActionDeps) {
       message(t('tips.deleteSuccess'), { type: 'success' });
       await fetchTableData();
     } catch (error: unknown) {
-      errorMessage(error, { defaultI18nKey: 'tips.deleteFailed' });
+      errorMessage(error);
     }
   };
 

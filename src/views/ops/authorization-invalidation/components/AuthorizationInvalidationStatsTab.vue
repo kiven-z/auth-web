@@ -38,7 +38,7 @@ async function reloadSummary() {
   try {
     summary.value = await getAuthorizationInvalidationSummary();
   } catch (error: unknown) {
-    errorMessage(error, { defaultI18nKey: 'authorizationInvalidation.statsLoadFailed' });
+    errorMessage(error);
   } finally {
     loading.value = false;
   }

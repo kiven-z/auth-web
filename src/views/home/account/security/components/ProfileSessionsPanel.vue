@@ -42,7 +42,7 @@ async function handleRevokeSession(sessionId: string) {
     message(t('account.message.revokeSuccess'), { type: 'success' });
     emit('update:sessions', await listMySessions());
   } catch (error: unknown) {
-    errorMessage(error, { defaultI18nKey: 'users.session.kickFailed' });
+    errorMessage(error);
   } finally {
     revokingSessionId.value = null;
   }

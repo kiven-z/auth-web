@@ -30,7 +30,6 @@ const postAssignState = usePaginationState<UserPostPageRow>({
     status: undefined,
   }),
   defaultPageSize: 30,
-  errorI18nKey: 'tips.assignLoadFailed',
   fetchApi: (query) =>
     getUserPostPage(props.userId, {
       pageIndex: query.pageIndex as number,

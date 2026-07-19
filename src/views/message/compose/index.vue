@@ -132,7 +132,7 @@ async function handleSend(): Promise<void> {
     message(t('inAppCompose.sendSuccess'), { type: 'success' });
     resetForm();
   } catch (error: unknown) {
-    errorMessage(error, { defaultI18nKey: 'inAppCompose.sendFailed' });
+    errorMessage(error);
   } finally {
     sending.value = false;
   }

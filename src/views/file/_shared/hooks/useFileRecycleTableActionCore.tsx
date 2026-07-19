@@ -32,7 +32,6 @@ function useFileRecycleTableActionCore(options: UseFileRecycleTableActionCoreOpt
     selectedRows,
     deleteApi: purgeApi,
     onSuccess: fetchTableData,
-    errorI18nKey: 'fileRecycle.messages.purgeFailed',
   });
 
   /**
@@ -53,7 +52,7 @@ function useFileRecycleTableActionCore(options: UseFileRecycleTableActionCoreOpt
         contentRenderer: () => <Description column={2} columns={detailColumns.value} data={detail} />,
       });
     } catch (error: unknown) {
-      errorMessage(error, { defaultI18nKey: 'fileRecycle.messages.loadDetailFailed' });
+      errorMessage(error);
     }
   };
 
@@ -81,7 +80,7 @@ function useFileRecycleTableActionCore(options: UseFileRecycleTableActionCoreOpt
       selectedRows.value = [];
       await fetchTableData();
     } catch (error: unknown) {
-      errorMessage(error, { defaultI18nKey: 'fileRecycle.messages.restoreFailed' });
+      errorMessage(error);
     }
   };
 

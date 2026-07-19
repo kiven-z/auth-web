@@ -42,7 +42,7 @@ async function reloadTrend() {
     });
     renderChart();
   } catch (error: unknown) {
-    errorMessage(error, { defaultI18nKey: 'authorizationInvalidation.statsTrendLoadFailed' });
+    errorMessage(error);
   } finally {
     trendLoading.value = false;
   }

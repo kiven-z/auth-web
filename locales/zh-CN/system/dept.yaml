@@ -27,9 +27,7 @@ dept:
   action:
     addChild: 新增下级
   message:
-    loadDetailFailed: 加载部门详情失败
     moveSuccess: 移动部门成功
-    moveFailed: 移动部门失败
   move:
     confirmTitle: 确认移动部门
     confirmInner: 确定将「{dept}」调整为「{parent}」的下级部门吗？

@@ -12,12 +12,8 @@ export interface UseBatchDeleteActionOptions {
   deleteApi: (ids: string[]) => Promise<unknown>;
   /** 删除成功后刷新表格 */
   onSuccess: () => Promise<void>;
-  /**
-   * 请求失败时 errorMessage 的兜底 i18nKey。
-   * 默认 tips.deleteFailed。
-   */
-  errorI18nKey?: string;
 }
+
 /**
  * 表格批量删除动作：标准两次确认、成功提示、清空多选、刷新列表
  *
@@ -28,7 +24,7 @@ export interface UseBatchDeleteActionOptions {
  * @returns deleteBatchRows 删除方法
  */
 function useBatchDeleteAction(options: UseBatchDeleteActionOptions) {
-  const { selectedRows, deleteApi, onSuccess, errorI18nKey = 'tips.deleteFailed' } = options;
+  const { selectedRows, deleteApi, onSuccess } = options;
   const { t } = useI18n();
 
   /**
@@ -54,7 +50,7 @@ function useBatchDeleteAction(options: UseBatchDeleteActionOptions) {
       selectedRows.value = [];
       await onSuccess();
     } catch (error: unknown) {
-      errorMessage(error, { defaultI18nKey: errorI18nKey });
+      errorMessage(error);
     }
   };
 

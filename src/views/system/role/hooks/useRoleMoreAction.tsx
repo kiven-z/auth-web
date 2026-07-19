@@ -52,7 +52,7 @@ function useRoleMoreAction() {
           message(t('tips.assignSaveSuccess'), { type: 'success' });
           done();
         } catch (error: unknown) {
-          errorMessage(error, { defaultI18nKey: 'tips.assignSaveFailed' });
+          errorMessage(error);
         }
       },
     });

@@ -76,7 +76,7 @@ function useDeptTableAction(deps: DeptTableActionDeps) {
         contentRenderer: () => h(DeptDescriptionDialog, { data: detail, parentDeptLabel }),
       });
     } catch (error: unknown) {
-      errorMessage(error, { defaultI18nKey: 'dept.message.loadDetailFailed' });
+      errorMessage(error);
     }
   };
 
@@ -132,7 +132,7 @@ function useDeptTableAction(deps: DeptTableActionDeps) {
         }),
       });
     } catch (error: unknown) {
-      errorMessage(error, { defaultI18nKey: 'dept.message.loadDetailFailed' });
+      errorMessage(error);
     }
   };
 

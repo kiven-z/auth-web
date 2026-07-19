@@ -37,7 +37,7 @@ function useOnlineUserTableAction(deps: OnlineUserTableActionDeps) {
       message(t('onlineUser.message.kickAllSuccess'), { type: 'success' });
       await fetchTableData();
     } catch (error: unknown) {
-      errorMessage(error, { defaultI18nKey: 'onlineUser.message.kickAllFailed' });
+      errorMessage(error);
     }
   }
 

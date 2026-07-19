@@ -3,7 +3,6 @@ authorizationInvalidation:
   tabEvent: Idempotency Events
   tabOutbox: Outbox Queue
   tabStats: Failure Rate Stats
-  statsLoadFailed: Failed to load authorization invalidation stats
   statsRefresh: Refresh Stats
   statsOutboxSection: Outbox Queue Stats
   statsEventSection: Idempotency Event Stats
@@ -16,7 +15,6 @@ authorizationInvalidation:
   statsTrendRange30Days: Last 30 Days
   statsTrendRange60Days: Last 60 Days
   statsTrendRange90Days: Last 90 Days
-  statsTrendLoadFailed: Failed to load failure rate trend
   statsTrendYAxis: Failure Rate (%)
   statsTrendTooltipFailureRate: Failure Rate
   statsTrendTooltipTotal: Total

@@ -53,7 +53,7 @@ async function handleKickSession(sessionId: string) {
     message(t('users.session.kickSuccess'), { type: 'success' });
     await loadSessions();
   } catch (error: unknown) {
-    errorMessage(error, { defaultI18nKey: 'users.session.kickFailed' });
+    errorMessage(error);
   } finally {
     kickingSessionId.value = null;
   }
@@ -67,7 +67,6 @@ async function handleKickAllSessions() {
   try {
     await props.kickAllForUser(props.userId, {
       successI18nKey: 'users.session.kickAllSuccess',
-      failedI18nKey: 'users.session.kickAllFailed',
       onSuccess: loadSessions,
     });
   } finally {

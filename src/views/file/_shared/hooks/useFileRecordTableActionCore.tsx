@@ -52,7 +52,7 @@ function useFileRecordTableActionCore(options: UseFileRecordTableActionCoreOptio
       downloadBlob(blob, 'file-records.zip');
       message(t('fileRecord.messages.downloadSuccess'), { type: 'success' });
     } catch (error: unknown) {
-      errorMessage(error, { defaultI18nKey: 'fileRecord.messages.downloadFailed' });
+      errorMessage(error);
     } finally {
       currentDownloadingRowId.value = null;
     }
@@ -73,7 +73,7 @@ function useFileRecordTableActionCore(options: UseFileRecordTableActionCoreOptio
       downloadBlob(blob, 'file-records.zip');
       message(t('fileRecord.messages.batchDownloadSuccess', { count: targetIds.length }), { type: 'success' });
     } catch (error: unknown) {
-      errorMessage(error, { defaultI18nKey: 'fileRecord.messages.batchDownloadFailed' });
+      errorMessage(error);
     } finally {
       batchDownloadLoading.value = false;
     }
@@ -97,7 +97,7 @@ function useFileRecordTableActionCore(options: UseFileRecordTableActionCoreOptio
         contentRenderer: () => <Description column={2} columns={detailColumns.value} data={detail} />,
       });
     } catch (error: unknown) {
-      errorMessage(error, { defaultI18nKey: 'fileRecord.messages.loadDetailFailed' });
+      errorMessage(error);
     }
   };
 

@@ -119,7 +119,7 @@ function useUserTableAction(deps: TableActionWithSelectionDeps) {
       selectedRows.value = [];
       await fetchTableData();
     } catch (error: unknown) {
-      errorMessage(error, { defaultI18nKey: 'users.message.statusFailed' });
+      errorMessage(error);
     }
   };
 

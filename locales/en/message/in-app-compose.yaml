@@ -1,6 +1,5 @@
 inAppCompose:
   pageTitle: Compose in-app message
-  sendFailed: Failed to send in-app message
   sendSuccess: Submitted. Delivery continues in the background.
   sendButton: Send now
   importTemplate: Import from template
@@ -8,7 +7,6 @@ inAppCompose:
   importTemplateConfirm: Import
   importContent: Import original
   importPreview: Import preview
-  importTemplateFailed: Failed to load template
   templateCodeTrace: Source template
   recipientScope: Recipients
   scope:

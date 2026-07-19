@@ -60,7 +60,7 @@ function useMenuMoreAction(deps: MenuTableActionDeps) {
           await refresh();
           done();
         } catch (error: unknown) {
-          errorMessage(error, { defaultI18nKey: 'tips.assignSaveFailed' });
+          errorMessage(error);
         }
       },
     });

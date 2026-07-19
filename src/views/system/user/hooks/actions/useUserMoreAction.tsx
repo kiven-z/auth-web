@@ -28,7 +28,6 @@ interface KickAllForUserOptions {
   /** 成功后回调（如弹窗内刷新会话列表） */
   onSuccess?: () => void | Promise<void>;
   successI18nKey?: string;
-  failedI18nKey?: string;
 }
 
 /**
@@ -117,7 +116,7 @@ function useUserMoreAction(deps: TableActionDeps) {
           await fetchTableData();
           done();
         } catch (error: unknown) {
-          errorMessage(error, { defaultI18nKey: 'tips.assignSaveFailed' });
+          errorMessage(error);
         }
       },
     });
@@ -139,7 +138,7 @@ function useUserMoreAction(deps: TableActionDeps) {
       message(t(kickOptions?.successI18nKey ?? 'users.kick.success'), { type: 'success' });
       await kickOptions?.onSuccess?.();
     } catch (error: unknown) {
-      errorMessage(error, { defaultI18nKey: kickOptions?.failedI18nKey ?? 'users.kick.failed' });
+      errorMessage(error);
     }
   };
 
@@ -199,7 +198,7 @@ function useUserMoreAction(deps: TableActionDeps) {
       await refreshUserAuthorization([row.id]);
       message(t('users.authRefresh.success'), { type: 'success' });
     } catch (error: unknown) {
-      errorMessage(error, { defaultI18nKey: 'users.authRefresh.failed' });
+      errorMessage(error);
     }
   };
 

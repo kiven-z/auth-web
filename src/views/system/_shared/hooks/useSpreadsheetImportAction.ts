@@ -22,8 +22,6 @@ export interface SpreadsheetImportActionOptions {
   templateFilename: string;
   /** 导入成功后回调 */
   onSuccess?: () => Promise<void> | void;
-  /** 失败提示兜底 i18n key */
-  errorI18nKey?: string;
 }
 
 /**
@@ -58,7 +56,7 @@ function useSpreadsheetImportAction(options: SpreadsheetImportActionOptions) {
             await options.onSuccess?.();
             closeDialog(dialogOptions, index, { command: 'sure' });
           } catch (error: unknown) {
-            errorMessage(error, { defaultI18nKey: options.errorI18nKey ?? 'import.importFailed' });
+            errorMessage(error);
           }
         },
       },

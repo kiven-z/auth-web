@@ -39,7 +39,7 @@ function useJobCatalog() {
     try {
       catalogClasses.value = await getJobCatalogClasses();
     } catch (error: unknown) {
-      errorMessage(error, { defaultI18nKey: 'scheduleTask.messages.loadCatalogFailed' });
+      errorMessage(error);
     }
   }
 
