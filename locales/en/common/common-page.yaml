@@ -1,5 +1,5 @@
 tips:
-  requestFailed: Failed to load data
+  requestFailed: Request failed. Please try again later.
   deleteConfirm: Confirm deletion?
   lastTimeConfirmDeleteTitle: Last confirmation
   confirmTitle: Confirm to continue?

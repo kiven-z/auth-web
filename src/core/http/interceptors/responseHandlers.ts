@@ -1,3 +1,4 @@
+import { transformI18n } from '@/app/plugins/i18n';
 import { runSessionLogout } from '@/auth/config/auth/auth-session-effects';
 import { API_SUCCESS_CODE, isNoAuthRequestPath } from '@/auth/config/http-config';
 import { executeAuthRecovery } from '@/core/auth/recovery';
@@ -78,5 +79,12 @@ async function handleResponseError(instance: AxiosInstance, error: AuthHttpError
   if (envelope) {
     await rejectWithApiEnvelopeError(envelope, status ?? 0);
   }
+  // 取消请求保持原错误，避免被当成业务失败提示
+  if (error.isCancelRequest) {
+    throw error;
+  }
+
+  // 无业务信封：改写文案后抛出，保留 status / config 便于排查（后端未启动、代理 5xx、断网等）
+  error.message = transformI18n('tips.requestFailed');
   throw error;
 }
