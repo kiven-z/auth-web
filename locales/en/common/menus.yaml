@@ -90,6 +90,7 @@ routes:
   smsTemplate: SMS message templates
   inAppTemplate: In-app message templates
   messageCompose: Compose in-app message
+  inAppMessage: In-app send tasks
   sendRecord: Message send records
 
   schedule: Task Scheduling

@@ -1,0 +1,31 @@
+inAppMessage:
+  title:
+    table: 站内信发送任务
+  field:
+    title: 标题
+    status: 任务状态
+    sourceType: 来源
+    recipientScopeType: 接收范围
+    deliveryMode: 投递模式
+    contentType: 正文类型
+    bizType: 业务分类
+    sceneCode: 场景编码
+    totalCount: 目标数
+    successCount: 成功数
+    failCount: 失败数
+    recalledAt: 撤回时间
+  sourceType:
+    ADMIN_COMPOSE: 管理端手写
+    TEMPLATE: 模板发送
+    SYSTEM: 系统触发
+  deliveryMode:
+    PUSH: 定向投递
+    PULL: 全员公开
+  status:
+    PENDING: 待发送
+    SENDING: 发送中
+    SUCCESS: 全部成功
+    PARTIAL: 部分成功
+    FAILED: 失败
+    NO_RECIPIENTS: 无接收人
+    RECALLED: 已撤回

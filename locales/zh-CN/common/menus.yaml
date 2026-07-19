@@ -90,6 +90,7 @@ routes:
   smsTemplate: 短信消息模板
   inAppTemplate: 站内信模板
   messageCompose: 编写站内信
+  inAppMessage: 站内信发送任务
   sendRecord: 消息发送记录
 
   schedule: 任务调度

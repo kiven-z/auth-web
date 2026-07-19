@@ -62,6 +62,9 @@ function useMenuTableColumns() {
       prop: 'icon',
       width: 80,
       formatter: (row: SysMenuRow) => {
+        if (!row.icon) {
+          return '';
+        }
         return <span className="flex justify-center text-xl">{h(useRenderIcon(row.icon))}</span>;
       },
     },

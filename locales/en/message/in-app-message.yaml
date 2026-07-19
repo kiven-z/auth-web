@@ -1,0 +1,31 @@
+inAppMessage:
+  title:
+    table: In-app send tasks
+  field:
+    title: Title
+    status: Status
+    sourceType: Source
+    recipientScopeType: Recipient scope
+    deliveryMode: Delivery mode
+    contentType: Content type
+    bizType: Business type
+    sceneCode: Scene code
+    totalCount: Total
+    successCount: Success
+    failCount: Failed
+    recalledAt: Recalled at
+  sourceType:
+    ADMIN_COMPOSE: Admin compose
+    TEMPLATE: Template
+    SYSTEM: System
+  deliveryMode:
+    PUSH: Push
+    PULL: Pull
+  status:
+    PENDING: Pending
+    SENDING: Sending
+    SUCCESS: Success
+    PARTIAL: Partial
+    FAILED: Failed
+    NO_RECIPIENTS: No recipients
+    RECALLED: Recalled

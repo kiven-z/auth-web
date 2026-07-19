@@ -16,10 +16,7 @@ function useSendRecordTableColumns() {
   const { t } = useI18n();
 
   const columns = computed<TableColumnList>(() => [
-    {
-      type: 'selection',
-      width: 50,
-    },
+    { type: 'selection', width: 48 },
     {
       type: 'index',
       index: (index: number) => index + 1,
