@@ -10,6 +10,8 @@ inAppCompose:
   importTemplateConfirm: Import
   importContent: Import original
   importPreview: Import preview
+  importConfirmTitle: Confirm import
+  importConfirmMessage: Importing will overwrite the current title and body. Continue?
   templateCodeTrace: Source template
   recipientScope: Recipients
   scope:
