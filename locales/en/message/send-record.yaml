@@ -1,0 +1,21 @@
+sendRecord:
+  title:
+    table: Message send records
+  field:
+    taskId: Task batch ID
+    channel: Channel
+    status: Delivery status
+    providerMsgId: Provider message ID
+    errorCode: Error code
+    sentAt: Sent at
+  channel:
+    EMAIL: Email
+    SMS: SMS
+    DING_TALK: DingTalk
+  status:
+    PENDING: Pending
+    SUCCESS: Success
+    FAILED: Failed
+    SKIPPED: Skipped
+  message:
+    loadFailed: Failed to load message send records
