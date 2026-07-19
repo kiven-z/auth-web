@@ -157,9 +157,17 @@ export function retryInAppSendTask(taskId: string) {
 }
 
 /**
- * 撤回站内信发送任务（仅 SUCCESS / PARTIAL）
+ * 撤回站内信发送任务（SUCCESS / PARTIAL / NO_RECIPIENTS）
  * @param taskId 任务 ID（雪花，字符串传递）
  */
 export function recallInAppSendTask(taskId: string) {
   return http.post<void, undefined>(`/system/message/in-app/tasks/${taskId}/recall`);
+}
+
+/**
+ * 批量删除站内信发送任务（仅终态可删）
+ * @param ids 任务 ID 数组（雪花，字符串传递）
+ */
+export function batchDeleteInAppSendTasks(ids: string[]) {
+  return http.request<string>('delete', '/system/message/in-app/tasks', { data: ids });
 }

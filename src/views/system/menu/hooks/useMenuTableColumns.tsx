@@ -102,7 +102,7 @@ function useMenuTableColumns() {
     {
       label: t('table.actions'),
       fixed: 'right' as const,
-      width: 240,
+      width: 200,
       slot: 'actions',
     },
   ]);

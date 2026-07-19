@@ -15,12 +15,23 @@ export const IN_APP_MESSAGE_RETRYABLE_STATUS: ReadonlySet<string> = new Set<InAp
   'SENDING',
   'PARTIAL',
   'FAILED',
+  'NO_RECIPIENTS',
 ]);
 
 /** 与后端 InAppMessageStatus#isRecallable 对齐的可撤回状态 */
 export const IN_APP_MESSAGE_RECALLABLE_STATUS: ReadonlySet<string> = new Set<InAppMessageStatusCode>([
   'SUCCESS',
   'PARTIAL',
+  'NO_RECIPIENTS',
+]);
+
+/** 与后端 InAppMessageStatus#isDeletable 对齐的可删除状态 */
+export const IN_APP_MESSAGE_DELETABLE_STATUS: ReadonlySet<string> = new Set<InAppMessageStatusCode>([
+  'SUCCESS',
+  'PARTIAL',
+  'FAILED',
+  'NO_RECIPIENTS',
+  'RECALLED',
 ]);
 
 interface InAppMessageStatusMeta {

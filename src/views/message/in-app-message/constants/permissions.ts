@@ -10,4 +10,6 @@ export const IN_APP_MESSAGE_PERMS = {
   SEND: 'message:inapp:send',
   /** 撤回 */
   RECALL: 'message:inapp:recall',
+  /** 批量删除 */
+  DELETE: 'message:inapp:delete',
 } as const;

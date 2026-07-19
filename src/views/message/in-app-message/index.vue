@@ -4,6 +4,7 @@ import AuthPagedTable, { usePaginationState } from '@/components/business/AuthPa
 import { useFormPlaceholder } from '@/shared/composables/i18n/useFormPlaceholder';
 import { IN_APP_MESSAGE_PERMS } from '@/views/message/in-app-message/constants/permissions';
 import {
+  IN_APP_MESSAGE_DELETABLE_STATUS,
   IN_APP_MESSAGE_DELIVERY_OPTIONS,
   IN_APP_MESSAGE_RECALLABLE_STATUS,
   IN_APP_MESSAGE_RETRYABLE_STATUS,
@@ -37,8 +38,11 @@ const inAppMessageState = usePaginationState({
     bizType: undefined,
   }),
 });
-const { loading, searchForm, fetchTableData, resetQuery } = inAppMessageState;
-const { openDetailDialog, retryTask, recallTask } = useInAppMessageTableAction({ fetchTableData });
+const { selectedRows, loading, searchForm, fetchTableData, resetQuery } = inAppMessageState;
+const { openDetailDialog, retryTask, recallTask, deleteBatchRows } = useInAppMessageTableAction({
+  fetchTableData,
+  selectedRows,
+});
 
 onMounted(() => {
   fetchTableData();
@@ -151,6 +155,23 @@ onMounted(() => {
       :title="t('inAppMessage.title.table')"
       show-overflow-tooltip
     >
+      <template #buttons>
+        <Perms :value="IN_APP_MESSAGE_PERMS.DELETE">
+          <el-dropdown trigger="click">
+            <el-button type="danger">
+              {{ t('buttons.actionAdvanced') }}
+            </el-button>
+
+            <template #dropdown>
+              <el-dropdown-item :disabled="selectedRows.length <= 0" type="danger" @click="deleteBatchRows()">
+                <!-- 批量删除 -->
+                {{ t('buttons.actionBatchDelete') }}
+              </el-dropdown-item>
+            </template>
+          </el-dropdown>
+        </Perms>
+      </template>
+
       <template #actions="{ row }">
         <!-- 查看 -->
         <el-button v-perms="IN_APP_MESSAGE_PERMS.DETAIL" link type="primary" @click="openDetailDialog(row)">
@@ -170,7 +191,7 @@ onMounted(() => {
         >
           {{ t('buttons.actionRetry') }}
         </el-button>
-        <!-- 撤回：仅 SUCCESS / PARTIAL -->
+        <!-- 撤回：SUCCESS / PARTIAL / NO_RECIPIENTS -->
         <el-button
           v-if="IN_APP_MESSAGE_RECALLABLE_STATUS.has(row.status)"
           v-perms="IN_APP_MESSAGE_PERMS.RECALL"
@@ -179,6 +200,16 @@ onMounted(() => {
           @click="recallTask(row)"
         >
           {{ t('buttons.actionRecall') }}
+        </el-button>
+        <!-- 删除：仅终态（排除 PENDING / SENDING） -->
+        <el-button
+          v-if="IN_APP_MESSAGE_DELETABLE_STATUS.has(row.status)"
+          v-perms="IN_APP_MESSAGE_PERMS.DELETE"
+          link
+          type="danger"
+          @click="deleteBatchRows([row.id])"
+        >
+          {{ t('buttons.actionDelete') }}
         </el-button>
       </template>
     </AuthPagedTable>

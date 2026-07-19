@@ -1,21 +1,33 @@
-import type { TableActionDeps } from '@/api/common';
-import { type InAppSendTaskPageRow, recallInAppSendTask, retryInAppSendTask } from '@/api/message/in-app-message';
+import type { TableActionWithSelectionDeps } from '@/api/common';
+import {
+  batchDeleteInAppSendTasks,
+  type InAppSendTaskPageRow,
+  recallInAppSendTask,
+  retryInAppSendTask,
+} from '@/api/message/in-app-message';
 import { addDialog } from '@/components/ui/Dialog';
 import { operationConfirm } from '@/services/feedback/dialog';
 import { errorMessage, message } from '@/services/feedback/message';
+import useBatchDeleteAction from '@/shared/composables/table/useBatchDeleteAction';
 import InAppSendTaskDetailView from '@/views/message/in-app-message/components/InAppSendTaskDetailView.vue';
 import useInAppMessageDetailColumns from '@/views/message/in-app-message/hooks/useInAppMessageDetailColumns';
 import { useI18n } from 'vue-i18n';
 
 /**
  * 站内信发送任务表格操作
- * @param deps 表格操作依赖
+ * @param deps 表格操作依赖（含多选）
  * @returns 表格操作方法
  */
-function useInAppMessageTableAction(deps: TableActionDeps) {
-  const { fetchTableData } = deps;
+function useInAppMessageTableAction(deps: TableActionWithSelectionDeps) {
+  const { fetchTableData, selectedRows } = deps;
   const { t } = useI18n();
   const { detailColumns } = useInAppMessageDetailColumns();
+
+  const { deleteBatchRows } = useBatchDeleteAction({
+    selectedRows,
+    deleteApi: batchDeleteInAppSendTasks,
+    onSuccess: fetchTableData,
+  });
 
   /**
    * 打开列表行详情
@@ -81,6 +93,7 @@ function useInAppMessageTableAction(deps: TableActionDeps) {
     openDetailDialog,
     retryTask,
     recallTask,
+    deleteBatchRows,
   };
 }
 
