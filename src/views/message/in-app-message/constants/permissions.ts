@@ -4,6 +4,8 @@
 export const IN_APP_MESSAGE_PERMS = {
   /** 分页查询 */
   QUERY: 'message:inapp:query',
+  /** 详情 */
+  DETAIL: 'message:inapp:detail',
   /** 按范围发送 */
   SEND: 'message:inapp:send',
 } as const;

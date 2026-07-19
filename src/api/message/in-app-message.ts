@@ -1,4 +1,4 @@
-import type { BaseResponsePageRow, PageResponse, SortSpec } from '@/api/common';
+import type { BaseResponseDetail, BaseResponsePageRow, PageResponse, SortSpec } from '@/api/common';
 import type { InAppTemplateContentType } from '@/api/message/in-app-template';
 import { http } from '@/core/http';
 import type { AxiosRequestConfig } from 'axios';
@@ -87,6 +87,38 @@ export interface InAppSendTaskPageRow extends BaseResponsePageRow {
 }
 
 /**
+ * 站内信发送任务详情
+ */
+export interface InAppSendTaskDetailVO extends BaseResponseDetail {
+  sourceType: InAppMessageSourceType | string;
+  sceneCode?: string | null;
+  title: string;
+  contentType: InAppTemplateContentType | string;
+  /** 定稿正文 */
+  content: string;
+  bizType?: string | null;
+  linkUrl?: string | null;
+  /** 发起人用户 ID（雪花，字符串） */
+  senderUserId?: string | null;
+  recipientScopeType: InAppRecipientScopeType | string;
+  /** 接收范围快照原始 JSON */
+  recipientScopeJson?: string | null;
+  /** 范围 ID 列表（由快照解析；ALL 为空） */
+  recipientScopeIds?: string[] | null;
+  /** 仅 DEPT 有值 */
+  includeChildren?: boolean | null;
+  deliveryMode: InAppDeliveryMode | string;
+  totalCount: number;
+  successCount: number;
+  failCount: number;
+  status: InAppMessageStatusCode | string;
+  recalledAt?: string | null;
+  /** 撤回操作人用户 ID（雪花，字符串） */
+  recallUserId?: string | null;
+  remark?: string | null;
+}
+
+/**
  * 管理端按范围发送站内信
  * @param data 发送请求
  * @returns 发送结果
@@ -105,4 +137,13 @@ export function getInAppSendTaskPage(params: InAppSendTaskPageQuery) {
     '/system/message/in-app/tasks',
     { params }
   );
+}
+
+/**
+ * 按任务 ID 查询站内信发送任务详情
+ * @param taskId 任务 ID（雪花，字符串传递）
+ * @returns 发送任务详情
+ */
+export function getInAppSendTaskById(taskId: string) {
+  return http.get<InAppSendTaskDetailVO, AxiosRequestConfig>(`/system/message/in-app/tasks/${taskId}`);
 }

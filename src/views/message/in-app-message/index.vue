@@ -9,6 +9,7 @@ import {
   IN_APP_MESSAGE_SOURCE_OPTIONS,
   IN_APP_MESSAGE_STATUS_ITEMS,
 } from '@/views/message/in-app-message/constants/task-enums';
+import useInAppMessageTableAction from '@/views/message/in-app-message/hooks/useInAppMessageTableAction';
 import useInAppMessageTableColumns from '@/views/message/in-app-message/hooks/useInAppMessageTableColumns';
 import type { FormInstance } from 'element-plus';
 import { onMounted, reactive, ref } from 'vue';
@@ -21,6 +22,7 @@ defineOptions({
 const { t } = useI18n();
 const ph = useFormPlaceholder();
 const { columns } = useInAppMessageTableColumns();
+const { openDetailDialog } = useInAppMessageTableAction();
 const searchFormRef = ref<FormInstance>();
 
 const inAppMessageState = usePaginationState({
@@ -146,6 +148,13 @@ onMounted(() => {
       :state="inAppMessageState"
       :title="t('inAppMessage.title.table')"
       show-overflow-tooltip
-    />
+    >
+      <template #actions="{ row }">
+        <!-- 查看 -->
+        <el-button v-perms="IN_APP_MESSAGE_PERMS.DETAIL" link type="primary" @click="openDetailDialog(row)">
+          {{ t('buttons.actionView') }}
+        </el-button>
+      </template>
+    </AuthPagedTable>
   </div>
 </template>

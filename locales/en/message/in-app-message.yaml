@@ -1,19 +1,27 @@
 inAppMessage:
   title:
     table: In-app send tasks
+    detail: Send task detail
   field:
     title: Title
     status: Status
     sourceType: Source
     recipientScopeType: Recipient scope
+    recipientScopeIds: Scope IDs
+    includeChildren: Include sub-departments
     deliveryMode: Delivery mode
     contentType: Content type
+    content: Content
+    linkUrl: Link URL
     bizType: Business type
     sceneCode: Scene code
+    senderUserId: Sender
     totalCount: Total
     successCount: Success
     failCount: Failed
     recalledAt: Recalled at
+    recallUserId: Recalled by
+    remark: Remark
   sourceType:
     ADMIN_COMPOSE: Admin compose
     TEMPLATE: Template

@@ -1,19 +1,27 @@
 inAppMessage:
   title:
     table: 站内信发送任务
+    detail: 发送任务详情
   field:
     title: 标题
     status: 任务状态
     sourceType: 来源
     recipientScopeType: 接收范围
+    recipientScopeIds: 范围 ID
+    includeChildren: 包含子部门
     deliveryMode: 投递模式
     contentType: 正文类型
+    content: 正文
+    linkUrl: 跳转链接
     bizType: 业务分类
     sceneCode: 场景编码
+    senderUserId: 发起人
     totalCount: 目标数
     successCount: 成功数
     failCount: 失败数
     recalledAt: 撤回时间
+    recallUserId: 撤回人
+    remark: 备注
   sourceType:
     ADMIN_COMPOSE: 管理端手写
     TEMPLATE: 模板发送
