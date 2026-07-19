@@ -1,15 +1,11 @@
 inAppInbox:
   badgeTitle: My messages
   title: My messages
-  back: Back
-  backHome: Home
+  selectAll: Select all
   tab:
     pull: Public
     push: System
   empty: No messages
-  loadMore: Load more
-  loading: Loading…
-  noMore: No more
   unread: Unread
   read: Read
   field:
@@ -19,6 +15,10 @@ inAppInbox:
     deliveryMode: Type
     linkUrl: Link
     readStatus: Read status
+  action:
+    markRead: Mark as read
+    markAllRead: Mark all as read
+    deleteAll: Delete all
   detail:
     title: Message detail
     noContentHint: Message body will be available when the detail API is ready

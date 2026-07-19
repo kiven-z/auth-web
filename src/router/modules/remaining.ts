@@ -57,8 +57,8 @@ export default [
   // 我的消息
   {
     path: '/inbox',
-    name: 'HomeMessage',
-    component: () => import('@/views/home/message/index.vue'),
+    name: 'HomeInbox',
+    component: () => import('@/views/home/inbox/index.vue'),
     meta: {
       showLink: false,
       title: $t('routes.myInbox'),

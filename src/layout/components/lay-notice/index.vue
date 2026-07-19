@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import { useHomePageNavigation } from '@/shared/composables/layout/useHomePageNavigation';
 import { useInAppInboxStoreHook } from '@/store/modules/inAppInbox';
 import { storeToRefs } from 'pinia';
 import { onMounted } from 'vue';
@@ -10,6 +11,7 @@ defineOptions({
 });
 
 const { t } = useI18n();
+const { openWithReturn } = useHomePageNavigation();
 const inboxStore = useInAppInboxStoreHook();
 const { totalUnreadCount } = storeToRefs(inboxStore);
 
@@ -22,7 +24,7 @@ onMounted(() => {
   <span
     :class="['notice-badge', 'navbar-bg-hover', 'select-none', totalUnreadCount > 0 && 'mr-2.5']"
     :title="t('inAppInbox.badgeTitle')"
-    @click="$router.push('/inbox')"
+    @click="openWithReturn('HomeInbox')"
   >
     <el-badge :hidden="totalUnreadCount <= 0" :max="99" :value="totalUnreadCount">
       <span class="notice-badge__icon">

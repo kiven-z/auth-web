@@ -15,9 +15,9 @@ import Check from '~icons/ep/check';
 import LogoutCircleRLine from '~icons/ri/logout-circle-r-line';
 import Setting from '~icons/ri/settings-3-line';
 import UserSettingsLine from '~icons/ri/user-settings-line';
-import { useAccountNavigation } from '@/shared/composables/layout/useAccountNavigation';
+import { useHomePageNavigation } from '@/shared/composables/layout/useHomePageNavigation';
 
-const { openAccount } = useAccountNavigation();
+const { openWithReturn } = useHomePageNavigation();
 
 const menuRef = ref();
 const showLogo = ref(
@@ -106,7 +106,7 @@ onMounted(() => {
         </span>
         <template #dropdown>
           <el-dropdown-menu class="logout">
-            <el-dropdown-item @click="openAccount">
+            <el-dropdown-item @click="openWithReturn('AccountProfile')">
               <IconifyIconOffline :icon="UserSettingsLine" style="margin: 5px" />
               {{ t('account.title') }}
             </el-dropdown-item>

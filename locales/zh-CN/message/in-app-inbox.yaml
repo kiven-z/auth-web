@@ -1,15 +1,11 @@
 inAppInbox:
   badgeTitle: 我的消息
   title: 我的消息
-  back: 返回
-  backHome: 回到首页
+  selectAll: 全选
   tab:
     pull: 公开消息
     push: 系统消息
   empty: 暂无消息
-  loadMore: 加载更多
-  loading: 加载中…
-  noMore: 没有更多了
   unread: 未读
   read: 已读
   field:
@@ -19,6 +15,10 @@ inAppInbox:
     deliveryMode: 类型
     linkUrl: 跳转链接
     readStatus: 阅读状态
+  action:
+    markRead: 标为已读
+    markAllRead: 全部已读
+    deleteAll: 全部删除
   detail:
     title: 消息详情
     noContentHint: 正文请待详情接口开放后查看
