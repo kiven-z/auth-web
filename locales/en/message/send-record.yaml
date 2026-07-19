@@ -17,5 +17,3 @@ sendRecord:
     SUCCESS: Success
     FAILED: Failed
     SKIPPED: Skipped
-  message:
-    loadFailed: Failed to load message send records

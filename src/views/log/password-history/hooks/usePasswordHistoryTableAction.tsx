@@ -26,7 +26,6 @@ function usePasswordHistoryTableAction(deps: TableActionWithSelectionDeps) {
     selectedRows,
     deleteApi: deletePasswordHistory,
     onSuccess: fetchTableData,
-    errorDefaultI18nKey: 'passwordHistory.loadFailed',
   });
 
   /**
@@ -47,7 +46,7 @@ function usePasswordHistoryTableAction(deps: TableActionWithSelectionDeps) {
         contentRenderer: () => <Description column={2} columns={detailColumns.value} data={detailData ?? {}} />,
       });
     } catch (error: unknown) {
-      errorMessage(error, { defaultI18nKey: 'passwordHistory.loadFailed' });
+      errorMessage(error);
       return;
     }
   };

@@ -29,7 +29,6 @@ const permissionState = usePaginationState({
     permissionName: undefined,
     status: undefined,
   }),
-  errorI18nKey: 'permissions.messages.loadFailed',
 });
 
 const { loading, searchForm, pagination, fetchTableData, resetQuery } = permissionState;

@@ -36,7 +36,6 @@ const inAppTemplateState = usePaginationState<MessageTemplatePageRow, MessageTem
     imMessageType: undefined,
     status: undefined,
   }),
-  errorI18nKey: 'inAppTemplate.loadFailed',
 });
 
 const { loading, selectedRows, searchForm, fetchTableData, resetQuery } = inAppTemplateState;

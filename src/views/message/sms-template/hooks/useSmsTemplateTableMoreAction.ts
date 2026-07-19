@@ -23,7 +23,6 @@ export function useSmsTemplateTableMoreAction(options: TableActionDeps) {
       id: row.id,
       channel: SMS_TEMPLATE_CHANNEL,
       fetchTableData,
-      loadFailedI18nKey: 'smsTemplate.loadFailed',
     });
   };
 
@@ -35,7 +34,6 @@ export function useSmsTemplateTableMoreAction(options: TableActionDeps) {
     return openSharedTestSend({
       id: row.id,
       channel: SMS_TEMPLATE_CHANNEL,
-      loadFailedI18nKey: 'smsTemplate.loadFailed',
       targetLabelI18nKey: 'smsTemplate.testSendPhone',
       targetPlaceholderI18nKey: 'smsTemplate.testSendPhonePlaceholder',
     });

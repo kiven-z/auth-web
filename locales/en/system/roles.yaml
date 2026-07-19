@@ -39,7 +39,6 @@ roles:
     roleNameLengthLimit: Role name cannot exceed 128 characters
     remarkLengthLimit: Remark cannot exceed 500 characters
   message:
-    loadFailed: Failed to load roles
     deleteInUse: This role is still assigned via grants. Remove grants before deleting.
   menu:
     dataScope: Data scope

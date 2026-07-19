@@ -37,5 +37,3 @@ post:
       empty: 暂无已授权角色
   tips:
     affiliatedPostInfo: 所属岗位
-  messages:
-    loadFailed: 加载岗位列表失败

@@ -33,7 +33,6 @@ function useSmsTemplateTableAction(deps: TableActionWithSelectionDeps) {
     selectedRows,
     deleteApi: (ids) => batchDeleteMessageTemplates(ids, SMS_TEMPLATE_CHANNEL),
     onSuccess: fetchTableData,
-    errorDefaultI18nKey: 'smsTemplate.loadFailed',
   });
 
   /**
@@ -51,7 +50,6 @@ function useSmsTemplateTableAction(deps: TableActionWithSelectionDeps) {
       contentRenderer: () => <SmsTemplateDialog ref={dialogFormRef} />,
       beforeSure: createFormBeforeSure<SmsTemplateFormModel>({
         formExposeRef: dialogFormRef,
-        errorI18nKey: 'smsTemplate.loadFailed',
         successI18nKey: 'tips.addSuccess',
         onSubmit: async (formData) => {
           await createSmsTemplate(formData);
@@ -79,7 +77,6 @@ function useSmsTemplateTableAction(deps: TableActionWithSelectionDeps) {
         contentRenderer: () => <SmsTemplateDialog ref={dialogFormRef} form={detail} />,
         beforeSure: createFormBeforeSure<SmsTemplateFormModel>({
           formExposeRef: dialogFormRef,
-          errorI18nKey: 'smsTemplate.loadFailed',
           successI18nKey: 'tips.editSuccess',
           requireId: true,
           onSubmit: async (formPayload) => {
@@ -89,7 +86,7 @@ function useSmsTemplateTableAction(deps: TableActionWithSelectionDeps) {
         }),
       });
     } catch (error: unknown) {
-      errorMessage(error, { defaultI18nKey: 'smsTemplate.loadFailed' });
+      errorMessage(error);
     }
   };
 
@@ -140,7 +137,7 @@ function useSmsTemplateTableAction(deps: TableActionWithSelectionDeps) {
       message(t('tips.editSuccess'), { type: 'success' });
       await fetchTableData();
     } catch (error: unknown) {
-      errorMessage(error, { defaultI18nKey: 'smsTemplate.loadFailed' });
+      errorMessage(error);
     }
   };
 

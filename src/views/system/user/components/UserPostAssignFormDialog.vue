@@ -25,9 +25,7 @@ const form = ref<UserPostAssignForm>({
   ...props.form,
 });
 
-const { postOptions, postSearchLoading, loadPostListByKeyword } = useRemotePostSearch({
-  errorDefaultI18nKey: 'post.messages.loadFailed',
-});
+const { postOptions, postSearchLoading, loadPostListByKeyword } = useRemotePostSearch();
 
 const rules = computed<FormRules>(() => {
   const baseRules: FormRules = {

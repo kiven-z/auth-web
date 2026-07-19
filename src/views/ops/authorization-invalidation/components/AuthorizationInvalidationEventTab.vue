@@ -31,7 +31,6 @@ const eventState = usePaginationState({
     processedAtStart: undefined,
     processedAtEnd: undefined,
   }),
-  errorI18nKey: 'authorizationInvalidation.loadFailed',
 });
 
 const { loading, searchForm, fetchTableData, resetQuery } = eventState;

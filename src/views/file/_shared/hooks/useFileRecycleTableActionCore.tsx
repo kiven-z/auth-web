@@ -32,7 +32,7 @@ function useFileRecycleTableActionCore(options: UseFileRecycleTableActionCoreOpt
     selectedRows,
     deleteApi: purgeApi,
     onSuccess: fetchTableData,
-    errorDefaultI18nKey: 'fileRecycle.messages.purgeFailed',
+    errorI18nKey: 'fileRecycle.messages.purgeFailed',
   });
 
   /**

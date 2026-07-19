@@ -61,7 +61,6 @@ users:
     kickOne: Kick
     kickAll: Kick all
     empty: No active sessions for this user
-    loadFailed: Failed to load user sessions
     kickSuccess: Session kicked successfully
     kickFailed: Failed to kick session
     kickAllSuccess: All sessions kicked successfully
@@ -125,5 +124,3 @@ users:
     partTime: Part-time
   message:
     statusFailed: Failed to update user status
-    loadPageFailed: Failed to load user list
-    loadFailed: Failed to load user profile

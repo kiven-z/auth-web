@@ -23,7 +23,7 @@ async function loadSessions() {
   try {
     sessions.value = await listMySessions();
   } catch (error: unknown) {
-    errorMessage(error, { defaultI18nKey: 'account.message.loadFailed' });
+    errorMessage(error);
     sessions.value = [];
   } finally {
     loading.value = false;

@@ -2,7 +2,7 @@ import { searchPostByKeyword, type SysPostSearchOption } from '@/api/system/post
 import debounce from 'lodash/debounce';
 import { onScopeDispose, ref } from 'vue';
 
-import { errorMessage } from '@/services/feedback/message';
+import { DEFAULT_ERROR_FALLBACK_I18N_KEY, errorMessage } from '@/services/feedback/message';
 
 /** 远程岗位关键字请求防抖间隔 */
 const REMOTE_POST_SEARCH_DEBOUNCE_MS = 300;
@@ -13,7 +13,7 @@ const REMOTE_POST_SEARCH_LIMIT = 20;
 /** {@link useRemotePostSearch} 配置 */
 export interface UseRemotePostSearchOptions {
   /** 请求失败时传给 {@link errorMessage} 的 `defaultI18nKey` */
-  errorDefaultI18nKey: string;
+  errorDefaultI18nKey?: string;
 }
 
 /**
@@ -21,8 +21,8 @@ export interface UseRemotePostSearchOptions {
  * @param options 错误文案键
  * @returns 远程岗位选项、加载状态与搜索方法
  */
-export default function useRemotePostSearch(options: UseRemotePostSearchOptions) {
-  const { errorDefaultI18nKey } = options;
+export default function useRemotePostSearch(options: UseRemotePostSearchOptions = {}) {
+  const { errorDefaultI18nKey = DEFAULT_ERROR_FALLBACK_I18N_KEY } = options;
 
   const postOptions = ref<SysPostSearchOption[]>([]);
   const postSearchLoading = ref(false);

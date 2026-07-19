@@ -37,7 +37,6 @@ const outboxState = usePaginationState({
     processedAtStart: undefined,
     processedAtEnd: undefined,
   }),
-  errorI18nKey: 'authorizationInvalidation.outboxLoadFailed',
 });
 
 const { loading, searchForm, fetchTableData, resetQuery } = outboxState;

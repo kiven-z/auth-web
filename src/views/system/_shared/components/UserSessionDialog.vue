@@ -30,7 +30,7 @@ async function loadSessions() {
   try {
     sessions.value = await listUserSessions(props.userId);
   } catch (error: unknown) {
-    errorMessage(error, { defaultI18nKey: 'users.session.loadFailed' });
+    errorMessage(error);
     sessions.value = [];
   } finally {
     loading.value = false;

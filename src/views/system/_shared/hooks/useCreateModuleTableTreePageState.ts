@@ -1,7 +1,7 @@
 import type { PageResponse } from '@/api/common';
 import { usePaginationState } from '@/components/business/AuthPagedTable/src/usePaginationState';
+import { DEFAULT_ERROR_FALLBACK_I18N_KEY, errorMessage } from '@/services/feedback/message';
 import { handleTree } from '@/shared/utils/tree';
-import { errorMessage } from '@/services/feedback/message';
 import type { FormInstance } from 'element-plus';
 import { ref, type Ref } from 'vue';
 
@@ -13,8 +13,7 @@ export interface CreateModuleTableTreePageStateConfig<TRow, TFlat, TNode, TViewM
   searchForm: Record<string, any>;
   /** 表格默认每页条数 */
   defaultPageSize?: number;
-  /** 列表 / 树加载失败时的 i18n 兜底键 */
-  errorI18nKey: string;
+  errorI18nKey?: string;
   /** 表格分页接口 */
   fetchPage: (query: Record<string, unknown>) => Promise<PageResponse<TRow>>;
   /** 建树用扁平列表接口 */
@@ -42,12 +41,13 @@ export function useCreateModuleTableTreePageState<
 >(config: CreateModuleTableTreePageStateConfig<TRow, TFlat, TNode, TViewMode>) {
   const treeData = ref<TNode[]>([]);
   const viewMode = ref(config.initialViewMode ?? ('table' as TViewMode)) as Ref<TViewMode>;
+  const errorI18nKey = config.errorI18nKey ?? DEFAULT_ERROR_FALLBACK_I18N_KEY;
 
   const pageState = usePaginationState<TRow>({
     fetchApi: config.fetchPage,
     searchForm: config.searchForm,
     defaultPageSize: config.defaultPageSize,
-    errorI18nKey: config.errorI18nKey,
+    errorI18nKey,
   });
 
   const treeIdKey = config.treeIdKey ?? 'id';
@@ -62,7 +62,7 @@ export function useCreateModuleTableTreePageState<
       const list = await config.fetchFlatList(config.flatListParams ?? {});
       treeData.value = handleTree([...(list ?? [])], treeIdKey, treeParentKey) as TNode[];
     } catch (error: unknown) {
-      errorMessage(error, { defaultI18nKey: config.errorI18nKey });
+      errorMessage(error, { defaultI18nKey: errorI18nKey });
       treeData.value = [];
     } finally {
       pageState.loading.value = false;

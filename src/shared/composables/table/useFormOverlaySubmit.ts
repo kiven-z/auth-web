@@ -1,4 +1,4 @@
-import { errorMessage, message } from '@/services/feedback/message';
+import { DEFAULT_ERROR_FALLBACK_I18N_KEY, errorMessage, message } from '@/services/feedback/message';
 import type { FormInstance } from 'element-plus';
 import type { Ref } from 'vue';
 import { useI18n } from 'vue-i18n';
@@ -15,8 +15,10 @@ export interface FormOverlayExpose<TForm> {
 export interface CreateFormBeforeSureOptions<TForm> {
   /** 指向表单弹层组件实例的 ref */
   formExposeRef: Ref<FormOverlayExpose<TForm> | null>;
-  /** 提交失败时的默认 i18n key */
-  errorI18nKey: string;
+  /**
+   * 提交失败且无法从异常解析文案时的 i18n 兜底键
+   */
+  errorI18nKey?: string;
   /**
    * 校验通过后执行业务提交；返回 false 时不关闭弹层
    * @param formData 当前表单数据
@@ -75,7 +77,9 @@ export function useFormOverlaySubmit() {
         // 关闭弹层
         done();
       } catch (error: unknown) {
-        errorMessage(error, { defaultI18nKey: options.errorI18nKey });
+        errorMessage(error, {
+          defaultI18nKey: options.errorI18nKey ?? DEFAULT_ERROR_FALLBACK_I18N_KEY,
+        });
       }
     };
   }

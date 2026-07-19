@@ -48,8 +48,6 @@ authorizationInvalidation:
   detailTitle: Authorization Invalidation Event Detail
   outboxTableTitle: Authorization Invalidation Outbox
   outboxDetailTitle: Authorization Invalidation Outbox Detail
-  loadFailed: Failed to load authorization invalidation events
-  outboxLoadFailed: Failed to load authorization invalidation outbox
   retryAction: Retry
   releaseClaimAction: Release Claim
   retrySuccess: Manual retry dispatched successfully

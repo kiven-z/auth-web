@@ -35,7 +35,6 @@ function usePermissionTableAction(deps: TableActionDeps) {
       contentRenderer: () => h(PermissionFormDialog, { ref: dialogFormRef }),
       beforeSure: createFormBeforeSure<SysPermissionCreateForm>({
         formExposeRef: dialogFormRef,
-        errorI18nKey: 'permissions.messages.loadFailed',
         successI18nKey: 'tips.addSuccess',
         onSubmit: async (formPayload) => {
           await createPermission(formPayload);
@@ -62,7 +61,7 @@ function usePermissionTableAction(deps: TableActionDeps) {
         contentRenderer: () => h(PermissionDescriptionDialog, { data: detail }),
       });
     } catch (error: unknown) {
-      errorMessage(error, { defaultI18nKey: 'permissions.messages.loadFailed' });
+      errorMessage(error);
     }
   };
 
@@ -89,7 +88,6 @@ function usePermissionTableAction(deps: TableActionDeps) {
         beforeSure: createFormBeforeSure<SysPermissionUpdateForm>({
           formExposeRef: dialogFormRef,
           requireId: true,
-          errorI18nKey: 'permissions.messages.loadFailed',
           successI18nKey: 'tips.editSuccess',
           onSubmit: async (formData) => {
             await updatePermission(formData);
@@ -98,7 +96,7 @@ function usePermissionTableAction(deps: TableActionDeps) {
         }),
       });
     } catch (error: unknown) {
-      errorMessage(error, { defaultI18nKey: 'permissions.messages.loadFailed' });
+      errorMessage(error);
     }
   };
 

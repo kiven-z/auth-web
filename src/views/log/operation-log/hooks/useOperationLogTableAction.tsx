@@ -23,7 +23,6 @@ function useOperationLogTableAction(deps: TableActionWithSelectionDeps) {
     selectedRows,
     deleteApi: deleteOperationLog,
     onSuccess: fetchTableData,
-    errorDefaultI18nKey: 'operationLog.loadFailed',
   });
 
   /**
@@ -45,7 +44,7 @@ function useOperationLogTableAction(deps: TableActionWithSelectionDeps) {
         contentRenderer: () => <Description column={2} columns={detailColumns.value} data={detailData ?? {}} />,
       });
     } catch (error: unknown) {
-      errorMessage(error, { defaultI18nKey: 'operationLog.loadFailed' });
+      errorMessage(error);
       return;
     }
   });

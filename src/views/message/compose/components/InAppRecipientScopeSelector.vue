@@ -23,13 +23,10 @@ const deptTree = ref<PostDeptCascaderNode[]>([]);
 const deptTreeLoading = ref(false);
 
 const { userOptions, userSearchLoading, loadUserListByKeyword } = useRemoteUserSearch({
-  errorDefaultI18nKey: 'inAppCompose.sendFailed',
   limit: 50,
 });
 
-const { postOptions, postSearchLoading, loadPostListByKeyword } = useRemotePostSearch({
-  errorDefaultI18nKey: 'inAppCompose.sendFailed',
-});
+const { postOptions, postSearchLoading, loadPostListByKeyword } = useRemotePostSearch();
 
 const deptCascaderProps: CascaderProps = {
   multiple: true,
@@ -59,7 +56,7 @@ async function loadDeptTree(): Promise<void> {
     const list = await getDeptList({ status: true });
     deptTree.value = buildPostDeptCascaderTree(list ?? []);
   } catch (error: unknown) {
-    errorMessage(error, { defaultI18nKey: 'dept.message.loadFailed' });
+    errorMessage(error);
     deptTree.value = [];
   } finally {
     deptTreeLoading.value = false;

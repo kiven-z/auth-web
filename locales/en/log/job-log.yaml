@@ -20,5 +20,3 @@ logJob:
     schedule: Schedule
     manual: Manual
     retry: Retry
-  message:
-    loadFailed: Failed to load job logs

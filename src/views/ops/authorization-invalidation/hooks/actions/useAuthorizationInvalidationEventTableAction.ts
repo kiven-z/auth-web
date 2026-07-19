@@ -45,7 +45,7 @@ function useAuthorizationInvalidationEventTableAction(deps: AuthorizationInvalid
         contentRenderer: () => h(AuthorizationInvalidationEventDetailDialog, { data: detailData }),
       });
     } catch (error: unknown) {
-      errorMessage(error, { defaultI18nKey: 'authorizationInvalidation.loadFailed' });
+      errorMessage(error);
     }
   });
 
@@ -68,7 +68,7 @@ function useAuthorizationInvalidationEventTableAction(deps: AuthorizationInvalid
       message(t('authorizationInvalidation.releaseClaimSuccess'), { type: 'success' });
       await fetchTableData();
     } catch (error: unknown) {
-      errorMessage(error, { defaultI18nKey: 'authorizationInvalidation.loadFailed' });
+      errorMessage(error);
     }
   });
 

@@ -17,7 +17,6 @@ operationLog:
   remark: Remark
   tableTitle: Operation Logs
   detailTitle: Operation Log Detail
-  loadFailed: Failed to load operation logs
   moduleEnum:
     SYSTEM:USER: System - User
     SYSTEM:ROLE: System - Role

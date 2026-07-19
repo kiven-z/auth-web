@@ -39,7 +39,6 @@ function useJobGroupTableAction(deps: TableActionDeps) {
       await deleteJobGroup(ids[0]);
     },
     onSuccess: fetchTableData,
-    errorDefaultI18nKey: 'scheduleGroup.loadFailed',
   });
 
   /**
@@ -57,7 +56,6 @@ function useJobGroupTableAction(deps: TableActionDeps) {
       contentRenderer: () => h(ScheduleGroupFormDialog, { ref: dialogFormRef, mode: 'add' }),
       beforeSure: createFormBeforeSure<JobGroupForm>({
         formExposeRef: dialogFormRef,
-        errorI18nKey: 'scheduleGroup.loadFailed',
         successI18nKey: 'tips.addSuccess',
         onSubmit: async (formPayload) => {
           await createJobGroup(formPayload);
@@ -84,7 +82,6 @@ function useJobGroupTableAction(deps: TableActionDeps) {
         contentRenderer: () => h(ScheduleGroupFormDialog, { ref: dialogFormRef, mode: 'edit', form: detail }),
         beforeSure: createFormBeforeSure<JobGroupForm>({
           formExposeRef: dialogFormRef,
-          errorI18nKey: 'scheduleGroup.loadFailed',
           successI18nKey: 'tips.editSuccess',
           requireId: true,
           onSubmit: async (formPayload) => {
@@ -94,7 +91,7 @@ function useJobGroupTableAction(deps: TableActionDeps) {
         }),
       });
     } catch (error: unknown) {
-      errorMessage(error, { defaultI18nKey: 'scheduleGroup.loadFailed' });
+      errorMessage(error);
     }
   };
 
@@ -116,7 +113,7 @@ function useJobGroupTableAction(deps: TableActionDeps) {
         contentRenderer: () => <Description column={2} columns={detailColumns.value} data={detail ?? {}} />,
       });
     } catch (error: unknown) {
-      errorMessage(error, { defaultI18nKey: 'scheduleGroup.loadFailed' });
+      errorMessage(error);
     }
   };
 
@@ -136,7 +133,7 @@ function useJobGroupTableAction(deps: TableActionDeps) {
       message(t('tips.operationSuccess'), { type: 'success' });
       await fetchTableData();
     } catch (error: unknown) {
-      errorMessage(error, { defaultI18nKey: 'scheduleGroup.loadFailed' });
+      errorMessage(error);
     }
   };
 

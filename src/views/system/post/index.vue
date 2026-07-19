@@ -31,7 +31,6 @@ const postState = usePaginationState({
     deptName: undefined,
     status: undefined,
   }),
-  errorI18nKey: 'post.messages.loadFailed',
 });
 
 const { loading, searchForm, pagination, fetchTableData, resetQuery } = postState;

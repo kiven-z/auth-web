@@ -28,7 +28,6 @@ const auditState = usePaginationState({
     className: undefined,
     createUserId: undefined,
   }),
-  errorI18nKey: 'authorizationAudit.loadFailed',
 });
 
 const { selectedRows, loading, searchForm, fetchTableData, resetQuery } = auditState;
@@ -38,9 +37,7 @@ const { openDetailDialog, deleteBatchRows } = useAuthorizationAuditTableAction({
   selectedRows,
 });
 
-const { userOptions, userSearchLoading, loadUserListByKeyword } = useRemoteUserSearch({
-  errorDefaultI18nKey: 'authorizationAudit.loadFailed',
-});
+const { userOptions, userSearchLoading, loadUserListByKeyword } = useRemoteUserSearch();
 
 onMounted(() => {
   fetchTableData();

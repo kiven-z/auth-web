@@ -58,7 +58,7 @@ const loadParentTree = async () => {
     const list = await getDeptList();
     parentTree.value = buildDeptParentTree(list ?? []);
   } catch (e: unknown) {
-    errorMessage(e, { defaultI18nKey: 'dept.message.loadFailed' });
+    errorMessage(e);
     parentTree.value = [];
     form.value.parentId = DEPT_ROOT_PARENT_ID;
   }

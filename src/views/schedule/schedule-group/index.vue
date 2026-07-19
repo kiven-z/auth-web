@@ -26,7 +26,6 @@ const jobGroupState = usePaginationState({
     groupName: undefined,
     status: undefined,
   }),
-  errorI18nKey: 'scheduleGroup.loadFailed',
 });
 
 const { loading, searchForm, fetchTableData, resetQuery } = jobGroupState;

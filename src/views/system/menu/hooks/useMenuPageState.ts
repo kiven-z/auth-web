@@ -29,7 +29,6 @@ const treeKeyword = ref('');
 const innerPageState = useCreateModuleTableTreePageState<SysMenuRow, SysMenuListVO, SysMenuTreeNode, MenuViewMode>({
   searchForm,
   defaultPageSize: 30,
-  errorI18nKey: 'sysMenu.loadFailed',
   fetchPage: (q) => getMenuPage(q),
   fetchFlatList: () => getMenuList({}),
   flatListParams: {},

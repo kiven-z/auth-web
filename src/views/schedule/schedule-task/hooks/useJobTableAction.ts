@@ -37,7 +37,6 @@ function useJobTableAction(deps: TableActionWithSelectionDeps) {
       await deleteJob(ids[0]);
     },
     onSuccess: fetchTableData,
-    errorDefaultI18nKey: 'scheduleTask.messages.loadFailed',
   });
 
   /**
@@ -56,7 +55,6 @@ function useJobTableAction(deps: TableActionWithSelectionDeps) {
       contentRenderer: () => h(JobCreateFormDialog, { ref: dialogFormRef }),
       beforeSure: createFormBeforeSure<SysJobCreateForm>({
         formExposeRef: dialogFormRef,
-        errorI18nKey: 'scheduleTask.messages.loadFailed',
         successI18nKey: 'tips.addSuccess',
         onSubmit: async (formPayload) => {
           await createJob(formPayload);
@@ -90,7 +88,6 @@ function useJobTableAction(deps: TableActionWithSelectionDeps) {
         beforeSure: createFormBeforeSure<SysJobUpdateForm>({
           formExposeRef: dialogFormRef,
           requireId: true,
-          errorI18nKey: 'scheduleTask.messages.loadFailed',
           successI18nKey: 'tips.editSuccess',
           onSubmit: async (formData) => {
             await updateJob(formData);
@@ -99,7 +96,7 @@ function useJobTableAction(deps: TableActionWithSelectionDeps) {
         }),
       });
     } catch (error: unknown) {
-      errorMessage(error, { defaultI18nKey: 'scheduleTask.messages.loadFailed' });
+      errorMessage(error);
     }
   };
 
@@ -142,7 +139,7 @@ function useJobTableAction(deps: TableActionWithSelectionDeps) {
       message(t('tips.editSuccess'), { type: 'success' });
       await fetchTableData();
     } catch (error: unknown) {
-      errorMessage(error, { defaultI18nKey: 'scheduleTask.messages.loadFailed' });
+      errorMessage(error);
     }
   };
 
@@ -163,7 +160,7 @@ function useJobTableAction(deps: TableActionWithSelectionDeps) {
         contentRenderer: () => h(JobDescriptionDialog, { data: detail }),
       });
     } catch (error: unknown) {
-      errorMessage(error, { defaultI18nKey: 'scheduleTask.messages.loadFailed' });
+      errorMessage(error);
     }
   };
 

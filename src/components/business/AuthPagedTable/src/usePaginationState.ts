@@ -1,8 +1,8 @@
 import type { PageResponse } from '@/api/common';
+import { runPagedTableFetch } from '@/components/business/AuthPagedTable/src/pagination';
+import { DEFAULT_ERROR_FALLBACK_I18N_KEY } from '@/services/feedback/message';
 import type { FormInstance } from 'element-plus';
 import { reactive, ref } from 'vue';
-
-import { runPagedTableFetch } from '@/components/business/AuthPagedTable/src/pagination';
 
 /** {@link usePaginationState} 配置 */
 export interface UsePaginationStateOptions<TData = unknown, TQuery extends Record<string, any> = Record<string, any>> {
@@ -15,7 +15,7 @@ export interface UsePaginationStateOptions<TData = unknown, TQuery extends Recor
   /** 每页条数，默认 30 */
   defaultPageSize?: number;
   /** 加载失败时的 i18n 兜底键 */
-  errorI18nKey: string;
+  errorI18nKey?: string;
 }
 
 /**
@@ -30,7 +30,6 @@ export interface UsePaginationStateOptions<TData = unknown, TQuery extends Recor
  * const state = usePaginationState({
  *   fetchApi: getPostPage,
  *   searchForm: reactive({ postCode: undefined, postName: undefined, status: undefined }),
- *   errorI18nKey: 'post.messages.loadFailed',
  * });
  * ```
  * @param options 分页状态配置
@@ -39,7 +38,7 @@ export interface UsePaginationStateOptions<TData = unknown, TQuery extends Recor
 export function usePaginationState<TData = unknown, TQuery extends Record<string, any> = Record<string, any>>(
   options: UsePaginationStateOptions<TData, TQuery>
 ) {
-  const { fetchApi, searchForm, defaultPageSize = 30, errorI18nKey } = options;
+  const { fetchApi, searchForm, defaultPageSize = 30, errorI18nKey = DEFAULT_ERROR_FALLBACK_I18N_KEY } = options;
 
   const loading = ref(false);
   const tableData = ref<TData[]>([]);

@@ -27,7 +27,6 @@ dept:
   action:
     addChild: Add Child
   message:
-    loadFailed: Failed to load departments
     loadDetailFailed: Failed to load department details
     moveSuccess: Department moved successfully
     moveFailed: Failed to move department
@@ -59,8 +58,6 @@ dept:
     parentLinkTitle: Parent link anomalies (sample)
     depthChainTitle: Depth chain anomalies (sample)
     anomalyEmpty: No anomalies
-    message:
-      loadFailed: Failed to load closure health check
     alert:
       pass: Closure table consistency check passed
       fail: Closure table inconsistencies detected; investigate data or contact ops

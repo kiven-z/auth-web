@@ -27,7 +27,6 @@ const passwordHistoryState = usePaginationState({
     changeTimeEnd: undefined,
     changeIp: undefined,
   }),
-  errorI18nKey: 'passwordHistory.loadFailed',
 });
 
 const { selectedRows, loading, searchForm, fetchTableData, resetQuery } = passwordHistoryState;
@@ -37,9 +36,7 @@ const { openDetailDialog, deleteBatchRows } = usePasswordHistoryTableAction({
   selectedRows,
 });
 
-const { userOptions, userSearchLoading, loadUserListByKeyword } = useRemoteUserSearch({
-  errorDefaultI18nKey: 'passwordHistory.loadFailed',
-});
+const { userOptions, userSearchLoading, loadUserListByKeyword } = useRemoteUserSearch();
 
 onMounted(() => {
   fetchTableData();

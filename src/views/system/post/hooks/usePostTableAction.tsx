@@ -35,7 +35,6 @@ function usePostTableAction(deps: TableActionDeps) {
       contentRenderer: () => h(PostFormDialog, { ref: dialogFormRef }),
       beforeSure: createFormBeforeSure<SysPostCreateForm>({
         formExposeRef: dialogFormRef,
-        errorI18nKey: 'post.messages.loadFailed',
         successI18nKey: 'tips.addSuccess',
         onSubmit: async (formPayload) => {
           await createPost(formPayload);
@@ -62,7 +61,7 @@ function usePostTableAction(deps: TableActionDeps) {
         contentRenderer: () => h(PostDescriptionDialog, { data: detail }),
       });
     } catch (error: unknown) {
-      errorMessage(error, { defaultI18nKey: 'post.messages.loadFailed' });
+      errorMessage(error);
     }
   };
 
@@ -84,7 +83,6 @@ function usePostTableAction(deps: TableActionDeps) {
         contentRenderer: () => h(PostFormDialog, { ref: dialogFormRef, form: detail }),
         beforeSure: createFormBeforeSure<SysPostUpdateForm>({
           formExposeRef: dialogFormRef,
-          errorI18nKey: 'post.messages.loadFailed',
           successI18nKey: 'tips.editSuccess',
           requireId: true,
           onSubmit: async (formData) => {
@@ -94,7 +92,7 @@ function usePostTableAction(deps: TableActionDeps) {
         }),
       });
     } catch (error: unknown) {
-      errorMessage(error, { defaultI18nKey: 'post.messages.loadFailed' });
+      errorMessage(error);
     }
   };
 

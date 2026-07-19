@@ -18,8 +18,6 @@ export interface OpenMessageTemplateRequireFieldsOptions {
   channel: MessageChannelCode;
   /** 保存成功后刷新列表 */
   fetchTableData: () => Promise<void>;
-  /** 加载失败默认 i18n key */
-  loadFailedI18nKey?: string;
 }
 
 /**
@@ -33,7 +31,7 @@ export function useOpenMessageTemplateRequireFields() {
    * @param options 打开参数
    */
   const openRequireFields = (options: OpenMessageTemplateRequireFieldsOptions) => {
-    const { id, channel, fetchTableData, loadFailedI18nKey = 'messageTemplate.loadFailed' } = options;
+    const { id, channel, fetchTableData } = options;
     const dialogRef = ref<RequireFieldsExpose | null>(null);
 
     addDrawer({
@@ -44,14 +42,7 @@ export function useOpenMessageTemplateRequireFields() {
       closeOnClickModal: false,
       closeOnPressEscape: false,
       showClose: true,
-      contentRenderer: () => (
-        <MessageTemplateRequireFieldsDialog
-          ref={dialogRef}
-          id={id}
-          channel={channel}
-          loadFailedI18nKey={loadFailedI18nKey}
-        />
-      ),
+      contentRenderer: () => <MessageTemplateRequireFieldsDialog ref={dialogRef} id={id} channel={channel} />,
       beforeSure: async (done) => {
         const submitted = await dialogRef.value?.submit();
         if (!submitted) {

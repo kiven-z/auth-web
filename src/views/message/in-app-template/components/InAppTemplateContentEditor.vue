@@ -54,7 +54,7 @@ async function uploadMessageImage(file: File): Promise<string | null> {
     const uploaded = await uploadFile({ file, bizType: MESSAGE_IMAGE_BIZ_TYPE });
     return uploaded.url;
   } catch (error: unknown) {
-    errorMessage(error, { defaultI18nKey: 'tips.requestFailed' });
+    errorMessage(error);
     return null;
   }
 }

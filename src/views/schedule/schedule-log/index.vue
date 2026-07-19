@@ -34,7 +34,6 @@ const jobLogState = usePaginationState({
     elapsedTime: undefined,
     status: undefined,
   }),
-  errorI18nKey: 'logJob.message.loadFailed',
 });
 
 const { selectedRows, loading, searchForm, fetchTableData, resetQuery } = jobLogState;

@@ -34,7 +34,6 @@ function useEmailTemplateTableAction(deps: TableActionWithSelectionDeps) {
     selectedRows,
     deleteApi: (ids) => batchDeleteMessageTemplates(ids, EMAIL_TEMPLATE_CHANNEL),
     onSuccess: fetchTableData,
-    errorDefaultI18nKey: 'emailTemplate.loadFailed',
   });
 
   const { createFormBeforeSure } = useFormOverlaySubmit();
@@ -55,7 +54,6 @@ function useEmailTemplateTableAction(deps: TableActionWithSelectionDeps) {
       contentRenderer: () => <EmailTemplateDrawer ref={dialogFormRef} />,
       beforeSure: createFormBeforeSure<EmailTemplateFormModel>({
         formExposeRef: dialogFormRef,
-        errorI18nKey: 'emailTemplate.loadFailed',
         successI18nKey: 'tips.addSuccess',
         onSubmit: async (formData) => {
           await createEmailTemplate(formData);
@@ -84,7 +82,6 @@ function useEmailTemplateTableAction(deps: TableActionWithSelectionDeps) {
         contentRenderer: () => <EmailTemplateDrawer ref={dialogFormRef} form={detail as EmailTemplateFormModel} />,
         beforeSure: createFormBeforeSure<EmailTemplateFormModel>({
           formExposeRef: dialogFormRef,
-          errorI18nKey: 'emailTemplate.loadFailed',
           successI18nKey: 'tips.editSuccess',
           requireId: true,
           onSubmit: async (formPayload) => {
@@ -94,7 +91,7 @@ function useEmailTemplateTableAction(deps: TableActionWithSelectionDeps) {
         }),
       });
     } catch (error: unknown) {
-      errorMessage(error, { defaultI18nKey: 'emailTemplate.loadFailed' });
+      errorMessage(error);
     }
   };
 
@@ -145,7 +142,7 @@ function useEmailTemplateTableAction(deps: TableActionWithSelectionDeps) {
       message(t('tips.editSuccess'), { type: 'success' });
       await fetchTableData();
     } catch (error: unknown) {
-      errorMessage(error, { defaultI18nKey: 'emailTemplate.loadFailed' });
+      errorMessage(error);
     }
   };
 

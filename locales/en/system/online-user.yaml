@@ -10,7 +10,5 @@ onlineUser:
     viewSessions: View sessions
     kickAll: Kick all
   message:
-    loadFailed: Failed to load session users
-    summaryFailed: Failed to load session user summary
     kickAllSuccess: All sessions kicked successfully
     kickAllFailed: Failed to kick all sessions

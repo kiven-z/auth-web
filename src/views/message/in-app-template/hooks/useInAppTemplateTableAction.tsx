@@ -34,7 +34,6 @@ function useInAppTemplateTableAction(deps: TableActionWithSelectionDeps) {
     selectedRows,
     deleteApi: (ids) => batchDeleteMessageTemplates(ids, IN_APP_TEMPLATE_CHANNEL),
     onSuccess: fetchTableData,
-    errorDefaultI18nKey: 'inAppTemplate.loadFailed',
   });
 
   /**
@@ -53,7 +52,6 @@ function useInAppTemplateTableAction(deps: TableActionWithSelectionDeps) {
       contentRenderer: () => <InAppTemplateDrawer ref={drawerFormRef} />,
       beforeSure: createFormBeforeSure<InAppTemplateFormModel>({
         formExposeRef: drawerFormRef,
-        errorI18nKey: 'inAppTemplate.loadFailed',
         successI18nKey: 'tips.addSuccess',
         onSubmit: async (formData) => {
           await createInAppTemplate(formData);
@@ -82,7 +80,6 @@ function useInAppTemplateTableAction(deps: TableActionWithSelectionDeps) {
         contentRenderer: () => <InAppTemplateDrawer ref={drawerFormRef} form={detail as InAppTemplateFormModel} />,
         beforeSure: createFormBeforeSure<InAppTemplateFormModel>({
           formExposeRef: drawerFormRef,
-          errorI18nKey: 'inAppTemplate.loadFailed',
           successI18nKey: 'tips.editSuccess',
           requireId: true,
           onSubmit: async (formPayload) => {
@@ -92,7 +89,7 @@ function useInAppTemplateTableAction(deps: TableActionWithSelectionDeps) {
         }),
       });
     } catch (error: unknown) {
-      errorMessage(error, { defaultI18nKey: 'inAppTemplate.loadFailed' });
+      errorMessage(error);
     }
   };
 
@@ -141,7 +138,7 @@ function useInAppTemplateTableAction(deps: TableActionWithSelectionDeps) {
 
       await fetchTableData();
     } catch (error: unknown) {
-      errorMessage(error, { defaultI18nKey: 'inAppTemplate.loadFailed' });
+      errorMessage(error);
     }
   };
 

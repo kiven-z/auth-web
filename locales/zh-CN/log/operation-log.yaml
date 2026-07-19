@@ -17,7 +17,6 @@ operationLog:
   remark: 备注
   tableTitle: 操作日志
   detailTitle: 操作日志详情
-  loadFailed: 获取操作日志失败
   moduleEnum:
     SYSTEM:USER: 系统管理-用户
     SYSTEM:ROLE: 系统管理-角色

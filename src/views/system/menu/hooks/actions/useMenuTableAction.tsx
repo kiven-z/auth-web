@@ -41,7 +41,6 @@ function useMenuTableAction(deps: MenuTableActionDeps) {
     selectedRows: deps.selectedRows,
     deleteApi: deleteMenus,
     onSuccess: refresh,
-    errorDefaultI18nKey: 'tips.deleteFailed',
   });
 
   /**
@@ -110,7 +109,7 @@ function useMenuTableAction(deps: MenuTableActionDeps) {
         }),
       });
     } catch (error: unknown) {
-      errorMessage(error, { defaultI18nKey: 'sysMenu.loadFailed' });
+      errorMessage(error);
     }
   };
 
@@ -132,7 +131,7 @@ function useMenuTableAction(deps: MenuTableActionDeps) {
         contentRenderer: () => h(MenuDescriptionDialog, { data: detail }),
       });
     } catch (error: unknown) {
-      errorMessage(error, { defaultI18nKey: 'sysMenu.loadFailed' });
+      errorMessage(error);
     }
   };
 

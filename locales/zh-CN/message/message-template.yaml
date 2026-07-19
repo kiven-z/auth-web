@@ -1,10 +1,8 @@
 messageTemplate:
-  loadFailed: 消息模板数据加载失败
   requireFieldsDialogTitle: 维护必填变量
   requireFieldsMenu: 必填变量
   requireFieldsJson: 必填变量
   previewTips: 以下为按示例值渲染后的效果，可能与实际发送略有差异。
-  previewFailed: 预览渲染失败，请检查必填变量示例值是否完整
   previewTab: 渲染结果
   sourceTab: 原文
   testSendDialogTitle: 测试发送

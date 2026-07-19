@@ -37,5 +37,3 @@ post:
       empty: No granted roles
   tips:
     affiliatedPostInfo: Posts
-  messages:
-    loadFailed: Failed to load posts

@@ -27,7 +27,6 @@ function useAuthorizationAuditTableAction(deps: TableActionWithSelectionDeps) {
     selectedRows,
     deleteApi: deleteAuthorizationAudit,
     onSuccess: fetchTableData,
-    errorDefaultI18nKey: 'authorizationAudit.loadFailed',
   });
 
   /**
@@ -49,7 +48,7 @@ function useAuthorizationAuditTableAction(deps: TableActionWithSelectionDeps) {
         contentRenderer: () => <Description column={2} columns={detailColumns.value} data={detailData ?? {}} />,
       });
     } catch (error: unknown) {
-      errorMessage(error, { defaultI18nKey: 'authorizationAudit.loadFailed' });
+      errorMessage(error);
       return;
     }
   });

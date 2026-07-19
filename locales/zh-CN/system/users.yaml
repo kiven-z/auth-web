@@ -61,7 +61,6 @@ users:
     kickOne: 踢下线
     kickAll: 全部踢下线
     empty: 该用户暂无活跃会话
-    loadFailed: 加载用户会话失败
     kickSuccess: 会话已踢下线
     kickFailed: 踢下线失败
     kickAllSuccess: 已全部踢下线
@@ -125,5 +124,3 @@ users:
     partTime: 兼职
   message:
     statusFailed: 用户状态更新失败
-    loadPageFailed: 加载用户列表失败
-    loadFailed: 加载用户档案失败

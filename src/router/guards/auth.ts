@@ -106,7 +106,7 @@ export function createAuthGuard(router: Router): void {
               if (error instanceof ApiConflictError) {
                 return;
               }
-              errorMessage(error, { defaultI18nKey: 'tips.requestFailed' });
+              errorMessage(error);
             });
         }
         toCorrectRoute();

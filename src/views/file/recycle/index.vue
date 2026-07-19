@@ -31,7 +31,6 @@ const fileRecycleState = usePaginationState({
     startTime: undefined,
     endTime: undefined,
   }),
-  errorI18nKey: 'fileRecycle.messages.loadFailed',
 });
 
 const { loading, selectedRows, searchForm, fetchTableData, resetQuery } = fileRecycleState;
@@ -40,9 +39,7 @@ const { openDetailDialog, deleteBatchRows, restoreBatchRows } = useFileRecycleTa
   selectedRows,
 });
 
-const { userOptions, userSearchLoading, loadUserListByKeyword } = useRemoteUserSearch({
-  errorDefaultI18nKey: 'fileRecycle.messages.loadFailed',
-});
+const { userOptions, userSearchLoading, loadUserListByKeyword } = useRemoteUserSearch();
 
 const { searchExpanded, showAdvancedSearchToggle, toggleAdvancedSearch } = useCollapsibleSearchForm(6);
 

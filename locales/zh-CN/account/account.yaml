@@ -38,7 +38,6 @@ account:
     revoke: 下线
   message:
     revokeSuccess: 会话已下线
-    loadFailed: 加载数据失败
   hint:
     loginLogRetention: 仅展示最近 180 天的登录记录
     contactChangeTitle: 确认修改联系方式

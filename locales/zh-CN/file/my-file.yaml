@@ -1,5 +1,3 @@
 myFile:
   page:
     tableTitle: 我的文件
-  messages:
-    loadFailed: 获取我的文件列表失败

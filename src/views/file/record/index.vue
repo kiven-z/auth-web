@@ -33,7 +33,6 @@ const fileRecordState = usePaginationState({
     endTime: undefined,
     isPrivate: undefined,
   }),
-  errorI18nKey: 'fileRecord.messages.loadFailed',
 });
 
 const { selectedRows, loading, searchForm, fetchTableData, resetQuery } = fileRecordState;
@@ -48,9 +47,7 @@ const {
   privacyUpdateLoading,
 } = useFileRecordTableAction({ fetchTableData, selectedRows });
 
-const { userOptions, userSearchLoading, loadUserListByKeyword } = useRemoteUserSearch({
-  errorDefaultI18nKey: 'fileRecord.messages.loadFailed',
-});
+const { userOptions, userSearchLoading, loadUserListByKeyword } = useRemoteUserSearch();
 
 const { searchExpanded, showAdvancedSearchToggle, toggleAdvancedSearch } = useCollapsibleSearchForm(7);
 

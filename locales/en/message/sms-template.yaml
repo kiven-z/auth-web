@@ -1,6 +1,5 @@
 smsTemplate:
   name: SMS message template
-  loadFailed: Failed to load SMS templates
   tableTitle: SMS templates
   addDialogTitle: Add SMS template
   editDialogTitle: Edit SMS template

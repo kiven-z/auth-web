@@ -41,7 +41,6 @@ function useUserTableAction(deps: TableActionWithSelectionDeps) {
       contentRenderer: () => h(UserFormDialog, { ref: dialogFormRef, mode: 'add' }),
       beforeSure: createFormBeforeSure<SysUserCreateForm>({
         formExposeRef: dialogFormRef,
-        errorI18nKey: 'tips.addFailed',
         successI18nKey: 'tips.addSuccess',
         onSubmit: async (formPayload) => {
           await createUser(formPayload);
@@ -68,7 +67,7 @@ function useUserTableAction(deps: TableActionWithSelectionDeps) {
         contentRenderer: () => h(UserDescriptionDialog, { data: detail }),
       });
     } catch (error: unknown) {
-      errorMessage(error, { defaultI18nKey: 'users.message.loadFailed' });
+      errorMessage(error);
     }
   };
 
@@ -92,7 +91,6 @@ function useUserTableAction(deps: TableActionWithSelectionDeps) {
         beforeSure: createFormBeforeSure<SysUserUpdateForm>({
           formExposeRef: dialogFormRef,
           requireId: true,
-          errorI18nKey: 'tips.editFailed',
           successI18nKey: 'tips.editSuccess',
           onSubmit: async (formData) => {
             await updateUser(formData);
@@ -101,7 +99,7 @@ function useUserTableAction(deps: TableActionWithSelectionDeps) {
         }),
       });
     } catch (error: unknown) {
-      errorMessage(error, { defaultI18nKey: 'users.message.loadFailed' });
+      errorMessage(error);
     }
   };
 

@@ -22,8 +22,6 @@ export interface OpenMessageTemplateTestSendOptions {
   id: string;
   /** 消息渠道 */
   channel: MessageChannelCode;
-  /** 加载失败默认 i18n key */
-  loadFailedI18nKey?: string;
   /** 接收目标字段 label i18n key */
   targetLabelI18nKey?: string;
   /** 接收目标 placeholder i18n key */
@@ -45,7 +43,6 @@ export function useOpenMessageTemplateTestSend() {
     const {
       id,
       channel,
-      loadFailedI18nKey = 'messageTemplate.loadFailed',
       targetLabelI18nKey = 'messageTemplate.testSendTarget',
       targetPlaceholderI18nKey = 'messageTemplate.placeholder.testSendTarget',
     } = options;
@@ -68,7 +65,6 @@ export function useOpenMessageTemplateTestSend() {
       ),
       beforeSure: createFormBeforeSure<MessageTemplateTestSendForm>({
         formExposeRef: sendFormRef,
-        errorI18nKey: loadFailedI18nKey,
         successI18nKey: 'tips.operationSuccess',
         requireId: true,
         onSubmit: async (formData) => {

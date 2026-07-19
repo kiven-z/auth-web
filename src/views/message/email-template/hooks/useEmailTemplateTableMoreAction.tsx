@@ -33,7 +33,6 @@ export function useEmailTemplateTableMoreAction(options: TableActionDeps) {
       id: row.id,
       channel: EMAIL_TEMPLATE_CHANNEL,
       fetchTableData,
-      loadFailedI18nKey: 'emailTemplate.loadFailed',
     });
   };
 
@@ -45,7 +44,6 @@ export function useEmailTemplateTableMoreAction(options: TableActionDeps) {
     return openSharedTestSend({
       id: row.id,
       channel: EMAIL_TEMPLATE_CHANNEL,
-      loadFailedI18nKey: 'emailTemplate.loadFailed',
       targetLabelI18nKey: 'emailTemplate.testSendEmail',
       targetPlaceholderI18nKey: 'emailTemplate.testSendEmailPlaceholder',
     });
@@ -73,7 +71,6 @@ export function useEmailTemplateTableMoreAction(options: TableActionDeps) {
         ),
         beforeSure: createFormBeforeSure<EmailTemplateMonacoFormModel>({
           formExposeRef: dialogFormRef,
-          errorI18nKey: 'emailTemplate.loadFailed',
           successI18nKey: 'tips.editSuccess',
           requireId: true,
           onSubmit: async (formPayload) => {
@@ -83,7 +80,7 @@ export function useEmailTemplateTableMoreAction(options: TableActionDeps) {
         }),
       });
     } catch (error: unknown) {
-      errorMessage(error, { defaultI18nKey: 'emailTemplate.loadFailed' });
+      errorMessage(error);
     }
   };
 

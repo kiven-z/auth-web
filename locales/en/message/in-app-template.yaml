@@ -1,6 +1,5 @@
 inAppTemplate:
   name: In-app message template
-  loadFailed: Failed to load in-app message templates
   tableTitle: In-app message templates
   addDrawerTitle: Create in-app template
   editDrawerTitle: Edit in-app template

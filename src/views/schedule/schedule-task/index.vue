@@ -26,7 +26,6 @@ const jobState = usePaginationState({
     jobGroup: undefined,
     status: undefined,
   }),
-  errorI18nKey: 'scheduleTask.messages.loadFailed',
 });
 
 const { loading, selectedRows, searchForm, fetchTableData, resetQuery } = jobState;

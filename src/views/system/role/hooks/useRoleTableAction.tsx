@@ -35,7 +35,6 @@ function useRoleTableAction(deps: TableActionDeps) {
       contentRenderer: () => h(RoleFormDialog, { ref: dialogFormRef }),
       beforeSure: createFormBeforeSure<SysRoleCreateForm>({
         formExposeRef: dialogFormRef,
-        errorI18nKey: 'roles.message.loadFailed',
         successI18nKey: 'tips.addSuccess',
         onSubmit: async (formPayload) => {
           await createRole(formPayload);
@@ -62,7 +61,7 @@ function useRoleTableAction(deps: TableActionDeps) {
         contentRenderer: () => h(RoleDescriptionDialog, { data: detail }),
       });
     } catch (error: unknown) {
-      errorMessage(error, { defaultI18nKey: 'roles.message.loadFailed' });
+      errorMessage(error);
     }
   };
 
@@ -84,7 +83,6 @@ function useRoleTableAction(deps: TableActionDeps) {
       beforeSure: createFormBeforeSure<SysRoleUpdateForm>({
         formExposeRef: dialogFormRef,
         requireId: true,
-        errorI18nKey: 'roles.message.loadFailed',
         successI18nKey: 'tips.editSuccess',
         onSubmit: async (formData) => {
           await updateRole(formData);

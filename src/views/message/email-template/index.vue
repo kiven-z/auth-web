@@ -34,7 +34,6 @@ const emailTemplateState = usePaginationState<MessageTemplatePageRow, MessageTem
     subject: undefined,
     status: undefined,
   }),
-  errorI18nKey: 'emailTemplate.loadFailed',
 });
 
 const { loading, selectedRows, searchForm, fetchTableData, resetQuery } = emailTemplateState;

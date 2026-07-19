@@ -27,7 +27,6 @@ dept:
   action:
     addChild: 新增下级
   message:
-    loadFailed: 加载部门列表失败
     loadDetailFailed: 加载部门详情失败
     moveSuccess: 移动部门成功
     moveFailed: 移动部门失败
@@ -59,8 +58,6 @@ dept:
     parentLinkTitle: 父子直连异常（样本）
     depthChainTitle: 深度链条异常（样本）
     anomalyEmpty: 无异常记录
-    message:
-      loadFailed: 闭包表健康检查失败
     alert:
       pass: 闭包表一致性检查通过
       fail: 闭包表存在一致性异常，请排查数据或联系运维

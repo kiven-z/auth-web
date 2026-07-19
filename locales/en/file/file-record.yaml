@@ -22,7 +22,6 @@ fileRecord:
     extension: Extension
     etag: Object ETag
   messages:
-    loadFailed: Failed to load file records
     loadDetailFailed: Failed to load file detail
     downloadSuccess: Download succeeded
     downloadFailed: Failed to download file

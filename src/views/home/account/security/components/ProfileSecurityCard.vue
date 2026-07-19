@@ -61,7 +61,7 @@ async function handleResetPreferences() {
     message(t('account.preferences.resetSuccess'), { type: 'success' });
     window.location.reload();
   } catch (error: unknown) {
-    errorMessage(error, { defaultI18nKey: 'tips.requestFailed' });
+    errorMessage(error);
   } finally {
     resetting.value = false;
   }

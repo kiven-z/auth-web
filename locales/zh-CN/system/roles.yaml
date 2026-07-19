@@ -39,7 +39,6 @@ roles:
     roleNameLengthLimit: 角色名称长度不能超过128个字符
     remarkLengthLimit: 备注长度不能超过500个字符
   message:
-    loadFailed: 加载角色列表失败
     deleteInUse: 该角色仍被授权对象引用，请先解除授权后再删除
   menu:
     dataScope: 数据范围配置

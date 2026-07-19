@@ -29,16 +29,13 @@ const loginLogState = usePaginationState({
     loginResult: undefined,
     loginType: undefined,
   }),
-  errorI18nKey: 'loginLog.message.loadFailed',
 });
 
 const { selectedRows, loading, searchForm, fetchTableData, resetQuery } = loginLogState;
 
 const { openDetailDialog, deleteBatchRows } = useLoginLogTableAction({ fetchTableData, selectedRows });
 
-const { userOptions, userSearchLoading, loadUserListByKeyword } = useRemoteUserSearch({
-  errorDefaultI18nKey: 'loginLog.message.loadFailed',
-});
+const { userOptions, userSearchLoading, loadUserListByKeyword } = useRemoteUserSearch();
 
 onMounted(() => {
   fetchTableData();

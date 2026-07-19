@@ -36,7 +36,6 @@ const formRef = ref<FormInstance>();
 const form = ref<InAppTemplateTestSendForm>(props.form);
 
 const { userOptions, userSearchLoading, loadUserListByKeyword } = useRemoteUserSearch({
-  errorDefaultI18nKey: 'inAppTemplate.loadFailed',
   limit: 50,
 });
 

@@ -9,7 +9,6 @@ scheduleGroup:
   addTitle: 新增任务分组
   editTitle: 修改任务分组
   detailTitle: 查看任务分组详情
-  loadFailed: 加载任务分组列表失败
   actionPauseAllJobs: 暂停该分组下全部任务
   actionResumeAllJobs: 恢复该分组下全部任务
   placeholder:

@@ -27,7 +27,7 @@ async function loadProfileData() {
   try {
     profile.value = await getUserProfile(userStore.userId);
   } catch (error: unknown) {
-    errorMessage(error, { defaultI18nKey: 'account.message.loadFailed' });
+    errorMessage(error);
     profile.value = null;
   } finally {
     loading.value = false;
@@ -99,7 +99,7 @@ onMounted(() => {
       <el-divider content-position="left">{{ t('account.field.basicInfo') }}</el-divider>
       <ProfileBasicInfoCard :profile="profile" @saved="handleProfileSaved" />
     </template>
-    <el-empty v-else-if="!loading" :description="t('account.message.loadFailed')" />
+    <el-empty v-else-if="!loading" :description="t('tips.requestFailed')" />
   </div>
 </template>
 

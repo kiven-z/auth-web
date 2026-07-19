@@ -38,7 +38,6 @@ function useUserAssignDeptDrawerAction(deps: UserAssignDeptDrawerActionDeps) {
     selectedRows,
     deleteApi: (ids) => batchDeleteUserDepts(userId, ids),
     onSuccess: fetchTableData,
-    errorDefaultI18nKey: 'tips.deleteFailed',
   });
 
   /**

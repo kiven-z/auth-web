@@ -30,7 +30,6 @@ const roleState = usePaginationState({
     roleName: undefined,
     status: undefined,
   }),
-  errorI18nKey: 'roles.message.loadFailed',
 });
 
 const { loading, searchForm, pagination, fetchTableData, resetQuery } = roleState;

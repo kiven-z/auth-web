@@ -28,7 +28,6 @@ const personalFileRecycleState = usePaginationState({
     startTime: undefined,
     endTime: undefined,
   }),
-  errorI18nKey: 'fileRecycle.messages.loadFailed',
 });
 
 const { loading, selectedRows, searchForm, fetchTableData, resetQuery } = personalFileRecycleState;

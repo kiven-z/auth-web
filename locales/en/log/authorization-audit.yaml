@@ -20,7 +20,6 @@ authorizationAudit:
   remark: Remark
   tableTitle: Authorization Audit Logs
   detailTitle: Authorization Audit Detail
-  loadFailed: Failed to load authorization audit logs
   createUser: Operator
   eventTypeEnum:
     GRANTED: Granted

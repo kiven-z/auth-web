@@ -46,7 +46,7 @@ function useAuthorizationInvalidationOutboxTableAction(deps: AuthorizationInvali
         contentRenderer: () => h(AuthorizationInvalidationOutboxDetailDialog, { data: detailData }),
       });
     } catch (error: unknown) {
-      errorMessage(error, { defaultI18nKey: 'authorizationInvalidation.outboxLoadFailed' });
+      errorMessage(error);
     }
   });
 
@@ -75,7 +75,7 @@ function useAuthorizationInvalidationOutboxTableAction(deps: AuthorizationInvali
       }
       await fetchTableData();
     } catch (error: unknown) {
-      errorMessage(error, { defaultI18nKey: 'authorizationInvalidation.outboxLoadFailed' });
+      errorMessage(error);
     }
   });
 

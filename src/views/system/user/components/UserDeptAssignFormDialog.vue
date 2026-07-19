@@ -48,7 +48,7 @@ const loadDeptTree = async () => {
     const list = await getDeptList();
     deptTree.value = buildPostDeptCascaderTree(list ?? []);
   } catch (error: unknown) {
-    errorMessage(error, { defaultI18nKey: 'dept.message.loadFailed' });
+    errorMessage(error);
     deptTree.value = [];
   }
 };

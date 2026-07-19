@@ -43,7 +43,7 @@ const loadUserDetailInfo = async () => {
     deptInfos.value = deptList ?? [];
     postInfos.value = postList ?? [];
   } catch (error: unknown) {
-    errorMessage(error, { defaultI18nKey: 'users.message.loadFailed' });
+    errorMessage(error);
     userDetailInfo.value = [];
     deptInfos.value = [];
     postInfos.value = [];

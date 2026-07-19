@@ -1,6 +1,5 @@
 emailTemplate:
   name: 邮件消息模板
-  loadFailed: 邮件模板数据加载失败
   tableTitle: 邮件消息模板
   templateCode: 场景编码
   templateName: 模板名称

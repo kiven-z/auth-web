@@ -44,7 +44,6 @@ function useDeptTableAction(deps: DeptTableActionDeps) {
     selectedRows: deps.selectedRows,
     deleteApi: deleteDepts,
     onSuccess: refresh,
-    errorDefaultI18nKey: 'tips.deleteFailed',
   });
 
   /**
@@ -97,7 +96,6 @@ function useDeptTableAction(deps: DeptTableActionDeps) {
       contentRenderer: () => h(DeptFormDialog, { ref: dialogFormRef, form: parentRow as SysDeptCreateForm }),
       beforeSure: createFormBeforeSure<SysDeptCreateForm>({
         formExposeRef: dialogFormRef,
-        errorI18nKey: 'tips.addFailed',
         successI18nKey: 'tips.addSuccess',
         onSubmit: async (formPayload) => {
           await createDept(formPayload);
@@ -126,7 +124,6 @@ function useDeptTableAction(deps: DeptTableActionDeps) {
         beforeSure: createFormBeforeSure<SysDeptUpdateForm>({
           formExposeRef: dialogFormRef,
           requireId: true,
-          errorI18nKey: 'tips.editFailed',
           successI18nKey: 'tips.editSuccess',
           onSubmit: async (formData) => {
             await updateDept(formData);

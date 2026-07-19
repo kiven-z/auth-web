@@ -36,7 +36,6 @@ export function useInAppTemplateTableMoreAction(options: TableActionDeps) {
       id: row.id,
       channel: IN_APP_TEMPLATE_CHANNEL,
       fetchTableData,
-      loadFailedI18nKey: 'inAppTemplate.loadFailed',
     });
   };
 
@@ -56,7 +55,6 @@ export function useInAppTemplateTableMoreAction(options: TableActionDeps) {
       contentRenderer: () => <InAppTemplateTestSendDialog ref={sendFormRef} form={{ id: row.id, target: '' }} />,
       beforeSure: createFormBeforeSure<InAppTemplateTestSendForm>({
         formExposeRef: sendFormRef,
-        errorI18nKey: 'inAppTemplate.loadFailed',
         successI18nKey: 'tips.operationSuccess',
         requireId: true,
         onSubmit: async (formData) => {

@@ -1,6 +1,5 @@
 emailTemplate:
   name: Email message template
-  loadFailed: Failed to load email templates
   tableTitle: Email templates
   templateCode: Scene code
   templateName: Template name

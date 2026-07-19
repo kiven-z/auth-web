@@ -1,5 +1,5 @@
 import type { PageResponse } from '@/api/common';
-import { errorMessage } from '@/services/feedback/message';
+import { DEFAULT_ERROR_FALLBACK_I18N_KEY, errorMessage } from '@/services/feedback/message';
 import type { Ref } from 'vue';
 
 /**
@@ -57,7 +57,8 @@ export async function runPagedTableFetch<TRow, TQuery extends Record<string, any
   pagination: { total: number; pageSize: number; currentPage: number };
   tableData: Ref<unknown>;
   fetchApi: (query: TQuery) => Promise<PageResponse<TRow>>;
-  errorI18nKey: string;
+  /** 加载失败兜底 i18n 键，默认 tips.requestFailed */
+  errorI18nKey?: string;
 }): Promise<void> {
   options.loading.value = true;
   const query = buildPaginationQuery(options.searchForm, options.pagination.currentPage, options.pagination.pageSize);
@@ -67,7 +68,9 @@ export async function runPagedTableFetch<TRow, TQuery extends Record<string, any
     rows.value = page.list ?? [];
     applyPaginationFromPageResponse(options.pagination, page);
   } catch (error: unknown) {
-    errorMessage(error, { defaultI18nKey: options.errorI18nKey });
+    errorMessage(error, {
+      defaultI18nKey: options.errorI18nKey ?? DEFAULT_ERROR_FALLBACK_I18N_KEY,
+    });
     rows.value = [];
     options.pagination.total = 0;
   } finally {

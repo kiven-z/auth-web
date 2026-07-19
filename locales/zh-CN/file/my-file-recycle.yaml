@@ -1,5 +1,3 @@
 myFileRecycle:
   page:
     tableTitle: 我的回收站
-  messages:
-    loadFailed: 获取我的回收站列表失败

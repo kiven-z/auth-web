@@ -48,8 +48,6 @@ authorizationInvalidation:
   detailTitle: 授权失效幂等事件详情
   outboxTableTitle: 授权失效投递队列
   outboxDetailTitle: 授权失效 Outbox 详情
-  loadFailed: 获取授权失效幂等事件失败
-  outboxLoadFailed: 获取授权失效 Outbox 失败
   retryAction: 重试
   releaseClaimAction: 释放占位
   retrySuccess: 人工重试投递成功

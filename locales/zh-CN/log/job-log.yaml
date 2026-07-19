@@ -20,5 +20,3 @@ logJob:
     schedule: 调度
     manual: 手动
     retry: 重试
-  message:
-    loadFailed: 获取任务调度日志失败

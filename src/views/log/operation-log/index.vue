@@ -31,7 +31,6 @@ const operationLogState = usePaginationState({
     targetId: undefined,
     requestMethod: undefined,
   }),
-  errorI18nKey: 'operationLog.loadFailed',
 });
 
 const { selectedRows, loading, searchForm, fetchTableData, resetQuery } = operationLogState;
@@ -41,9 +40,7 @@ const { openDetailDialog, deleteBatchRows } = useOperationLogTableAction({
   selectedRows,
 });
 
-const { userOptions, userSearchLoading, loadUserListByKeyword } = useRemoteUserSearch({
-  errorDefaultI18nKey: 'operationLog.loadFailed',
-});
+const { userOptions, userSearchLoading, loadUserListByKeyword } = useRemoteUserSearch();
 
 const { searchExpanded, showAdvancedSearchToggle, toggleAdvancedSearch } = useCollapsibleSearchForm(6);
 

@@ -43,7 +43,7 @@ function useAuthorizationInvalidationLinkedRecord() {
         contentRenderer: () => h(AuthorizationInvalidationOutboxDetailDialog, { data: detail }),
       });
     } catch (error: unknown) {
-      errorMessage(error, { defaultI18nKey: 'authorizationInvalidation.outboxLoadFailed' });
+      errorMessage(error);
     }
   };
 

@@ -29,5 +29,3 @@ loginLog:
     LOGIN_PASSWORD: 密码登录
     REFRESH_TOKEN: 刷新令牌
     LOGOUT: 登出
-  message:
-    loadFailed: 获取登录日志失败

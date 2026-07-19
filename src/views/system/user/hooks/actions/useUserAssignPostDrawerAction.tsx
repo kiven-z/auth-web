@@ -39,7 +39,6 @@ function useUserAssignPostDrawerAction(deps: UserAssignPostDrawerActionDeps) {
     selectedRows,
     deleteApi: (ids) => batchDeleteUserPosts(userId, ids),
     onSuccess: fetchTableData,
-    errorDefaultI18nKey: 'tips.deleteFailed',
   });
 
   /**

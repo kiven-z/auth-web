@@ -21,7 +21,6 @@ function useJobLogTableAction(deps: TableActionWithSelectionDeps) {
     selectedRows,
     deleteApi: deleteJobLog,
     onSuccess: fetchTableData,
-    errorDefaultI18nKey: 'logJob.message.loadFailed',
   });
 
   /**
@@ -42,7 +41,7 @@ function useJobLogTableAction(deps: TableActionWithSelectionDeps) {
         contentRenderer: () => <Description column={2} columns={detailColumns.value} data={detailData ?? {}} />,
       });
     } catch (error: unknown) {
-      errorMessage(error, { defaultI18nKey: 'logJob.message.loadFailed' });
+      errorMessage(error);
       return;
     }
   };

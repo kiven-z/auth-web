@@ -33,7 +33,6 @@ const smsTemplateState = usePaginationState<MessageTemplatePageRow, MessageTempl
     templateName: undefined,
     status: undefined,
   }),
-  errorI18nKey: 'smsTemplate.loadFailed',
 });
 
 const { loading, selectedRows, searchForm, fetchTableData, resetQuery } = smsTemplateState;

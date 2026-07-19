@@ -1,10 +1,8 @@
 messageTemplate:
-  loadFailed: Failed to load message templates
   requireFieldsDialogTitle: Required variables
   requireFieldsMenu: Variables
   requireFieldsJson: Required variables
   previewTips: Preview rendered with sample values; actual delivery may differ slightly.
-  previewFailed: Preview failed; check that required variable example values are set
   previewTab: Rendered
   sourceTab: Source
   testSendDialogTitle: Test send

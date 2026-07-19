@@ -23,7 +23,6 @@ const loginLogState = usePaginationState({
     loginResult: undefined,
     loginType: undefined,
   }),
-  errorI18nKey: 'account.message.loadFailed',
   defaultPageSize: 10,
 });
 

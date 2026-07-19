@@ -27,5 +27,3 @@ permissions:
     roles:
       title: Bound Roles
       empty: No roles bound
-  messages:
-    loadFailed: Failed to load permissions

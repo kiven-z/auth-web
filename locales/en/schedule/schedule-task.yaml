@@ -60,7 +60,6 @@ scheduleTask:
     cronExpressionLengthLimit: Cron expression must not exceed 255 characters
     remarkLengthLimit: Remark must not exceed 500 characters
   messages:
-    loadFailed: Failed to load schedule tasks
     loadJobGroupFailed: Failed to load job groups
     loadCatalogFailed: Failed to load task catalog
     templateExampleUnavailable: No template example is available for the current task class

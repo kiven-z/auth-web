@@ -29,5 +29,3 @@ loginLog:
     LOGIN_PASSWORD: Password login
     REFRESH_TOKEN: Refresh token
     LOGOUT: Logout
-  message:
-    loadFailed: Failed to load login logs

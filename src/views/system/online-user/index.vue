@@ -25,7 +25,6 @@ const searchForm = reactive({
 
 const tableState = usePaginationState<OnlineUserPageRow & { id: string }>({
   searchForm,
-  errorI18nKey: 'onlineUser.message.loadFailed',
   defaultPageSize: 30,
   fetchApi: async (params) => {
     const page = await getOnlineUserPage(params);
@@ -38,9 +37,7 @@ const tableState = usePaginationState<OnlineUserPageRow & { id: string }>({
 });
 const { loading, fetchTableData, pagination } = tableState;
 
-const { userOptions, userSearchLoading, loadUserListByKeyword } = useRemoteUserSearch({
-  errorDefaultI18nKey: 'onlineUser.message.loadFailed',
-});
+const { userOptions, userSearchLoading, loadUserListByKeyword } = useRemoteUserSearch();
 
 const { kickingUserId, openViewSessionsDialog, kickAllSessionsRow } = useOnlineUserTableAction({
   fetchTableData,

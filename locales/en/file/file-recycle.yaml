@@ -20,7 +20,6 @@ fileRecycle:
     size: File Size
     remark: Remark
   messages:
-    loadFailed: Failed to load recycle bin records
     loadDetailFailed: Failed to load file detail
     batchRestoreSuccess: Restored {count} files
     restoreFailed: Failed to restore files

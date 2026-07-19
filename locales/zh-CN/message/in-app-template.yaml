@@ -1,6 +1,5 @@
 inAppTemplate:
   name: 站内信模板
-  loadFailed: 站内信模板数据加载失败
   tableTitle: 站内信模板
   addDrawerTitle: 新增站内信模板
   editDrawerTitle: 编辑站内信模板

@@ -123,7 +123,7 @@ const loadMenuTree = async () => {
     deptTree.value = handleTree(nodes, 'id', 'parentId', 'children') as DeptNode[];
     parentIdPath.value = findMenuIdPath(deptTree.value, form.value.parentId ?? null);
   } catch (e: unknown) {
-    errorMessage(e, { defaultI18nKey: 'sysMenu.loadFailed' });
+    errorMessage(e);
     deptTree.value = [];
   }
 };

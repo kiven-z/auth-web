@@ -45,7 +45,6 @@ function useUserAdvanceAction(options: UseUserAdvanceActionOptions) {
     selectedRows,
     deleteApi: deleteUsers,
     onSuccess: fetchTableData,
-    errorDefaultI18nKey: 'tips.deleteFailed',
   });
 
   const { exporting, openExportDialog } = usePagedTableExport<SysUserPageQuery>({

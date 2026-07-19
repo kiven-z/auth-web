@@ -38,7 +38,6 @@ account:
     revoke: Revoke
   message:
     revokeSuccess: Session revoked
-    loadFailed: Failed to load data
   hint:
     loginLogRetention: Only login records from the last 180 days are shown
     contactChangeTitle: Confirm contact change

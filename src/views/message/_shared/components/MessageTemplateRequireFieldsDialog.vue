@@ -19,13 +19,9 @@ defineOptions({
 interface MessageTemplateRequireFieldsDialogProps {
   id: string;
   channel: MessageChannelCode;
-  /** 加载失败默认 i18n key */
-  loadFailedI18nKey?: string;
 }
 
-const props = withDefaults(defineProps<MessageTemplateRequireFieldsDialogProps>(), {
-  loadFailedI18nKey: 'messageTemplate.loadFailed',
-});
+const props = defineProps<MessageTemplateRequireFieldsDialogProps>();
 
 const { t } = useI18n();
 
@@ -70,7 +66,7 @@ const submit = async (): Promise<boolean> => {
     message(t('tips.editSuccess'), { type: 'success' });
     return true;
   } catch (error: unknown) {
-    errorMessage(error, { defaultI18nKey: props.loadFailedI18nKey });
+    errorMessage(error, { defaultI18nKey: 'tips.editFailed' });
     return false;
   }
 };
@@ -82,7 +78,7 @@ onMounted(async () => {
     dataList.value = toEditableRequireFields(requireFields ?? []);
     rowSeq = dataList.value.length + 1;
   } catch (error: unknown) {
-    errorMessage(error, { defaultI18nKey: props.loadFailedI18nKey });
+    errorMessage(error);
   } finally {
     loading.value = false;
   }

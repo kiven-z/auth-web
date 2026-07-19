@@ -35,7 +35,6 @@ function useFileRecordTableActionCore(options: UseFileRecordTableActionCoreOptio
     selectedRows,
     deleteApi,
     onSuccess: fetchTableData,
-    errorDefaultI18nKey: 'tips.deleteFailed',
   });
 
   /**

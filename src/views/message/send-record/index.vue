@@ -28,9 +28,7 @@ const sendRecordState = usePaginationState({
     channel: undefined,
     status: undefined,
   }),
-  errorI18nKey: 'sendRecord.message.loadFailed',
 });
-
 const { loading, searchForm, fetchTableData, resetQuery } = sendRecordState;
 
 onMounted(() => {

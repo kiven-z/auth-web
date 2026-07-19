@@ -17,5 +17,3 @@ sendRecord:
     SUCCESS: 成功
     FAILED: 失败
     SKIPPED: 已跳过
-  message:
-    loadFailed: 获取消息发送记录失败

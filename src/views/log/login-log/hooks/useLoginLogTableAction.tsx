@@ -20,7 +20,6 @@ function useLoginLogTableAction(deps: TableActionWithSelectionDeps) {
     selectedRows,
     deleteApi: deleteLoginLog,
     onSuccess: fetchTableData,
-    errorDefaultI18nKey: 'loginLog.message.loadFailed',
   });
 
   /**
@@ -40,7 +39,7 @@ function useLoginLogTableAction(deps: TableActionWithSelectionDeps) {
         contentRenderer: () => <Description column={2} columns={detailColumns.value} data={detailData ?? {}} />,
       });
     } catch (error: unknown) {
-      errorMessage(error, { defaultI18nKey: 'loginLog.message.loadFailed' });
+      errorMessage(error);
       return;
     }
   };

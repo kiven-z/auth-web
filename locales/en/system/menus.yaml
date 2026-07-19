@@ -1,7 +1,6 @@
 sysMenu:
   name: Menu management
   tableTitle: Menu list
-  loadFailed: Failed to load menu data
   moveSuccess: Menu moved successfully
   moveFailed: Failed to move menu
   moveConfirmTitle: Confirm menu move

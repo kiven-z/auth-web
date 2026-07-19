@@ -42,7 +42,6 @@ function useChangePasswordAction() {
       contentRenderer: () => h(ChangePasswordDialogPanel, { ref: dialogFormRef, mode }),
       beforeSure: createFormBeforeSure<ChangePasswordDialogForm>({
         formExposeRef: dialogFormRef,
-        errorI18nKey: 'tips.editFailed',
         successI18nKey: 'tips.editSuccess',
         onSubmit: async (formPayload) => {
           if (mode === 'admin-reset') {

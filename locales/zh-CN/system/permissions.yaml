@@ -27,5 +27,3 @@ permissions:
     roles:
       title: 已绑定角色
       empty: 暂无绑定角色
-  messages:
-    loadFailed: 加载权限列表失败

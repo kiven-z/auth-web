@@ -47,7 +47,6 @@ const roleState = usePaginationState({
     roleName: undefined,
     status: true,
   }),
-  errorI18nKey: 'roles.message.loadFailed',
 });
 
 const { tableData, loading, searchForm, fetchTableData, resetQuery } = roleState;

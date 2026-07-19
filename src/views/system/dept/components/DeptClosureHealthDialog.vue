@@ -27,7 +27,7 @@ async function reload() {
   try {
     data.value = await getDeptClosureHealth();
   } catch (error: unknown) {
-    errorMessage(error, { defaultI18nKey: 'dept.closureHealth.message.loadFailed' });
+    errorMessage(error);
   } finally {
     loading.value = false;
   }

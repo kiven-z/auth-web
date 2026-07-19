@@ -1,5 +1,3 @@
 myFile:
   page:
     tableTitle: My Files
-  messages:
-    loadFailed: Failed to load my files

@@ -29,7 +29,6 @@ const personalFileRecordState = usePaginationState({
     endTime: undefined,
     isPrivate: undefined,
   }),
-  errorI18nKey: 'fileRecord.messages.loadFailed',
 });
 
 const { selectedRows, loading, searchForm, fetchTableData, resetQuery } = personalFileRecordState;

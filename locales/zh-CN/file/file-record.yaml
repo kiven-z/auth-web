@@ -22,7 +22,6 @@ fileRecord:
     extension: 扩展名
     etag: 对象ETag
   messages:
-    loadFailed: 获取文件记录列表失败
     loadDetailFailed: 获取文件详情失败
     downloadSuccess: 下载成功
     downloadFailed: 下载文件失败
