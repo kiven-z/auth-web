@@ -23,35 +23,17 @@ const searchForm = reactive({
   userId: undefined as string,
 });
 
-const tableState = usePaginationState<OnlineUserPageRow & { id: string }>({
+const tableState = usePaginationState<OnlineUserPageRow>({
   searchForm,
-  defaultPageSize: 30,
-  fetchApi: async (params) => {
-    const page = await getOnlineUserPage(params);
-    const list = (page.list ?? []).map((row) => ({
-      ...row,
-      id: row.userId,
-    }));
-    return { ...page, list };
-  },
+  fetchApi: getOnlineUserPage,
 });
-const { loading, fetchTableData, pagination } = tableState;
+const { loading, fetchTableData, pagination, resetQuery } = tableState;
 
 const { userOptions, userSearchLoading, loadUserListByKeyword } = useRemoteUserSearch();
 
 const { kickingUserId, openViewSessionsDialog, kickAllSessionsRow } = useOnlineUserTableAction({
   fetchTableData,
 });
-
-/**
- * 重置搜索并刷新
- * @param formRef 搜索表单
- */
-async function handleResetSearch(formRef?: FormInstance) {
-  tableState.pagination.currentPage = 1;
-  formRef?.resetFields();
-  await fetchTableData();
-}
 
 onMounted(() => {
   fetchTableData();
@@ -84,7 +66,7 @@ onMounted(() => {
             {{ t('buttons.actionSearch') }}
           </el-button>
           <!-- 重置 -->
-          <el-button v-perms="SYS_ONLINE_USER_PERMS.QUERY" @click="handleResetSearch(searchFormRef)">
+          <el-button v-perms="SYS_ONLINE_USER_PERMS.QUERY" @click="resetQuery(searchFormRef)">
             {{ t('buttons.actionReset') }}
           </el-button>
         </el-button-group>

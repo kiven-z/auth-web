@@ -23,7 +23,6 @@ const loginLogState = usePaginationState({
     loginResult: undefined,
     loginType: undefined,
   }),
-  defaultPageSize: 10,
 });
 
 const { loading, fetchTableData, resetQuery } = loginLogState;

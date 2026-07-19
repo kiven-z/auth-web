@@ -29,7 +29,6 @@ const postAssignState = usePaginationState<UserPostPageRow>({
     postName: undefined,
     status: undefined,
   }),
-  defaultPageSize: 30,
   fetchApi: (query) =>
     getUserPostPage(props.userId, {
       pageIndex: query.pageIndex as number,

@@ -2,13 +2,12 @@ import type { PageResponse } from '@/api/common';
 import { usePaginationState } from '@/components/business/AuthPagedTable/src/usePaginationState';
 import { errorMessage } from '@/services/feedback/message';
 import { handleTree } from '@/shared/utils/tree';
-import type { FormInstance } from 'element-plus';
 import { ref, type Ref } from 'vue';
 
 /**
  * 模块级「表格分页 + 全量列表建树」页状态工厂配置（菜单、部门等分段切换场景）。
  */
-export interface CreateModuleTableTreePageStateConfig<TRow, TFlat, TNode, TViewMode extends string = 'table' | 'tree'> {
+export interface CreateModuleTableTreePageStateConfig<TRow, TFlat, TViewMode extends string = 'table' | 'tree'> {
   /** 已与页面绑定的 reactive 查询表单（单例引用） */
   searchForm: Record<string, any>;
   /** 表格默认每页条数 */
@@ -37,11 +36,22 @@ export function useCreateModuleTableTreePageState<
   TFlat,
   TNode,
   TViewMode extends string = 'table' | 'tree',
->(config: CreateModuleTableTreePageStateConfig<TRow, TFlat, TNode, TViewMode>) {
+>(config: CreateModuleTableTreePageStateConfig<TRow, TFlat, TViewMode>) {
   const treeData = ref<TNode[]>([]);
   const viewMode = ref(config.initialViewMode ?? ('table' as TViewMode)) as Ref<TViewMode>;
 
-  const pageState = usePaginationState<TRow>({
+  const {
+    loading,
+    selectedRows,
+    tableData,
+    searchForm,
+    pagination,
+    fetchTableData,
+    resetQuery,
+    handlePageSizeChange,
+    handlePageCurrentChange,
+    handleSelectionChange,
+  } = usePaginationState<TRow>({
     fetchApi: config.fetchPage,
     searchForm: config.searchForm,
     defaultPageSize: config.defaultPageSize,
@@ -54,7 +64,7 @@ export function useCreateModuleTableTreePageState<
    * 拉取扁平列表并建树（不带表格筛选，保证结构完整）。
    */
   const fetchTreeData = async () => {
-    pageState.loading.value = true;
+    loading.value = true;
     try {
       const list = await config.fetchFlatList(config.flatListParams ?? {});
       treeData.value = handleTree([...(list ?? [])], treeIdKey, treeParentKey) as TNode[];
@@ -62,18 +72,8 @@ export function useCreateModuleTableTreePageState<
       errorMessage(error);
       treeData.value = [];
     } finally {
-      pageState.loading.value = false;
+      loading.value = false;
     }
-  };
-
-  /**
-   * 重置筛选并查询。
-   * @param formRef 搜索表单实例
-   */
-  const resetQuery = async (formRef: FormInstance) => {
-    formRef.resetFields();
-    pageState.pagination.currentPage = 1;
-    await pageState.fetchTableData();
   };
 
   /**
@@ -81,7 +81,7 @@ export function useCreateModuleTableTreePageState<
    */
   const refresh = async () => {
     if (viewMode.value === 'table') {
-      await pageState.fetchTableData();
+      await fetchTableData();
     } else {
       await fetchTreeData();
     }
@@ -89,19 +89,19 @@ export function useCreateModuleTableTreePageState<
 
   function usePageState() {
     return {
-      loading: pageState.loading,
-      selectedRows: pageState.selectedRows,
-      tableData: pageState.tableData,
+      loading,
+      selectedRows,
+      tableData,
       treeData,
-      searchForm: config.searchForm,
+      searchForm,
       viewMode,
-      pagination: pageState.pagination,
-      fetchTableData: pageState.fetchTableData,
+      pagination,
+      fetchTableData,
       fetchTreeData,
       resetQuery,
-      handlePageSizeChange: pageState.handlePageSizeChange,
-      handlePageCurrentChange: pageState.handlePageCurrentChange,
-      handleSelectionChange: pageState.handleSelectionChange,
+      handlePageSizeChange,
+      handlePageCurrentChange,
+      handleSelectionChange,
       refresh,
     };
   }

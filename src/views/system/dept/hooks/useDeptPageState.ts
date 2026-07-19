@@ -23,7 +23,6 @@ const treeKeyword = ref('');
 
 const innerPageState = useCreateModuleTableTreePageState<SysDeptRow, SysDeptListVO, SysDeptTreeNode, DeptViewMode>({
   searchForm,
-  defaultPageSize: 30,
   fetchPage: (query) => getDeptPage(query),
   fetchFlatList: () => {
     const keyword = treeKeyword.value;

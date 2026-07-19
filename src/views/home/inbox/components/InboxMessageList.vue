@@ -10,19 +10,31 @@ defineOptions({
 defineProps<{
   /** 列表数据 */
   rows: InAppInboxPageRow[];
-  /** 选中的消息 ID */
-  selectedIds: string[];
   /** 加载中 */
   loading: boolean;
 }>();
 
+const selectedRows = defineModel<string[]>('selectedRows', { required: true });
+
 const emit = defineEmits<{
-  'toggle-row': [messageId: string, checked: boolean];
   'row-delete': [messageId: string];
   'row-mark-read': [messageId: string];
 }>();
 
 const { t } = useI18n();
+
+/**
+ * 勾选 / 取消勾选单行。
+ * @param messageId 消息 ID
+ * @param checked 是否选中
+ */
+function toggleRow(messageId: string, checked: boolean) {
+  if (checked) {
+    selectedRows.value.push(messageId);
+    return;
+  }
+  selectedRows.value = selectedRows.value.filter((id) => id !== messageId);
+}
 </script>
 
 <template>
@@ -32,12 +44,12 @@ const { t } = useI18n();
     <div
       v-for="row in rows"
       :key="row.id"
-      class="inbox-message-list__row"
       :class="{ 'inbox-message-list__row--unread': !row.isRead }"
+      class="inbox-message-list__row"
     >
       <el-checkbox
-        :model-value="selectedIds.includes(row.id)"
-        @change="(checked) => emit('toggle-row', row.id, Boolean(checked))"
+        :model-value="selectedRows.includes(row.id!)"
+        @change="(checked) => toggleRow(row.id!, Boolean(checked))"
       />
 
       <span class="inbox-message-list__biz-type">{{ row.bizType || '—' }}</span>
@@ -45,10 +57,10 @@ const { t } = useI18n();
 
       <div class="inbox-message-list__trailing">
         <div class="inbox-message-list__actions">
-          <el-button link type="primary" @click="emit('row-mark-read', row.id)">
+          <el-button link type="primary" @click="emit('row-mark-read', row.id!)">
             {{ t('inAppInbox.action.markRead') }}
           </el-button>
-          <el-button link type="danger" @click="emit('row-delete', row.id)">
+          <el-button link type="danger" @click="emit('row-delete', row.id!)">
             {{ t('buttons.actionDelete') }}
           </el-button>
         </div>
@@ -60,7 +72,14 @@ const { t } = useI18n();
 
 <style lang="scss" scoped>
 .inbox-message-list {
-  min-height: 240px;
+  height: 550px;
+  overflow-y: auto;
+  padding: 4px 8px 24px;
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
 
   &__row {
     position: relative;
@@ -68,21 +87,18 @@ const { t } = useI18n();
     grid-template-columns: auto minmax(140px, 220px) 1fr auto;
     gap: 16px 24px;
     align-items: center;
-    padding: 14px 8px;
+    padding: 8px;
     border-bottom: 1px solid var(--el-border-color-lighter);
     border-radius: 8px;
-    transition:
-      transform 0.18s ease,
-      box-shadow 0.18s ease,
-      background-color 0.18s ease;
+    transition: all 0.18s ease;
+    cursor: pointer;
 
     &:hover {
-      z-index: 1;
       background: var(--el-bg-color);
       box-shadow:
         0 6px 20px rgb(0 0 0 / 14%),
         0 2px 8px rgb(0 0 0 / 10%);
-      transform: scale(1.015);
+      z-index: 1;
 
       .inbox-message-list__actions {
         opacity: 1;

@@ -41,7 +41,6 @@ const permissionState = usePaginationState<SysPermissionPageRow>({
     permissionName: undefined,
     permissionCode: undefined,
   }),
-  defaultPageSize: 30,
   fetchApi: (query) =>
     getPermissionPage({
       pageIndex: query.pageIndex as number,

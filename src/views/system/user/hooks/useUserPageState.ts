@@ -31,7 +31,6 @@ const searchForm = reactive({
 const userState = usePaginationState<SysUserPageRow>({
   fetchApi: getUserPage,
   searchForm,
-  defaultPageSize: 30,
 });
 
 /**
