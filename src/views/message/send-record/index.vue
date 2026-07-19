@@ -30,9 +30,12 @@ const sendRecordState = usePaginationState({
     status: undefined,
   }),
 });
-const { loading, searchForm, fetchTableData, resetQuery } = sendRecordState;
+const { selectedRows, loading, searchForm, fetchTableData, resetQuery } = sendRecordState;
 
-const { openDetailDialog } = useSendRecordTableAction();
+const { openDetailDialog, deleteBatchRows } = useSendRecordTableAction({
+  fetchTableData,
+  selectedRows,
+});
 
 onMounted(() => {
   fetchTableData();
@@ -104,9 +107,31 @@ onMounted(() => {
       :title="t('sendRecord.title.table')"
       show-overflow-tooltip
     >
+      <template #buttons>
+        <Perms :value="SEND_RECORD_PERMS.DELETE">
+          <el-dropdown trigger="click">
+            <el-button type="danger">
+              {{ t('buttons.actionAdvanced') }}
+            </el-button>
+
+            <template #dropdown>
+              <el-dropdown-item :disabled="selectedRows.length <= 0" type="danger" @click="deleteBatchRows()">
+                <!-- 批量删除 -->
+                {{ t('buttons.actionBatchDelete') }}
+              </el-dropdown-item>
+            </template>
+          </el-dropdown>
+        </Perms>
+      </template>
+
       <template #actions="{ row }">
+        <!-- 查看 -->
         <el-button v-perms="SEND_RECORD_PERMS.DETAIL" link type="primary" @click="openDetailDialog(row)">
           {{ t('buttons.actionView') }}
+        </el-button>
+        <!-- 删除 -->
+        <el-button v-perms="SEND_RECORD_PERMS.DELETE" link type="danger" @click="deleteBatchRows([row.id])">
+          {{ t('buttons.actionDelete') }}
         </el-button>
       </template>
     </AuthPagedTable>

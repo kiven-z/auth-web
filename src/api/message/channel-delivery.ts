@@ -70,3 +70,12 @@ export interface ChannelDeliveryDetailVO extends BaseResponseDetail {
 export function getChannelDeliveryById(id: string) {
   return http.get<ChannelDeliveryDetailVO, AxiosRequestConfig>(`/system/message/channel-delivery/${id}`);
 }
+
+/**
+ * 批量删除渠道投递记录
+ * @param ids 投递记录主键数组
+ * @returns 删除结果
+ */
+export function batchDeleteChannelDeliveries(ids: string[]) {
+  return http.request<string>('delete', '/system/message/channel-delivery', { data: ids });
+}

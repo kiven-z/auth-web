@@ -1,18 +1,32 @@
-import { type ChannelDeliveryPageRow, getChannelDeliveryById } from '@/api/message/channel-delivery';
+import type { TableActionWithSelectionDeps } from '@/api/common';
+import {
+  batchDeleteChannelDeliveries,
+  type ChannelDeliveryPageRow,
+  getChannelDeliveryById,
+} from '@/api/message/channel-delivery';
 import { Description } from '@/components/ui/Description';
 import { addDialog } from '@/components/ui/Dialog';
 import { errorMessage } from '@/services/feedback/message';
+import useBatchDeleteAction from '@/shared/composables/table/useBatchDeleteAction';
 import useSendRecordDetailColumns from '@/views/message/send-record/hooks/useSendRecordDetailColumns';
 import { useDebounceFn } from '@vueuse/core';
 import { useI18n } from 'vue-i18n';
 
 /**
- * 发送记录表格操作（详情）
+ * 发送记录表格操作（详情 / 批量删除）
+ * @param deps 表格操作依赖
  * @returns 表格操作方法
  */
-function useSendRecordTableAction() {
+function useSendRecordTableAction(deps: TableActionWithSelectionDeps) {
+  const { fetchTableData, selectedRows } = deps;
   const { t } = useI18n();
   const { detailColumns } = useSendRecordDetailColumns();
+
+  const { deleteBatchRows } = useBatchDeleteAction({
+    selectedRows,
+    deleteApi: batchDeleteChannelDeliveries,
+    onSuccess: fetchTableData,
+  });
 
   /**
    * 打开列表行详情
@@ -37,6 +51,7 @@ function useSendRecordTableAction() {
 
   return {
     openDetailDialog,
+    deleteBatchRows,
   };
 }
 

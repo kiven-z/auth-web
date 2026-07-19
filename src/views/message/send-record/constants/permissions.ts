@@ -6,4 +6,6 @@ export const SEND_RECORD_PERMS = {
   QUERY: 'message:delivery:query',
   /** 详情 */
   DETAIL: 'message:delivery:detail',
+  /** 批量删除、单条删除 */
+  DELETE: 'message:delivery:delete',
 } as const;

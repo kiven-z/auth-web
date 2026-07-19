@@ -17,6 +17,10 @@ function useSendRecordTableColumns() {
 
   const columns = computed<TableColumnList>(() => [
     {
+      type: 'selection',
+      width: 50,
+    },
+    {
       type: 'index',
       index: (index: number) => index + 1,
       label: t('table.idx'),
@@ -32,9 +36,7 @@ function useSendRecordTableColumns() {
       prop: 'channel',
       minWidth: 120,
       formatter: (row: ChannelDeliveryPageRow) => {
-        const labelKey = SEND_RECORD_CHANNEL_FILTER_OPTIONS.find(
-          (item) => item.value === row.channel,
-        )?.labelKey;
+        const labelKey = SEND_RECORD_CHANNEL_FILTER_OPTIONS.find((item) => item.value === row.channel)?.labelKey;
         return labelKey ? t(labelKey) : row.channel || '—';
       },
     },
@@ -113,7 +115,7 @@ function useSendRecordTableColumns() {
     {
       label: t('table.actions'),
       fixed: 'right' as const,
-      width: 100,
+      width: 120,
       slot: 'actions',
     },
   ]);
