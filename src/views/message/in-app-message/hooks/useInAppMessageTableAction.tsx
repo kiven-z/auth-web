@@ -9,8 +9,8 @@ import { addDialog } from '@/components/ui/Dialog';
 import { operationConfirm } from '@/services/feedback/dialog';
 import { errorMessage, message } from '@/services/feedback/message';
 import useBatchDeleteAction from '@/shared/composables/table/useBatchDeleteAction';
-import InAppSendTaskDetailView from '@/views/message/in-app-message/components/InAppSendTaskDetailView.vue';
-import useInAppMessageDetailColumns from '@/views/message/in-app-message/hooks/useInAppMessageDetailColumns';
+import InAppSendTaskDetailView from '@/views/message/_shared/components/InAppSendTaskDetailView.vue';
+import useInAppMessageDetailColumns from '@/views/message/_shared/hooks/useInAppMessageDetailColumns';
 import { useI18n } from 'vue-i18n';
 
 /**

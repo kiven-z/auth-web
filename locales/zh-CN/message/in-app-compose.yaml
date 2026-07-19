@@ -2,8 +2,11 @@ inAppCompose:
   pageTitle: 编写站内信
   sendSuccess: 已提交，系统正在后台投递给接收人
   sendButton: 立即发送
+  import: 导入
   importTemplate: 从模板导入
+  importHistory: 从历史发送导入
   importTemplateDialogTitle: 选择站内信模板
+  importHistoryDialogTitle: 选择历史发送内容
   importTemplateConfirm: 导入
   importContent: 导入原文
   importPreview: 导入预览

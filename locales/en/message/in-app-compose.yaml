@@ -2,8 +2,11 @@ inAppCompose:
   pageTitle: Compose in-app message
   sendSuccess: Submitted. Delivery continues in the background.
   sendButton: Send now
+  import: Import
   importTemplate: Import from template
+  importHistory: Import from send history
   importTemplateDialogTitle: Select in-app template
+  importHistoryDialogTitle: Select previous send content
   importTemplateConfirm: Import
   importContent: Import original
   importPreview: Import preview

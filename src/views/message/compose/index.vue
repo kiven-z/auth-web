@@ -1,16 +1,14 @@
 <script lang="ts" setup>
 import { type InAppComposeRequest, sendInAppMessage } from '@/api/message/in-app-message';
-import { addDialog, closeDialog } from '@/components/ui/Dialog';
 import { operationConfirm } from '@/services/feedback/dialog';
 import { errorMessage, message } from '@/services/feedback/message';
 import { MESSAGE_TEMPLATE_CONTENT_TYPES } from '@/views/message/_shared/constants/content-type';
 import InAppRecipientScopeSelector from '@/views/message/compose/components/InAppRecipientScopeSelector.vue';
-import InAppTemplateImportDialog from '@/views/message/compose/components/InAppTemplateImportDialog.vue';
 import { IN_APP_COMPOSE_PERMS } from '@/views/message/compose/constants/permissions';
-import type { InAppTemplateImportPayload } from '@/views/message/compose/types/template-import';
+import useInAppComposeImport from '@/views/message/compose/hooks/useInAppComposeImport';
 import InAppTemplateContentEditor from '@/views/message/in-app-template/components/InAppTemplateContentEditor.vue';
 import type { FormInstance, FormRules } from 'element-plus';
-import { h, reactive, ref } from 'vue';
+import { reactive, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 defineOptions({
@@ -34,6 +32,8 @@ const form = reactive<InAppComposeRequest>({
   linkUrl: undefined,
 });
 
+const { openTemplateImportDialog, openHistoryImportDialog } = useInAppComposeImport(form);
+
 const rules = reactive<FormRules>({
   recipientScopeType: [{ required: true, message: t('inAppCompose.recipientScope'), trigger: 'change' }],
   recipientScopeIds: [
@@ -52,31 +52,6 @@ const rules = reactive<FormRules>({
   body: [{ required: true, message: t('inAppCompose.rules.body'), trigger: 'blur' }],
   contentType: [{ required: true, message: t('inAppCompose.rules.contentType'), trigger: 'change' }],
 });
-
-/**
- * 打开模板导入弹窗（分页选择启用中的站内信模板）
- */
-function openImportDialog(): void {
-  addDialog({
-    title: t('inAppCompose.importTemplateDialogTitle'),
-    width: '90%',
-    draggable: true,
-    fullscreenIcon: true,
-    closeOnClickModal: false,
-    closeOnPressEscape: false,
-    hideFooter: true,
-    contentRenderer: ({ options, index }) =>
-      h(InAppTemplateImportDialog, {
-        onImport: (payload: InAppTemplateImportPayload) => {
-          form.templateCode = payload.templateCode;
-          form.title = payload.title;
-          form.body = payload.body;
-          form.contentType = payload.contentType;
-          closeDialog(options, index, { command: 'close' });
-        },
-      }),
-  });
-}
 
 /**
  * 重置表单为初始态
@@ -143,15 +118,34 @@ async function handleSend(): Promise<void> {
   <div class="message-compose bg-bg_color rounded p-6">
     <div class="mb-4 flex items-center justify-between">
       <h1 class="text-lg font-medium">{{ t('inAppCompose.pageTitle') }}</h1>
-      <el-button-group>
-        <el-button v-perms="IN_APP_COMPOSE_PERMS.SEND" type="success" @click="openImportDialog">
-          {{ t('inAppCompose.importTemplate') }}
-        </el-button>
-        <el-button @click="resetForm">{{ t('buttons.actionReset') }}</el-button>
-        <el-button v-perms="IN_APP_COMPOSE_PERMS.SEND" :loading="sending" type="primary" @click="handleSend">
-          {{ t('inAppCompose.sendButton') }}
-        </el-button>
-      </el-button-group>
+      <div>
+        <el-dropdown v-perms="IN_APP_COMPOSE_PERMS.SEND" trigger="click">
+          <el-button class="mr-2!" type="success">
+            {{ t('inAppCompose.import') }}
+          </el-button>
+          <template #dropdown>
+            <el-dropdown-menu>
+              <!-- 从模板导入 -->
+              <el-dropdown-item @click="openTemplateImportDialog">
+                {{ t('inAppCompose.importTemplate') }}
+              </el-dropdown-item>
+              <!-- 从历史发送导入 -->
+              <Perms :value="IN_APP_COMPOSE_PERMS.QUERY">
+                <el-dropdown-item @click="openHistoryImportDialog">
+                  {{ t('inAppCompose.importHistory') }}
+                </el-dropdown-item>
+              </Perms>
+            </el-dropdown-menu>
+          </template>
+        </el-dropdown>
+
+        <el-button-group>
+          <el-button @click="resetForm">{{ t('buttons.actionReset') }}</el-button>
+          <el-button v-perms="IN_APP_COMPOSE_PERMS.SEND" :loading="sending" type="primary" @click="handleSend">
+            {{ t('inAppCompose.sendButton') }}
+          </el-button>
+        </el-button-group>
+      </div>
     </div>
 
     <el-form ref="formRef" :model="form" :rules="rules" label-width="auto">

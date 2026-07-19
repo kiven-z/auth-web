@@ -14,7 +14,7 @@ import MessageTemplateDetailView from '@/views/message/_shared/components/Messag
 import { IN_APP_TEMPLATE_CHANNEL } from '@/views/message/_shared/constants/channel';
 import { MESSAGE_TEMPLATE_CONTENT_TYPES } from '@/views/message/_shared/constants/content-type';
 import useInAppTemplateImportTableColumns from '@/views/message/compose/hooks/useInAppTemplateImportTableColumns';
-import type { InAppTemplateImportPayload } from '@/views/message/compose/types/template-import';
+import type { InAppTemplateImportPayload } from '@/views/message/compose/types/compose-import';
 import useInAppTemplateDetailColumns from '@/views/message/in-app-template/hooks/useInAppTemplateDetailColumns';
 import type { FormInstance } from 'element-plus';
 import { h, onMounted, reactive, ref } from 'vue';
