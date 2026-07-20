@@ -1,7 +1,17 @@
 inAppCategory:
-  title:
-    table: In-app message categories
+  page:
+    title: In-app message categories
+    view:
+      table: Tree table
+      tree: Tree
+    tree:
+      expandAll: Expand all
+      collapseAll: Collapse all
   rootLabel: Major
+  enum:
+    rootOnly:
+      major: Majors only
+      minor: Minors only
   field:
     code: Category code
     name: Display name
@@ -9,4 +19,4 @@ inAppCategory:
     parentCode: Parent code
     sortOrder: Sort order
     status: Status
-    rootOnly: Majors only
+    rootOnly: Node type

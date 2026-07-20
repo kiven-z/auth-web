@@ -1,9 +1,9 @@
-import type { BaseResponsePageRow, PageResponse, SortSpec } from '@/api/common';
+import type { BaseResponsePageRow, SortSpec } from '@/api/common';
 import { http } from '@/core/http';
 import type { AxiosRequestConfig } from 'axios';
 
 /**
- * 站内信业务分类分页/列表查询参数
+ * 站内信业务分类查询参数
  */
 export interface InAppMessageCategoryQuery {
   pageIndex?: number;
@@ -15,38 +15,28 @@ export interface InAppMessageCategoryQuery {
   name?: string;
   /** 父分类 ID */
   parentId?: string;
-  /** 仅查大类 */
+  /** true=仅大类；false=仅小类 */
   rootOnly?: boolean;
   /** 启用状态 */
   status?: boolean;
 }
 
-/** 站内信业务分类列表/分页行 */
+/**
+ * 站内信业务分类行
+ */
 export interface InAppMessageCategoryPageRow extends BaseResponsePageRow {
-  /** 父分类 ID */
-  parentId?: string | null;
+  /** 父分类 ID；大类为 "0" */
+  parentId: string;
   parentCode?: string | null;
   parentName?: string | null;
   code: string;
   name: string;
   sortOrder: number;
   status: boolean;
+  children?: InAppMessageCategoryPageRow[];
 }
-
 /**
- * 分页查询站内信业务分类
- * @param params 查询参数
- * @returns 分类分页数据
- */
-export function getInAppMessageCategoryPage(params: InAppMessageCategoryQuery) {
-  return http.get<PageResponse<InAppMessageCategoryPageRow>, AxiosRequestConfig<InAppMessageCategoryQuery>>(
-    '/system/message/in-app/categories',
-    { params }
-  );
-}
-
-/**
- * 全量列表
+ * 全量扁平列表
  * @param params 筛选条件
  * @returns 分类列表
  */
