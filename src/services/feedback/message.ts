@@ -9,7 +9,7 @@ type messageTypes = 'info' | 'success' | 'warning' | 'error';
 // 无显式文案且无法从异常解析时的默认 i18n 键（见 locales tips.requestFailed
 export const DEFAULT_ERROR_FALLBACK_I18N_KEY = 'tips.requestFailed';
 
-/** {@link message} 可选配置 */
+/** {@link message} 配置 */
 export interface MessageParams {
   /** 消息类型，默认 info */
   type?: messageTypes;

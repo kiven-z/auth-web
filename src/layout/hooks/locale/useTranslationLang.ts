@@ -8,7 +8,7 @@ import { useUiLocale } from './useUiLocale';
 
 /**
  * 导航栏语言切换（对外保留 translation API，内部经 useUiLocale 写入）
- * @param ref 可选菜单 ref，用于 resize
+ * @param ref 菜单 ref，用于 resize
  * @returns i18n 与 translation
  */
 export function useTranslationLang(ref?: Ref) {

@@ -56,7 +56,7 @@ export interface BaseResponse {
 }
 
 /**
- * 分页/列表行：主键与审计时间通常为必填
+ * 分页/列表行
  */
 export interface BaseResponsePageRow extends BaseResponse {
   id: string;
@@ -65,7 +65,7 @@ export interface BaseResponsePageRow extends BaseResponse {
 }
 
 /**
- * 详情 VO：主键通常为必填
+ * 详情 VO
  */
 export interface BaseResponseDetail extends BaseResponse {
   id: string;

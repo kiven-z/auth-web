@@ -50,13 +50,13 @@ export interface AuthorizationAuditDetailRow extends BaseResponsePageRow {
   requestIp?: string | null;
   /** 决策原因枚举值 */
   decisionReason: string;
-  /** 决策详情（可空） */
+  /** 决策详情 */
   decisionDetail?: string | null;
-  /** 用户权限摘要（可空） */
+  /** 用户权限摘要 */
   userPermissionsSummary?: string | null;
-  /** 策略编码（可空） */
+  /** 策略编码 */
   policyCode?: string | null;
-  /** 策略决策结果（可空） */
+  /** 策略决策结果 */
   policyDecision?: boolean | null;
   /** Controller 类名 */
   className?: string | null;

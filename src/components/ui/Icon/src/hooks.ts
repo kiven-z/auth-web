@@ -5,8 +5,8 @@ import { type Component, defineComponent, h } from 'vue';
 /**
  * 支持 `iconfont`、自定义 `svg` 以及 `iconify` 中所有的图标
  * @see 点击查看文档图标篇 {@link https://pure-admin.cn/pages/icon/}
- * @param icon 必传 图标
- * @param attrs 可选 iconType 属性
+ * @param icon 图标
+ * @param attrs iconType 属性
  * @returns Component
  */
 export function useRenderIcon(icon: any, attrs?: iconType): Component {

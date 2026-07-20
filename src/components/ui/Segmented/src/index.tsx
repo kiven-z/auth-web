@@ -9,7 +9,7 @@ const props = {
     type: Array<OptionsType>,
     default: () => [],
   },
-  /** 默认选中，按照第一个索引为 `0` 的模式，可选（`modelValue`只有传`number`类型时才为响应式） */
+  /** 默认选中，按照第一个索引为 `0` 的模式（`modelValue`只有传`number`类型时才为响应式） */
   modelValue: {
     type: undefined,
     require: false,

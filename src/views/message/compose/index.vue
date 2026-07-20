@@ -157,7 +157,7 @@ async function handleSend(): Promise<void> {
 
       <el-divider />
 
-      <!-- 来源模板（可选，仅溯源） -->
+      <!-- 来源模板 -->
       <el-form-item v-if="form.templateCode" :label="t('inAppCompose.templateCodeTrace')">
         <el-tag type="info">{{ form.templateCode }}</el-tag>
       </el-form-item>
