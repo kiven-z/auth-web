@@ -177,8 +177,6 @@ function useUserMoreAction(deps: TableActionDeps) {
     addDialog({
       title: t('users.session.view'),
       draggable: false,
-      closeOnClickModal: false,
-      closeOnPressEscape: false,
       hideFooter: true,
       contentRenderer: () => h(UserSessionDialog, { userId: row.id, username: row.username, kickAllForUser }),
     });

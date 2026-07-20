@@ -107,8 +107,6 @@ function useJobGroupTableAction(deps: TableActionDeps) {
         title: t('scheduleGroup.detailTitle'),
         draggable: true,
         fullscreenIcon: true,
-        closeOnClickModal: false,
-        closeOnPressEscape: false,
         hideFooter: true,
         contentRenderer: () => <Description column={2} columns={detailColumns.value} data={detail ?? {}} />,
       });

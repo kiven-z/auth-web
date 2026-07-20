@@ -39,8 +39,6 @@ function useAuthorizationInvalidationEventTableAction(deps: AuthorizationInvalid
         width: '100%',
         fullscreenIcon: true,
         draggable: false,
-        closeOnClickModal: false,
-        closeOnPressEscape: false,
         hideFooter: true,
         contentRenderer: () => h(AuthorizationInvalidationEventDetailDialog, { data: detailData }),
       });

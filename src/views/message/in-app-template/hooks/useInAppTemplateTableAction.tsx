@@ -103,8 +103,6 @@ function useInAppTemplateTableAction(deps: TableActionWithSelectionDeps) {
       width: '80%',
       draggable: true,
       fullscreenIcon: true,
-      closeOnClickModal: false,
-      closeOnPressEscape: false,
       hideFooter: true,
       contentRenderer: () => (
         <MessageTemplateDetailView

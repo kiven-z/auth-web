@@ -38,8 +38,6 @@ function useInAppMessageTableAction(deps: TableActionWithSelectionDeps) {
       title: t('inAppMessage.title.detail'),
       draggable: true,
       fullscreenIcon: true,
-      closeOnClickModal: false,
-      closeOnPressEscape: false,
       hideFooter: true,
       contentRenderer: () => (
         <InAppSendTaskDetailView

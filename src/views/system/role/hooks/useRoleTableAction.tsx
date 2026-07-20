@@ -55,8 +55,6 @@ function useRoleTableAction(deps: TableActionDeps) {
         title: t('roles.title.view'),
         draggable: true,
         fullscreenIcon: true,
-        closeOnPressEscape: false,
-        closeOnClickModal: false,
         hideFooter: true,
         contentRenderer: () => h(RoleDescriptionDialog, { data: detail }),
       });

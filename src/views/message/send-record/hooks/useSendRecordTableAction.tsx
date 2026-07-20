@@ -39,8 +39,6 @@ function useSendRecordTableAction(deps: TableActionWithSelectionDeps) {
       addDialog({
         title: t('sendRecord.title.detail'),
         draggable: false,
-        closeOnClickModal: false,
-        closeOnPressEscape: false,
         hideFooter: true,
         contentRenderer: () => <Description column={2} columns={detailColumns.value} data={detailData ?? {}} />,
       });

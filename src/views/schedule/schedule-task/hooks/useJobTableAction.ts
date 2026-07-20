@@ -154,8 +154,6 @@ function useJobTableAction(deps: TableActionWithSelectionDeps) {
         title: t('scheduleTask.page.dialogViewTitle'),
         draggable: true,
         fullscreenIcon: true,
-        closeOnPressEscape: false,
-        closeOnClickModal: false,
         hideFooter: true,
         contentRenderer: () => h(JobDescriptionDialog, { data: detail }),
       });

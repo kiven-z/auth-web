@@ -33,8 +33,6 @@ function useLoginLogTableAction(deps: TableActionWithSelectionDeps) {
       addDialog({
         title: t('loginLog.title.detail'),
         draggable: false,
-        closeOnClickModal: false,
-        closeOnPressEscape: false,
         hideFooter: true,
         contentRenderer: () => <Description column={2} columns={detailColumns.value} data={detailData ?? {}} />,
       });

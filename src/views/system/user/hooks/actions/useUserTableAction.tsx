@@ -61,8 +61,6 @@ function useUserTableAction(deps: TableActionWithSelectionDeps) {
         title: t('users.title.view'),
         draggable: true,
         fullscreenIcon: true,
-        closeOnPressEscape: false,
-        closeOnClickModal: false,
         hideFooter: true,
         contentRenderer: () => h(UserDescriptionDialog, { data: detail }),
       });

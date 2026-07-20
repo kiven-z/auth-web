@@ -72,8 +72,6 @@ function useInAppCategoryTableAction(deps: InAppCategoryTableActionDeps) {
         title: t('inAppCategory.dialog.view'),
         draggable: true,
         fullscreenIcon: true,
-        closeOnClickModal: false,
-        closeOnPressEscape: false,
         hideFooter: true,
         contentRenderer: () => <Description column={2} columns={detailColumns.value} data={detailData ?? {}} />,
       });

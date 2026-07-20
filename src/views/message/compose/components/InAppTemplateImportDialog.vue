@@ -58,8 +58,6 @@ function openDetailDialog(row: MessageTemplatePageRow): void {
     title: t('inAppTemplate.detailDialogTitle'),
     draggable: true,
     fullscreenIcon: true,
-    closeOnClickModal: false,
-    closeOnPressEscape: false,
     hideFooter: true,
     contentRenderer: () =>
       h(MessageTemplateDetailView, {

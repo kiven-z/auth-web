@@ -55,8 +55,6 @@ function usePermissionTableAction(deps: TableActionDeps) {
         title: t('permissions.dialog.view'),
         draggable: true,
         fullscreenIcon: true,
-        closeOnPressEscape: false,
-        closeOnClickModal: false,
         hideFooter: true,
         contentRenderer: () => h(PermissionDescriptionDialog, { data: detail }),
       });

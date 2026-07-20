@@ -99,8 +99,6 @@ function useSmsTemplateTableAction(deps: TableActionWithSelectionDeps) {
       title: t('smsTemplate.detailDialogTitle'),
       draggable: true,
       fullscreenIcon: true,
-      closeOnClickModal: false,
-      closeOnPressEscape: false,
       hideFooter: true,
       contentRenderer: () => (
         <MessageTemplateDetailView

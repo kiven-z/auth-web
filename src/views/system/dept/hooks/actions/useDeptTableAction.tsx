@@ -70,8 +70,6 @@ function useDeptTableAction(deps: DeptTableActionDeps) {
         title: t('dept.dialog.view'),
         draggable: true,
         fullscreenIcon: true,
-        closeOnPressEscape: false,
-        closeOnClickModal: false,
         hideFooter: true,
         contentRenderer: () => h(DeptDescriptionDialog, { data: detail, parentDeptLabel }),
       });

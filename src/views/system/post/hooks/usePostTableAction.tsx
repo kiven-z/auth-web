@@ -55,8 +55,6 @@ function usePostTableAction(deps: TableActionDeps) {
         title: t('post.dialog.view'),
         draggable: true,
         fullscreenIcon: true,
-        closeOnPressEscape: false,
-        closeOnClickModal: false,
         hideFooter: true,
         contentRenderer: () => h(PostDescriptionDialog, { data: detail }),
       });

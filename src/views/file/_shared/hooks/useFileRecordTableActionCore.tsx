@@ -91,8 +91,6 @@ function useFileRecordTableActionCore(options: UseFileRecordTableActionCoreOptio
         title: t('fileRecord.dialog.detailTitle'),
         width: '80%',
         draggable: false,
-        closeOnClickModal: false,
-        closeOnPressEscape: false,
         hideFooter: true,
         contentRenderer: () => <Description column={2} columns={detailColumns.value} data={detail} />,
       });

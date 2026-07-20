@@ -40,8 +40,6 @@ function usePasswordHistoryTableAction(deps: TableActionWithSelectionDeps) {
         title: t('passwordHistory.detailTitle'),
         width: '100%',
         draggable: false,
-        closeOnClickModal: false,
-        closeOnPressEscape: false,
         hideFooter: true,
         contentRenderer: () => <Description column={2} columns={detailColumns.value} data={detailData ?? {}} />,
       });

@@ -63,8 +63,6 @@ function openDetailDialog(row: InAppSendTaskPageRow): void {
     title: t('inAppMessage.title.detail'),
     draggable: true,
     fullscreenIcon: true,
-    closeOnClickModal: false,
-    closeOnPressEscape: false,
     hideFooter: true,
     contentRenderer: () =>
       h(InAppSendTaskDetailView, {

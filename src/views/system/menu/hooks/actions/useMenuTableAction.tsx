@@ -123,8 +123,6 @@ function useMenuTableAction(deps: MenuTableActionDeps) {
         title: t('sysMenu.bindingDialogTitle'),
         draggable: true,
         fullscreenIcon: true,
-        closeOnClickModal: false,
-        closeOnPressEscape: false,
         hideFooter: true,
         contentRenderer: () => h(MenuDescriptionDialog, { data: detail }),
       });

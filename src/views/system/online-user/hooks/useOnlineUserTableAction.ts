@@ -54,8 +54,6 @@ function useOnlineUserTableAction(deps: OnlineUserTableActionDeps) {
     addDialog({
       title: t('onlineUser.action.viewSessions'),
       draggable: false,
-      closeOnClickModal: false,
-      closeOnPressEscape: false,
       hideFooter: true,
       contentRenderer: () =>
         h(UserSessionDialog, {

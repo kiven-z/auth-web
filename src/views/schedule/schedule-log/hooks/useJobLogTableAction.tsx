@@ -35,8 +35,6 @@ function useJobLogTableAction(deps: TableActionWithSelectionDeps) {
         title: t('logJob.title.detail'),
         width: '100%',
         draggable: false,
-        closeOnClickModal: false,
-        closeOnPressEscape: false,
         hideFooter: true,
         contentRenderer: () => <Description column={2} columns={detailColumns.value} data={detailData ?? {}} />,
       });

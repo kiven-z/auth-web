@@ -46,8 +46,6 @@ function useFileRecycleTableActionCore(options: UseFileRecycleTableActionCoreOpt
         title: t('fileRecycle.dialog.detailTitle'),
         width: '80%',
         draggable: false,
-        closeOnClickModal: false,
-        closeOnPressEscape: false,
         hideFooter: true,
         contentRenderer: () => <Description column={2} columns={detailColumns.value} data={detail} />,
       });

@@ -104,8 +104,6 @@ function useEmailTemplateTableAction(deps: TableActionWithSelectionDeps) {
       title: t('emailTemplate.detailDialogTitle'),
       draggable: true,
       fullscreenIcon: true,
-      closeOnClickModal: false,
-      closeOnPressEscape: false,
       hideFooter: true,
       contentRenderer: () => (
         <MessageTemplateDetailView

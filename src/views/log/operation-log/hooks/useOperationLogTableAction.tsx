@@ -38,8 +38,6 @@ function useOperationLogTableAction(deps: TableActionWithSelectionDeps) {
         width: '100%',
         fullscreenIcon: true,
         draggable: false,
-        closeOnClickModal: false,
-        closeOnPressEscape: false,
         hideFooter: true,
         contentRenderer: () => <Description column={2} columns={detailColumns.value} data={detailData ?? {}} />,
       });
