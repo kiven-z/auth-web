@@ -2,7 +2,9 @@
 import AuthDataTable from '@/components/ui/AuthDataTable';
 import TableBar from '@/components/ui/TableBar';
 import InAppCategorySearchForm from '@/views/message/in-app-category/components/InAppCategorySearchForm.vue';
+import { IN_APP_CATEGORY_PERMS } from '@/views/message/in-app-category/constants/permissions';
 import useInAppCategoryPageState from '@/views/message/in-app-category/hooks/useInAppCategoryPageState';
+import useInAppCategoryTableAction from '@/views/message/in-app-category/hooks/useInAppCategoryTableAction';
 import useInAppCategoryTableColumns from '@/views/message/in-app-category/hooks/useInAppCategoryTableColumns';
 import { onMounted } from 'vue';
 import { useI18n } from 'vue-i18n';
@@ -18,7 +20,8 @@ const treeProps = {
 
 const { t } = useI18n();
 const { columns } = useInAppCategoryTableColumns();
-const { loading, treeData, fetchTreeData } = useInAppCategoryPageState();
+const { loading, treeData, fetchTreeData, refresh } = useInAppCategoryPageState();
+const { openCreateDialog } = useInAppCategoryTableAction({ refresh });
 
 onMounted(() => {
   fetchTreeData();
@@ -35,6 +38,15 @@ onMounted(() => {
       :title="t('inAppCategory.page.title')"
       @refresh="fetchTreeData"
     >
+      <template #buttons>
+        <el-button-group type="primary">
+          <!-- 新增分类 -->
+          <el-button v-perms="IN_APP_CATEGORY_PERMS.CREATE" @click="openCreateDialog()">
+            {{ t('buttons.actionAdd') }}
+          </el-button>
+        </el-button-group>
+      </template>
+
       <template #default="{ size, dynamicColumns }">
         <AuthDataTable
           :columns="dynamicColumns"

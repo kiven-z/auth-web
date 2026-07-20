@@ -7,6 +7,8 @@ inAppCategory:
     tree:
       expandAll: Expand all
       collapseAll: Collapse all
+  dialog:
+    create: Create category
   rootLabel: Major
   enum:
     rootOnly:
@@ -20,3 +22,6 @@ inAppCategory:
     sortOrder: Sort order
     status: Status
     rootOnly: Node type
+    remark: Remark
+  rules:
+    codePattern: Only uppercase letters, digits, and underscores are allowed

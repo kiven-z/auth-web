@@ -7,6 +7,8 @@ inAppCategory:
     tree:
       expandAll: 展开全部
       collapseAll: 收起全部
+  dialog:
+    create: 新增业务分类
   rootLabel: 大类
   enum:
     rootOnly:
@@ -20,3 +22,6 @@ inAppCategory:
     sortOrder: 排序
     status: 启用状态
     rootOnly: 节点类型
+    remark: 备注
+  rules:
+    codePattern: 仅允许大写字母、数字、下划线

@@ -33,8 +33,10 @@ export interface InAppMessageCategoryPageRow extends BaseResponsePageRow {
   name: string;
   sortOrder: number;
   status: boolean;
+  remark?: string | null;
   children?: InAppMessageCategoryPageRow[];
 }
+
 /**
  * 全量扁平列表
  * @param params 筛选条件
@@ -45,4 +47,65 @@ export function getInAppMessageCategoryList(params?: InAppMessageCategoryQuery) 
     '/system/message/in-app/categories/list',
     { params }
   );
+}
+
+/**
+ * 启用分类选项（全量列表，前端本地过滤）
+ */
+export interface InAppMessageCategoryOption {
+  id: string;
+  code: string;
+  name: string;
+  sortOrder?: number;
+}
+
+/**
+ * 全部启用中的大类
+ * @returns 大类选项
+ */
+export function listInAppMessageCategoryMajors(): Promise<InAppMessageCategoryOption[]> {
+  return http.get<InAppMessageCategoryOption[], AxiosRequestConfig>('/system/message/in-app/categories/majors');
+}
+
+/**
+ * 指定大类下全部启用中的小类
+ * @param parentCode 大类编码
+ * @returns 小类选项
+ */
+export function listInAppMessageCategoryChildren(parentCode: string): Promise<InAppMessageCategoryOption[]> {
+  return http.get<InAppMessageCategoryOption[], AxiosRequestConfig<{ parentCode: string }>>(
+    '/system/message/in-app/categories/children',
+    { params: { parentCode } }
+  );
+}
+
+/**
+ * 站内信业务分类新增/编辑表单
+ */
+export interface InAppMessageCategoryFormModel {
+  id?: string;
+  /** 父分类 ID；"0" 或空=大类 */
+  parentId?: string;
+  code: string;
+  name: string;
+  sortOrder?: number;
+  status: boolean;
+  remark?: string;
+}
+/**
+ * 新增业务分类
+ * @param data 新增表单
+ * @returns 操作结果文案
+ */
+export function createInAppMessageCategory(data: InAppMessageCategoryFormModel): Promise<string> {
+  return http.post<string, InAppMessageCategoryFormModel>('/system/message/in-app/categories', { data });
+}
+
+/**
+ * 更新业务分类
+ * @param data 更新表单（须含 id）
+ * @returns 操作结果文案
+ */
+export function updateInAppMessageCategory(data: InAppMessageCategoryFormModel): Promise<string> {
+  return http.put<string, InAppMessageCategoryFormModel>('/system/message/in-app/categories', { data });
 }
