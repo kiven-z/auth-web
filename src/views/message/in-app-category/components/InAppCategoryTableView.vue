@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import AuthDataTable from '@/components/ui/AuthDataTable';
 import TableBar from '@/components/ui/TableBar';
+import InAppCategoryRowActions from '@/views/message/in-app-category/components/InAppCategoryRowActions.vue';
 import InAppCategorySearchForm from '@/views/message/in-app-category/components/InAppCategorySearchForm.vue';
 import { IN_APP_CATEGORY_PERMS } from '@/views/message/in-app-category/constants/permissions';
 import useInAppCategoryPageState from '@/views/message/in-app-category/hooks/useInAppCategoryPageState';
@@ -62,7 +63,11 @@ onMounted(() => {
           highlight-current-row
           row-key="id"
           show-overflow-tooltip
-        />
+        >
+          <template #actions="{ row }">
+            <InAppCategoryRowActions :row="row" />
+          </template>
+        </AuthDataTable>
       </template>
     </TableBar>
   </div>

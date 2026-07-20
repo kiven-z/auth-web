@@ -1,9 +1,12 @@
 import type { InAppMessageCategoryFormModel, InAppMessageCategoryPageRow } from '@/api/message/in-app-category';
-import { createInAppMessageCategory } from '@/api/message/in-app-category';
+import { createInAppMessageCategory, getInAppMessageCategoryById } from '@/api/message/in-app-category';
+import { Description } from '@/components/ui/Description';
 import { addDialog } from '@/components/ui/Dialog';
+import { errorMessage } from '@/services/feedback/message';
 import { type FormOverlayExpose, useFormOverlaySubmit } from '@/shared/composables/table/useFormOverlaySubmit';
 import InAppCategoryFormDialog from '@/views/message/in-app-category/components/InAppCategoryFormDialog.vue';
 import { IN_APP_CATEGORY_ROOT_PARENT_ID } from '@/views/message/in-app-category/constants/root';
+import useInAppCategoryDetailColumns from '@/views/message/in-app-category/hooks/useInAppCategoryDetailColumns';
 import { ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 
@@ -21,6 +24,7 @@ function useInAppCategoryTableAction(deps: InAppCategoryTableActionDeps) {
   const { t } = useI18n();
   const { refresh } = deps;
   const { createFormBeforeSure } = useFormOverlaySubmit();
+  const { detailColumns } = useInAppCategoryDetailColumns();
 
   /**
    * 打开新增弹窗
@@ -57,8 +61,30 @@ function useInAppCategoryTableAction(deps: InAppCategoryTableActionDeps) {
     });
   };
 
+  /**
+   * 打开详情弹窗
+   * @param row 表格行或树节点
+   */
+  const openDetailDialog = async (row: InAppMessageCategoryPageRow) => {
+    try {
+      const detailData = await getInAppMessageCategoryById(row.id);
+      addDialog({
+        title: t('inAppCategory.dialog.view'),
+        draggable: true,
+        fullscreenIcon: true,
+        closeOnClickModal: false,
+        closeOnPressEscape: false,
+        hideFooter: true,
+        contentRenderer: () => <Description column={2} columns={detailColumns.value} data={detailData ?? {}} />,
+      });
+    } catch (error: unknown) {
+      errorMessage(error);
+    }
+  };
+
   return {
     openCreateDialog,
+    openDetailDialog,
   };
 }
 

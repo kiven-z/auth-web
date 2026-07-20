@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import { AuthElTreePanel } from '@/components/business/AuthElTreePanel';
+import InAppCategoryRowActions from '@/views/message/in-app-category/components/InAppCategoryRowActions.vue';
 import InAppCategorySearchForm from '@/views/message/in-app-category/components/InAppCategorySearchForm.vue';
 import { IN_APP_CATEGORY_PERMS } from '@/views/message/in-app-category/constants/permissions';
 import { IN_APP_CATEGORY_ROOT_PARENT_ID } from '@/views/message/in-app-category/constants/root';
@@ -34,6 +35,7 @@ onMounted(() => {
       :collapse-all-label="t('inAppCategory.page.tree.collapseAll')"
       :expand-all-label="t('inAppCategory.page.tree.expandAll')"
       :loading="loading"
+      :show-actions-on-hover="true"
       :title="t('inAppCategory.page.title')"
       :tree-data="treeData"
       :tree-props="treeProps"
@@ -57,6 +59,10 @@ onMounted(() => {
         <el-tag :type="data.status ? 'success' : 'danger'" effect="plain" size="small">
           {{ data.status ? t('buttons.statusActiveText') : t('buttons.statusInactiveText') }}
         </el-tag>
+      </template>
+
+      <template #actions="{ data }">
+        <InAppCategoryRowActions :row="data" />
       </template>
     </AuthElTreePanel>
   </div>

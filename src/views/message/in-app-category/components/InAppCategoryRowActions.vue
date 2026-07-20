@@ -1,0 +1,48 @@
+<script lang="ts" setup>
+import type { InAppMessageCategoryPageRow } from '@/api/message/in-app-category';
+import { IN_APP_CATEGORY_PERMS } from '@/views/message/in-app-category/constants/permissions';
+import { IN_APP_CATEGORY_ROOT_PARENT_ID } from '@/views/message/in-app-category/constants/root';
+import useInAppCategoryTableAction from '@/views/message/in-app-category/hooks/useInAppCategoryTableAction';
+import useInAppCategoryPageState from '@/views/message/in-app-category/hooks/useInAppCategoryPageState';
+import { computed } from 'vue';
+import { useI18n } from 'vue-i18n';
+
+defineOptions({
+  name: 'InAppCategoryRowActions',
+});
+
+/** 业务分类行操作 props */
+interface InAppCategoryRowActionsProps {
+  /** 表格行或树节点 */
+  row: InAppMessageCategoryPageRow;
+}
+
+const props = defineProps<InAppCategoryRowActionsProps>();
+
+const { t } = useI18n();
+const { refresh } = useInAppCategoryPageState();
+const { openCreateDialog, openDetailDialog } = useInAppCategoryTableAction({ refresh });
+
+/** 仅启用中的大类可新增下级 */
+const canAddChild = computed(() => props.row.parentId === IN_APP_CATEGORY_ROOT_PARENT_ID && props.row.status);
+</script>
+
+<template>
+  <div class="flex flex-wrap items-center gap-x-1">
+    <!-- 查看详情 -->
+    <el-button v-perms="IN_APP_CATEGORY_PERMS.DETAIL" link type="primary" @click="openDetailDialog(row)">
+      {{ t('buttons.actionView') }}
+    </el-button>
+
+    <!-- 新增下级（仅大类） -->
+    <el-button
+      v-if="canAddChild"
+      v-perms="IN_APP_CATEGORY_PERMS.CREATE"
+      link
+      type="primary"
+      @click="openCreateDialog(row)"
+    >
+      {{ t('inAppCategory.action.addChild') }}
+    </el-button>
+  </div>
+</template>

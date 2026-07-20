@@ -1,4 +1,4 @@
-import type { BaseResponsePageRow, SortSpec } from '@/api/common';
+import type { BaseResponseDetail, BaseResponsePageRow, SortSpec } from '@/api/common';
 import { http } from '@/core/http';
 import type { AxiosRequestConfig } from 'axios';
 
@@ -47,6 +47,28 @@ export function getInAppMessageCategoryList(params?: InAppMessageCategoryQuery) 
     '/system/message/in-app/categories/list',
     { params }
   );
+}
+
+/**
+ * 站内信业务分类详情
+ */
+export interface InAppMessageCategoryDetail extends BaseResponseDetail {
+  parentId: string;
+  parentCode?: string | null;
+  parentName?: string | null;
+  code: string;
+  name: string;
+  sortOrder: number;
+  status: boolean;
+  remark?: string | null;
+}
+/**
+ * 按主键查业务分类详情
+ * @param id 分类主键
+ * @returns 详情
+ */
+export function getInAppMessageCategoryById(id: string): Promise<InAppMessageCategoryDetail> {
+  return http.get<InAppMessageCategoryDetail, unknown>(`/system/message/in-app/categories/${id}`);
 }
 
 /**

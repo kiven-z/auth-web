@@ -9,6 +9,9 @@ inAppCategory:
       collapseAll: Collapse all
   dialog:
     create: Create category
+    view: Category detail
+  action:
+    addChild: Add Child
   rootLabel: Major
   enum:
     rootOnly:
