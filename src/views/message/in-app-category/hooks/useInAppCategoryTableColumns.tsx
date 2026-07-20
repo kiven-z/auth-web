@@ -85,7 +85,7 @@ function useInAppCategoryTableColumns() {
     {
       label: t('table.actions'),
       fixed: 'right',
-      width: 260,
+      width: 280,
       slot: 'actions',
     },
   ]);

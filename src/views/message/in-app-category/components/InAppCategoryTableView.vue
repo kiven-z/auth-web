@@ -23,7 +23,10 @@ const treeProps = {
 const { t } = useI18n();
 const { columns } = useInAppCategoryTableColumns();
 const { loading, treeData, selectedRows, fetchTreeData, refresh } = useInAppCategoryPageState();
-const { openCreateDialog, batchUpdateStatus } = useInAppCategoryTableAction({ refresh });
+const { openCreateDialog, batchUpdateStatus, deleteBatchRows } = useInAppCategoryTableAction({
+  refresh,
+  selectedRows,
+});
 
 onMounted(() => {
   fetchTreeData();
@@ -64,6 +67,18 @@ const onSelectionChange = (rows: InAppMessageCategoryPageRow[]) => {
                 </el-dropdown-item>
                 <el-dropdown-item :disabled="selectedRows.length <= 0" @click="batchUpdateStatus(selectedRows, false)">
                   {{ t('buttons.actionBatchDisable') }}
+                </el-dropdown-item>
+              </template>
+            </el-dropdown>
+          </Perms>
+
+          <!-- 批量删除 -->
+          <Perms :value="IN_APP_CATEGORY_PERMS.DELETE">
+            <el-dropdown trigger="click">
+              <el-button type="danger">{{ t('buttons.actionAdvanced') }}</el-button>
+              <template #dropdown>
+                <el-dropdown-item :disabled="selectedRows.length <= 0" @click="deleteBatchRows()">
+                  {{ t('buttons.actionBatchDelete') }}
                 </el-dropdown-item>
               </template>
             </el-dropdown>

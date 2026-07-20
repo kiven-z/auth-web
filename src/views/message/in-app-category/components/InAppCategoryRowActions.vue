@@ -20,10 +20,12 @@ interface InAppCategoryRowActionsProps {
 const props = defineProps<InAppCategoryRowActionsProps>();
 
 const { t } = useI18n();
-const { refresh } = useInAppCategoryPageState();
-const { openCreateDialog, openEditDialog, openDetailDialog, batchUpdateStatus } = useInAppCategoryTableAction({
-  refresh,
-});
+const { refresh, selectedRows } = useInAppCategoryPageState();
+const { openCreateDialog, openEditDialog, openDetailDialog, batchUpdateStatus, deleteBatchRows } =
+  useInAppCategoryTableAction({
+    refresh,
+    selectedRows,
+  });
 
 /** 仅启用中的大类可新增下级 */
 const canAddChild = computed(() => props.row.parentId === IN_APP_CATEGORY_ROOT_PARENT_ID && props.row.status);
@@ -50,6 +52,11 @@ const canAddChild = computed(() => props.row.parentId === IN_APP_CATEGORY_ROOT_P
     <!-- 编辑 -->
     <el-button v-perms="IN_APP_CATEGORY_PERMS.UPDATE" link type="primary" @click="openEditDialog(row)">
       {{ t('buttons.actionEdit') }}
+    </el-button>
+
+    <!-- 删除 -->
+    <el-button v-perms="IN_APP_CATEGORY_PERMS.DELETE" link type="danger" @click="deleteBatchRows([row.id])">
+      {{ t('buttons.actionDelete') }}
     </el-button>
 
     <!-- 单行启停 -->

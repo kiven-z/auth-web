@@ -1,5 +1,6 @@
 import type { InAppMessageCategoryFormModel, InAppMessageCategoryPageRow } from '@/api/message/in-app-category';
 import {
+  batchDeleteInAppMessageCategories,
   batchUpdateInAppMessageCategoryStatus,
   createInAppMessageCategory,
   getInAppMessageCategoryById,
@@ -9,16 +10,20 @@ import { Description } from '@/components/ui/Description';
 import { addDialog } from '@/components/ui/Dialog';
 import { operationConfirm } from '@/services/feedback/dialog';
 import { errorMessage, message } from '@/services/feedback/message';
+import useBatchDeleteAction from '@/shared/composables/table/useBatchDeleteAction';
 import { type FormOverlayExpose, useFormOverlaySubmit } from '@/shared/composables/table/useFormOverlaySubmit';
 import InAppCategoryFormDialog from '@/views/message/in-app-category/components/InAppCategoryFormDialog.vue';
 import { IN_APP_CATEGORY_ROOT_PARENT_ID } from '@/views/message/in-app-category/constants/root';
 import useInAppCategoryDetailColumns from '@/views/message/in-app-category/hooks/useInAppCategoryDetailColumns';
+import type { Ref } from 'vue';
 import { ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 interface InAppCategoryTableActionDeps {
-  /** 新增/编辑/启停成功后刷新树数据 */
+  /** 新增/编辑/启停/删除成功后刷新树数据 */
   refresh: () => Promise<void>;
+  /** 表格多选主键（工具栏批量删除用） */
+  selectedRows: Ref<string[]>;
 }
 
 /**
@@ -28,9 +33,15 @@ interface InAppCategoryTableActionDeps {
  */
 function useInAppCategoryTableAction(deps: InAppCategoryTableActionDeps) {
   const { t } = useI18n();
-  const { refresh } = deps;
+  const { refresh, selectedRows } = deps;
   const { createFormBeforeSure } = useFormOverlaySubmit();
   const { detailColumns } = useInAppCategoryDetailColumns();
+
+  const { deleteBatchRows } = useBatchDeleteAction({
+    selectedRows,
+    deleteApi: batchDeleteInAppMessageCategories,
+    onSuccess: refresh,
+  });
 
   /**
    * 打开新增弹窗
@@ -152,6 +163,7 @@ function useInAppCategoryTableAction(deps: InAppCategoryTableActionDeps) {
     openEditDialog,
     openDetailDialog,
     batchUpdateStatus,
+    deleteBatchRows,
   };
 }
 

@@ -10,4 +10,6 @@ export const IN_APP_CATEGORY_PERMS = {
   CREATE: 'message:category:create',
   /** 编辑 */
   UPDATE: 'message:category:update',
+  /** 删除 */
+  DELETE: 'message:category:delete',
 } as const;

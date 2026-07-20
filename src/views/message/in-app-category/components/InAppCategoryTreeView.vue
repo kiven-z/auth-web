@@ -19,8 +19,8 @@ const treeProps = {
 } as const;
 
 const { t } = useI18n();
-const { loading, treeData, fetchTreeData, refresh } = useInAppCategoryPageState();
-const { openCreateDialog } = useInAppCategoryTableAction({ refresh });
+const { loading, treeData, selectedRows, fetchTreeData, refresh } = useInAppCategoryPageState();
+const { openCreateDialog } = useInAppCategoryTableAction({ refresh, selectedRows });
 
 onMounted(() => {
   fetchTreeData();

@@ -148,3 +148,12 @@ export interface InAppMessageCategoryBatchStatusRequest {
 export function batchUpdateInAppMessageCategoryStatus(data: InAppMessageCategoryBatchStatusRequest): Promise<string> {
   return http.request<string>('put', '/system/message/in-app/categories/status', { data });
 }
+
+/**
+ * 批量删除业务分类
+ * @param ids 分类主键列表
+ * @returns 操作结果文案
+ */
+export function batchDeleteInAppMessageCategories(ids: string[]): Promise<string> {
+  return http.request<string>('delete', '/system/message/in-app/categories', { data: ids });
+}
