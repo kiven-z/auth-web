@@ -77,8 +77,8 @@ function useInAppHistoryImportTableColumns() {
       minWidth: 110,
     },
     {
-      label: t('inAppMessage.field.bizType'),
-      prop: 'bizType',
+      label: t('inAppMessage.field.categoryName'),
+      prop: 'categoryName',
       minWidth: 110,
     },
     {

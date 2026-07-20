@@ -13,7 +13,7 @@ inAppMessage:
     contentType: Content type
     content: Content
     linkUrl: Link URL
-    bizType: Business type
+    categoryName: Minor category
     sceneCode: Scene code
     senderUserId: Sender
     totalCount: Total

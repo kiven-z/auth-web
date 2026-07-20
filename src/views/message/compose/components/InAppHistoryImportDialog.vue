@@ -48,7 +48,7 @@ const historyImportState = usePaginationState<InAppSendTaskPageRow, InAppSendTas
     sourceType: undefined,
     recipientScopeType: undefined,
     deliveryMode: undefined,
-    bizType: undefined,
+    categoryId: undefined,
   }),
 });
 
@@ -87,8 +87,6 @@ async function handleImport(row: InAppSendTaskPageRow): Promise<void> {
       title: detail.title,
       body: detail.content,
       contentType: detail.contentType as InAppTemplateContentType,
-      bizType: detail.bizType,
-      linkUrl: detail.linkUrl,
     });
   } catch (error: unknown) {
     errorMessage(error);
@@ -177,15 +175,6 @@ onMounted(() => {
             :value="item.value"
           />
         </el-select>
-      </el-form-item>
-      <!-- 业务分类 -->
-      <el-form-item :label="t('inAppMessage.field.bizType')" prop="bizType">
-        <el-input
-          v-model="searchForm.bizType"
-          :placeholder="ph.input('inAppMessage.field.bizType')"
-          class="w-45!"
-          clearable
-        />
       </el-form-item>
 
       <el-form-item>

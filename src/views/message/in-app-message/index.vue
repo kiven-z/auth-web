@@ -35,7 +35,7 @@ const inAppMessageState = usePaginationState({
     sourceType: undefined,
     recipientScopeType: undefined,
     deliveryMode: undefined,
-    bizType: undefined,
+    categoryId: undefined,
   }),
 });
 const { selectedRows, loading, searchForm, fetchTableData, resetQuery } = inAppMessageState;
@@ -124,15 +124,6 @@ onMounted(() => {
             :value="item.value"
           />
         </el-select>
-      </el-form-item>
-      <!-- 业务分类 -->
-      <el-form-item :label="t('inAppMessage.field.bizType')" prop="bizType">
-        <el-input
-          v-model="searchForm.bizType"
-          :placeholder="ph.input('inAppMessage.field.bizType')"
-          class="w-45!"
-          clearable
-        />
       </el-form-item>
 
       <el-form-item>

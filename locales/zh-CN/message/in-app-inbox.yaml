@@ -10,7 +10,7 @@ inAppInbox:
   read: 已读
   field:
     title: 标题
-    bizType: 业务分类
+    categoryName: 业务小类
     createTime: 时间
     deliveryMode: 类型
     linkUrl: 跳转链接

@@ -8,7 +8,7 @@ import { useI18n } from 'vue-i18n';
 
 /**
  * 撰写页模板 / 历史发送导入弹窗
- * @param form 撰写表单（导入时直接回填，不覆盖接收范围）
+ * @param form 撰写表单
  * @returns 打开导入弹窗的方法
  */
 function useInAppComposeImport(form: InAppComposeRequest) {
@@ -17,10 +17,9 @@ function useInAppComposeImport(form: InAppComposeRequest) {
   /**
    * 确认后将导入结果写入撰写表单
    * @param payload 导入载荷
-   * @param withExtraFields 是否同步 bizType / linkUrl（历史导入为 true）
    * @returns 是否已导入
    */
-  async function confirmAndApplyImport(payload: InAppComposeImportPayload, withExtraFields: boolean): Promise<boolean> {
+  async function confirmAndApplyImport(payload: InAppComposeImportPayload) {
     const confirmed = await multiConfirm([
       {
         title: t('inAppCompose.importConfirmTitle'),
@@ -35,10 +34,6 @@ function useInAppComposeImport(form: InAppComposeRequest) {
     form.title = payload.title;
     form.body = payload.body;
     form.contentType = payload.contentType;
-    if (withExtraFields) {
-      form.bizType = payload.bizType;
-      form.linkUrl = payload.linkUrl;
-    }
     return true;
   }
 
@@ -57,7 +52,7 @@ function useInAppComposeImport(form: InAppComposeRequest) {
       contentRenderer: ({ options, index }) => (
         <InAppTemplateImportDialog
           onImport={async (payload: InAppComposeImportPayload) => {
-            const imported = await confirmAndApplyImport(payload, false);
+            const imported = await confirmAndApplyImport(payload);
             if (imported) {
               closeDialog(options, index, { command: 'close' });
             }
@@ -82,7 +77,7 @@ function useInAppComposeImport(form: InAppComposeRequest) {
       contentRenderer: ({ options, index }) => (
         <InAppHistoryImportDialog
           onImport={async (payload: InAppComposeImportPayload) => {
-            const imported = await confirmAndApplyImport(payload, true);
+            const imported = await confirmAndApplyImport(payload);
             if (imported) {
               closeDialog(options, index, { command: 'close' });
             }

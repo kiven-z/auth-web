@@ -103,7 +103,7 @@ function useInAppMessageDetailColumns() {
       },
     },
     { label: t('inAppMessage.field.contentType'), prop: 'contentType', labelWidth: 120 },
-    { label: t('inAppMessage.field.bizType'), prop: 'bizType', labelWidth: 120 },
+    { label: t('inAppMessage.field.categoryName'), prop: 'categoryName', labelWidth: 120 },
     { label: t('inAppMessage.field.sceneCode'), prop: 'sceneCode', labelWidth: 120, copy: true },
     { label: t('inAppMessage.field.senderUserId'), prop: 'senderUserId', labelWidth: 120, copy: true },
     {

@@ -3,14 +3,16 @@ import { errorMessage } from '@/services/feedback/message';
 import { ref } from 'vue';
 
 /**
- * 大类全量选项
+ * 大类选项
  * @returns 大类选项、加载状态与加载方法
  */
 function useInAppCategoryMajorOptions() {
   const majorOptions = ref<InAppMessageCategoryOption[]>([]);
   const loadingMajors = ref(false);
 
-  /** 加载全部启用大类 */
+  /**
+   * 加载启用大类
+   */
   async function loadMajors() {
     loadingMajors.value = true;
     try {

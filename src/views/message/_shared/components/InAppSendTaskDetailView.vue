@@ -13,7 +13,7 @@ defineOptions({
 
 /** 站内信发送任务详情：元数据 + 定稿正文预览 */
 interface InAppSendTaskDetailViewProps {
-  /** 任务 ID（雪花，字符串） */
+  /** 任务 ID */
   taskId: string;
   /** 描述列由父组件传入 */
   columns: ColumnProps[];

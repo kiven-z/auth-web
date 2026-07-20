@@ -27,11 +27,13 @@ inAppCompose:
   title: Title
   body: Body
   contentType: Content type
-  bizType: Business type
+  majorCategory: Major category
+  categoryId: Minor category
   linkUrl: Link URL
   placeholder:
     title: Enter message title
-    bizType: Optional, e.g. NOTICE
+    majorCategory: Select a major category first
+    categoryId: Select a minor category
     linkUrl: Optional URL when notification is clicked
     selectUsers: Search users by keyword
     selectPosts: Search posts by keyword
@@ -41,3 +43,4 @@ inAppCompose:
     title: Title is required
     body: Body is required
     contentType: Content type is required
+    categoryId: Minor category is required

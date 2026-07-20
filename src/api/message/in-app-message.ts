@@ -34,7 +34,7 @@ export interface InAppComposeRequest {
   title: string;
   body: string;
   contentType: InAppTemplateContentType;
-  bizType?: string;
+  categoryId?: string;
   linkUrl?: string;
 }
 
@@ -59,7 +59,8 @@ export interface InAppSendTaskPageQuery {
   sourceType?: InAppMessageSourceType | string;
   recipientScopeType?: InAppRecipientScopeType | string;
   deliveryMode?: InAppDeliveryMode | string;
-  bizType?: string;
+  /** 业务小类 ID */
+  categoryId?: string;
   /** 标题关键字 */
   title?: string;
 }
@@ -72,8 +73,11 @@ export interface InAppSendTaskPageRow extends BaseResponsePageRow {
   sceneCode?: string | null;
   title: string;
   contentType: InAppTemplateContentType | string;
-  bizType?: string | null;
-  /** 发起人用户 ID（雪花，字符串） */
+  /** 业务小类 ID */
+  categoryId?: string | null;
+  /** 业务小类名称 */
+  categoryName?: string | null;
+  /** 发起人用户 ID */
   senderUserId?: string | null;
   recipientScopeType: InAppRecipientScopeType | string;
   deliveryMode: InAppDeliveryMode | string;
@@ -94,9 +98,12 @@ export interface InAppSendTaskDetailVO extends BaseResponseDetail {
   contentType: InAppTemplateContentType | string;
   /** 定稿正文 */
   content: string;
-  bizType?: string | null;
+  /** 业务小类 ID */
+  categoryId?: string | null;
+  /** 业务小类名称 */
+  categoryName?: string | null;
   linkUrl?: string | null;
-  /** 发起人用户 ID（雪花，字符串） */
+  /** 发起人用户 ID */
   senderUserId?: string | null;
   recipientScopeType: InAppRecipientScopeType | string;
   /** 接收范围快照原始 JSON */
@@ -111,7 +118,7 @@ export interface InAppSendTaskDetailVO extends BaseResponseDetail {
   failCount: number;
   status: InAppMessageStatusCode | string;
   recalledAt?: string | null;
-  /** 撤回操作人用户 ID（雪花，字符串） */
+  /** 撤回操作人用户 ID */
   recallUserId?: string | null;
   remark?: string | null;
 }

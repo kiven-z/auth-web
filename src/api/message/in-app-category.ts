@@ -91,13 +91,13 @@ export function listInAppMessageCategoryMajors(): Promise<InAppMessageCategoryOp
 
 /**
  * 指定大类下全部启用中的小类
- * @param parentCode 大类编码
+ * @param parentId 大类主键
  * @returns 小类选项
  */
-export function listInAppMessageCategoryChildren(parentCode: string): Promise<InAppMessageCategoryOption[]> {
-  return http.get<InAppMessageCategoryOption[], AxiosRequestConfig<{ parentCode: string }>>(
+export function listInAppMessageCategoryChildren(parentId: string): Promise<InAppMessageCategoryOption[]> {
+  return http.get<InAppMessageCategoryOption[], AxiosRequestConfig<{ parentId: string }>>(
     '/system/message/in-app/categories/children',
-    { params: { parentCode } }
+    { params: { parentId } }
   );
 }
 

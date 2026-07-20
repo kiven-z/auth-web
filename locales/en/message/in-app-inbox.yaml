@@ -10,7 +10,7 @@ inAppInbox:
   read: Read
   field:
     title: Title
-    bizType: Category
+    categoryName: Category
     createTime: Time
     deliveryMode: Type
     linkUrl: Link

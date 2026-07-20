@@ -10,7 +10,8 @@ export interface InAppInboxPageQuery {
   /** 投递模式 */
   deliveryMode: InAppDeliveryMode;
   isRead?: boolean;
-  bizType?: string;
+  /** 业务小类 ID */
+  categoryId?: string;
   /** 标题关键字 */
   title?: string;
 }
@@ -20,9 +21,10 @@ export interface InAppInboxPageRow extends BaseResponsePageRow {
   sceneCode?: string | null;
   title: string;
   contentType: string;
-  bizType?: string | null;
+  categoryId?: string | null;
+  categoryName?: string | null;
   linkUrl?: string | null;
-  /** 发起人用户 ID（雪花，字符串） */
+  /** 发起人用户 ID */
   senderUserId?: string | null;
   deliveryMode: InAppDeliveryMode | string;
   isRead: boolean;

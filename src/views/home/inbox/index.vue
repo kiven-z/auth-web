@@ -41,7 +41,7 @@ const {
   searchForm: reactive({
     deliveryMode: 'PULL',
     isRead: undefined,
-    bizType: undefined,
+    categoryId: undefined,
     title: undefined,
   }),
 });
@@ -113,17 +113,6 @@ onMounted(() => {
             <el-option :label="t('inAppInbox.unread')" :value="false" />
             <el-option :label="t('inAppInbox.read')" :value="true" />
           </el-select>
-        </el-form-item>
-
-        <!-- 业务分类 -->
-        <el-form-item :label="t('inAppInbox.field.bizType')" prop="bizType">
-          <el-input
-            v-model="searchForm.bizType"
-            :placeholder="ph.input('inAppInbox.field.bizType')"
-            class="inbox-page__field"
-            clearable
-            @keyup.enter="fetchTableData"
-          />
         </el-form-item>
 
         <!-- 标题关键字 -->

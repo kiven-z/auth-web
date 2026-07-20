@@ -3,6 +3,8 @@ import { type InAppComposeRequest, sendInAppMessage } from '@/api/message/in-app
 import { operationConfirm } from '@/services/feedback/dialog';
 import { errorMessage, message } from '@/services/feedback/message';
 import { MESSAGE_TEMPLATE_CONTENT_TYPES } from '@/views/message/_shared/constants/content-type';
+import useInAppCategoryMajorOptions from '@/views/message/_shared/hooks/useInAppCategoryMajorOptions';
+import useInAppCategorySubOptions from '@/views/message/_shared/hooks/useInAppCategorySubOptions';
 import InAppRecipientScopeSelector from '@/views/message/compose/components/InAppRecipientScopeSelector.vue';
 import { IN_APP_COMPOSE_PERMS } from '@/views/message/compose/constants/permissions';
 import useInAppComposeImport from '@/views/message/compose/hooks/useInAppComposeImport';
@@ -19,6 +21,8 @@ const { t } = useI18n();
 
 const formRef = ref<FormInstance>();
 const sending = ref(false);
+/** 大类仅用于级联选小类，不提交 */
+const majorCategoryId = ref<string>();
 
 const form = reactive<InAppComposeRequest>({
   recipientScopeType: 'USER',
@@ -28,10 +32,12 @@ const form = reactive<InAppComposeRequest>({
   title: '',
   body: '',
   contentType: 'TEXT',
-  bizType: undefined,
+  categoryId: undefined,
   linkUrl: undefined,
 });
 
+const { majorOptions, loadingMajors, loadMajors } = useInAppCategoryMajorOptions();
+const { subOptions, loadingSubs, loadSubs } = useInAppCategorySubOptions();
 const { openTemplateImportDialog, openHistoryImportDialog } = useInAppComposeImport(form);
 
 const rules = reactive<FormRules>({
@@ -51,28 +57,36 @@ const rules = reactive<FormRules>({
   title: [{ required: true, message: t('inAppCompose.rules.title'), trigger: 'blur' }],
   body: [{ required: true, message: t('inAppCompose.rules.body'), trigger: 'blur' }],
   contentType: [{ required: true, message: t('inAppCompose.rules.contentType'), trigger: 'change' }],
+  categoryId: [{ required: true, message: t('inAppCompose.rules.categoryId'), trigger: 'change' }],
 });
 
 /**
- * 重置表单为初始态
+ * 切换大类：清空小类并拉取对应小类列表
+ * @param majorId 大类主键
  */
-function resetForm(): void {
-  form.recipientScopeType = 'USER';
-  form.recipientScopeIds = [];
-  form.includeChildren = true;
+function handleMajorChange(majorId: string | undefined) {
+  form.categoryId = undefined;
+  if (!majorId) {
+    subOptions.value = [];
+    return;
+  }
+  loadSubs(majorId);
+}
+
+/**
+ * 重置表单与分类级联态
+ */
+function resetForm() {
+  formRef.value?.resetFields();
   form.templateCode = undefined;
-  form.title = '';
-  form.body = '';
-  form.contentType = 'TEXT';
-  form.bizType = undefined;
-  form.linkUrl = undefined;
-  formRef.value?.clearValidate();
+  majorCategoryId.value = undefined;
+  subOptions.value = [];
 }
 
 /**
  * 提交发送
  */
-async function handleSend(): Promise<void> {
+async function handleSend() {
   const valid = await formRef.value?.validate().catch(() => false);
   if (!valid) {
     return;
@@ -89,7 +103,7 @@ async function handleSend(): Promise<void> {
     body: form.body,
     contentType: form.contentType,
     templateCode: form.templateCode,
-    bizType: form.bizType,
+    categoryId: form.categoryId!,
     linkUrl: form.linkUrl,
   };
 
@@ -178,14 +192,33 @@ async function handleSend(): Promise<void> {
         <el-segmented v-model="form.contentType" :options="MESSAGE_TEMPLATE_CONTENT_TYPES" class="w-full" />
       </el-form-item>
 
-      <!-- 业务分类 -->
-      <el-form-item :label="t('inAppCompose.bizType')" prop="bizType">
-        <el-input
-          v-model="form.bizType"
-          :placeholder="t('inAppCompose.placeholder.bizType')"
+      <!-- 业务大类 -->
+      <el-form-item :label="t('inAppCompose.majorCategory')" required>
+        <el-select
+          v-model="majorCategoryId"
+          :loading="loadingMajors"
+          :placeholder="t('inAppCompose.placeholder.majorCategory')"
           clearable
-          maxlength="64"
-        />
+          filterable
+          @change="handleMajorChange"
+          @focus="loadMajors"
+        >
+          <el-option v-for="item in majorOptions" :key="item.id" :label="item.name" :value="item.id" />
+        </el-select>
+      </el-form-item>
+
+      <!-- 业务小类 -->
+      <el-form-item :label="t('inAppCompose.categoryId')" prop="categoryId">
+        <el-select
+          v-model="form.categoryId"
+          :disabled="!majorCategoryId"
+          :loading="loadingSubs"
+          :placeholder="t('inAppCompose.placeholder.categoryId')"
+          clearable
+          filterable
+        >
+          <el-option v-for="item in subOptions" :key="item.id" :label="item.name" :value="item.id" />
+        </el-select>
       </el-form-item>
 
       <!-- 跳转链接 -->

@@ -27,11 +27,13 @@ inAppCompose:
   title: 标题
   body: 正文
   contentType: 正文类型
-  bizType: 业务分类
+  majorCategory: 业务大类
+  categoryId: 业务小类
   linkUrl: 跳转链接
   placeholder:
     title: 请输入消息标题
-    bizType: 可选，如 NOTICE
+    majorCategory: 请先选择业务大类
+    categoryId: 请选择业务小类
     linkUrl: 可选，点击通知后跳转的链接
     selectUsers: 输入关键字搜索用户
     selectPosts: 输入关键字搜索岗位
@@ -41,3 +43,4 @@ inAppCompose:
     title: 请输入标题
     body: 请输入正文
     contentType: 请选择正文类型
+    categoryId: 请选择业务小类

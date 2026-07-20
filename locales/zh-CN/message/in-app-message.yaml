@@ -13,7 +13,7 @@ inAppMessage:
     contentType: 正文类型
     content: 正文
     linkUrl: 跳转链接
-    bizType: 业务分类
+    categoryName: 业务小类
     sceneCode: 场景编码
     senderUserId: 发起人
     totalCount: 目标数
