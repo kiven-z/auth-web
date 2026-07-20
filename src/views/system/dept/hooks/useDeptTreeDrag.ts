@@ -9,9 +9,7 @@ export interface UseDeptTreeDragOptions {
   onMoved: () => Promise<void>;
 }
 
-/**
- * 部门树拖拽移动（对接 PUT /dept/move，允许 parentId=0）
- */
+/** 部门树拖拽移动 */
 export function useDeptTreeDrag(options: UseDeptTreeDragOptions) {
   const { t } = useI18n();
   const { treeData, onMoved } = options;

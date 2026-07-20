@@ -11,9 +11,7 @@ export interface UseMenuTreeDragOptions {
   onMoved: () => Promise<void>;
 }
 
-/**
- * 菜单树拖拽移动（对接 PUT /menu/{id}/move，允许 parentId=0）
- */
+/** 菜单树拖拽移动 */
 export function useMenuTreeDrag(options: UseMenuTreeDragOptions) {
   const { t } = useI18n();
   const { treeData, onMoved } = options;
