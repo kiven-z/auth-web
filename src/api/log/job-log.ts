@@ -11,11 +11,11 @@ export interface JobLogPageQuery {
   sort?: SortSpec[];
   /** 任务 ID（job.id） */
   jobId?: string;
-  /** 任务名称（模糊） */
+  /** 任务名称 */
   jobName?: string;
-  /** 任务分组（模糊） */
+  /** 任务分组 */
   jobGroup?: string;
-  /** 调用目标（模糊） */
+  /** 调用目标 */
   invokeTarget?: string;
   /** 触发类型 */
   triggerType?: string;

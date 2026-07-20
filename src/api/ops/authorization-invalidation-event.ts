@@ -9,7 +9,7 @@ export interface AuthorizationInvalidationEventPageQuery {
   pageIndex?: number;
   pageSize?: number;
   sort?: SortSpec[];
-  /** 业务事件 ID（前缀匹配） */
+  /** 业务事件 ID */
   eventId?: string;
   /** 变更维度（AuthorizationChangeKind） */
   changeKind?: string;

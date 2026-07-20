@@ -80,9 +80,9 @@ export function getUserDetail(userId: string): Promise<SysUserDetail> {
 }
 
 /**
- * 远程搜索用户（关键词匹配用户名、昵称、邮箱、手机、工号）
+ * 远程搜索用户
  * @param keyword 搜索关键字
- * @param limit 返回条数上限，默认由后端决定（20），最大 50
+ * @param limit 返回条数上限
  * @returns 用户远程搜索选项
  */
 export function searchUserByKeyword(keyword: string, limit?: number): Promise<UserSearchOption[]> {

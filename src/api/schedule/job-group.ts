@@ -61,7 +61,7 @@ export interface UpdateJobGroupRequest {
 }
 
 /**
- * 启用分组远程搜索参数
+ * 任务分组远程搜索参数
  */
 export interface SysJobGroupSearchQuery {
   keyword?: string;
@@ -80,7 +80,7 @@ export function getJobGroupPage(params: SysJobGroupPageQuery): Promise<PageRespo
 }
 
 /**
- * 启用分组远程搜索（按分组编码、分组名称模糊匹配，仅启用状态）
+ * 远程搜索任务分组选项
  * @param params 搜索参数
  * @returns 分组选项列表
  */

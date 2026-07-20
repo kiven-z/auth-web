@@ -60,7 +60,7 @@ export interface InAppSendTaskPageQuery {
   recipientScopeType?: InAppRecipientScopeType | string;
   deliveryMode?: InAppDeliveryMode | string;
   bizType?: string;
-  /** 标题关键字（模糊） */
+  /** 标题关键字 */
   title?: string;
 }
 

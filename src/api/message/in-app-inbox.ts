@@ -11,7 +11,7 @@ export interface InAppInboxPageQuery {
   deliveryMode: InAppDeliveryMode;
   isRead?: boolean;
   bizType?: string;
-  /** 标题关键字（模糊） */
+  /** 标题关键字 */
   title?: string;
 }
 

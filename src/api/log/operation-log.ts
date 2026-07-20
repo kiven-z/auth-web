@@ -9,7 +9,7 @@ export interface OperationLogPageQuery {
   pageIndex?: number;
   pageSize?: number;
   sort?: SortSpec[];
-  /** 操作用户 ID（使用远程搜索） */
+  /** 操作用户 ID */
   userId?: string;
   /** 操作类型 */
   operationType?: string;

@@ -9,7 +9,7 @@ export interface LoginLogPageQuery {
   pageIndex?: number;
   pageSize?: number;
   sort?: SortSpec[];
-  /** 用户 ID（远程搜索选中） */
+  /** 用户 ID */
   userId?: string;
   loginTimeStart?: string;
   loginTimeEnd?: string;
