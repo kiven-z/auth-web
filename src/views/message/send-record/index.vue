@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { getChannelDeliveryPage, type ChannelDeliveryPageQuery } from '@/api/message/channel-delivery';
+import { type ChannelDeliveryPageQuery, getChannelDeliveryPage } from '@/api/message/channel-delivery';
 import AuthPagedTable, { usePaginationState } from '@/components/business/AuthPagedTable';
 import { useFormPlaceholder } from '@/shared/composables/i18n/useFormPlaceholder';
 import {

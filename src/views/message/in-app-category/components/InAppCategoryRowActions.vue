@@ -21,7 +21,7 @@ const props = defineProps<InAppCategoryRowActionsProps>();
 
 const { t } = useI18n();
 const { refresh } = useInAppCategoryPageState();
-const { openCreateDialog, openDetailDialog } = useInAppCategoryTableAction({ refresh });
+const { openCreateDialog, openEditDialog, openDetailDialog } = useInAppCategoryTableAction({ refresh });
 
 /** 仅启用中的大类可新增下级 */
 const canAddChild = computed(() => props.row.parentId === IN_APP_CATEGORY_ROOT_PARENT_ID && props.row.status);
@@ -43,6 +43,11 @@ const canAddChild = computed(() => props.row.parentId === IN_APP_CATEGORY_ROOT_P
       @click="openCreateDialog(row)"
     >
       {{ t('inAppCategory.action.addChild') }}
+    </el-button>
+
+    <!-- 编辑 -->
+    <el-button v-perms="IN_APP_CATEGORY_PERMS.UPDATE" link type="primary" @click="openEditDialog(row)">
+      {{ t('buttons.actionEdit') }}
     </el-button>
   </div>
 </template>

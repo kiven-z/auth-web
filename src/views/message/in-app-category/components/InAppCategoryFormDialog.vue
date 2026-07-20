@@ -4,7 +4,7 @@ import type { InAppMessageCategoryFormModel } from '@/api/message/in-app-categor
 import { useFormPlaceholder } from '@/shared/composables/i18n/useFormPlaceholder';
 import useInAppCategoryMajorOptions from '@/views/message/_shared/hooks/useInAppCategoryMajorOptions';
 import type { FormInstance, FormRules } from 'element-plus';
-import { onMounted, reactive, ref } from 'vue';
+import { computed, onMounted, reactive, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 defineOptions({
@@ -26,6 +26,9 @@ const form = ref<InAppMessageCategoryFormModel>({
 });
 
 const { majorOptions, loadingMajors, loadMajors } = useInAppCategoryMajorOptions();
+
+/** 编辑时排除自身，避免选自己当父级 */
+const selectableMajorOptions = computed(() => majorOptions.value.filter((item) => item.id !== form.value.id));
 
 const rules = reactive<FormRules>({
   code: [
@@ -62,7 +65,7 @@ defineExpose({ formRef, form });
             filterable
           >
             <el-option
-              v-for="item in majorOptions"
+              v-for="item in selectableMajorOptions"
               :key="item.id"
               :label="`${item.name} (${item.code})`"
               :value="item.id"

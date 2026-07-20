@@ -1,5 +1,9 @@
 import type { InAppMessageCategoryFormModel, InAppMessageCategoryPageRow } from '@/api/message/in-app-category';
-import { createInAppMessageCategory, getInAppMessageCategoryById } from '@/api/message/in-app-category';
+import {
+  createInAppMessageCategory,
+  getInAppMessageCategoryById,
+  updateInAppMessageCategory,
+} from '@/api/message/in-app-category';
 import { Description } from '@/components/ui/Description';
 import { addDialog } from '@/components/ui/Dialog';
 import { errorMessage } from '@/services/feedback/message';
@@ -11,7 +15,7 @@ import { ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 interface InAppCategoryTableActionDeps {
-  /** 新增成功后刷新树数据 */
+  /** 新增/编辑成功后刷新树数据 */
   refresh: () => Promise<void>;
 }
 
@@ -62,6 +66,43 @@ function useInAppCategoryTableAction(deps: InAppCategoryTableActionDeps) {
   };
 
   /**
+   * 打开编辑弹窗（先拉详情再回填；大类 parentId=0 视为未选）
+   * @param row 表格行或树节点
+   */
+  const openEditDialog = async (row: InAppMessageCategoryPageRow) => {
+    const dialogFormRef = ref<FormOverlayExpose<InAppMessageCategoryFormModel> | null>(null);
+
+    try {
+      const detail = await getInAppMessageCategoryById(row.id);
+      const parentId = detail.parentId;
+      const editForm = {
+        ...detail,
+        parentId: parentId === IN_APP_CATEGORY_ROOT_PARENT_ID ? undefined : parentId,
+      };
+
+      addDialog({
+        title: t('inAppCategory.dialog.edit'),
+        draggable: true,
+        fullscreenIcon: true,
+        closeOnClickModal: false,
+        closeOnPressEscape: false,
+        contentRenderer: () => <InAppCategoryFormDialog ref={dialogFormRef} form={editForm} />,
+        beforeSure: createFormBeforeSure<InAppMessageCategoryFormModel>({
+          formExposeRef: dialogFormRef,
+          successI18nKey: 'tips.editSuccess',
+          requireId: true,
+          onSubmit: async (formPayload) => {
+            await updateInAppMessageCategory(formPayload);
+            await refresh();
+          },
+        }),
+      });
+    } catch (error: unknown) {
+      errorMessage(error);
+    }
+  };
+
+  /**
    * 打开详情弹窗
    * @param row 表格行或树节点
    */
@@ -82,6 +123,7 @@ function useInAppCategoryTableAction(deps: InAppCategoryTableActionDeps) {
 
   return {
     openCreateDialog,
+    openEditDialog,
     openDetailDialog,
   };
 }

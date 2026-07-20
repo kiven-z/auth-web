@@ -9,6 +9,7 @@ inAppCategory:
       collapseAll: 收起全部
   dialog:
     create: 新增业务分类
+    edit: 编辑业务分类
     view: 业务分类详情
   action:
     addChild: 新增下级

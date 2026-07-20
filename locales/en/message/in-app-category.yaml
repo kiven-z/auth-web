@@ -9,6 +9,7 @@ inAppCategory:
       collapseAll: Collapse all
   dialog:
     create: Create category
+    edit: Edit category
     view: Category detail
   action:
     addChild: Add Child
