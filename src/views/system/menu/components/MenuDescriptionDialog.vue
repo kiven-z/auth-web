@@ -7,8 +7,8 @@ import Description from '@/components/ui/Description';
 import { renderBooleanStatusTag } from '@/shared/composables/layout/renderBooleanStatusTag';
 import { transformI18n } from '@/app/plugins/i18n';
 import useRoleColumns from '@/views/system/_shared/columns/useRoleColumns';
+import { TREE_ROOT_PARENT_ID } from '@/shared/utils/tree';
 import { MENU_TYPE_OPTIONS } from '@/views/system/menu/constants/menu-type';
-import { MENU_ROOT_PARENT_ID } from '@/views/system/menu/utils/menu-parent';
 import { ElTag } from 'element-plus';
 import { computed, h } from 'vue';
 import { useI18n } from 'vue-i18n';
@@ -32,7 +32,7 @@ const parentLabel = computed(() => {
     return props.parentMenuLabel;
   }
   const parentId = props.data?.parentId;
-  if (!parentId || parentId === MENU_ROOT_PARENT_ID) {
+  if (!parentId || parentId === TREE_ROOT_PARENT_ID) {
     return t('sysMenu.parentTopLevel');
   }
   return parentId;

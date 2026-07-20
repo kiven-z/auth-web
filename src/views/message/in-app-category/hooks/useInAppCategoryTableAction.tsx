@@ -12,8 +12,8 @@ import { operationConfirm } from '@/services/feedback/dialog';
 import { errorMessage, message } from '@/services/feedback/message';
 import useBatchDeleteAction from '@/shared/composables/table/useBatchDeleteAction';
 import { type FormOverlayExpose, useFormOverlaySubmit } from '@/shared/composables/table/useFormOverlaySubmit';
+import { TREE_ROOT_PARENT_ID } from '@/shared/utils/tree';
 import InAppCategoryFormDialog from '@/views/message/in-app-category/components/InAppCategoryFormDialog.vue';
-import { IN_APP_CATEGORY_ROOT_PARENT_ID } from '@/views/message/in-app-category/constants/root';
 import useInAppCategoryDetailColumns from '@/views/message/in-app-category/hooks/useInAppCategoryDetailColumns';
 import type { Ref } from 'vue';
 import { ref } from 'vue';
@@ -49,7 +49,7 @@ function useInAppCategoryTableAction(deps: InAppCategoryTableActionDeps) {
    */
   const openCreateDialog = (parentRow?: InAppMessageCategoryPageRow) => {
     // 仅大类可作父级；小类直接拒绝
-    if (parentRow && parentRow.parentId !== IN_APP_CATEGORY_ROOT_PARENT_ID) {
+    if (parentRow && parentRow.parentId !== TREE_ROOT_PARENT_ID) {
       return;
     }
 
@@ -90,7 +90,7 @@ function useInAppCategoryTableAction(deps: InAppCategoryTableActionDeps) {
       const parentId = detail.parentId;
       const editForm = {
         ...detail,
-        parentId: parentId === IN_APP_CATEGORY_ROOT_PARENT_ID ? undefined : parentId,
+        parentId: parentId === TREE_ROOT_PARENT_ID ? undefined : parentId,
       };
 
       addDialog({

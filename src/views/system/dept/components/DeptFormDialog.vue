@@ -1,10 +1,10 @@
 <script lang="ts" setup>
 import type { FormDialog } from '@/api/common';
-import { DEPT_ROOT_PARENT_ID, getDeptList, SysDeptCreateForm, SysDeptUpdateForm } from '@/api/system/dept';
+import { getDeptList, SysDeptCreateForm, SysDeptUpdateForm } from '@/api/system/dept';
 import { errorMessage } from '@/services/feedback/message';
 import { buildDeptParentTree, type DeptParentCascaderNode } from '@/views/system/dept/utils/dept-parent';
 import type { CascaderProps, FormInstance, FormRules } from 'element-plus';
-import { computed, onMounted, reactive, ref } from 'vue';
+import { onMounted, reactive, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 type DeptFormModel = SysDeptCreateForm | SysDeptUpdateForm;
@@ -18,7 +18,6 @@ const props = withDefaults(defineProps<DeptFormDialogProps>(), {
 const { t } = useI18n();
 const formRef = ref<FormInstance>();
 const form = ref<DeptFormModel>({
-  parentId: DEPT_ROOT_PARENT_ID,
   status: true,
   orderNum: 0,
   ...props.form,
@@ -33,16 +32,6 @@ const parentCascaderProps: CascaderProps = {
 };
 
 const parentTree = ref<DeptParentCascaderNode[]>([]);
-
-const parentCascaderModel = computed({
-  get: () => {
-    const pid = form.value.parentId;
-    return pid && pid !== DEPT_ROOT_PARENT_ID ? pid : undefined;
-  },
-  set: (value: string | undefined | null) => {
-    form.value.parentId = value && value.length > 0 ? value : DEPT_ROOT_PARENT_ID;
-  },
-});
 
 const rules = reactive<FormRules>({
   deptName: [{ required: true, message: t('dept.field.deptName'), trigger: 'blur' }],
@@ -60,7 +49,6 @@ const loadParentTree = async () => {
   } catch (e: unknown) {
     errorMessage(e);
     parentTree.value = [];
-    form.value.parentId = DEPT_ROOT_PARENT_ID;
   }
 };
 
@@ -74,10 +62,11 @@ defineExpose({ formRef, form });
 <template>
   <el-form ref="formRef" :model="form" :rules="rules" label-width="auto">
     <el-row :gutter="14">
+      <!-- 父部门：空=顶级 -->
       <el-col :span="24">
         <el-form-item :label="t('dept.field.parentDept')" prop="parentId">
           <el-cascader
-            v-model="parentCascaderModel"
+            v-model="form.parentId"
             :options="parentTree"
             :placeholder="t('dept.placeholder.parentDept')"
             :props="parentCascaderProps"

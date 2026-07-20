@@ -1,3 +1,5 @@
+import { TREE_ROOT_PARENT_ID } from '@/shared/utils/tree';
+
 /** Element Plus 树拖拽落点类型 */
 export type TreeDropType = 'prev' | 'next' | 'inner';
 
@@ -9,8 +11,14 @@ export interface TreeMoveNode {
 
 /**
  * 规范父节点 ID
+ * @param parentId 原始父节点 ID
+ * @param rootParentId 顶级 parentId，默认
+ * @returns 规范化后的父节点 ID
  */
-export function normalizeTreeParentId(parentId: string | undefined | null, rootParentId: string): string {
+export function normalizeTreeParentId(
+  parentId: string | undefined | null,
+  rootParentId: string = TREE_ROOT_PARENT_ID
+): string {
   if (!parentId || parentId === rootParentId) {
     return rootParentId;
   }

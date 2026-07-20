@@ -14,15 +14,13 @@ import type {
   RoleReference,
 } from '@/api/system/grant-table';
 import { http } from '@/core/http';
+import { TREE_ROOT_PARENT_ID } from '@/shared/utils/tree';
 import type { AxiosRequestConfig } from 'axios';
 
 export type { SpreadsheetImportResult };
 
-/** 顶级部门 parentId */
-export const DEPT_ROOT_PARENT_ID = '0';
-
 /**
- * 部门扁平列表查询（树形建树，无分页）
+ * 部门扁平列表查询
  */
 export interface SysDeptListQuery {
   /** 部门名称或编码关键词 */
@@ -31,7 +29,7 @@ export interface SysDeptListQuery {
 }
 
 /**
- * 部门表格 / 导出筛选（不含关键词）
+ * 部门表格 / 导出筛选
  */
 export interface SysDeptTableFilter {
   deptName?: string;
@@ -66,7 +64,8 @@ export interface SysDeptPageQuery extends SysDeptTableFilter {
 
 /** 部门新增表单 */
 export interface SysDeptCreateForm {
-  parentId: string;
+  /** 父部门 ID；空或未选=顶级 */
+  parentId?: string;
   deptName: string;
   deptCode: string;
   status: boolean;
@@ -101,7 +100,7 @@ export interface SysDeptDetail extends BaseResponseDetail {
 }
 
 /**
- * 查询部门扁平列表（全量，前端建树）
+ * 查询部门扁平列表
  */
 export function getDeptList(params?: SysDeptListQuery): Promise<SysDeptListVO[]> {
   return http.get<SysDeptListVO[], AxiosRequestConfig<SysDeptListQuery>>('/system/dept/list', { params });
@@ -137,25 +136,25 @@ export function exportDeptExcel(filter: SysDeptPageQuery, scope: ExportScopeQuer
 export function createDept(data: SysDeptCreateForm): Promise<void> {
   const body = {
     ...data,
-    parentId: data.parentId && data.parentId.length > 0 ? data.parentId : DEPT_ROOT_PARENT_ID,
+    parentId: data.parentId && data.parentId.length > 0 ? data.parentId : TREE_ROOT_PARENT_ID,
   };
   return http.post<void, SysDeptCreateForm>('/system/dept', { data: body });
 }
 
 /**
- * 更新部门（含可选变更父部门）
+ * 更新部门
  * @param data 保存表单
  */
 export function updateDept(data: SysDeptUpdateForm): Promise<void> {
   const body = {
     ...data,
-    parentId: data.parentId && data.parentId.length > 0 ? data.parentId : DEPT_ROOT_PARENT_ID,
+    parentId: data.parentId && data.parentId.length > 0 ? data.parentId : TREE_ROOT_PARENT_ID,
   };
   return http.put<void, SysDeptUpdateForm>('/system/dept', { data: body });
 }
 
 /**
- * 获取部门详情（含关联用户、岗位、已授权角色）
+ * 获取部门详情
  * @param id 部门主键
  */
 export function getDeptDetail(id: string): Promise<SysDeptDetail> {
@@ -171,7 +170,7 @@ export function deleteDept(id: string): Promise<void> {
 }
 
 /**
- * 移动部门（变更父部门）
+ * 移动部门
  * @param data 部门主键与新父部门
  */
 export function moveDept(data: SysDeptMoveForm): Promise<void> {
@@ -258,7 +257,7 @@ export function getDeptClosureHealth(): Promise<DeptClosureHealth> {
 }
 
 /**
- * 导入部门 Excel（multipart/form-data）
+ * 导入部门 Excel
  * @param file 上传的 Excel 文件
  * @returns 导入结果
  */

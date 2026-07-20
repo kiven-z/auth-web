@@ -1,5 +1,5 @@
 import { renderBooleanStatusTag } from '@/shared/composables/layout/renderBooleanStatusTag';
-import { IN_APP_CATEGORY_ROOT_PARENT_ID } from '@/views/message/in-app-category/constants/root';
+import { TREE_ROOT_PARENT_ID } from '@/shared/utils/tree';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 
@@ -19,7 +19,7 @@ function useInAppCategoryDetailColumns() {
       labelWidth: 120,
       cellRenderer: ({ row }) => {
         const parentId = row?.parentId;
-        if (!parentId || parentId === IN_APP_CATEGORY_ROOT_PARENT_ID) {
+        if (!parentId || parentId === TREE_ROOT_PARENT_ID) {
           return <span>{t('inAppCategory.rootLabel')}</span>;
         }
         return <span>{row?.parentName || row?.parentCode || '—'}</span>;

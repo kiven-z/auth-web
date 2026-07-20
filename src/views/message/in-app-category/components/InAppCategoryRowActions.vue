@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import type { InAppMessageCategoryPageRow } from '@/api/message/in-app-category';
+import { TREE_ROOT_PARENT_ID } from '@/shared/utils/tree';
 import { IN_APP_CATEGORY_PERMS } from '@/views/message/in-app-category/constants/permissions';
-import { IN_APP_CATEGORY_ROOT_PARENT_ID } from '@/views/message/in-app-category/constants/root';
 import useInAppCategoryPageState from '@/views/message/in-app-category/hooks/useInAppCategoryPageState';
 import useInAppCategoryTableAction from '@/views/message/in-app-category/hooks/useInAppCategoryTableAction';
 import { computed } from 'vue';
@@ -28,7 +28,7 @@ const { openCreateDialog, openEditDialog, openDetailDialog, batchUpdateStatus, d
   });
 
 /** 仅启用中的大类可新增下级 */
-const canAddChild = computed(() => props.row.parentId === IN_APP_CATEGORY_ROOT_PARENT_ID && props.row.status);
+const canAddChild = computed(() => props.row.parentId === TREE_ROOT_PARENT_ID && props.row.status);
 </script>
 
 <template>

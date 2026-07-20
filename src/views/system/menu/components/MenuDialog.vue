@@ -4,14 +4,13 @@ import { getMenuList } from '@/api/system/menu';
 import AnimateSelector from '@/components/ui/AnimateSelecto/src/index.vue';
 import IconSelect from '@/components/ui/Icon/src/Select.vue';
 import { useRenderIcon } from '@/components/ui/Icon/src/hooks';
-import { handleTree } from '@/shared/utils/tree';
+import { handleTree, TREE_ROOT_PARENT_ID } from '@/shared/utils/tree';
 import { transformI18n } from '@/app/plugins/i18n';
 import { errorMessage } from '@/services/feedback/message';
 import MenuTypeIframeDialog from '@/views/system/menu/components/MenuTypeIframeDialog.vue';
 import MenuTypeLinkDialog from '@/views/system/menu/components/MenuTypeLinkDialog.vue';
 import MenuTypeMenuDialog from '@/views/system/menu/components/MenuTypeMenuDialog.vue';
 import { MENU_TYPE_OPTIONS, MenuTypeEnums } from '@/views/system/menu/constants/menu-type';
-import { MENU_ROOT_PARENT_ID } from '@/views/system/menu/utils/menu-parent';
 import { findMenuIdPath } from '@/views/system/menu/utils/menu-tree';
 import type { CascaderProps, FormInstance, FormRules } from 'element-plus';
 import { computed, onMounted, ref, watch } from 'vue';
@@ -69,7 +68,7 @@ const { t } = useI18n();
 
 const formRef = ref<FormInstance>();
 const form = ref<MenuFormModel>({
-  parentId: MENU_ROOT_PARENT_ID,
+  parentId: TREE_ROOT_PARENT_ID,
   menuType: MenuTypeEnums.MENU,
   menuRank: 0,
   showLink: true,

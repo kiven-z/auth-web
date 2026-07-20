@@ -1,3 +1,6 @@
+/** 顶级节点 parentId（对齐后端 TreeParentIdUtil.ROOT_PARENT_ID） */
+export const TREE_ROOT_PARENT_ID = '0';
+
 /**
  * @description 提取菜单树中的每一项uniqueId
  * @param tree 树
@@ -182,7 +185,7 @@ export const findTreePathById = (
   targetId: string | null | undefined,
   path: string[] = []
 ): string[] => {
-  if (!targetId || targetId === '0') {
+  if (!targetId || targetId === TREE_ROOT_PARENT_ID) {
     return [];
   }
   for (const node of nodes) {

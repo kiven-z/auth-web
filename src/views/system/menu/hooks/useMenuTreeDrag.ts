@@ -1,7 +1,6 @@
 import { moveMenu, type SysMenuTreeNode } from '@/api/system/menu';
 import { transformI18n } from '@/app/plugins/i18n';
 import { useElTreeMoveDrag } from '@/views/system/_shared/hooks/useElTreeMoveDrag';
-import { MENU_ROOT_PARENT_ID } from '@/views/system/menu/utils/menu-parent';
 import type { Ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 
@@ -20,7 +19,6 @@ export function useMenuTreeDrag(options: UseMenuTreeDragOptions) {
 
   return useElTreeMoveDrag<SysMenuTreeNode>({
     treeData,
-    rootParentId: MENU_ROOT_PARENT_ID,
     getNodeLabel: menuLabel,
     onMoved,
     moveNode: (id, parentId) => moveMenu(id, { parentId }),

@@ -1,9 +1,9 @@
 <script lang="ts" setup>
 import { AuthElTreePanel } from '@/components/business/AuthElTreePanel';
+import { TREE_ROOT_PARENT_ID } from '@/shared/utils/tree';
 import InAppCategoryRowActions from '@/views/message/in-app-category/components/InAppCategoryRowActions.vue';
 import InAppCategorySearchForm from '@/views/message/in-app-category/components/InAppCategorySearchForm.vue';
 import { IN_APP_CATEGORY_PERMS } from '@/views/message/in-app-category/constants/permissions';
-import { IN_APP_CATEGORY_ROOT_PARENT_ID } from '@/views/message/in-app-category/constants/root';
 import useInAppCategoryPageState from '@/views/message/in-app-category/hooks/useInAppCategoryPageState';
 import useInAppCategoryTableAction from '@/views/message/in-app-category/hooks/useInAppCategoryTableAction';
 import { onMounted } from 'vue';
@@ -53,7 +53,7 @@ onMounted(() => {
       <template #meta="{ data }">
         <span :class="{ 'text-(--el-text-color-secondary)': !data.status }" class="font-medium">{{ data.name }}</span>
         <el-text type="info">({{ data.code }})</el-text>
-        <el-tag v-if="data.parentId === IN_APP_CATEGORY_ROOT_PARENT_ID" effect="plain" size="small" type="primary">
+        <el-tag v-if="data.parentId === TREE_ROOT_PARENT_ID" effect="plain" size="small" type="primary">
           {{ t('inAppCategory.rootLabel') }}
         </el-tag>
         <el-tag :type="data.status ? 'success' : 'danger'" effect="plain" size="small">

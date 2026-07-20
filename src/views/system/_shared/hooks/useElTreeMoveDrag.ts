@@ -1,5 +1,6 @@
 import { multiConfirm } from '@/services/feedback/dialog';
 import { errorMessage, message } from '@/services/feedback/message';
+import { TREE_ROOT_PARENT_ID } from '@/shared/utils/tree';
 import {
   canDropTreeNode,
   normalizeTreeParentId,
@@ -27,7 +28,7 @@ export interface ElTreeMoveDragMessages<T> {
 /** {@link useElTreeMoveDrag} 配置 */
 export interface UseElTreeMoveDragOptions<T extends TreeMoveNode> {
   treeData: Ref<T[]>;
-  rootParentId: string;
+  rootParentId?: string;
   getNodeLabel: (node: T) => string;
   onMoved: () => Promise<void>;
   moveNode: (id: string, parentId: string) => Promise<void>;
@@ -38,7 +39,7 @@ export interface UseElTreeMoveDragOptions<T extends TreeMoveNode> {
  * 树节点拖拽移动（变更父节点）
  */
 export function useElTreeMoveDrag<T extends TreeMoveNode>(options: UseElTreeMoveDragOptions<T>) {
-  const { treeData, rootParentId, getNodeLabel, onMoved, moveNode, messages } = options;
+  const { treeData, rootParentId = TREE_ROOT_PARENT_ID, getNodeLabel, onMoved, moveNode, messages } = options;
 
   const allowDrag = () => true;
 

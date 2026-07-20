@@ -2,7 +2,6 @@ import type { TableActionDeps } from '@/api/common';
 import {
   createDept,
   deleteDepts,
-  DEPT_ROOT_PARENT_ID,
   getDeptDetail,
   getDeptList,
   type SysDeptCreateForm,
@@ -14,14 +13,13 @@ import { addDialog } from '@/components/ui/Dialog';
 import useBatchDeleteAction from '@/shared/composables/table/useBatchDeleteAction';
 import { type FormOverlayExpose, useFormOverlaySubmit } from '@/shared/composables/table/useFormOverlaySubmit';
 import { errorMessage } from '@/services/feedback/message';
+import { TREE_ROOT_PARENT_ID } from '@/shared/utils/tree';
 import DeptDescriptionDialog from '@/views/system/dept/components/DeptDescriptionDialog.vue';
 import DeptFormDialog from '@/views/system/dept/components/DeptFormDialog.vue';
 import type { DeptViewMode, SysDeptRow } from '@/views/system/dept/hooks/useDeptPageState';
 import type { Ref } from 'vue';
 import { h, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
-
-const ROOT_PARENT_ID = DEPT_ROOT_PARENT_ID;
 
 export interface DeptTableActionDeps extends TableActionDeps {
   fetchTreeData: () => Promise<void>;
@@ -50,7 +48,7 @@ function useDeptTableAction(deps: DeptTableActionDeps) {
    * 解析父部门展示名
    */
   const resolveParentDeptLabel = (detailParentId: string, flatList: SysDeptListVO[]): string => {
-    if (!detailParentId || detailParentId === ROOT_PARENT_ID) {
+    if (!detailParentId || detailParentId === TREE_ROOT_PARENT_ID) {
       return t('dept.field.parentTopLevel');
     }
     const parent = flatList.find((item) => item.id === detailParentId);
@@ -91,7 +89,11 @@ function useDeptTableAction(deps: DeptTableActionDeps) {
       fullscreenIcon: true,
       closeOnClickModal: false,
       closeOnPressEscape: false,
-      contentRenderer: () => h(DeptFormDialog, { ref: dialogFormRef, form: parentRow as SysDeptCreateForm }),
+      contentRenderer: () =>
+        h(DeptFormDialog, {
+          ref: dialogFormRef,
+          form: parentRow ? ({ parentId: parentRow.id } as SysDeptCreateForm) : undefined,
+        }),
       beforeSure: createFormBeforeSure<SysDeptCreateForm>({
         formExposeRef: dialogFormRef,
         successI18nKey: 'tips.addSuccess',
@@ -104,12 +106,17 @@ function useDeptTableAction(deps: DeptTableActionDeps) {
   };
 
   /**
-   * 打开编辑弹窗
+   * 打开编辑弹窗（顶级 parentId=0 视为未选）
    * @param row 表格行或树节点
    */
   const openEditDialog = async (row: SysDeptRow) => {
     try {
       const detail = await getDeptDetail(row.id);
+      const parentId = detail.parentId;
+      const editForm = {
+        ...detail,
+        parentId: parentId === TREE_ROOT_PARENT_ID ? undefined : parentId,
+      };
       const dialogFormRef = ref<FormOverlayExpose<SysDeptUpdateForm> | null>(null);
 
       addDialog({
@@ -118,7 +125,7 @@ function useDeptTableAction(deps: DeptTableActionDeps) {
         fullscreenIcon: true,
         closeOnClickModal: false,
         closeOnPressEscape: false,
-        contentRenderer: () => h(DeptFormDialog, { ref: dialogFormRef, form: detail }),
+        contentRenderer: () => h(DeptFormDialog, { ref: dialogFormRef, form: editForm }),
         beforeSure: createFormBeforeSure<SysDeptUpdateForm>({
           formExposeRef: dialogFormRef,
           requireId: true,

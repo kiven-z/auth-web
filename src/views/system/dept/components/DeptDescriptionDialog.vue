@@ -6,6 +6,7 @@ import DetailRelationListSection from '@/components/business/DetailRelationListS
 import Description from '@/components/ui/Description';
 import usePostColumns from '@/views/system/_shared/columns/usePostColumns';
 import useRoleColumns from '@/views/system/_shared/columns/useRoleColumns';
+import { TREE_ROOT_PARENT_ID } from '@/shared/utils/tree';
 import { DEPT_STATUS_FILTER_OPTIONS } from '@/views/system/dept/constants/dept-search-options';
 import { ElTag } from 'element-plus';
 import { computed } from 'vue';
@@ -32,7 +33,7 @@ const parentLabel = computed(() => {
     return props.parentDeptLabel;
   }
   const parentId = props.data?.parentId;
-  if (!parentId || parentId === '0') {
+  if (!parentId || parentId === TREE_ROOT_PARENT_ID) {
     return t('dept.field.parentTopLevel');
   }
   return parentId;

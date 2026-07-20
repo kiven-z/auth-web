@@ -1,7 +1,7 @@
 import type { InAppMessageCategoryPageRow } from '@/api/message/in-app-category';
 import { selectUserinfo } from '@/components/business/UserProfile';
 import { renderBooleanStatusTag } from '@/shared/composables/layout/renderBooleanStatusTag';
-import { IN_APP_CATEGORY_ROOT_PARENT_ID } from '@/views/message/in-app-category/constants/root';
+import { TREE_ROOT_PARENT_ID } from '@/shared/utils/tree';
 import { ElButton } from 'element-plus';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
@@ -31,7 +31,7 @@ function useInAppCategoryTableColumns() {
       prop: 'parentName',
       minWidth: 140,
       formatter: (row: InAppMessageCategoryPageRow) =>
-        row.parentId === IN_APP_CATEGORY_ROOT_PARENT_ID ? t('inAppCategory.rootLabel') : row.parentName || '—',
+        row.parentId === TREE_ROOT_PARENT_ID ? t('inAppCategory.rootLabel') : row.parentName || '—',
     },
     {
       label: t('inAppCategory.field.sortOrder'),

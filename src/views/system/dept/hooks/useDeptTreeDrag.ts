@@ -1,4 +1,4 @@
-import { DEPT_ROOT_PARENT_ID, moveDept, type SysDeptTreeNode } from '@/api/system/dept';
+import { moveDept, type SysDeptTreeNode } from '@/api/system/dept';
 import { useElTreeMoveDrag } from '@/views/system/_shared/hooks/useElTreeMoveDrag';
 import type { Ref } from 'vue';
 import { useI18n } from 'vue-i18n';
@@ -16,7 +16,6 @@ export function useDeptTreeDrag(options: UseDeptTreeDragOptions) {
 
   return useElTreeMoveDrag<SysDeptTreeNode>({
     treeData,
-    rootParentId: DEPT_ROOT_PARENT_ID,
     getNodeLabel: (node) => node.deptName,
     onMoved,
     moveNode: (id, parentId) => moveDept({ id, parentId }),
