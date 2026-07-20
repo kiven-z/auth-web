@@ -1,12 +1,14 @@
 import type { InAppMessageCategoryFormModel, InAppMessageCategoryPageRow } from '@/api/message/in-app-category';
 import {
+  batchUpdateInAppMessageCategoryStatus,
   createInAppMessageCategory,
   getInAppMessageCategoryById,
   updateInAppMessageCategory,
 } from '@/api/message/in-app-category';
 import { Description } from '@/components/ui/Description';
 import { addDialog } from '@/components/ui/Dialog';
-import { errorMessage } from '@/services/feedback/message';
+import { operationConfirm } from '@/services/feedback/dialog';
+import { errorMessage, message } from '@/services/feedback/message';
 import { type FormOverlayExpose, useFormOverlaySubmit } from '@/shared/composables/table/useFormOverlaySubmit';
 import InAppCategoryFormDialog from '@/views/message/in-app-category/components/InAppCategoryFormDialog.vue';
 import { IN_APP_CATEGORY_ROOT_PARENT_ID } from '@/views/message/in-app-category/constants/root';
@@ -15,7 +17,7 @@ import { ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 interface InAppCategoryTableActionDeps {
-  /** 新增/编辑成功后刷新树数据 */
+  /** 新增/编辑/启停成功后刷新树数据 */
   refresh: () => Promise<void>;
 }
 
@@ -121,10 +123,35 @@ function useInAppCategoryTableAction(deps: InAppCategoryTableActionDeps) {
     }
   };
 
+  /**
+   * 批量启用或停用
+   * @param ids 分类主键列表
+   * @param enabled 是否启用
+   */
+  const batchUpdateStatus = async (ids: string[], enabled: boolean) => {
+    if (ids.length <= 0) {
+      return;
+    }
+
+    const confirmed = await operationConfirm();
+    if (!confirmed) {
+      return;
+    }
+
+    try {
+      await batchUpdateInAppMessageCategoryStatus({ ids, status: enabled });
+      message(t('tips.editSuccess'), { type: 'success' });
+      await refresh();
+    } catch (error: unknown) {
+      errorMessage(error);
+    }
+  };
+
   return {
     openCreateDialog,
     openEditDialog,
     openDetailDialog,
+    batchUpdateStatus,
   };
 }
 

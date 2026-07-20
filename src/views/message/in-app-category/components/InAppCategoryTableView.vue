@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import type { InAppMessageCategoryPageRow } from '@/api/message/in-app-category';
 import AuthDataTable from '@/components/ui/AuthDataTable';
 import TableBar from '@/components/ui/TableBar';
 import InAppCategoryRowActions from '@/views/message/in-app-category/components/InAppCategoryRowActions.vue';
@@ -21,12 +22,17 @@ const treeProps = {
 
 const { t } = useI18n();
 const { columns } = useInAppCategoryTableColumns();
-const { loading, treeData, fetchTreeData, refresh } = useInAppCategoryPageState();
-const { openCreateDialog } = useInAppCategoryTableAction({ refresh });
+const { loading, treeData, selectedRows, fetchTreeData, refresh } = useInAppCategoryPageState();
+const { openCreateDialog, batchUpdateStatus } = useInAppCategoryTableAction({ refresh });
 
 onMounted(() => {
   fetchTreeData();
 });
+
+/** 表格多选 → id 列表（仅表格视图） */
+const onSelectionChange = (rows: InAppMessageCategoryPageRow[]) => {
+  selectedRows.value = rows.map((row) => row.id);
+};
 </script>
 
 <template>
@@ -45,6 +51,23 @@ onMounted(() => {
           <el-button v-perms="IN_APP_CATEGORY_PERMS.CREATE" @click="openCreateDialog()">
             {{ t('buttons.actionAdd') }}
           </el-button>
+
+          <!-- 批量启停 -->
+          <Perms :value="IN_APP_CATEGORY_PERMS.UPDATE">
+            <el-dropdown trigger="click">
+              <el-button :disabled="selectedRows.length <= 0" type="warning">
+                {{ t('buttons.actionBatchStatus') }}
+              </el-button>
+              <template #dropdown>
+                <el-dropdown-item :disabled="selectedRows.length <= 0" @click="batchUpdateStatus(selectedRows, true)">
+                  {{ t('buttons.actionBatchEnable') }}
+                </el-dropdown-item>
+                <el-dropdown-item :disabled="selectedRows.length <= 0" @click="batchUpdateStatus(selectedRows, false)">
+                  {{ t('buttons.actionBatchDisable') }}
+                </el-dropdown-item>
+              </template>
+            </el-dropdown>
+          </Perms>
         </el-button-group>
       </template>
 
@@ -63,6 +86,7 @@ onMounted(() => {
           highlight-current-row
           row-key="id"
           show-overflow-tooltip
+          @selection-change="onSelectionChange"
         >
           <template #actions="{ row }">
             <InAppCategoryRowActions :row="row" />

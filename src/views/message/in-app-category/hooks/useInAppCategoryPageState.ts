@@ -22,6 +22,7 @@ const searchForm = reactive<InAppMessageCategoryQuery>({
 });
 
 const treeData = ref<InAppMessageCategoryPageRow[]>([]);
+const selectedRows = ref<string[]>([]);
 const loading = ref(false);
 const viewMode = ref<InAppCategoryViewMode>('table');
 
@@ -51,10 +52,6 @@ async function fetchTreeData() {
  * @param formRef 可选表单实例，用于 resetFields
  */
 async function resetQuery(formRef?: FormInstance) {
-  searchForm.code = undefined;
-  searchForm.name = undefined;
-  searchForm.status = undefined;
-  searchForm.rootOnly = undefined;
   formRef?.resetFields();
   await fetchTreeData();
 }
@@ -67,6 +64,7 @@ function useInAppCategoryPageState() {
   return {
     loading,
     treeData,
+    selectedRows,
     searchForm,
     viewMode,
     fetchTreeData,

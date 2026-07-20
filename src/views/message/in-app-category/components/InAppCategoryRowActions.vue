@@ -2,8 +2,8 @@
 import type { InAppMessageCategoryPageRow } from '@/api/message/in-app-category';
 import { IN_APP_CATEGORY_PERMS } from '@/views/message/in-app-category/constants/permissions';
 import { IN_APP_CATEGORY_ROOT_PARENT_ID } from '@/views/message/in-app-category/constants/root';
-import useInAppCategoryTableAction from '@/views/message/in-app-category/hooks/useInAppCategoryTableAction';
 import useInAppCategoryPageState from '@/views/message/in-app-category/hooks/useInAppCategoryPageState';
+import useInAppCategoryTableAction from '@/views/message/in-app-category/hooks/useInAppCategoryTableAction';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 
@@ -21,7 +21,9 @@ const props = defineProps<InAppCategoryRowActionsProps>();
 
 const { t } = useI18n();
 const { refresh } = useInAppCategoryPageState();
-const { openCreateDialog, openEditDialog, openDetailDialog } = useInAppCategoryTableAction({ refresh });
+const { openCreateDialog, openEditDialog, openDetailDialog, batchUpdateStatus } = useInAppCategoryTableAction({
+  refresh,
+});
 
 /** 仅启用中的大类可新增下级 */
 const canAddChild = computed(() => props.row.parentId === IN_APP_CATEGORY_ROOT_PARENT_ID && props.row.status);
@@ -49,5 +51,22 @@ const canAddChild = computed(() => props.row.parentId === IN_APP_CATEGORY_ROOT_P
     <el-button v-perms="IN_APP_CATEGORY_PERMS.UPDATE" link type="primary" @click="openEditDialog(row)">
       {{ t('buttons.actionEdit') }}
     </el-button>
+
+    <!-- 单行启停 -->
+    <Perms :value="IN_APP_CATEGORY_PERMS.UPDATE">
+      <el-dropdown trigger="click">
+        <el-button class="ml-1!" link type="primary">{{ t('buttons.actionMore') }}</el-button>
+        <template #dropdown>
+          <el-dropdown-menu>
+            <el-dropdown-item :disabled="row.status === true" @click="batchUpdateStatus([row.id], true)">
+              {{ t('buttons.statusActiveText') }}
+            </el-dropdown-item>
+            <el-dropdown-item :disabled="row.status === false" @click="batchUpdateStatus([row.id], false)">
+              {{ t('buttons.statusInactiveText') }}
+            </el-dropdown-item>
+          </el-dropdown-menu>
+        </template>
+      </el-dropdown>
+    </Perms>
   </div>
 </template>

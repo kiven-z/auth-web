@@ -131,3 +131,20 @@ export function createInAppMessageCategory(data: InAppMessageCategoryFormModel):
 export function updateInAppMessageCategory(data: InAppMessageCategoryFormModel): Promise<string> {
   return http.put<string, InAppMessageCategoryFormModel>('/system/message/in-app/categories', { data });
 }
+
+/**
+ * 批量启停请求
+ */
+export interface InAppMessageCategoryBatchStatusRequest {
+  ids: string[];
+  status: boolean;
+}
+
+/**
+ * 批量启用/禁用业务分类
+ * @param data ID 列表与目标状态
+ * @returns 操作结果文案
+ */
+export function batchUpdateInAppMessageCategoryStatus(data: InAppMessageCategoryBatchStatusRequest): Promise<string> {
+  return http.request<string>('put', '/system/message/in-app/categories/status', { data });
+}

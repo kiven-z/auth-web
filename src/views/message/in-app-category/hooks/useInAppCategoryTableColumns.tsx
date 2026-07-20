@@ -14,6 +14,7 @@ function useInAppCategoryTableColumns() {
   const { t } = useI18n();
 
   const columns = computed<TableColumnList>(() => [
+    { type: 'selection', align: 'left', width: 48 },
     {
       label: t('inAppCategory.field.name'),
       prop: 'name',
@@ -84,7 +85,7 @@ function useInAppCategoryTableColumns() {
     {
       label: t('table.actions'),
       fixed: 'right',
-      width: 240,
+      width: 260,
       slot: 'actions',
     },
   ]);
