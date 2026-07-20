@@ -1,5 +1,5 @@
 /**
- * 定时任务模块按钮权限码（、{@code SysJobTaskCatalogController}）
+ * 定时任务模块按钮权限码
  */
 export const SYS_JOB_PERMS = {
   /** 分页查询、任务目录 */

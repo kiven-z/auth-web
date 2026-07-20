@@ -12,7 +12,7 @@ defineOptions({
   name: 'InAppTemplateContentEditor',
 });
 
-/** 消息模板正文配图（对应后端 FileBizType.MESSAGE_IMAGE） */
+/** 消息模板正文配图业务类型 */
 const MESSAGE_IMAGE_BIZ_TYPE = 'message-image';
 
 const MESSAGE_IMAGE_MAX_FILE_SIZE_BYTES = 5 * 1024 * 1024;

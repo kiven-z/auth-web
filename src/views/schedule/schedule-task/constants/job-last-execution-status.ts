@@ -1,5 +1,5 @@
 /**
- * 定时任务最近一次执行结果（对应后端 SysJobLastExecutionStatus）
+ * 定时任务最近一次执行结果
  */
 export type SysJobLastExecutionStatus = 'SUCCESS' | 'FAILED' | 'UNKNOWN';
 

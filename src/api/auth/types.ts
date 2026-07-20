@@ -5,7 +5,7 @@ export interface RefreshTokenResponse {
   roles: string[];
   permissions: string[];
   accessToken: string;
-  /** 令牌过期时间，后端 LocalDateTime，格式 `yyyy/MM/dd HH:mm:ss` */
+  /** 令牌过期时间 */
   expires: string;
   readMeDay?: number;
 }
@@ -22,7 +22,7 @@ export interface UserLoginResponse extends RefreshTokenResponse {
 export interface UsernamePasswordLoginRequest {
   username: string;
   password: string;
-  /** 是否记住登录（天数由后端 readMeDay 下发） */
+  /** 是否记住登录 */
   rememberMe?: boolean;
 }
 

@@ -10,7 +10,7 @@ export interface UseDeptTreeDragOptions {
 }
 
 /**
- * 部门树拖拽移动（对接 PUT /dept/{id}/move，允许 parentId=0）
+ * 部门树拖拽移动（对接 PUT /dept/move，允许 parentId=0）
  */
 export function useDeptTreeDrag(options: UseDeptTreeDragOptions) {
   const { t } = useI18n();
@@ -21,7 +21,7 @@ export function useDeptTreeDrag(options: UseDeptTreeDragOptions) {
     rootParentId: DEPT_ROOT_PARENT_ID,
     getNodeLabel: (node) => node.deptName,
     onMoved,
-    moveNode: (id, parentId) => moveDept(id, { parentId }),
+    moveNode: (id, parentId) => moveDept({ id, parentId }),
     messages: {
       confirmTitle: t('dept.move.confirmTitle'),
       confirmInner: (dragged, dropTarget) =>

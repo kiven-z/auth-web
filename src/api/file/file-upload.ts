@@ -6,7 +6,7 @@ import { http } from '@/core/http';
 export interface FileUploadRequest {
   /** 上传文件 */
   file: File;
-  /** 业务类型（对应后端 FileBizType.code，必填） */
+  /** 业务类型（必填） */
   bizType: string;
   /** 存储平台（可选） */
   storagePlatform?: string;

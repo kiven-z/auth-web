@@ -3,7 +3,7 @@ import { http } from '@/core/http';
 import type { AxiosRequestConfig } from 'axios';
 
 /**
- * 任务分组分页查询参数（对应后端 SysJobGroupQuery）
+ * 任务分组分页查询参数
  */
 export interface SysJobGroupPageQuery {
   pageIndex?: number;
@@ -15,7 +15,7 @@ export interface SysJobGroupPageQuery {
 }
 
 /**
- * 任务分组分页行（对应后端 SysJobGroupPageResponse + BaseResponse）
+ * 任务分组分页行
  */
 export interface SysJobGroupPageRow extends BaseResponsePageRow {
   groupCode: string;
@@ -27,7 +27,7 @@ export interface SysJobGroupPageRow extends BaseResponsePageRow {
 }
 
 /**
- * 任务分组详情（对应后端 SysJobGroupDetailVO）
+ * 任务分组详情
  */
 export interface SysJobGroupDetailRow extends BaseResponseDetail {
   groupCode: string;
@@ -39,7 +39,7 @@ export interface SysJobGroupDetailRow extends BaseResponseDetail {
 }
 
 /**
- * 新增任务分组请求体（对应后端 SysJobGroupForm）
+ * 新增任务分组请求体
  */
 export interface CreateJobGroupRequest {
   groupCode: string;
@@ -50,7 +50,7 @@ export interface CreateJobGroupRequest {
 }
 
 /**
- * 修改任务分组请求体（对应后端 SysJobGroupUpdateForm，不含 groupCode）
+ * 修改任务分组请求体（不含 groupCode）
  */
 export interface UpdateJobGroupRequest {
   id: string;
@@ -61,7 +61,7 @@ export interface UpdateJobGroupRequest {
 }
 
 /**
- * 启用分组远程搜索参数（对应后端 GET /system/job-group/options）
+ * 启用分组远程搜索参数
  */
 export interface SysJobGroupSearchQuery {
   keyword?: string;
@@ -80,7 +80,7 @@ export function getJobGroupPage(params: SysJobGroupPageQuery): Promise<PageRespo
 }
 
 /**
- * 启用分组远程搜索（按分组编码、分组名称模糊匹配，后端固定 status=true）
+ * 启用分组远程搜索（按分组编码、分组名称模糊匹配，仅启用状态）
  * @param params 搜索参数
  * @returns 分组选项列表
  */

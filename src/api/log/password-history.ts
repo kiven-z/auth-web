@@ -16,7 +16,7 @@ export interface PasswordHistoryPageQuery {
 }
 
 /**
- * 密码历史日志分页行（对应后端 LogUserPasswordHistoryPageVO）
+ * 密码历史日志分页行
  */
 export interface PasswordHistoryPageRow extends BaseResponsePageRow {
   userId: string;

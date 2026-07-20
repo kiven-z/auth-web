@@ -1,5 +1,5 @@
 /**
- * 角色管理模块按钮权限码（、{@code SysRolePermissionController}）
+ * 角色管理模块按钮权限码
  */
 export const SYS_ROLE_PERMS = {
   /** 分页查询、下拉选项 */

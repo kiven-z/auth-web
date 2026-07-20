@@ -89,6 +89,8 @@ export interface SysDeptUpdateForm extends SysDeptCreateForm {
  * 部门移动表单
  */
 export interface SysDeptMoveForm {
+  /** 部门主键 */
+  id: string;
   /** 新父部门 ID；顶级传 0 */
   parentId: string;
 }
@@ -180,11 +182,10 @@ export function deleteDept(id: string): Promise<void> {
 
 /**
  * 移动部门（变更父部门）
- * @param id 部门主键
- * @param data 新父部门
+ * @param data 部门主键与新父部门
  */
-export function moveDept(id: string, data: SysDeptMoveForm): Promise<void> {
-  return http.put<void, SysDeptMoveForm>(`/system/dept/${id}/move`, { data });
+export function moveDept(data: SysDeptMoveForm): Promise<void> {
+  return http.put<void, SysDeptMoveForm>('/system/dept/move', { data });
 }
 
 /**

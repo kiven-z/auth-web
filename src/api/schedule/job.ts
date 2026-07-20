@@ -5,7 +5,7 @@ import type { SysJobQuartzRuntimeStatus } from '@/views/schedule/schedule-task/c
 import type { AxiosRequestConfig } from 'axios';
 
 /**
- * 定时任务分页查询参数（对应后端 SysJobQuery）
+ * 定时任务分页查询参数
  */
 export interface SysJobPageQuery {
   pageIndex?: number;
@@ -17,7 +17,7 @@ export interface SysJobPageQuery {
 }
 
 /**
- * 定时任务分页行（对应后端 SysJobPageResponse + BaseResponse）
+ * 定时任务分页行
  */
 export interface SysJobPageRow extends BaseResponsePageRow {
   jobName: string;
@@ -40,7 +40,7 @@ export interface SysJobPageRow extends BaseResponsePageRow {
 }
 
 /**
- * 新增定时任务请求体（对应后端 SysJobCreateForm）
+ * 新增定时任务请求体
  */
 export interface SysJobCreateForm {
   jobName: string;
@@ -60,7 +60,7 @@ export interface SysJobCreateForm {
   remark?: string;
 }
 
-/** 白名单任务类（对应后端 QuartzTaskClassVO） */
+/** 白名单任务类 */
 export interface QuartzTaskClassRow {
   className: string;
   name: string;
@@ -69,7 +69,7 @@ export interface QuartzTaskClassRow {
   jobParamsExample?: string;
 }
 
-/** 白名单任务类可选方法（对应后端 QuartzTaskMethodVO） */
+/** 白名单任务类可选方法 */
 export interface QuartzTaskMethodRow {
   methodName: string;
   parameterSignature: string;
@@ -78,7 +78,7 @@ export interface QuartzTaskMethodRow {
 }
 
 /**
- * 定时任务详情（对应后端 SysJobDetailVO）
+ * 定时任务详情
  */
 export interface SysJobDetailRow extends BaseResponseDetail {
   jobName: string;
@@ -126,7 +126,7 @@ export function getJobDetail(id: string): Promise<SysJobDetailRow> {
 }
 
 /**
- * 修改定时任务请求体（对应后端 SysJobUpdateForm）
+ * 修改定时任务请求体
  */
 export interface SysJobUpdateForm {
   id: string;
@@ -161,7 +161,7 @@ export function updateJob(data: SysJobUpdateForm): Promise<string> {
 }
 
 /**
- * 批量启停请求体（对应后端 SysJobStatusForm）
+ * 批量启停请求体
  */
 export interface SysJobBatchStatusRequest {
   ids: string[];
@@ -169,7 +169,7 @@ export interface SysJobBatchStatusRequest {
 }
 
 /**
- * 批量启停任务（对应后端 SysJobController.batchStatus）
+ * 批量启停任务
  * @param data 任务 ID 列表与目标状态
  */
 export function batchUpdateJobStatus(data: SysJobBatchStatusRequest): Promise<string> {
@@ -177,7 +177,7 @@ export function batchUpdateJobStatus(data: SysJobBatchStatusRequest): Promise<st
 }
 
 /**
- * 立即执行一次（对应后端 SysJobController.runOnce）
+ * 立即执行一次
  * @param id 任务主键
  */
 export function runJobOnce(id: string): Promise<string> {

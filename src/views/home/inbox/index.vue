@@ -82,12 +82,7 @@ onMounted(() => {
       <HomePageToolbar @back="backWithReturn('HomeInbox')" />
 
       <!-- 公开 / 系统消息 Tab，角标取未读数 -->
-      <el-tabs
-        :model-value="searchForm.deliveryMode"
-        class="inbox-page__tabs"
-        type="card"
-        @tab-change="handleDeliveryModeChange"
-      >
+      <el-tabs :model-value="searchForm.deliveryMode" class="inbox-page__tabs" @tab-change="handleDeliveryModeChange">
         <el-tab-pane name="PULL">
           <template #label>
             <el-badge :hidden="pullUnreadCount <= 0" :max="99" :value="pullUnreadCount">
@@ -241,7 +236,8 @@ onMounted(() => {
     flex-wrap: wrap;
     gap: 8px;
     align-items: center;
-    margin-bottom: 8px;
+    padding: 0 0 8px 0;
+    border-bottom: 1px solid var(--el-border-color-lighter);
   }
 
   &__pagination {
