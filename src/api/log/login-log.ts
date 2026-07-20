@@ -13,9 +13,9 @@ export interface LoginLogPageQuery {
   userId?: string;
   loginTimeStart?: string;
   loginTimeEnd?: string;
-  /** 与 log_login.login_result 一致：0–4 */
+  /** 登录结果 */
   loginResult?: number;
-  /** 与 AuthLoginLogType.name() 一致，如 LOGIN_PASSWORD */
+  /** 登录类型 */
   loginType?: string;
 }
 
@@ -24,7 +24,7 @@ export interface LoginLogPageQuery {
  */
 export interface LoginLogPageRow extends BaseResponsePageRow {
   userId?: string;
-  /** 关联用户展示名（非表字段 username） */
+  /** 关联用户展示名 */
   username?: string | null;
   loginResult: number;
   loginTime: string;

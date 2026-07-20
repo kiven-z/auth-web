@@ -109,9 +109,7 @@ export interface SpreadsheetImportResult {
   errors: ImportRowError[];
 }
 
-/**
- * 详情弹窗/抽屉只读数据契约（数据须含 BaseResponse 审计字段时可选用）
- */
+/** 详情弹窗/抽屉只读数据契约 */
 export interface DetailDialog<T extends BaseResponse = BaseResponse> {
   data?: T;
 }

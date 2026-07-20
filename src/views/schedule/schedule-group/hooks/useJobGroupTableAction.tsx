@@ -117,11 +117,7 @@ function useJobGroupTableAction(deps: TableActionDeps) {
     }
   };
 
-  /**
-   * 批量变更分组下全部任务运行状态
-   * @param row 任务分组行
-   * @param status true=恢复调度，false=暂停
-   */
+  /** 批量变更分组下全部任务运行状态 */
   const updateAllJobsStatusInGroup = async (row: SysJobGroupPageRow, status: boolean) => {
     const confirmed = await operationConfirm();
     if (!confirmed) {

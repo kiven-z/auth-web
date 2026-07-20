@@ -9,9 +9,9 @@ export interface AuthorizationAuditQuery {
   pageIndex?: number;
   pageSize?: number;
   sort?: SortSpec[];
-  /** 事件类型：GRANTED / DENIED */
+  /** 事件类型 */
   eventType?: string;
-  /** 决策原因枚举（精确匹配，如 MATCHED、ACCESS_DENIED、UNAUTHENTICATED 等） */
+  /** 决策原因 */
   decisionReason?: string;
   className?: string;
   /** 操作人用户 ID */
@@ -22,9 +22,9 @@ export interface AuthorizationAuditQuery {
  * 权限决策审计分页行
  */
 export interface AuthorizationAuditPageRow extends BaseResponsePageRow {
-  /** 事件类型：GRANTED / DENIED */
+  /** 事件类型 */
   eventType: string;
-  /** 决策原因枚举值 */
+  /** 决策原因 */
   decisionReason: string;
   /** Controller 类名 */
   className?: string | null;
@@ -36,11 +36,11 @@ export interface AuthorizationAuditPageRow extends BaseResponsePageRow {
  * 权限决策审计详情
  */
 export interface AuthorizationAuditDetailRow extends BaseResponsePageRow {
-  /** 事件类型：GRANTED / DENIED */
+  /** 事件类型 */
   eventType: string;
   /** 会话 ID */
   sessionId?: string | null;
-  /** 所需权限码（如 sys:user:add） */
+  /** 所需权限码 */
   requiredPermission?: string | null;
   /** HTTP 方法 */
   requestMethod?: string | null;

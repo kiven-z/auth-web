@@ -11,7 +11,7 @@ export type EmailTemplateRequireFieldRow = MessageTemplateRequireFieldRow;
  * 分页行
  */
 export interface EmailTemplatePageRow extends BaseResponsePageRow {
-  /** 场景编码，对应 message_template.scene_code */
+  /** 场景编码 */
   templateCode: string;
   templateName: string;
   subject: string;
@@ -25,7 +25,7 @@ export interface EmailTemplatePageRow extends BaseResponsePageRow {
  */
 export interface EmailTemplateFormModel {
   id?: string;
-  /** 场景编码 → scene_code */
+  /** 场景编码 */
   templateCode?: string;
   templateName?: string;
   subject?: string;

@@ -17,11 +17,11 @@ export interface JobLogPageQuery {
   jobGroup?: string;
   /** 调用目标（模糊） */
   invokeTarget?: string;
-  /** 触发类型：SCHEDULE / MANUAL / RETRY */
+  /** 触发类型 */
   triggerType?: string;
-  /** 耗时(ms)，精确匹配 */
+  /** 耗时(ms) */
   elapsedTime?: number;
-  /** 执行结果：true=成功，false=失败 */
+  /** 执行结果 */
   status?: boolean;
 }
 
@@ -55,7 +55,7 @@ export interface JobLogDetailRow extends BaseResponsePageRow {
   invokeTarget?: string | null;
   triggerType?: string | null;
   jobMessage?: string | null;
-  /** 执行是否成功（true=成功，false=失败） */
+  /** 执行是否成功 */
   status: boolean;
   /** 异常信息 */
   exceptionInfo?: string | null;

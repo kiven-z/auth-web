@@ -8,11 +8,11 @@ export type InAppTemplateContentType = 'TEXT' | 'MARKDOWN';
  */
 export interface InAppTemplateFormModel {
   id?: string;
-  /** 场景编码 → scene_code */
+  /** 场景编码 */
   templateCode?: string;
   templateName?: string;
   subject?: string;
-  /** im_message_type */
+  /** 正文类型 */
   contentType: InAppTemplateContentType;
   content: string;
   description?: string;

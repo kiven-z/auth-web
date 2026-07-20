@@ -7,7 +7,7 @@ import type { AxiosRequestConfig } from 'axios';
 export interface InAppInboxPageQuery {
   pageIndex?: number;
   pageSize?: number;
-  /** 投递模式：PULL=公开，PUSH=定向 */
+  /** 投递模式 */
   deliveryMode: InAppDeliveryMode;
   isRead?: boolean;
   bizType?: string;

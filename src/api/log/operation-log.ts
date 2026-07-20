@@ -11,15 +11,15 @@ export interface OperationLogPageQuery {
   sort?: SortSpec[];
   /** 操作用户 ID（使用远程搜索） */
   userId?: string;
-  /** 操作类型：CREATE / UPDATE / DELETE / QUERY / EXPORT */
+  /** 操作类型 */
   operationType?: string;
   /** 操作模块 */
   module?: string;
-  /** 操作对象类型：User / Dept / Role */
+  /** 操作对象类型 */
   targetType?: string;
   /** 目标 ID */
   targetId?: string;
-  /** HTTP 方法：GET / POST / PUT / DELETE */
+  /** HTTP 方法 */
   requestMethod?: string;
 }
 

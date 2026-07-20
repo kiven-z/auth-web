@@ -52,9 +52,7 @@ export interface SysDeptListVO extends BaseResponse {
   remark?: string;
 }
 
-/**
- * 前端树节点（对扁平列表执行 `handleTree` 后带 `children`）
- */
+/** 前端树节点 */
 export type SysDeptTreeNode = SysDeptListVO & { children?: SysDeptTreeNode[] };
 
 /**
@@ -66,9 +64,7 @@ export interface SysDeptPageQuery extends SysDeptTableFilter {
   sort?: SortSpec[];
 }
 
-/**
- * 部门新增表单（创建场景）
- */
+/** 部门新增表单 */
 export interface SysDeptCreateForm {
   parentId: string;
   deptName: string;
@@ -78,20 +74,14 @@ export interface SysDeptCreateForm {
   remark?: string;
 }
 
-/**
- * 部门更新表单（与新增字段一致，须含 id）
- */
+/** 部门更新表单 */
 export interface SysDeptUpdateForm extends SysDeptCreateForm {
   id: string;
 }
 
-/**
- * 部门移动表单
- */
+/** 部门移动表单 */
 export interface SysDeptMoveForm {
-  /** 部门主键 */
   id: string;
-  /** 新父部门 ID；顶级传 0 */
   parentId: string;
 }
 

@@ -5,7 +5,7 @@ import { http } from '@/core/http';
  */
 export interface SmsTemplateFormModel {
   id?: string;
-  /** 场景编码 → scene_code */
+  /** 场景编码 */
   templateCode?: string;
   templateName?: string;
   /** 厂商模板编码 */
@@ -31,11 +31,7 @@ export function createSmsTemplate(data: SmsTemplateSaveRequest): Promise<string>
   return http.post<string, SmsTemplateSaveRequest>('/system/message/sms-template', { data });
 }
 
-/**
- * 更新短信模板
- * @param data 保存请求（须含 id）
- * @returns 更新响应
- */
+/** 更新短信模板 */
 export function updateSmsTemplate(data: SmsTemplateSaveRequest): Promise<string> {
   return http.request<string>('put', '/system/message/sms-template', { data });
 }

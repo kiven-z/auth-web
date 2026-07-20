@@ -23,7 +23,7 @@ export interface MessageTemplatePageQuery {
   pageIndex?: number;
   pageSize?: number;
   sort?: SortSpec[];
-  /** 必填：消息渠道 */
+  /** 消息渠道 */
   channel: MessageChannelCode;
   templateCode?: string;
   templateName?: string;
@@ -38,7 +38,7 @@ export interface MessageTemplatePageQuery {
  */
 export interface MessageTemplatePageRow extends BaseResponsePageRow {
   channel: MessageChannelCode | string;
-  /** 场景编码，对应 message_template.scene_code */
+  /** 场景编码 */
   templateCode: string;
   templateName: string;
   subject: string;
@@ -49,18 +49,16 @@ export interface MessageTemplatePageRow extends BaseResponsePageRow {
   description?: string;
 }
 
-/**
- * 详情（MessageTemplateDetailVO）
- */
+/** 详情 */
 export interface MessageTemplateDetailVO extends BaseResponseDetail {
   channel: MessageChannelCode | string;
-  /** 场景编码，对应 message_template.scene_code */
+  /** 场景编码 */
   templateCode: string;
   templateName: string;
   description?: string;
   subject: string;
   content?: string;
-  /** 按 require_fields 示例值渲染；缺 exampleValue 或渲染失败时可能为空 */
+  /** 预览正文 */
   previewContent?: string;
   contentType?: string;
   requireFields?: MessageTemplateRequireFieldRow[];
@@ -148,11 +146,7 @@ export function getMessageTemplateRequireFields(id: string, channel: MessageChan
   );
 }
 
-/**
- * 仅更新 require_fields
- * @param data 模板 ID、渠道与变量列表
- * @returns 更新响应
- */
+/** 更新模板变量声明 */
 export function updateMessageTemplateRequireFields(data: MessageTemplateRequireFieldsUpdateRequest) {
   return http.request<string>('put', '/system/message/template/require-fields', { data });
 }
@@ -163,15 +157,11 @@ export function updateMessageTemplateRequireFields(data: MessageTemplateRequireF
 export interface MessageTemplateTestSendRequest {
   id: string;
   channel: MessageChannelCode;
-  /** 接收目标：邮箱 / 手机号 / 用户 ID 等，由 channel 解释 */
+  /** 接收目标 */
   target: string;
 }
 
-/**
- * 测试发送（按模板 require_fields 示例值）
- * @param data 模板 ID、渠道与接收目标
- * @returns 测试发送响应
- */
+/** 测试发送 */
 export function testSendMessageTemplate(data: MessageTemplateTestSendRequest) {
   return http.post<string, MessageTemplateTestSendRequest>('/system/message/template/test-send', { data });
 }

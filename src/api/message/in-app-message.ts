@@ -27,11 +27,9 @@ export type InAppMessageStatusCode =
  */
 export interface InAppComposeRequest {
   recipientScopeType: InAppRecipientScopeType;
-  /** USER/POST/DEPT 必填；ALL 可省略 */
   recipientScopeIds?: string[];
-  /** 仅 DEPT 有效，默认 true */
   includeChildren?: boolean;
-  /** 可选，仅作起草来源溯源 */
+  /** 起草来源模板 */
   templateCode?: string;
   title: string;
   body: string;
