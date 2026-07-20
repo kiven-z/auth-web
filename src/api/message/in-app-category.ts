@@ -82,22 +82,30 @@ export interface InAppMessageCategoryOption {
 }
 
 /**
- * 全部启用中的大类
+ * 大类列表
+ * @param statusScope 启停范围
  * @returns 大类选项
  */
-export function listInAppMessageCategoryMajors(): Promise<InAppMessageCategoryOption[]> {
-  return http.get<InAppMessageCategoryOption[], AxiosRequestConfig>('/system/message/in-app/categories/majors');
+export function listInAppMessageCategoryMajors(statusScope?: string): Promise<InAppMessageCategoryOption[]> {
+  return http.get<InAppMessageCategoryOption[], AxiosRequestConfig<{ statusScope?: string }>>(
+    '/system/message/in-app/categories/majors',
+    { params: statusScope === undefined ? undefined : { statusScope } }
+  );
 }
 
 /**
- * 指定大类下全部启用中的小类
+ * 指定大类下小类列表
  * @param parentId 大类主键
+ * @param statusScope 启停范围
  * @returns 小类选项
  */
-export function listInAppMessageCategoryChildren(parentId: string): Promise<InAppMessageCategoryOption[]> {
-  return http.get<InAppMessageCategoryOption[], AxiosRequestConfig<{ parentId: string }>>(
+export function listInAppMessageCategoryChildren(
+  parentId: string,
+  statusScope?: string
+): Promise<InAppMessageCategoryOption[]> {
+  return http.get<InAppMessageCategoryOption[], AxiosRequestConfig<{ parentId: string; statusScope?: string }>>(
     '/system/message/in-app/categories/children',
-    { params: { parentId } }
+    { params: statusScope === undefined ? { parentId } : { parentId, statusScope } }
   );
 }
 
