@@ -1,0 +1,12 @@
+inAppCategory:
+  title:
+    table: 站内信业务分类
+  rootLabel: 大类
+  field:
+    code: 分类码
+    name: 展示名
+    parentName: 父分类
+    parentCode: 父分类码
+    sortOrder: 排序
+    status: 启用状态
+    rootOnly: 仅大类

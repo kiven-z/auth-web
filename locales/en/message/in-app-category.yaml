@@ -1,0 +1,12 @@
+inAppCategory:
+  title:
+    table: In-app message categories
+  rootLabel: Major
+  field:
+    code: Category code
+    name: Display name
+    parentName: Parent
+    parentCode: Parent code
+    sortOrder: Sort order
+    status: Status
+    rootOnly: Majors only

@@ -91,6 +91,7 @@ routes:
   inAppTemplate: 站内信模板
   messageCompose: 编写站内信
   inAppMessage: 站内信发送任务
+  inAppCategory: 站内信业务分类
   sendRecord: 消息发送记录
 
   schedule: 任务调度

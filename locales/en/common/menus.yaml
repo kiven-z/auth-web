@@ -91,6 +91,7 @@ routes:
   inAppTemplate: In-app message templates
   messageCompose: Compose in-app message
   inAppMessage: In-app send tasks
+  inAppCategory: In-app message categories
   sendRecord: Message send records
 
   schedule: Task Scheduling
