@@ -23,6 +23,8 @@ export const useInAppInboxStore = defineStore('in-app-inbox', {
      */
     async refreshUnreadCount() {
       this.loadingMajors = true;
+      // 先清空，避免沿用布局角标缓存画出过期 Tab
+      this.majors = [];
       try {
         const unreadCount = await getInAppInboxUnreadCount();
         this.totalUnreadCount = unreadCount.totalUnreadCount ?? 0;

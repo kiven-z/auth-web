@@ -72,7 +72,7 @@ async function handleMajorTabChange(name: string | number) {
   searchForm.majorCategoryId = String(name);
   searchForm.categoryId = undefined;
   selectedRows.value = [];
-  await loadSubs(searchForm.majorCategoryId);
+  subOptions.value = [];
   await fetchTableData();
 }
 
@@ -89,7 +89,6 @@ onMounted(async () => {
     return;
   }
   searchForm.majorCategoryId = firstMajorId;
-  await loadSubs(firstMajorId);
   await fetchTableData();
 });
 </script>
@@ -144,6 +143,7 @@ onMounted(async () => {
               class="inbox-page__field"
               clearable
               filterable
+              @focus="loadSubs(searchForm.majorCategoryId!)"
             >
               <el-option v-for="item in subOptions" :key="item.id" :label="item.name" :value="item.id" />
             </el-select>
