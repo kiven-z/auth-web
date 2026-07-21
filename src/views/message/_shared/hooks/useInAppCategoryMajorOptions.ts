@@ -4,10 +4,10 @@ import { ref } from 'vue';
 
 /**
  * 大类选项
- * @param statusScope 启停范围
+ * @param status 启停状态；不传则不限
  * @returns 大类选项、加载状态与加载方法
  */
-function useInAppCategoryMajorOptions(statusScope?: string) {
+function useInAppCategoryMajorOptions(status?: boolean) {
   const majorOptions = ref<InAppMessageCategoryOption[]>([]);
   const loadingMajors = ref(false);
 
@@ -15,7 +15,7 @@ function useInAppCategoryMajorOptions(statusScope?: string) {
   async function loadMajors() {
     loadingMajors.value = true;
     try {
-      const rows = await listInAppMessageCategoryMajors(statusScope);
+      const rows = await listInAppMessageCategoryMajors(status);
       majorOptions.value = (rows ?? []).filter((item) => Boolean(item.id));
     } catch (error: unknown) {
       errorMessage(error);

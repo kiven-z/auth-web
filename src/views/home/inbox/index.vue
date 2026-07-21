@@ -25,7 +25,7 @@ const { backWithReturn } = useHomePageNavigation();
 const inboxStore = useInAppInboxStore();
 const { majors, loadingMajors } = storeToRefs(inboxStore);
 
-const { subOptions, loadingSubs, loadSubs } = useInAppCategorySubOptions();
+const { subOptions, loadingSubs, loadSubs } = useInAppCategorySubOptions(true);
 
 const searchFormRef = ref<FormInstance>();
 

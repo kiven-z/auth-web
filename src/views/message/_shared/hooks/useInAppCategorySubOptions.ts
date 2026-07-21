@@ -3,11 +3,11 @@ import { errorMessage } from '@/services/feedback/message';
 import { ref } from 'vue';
 
 /**
- * 小类选项（按大类 id 懒加载）
- * @param statusScope 启停范围
+ * 小类选项
+ * @param status 启停状态；不传则不限
  * @returns 小类选项、加载状态与加载方法
  */
-function useInAppCategorySubOptions(statusScope?: string) {
+function useInAppCategorySubOptions(status?: boolean) {
   const subOptions = ref<InAppMessageCategoryOption[]>([]);
   const loadingSubs = ref(false);
 
@@ -22,7 +22,7 @@ function useInAppCategorySubOptions(statusScope?: string) {
     }
     loadingSubs.value = true;
     try {
-      const rows = await listInAppMessageCategoryChildren(majorId, statusScope);
+      const rows = await listInAppMessageCategoryChildren(majorId, status);
       subOptions.value = (rows ?? []).filter((item) => Boolean(item.id));
     } catch (error: unknown) {
       errorMessage(error);
