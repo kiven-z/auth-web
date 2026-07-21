@@ -25,8 +25,6 @@ export interface InAppInboxPageRow extends BaseResponsePageRow {
   linkUrl?: string | null;
   /** 发起人用户 ID */
   senderUserId?: string | null;
-  /** 投递模式 */
-  deliveryMode?: string | null;
   isRead: boolean;
   readTime?: string | null;
 }

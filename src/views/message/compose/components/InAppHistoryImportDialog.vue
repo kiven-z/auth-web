@@ -16,7 +16,6 @@ import useInAppHistoryImportTableColumns from '@/views/message/compose/hooks/use
 import type { InAppHistoryImportPayload } from '@/views/message/compose/types/compose-import';
 import { IN_APP_MESSAGE_PERMS } from '@/views/message/in-app-message/constants/permissions';
 import {
-  IN_APP_MESSAGE_DELIVERY_OPTIONS,
   IN_APP_MESSAGE_SCOPE_OPTIONS,
   IN_APP_MESSAGE_SOURCE_OPTIONS,
   IN_APP_MESSAGE_STATUS_ITEMS,
@@ -47,7 +46,6 @@ const historyImportState = usePaginationState<InAppSendTaskPageRow, InAppSendTas
     status: undefined,
     sourceType: undefined,
     recipientScopeType: undefined,
-    deliveryMode: undefined,
     categoryId: undefined,
   }),
 });
@@ -138,22 +136,6 @@ onMounted(() => {
         >
           <el-option
             v-for="item in IN_APP_MESSAGE_SCOPE_OPTIONS"
-            :key="item.value"
-            :label="t(item.labelKey)"
-            :value="item.value"
-          />
-        </el-select>
-      </el-form-item>
-      <!-- 投递模式 -->
-      <el-form-item :label="t('inAppMessage.field.deliveryMode')" prop="deliveryMode">
-        <el-select
-          v-model="searchForm.deliveryMode"
-          :placeholder="ph.selectFilter('inAppMessage.field.deliveryMode')"
-          class="w-45!"
-          clearable
-        >
-          <el-option
-            v-for="item in IN_APP_MESSAGE_DELIVERY_OPTIONS"
             :key="item.value"
             :label="t(item.labelKey)"
             :value="item.value"

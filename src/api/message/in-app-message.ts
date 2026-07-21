@@ -9,9 +9,6 @@ export type InAppRecipientScopeType = 'USER' | 'POST' | 'DEPT' | 'ALL';
 /** 站内信发送来源 */
 export type InAppMessageSourceType = 'ADMIN_COMPOSE' | 'TEMPLATE' | 'SYSTEM';
 
-/** 站内信投递模式 */
-export type InAppDeliveryMode = 'PULL' | 'PUSH';
-
 /** 站内信发送任务状态 */
 export type InAppMessageStatusCode =
   | 'PENDING'
@@ -58,7 +55,6 @@ export interface InAppSendTaskPageQuery {
   status?: InAppMessageStatusCode | string;
   sourceType?: InAppMessageSourceType | string;
   recipientScopeType?: InAppRecipientScopeType | string;
-  deliveryMode?: InAppDeliveryMode | string;
   /** 业务小类 ID */
   categoryId?: string;
   /** 标题关键字 */
@@ -80,7 +76,6 @@ export interface InAppSendTaskPageRow extends BaseResponsePageRow {
   /** 发起人用户 ID */
   senderUserId?: string | null;
   recipientScopeType: InAppRecipientScopeType | string;
-  deliveryMode: InAppDeliveryMode | string;
   totalCount: number;
   successCount: number;
   failCount: number;
@@ -112,7 +107,6 @@ export interface InAppSendTaskDetailVO extends BaseResponseDetail {
   recipientScopeIds?: string[] | null;
   /** 仅 DEPT 有值 */
   includeChildren?: boolean | null;
-  deliveryMode: InAppDeliveryMode | string;
   totalCount: number;
   successCount: number;
   failCount: number;

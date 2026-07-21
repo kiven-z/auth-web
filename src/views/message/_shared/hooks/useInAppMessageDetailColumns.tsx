@@ -1,5 +1,4 @@
 import {
-  IN_APP_MESSAGE_DELIVERY_OPTIONS,
   IN_APP_MESSAGE_SCOPE_OPTIONS,
   IN_APP_MESSAGE_SOURCE_OPTIONS,
   IN_APP_MESSAGE_STATUS_ITEMS,
@@ -63,18 +62,6 @@ function useInAppMessageDetailColumns() {
           return <span>—</span>;
         }
         const labelKey = IN_APP_MESSAGE_SCOPE_OPTIONS.find((item) => item.value === value)?.labelKey;
-        return <span>{labelKey ? t(labelKey) : value}</span>;
-      },
-    },
-    {
-      label: t('inAppMessage.field.deliveryMode'),
-      prop: 'deliveryMode',
-      labelWidth: 120,
-      cellRenderer: ({ value }) => {
-        if (!value) {
-          return <span>—</span>;
-        }
-        const labelKey = IN_APP_MESSAGE_DELIVERY_OPTIONS.find((item) => item.value === value)?.labelKey;
         return <span>{labelKey ? t(labelKey) : value}</span>;
       },
     },

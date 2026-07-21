@@ -1,6 +1,5 @@
 import type { InAppSendTaskPageRow } from '@/api/message/in-app-message';
 import {
-  IN_APP_MESSAGE_DELIVERY_OPTIONS,
   IN_APP_MESSAGE_SCOPE_OPTIONS,
   IN_APP_MESSAGE_SOURCE_OPTIONS,
   IN_APP_MESSAGE_STATUS_ITEMS,
@@ -51,15 +50,6 @@ function useInAppHistoryImportTableColumns() {
       formatter: (row: InAppSendTaskPageRow) => {
         const labelKey = IN_APP_MESSAGE_SCOPE_OPTIONS.find((item) => item.value === row.recipientScopeType)?.labelKey;
         return labelKey ? t(labelKey) : row.recipientScopeType || '—';
-      },
-    },
-    {
-      label: t('inAppMessage.field.deliveryMode'),
-      prop: 'deliveryMode',
-      minWidth: 110,
-      formatter: (row: InAppSendTaskPageRow) => {
-        const labelKey = IN_APP_MESSAGE_DELIVERY_OPTIONS.find((item) => item.value === row.deliveryMode)?.labelKey;
-        return labelKey ? t(labelKey) : row.deliveryMode || '—';
       },
     },
     {

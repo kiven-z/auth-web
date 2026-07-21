@@ -9,7 +9,6 @@ inAppMessage:
     recipientScopeType: 接收范围
     recipientScopeIds: 范围 ID
     includeChildren: 包含子部门
-    deliveryMode: 投递模式
     contentType: 正文类型
     content: 正文
     linkUrl: 跳转链接
@@ -26,9 +25,6 @@ inAppMessage:
     ADMIN_COMPOSE: 管理端手写
     TEMPLATE: 模板发送
     SYSTEM: 系统触发
-  deliveryMode:
-    PUSH: 定向投递
-    PULL: 全员公开
   status:
     PENDING: 待发送
     SENDING: 发送中

@@ -5,7 +5,6 @@ import { useFormPlaceholder } from '@/shared/composables/i18n/useFormPlaceholder
 import { IN_APP_MESSAGE_PERMS } from '@/views/message/in-app-message/constants/permissions';
 import {
   IN_APP_MESSAGE_DELETABLE_STATUS,
-  IN_APP_MESSAGE_DELIVERY_OPTIONS,
   IN_APP_MESSAGE_RECALLABLE_STATUS,
   IN_APP_MESSAGE_RETRYABLE_STATUS,
   IN_APP_MESSAGE_SCOPE_OPTIONS,
@@ -34,7 +33,6 @@ const inAppMessageState = usePaginationState({
     status: undefined,
     sourceType: undefined,
     recipientScopeType: undefined,
-    deliveryMode: undefined,
     categoryId: undefined,
   }),
 });
@@ -87,22 +85,6 @@ onMounted(() => {
         >
           <el-option
             v-for="item in IN_APP_MESSAGE_SCOPE_OPTIONS"
-            :key="item.value"
-            :label="t(item.labelKey)"
-            :value="item.value"
-          />
-        </el-select>
-      </el-form-item>
-      <!-- 投递模式 -->
-      <el-form-item :label="t('inAppMessage.field.deliveryMode')" prop="deliveryMode">
-        <el-select
-          v-model="searchForm.deliveryMode"
-          :placeholder="ph.selectFilter('inAppMessage.field.deliveryMode')"
-          class="w-45!"
-          clearable
-        >
-          <el-option
-            v-for="item in IN_APP_MESSAGE_DELIVERY_OPTIONS"
             :key="item.value"
             :label="t(item.labelKey)"
             :value="item.value"
@@ -168,11 +150,11 @@ onMounted(() => {
         <el-button v-perms="IN_APP_MESSAGE_PERMS.DETAIL" link type="primary" @click="openDetailDialog(row)">
           {{ t('buttons.actionView') }}
         </el-button>
-        <!-- 补发：管理端编排 + PUSH + 可恢复状态 -->
+        <!-- 补发：管理端编排 + 非全员 + 可恢复状态 -->
         <el-button
           v-if="
             row.sourceType === 'ADMIN_COMPOSE' &&
-            row.deliveryMode === 'PUSH' &&
+            row.recipientScopeType !== 'ALL' &&
             IN_APP_MESSAGE_RETRYABLE_STATUS.has(row.status)
           "
           v-perms="IN_APP_MESSAGE_PERMS.SEND"

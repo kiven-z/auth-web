@@ -1,5 +1,4 @@
 import type {
-  InAppDeliveryMode,
   InAppMessageSourceType,
   InAppMessageStatusCode,
   InAppRecipientScopeType,
@@ -75,12 +74,4 @@ export const IN_APP_MESSAGE_SCOPE_OPTIONS: readonly InAppMessageEnumMeta<InAppRe
   { value: 'POST', labelKey: 'inAppCompose.scope.post' },
   { value: 'DEPT', labelKey: 'inAppCompose.scope.dept' },
   { value: 'ALL', labelKey: 'inAppCompose.scope.all' },
-];
-
-/**
- * 投递模式筛选项
- */
-export const IN_APP_MESSAGE_DELIVERY_OPTIONS: readonly InAppMessageEnumMeta<InAppDeliveryMode>[] = [
-  { value: 'PUSH', labelKey: 'inAppMessage.deliveryMode.PUSH' },
-  { value: 'PULL', labelKey: 'inAppMessage.deliveryMode.PULL' },
 ];

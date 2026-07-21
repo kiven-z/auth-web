@@ -9,7 +9,6 @@ inAppMessage:
     recipientScopeType: Recipient scope
     recipientScopeIds: Scope IDs
     includeChildren: Include sub-departments
-    deliveryMode: Delivery mode
     contentType: Content type
     content: Content
     linkUrl: Link URL
@@ -26,9 +25,6 @@ inAppMessage:
     ADMIN_COMPOSE: Admin compose
     TEMPLATE: Template
     SYSTEM: System
-  deliveryMode:
-    PUSH: Push
-    PULL: Pull
   status:
     PENDING: Pending
     SENDING: Sending
