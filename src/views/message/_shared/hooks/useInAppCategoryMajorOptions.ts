@@ -7,7 +7,7 @@ import { ref } from 'vue';
  * @param statusScope 启停范围
  * @returns 大类选项、加载状态与加载方法
  */
-function useInAppCategoryMajorOptions(statusScope = 'ALL') {
+function useInAppCategoryMajorOptions(statusScope?: string) {
   const majorOptions = ref<InAppMessageCategoryOption[]>([]);
   const loadingMajors = ref(false);
 

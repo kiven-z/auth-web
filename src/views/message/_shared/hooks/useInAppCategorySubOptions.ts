@@ -4,10 +4,10 @@ import { ref } from 'vue';
 
 /**
  * 小类选项（按大类 id 懒加载）
- * @param statusScope 启停范围（ENABLED / ALL）；默认 ALL；撰写页传 ENABLED
+ * @param statusScope 启停范围
  * @returns 小类选项、加载状态与加载方法
  */
-function useInAppCategorySubOptions(statusScope = 'ALL') {
+function useInAppCategorySubOptions(statusScope?: string) {
   const subOptions = ref<InAppMessageCategoryOption[]>([]);
   const loadingSubs = ref(false);
 

@@ -36,8 +36,8 @@ const form = reactive<InAppComposeRequest>({
   linkUrl: undefined,
 });
 
-const { majorOptions, loadingMajors, loadMajors } = useInAppCategoryMajorOptions('ENABLED');
-const { subOptions, loadingSubs, loadSubs } = useInAppCategorySubOptions('ENABLED');
+const { majorOptions, loadingMajors, loadMajors } = useInAppCategoryMajorOptions();
+const { subOptions, loadingSubs, loadSubs } = useInAppCategorySubOptions();
 const { openTemplateImportDialog, openHistoryImportDialog } = useInAppComposeImport(form);
 
 const rules = reactive<FormRules>({

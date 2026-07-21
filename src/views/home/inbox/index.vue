@@ -1,15 +1,16 @@
 <script lang="ts" setup>
 import { getInAppInboxPage, type InAppInboxPageQuery, type InAppInboxPageRow } from '@/api/message/in-app-inbox';
-import type { InAppDeliveryMode } from '@/api/message/in-app-message';
 import { usePaginationState } from '@/components/business/AuthPagedTable';
 import { DEFAULT_PAGE_SIZES, DEFAULT_PAGINATION_LAYOUT } from '@/components/ui/AuthDataTable/src/constants';
+import { errorMessage } from '@/services/feedback/message';
 import { useFormPlaceholder } from '@/shared/composables/i18n/useFormPlaceholder';
 import { useHomePageNavigation } from '@/shared/composables/layout/useHomePageNavigation';
 import { useInAppInboxStoreHook } from '@/store/modules/inAppInbox';
 import HomePageToolbar from '@/views/home/_shared/components/HomePageToolbar.vue';
 import InboxMessageList from '@/views/home/inbox/components/InboxMessageList.vue';
 import useInboxTableAction from '@/views/home/inbox/hooks/useInboxTableAction';
-import { FormInstance } from 'element-plus';
+import useInAppCategorySubOptions from '@/views/message/_shared/hooks/useInAppCategorySubOptions';
+import type { FormInstance } from 'element-plus';
 import { storeToRefs } from 'pinia';
 import { computed, onMounted, reactive, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
@@ -22,9 +23,12 @@ const { t } = useI18n();
 const ph = useFormPlaceholder();
 const { backWithReturn } = useHomePageNavigation();
 const inboxStore = useInAppInboxStoreHook();
-const { pullUnreadCount, pushUnreadCount } = storeToRefs(inboxStore);
+const { majors } = storeToRefs(inboxStore);
+
+const { subOptions, loadingSubs, loadSubs } = useInAppCategorySubOptions();
 
 const searchFormRef = ref<FormInstance>();
+const loadingMajors = ref(false);
 
 const {
   loading,
@@ -39,9 +43,9 @@ const {
 } = usePaginationState<InAppInboxPageRow, InAppInboxPageQuery>({
   fetchApi: getInAppInboxPage,
   searchForm: reactive({
-    deliveryMode: 'PULL',
-    isRead: undefined,
+    majorCategoryId: undefined,
     categoryId: undefined,
+    isRead: undefined,
     title: undefined,
   }),
 });
@@ -62,17 +66,35 @@ const isCurrentPageIndeterminate = computed(
 );
 
 /**
- * 切换公开 / 系统消息 Tab。
+ * 切换大类 Tab
  * @param name Tab name
  */
-function handleDeliveryModeChange(name: string | number) {
-  searchForm.deliveryMode = name as InAppDeliveryMode;
+async function handleMajorTabChange(name: string | number) {
+  searchForm.majorCategoryId = String(name);
+  searchForm.categoryId = undefined;
   selectedRows.value = [];
-  fetchTableData();
+  await loadSubs(searchForm.majorCategoryId);
+  await fetchTableData();
 }
 
-onMounted(() => {
-  fetchTableData();
+onMounted(async () => {
+  loadingMajors.value = true;
+  try {
+    await inboxStore.refreshUnreadCount();
+  } catch (error: unknown) {
+    errorMessage(error, { defaultI18nKey: 'inAppInbox.loadMajorsFailed' });
+    return;
+  } finally {
+    loadingMajors.value = false;
+  }
+
+  const firstMajorId = majors.value[0]?.majorCategoryId;
+  if (!firstMajorId) {
+    return;
+  }
+  searchForm.majorCategoryId = firstMajorId;
+  await loadSubs(firstMajorId);
+  await fetchTableData();
 });
 </script>
 
@@ -81,19 +103,17 @@ onMounted(() => {
     <div class="inbox-page__header">
       <HomePageToolbar @back="backWithReturn('HomeInbox')" />
 
-      <!-- 公开 / 系统消息 Tab，角标取未读数 -->
-      <el-tabs :model-value="searchForm.deliveryMode" class="inbox-page__tabs" @tab-change="handleDeliveryModeChange">
-        <el-tab-pane name="PULL">
+      <!-- 大类 Tab：数据来自未读接口 majors -->
+      <el-tabs
+        v-loading="loadingMajors"
+        :model-value="searchForm.majorCategoryId"
+        class="inbox-page__tabs"
+        @tab-change="handleMajorTabChange"
+      >
+        <el-tab-pane v-for="major in majors" :key="major.majorCategoryId" :name="major.majorCategoryId">
           <template #label>
-            <el-badge :hidden="pullUnreadCount <= 0" :max="99" :value="pullUnreadCount">
-              <span>{{ t('inAppInbox.tab.pull') }}</span>
-            </el-badge>
-          </template>
-        </el-tab-pane>
-        <el-tab-pane name="PUSH">
-          <template #label>
-            <el-badge :hidden="pushUnreadCount <= 0" :max="99" :value="pushUnreadCount">
-              <span>{{ t('inAppInbox.tab.push') }}</span>
+            <el-badge :hidden="major.unreadCount <= 0" :max="99" :value="major.unreadCount">
+              <span>{{ major.majorCategoryName }}</span>
             </el-badge>
           </template>
         </el-tab-pane>
@@ -101,86 +121,105 @@ onMounted(() => {
     </div>
 
     <div class="inbox-page__body">
-      <el-form ref="searchFormRef" :model="searchForm" class="inbox-page__filter" inline>
-        <!-- 已读状态筛选 -->
-        <el-form-item :label="t('inAppInbox.field.readStatus')" prop="isRead">
-          <el-select
-            v-model="searchForm.isRead"
-            :placeholder="ph.selectFilter('inAppInbox.field.readStatus')"
-            class="inbox-page__field"
-            clearable
+      <el-empty v-if="!loadingMajors && majors.length === 0" :description="t('inAppInbox.emptyMajors')" />
+
+      <template v-else>
+        <el-form ref="searchFormRef" :model="searchForm" class="inbox-page__filter" inline>
+          <!-- 已读状态筛选 -->
+          <el-form-item :label="t('inAppInbox.field.readStatus')" prop="isRead">
+            <el-select
+              v-model="searchForm.isRead"
+              :placeholder="ph.selectFilter('inAppInbox.field.readStatus')"
+              class="inbox-page__field"
+              clearable
+            >
+              <el-option :label="t('inAppInbox.unread')" :value="false" />
+              <el-option :label="t('inAppInbox.read')" :value="true" />
+            </el-select>
+          </el-form-item>
+
+          <!-- 业务小类 -->
+          <el-form-item :label="t('inAppInbox.field.categoryId')" prop="categoryId">
+            <el-select
+              v-model="searchForm.categoryId"
+              :disabled="!searchForm.majorCategoryId"
+              :loading="loadingSubs"
+              :placeholder="ph.selectFilter('inAppInbox.field.categoryId')"
+              class="inbox-page__field"
+              clearable
+              filterable
+            >
+              <el-option v-for="item in subOptions" :key="item.id" :label="item.name" :value="item.id" />
+            </el-select>
+          </el-form-item>
+
+          <!-- 标题关键字 -->
+          <el-form-item :label="t('inAppInbox.field.title')" prop="title">
+            <el-input
+              v-model="searchForm.title"
+              :placeholder="ph.input('inAppInbox.field.title')"
+              class="inbox-page__field"
+              clearable
+              @keyup.enter="fetchTableData"
+            />
+          </el-form-item>
+
+          <el-form-item>
+            <el-button-group>
+              <el-button :loading="loading" type="primary" @click="fetchTableData">
+                {{ t('buttons.actionSearch') }}
+              </el-button>
+              <el-button @click="resetQuery(searchFormRef)">
+                {{ t('buttons.actionReset') }}
+              </el-button>
+            </el-button-group>
+          </el-form-item>
+        </el-form>
+
+        <div class="inbox-page__toolbar">
+          <el-checkbox
+            :indeterminate="isCurrentPageIndeterminate"
+            :model-value="isAllCurrentPageSelected"
+            @change="(checked) => (selectedRows = checked ? tableData.map((row) => row.id!) : [])"
           >
-            <el-option :label="t('inAppInbox.unread')" :value="false" />
-            <el-option :label="t('inAppInbox.read')" :value="true" />
-          </el-select>
-        </el-form-item>
+            {{ t('inAppInbox.selectAll') }}
+          </el-checkbox>
 
-        <!-- 标题关键字 -->
-        <el-form-item :label="t('inAppInbox.field.title')" prop="title">
-          <el-input
-            v-model="searchForm.title"
-            :placeholder="ph.input('inAppInbox.field.title')"
-            class="inbox-page__field"
-            clearable
-            @keyup.enter="fetchTableData"
-          />
-        </el-form-item>
+          <el-button :disabled="selectedRows.length <= 0" @click="deleteBatchRows()">
+            {{ t('buttons.actionDelete') }}
+          </el-button>
+          <el-button :disabled="selectedRows.length <= 0" @click="markReadBatchRows()">
+            {{ t('inAppInbox.action.markRead') }}
+          </el-button>
+          <el-button type="primary" @click="markAllRead">
+            {{ t('inAppInbox.action.markAllRead') }}
+          </el-button>
+          <el-button @click="deleteAll">
+            {{ t('inAppInbox.action.deleteAll') }}
+          </el-button>
+        </div>
 
-        <el-form-item>
-          <el-button-group>
-            <el-button :loading="loading" type="primary" @click="fetchTableData">
-              {{ t('buttons.actionSearch') }}
-            </el-button>
-            <el-button @click="resetQuery(searchFormRef)">
-              {{ t('buttons.actionReset') }}
-            </el-button>
-          </el-button-group>
-        </el-form-item>
-      </el-form>
-
-      <div class="inbox-page__toolbar">
-        <el-checkbox
-          :indeterminate="isCurrentPageIndeterminate"
-          :model-value="isAllCurrentPageSelected"
-          @change="(checked) => (selectedRows = checked ? tableData.map((row) => row.id!) : [])"
-        >
-          {{ t('inAppInbox.selectAll') }}
-        </el-checkbox>
-
-        <el-button :disabled="selectedRows.length <= 0" @click="deleteBatchRows()">
-          {{ t('buttons.actionDelete') }}
-        </el-button>
-        <el-button :disabled="selectedRows.length <= 0" @click="markReadBatchRows()">
-          {{ t('inAppInbox.action.markRead') }}
-        </el-button>
-        <el-button type="primary" @click="markAllRead">
-          {{ t('inAppInbox.action.markAllRead') }}
-        </el-button>
-        <el-button @click="deleteAll">
-          {{ t('inAppInbox.action.deleteAll') }}
-        </el-button>
-      </div>
-
-      <InboxMessageList
-        v-model:selected-rows="selectedRows"
-        :loading="loading"
-        :rows="tableData"
-        @row-delete="(id) => deleteBatchRows([id])"
-        @row-mark-read="(id) => markReadBatchRows([id])"
-      />
-
-      <div class="inbox-page__pagination">
-        <el-pagination
-          :background="true"
-          :current-page="pagination.currentPage"
-          :layout="DEFAULT_PAGINATION_LAYOUT"
-          :page-size="pagination.pageSize"
-          :page-sizes="DEFAULT_PAGE_SIZES"
-          :total="pagination.total"
-          @current-change="handlePageCurrentChange"
-          @size-change="handlePageSizeChange"
+        <InboxMessageList
+          v-model:selected-rows="selectedRows"
+          :loading="loading"
+          :rows="tableData"
+          @row-delete="(id) => deleteBatchRows([id])"
+          @row-mark-read="(id) => markReadBatchRows([id])"
         />
-      </div>
+
+        <div class="inbox-page__pagination">
+          <el-pagination
+            :background="true"
+            :current-page="pagination.currentPage"
+            :layout="DEFAULT_PAGINATION_LAYOUT"
+            :page-size="pagination.pageSize"
+            :page-sizes="DEFAULT_PAGE_SIZES"
+            :total="pagination.total"
+            @current-change="handlePageCurrentChange"
+            @size-change="handlePageSizeChange"
+          />
+        </div>
+      </template>
     </div>
   </div>
 </template>
@@ -225,7 +264,7 @@ onMounted(() => {
     flex-wrap: wrap;
     gap: 8px;
     align-items: center;
-    padding: 0 0 8px 0;
+    padding: 0 0 8px;
     border-bottom: 1px solid var(--el-border-color-lighter);
   }
 

@@ -25,7 +25,7 @@ const form = ref<InAppMessageCategoryFormModel>({
   ...props.form,
 });
 
-const { majorOptions, loadingMajors, loadMajors } = useInAppCategoryMajorOptions();
+const { majorOptions, loadingMajors, loadMajors } = useInAppCategoryMajorOptions('ALL');
 
 /** 编辑时排除自身，避免选自己当父级 */
 const selectableMajorOptions = computed(() => majorOptions.value.filter((item) => item.id !== form.value.id));

@@ -2,17 +2,16 @@ inAppInbox:
   badgeTitle: 我的消息
   title: 我的消息
   selectAll: 全选
-  tab:
-    pull: 公开消息
-    push: 系统消息
   empty: 暂无消息
+  emptyMajors: 暂无消息分类
+  loadMajorsFailed: 加载消息分类失败，请稍后重试
   unread: 未读
   read: 已读
   field:
     title: 标题
+    categoryId: 业务小类
     categoryName: 业务小类
     createTime: 时间
-    deliveryMode: 类型
     linkUrl: 跳转链接
     readStatus: 阅读状态
   action:

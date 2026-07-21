@@ -52,7 +52,7 @@ function toggleRow(messageId: string, checked: boolean) {
         @change="(checked) => toggleRow(row.id!, Boolean(checked))"
       />
 
-      <span class="inbox-message-list__biz-type">{{ row.categoryName || '—' }}</span>
+      <span class="inbox-message-list__category">{{ row.categoryName || '—' }}</span>
       <span class="inbox-message-list__title">{{ row.title }}</span>
 
       <div class="inbox-message-list__trailing">
@@ -118,7 +118,7 @@ function toggleRow(messageId: string, checked: boolean) {
     }
   }
 
-  &__biz-type,
+  &__category,
   &__title {
     overflow: hidden;
     min-width: 0;

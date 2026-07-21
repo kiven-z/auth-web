@@ -1,5 +1,4 @@
 import type { BaseResponsePageRow, PageResponse } from '@/api/common';
-import type { InAppDeliveryMode } from '@/api/message/in-app-message';
 import { http } from '@/core/http';
 import type { AxiosRequestConfig } from 'axios';
 
@@ -7,11 +6,11 @@ import type { AxiosRequestConfig } from 'axios';
 export interface InAppInboxPageQuery {
   pageIndex?: number;
   pageSize?: number;
-  /** 投递模式 */
-  deliveryMode: InAppDeliveryMode;
-  isRead?: boolean;
+  /** 业务大类 ID（Tab） */
+  majorCategoryId?: string;
   /** 业务小类 ID */
   categoryId?: string;
+  isRead?: boolean;
   /** 标题关键字 */
   title?: string;
 }
@@ -26,16 +25,25 @@ export interface InAppInboxPageRow extends BaseResponsePageRow {
   linkUrl?: string | null;
   /** 发起人用户 ID */
   senderUserId?: string | null;
-  deliveryMode: InAppDeliveryMode | string;
+  /** 投递模式 */
+  deliveryMode?: string | null;
   isRead: boolean;
   readTime?: string | null;
 }
 
+/** 大类 Tab / 未读项 */
+export interface InAppInboxMajorUnread {
+  majorCategoryId: string;
+  majorCategoryName: string;
+  majorCategoryCode: string;
+  unreadCount: number;
+}
+
 /** 我的站内信未读角标 */
 export interface InAppInboxUnreadCount {
-  pullUnreadCount: number;
-  pushUnreadCount: number;
   totalUnreadCount: number;
+  /** 启用大类全量 */
+  majors: InAppInboxMajorUnread[];
 }
 
 /**
@@ -51,8 +59,8 @@ export function getInAppInboxPage(params: InAppInboxPageQuery): Promise<PageResp
 }
 
 /**
- * 查询我的站内信未读角标。
- * @returns 公开/定向未读及总数
+ * 查询我的站内信未读角标
+ * @returns 未读统计
  */
 export function getInAppInboxUnreadCount(): Promise<InAppInboxUnreadCount> {
   return http.get<InAppInboxUnreadCount, AxiosRequestConfig>('/system/me/message/in-app/inbox/unread-count');

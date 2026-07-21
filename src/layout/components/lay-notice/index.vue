@@ -16,7 +16,8 @@ const inboxStore = useInAppInboxStoreHook();
 const { totalUnreadCount } = storeToRefs(inboxStore);
 
 onMounted(() => {
-  void inboxStore.refreshUnreadCount();
+  // 角标刷新失败不打断导航栏，静默即可
+  void inboxStore.refreshUnreadCount().catch(() => undefined);
 });
 </script>
 
