@@ -4,7 +4,7 @@ import { store } from '@/store';
 import { deviceDetection } from '@pureadmin/utils';
 import { defineStore } from 'pinia';
 import { setSidebarOpened } from '@/core/preferences/actions';
-import type { appType } from '../types';
+import type { appType } from '../../types';
 
 export const useAppStore = defineStore('pure-app', {
   state: (): appType => ({

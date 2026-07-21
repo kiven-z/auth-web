@@ -2,7 +2,7 @@
 import { responsiveStorageNameSpace } from '@/auth/config';
 import { useNav, useTranslationLang } from '@/layout/hooks';
 import { emitter } from '@/services/event-bus/mitt';
-import { usePermissionStoreHook } from '@/store/modules/permission';
+import { usePermissionStoreHook } from '@/store/modules/auth/permission';
 import { isAllEmpty, storageLocal } from '@pureadmin/utils';
 import { computed, nextTick, onMounted, ref } from 'vue';
 import LayNotice from '../lay-notice/index.vue';

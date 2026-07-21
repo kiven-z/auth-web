@@ -4,8 +4,8 @@ import { formatFlatteningRoutes } from '@/router/utils/route-tree';
 import { store } from '@/store';
 import { getKeyList } from '@pureadmin/utils';
 import { defineStore } from 'pinia';
-import type { cacheType } from '../types';
-import { useMultiTagsStoreHook } from './multiTags';
+import type { cacheType } from '../../types';
+import { useMultiTagsStoreHook } from '../app/multiTags';
 
 export const usePermissionStore = defineStore('auth-permission', {
   state: () => ({

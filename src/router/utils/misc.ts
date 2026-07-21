@@ -1,6 +1,6 @@
 import type { menuType } from '@/layout/types';
-import { useMultiTagsStoreHook } from '@/store/modules/multiTags';
-import { usePermissionStoreHook } from '@/store/modules/permission';
+import { useMultiTagsStoreHook } from '@/store/modules/app/multiTags';
+import { usePermissionStoreHook } from '@/store/modules/auth/permission';
 import { useTimeoutFn } from '@vueuse/core';
 import { createWebHashHistory, createWebHistory, type RouterHistory } from 'vue-router';
 import { router } from '../index';

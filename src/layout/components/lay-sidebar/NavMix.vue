@@ -3,7 +3,7 @@ import { useRenderIcon } from '@/components/ui/Icon/src/hooks';
 import { useNav, useTranslationLang } from '@/layout/hooks';
 import { transformI18n } from '@/app/plugins/i18n';
 import { findRouteByPath, getParentPaths } from '@/router/utils/route-tree';
-import { usePermissionStoreHook } from '@/store/modules/permission';
+import { usePermissionStoreHook } from '@/store/modules/auth/permission';
 import { isAllEmpty } from '@pureadmin/utils';
 import { nextTick, onMounted, ref, toRaw, watch } from 'vue';
 import LayNotice from '../lay-notice/index.vue';

@@ -1,6 +1,6 @@
 import type { UserLoginResponse } from '@/api/auth/types';
 import { establishSessionFromLogin, readSessionPreferences } from '@/core/session';
-import { useUserStoreHook } from '@/store/modules/user';
+import { useUserStoreHook } from '@/store/modules/auth/user';
 import { ref } from 'vue';
 
 /**

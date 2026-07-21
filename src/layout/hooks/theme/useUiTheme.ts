@@ -3,7 +3,7 @@ import { applyThemePreferences, getLayoutSnapshot, patchLayout } from '@/core/pr
 import { NAV_THEME_COLOR_ITEMS } from '@/core/preferences/nav-theme-colors';
 import { reconcileNavTheme } from '@/core/preferences/reconcile-nav-theme';
 import { useLayout } from '@/layout/hooks';
-import { useEpThemeStoreHook } from '@/store/modules/epTheme';
+import { useEpThemeStoreHook } from '@/store/modules/app/epTheme';
 import { useGlobal } from '@pureadmin/utils';
 import { ref } from 'vue';
 import type { themeColorsType } from '../../types';

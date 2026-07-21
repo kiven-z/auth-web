@@ -1,8 +1,8 @@
 import { getConfig } from '@/auth/config';
 import { patchLayout } from './storage';
-import { useAppStoreHook } from '@/store/modules/app';
-import { useMultiTagsStoreHook } from '@/store/modules/multiTags';
-import { useUserStoreHook } from '@/store/modules/user';
+import { useAppStoreHook } from '@/store/modules/app/app';
+import { useMultiTagsStoreHook } from '@/store/modules/app/multiTags';
+import { useUserStoreHook } from '@/store/modules/auth/user';
 import { storageLocal, toggleClass } from '@pureadmin/utils';
 import { applyThemePreferences } from './apply';
 

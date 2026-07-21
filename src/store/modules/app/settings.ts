@@ -1,7 +1,7 @@
 import { getConfig } from '@/auth/config';
 import { store } from '@/store';
 import { defineStore } from 'pinia';
-import type { setType } from '../types';
+import type { setType } from '../../types';
 
 export const useSettingStore = defineStore('auth-setting', {
   state: (): setType => ({

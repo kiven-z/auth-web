@@ -1,5 +1,5 @@
 import { transformI18n } from '@/app/plugins/i18n';
-import { useEpThemeStoreHook } from '@/store/modules/epTheme';
+import { useEpThemeStoreHook } from '@/store/modules/app/epTheme';
 import { delay } from '@pureadmin/utils';
 import { computed, defineComponent, nextTick, type PropType, ref, toRef } from 'vue';
 import { useI18n } from 'vue-i18n';

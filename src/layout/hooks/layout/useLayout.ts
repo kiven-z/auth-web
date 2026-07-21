@@ -1,5 +1,5 @@
 import { getRuntimeLayoutOverrideRef } from '@/core/preferences/runtime-layout';
-import { useMultiTagsStore } from '@/store/modules/multiTags';
+import { useMultiTagsStore } from '@/store/modules/app/multiTags';
 import { useGlobal } from '@pureadmin/utils';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';

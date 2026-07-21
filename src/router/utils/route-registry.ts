@@ -1,7 +1,7 @@
 import { getConfig } from '@/auth/config';
 import { routerArrays } from '@/layout/types';
-import { useMultiTagsStoreHook } from '@/store/modules/multiTags';
-import { usePermissionStoreHook } from '@/store/modules/permission';
+import { useMultiTagsStoreHook } from '@/store/modules/app/multiTags';
+import { usePermissionStoreHook } from '@/store/modules/auth/permission';
 import { cloneDeep, storageLocal } from '@pureadmin/utils';
 import type { RouteRecordRaw } from 'vue-router';
 import { router } from '../index';

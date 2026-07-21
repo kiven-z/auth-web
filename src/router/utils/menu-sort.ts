@@ -1,5 +1,5 @@
 import { isOneOfArray } from '@/auth/permission';
-import { useUserStoreHook } from '@/store/modules/user';
+import { useUserStoreHook } from '@/store/modules/auth/user';
 import { cloneDeep, isAllEmpty } from '@pureadmin/utils';
 import type { RouteComponent } from 'vue-router';
 

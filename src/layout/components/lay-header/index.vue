@@ -1,8 +1,8 @@
 <script lang="ts" setup>
 import { useLayout } from '@/layout/hooks';
 import type { setType } from '@/layout/types';
-import { useAppStoreHook } from '@/store/modules/app';
-import { useSettingStoreHook } from '@/store/modules/settings';
+import { useAppStoreHook } from '@/store/modules/app/app';
+import { useSettingStoreHook } from '@/store/modules/app/settings';
 import { useDark, useGlobal } from '@pureadmin/utils';
 import { computed, reactive } from 'vue';
 

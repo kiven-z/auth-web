@@ -5,7 +5,7 @@ import { useUiConfigure } from '@/layout/hooks/configure/useUiConfigure';
 import { useUiLayout } from '@/layout/hooks/layout/useUiLayout';
 import { useNav } from '@/layout/hooks/navigation/useNav';
 import { useUiTheme } from '@/layout/hooks/theme/useUiTheme';
-import { useAppStoreHook } from '@/store/modules/app';
+import { useAppStoreHook } from '@/store/modules/app/app';
 import { debounce, isNumber, toggleClass, useDark, useGlobal } from '@pureadmin/utils';
 import { computed, nextTick, onBeforeMount, reactive, ref, unref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';

@@ -6,7 +6,7 @@ import { useTags } from '@/layout/hooks';
 import { isNumber, useGlobal } from '@pureadmin/utils';
 import BackTopIcon from '@/assets/svg/back_top.svg?component';
 import { computed, defineComponent, h, Transition } from 'vue';
-import { usePermissionStoreHook } from '@/store/modules/permission';
+import { usePermissionStoreHook } from '@/store/modules/auth/permission';
 
 const props = defineProps({
   fixedHeader: Boolean,

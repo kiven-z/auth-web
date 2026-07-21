@@ -3,7 +3,7 @@ import { getUserProfile, type SysUserProfileResponse } from '@/api/system/user-b
 import type { MeProfileUpdateRequest } from '@/api/system/user-me';
 import { readStoredUserProfileEntry, writeUserProfileToStorage } from '@/core/session/userProfileStorage';
 import { errorMessage } from '@/services/feedback/message';
-import { useUserStoreHook } from '@/store/modules/user';
+import { useUserStoreHook } from '@/store/modules/auth/user';
 import { onMounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import ProfileBasicInfoCard from './components/ProfileBasicInfoCard.vue';

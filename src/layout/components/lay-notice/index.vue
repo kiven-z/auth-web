@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { useHomePageNavigation } from '@/shared/composables/layout/useHomePageNavigation';
-import { useInAppInboxStoreHook } from '@/store/modules/inAppInbox';
+import { useInAppInboxStoreHook } from '@/store/modules/message/inAppInbox';
 import { storeToRefs } from 'pinia';
 import { onMounted } from 'vue';
 import { useI18n } from 'vue-i18n';

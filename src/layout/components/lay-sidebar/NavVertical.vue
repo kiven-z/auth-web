@@ -3,7 +3,7 @@ import { responsiveStorageNameSpace } from '@/auth/config';
 import { useNav } from '@/layout/hooks';
 import { findRouteByPath, getParentPaths } from '@/router/utils/route-tree';
 import { emitter } from '@/services/event-bus/mitt';
-import { usePermissionStoreHook } from '@/store/modules/permission';
+import { usePermissionStoreHook } from '@/store/modules/auth/permission';
 import { isAllEmpty, storageLocal } from '@pureadmin/utils';
 import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue';
 import { useRoute } from 'vue-router';

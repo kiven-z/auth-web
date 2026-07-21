@@ -4,8 +4,8 @@ import { useRoute, useRouter } from 'vue-router';
 import { getConfigureSnapshot } from '@/core/preferences';
 import { useUiConfigure } from '@/layout/hooks';
 import { $t, transformI18n } from '@/app/plugins/i18n';
-import { useSettingStoreHook } from '@/store/modules/settings';
-import { useMultiTagsStoreHook } from '@/store/modules/multiTags';
+import { useSettingStoreHook } from '@/store/modules/app/settings';
+import { useMultiTagsStoreHook } from '@/store/modules/app/multiTags';
 import { hasClass, isBoolean, isEqual, toggleClass } from '@pureadmin/utils';
 
 import Fullscreen from '~icons/ri/fullscreen-fill';

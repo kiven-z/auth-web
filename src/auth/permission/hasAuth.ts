@@ -1,5 +1,5 @@
 import { satisfiesAllRequired } from '@/auth/permission/permissionMatcher';
-import { useUserStoreHook } from '@/store/modules/user';
+import { useUserStoreHook } from '@/store/modules/auth/user';
 import { isString } from '@pureadmin/utils';
 
 /**

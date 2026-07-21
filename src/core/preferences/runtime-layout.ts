@@ -1,5 +1,5 @@
 import { getConfig } from '@/auth/config';
-import { useAppStoreHook } from '@/store/modules/app';
+import { useAppStoreHook } from '@/store/modules/app/app';
 import { ref, type Ref } from 'vue';
 import { getLayoutSnapshot } from './storage';
 

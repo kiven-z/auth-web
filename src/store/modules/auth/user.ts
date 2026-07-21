@@ -10,8 +10,8 @@ import { routerArrays } from '@/layout/types';
 import { resetRouter, router } from '@/router';
 import { store } from '@/store';
 import { defineStore } from 'pinia';
-import type { userType } from '../types';
-import { useMultiTagsStoreHook } from './multiTags';
+import type { userType } from '../../types';
+import { useMultiTagsStoreHook } from '../app/multiTags';
 
 export const useUserStore = defineStore('pure-user', {
   state: (): userType => {

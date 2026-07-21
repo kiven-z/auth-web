@@ -1,7 +1,7 @@
 import { registerSessionLogout } from '@/auth/config/auth/auth-session-effects';
 import { registerUserProfileSync } from '@/core/session';
 import { store } from '@/store';
-import { useUserStore } from '@/store/modules/user';
+import { useUserStore } from '@/store/modules/auth/user';
 
 /**
  * 将 infrastructure 层会话能力桥接到 Pinia（用户资料同步、登出）。

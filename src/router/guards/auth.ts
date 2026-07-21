@@ -7,8 +7,8 @@ import { initRouter } from '@/router/utils/route-registry';
 import { findRouteByPath } from '@/router/utils/route-tree';
 import { isOneOfArray } from '@/auth/permission';
 import { errorMessage } from '@/services/feedback/message';
-import { useMultiTagsStoreHook } from '@/store/modules/multiTags';
-import { usePermissionStoreHook } from '@/store/modules/permission';
+import { useMultiTagsStoreHook } from '@/store/modules/app/multiTags';
+import { usePermissionStoreHook } from '@/store/modules/auth/permission';
 import { isAllEmpty, isUrl, openLink } from '@pureadmin/utils';
 import type { Router } from 'vue-router';
 

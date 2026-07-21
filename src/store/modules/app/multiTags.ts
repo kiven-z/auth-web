@@ -3,8 +3,8 @@ import { type RouteConfigs, routerArrays } from '@/layout/types';
 import { store } from '@/store';
 import { isBoolean, isEqual, isNumber, isUrl, storageLocal } from '@pureadmin/utils';
 import { defineStore } from 'pinia';
-import type { multiType, positionType } from '../types';
-import { usePermissionStoreHook } from './permission';
+import type { multiType, positionType } from '../../types';
+import { usePermissionStoreHook } from '../auth/permission';
 
 export const useMultiTagsStore = defineStore('pure-multiTags', {
   state: () => ({
