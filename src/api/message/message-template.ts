@@ -12,7 +12,6 @@ export type MessageChannelCode = 'EMAIL' | 'SMS' | 'DING_TALK' | 'IN_APP';
 export interface MessageTemplateRequireFieldRow {
   key: string;
   description?: string;
-  /** 可为任意 JSON 可序列化值 */
   exampleValue: unknown;
 }
 

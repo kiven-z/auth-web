@@ -1,13 +1,8 @@
 <script lang="ts" setup>
-import type { MessageChannelCode } from '@/api/message/message-template';
+import type { MessageChannelCode, MessageTemplateRequireFieldRow } from '@/api/message/message-template';
 import { getMessageTemplateRequireFields, updateMessageTemplateRequireFields } from '@/api/message/message-template';
 import { errorMessage, message } from '@/services/feedback/message';
 import { MESSAGE_TEMPLATE_PERMS } from '@/views/message/_shared/constants/permissions';
-import {
-  type EditableRequireFieldRow,
-  toEditableRequireFields,
-  toRequireFieldsPayload,
-} from '@/views/message/_shared/utils/require-fields';
 import { onMounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 
@@ -26,7 +21,7 @@ const props = defineProps<MessageTemplateRequireFieldsDialogProps>();
 const { t } = useI18n();
 
 const loading = ref(false);
-const dataList = ref<EditableRequireFieldRow[]>([]);
+const dataList = ref<(MessageTemplateRequireFieldRow & { _id: number })[]>([]);
 let rowSeq = 1;
 
 /**
@@ -37,7 +32,7 @@ const onAdd = () => {
     _id: rowSeq++,
     key: '',
     description: '',
-    exampleValueJson: '',
+    exampleValue: '',
   });
 };
 
@@ -45,7 +40,7 @@ const onAdd = () => {
  * 删除行
  * @param row 待删除行
  */
-const onDel = (row: EditableRequireFieldRow) => {
+const onDel = (row: MessageTemplateRequireFieldRow & { _id: number }) => {
   const index = dataList.value.indexOf(row);
   if (index !== -1) {
     dataList.value.splice(index, 1);
@@ -61,7 +56,7 @@ const submit = async (): Promise<boolean> => {
     await updateMessageTemplateRequireFields({
       id: props.id,
       channel: props.channel,
-      requireFields: toRequireFieldsPayload(dataList.value),
+      requireFields: dataList.value,
     });
     message(t('tips.editSuccess'), { type: 'success' });
     return true;
@@ -75,7 +70,10 @@ onMounted(async () => {
   loading.value = true;
   try {
     const requireFields = await getMessageTemplateRequireFields(props.id, props.channel);
-    dataList.value = toEditableRequireFields(requireFields ?? []);
+    dataList.value = (requireFields ?? []).map((row, index) => ({
+      _id: index + 1,
+      ...row,
+    }));
     rowSeq = dataList.value.length + 1;
   } catch (error: unknown) {
     errorMessage(error);
@@ -95,7 +93,7 @@ defineExpose({ submit });
         background: 'var(--el-fill-color-light)',
         color: 'var(--el-text-color-primary)',
       }"
-      :row-key="(row: EditableRequireFieldRow) => String(row._id)"
+      :row-key="(row: MessageTemplateRequireFieldRow & { _id: number }) => String(row._id)"
       border
       class="w-full"
     >
@@ -116,7 +114,7 @@ defineExpose({ submit });
       <el-table-column :label="t('messageTemplate.fieldExampleValue')" min-width="200">
         <template #default="{ row }">
           <el-input
-            v-model="row.exampleValueJson"
+            v-model="row.exampleValue"
             :autosize="{ minRows: 1, maxRows: 4 }"
             :placeholder="t('messageTemplate.placeholder.fieldExampleValue')"
             type="textarea"

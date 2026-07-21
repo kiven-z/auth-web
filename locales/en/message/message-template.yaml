@@ -16,5 +16,5 @@ messageTemplate:
   placeholder:
     fieldKey: Variable key, e.g. code
     fieldDescription: Field meaning
-    fieldExampleValue: 'e.g. "123456"'
+    fieldExampleValue: e.g. 123456
     testSendTarget: Enter recipient (email / phone / user id, etc.)

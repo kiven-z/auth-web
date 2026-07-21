@@ -16,5 +16,5 @@ messageTemplate:
   placeholder:
     fieldKey: 变量 key，如 code
     fieldDescription: 字段含义说明
-    fieldExampleValue: '如 "123456"'
+    fieldExampleValue: 如 123456
     testSendTarget: 请输入接收目标（邮箱 / 手机号 / 用户 ID 等）
