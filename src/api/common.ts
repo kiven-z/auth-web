@@ -113,3 +113,9 @@ export interface SpreadsheetImportResult {
 export interface DetailDialog<T extends BaseResponse = BaseResponse> {
   data?: T;
 }
+
+/** 批量启停（Boolean status） */
+export interface IdsEnableStatusRequest {
+  ids: string[];
+  status: boolean;
+}

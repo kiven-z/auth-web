@@ -4,6 +4,7 @@ import type {
   BaseResponseDetail,
   BaseResponsePageRow,
   ExportScopeQueryFields,
+  IdsEnableStatusRequest,
   PageResponse,
   SortSpec,
   SpreadsheetImportResult,
@@ -170,6 +171,13 @@ export function updatePost(data: SysPostUpdateForm): Promise<void> {
  */
 export function deletePost(id: string): Promise<void> {
   return http.request('delete', `/system/post/${id}`);
+}
+
+/**
+ * 批量启停岗位
+ */
+export function batchUpdatePostStatus(data: IdsEnableStatusRequest): Promise<void> {
+  return http.request('put', '/system/post/status', { data });
 }
 
 /**

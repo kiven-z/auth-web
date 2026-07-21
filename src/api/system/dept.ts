@@ -2,6 +2,7 @@ import type {
   BaseResponse,
   BaseResponseDetail,
   ExportScopeQueryFields,
+  IdsEnableStatusRequest,
   PageResponse,
   SortSpec,
   SpreadsheetImportResult,
@@ -167,6 +168,13 @@ export function getDeptDetail(id: string): Promise<SysDeptDetail> {
  */
 export function deleteDept(id: string): Promise<void> {
   return http.request<void>('delete', `/system/dept/${id}`);
+}
+
+/**
+ * 批量启停部门（不级联）
+ */
+export function batchUpdateDeptStatus(data: IdsEnableStatusRequest): Promise<void> {
+  return http.request('put', '/system/dept/status', { data });
 }
 
 /**

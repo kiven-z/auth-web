@@ -9,7 +9,7 @@ import usePostMoreAction from '@/views/system/post/hooks/usePostMoreAction';
 import usePostTableAction from '@/views/system/post/hooks/usePostTableAction';
 import usePostTableColumns from '@/views/system/post/hooks/usePostTableColumns';
 import type { FormInstance } from 'element-plus';
-import { onMounted, reactive, ref } from 'vue';
+import { computed, onMounted, reactive, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 defineOptions({
@@ -33,7 +33,7 @@ const postState = usePaginationState({
   }),
 });
 
-const { loading, searchForm, pagination, fetchTableData, resetQuery } = postState;
+const { loading, searchForm, pagination, selectedRows, fetchTableData, resetQuery } = postState;
 
 const { exporting, openExportDialog, openImportDialog } = usePostAdvanceAction({
   searchForm,
@@ -41,11 +41,13 @@ const { exporting, openExportDialog, openImportDialog } = usePostAdvanceAction({
   fetchTableData,
 });
 
-const tableActionDeps = { fetchTableData };
-
-const { openCreateDialog, openDetailDialog, openEditDialog, deleteRow } = usePostTableAction(tableActionDeps);
+const { openCreateDialog, openDetailDialog, openEditDialog, deleteRow, batchUpdateStatus } = usePostTableAction({
+  fetchTableData,
+});
 
 const { openAssignRoleDrawer } = usePostMoreAction({ fetchTableData });
+
+const hasSelection = computed(() => selectedRows.value.length > 0);
 
 onMounted(() => {
   fetchTableData();
@@ -121,6 +123,22 @@ onMounted(() => {
             {{ t('buttons.actionAdd') }}
           </el-button>
 
+          <Perms :value="SYS_POST_PERMS.UPDATE">
+            <el-dropdown trigger="click">
+              <el-button :disabled="!hasSelection" type="warning">
+                {{ t('buttons.actionBatchStatus') }}
+              </el-button>
+              <template #dropdown>
+                <el-dropdown-item :disabled="!hasSelection" @click="batchUpdateStatus(selectedRows, true)">
+                  {{ t('buttons.actionBatchEnable') }}
+                </el-dropdown-item>
+                <el-dropdown-item :disabled="!hasSelection" @click="batchUpdateStatus(selectedRows, false)">
+                  {{ t('buttons.actionBatchDisable') }}
+                </el-dropdown-item>
+              </template>
+            </el-dropdown>
+          </Perms>
+
           <el-dropdown trigger="click">
             <el-button type="danger">
               {{ t('buttons.actionAdvanced') }}
@@ -157,7 +175,7 @@ onMounted(() => {
         </el-button>
 
         <el-dropdown trigger="click">
-          <el-button link type="primary" class="ml-2!">{{ t('buttons.actionMore') }}</el-button>
+          <el-button class="ml-2!" link type="primary">{{ t('buttons.actionMore') }}</el-button>
           <template #dropdown>
             <Perms :value="SYS_POST_PERMS.UPDATE">
               <el-dropdown-item @click="openAssignRoleDrawer(row)">

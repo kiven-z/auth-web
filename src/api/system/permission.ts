@@ -4,6 +4,7 @@ import type {
   BaseResponseDetail,
   BaseResponsePageRow,
   ExportScopeQueryFields,
+  IdsEnableStatusRequest,
   PageResponse,
   SortSpec,
   SpreadsheetImportResult,
@@ -129,6 +130,11 @@ export function getPermissionDetail(id: string): Promise<SysPermissionDetail> {
  */
 export function deletePermission(id: string): Promise<void> {
   return http.request<void>('delete', `/system/permission/${id}`);
+}
+
+/** 批量启停权限 */
+export function batchUpdatePermissionStatus(data: IdsEnableStatusRequest): Promise<void> {
+  return http.request('put', '/system/permission/status', { data });
 }
 
 /**

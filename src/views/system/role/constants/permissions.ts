@@ -8,7 +8,7 @@ export const SYS_ROLE_PERMS = {
   DETAIL: 'sys:role:detail',
   /** 新增 */
   CREATE: 'sys:role:create',
-  /** 编辑、分配权限 */
+  /** 编辑 */
   UPDATE: 'sys:role:update',
   /** 删除 */
   DELETE: 'sys:role:delete',

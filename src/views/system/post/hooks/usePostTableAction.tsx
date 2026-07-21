@@ -1,6 +1,6 @@
 import type { TableActionDeps } from '@/api/common';
 import type { SysPostCreateForm, SysPostPageRow, SysPostUpdateForm } from '@/api/system/post';
-import { createPost, deletePost, getPostDetail, updatePost } from '@/api/system/post';
+import { batchUpdatePostStatus, createPost, deletePost, getPostDetail, updatePost } from '@/api/system/post';
 import { addDialog } from '@/components/ui/Dialog';
 import { type FormOverlayExpose, useFormOverlaySubmit } from '@/shared/composables/table/useFormOverlaySubmit';
 import { deleteConfirm } from '@/services/feedback/dialog';
@@ -113,11 +113,26 @@ function usePostTableAction(deps: TableActionDeps) {
     }
   };
 
+  const batchUpdateStatus = async (ids: string[], status: boolean) => {
+    if (ids.length <= 0) {
+      return;
+    }
+
+    try {
+      await batchUpdatePostStatus({ ids, status });
+      message(t('tips.editSuccess'), { type: 'success' });
+      await fetchTableData();
+    } catch (error: unknown) {
+      errorMessage(error);
+    }
+  };
+
   return {
     openCreateDialog,
     openDetailDialog,
     openEditDialog,
     deleteRow,
+    batchUpdateStatus,
   };
 }
 

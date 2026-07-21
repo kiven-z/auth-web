@@ -4,6 +4,7 @@ import type {
   BaseResponse,
   BaseResponsePageRow,
   ExportScopeQueryFields,
+  IdsEnableStatusRequest,
   PageResponse,
   SortSpec,
   SpreadsheetImportResult,
@@ -144,6 +145,13 @@ export function updateRole(data: SysRoleUpdateForm): Promise<void> {
  */
 export function deleteRole(id: string): Promise<void> {
   return http.request<void>('delete', `/system/role/${id}`);
+}
+
+/**
+ * 批量启停角色
+ */
+export function batchUpdateRoleStatus(data: IdsEnableStatusRequest): Promise<void> {
+  return http.request('put', '/system/role/status', { data });
 }
 
 /**

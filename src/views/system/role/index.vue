@@ -9,7 +9,7 @@ import useRoleMoreAction from '@/views/system/role/hooks/useRoleMoreAction';
 import useRoleTableAction from '@/views/system/role/hooks/useRoleTableAction';
 import useRoleTableColumns from '@/views/system/role/hooks/useRoleTableColumns';
 import type { FormInstance } from 'element-plus';
-import { onMounted, reactive, ref } from 'vue';
+import { computed, onMounted, reactive, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 defineOptions({
@@ -32,7 +32,7 @@ const roleState = usePaginationState({
   }),
 });
 
-const { loading, searchForm, pagination, fetchTableData, resetQuery } = roleState;
+const { loading, searchForm, pagination, selectedRows, fetchTableData, resetQuery } = roleState;
 
 const { exporting, openExportDialog, openImportDialog } = useRoleAdvanceAction({
   searchForm,
@@ -40,11 +40,13 @@ const { exporting, openExportDialog, openImportDialog } = useRoleAdvanceAction({
   fetchTableData,
 });
 
-const { openCreateDialog, openDetailDialog, openEditDialog, deleteRow } = useRoleTableAction({
+const { openCreateDialog, openDetailDialog, openEditDialog, deleteRow, batchUpdateStatus } = useRoleTableAction({
   fetchTableData,
 });
 
 const { openAssignPermissionDrawer } = useRoleMoreAction();
+
+const hasSelection = computed(() => selectedRows.value.length > 0);
 
 onMounted(() => {
   fetchTableData();
@@ -110,6 +112,22 @@ onMounted(() => {
             {{ t('buttons.actionAdd') }}
           </el-button>
 
+          <Perms :value="SYS_ROLE_PERMS.UPDATE">
+            <el-dropdown trigger="click">
+              <el-button :disabled="!hasSelection" type="warning">
+                {{ t('buttons.actionBatchStatus') }}
+              </el-button>
+              <template #dropdown>
+                <el-dropdown-item :disabled="!hasSelection" @click="batchUpdateStatus(selectedRows, true)">
+                  {{ t('buttons.actionBatchEnable') }}
+                </el-dropdown-item>
+                <el-dropdown-item :disabled="!hasSelection" @click="batchUpdateStatus(selectedRows, false)">
+                  {{ t('buttons.actionBatchDisable') }}
+                </el-dropdown-item>
+              </template>
+            </el-dropdown>
+          </Perms>
+
           <el-dropdown trigger="click">
             <el-button type="danger">
               {{ t('buttons.actionAdvanced') }}
@@ -147,7 +165,7 @@ onMounted(() => {
 
         <el-dropdown trigger="click">
           <!-- 更多 -->
-          <el-button link type="primary" class="ml-2!">{{ t('buttons.actionMore') }}</el-button>
+          <el-button class="ml-2!" link type="primary">{{ t('buttons.actionMore') }}</el-button>
           <template #dropdown>
             <el-dropdown-menu>
               <Perms :value="SYS_ROLE_PERMS.UPDATE">

@@ -8,7 +8,7 @@ import usePermissionAdvanceAction from '@/views/system/permission/hooks/usePermi
 import usePermissionTableAction from '@/views/system/permission/hooks/usePermissionTableAction';
 import usePermissionTableColumns from '@/views/system/permission/hooks/usePermissionTableColumns';
 import type { FormInstance } from 'element-plus';
-import { onMounted, reactive, ref } from 'vue';
+import { computed, onMounted, reactive, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 defineOptions({
@@ -31,7 +31,7 @@ const permissionState = usePaginationState({
   }),
 });
 
-const { loading, searchForm, pagination, fetchTableData, resetQuery } = permissionState;
+const { loading, searchForm, pagination, selectedRows, fetchTableData, resetQuery } = permissionState;
 
 const { exporting, openExportDialog, openImportDialog } = usePermissionAdvanceAction({
   searchForm,
@@ -39,7 +39,11 @@ const { exporting, openExportDialog, openImportDialog } = usePermissionAdvanceAc
   fetchTableData,
 });
 
-const { openCreateDialog, openDetailDialog, openEditDialog, deleteRow } = usePermissionTableAction({ fetchTableData });
+const { openCreateDialog, openDetailDialog, openEditDialog, deleteRow, batchUpdateStatus } = usePermissionTableAction({
+  fetchTableData,
+});
+
+const hasSelection = computed(() => selectedRows.value.length > 0);
 
 onMounted(() => {
   fetchTableData();
@@ -104,6 +108,22 @@ onMounted(() => {
           <el-button v-perms="SYS_PERMISSION_PERMS.CREATE" type="primary" @click="openCreateDialog">
             {{ t('buttons.actionAdd') }}
           </el-button>
+
+          <Perms :value="SYS_PERMISSION_PERMS.UPDATE">
+            <el-dropdown trigger="click">
+              <el-button :disabled="!hasSelection" type="warning">
+                {{ t('buttons.actionBatchStatus') }}
+              </el-button>
+              <template #dropdown>
+                <el-dropdown-item :disabled="!hasSelection" @click="batchUpdateStatus(selectedRows, true)">
+                  {{ t('buttons.actionBatchEnable') }}
+                </el-dropdown-item>
+                <el-dropdown-item :disabled="!hasSelection" @click="batchUpdateStatus(selectedRows, false)">
+                  {{ t('buttons.actionBatchDisable') }}
+                </el-dropdown-item>
+              </template>
+            </el-dropdown>
+          </Perms>
 
           <el-dropdown trigger="click">
             <el-button type="danger">

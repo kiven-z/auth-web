@@ -1,5 +1,6 @@
 import type { TableActionDeps } from '@/api/common';
 import {
+  batchUpdateDeptStatus,
   createDept,
   deleteDepts,
   getDeptDetail,
@@ -12,7 +13,7 @@ import {
 import { addDialog } from '@/components/ui/Dialog';
 import useBatchDeleteAction from '@/shared/composables/table/useBatchDeleteAction';
 import { type FormOverlayExpose, useFormOverlaySubmit } from '@/shared/composables/table/useFormOverlaySubmit';
-import { errorMessage } from '@/services/feedback/message';
+import { errorMessage, message } from '@/services/feedback/message';
 import { TREE_ROOT_PARENT_ID } from '@/shared/utils/tree';
 import DeptDescriptionDialog from '@/views/system/dept/components/DeptDescriptionDialog.vue';
 import DeptFormDialog from '@/views/system/dept/components/DeptFormDialog.vue';
@@ -141,11 +142,26 @@ function useDeptTableAction(deps: DeptTableActionDeps) {
     }
   };
 
+  const batchUpdateStatus = async (ids: string[], status: boolean) => {
+    if (ids.length <= 0) {
+      return;
+    }
+
+    try {
+      await batchUpdateDeptStatus({ ids, status });
+      message(t('tips.editSuccess'), { type: 'success' });
+      await refresh();
+    } catch (error: unknown) {
+      errorMessage(error);
+    }
+  };
+
   return {
     openCreateDialog,
     openDetailDialog,
     openEditDialog,
     deleteBatchRows,
+    batchUpdateStatus,
   };
 }
 

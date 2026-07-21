@@ -3,6 +3,7 @@ import { SYS_DEPT_PERMS } from '@/views/system/dept/constants/permissions';
 import useDeptAdvancedAction from '@/views/system/dept/hooks/actions/useDeptAdvancedAction';
 import useDeptTableAction from '@/views/system/dept/hooks/actions/useDeptTableAction';
 import useDeptPageState from '@/views/system/dept/hooks/useDeptPageState';
+import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 defineOptions({
@@ -21,13 +22,15 @@ const tableActionDeps = {
   selectedRows,
 };
 
-const { openCreateDialog } = useDeptTableAction(tableActionDeps);
+const { openCreateDialog, batchUpdateStatus } = useDeptTableAction(tableActionDeps);
 
 const { exporting, openExportDialog, openImportDialog, openClosureHealthDialog } = useDeptAdvancedAction({
   searchForm,
   pagination,
   refresh,
 });
+
+const hasSelection = computed(() => selectedRows.value.length > 0);
 </script>
 
 <template>
@@ -35,6 +38,22 @@ const { exporting, openExportDialog, openImportDialog, openClosureHealthDialog }
     <el-button v-perms="SYS_DEPT_PERMS.CREATE" type="primary" @click="openCreateDialog()">
       {{ t('buttons.actionAdd') }}
     </el-button>
+
+    <Perms :value="SYS_DEPT_PERMS.UPDATE">
+      <el-dropdown trigger="click">
+        <el-button :disabled="!hasSelection" type="warning">
+          {{ t('buttons.actionBatchStatus') }}
+        </el-button>
+        <template #dropdown>
+          <el-dropdown-item :disabled="!hasSelection" @click="batchUpdateStatus(selectedRows, true)">
+            {{ t('buttons.actionBatchEnable') }}
+          </el-dropdown-item>
+          <el-dropdown-item :disabled="!hasSelection" @click="batchUpdateStatus(selectedRows, false)">
+            {{ t('buttons.actionBatchDisable') }}
+          </el-dropdown-item>
+        </template>
+      </el-dropdown>
+    </Perms>
 
     <el-dropdown trigger="click">
       <el-button type="danger">{{ t('buttons.actionAdvanced') }}</el-button>

@@ -1,6 +1,6 @@
 import type { TableActionDeps } from '@/api/common';
 import type { SysRoleCreateForm, SysRolePageRow, SysRoleUpdateForm } from '@/api/system/role';
-import { createRole, deleteRole, getRoleDetail, updateRole } from '@/api/system/role';
+import { batchUpdateRoleStatus, createRole, deleteRole, getRoleDetail, updateRole } from '@/api/system/role';
 import { addDialog } from '@/components/ui/Dialog';
 import { type FormOverlayExpose, useFormOverlaySubmit } from '@/shared/composables/table/useFormOverlaySubmit';
 import { deleteConfirm } from '@/services/feedback/dialog';
@@ -109,11 +109,26 @@ function useRoleTableAction(deps: TableActionDeps) {
     }
   };
 
+  const batchUpdateStatus = async (ids: string[], status: boolean) => {
+    if (ids.length <= 0) {
+      return;
+    }
+
+    try {
+      await batchUpdateRoleStatus({ ids, status });
+      message(t('tips.editSuccess'), { type: 'success' });
+      await fetchTableData();
+    } catch (error: unknown) {
+      errorMessage(error);
+    }
+  };
+
   return {
     openCreateDialog,
     openDetailDialog,
     openEditDialog,
     deleteRow,
+    batchUpdateStatus,
   };
 }
 

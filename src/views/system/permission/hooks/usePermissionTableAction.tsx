@@ -1,6 +1,12 @@
 import type { TableActionDeps } from '@/api/common';
 import type { SysPermissionCreateForm, SysPermissionPageRow, SysPermissionUpdateForm } from '@/api/system/permission';
-import { createPermission, deletePermission, getPermissionDetail, updatePermission } from '@/api/system/permission';
+import {
+  batchUpdatePermissionStatus,
+  createPermission,
+  deletePermission,
+  getPermissionDetail,
+  updatePermission,
+} from '@/api/system/permission';
 import { addDialog } from '@/components/ui/Dialog';
 import { type FormOverlayExpose, useFormOverlaySubmit } from '@/shared/composables/table/useFormOverlaySubmit';
 import { deleteConfirm } from '@/services/feedback/dialog';
@@ -117,11 +123,26 @@ function usePermissionTableAction(deps: TableActionDeps) {
     }
   };
 
+  const batchUpdateStatus = async (ids: string[], status: boolean) => {
+    if (ids.length <= 0) {
+      return;
+    }
+
+    try {
+      await batchUpdatePermissionStatus({ ids, status });
+      message(t('tips.editSuccess'), { type: 'success' });
+      await fetchTableData();
+    } catch (error: unknown) {
+      errorMessage(error);
+    }
+  };
+
   return {
     openCreateDialog,
     openDetailDialog,
     openEditDialog,
     deleteRow,
+    batchUpdateStatus,
   };
 }
 

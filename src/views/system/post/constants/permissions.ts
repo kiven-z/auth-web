@@ -6,7 +6,7 @@ export const SYS_POST_PERMS = {
   QUERY: 'sys:post:query',
   /** 新增 */
   CREATE: 'sys:post:create',
-  /** 编辑、分配角色 */
+  /** 编辑 */
   UPDATE: 'sys:post:update',
   /** 删除 */
   DELETE: 'sys:post:delete',
