@@ -1,4 +1,4 @@
-import type { BaseResponse, PageResponse, SortSpec } from '@/api/common';
+import type { BaseResponse, IdsEnableStatusRequest, PageResponse, SortSpec } from '@/api/common';
 import type { MenuAssignedRoleRow, MenuAssignRoleRequest, RoleReference } from '@/api/system/grant-table';
 import type { AxiosRequestConfig } from 'axios';
 
@@ -103,12 +103,6 @@ export interface SysMenuMoveForm {
   parentId: string;
 }
 
-/** 批量修改状态 */
-export interface SysMenuBatchStatusRequest {
-  ids: string[];
-  status: boolean;
-}
-
 /** 查询菜单列表（扁平，无分页） */
 export function getMenuList(params?: SysMenuListQuery): Promise<SysMenuListVO[]> {
   return http.get<SysMenuListVO[], AxiosRequestConfig<SysMenuListQuery>>('/system/menu/list', { params });
@@ -147,7 +141,7 @@ export function moveMenu(id: string, data: SysMenuMoveForm): Promise<void> {
 }
 
 /** 批量修改状态 */
-export function updateMenuBatchStatus(data: SysMenuBatchStatusRequest): Promise<string> {
+export function updateMenuBatchStatus(data: IdsEnableStatusRequest): Promise<string> {
   return http.request<string>('put', '/system/menu/status', { data });
 }
 

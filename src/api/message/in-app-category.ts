@@ -1,4 +1,4 @@
-import type { BaseResponseDetail, BaseResponsePageRow, SortSpec } from '@/api/common';
+import type { BaseResponseDetail, BaseResponsePageRow, IdsEnableStatusRequest, SortSpec } from '@/api/common';
 import { http } from '@/core/http';
 import type { AxiosRequestConfig } from 'axios';
 
@@ -141,19 +141,11 @@ export function updateInAppMessageCategory(data: InAppMessageCategoryFormModel):
 }
 
 /**
- * 批量启停请求
- */
-export interface InAppMessageCategoryBatchStatusRequest {
-  ids: string[];
-  status: boolean;
-}
-
-/**
  * 批量启用/禁用业务分类
  * @param data ID 列表与目标状态
  * @returns 操作结果文案
  */
-export function batchUpdateInAppMessageCategoryStatus(data: InAppMessageCategoryBatchStatusRequest): Promise<string> {
+export function batchUpdateInAppMessageCategoryStatus(data: IdsEnableStatusRequest): Promise<string> {
   return http.request<string>('put', '/system/message/in-app/categories/status', { data });
 }
 

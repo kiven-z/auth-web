@@ -1,4 +1,10 @@
-import type { BaseResponseDetail, BaseResponsePageRow, PageResponse, SortSpec } from '@/api/common';
+import type {
+  BaseResponseDetail,
+  BaseResponsePageRow,
+  IdsEnableStatusRequest,
+  PageResponse,
+  SortSpec,
+} from '@/api/common';
 import { http } from '@/core/http';
 import type { SysJobLastExecutionStatus } from '@/views/schedule/schedule-task/constants/job-last-execution-status';
 import type { SysJobQuartzRuntimeStatus } from '@/views/schedule/schedule-task/constants/job-quartz-runtime-status';
@@ -161,18 +167,10 @@ export function updateJob(data: SysJobUpdateForm): Promise<string> {
 }
 
 /**
- * 批量启停请求体
- */
-export interface SysJobBatchStatusRequest {
-  ids: string[];
-  status: boolean;
-}
-
-/**
  * 批量启停任务
  * @param data 任务 ID 列表与目标状态
  */
-export function batchUpdateJobStatus(data: SysJobBatchStatusRequest): Promise<string> {
+export function batchUpdateJobStatus(data: IdsEnableStatusRequest): Promise<string> {
   return http.request<string>('put', '/system/job/status', { data });
 }
 
