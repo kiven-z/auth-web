@@ -58,7 +58,9 @@ export interface MessageTemplateDetailVO extends BaseResponseDetail {
   description?: string;
   subject: string;
   content?: string;
-  /** 预览正文 */
+  /** 按示例值渲染后的主题/标题 */
+  previewSubject?: string;
+  /** 按示例值渲染后的正文 */
   previewContent?: string;
   contentType?: string;
   requireFields?: MessageTemplateRequireFieldRow[];
@@ -81,7 +83,7 @@ export function getMessageTemplatePage(params: MessageTemplatePageQuery) {
 }
 
 /**
- * 消息模板详情（含原文 content 与示例值渲染 previewContent）
+ * 消息模板详情（含原文与示例值渲染的 previewSubject / previewContent）
  * @param id 模板主键
  * @param channel 消息渠道（须与库中一致）
  * @returns 模板详情

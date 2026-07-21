@@ -13,6 +13,7 @@ function useEmailTemplateDetailColumns() {
     { label: t('emailTemplate.templateCode'), prop: 'templateCode', labelWidth: 120, copy: true },
     { label: t('emailTemplate.templateName'), prop: 'templateName', labelWidth: 120, copy: true },
     { label: t('emailTemplate.subject'), prop: 'subject', labelWidth: 120, copy: true, span: 2 },
+    { label: t('messageTemplate.previewSubject'), prop: 'previewSubject', labelWidth: 120, copy: true, span: 2 },
     { label: t('emailTemplate.description'), prop: 'description', labelWidth: 120, copy: true, span: 2 },
     { label: t('emailTemplate.priority'), prop: 'priority', labelWidth: 120, copy: true },
     {

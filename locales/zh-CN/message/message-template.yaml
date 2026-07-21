@@ -5,6 +5,8 @@ messageTemplate:
   previewTips: 以下为按示例值渲染后的效果，可能与实际发送略有差异。
   previewTab: 渲染结果
   sourceTab: 原文
+  subject: 标题
+  previewSubject: 预览标题
   testSendDialogTitle: 测试发送
   testSendMenu: 测试发送
   testSendTarget: 接收目标

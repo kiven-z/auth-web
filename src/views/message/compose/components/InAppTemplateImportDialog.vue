@@ -68,21 +68,21 @@ function openDetailDialog(row: MessageTemplatePageRow): void {
       }),
   });
 }
-
 /**
  * 按来源导入模板到撰写表单
  * @param row 表格行
- * @param bodySource 正文来源
+ * @param source 导入来源
  */
-async function handleImport(row: MessageTemplatePageRow, bodySource: string): Promise<void> {
+async function handleImport(row: MessageTemplatePageRow, source: string): Promise<void> {
   try {
     importingId.value = row.id;
     const detail = await getMessageTemplateById(row.id, IN_APP_TEMPLATE_CHANNEL);
+    const usePreview = source === 'preview';
 
     emit('import', {
       templateCode: detail.templateCode,
-      title: detail.subject ?? '',
-      body: detail[bodySource] ?? '',
+      title: usePreview ? detail.previewSubject : detail.subject,
+      body: usePreview ? detail.previewContent : detail.content,
       contentType: detail.contentType as InAppTemplateContentType,
     });
   } catch (error: unknown) {
@@ -170,7 +170,7 @@ onMounted(() => {
           <template #dropdown>
             <el-dropdown-menu>
               <el-dropdown-item command="content">{{ t('inAppCompose.importContent') }}</el-dropdown-item>
-              <el-dropdown-item command="previewContent">{{ t('inAppCompose.importPreview') }}</el-dropdown-item>
+              <el-dropdown-item command="preview">{{ t('inAppCompose.importPreview') }}</el-dropdown-item>
             </el-dropdown-menu>
           </template>
         </el-dropdown>

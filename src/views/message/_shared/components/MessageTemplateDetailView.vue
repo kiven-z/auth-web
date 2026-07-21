@@ -33,7 +33,7 @@ const previewContentType = computed(() => {
 });
 
 /**
- * 拉取详情（含 previewContent）
+ * 拉取详情
  */
 const load = async () => {
   try {
@@ -60,11 +60,17 @@ onMounted(load);
       <!-- 按示例值渲染后的效果 -->
       <el-tab-pane :label="t('messageTemplate.previewTab')" lazy name="preview">
         <el-alert :closable="false" :title="t('messageTemplate.previewTips')" class="mb-3" type="info" />
+        <h2 v-if="detail?.previewSubject" class="mb-3!">
+          {{ detail.previewSubject }}
+        </h2>
         <MessageTemplateContentView :content="detail?.previewContent ?? ''" :content-type="previewContentType" />
       </el-tab-pane>
 
       <!-- FreeMarker 原文，固定纯文本展示 -->
       <el-tab-pane :label="t('messageTemplate.sourceTab')" lazy name="source">
+        <h2 v-if="detail?.subject" class="mb-3!">
+          {{ detail.subject }}
+        </h2>
         <MessageTemplateContentView :content="detail?.content ?? ''" content-type="TEXT" />
       </el-tab-pane>
     </el-tabs>

@@ -13,6 +13,7 @@ function useInAppTemplateDetailColumns() {
     { label: t('inAppTemplate.templateCode'), prop: 'templateCode', labelWidth: 140, copy: true },
     { label: t('inAppTemplate.templateName'), prop: 'templateName', labelWidth: 140, copy: true },
     { label: t('inAppTemplate.subject'), prop: 'subject', labelWidth: 140, copy: true, span: 2 },
+    { label: t('messageTemplate.previewSubject'), prop: 'previewSubject', labelWidth: 140, copy: true, span: 2 },
     { label: t('inAppTemplate.description'), prop: 'description', labelWidth: 140, copy: true, span: 2 },
     { label: t('inAppTemplate.contentType'), prop: 'imMessageType', labelWidth: 140, copy: true },
     { label: t('inAppTemplate.priority'), prop: 'priority', labelWidth: 140, copy: true },

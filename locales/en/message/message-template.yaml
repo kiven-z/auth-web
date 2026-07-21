@@ -5,6 +5,8 @@ messageTemplate:
   previewTips: Preview rendered with sample values; actual delivery may differ slightly.
   previewTab: Rendered
   sourceTab: Source
+  subject: Title
+  previewSubject: Preview title
   testSendDialogTitle: Test send
   testSendMenu: Test send
   testSendTarget: Recipient
