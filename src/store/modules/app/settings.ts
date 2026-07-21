@@ -1,5 +1,4 @@
 import { getConfig } from '@/auth/config';
-import { store } from '@/store';
 import { defineStore } from 'pinia';
 import type { setType } from '../../types';
 
@@ -31,7 +30,3 @@ export const useSettingStore = defineStore('auth-setting', {
     },
   },
 });
-
-export function useSettingStoreHook() {
-  return useSettingStore(store);
-}

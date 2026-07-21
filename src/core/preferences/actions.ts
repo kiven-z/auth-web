@@ -1,8 +1,8 @@
 import { getConfig } from '@/auth/config';
 import { patchLayout } from './storage';
-import { useAppStoreHook } from '@/store/modules/app/app';
-import { useMultiTagsStoreHook } from '@/store/modules/app/multiTags';
-import { useUserStoreHook } from '@/store/modules/auth/user';
+import { useAppStore } from '@/store/modules/app/app';
+import { useMultiTagsStore } from '@/store/modules/app/multiTags';
+import { useUserStore } from '@/store/modules/auth/user';
 import { storageLocal, toggleClass } from '@pureadmin/utils';
 import { applyThemePreferences } from './apply';
 
@@ -19,7 +19,7 @@ export interface SetSidebarOpenedOptions {
  */
 export function setSidebarOpened(opened?: boolean, options?: SetSidebarOpenedOptions): void {
   const resize = options?.resize;
-  const appStore = useAppStoreHook();
+  const appStore = useAppStore();
 
   // 视口断点适配：只改运行时侧栏，不写入偏好、不同步服务端
   if (resize) {
@@ -48,15 +48,15 @@ export function setSidebarOpened(opened?: boolean, options?: SetSidebarOpenedOpt
 export async function resetUiPreferences(): Promise<void> {
   storageLocal().clear();
   const { Grey, Weak, MultiTagsCache, EpThemeColor, Layout } = getConfig();
-  useAppStoreHook().setLayout(Layout);
+  useAppStore().setLayout(Layout);
   patchLayout({
     layout: Layout,
     epThemeColor: EpThemeColor,
     theme: getConfig().Theme ?? 'light',
   });
   applyThemePreferences();
-  useMultiTagsStoreHook().multiTagsCacheChange(MultiTagsCache);
+  useMultiTagsStore().multiTagsCacheChange(MultiTagsCache);
   toggleClass(Grey, 'html-grey', document.querySelector('html'));
   toggleClass(Weak, 'html-weakness', document.querySelector('html'));
-  await useUserStoreHook().clearLocalSession();
+  await useUserStore().clearLocalSession();
 }

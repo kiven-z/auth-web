@@ -3,7 +3,7 @@ import { responsiveStorageNameSpace } from '@/auth/config';
 import { useNav } from '@/layout/hooks';
 import { findRouteByPath, getParentPaths } from '@/router/utils/route-tree';
 import { emitter } from '@/services/event-bus/mitt';
-import { usePermissionStoreHook } from '@/store/modules/auth/permission';
+import { usePermissionStore } from '@/store/modules/auth/permission';
 import { isAllEmpty, storageLocal } from '@pureadmin/utils';
 import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue';
 import { useRoute } from 'vue-router';
@@ -23,9 +23,7 @@ const { device, pureApp, isCollapse, tooltipEffect, menuSelect, toggleSideBar } 
 const subMenuData = ref([]);
 
 const menuData = computed(() => {
-  return pureApp.layout === 'mix' && device.value !== 'mobile'
-    ? subMenuData.value
-    : usePermissionStoreHook().wholeMenus;
+  return pureApp.layout === 'mix' && device.value !== 'mobile' ? subMenuData.value : usePermissionStore().wholeMenus;
 });
 
 const loading = computed(() => (pureApp.layout === 'mix' ? false : menuData.value.length === 0));
@@ -37,15 +35,15 @@ function getSubMenuData() {
   path = defaultActive.value;
   subMenuData.value = [];
   // path的上级路由组成的数组
-  const parentPathArr = getParentPaths(path, usePermissionStoreHook().wholeMenus);
+  const parentPathArr = getParentPaths(path, usePermissionStore().wholeMenus);
   // 当前路由的父级路由信息
-  const parenetRoute = findRouteByPath(parentPathArr[0] || path, usePermissionStoreHook().wholeMenus);
+  const parenetRoute = findRouteByPath(parentPathArr[0] || path, usePermissionStore().wholeMenus);
   if (!parenetRoute?.children) return;
   subMenuData.value = parenetRoute?.children;
 }
 
 watch(
-  () => [route.path, usePermissionStoreHook().wholeMenus],
+  () => [route.path, usePermissionStore().wholeMenus],
   () => {
     if (route.path.includes('/redirect')) return;
     getSubMenuData();

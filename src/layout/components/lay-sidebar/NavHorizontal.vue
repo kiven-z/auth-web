@@ -2,7 +2,7 @@
 import { responsiveStorageNameSpace } from '@/auth/config';
 import { useNav, useTranslationLang } from '@/layout/hooks';
 import { emitter } from '@/services/event-bus/mitt';
-import { usePermissionStoreHook } from '@/store/modules/auth/permission';
+import { usePermissionStore } from '@/store/modules/auth/permission';
 import { isAllEmpty, storageLocal } from '@pureadmin/utils';
 import { computed, nextTick, onMounted, ref } from 'vue';
 import LayNotice from '../lay-notice/index.vue';
@@ -52,7 +52,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div v-loading="usePermissionStoreHook().wholeMenus.length === 0" class="horizontal-header">
+  <div v-loading="usePermissionStore().wholeMenus.length === 0" class="horizontal-header">
     <div v-if="showLogo" class="horizontal-header-left" @click="backTopMenu">
       <img :src="getLogo()" alt="logo" />
       <span>{{ title }}</span>
@@ -65,7 +65,7 @@ onMounted(() => {
       popper-class="pure-scrollbar"
     >
       <LaySidebarItem
-        v-for="route in usePermissionStoreHook().wholeMenus"
+        v-for="route in usePermissionStore().wholeMenus"
         :key="route.path"
         :base-path="route.path"
         :item="route"

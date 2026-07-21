@@ -1,6 +1,6 @@
 import type { UserLoginResponse } from '@/api/auth/types';
 import { establishSessionFromLogin, readSessionPreferences } from '@/core/session';
-import { useUserStoreHook } from '@/store/modules/auth/user';
+import { useUserStore } from '@/store/modules/auth/user';
 import { ref } from 'vue';
 
 /**
@@ -16,7 +16,7 @@ export function useLoginRemember() {
    */
   function syncRememberToStore(): void {
     const prefs = readSessionPreferences();
-    useUserStoreHook().SET_LOGIN_PREFERENCES(prefs.isRemembered, prefs.loginDay);
+    useUserStore().SET_LOGIN_PREFERENCES(prefs.isRemembered, prefs.loginDay);
   }
 
   /**

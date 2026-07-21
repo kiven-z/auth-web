@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { transformI18n } from '@/app/plugins/i18n';
 import { findRouteByPath, getParentPaths } from '@/router/utils/route-tree';
-import { useMultiTagsStoreHook } from '@/store/modules/app/multiTags';
+import { useMultiTagsStore } from '@/store/modules/app/multiTags';
 import { isEqual } from '@pureadmin/utils';
 import { onMounted, ref, toRaw, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
@@ -10,7 +10,7 @@ const route = useRoute();
 const levelList = ref([]);
 const router = useRouter();
 const routes: any = router.options.routes;
-const multiTags: any = useMultiTagsStoreHook().multiTags;
+const multiTags: any = useMultiTagsStore().multiTags;
 
 const getBreadcrumb = (): void => {
   // 当前路由信息

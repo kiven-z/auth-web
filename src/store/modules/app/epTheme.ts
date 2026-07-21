@@ -1,6 +1,5 @@
 import { getLayoutSnapshot, patchLayout } from '@/core/preferences';
 import { getConfig } from '@/auth/config';
-import { store } from '@/store';
 import { defineStore } from 'pinia';
 
 export const useEpThemeStore = defineStore('pure-epTheme', {
@@ -36,7 +35,3 @@ export const useEpThemeStore = defineStore('pure-epTheme', {
     },
   },
 });
-
-export function useEpThemeStoreHook() {
-  return useEpThemeStore(store);
-}

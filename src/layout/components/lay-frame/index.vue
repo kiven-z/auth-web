@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { getConfig } from '@/auth/config';
 import { useMultiFrame } from '@/layout/hooks';
-import { useMultiTagsStoreHook } from '@/store/modules/app/multiTags';
+import { useMultiTagsStore } from '@/store/modules/app/multiTags';
 import { type Component, computed, shallowRef, watch } from 'vue';
 import { RouteLocationNormalizedLoaded, type RouteRecordRaw } from 'vue-router';
 
@@ -19,7 +19,7 @@ const keep = computed(() => {
 // 避免重新渲染 LayFrame
 const normalComp = computed(() => !keep.value && props.currComp);
 
-watch(useMultiTagsStoreHook().multiTags, (tags: any) => {
+watch(useMultiTagsStore().multiTags, (tags: any) => {
   if (!Array.isArray(tags) || !keep.value) {
     return;
   }
@@ -38,7 +38,7 @@ watch(useMultiTagsStoreHook().multiTags, (tags: any) => {
 watch(
   () => props.currRoute.fullPath,
   (path) => {
-    const multiTags = useMultiTagsStoreHook().multiTags as RouteRecordRaw[];
+    const multiTags = useMultiTagsStore().multiTags as RouteRecordRaw[];
     const iframeTags = multiTags.filter((i) => i.meta?.frameSrc);
     if (keep.value) {
       if (iframeTags.length !== MAP.size) {

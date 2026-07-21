@@ -3,7 +3,7 @@ import { useRenderIcon } from '@/components/ui/Icon/src/hooks';
 import { useNav, useTranslationLang } from '@/layout/hooks';
 import { transformI18n } from '@/app/plugins/i18n';
 import { findRouteByPath, getParentPaths } from '@/router/utils/route-tree';
-import { usePermissionStoreHook } from '@/store/modules/auth/permission';
+import { usePermissionStore } from '@/store/modules/auth/permission';
 import { isAllEmpty } from '@pureadmin/utils';
 import { nextTick, onMounted, ref, toRaw, watch } from 'vue';
 import LayNotice from '../lay-notice/index.vue';
@@ -38,7 +38,7 @@ const {
 } = useNav();
 
 function getDefaultActive(routePath) {
-  const wholeMenus = usePermissionStoreHook().wholeMenus;
+  const wholeMenus = usePermissionStore().wholeMenus;
   /** 当前路由的父级路径 */
   const parentRoutes = getParentPaths(routePath, wholeMenus)[0];
   defaultActive.value = !isAllEmpty(route.meta?.activePath)
@@ -55,7 +55,7 @@ nextTick(() => {
 });
 
 watch(
-  () => [route.path, usePermissionStoreHook().wholeMenus],
+  () => [route.path, usePermissionStore().wholeMenus],
   () => {
     getDefaultActive(route.path);
   }
@@ -63,11 +63,7 @@ watch(
 </script>
 
 <template>
-  <div
-    v-if="device !== 'mobile'"
-    v-loading="usePermissionStoreHook().wholeMenus.length === 0"
-    class="horizontal-header"
-  >
+  <div v-if="device !== 'mobile'" v-loading="usePermissionStore().wholeMenus.length === 0" class="horizontal-header">
     <el-menu
       ref="menuRef"
       :default-active="defaultActive"
@@ -77,7 +73,7 @@ watch(
       router
     >
       <el-menu-item
-        v-for="route in usePermissionStoreHook().wholeMenus"
+        v-for="route in usePermissionStore().wholeMenus"
         :key="route.path"
         :index="resolvePath(route) || route.redirect"
       >

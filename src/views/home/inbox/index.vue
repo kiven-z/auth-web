@@ -5,7 +5,7 @@ import { DEFAULT_PAGE_SIZES, DEFAULT_PAGINATION_LAYOUT } from '@/components/ui/A
 import { errorMessage } from '@/services/feedback/message';
 import { useFormPlaceholder } from '@/shared/composables/i18n/useFormPlaceholder';
 import { useHomePageNavigation } from '@/shared/composables/layout/useHomePageNavigation';
-import { useInAppInboxStoreHook } from '@/store/modules/message/inAppInbox';
+import { useInAppInboxStore } from '@/store/modules/message/inAppInbox';
 import HomePageToolbar from '@/views/home/_shared/components/HomePageToolbar.vue';
 import InboxMessageList from '@/views/home/inbox/components/InboxMessageList.vue';
 import useInboxTableAction from '@/views/home/inbox/hooks/useInboxTableAction';
@@ -22,13 +22,12 @@ defineOptions({
 const { t } = useI18n();
 const ph = useFormPlaceholder();
 const { backWithReturn } = useHomePageNavigation();
-const inboxStore = useInAppInboxStoreHook();
-const { majors } = storeToRefs(inboxStore);
+const inboxStore = useInAppInboxStore();
+const { majors, loadingMajors } = storeToRefs(inboxStore);
 
 const { subOptions, loadingSubs, loadSubs } = useInAppCategorySubOptions();
 
 const searchFormRef = ref<FormInstance>();
-const loadingMajors = ref(false);
 
 const {
   loading,
@@ -78,14 +77,11 @@ async function handleMajorTabChange(name: string | number) {
 }
 
 onMounted(async () => {
-  loadingMajors.value = true;
   try {
     await inboxStore.refreshUnreadCount();
   } catch (error: unknown) {
     errorMessage(error, { defaultI18nKey: 'inAppInbox.loadMajorsFailed' });
     return;
-  } finally {
-    loadingMajors.value = false;
   }
 
   const firstMajorId = majors.value[0]?.majorCategoryId;

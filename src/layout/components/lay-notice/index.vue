@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { useHomePageNavigation } from '@/shared/composables/layout/useHomePageNavigation';
-import { useInAppInboxStoreHook } from '@/store/modules/message/inAppInbox';
+import { useInAppInboxStore } from '@/store/modules/message/inAppInbox';
 import { storeToRefs } from 'pinia';
 import { onMounted } from 'vue';
 import { useI18n } from 'vue-i18n';
@@ -12,7 +12,7 @@ defineOptions({
 
 const { t } = useI18n();
 const { openWithReturn } = useHomePageNavigation();
-const inboxStore = useInAppInboxStoreHook();
+const inboxStore = useInAppInboxStore();
 const { totalUnreadCount } = storeToRefs(inboxStore);
 
 onMounted(() => {

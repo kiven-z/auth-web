@@ -4,9 +4,9 @@ import { $t } from '@/app/plugins/i18n';
 import { getTopMenu, handleAliveRoute } from '@/router/utils/misc';
 import NProgress from '@/services/progress';
 import { emitter } from '@/services/event-bus/mitt';
-import { useMultiTagsStoreHook } from '@/store/modules/app/multiTags';
-import { usePermissionStoreHook } from '@/store/modules/auth/permission';
-import { useSettingStoreHook } from '@/store/modules/app/settings';
+import { useMultiTagsStore } from '@/store/modules/app/multiTags';
+import { usePermissionStore } from '@/store/modules/auth/permission';
+import { useSettingStore } from '@/store/modules/app/settings';
 import { delay, isAllEmpty, isEqual, useResizeObserver } from '@pureadmin/utils';
 import { onClickOutside } from '@vueuse/core';
 import { nextTick, onBeforeUnmount, ref, toRaw, unref, watch } from 'vue';
@@ -58,7 +58,7 @@ const contextmenuRef = ref();
 const isShowArrow = ref(false);
 const topPath = getTopMenu()?.path;
 const { VITE_HIDE_HOME } = import.meta.env;
-const fixedTags = [...routerArrays, ...usePermissionStoreHook().flatteningRoutes.filter((v) => v?.meta?.fixedTag)];
+const fixedTags = [...routerArrays, ...usePermissionStore().flatteningRoutes.filter((v) => v?.meta?.fixedTag)];
 
 const dynamicTagView = async () => {
   await nextTick();
@@ -162,7 +162,7 @@ function dynamicRouteTag(value: string): void {
     if (!hasValue) {
       arr.forEach((arrItem: any) => {
         if (arrItem.path === value) {
-          useMultiTagsStoreHook().handleTags('push', {
+          useMultiTagsStore().handleTags('push', {
             path: value,
             meta: arrItem.meta,
             name: arrItem.name,
@@ -207,12 +207,12 @@ function deleteDynamicTag(obj: any, current: any, tag?: string) {
 
   const spliceRoute = (startIndex?: number, length?: number, other?: boolean): void => {
     if (other) {
-      useMultiTagsStoreHook().handleTags(
+      useMultiTagsStore().handleTags(
         'equal',
         [VITE_HIDE_HOME === 'false' ? fixedTags : toRaw(getTopMenu()), obj].flat()
       );
     } else {
-      useMultiTagsStoreHook().handleTags('splice', '', {
+      useMultiTagsStore().handleTags('splice', '', {
         startIndex,
         length,
       });
@@ -230,7 +230,7 @@ function deleteDynamicTag(obj: any, current: any, tag?: string) {
     // 从当前匹配到的路径中删除
     spliceRoute(valueIndex, 1);
   }
-  const newRoute = useMultiTagsStoreHook().handleTags('slice');
+  const newRoute = useMultiTagsStore().handleTags('slice');
   if (current === route.path) {
     // 如果删除当前激活tag就自动切换到最后一个tag
     if (tag === 'left') return;
@@ -299,7 +299,7 @@ function onClickDrop(key, item, selectRoute?: RouteConfigs) {
       break;
     case 5:
       // 关闭全部标签页
-      useMultiTagsStoreHook().handleTags('splice', '', {
+      useMultiTagsStore().handleTags('splice', '', {
         startIndex: fixedTags.length,
         length: multiTags.value.length,
       });
@@ -450,7 +450,7 @@ function openMenu(tag, e) {
   } else {
     buttonLeft.value = left;
   }
-  useSettingStoreHook().hiddenSideBar ? (buttonTop.value = e.clientY) : (buttonTop.value = e.clientY - 40);
+  useSettingStore().hiddenSideBar ? (buttonTop.value = e.clientY) : (buttonTop.value = e.clientY - 40);
   nextTick(() => {
     visible.value = true;
   });

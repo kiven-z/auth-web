@@ -1,6 +1,6 @@
 import type { menuType } from '@/layout/types';
-import { useMultiTagsStoreHook } from '@/store/modules/app/multiTags';
-import { usePermissionStoreHook } from '@/store/modules/auth/permission';
+import { useMultiTagsStore } from '@/store/modules/app/multiTags';
+import { usePermissionStore } from '@/store/modules/auth/permission';
 import { useTimeoutFn } from '@vueuse/core';
 import { createWebHashHistory, createWebHistory, type RouterHistory } from 'vue-router';
 import { router } from '../index';
@@ -30,30 +30,30 @@ function addPathMatch() {
 function handleAliveRoute({ name }: ToRouteType, mode?: string) {
   switch (mode) {
     case 'add':
-      usePermissionStoreHook().cacheOperate({
+      usePermissionStore().cacheOperate({
         mode: 'add',
         name,
       });
       break;
     case 'delete':
-      usePermissionStoreHook().cacheOperate({
+      usePermissionStore().cacheOperate({
         mode: 'delete',
         name,
       });
       break;
     case 'refresh':
-      usePermissionStoreHook().cacheOperate({
+      usePermissionStore().cacheOperate({
         mode: 'refresh',
         name,
       });
       break;
     default:
-      usePermissionStoreHook().cacheOperate({
+      usePermissionStore().cacheOperate({
         mode: 'delete',
         name,
       });
       useTimeoutFn(() => {
-        usePermissionStoreHook().cacheOperate({
+        usePermissionStore().cacheOperate({
           mode: 'add',
           name,
         });
@@ -84,11 +84,11 @@ function handleTopMenu(route) {
  * @returns 顶级菜单
  */
 function getTopMenu(tag = false): menuType | undefined {
-  const wholeMenus = usePermissionStoreHook().wholeMenus;
+  const wholeMenus = usePermissionStore().wholeMenus;
   if (!wholeMenus?.length) return undefined;
   const topMenu = handleTopMenu(wholeMenus[0]?.children[0]);
   if (!topMenu) return undefined;
-  tag && useMultiTagsStoreHook().handleTags('push', topMenu);
+  tag && useMultiTagsStore().handleTags('push', topMenu);
   return topMenu;
 }
 

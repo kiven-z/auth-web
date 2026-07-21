@@ -1,5 +1,4 @@
 import { getInAppInboxUnreadCount, type InAppInboxMajorUnread } from '@/api/message/in-app-inbox';
-import { store } from '@/store';
 import { defineStore } from 'pinia';
 
 interface InAppInboxState {
@@ -7,12 +6,15 @@ interface InAppInboxState {
   totalUnreadCount: number;
   /** 启用大类列表 */
   majors: InAppInboxMajorUnread[];
+  /** 大类 / 未读角标加载中 */
+  loadingMajors: boolean;
 }
 
 export const useInAppInboxStore = defineStore('in-app-inbox', {
   state: (): InAppInboxState => ({
     totalUnreadCount: 0,
     majors: [],
+    loadingMajors: false,
   }),
   actions: {
     /**
@@ -20,17 +22,14 @@ export const useInAppInboxStore = defineStore('in-app-inbox', {
      * 失败时抛出，由调用方决定是否提示（角标静默 / 收件箱页提示）。
      */
     async refreshUnreadCount() {
-      const unreadCount = await getInAppInboxUnreadCount();
-      this.totalUnreadCount = unreadCount.totalUnreadCount ?? 0;
-      this.majors = unreadCount.majors ?? [];
+      this.loadingMajors = true;
+      try {
+        const unreadCount = await getInAppInboxUnreadCount();
+        this.totalUnreadCount = unreadCount.totalUnreadCount ?? 0;
+        this.majors = unreadCount.majors ?? [];
+      } finally {
+        this.loadingMajors = false;
+      }
     },
   },
 });
-
-/**
- * 在组件外获取站内信收件箱 store
- * @returns Pinia store 实例
- */
-export function useInAppInboxStoreHook() {
-  return useInAppInboxStore(store);
-}

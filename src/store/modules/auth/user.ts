@@ -8,10 +8,9 @@ import {
 } from '@/core/session';
 import { routerArrays } from '@/layout/types';
 import { resetRouter, router } from '@/router';
-import { store } from '@/store';
 import { defineStore } from 'pinia';
 import type { userType } from '../../types';
-import { useMultiTagsStoreHook } from '../app/multiTags';
+import { useMultiTagsStore } from '../app/multiTags';
 
 export const useUserStore = defineStore('pure-user', {
   state: (): userType => {
@@ -69,7 +68,7 @@ export const useUserStore = defineStore('pure-user', {
       this.roles = [];
       this.permissions = [];
       removeToken();
-      useMultiTagsStoreHook().handleTags('equal', [...routerArrays]);
+      useMultiTagsStore().handleTags('equal', [...routerArrays]);
       resetRouter();
       await router.push('/login');
     },
@@ -92,7 +91,3 @@ export const useUserStore = defineStore('pure-user', {
     },
   },
 });
-
-export function useUserStoreHook() {
-  return useUserStore(store);
-}

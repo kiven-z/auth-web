@@ -4,10 +4,10 @@ import { transformI18n } from '@/app/plugins/i18n';
 import { remainingPaths, router } from '@/router';
 import { getTopMenu } from '@/router/utils/misc';
 import { emitter } from '@/services/event-bus/mitt';
-import { useAppStoreHook } from '@/store/modules/app/app';
-import { useEpThemeStoreHook } from '@/store/modules/app/epTheme';
-import { usePermissionStoreHook } from '@/store/modules/auth/permission';
-import { useUserStoreHook } from '@/store/modules/auth/user';
+import { useAppStore } from '@/store/modules/app/app';
+import { useEpThemeStore } from '@/store/modules/app/epTheme';
+import { usePermissionStore } from '@/store/modules/auth/permission';
+import { useUserStore } from '@/store/modules/auth/user';
 import { isAllEmpty, useGlobal } from '@pureadmin/utils';
 import { useFullscreen } from '@vueuse/core';
 import { storeToRefs } from 'pinia';
@@ -20,10 +20,10 @@ import type { routeMetaType } from '../../types';
 const errorInfo = 'The current routing configuration is incorrect, please check the configuration';
 
 export function useNav() {
-  const authApp = useAppStoreHook();
+  const authApp = useAppStore();
   const routers = useRouter().options.routes;
   const { isFullscreen, toggle } = useFullscreen();
-  const { wholeMenus } = storeToRefs(usePermissionStoreHook());
+  const { wholeMenus } = storeToRefs(usePermissionStore());
   /** 平台`layout`中所有`el-tooltip`的`effect`配置，默认`light` */
   const tooltipEffect = getConfig()?.TooltipEffect ?? 'light';
 
@@ -39,19 +39,19 @@ export function useNav() {
 
   /** 头像（如果头像为空则使用 src/assets/user.jpg ） */
   const userAvatar = computed(() => {
-    return isAllEmpty(useUserStoreHook()?.avatar) ? Avatar : useUserStoreHook()?.avatar;
+    return isAllEmpty(useUserStore()?.avatar) ? Avatar : useUserStore()?.avatar;
   });
 
   /** 昵称（如果昵称为空则显示用户名） */
   const username = computed(() => {
-    return isAllEmpty(useUserStoreHook()?.nickname) ? useUserStoreHook()?.username : useUserStoreHook()?.nickname;
+    return isAllEmpty(useUserStore()?.nickname) ? useUserStore()?.username : useUserStore()?.nickname;
   });
 
   /** 设置国际化选中后的样式 */
   const getDropdownItemStyle = computed(() => {
     return (locale, t) => {
       return {
-        background: locale === t ? useEpThemeStoreHook().epThemeColor : '',
+        background: locale === t ? useEpThemeStore().epThemeColor : '',
         color: locale === t ? '#f4f4f5' : '#000',
       };
     };
@@ -93,7 +93,7 @@ export function useNav() {
 
   /** 退出登录（请求后端清理会话后清本地） */
   function logout() {
-    void useUserStoreHook().logoutAndClear();
+    void useUserStore().logoutAndClear();
   }
 
   function backTopMenu() {

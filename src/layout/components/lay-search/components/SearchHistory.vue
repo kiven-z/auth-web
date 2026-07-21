@@ -3,7 +3,7 @@ import Sortable from 'sortablejs';
 import { useI18n } from 'vue-i18n';
 import SearchHistoryItem from './SearchHistoryItem.vue';
 import type { dragItem, optionsItem, Props } from '../types';
-import { useEpThemeStoreHook } from '@/store/modules/app/epTheme';
+import { useEpThemeStore } from '@/store/modules/app/epTheme';
 import { delay, isArray, useResizeObserver } from '@pureadmin/utils';
 import { computed, getCurrentInstance, nextTick, ref, watch } from 'vue';
 
@@ -28,7 +28,7 @@ const props = withDefaults(defineProps<Props>(), {});
 const itemStyle = computed(() => {
   return (item) => {
     return {
-      background: item?.path === active.value ? useEpThemeStoreHook().epThemeColor : '',
+      background: item?.path === active.value ? useEpThemeStore().epThemeColor : '',
       color: item.path === active.value ? '#fff' : '',
       fontSize: item.path === active.value ? '16px' : '14px',
     };
@@ -37,7 +37,7 @@ const itemStyle = computed(() => {
 
 const titleStyle = computed(() => {
   return {
-    color: useEpThemeStoreHook().epThemeColor,
+    color: useEpThemeStore().epThemeColor,
     fontWeight: 500,
   };
 });

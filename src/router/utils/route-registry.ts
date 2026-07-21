@@ -1,7 +1,7 @@
 import { getConfig } from '@/auth/config';
 import { routerArrays } from '@/layout/types';
-import { useMultiTagsStoreHook } from '@/store/modules/app/multiTags';
-import { usePermissionStoreHook } from '@/store/modules/auth/permission';
+import { useMultiTagsStore } from '@/store/modules/app/multiTags';
+import { usePermissionStore } from '@/store/modules/auth/permission';
 import { cloneDeep, storageLocal } from '@pureadmin/utils';
 import type { RouteRecordRaw } from 'vue-router';
 import { router } from '../index';
@@ -20,7 +20,7 @@ import { transformI18n } from '@/app/plugins/i18n';
  */
 function handleAsyncRoutes(routeList) {
   if (routeList.length === 0) {
-    usePermissionStoreHook().handleWholeMenus(routeList);
+    usePermissionStore().handleWholeMenus(routeList);
   } else {
     const formattedRoutes = formatFlatteningRoutes(addAsyncRoutes(routeList));
     // 将所有动态路由逐个注册到根路由中
@@ -41,12 +41,12 @@ function handleAsyncRoutes(routeList) {
       flattenRouters.children = router.options.routes[0].children;
       router.addRoute(flattenRouters);
     }
-    usePermissionStoreHook().handleWholeMenus(routeList);
+    usePermissionStore().handleWholeMenus(routeList);
   }
-  if (!useMultiTagsStoreHook().getMultiTagsCache) {
-    useMultiTagsStoreHook().handleTags('equal', [
+  if (!useMultiTagsStore().getMultiTagsCache) {
+    useMultiTagsStore().handleTags('equal', [
       ...routerArrays,
-      ...usePermissionStoreHook().flatteningRoutes.filter((v) => v?.meta?.fixedTag),
+      ...usePermissionStore().flatteningRoutes.filter((v) => v?.meta?.fixedTag),
     ]);
   }
   addPathMatch();

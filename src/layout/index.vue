@@ -5,8 +5,8 @@ import { getLayoutSnapshot } from '@/core/preferences';
 import { useUiLayout } from '@/layout/hooks/layout/useUiLayout';
 import { useLayout } from '@/layout/hooks/layout/useLayout';
 import { useUiTheme } from '@/layout/hooks/theme/useUiTheme';
-import { useAppStoreHook } from '@/store/modules/app/app';
-import { useSettingStoreHook } from '@/store/modules/app/settings';
+import { useAppStore } from '@/store/modules/app/app';
+import { useSettingStore } from '@/store/modules/app/settings';
 import { deviceDetection, useGlobal, useResizeObserver } from '@pureadmin/utils';
 import { computed, onBeforeMount, onMounted, reactive, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
@@ -24,16 +24,16 @@ const { setResponsiveLayoutTheme } = useUiLayout();
 const { dataThemeChange } = useUiTheme();
 const appWrapperRef = ref();
 const isMobile = deviceDetection();
-const authSetting = useSettingStoreHook();
+const authSetting = useSettingStore();
 const { $storage } = useGlobal<GlobalPropertiesApi>();
 
 const set: setType = reactive({
   sidebar: computed(() => {
-    return useAppStoreHook().sidebar;
+    return useAppStore().sidebar;
   }),
 
   device: computed(() => {
-    return useAppStoreHook().device;
+    return useAppStore().device;
   }),
 
   fixedHeader: computed(() => {
@@ -55,8 +55,8 @@ const set: setType = reactive({
 });
 
 function toggle(device: string, bool: boolean) {
-  useAppStoreHook().toggleDevice(device);
-  useAppStoreHook().toggleSideBar(bool, 'resize');
+  useAppStore().toggleDevice(device);
+  useAppStore().toggleSideBar(bool, 'resize');
 }
 
 // 判断是否可自动关闭菜单栏
@@ -66,9 +66,9 @@ useResizeObserver(appWrapperRef, (entries) => {
   if (isMobile) return;
   const entry = entries[0];
   const [{ inlineSize: width, blockSize: height }] = entry.borderBoxSize;
-  useAppStoreHook().setViewportSize({ width, height });
+  useAppStore().setViewportSize({ width, height });
   // 窄屏仅运行时覆盖为 vertical，宽屏恢复用户偏好中的布局（不写回 storage）
-  const preferredLayout = getLayoutSnapshot().layout ?? useAppStoreHook().layout;
+  const preferredLayout = getLayoutSnapshot().layout ?? useAppStore().layout;
   width <= 760 ? setResponsiveLayoutTheme('vertical') : setResponsiveLayoutTheme(preferredLayout);
   /** width app-wrapper类容器宽度
    * 0 < width <= 760 隐藏侧边栏
@@ -108,7 +108,7 @@ onBeforeMount(() => {
     <div
       v-show="set.device === 'mobile' && set.sidebar.opened && layout.includes('vertical')"
       class="app-mask"
-      @click="useAppStoreHook().toggleSideBar()"
+      @click="useAppStore().toggleSideBar()"
     />
     <NavVertical v-show="!authSetting.hiddenSideBar && (layout.includes('vertical') || layout.includes('mix'))" />
     <div :class="['main-container', authSetting.hiddenSideBar ? 'main-hidden' : '']">

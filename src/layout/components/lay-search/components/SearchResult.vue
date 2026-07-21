@@ -2,7 +2,7 @@
 import type { Props } from '../types';
 import { transformI18n } from '@/app/plugins/i18n';
 import { useResizeObserver } from '@pureadmin/utils';
-import { useEpThemeStoreHook } from '@/store/modules/app/epTheme';
+import { useEpThemeStore } from '@/store/modules/app/epTheme';
 import { useRenderIcon } from '@/components/ui/Icon/src/hooks';
 import { computed, getCurrentInstance, onMounted, ref } from 'vue';
 import EnterOutlined from '@/assets/svg/enter_outlined.svg?component';
@@ -21,7 +21,7 @@ const props = withDefaults(defineProps<Props>(), {});
 const itemStyle = computed(() => {
   return (item) => {
     return {
-      background: item?.path === active.value ? useEpThemeStoreHook().epThemeColor : '',
+      background: item?.path === active.value ? useEpThemeStore().epThemeColor : '',
       color: item.path === active.value ? '#fff' : '',
       fontSize: item.path === active.value ? '16px' : '14px',
     };

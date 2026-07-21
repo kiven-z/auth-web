@@ -2,9 +2,9 @@ import { getConfig } from '@/auth/config';
 import type { LocaleType } from '@/auth/config/locales';
 import { i18n } from '@/app/plugins/i18n';
 import { emitter } from '@/services/event-bus/mitt';
-import { useAppStoreHook } from '@/store/modules/app/app';
-import { useEpThemeStoreHook } from '@/store/modules/app/epTheme';
-import { useMultiTagsStoreHook } from '@/store/modules/app/multiTags';
+import { useAppStore } from '@/store/modules/app/app';
+import { useEpThemeStore } from '@/store/modules/app/epTheme';
+import { useMultiTagsStore } from '@/store/modules/app/multiTags';
 import { darken, lighten } from '@pureadmin/utils';
 import { NAV_THEME_COLORS } from './nav-theme-colors';
 import { resolveEffectiveLayout } from './runtime-layout';
@@ -34,7 +34,7 @@ function setPropertyPrimary(mode: string, index: number, color: string, darkMode
 }
 
 function applyEpThemeColorToDom(color: string, darkMode: boolean, theme: string): void {
-  const epThemeStore = useEpThemeStoreHook();
+  const epThemeStore = useEpThemeStore();
   epThemeStore.epThemeColor = color;
   epThemeStore.epTheme = theme;
   document.documentElement.style.setProperty('--el-color-primary', color);
@@ -79,9 +79,9 @@ export function applyLayoutPreferences(): void {
   const snapshot = getLayoutSnapshot();
   const layoutModel = resolveEffectiveLayout(snapshot.layout ?? getConfig().Layout ?? 'vertical');
   window.document.body.setAttribute('layout', layoutModel);
-  useAppStoreHook().setLayout(layoutModel);
+  useAppStore().setLayout(layoutModel);
   if (snapshot.sidebarStatus !== undefined) {
-    useAppStoreHook().sidebar.opened = snapshot.sidebarStatus;
+    useAppStore().sidebar.opened = snapshot.sidebarStatus;
   }
 }
 
@@ -123,7 +123,7 @@ export function applyConfigureSideEffects(patch: Partial<ResponsiveStorage['conf
     html?.classList.toggle('html-weakness', Boolean(patch.weak));
   }
   if ('multiTagsCache' in patch && patch.multiTagsCache !== undefined) {
-    useMultiTagsStoreHook().multiTagsCacheChange(patch.multiTagsCache);
+    useMultiTagsStore().multiTagsCacheChange(patch.multiTagsCache);
   }
   if ('hideTabs' in patch && patch.hideTabs !== undefined) {
     emitter.emit('tagViewsChange', String(patch.hideTabs));

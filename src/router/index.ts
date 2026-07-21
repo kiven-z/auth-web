@@ -1,5 +1,5 @@
 import { buildHierarchyTree } from '@/shared/utils/tree';
-import { usePermissionStoreHook } from '@/store/modules/auth/permission';
+import { usePermissionStore } from '@/store/modules/auth/permission';
 import { cloneDeep } from '@pureadmin/utils';
 import { createRouter, type RouteComponent, type Router, type RouteRecordRaw } from 'vue-router';
 import remainingRouter from './modules/remaining';
@@ -88,7 +88,7 @@ export function resetRouter() {
   router.options.routes = formatTwoStageRoutes(
     formatFlatteningRoutes(buildHierarchyTree(ascending(routes.flat(Infinity))))
   );
-  usePermissionStoreHook().clearAllCachePage();
+  usePermissionStore().clearAllCachePage();
   resetLoadedPaths();
 }
 

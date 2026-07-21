@@ -1,5 +1,5 @@
 import { satisfiesAllRequired } from '@/auth/permission/permissionMatcher';
-import { useUserStoreHook } from '@/store/modules/auth/user';
+import { useUserStore } from '@/store/modules/auth/user';
 import { isString } from '@pureadmin/utils';
 
 /**
@@ -29,9 +29,9 @@ function hasAuth(value: string | Array<string>): boolean {
     return false;
   }
 
-  const { permissions } = useUserStoreHook();
+  const { permissions } = useUserStore();
 
-  return permissions?.length && satisfiesAllRequired(required, permissions);
+  return Boolean(permissions?.length) && satisfiesAllRequired(required, permissions);
 }
 
 export { hasAuth };

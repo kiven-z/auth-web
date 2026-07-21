@@ -1,6 +1,5 @@
 import { getLayoutSnapshot } from '@/core/preferences';
 import { getConfig } from '@/auth/config';
-import { store } from '@/store';
 import { deviceDetection } from '@pureadmin/utils';
 import { defineStore } from 'pinia';
 import { setSidebarOpened } from '@/core/preferences/actions';
@@ -52,7 +51,3 @@ export const useAppStore = defineStore('pure-app', {
     },
   },
 });
-
-export function useAppStoreHook() {
-  return useAppStore(store);
-}

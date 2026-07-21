@@ -4,8 +4,8 @@ import { useRoute, useRouter } from 'vue-router';
 import { getConfigureSnapshot } from '@/core/preferences';
 import { useUiConfigure } from '@/layout/hooks';
 import { $t, transformI18n } from '@/app/plugins/i18n';
-import { useSettingStoreHook } from '@/store/modules/app/settings';
-import { useMultiTagsStoreHook } from '@/store/modules/app/multiTags';
+import { useSettingStore } from '@/store/modules/app/settings';
+import { useMultiTagsStore } from '@/store/modules/app/multiTags';
 import { hasClass, isBoolean, isEqual, toggleClass } from '@pureadmin/utils';
 
 import Fullscreen from '~icons/ri/fullscreen-fill';
@@ -20,7 +20,7 @@ export function useTags() {
   const route = useRoute();
   const router = useRouter();
   const instance = getCurrentInstance();
-  const pureSetting = useSettingStoreHook();
+  const pureSetting = useSettingStore();
 
   const buttonTop = ref(0);
   const buttonLeft = ref(0);
@@ -38,7 +38,7 @@ export function useTags() {
   /** 是否隐藏标签页，默认显示 */
   const showTags = ref(configureSnapshot.hideTabs) ?? ref('false');
   const multiTags: any = computed(() => {
-    return useMultiTagsStoreHook().multiTags;
+    return useMultiTagsStore().multiTags;
   });
 
   const tagsViews = reactive<Array<tagsViewsType>>([

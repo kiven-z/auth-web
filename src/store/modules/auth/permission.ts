@@ -1,11 +1,10 @@
 import { constantMenus } from '@/router';
 import { ascending, filterNoPermissionTree, filterTree } from '@/router/utils/menu-sort';
 import { formatFlatteningRoutes } from '@/router/utils/route-tree';
-import { store } from '@/store';
 import { getKeyList } from '@pureadmin/utils';
 import { defineStore } from 'pinia';
 import type { cacheType } from '../../types';
-import { useMultiTagsStoreHook } from '../app/multiTags';
+import { useMultiTagsStore } from '../app/multiTags';
 
 export const usePermissionStore = defineStore('auth-permission', {
   state: () => ({
@@ -32,7 +31,7 @@ export const usePermissionStore = defineStore('auth-permission', {
      */
     clearCache() {
       let cacheLength = this.cachePageList.length;
-      const nameList = getKeyList(useMultiTagsStoreHook().multiTags, 'name');
+      const nameList = getKeyList(useMultiTagsStore().multiTags, 'name');
       while (cacheLength > 0) {
         nameList.findIndex((v) => v === this.cachePageList[cacheLength - 1]) === -1 &&
           this.cachePageList.splice(this.cachePageList.indexOf(this.cachePageList[cacheLength - 1]), 1);
@@ -64,7 +63,3 @@ export const usePermissionStore = defineStore('auth-permission', {
     },
   },
 });
-
-export function usePermissionStoreHook() {
-  return usePermissionStore(store);
-}

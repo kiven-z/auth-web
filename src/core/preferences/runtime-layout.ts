@@ -1,5 +1,5 @@
 import { getConfig } from '@/auth/config';
-import { useAppStoreHook } from '@/store/modules/app/app';
+import { useAppStore } from '@/store/modules/app/app';
 import { ref, type Ref } from 'vue';
 import { getLayoutSnapshot } from './storage';
 
@@ -42,5 +42,5 @@ export function setRuntimeLayoutOverride(layoutModel: string | null): void {
   runtimeLayoutOverride.value = layoutModel;
   const effectiveLayout = getEffectiveLayoutModel();
   window.document.body.setAttribute('layout', effectiveLayout);
-  useAppStoreHook().setLayout(effectiveLayout);
+  useAppStore().setLayout(effectiveLayout);
 }

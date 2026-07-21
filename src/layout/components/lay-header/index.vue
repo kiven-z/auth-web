@@ -1,8 +1,8 @@
 <script lang="ts" setup>
 import { useLayout } from '@/layout/hooks';
 import type { setType } from '@/layout/types';
-import { useAppStoreHook } from '@/store/modules/app/app';
-import { useSettingStoreHook } from '@/store/modules/app/settings';
+import { useAppStore } from '@/store/modules/app/app';
+import { useSettingStore } from '@/store/modules/app/settings';
 import { useDark, useGlobal } from '@pureadmin/utils';
 import { computed, reactive } from 'vue';
 
@@ -12,15 +12,15 @@ import LayTag from '@/layout/components/lay-tag/index.vue';
 
 const { isDark } = useDark();
 const { layout } = useLayout();
-const pureSetting = useSettingStoreHook();
+const pureSetting = useSettingStore();
 const { $storage } = useGlobal<GlobalPropertiesApi>();
 
 const set: setType = reactive({
   sidebar: computed(() => {
-    return useAppStoreHook().sidebar;
+    return useAppStore().sidebar;
   }),
   device: computed(() => {
-    return useAppStoreHook().device;
+    return useAppStore().device;
   }),
   fixedHeader: computed(() => {
     return pureSetting.fixedHeader;

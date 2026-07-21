@@ -7,8 +7,8 @@ import { initRouter } from '@/router/utils/route-registry';
 import { findRouteByPath } from '@/router/utils/route-tree';
 import { isOneOfArray } from '@/auth/permission';
 import { errorMessage } from '@/services/feedback/message';
-import { useMultiTagsStoreHook } from '@/store/modules/app/multiTags';
-import { usePermissionStoreHook } from '@/store/modules/auth/permission';
+import { useMultiTagsStore } from '@/store/modules/app/multiTags';
+import { usePermissionStore } from '@/store/modules/auth/permission';
 import { isAllEmpty, isUrl, openLink } from '@pureadmin/utils';
 import type { Router } from 'vue-router';
 
@@ -81,10 +81,10 @@ export function createAuthGuard(router: Router): void {
         }
         toCorrectRoute();
       } else {
-        if (usePermissionStoreHook().wholeMenus.length === 0 && to.path !== '/login') {
+        if (usePermissionStore().wholeMenus.length === 0 && to.path !== '/login') {
           initRouter()
             .then(async (routerInstance: Router) => {
-              if (!useMultiTagsStoreHook().getMultiTagsCache) {
+              if (!useMultiTagsStore().getMultiTagsCache) {
                 const { path } = to;
                 const route = findRouteByPath(path, routerInstance.options.routes[0].children);
                 getTopMenu(true);
@@ -92,10 +92,10 @@ export function createAuthGuard(router: Router): void {
                 if (route && route.meta?.title) {
                   if (isAllEmpty(route.parentId) && route.meta?.backstage) {
                     const { path, name, meta } = route.children[0];
-                    useMultiTagsStoreHook().handleTags('push', { path, name, meta });
+                    useMultiTagsStore().handleTags('push', { path, name, meta });
                   } else {
                     const { path, name, meta } = route;
-                    useMultiTagsStoreHook().handleTags('push', { path, name, meta });
+                    useMultiTagsStore().handleTags('push', { path, name, meta });
                   }
                 }
               }

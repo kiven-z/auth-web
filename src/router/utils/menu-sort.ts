@@ -1,5 +1,5 @@
 import { isOneOfArray } from '@/auth/permission';
-import { useUserStoreHook } from '@/store/modules/auth/user';
+import { useUserStore } from '@/store/modules/auth/user';
 import { cloneDeep, isAllEmpty } from '@pureadmin/utils';
 import type { RouteComponent } from 'vue-router';
 
@@ -41,7 +41,7 @@ function filterTree(data: RouteComponent[]) {
  * @returns 过滤后的菜单数据
  */
 function filterNoPermissionTree(data: RouteComponent[]) {
-  const currentRoles = useUserStoreHook().roles ?? [];
+  const currentRoles = useUserStore().roles ?? [];
   const newTree = cloneDeep(data).filter((v: any) => {
     if (v.meta?.publicAccess === true) {
       return true;

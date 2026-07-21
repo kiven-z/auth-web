@@ -6,7 +6,7 @@ import { useTags } from '@/layout/hooks';
 import { isNumber, useGlobal } from '@pureadmin/utils';
 import BackTopIcon from '@/assets/svg/back_top.svg?component';
 import { computed, defineComponent, h, Transition } from 'vue';
-import { usePermissionStoreHook } from '@/store/modules/auth/permission';
+import { usePermissionStore } from '@/store/modules/auth/permission';
 
 const props = defineProps({
   fixedHeader: Boolean,
@@ -114,7 +114,7 @@ const transitionMain = defineComponent({
                 </el-backtop>
                 <div class="grow">
                   <transitionMain :route="route">
-                    <keep-alive v-if="isKeepAlive" :include="usePermissionStoreHook().cachePageList">
+                    <keep-alive v-if="isKeepAlive" :include="usePermissionStore().cachePageList">
                       <component :is="Comp" :key="fullPath" :frameInfo="frameInfo" class="main-content" />
                     </keep-alive>
                     <component :is="Comp" v-else :key="fullPath" :frameInfo="frameInfo" class="main-content" />
@@ -124,7 +124,7 @@ const transitionMain = defineComponent({
               </el-scrollbar>
               <div v-else class="grow">
                 <transitionMain :route="route">
-                  <keep-alive v-if="isKeepAlive" :include="usePermissionStoreHook().cachePageList">
+                  <keep-alive v-if="isKeepAlive" :include="usePermissionStore().cachePageList">
                     <component :is="Comp" :key="fullPath" :frameInfo="frameInfo" class="main-content" />
                   </keep-alive>
                   <component :is="Comp" v-else :key="fullPath" :frameInfo="frameInfo" class="main-content" />

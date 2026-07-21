@@ -1,6 +1,5 @@
 import { registerSessionLogout } from '@/auth/config/auth/auth-session-effects';
 import { registerUserProfileSync } from '@/core/session';
-import { store } from '@/store';
 import { useUserStore } from '@/store/modules/auth/user';
 
 /**
@@ -9,7 +8,7 @@ import { useUserStore } from '@/store/modules/auth/user';
  */
 export function wireSessionStoreBridge(): void {
   registerUserProfileSync((profile) => {
-    const userStore = useUserStore(store);
+    const userStore = useUserStore();
     userStore.SET_AVATAR(profile.avatar);
     userStore.SET_USERNAME(profile.username);
     userStore.SET_NICKNAME(profile.nickname);
@@ -18,5 +17,5 @@ export function wireSessionStoreBridge(): void {
     userStore.SET_USER_ID(profile.userId);
   });
 
-  registerSessionLogout(() => useUserStore(store).logOut());
+  registerSessionLogout(() => useUserStore().logOut());
 }
