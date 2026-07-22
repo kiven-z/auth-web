@@ -1,7 +1,8 @@
 import type { TableActionWithSelectionDeps } from '@/api/common';
-import { markInAppInboxRead } from '@/api/message/in-app-inbox';
+import { batchDeleteInAppInbox, markInAppInboxRead } from '@/api/message/in-app-inbox';
 import { operationConfirm } from '@/services/feedback/dialog';
 import { errorMessage, message } from '@/services/feedback/message';
+import useBatchDeleteAction from '@/shared/composables/table/useBatchDeleteAction';
 import { useInAppInboxStore } from '@/store/modules/message/inAppInbox';
 import { useI18n } from 'vue-i18n';
 
@@ -25,17 +26,13 @@ function useInboxTableAction(deps: TableActionWithSelectionDeps) {
   const { t } = useI18n();
   const inboxStore = useInAppInboxStore();
 
-  /**
-   * 批量删除：工具栏 `deleteBatchRows()`；行内 `deleteBatchRows([row.id])`。
-   * @param ids 主键列表；不传则使用当前多选
-   */
-  async function deleteBatchRows(ids?: unknown) {
-    const targetIds = resolveTargetIds(ids, selectedRows.value);
-    if (targetIds.length <= 0) {
-      return;
-    }
-    message('即将上线', { type: 'info' });
-  }
+  const { deleteBatchRows } = useBatchDeleteAction({
+    selectedRows,
+    deleteApi: batchDeleteInAppInbox,
+    onSuccess: async () => {
+      await Promise.all([fetchTableData(), inboxStore.refreshUnreadCount()]);
+    },
+  });
 
   /**
    * 批量标已读

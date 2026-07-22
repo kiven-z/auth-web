@@ -71,3 +71,11 @@ export function getInAppInboxUnreadCount(): Promise<InAppInboxUnreadCount> {
 export function markInAppInboxRead(ids: string[]) {
   return http.post<string, string[]>('/system/me/message/in-app/inbox/read', { data: ids });
 }
+
+/**
+ * 批量删除我的站内信（用户侧逻辑删除）
+ * @param ids 站内信 ID 数组（雪花，字符串传递）
+ */
+export function batchDeleteInAppInbox(ids: string[]) {
+  return http.request<string>('delete', '/system/me/message/in-app/inbox', { data: ids });
+}
