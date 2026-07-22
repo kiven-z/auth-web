@@ -146,7 +146,7 @@ onMounted(async () => {
 
       <template v-else>
         <div ref="filterRef" class="inbox-page__filter">
-          <el-form ref="searchFormRef" :model="searchForm" inline>
+          <el-form ref="searchFormRef" v-enter-submit="refreshListAndMajors" :model="searchForm" inline>
             <!-- 已读状态筛选 -->
             <el-form-item :label="t('inAppInbox.field.readStatus')" prop="isRead">
               <el-select

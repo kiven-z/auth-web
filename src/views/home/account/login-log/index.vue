@@ -34,7 +34,13 @@ onMounted(() => {
 
 <template>
   <div class="account-login-log">
-    <el-form ref="searchFormRef" :model="loginLogState.searchForm" class="account-login-log__filter" inline>
+    <el-form
+      ref="searchFormRef"
+      v-enter-submit="fetchTableData"
+      :model="loginLogState.searchForm"
+      class="account-login-log__filter"
+      inline
+    >
       <el-form-item :label="t('loginLog.field.loginResult')" prop="loginResult">
         <el-select
           v-model="loginLogState.searchForm.loginResult"

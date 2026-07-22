@@ -60,8 +60,9 @@
       cursor: pointer;
       border-radius: 4px;
       transform: translate(0, -50%);
-      transition: background-color 0.12s,
-      color 0.12s;
+      transition:
+        background-color 0.12s,
+        color 0.12s;
 
       &:hover {
         color: rgb(0 0 0 / 88%) !important;

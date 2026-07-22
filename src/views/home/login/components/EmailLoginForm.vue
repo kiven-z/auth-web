@@ -77,7 +77,7 @@ const handleSubmit = async () => {
 </script>
 
 <template>
-  <el-form ref="formRef" :model="formData" :rules="emailLoginRules" size="large">
+  <el-form ref="formRef" v-enter-submit="handleSubmit" :model="formData" :rules="emailLoginRules" size="large">
     <Motion :delay="100">
       <el-form-item prop="email">
         <el-input

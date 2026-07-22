@@ -95,7 +95,13 @@ defineExpose({ getSelectedKeys });
     :left-title="leftTitle"
     :section-label="sectionLabel ?? t('permissions.assign.sectionLabel')"
   >
-    <el-form ref="searchFormRef" :model="searchForm" class="mb-3 w-full overflow-auto pl-8 pt-3" inline>
+    <el-form
+      ref="searchFormRef"
+      v-enter-submit="fetchTableData"
+      :model="searchForm"
+      class="mb-3 w-full overflow-auto pl-8 pt-3"
+      inline
+    >
       <el-form-item :label="t('permissions.field.permissionName')" prop="permissionName">
         <el-input
           v-model="searchForm.permissionName"

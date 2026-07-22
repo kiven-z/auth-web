@@ -1,5 +1,5 @@
 import type { Directive } from 'vue';
-import type { CopyEl, OptimizeOptions, RippleOptions } from '@/app/directives';
+import type { CopyEl, EnterSubmitEl, EnterSubmitHandler, OptimizeOptions, RippleOptions } from '@/app/directives';
 
 /** 全局自定义指令类型（供 Volar / vue-tsc 识别 v-* 模板指令） */
 type AuthDirective = Directive<HTMLElement, string | Array<string>>;
@@ -14,6 +14,8 @@ declare module 'vue' {
     vLongpress: Directive<HTMLElement, Function>;
     /** 防抖、节流指令 */
     vOptimize: Directive<HTMLElement, OptimizeOptions>;
+    /** 表单回车提交（列表搜索、登录等，绑定提交回调） */
+    vEnterSubmit: Directive<EnterSubmitEl, EnterSubmitHandler>;
     /**
      * `v-ripple` 指令，用法如下：
      * 1. `v-ripple` 代表启用基本的 `ripple` 功能

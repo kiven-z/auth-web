@@ -62,7 +62,13 @@ const hasSelection = computed(() => selectedRows.value.length > 0);
 
 <template>
   <div>
-    <el-form ref="searchFormRef" :model="searchForm" class="bg-bg_color w-[99/100] overflow-auto pl-8 pt-3" inline>
+    <el-form
+      ref="searchFormRef"
+      v-enter-submit="fetchUserTable"
+      :model="searchForm"
+      class="bg-bg_color w-[99/100] overflow-auto pl-8 pt-3"
+      inline
+    >
       <!-- 用户名 -->
       <el-form-item :label="t('users.field.username')" prop="username">
         <el-input

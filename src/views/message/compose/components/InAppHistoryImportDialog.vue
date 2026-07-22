@@ -100,7 +100,13 @@ onMounted(() => {
 
 <template>
   <div class="in-app-history-import-dialog">
-    <el-form ref="searchFormRef" :model="searchForm" class="w-full overflow-auto pl-8 pt-3" inline>
+    <el-form
+      ref="searchFormRef"
+      v-enter-submit="fetchTableData"
+      :model="searchForm"
+      class="w-full overflow-auto pl-8 pt-3"
+      inline
+    >
       <!-- 标题关键字 -->
       <el-form-item :label="t('inAppMessage.field.title')" prop="title">
         <el-input

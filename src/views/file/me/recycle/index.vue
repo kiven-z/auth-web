@@ -54,7 +54,13 @@ onMounted(() => {
 
 <template>
   <div>
-    <el-form ref="searchFormRef" :model="searchForm" class="bg-bg_color w-[99/100] overflow-auto pl-8 pt-3" inline>
+    <el-form
+      ref="searchFormRef"
+      v-enter-search="fetchTableData"
+      :model="searchForm"
+      class="bg-bg_color w-[99/100] overflow-auto pl-8 pt-3"
+      inline
+    >
       <!-- 业务类型筛选 -->
       <el-form-item :label="t('fileRecycle.fields.bizType')" prop="bizType">
         <el-input

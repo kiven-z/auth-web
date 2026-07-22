@@ -47,7 +47,13 @@ onMounted(() => {
 
 <template>
   <div>
-    <el-form ref="searchFormRef" :model="searchForm" class="bg-bg_color w-[99/100] overflow-auto pl-8 pt-3" inline>
+    <el-form
+      ref="searchFormRef"
+      v-enter-submit="fetchTableData"
+      :model="searchForm"
+      class="bg-bg_color w-[99/100] overflow-auto pl-8 pt-3"
+      inline
+    >
       <el-form-item :label="t('sysMenu.routeName')" prop="name">
         <el-input v-model="searchForm.name" :placeholder="ph.input('sysMenu.routeName')" class="w-45!" clearable />
       </el-form-item>

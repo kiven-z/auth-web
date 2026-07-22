@@ -49,7 +49,13 @@ onMounted(() => {
 
 <template>
   <div>
-    <el-form ref="searchFormRef" :model="searchForm" class="bg-bg_color w-[99/100] overflow-auto pl-8 pt-3" inline>
+    <el-form
+      ref="searchFormRef"
+      v-enter-submit="fetchTableData"
+      :model="searchForm"
+      class="bg-bg_color w-[99/100] overflow-auto pl-8 pt-3"
+      inline
+    >
       <!-- 任务 ID -->
       <el-form-item :label="t('logJob.field.jobId')" prop="jobId">
         <el-input v-model="searchForm.jobId" :placeholder="ph.input('logJob.field.jobId')" class="w-45!" clearable />

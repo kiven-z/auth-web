@@ -99,7 +99,13 @@ onMounted(() => {
 
 <template>
   <div class="in-app-template-import-dialog">
-    <el-form ref="searchFormRef" :model="searchForm" class="w-full overflow-auto pl-8 pt-3" inline>
+    <el-form
+      ref="searchFormRef"
+      v-enter-submit="fetchTableData"
+      :model="searchForm"
+      class="w-full overflow-auto pl-8 pt-3"
+      inline
+    >
       <!-- 场景编码 -->
       <el-form-item :label="t('inAppTemplate.templateCode')" prop="templateCode">
         <el-input

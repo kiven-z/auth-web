@@ -19,7 +19,13 @@ const { loading, searchForm, fetchTreeData, resetQuery } = useInAppCategoryPageS
 </script>
 
 <template>
-  <el-form ref="searchFormRef" :model="searchForm" class="bg-bg_color w-[99/100] overflow-auto pl-8 pt-3" inline>
+  <el-form
+    ref="searchFormRef"
+    v-enter-submit="fetchTreeData"
+    :model="searchForm"
+    class="bg-bg_color w-[99/100] overflow-auto pl-8 pt-3"
+    inline
+  >
     <!-- 分类码 -->
     <el-form-item :label="t('inAppCategory.field.code')" prop="code">
       <el-input v-model="searchForm.code" :placeholder="ph.input('inAppCategory.field.code')" class="w-45!" clearable />
