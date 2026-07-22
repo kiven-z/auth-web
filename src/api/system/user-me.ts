@@ -1,7 +1,7 @@
 import type { AxiosRequestConfig } from 'axios';
 
 import type { PageResponse } from '@/api/common';
-import { http } from '@/core/http';
+import { http } from '@/core/http/client';
 
 /**
  * 个人中心活跃会话

@@ -1,5 +1,5 @@
 import type { BaseResponseDetail, BaseResponsePageRow, PageResponse } from '@/api/common';
-import { http } from '@/core/http';
+import { http } from '@/core/http/client';
 import type { AxiosRequestConfig } from 'axios';
 
 /**

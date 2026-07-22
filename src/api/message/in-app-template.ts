@@ -1,4 +1,4 @@
-import { http } from '@/core/http';
+import { http } from '@/core/http/client';
 
 /** 站内信正文类型 */
 export type InAppTemplateContentType = 'TEXT' | 'MARKDOWN';

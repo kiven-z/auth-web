@@ -1,4 +1,4 @@
-import { http } from '@/core/http';
+import { http } from '@/core/http/client';
 
 /** 个人中心 UI 偏好列表项 */
 export interface MeUserPreferenceItem {

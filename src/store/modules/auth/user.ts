@@ -1,11 +1,8 @@
 import { logoutApi } from '@/api/auth';
 import { stopSync } from '@/core/preferences/sync';
-import {
-  readSessionPreferences,
-  readUserProfileFromStorage,
-  removeToken,
-  writeSessionPreferences,
-} from '@/core/session';
+import { readSessionPreferences, writeSessionPreferences } from '@/core/session/sessionPreferences';
+import { removeToken } from '@/core/session/sessionToken';
+import { readUserProfileFromStorage } from '@/core/session/userProfileStorage';
 import { routerArrays } from '@/layout/types';
 import { resetRouter, router } from '@/router';
 import { defineStore } from 'pinia';

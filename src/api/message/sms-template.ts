@@ -1,4 +1,4 @@
-import { http } from '@/core/http';
+import { http } from '@/core/http/client';
 
 /**
  * 短信模板新增/编辑弹窗表单

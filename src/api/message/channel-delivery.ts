@@ -1,6 +1,6 @@
 import type { BaseResponseDetail, BaseResponsePageRow, PageResponse, SortSpec } from '@/api/common';
 import type { MessageChannelCode } from '@/api/message/message-template';
-import { http } from '@/core/http';
+import { http } from '@/core/http/client';
 import type { AxiosRequestConfig } from 'axios';
 
 /** 渠道投递状态 */

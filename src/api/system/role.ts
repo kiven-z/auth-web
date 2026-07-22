@@ -11,7 +11,7 @@ import type {
 } from '@/api/common';
 import { mergePagedExportParams } from '@/api/common';
 import type { DeptReference, PermissionReference, PostReference, UserReference } from '@/api/system/grant-table';
-import { http } from '@/core/http';
+import { http } from '@/core/http/client';
 
 export type { SpreadsheetImportResult };
 

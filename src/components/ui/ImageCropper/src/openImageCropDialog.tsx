@@ -1,6 +1,6 @@
 import { addDialog, type ButtonProps, closeDialog } from '@/components/ui/Dialog';
 import type { DialogOptions } from '@/components/ui/Dialog/type';
-import { ImageCropperPanel } from '@/components/ui/ImageCropper';
+import ImageCropperPanel from './ImageCropperPanel.vue';
 import type { ImageCropperPanelExpose, OpenImageCropDialogOptions } from '@/components/ui/ImageCropper/types';
 import { transformI18n } from '@/app/plugins/i18n';
 import { ref } from 'vue';

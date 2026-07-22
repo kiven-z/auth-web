@@ -1,4 +1,4 @@
-import { http } from '@/core/http';
+import { http } from '@/core/http/client';
 import { AUTH_API_PATHS } from './paths';
 import type { EmailLoginRequest, SmsLoginRequest, UserLoginResponse, UsernamePasswordLoginRequest } from './types';
 

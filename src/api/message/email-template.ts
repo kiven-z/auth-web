@@ -1,6 +1,6 @@
 import type { BaseResponsePageRow } from '@/api/common';
 import type { MessageTemplateRequireFieldRow } from '@/api/message/message-template';
-import { http } from '@/core/http';
+import { http } from '@/core/http/client';
 
 /**
  * 变量声明行

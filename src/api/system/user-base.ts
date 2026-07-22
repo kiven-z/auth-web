@@ -7,7 +7,7 @@ import type {
   UserDeptReference,
   UserPostReference,
 } from '@/api/system/grant-table';
-import { http } from '@/core/http';
+import { http } from '@/core/http/client';
 
 export type { UserDeptReference, UserPostReference };
 

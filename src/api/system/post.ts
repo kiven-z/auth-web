@@ -17,7 +17,7 @@ import type {
   PostBoundUserReference,
   RoleReference,
 } from '@/api/system/grant-table';
-import { http } from '@/core/http';
+import { http } from '@/core/http/client';
 
 export type { SpreadsheetImportResult };
 

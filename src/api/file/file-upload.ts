@@ -1,4 +1,4 @@
-import { http } from '@/core/http';
+import { http } from '@/core/http/client';
 
 /**
  * 文件上传请求参数（multipart/form-data）

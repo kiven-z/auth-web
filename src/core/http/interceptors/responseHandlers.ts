@@ -1,9 +1,10 @@
 import { transformI18n } from '@/app/plugins/i18n';
 import { runSessionLogout } from '@/auth/config/auth/auth-session-effects';
 import { API_SUCCESS_CODE, isNoAuthRequestPath } from '@/auth/config/http-config';
-import { executeAuthRecovery } from '@/core/auth/recovery';
+import { executeAuthRecovery } from '@/core/auth/recovery/executor';
+import { isApiResultEnvelope } from '@/core/http/apiResult';
+import { rejectWithApiEnvelopeError } from '@/core/http/errorAdapter';
 import Axios, { type AxiosInstance, type AxiosResponse } from 'axios';
-import { isApiResultEnvelope, rejectWithApiEnvelopeError } from '@/core/http';
 import type { AuthHttpError, AuthHttpRequestConfig } from '../types';
 
 /**

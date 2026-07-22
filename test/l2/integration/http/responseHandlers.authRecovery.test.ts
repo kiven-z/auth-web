@@ -9,7 +9,7 @@ const { executeAuthRecoveryMock, logOutMock, rejectWithApiEnvelopeErrorMock } = 
   rejectWithApiEnvelopeErrorMock: vi.fn(),
 }));
 
-vi.mock('@/core/auth/recovery', () => ({
+vi.mock('@/core/auth/recovery/executor', () => ({
   executeAuthRecovery: executeAuthRecoveryMock,
 }));
 

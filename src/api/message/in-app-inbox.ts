@@ -1,5 +1,5 @@
 import type { BaseResponsePageRow, PageResponse } from '@/api/common';
-import { http } from '@/core/http';
+import { http } from '@/core/http/client';
 import type { AxiosRequestConfig } from 'axios';
 
 /** 我的站内信分页查询参数 */

@@ -49,9 +49,5 @@ class AuthHttp {
   }
 }
 
+/** 全局 HTTP 客户端（带鉴权与 Result 解包拦截器） */
 export const http = new AuthHttp();
-
-export * from './apiError';
-export * from './apiResult';
-export * from './errorAdapter';
-export type { AuthHttpError, AuthHttpRequestConfig, AuthHttpResponse, RequestMethods } from './types';

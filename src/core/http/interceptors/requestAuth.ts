@@ -1,5 +1,5 @@
 import { isNoAuthRequestPath } from '@/auth/config/http-config';
-import { formatToken, getToken } from '@/core/session';
+import { formatToken, getToken } from '@/core/session/sessionToken';
 import type { AxiosInstance, InternalAxiosRequestConfig } from 'axios';
 
 /**

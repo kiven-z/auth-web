@@ -3,7 +3,9 @@ import { usePermissionStore } from '@/store/modules/auth/permission';
 import { cloneDeep } from '@pureadmin/utils';
 import { createRouter, type RouteComponent, type Router, type RouteRecordRaw } from 'vue-router';
 import remainingRouter from './modules/remaining';
-import { ascending, formatFlatteningRoutes, formatTwoStageRoutes, getHistoryMode } from './utils/index';
+import { ascending } from './utils/menu-sort';
+import { getHistoryMode } from './utils/misc';
+import { formatFlatteningRoutes, formatTwoStageRoutes } from './utils/route-tree';
 
 import { createAuthGuard } from './guards/auth';
 import { createKeepAliveGuard } from './guards/keepalive';

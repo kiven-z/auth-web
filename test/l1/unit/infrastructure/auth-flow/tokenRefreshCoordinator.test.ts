@@ -6,7 +6,7 @@ const { mockGetToken, mockFormatToken, mockRefreshAccessToken } = vi.hoisted(() 
   mockRefreshAccessToken: vi.fn(),
 }));
 
-vi.mock('@/core/session', () => ({
+vi.mock('@/core/session/sessionToken', () => ({
   getToken: mockGetToken,
   formatToken: mockFormatToken,
 }));

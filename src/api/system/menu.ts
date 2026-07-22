@@ -2,7 +2,7 @@ import type { BaseResponse, IdsEnableStatusRequest, PageResponse, SortSpec } fro
 import type { MenuAssignedRoleRow, MenuAssignRoleRequest, RoleReference } from '@/api/system/grant-table';
 import type { AxiosRequestConfig } from 'axios';
 
-import { http } from '@/core/http';
+import { http } from '@/core/http/client';
 
 /** 菜单新增表单 */
 export interface MenuCreateForm {

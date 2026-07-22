@@ -1,7 +1,7 @@
 import type { AxiosRequestConfig } from 'axios';
 
 import type { BaseResponseDetail, BaseResponsePageRow, PageResponse, SortSpec } from '@/api/common';
-import { http } from '@/core/http';
+import { http } from '@/core/http/client';
 
 /** 消息渠道*/
 export type MessageChannelCode = 'EMAIL' | 'SMS' | 'DING_TALK' | 'IN_APP';

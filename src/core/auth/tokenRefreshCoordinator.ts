@@ -1,5 +1,5 @@
 import type { AuthHttpRequestConfig } from '@/core/http/types';
-import { formatToken, getToken } from '@/core/session';
+import { formatToken, getToken } from '@/core/session/sessionToken';
 import type { AxiosInstance } from 'axios';
 import { refreshAccessToken } from './refreshAccessToken';
 

@@ -1,4 +1,4 @@
-import { http } from '@/core/http';
+import { http } from '@/core/http/client';
 import type { PageResponse } from '@/api/common';
 import type { AxiosRequestConfig } from 'axios';
 import type { FileRecordDetail, FileRecordPageQuery, FileRecordPageRow } from '@/api/file/file-record';

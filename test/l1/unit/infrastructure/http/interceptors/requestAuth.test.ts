@@ -6,7 +6,7 @@ const { getTokenMock } = vi.hoisted(() => ({
   getTokenMock: vi.fn(),
 }));
 
-vi.mock('@/core/session', () => ({
+vi.mock('@/core/session/sessionToken', () => ({
   getToken: getTokenMock,
   formatToken: (token: string) => `Bearer ${token}`,
 }));

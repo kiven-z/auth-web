@@ -14,7 +14,7 @@ import type {
   PostReference,
   RoleReference,
 } from '@/api/system/grant-table';
-import { http } from '@/core/http';
+import { http } from '@/core/http/client';
 import { TREE_ROOT_PARENT_ID } from '@/shared/utils/tree';
 import type { AxiosRequestConfig } from 'axios';
 

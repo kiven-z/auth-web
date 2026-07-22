@@ -1,8 +1,10 @@
 import { refreshAccessTokenSingleFlight } from '@/core/auth/tokenRefreshCoordinator';
-import { ApiConflictError } from '@/core/http';
+import { ApiConflictError } from '@/core/http/apiError';
 import { hydrateUiPreferencesOnSession } from '@/core/preferences/session';
 import { hasSessionHydrated } from '@/core/preferences/sync';
-import { hasAccessToken, isLoggedIn, readUserProfileFromStorage, removeToken } from '@/core/session';
+import { isLoggedIn } from '@/core/session/sessionAuth';
+import { hasAccessToken, removeToken } from '@/core/session/sessionToken';
+import { readUserProfileFromStorage } from '@/core/session/userProfileStorage';
 import { getTopMenu } from '@/router/utils/misc';
 import { initRouter } from '@/router/utils/route-registry';
 import { findRouteByPath } from '@/router/utils/route-tree';
