@@ -37,7 +37,7 @@ dataThemeChange(overallStyle.value);
 </script>
 
 <template>
-  <div class="select-none">
+  <div class="select-none h-full">
     <img :src="bg" alt="bg" class="wave" />
     <div class="flex-c absolute right-5 top-3">
       <!-- 主题 -->

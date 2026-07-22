@@ -39,12 +39,3 @@ function topLevelRouteKey(route: { matched: { path: string }[]; path: string }):
     <AuthDrawer />
   </el-config-provider>
 </template>
-
-<style>
-#app {
-  width: 100vw;
-  height: 100vh;
-  overflow: hidden;
-  position: relative;
-}
-</style>
