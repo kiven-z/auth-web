@@ -33,7 +33,7 @@ onMounted(() => {
       <el-tree
         ref="treeRef"
         :current-node-key="currentNodeKey"
-        :data="[...treeData, ...treeData]"
+        :data="treeData"
         :expand-on-click-node="false"
         :props="treeProps"
         default-expand-all

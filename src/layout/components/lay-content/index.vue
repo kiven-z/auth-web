@@ -54,7 +54,7 @@ const getSectionStyle = computed(() => {
     !hideTabs.value && !layout.value ? (showModel.value == 'chrome' ? 'padding-top: 85px;' : 'padding-top: 81px;') : '',
     props.fixedHeader
       ? ''
-      : `padding-top: 0;${hideTabs.value ? 'min-height: calc(100% - 48px);' : 'min-height: calc(100% - 86px);'}`,
+      : `padding-top: 0;${hideTabs.value ? 'min-height: calc(100vh - 48px);' : 'min-height: calc(100vh - 86px);'}`,
   ];
 });
 
@@ -145,7 +145,7 @@ const transitionMain = defineComponent({
 .app-main {
   position: relative;
   width: 100%;
-  height: 100%;
+  height: 100vh;
   overflow-x: hidden;
 }
 
