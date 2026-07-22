@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import type { SysUserProfileResponse } from '@/api/system/user-base';
 import { updateMyAvatar } from '@/api/system/user-me';
-import { AvatarEditor } from '@/components/business/AvatarEditor';
+import AvatarEditor from '@/components/business/AvatarEditor';
 import { message } from '@/services/feedback/message';
 import { ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';

@@ -1,4 +1,4 @@
-export { default as ImageCropperPanel } from './src/ImageCropperPanel.vue';
+export { default } from './src/ImageCropperPanel.vue';
 export { openImageCropDialog } from './src/openImageCropDialog';
 export type {
   ImageCropperCropOptions,

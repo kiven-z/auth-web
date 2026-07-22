@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { AuthElTreePanel } from '@/components/business/AuthElTreePanel';
+import AuthElTreePanel from '@/components/business/AuthElTreePanel';
 import { TREE_ROOT_PARENT_ID } from '@/shared/utils/tree';
 import InAppCategoryRowActions from '@/views/message/in-app-category/components/InAppCategoryRowActions.vue';
 import InAppCategorySearchForm from '@/views/message/in-app-category/components/InAppCategorySearchForm.vue';
