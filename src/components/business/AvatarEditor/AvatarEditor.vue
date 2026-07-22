@@ -41,8 +41,8 @@ const { avatarUploadRef, avatarUploading, avatarCropping, handleAvatarChange } =
 
 <template>
   <div
-    class="avatar-editor"
     :style="editorStyle"
+    class="avatar-editor"
     @mouseenter="avatarHovering = true"
     @mouseleave="avatarHovering = false"
   >

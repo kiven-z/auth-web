@@ -143,7 +143,7 @@ onMounted(() => {
         <!-- 更多 -->
         <Perms :value="SYS_JOB_PERMS.UPDATE">
           <el-dropdown trigger="click">
-            <el-button link type="primary" class="ml-2!">{{ t('buttons.actionMore') }}</el-button>
+            <el-button class="ml-2!" link type="primary">{{ t('buttons.actionMore') }}</el-button>
             <template #dropdown>
               <el-dropdown-menu>
                 <el-dropdown-item :disabled="row.status === true" @click="batchUpdateStatus([row.id], true)">

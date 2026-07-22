@@ -74,7 +74,7 @@ const openDetail = (messageId: string) => {
 
       <div class="inbox-message-list__trailing" @click.stop>
         <div class="inbox-message-list__actions">
-          <el-button link type="primary" @click="emit('row-mark-read', row.id!)">
+          <el-button v-if="!row.isRead" link type="primary" @click="emit('row-mark-read', row.id!)">
             {{ t('inAppInbox.action.markRead') }}
           </el-button>
           <el-button link type="danger" @click="emit('row-delete', row.id!)">

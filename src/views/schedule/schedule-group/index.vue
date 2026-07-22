@@ -127,7 +127,7 @@ onMounted(() => {
         <!-- 更多：分组下任务批量启停 -->
         <Perms :value="SYS_JOB_GROUP_PERMS.BATCH_UPDATE_JOBS_IN_GROUP">
           <el-dropdown trigger="click">
-            <el-button link type="primary" class="ml-2!">{{ t('buttons.actionMore') }}</el-button>
+            <el-button class="ml-2!" link type="primary">{{ t('buttons.actionMore') }}</el-button>
             <template #dropdown>
               <el-dropdown-menu>
                 <el-dropdown-item @click="updateAllJobsStatusInGroup(row, false)">

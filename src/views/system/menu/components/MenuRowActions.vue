@@ -108,7 +108,7 @@ onUnmounted(() => {
         @click.stop
         @visible-change="handleDropdownVisibleChange"
       >
-        <el-button link type="primary" class="ml-2!" @pointerdown.stop="lockRowForDropdown">
+        <el-button class="ml-2!" link type="primary" @pointerdown.stop="lockRowForDropdown">
           {{ t('buttons.actionMore') }}
         </el-button>
         <template #dropdown>

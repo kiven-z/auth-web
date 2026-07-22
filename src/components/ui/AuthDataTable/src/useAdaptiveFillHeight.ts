@@ -29,10 +29,7 @@ export interface AdaptiveFillHeightOptions {
  * @param options 偏移与预留等配置
  * @returns recalculate 手动重算
  */
-export function useAdaptiveFillHeight(
-  targetRef: Ref<HTMLElement | null>,
-  options: AdaptiveFillHeightOptions = {}
-) {
+export function useAdaptiveFillHeight(targetRef: Ref<HTMLElement | null>, options: AdaptiveFillHeightOptions = {}) {
   let debounceTimer: ReturnType<typeof setTimeout> | null = null;
   let resizeObserver: ResizeObserver | null = null;
   let resizeListenerAttached = false;
@@ -57,10 +54,7 @@ export function useAdaptiveFillHeight(
       return;
     }
     const top = element.getBoundingClientRect().top;
-    const height = Math.max(
-      getMinHeight(),
-      window.innerHeight - top - getOffsetBottom() - getReserveBottom()
-    );
+    const height = Math.max(getMinHeight(), window.innerHeight - top - getOffsetBottom() - getReserveBottom());
     element.style.height = `${height}px`;
   }
 

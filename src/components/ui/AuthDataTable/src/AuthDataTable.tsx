@@ -80,9 +80,7 @@ export default defineComponent({
       enabled: () => props.adaptive,
       offsetBottom: () => props.adaptiveConfig?.offsetBottom ?? DEFAULT_ADAPTIVE_OFFSET_BOTTOM,
       reserveBottom: () =>
-        showPagination.value
-          ? (props.adaptiveConfig?.paginationReserve ?? DEFAULT_ADAPTIVE_PAGINATION_RESERVE_PX)
-          : 0,
+        showPagination.value ? (props.adaptiveConfig?.paginationReserve ?? DEFAULT_ADAPTIVE_PAGINATION_RESERVE_PX) : 0,
       minHeight: () => MIN_ADAPTIVE_TABLE_HEIGHT_PX,
       debounceMs: () => props.adaptiveConfig?.timeout ?? DEFAULT_ADAPTIVE_DEBOUNCE_MS,
     });
