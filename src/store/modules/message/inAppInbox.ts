@@ -1,4 +1,5 @@
 import { getInAppInboxUnreadCount, type InAppInboxMajorUnread } from '@/api/message/in-app-inbox';
+import { errorMessage } from '@/services/feedback/message';
 import { defineStore } from 'pinia';
 
 interface InAppInboxState {
@@ -18,17 +19,19 @@ export const useInAppInboxStore = defineStore('in-app-inbox', {
   }),
   actions: {
     /**
-     * 从服务端刷新未读角标与大类 Tab 数据。
-     * 失败时抛出，由调用方决定是否提示（角标静默 / 收件箱页提示）。
+     * 从服务端刷新未读角标与大类 Tab 数据
      */
     async refreshUnreadCount() {
-      this.loadingMajors = true;
-      // 先清空，避免沿用布局角标缓存画出过期 Tab
-      this.majors = [];
+      if (this.majors.length === 0) {
+        this.loadingMajors = true;
+      }
+
       try {
         const unreadCount = await getInAppInboxUnreadCount();
         this.totalUnreadCount = unreadCount.totalUnreadCount ?? 0;
         this.majors = unreadCount.majors ?? [];
+      } catch (error: unknown) {
+        errorMessage(error);
       } finally {
         this.loadingMajors = false;
       }

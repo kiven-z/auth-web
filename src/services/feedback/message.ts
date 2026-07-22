@@ -131,7 +131,7 @@ const closeAllMessage = (): void => ElMessage.closeAll();
 const errorMessage = (error: unknown, params?: ErrorMessageParams): MessageHandler => {
   const { message: explicitMessage, defaultI18nKey, ...rest } = params ?? {};
   const text = resolveCaughtErrorText(error, { message: explicitMessage, defaultI18nKey });
-  return message(text, { type: 'error', ...rest });
+  return message(text, { type: 'error', ...rest, grouping: true });
 };
 
 export { closeAllMessage, errorMessage, message };

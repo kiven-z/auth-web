@@ -7,7 +7,6 @@ import {
   DEFAULT_PAGINATION_LAYOUT,
   useAdaptiveFillHeight,
 } from '@/components/ui/AuthDataTable';
-import { errorMessage } from '@/services/feedback/message';
 import { useFormPlaceholder } from '@/shared/composables/i18n/useFormPlaceholder';
 import { useHomePageNavigation } from '@/shared/composables/layout/useHomePageNavigation';
 import { useInAppInboxStore } from '@/store/modules/message/inAppInbox';
@@ -80,24 +79,36 @@ const isCurrentPageIndeterminate = computed(
 );
 
 /**
- * 切换大类 Tab
- * @param name Tab name
+ * 刷新列表与大类角标（保持当前页，不重置分页）。
  */
-async function handleMajorTabChange(name: string | number) {
-  searchForm.majorCategoryId = String(name);
+function refreshListAndMajors() {
+  void fetchTableData();
+  void inboxStore.refreshUnreadCount();
+}
+
+/**
+ * 重置筛选后刷新列表与大类角标。
+ * @param formRef 搜索表单实例
+ */
+function handleResetQuery(formRef?: FormInstance) {
+  void resetQuery(formRef);
+  void inboxStore.refreshUnreadCount();
+}
+
+/**
+ * 切换大类 Tab
+ * @param majorCategoryId 大类 ID（el-tabs name）
+ */
+function handleMajorTabChange(majorCategoryId: string) {
+  searchForm.majorCategoryId = majorCategoryId;
   searchForm.categoryId = undefined;
   selectedRows.value = [];
   subOptions.value = [];
-  await fetchTableData();
+  refreshListAndMajors();
 }
 
 onMounted(async () => {
-  try {
-    await inboxStore.refreshUnreadCount();
-  } catch (error: unknown) {
-    errorMessage(error, { defaultI18nKey: 'inAppInbox.loadMajorsFailed' });
-    return;
-  }
+  await inboxStore.refreshUnreadCount();
 
   const firstMajorId = majors.value[0]?.majorCategoryId;
   if (!firstMajorId) {
@@ -172,16 +183,15 @@ onMounted(async () => {
                 :placeholder="ph.input('inAppInbox.field.title')"
                 class="inbox-page__field"
                 clearable
-                @keyup.enter="fetchTableData"
               />
             </el-form-item>
 
             <el-form-item>
               <el-button-group>
-                <el-button :loading="loading" type="primary" @click="fetchTableData">
+                <el-button :loading="loading" type="primary" @click="refreshListAndMajors">
                   {{ t('buttons.actionSearch') }}
                 </el-button>
-                <el-button @click="resetQuery(searchFormRef)">
+                <el-button @click="handleResetQuery(searchFormRef)">
                   {{ t('buttons.actionReset') }}
                 </el-button>
               </el-button-group>
