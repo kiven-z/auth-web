@@ -1,18 +1,19 @@
 import { ElConfigProvider, ElPagination, ElTable, ElTableColumn } from 'element-plus';
 import type { PropType } from 'vue';
-import { computed, defineComponent, mergeProps, ref } from 'vue';
+import { computed, defineComponent, mergeProps, nextTick, onMounted, ref, watch } from 'vue';
 
 import { columnVisible, renderCellContent } from './columnHelpers';
 import {
   DEFAULT_ADAPTIVE_DEBOUNCE_MS,
-  DEFAULT_OFFSET_BOTTOM,
+  DEFAULT_ADAPTIVE_OFFSET_BOTTOM,
+  DEFAULT_ADAPTIVE_PAGINATION_RESERVE_PX,
   DEFAULT_PAGE_SIZES,
   DEFAULT_PAGINATION_LAYOUT,
-  DEFAULT_PAGINATION_RESERVE_PX,
+  MIN_ADAPTIVE_TABLE_HEIGHT_PX,
 } from './constants';
 import './index.scss';
 import type { AuthDataTableAdaptiveConfig, AuthDataTablePagination } from './types';
-import { useAdaptiveTableHeight } from './useAdaptiveTableHeight';
+import { useAdaptiveFillHeight } from './useAdaptiveFillHeight';
 
 export type { AuthDataTablePagination } from './types';
 
@@ -35,11 +36,11 @@ export default defineComponent({
     adaptiveConfig: {
       type: Object as PropType<AuthDataTableAdaptiveConfig>,
       default: () => ({
-        offsetBottom: DEFAULT_OFFSET_BOTTOM,
+        offsetBottom: DEFAULT_ADAPTIVE_OFFSET_BOTTOM,
         fixHeader: true,
         timeout: DEFAULT_ADAPTIVE_DEBOUNCE_MS,
         zIndex: 3,
-        paginationReserve: DEFAULT_PAGINATION_RESERVE_PX,
+        paginationReserve: DEFAULT_ADAPTIVE_PAGINATION_RESERVE_PX,
       }),
     },
     /** 整体对齐方式 */
@@ -75,17 +76,47 @@ export default defineComponent({
 
     const visibleColumns = computed(() => props.columns.filter(columnVisible));
 
-    const { setAdaptive } = useAdaptiveTableHeight(
-      tableWrapperRef,
-      () => ({
-        adaptive: props.adaptive,
-        adaptiveConfig: props.adaptiveConfig,
-        columns: props.columns,
-        pagination: props.pagination,
-        rowHoverBgColor: props.rowHoverBgColor,
-      }),
-      showPagination
+    const { recalculate: setAdaptive } = useAdaptiveFillHeight(tableWrapperRef, {
+      enabled: () => props.adaptive,
+      offsetBottom: () => props.adaptiveConfig?.offsetBottom ?? DEFAULT_ADAPTIVE_OFFSET_BOTTOM,
+      reserveBottom: () =>
+        showPagination.value
+          ? (props.adaptiveConfig?.paginationReserve ?? DEFAULT_ADAPTIVE_PAGINATION_RESERVE_PX)
+          : 0,
+      minHeight: () => MIN_ADAPTIVE_TABLE_HEIGHT_PX,
+      debounceMs: () => props.adaptiveConfig?.timeout ?? DEFAULT_ADAPTIVE_DEBOUNCE_MS,
+    });
+
+    watch(
+      () => props.columns,
+      () => {
+        if (props.adaptive) {
+          void setAdaptive();
+        }
+      },
+      { deep: true }
     );
+
+    watch(
+      () => props.pagination,
+      () => {
+        if (props.adaptive) {
+          void nextTick(() => {
+            void setAdaptive();
+          });
+        }
+      },
+      { deep: true }
+    );
+
+    onMounted(() => {
+      if (!props.adaptive || !props.rowHoverBgColor) {
+        return;
+      }
+      void nextTick(() => {
+        tableWrapperRef.value?.style.setProperty('--el-table-row-hover-bg-color', props.rowHoverBgColor, 'important');
+      });
+    });
 
     /**
      * 处理每页条数变化

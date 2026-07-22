@@ -89,7 +89,7 @@ const openDetail = (messageId: string) => {
 
 <style lang="scss" scoped>
 .inbox-message-list {
-  height: 550px;
+  height: 100%;
   overflow-y: auto;
   padding: 4px 8px 24px;
   scrollbar-width: none;
