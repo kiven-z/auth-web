@@ -3,7 +3,7 @@ import type { SysRoleCreateForm, SysRolePageRow, SysRoleUpdateForm } from '@/api
 import { batchUpdateRoleStatus, createRole, deleteRole, getRoleDetail, updateRole } from '@/api/system/role';
 import { addDialog } from '@/components/ui/Dialog';
 import { type FormOverlayExpose, useFormOverlaySubmit } from '@/shared/composables/table/useFormOverlaySubmit';
-import { deleteConfirm } from '@/services/feedback/dialog';
+import { deleteConfirm, operationConfirm } from '@/services/feedback/dialog';
 import { errorMessage, message } from '@/services/feedback/message';
 import RoleDescriptionDialog from '@/views/system/role/components/RoleDescriptionDialog.vue';
 import RoleFormDialog from '@/views/system/role/components/RoleFormDialog.vue';
@@ -111,6 +111,11 @@ function useRoleTableAction(deps: TableActionDeps) {
 
   const batchUpdateStatus = async (ids: string[], status: boolean) => {
     if (ids.length <= 0) {
+      return;
+    }
+
+    const confirmed = await operationConfirm();
+    if (!confirmed) {
       return;
     }
 

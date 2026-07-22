@@ -107,10 +107,6 @@ function useUserAssignDeptDrawerAction(deps: UserAssignDeptDrawerActionDeps) {
         title: t('users.deptAssign.clearAllConfirm'),
         message: t('users.deptAssign.clearAllConfirm'),
       },
-      {
-        title: t('tips.lastTimeConfirmDeleteTitle'),
-        message: t('tips.lastTimeConfirmDeleteTitle'),
-      },
     ]);
     if (!confirmed) {
       return;

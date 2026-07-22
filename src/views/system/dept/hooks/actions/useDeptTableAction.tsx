@@ -11,9 +11,10 @@ import {
   updateDept,
 } from '@/api/system/dept';
 import { addDialog } from '@/components/ui/Dialog';
+import { operationConfirm } from '@/services/feedback/dialog';
+import { errorMessage, message } from '@/services/feedback/message';
 import useBatchDeleteAction from '@/shared/composables/table/useBatchDeleteAction';
 import { type FormOverlayExpose, useFormOverlaySubmit } from '@/shared/composables/table/useFormOverlaySubmit';
-import { errorMessage, message } from '@/services/feedback/message';
 import { TREE_ROOT_PARENT_ID } from '@/shared/utils/tree';
 import DeptDescriptionDialog from '@/views/system/dept/components/DeptDescriptionDialog.vue';
 import DeptFormDialog from '@/views/system/dept/components/DeptFormDialog.vue';
@@ -144,6 +145,11 @@ function useDeptTableAction(deps: DeptTableActionDeps) {
 
   const batchUpdateStatus = async (ids: string[], status: boolean) => {
     if (ids.length <= 0) {
+      return;
+    }
+
+    const confirmed = await operationConfirm();
+    if (!confirmed) {
       return;
     }
 

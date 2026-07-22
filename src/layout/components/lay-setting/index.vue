@@ -375,8 +375,8 @@ function handleOverallStyleChange(theme: { index: number; option: { theme: strin
           <span class="dark:text-white">{{ t('panel.pureGreyModel') }}</span>
           <el-switch
             v-model="settings.greyVal"
-            :active-text="t('buttons.pureOpenText')"
-            :inactive-text="t('buttons.pureCloseText')"
+            :active-text="t('buttons.switchOnText')"
+            :inactive-text="t('buttons.switchOffText')"
             inline-prompt
             @change="greyChange"
           />
@@ -385,8 +385,8 @@ function handleOverallStyleChange(theme: { index: number; option: { theme: strin
           <span class="dark:text-white">{{ t('panel.pureWeakModel') }}</span>
           <el-switch
             v-model="settings.weakVal"
-            :active-text="t('buttons.pureOpenText')"
-            :inactive-text="t('buttons.pureCloseText')"
+            :active-text="t('buttons.switchOnText')"
+            :inactive-text="t('buttons.switchOffText')"
             inline-prompt
             @change="weekChange"
           />
@@ -395,8 +395,8 @@ function handleOverallStyleChange(theme: { index: number; option: { theme: strin
           <span class="dark:text-white">{{ t('panel.pureHiddenTags') }}</span>
           <el-switch
             v-model="settings.tabsVal"
-            :active-text="t('buttons.pureOpenText')"
-            :inactive-text="t('buttons.pureCloseText')"
+            :active-text="t('buttons.switchOnText')"
+            :inactive-text="t('buttons.switchOffText')"
             inline-prompt
             @change="tagsChange"
           />
@@ -405,8 +405,8 @@ function handleOverallStyleChange(theme: { index: number; option: { theme: strin
           <span class="dark:text-white">{{ t('panel.pureHiddenFooter') }}</span>
           <el-switch
             v-model="settings.hideFooter"
-            :active-text="t('buttons.pureOpenText')"
-            :inactive-text="t('buttons.pureCloseText')"
+            :active-text="t('buttons.switchOnText')"
+            :inactive-text="t('buttons.switchOffText')"
             inline-prompt
             @change="hideFooterChange"
           />
@@ -415,9 +415,9 @@ function handleOverallStyleChange(theme: { index: number; option: { theme: strin
           <span class="dark:text-white">Logo</span>
           <el-switch
             v-model="logoVal"
-            :active-text="t('buttons.pureOpenText')"
+            :active-text="t('buttons.switchOnText')"
             :active-value="true"
-            :inactive-text="t('buttons.pureCloseText')"
+            :inactive-text="t('buttons.switchOffText')"
             :inactive-value="false"
             inline-prompt
             @change="logoChange"
@@ -429,8 +429,8 @@ function handleOverallStyleChange(theme: { index: number; option: { theme: strin
           </span>
           <el-switch
             v-model="settings.multiTagsCache"
-            :active-text="t('buttons.pureOpenText')"
-            :inactive-text="t('buttons.pureCloseText')"
+            :active-text="t('buttons.switchOnText')"
+            :inactive-text="t('buttons.switchOffText')"
             inline-prompt
             @change="multiTagsCacheChange"
           />

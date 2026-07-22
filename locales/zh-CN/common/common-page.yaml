@@ -3,7 +3,6 @@ tips:
   deleteConfirm: 确认删除吗？
   lastTimeConfirmDeleteTitle: 最后一次确认
   confirmTitle: 确认继续操作吗？
-  lastTimeConfirmTitle: 最后一次提醒，是否继续？
   operationSuccess: 操作成功
   addSuccess: 添加成功
   editSuccess: 修改成功
@@ -45,25 +44,25 @@ import:
   fileLimitExceeded: 文件大小不能超过 10MB
   fileTypeInvalid: 仅支持 .xlsx 格式
 buttons:
-  pureLoginOut: 退出系统
-  pureLogin: 登录
-  pureOpenSystemSet: 打开系统配置
-  pureReload: 重新加载
-  pureCloseCurrentTab: 关闭当前标签页
-  pureCloseLeftTabs: 关闭左侧标签页
-  pureCloseRightTabs: 关闭右侧标签页
-  pureCloseOtherTabs: 关闭其他标签页
-  pureCloseAllTabs: 关闭全部标签页
-  pureContentFullScreen: 内容区全屏
-  pureContentExitFullScreen: 内容区退出全屏
-  pureClickCollapse: 点击折叠
-  pureClickExpand: 点击展开
-  pureConfirm: 确认
-  pureSwitch: 切换
-  pureClose: 关闭
-  pureBackTop: 回到顶部
-  pureOpenText: 开
-  pureCloseText: 关
+  loginOut: 退出系统
+  login: 登录
+  openSystemSet: 打开系统配置
+  reload: 重新加载
+  closeCurrentTab: 关闭当前标签页
+  closeLeftTabs: 关闭左侧标签页
+  closeRightTabs: 关闭右侧标签页
+  closeOtherTabs: 关闭其他标签页
+  closeAllTabs: 关闭全部标签页
+  contentFullScreen: 内容区全屏
+  contentExitFullScreen: 内容区退出全屏
+  clickCollapse: 点击折叠
+  clickExpand: 点击展开
+  confirm: 确认
+  switch: 切换
+  close: 关闭
+  backTop: 回到顶部
+  switchOnText: 开
+  switchOffText: 关
   actionSearch: 搜索
   actionReset: 重置
   actionAdd: 添加

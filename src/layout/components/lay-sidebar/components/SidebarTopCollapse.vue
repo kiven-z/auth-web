@@ -24,7 +24,7 @@ const toggleClick = () => {
 
 <template>
   <div
-    :title="isActive ? t('buttons.pureClickCollapse') : t('buttons.pureClickExpand')"
+    :title="isActive ? t('buttons.clickCollapse') : t('buttons.clickExpand')"
     class="px-3 mr-1 navbar-bg-hover"
     @click="toggleClick"
   >

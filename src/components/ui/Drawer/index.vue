@@ -18,7 +18,7 @@ const footerButtons = computed(() => {
       ? options.footerButtons
       : ([
           {
-            label: t('buttons.pureClose'),
+            label: t('buttons.close'),
             text: true,
             bg: true,
             btnClick: ({ drawer: { options, index } }) => {
@@ -31,7 +31,7 @@ const footerButtons = computed(() => {
             },
           },
           {
-            label: t('buttons.pureConfirm'),
+            label: t('buttons.confirm'),
             type: 'primary',
             text: true,
             bg: true,

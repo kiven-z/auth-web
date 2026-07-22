@@ -64,7 +64,7 @@ function useDeptAdvancedAction(options: UseDeptAdvancedActionOptions) {
         },
       },
       {
-        label: t('buttons.pureClose'),
+        label: t('buttons.close'),
         text: true,
         bg: true,
         btnClick: ({ dialog: { options, index } }) => {

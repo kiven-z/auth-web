@@ -37,7 +37,7 @@ function useSpreadsheetImportAction(options: SpreadsheetImportActionOptions) {
 
     const footerButtons: DialogOptions['footerButtons'] = [
       {
-        label: t('buttons.pureClose'),
+        label: t('buttons.close'),
         text: true,
         bg: true,
         btnClick: ({ dialog: { options: dialogOptions, index } }) => {

@@ -108,10 +108,6 @@ function useUserAssignPostDrawerAction(deps: UserAssignPostDrawerActionDeps) {
         title: t('users.postAssign.clearAllConfirm'),
         message: t('users.postAssign.clearAllConfirm'),
       },
-      {
-        title: t('tips.lastTimeConfirmDeleteTitle'),
-        message: t('tips.lastTimeConfirmDeleteTitle'),
-      },
     ]);
     if (!confirmed) {
       return;

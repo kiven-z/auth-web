@@ -10,9 +10,10 @@ import {
 } from '@/api/system/menu';
 import { addDialog } from '@/components/ui/Dialog';
 import { addDrawer } from '@/components/ui/Drawer';
+import { operationConfirm } from '@/services/feedback/dialog';
+import { errorMessage, message } from '@/services/feedback/message';
 import useBatchDeleteAction from '@/shared/composables/table/useBatchDeleteAction';
 import { type FormOverlayExpose, useFormOverlaySubmit } from '@/shared/composables/table/useFormOverlaySubmit';
-import { errorMessage, message } from '@/services/feedback/message';
 import MenuDescriptionDialog from '@/views/system/menu/components/MenuDescriptionDialog.vue';
 import MenuDialog from '@/views/system/menu/components/MenuDialog.vue';
 import type { MenuViewMode, SysMenuRow } from '@/views/system/menu/hooks/useMenuPageState';
@@ -140,6 +141,12 @@ function useMenuTableAction(deps: MenuTableActionDeps) {
     if (ids.length <= 0) {
       return;
     }
+
+    const confirmed = await operationConfirm();
+    if (!confirmed) {
+      return;
+    }
+
     try {
       await updateMenuBatchStatus({ ids, status: enabled });
       message(t('tips.editSuccess'), { type: 'success' });

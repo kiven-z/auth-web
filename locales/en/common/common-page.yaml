@@ -3,7 +3,6 @@ tips:
   deleteConfirm: Confirm deletion?
   lastTimeConfirmDeleteTitle: Last confirmation
   confirmTitle: Confirm to continue?
-  lastTimeConfirmTitle: Last reminder, continue?
   operationSuccess: Operation successful
   addSuccess: Added successfully
   editSuccess: Updated successfully
@@ -45,25 +44,25 @@ import:
   fileLimitExceeded: File size cannot exceed 10MB
   fileTypeInvalid: Only .xlsx files are supported
 buttons:
-  pureLoginOut: Logout
-  pureLogin: Login
-  pureOpenSystemSet: Open system config
-  pureReload: Reload
-  pureCloseCurrentTab: Close current tab
-  pureCloseLeftTabs: Close left tabs
-  pureCloseRightTabs: Close right tabs
-  pureCloseOtherTabs: Close other tabs
-  pureCloseAllTabs: Close all tabs
-  pureContentFullScreen: Full screen
-  pureContentExitFullScreen: Exit full screen
-  pureClickCollapse: Click to collapse
-  pureClickExpand: Click to expand
-  pureConfirm: Confirm
-  pureSwitch: Switch
-  pureClose: Close
-  pureBackTop: Back to top
-  pureOpenText: On
-  pureCloseText: Off
+  loginOut: Logout
+  login: Login
+  openSystemSet: Open system config
+  reload: Reload
+  closeCurrentTab: Close current tab
+  closeLeftTabs: Close left tabs
+  closeRightTabs: Close right tabs
+  closeOtherTabs: Close other tabs
+  closeAllTabs: Close all tabs
+  contentFullScreen: Full screen
+  contentExitFullScreen: Exit full screen
+  clickCollapse: Click to collapse
+  clickExpand: Click to expand
+  confirm: Confirm
+  switch: Switch
+  close: Close
+  backTop: Back to top
+  switchOnText: On
+  switchOffText: Off
   actionSearch: Search
   actionReset: Reset
   actionAdd: Add

@@ -131,12 +131,12 @@ watch(
             </el-dropdown-item>
             <el-dropdown-item @click="logout">
               <IconifyIconOffline :icon="LogoutCircleRLine" style="margin: 5px" />
-              {{ t('buttons.pureLoginOut') }}
+              {{ t('buttons.loginOut') }}
             </el-dropdown-item>
           </el-dropdown-menu>
         </template>
       </el-dropdown>
-      <span :title="t('buttons.pureOpenSystemSet')" class="set-icon navbar-bg-hover" @click="onPanel">
+      <span :title="t('buttons.openSystemSet')" class="set-icon navbar-bg-hover" @click="onPanel">
         <IconifyIconOffline :icon="Setting" />
       </span>
     </div>

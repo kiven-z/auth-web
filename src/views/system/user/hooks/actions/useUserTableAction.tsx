@@ -10,6 +10,7 @@ import {
 } from '@/api/system/user';
 import { addDialog } from '@/components/ui/Dialog';
 import { type FormOverlayExpose, useFormOverlaySubmit } from '@/shared/composables/table/useFormOverlaySubmit';
+import { operationConfirm } from '@/services/feedback/dialog';
 import { errorMessage, message } from '@/services/feedback/message';
 import UserDescriptionDialog from '@/views/system/user/components/UserDescriptionDialog.vue';
 import UserFormDialog from '@/views/system/user/components/UserFormDialog.vue';
@@ -108,6 +109,11 @@ function useUserTableAction(deps: TableActionDeps) {
    */
   const batchUpdateStatus = async (ids: string[], status: number) => {
     if (ids.length <= 0) {
+      return;
+    }
+
+    const confirmed = await operationConfirm();
+    if (!confirmed) {
       return;
     }
 

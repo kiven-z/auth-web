@@ -9,7 +9,7 @@ import {
 } from '@/api/system/permission';
 import { addDialog } from '@/components/ui/Dialog';
 import { type FormOverlayExpose, useFormOverlaySubmit } from '@/shared/composables/table/useFormOverlaySubmit';
-import { deleteConfirm } from '@/services/feedback/dialog';
+import { deleteConfirm, operationConfirm } from '@/services/feedback/dialog';
 import { errorMessage, message } from '@/services/feedback/message';
 import PermissionDescriptionDialog from '@/views/system/permission/components/PermissionDescriptionDialog.vue';
 import PermissionFormDialog from '@/views/system/permission/components/PermissionFormDialog.vue';
@@ -125,6 +125,11 @@ function usePermissionTableAction(deps: TableActionDeps) {
 
   const batchUpdateStatus = async (ids: string[], status: boolean) => {
     if (ids.length <= 0) {
+      return;
+    }
+
+    const confirmed = await operationConfirm();
+    if (!confirmed) {
       return;
     }
 
