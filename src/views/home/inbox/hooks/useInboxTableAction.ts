@@ -1,5 +1,9 @@
 import type { TableActionWithSelectionDeps } from '@/api/common';
-import { message } from '@/services/feedback/message';
+import { markInAppInboxRead } from '@/api/message/in-app-inbox';
+import { operationConfirm } from '@/services/feedback/dialog';
+import { errorMessage, message } from '@/services/feedback/message';
+import { useInAppInboxStore } from '@/store/modules/message/inAppInbox';
+import { useI18n } from 'vue-i18n';
 
 /**
  * 解析批量目标 ID：显式传入数组用传入值，否则用当前多选。
@@ -8,7 +12,7 @@ import { message } from '@/services/feedback/message';
  * @returns 目标 ID 列表
  */
 function resolveTargetIds(ids: unknown, selectedRows: string[]) {
-  return Array.isArray(ids) ? ids : selectedRows;
+  return Array.isArray(ids) ? (ids as string[]) : selectedRows;
 }
 
 /**
@@ -17,7 +21,9 @@ function resolveTargetIds(ids: unknown, selectedRows: string[]) {
  * @returns 删除、标已读及全部操作方法
  */
 function useInboxTableAction(deps: TableActionWithSelectionDeps) {
-  const { selectedRows } = deps;
+  const { fetchTableData, selectedRows } = deps;
+  const { t } = useI18n();
+  const inboxStore = useInAppInboxStore();
 
   /**
    * 批量删除：工具栏 `deleteBatchRows()`；行内 `deleteBatchRows([row.id])`。
@@ -32,7 +38,7 @@ function useInboxTableAction(deps: TableActionWithSelectionDeps) {
   }
 
   /**
-   * 批量标已读：工具栏 `markReadBatchRows()`；行内 `markReadBatchRows([row.id])`。
+   * 批量标已读
    * @param ids 主键列表；不传则使用当前多选
    */
   async function markReadBatchRows(ids?: unknown) {
@@ -40,18 +46,31 @@ function useInboxTableAction(deps: TableActionWithSelectionDeps) {
     if (targetIds.length <= 0) {
       return;
     }
-    message('即将上线', { type: 'info' });
+
+    const confirmed = await operationConfirm();
+    if (!confirmed) {
+      return;
+    }
+
+    try {
+      await markInAppInboxRead(targetIds);
+      message(t('tips.operationSuccess'), { type: 'success' });
+      selectedRows.value = [];
+      await Promise.all([fetchTableData(), inboxStore.refreshUnreadCount()]);
+    } catch (error: unknown) {
+      errorMessage(error);
+    }
   }
 
   /**
-   * 全部已读（占位）。
+   * 全部已读
    */
   function markAllRead() {
     message('即将上线', { type: 'info' });
   }
 
   /**
-   * 全部删除（占位）。
+   * 全部删除
    */
   function deleteAll() {
     message('即将上线', { type: 'info' });

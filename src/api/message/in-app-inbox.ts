@@ -63,3 +63,11 @@ export function getInAppInboxPage(params: InAppInboxPageQuery): Promise<PageResp
 export function getInAppInboxUnreadCount(): Promise<InAppInboxUnreadCount> {
   return http.get<InAppInboxUnreadCount, AxiosRequestConfig>('/system/me/message/in-app/inbox/unread-count');
 }
+
+/**
+ * 批量标已读
+ * @param ids 站内信 ID 数组（雪花，字符串传递）
+ */
+export function markInAppInboxRead(ids: string[]) {
+  return http.post<string, string[]>('/system/me/message/in-app/inbox/read', { data: ids });
+}
