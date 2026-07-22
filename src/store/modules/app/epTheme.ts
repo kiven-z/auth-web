@@ -1,4 +1,4 @@
-import { getLayoutSnapshot, patchLayout } from '@/core/preferences';
+import { getLayoutSnapshot, patchLayout } from '@/core/preferences/storage';
 import { getConfig } from '@/auth/config';
 import { defineStore } from 'pinia';
 

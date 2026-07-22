@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import Segmented, { type OptionsType } from '@/components/ui/Segmented';
-import { applyThemePreferences, syncSystemThemeFromOs } from '@/core/preferences';
+import { applyThemePreferences } from '@/core/preferences/apply';
+import { syncSystemThemeFromOs } from '@/core/preferences/system-theme';
 import { useUiConfigure } from '@/layout/hooks/configure/useUiConfigure';
 import { useUiLayout } from '@/layout/hooks/layout/useUiLayout';
 import { useNav } from '@/layout/hooks/navigation/useNav';

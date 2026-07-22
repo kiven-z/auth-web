@@ -1,5 +1,8 @@
 <script lang="ts" setup>
-import { useLayout, useNav, useTranslationLang, useUiTheme } from '@/layout/hooks';
+import { useLayout } from '@/layout/hooks/layout/useLayout';
+import { useNav } from '@/layout/hooks/navigation/useNav';
+import { useTranslationLang } from '@/layout/hooks/locale/useTranslationLang';
+import { useUiTheme } from '@/layout/hooks/theme/useUiTheme';
 import useLogin from './hooks/useLogin';
 
 import avatar from '@/assets/login/avatar.svg?component';

@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { useBoolean } from '@/layout/hooks';
+import { useBoolean } from '@/layout/hooks/navigation/useBoolean';
 import SearchModal from './components/SearchModal.vue';
 
 const { bool: show, toggle } = useBoolean();

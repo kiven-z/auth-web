@@ -3,7 +3,7 @@ import { useI18n } from 'vue-i18n';
 import { emitter } from '@/services/event-bus/mitt';
 import { onClickOutside } from '@vueuse/core';
 import { computed, onBeforeUnmount, onMounted, ref } from 'vue';
-import { resetUiPreferences } from '@/core/preferences';
+import { resetUiPreferences } from '@/core/preferences/actions';
 import CloseIcon from '~icons/ep/close';
 
 const target = ref(null);

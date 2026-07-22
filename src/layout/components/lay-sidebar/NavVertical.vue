@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { responsiveStorageNameSpace } from '@/auth/config';
-import { useNav } from '@/layout/hooks';
+import { useNav } from '@/layout/hooks/navigation/useNav';
 import { findRouteByPath, getParentPaths } from '@/router/utils/route-tree';
 import { emitter } from '@/services/event-bus/mitt';
 import { usePermissionStore } from '@/store/modules/auth/permission';

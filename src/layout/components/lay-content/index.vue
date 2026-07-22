@@ -2,7 +2,7 @@
 import { useI18n } from 'vue-i18n';
 import LayFrame from '../lay-frame/index.vue';
 import LayFooter from '../lay-footer/index.vue';
-import { useTags } from '@/layout/hooks';
+import { useTags } from '@/layout/hooks/navigation/useTag';
 import { isNumber, useGlobal } from '@pureadmin/utils';
 import BackTopIcon from '@/assets/svg/back_top.svg?component';
 import { computed, defineComponent, h, Transition } from 'vue';

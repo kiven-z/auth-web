@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { clearMyPreferences } from '@/api/system/user-preferences';
 import { getConfig } from '@/auth/config';
-import { resetLocalUiPreferences } from '@/core/preferences';
+import { resetLocalUiPreferences } from '@/core/preferences/storage';
 import { useChangePasswordAction } from '@/components/business/ChangePasswordDialog';
 import AccountActionRow from '@/components/ui/AccountActionRow';
 import { multiConfirm } from '@/services/feedback/dialog';

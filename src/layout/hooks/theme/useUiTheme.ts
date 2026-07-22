@@ -1,12 +1,13 @@
 import { getConfig } from '@/auth/config';
-import { applyThemePreferences, getLayoutSnapshot, patchLayout } from '@/core/preferences';
+import { applyThemePreferences } from '@/core/preferences/apply';
 import { NAV_THEME_COLOR_ITEMS } from '@/core/preferences/nav-theme-colors';
 import { reconcileNavTheme } from '@/core/preferences/reconcile-nav-theme';
-import { useLayout } from '@/layout/hooks';
+import { getLayoutSnapshot, patchLayout } from '@/core/preferences/storage';
 import { useEpThemeStore } from '@/store/modules/app/epTheme';
 import { useGlobal } from '@pureadmin/utils';
 import { ref } from 'vue';
 import type { themeColorsType } from '../../types';
+import { useLayout } from '@/layout/hooks/layout/useLayout';
 
 const OVERALL_STYLES = new Set(['light', 'dark', 'system']);
 

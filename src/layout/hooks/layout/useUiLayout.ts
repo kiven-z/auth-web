@@ -1,7 +1,8 @@
-import { applyLayoutPreferences, getLayoutSnapshot, patchLayout } from '@/core/preferences';
 import { setSidebarOpened } from '@/core/preferences/actions';
+import { applyLayoutPreferences } from '@/core/preferences/apply';
 import { setRuntimeLayoutOverride } from '@/core/preferences/runtime-layout';
-import { useLayout } from './useLayout';
+import { getLayoutSnapshot, patchLayout } from '@/core/preferences/storage';
+import { useLayout } from '@/layout/hooks/layout/useLayout';
 
 /**
  * UI 布局模式与侧栏状态写入（经 preferences storage 网关）

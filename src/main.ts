@@ -8,7 +8,8 @@ import router from './router';
 import { useEcharts } from '@/app/plugins/echarts';
 import { useElementPlus } from '@/app/plugins/elementPlus';
 import { injectResponsiveStorage } from '@/app/bootstrap/responsive';
-import { applyHydratedUiPreferences, startSystemThemeWatch, syncSystemThemeFromOs } from '@/core/preferences';
+import { applyHydratedUiPreferences } from '@/core/preferences/apply';
+import { startSystemThemeWatch, syncSystemThemeFromOs } from '@/core/preferences/system-theme';
 import { createApp, type Directive } from 'vue';
 
 import { installAuthDataTable } from '@/components/ui/AuthDataTable';

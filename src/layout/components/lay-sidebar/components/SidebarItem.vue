@@ -2,7 +2,7 @@
 import { getConfig } from '@/auth/config';
 import { menuType } from '@/layout/types';
 import { ReText } from '@/components/ui/ReText';
-import { useNav } from '@/layout/hooks';
+import { useNav } from '@/layout/hooks/navigation/useNav';
 import { transformI18n } from '@/app/plugins/i18n';
 import SidebarLinkItem from './SidebarLinkItem.vue';
 import SidebarExtraIcon from './SidebarExtraIcon.vue';

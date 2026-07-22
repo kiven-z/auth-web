@@ -1,5 +1,6 @@
 import type { UserLoginResponse } from '@/api/auth/types';
-import { hasSessionHydrated, hydrateUiPreferencesOnSession } from '@/core/preferences';
+import { hydrateUiPreferencesOnSession } from '@/core/preferences/session';
+import { hasSessionHydrated } from '@/core/preferences/sync';
 import { applyRememberPreferencesFromResponse } from './rememberPreferences';
 import { setToken } from './sessionToken';
 import type { SessionTokenPayload } from './types';

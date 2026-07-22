@@ -1,10 +1,10 @@
-import { getLocaleSnapshot } from '@/core/preferences';
 import { localeOptions, type LocaleType } from '@/auth/config/locales';
+import { getLocaleSnapshot } from '@/core/preferences/storage';
+import { useUiLocale } from '@/layout/hooks/locale/useUiLocale';
+import { useNav } from '@/layout/hooks/navigation/useNav';
 import { onBeforeMount, type Ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRoute } from 'vue-router';
-import { useNav } from '@/layout/hooks';
-import { useUiLocale } from './useUiLocale';
 
 /**
  * 导航栏语言切换（对外保留 translation API，内部经 useUiLocale 写入）

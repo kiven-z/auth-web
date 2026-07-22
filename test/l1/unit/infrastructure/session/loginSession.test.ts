@@ -14,9 +14,12 @@ vi.mock('@/core/session/rememberPreferences', () => ({
   applyRememberPreferencesFromResponse: mockApplyRemember,
 }));
 
-vi.mock('@/core/preferences', () => ({
-  hasSessionHydrated: () => true,
+vi.mock('@/core/preferences/session', () => ({
   hydrateUiPreferencesOnSession: vi.fn(),
+}));
+
+vi.mock('@/core/preferences/sync', () => ({
+  hasSessionHydrated: () => true,
 }));
 
 describe('establishSessionFromLogin', () => {

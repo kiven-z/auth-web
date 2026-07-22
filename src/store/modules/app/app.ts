@@ -1,4 +1,4 @@
-import { getLayoutSnapshot } from '@/core/preferences';
+import { getLayoutSnapshot } from '@/core/preferences/storage';
 import { getConfig } from '@/auth/config';
 import { deviceDetection } from '@pureadmin/utils';
 import { defineStore } from 'pinia';

@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import { responsiveStorageNameSpace } from '@/auth/config';
-import { useNav, useTranslationLang } from '@/layout/hooks';
+import { useTranslationLang } from '@/layout/hooks/locale/useTranslationLang';
+import { useNav } from '@/layout/hooks/navigation/useNav';
 import { emitter } from '@/services/event-bus/mitt';
 import { usePermissionStore } from '@/store/modules/auth/permission';
 import { isAllEmpty, storageLocal } from '@pureadmin/utils';

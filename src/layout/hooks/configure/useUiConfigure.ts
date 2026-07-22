@@ -1,4 +1,5 @@
-import { applyConfigureSideEffects, patchConfigure } from '@/core/preferences';
+import { applyConfigureSideEffects } from '@/core/preferences/apply';
+import { patchConfigure } from '@/core/preferences/storage';
 
 /** configure 字段与 emitter 事件映射 */
 type ConfigurePatch = Partial<ResponsiveStorage['configure']>;

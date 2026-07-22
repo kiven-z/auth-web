@@ -1,9 +1,9 @@
 import { computed, type CSSProperties, getCurrentInstance, onMounted, reactive, ref, unref } from 'vue';
 import type { tagsViewsType } from '../../types';
 import { useRoute, useRouter } from 'vue-router';
-import { getConfigureSnapshot } from '@/core/preferences';
-import { useUiConfigure } from '@/layout/hooks';
+import { getConfigureSnapshot } from '@/core/preferences/storage';
 import { $t, transformI18n } from '@/app/plugins/i18n';
+import { useUiConfigure } from '@/layout/hooks/configure/useUiConfigure';
 import { useSettingStore } from '@/store/modules/app/settings';
 import { useMultiTagsStore } from '@/store/modules/app/multiTags';
 import { hasClass, isBoolean, isEqual, toggleClass } from '@pureadmin/utils';

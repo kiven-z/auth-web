@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import 'animate.css';
 import '@/components/ui/Icon/src/offlineIcon';
-import { getLayoutSnapshot } from '@/core/preferences';
+import { getLayoutSnapshot } from '@/core/preferences/storage';
 import { useUiLayout } from '@/layout/hooks/layout/useUiLayout';
 import { useLayout } from '@/layout/hooks/layout/useLayout';
 import { useUiTheme } from '@/layout/hooks/theme/useUiTheme';

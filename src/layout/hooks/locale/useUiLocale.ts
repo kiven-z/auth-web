@@ -1,5 +1,5 @@
 import type { LocaleType } from '@/auth/config/locales';
-import { patchLocale } from '@/core/preferences';
+import { patchLocale } from '@/core/preferences/storage';
 import { useI18n } from 'vue-i18n';
 
 /**

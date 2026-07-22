@@ -1,5 +1,6 @@
 <script lang="ts" setup>
-import { useNav, useTranslationLang } from '@/layout/hooks';
+import { useTranslationLang } from '@/layout/hooks/locale/useTranslationLang';
+import { useNav } from '@/layout/hooks/navigation/useNav';
 import LayNotice from '../lay-notice/index.vue';
 import LaySearch from '../lay-search/index.vue';
 import LayNavMix from '../lay-sidebar/NavMix.vue';

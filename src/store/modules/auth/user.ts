@@ -1,5 +1,5 @@
 import { logoutApi } from '@/api/auth';
-import { stopSync } from '@/core/preferences';
+import { stopSync } from '@/core/preferences/sync';
 import {
   readSessionPreferences,
   readUserProfileFromStorage,

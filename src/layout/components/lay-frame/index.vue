@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { getConfig } from '@/auth/config';
-import { useMultiFrame } from '@/layout/hooks';
+import { useMultiFrame } from '@/layout/hooks/navigation/useMultiFrame';
 import { useMultiTagsStore } from '@/store/modules/app/multiTags';
 import { type Component, computed, shallowRef, watch } from 'vue';
 import { RouteLocationNormalizedLoaded, type RouteRecordRaw } from 'vue-router';
