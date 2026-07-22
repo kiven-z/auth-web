@@ -52,9 +52,11 @@ onMounted(load);
   <div v-loading="loading">
     <ReDescription :column="2" :columns="columns" :data="detail ?? {}" border />
 
-    <!-- 定稿正文按 contentType 预览 -->
+    <!-- 定稿正文按 contentType 预览；弹窗内限高由调用方负责 -->
     <div class="mb-2 mt-4 text-sm font-medium">{{ contentLabel }}</div>
 
-    <TypedContentView :content="detail?.content ?? ''" :content-type="previewContentType" />
+    <div class="max-h-105 overflow-auto">
+      <TypedContentView :content="detail?.content ?? ''" :content-type="previewContentType" />
+    </div>
   </div>
 </template>

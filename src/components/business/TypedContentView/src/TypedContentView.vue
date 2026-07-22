@@ -34,17 +34,17 @@ watch(
 <template>
   <div class="p-2">
     <!-- TEXT：原样纯文本 -->
-    <div v-if="contentType === 'TEXT'" class="max-h-105 overflow-auto whitespace-pre-wrap break-all rounded text-left">
+    <div v-if="contentType === 'TEXT'" class="whitespace-pre-wrap break-all rounded text-left">
       {{ content ?? '' }}
     </div>
 
     <!-- MARKDOWN：md-editor-v3 预览 -->
-    <div v-else-if="contentType === 'MARKDOWN'" class="max-h-105 overflow-auto">
+    <div v-else-if="contentType === 'MARKDOWN'">
       <MdPreview :model-value="content ?? ''" :theme="mdEditorTheme" preview-theme="default" />
     </div>
 
-    <!-- HTML：iframe 沙箱展示 -->
-    <div v-else-if="contentType === 'HTML'" class="overflow-auto bg-(--el-fill-color-blank)">
+    <!-- HTML：iframe 沙箱展示（高度由调用方容器控制时仍需 iframe 自身高度） -->
+    <div v-else-if="contentType === 'HTML'" class="bg-(--el-fill-color-blank)">
       <iframe
         ref="htmlFrameRef"
         class="block h-105 w-full border-0"

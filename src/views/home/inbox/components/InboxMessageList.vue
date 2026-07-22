@@ -2,7 +2,7 @@
 import type { InAppInboxPageRow } from '@/api/message/in-app-inbox';
 import dayjs from 'dayjs';
 import { useI18n } from 'vue-i18n';
-import { useRoute, useRouter } from 'vue-router';
+import { useRouter } from 'vue-router';
 
 defineOptions({
   name: 'InboxMessageList',
@@ -24,7 +24,6 @@ const emit = defineEmits<{
 
 const { t } = useI18n();
 const router = useRouter();
-const route = useRoute();
 
 /**
  * 勾选 / 取消勾选单行。
@@ -44,11 +43,7 @@ const toggleRow = (messageId: string, checked: boolean) => {
  * @param messageId 消息 ID
  */
 const openDetail = (messageId: string) => {
-  void router.push({
-    name: 'HomeInboxDetail',
-    params: { id: messageId },
-    state: { HomeInboxDetail: route.fullPath },
-  });
+  void router.push({ name: 'HomeInboxDetail', params: { id: messageId } });
 };
 </script>
 
@@ -92,30 +87,18 @@ const openDetail = (messageId: string) => {
   height: 100%;
   overflow-y: auto;
   padding: 4px 8px 24px;
-  scrollbar-width: none;
-
-  &::-webkit-scrollbar {
-    display: none;
-  }
 
   &__row {
-    position: relative;
     display: grid;
     grid-template-columns: auto minmax(140px, 220px) 1fr auto;
     gap: 16px 24px;
     align-items: center;
     padding: 8px;
     border-bottom: 1px solid var(--el-border-color-lighter);
-    border-radius: 8px;
-    transition: all 0.18s ease;
     cursor: pointer;
 
     &:hover {
-      background: var(--el-bg-color);
-      box-shadow:
-        0 6px 20px rgb(0 0 0 / 14%),
-        0 2px 8px rgb(0 0 0 / 10%);
-      z-index: 1;
+      background: var(--el-fill-color-light);
 
       .inbox-message-list__actions {
         opacity: 1;
@@ -127,11 +110,9 @@ const openDetail = (messageId: string) => {
       }
     }
 
-    &--unread {
-      .inbox-message-list__title {
-        font-weight: 600;
-        color: var(--el-text-color-primary);
-      }
+    &--unread .inbox-message-list__title {
+      font-weight: 600;
+      color: var(--el-text-color-primary);
     }
   }
 
@@ -163,15 +144,12 @@ const openDetail = (messageId: string) => {
     align-items: center;
     opacity: 0;
     pointer-events: none;
-    transition: opacity 0.15s ease;
   }
 
   &__time {
     color: var(--el-text-color-secondary);
     font-size: 13px;
     white-space: nowrap;
-    pointer-events: none;
-    transition: opacity 0.15s ease;
   }
 }
 </style>

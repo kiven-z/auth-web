@@ -18,6 +18,7 @@ import type { FormInstance } from 'element-plus';
 import { storeToRefs } from 'pinia';
 import { computed, onMounted, reactive, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
+import { useRoute, useRouter } from 'vue-router';
 
 defineOptions({
   name: 'HomeInbox',
@@ -25,6 +26,8 @@ defineOptions({
 
 const { t } = useI18n();
 const ph = useFormPlaceholder();
+const route = useRoute();
+const router = useRouter();
 const { backWithReturn } = useHomePageNavigation();
 const inboxStore = useInAppInboxStore();
 const { majors, loadingMajors } = storeToRefs(inboxStore);
@@ -79,7 +82,7 @@ const isCurrentPageIndeterminate = computed(
 );
 
 /**
- * 刷新列表与大类角标（保持当前页，不重置分页）。
+ * 刷新列表与大类角标（保持当前页，不重置分页）
  */
 function refreshListAndMajors() {
   void fetchTableData();
@@ -87,7 +90,18 @@ function refreshListAndMajors() {
 }
 
 /**
- * 重置筛选后刷新列表与大类角标。
+ * 将当前大类写入路由 query，便于详情返回后还原 Tab
+ * @param majorCategoryId 大类 ID
+ */
+function syncMajorCategoryQuery(majorCategoryId: string) {
+  if (route.query.majorCategoryId === majorCategoryId) {
+    return;
+  }
+  void router.replace({ query: { ...route.query, majorCategoryId } });
+}
+
+/**
+ * 重置筛选后刷新列表与大类角标
  * @param formRef 搜索表单实例
  */
 function handleResetQuery(formRef?: FormInstance) {
@@ -104,17 +118,22 @@ function handleMajorTabChange(majorCategoryId: string) {
   searchForm.categoryId = undefined;
   selectedRows.value = [];
   subOptions.value = [];
+  syncMajorCategoryQuery(majorCategoryId);
   refreshListAndMajors();
 }
 
 onMounted(async () => {
   await inboxStore.refreshUnreadCount();
 
-  const firstMajorId = majors.value[0]?.majorCategoryId;
-  if (!firstMajorId) {
+  const queryMajorId = route.query.majorCategoryId;
+  const majorCategoryId =
+    typeof queryMajorId === 'string' && queryMajorId ? queryMajorId : majors.value[0]?.majorCategoryId;
+  if (!majorCategoryId) {
     return;
   }
-  searchForm.majorCategoryId = firstMajorId;
+
+  searchForm.majorCategoryId = majorCategoryId;
+  syncMajorCategoryQuery(majorCategoryId);
   await fetchTableData();
 });
 </script>

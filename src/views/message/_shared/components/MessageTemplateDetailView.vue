@@ -83,7 +83,10 @@ onMounted(load);
             <h2 v-if="detail?.previewSubject">{{ detail.previewSubject }}</h2>
             <div>{{ displayCreateTime }}</div>
           </div>
-          <TypedContentView :content="detail?.previewContent ?? ''" :content-type="previewContentType" />
+          <!-- 弹窗内限高由调用方负责 -->
+          <div class="max-h-105 overflow-auto">
+            <TypedContentView :content="detail?.previewContent ?? ''" :content-type="previewContentType" />
+          </div>
         </div>
       </el-tab-pane>
 
@@ -94,7 +97,9 @@ onMounted(load);
             <h2 v-if="detail?.subject">{{ detail.subject }}</h2>
             <div>{{ displayCreateTime }}</div>
           </div>
-          <TypedContentView :content="detail?.content ?? ''" content-type="TEXT" />
+          <div class="max-h-105 overflow-auto">
+            <TypedContentView :content="detail?.content ?? ''" content-type="TEXT" />
+          </div>
         </div>
       </el-tab-pane>
     </el-tabs>

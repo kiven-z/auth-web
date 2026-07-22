@@ -3,12 +3,11 @@ import { getInAppInboxDetail, type InAppInboxDetail } from '@/api/message/in-app
 import type { TypedContentTypeCode } from '@/components/business/TypedContentView';
 import TypedContentView from '@/components/business/TypedContentView';
 import { errorMessage } from '@/services/feedback/message';
-import { useHomePageNavigation } from '@/shared/composables/layout/useHomePageNavigation';
 import { DISPLAY_DATETIME_FORMAT } from '@/shared/utils/date/dateTime';
 import { useInAppInboxStore } from '@/store/modules/message/inAppInbox';
 import HomePageToolbar from '@/views/home/_shared/components/HomePageToolbar.vue';
 import dayjs from 'dayjs';
-import { computed, ref, watch } from 'vue';
+import { computed, onMounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRoute, useRouter } from 'vue-router';
 
@@ -19,17 +18,13 @@ defineOptions({
 const { t } = useI18n();
 const route = useRoute();
 const router = useRouter();
-const { backWithReturn } = useHomePageNavigation();
 const inboxStore = useInAppInboxStore();
 
 const loading = ref(false);
 const detail = ref<InAppInboxDetail | null>(null);
 
 /** 路由上的站内信 ID（雪花字符串） */
-const messageId = computed(() => {
-  const id = route.params.id;
-  return typeof id === 'string' ? id : '';
-});
+const messageId = computed(() => String(route.params.id ?? ''));
 
 /** 正文类型，缺省 TEXT */
 const contentType = computed(() => {
@@ -64,23 +59,15 @@ async function loadDetail(): Promise<void> {
   }
 }
 
-/** 优先回到列表来源，否则回收件箱 */
-const handleBack = () => {
-  const from = history.state?.HomeInboxDetail;
-  if (typeof from === 'string' && from.startsWith('/')) {
-    backWithReturn('HomeInboxDetail');
-    return;
-  }
-  void router.push({ name: 'HomeInbox' });
-};
-
-watch(messageId, loadDetail, { immediate: true });
+onMounted(() => {
+  void loadDetail();
+});
 </script>
 
 <template>
   <div v-loading="loading" class="inbox-message-detail">
     <div class="inbox-message-detail__header">
-      <HomePageToolbar @back="handleBack" />
+      <HomePageToolbar @back="router.back()" />
     </div>
 
     <div v-if="detail" class="inbox-message-detail__body">
@@ -111,7 +98,9 @@ watch(messageId, loadDetail, { immediate: true });
 
 <style lang="scss" scoped>
 .inbox-message-detail {
-  min-height: 100%;
+  height: 100vh;
+  overflow-x: hidden;
+  overflow-y: auto;
 
   &__header {
     position: sticky;
@@ -123,7 +112,6 @@ watch(messageId, loadDetail, { immediate: true });
   &__body {
     max-width: 880px;
     margin: 0 auto;
-    padding: 16px 24px 48px;
   }
 
   &__meta {
