@@ -3,8 +3,8 @@ import { queryPersonalFileRecyclePage } from '@/api/file/file-me-recycle';
 import AuthPagedTable, { usePaginationState } from '@/components/business/AuthPagedTable';
 import { useFormPlaceholder } from '@/shared/composables/i18n/useFormPlaceholder';
 import { useCollapsibleSearchForm } from '@/shared/composables/search/useCollapsibleSearchForm';
-import usePersonalFileRecycleTableAction from '@/views/file/me/recycle/hooks/usePersonalFileRecycleTableAction';
 import useFileRecycleTableColumns from '@/views/file/_shared/columns/useFileRecycleTableColumns';
+import usePersonalFileRecycleTableAction from '@/views/file/me/recycle/hooks/usePersonalFileRecycleTableAction';
 import type { FormInstance } from 'element-plus';
 import { onMounted, reactive, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
@@ -56,7 +56,7 @@ onMounted(() => {
   <div>
     <el-form
       ref="searchFormRef"
-      v-enter-search="fetchTableData"
+      v-enter-submit="fetchTableData"
       :model="searchForm"
       class="bg-bg_color w-[99/100] overflow-auto pl-8 pt-3"
       inline

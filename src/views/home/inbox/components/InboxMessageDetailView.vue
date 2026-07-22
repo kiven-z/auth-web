@@ -1,8 +1,14 @@
 <script lang="ts" setup>
-import { DISPLAY_DATETIME_FORMAT } from '@/shared/utils/date/dateTime';
+import { getInAppInboxDetail, type InAppInboxDetail } from '@/api/message/in-app-inbox';
+import type { TypedContentTypeCode } from '@/components/business/TypedContentView';
+import TypedContentView from '@/components/business/TypedContentView';
+import { errorMessage } from '@/services/feedback/message';
 import { useHomePageNavigation } from '@/shared/composables/layout/useHomePageNavigation';
+import { DISPLAY_DATETIME_FORMAT } from '@/shared/utils/date/dateTime';
+import { useInAppInboxStore } from '@/store/modules/message/inAppInbox';
 import HomePageToolbar from '@/views/home/_shared/components/HomePageToolbar.vue';
 import dayjs from 'dayjs';
+import { computed, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRoute, useRouter } from 'vue-router';
 
@@ -14,15 +20,49 @@ const { t } = useI18n();
 const route = useRoute();
 const router = useRouter();
 const { backWithReturn } = useHomePageNavigation();
+const inboxStore = useInAppInboxStore();
+
+const loading = ref(false);
+const detail = ref<InAppInboxDetail | null>(null);
+
+/** 路由上的站内信 ID（雪花字符串） */
+const messageId = computed(() => {
+  const id = route.params.id;
+  return typeof id === 'string' ? id : '';
+});
+
+/** 正文类型，缺省 TEXT */
+const contentType = computed(() => {
+  return (detail.value?.contentType ?? 'TEXT') as TypedContentTypeCode;
+});
+
+const displayCreateTime = computed(() => {
+  const createTime = detail.value?.createTime;
+  if (!createTime) {
+    return '';
+  }
+  return dayjs(createTime).format(DISPLAY_DATETIME_FORMAT);
+});
 
 /**
- * 示例数据：后端详情接口就绪后改为接口返回。
- * 标题 / 时间 / 正文均为占位文案。
+ * 拉取详情（后端打开即标已读），并刷新未读角标
  */
-const sampleTitle = '阿里云产品动态(6月刊)';
-const sampleCreateTime = dayjs('2026-07-03 17:28:59').format(DISPLAY_DATETIME_FORMAT);
-const sampleContent =
-  '请您查收。\n\n本页为收件箱消息详情示例布局（标题居中 + 时间 + 正文）。后端详情接口就绪后，将按路由 id 加载真实内容。';
+async function loadDetail(): Promise<void> {
+  if (!messageId.value) {
+    detail.value = null;
+    return;
+  }
+  try {
+    loading.value = true;
+    detail.value = await getInAppInboxDetail(messageId.value);
+    void inboxStore.refreshUnreadCount();
+  } catch (error: unknown) {
+    errorMessage(error);
+    detail.value = null;
+  } finally {
+    loading.value = false;
+  }
+}
 
 /** 优先回到列表来源，否则回收件箱 */
 const handleBack = () => {
@@ -33,25 +73,39 @@ const handleBack = () => {
   }
   void router.push({ name: 'HomeInbox' });
 };
+
+watch(messageId, loadDetail, { immediate: true });
 </script>
 
 <template>
-  <div class="inbox-message-detail">
+  <div v-loading="loading" class="inbox-message-detail">
     <div class="inbox-message-detail__header">
       <HomePageToolbar @back="handleBack" />
     </div>
 
-    <div class="inbox-message-detail__body">
-      <div class="inbox-message-detail__letter-header">
-        <h2>{{ sampleTitle }}</h2>
-        <div>{{ sampleCreateTime }}</div>
+    <div v-if="detail" class="inbox-message-detail__body">
+      <div class="inbox-message-detail__meta">
+        <h2 class="inbox-message-detail__title">{{ detail.title }}</h2>
+        <div class="inbox-message-detail__sub">
+          <span v-if="displayCreateTime">{{ displayCreateTime }}</span>
+          <span v-if="detail.categoryName">{{ detail.categoryName }}</span>
+        </div>
+        <!-- 业务跳转链接 -->
+        <a
+          v-if="detail.linkUrl"
+          :href="detail.linkUrl"
+          class="inbox-message-detail__link"
+          rel="noopener noreferrer"
+          target="_blank"
+        >
+          {{ t('inAppInbox.field.linkUrl') }}
+        </a>
       </div>
 
-      <!-- 占位正文：后端就绪后替换为动态 content -->
-      <div class="inbox-message-detail__content">{{ sampleContent }}</div>
-
-      <p class="inbox-message-detail__hint">{{ t('inAppInbox.detail.noContentHint') }}（id: {{ route.params.id }}）</p>
+      <TypedContentView :content="detail.content" :content-type="contentType" />
     </div>
+
+    <el-empty v-else-if="!loading" :description="t('inAppInbox.empty')" />
   </div>
 </template>
 
@@ -69,42 +123,36 @@ const handleBack = () => {
   &__body {
     max-width: 880px;
     margin: 0 auto;
-    padding: 16px 50px 48px;
+    padding: 16px 24px 48px;
   }
 
-  &__letter-header {
-    margin-bottom: 16px;
+  &__meta {
+    margin-bottom: 20px;
     padding-bottom: 16px;
     border-bottom: 1px solid var(--el-border-color-lighter);
-    text-align: center;
-
-    h2 {
-      margin: 0;
-      font-size: 20px;
-      font-weight: 600;
-    }
-
-    div {
-      margin-top: 8px;
-      color: var(--el-text-color-secondary);
-      font-size: 13px;
-    }
   }
 
-  &__content {
-    max-height: 420px;
-    overflow: auto;
-    padding: 12px;
-    border: 1px solid var(--el-border-color);
-    border-radius: 4px;
-    white-space: pre-wrap;
-    word-break: break-all;
+  &__title {
+    margin: 0;
+    font-size: 20px;
+    font-weight: 600;
+    line-height: 1.4;
   }
 
-  &__hint {
-    margin-top: 12px;
-    color: var(--el-text-color-placeholder);
-    font-size: 12px;
+  &__sub {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 8px;
+    color: var(--el-text-color-secondary);
+    font-size: 13px;
+  }
+
+  &__link {
+    display: inline-block;
+    margin-top: 8px;
+    color: var(--el-color-primary);
+    font-size: 13px;
   }
 }
 </style>

@@ -79,3 +79,17 @@ export function markInAppInboxRead(ids: string[]) {
 export function batchDeleteInAppInbox(ids: string[]) {
   return http.request<string>('delete', '/system/me/message/in-app/inbox', { data: ids });
 }
+
+/** 我的站内信详情 */
+export interface InAppInboxDetail extends InAppInboxPageRow {
+  content: string;
+}
+
+/**
+ * 查询站内信详情（打开即标已读）
+ * @param messageId 站内信 ID（雪花，字符串传递）
+ * @returns 详情
+ */
+export function getInAppInboxDetail(messageId: string) {
+  return http.get<InAppInboxDetail, AxiosRequestConfig>(`/system/me/message/in-app/inbox/${messageId}`);
+}

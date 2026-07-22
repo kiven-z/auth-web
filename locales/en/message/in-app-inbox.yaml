@@ -20,4 +20,3 @@ inAppInbox:
     deleteAll: Delete all
   detail:
     title: Message detail
-    noContentHint: Message body will be available when the detail API is ready

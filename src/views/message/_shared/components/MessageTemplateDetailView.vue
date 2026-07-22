@@ -1,12 +1,12 @@
 <script lang="ts" setup>
 import type { MessageChannelCode, MessageTemplateDetailVO } from '@/api/message/message-template';
 import { getMessageTemplateById } from '@/api/message/message-template';
+import type { TypedContentTypeCode } from '@/components/business/TypedContentView';
+import TypedContentView from '@/components/business/TypedContentView';
 import ReDescription from '@/components/ui/Description';
 import type { ColumnProps } from '@/components/ui/Description/src/types';
 import { errorMessage } from '@/services/feedback/message';
 import { DISPLAY_DATETIME_FORMAT } from '@/shared/utils/date/dateTime';
-import MessageTemplateContentView from '@/views/message/_shared/components/MessageTemplateContentView.vue';
-import type { MessageTemplateContentTypeCode } from '@/views/message/_shared/constants/content-type';
 import dayjs from 'dayjs';
 import { computed, onMounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
@@ -35,7 +35,7 @@ const contentTab = ref<'preview' | 'source'>('preview');
 
 /** 预览类型，缺省 TEXT */
 const previewContentType = computed(() => {
-  return (detail.value?.contentType ?? 'TEXT') as MessageTemplateContentTypeCode;
+  return (detail.value?.contentType ?? 'TEXT') as TypedContentTypeCode;
 });
 
 /** 标题下方展示的时间 */
@@ -83,7 +83,7 @@ onMounted(load);
             <h2 v-if="detail?.previewSubject">{{ detail.previewSubject }}</h2>
             <div>{{ displayCreateTime }}</div>
           </div>
-          <MessageTemplateContentView :content="detail?.previewContent ?? ''" :content-type="previewContentType" />
+          <TypedContentView :content="detail?.previewContent ?? ''" :content-type="previewContentType" />
         </div>
       </el-tab-pane>
 
@@ -94,7 +94,7 @@ onMounted(load);
             <h2 v-if="detail?.subject">{{ detail.subject }}</h2>
             <div>{{ displayCreateTime }}</div>
           </div>
-          <MessageTemplateContentView :content="detail?.content ?? ''" content-type="TEXT" />
+          <TypedContentView :content="detail?.content ?? ''" content-type="TEXT" />
         </div>
       </el-tab-pane>
     </el-tabs>

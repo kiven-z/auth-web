@@ -20,4 +20,3 @@ inAppInbox:
     deleteAll: 全部删除
   detail:
     title: 消息详情
-    noContentHint: 正文请待详情接口开放后查看

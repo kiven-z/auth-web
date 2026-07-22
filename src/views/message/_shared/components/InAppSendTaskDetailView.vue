@@ -1,10 +1,10 @@
 <script lang="ts" setup>
 import { getInAppSendTaskById, type InAppSendTaskDetailVO } from '@/api/message/in-app-message';
+import type { TypedContentTypeCode } from '@/components/business/TypedContentView';
+import TypedContentView from '@/components/business/TypedContentView';
 import ReDescription from '@/components/ui/Description';
 import type { ColumnProps } from '@/components/ui/Description/src/types';
 import { errorMessage } from '@/services/feedback/message';
-import MessageTemplateContentView from '@/views/message/_shared/components/MessageTemplateContentView.vue';
-import type { MessageTemplateContentTypeCode } from '@/views/message/_shared/constants/content-type';
 import { computed, onMounted, ref } from 'vue';
 
 defineOptions({
@@ -28,7 +28,7 @@ const detail = ref<InAppSendTaskDetailVO | null>(null);
 
 /** 预览类型，缺省 TEXT */
 const previewContentType = computed(() => {
-  return (detail.value?.contentType ?? 'TEXT') as MessageTemplateContentTypeCode;
+  return (detail.value?.contentType ?? 'TEXT') as TypedContentTypeCode;
 });
 
 /**
@@ -55,6 +55,6 @@ onMounted(load);
     <!-- 定稿正文按 contentType 预览 -->
     <div class="mb-2 mt-4 text-sm font-medium">{{ contentLabel }}</div>
 
-    <MessageTemplateContentView :content="detail?.content ?? ''" :content-type="previewContentType" />
+    <TypedContentView :content="detail?.content ?? ''" :content-type="previewContentType" />
   </div>
 </template>
