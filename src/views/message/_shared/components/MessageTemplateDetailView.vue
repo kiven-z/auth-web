@@ -1,13 +1,19 @@
-<script lang="tsx" setup>
+<script lang="ts" setup>
 import type { MessageChannelCode, MessageTemplateDetailVO } from '@/api/message/message-template';
 import { getMessageTemplateById } from '@/api/message/message-template';
 import ReDescription from '@/components/ui/Description';
 import type { ColumnProps } from '@/components/ui/Description/src/types';
 import { errorMessage } from '@/services/feedback/message';
+import { DISPLAY_DATETIME_FORMAT } from '@/shared/utils/date/dateTime';
 import MessageTemplateContentView from '@/views/message/_shared/components/MessageTemplateContentView.vue';
 import type { MessageTemplateContentTypeCode } from '@/views/message/_shared/constants/content-type';
+import dayjs from 'dayjs';
 import { computed, onMounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
+
+defineOptions({
+  name: 'MessageTemplateDetailView',
+});
 
 /** 跨渠道消息模板详情：一次拉详情，Tab 切换渲染结果与原文 */
 interface MessageTemplateDetailViewProps {
@@ -32,9 +38,16 @@ const previewContentType = computed(() => {
   return (detail.value?.contentType ?? 'TEXT') as MessageTemplateContentTypeCode;
 });
 
-/**
- * 拉取详情
- */
+/** 标题下方展示的时间 */
+const displayCreateTime = computed(() => {
+  const createTime = detail.value?.createTime;
+  if (!createTime) {
+    return '';
+  }
+  return dayjs(createTime).format(DISPLAY_DATETIME_FORMAT);
+});
+
+/** 拉取详情 */
 const load = async () => {
   try {
     loading.value = true;
@@ -50,29 +63,77 @@ onMounted(load);
 </script>
 
 <template>
-  <div v-loading="loading">
+  <div v-loading="loading" class="message-template-detail">
     <ReDescription :column="2" :columns="columns" :data="detail ?? {}" border />
 
     <!-- 正文：渲染结果 / 原文 -->
-    <div class="mb-2 mt-4 text-sm font-medium">{{ contentLabel }}</div>
+    <div class="message-template-detail__content-label">{{ contentLabel }}</div>
 
     <el-tabs v-model="contentTab">
       <!-- 按示例值渲染后的效果 -->
       <el-tab-pane :label="t('messageTemplate.previewTab')" lazy name="preview">
-        <el-alert :closable="false" :title="t('messageTemplate.previewTips')" class="mb-3" type="info" />
-        <h2 v-if="detail?.previewSubject" class="mb-3!">
-          {{ detail.previewSubject }}
-        </h2>
-        <MessageTemplateContentView :content="detail?.previewContent ?? ''" :content-type="previewContentType" />
+        <el-alert
+          :closable="false"
+          :title="t('messageTemplate.previewTips')"
+          class="message-template-detail__alert"
+          type="info"
+        />
+        <div class="message-template-detail__letter">
+          <div class="message-template-detail__letter-header">
+            <h2 v-if="detail?.previewSubject">{{ detail.previewSubject }}</h2>
+            <div>{{ displayCreateTime }}</div>
+          </div>
+          <MessageTemplateContentView :content="detail?.previewContent ?? ''" :content-type="previewContentType" />
+        </div>
       </el-tab-pane>
 
       <!-- FreeMarker 原文，固定纯文本展示 -->
       <el-tab-pane :label="t('messageTemplate.sourceTab')" lazy name="source">
-        <h2 v-if="detail?.subject" class="mb-3!">
-          {{ detail.subject }}
-        </h2>
-        <MessageTemplateContentView :content="detail?.content ?? ''" content-type="TEXT" />
+        <div class="message-template-detail__letter">
+          <div class="message-template-detail__letter-header">
+            <h2 v-if="detail?.subject">{{ detail.subject }}</h2>
+            <div>{{ displayCreateTime }}</div>
+          </div>
+          <MessageTemplateContentView :content="detail?.content ?? ''" content-type="TEXT" />
+        </div>
       </el-tab-pane>
     </el-tabs>
   </div>
 </template>
+
+<style lang="scss" scoped>
+.message-template-detail {
+  &__content-label {
+    margin: 16px 0 8px;
+    font-size: 14px;
+    font-weight: 500;
+  }
+
+  &__alert {
+    margin-bottom: 12px;
+  }
+
+  &__letter {
+    margin-top: 8px;
+  }
+
+  &__letter-header {
+    margin-bottom: 16px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--el-border-color-lighter);
+    text-align: center;
+
+    h2 {
+      margin: 0;
+      font-size: 20px;
+      font-weight: 600;
+    }
+
+    div {
+      margin-top: 8px;
+      color: var(--el-text-color-secondary);
+      font-size: 13px;
+    }
+  }
+}
+</style>

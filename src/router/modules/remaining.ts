@@ -64,6 +64,16 @@ export default [
       title: $t('routes.myInbox'),
     },
   },
+  // 我的消息详情
+  {
+    path: '/inbox/detail/:id',
+    name: 'HomeInboxDetail',
+    component: () => import('@/views/home/inbox/components/InboxMessageDetailView.vue'),
+    meta: {
+      showLink: false,
+      title: $t('inAppInbox.detail.title'),
+    },
+  },
   // 全屏403（无权访问）页面
   {
     path: '/access-denied',

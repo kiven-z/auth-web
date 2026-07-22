@@ -2,6 +2,7 @@
 import type { InAppInboxPageRow } from '@/api/message/in-app-inbox';
 import dayjs from 'dayjs';
 import { useI18n } from 'vue-i18n';
+import { useRoute, useRouter } from 'vue-router';
 
 defineOptions({
   name: 'InboxMessageList',
@@ -22,19 +23,33 @@ const emit = defineEmits<{
 }>();
 
 const { t } = useI18n();
+const router = useRouter();
+const route = useRoute();
 
 /**
  * 勾选 / 取消勾选单行。
  * @param messageId 消息 ID
  * @param checked 是否选中
  */
-function toggleRow(messageId: string, checked: boolean) {
+const toggleRow = (messageId: string, checked: boolean) => {
   if (checked) {
     selectedRows.value.push(messageId);
     return;
   }
   selectedRows.value = selectedRows.value.filter((id) => id !== messageId);
-}
+};
+
+/**
+ * 打开消息详情整页。
+ * @param messageId 消息 ID
+ */
+const openDetail = (messageId: string) => {
+  void router.push({
+    name: 'HomeInboxDetail',
+    params: { id: messageId },
+    state: { HomeInboxDetail: route.fullPath },
+  });
+};
 </script>
 
 <template>
@@ -46,16 +61,18 @@ function toggleRow(messageId: string, checked: boolean) {
       :key="row.id"
       :class="{ 'inbox-message-list__row--unread': !row.isRead }"
       class="inbox-message-list__row"
+      @click="openDetail(row.id!)"
     >
       <el-checkbox
         :model-value="selectedRows.includes(row.id!)"
         @change="(checked) => toggleRow(row.id!, Boolean(checked))"
+        @click.stop
       />
 
       <span class="inbox-message-list__category">{{ row.categoryName || '—' }}</span>
       <span class="inbox-message-list__title">{{ row.title }}</span>
 
-      <div class="inbox-message-list__trailing">
+      <div class="inbox-message-list__trailing" @click.stop>
         <div class="inbox-message-list__actions">
           <el-button link type="primary" @click="emit('row-mark-read', row.id!)">
             {{ t('inAppInbox.action.markRead') }}
