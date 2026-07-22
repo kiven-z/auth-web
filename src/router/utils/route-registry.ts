@@ -92,9 +92,9 @@ async function fetchAsyncRoutes(): Promise<unknown[]> {
   try {
     const data = await getAsyncRoutes();
     return Array.isArray(data) ? data : [];
-  } catch (error) {
-    message(error.message, { type: 'error' });
-    message(transformI18n('tips.asyncRoutesDegraded'), { type: 'warning', duration: 4000, grouping: true });
+  } catch {
+    // 只提示业务降级，避免与通用「请求失败」叠弹
+    message(transformI18n('tips.asyncRoutesDegraded'), { type: 'warning', duration: 4000 });
     return [];
   }
 }
