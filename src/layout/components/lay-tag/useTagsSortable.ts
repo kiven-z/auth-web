@@ -51,14 +51,10 @@ export function useTagsSortable(tabListRef: Ref<HTMLElement | undefined>, enable
     }
 
     sortableInstance = Sortable.create(wrapper, {
-      animation: 160,
-      direction: 'horizontal',
-      draggable: '.scroll-item:not(.fixed-tag)',
-      filter: '.fixed-tag',
-      preventOnFilter: false,
+      animation: 150,
       ghostClass: 'tags-sortable-ghost',
-      chosenClass: 'tags-sortable-chosen',
-      dragClass: 'tags-sortable-drag',
+      filter: '.fixed-tag',
+      draggable: '.scroll-item:not(.fixed-tag)',
       onMove(event) {
         return !event.related.classList.contains('fixed-tag');
       },

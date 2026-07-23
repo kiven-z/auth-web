@@ -25,12 +25,10 @@ export function useTags() {
 
   const buttonTop = ref(0);
   const buttonLeft = ref(0);
-  const translateX = ref(0);
   const visible = ref(false);
   const activeIndex = ref(-1);
   // 当前右键选中的路由信息
   const currentSelect = ref({});
-  const isScrolling = ref(false);
 
   /** 标签风格，来自响应式 configure */
   const showModel = computed(() => preferenceState.configure?.showModel || 'smart');
@@ -132,13 +130,6 @@ export function useTags() {
     };
   });
 
-  const getTabStyle = computed((): CSSProperties => {
-    return {
-      transform: `translateX(${translateX.value}px)`,
-      transition: isScrolling.value ? 'none' : 'transform 0.5s ease-in-out',
-    };
-  });
-
   const getContextMenuStyle = computed((): CSSProperties => {
     return { left: buttonLeft.value + 'px', top: buttonTop.value + 'px' };
   });
@@ -201,12 +192,9 @@ export function useTags() {
     tagsViews,
     buttonTop,
     buttonLeft,
-    translateX,
     isFixedTag,
     settingStore,
     activeIndex,
-    getTabStyle,
-    isScrolling,
     iconIsActive,
     linkIsActive,
     currentSelect,

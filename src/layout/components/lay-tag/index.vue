@@ -8,6 +8,7 @@ import type { tagsViewsType } from '../../types';
 import TagChrome from './components/TagChrome.vue';
 import TagsContextMenu from './TagsContextMenu.vue';
 import { useTagsActions } from './useTagsActions';
+import { useTagsScroll } from './useTagsScroll';
 import { getTagItemKey, useTagsSortable } from './useTagsSortable';
 
 import ArrowDown from '~icons/ri/arrow-down-s-line';
@@ -26,11 +27,8 @@ const {
   buttonTop,
   buttonLeft,
   showModel,
-  translateX,
   isFixedTag,
   activeIndex,
-  getTabStyle,
-  isScrolling,
   iconIsActive,
   linkIsActive,
   currentSelect,
@@ -45,14 +43,30 @@ const {
 
 const tabDom = ref<HTMLElement>();
 const containerDom = ref();
-const scrollbarDom = ref();
+const scrollbarDom = ref<HTMLDivElement>();
 const contextmenuRef = ref();
 const isShowArrow = ref(false);
 const tagsSortableEnabled = computed(() => !showTags.value);
 
+const { syncArrowVisible, scrollTagIntoView, scrollByArrow, handleWheel } = useTagsScroll({
+  scrollbarRef: scrollbarDom,
+  tabListRef: tabDom,
+  isShowArrow,
+  getTagElement(index) {
+    const refValue = instance?.refs[`dynamic${index}`];
+    if (!refValue) {
+      return undefined;
+    }
+    return (Array.isArray(refValue) ? refValue[0] : refValue) as HTMLElement;
+  },
+});
+
 useTagsSortable(tabDom, tagsSortableEnabled);
 
-const dynamicTagView = async () => {
+/**
+ * 路由变化后滚动激活标签并刷新箭头
+ */
+async function dynamicTagView(): Promise<void> {
   await nextTick();
   const index = multiTags.value.findIndex((item) => {
     if (!isEmpty(route.query)) {
@@ -63,90 +77,8 @@ const dynamicTagView = async () => {
     }
     return route.path === item.path;
   });
-  moveToView(index);
-};
-
-const moveToView = async (index: number): Promise<void> => {
-  await nextTick();
-  const tabNavPadding = 10;
-  if (!instance.refs['dynamic' + index]) {
-    return;
-  }
-  const tabItemEl = instance.refs['dynamic' + index][0];
-  const tabItemElOffsetLeft = (tabItemEl as HTMLElement)?.offsetLeft;
-  const tabItemOffsetWidth = (tabItemEl as HTMLElement)?.offsetWidth;
-  const scrollbarDomWidth = scrollbarDom.value ? scrollbarDom.value?.offsetWidth : 0;
-  const tabDomWidth = tabDom.value ? tabDom.value?.offsetWidth : 0;
-
-  scrollbarDomWidth <= tabDomWidth ? (isShowArrow.value = true) : (isShowArrow.value = false);
-  if (tabDomWidth < scrollbarDomWidth || tabItemElOffsetLeft === 0) {
-    translateX.value = 0;
-  } else if (tabItemElOffsetLeft < -translateX.value) {
-    translateX.value = -tabItemElOffsetLeft + tabNavPadding;
-  } else if (
-    tabItemElOffsetLeft > -translateX.value &&
-    tabItemElOffsetLeft + tabItemOffsetWidth < -translateX.value + scrollbarDomWidth
-  ) {
-    translateX.value = Math.min(0, scrollbarDomWidth - tabItemOffsetWidth - tabItemElOffsetLeft - tabNavPadding);
-  } else {
-    translateX.value = -(tabItemElOffsetLeft - (scrollbarDomWidth - tabNavPadding - tabItemOffsetWidth));
-  }
-};
-
-/**
- * 横向滚动标签栏
- * @param offset 偏移量
- */
-const handleScroll = (offset: number): void => {
-  const scrollbarDomWidth = scrollbarDom.value ? scrollbarDom.value?.offsetWidth : 0;
-  const tabDomWidth = tabDom.value ? tabDom.value.offsetWidth : 0;
-  if (offset > 0) {
-    translateX.value = Math.min(0, translateX.value + offset);
-  } else if (scrollbarDomWidth < tabDomWidth) {
-    if (translateX.value >= -(tabDomWidth - scrollbarDomWidth)) {
-      translateX.value = Math.max(translateX.value + offset, scrollbarDomWidth - tabDomWidth);
-    }
-  } else {
-    translateX.value = 0;
-  }
-  isScrolling.value = false;
-};
-
-/**
- * 滚轮滚动
- * @param event 滚轮事件
- */
-const handleWheel = (event: WheelEvent): void => {
-  isScrolling.value = true;
-  const scrollIntensity = Math.abs(event.deltaX) + Math.abs(event.deltaY);
-  let offset = 0;
-  if (event.deltaX < 0) {
-    offset = scrollIntensity > 0 ? scrollIntensity : 100;
-  } else {
-    offset = scrollIntensity > 0 ? -scrollIntensity : -100;
-  }
-  smoothScroll(offset);
-};
-
-/**
- * 平滑滚动
- * @param offset 总偏移
- */
-const smoothScroll = (offset: number): void => {
-  const scrollAmount = 20;
-  let remaining = Math.abs(offset);
-
-  const scrollStep = () => {
-    const scrollOffset = Math.sign(offset) * Math.min(scrollAmount, remaining);
-    handleScroll(scrollOffset);
-    remaining -= Math.abs(scrollOffset);
-    if (remaining > 0) {
-      requestAnimationFrame(scrollStep);
-    }
-  };
-
-  requestAnimationFrame(scrollStep);
-};
+  await scrollTagIntoView(index);
+}
 
 const { deleteMenu, handleCommand, selectTag, openMenu, tagOnClick, syncTagsWithRoute, initTagsFromRoute } =
   useTagsActions({
@@ -179,7 +111,10 @@ vueOnMounted(() => {
     return;
   }
   initTagsFromRoute();
-  useResizeObserver(scrollbarDom, dynamicTagView);
+  useResizeObserver(scrollbarDom, () => {
+    syncArrowVisible();
+    void dynamicTagView();
+  });
   delay().then(() => dynamicTagView());
 });
 
@@ -204,7 +139,7 @@ function onDropdownCommand(command: { key: number; item: tagsViewsType }): void 
 <template>
   <div v-if="!showTags" ref="containerDom" class="tags-view">
     <span v-show="isShowArrow" class="arrow-left">
-      <IconifyIconOffline :icon="ArrowLeftSLine" @click="handleScroll(200)" />
+      <IconifyIconOffline :icon="ArrowLeftSLine" @click="scrollByArrow(-1)" />
     </span>
     <div
       ref="scrollbarDom"
@@ -212,7 +147,7 @@ function onDropdownCommand(command: { key: number; item: tagsViewsType }): void 
       class="scroll-container"
       @wheel.prevent="handleWheel"
     >
-      <div ref="tabDom" :style="getTabStyle" class="tab select-none">
+      <div ref="tabDom" class="tab select-none">
         <div
           v-for="(item, index) in multiTags"
           :key="getTagItemKey(item)"
@@ -257,7 +192,7 @@ function onDropdownCommand(command: { key: number; item: tagsViewsType }): void 
       </div>
     </div>
     <span v-show="isShowArrow" class="arrow-right">
-      <IconifyIconOffline :icon="ArrowRightSLine" @click="handleScroll(-200)" />
+      <IconifyIconOffline :icon="ArrowRightSLine" @click="scrollByArrow(1)" />
     </span>
 
     <div ref="contextmenuRef">
