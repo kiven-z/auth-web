@@ -1,4 +1,4 @@
-import Avatar from '@/assets/user.jpg';
+import Avatar from '@/assets/user.png';
 import { getConfig } from '@/auth/config';
 import { transformI18n } from '@/app/plugins/i18n';
 import { remainingPaths, router } from '@/router';

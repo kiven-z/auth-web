@@ -86,7 +86,7 @@ const openDetail = (messageId: string) => {
 .inbox-message-list {
   height: 100%;
   overflow-y: auto;
-  padding: 4px 8px 24px;
+  padding: 4px 8px 24px 0;
 
   &__row {
     display: grid;
