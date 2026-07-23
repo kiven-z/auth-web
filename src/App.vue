@@ -3,6 +3,7 @@ import { getLocaleDef } from '@/auth/config/locales';
 import { AuthDialog, closeAllDialog } from '@/components/ui/Dialog';
 import { AuthDrawer, closeAllDrawer } from '@/components/ui/Drawer';
 import { getUiPreferenceState } from '@/core/preferences/storage';
+import SessionWatermark from '@/components/business/SessionWatermark';
 import { ElConfigProvider } from 'element-plus';
 import { computed } from 'vue';
 import { useRouter } from 'vue-router';
@@ -35,6 +36,8 @@ function topLevelRouteKey(route: { matched: { path: string }[]; path: string }):
         <component :is="Component" :key="topLevelRouteKey(route)" />
       </Transition>
     </router-view>
+    <!-- 与路由树并列的全局水印浮层，不包裹业务 DOM -->
+    <SessionWatermark />
     <AuthDialog />
     <AuthDrawer />
   </el-config-provider>
