@@ -13,7 +13,7 @@ export interface ChannelDeliveryPageQuery {
   pageIndex?: number;
   pageSize?: number;
   sort?: SortSpec[];
-  /** 任务/批次 ID（雪花，字符串传递） */
+  /** 任务/批次 ID */
   taskId?: string;
   channel?: MessageChannelCode | string;
   status?: MessageDeliveryStatusCode | string;

@@ -18,5 +18,7 @@ inAppInbox:
     markRead: Mark as read
     markAllRead: Mark all as read
     deleteAll: Delete all
+  confirm:
+    markAllRead: Mark all unread messages in this category as read?
   detail:
     title: Message detail

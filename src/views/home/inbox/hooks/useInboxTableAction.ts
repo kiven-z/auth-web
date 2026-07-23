@@ -1,10 +1,22 @@
 import type { TableActionWithSelectionDeps } from '@/api/common';
-import { batchDeleteInAppInbox, markInAppInboxRead } from '@/api/message/in-app-inbox';
-import { operationConfirm } from '@/services/feedback/dialog';
+import {
+  batchDeleteInAppInbox,
+  deleteAllInAppInbox,
+  markAllInAppInboxRead,
+  markInAppInboxRead,
+} from '@/api/message/in-app-inbox';
+import { deleteConfirm, multiConfirm, operationConfirm } from '@/services/feedback/dialog';
 import { errorMessage, message } from '@/services/feedback/message';
 import useBatchDeleteAction from '@/shared/composables/table/useBatchDeleteAction';
 import { useInAppInboxStore } from '@/store/modules/message/inAppInbox';
+import type { Ref } from 'vue';
 import { useI18n } from 'vue-i18n';
+
+/** 收件箱表格写操作依赖 */
+interface InboxTableActionDeps extends TableActionWithSelectionDeps {
+  /** 当前大类 ID（Tab）；全部已读 / 全部删除必填 */
+  majorCategoryId: Ref<string | undefined>;
+}
 
 /**
  * 解析批量目标 ID：显式传入数组用传入值，否则用当前多选。
@@ -18,11 +30,11 @@ function resolveTargetIds(ids: unknown, selectedRows: string[]) {
 
 /**
  * 我的消息（收件箱）表格写操作
- * @param deps 表格操作依赖（含多选）
+ * @param deps 表格操作依赖
  * @returns 删除、标已读及全部操作方法
  */
-function useInboxTableAction(deps: TableActionWithSelectionDeps) {
-  const { fetchTableData, selectedRows } = deps;
+function useInboxTableAction(deps: InboxTableActionDeps) {
+  const { fetchTableData, selectedRows, majorCategoryId } = deps;
   const { t } = useI18n();
   const inboxStore = useInAppInboxStore();
 
@@ -60,17 +72,56 @@ function useInboxTableAction(deps: TableActionWithSelectionDeps) {
   }
 
   /**
-   * 全部已读
+   * 当前大类全部已读
    */
-  function markAllRead() {
-    message('即将上线', { type: 'info' });
+  async function markAllRead() {
+    const currentMajorCategoryId = majorCategoryId.value;
+    if (!currentMajorCategoryId) {
+      return;
+    }
+
+    const confirmed = await multiConfirm([
+      {
+        title: t('inAppInbox.action.markAllRead'),
+        message: t('inAppInbox.confirm.markAllRead'),
+      },
+    ]);
+    if (!confirmed) {
+      return;
+    }
+
+    try {
+      await markAllInAppInboxRead(currentMajorCategoryId);
+      message(t('tips.operationSuccess'), { type: 'success' });
+      selectedRows.value = [];
+      await Promise.all([fetchTableData(), inboxStore.refreshUnreadCount()]);
+    } catch (error: unknown) {
+      errorMessage(error);
+    }
   }
 
   /**
-   * 全部删除
+   * 当前大类全部删除
    */
-  function deleteAll() {
-    message('即将上线', { type: 'info' });
+  async function deleteAll() {
+    const currentMajorCategoryId = majorCategoryId.value;
+    if (!currentMajorCategoryId) {
+      return;
+    }
+
+    const confirmed = await deleteConfirm();
+    if (!confirmed) {
+      return;
+    }
+
+    try {
+      await deleteAllInAppInbox(currentMajorCategoryId);
+      message(t('tips.deleteSuccess'), { type: 'success' });
+      selectedRows.value = [];
+      await Promise.all([fetchTableData(), inboxStore.refreshUnreadCount()]);
+    } catch (error: unknown) {
+      errorMessage(error);
+    }
   }
 
   return {

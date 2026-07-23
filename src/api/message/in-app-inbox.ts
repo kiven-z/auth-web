@@ -66,7 +66,7 @@ export function getInAppInboxUnreadCount(): Promise<InAppInboxUnreadCount> {
 
 /**
  * 批量标已读
- * @param ids 站内信 ID 数组（雪花，字符串传递）
+ * @param ids 站内信 ID 数组
  */
 export function markInAppInboxRead(ids: string[]) {
   return http.post<string, string[]>('/system/me/message/in-app/inbox/read', { data: ids });
@@ -74,10 +74,30 @@ export function markInAppInboxRead(ids: string[]) {
 
 /**
  * 批量删除我的站内信（用户侧逻辑删除）
- * @param ids 站内信 ID 数组（雪花，字符串传递）
+ * @param ids 站内信 ID 数组
  */
 export function batchDeleteInAppInbox(ids: string[]) {
   return http.request<string>('delete', '/system/me/message/in-app/inbox', { data: ids });
+}
+
+/**
+ * 当前大类全部已读
+ * @param majorCategoryId 业务大类 ID
+ */
+export function markAllInAppInboxRead(majorCategoryId: string) {
+  return http.post<string, never>('/system/me/message/in-app/inbox/read-all', {
+    params: { majorCategoryId },
+  });
+}
+
+/**
+ * 当前大类全部删除（用户侧软删除）
+ * @param majorCategoryId 业务大类 ID
+ */
+export function deleteAllInAppInbox(majorCategoryId: string) {
+  return http.request<string>('delete', '/system/me/message/in-app/inbox/all', {
+    params: { majorCategoryId },
+  });
 }
 
 /** 我的站内信详情 */
@@ -87,7 +107,7 @@ export interface InAppInboxDetail extends InAppInboxPageRow {
 
 /**
  * 查询站内信详情（打开即标已读）
- * @param messageId 站内信 ID（雪花，字符串传递）
+ * @param messageId 站内信 ID
  * @returns 详情
  */
 export function getInAppInboxDetail(messageId: string) {

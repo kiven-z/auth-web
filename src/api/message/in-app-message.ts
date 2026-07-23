@@ -140,7 +140,7 @@ export function getInAppSendTaskPage(params: InAppSendTaskPageQuery) {
 
 /**
  * 按任务 ID 查询站内信发送任务详情
- * @param taskId 任务 ID（雪花，字符串传递）
+ * @param taskId 任务 ID
  * @returns 发送任务详情
  */
 export function getInAppSendTaskById(taskId: string) {
@@ -149,7 +149,7 @@ export function getInAppSendTaskById(taskId: string) {
 
 /**
  * 补发站内信发送任务（仅 PUSH 定向任务）
- * @param taskId 任务 ID（雪花，字符串传递）
+ * @param taskId 任务 ID
  */
 export function retryInAppSendTask(taskId: string) {
   return http.post<void, undefined>(`/system/message/in-app/tasks/${taskId}/retry`);
@@ -157,7 +157,7 @@ export function retryInAppSendTask(taskId: string) {
 
 /**
  * 撤回站内信发送任务（SUCCESS / PARTIAL / NO_RECIPIENTS）
- * @param taskId 任务 ID（雪花，字符串传递）
+ * @param taskId 任务 ID
  */
 export function recallInAppSendTask(taskId: string) {
   return http.post<void, undefined>(`/system/message/in-app/tasks/${taskId}/recall`);
@@ -165,7 +165,7 @@ export function recallInAppSendTask(taskId: string) {
 
 /**
  * 批量删除站内信发送任务（仅终态可删）
- * @param ids 任务 ID 数组（雪花，字符串传递）
+ * @param ids 任务 ID 数组
  */
 export function batchDeleteInAppSendTasks(ids: string[]) {
   return http.request<string>('delete', '/system/message/in-app/tasks', { data: ids });

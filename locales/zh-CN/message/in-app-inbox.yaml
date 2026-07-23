@@ -18,5 +18,7 @@ inAppInbox:
     markRead: 标为已读
     markAllRead: 全部已读
     deleteAll: 全部删除
+  confirm:
+    markAllRead: 将本分类下全部未读标为已读，是否继续？
   detail:
     title: 消息详情

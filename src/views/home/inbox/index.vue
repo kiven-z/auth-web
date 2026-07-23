@@ -16,7 +16,7 @@ import useInboxTableAction from '@/views/home/inbox/hooks/useInboxTableAction';
 import useInAppCategorySubOptions from '@/views/message/_shared/hooks/useInAppCategorySubOptions';
 import type { FormInstance } from 'element-plus';
 import { storeToRefs } from 'pinia';
-import { computed, onMounted, reactive, ref } from 'vue';
+import { computed, onMounted, reactive, ref, toRef } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRoute, useRouter } from 'vue-router';
 
@@ -69,6 +69,7 @@ const {
 const { deleteBatchRows, markReadBatchRows, markAllRead, deleteAll } = useInboxTableAction({
   fetchTableData,
   selectedRows,
+  majorCategoryId: toRef(searchForm, 'majorCategoryId'),
 });
 
 const selectedCountOnPage = computed(
@@ -233,10 +234,10 @@ onMounted(async () => {
           <el-button :disabled="selectedRows.length <= 0" @click="markReadBatchRows()">
             {{ t('inAppInbox.action.markRead') }}
           </el-button>
-          <el-button type="primary" @click="markAllRead">
+          <el-button :disabled="!searchForm.majorCategoryId" type="primary" @click="markAllRead()">
             {{ t('inAppInbox.action.markAllRead') }}
           </el-button>
-          <el-button @click="deleteAll">
+          <el-button :disabled="!searchForm.majorCategoryId" @click="deleteAll()">
             {{ t('inAppInbox.action.deleteAll') }}
           </el-button>
         </div>
