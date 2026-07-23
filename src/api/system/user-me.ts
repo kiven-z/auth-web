@@ -44,6 +44,19 @@ export interface MeProfileUpdateRequest {
 }
 
 /**
+ * 当前用户展示资料（顶栏 / 会话校准）
+ */
+export interface MeProfileResponse {
+  username: string;
+  nickname?: string | null;
+  avatar?: string | null;
+  /** 主部门 ID（Long 字符串化） */
+  primaryDeptId?: string | null;
+  /** 主部门名称 */
+  primaryDeptName?: string | null;
+}
+
+/**
  * 当前用户头像更新请求
  */
 export interface MeAvatarUpdateRequest {
@@ -58,6 +71,13 @@ export interface MeLoginLogPageRow {
   loginRegion?: string | null;
   loginResult: number;
   loginType?: string | null;
+}
+
+/**
+ * 查询当前用户展示资料
+ */
+export function getMyProfile(): Promise<MeProfileResponse> {
+  return http.get<MeProfileResponse, AxiosRequestConfig>('/system/me/profile');
 }
 
 /**

@@ -1,6 +1,7 @@
 import type { UserLoginResponse } from '@/api/auth/types';
 import { hydrateUiPreferencesOnSession } from '@/core/preferences/session';
 import { hasSessionHydrated } from '@/core/preferences/sync';
+import { hydrateUserDisplayProfileOnSession } from '@/core/session/displayProfile';
 import { applyRememberPreferencesFromResponse } from './rememberPreferences';
 import { setToken } from './sessionToken';
 import type { SessionTokenPayload } from './types';
@@ -31,11 +32,15 @@ export async function establishSessionFromLogin(
     avatar: body.avatar ?? '',
     username: body.username,
     nickname: body.nickname ?? '',
+    primaryDeptId: body.primaryDeptId ?? '',
+    primaryDeptName: body.primaryDeptName ?? '',
     roles: body.roles,
     permissions: body.permissions,
     userId: body.id,
   };
   setToken(sessionPayload);
+
+  void hydrateUserDisplayProfileOnSession().catch(() => undefined);
 
   if (!hasSessionHydrated()) {
     void hydrateUiPreferencesOnSession().catch(() => undefined);

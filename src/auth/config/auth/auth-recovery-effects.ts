@@ -18,6 +18,7 @@ export function runAuthRecoverySideEffect(matchedRuleId: string): void {
       message(transformI18n('tips.tokenExpiredRefreshRetry'), {
         type: 'warning',
         duration: RECOVERY_TOAST_DURATION_MS,
+        grouping: true,
       });
       return;
     }
@@ -27,6 +28,7 @@ export function runAuthRecoverySideEffect(matchedRuleId: string): void {
       message(transformI18n('tips.permissionMismatchRefreshRetry'), {
         type: 'warning',
         duration: RECOVERY_TOAST_DURATION_MS,
+        grouping: true,
       });
       return;
     }

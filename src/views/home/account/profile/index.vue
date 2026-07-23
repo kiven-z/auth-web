@@ -52,6 +52,8 @@ function syncStoreAndCache(updates: { nickname?: string; avatar?: string | null 
         avatar: userStore.avatar,
         username: stored.username ?? userStore.username,
         nickname: userStore.nickname,
+        primaryDeptId: stored.primaryDeptId ?? userStore.primaryDeptId ?? '',
+        primaryDeptName: stored.primaryDeptName ?? userStore.primaryDeptName ?? '',
         roles: stored.roles ?? userStore.roles,
         permissions: stored.permissions ?? userStore.permissions,
         userId: stored.userId ?? userStore.userId,

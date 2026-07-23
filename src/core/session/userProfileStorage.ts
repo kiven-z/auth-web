@@ -29,6 +29,8 @@ export function writeUserProfileToStorage(profile: UserProfileSnapshot, expires:
     avatar: profile.avatar,
     username: profile.username,
     nickname: profile.nickname,
+    primaryDeptId: profile.primaryDeptId,
+    primaryDeptName: profile.primaryDeptName,
     roles: profile.roles,
     permissions: profile.permissions,
     userId: profile.userId,

@@ -14,6 +14,10 @@ export interface RefreshTokenResponse {
 export interface UserLoginResponse extends RefreshTokenResponse {
   nickname?: string;
   avatar?: string;
+  /** 主部门 ID（Long 字符串化） */
+  primaryDeptId?: string | null;
+  /** 主部门名称 */
+  primaryDeptName?: string | null;
 }
 
 /**

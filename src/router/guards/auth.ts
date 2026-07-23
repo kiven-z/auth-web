@@ -3,6 +3,7 @@ import { ApiConflictError } from '@/core/http/apiError';
 import { hydrateUiPreferencesOnSession } from '@/core/preferences/session';
 import { hasSessionHydrated } from '@/core/preferences/sync';
 import { isLoggedIn } from '@/core/session/sessionAuth';
+import { hydrateUserDisplayProfileOnSession } from '@/core/session/displayProfile';
 import { hasAccessToken, removeToken } from '@/core/session/sessionToken';
 import { readUserProfileFromStorage } from '@/core/session/userProfileStorage';
 import { getTopMenu } from '@/router/utils/misc';
@@ -64,6 +65,10 @@ export function createAuthGuard(router: Router): void {
           next({ path: '/login' });
           return;
         }
+      }
+
+      if (hasAccessToken()) {
+        void hydrateUserDisplayProfileOnSession().catch(() => undefined);
       }
 
       // publicAccess 菜单对所有登录用户放行；空 roles 仍走 isOneOfArray（不可见/不可进）

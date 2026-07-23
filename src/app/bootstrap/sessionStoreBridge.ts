@@ -12,6 +12,7 @@ export function wireSessionStoreBridge(): void {
     userStore.SET_AVATAR(profile.avatar);
     userStore.SET_USERNAME(profile.username);
     userStore.SET_NICKNAME(profile.nickname);
+    userStore.SET_PRIMARY_DEPT(profile.primaryDeptId, profile.primaryDeptName);
     userStore.SET_ROLES(profile.roles);
     userStore.SET_PERMS(profile.permissions);
     userStore.SET_USER_ID(profile.userId);

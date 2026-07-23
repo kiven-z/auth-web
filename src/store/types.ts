@@ -46,6 +46,10 @@ export interface userType {
   avatar?: string;
   username?: string;
   nickname?: string;
+  /** 主部门 ID（Long 字符串化） */
+  primaryDeptId?: string;
+  /** 主部门名称 */
+  primaryDeptName?: string;
   /** 用户 ID（Long 字符串化） */
   userId?: string;
   roles?: Array<string>;

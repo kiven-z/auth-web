@@ -12,6 +12,10 @@ export interface DataInfo<T> {
   username?: string;
   /** 昵称 */
   nickname?: string;
+  /** 主部门 ID（Long 字符串化） */
+  primaryDeptId?: string;
+  /** 主部门名称 */
+  primaryDeptName?: string;
   /** 当前登录用户的角色 */
   roles?: Array<string>;
   /** 当前登录用户的按钮级别权限 */
@@ -28,6 +32,10 @@ export interface SessionTokenPayload {
   avatar?: string;
   username: string;
   nickname?: string;
+  /** 主部门 ID（Long 字符串化） */
+  primaryDeptId?: string;
+  /** 主部门名称 */
+  primaryDeptName?: string;
   roles: Array<string>;
   permissions: Array<string>;
   /** 用户 ID（Long 字符串化） */
@@ -39,6 +47,10 @@ export interface UserProfileSnapshot {
   avatar: string;
   username: string;
   nickname: string;
+  /** 主部门 ID（Long 字符串化，无主部门时为空串） */
+  primaryDeptId: string;
+  /** 主部门名称（无主部门时为空串） */
+  primaryDeptName: string;
   roles: Array<string>;
   permissions: Array<string>;
   userId: string;

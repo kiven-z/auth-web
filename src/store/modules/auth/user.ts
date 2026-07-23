@@ -1,5 +1,6 @@
 import { logoutApi } from '@/api/auth';
 import { stopSync } from '@/core/preferences/sync';
+import { resetUserDisplayProfileHydration } from '@/core/session/displayProfile';
 import { readSessionPreferences, writeSessionPreferences } from '@/core/session/sessionPreferences';
 import { removeToken } from '@/core/session/sessionToken';
 import { readUserProfileFromStorage } from '@/core/session/userProfileStorage';
@@ -9,7 +10,7 @@ import { defineStore } from 'pinia';
 import type { userType } from '../../types';
 import { useMultiTagsStore } from '../app/multiTags';
 
-export const useUserStore = defineStore('user', {
+export const useUserStore = defineStore('pure-user', {
   state: (): userType => {
     const u = readUserProfileFromStorage();
     const prefs = readSessionPreferences();
@@ -17,6 +18,8 @@ export const useUserStore = defineStore('user', {
       avatar: u.avatar ?? '',
       username: u.username ?? '',
       nickname: u.nickname ?? '',
+      primaryDeptId: u.primaryDeptId ?? '',
+      primaryDeptName: u.primaryDeptName ?? '',
       userId: u.userId ?? '',
       roles: u.roles ?? [],
       permissions: u.permissions ?? [],
@@ -33,6 +36,10 @@ export const useUserStore = defineStore('user', {
     },
     SET_NICKNAME(nickname: string) {
       this.nickname = nickname;
+    },
+    SET_PRIMARY_DEPT(primaryDeptId: string, primaryDeptName: string) {
+      this.primaryDeptId = primaryDeptId;
+      this.primaryDeptName = primaryDeptName;
     },
     SET_USER_ID(userId: string) {
       this.userId = userId;
@@ -58,9 +65,12 @@ export const useUserStore = defineStore('user', {
      */
     async clearLocalSession() {
       stopSync();
+      resetUserDisplayProfileHydration();
       this.avatar = '';
       this.username = '';
       this.nickname = '';
+      this.primaryDeptId = '';
+      this.primaryDeptName = '';
       this.userId = '';
       this.roles = [];
       this.permissions = [];

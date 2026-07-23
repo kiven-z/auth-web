@@ -26,7 +26,7 @@ const props = defineProps<Props>();
 
 const { openWithReturn } = useHomePageNavigation();
 const layoutUiStore = useLayoutUiStore();
-const { userAvatar, username, avatarsStyle, logout } = useSessionUserDisplay();
+const { userAvatar, username, primaryDeptName, avatarsStyle, logout } = useSessionUserDisplay();
 const {
   t,
   locale,
@@ -87,6 +87,10 @@ watch(
     <IconifyIconOffline :icon="screenIcon" />
   </span>
   <LayNotice id="header-notice" />
+  <!-- 主部门：与用户下拉并列的独立展示块 -->
+  <span v-if="primaryDeptName" class="layout-toolbar__dept navbar-bg-hover select-none">
+    <el-text type="primary" class="layout-toolbar__dept-text">{{ primaryDeptName }}</el-text>
+  </span>
   <el-dropdown trigger="click">
     <span class="el-dropdown-link navbar-bg-hover select-none">
       <img :src="userAvatar" :style="avatarsStyle" alt="avatar" />
@@ -115,6 +119,21 @@ watch(
 </template>
 
 <style lang="scss" scoped>
+.layout-toolbar__dept {
+  display: inline-flex;
+  align-items: center;
+  height: 48px;
+  padding: 0 12px;
+  white-space: nowrap;
+
+  .layout-toolbar__dept-text {
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    line-height: 1;
+  }
+}
+
 .el-dropdown-link {
   display: flex;
   align-items: center;
