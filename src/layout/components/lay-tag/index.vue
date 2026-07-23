@@ -153,7 +153,7 @@ function onDropdownCommand(command: { key: number; item: tagsViewsType }): void 
           :key="getTagItemKey(item)"
           :ref="'dynamic' + index"
           :class="[
-            'scroll-item is-closable',
+            'scroll-item',
             linkIsActive(item),
             showModel === 'chrome' && 'chrome-item',
             isFixedTag(item) && 'fixed-tag',

@@ -27,15 +27,19 @@ function handleSelect(key: number, item: tagsViewsType): void {
 
 <template>
   <transition name="el-zoom-in-top">
-    <ul v-show="visible" :key="Math.random()" :style="menuStyle" class="tags-context-menu">
-      <div v-for="(item, key) in tagsViews.slice(0, 6)" :key="key" style="display: flex; align-items: center">
-        <li v-if="item.show" @click="handleSelect(key, item)">
-          <IconifyIconOffline :icon="item.icon" />
-          <slot :item="item" name="label">
-            {{ item.text }}
-          </slot>
-        </li>
-      </div>
+    <ul v-show="visible" :style="menuStyle" class="tags-context-menu">
+      <li
+        v-for="(item, key) in tagsViews.slice(0, 6)"
+        v-show="item.show"
+        :key="key"
+        class="tags-context-menu__item"
+        @click="handleSelect(key, item)"
+      >
+        <IconifyIconOffline :icon="item.icon" />
+        <slot :item="item" name="label">
+          {{ item.text }}
+        </slot>
+      </li>
     </ul>
   </transition>
 </template>
@@ -55,7 +59,7 @@ function handleSelect(key: number, item: tagsViewsType): void {
   border-radius: 4px;
   box-shadow: 0 2px 8px rgb(0 0 0 / 15%);
 
-  li {
+  &__item {
     display: flex;
     align-items: center;
     width: 100%;

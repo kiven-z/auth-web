@@ -35,12 +35,17 @@
     padding-left: 6px;
     line-height: 34px;
     cursor: pointer;
-    transition: color 0.2s ease,
-    background-color 0.2s ease,
-    box-shadow 0.2s ease;
+    transition:
+      color 0.2s cubic-bezier(0.645, 0.045, 0.355, 1),
+      background-color 0.2s cubic-bezier(0.645, 0.045, 0.355, 1),
+      box-shadow 0.2s cubic-bezier(0.645, 0.045, 0.355, 1);
 
     &:not(:first-child) {
       padding-right: 24px;
+    }
+
+    &:first-child {
+      padding: 0 12px;
     }
 
     &.chrome-item {
@@ -48,6 +53,10 @@
       padding-left: 0;
       margin-right: -18px;
       box-shadow: none;
+
+      &:first-child {
+        padding: 0;
+      }
     }
 
     .el-icon-close {
@@ -62,8 +71,9 @@
       cursor: pointer;
       border-radius: 4px;
       transform: translate(0, -50%);
-      transition: background-color 0.12s,
-      color 0.12s;
+      transition:
+        background-color 0.12s,
+        color 0.12s;
 
       &:hover {
         color: rgb(0 0 0 / 88%) !important;
@@ -103,61 +113,9 @@
       display: inline-flex;
       align-items: center;
       overflow: visible;
-      white-space: nowrap;
-      list-style: none;
-
-      .scroll-item {
-        transition: color 0.2s cubic-bezier(0.645, 0.045, 0.355, 1),
-        background-color 0.2s cubic-bezier(0.645, 0.045, 0.355, 1),
-        box-shadow 0.2s cubic-bezier(0.645, 0.045, 0.355, 1);
-
-        &:nth-child(1) {
-          padding: 0 12px;
-        }
-
-        &.chrome-item {
-          &:nth-child(1) {
-            padding: 0;
-          }
-        }
-      }
 
       .fixed-tag {
         padding: 0 12px;
-      }
-    }
-  }
-
-  /* 右键菜单 */
-  .tags-context-menu {
-    position: absolute;
-    padding: 5px 0;
-    margin: 0;
-    font-size: 13px;
-    font-weight: normal;
-    color: var(--el-text-color-primary);
-    white-space: nowrap;
-    outline: 0;
-    list-style-type: none;
-    background: #fff;
-    border-radius: 4px;
-    box-shadow: 0 2px 8px rgb(0 0 0 / 15%);
-
-    li {
-      display: flex;
-      align-items: center;
-      width: 100%;
-      padding: 7px 12px;
-      margin: 0;
-      cursor: pointer;
-
-      &:hover {
-        color: var(--el-color-primary);
-      }
-
-      svg {
-        display: block;
-        margin-right: 0.5em;
       }
     }
   }
@@ -201,7 +159,6 @@
 
 .scroll-item.is-active {
   position: relative;
-  color: #fff;
   box-shadow: 0 0 0.7px #888;
 
   .chrome-tab {
@@ -239,6 +196,7 @@
   width: 40px;
   height: 34px;
   color: var(--el-text-color-primary);
+  cursor: pointer;
 
   svg {
     width: 20px;
@@ -248,19 +206,11 @@
 
 .arrow-left {
   box-shadow: 5px 0 5px -6px #ccc;
-
-  &:hover {
-    cursor: w-resize;
-  }
 }
 
 .arrow-right {
   border-right: 0.5px solid #ccc;
   box-shadow: -5px 0 5px -6px #ccc;
-
-  &:hover {
-    cursor: e-resize;
-  }
 }
 
 /* 卡片模式下鼠标移入显示蓝色边框 */

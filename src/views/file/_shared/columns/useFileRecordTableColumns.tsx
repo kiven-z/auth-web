@@ -126,7 +126,7 @@ function useFileRecordTableColumns() {
     {
       label: t('table.actions'),
       fixed: 'right' as const,
-      width: 220,
+      width: 200,
       slot: 'actions',
     },
   ]);
