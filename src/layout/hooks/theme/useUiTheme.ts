@@ -4,7 +4,6 @@ import { NAV_THEME_COLOR_ITEMS } from '@/core/preferences/nav-theme-colors';
 import { reconcileNavTheme } from '@/core/preferences/reconcile-nav-theme';
 import { getLayoutSnapshot, patchLayout } from '@/core/preferences/storage';
 import { useEpThemeStore } from '@/store/modules/app/epTheme';
-import { useGlobal } from '@pureadmin/utils';
 import { ref } from 'vue';
 import type { themeColorsType } from '../../types';
 import { useLayout } from '@/layout/hooks/layout/useLayout';
@@ -17,13 +16,13 @@ const OVERALL_STYLES = new Set(['light', 'dark', 'system']);
  */
 export function useUiTheme() {
   const { layoutTheme } = useLayout();
-  const { $storage } = useGlobal<GlobalPropertiesApi>();
+  const layoutSnapshot = getLayoutSnapshot();
   const epThemeStore = useEpThemeStore();
 
   const themeColors = ref<Array<themeColorsType>>([...NAV_THEME_COLOR_ITEMS]);
 
-  const dataTheme = ref<boolean>($storage?.layout?.darkMode ?? false);
-  const overallStyle = ref<string>($storage?.layout?.overallStyle ?? 'light');
+  const dataTheme = ref<boolean>(layoutSnapshot.darkMode ?? false);
+  const overallStyle = ref<string>(layoutSnapshot.overallStyle ?? 'light');
 
   /**
    * 设置 Element Plus 主色并持久化

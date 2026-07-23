@@ -2,7 +2,7 @@
 import { getLocaleDef } from '@/auth/config/locales';
 import { AuthDialog, closeAllDialog } from '@/components/ui/Dialog';
 import { AuthDrawer, closeAllDrawer } from '@/components/ui/Drawer';
-import { useGlobal } from '@pureadmin/utils';
+import { getUiPreferenceState } from '@/core/preferences/storage';
 import { ElConfigProvider } from 'element-plus';
 import { computed } from 'vue';
 import { useRouter } from 'vue-router';
@@ -13,14 +13,14 @@ defineOptions({
 });
 
 const router = useRouter();
-const { $storage } = useGlobal<GlobalPropertiesApi>();
+const preferenceState = getUiPreferenceState();
 
 router.beforeEach(() => {
   closeAllDialog();
   closeAllDrawer();
 });
 
-const currentLocale = computed(() => getLocaleDef($storage.locale?.locale).el);
+const currentLocale = computed(() => getLocaleDef(preferenceState.locale?.locale).el);
 
 /** 仅一级路由切换动画，避免 Layout 内菜单跳转整页重挂 */
 function topLevelRouteKey(route: { matched: { path: string }[]; path: string }): string {

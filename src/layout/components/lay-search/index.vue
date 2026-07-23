@@ -1,16 +1,18 @@
 <script lang="ts" setup>
-import { useBoolean } from '@/layout/hooks/navigation/useBoolean';
+import { ref } from 'vue';
 import SearchModal from './components/SearchModal.vue';
 
-const { bool: show, toggle } = useBoolean();
-function handleSearch() {
-  toggle();
+const show = ref(false);
+
+/** 打开 / 关闭菜单搜索 */
+function handleSearch(): void {
+  show.value = !show.value;
 }
 </script>
 
 <template>
   <div>
-    <div class="search-container w-10 h-12 flex-c cursor-pointer navbar-bg-hover" @click="handleSearch">
+    <div class="layout-toolbar__search w-10 h-12 flex-c cursor-pointer navbar-bg-hover" @click="handleSearch">
       <IconifyIconOffline icon="ri/search-line" />
     </div>
     <SearchModal v-model:value="show" />

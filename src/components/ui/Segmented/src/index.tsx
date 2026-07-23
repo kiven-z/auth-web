@@ -86,7 +86,7 @@ export default defineComponent({
     }
 
     function handleResizeInit() {
-      useResizeObserver('.pure-segmented', () => {
+      useResizeObserver('.auth-segmented', () => {
         nextTick(() => {
           handleInit(curIndex.value);
         });
@@ -116,7 +116,7 @@ export default defineComponent({
         return (
           <label
             ref={`labelRef${index}`}
-            class={['pure-segmented-item', (props.disabled || option?.disabled) && 'pure-segmented-item-disabled']}
+            class={['auth-segmented-item', (props.disabled || option?.disabled) && 'auth-segmented-item-disabled']}
             style={{
               background: curMouseActive.value === index ? segmentedItembg.value : '',
               color: props.disabled
@@ -133,14 +133,14 @@ export default defineComponent({
           >
             <input type="radio" name="segmented" />
             <div
-              class="pure-segmented-item-label"
+              class="auth-segmented-item-label"
               v-tippy={{
                 content: option?.tip,
                 zIndex: 41000,
               }}
             >
               {option.icon && !isFunction(option.label) ? (
-                <span class="pure-segmented-item-icon" style={{ marginRight: option.label ? '6px' : 0 }}>
+                <span class="auth-segmented-item-icon" style={{ marginRight: option.label ? '6px' : 0 }}>
                   {h(
                     useRenderIcon(option.icon, {
                       ...option?.iconAttrs,
@@ -158,15 +158,15 @@ export default defineComponent({
     return () => (
       <div
         class={{
-          'pure-segmented': true,
-          'pure-segmented-block': props.block,
-          'pure-segmented--large': props.size === 'large',
-          'pure-segmented--small': props.size === 'small',
+          'auth-segmented': true,
+          'auth-segmented-block': props.block,
+          'auth-segmented--large': props.size === 'large',
+          'auth-segmented--small': props.size === 'small',
         }}
       >
-        <div class="pure-segmented-group">
+        <div class="auth-segmented-group">
           <div
-            class="pure-segmented-item-selected"
+            class="auth-segmented-item-selected"
             style={{
               width: `${width.value}px`,
               transform: `translateX(${translateX.value}px)`,

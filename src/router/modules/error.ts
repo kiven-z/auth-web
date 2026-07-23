@@ -6,7 +6,7 @@ export default {
   meta: {
     icon: 'ri/information-line',
     showLink: false,
-    title: $t('menus.pureAbnormal'),
+    title: $t('menus.abnormal'),
     rank: 9,
   },
   children: [
@@ -15,7 +15,7 @@ export default {
       name: '403',
       component: () => import('@/views/home/error/403.vue'),
       meta: {
-        title: $t('menus.pureAccessDenied'),
+        title: $t('menus.accessDenied'),
       },
     },
     {
@@ -23,7 +23,7 @@ export default {
       name: '404',
       component: () => import('@/views/home/error/404.vue'),
       meta: {
-        title: $t('menus.purePageNotFound'),
+        title: $t('menus.pageNotFound'),
       },
     },
     {
@@ -31,7 +31,7 @@ export default {
       name: '500',
       component: () => import('@/views/home/error/500.vue'),
       meta: {
-        title: $t('menus.pureServerError'),
+        title: $t('menus.serverError'),
       },
     },
   ],

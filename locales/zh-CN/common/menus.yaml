@@ -1,16 +1,16 @@
 menus:
-  pureHome: 首页
-  pureTableDemoName: 名称
-  pureLogin: 登录
-  pureAbnormal: 异常页面
-  purePageNotFound: "404"
-  pureAccessDenied: "403"
-  pureServerError: "500"
-  purePermission: 权限管理
-  purePermissionPage: 页面权限
-  purePermissionButton: 按钮权限
-  purePermissionButtonRouter: 路由返回按钮权限
-  purePermissionButtonLogin: 登录接口返回按钮权限
+  home: 首页
+  tableDemoName: 名称
+  login: 登录
+  abnormal: 异常页面
+  pageNotFound: "404"
+  accessDenied: "403"
+  serverError: "500"
+  permission: 权限管理
+  permissionPage: 页面权限
+  permissionButton: 按钮权限
+  permissionButtonRouter: 路由返回按钮权限
+  permissionButtonLogin: 登录接口返回按钮权限
   menuType: 菜单类型
   parentId: 父级菜单
   dialogTitle: 菜单标题

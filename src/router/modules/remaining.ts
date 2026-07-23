@@ -8,7 +8,7 @@ export default [
     name: 'Login',
     component: () => import('@/views/home/login/index.vue'),
     meta: {
-      title: $t('menus.pureLogin'),
+      title: $t('menus.login'),
       showLink: false,
     },
   },
@@ -80,7 +80,7 @@ export default [
     name: 'AccessDenied',
     component: () => import('@/views/home/error/403.vue'),
     meta: {
-      title: $t('menus.pureAccessDenied'),
+      title: $t('menus.accessDenied'),
       showLink: false,
     },
   },
@@ -90,7 +90,7 @@ export default [
     name: 'ServerError',
     component: () => import('@/views/home/error/500.vue'),
     meta: {
-      title: $t('menus.pureServerError'),
+      title: $t('menus.serverError'),
       showLink: false,
     },
   },
@@ -98,7 +98,7 @@ export default [
     path: '/redirect',
     component: Layout,
     meta: {
-      title: $t('status.pureLoad'),
+      title: $t('status.loading'),
       showLink: false,
     },
     children: [

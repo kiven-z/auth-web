@@ -1,9 +1,9 @@
 {
   "id": "2208059",
-  "name": "pure-admin",
+  "name": "auth",
   "font_family": "iconfont",
-  "css_prefix_text": "pure-iconfont-",
-  "description": "pure-admin-iconfont",
+  "css_prefix_text": "auth-iconfont-",
+  "description": "auth-iconfont",
   "glyphs": [
     {
       "icon_id": "20594647",

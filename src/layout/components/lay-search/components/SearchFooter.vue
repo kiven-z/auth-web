@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import { useI18n } from 'vue-i18n';
-import { useNav } from '@/layout/hooks/navigation/useNav';
+import { storeToRefs } from 'pinia';
+import { useAppStore } from '@/store/modules/app/app';
 import MdiKeyboardEsc from '@/assets/svg/keyboard_esc.svg?component';
 import EnterOutlined from '@/assets/svg/enter_outlined.svg?component';
 import ArrowUpLine from '~icons/ri/arrow-up-line';
@@ -11,26 +12,26 @@ withDefaults(defineProps<{ total?: number }>(), {
 });
 
 const { t } = useI18n();
-const { device } = useNav();
+const { device } = storeToRefs(useAppStore());
 </script>
 
 <template>
   <div class="search-footer text-[#333] dark:text-white">
-    <span class="search-footer-item">
-      <EnterOutlined class="icon" />
+    <span class="search-footer__item">
+      <EnterOutlined class="search-footer__icon" />
       {{ t('buttons.confirm') }}
     </span>
-    <span class="search-footer-item">
-      <IconifyIconOffline :icon="ArrowUpLine" class="icon" />
-      <IconifyIconOffline :icon="ArrowDownLine" class="icon" />
+    <span class="search-footer__item">
+      <IconifyIconOffline :icon="ArrowUpLine" class="search-footer__icon" />
+      <IconifyIconOffline :icon="ArrowDownLine" class="search-footer__icon" />
       {{ t('buttons.switch') }}
     </span>
-    <span class="search-footer-item">
-      <MdiKeyboardEsc class="icon" />
+    <span class="search-footer__item">
+      <MdiKeyboardEsc class="search-footer__icon" />
       {{ t('buttons.close') }}
     </span>
-    <p v-if="device !== 'mobile' && total > 0" class="search-footer-total">
-      {{ `${t('search.pureTotal')} ${total}` }}
+    <p v-if="device !== 'mobile' && total > 0" class="search-footer__total">
+      {{ `${t('search.total')} ${total}` }}
     </p>
   </div>
 </template>
@@ -39,13 +40,13 @@ const { device } = useNav();
 .search-footer {
   display: flex;
 
-  .search-footer-item {
+  .search-footer__item {
     display: flex;
     align-items: center;
     margin-right: 14px;
   }
 
-  .icon {
+  .search-footer__icon {
     padding: 2px;
     margin-right: 3px;
     font-size: 20px;
@@ -55,7 +56,7 @@ const { device } = useNav();
       0 1px 2px 1px #1e235a66;
   }
 
-  .search-footer-total {
+  .search-footer__total {
     position: absolute;
     right: 20px;
   }

@@ -1,7 +1,7 @@
 import { applyConfigureSideEffects } from '@/core/preferences/apply';
 import { patchConfigure } from '@/core/preferences/storage';
 
-/** configure 字段与 emitter 事件映射 */
+/** configure 局部字段补丁 */
 type ConfigurePatch = Partial<ResponsiveStorage['configure']>;
 
 /**
@@ -10,16 +10,12 @@ type ConfigurePatch = Partial<ResponsiveStorage['configure']>;
  */
 export function useUiConfigure() {
   /**
-   * 合并写入 configure 并触发对应 UI 副作用
+   * 合并写入 configure；对 grey / weak / multiTagsCache 等应用 DOM 与 store 副作用
    * @param patch 待合并字段
-   * @param options emitEvents 是否广播 mitt 事件，默认 true
    */
-  function patchConfigureField(patch: ConfigurePatch, options?: { emitEvents?: boolean }): void {
+  function patchConfigureField(patch: ConfigurePatch): void {
     patchConfigure(patch);
-
-    if (options?.emitEvents ?? true) {
-      applyConfigureSideEffects(patch);
-    }
+    applyConfigureSideEffects(patch);
   }
 
   return {

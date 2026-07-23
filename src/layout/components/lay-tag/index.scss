@@ -60,9 +60,8 @@
       cursor: pointer;
       border-radius: 4px;
       transform: translate(0, -50%);
-      transition:
-        background-color 0.12s,
-        color 0.12s;
+      transition: background-color 0.12s,
+      color 0.12s;
 
       &:hover {
         color: rgb(0 0 0 / 88%) !important;
@@ -119,7 +118,7 @@
   }
 
   /* 右键菜单 */
-  .contextmenu {
+  .tags-context-menu {
     position: absolute;
     padding: 5px 0;
     margin: 0;
@@ -368,4 +367,20 @@
       background-color: #b1b3b8;
     }
   }
+}
+
+.scroll-item:not(.fixed-tag) {
+  cursor: grab;
+}
+
+.tags-sortable-ghost {
+  opacity: 0.45;
+}
+
+.tags-sortable-chosen {
+  cursor: grabbing;
+}
+
+.tags-sortable-drag {
+  opacity: 0.95;
 }

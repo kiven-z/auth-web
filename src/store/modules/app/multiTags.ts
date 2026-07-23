@@ -5,7 +5,7 @@ import { defineStore } from 'pinia';
 import type { multiType, positionType } from '../../types';
 import { usePermissionStore } from '../auth/permission';
 
-export const useMultiTagsStore = defineStore('pure-multiTags', {
+export const useMultiTagsStore = defineStore('multi-tags', {
   state: () => ({
     // 存储标签页信息（路由信息）
     multiTags: (storageLocal().getItem<StorageConfigs>(`${responsiveStorageNameSpace()}configure`)?.multiTagsCache

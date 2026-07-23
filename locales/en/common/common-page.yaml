@@ -119,20 +119,20 @@ placeholder:
   rangeStart: Start time
   rangeEnd: End time
 search:
-  pureTotal: Total
-  pureHistory: Search history
-  pureCollect: Favorites
-  pureDragSort: (Draggable)
-  pureEmpty: No results
-  purePlaceholder: Search menu (supports pinyin)
+  total: Total
+  history: Search history
+  collect: Favorites
+  dragSort: (Draggable)
+  empty: No results
+  placeholder: Search menu (supports pinyin)
 status:
-  pureLoad: Loading...
-  pureMessage: Messages
-  pureNotify: Notifications
-  pureTodo: Todos
-  pureNoMessage: No messages
-  pureNoNotify: No notifications
-  pureNoTodo: No todos
+  loading: Loading...
+  message: Messages
+  notify: Notifications
+  todo: Todos
+  noMessage: No messages
+  noNotify: No notifications
+  noTodo: No todos
   open: On
   close: Off
   show: Show

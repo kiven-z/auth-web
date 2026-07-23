@@ -9,24 +9,24 @@ html.dark {
   // --el-bg-color: #020409;
 
   /* 常用border-color 需要时可取用 */
-  --pure-border-color: rgb(253 253 253 / 12%);
+  --auth-border-color: rgb(253 253 253 / 12%);
 
   /* switch关闭状态下的color 需要时可取用 */
-  --pure-switch-off-color: #ffffff3f;
+  --auth-switch-off-color: #ffffff3f;
 
-  .navbar,
+  .layout-navbar,
   .tags-view,
-  .contextmenu,
-  .sidebar-container,
-  .horizontal-header,
-  .sidebar-logo-container,
-  .horizontal-header .el-sub-menu__title,
-  .horizontal-header .submenu-title-noDropdown {
+  .tags-context-menu,
+  .layout-sidebar,
+  .layout-horizontal,
+  .sidebar-logo,
+  .layout-horizontal .el-sub-menu__title,
+  .layout-horizontal .layout-menu__title--leaf {
     background: var(--el-bg-color) !important;
   }
 
-  .app-main,
-  .app-main-nofixed-header {
+  .layout__content,
+  .layout__content--scroll {
     background: #020409 !important;
   }
 
@@ -104,7 +104,7 @@ html.dark {
         color: rgb(255 255 255 / 85%) !important;
         background-color: rgb(255 255 255 / 12%);
 
-        .pure-dialog-svg {
+        .auth-dialog-svg {
           color: rgb(255 255 255 / 85%) !important;
         }
       }
@@ -112,13 +112,12 @@ html.dark {
   }
 
   /* 克隆并自定义 ElMessage 样式，不会影响 ElMessage 原本样式，在 src/ui/feedback/message.ts 中调用自定义样式 ElMessage 方法即可，整体浅色风格在 src/style/element-plus.scss 文件进行了适配 */
-  .pure-message {
+  .auth-message {
     background-color: rgb(36 37 37) !important;
     background-image: initial !important;
-    box-shadow:
-      rgb(13 13 13 / 12%) 0 3px 6px -4px,
-      rgb(13 13 13 / 8%) 0 6px 16px 0,
-      rgb(13 13 13 / 5%) 0 9px 28px 8px !important;
+    box-shadow: rgb(13 13 13 / 12%) 0 3px 6px -4px,
+    rgb(13 13 13 / 8%) 0 6px 16px 0,
+    rgb(13 13 13 / 5%) 0 9px 28px 8px !important;
 
     & .el-message__content {
       color: $color-white !important;
@@ -135,11 +134,10 @@ html.dark {
   }
 
   /* 自定义菜单搜索样式 */
-  .pure-search-dialog {
+  .auth-search-dialog {
     .el-dialog__footer {
-      box-shadow:
-        0 -1px 0 0 #555a64,
-        0 -3px 6px 0 rgb(69 98 155 / 12%);
+      box-shadow: 0 -1px 0 0 #555a64,
+      0 -3px 6px 0 rgb(69 98 155 / 12%);
     }
 
     .search-footer {
@@ -154,21 +152,21 @@ html.dark {
   }
 
   /* ReSegmented 组件 */
-  .pure-segmented {
+  .auth-segmented {
     color: rgb(255 255 255 / 65%);
     background-color: #000;
 
-    .pure-segmented-item-selected {
+    .auth-segmented-item-selected {
       background-color: #1f1f1f;
     }
 
-    .pure-segmented-item-disabled {
+    .auth-segmented-item-disabled {
       color: rgb(255 255 255 / 25%);
     }
   }
 
   /* 仿 el-scrollbar 滚动条样式 支持大多数浏览器，如Chrome、Edge、Firefox、Safari等 */
-  .pure-scrollbar {
+  .auth-scrollbar {
     scrollbar-color: rgb(63 64 66) transparent;
 
     ::-webkit-scrollbar-thumb {

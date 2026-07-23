@@ -83,17 +83,17 @@ onMounted(() => {
 </script>
 
 <template>
-  <div v-loading="loading" :element-loading-text="t('status.pureLoad')" class="frame">
-    <iframe ref="frameRef" :src="frameSrc" class="frame-iframe" />
+  <div v-loading="loading" :element-loading-text="t('status.loading')" class="layout-frame">
+    <iframe ref="frameRef" :src="frameSrc" class="layout-frame__iframe" />
   </div>
 </template>
 
 <style lang="scss" scoped>
-.frame {
+.layout-frame {
   position: absolute;
   inset: 0;
 
-  .frame-iframe {
+  .layout-frame__iframe {
     box-sizing: border-box;
     width: 100%;
     height: 100%;
@@ -102,7 +102,7 @@ onMounted(() => {
   }
 }
 
-.main-content {
+.layout__page {
   margin: 2px 0 0 !important;
 }
 </style>

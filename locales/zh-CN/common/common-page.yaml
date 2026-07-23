@@ -118,20 +118,20 @@ placeholder:
   rangeStart: 开始时间
   rangeEnd: 结束时间
 search:
-  pureTotal: 共
-  pureHistory: 搜索历史
-  pureCollect: 收藏
-  pureDragSort: （可拖拽排序）
-  pureEmpty: 暂无搜索结果
-  purePlaceholder: 搜索菜单（支持拼音搜索）
+  total: 共
+  history: 搜索历史
+  collect: 收藏
+  dragSort: （可拖拽排序）
+  empty: 暂无搜索结果
+  placeholder: 搜索菜单（支持拼音搜索）
 status:
-  pureLoad: 加载中...
-  pureMessage: 消息
-  pureNotify: 通知
-  pureTodo: 待办
-  pureNoMessage: 暂无消息
-  pureNoNotify: 暂无通知
-  pureNoTodo: 暂无待办
+  loading: 加载中...
+  message: 消息
+  notify: 通知
+  todo: 待办
+  noMessage: 暂无消息
+  noNotify: 暂无通知
+  noTodo: 暂无待办
   open: 开启
   close: 关闭
   show: 显示

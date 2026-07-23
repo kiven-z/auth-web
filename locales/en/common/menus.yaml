@@ -1,16 +1,16 @@
 menus:
-  pureHome: Home
-  pureTableDemoName: Name
-  pureLogin: Login
-  pureAbnormal: Abnormal Page
-  purePageNotFound: "404"
-  pureAccessDenied: "403"
-  pureServerError: "500"
-  purePermission: Permission Manage
-  purePermissionPage: Page Permission
-  purePermissionButton: Button Permission
-  purePermissionButtonRouter: Route return button permission
-  purePermissionButtonLogin: Login interface return button permission
+  home: Home
+  tableDemoName: Name
+  login: Login
+  abnormal: Abnormal Page
+  pageNotFound: "404"
+  accessDenied: "403"
+  serverError: "500"
+  permission: Permission Manage
+  permissionPage: Page Permission
+  permissionButton: Button Permission
+  permissionButtonRouter: Route return button permission
+  permissionButtonLogin: Login interface return button permission
   menuType: Menu type
   parentId: Parent menu
   dialogTitle: Menu title

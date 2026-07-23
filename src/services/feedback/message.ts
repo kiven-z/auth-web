@@ -80,7 +80,7 @@ const message = (message: string | VNode | (() => VNode), params?: MessageParams
   if (!params) {
     return ElMessage({
       message,
-      customClass: 'pure-message',
+      customClass: 'auth-message',
     });
   } else {
     const {
@@ -110,8 +110,8 @@ const message = (message: string | VNode | (() => VNode), params?: MessageParams
       appendTo,
       grouping,
       repeatNum,
-      // 全局搜 pure-message 即可知道该类的样式位置
-      customClass: customClass === 'antd' ? 'pure-message' : '',
+      // 全局搜 auth-message 即可知道该类的样式位置
+      customClass: customClass === 'antd' ? 'auth-message' : '',
       onClose: () => (isFunction(onClose) ? onClose() : null),
     });
   }

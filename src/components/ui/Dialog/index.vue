@@ -85,7 +85,7 @@ function handleClose(options: DialogOptions, index: number, args = { command: 'c
     :key="index"
     v-model="options.visible"
     :fullscreen="fullscreen ? true : options?.fullscreen ? true : false"
-    class="pure-dialog"
+    class="auth-dialog"
     v-bind="options"
     @closeAutoFocus="eventsCallBack('closeAutoFocus', options, index)"
     @closed="handleClose(options, index)"
@@ -108,7 +108,7 @@ function handleClose(options: DialogOptions, index: number, args = { command: 'c
         >
           <IconifyIconOffline
             :icon="options?.fullscreen ? ExitFullscreen : fullscreen ? ExitFullscreen : Fullscreen"
-            class="pure-dialog-svg"
+            class="auth-dialog-svg"
           />
         </i>
       </div>

@@ -1,7 +1,6 @@
 import { getConfig } from '@/auth/config';
 import type { LocaleType } from '@/auth/config/locales';
 import { i18n } from '@/app/plugins/i18n';
-import { emitter } from '@/services/event-bus/mitt';
 import { useAppStore } from '@/store/modules/app/app';
 import { useEpThemeStore } from '@/store/modules/app/epTheme';
 import { useMultiTagsStore } from '@/store/modules/app/multiTags';
@@ -110,7 +109,8 @@ export function applyThemePreferences(): void {
 }
 
 /**
- * 将 configure 字段子集应用到 DOM / store / 事件总线
+ * 将 configure 字段子集应用到 DOM / store。
+ * hideTabs / showModel / showLogo 由组件读 getUiPreferenceState().configure，无需事件总线。
  * @param patch 待应用字段（仅处理 patch 中出现的键）
  */
 export function applyConfigureSideEffects(patch: Partial<ResponsiveStorage['configure']>): void {
@@ -125,19 +125,10 @@ export function applyConfigureSideEffects(patch: Partial<ResponsiveStorage['conf
   if ('multiTagsCache' in patch && patch.multiTagsCache !== undefined) {
     useMultiTagsStore().multiTagsCacheChange(patch.multiTagsCache);
   }
-  if ('hideTabs' in patch && patch.hideTabs !== undefined) {
-    emitter.emit('tagViewsChange', String(patch.hideTabs));
-  }
-  if ('showModel' in patch && patch.showModel !== undefined) {
-    emitter.emit('tagViewsShowModel', patch.showModel);
-  }
-  if ('showLogo' in patch && patch.showLogo !== undefined) {
-    emitter.emit('logoChange', patch.showLogo);
-  }
 }
 
 /**
- * 将 configure 偏好应用到 DOM / store / 事件总线（无需组件实例）
+ * 将 configure 偏好应用到 DOM / store（无需组件实例）
  */
 export function applyConfigurePreferences(): void {
   applyConfigureSideEffects(getConfigureSnapshot());

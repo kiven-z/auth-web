@@ -4,10 +4,19 @@ import { getIsHydrating, schedulePreferenceSync } from './sync';
 
 /**
  * 获取 responsive-storage 全局实例
- * @returns $storage
+ * @returns 响应式 storage
  */
 function getStorage(): ResponsiveStorage {
   return getResponsiveStorage();
+}
+
+/**
+ * 供 layout / App 读取的响应式偏好根对象（与注入后的 $storage 同一引用）
+ * 组件应通过本函数 + computed 读偏好，禁止再 useGlobal().$storage
+ * @returns 响应式 locale / layout / configure
+ */
+export function getUiPreferenceState(): ResponsiveStorage {
+  return getStorage();
 }
 
 /**

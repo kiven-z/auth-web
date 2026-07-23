@@ -1,11 +1,11 @@
 import { computed, type CSSProperties, getCurrentInstance, onMounted, reactive, ref, unref } from 'vue';
 import type { tagsViewsType } from '../../types';
 import { useRoute, useRouter } from 'vue-router';
-import { getConfigureSnapshot } from '@/core/preferences/storage';
 import { $t, transformI18n } from '@/app/plugins/i18n';
 import { useUiConfigure } from '@/layout/hooks/configure/useUiConfigure';
 import { useSettingStore } from '@/store/modules/app/settings';
 import { useMultiTagsStore } from '@/store/modules/app/multiTags';
+import { getUiPreferenceState } from '@/core/preferences/storage';
 import { hasClass, isBoolean, isEqual, toggleClass } from '@pureadmin/utils';
 
 import Fullscreen from '~icons/ri/fullscreen-fill';
@@ -20,7 +20,8 @@ export function useTags() {
   const route = useRoute();
   const router = useRouter();
   const instance = getCurrentInstance();
-  const pureSetting = useSettingStore();
+  const settingStore = useSettingStore();
+  const preferenceState = getUiPreferenceState();
 
   const buttonTop = ref(0);
   const buttonLeft = ref(0);
@@ -31,12 +32,10 @@ export function useTags() {
   const currentSelect = ref({});
   const isScrolling = ref(false);
 
-  const configureSnapshot = getConfigureSnapshot();
-
-  /** 显示模式，默认灵动模式 */
-  const showModel = ref(configureSnapshot.showModel || 'smart');
-  /** 是否隐藏标签页，默认显示 */
-  const showTags = ref(configureSnapshot.hideTabs) ?? ref('false');
+  /** 标签风格，来自响应式 configure */
+  const showModel = computed(() => preferenceState.configure?.showModel || 'smart');
+  /** 是否隐藏标签页（true 则不渲染标签栏） */
+  const showTags = computed(() => Boolean(preferenceState.configure?.hideTabs));
   const multiTags: any = computed(() => {
     return useMultiTagsStore().multiTags;
   });
@@ -177,9 +176,9 @@ export function useTags() {
   }
 
   function onContentFullScreen() {
-    pureSetting.hiddenSideBar
-      ? pureSetting.changeSetting({ key: 'hiddenSideBar', value: false })
-      : pureSetting.changeSetting({ key: 'hiddenSideBar', value: true });
+    settingStore.hiddenSideBar
+      ? settingStore.changeSetting({ key: 'hiddenSideBar', value: false })
+      : settingStore.changeSetting({ key: 'hiddenSideBar', value: true });
   }
 
   const { patchConfigureField } = useUiConfigure();
@@ -187,7 +186,6 @@ export function useTags() {
   onMounted(() => {
     if (!showModel.value) {
       patchConfigureField({ showModel: 'card' });
-      showModel.value = 'card';
     }
   });
 
@@ -205,7 +203,7 @@ export function useTags() {
     buttonLeft,
     translateX,
     isFixedTag,
-    pureSetting,
+    settingStore,
     activeIndex,
     getTabStyle,
     isScrolling,
@@ -216,7 +214,6 @@ export function useTags() {
     getContextMenuStyle,
     $t,
     closeMenu,
-    onMounted,
     onMouseenter,
     onMouseleave,
     transformI18n,

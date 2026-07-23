@@ -9,7 +9,7 @@ export const routerArrays: Array<RouteConfigs> =
           path: '/welcome',
           name: 'Welcome',
           meta: {
-            title: 'menus.pureHome',
+            title: 'menus.home',
             icon: 'ep/home-filled',
           },
         },

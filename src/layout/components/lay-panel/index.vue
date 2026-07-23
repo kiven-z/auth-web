@@ -1,13 +1,20 @@
 <script lang="ts" setup>
 import { useI18n } from 'vue-i18n';
-import { emitter } from '@/services/event-bus/mitt';
 import { onClickOutside } from '@vueuse/core';
-import { computed, onBeforeUnmount, onMounted, ref } from 'vue';
+import { computed, ref } from 'vue';
+import { storeToRefs } from 'pinia';
 import { resetUiPreferences } from '@/core/preferences/actions';
+import { useLayoutUiStore } from '@/store/modules/app/layout-ui';
 import CloseIcon from '~icons/ep/close';
 
 const target = ref(null);
-const show = ref<Boolean>(false);
+const layoutUiStore = useLayoutUiStore();
+const { settingsPanelOpen } = storeToRefs(layoutUiStore);
+
+const show = computed({
+  get: () => settingsPanelOpen.value,
+  set: (value: boolean) => layoutUiStore.toggleSettingsPanel(value),
+});
 
 const iconClass = computed(() => {
   return [
@@ -31,32 +38,21 @@ const onReset = resetUiPreferences;
 
 onClickOutside(target, (event: any) => {
   if (event.clientX > target.value.offsetLeft) return;
-  show.value = false;
-});
-
-onMounted(() => {
-  emitter.on('openPanel', () => {
-    show.value = true;
-  });
-});
-
-onBeforeUnmount(() => {
-  // 解绑`openPanel`公共事件，防止多次触发
-  emitter.off('openPanel');
+  layoutUiStore.closeSettingsPanel();
 });
 </script>
 
 <template>
-  <div :class="{ show }">
-    <div class="right-panel-background" />
-    <div ref="target" class="right-panel bg-bg_color">
-      <div class="project-configuration border-0 border-b border-solid border-(--pure-border-color)">
+  <div :class="['settings-panel', { 'settings-panel--open': show }]">
+    <div class="settings-panel__backdrop" />
+    <div ref="target" class="settings-panel__drawer bg-bg_color">
+      <div class="settings-panel__header border-0 border-b border-solid border-(--auth-border-color)">
         <h4 class="dark:text-white">
-          {{ t('panel.pureSystemSet') }}
+          {{ t('panel.systemSettings') }}
         </h4>
         <span
           v-tippy="{
-            content: t('panel.pureCloseSystemSet'),
+            content: t('panel.closeSystemSettings'),
             placement: 'bottom-start',
             zIndex: 41000,
           }"
@@ -67,7 +63,7 @@ onBeforeUnmount(() => {
             class="dark:text-white"
             height="18px"
             width="18px"
-            @click="show = !show"
+            @click="layoutUiStore.closeSettingsPanel()"
           />
         </span>
       </div>
@@ -75,10 +71,10 @@ onBeforeUnmount(() => {
         <slot />
       </el-scrollbar>
 
-      <div class="flex justify-end p-3 border-0 border-t border-solid border-(--pure-border-color)">
+      <div class="flex justify-end p-3 border-0 border-t border-solid border-(--auth-border-color)">
         <el-button
           v-tippy="{
-            content: t('panel.pureClearCacheAndToLogin'),
+            content: t('panel.clearCacheAndToLogin'),
             placement: 'left-start',
             zIndex: 41000,
           }"
@@ -87,7 +83,7 @@ onBeforeUnmount(() => {
           type="danger"
           @click="onReset"
         >
-          {{ t('panel.pureClearCache') }}
+          {{ t('panel.clearCache') }}
         </el-button>
       </div>
     </div>
@@ -99,7 +95,7 @@ onBeforeUnmount(() => {
   height: calc(100vh - 110px);
 }
 
-.right-panel-background {
+.settings-panel__backdrop {
   position: fixed;
   top: 0;
   left: 0;
@@ -109,7 +105,7 @@ onBeforeUnmount(() => {
   transition: opacity 0.3s cubic-bezier(0.7, 0.3, 0.1, 1);
 }
 
-.right-panel {
+.settings-panel__drawer {
   position: fixed;
   top: 0;
   right: 0;
@@ -121,22 +117,22 @@ onBeforeUnmount(() => {
   transition: all 0.25s cubic-bezier(0.7, 0.3, 0.1, 1);
 }
 
-.show {
+.settings-panel--open {
   transition: all 0.3s cubic-bezier(0.7, 0.3, 0.1, 1);
 
-  .right-panel-background {
+  .settings-panel__backdrop {
     z-index: 20000;
     width: 100%;
     height: 100%;
     opacity: 1;
   }
 
-  .right-panel {
+  .settings-panel__drawer {
     transform: translate(0);
   }
 }
 
-.project-configuration {
+.settings-panel__header {
   display: flex;
   align-items: center;
   justify-content: space-between;

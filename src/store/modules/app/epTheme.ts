@@ -2,7 +2,7 @@ import { getLayoutSnapshot, patchLayout } from '@/core/preferences/storage';
 import { getConfig } from '@/auth/config';
 import { defineStore } from 'pinia';
 
-export const useEpThemeStore = defineStore('pure-epTheme', {
+export const useEpThemeStore = defineStore('ep-theme', {
   state: () => {
     const layout = getLayoutSnapshot();
     return {

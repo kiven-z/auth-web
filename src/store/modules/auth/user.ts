@@ -9,7 +9,7 @@ import { defineStore } from 'pinia';
 import type { userType } from '../../types';
 import { useMultiTagsStore } from '../app/multiTags';
 
-export const useUserStore = defineStore('pure-user', {
+export const useUserStore = defineStore('user', {
   state: (): userType => {
     const u = readUserProfileFromStorage();
     const prefs = readSessionPreferences();

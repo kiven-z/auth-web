@@ -2,10 +2,12 @@
 import { getConfig } from '@/auth/config';
 import { menuType } from '@/layout/types';
 import { ReText } from '@/components/ui/ReText';
-import { useNav } from '@/layout/hooks/navigation/useNav';
+import { useLayout } from '@/layout/hooks/layout/useLayout';
+import { MENU_TITLE_ROW_STYLE } from '@/layout/utils/menu-path';
+import { getMenuTooltipEffect } from '@/layout/utils/tooltip-effect';
 import { transformI18n } from '@/app/plugins/i18n';
+import { useAppStore } from '@/store/modules/app/app';
 import SidebarLinkItem from './SidebarLinkItem.vue';
-import SidebarExtraIcon from './SidebarExtraIcon.vue';
 import { useRenderIcon } from '@/components/ui/Icon/src/hooks';
 import { computed, type CSSProperties, type PropType, ref, toRaw, useAttrs } from 'vue';
 
@@ -15,7 +17,11 @@ import ArrowLeft from '~icons/ep/arrow-left-bold';
 import ArrowRight from '~icons/ep/arrow-right-bold';
 
 const attrs = useAttrs();
-const { layout, isCollapse, tooltipEffect, getDivStyle } = useNav();
+const appStore = useAppStore();
+const { layout } = useLayout();
+const isCollapse = computed(() => !appStore.getSidebarStatus);
+const tooltipEffect = getMenuTooltipEffect();
+const getDivStyle = MENU_TITLE_ROW_STYLE;
 
 const props = defineProps({
   item: {
@@ -118,12 +124,12 @@ function resolvePath(routePath: string) {
     :to="item"
   >
     <el-menu-item
-      :class="{ 'submenu-title-noDropdown': !isNest }"
+      :class="{ 'layout-menu__title--leaf': !isNest }"
       :index="resolvePath(onlyOneChild.path)"
       :style="getNoDropdownStyle"
       v-bind="attrs"
     >
-      <div v-if="toRaw(item.meta.icon)" :style="getSubMenuIconStyle" class="sub-menu-icon">
+      <div v-if="toRaw(item.meta.icon)" :style="getSubMenuIconStyle" class="layout-menu__icon">
         <component :is="useRenderIcon(toRaw(onlyOneChild.meta.icon) || (item.meta && toRaw(item.meta.icon)))" />
       </div>
       <el-text
@@ -148,14 +154,16 @@ function resolvePath(routePath: string) {
           >
             {{ transformI18n(onlyOneChild.meta.title) }}
           </ReText>
-          <SidebarExtraIcon :extraIcon="onlyOneChild.meta.extraIcon" />
+          <div v-if="onlyOneChild.meta.extraIcon" class="flex justify-center items-center">
+            <component :is="useRenderIcon(toRaw(onlyOneChild.meta.extraIcon))" class="w-[30px] h-[30px]" />
+          </div>
         </div>
       </template>
     </el-menu-item>
   </SidebarLinkItem>
   <el-sub-menu v-else ref="subMenu" :index="resolvePath(item.path)" teleported v-bind="expandCloseIcon">
     <template #title>
-      <div v-if="toRaw(item.meta.icon)" :style="getSubMenuIconStyle" class="sub-menu-icon">
+      <div v-if="toRaw(item.meta.icon)" :style="getSubMenuIconStyle" class="layout-menu__icon">
         <component :is="useRenderIcon(item.meta && toRaw(item.meta.icon))" />
       </div>
       <ReText
@@ -172,7 +180,9 @@ function resolvePath(routePath: string) {
       >
         {{ transformI18n(item.meta.title) }}
       </ReText>
-      <SidebarExtraIcon v-if="!isCollapse" :extraIcon="item.meta.extraIcon" />
+      <div v-if="!isCollapse && item.meta.extraIcon" class="flex justify-center items-center">
+        <component :is="useRenderIcon(toRaw(item.meta.extraIcon))" class="w-[30px] h-[30px]" />
+      </div>
     </template>
 
     <sidebar-item
@@ -181,7 +191,7 @@ function resolvePath(routePath: string) {
       :base-path="resolvePath(child.path)"
       :is-nest="true"
       :item="child"
-      class="nest-menu"
+      class="layout-menu__nest"
     />
   </el-sub-menu>
 </template>

@@ -1,8 +1,8 @@
 <script lang="ts" setup>
 import { useLayout } from '@/layout/hooks/layout/useLayout';
-import { useNav } from '@/layout/hooks/navigation/useNav';
 import { useTranslationLang } from '@/layout/hooks/locale/useTranslationLang';
 import { useUiTheme } from '@/layout/hooks/theme/useUiTheme';
+import { getAppTitle } from '@/layout/utils/brand';
 import useLogin from './hooks/useLogin';
 
 import avatar from '@/assets/login/avatar.svg?component';
@@ -28,8 +28,8 @@ const { t } = useI18n();
 const { initStorage } = useLayout();
 
 const { dataTheme, overallStyle, dataThemeChange } = useUiTheme();
-const { title, getDropdownItemStyle, getDropdownItemClass } = useNav();
-const { locale, translation, localeOptions } = useTranslationLang();
+const title = getAppTitle();
+const { locale, translation, localeOptions, getDropdownItemStyle, getDropdownItemClass } = useTranslationLang();
 
 const { currentMode, formKey, switchMode, onLoginSuccess } = useLogin();
 

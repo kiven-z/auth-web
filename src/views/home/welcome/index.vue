@@ -10,6 +10,6 @@ const { t } = useI18n();
 
 <template>
   <div class="w-full">
-    <h1 class="text-amber-700">{{ t('menus.pureHome') }}</h1>
+    <h1 class="text-amber-700">{{ t('menus.home') }}</h1>
   </div>
 </template>

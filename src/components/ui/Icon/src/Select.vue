@@ -137,7 +137,7 @@ watch(
             placement: 'auto',
           }"
           :width="350"
-          popper-class="pure-popper"
+          popper-class="auth-popper"
           trigger="click"
           @before-enter="onBeforeEnter"
           @after-leave="onAfterLeave"

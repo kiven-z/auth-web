@@ -1,4 +1,4 @@
-// 这里存放本地图标，在 src/layout/index.vue 文件中加载，避免在首启动加载
+// 本地图标在 src/layout/index.vue 加载，避免首屏启动时一并拉取
 // https://icon-sets.iconify.design/ep/?keyword=ep
 import { addIcon } from '@iconify/vue/dist/offline';
 import { getSvgInfo } from '@pureadmin/utils';

@@ -5,7 +5,7 @@ import { defineStore } from 'pinia';
 import { setSidebarOpened } from '@/core/preferences/actions';
 import type { appType } from '../../types';
 
-export const useAppStore = defineStore('pure-app', {
+export const useAppStore = defineStore('app', {
   state: (): appType => ({
     sidebar: {
       opened: getLayoutSnapshot().sidebarStatus ?? getConfig().SidebarStatus,

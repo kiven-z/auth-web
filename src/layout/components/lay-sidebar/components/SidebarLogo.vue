@@ -1,43 +1,44 @@
 <script lang="ts" setup>
-import { useNav } from '@/layout/hooks/navigation/useNav';
+import { getAppTitle, getLogoUrl } from '@/layout/utils/brand';
 import { getTopMenu } from '@/router/utils/misc';
 
 defineProps({
   collapse: Boolean,
 });
 
-const { title, getLogo } = useNav();
+const title = getAppTitle();
+const logoUrl = getLogoUrl();
 </script>
 
 <template>
-  <div :class="{ collapses: collapse }" class="sidebar-logo-container">
+  <div :class="['sidebar-logo', { 'sidebar-logo--collapsed': collapse }]">
     <transition name="sidebarLogoFade">
       <router-link
         v-if="collapse"
         key="collapse"
         :title="title"
         :to="getTopMenu()?.path ?? '/'"
-        class="sidebar-logo-link"
+        class="sidebar-logo__link"
       >
-        <img :src="getLogo()" alt="logo" />
-        <span class="sidebar-title">{{ title }}</span>
+        <img :src="logoUrl" alt="logo" />
+        <span class="sidebar-logo__title">{{ title }}</span>
       </router-link>
-      <router-link v-else key="expand" :title="title" :to="getTopMenu()?.path ?? '/'" class="sidebar-logo-link">
-        <img :src="getLogo()" alt="logo" />
-        <span class="sidebar-title">{{ title }}</span>
+      <router-link v-else key="expand" :title="title" :to="getTopMenu()?.path ?? '/'" class="sidebar-logo__link">
+        <img :src="logoUrl" alt="logo" />
+        <span class="sidebar-logo__title">{{ title }}</span>
       </router-link>
     </transition>
   </div>
 </template>
 
 <style lang="scss" scoped>
-.sidebar-logo-container {
+.sidebar-logo {
   position: relative;
   width: 100%;
   height: 48px;
   overflow: hidden;
 
-  .sidebar-logo-link {
+  .sidebar-logo__link {
     display: flex;
     flex-wrap: nowrap;
     align-items: center;
@@ -49,7 +50,7 @@ const { title, getLogo } = useNav();
       height: 32px;
     }
 
-    .sidebar-title {
+    .sidebar-logo__title {
       display: inline-block;
       height: 32px;
       margin: 2px 0 0 12px;
@@ -58,7 +59,7 @@ const { title, getLogo } = useNav();
       font-size: 18px;
       font-weight: 600;
       line-height: 32px;
-      color: var(--pure-theme-sub-menu-active-text);
+      color: var(--auth-theme-sub-menu-active-text);
       white-space: nowrap;
     }
   }

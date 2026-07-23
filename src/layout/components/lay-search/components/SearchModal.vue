@@ -4,12 +4,13 @@ import { getConfig } from '@/auth/config';
 import { useRouter } from 'vue-router';
 import SearchResult from './SearchResult.vue';
 import SearchFooter from './SearchFooter.vue';
-import { useNav } from '@/layout/hooks/navigation/useNav';
 import { transformI18n } from '@/app/plugins/i18n';
 import SearchHistory from './SearchHistory.vue';
 import type { dragItem, optionsItem } from '../types';
 import { computed, ref, shallowRef, watch } from 'vue';
 import { onKeyStroke, useDebounceFn } from '@vueuse/core';
+import { storeToRefs } from 'pinia';
+import { useAppStore } from '@/store/modules/app/app';
 import { usePermissionStore } from '@/store/modules/auth/permission';
 import { cloneDeep, storageLocal } from '@pureadmin/utils';
 import SearchIcon from '~icons/ri/search-line';
@@ -23,7 +24,7 @@ interface Emits {
   (e: 'update:value', val: boolean): void;
 }
 
-const { device } = useNav();
+const { device } = storeToRefs(useAppStore());
 const emit = defineEmits<Emits>();
 const props = withDefaults(defineProps<Props>(), {});
 
@@ -260,7 +261,7 @@ onKeyStroke('ArrowDown', handleDown);
     }"
     :width="device === 'mobile' ? '80vw' : '40vw'"
     append-to-body
-    class="pure-search-dialog"
+    class="auth-search-dialog"
     top="5vh"
     @closed="inputRef.blur()"
     @opened="inputRef.focus()"
@@ -268,7 +269,7 @@ onKeyStroke('ArrowDown', handleDown);
     <el-input
       ref="inputRef"
       v-model="keyword"
-      :placeholder="t('search.purePlaceholder')"
+      :placeholder="t('search.placeholder')"
       clearable
       size="large"
       @input="handleSearch"
@@ -277,9 +278,9 @@ onKeyStroke('ArrowDown', handleDown);
         <IconifyIconOffline :icon="SearchIcon" class="text-primary w-[24px] h-[24px]" />
       </template>
     </el-input>
-    <div class="search-content">
+    <div class="search-modal__body">
       <el-scrollbar ref="scrollbarRef" max-height="calc(90vh - 140px)">
-        <el-empty v-if="showEmpty" :description="t('search.pureEmpty')" />
+        <el-empty v-if="showEmpty" :description="t('search.empty')" />
         <SearchHistory
           v-if="showSearchHistory"
           ref="historyRef"
@@ -306,7 +307,7 @@ onKeyStroke('ArrowDown', handleDown);
 </template>
 
 <style lang="scss" scoped>
-.search-content {
+.search-modal__body {
   margin-top: 12px;
 }
 </style>

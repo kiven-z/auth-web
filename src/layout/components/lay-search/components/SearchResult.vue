@@ -69,18 +69,18 @@ defineExpose({ handleScroll });
 </script>
 
 <template>
-  <div ref="resultRef" class="result">
+  <div ref="resultRef" class="search-result">
     <div
       v-for="(item, index) in options"
       :key="item.path"
       :ref="'resultItemRef' + index"
       :style="itemStyle(item)"
-      class="result-item dark:bg-[#1d1d1d]"
+      class="search-result__item dark:bg-[#1d1d1d]"
       @click="handleTo"
       @mouseenter="handleMouse(item)"
     >
       <component :is="useRenderIcon(item.meta?.icon)" />
-      <span class="result-item-title">
+      <span class="search-result__title">
         {{ transformI18n(item.meta?.title) }}
       </span>
       <EnterOutlined />
@@ -89,10 +89,10 @@ defineExpose({ handleScroll });
 </template>
 
 <style lang="scss" scoped>
-.result {
+.search-result {
   padding-bottom: 12px;
 
-  &-item {
+  &__item {
     display: flex;
     align-items: center;
     height: 56px;
@@ -103,7 +103,7 @@ defineExpose({ handleScroll });
     border-radius: 4px;
     transition: font-size 0.16s;
 
-    &-title {
+    .search-result__title {
       display: flex;
       flex: 1;
       margin-left: 5px;

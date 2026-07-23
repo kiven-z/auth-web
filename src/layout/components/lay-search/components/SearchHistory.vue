@@ -1,11 +1,14 @@
 <script lang="ts" setup>
 import Sortable from 'sortablejs';
 import { useI18n } from 'vue-i18n';
-import SearchHistoryItem from './SearchHistoryItem.vue';
 import type { dragItem, optionsItem, Props } from '../types';
+import { transformI18n } from '@/app/plugins/i18n';
+import { useRenderIcon } from '@/components/ui/Icon/src/hooks';
 import { useEpThemeStore } from '@/store/modules/app/epTheme';
 import { delay, isArray, useResizeObserver } from '@pureadmin/utils';
 import { computed, getCurrentInstance, nextTick, ref, watch } from 'vue';
+import StarIcon from '~icons/ep/star';
+import CloseIcon from '~icons/ep/close';
 
 interface Emits {
   (e: 'update:value', val: string): void;
@@ -99,7 +102,7 @@ function handleScroll(index: number) {
   const curInstance = instance?.proxy?.$refs[`historyItemRef${index}`];
   if (!curInstance) return 0;
   const curRef = isArray(curInstance) ? (curInstance[0] as ElRef) : (curInstance as ElRef);
-  const scrollTop = curRef.offsetTop + 128; // 128 两个history-item（56px+56px=112px）高度加上下margin（8px+8px=16px）
+  const scrollTop = curRef.offsetTop + 128; // 128：两个 search-history__item 高度 + margin
   return scrollTop > innerHeight.value ? scrollTop - innerHeight.value : 0;
 }
 
@@ -137,38 +140,60 @@ defineExpose({ handleScroll });
 </script>
 
 <template>
-  <div ref="historyRef" class="history">
+  <div ref="historyRef" class="search-history">
     <template v-if="historyList.length">
       <div :style="titleStyle">
-        {{ t('search.pureHistory') }}
+        {{ t('search.history') }}
       </div>
       <div
         v-for="(item, index) in historyList"
         :key="item.path"
         :ref="'historyItemRef' + index"
         :style="itemStyle(item)"
-        class="history-item dark:bg-[#1d1d1d]"
+        class="search-history__item dark:bg-[#1d1d1d]"
         @click="handleTo"
         @mouseenter="handleMouse(item)"
       >
-        <SearchHistoryItem :item="item" @delete-item="handleDelete" @collect-item="handleCollect" />
+        <component :is="useRenderIcon(item.meta?.icon)" />
+        <span class="search-history__title">
+          {{ transformI18n(item.meta?.title) }}
+        </span>
+        <IconifyIconOffline
+          v-show="item.type === 'history'"
+          :icon="StarIcon"
+          class="w-[18px] h-[18px] mr-2 hover:text-[#d7d5d4]"
+          @click.stop="handleCollect(item)"
+        />
+        <IconifyIconOffline
+          :icon="CloseIcon"
+          class="w-[18px] h-[18px] hover:text-[#d7d5d4] cursor-pointer"
+          @click.stop="handleDelete(item)"
+        />
       </div>
     </template>
     <template v-if="collectList.length">
       <div :style="titleStyle">
-        {{ `${t('search.pureCollect')}${collectList.length > 1 ? t('search.pureDragSort') : ''}` }}
+        {{ `${t('search.collect')}${collectList.length > 1 ? t('search.dragSort') : ''}` }}
       </div>
-      <div class="collect-container">
+      <div class="search-history__collect">
         <div
           v-for="(item, index) in collectList"
           :key="item.path"
           :ref="'historyItemRef' + (index + historyList.length)"
           :style="itemStyle(item)"
-          class="history-item dark:bg-[#1d1d1d]"
+          class="search-history__item dark:bg-[#1d1d1d]"
           @click="handleTo"
           @mouseenter="handleMouse(item)"
         >
-          <SearchHistoryItem :item="item" @delete-item="handleDelete" />
+          <component :is="useRenderIcon(item.meta?.icon)" />
+          <span class="search-history__title">
+            {{ transformI18n(item.meta?.title) }}
+          </span>
+          <IconifyIconOffline
+            :icon="CloseIcon"
+            class="w-[18px] h-[18px] hover:text-[#d7d5d4] cursor-pointer"
+            @click.stop="handleDelete(item)"
+          />
         </div>
       </div>
     </template>
@@ -176,10 +201,10 @@ defineExpose({ handleScroll });
 </template>
 
 <style lang="scss" scoped>
-.history {
+.search-history {
   padding-bottom: 12px;
 
-  &-item {
+  &__item {
     display: flex;
     align-items: center;
     height: 56px;
@@ -190,5 +215,11 @@ defineExpose({ handleScroll });
     border-radius: 4px;
     transition: font-size 0.16s;
   }
+}
+
+.search-history__title {
+  display: flex;
+  flex: 1;
+  margin-left: 5px;
 }
 </style>
