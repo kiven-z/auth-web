@@ -6,7 +6,6 @@ import { findRouteByPath, getParentPaths } from '@/router/utils/route-tree';
 import { getUiPreferenceState } from '@/core/preferences/storage';
 import { useAppStore } from '@/store/modules/app/app';
 import { usePermissionStore } from '@/store/modules/auth/permission';
-import { isAllEmpty } from '@pureadmin/utils';
 import { computed, ref, watch } from 'vue';
 import { useRoute } from 'vue-router';
 import LaySidebarItem from '../components/lay-sidebar/components/SidebarItem.vue';
@@ -29,7 +28,7 @@ const menuData = computed(() => {
 
 const loading = computed(() => (layout.value === 'mix' ? false : menuData.value.length === 0));
 
-const defaultActive = computed(() => (!isAllEmpty(route.meta?.activePath) ? route.meta.activePath : route.path));
+const defaultActive = computed(() => (route.meta?.activePath ? route.meta.activePath : route.path));
 
 /**
  * mix 模式下根据当前路由解析侧栏二级菜单

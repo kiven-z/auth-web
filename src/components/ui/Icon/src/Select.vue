@@ -1,5 +1,6 @@
 <script lang="ts" setup>
-import { cloneDeep, isAllEmpty } from '@pureadmin/utils';
+import { cloneDeep } from '@pureadmin/utils';
+import isEmpty from 'lodash/isEmpty';
 import Search from '~icons/ri/search-eye-line';
 import { computed, CSSProperties, ref, watch } from 'vue';
 import { IconJson } from '@/components/ui/Icon/data';
@@ -72,7 +73,7 @@ function setVal() {
  */
 function onBeforeEnter() {
   try {
-    if (isAllEmpty(icon.value)) return;
+    if (isEmpty(icon.value)) return;
 
     setVal();
     // 寻找当前图标在第几页

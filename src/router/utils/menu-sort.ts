@@ -1,11 +1,12 @@
 import { isOneOfArray } from '@/auth/permission';
 import { useUserStore } from '@/store/modules/auth/user';
-import { cloneDeep, isAllEmpty } from '@pureadmin/utils';
+import { cloneDeep } from '@pureadmin/utils';
+import isEmpty from 'lodash/isEmpty';
 import type { RouteComponent } from 'vue-router';
 
 function handRank(routeInfo: any) {
   const { name, path, parentId, meta } = routeInfo;
-  return isAllEmpty(parentId) ? isAllEmpty(meta?.rank) || (meta?.rank === 0 && name !== 'Home' && path !== '/') : false;
+  return isEmpty(parentId) ? isEmpty(meta?.rank) || (meta?.rank === 0 && name !== 'Home' && path !== '/') : false;
 }
 
 /**

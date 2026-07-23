@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import { useTags } from '@/layout/hooks/navigation/useTag';
-import { delay, isAllEmpty, isEqual, useResizeObserver } from '@pureadmin/utils';
+import { delay, isEqual, useResizeObserver } from '@pureadmin/utils';
+import isEmpty from 'lodash/isEmpty';
 import { onClickOutside } from '@vueuse/core';
 import { computed, nextTick, onMounted as vueOnMounted, ref, watch } from 'vue';
 import type { tagsViewsType } from '../../types';
@@ -54,10 +55,10 @@ useTagsSortable(tabDom, tagsSortableEnabled);
 const dynamicTagView = async () => {
   await nextTick();
   const index = multiTags.value.findIndex((item) => {
-    if (!isAllEmpty(route.query)) {
+    if (!isEmpty(route.query)) {
       return isEqual(route.query, item.query);
     }
-    if (!isAllEmpty(route.params)) {
+    if (!isEmpty(route.params)) {
       return isEqual(route.params, item.params);
     }
     return route.path === item.path;

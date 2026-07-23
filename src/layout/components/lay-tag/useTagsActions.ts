@@ -6,7 +6,8 @@ import NProgress from '@/services/progress';
 import { useMultiTagsStore } from '@/store/modules/app/multiTags';
 import { usePermissionStore } from '@/store/modules/auth/permission';
 import { useSettingStore } from '@/store/modules/app/settings';
-import { isAllEmpty, isEqual } from '@pureadmin/utils';
+import { isEqual } from '@pureadmin/utils';
+import isEmpty from 'lodash/isEmpty';
 import { nextTick, type Ref, toRaw } from 'vue';
 import type { RouteLocationNormalizedLoaded, Router } from 'vue-router';
 
@@ -320,9 +321,9 @@ export function useTagsActions(deps: TagsActionsDeps) {
     const allRoute = multiTags.value;
     const routeLength = multiTags.value.length;
     let currentIndex = -1;
-    if (!isAllEmpty(params)) {
+    if (!isEmpty(params)) {
       currentIndex = allRoute.findIndex((item) => isEqual(item.params, params));
-    } else if (!isAllEmpty(query)) {
+    } else if (!isEmpty(query)) {
       currentIndex = allRoute.findIndex((item) => isEqual(item.query, query));
     } else {
       currentIndex = allRoute.findIndex((item) => item.path === currentPath);

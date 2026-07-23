@@ -5,7 +5,6 @@ import { getUiPreferenceState } from '@/core/preferences/storage';
 import { usePermissionStore } from '@/store/modules/auth/permission';
 import { router } from '@/router';
 import { getTopMenu } from '@/router/utils/misc';
-import { isAllEmpty } from '@pureadmin/utils';
 import { computed, nextTick, ref } from 'vue';
 import { useRoute } from 'vue-router';
 import LaySidebarItem from '../components/lay-sidebar/components/SidebarItem.vue';
@@ -17,7 +16,7 @@ const showLogo = computed(() => preferenceState.configure?.showLogo ?? true);
 const title = getAppTitle();
 const logoUrl = getLogoUrl();
 
-const defaultActive = computed(() => (!isAllEmpty(route.meta?.activePath) ? route.meta.activePath : route.path));
+const defaultActive = computed(() => (route.meta?.activePath ? route.meta.activePath : route.path));
 
 /**
  * 回到顶层菜单路由

@@ -93,12 +93,18 @@ function setMultipleTabsCookie(isRemembered: boolean, loginDay: number): void {
 function resolveProfileForSetToken(data: SessionTokenPayload): UserProfileSnapshot {
   const previous = readStoredUserProfileEntry();
   const sameUser = previous?.userId === data.userId;
+  const display = sameUser
+    ? {
+        avatar: previous?.avatar ?? '',
+        nickname: previous?.nickname ?? '',
+        primaryDeptId: previous?.primaryDeptId ?? '',
+        primaryDeptName: previous?.primaryDeptName ?? '',
+      }
+    : { avatar: '', nickname: '', primaryDeptId: '', primaryDeptName: '' };
+
   return {
-    avatar: sameUser ? (previous?.avatar ?? '') : '',
+    ...display,
     username: data.username,
-    nickname: sameUser ? (previous?.nickname ?? '') : '',
-    primaryDeptId: sameUser ? (previous?.primaryDeptId ?? '') : '',
-    primaryDeptName: sameUser ? (previous?.primaryDeptName ?? '') : '',
     roles: data.roles,
     permissions: data.permissions,
     userId: data.userId,

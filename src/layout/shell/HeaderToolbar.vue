@@ -1,10 +1,11 @@
 <script lang="ts" setup>
 import type { LocaleType } from '@/auth/config/locales';
-import { useSessionUserDisplay } from '@/layout/composables/useSessionUserDisplay';
+import DefaultAvatar from '@/assets/user.png';
 import { useTranslationLang } from '@/layout/hooks/locale/useTranslationLang';
 import { useLayoutUiStore } from '@/store/modules/app/layout-ui';
+import { useUserStore } from '@/store/modules/auth/user';
 import { useHomePageNavigation } from '@/shared/composables/layout/useHomePageNavigation';
-import { ref, watch } from 'vue';
+import { computed, ref, watch } from 'vue';
 import { useFullscreen } from '@vueuse/core';
 import LayNotice from '../components/lay-notice/index.vue';
 import LaySearch from '../components/lay-search/index.vue';
@@ -26,7 +27,22 @@ const props = defineProps<Props>();
 
 const { openWithReturn } = useHomePageNavigation();
 const layoutUiStore = useLayoutUiStore();
-const { userAvatar, username, primaryDeptName, avatarsStyle, logout } = useSessionUserDisplay();
+const userStore = useUserStore();
+
+/** 无头像时用默认图 */
+const userAvatar = computed(() => (userStore.avatar ? userStore.avatar : DefaultAvatar));
+/** 昵称优先，否则用户名 */
+const displayName = computed(() => (userStore.nickname ? userStore.nickname : userStore.username));
+const primaryDeptName = computed(() => userStore.primaryDeptName ?? '');
+const avatarStyle = computed(() => (displayName.value ? { marginRight: '10px' } : ''));
+
+/**
+ * 退出登录并清理本地会话
+ */
+function logout(): void {
+  void userStore.logoutAndClear();
+}
+
 const {
   t,
   locale,
@@ -89,12 +105,12 @@ watch(
   <LayNotice id="header-notice" />
   <!-- 主部门：与用户下拉并列的独立展示块 -->
   <span v-if="primaryDeptName" class="layout-toolbar__dept navbar-bg-hover select-none">
-    <el-text type="primary" class="layout-toolbar__dept-text">{{ primaryDeptName }}</el-text>
+    <el-text class="layout-toolbar__dept-text" type="primary">{{ primaryDeptName }}</el-text>
   </span>
   <el-dropdown trigger="click">
     <span class="el-dropdown-link navbar-bg-hover select-none">
-      <img :src="userAvatar" :style="avatarsStyle" alt="avatar" />
-      <p v-if="username" class="dark:text-white">{{ username }}</p>
+      <img :src="userAvatar" :style="avatarStyle" alt="avatar" />
+      <p v-if="displayName" class="dark:text-white">{{ displayName }}</p>
     </span>
     <template #dropdown>
       <el-dropdown-menu class="layout-toolbar__logout-menu">

@@ -13,7 +13,8 @@ import { isOneOfArray } from '@/auth/permission';
 import { errorMessage } from '@/services/feedback/message';
 import { useMultiTagsStore } from '@/store/modules/app/multiTags';
 import { usePermissionStore } from '@/store/modules/auth/permission';
-import { isAllEmpty, isUrl, openLink } from '@pureadmin/utils';
+import { isUrl, openLink } from '@pureadmin/utils';
+import isEmpty from 'lodash/isEmpty';
 import type { Router } from 'vue-router';
 
 /** 路由白名单 */
@@ -98,7 +99,7 @@ export function createAuthGuard(router: Router): void {
                 getTopMenu(true);
 
                 if (route && route.meta?.title) {
-                  if (isAllEmpty(route.parentId) && route.meta?.backstage) {
+                  if (isEmpty(route.parentId) && route.meta?.backstage) {
                     const { path, name, meta } = route.children[0];
                     useMultiTagsStore().handleTags('push', { path, name, meta });
                   } else {
@@ -108,7 +109,7 @@ export function createAuthGuard(router: Router): void {
                 }
               }
 
-              if (isAllEmpty(to.name)) await routerInstance.push(to.fullPath);
+              if (isEmpty(to.name)) await routerInstance.push(to.fullPath);
             })
             .catch((error: unknown) => {
               if (error instanceof ApiConflictError) {

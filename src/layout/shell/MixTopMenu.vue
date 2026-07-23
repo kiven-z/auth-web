@@ -6,7 +6,6 @@ import { transformI18n } from '@/app/plugins/i18n';
 import { findRouteByPath, getParentPaths } from '@/router/utils/route-tree';
 import { useAppStore } from '@/store/modules/app/app';
 import { usePermissionStore } from '@/store/modules/auth/permission';
-import { isAllEmpty } from '@pureadmin/utils';
 import { nextTick, onMounted, ref, toRaw, watch } from 'vue';
 import { useRoute } from 'vue-router';
 
@@ -22,7 +21,7 @@ const defaultActive = ref(null);
 function getDefaultActive(routePath: string): void {
   const wholeMenus = usePermissionStore().wholeMenus;
   const parentRoutes = getParentPaths(routePath, wholeMenus)[0];
-  defaultActive.value = !isAllEmpty(route.meta?.activePath)
+  defaultActive.value = route.meta?.activePath
     ? route.meta.activePath
     : findRouteByPath(parentRoutes, wholeMenus)?.children[0]?.path;
 }
