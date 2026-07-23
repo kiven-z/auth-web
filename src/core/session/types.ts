@@ -23,19 +23,14 @@ export interface DataInfo<T> {
 }
 
 /**
- * 写入会话所需的字段（登录或刷新后均须携带完整授权快照）
+ * 写入会话所需的鉴权字段（登录或刷新后均须携带完整授权快照）
+ * nickname / avatar / 主部门仅由 profile hydrate 写入，不经本载荷
  */
 export interface SessionTokenPayload {
   accessToken: string;
   /** `accessToken` 过期时间（时间戳） */
   expires?: string | number | Date;
-  avatar?: string;
   username: string;
-  nickname?: string;
-  /** 主部门 ID（Long 字符串化） */
-  primaryDeptId?: string;
-  /** 主部门名称 */
-  primaryDeptName?: string;
   roles: Array<string>;
   permissions: Array<string>;
   /** 用户 ID（Long 字符串化） */

@@ -17,8 +17,7 @@ export function useSessionUserDisplay() {
 
   /** 主部门名称（无则空串，模板侧用 v-if 隐藏） */
   const primaryDeptName = computed(() => {
-    const name = userStore.primaryDeptName;
-    return isAllEmpty(name) ? '' : name;
+    return userStore.primaryDeptName ?? '';
   });
 
   const avatarsStyle = computed(() => (username.value ? { marginRight: '10px' } : ''));

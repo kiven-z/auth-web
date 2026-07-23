@@ -86,18 +86,19 @@ function setMultipleTabsCookie(isRemembered: boolean, loginDay: number): void {
 
 /**
  * 根据 setToken 载荷解析待写入的用户资料。
- * 授权字段一律以本次载荷为准；nickname/avatar/主部门在刷新响应不带回时沿用本地缓存。
+ * 授权字段一律以本次载荷为准；展示字段仅在同一用户刷新时沿用本地缓存，否则留空待 profile hydrate。
  * @param data 会话所需载荷
  * @returns 用户资料快照
  */
 function resolveProfileForSetToken(data: SessionTokenPayload): UserProfileSnapshot {
   const previous = readStoredUserProfileEntry();
+  const sameUser = previous?.userId === data.userId;
   return {
-    avatar: data.avatar ?? previous?.avatar ?? '',
+    avatar: sameUser ? (previous?.avatar ?? '') : '',
     username: data.username,
-    nickname: data.nickname ?? previous?.nickname ?? '',
-    primaryDeptId: data.primaryDeptId ?? previous?.primaryDeptId ?? '',
-    primaryDeptName: data.primaryDeptName ?? previous?.primaryDeptName ?? '',
+    nickname: sameUser ? (previous?.nickname ?? '') : '',
+    primaryDeptId: sameUser ? (previous?.primaryDeptId ?? '') : '',
+    primaryDeptName: sameUser ? (previous?.primaryDeptName ?? '') : '',
     roles: data.roles,
     permissions: data.permissions,
     userId: data.userId,

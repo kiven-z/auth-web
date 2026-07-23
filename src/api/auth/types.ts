@@ -10,15 +10,10 @@ export interface RefreshTokenResponse {
   readMeDay?: number;
 }
 
-/** 用户登录响应 */
-export interface UserLoginResponse extends RefreshTokenResponse {
-  nickname?: string;
-  avatar?: string;
-  /** 主部门 ID（Long 字符串化） */
-  primaryDeptId?: string | null;
-  /** 主部门名称 */
-  primaryDeptName?: string | null;
-}
+/**
+ * 用户登录响应（与刷新同形：仅鉴权会话字段；展示资料走 GET /system/me/profile）
+ */
+export type UserLoginResponse = RefreshTokenResponse;
 
 /**
  * 用户名密码登录请求

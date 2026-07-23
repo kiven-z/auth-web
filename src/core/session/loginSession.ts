@@ -15,6 +15,7 @@ export interface EstablishSessionRememberOptions {
 
 /**
  * 执行登录请求并建立本地会话（供各登录表单复用）
+ * 鉴权写入 setToken 后 await 展示资料 hydrate，避免顶栏依赖登录体中的展示字段
  * @param fetchLogin 登录请求（请求体应含 rememberMe）
  * @param rememberOptions 记住登录选项
  * @returns 登录响应
@@ -29,18 +30,14 @@ export async function establishSessionFromLogin(
   const sessionPayload: SessionTokenPayload = {
     accessToken: body.accessToken,
     expires: body.expires,
-    avatar: body.avatar ?? '',
     username: body.username,
-    nickname: body.nickname ?? '',
-    primaryDeptId: body.primaryDeptId ?? '',
-    primaryDeptName: body.primaryDeptName ?? '',
     roles: body.roles,
     permissions: body.permissions,
     userId: body.id,
   };
   setToken(sessionPayload);
 
-  void hydrateUserDisplayProfileOnSession().catch(() => undefined);
+  await hydrateUserDisplayProfileOnSession().catch(() => undefined);
 
   if (!hasSessionHydrated()) {
     void hydrateUiPreferencesOnSession().catch(() => undefined);
