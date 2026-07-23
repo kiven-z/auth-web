@@ -148,6 +148,52 @@ export function getInAppSendTaskById(taskId: string) {
 }
 
 /**
+ * 站内信发送任务收件人分页查询参数
+ */
+export interface InAppSendTaskRecipientPageQuery {
+  pageIndex?: number;
+  pageSize?: number;
+  sort?: SortSpec[];
+  /** 接收人用户 ID */
+  userId?: string;
+  /** 是否已读 */
+  isRead?: boolean;
+  /** 用户侧是否软删除 */
+  isDeleted?: boolean;
+}
+
+/**
+ * 站内信发送任务收件人/互动用户分页行
+ */
+export interface InAppSendTaskRecipientPageRow extends BaseResponsePageRow {
+  /** 站内信任务 ID */
+  messageId: string;
+  /** 用户 ID */
+  userId: string;
+  /** 用户名 */
+  username?: string | null;
+  /** 是否已读 */
+  isRead: boolean;
+  /** 已读时间 */
+  readTime?: string | null;
+  /** 用户侧是否软删除 */
+  isDeleted: boolean;
+}
+
+/**
+ * 分页查询站内信任务收件人（写扩散）或互动用户（读扩散 ALL）
+ * @param taskId 任务 ID
+ * @param params 查询参数
+ * @returns 收件人分页数据
+ */
+export function getInAppSendTaskRecipientPage(taskId: string, params: InAppSendTaskRecipientPageQuery) {
+  return http.get<PageResponse<InAppSendTaskRecipientPageRow>, AxiosRequestConfig<InAppSendTaskRecipientPageQuery>>(
+    `/system/message/in-app/tasks/${taskId}/recipients`,
+    { params }
+  );
+}
+
+/**
  * 补发站内信发送任务（仅 PUSH 定向任务）
  * @param taskId 任务 ID
  */

@@ -6,11 +6,13 @@ import {
   retryInAppSendTask,
 } from '@/api/message/in-app-message';
 import { addDialog } from '@/components/ui/Dialog';
+import { addDrawer } from '@/components/ui/Drawer';
 import { operationConfirm } from '@/services/feedback/dialog';
 import { errorMessage, message } from '@/services/feedback/message';
 import useBatchDeleteAction from '@/shared/composables/table/useBatchDeleteAction';
 import InAppSendTaskDetailView from '@/views/message/_shared/components/InAppSendTaskDetailView.vue';
 import useInAppMessageDetailColumns from '@/views/message/_shared/hooks/useInAppMessageDetailColumns';
+import InAppSendTaskRecipientDrawer from '@/views/message/in-app-message/components/InAppSendTaskRecipientDrawer.vue';
 import { useI18n } from 'vue-i18n';
 
 /**
@@ -45,6 +47,23 @@ function useInAppMessageTableAction(deps: TableActionWithSelectionDeps) {
           columns={detailColumns.value}
           contentLabel={t('inAppMessage.field.content')}
         />
+      ),
+    });
+  };
+
+  /**
+   * 打开任务收件人/互动明细抽屉
+   * @param row 分页行
+   */
+  const openRecipientsDrawer = (row: InAppSendTaskPageRow) => {
+    addDrawer({
+      title: t('inAppMessage.title.recipients'),
+      size: '100%',
+      resizable: true,
+      closeOnClickModal: false,
+      hideFooter: true,
+      contentRenderer: () => (
+        <InAppSendTaskRecipientDrawer taskId={row.id} title={row.title} recipientScopeType={row.recipientScopeType} />
       ),
     });
   };
@@ -89,6 +108,7 @@ function useInAppMessageTableAction(deps: TableActionWithSelectionDeps) {
 
   return {
     openDetailDialog,
+    openRecipientsDrawer,
     retryTask,
     recallTask,
     deleteBatchRows,

@@ -37,7 +37,7 @@ const inAppMessageState = usePaginationState({
   }),
 });
 const { selectedRows, loading, searchForm, fetchTableData, resetQuery } = inAppMessageState;
-const { openDetailDialog, retryTask, recallTask, deleteBatchRows } = useInAppMessageTableAction({
+const { openDetailDialog, openRecipientsDrawer, retryTask, recallTask, deleteBatchRows } = useInAppMessageTableAction({
   fetchTableData,
   selectedRows,
 });
@@ -155,6 +155,10 @@ onMounted(() => {
         <!-- 查看 -->
         <el-button v-perms="IN_APP_MESSAGE_PERMS.DETAIL" link type="primary" @click="openDetailDialog(row)">
           {{ t('buttons.actionView') }}
+        </el-button>
+        <!-- 收件人明细 -->
+        <el-button v-perms="IN_APP_MESSAGE_PERMS.DETAIL" link type="primary" @click="openRecipientsDrawer(row)">
+          {{ t('inAppMessage.action.recipients') }}
         </el-button>
         <!-- 补发：管理端编排 + 非全员 + 可恢复状态 -->
         <el-button

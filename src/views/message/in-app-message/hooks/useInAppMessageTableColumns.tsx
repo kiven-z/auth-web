@@ -141,7 +141,7 @@ function useInAppMessageTableColumns() {
     {
       label: t('table.actions'),
       fixed: 'right' as const,
-      width: 200,
+      width: 220,
       slot: 'actions',
     },
   ]);

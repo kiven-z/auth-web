@@ -2,6 +2,12 @@ inAppMessage:
   title:
     table: 站内信发送任务
     detail: 发送任务详情
+    recipients: 收件人明细
+  action:
+    recipients: 收件人
+  recipient:
+    pushTip: 展示已写入收件箱的用户及其已读、删除状态。
+    pullTip: 全员读扩散不预写收件箱，仅展示已产生已读或删除状态的用户。
   field:
     title: 标题
     status: 任务状态
@@ -21,6 +27,19 @@ inAppMessage:
     recalledAt: 撤回时间
     recallUserId: 撤回人
     remark: 备注
+    userId: 用户
+    username: 用户名
+    isRead: 已读
+    readTime: 已读时间
+    isDeleted: 用户已删
+    readStatus: 阅读状态
+    deletedStatus: 删除状态
+  readStatus:
+    unread: 未读
+    read: 已读
+  deletedStatus:
+    active: 未删除
+    deleted: 已删除
   sourceType:
     ADMIN_COMPOSE: 管理端手写
     TEMPLATE: 模板发送
