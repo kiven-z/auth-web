@@ -2,12 +2,16 @@ server {
     listen 80;
     server_name localhost;
     resolver 127.0.0.11 ipv6=off valid=30s;
-    set $gateway_upstream auth-gateway:8080;
+    set $gateway_upstream ${GATEWAY_HOST}:8080;
 
     root /usr/share/nginx/html;
     index index.html;
 
+    # 演示机略减 IO；需要排障时再打开
+    access_log off;
+
     gzip on;
+    gzip_comp_level 4;
     gzip_types text/plain text/css application/json application/javascript text/xml application/xml;
 
     location /api/ {
