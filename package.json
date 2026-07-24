@@ -1,6 +1,6 @@
 {
   "name": "auth-web",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "private": true,
   "type": "module",
   "scripts": {
@@ -8,7 +8,6 @@
     "dev:test": "NODE_OPTIONS=--max-old-space-size=4096 vite --mode test",
     "serve": "pnpm dev",
     "build": "rimraf dist && NODE_OPTIONS=--max-old-space-size=8192 vite build",
-    "build:staging": "rimraf dist && vite build --mode staging",
     "report": "rimraf dist && vite build",
     "preview": "vite preview",
     "preview:build": "pnpm build && vite preview",

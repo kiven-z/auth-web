@@ -7,7 +7,6 @@ export default ({ mode }: ConfigEnv): UserConfigExport => {
   const { VITE_CDN, VITE_PORT, VITE_COMPRESSION, VITE_PUBLIC_PATH, VITE_PROXY_TARGET } = wrapperEnv(
     loadEnv(mode, root)
   );
-  const proxyTarget = VITE_PROXY_TARGET || (mode === 'test' ? 'http://localhost:9080' : 'http://localhost:8080');
   return {
     base: VITE_PUBLIC_PATH,
     root,
@@ -23,7 +22,7 @@ export default ({ mode }: ConfigEnv): UserConfigExport => {
       // 本地跨域代理 https://cn.vitejs.dev/config/server-options.html#server-proxy
       proxy: {
         '/api': {
-          target: proxyTarget,
+          target: VITE_PROXY_TARGET,
           changeOrigin: true,
           rewrite: (path: string) => path.replace(/^\/api/, '/api'),
         },

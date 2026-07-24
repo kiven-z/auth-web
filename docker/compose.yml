@@ -1,14 +1,17 @@
 name: auth-web
 
+# 运行时定义（无 build）。服务器只需本文件即可拉 ACR 启动。
+#
+#   export AUTH_IMAGE_PREFIX=registry.cn-hangzhou.aliyuncs.com/bunny-company
+#   export AUTH_IMAGE_TAG=prod-latest
+#   docker compose pull && docker compose up -d --no-build
+#
+# 本地构建使用同目录 compose.override.yml（docker compose up --build）。
+
 services:
   auth-web:
-    build:
-      context: ..
-      dockerfile: docker/Dockerfile
-      pull: false
     image: ${AUTH_IMAGE_PREFIX:-auth}/auth-web:${AUTH_IMAGE_TAG:-local}
     container_name: auth-web
-    # 静态资源 + nginx，几乎不吃内存
     mem_limit: 64m
     mem_reservation: 16m
     environment:
