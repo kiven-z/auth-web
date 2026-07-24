@@ -55,10 +55,7 @@ export function createAuthGuard(router: Router): void {
     }
 
     if (isLoggedIn()) {
-      if (!hasSessionHydrated()) {
-        void hydrateUiPreferencesOnSession().catch(() => undefined);
-      }
-
+      // 生产环境 accessToken 仅驻内存，刷新后须先恢复再发需鉴权请求（如 preferences）
       if (to.path !== '/login' && !hasAccessToken()) {
         const restored = await ensureAccessTokenOnBoot();
         if (!restored) {
@@ -66,6 +63,10 @@ export function createAuthGuard(router: Router): void {
           next({ path: '/login' });
           return;
         }
+      }
+
+      if (hasAccessToken() && !hasSessionHydrated()) {
+        void hydrateUiPreferencesOnSession().catch(() => undefined);
       }
 
       if (hasAccessToken()) {
@@ -99,11 +100,9 @@ export function createAuthGuard(router: Router): void {
                 getTopMenu(true);
 
                 if (route && route.meta?.title) {
-                  if (isEmpty(route.parentId) && route.meta?.backstage) {
-                    const { path, name, meta } = route.children[0];
-                    useMultiTagsStore().handleTags('push', { path, name, meta });
-                  } else {
-                    const { path, name, meta } = route;
+                  const tagRoute = isEmpty(route.parentId) && route.meta?.backstage ? route.children?.[0] : route;
+                  if (tagRoute) {
+                    const { path, name, meta } = tagRoute;
                     useMultiTagsStore().handleTags('push', { path, name, meta });
                   }
                 }
