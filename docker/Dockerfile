@@ -14,8 +14,12 @@ RUN npm run build
 
 FROM nginx:stable-alpine AS production-stage
 
+# Alpine 需 tzdata，nginx 日志等才按 TZ 显示
+RUN apk add --no-cache tzdata
+ENV TZ=Asia/Shanghai \
+    GATEWAY_HOST=auth-gateway
+
 # 官方镜像会对 /etc/nginx/templates/*.template 做 envsubst（替换 GATEWAY_HOST）
-ENV GATEWAY_HOST=auth-gateway
 COPY docker/default.conf.template /etc/nginx/templates/default.conf.template
 COPY --from=build-stage /app/dist /usr/share/nginx/html
 EXPOSE 80

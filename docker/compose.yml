@@ -15,6 +15,7 @@ services:
     mem_limit: 64m
     mem_reservation: 16m
     environment:
+      TZ: Asia/Shanghai
       GATEWAY_HOST: ${GATEWAY_HOST:-auth-gateway}
     ports:
       - "18080:80"
