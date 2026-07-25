@@ -7,7 +7,6 @@ import Icons from 'unplugin-icons/vite';
 import type { PluginOption } from 'vite';
 import { vitePluginFakeServer } from 'vite-plugin-fake-server';
 import removeConsole from 'vite-plugin-remove-console';
-import removeNoMatch from 'vite-plugin-router-warn';
 import VueDevTools from 'vite-plugin-vue-devtools';
 import svgLoader from 'vite-svg-loader';
 import { cdn } from './cdn';
@@ -34,12 +33,6 @@ export function getPluginsList(VITE_CDN: boolean, VITE_COMPRESSION: ViteCompress
       include: [pathResolve('../locales/**')],
     }),
     viteBuildInfo(),
-    /**
-     * 开发环境下移除非必要的vue-router动态路由警告No match found for location with path
-     * 非必要具体看 https://github.com/vuejs/router/issues/521 和 https://github.com/vuejs/router/issues/359
-     * vite-plugin-router-warn只在开发环境下启用，只处理vue-router文件并且只在服务启动或重启时运行一次，性能消耗可忽略不计
-     */
-    removeNoMatch(),
     /**
      * Monaco：在 index.html 注入 MonacoEnvironment.getWorkerUrl，并在构建产物中写入 monacoeditorwork/。
      * 勿在业务里再挂 getWorker（会覆盖 getWorkerUrl）。参见 src/components/ui/MonacoEditor/bootstrap.ts。

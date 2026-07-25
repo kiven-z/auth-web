@@ -249,9 +249,6 @@ importers:
       vite-plugin-remove-console:
         specifier: ^2.2.0
         version: 2.2.0
-      vite-plugin-router-warn:
-        specifier: ^1.0.0
-        version: 1.0.0
       vite-svg-loader:
         specifier: ^5.1.0
         version: 5.1.1(vue@3.5.33(typescript@5.9.3))
@@ -4044,9 +4041,6 @@ packages:
 
   vite-plugin-remove-console@2.2.0:
     resolution: {integrity: sha512-qgjh5pz75MdE9Kzs8J0kBwaCfifHV0ezRbB9rpGsIOxam+ilcGV7WOk91vFJXquzRmiKrFh3Hxlh0JJWAmXTbQ==}
-
-  vite-plugin-router-warn@1.0.0:
-    resolution: {integrity: sha512-jnr7faHJPkKxukBXVpg7Ui1UDqhmxD7xU6JGidq8ivSHTsNAPqzSpPpwW8O1PBP/0+Owq4bLfNNk11drOkz4xA==}
 
   vite-plugin-vue-devtools@8.1.1:
     resolution: {integrity: sha512-9qTpOmZ2vHpvlI9hdVXAQ1Ry4I8GcBArU7aPi0qfIaV7fQIXy0L1nb6X4mFY2Gw0dYshHuLbIl0Ulb572SCjsQ==}
@@ -8184,8 +8178,6 @@ snapshots:
       monaco-editor: 0.55.1
 
   vite-plugin-remove-console@2.2.0: {}
-
-  vite-plugin-router-warn@1.0.0: {}
 
   vite-plugin-vue-devtools@8.1.1(vite@7.3.2(@types/node@20.19.39)(jiti@2.6.1)(lightningcss@1.32.0)(sass@1.99.0)(yaml@2.8.4))(vue@3.5.33(typescript@5.9.3)):
     dependencies:
