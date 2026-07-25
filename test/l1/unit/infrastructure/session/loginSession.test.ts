@@ -1,10 +1,10 @@
 import type { UserLoginResponse } from '@/api/auth/types';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
-const { mockSetToken, mockApplyRemember, mockHydrateDisplay } = vi.hoisted(() => ({
+const { mockSetToken, mockApplyRemember, mockHydrateSideEffects } = vi.hoisted(() => ({
   mockSetToken: vi.fn(),
   mockApplyRemember: vi.fn(),
-  mockHydrateDisplay: vi.fn().mockResolvedValue(undefined),
+  mockHydrateSideEffects: vi.fn().mockResolvedValue(undefined),
 }));
 
 vi.mock('@/core/session/sessionToken', () => ({
@@ -15,25 +15,17 @@ vi.mock('@/core/session/rememberPreferences', () => ({
   applyRememberPreferencesFromResponse: mockApplyRemember,
 }));
 
-vi.mock('@/core/session/displayProfile', () => ({
-  hydrateUserDisplayProfileOnSession: mockHydrateDisplay,
-}));
-
-vi.mock('@/core/preferences/session', () => ({
-  hydrateUiPreferencesOnSession: vi.fn(),
-}));
-
-vi.mock('@/core/preferences/sync', () => ({
-  hasSessionHydrated: () => true,
+vi.mock('@/core/session/sessionBootstrap', () => ({
+  hydrateAuthenticatedSessionSideEffects: mockHydrateSideEffects,
 }));
 
 describe('establishSessionFromLogin', () => {
   beforeEach(() => {
     vi.clearAllMocks();
-    mockHydrateDisplay.mockResolvedValue(undefined);
+    mockHydrateSideEffects.mockResolvedValue(undefined);
   });
 
-  it('applies remember preferences, setToken auth-only, then awaits display hydrate', async () => {
+  it('applies remember preferences, setToken auth-only, then awaits session side-effects', async () => {
     const loginResponse: UserLoginResponse = {
       id: '1',
       username: 'alice',
@@ -57,8 +49,8 @@ describe('establishSessionFromLogin', () => {
       permissions: ['sys:user:query'],
       userId: '1',
     });
-    expect(mockHydrateDisplay).toHaveBeenCalledTimes(1);
+    expect(mockHydrateSideEffects).toHaveBeenCalledTimes(1);
     expect(mockApplyRemember.mock.invocationCallOrder[0]).toBeLessThan(mockSetToken.mock.invocationCallOrder[0]);
-    expect(mockSetToken.mock.invocationCallOrder[0]).toBeLessThan(mockHydrateDisplay.mock.invocationCallOrder[0]);
+    expect(mockSetToken.mock.invocationCallOrder[0]).toBeLessThan(mockHydrateSideEffects.mock.invocationCallOrder[0]);
   });
 });

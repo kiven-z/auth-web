@@ -1,15 +1,20 @@
 import { isNoAuthRequestPath } from '@/auth/config/http-config';
-import { formatToken, getToken } from '@/core/session/sessionToken';
+import { ensureAccessTokenReady } from '@/core/session/accessTokenReady';
+import { isLoggedIn } from '@/core/session/sessionAuth';
+import { formatToken, getToken, hasAccessToken } from '@/core/session/sessionToken';
 import type { AxiosInstance, InternalAxiosRequestConfig } from 'axios';
 
 /**
- * 请求拦截：仅注入 Authorization，不在请求阶段执行 refreshAccessToken。
+ * 请求拦截：注入 Authorization；已登录但内存无 token 时先单飞恢复再发送。
  */
 export function attachRequestAuthInterceptor(instance: AxiosInstance): void {
   instance.interceptors.request.use(
-    (config: InternalAxiosRequestConfig): InternalAxiosRequestConfig => {
+    async (config: InternalAxiosRequestConfig): Promise<InternalAxiosRequestConfig> => {
       if (isNoAuthRequestPath(config.url)) {
         return config;
+      }
+      if (isLoggedIn() && !hasAccessToken()) {
+        await ensureAccessTokenReady();
       }
       return applyAuthHeader(config);
     },

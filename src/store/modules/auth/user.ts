@@ -1,6 +1,7 @@
 import { logoutApi } from '@/api/auth';
 import { stopSync } from '@/core/preferences/sync';
 import { resetUserDisplayProfileHydration } from '@/core/session/displayProfile';
+import { resetSessionBootstrap } from '@/core/session/sessionBootstrap';
 import { readSessionPreferences, writeSessionPreferences } from '@/core/session/sessionPreferences';
 import { removeToken } from '@/core/session/sessionToken';
 import { readUserProfileFromStorage } from '@/core/session/userProfileStorage';
@@ -66,6 +67,7 @@ export const useUserStore = defineStore('pure-user', {
     async clearLocalSession() {
       stopSync();
       resetUserDisplayProfileHydration();
+      resetSessionBootstrap();
       this.avatar = '';
       this.username = '';
       this.nickname = '';
