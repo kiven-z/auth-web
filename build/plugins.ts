@@ -11,7 +11,6 @@ import VueDevTools from 'vite-plugin-vue-devtools';
 import svgLoader from 'vite-svg-loader';
 import { cdn } from './cdn';
 import { configCompressPlugin } from './compress';
-import { viteBuildInfo } from './info';
 import { pathResolve } from './utils';
 
 import monacoEditorPluginImport from 'vite-plugin-monaco-editor';
@@ -27,12 +26,10 @@ export function getPluginsList(VITE_CDN: boolean, VITE_COMPRESSION: ViteCompress
     tailwindcss(),
     vue(),
     VueDevTools(),
-    // jsx、tsx语法支持
     vueJsx(),
     VueI18nPlugin({
       include: [pathResolve('../locales/**')],
     }),
-    viteBuildInfo(),
     /**
      * Monaco：在 index.html 注入 MonacoEnvironment.getWorkerUrl，并在构建产物中写入 monacoeditorwork/。
      * 勿在业务里再挂 getWorker（会覆盖 getWorkerUrl）。参见 src/components/ui/MonacoEditor/bootstrap.ts。
@@ -43,25 +40,20 @@ export function getPluginsList(VITE_CDN: boolean, VITE_COMPRESSION: ViteCompress
       publicPath: 'monacoeditorwork',
       globalAPI: false,
     }),
-    // mock支持
     vitePluginFakeServer({
       logger: false,
       include: 'mock',
       infixName: false,
       enableProd: true,
     }),
-    // svg组件化支持
     svgLoader(),
-    // 自动按需加载图标
     Icons({
       compiler: 'vue3',
       scale: 1,
     }),
     VITE_CDN ? cdn : null,
     configCompressPlugin(VITE_COMPRESSION),
-    // 线上环境删除console
     removeConsole({ external: ['src/assets/iconfont/iconfont.js'] }),
-    // 打包分析
     lifecycle === 'report' ? visualizer({ open: true, brotliSize: true, filename: 'report.html' }) : (null as any),
   ];
 }

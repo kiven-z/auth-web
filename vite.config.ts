@@ -1,7 +1,28 @@
 import { type ConfigEnv, loadEnv, type UserConfigExport } from 'vite';
-import { exclude, include } from './build/optimize';
 import { getPluginsList } from './build/plugins';
-import { __APP_INFO__, alias, pathResolve, root, wrapperEnv } from './build/utils';
+import { alias, pathResolve, root, wrapperEnv } from './build/utils';
+
+/**
+ * 依赖预构建：冷启动与禁用浏览器缓存时减轻卡顿。
+ * monaco-editor 体量大，参与预构建易触发 esbuild 栈溢出，故排除。
+ */
+const optimizeDepsInclude = [
+  'qs',
+  'mitt',
+  'dayjs',
+  'axios',
+  'pinia',
+  'vue-i18n',
+  'vue-types',
+  'js-cookie',
+  'vue-tippy',
+  'sortablejs',
+  '@vueuse/core',
+  '@pureadmin/utils',
+  'responsive-storage',
+];
+
+const optimizeDepsExclude = ['@iconify/json', 'monaco-editor'];
 
 export default ({ mode }: ConfigEnv): UserConfigExport => {
   const { VITE_CDN, VITE_PORT, VITE_COMPRESSION, VITE_PUBLIC_PATH, VITE_PROXY_TARGET } = wrapperEnv(
@@ -13,13 +34,10 @@ export default ({ mode }: ConfigEnv): UserConfigExport => {
     resolve: {
       alias,
     },
-    // 服务端渲染
     server: {
       open: true,
-      // 端口号
       port: VITE_PORT,
       host: '0.0.0.0',
-      // 本地跨域代理 https://cn.vitejs.dev/config/server-options.html#server-proxy
       proxy: {
         '/api': {
           target: VITE_PROXY_TARGET,
@@ -27,22 +45,18 @@ export default ({ mode }: ConfigEnv): UserConfigExport => {
           rewrite: (path: string) => path.replace(/^\/api/, '/api'),
         },
       },
-      // 预热文件以提前转换和缓存结果，降低启动期间的初始页面加载时长并防止转换瀑布
       warmup: {
         clientFiles: ['./index.html', './src/components/**/*', './src/features/**/*'],
       },
     },
     plugins: getPluginsList(VITE_CDN, VITE_COMPRESSION),
-    // https://cn.vitejs.dev/config/dep-optimization-options.html#dep-optimization-options
     optimizeDeps: {
-      include,
-      exclude,
+      include: optimizeDepsInclude,
+      exclude: optimizeDepsExclude,
     },
     build: {
-      // https://cn.vitejs.dev/guide/build.html#browser-compatibility
       target: 'es2015',
       sourcemap: false,
-      // 消除打包大小超过500kb警告
       chunkSizeWarningLimit: 4000,
       rollupOptions: {
         input: {
@@ -52,7 +66,6 @@ export default ({ mode }: ConfigEnv): UserConfigExport => {
           if (warning.message.includes('#__PURE__')) return;
           warn(warning);
         },
-        // 静态资源分类打包
         output: {
           chunkFileNames: 'static/js/[name]-[hash].js',
           entryFileNames: 'static/js/[name]-[hash].js',
@@ -62,7 +75,6 @@ export default ({ mode }: ConfigEnv): UserConfigExport => {
     },
     define: {
       __INTLIFY_PROD_DEVTOOLS__: false,
-      __APP_INFO__: JSON.stringify(__APP_INFO__),
     },
   };
 };

@@ -10,9 +10,44 @@ server {
     # 演示机略减 IO；需要排障时再打开
     access_log off;
 
+    # 有预压缩产物（VITE_COMPRESSION=gzip 等）时优先直接发送 .gz，否则现场压缩
     gzip on;
+    gzip_static on;
+    gzip_vary on;
+    gzip_min_length 1024;
     gzip_comp_level 4;
-    gzip_types text/plain text/css application/json application/javascript text/xml application/xml;
+    gzip_proxied any;
+    gzip_types
+        text/plain
+        text/css
+        text/xml
+        application/json
+        application/javascript
+        application/xml
+        application/xml+rss
+        image/svg+xml
+        font/ttf
+        font/otf
+        application/font-woff
+        application/font-woff2;
+
+    # 带 hash 的静态资源可长期缓存；index.html 禁止缓存以免 SPA 升级卡住旧壳
+    location ^~ /static/ {
+        expires 1y;
+        add_header Cache-Control "public, immutable";
+        try_files $uri =404;
+    }
+
+    # Monaco worker 文件名固定无 hash（如 editor.worker.bundle.js），升级后路径不变；
+    # 禁止 immutable 长缓存，改为每次协商校验，避免升包后仍用旧 worker
+    location ^~ /monacoeditorwork/ {
+        add_header Cache-Control "no-cache";
+        try_files $uri =404;
+    }
+
+    location = /index.html {
+        add_header Cache-Control "no-cache";
+    }
 
     location /api/ {
         proxy_pass http://$gateway_upstream;
