@@ -1,104 +1,146 @@
+import { isOneOfArray } from '@/auth/permission';
 import { ApiConflictError } from '@/core/http/apiError';
-import { ensureAuthenticatedSession } from '@/core/session/sessionBootstrap';
 import { isLoggedIn } from '@/core/session/sessionAuth';
+import { ensureAuthenticatedSession } from '@/core/session/sessionBootstrap';
 import { removeToken } from '@/core/session/sessionToken';
 import { readUserProfileFromStorage } from '@/core/session/userProfileStorage';
 import { getTopMenu } from '@/router/utils/misc';
 import { initRouter } from '@/router/utils/route-registry';
 import { findRouteByPath } from '@/router/utils/route-tree';
-import { isOneOfArray } from '@/auth/permission';
 import { errorMessage } from '@/services/feedback/message';
 import { useMultiTagsStore } from '@/store/modules/app/multiTags';
 import { usePermissionStore } from '@/store/modules/auth/permission';
 import { isUrl, openLink } from '@pureadmin/utils';
 import isEmpty from 'lodash/isEmpty';
-import type { Router } from 'vue-router';
+import type { NavigationGuardNext, RouteLocationNormalized, Router } from 'vue-router';
 
-/** 路由白名单 */
+/** 未登录可访问路径 */
 const whiteList = ['/login'];
 
 const { VITE_HIDE_HOME } = import.meta.env;
 
 /**
- * 登录态与权限守卫：校验登录状态、角色鉴权、刷新时动态路由初始化
- * accessToken 恢复与偏好/资料 hydrate 由 {@link ensureAuthenticatedSession} 统一处理
+ * 登录态与权限守卫：校验登录、会话就绪、角色鉴权、冷启动动态路由
  * @param router 路由
  */
 export function createAuthGuard(router: Router): void {
-  router.beforeEach(async (to, _from, next) => {
-    const userInfo = readUserProfileFromStorage();
-    const externalLink = isUrl(to?.name as string);
-
-    /**
-     * 已登录时阻止重复跳转白名单页面
-     */
-    function toCorrectRoute() {
-      whiteList.includes(to.fullPath) ? next(_from.fullPath) : next();
+  router.beforeEach(async (to, from, next) => {
+    if (!isLoggedIn()) {
+      passGuest(to, next);
+      return;
     }
 
-    if (isLoggedIn()) {
-      if (to.path !== '/login') {
-        const ready = await ensureAuthenticatedSession();
-        if (!ready) {
-          removeToken();
-          next({ path: '/login' });
-          return;
-        }
-      }
-
-      // publicAccess 菜单对所有登录用户放行；空 roles 仍走 isOneOfArray（不可见/不可进）
-      if (to.meta?.publicAccess !== true && to.meta?.roles && !isOneOfArray(to.meta?.roles, userInfo?.roles)) {
-        next({ path: '/error/403' });
+    if (to.path !== '/login') {
+      const ready = await ensureAuthenticatedSession();
+      if (!ready) {
+        removeToken();
+        next({ path: '/login' });
         return;
-      }
-
-      if (VITE_HIDE_HOME === 'true' && to.fullPath === '/welcome') {
-        next({ path: '/error/404' });
-        return;
-      }
-
-      if (_from?.name) {
-        if (externalLink) {
-          openLink(to?.name as string);
-          return;
-        }
-        toCorrectRoute();
-      } else {
-        if (usePermissionStore().wholeMenus.length === 0 && to.path !== '/login') {
-          initRouter()
-            .then(async (routerInstance: Router) => {
-              if (!useMultiTagsStore().getMultiTagsCache) {
-                pushInitialTagFromRoute(to.path, routerInstance);
-              }
-
-              if (isEmpty(to.name)) await routerInstance.push(to.fullPath);
-            })
-            .catch((error: unknown) => {
-              if (error instanceof ApiConflictError) {
-                return;
-              }
-              errorMessage(error);
-            });
-        }
-        toCorrectRoute();
-      }
-    } else {
-      if (to.path !== '/login') {
-        if (whiteList.indexOf(to.path) !== -1) {
-          next();
-        } else {
-          removeToken();
-          next({ path: '/login' });
-        }
-      } else {
-        next();
       }
     }
+
+    if (isBlockedByRoles(to)) {
+      next({ path: '/error/403' });
+      return;
+    }
+
+    if (VITE_HIDE_HOME === 'true' && to.fullPath === '/welcome') {
+      next({ path: '/error/404' });
+      return;
+    }
+
+    if (from?.name) {
+      if (isUrl(to?.name as string)) {
+        openLink(to.name as string);
+        return;
+      }
+      passAuthenticated(to, from, next);
+      return;
+    }
+
+    if (needsDynamicRouteInit(to)) {
+      const ok = await initDynamicRoutesForColdStart(to);
+      if (!ok) {
+        next(false);
+        return;
+      }
+      next({ path: to.fullPath, query: to.query, hash: to.hash, replace: true });
+      return;
+    }
+
+    passAuthenticated(to, from, next);
   });
 }
 
 /**
- * 冷启动时按目标 path 写入首个标签；路由树未就绪时早退，避免 children[0] 空引用
+ * 未登录：白名单放行，否则清会话去登录
+ */
+function passGuest(to: RouteLocationNormalized, next: NavigationGuardNext): void {
+  if (to.path === '/login' || whiteList.includes(to.path)) {
+    next();
+    return;
+  }
+  removeToken();
+  next({ path: '/login' });
+}
+
+/**
+ * 已登录：禁止再进白名单页，否则放行
+ */
+function passAuthenticated(
+  to: RouteLocationNormalized,
+  from: RouteLocationNormalized,
+  next: NavigationGuardNext
+): void {
+  if (whiteList.includes(to.fullPath)) {
+    next(from.fullPath);
+    return;
+  }
+  next();
+}
+
+/**
+ * 目标路由是否因角色不足被拦截（publicAccess 对所有登录用户放行）
+ */
+function isBlockedByRoles(to: RouteLocationNormalized): boolean {
+  if (to.meta?.publicAccess === true || !to.meta?.roles) {
+    return false;
+  }
+  const userInfo = readUserProfileFromStorage();
+  return !isOneOfArray(to.meta.roles, userInfo?.roles);
+}
+
+/**
+ * 冷启动且菜单尚未组装时需要拉取并注册动态路由
+ */
+function needsDynamicRouteInit(to: RouteLocationNormalized): boolean {
+  const permissionStore = usePermissionStore();
+  return permissionStore.wholeMenus.length === 0 && to.path !== '/login';
+}
+
+/**
+ * 冷启动初始化动态路由与首个标签；冲突类错误返回 false 以中止导航
+ * @param to 目标路由
+ * @returns 是否成功完成初始化
+ */
+async function initDynamicRoutesForColdStart(to: RouteLocationNormalized): Promise<boolean> {
+  try {
+    const routerInstance = (await initRouter()) as Router;
+    if (!useMultiTagsStore().getMultiTagsCache) {
+      pushInitialTagFromRoute(to.path, routerInstance);
+    }
+    return true;
+  } catch (error: unknown) {
+    if (error instanceof ApiConflictError) {
+      return false;
+    }
+    errorMessage(error);
+    return false;
+  }
+}
+
+/**
+ * 冷启动时按目标 path 写入首个标签；路由树未就绪时早退
  * @param path 目标路径
  * @param routerInstance 初始化后的路由实例
  */
