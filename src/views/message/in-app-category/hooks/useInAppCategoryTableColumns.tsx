@@ -1,9 +1,7 @@
-import { formatDateTime } from '@/shared/utils/date/dateTime';
 import type { InAppMessageCategoryPageRow } from '@/api/message/in-app-category';
-import { selectUserinfo } from '@/components/business/UserProfile';
 import { renderBooleanStatusTag } from '@/shared/composables/layout/renderBooleanStatusTag';
+import { createAuditTableColumns } from '@/shared/composables/table/auditColumns';
 import { TREE_ROOT_PARENT_ID } from '@/shared/utils/tree';
-import { ElButton } from 'element-plus';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 
@@ -45,46 +43,7 @@ function useInAppCategoryTableColumns() {
       minWidth: 100,
       formatter: (row: InAppMessageCategoryPageRow) => renderBooleanStatusTag(row.status),
     },
-    {
-      label: t('table.createTime'),
-      prop: 'createTime',
-      minWidth: 170,
-      formatter: (row: InAppMessageCategoryPageRow) => formatDateTime(row.createTime),
-    },
-    {
-      label: t('table.updateTime'),
-      prop: 'updateTime',
-      minWidth: 170,
-      formatter: (row: InAppMessageCategoryPageRow) => formatDateTime(row.updateTime),
-    },
-    {
-      label: t('table.createUsername'),
-      prop: 'createUser',
-      minWidth: 130,
-      formatter: (row: InAppMessageCategoryPageRow) => {
-        return (
-          row.createUser && (
-            <ElButton link type="primary" onClick={() => selectUserinfo(row.createUser, row.createUsername)}>
-              {row.createUsername}
-            </ElButton>
-          )
-        );
-      },
-    },
-    {
-      label: t('table.updateUsername'),
-      prop: 'updateUser',
-      minWidth: 130,
-      formatter: (row: InAppMessageCategoryPageRow) => {
-        return (
-          row.updateUser && (
-            <ElButton link type="primary" onClick={() => selectUserinfo(row.updateUser, row.updateUsername)}>
-              {row.updateUsername}
-            </ElButton>
-          )
-        );
-      },
-    },
+    ...createAuditTableColumns(),
     {
       label: t('table.actions'),
       fixed: 'right',

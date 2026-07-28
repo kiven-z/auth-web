@@ -1,16 +1,13 @@
 import { formatDateTime } from '@/shared/utils/date/dateTime';
-/**
- * 定时任务表格列定义
- */
 import type { SysJobPageRow } from '@/api/schedule/job';
-import { selectUserinfo } from '@/components/business/UserProfile';
 import { renderBooleanStatusTag } from '@/shared/composables/layout/renderBooleanStatusTag';
+import { createAuditTableColumns } from '@/shared/composables/table/auditColumns';
 import { JOB_LAST_EXECUTION_STATUS_OPTIONS } from '@/views/schedule/schedule-task/constants/job-last-execution-status';
 import {
   JOB_MISFIRE_POLICY_OPTIONS,
   JOB_TASK_TYPE_OPTIONS,
 } from '@/views/schedule/schedule-task/constants/job-task-enums';
-import { ElButton, ElTag } from 'element-plus';
+import { ElTag } from 'element-plus';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 
@@ -115,48 +112,7 @@ function useJobTableColumns() {
       prop: 'invokeTarget',
       minWidth: 180,
     },
-    {
-      label: t('table.updateTime'),
-      prop: 'updateTime',
-      sortable: true,
-      minWidth: 170,
-      formatter: (row: SysJobPageRow) => formatDateTime(row.updateTime),
-    },
-    {
-      label: t('table.createTime'),
-      prop: 'createTime',
-      sortable: true,
-      minWidth: 170,
-      formatter: (row: SysJobPageRow) => formatDateTime(row.createTime),
-    },
-    {
-      label: t('table.createUsername'),
-      prop: 'createUser',
-      minWidth: 130,
-      formatter: (row: SysJobPageRow) => {
-        return (
-          row.createUser && (
-            <ElButton link type="primary" onClick={() => selectUserinfo(row.createUser, row.createUsername)}>
-              {row.createUsername}
-            </ElButton>
-          )
-        );
-      },
-    },
-    {
-      label: t('table.updateUsername'),
-      prop: 'updateUser',
-      minWidth: 130,
-      formatter: (row: SysJobPageRow) => {
-        return (
-          row.updateUser && (
-            <ElButton link type="primary" onClick={() => selectUserinfo(row.updateUser, row.updateUsername)}>
-              {row.updateUsername}
-            </ElButton>
-          )
-        );
-      },
-    },
+    ...createAuditTableColumns(),
     {
       label: t('table.actions'),
       fixed: 'right' as const,

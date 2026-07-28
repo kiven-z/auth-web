@@ -1,10 +1,7 @@
-import { formatDateTime } from '@/shared/utils/date/dateTime';
 import type { UserDeptPageRow } from '@/api/system/user-dept';
-import { selectUserinfo } from '@/components/business/UserProfile';
 import useUserProfileDisplay from '@/components/business/UserProfile/src/hooks/useUserProfileDisplay';
-import { Perms } from '@/auth/permission';
-import { SYS_USER_PERMS } from '@/views/system/user/constants/permissions';
-import { ElButton, ElCheckTag } from 'element-plus';
+import { createAuditTableColumns } from '@/shared/composables/table/auditColumns';
+import { ElCheckTag } from 'element-plus';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 
@@ -42,45 +39,7 @@ function useUserDeptAssignTableColumns() {
       minWidth: 100,
       formatter: (row: UserDeptPageRow) => renderRelationStatus(row.status),
     },
-    { label: t('users.field.remark'), prop: 'remark', minWidth: 160, showOverflowTooltip: true },
-    {
-      label: t('table.createTime'),
-      prop: 'createTime',
-      minWidth: 170,
-      formatter: (row: UserDeptPageRow) => formatDateTime(row.createTime),
-    },
-    {
-      label: t('table.updateTime'),
-      prop: 'updateTime',
-      minWidth: 170,
-      formatter: (row: UserDeptPageRow) => formatDateTime(row.updateTime),
-    },
-    {
-      label: t('table.createUsername'),
-      prop: 'createUsername',
-      minWidth: 120,
-      formatter: (row: UserDeptPageRow) =>
-        row.createUser && (
-          <Perms value={SYS_USER_PERMS.QUERY}>
-            <ElButton link type="primary" onClick={() => selectUserinfo(row.createUser, row.createUsername)}>
-              {row.createUsername}
-            </ElButton>
-          </Perms>
-        ),
-    },
-    {
-      label: t('table.updateUsername'),
-      prop: 'updateUsername',
-      minWidth: 120,
-      formatter: (row: UserDeptPageRow) =>
-        row.updateUser && (
-          <Perms value={SYS_USER_PERMS.QUERY}>
-            <ElButton link type="primary" onClick={() => selectUserinfo(row.updateUser, row.updateUsername)}>
-              {row.updateUsername}
-            </ElButton>
-          </Perms>
-        ),
-    },
+    ...createAuditTableColumns(),
     {
       label: t('table.actions'),
       fixed: 'right',

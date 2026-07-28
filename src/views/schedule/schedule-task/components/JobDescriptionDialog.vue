@@ -1,8 +1,8 @@
 <script lang="tsx" setup>
+import { createAuditDetailColumns } from '@/shared/composables/table/auditColumns';
 import { formatDateTime } from '@/shared/utils/date/dateTime';
 import type { DetailDialog } from '@/api/common';
 import type { SysJobDetailRow } from '@/api/schedule/job';
-import { selectUserinfo } from '@/components/business/UserProfile';
 import Description from '@/components/ui/Description';
 import { renderBooleanStatusTag } from '@/shared/composables/layout/renderBooleanStatusTag';
 import { JOB_LAST_EXECUTION_STATUS_OPTIONS } from '@/views/schedule/schedule-task/constants/job-last-execution-status';
@@ -12,7 +12,7 @@ import {
   JOB_TASK_TYPE_OPTIONS,
 } from '@/views/schedule/schedule-task/constants/job-task-enums';
 import type { DescriptionItemProps } from 'element-plus';
-import { ElButton, ElTag } from 'element-plus';
+import { ElTag } from 'element-plus';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 
@@ -188,57 +188,13 @@ const descriptionColumns = computed(() => {
       span: 2,
       copy: true,
     },
-
     {
       label: t('scheduleTask.fields.remark'),
       prop: 'remark',
       labelWidth: 120,
       span: 2,
     },
-    {
-      label: t('table.createTime'),
-      prop: 'createTime',
-      labelWidth: 120,
-      cellRenderer: ({ value }) => formatDateTime(value),
-    },
-
-    {
-      label: t('table.updateTime'),
-      prop: 'updateTime',
-      labelWidth: 120,
-      cellRenderer: ({ value }) => formatDateTime(value),
-    },
-
-    {
-      label: t('table.createUsername'),
-      prop: 'createUsername',
-      labelWidth: 120,
-      cellRenderer: ({ row }) => {
-        if (!row.createUser) {
-          return <span>{'—'}</span>;
-        }
-        return (
-          <ElButton link type="primary" onClick={() => selectUserinfo(row.createUser, row.createUsername)}>
-            {row.createUsername ?? row.createUser}
-          </ElButton>
-        );
-      },
-    },
-    {
-      label: t('table.updateUsername'),
-      prop: 'updateUsername',
-      labelWidth: 120,
-      cellRenderer: ({ row }) => {
-        if (!row.updateUser) {
-          return <span>{'—'}</span>;
-        }
-        return (
-          <ElButton link type="primary" onClick={() => selectUserinfo(row.updateUser, row.updateUsername)}>
-            {row.updateUsername ?? row.updateUser}
-          </ElButton>
-        );
-      },
-    }
+    ...createAuditDetailColumns(),
   );
 
   return columns;

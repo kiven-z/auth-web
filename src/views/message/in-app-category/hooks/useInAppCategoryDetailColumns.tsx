@@ -1,4 +1,4 @@
-import { formatDateTime } from '@/shared/utils/date/dateTime';
+import { createAuditDetailColumns } from '@/shared/composables/table/auditColumns';
 import { renderBooleanStatusTag } from '@/shared/composables/layout/renderBooleanStatusTag';
 import { TREE_ROOT_PARENT_ID } from '@/shared/utils/tree';
 import { computed } from 'vue';
@@ -35,22 +35,7 @@ function useInAppCategoryDetailColumns() {
       cellRenderer: ({ value }: { value: boolean }) => renderBooleanStatusTag(value),
     },
     { label: t('inAppCategory.field.remark'), prop: 'remark', labelWidth: 120, span: 2 },
-    {
-      label: t('table.createTime'),
-      prop: 'createTime',
-      labelWidth: 120,
-      cellRenderer: ({ value }) => formatDateTime(value),
-    },
-
-    {
-      label: t('table.updateTime'),
-      prop: 'updateTime',
-      labelWidth: 120,
-      cellRenderer: ({ value }) => formatDateTime(value),
-    },
-
-    { label: t('table.createUsername'), prop: 'createUsername', labelWidth: 120 },
-    { label: t('table.updateUsername'), prop: 'updateUsername', labelWidth: 120 },
+    ...createAuditDetailColumns(),
   ]);
 
   return { detailColumns };

@@ -1,8 +1,7 @@
-import { formatDateTime } from '@/shared/utils/date/dateTime';
 import type { FileRecordPageRow } from '@/api/file/file-record';
-import { selectUserinfo } from '@/components/business/UserProfile';
+import { createAuditTableColumns } from '@/shared/composables/table/auditColumns';
 import { formatFileSize } from '@/shared/utils/file/fileSize';
-import { ElButton, ElTag } from 'element-plus';
+import { ElTag } from 'element-plus';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 
@@ -80,52 +79,7 @@ function useFileRecycleTableColumns() {
       prop: 'bizId',
       minWidth: 150,
     },
-    // 创建时间
-    {
-      label: t('table.createTime'),
-      prop: 'createTime',
-      sortable: true,
-      minWidth: 170,
-      formatter: (row: FileRecordPageRow) => formatDateTime(row.createTime),
-    },
-    // 创建人
-    {
-      label: t('table.createUsername'),
-      prop: 'createUser',
-      minWidth: 130,
-      formatter: (row: FileRecordPageRow) => {
-        return (
-          row.createUser && (
-            <ElButton link type="primary" onClick={() => selectUserinfo(row.createUser, row.createUsername)}>
-              {row.createUsername}
-            </ElButton>
-          )
-        );
-      },
-    },
-    // 更新时间
-    {
-      label: t('table.updateTime'),
-      prop: 'updateTime',
-      sortable: true,
-      minWidth: 170,
-      formatter: (row: FileRecordPageRow) => formatDateTime(row.updateTime),
-    },
-    // 更新人
-    {
-      label: t('table.updateUsername'),
-      prop: 'updateUser',
-      minWidth: 130,
-      formatter: (row: FileRecordPageRow) => {
-        return (
-          row.updateUser && (
-            <ElButton link type="primary" onClick={() => selectUserinfo(row.updateUser, row.updateUsername)}>
-              {row.updateUsername}
-            </ElButton>
-          )
-        );
-      },
-    },
+    ...createAuditTableColumns(),
     {
       label: t('table.actions'),
       fixed: 'right' as const,

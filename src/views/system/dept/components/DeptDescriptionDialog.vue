@@ -1,5 +1,5 @@
 <script lang="tsx" setup>
-import { formatDateTime } from '@/shared/utils/date/dateTime';
+import { createAuditDetailColumns } from '@/shared/composables/table/auditColumns';
 import type { DetailDialog } from '@/api/common';
 import type { SysDeptDetail } from '@/api/system/dept';
 import useUserProfileColumns from '@/components/business/UserProfile/src/useUserProfileColumns';
@@ -65,22 +65,7 @@ const descriptionColumns = computed(() => [
   },
   { label: t('dept.field.orderNum'), prop: 'orderNum', labelWidth: 120 },
   { label: t('dept.field.remark'), prop: 'remark', labelWidth: 120, span: 2 },
-  {
-    label: t('table.createTime'),
-    prop: 'createTime',
-    labelWidth: 120,
-    cellRenderer: ({ value }) => formatDateTime(value),
-  },
-
-  {
-    label: t('table.updateTime'),
-    prop: 'updateTime',
-    labelWidth: 120,
-    cellRenderer: ({ value }) => formatDateTime(value),
-  },
-
-  { label: t('table.createUsername'), prop: 'createUsername', labelWidth: 120 },
-  { label: t('table.updateUsername'), prop: 'updateUsername', labelWidth: 120 },
+  ...createAuditDetailColumns(),
 ]);
 </script>
 

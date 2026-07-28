@@ -1,9 +1,8 @@
-import { formatDateTime } from '@/shared/utils/date/dateTime';
+import { createAuditDetailColumns } from '@/shared/composables/table/auditColumns';
 import { formatFileSize } from '@/shared/utils/file/fileSize';
-import { ElButton, ElImage, ElLink, ElTag } from 'element-plus';
+import { ElImage, ElLink, ElTag } from 'element-plus';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { selectUserinfo } from '@/components/business/UserProfile';
 
 /**
  * 文件记录详情描述列
@@ -86,52 +85,7 @@ function useFileRecordDetailColumns() {
     { label: t('fileRecord.fields.bizType'), prop: 'bizType', labelWidth: 120 },
     { label: t('fileRecord.fields.bizId'), prop: 'bizId', labelWidth: 120 },
     { label: t('fileRecord.fields.remark'), prop: 'remark', labelWidth: 120, span: 2 },
-    {
-      label: t('table.createTime'),
-      prop: 'createTime',
-      labelWidth: 120,
-      cellRenderer: ({ value }) => formatDateTime(value),
-    },
-
-    {
-      label: t('table.updateTime'),
-      prop: 'updateTime',
-      labelWidth: 120,
-      cellRenderer: ({ value }) => formatDateTime(value),
-    },
-
-    {
-      label: t('table.createUsername'),
-      prop: 'createUsername',
-      labelWidth: 120,
-      cellRenderer({ value, row }) {
-        const createUser = row.createUser;
-        if (!createUser) {
-          return <span>—</span>;
-        }
-        return (
-          <ElButton link type="primary" onClick={() => selectUserinfo(createUser, value)}>
-            {value ?? createUser}
-          </ElButton>
-        );
-      },
-    },
-    {
-      label: t('table.updateUsername'),
-      prop: 'updateUsername',
-      labelWidth: 120,
-      cellRenderer({ value, row }) {
-        const updateUser = row.updateUser;
-        if (!updateUser) {
-          return <span>—</span>;
-        }
-        return (
-          <ElButton link type="primary" onClick={() => selectUserinfo(updateUser, value)}>
-            {value ?? updateUser}
-          </ElButton>
-        );
-      },
-    },
+    ...createAuditDetailColumns(),
   ]);
 
   return { detailColumns };

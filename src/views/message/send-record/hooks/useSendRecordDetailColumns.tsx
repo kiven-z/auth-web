@@ -1,3 +1,4 @@
+import { createAuditDetailColumns } from '@/shared/composables/table/auditColumns';
 import { formatDateTime } from '@/shared/utils/date/dateTime';
 import {
   SEND_RECORD_CHANNEL_FILTER_OPTIONS,
@@ -93,30 +94,7 @@ function useSendRecordDetailColumns() {
       labelWidth: 120,
       span: 2,
     },
-    {
-      label: t('table.createTime'),
-      prop: 'createTime',
-      labelWidth: 120,
-      cellRenderer: ({ value }) => formatDateTime(value),
-    },
-
-    {
-      label: t('table.updateTime'),
-      prop: 'updateTime',
-      labelWidth: 120,
-      cellRenderer: ({ value }) => formatDateTime(value),
-    },
-
-    {
-      label: t('table.createUsername'),
-      prop: 'createUsername',
-      labelWidth: 120,
-    },
-    {
-      label: t('table.updateUsername'),
-      prop: 'updateUsername',
-      labelWidth: 120,
-    },
+    ...createAuditDetailColumns(),
   ]);
 
   return { detailColumns };

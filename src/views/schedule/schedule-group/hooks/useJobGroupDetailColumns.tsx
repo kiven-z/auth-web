@@ -1,4 +1,4 @@
-import { formatDateTime } from '@/shared/utils/date/dateTime';
+import { createAuditDetailColumns } from '@/shared/composables/table/auditColumns';
 import { renderBooleanStatusTag } from '@/shared/composables/layout/renderBooleanStatusTag';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
@@ -27,22 +27,7 @@ function useJobGroupDetailColumns() {
       ),
     },
     { label: t('scheduleGroup.orderNum'), prop: 'orderNum' },
-    {
-      label: t('table.createTime'),
-      prop: 'createTime',
-      labelWidth: 120,
-      cellRenderer: ({ value }) => formatDateTime(value),
-    },
-
-    {
-      label: t('table.updateTime'),
-      prop: 'updateTime',
-      labelWidth: 120,
-      cellRenderer: ({ value }) => formatDateTime(value),
-    },
-
-    { label: t('table.createUsername'), prop: 'createUsername', labelWidth: 120 },
-    { label: t('table.updateUsername'), prop: 'updateUsername', labelWidth: 120 },
+    ...createAuditDetailColumns(),
   ]);
 
   return { detailColumns };

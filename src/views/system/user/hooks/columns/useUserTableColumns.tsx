@@ -1,9 +1,9 @@
-import { formatDateTime } from '@/shared/utils/date/dateTime';
 import type { SysUserPageRow } from '@/api/system/user';
 import { selectUserinfo } from '@/components/business/UserProfile';
 import useUserProfileDisplay from '@/components/business/UserProfile/src/hooks/useUserProfileDisplay';
 import { Perms } from '@/auth/permission';
 import { SYS_USER_PERMS } from '@/views/system/user/constants/permissions';
+import { createAuditTableColumns } from '@/shared/composables/table/auditColumns';
 import { ElAvatar, ElButton } from 'element-plus';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
@@ -48,50 +48,7 @@ function useUserTableColumns() {
       minWidth: 100,
       formatter: (row: SysUserPageRow) => renderUserAccountStatus(row.status),
     },
-    {
-      label: t('table.createTime'),
-      prop: 'createTime',
-      minWidth: 170,
-      formatter: (row: SysUserPageRow) => formatDateTime(row.createTime),
-    },
-    {
-      label: t('table.updateTime'),
-      prop: 'updateTime',
-      minWidth: 170,
-      formatter: (row: SysUserPageRow) => formatDateTime(row.updateTime),
-    },
-    {
-      label: t('table.createUsername'),
-      prop: 'createUsername',
-      minWidth: 140,
-      formatter: (row: SysUserPageRow) => {
-        return (
-          row.createUser && (
-            <Perms value={SYS_USER_PERMS.QUERY}>
-              <ElButton link type="primary" onClick={() => selectUserinfo(row.createUser, row.createUsername)}>
-                {row.createUsername}
-              </ElButton>
-            </Perms>
-          )
-        );
-      },
-    },
-    {
-      label: t('table.updateUsername'),
-      prop: 'updateUsername',
-      minWidth: 120,
-      formatter: (row: SysUserPageRow) => {
-        return (
-          row.updateUser && (
-            <Perms value={SYS_USER_PERMS.QUERY}>
-              <ElButton link type="primary" onClick={() => selectUserinfo(row.updateUser, row.updateUsername)}>
-                {row.updateUsername}
-              </ElButton>
-            </Perms>
-          )
-        );
-      },
-    },
+    ...createAuditTableColumns(),
     {
       label: t('table.actions'),
       fixed: 'right' as const,

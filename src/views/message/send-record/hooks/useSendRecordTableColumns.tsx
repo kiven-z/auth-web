@@ -1,11 +1,11 @@
 import { formatDateTime } from '@/shared/utils/date/dateTime';
 import type { ChannelDeliveryPageRow } from '@/api/message/channel-delivery';
-import { selectUserinfo } from '@/components/business/UserProfile';
+import { createAuditTableColumns } from '@/shared/composables/table/auditColumns';
 import {
   SEND_RECORD_CHANNEL_FILTER_OPTIONS,
   SEND_RECORD_STATUS_ITEMS,
 } from '@/views/message/send-record/constants/delivery-enums';
-import { ElButton, ElTag } from 'element-plus';
+import { ElTag } from 'element-plus';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 
@@ -71,48 +71,7 @@ function useSendRecordTableColumns() {
       minWidth: 170,
       formatter: (row: ChannelDeliveryPageRow) => formatDateTime(row.sentAt),
     },
-    {
-      label: t('table.createTime'),
-      prop: 'createTime',
-      sortable: true,
-      minWidth: 170,
-      formatter: (row: ChannelDeliveryPageRow) => formatDateTime(row.createTime),
-    },
-    {
-      label: t('table.updateTime'),
-      prop: 'updateTime',
-      sortable: true,
-      minWidth: 170,
-      formatter: (row: ChannelDeliveryPageRow) => formatDateTime(row.updateTime),
-    },
-    {
-      label: t('table.createUsername'),
-      prop: 'createUser',
-      minWidth: 130,
-      formatter: (row: ChannelDeliveryPageRow) => {
-        return (
-          row.createUser && (
-            <ElButton link type="primary" onClick={() => selectUserinfo(row.createUser, row.createUsername)}>
-              {row.createUsername}
-            </ElButton>
-          )
-        );
-      },
-    },
-    {
-      label: t('table.updateUsername'),
-      prop: 'updateUser',
-      minWidth: 130,
-      formatter: (row: ChannelDeliveryPageRow) => {
-        return (
-          row.updateUser && (
-            <ElButton link type="primary" onClick={() => selectUserinfo(row.updateUser, row.updateUsername)}>
-              {row.updateUsername}
-            </ElButton>
-          )
-        );
-      },
-    },
+    ...createAuditTableColumns(),
     {
       label: t('table.actions'),
       fixed: 'right' as const,

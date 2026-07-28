@@ -1,5 +1,5 @@
 <script lang="tsx" setup>
-import { formatDateTime } from '@/shared/utils/date/dateTime';
+import { createAuditDetailColumns } from '@/shared/composables/table/auditColumns';
 import type { DetailDialog } from '@/api/common';
 import type { SysMenuDetailVO } from '@/api/system/menu';
 import { useRenderIcon } from '@/components/ui/Icon/src/hooks';
@@ -152,22 +152,7 @@ const descriptionColumns = computed(() => [
   { label: t('menus.enterTransition'), prop: 'enterTransition', labelWidth: 120 },
   { label: t('menus.leaveTransition'), prop: 'leaveTransition', labelWidth: 120 },
   { label: t('menus.remark'), prop: 'remark', labelWidth: 120, span: 2 },
-  {
-    label: t('table.createTime'),
-    prop: 'createTime',
-    labelWidth: 120,
-    cellRenderer: ({ value }) => formatDateTime(value),
-  },
-
-  {
-    label: t('table.updateTime'),
-    prop: 'updateTime',
-    labelWidth: 120,
-    cellRenderer: ({ value }) => formatDateTime(value),
-  },
-
-  { label: t('table.createUsername'), prop: 'createUsername', labelWidth: 120 },
-  { label: t('table.updateUsername'), prop: 'updateUsername', labelWidth: 120 },
+  ...createAuditDetailColumns(),
 ]);
 </script>
 

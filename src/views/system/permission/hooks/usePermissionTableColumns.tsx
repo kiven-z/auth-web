@@ -1,8 +1,6 @@
-import { formatDateTime } from '@/shared/utils/date/dateTime';
 import type { SysPermissionPageRow } from '@/api/system/permission';
-import { selectUserinfo } from '@/components/business/UserProfile';
 import { renderBooleanStatusTag } from '@/shared/composables/layout/renderBooleanStatusTag';
-import { ElButton } from 'element-plus';
+import { createAuditTableColumns } from '@/shared/composables/table/auditColumns';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 
@@ -29,46 +27,7 @@ function usePermissionTableColumns() {
     },
     // 排序号
     { label: t('permissions.field.orderNum'), prop: 'orderNum', width: 100 },
-    {
-      label: t('table.createTime'),
-      prop: 'createTime',
-      minWidth: 170,
-      formatter: (row: SysPermissionPageRow) => formatDateTime(row.createTime),
-    },
-    {
-      label: t('table.updateTime'),
-      prop: 'updateTime',
-      minWidth: 170,
-      formatter: (row: SysPermissionPageRow) => formatDateTime(row.updateTime),
-    },
-    {
-      label: t('table.createUsername'),
-      prop: 'createUsername',
-      minWidth: 120,
-      formatter: (row: SysPermissionPageRow) => {
-        return (
-          row.createUser && (
-            <ElButton link type="primary" onClick={() => selectUserinfo(row.createUser, row.createUsername)}>
-              {row.createUsername}
-            </ElButton>
-          )
-        );
-      },
-    },
-    {
-      label: t('table.updateUsername'),
-      prop: 'updateUsername',
-      minWidth: 120,
-      formatter: (row: SysPermissionPageRow) => {
-        return (
-          row.updateUser && (
-            <ElButton link type="primary" onClick={() => selectUserinfo(row.updateUser, row.updateUsername)}>
-              {row.updateUsername}
-            </ElButton>
-          )
-        );
-      },
-    },
+    ...createAuditTableColumns(),
     {
       label: t('table.actions'),
       fixed: 'right' as const,

@@ -1,7 +1,6 @@
-import { formatDateTime } from '@/shared/utils/date/dateTime';
 import type { SysPostPageRow } from '@/api/system/post';
-import { selectUserinfo } from '@/components/business/UserProfile';
-import { ElButton, ElTag } from 'element-plus';
+import { createAuditTableColumns } from '@/shared/composables/table/auditColumns';
+import { ElTag } from 'element-plus';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 
@@ -37,46 +36,7 @@ function usePostTableColumns() {
     },
     // 排序号
     { label: t('post.field.orderNum'), prop: 'orderNum', width: 100 },
-    {
-      label: t('table.createTime'),
-      prop: 'createTime',
-      minWidth: 170,
-      formatter: (row: SysPostPageRow) => formatDateTime(row.createTime),
-    },
-    {
-      label: t('table.updateTime'),
-      prop: 'updateTime',
-      minWidth: 170,
-      formatter: (row: SysPostPageRow) => formatDateTime(row.updateTime),
-    },
-    {
-      label: t('table.createUsername'),
-      prop: 'createUsername',
-      minWidth: 120,
-      formatter: (row: SysPostPageRow) => {
-        return (
-          row.createUser && (
-            <ElButton link type="primary" onClick={() => selectUserinfo(row.createUser, row.createUsername)}>
-              {row.createUsername}
-            </ElButton>
-          )
-        );
-      },
-    },
-    {
-      label: t('table.updateUsername'),
-      prop: 'updateUsername',
-      minWidth: 120,
-      formatter: (row: SysPostPageRow) => {
-        return (
-          row.updateUser && (
-            <ElButton link type="primary" onClick={() => selectUserinfo(row.updateUser, row.updateUsername)}>
-              {row.updateUsername}
-            </ElButton>
-          )
-        );
-      },
-    },
+    ...createAuditTableColumns(),
     {
       label: t('table.actions'),
       fixed: 'right' as const,

@@ -1,11 +1,9 @@
-import { formatDateTime } from '@/shared/utils/date/dateTime';
 /**
  * 任务分组表格列定义
  */
 import type { SysJobGroupPageRow } from '@/api/schedule/job-group';
-import { selectUserinfo } from '@/components/business/UserProfile';
 import { renderBooleanStatusTag } from '@/shared/composables/layout/renderBooleanStatusTag';
-import { ElButton } from 'element-plus';
+import { createAuditTableColumns } from '@/shared/composables/table/auditColumns';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 
@@ -45,49 +43,7 @@ function useJobGroupTableColumns() {
     },
     // 排序号
     { label: t('scheduleGroup.orderNum'), prop: 'orderNum', minWidth: 90 },
-    // 更新时间
-    {
-      label: t('table.updateTime'),
-      prop: 'updateTime',
-      sortable: true,
-      minWidth: 170,
-      formatter: (row: SysJobGroupPageRow) => formatDateTime(row.updateTime),
-    },
-    {
-      label: t('table.createTime'),
-      prop: 'createTime',
-      sortable: true,
-      minWidth: 170,
-      formatter: (row: SysJobGroupPageRow) => formatDateTime(row.createTime),
-    },
-    {
-      label: t('table.createUsername'),
-      prop: 'createUser',
-      minWidth: 130,
-      formatter: (row: SysJobGroupPageRow) => {
-        return (
-          row.createUser && (
-            <ElButton link type="primary" onClick={() => selectUserinfo(row.createUser, row.createUsername)}>
-              {row.createUsername}
-            </ElButton>
-          )
-        );
-      },
-    },
-    {
-      label: t('table.updateUsername'),
-      prop: 'updateUser',
-      minWidth: 130,
-      formatter: (row: SysJobGroupPageRow) => {
-        return (
-          row.updateUser && (
-            <ElButton link type="primary" onClick={() => selectUserinfo(row.updateUser, row.updateUsername)}>
-              {row.updateUsername}
-            </ElButton>
-          )
-        );
-      },
-    },
+    ...createAuditTableColumns(),
     {
       label: t('table.actions'),
       fixed: 'right',

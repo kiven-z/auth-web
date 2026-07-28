@@ -1,12 +1,12 @@
 import { formatDateTime } from '@/shared/utils/date/dateTime';
 import type { InAppSendTaskPageRow } from '@/api/message/in-app-message';
-import { selectUserinfo } from '@/components/business/UserProfile';
+import { createAuditTableColumns } from '@/shared/composables/table/auditColumns';
 import {
   IN_APP_MESSAGE_SCOPE_OPTIONS,
   IN_APP_MESSAGE_SOURCE_OPTIONS,
   IN_APP_MESSAGE_STATUS_ITEMS,
 } from '@/views/message/in-app-message/constants/task-enums';
-import { ElButton, ElTag } from 'element-plus';
+import { ElTag } from 'element-plus';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 
@@ -100,48 +100,7 @@ function useInAppMessageTableColumns() {
       minWidth: 170,
       formatter: (row: InAppSendTaskPageRow) => formatDateTime(row.recalledAt),
     },
-    {
-      label: t('table.createTime'),
-      prop: 'createTime',
-      sortable: true,
-      minWidth: 170,
-      formatter: (row: InAppSendTaskPageRow) => formatDateTime(row.createTime),
-    },
-    {
-      label: t('table.updateTime'),
-      prop: 'updateTime',
-      sortable: true,
-      minWidth: 170,
-      formatter: (row: InAppSendTaskPageRow) => formatDateTime(row.updateTime),
-    },
-    {
-      label: t('table.createUsername'),
-      prop: 'createUser',
-      minWidth: 130,
-      formatter: (row: InAppSendTaskPageRow) => {
-        return (
-          row.createUser && (
-            <ElButton link type="primary" onClick={() => selectUserinfo(row.createUser, row.createUsername)}>
-              {row.createUsername}
-            </ElButton>
-          )
-        );
-      },
-    },
-    {
-      label: t('table.updateUsername'),
-      prop: 'updateUser',
-      minWidth: 130,
-      formatter: (row: InAppSendTaskPageRow) => {
-        return (
-          row.updateUser && (
-            <ElButton link type="primary" onClick={() => selectUserinfo(row.updateUser, row.updateUsername)}>
-              {row.updateUsername}
-            </ElButton>
-          )
-        );
-      },
-    },
+    ...createAuditTableColumns(),
     {
       label: t('table.actions'),
       fixed: 'right' as const,
