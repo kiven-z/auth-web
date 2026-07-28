@@ -1,3 +1,4 @@
+import { formatDateTime } from '@/shared/utils/date/dateTime';
 import type { UserDeptPageRow } from '@/api/system/user-dept';
 import { selectUserinfo } from '@/components/business/UserProfile';
 import useUserProfileDisplay from '@/components/business/UserProfile/src/hooks/useUserProfileDisplay';
@@ -42,8 +43,18 @@ function useUserDeptAssignTableColumns() {
       formatter: (row: UserDeptPageRow) => renderRelationStatus(row.status),
     },
     { label: t('users.field.remark'), prop: 'remark', minWidth: 160, showOverflowTooltip: true },
-    { label: t('table.createTime'), prop: 'createTime', minWidth: 170 },
-    { label: t('table.updateTime'), prop: 'updateTime', minWidth: 170 },
+    {
+      label: t('table.createTime'),
+      prop: 'createTime',
+      minWidth: 170,
+      formatter: (row: UserDeptPageRow) => formatDateTime(row.createTime),
+    },
+    {
+      label: t('table.updateTime'),
+      prop: 'updateTime',
+      minWidth: 170,
+      formatter: (row: UserDeptPageRow) => formatDateTime(row.updateTime),
+    },
     {
       label: t('table.createUsername'),
       prop: 'createUsername',

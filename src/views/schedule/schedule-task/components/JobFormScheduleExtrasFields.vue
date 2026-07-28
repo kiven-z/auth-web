@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import { WALL_CLOCK_PICKER_VALUE_FORMAT } from '@/shared/utils/date/dateTime';
 import { useFormPlaceholder } from '@/shared/composables/i18n/useFormPlaceholder';
 import { useEditorTheme } from '@/shared/composables/editor/useEditorTheme';
 import { message } from '@/services/feedback/message';
@@ -152,10 +153,10 @@ onMounted(() => {
       <el-date-picker
         v-model="form.startTime"
         :placeholder="ph.select('scheduleTask.fields.startTime')"
+        :value-format="WALL_CLOCK_PICKER_VALUE_FORMAT"
         class="w-full!"
         clearable
         type="datetime"
-        value-format="YYYY-MM-DDTHH:mm:ss"
       />
     </el-form-item>
   </el-col>
@@ -165,10 +166,10 @@ onMounted(() => {
       <el-date-picker
         v-model="form.endTime"
         :placeholder="ph.select('scheduleTask.fields.endTime')"
+        :value-format="WALL_CLOCK_PICKER_VALUE_FORMAT"
         class="w-full!"
         clearable
         type="datetime"
-        value-format="YYYY-MM-DDTHH:mm:ss"
       />
     </el-form-item>
   </el-col>

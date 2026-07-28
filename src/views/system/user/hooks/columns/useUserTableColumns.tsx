@@ -1,3 +1,4 @@
+import { formatDateTime } from '@/shared/utils/date/dateTime';
 import type { SysUserPageRow } from '@/api/system/user';
 import { selectUserinfo } from '@/components/business/UserProfile';
 import useUserProfileDisplay from '@/components/business/UserProfile/src/hooks/useUserProfileDisplay';
@@ -47,8 +48,18 @@ function useUserTableColumns() {
       minWidth: 100,
       formatter: (row: SysUserPageRow) => renderUserAccountStatus(row.status),
     },
-    { label: t('table.createTime'), prop: 'createTime', minWidth: 170 },
-    { label: t('table.updateTime'), prop: 'updateTime', minWidth: 170 },
+    {
+      label: t('table.createTime'),
+      prop: 'createTime',
+      minWidth: 170,
+      formatter: (row: SysUserPageRow) => formatDateTime(row.createTime),
+    },
+    {
+      label: t('table.updateTime'),
+      prop: 'updateTime',
+      minWidth: 170,
+      formatter: (row: SysUserPageRow) => formatDateTime(row.updateTime),
+    },
     {
       label: t('table.createUsername'),
       prop: 'createUsername',

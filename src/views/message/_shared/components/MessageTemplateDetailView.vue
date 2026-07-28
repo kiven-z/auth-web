@@ -6,8 +6,7 @@ import TypedContentView from '@/components/business/TypedContentView';
 import ReDescription from '@/components/ui/Description';
 import type { ColumnProps } from '@/components/ui/Description/src/types';
 import { errorMessage } from '@/services/feedback/message';
-import { DISPLAY_DATETIME_FORMAT } from '@/shared/utils/date/dateTime';
-import dayjs from 'dayjs';
+import { formatDateTime } from '@/shared/utils/date/dateTime';
 import { computed, onMounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 
@@ -39,13 +38,7 @@ const previewContentType = computed(() => {
 });
 
 /** 标题下方展示的时间 */
-const displayCreateTime = computed(() => {
-  const createTime = detail.value?.createTime;
-  if (!createTime) {
-    return '';
-  }
-  return dayjs(createTime).format(DISPLAY_DATETIME_FORMAT);
-});
+const displayCreateTime = computed(() => formatDateTime(detail.value?.createTime));
 
 /** 拉取详情 */
 const load = async () => {

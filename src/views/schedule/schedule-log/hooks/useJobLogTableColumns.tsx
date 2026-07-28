@@ -1,3 +1,4 @@
+import { formatDateTime } from '@/shared/utils/date/dateTime';
 /**
  * 任务调度日志表格列
  */
@@ -82,6 +83,7 @@ function useJobLogTableColumns() {
       prop: 'createTime',
       sortable: true,
       minWidth: 170,
+      formatter: (row: JobLogPageRow) => formatDateTime(row.createTime),
     },
     // 创建人
     {

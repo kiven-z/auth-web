@@ -1,3 +1,4 @@
+import { formatDateTime } from '@/shared/utils/date/dateTime';
 import type { FileRecordPageRow } from '@/api/file/file-record';
 import { selectUserinfo } from '@/components/business/UserProfile';
 import { formatFileSize } from '@/shared/utils/file/fileSize';
@@ -85,6 +86,7 @@ function useFileRecordTableColumns() {
       prop: 'createTime',
       sortable: true,
       minWidth: 170,
+      formatter: (row: FileRecordPageRow) => formatDateTime(row.createTime),
     },
     // 更新时间
     {
@@ -92,6 +94,7 @@ function useFileRecordTableColumns() {
       prop: 'updateTime',
       sortable: true,
       minWidth: 170,
+      formatter: (row: FileRecordPageRow) => formatDateTime(row.updateTime),
     },
     // 创建人
     {

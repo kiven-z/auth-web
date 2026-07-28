@@ -1,3 +1,4 @@
+import { formatDateTime } from '@/shared/utils/date/dateTime';
 import type { InAppSendTaskPageRow } from '@/api/message/in-app-message';
 import { selectUserinfo } from '@/components/business/UserProfile';
 import {
@@ -97,18 +98,21 @@ function useInAppMessageTableColumns() {
       label: t('inAppMessage.field.recalledAt'),
       prop: 'recalledAt',
       minWidth: 170,
+      formatter: (row: InAppSendTaskPageRow) => formatDateTime(row.recalledAt),
     },
     {
       label: t('table.createTime'),
       prop: 'createTime',
       sortable: true,
       minWidth: 170,
+      formatter: (row: InAppSendTaskPageRow) => formatDateTime(row.createTime),
     },
     {
       label: t('table.updateTime'),
       prop: 'updateTime',
       sortable: true,
       minWidth: 170,
+      formatter: (row: InAppSendTaskPageRow) => formatDateTime(row.updateTime),
     },
     {
       label: t('table.createUsername'),

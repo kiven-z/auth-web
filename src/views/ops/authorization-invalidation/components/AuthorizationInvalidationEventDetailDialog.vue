@@ -1,4 +1,5 @@
 <script lang="tsx" setup>
+import { formatDateTime } from '@/shared/utils/date/dateTime';
 import type { DetailDialog } from '@/api/common';
 import type { AuthorizationInvalidationEventDetailRow } from '@/api/ops/authorization-invalidation-event';
 import Description from '@/components/ui/Description';
@@ -77,6 +78,7 @@ const columns = computed(() => [
   {
     label: t('authorizationInvalidation.processedAt'),
     prop: 'processedAt',
+    cellRenderer: ({ value }) => formatDateTime(value),
     labelWidth: 140,
   },
   {
@@ -85,8 +87,16 @@ const columns = computed(() => [
     labelWidth: 140,
     copy: true,
   },
-  { label: t('table.createTime'), prop: 'createTime' },
-  { label: t('table.updateTime'), prop: 'updateTime' },
+  {
+    label: t('table.createTime'),
+    prop: 'createTime',
+    cellRenderer: ({ value }) => formatDateTime(value),
+  },
+  {
+    label: t('table.updateTime'),
+    prop: 'updateTime',
+    cellRenderer: ({ value }) => formatDateTime(value),
+  },
   { label: t('table.createUsername'), prop: 'createUsername' },
   { label: t('table.updateUsername'), prop: 'updateUsername' },
 ]);

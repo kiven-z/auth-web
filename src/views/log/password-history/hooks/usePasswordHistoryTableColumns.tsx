@@ -1,3 +1,4 @@
+import { formatDateTime } from '@/shared/utils/date/dateTime';
 /**
  * 密码历史日志表格列定义
  */
@@ -61,6 +62,7 @@ function usePasswordHistoryTableColumns() {
       prop: 'createTime',
       sortable: true,
       minWidth: 170,
+      formatter: (row: PasswordHistoryPageRow) => formatDateTime(row.createTime),
     },
     // 创建人
     {

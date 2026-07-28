@@ -1,3 +1,4 @@
+import { formatDateTime } from '@/shared/utils/date/dateTime';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 
@@ -33,8 +34,17 @@ function useOperationLogDetailColumns() {
     { label: t('operationLog.ipAddress'), prop: 'ipAddress', labelWidth: 120, copy: true },
     { label: t('operationLog.userAgent'), prop: 'userAgent', labelWidth: 120 },
     { label: t('operationLog.remark'), prop: 'remark', labelWidth: 120, copy: true },
-    { label: t('table.createTime'), prop: 'createTime' },
-    { label: t('table.updateTime'), prop: 'updateTime' },
+    {
+      label: t('table.createTime'),
+      prop: 'createTime',
+      cellRenderer: ({ value }) => formatDateTime(value),
+    },
+
+    {
+      label: t('table.updateTime'),
+      prop: 'updateTime',
+      cellRenderer: ({ value }) => formatDateTime(value),
+    },
   ]);
 
   return { detailColumns };

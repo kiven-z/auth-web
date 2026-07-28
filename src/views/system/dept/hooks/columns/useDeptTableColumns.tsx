@@ -1,3 +1,4 @@
+import { formatDateTime } from '@/shared/utils/date/dateTime';
 import { selectUserinfo } from '@/components/business/UserProfile';
 import type { SysDeptRow } from '@/views/system/dept/hooks/useDeptPageState';
 import { ElButton, ElTag } from 'element-plus';
@@ -39,8 +40,18 @@ function useDeptTableColumns() {
         );
       },
     },
-    { label: t('table.createTime'), prop: 'createTime', minWidth: 170 },
-    { label: t('table.updateTime'), prop: 'updateTime', minWidth: 170 },
+    {
+      label: t('table.createTime'),
+      prop: 'createTime',
+      minWidth: 170,
+      formatter: (row: SysDeptRow) => formatDateTime(row.createTime),
+    },
+    {
+      label: t('table.updateTime'),
+      prop: 'updateTime',
+      minWidth: 170,
+      formatter: (row: SysDeptRow) => formatDateTime(row.updateTime),
+    },
     {
       label: t('table.createUsername'),
       prop: 'createUsername',

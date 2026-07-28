@@ -1,3 +1,4 @@
+import { formatDateTime } from '@/shared/utils/date/dateTime';
 import { resolveJobLogStatusMeta } from '@/views/schedule/schedule-log/constants/job-log-enums';
 import { ElTag } from 'element-plus';
 import { computed } from 'vue';
@@ -32,7 +33,11 @@ function useJobLogDetailColumns() {
     },
     { label: t('logJob.field.exceptionInfo'), prop: 'exceptionInfo', labelWidth: 120, copy: true },
     { label: t('logJob.field.elapsedTime'), prop: 'elapsedTime' },
-    { label: t('logJob.field.createTime'), prop: 'createTime' },
+    {
+      label: t('logJob.field.createTime'),
+      prop: 'createTime',
+      cellRenderer: ({ value }) => formatDateTime(value),
+    },
   ]);
 
   return { detailColumns };

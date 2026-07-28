@@ -1,3 +1,4 @@
+import { formatDateTime } from '@/shared/utils/date/dateTime';
 import type { AuthorizationAuditPageRow } from '@/api/log/authorization-audit';
 import { selectUserinfo } from '@/components/business/UserProfile';
 import { resolveAuditEventTypeMeta } from '@/views/log/authorization-audit-log/constants/authorization-audit-enums';
@@ -67,6 +68,7 @@ function useAuthorizationAuditTableColumns() {
       prop: 'createTime',
       sortable: true,
       minWidth: 170,
+      formatter: (row: AuthorizationAuditPageRow) => formatDateTime(row.createTime),
     },
     {
       label: t('table.createUsername'),

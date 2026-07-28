@@ -3,10 +3,9 @@ import { getInAppInboxDetail, type InAppInboxDetail } from '@/api/message/in-app
 import type { TypedContentTypeCode } from '@/components/business/TypedContentView';
 import TypedContentView from '@/components/business/TypedContentView';
 import { errorMessage } from '@/services/feedback/message';
-import { DISPLAY_DATETIME_FORMAT } from '@/shared/utils/date/dateTime';
+import { formatDateTime } from '@/shared/utils/date/dateTime';
 import { useInAppInboxStore } from '@/store/modules/message/inAppInbox';
 import HomePageToolbar from '@/views/home/_shared/components/HomePageToolbar.vue';
-import dayjs from 'dayjs';
 import { computed, onMounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRoute, useRouter } from 'vue-router';
@@ -31,13 +30,7 @@ const contentType = computed(() => {
   return (detail.value?.contentType ?? 'TEXT') as TypedContentTypeCode;
 });
 
-const displayCreateTime = computed(() => {
-  const createTime = detail.value?.createTime;
-  if (!createTime) {
-    return '';
-  }
-  return dayjs(createTime).format(DISPLAY_DATETIME_FORMAT);
-});
+const displayCreateTime = computed(() => formatDateTime(detail.value?.createTime));
 
 /**
  * 拉取详情（后端打开即标已读），并刷新未读角标

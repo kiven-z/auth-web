@@ -1,3 +1,4 @@
+import { formatDateTime } from '@/shared/utils/date/dateTime';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 
@@ -25,8 +26,17 @@ function usePasswordHistoryDetailColumns() {
     },
     { label: t('passwordHistory.changeTime'), prop: 'changeTime', copy: true },
     { label: t('passwordHistory.changeIp'), prop: 'changeIp' },
-    { label: t('table.createTime'), prop: 'createTime' },
-    { label: t('table.updateTime'), prop: 'updateTime' },
+    {
+      label: t('table.createTime'),
+      prop: 'createTime',
+      cellRenderer: ({ value }) => formatDateTime(value),
+    },
+
+    {
+      label: t('table.updateTime'),
+      prop: 'updateTime',
+      cellRenderer: ({ value }) => formatDateTime(value),
+    },
   ]);
 
   return { detailColumns };

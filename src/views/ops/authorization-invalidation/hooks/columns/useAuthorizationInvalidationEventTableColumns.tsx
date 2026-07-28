@@ -1,3 +1,4 @@
+import { formatDateTime } from '@/shared/utils/date/dateTime';
 import type { AuthorizationInvalidationEventPageRow } from '@/api/ops/authorization-invalidation-event';
 import { selectUserinfo } from '@/components/business/UserProfile';
 import {
@@ -84,12 +85,14 @@ function useAuthorizationInvalidationEventTableColumns() {
       prop: 'processedAt',
       sortable: true,
       minWidth: 170,
+      formatter: (row: AuthorizationInvalidationEventPageRow) => formatDateTime(row.processedAt),
     },
     {
       label: t('table.createTime'),
       prop: 'createTime',
       sortable: true,
       minWidth: 170,
+      formatter: (row: AuthorizationInvalidationEventPageRow) => formatDateTime(row.createTime),
     },
     {
       label: t('table.createUsername'),

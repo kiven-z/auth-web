@@ -1,4 +1,5 @@
 <script lang="tsx" setup>
+import { formatDateTime } from '@/shared/utils/date/dateTime';
 import type { DetailDialog } from '@/api/common';
 import type { SysPermissionDetail } from '@/api/system/permission';
 import DetailRelationListSection from '@/components/business/DetailRelationListSection/index.vue';
@@ -30,8 +31,20 @@ const descriptionColumns = computed(() => [
   },
   { label: t('permissions.field.orderNum'), prop: 'orderNum', labelWidth: 120 },
   { label: t('permissions.field.remark'), prop: 'remark', labelWidth: 120, span: 2 },
-  { label: t('table.createTime'), prop: 'createTime', labelWidth: 120 },
-  { label: t('table.updateTime'), prop: 'updateTime', labelWidth: 120 },
+  {
+    label: t('table.createTime'),
+    prop: 'createTime',
+    labelWidth: 120,
+    cellRenderer: ({ value }) => formatDateTime(value),
+  },
+
+  {
+    label: t('table.updateTime'),
+    prop: 'updateTime',
+    labelWidth: 120,
+    cellRenderer: ({ value }) => formatDateTime(value),
+  },
+
   { label: t('table.createUsername'), prop: 'createUsername', labelWidth: 120 },
   { label: t('table.updateUsername'), prop: 'updateUsername', labelWidth: 120 },
 ]);

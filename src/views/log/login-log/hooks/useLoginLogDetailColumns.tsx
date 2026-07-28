@@ -1,3 +1,4 @@
+import { formatDateTime } from '@/shared/utils/date/dateTime';
 import {
   LOGIN_LOG_TYPE_FILTER_OPTIONS,
   resolveLoginLogResultMeta,
@@ -42,7 +43,13 @@ function useLoginLogDetailColumns() {
       },
     },
     { label: t('loginLog.field.failureReason'), prop: 'failureReason', labelWidth: 120, copy: true },
-    { label: t('loginLog.field.loginTime'), prop: 'loginTime', copy: true },
+    {
+      label: t('loginLog.field.loginTime'),
+      prop: 'loginTime',
+      copy: true,
+      cellRenderer: ({ value }) => formatDateTime(value),
+    },
+
     { label: t('loginLog.field.loginIp'), prop: 'loginIp', copy: true },
     { label: t('loginLog.field.loginRegion'), prop: 'loginRegion' },
     { label: t('loginLog.field.userAgent'), prop: 'userAgent' },
@@ -60,8 +67,17 @@ function useLoginLogDetailColumns() {
       },
     },
     { label: t('loginLog.field.sessionId'), prop: 'sessionId', copy: true },
-    { label: t('table.createTime'), prop: 'createTime' },
-    { label: t('table.updateTime'), prop: 'updateTime' },
+    {
+      label: t('table.createTime'),
+      prop: 'createTime',
+      cellRenderer: ({ value }) => formatDateTime(value),
+    },
+
+    {
+      label: t('table.updateTime'),
+      prop: 'updateTime',
+      cellRenderer: ({ value }) => formatDateTime(value),
+    },
   ]);
 
   return { detailColumns };

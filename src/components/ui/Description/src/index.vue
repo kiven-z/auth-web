@@ -2,7 +2,7 @@
 import { copyToClipboard } from '@/shared/lib/clipboard';
 import { CopyDocument } from '@element-plus/icons-vue';
 import get from 'lodash/get';
-import { computed } from 'vue';
+import { computed, isVNode } from 'vue';
 import { ColumnProps, Row, RowKey, RowKeyProp } from './types';
 
 defineOptions({
@@ -90,6 +90,22 @@ const formatValue = (value: any) => {
   if (value === undefined || value === null || value === '') return props.placeholder;
   return value;
 };
+
+/**
+ * 解析单元格渲染结果
+ * @param row 行数据
+ * @param item 描述项
+ * @param index 行下标
+ * @returns 渲染内容
+ */
+const resolveCellContent = (row: Row, item: ColumnProps, index: number) => {
+  return item.cellRenderer?.({
+    value: getValue(row, item),
+    data: props.data,
+    index,
+    row,
+  });
+};
 </script>
 
 <template>
@@ -117,16 +133,13 @@ const formatValue = (value: any) => {
 
             <span class="re-description__cell">
               <template v-if="item.cellRenderer">
-                <component
-                  :is="
-                    item.cellRenderer({
-                      value: getValue(row, item),
-                      data,
-                      index: rowIndex,
-                      row,
-                    })
-                  "
-                />
+                <template
+                  v-for="content in [resolveCellContent(row, item, rowIndex)]"
+                  :key="isVNode(content) ? `vnode-${item.prop}` : String(content ?? '')"
+                >
+                  <component :is="content" v-if="isVNode(content)" />
+                  <span v-else class="re-description__value">{{ formatValue(content) }}</span>
+                </template>
               </template>
               <template v-else>
                 <span class="re-description__value">{{ formatValue(getValue(row, item)) }}</span>
@@ -156,16 +169,13 @@ const formatValue = (value: any) => {
 
           <span class="re-description__cell">
             <template v-if="item.cellRenderer">
-              <component
-                :is="
-                  item.cellRenderer({
-                    value: getValue(rows[0], item),
-                    data,
-                    index: 0,
-                    row: rows[0],
-                  })
-                "
-              />
+              <template
+                v-for="content in [resolveCellContent(rows[0], item, 0)]"
+                :key="isVNode(content) ? `vnode-${item.prop}` : String(content ?? '')"
+              >
+                <component :is="content" v-if="isVNode(content)" />
+                <span v-else class="re-description__value">{{ formatValue(content) }}</span>
+              </template>
             </template>
             <template v-else>
               <span class="re-description__value">{{ formatValue(getValue(rows[0], item)) }}</span>

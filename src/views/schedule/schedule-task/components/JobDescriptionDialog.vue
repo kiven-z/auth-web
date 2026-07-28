@@ -1,4 +1,5 @@
 <script lang="tsx" setup>
+import { formatDateTime } from '@/shared/utils/date/dateTime';
 import type { DetailDialog } from '@/api/common';
 import type { SysJobDetailRow } from '@/api/schedule/job';
 import { selectUserinfo } from '@/components/business/UserProfile';
@@ -121,8 +122,20 @@ const descriptionColumns = computed(() => {
     },
     { label: t('scheduleTask.fields.startTime'), prop: 'startTime', labelWidth: 120 },
     { label: t('scheduleTask.fields.endTime'), prop: 'endTime', labelWidth: 120 },
-    { label: t('scheduleTask.fields.previousFireTime'), prop: 'previousFireTime', labelWidth: 120 },
-    { label: t('scheduleTask.fields.nextFireTime'), prop: 'nextFireTime', labelWidth: 120 },
+    {
+      label: t('scheduleTask.fields.previousFireTime'),
+      prop: 'previousFireTime',
+      labelWidth: 120,
+      cellRenderer: ({ value }) => formatDateTime(value),
+    },
+
+    {
+      label: t('scheduleTask.fields.nextFireTime'),
+      prop: 'nextFireTime',
+      labelWidth: 120,
+      cellRenderer: ({ value }) => formatDateTime(value),
+    },
+
     {
       label: t('scheduleTask.fields.quartzRuntimeStatus'),
       prop: 'quartzRuntimeStatus',
@@ -139,7 +152,12 @@ const descriptionColumns = computed(() => {
         );
       },
     },
-    { label: t('scheduleTask.fields.quartzFireTime'), prop: 'quartzFireTime', labelWidth: 120 },
+    {
+      label: t('scheduleTask.fields.quartzFireTime'),
+      prop: 'quartzFireTime',
+      labelWidth: 120,
+      cellRenderer: ({ value }) => formatDateTime(value),
+    },
     {
       label: t('scheduleTask.fields.lastExecutionStatus'),
       prop: 'lastExecutionStatus',
@@ -156,7 +174,13 @@ const descriptionColumns = computed(() => {
         );
       },
     },
-    { label: t('scheduleTask.fields.lastExecutionTime'), prop: 'lastExecutionTime', labelWidth: 120 },
+    {
+      label: t('scheduleTask.fields.lastExecutionTime'),
+      prop: 'lastExecutionTime',
+      labelWidth: 120,
+      cellRenderer: ({ value }) => formatDateTime(value),
+    },
+
     {
       label: t('scheduleTask.fields.jobParams'),
       prop: 'jobParams',
@@ -171,8 +195,20 @@ const descriptionColumns = computed(() => {
       labelWidth: 120,
       span: 2,
     },
-    { label: t('table.createTime'), prop: 'createTime', labelWidth: 120 },
-    { label: t('table.updateTime'), prop: 'updateTime', labelWidth: 120 },
+    {
+      label: t('table.createTime'),
+      prop: 'createTime',
+      labelWidth: 120,
+      cellRenderer: ({ value }) => formatDateTime(value),
+    },
+
+    {
+      label: t('table.updateTime'),
+      prop: 'updateTime',
+      labelWidth: 120,
+      cellRenderer: ({ value }) => formatDateTime(value),
+    },
+
     {
       label: t('table.createUsername'),
       prop: 'createUsername',

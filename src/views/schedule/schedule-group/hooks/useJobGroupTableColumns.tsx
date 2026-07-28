@@ -1,3 +1,4 @@
+import { formatDateTime } from '@/shared/utils/date/dateTime';
 /**
  * 任务分组表格列定义
  */
@@ -50,12 +51,14 @@ function useJobGroupTableColumns() {
       prop: 'updateTime',
       sortable: true,
       minWidth: 170,
+      formatter: (row: SysJobGroupPageRow) => formatDateTime(row.updateTime),
     },
     {
       label: t('table.createTime'),
       prop: 'createTime',
       sortable: true,
       minWidth: 170,
+      formatter: (row: SysJobGroupPageRow) => formatDateTime(row.createTime),
     },
     {
       label: t('table.createUsername'),

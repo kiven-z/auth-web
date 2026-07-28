@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import type { InAppInboxPageRow } from '@/api/message/in-app-inbox';
-import dayjs from 'dayjs';
+import { formatDateTime } from '@/shared/utils/date/dateTime';
 import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
 
@@ -76,7 +76,7 @@ const openDetail = (messageId: string) => {
             {{ t('buttons.actionDelete') }}
           </el-button>
         </div>
-        <div class="inbox-message-list__time">{{ dayjs(row.createTime).format('YYYY-MM-DD HH:mm') }}</div>
+        <div class="inbox-message-list__time">{{ formatDateTime(row.createTime, 'YYYY-MM-DD HH:mm') }}</div>
       </div>
     </div>
   </div>

@@ -1,3 +1,4 @@
+import { formatDateTime } from '@/shared/utils/date/dateTime';
 import type { MeLoginLogPageRow } from '@/api/system/user-me';
 import {
   LOGIN_LOG_TYPE_FILTER_OPTIONS,
@@ -25,6 +26,7 @@ function useMeLoginLogTableColumns() {
       prop: 'loginTime',
       sortable: true,
       minWidth: 170,
+      formatter: (row: MeLoginLogPageRow) => formatDateTime(row.loginTime),
     },
     {
       label: t('loginLog.field.loginRegion'),

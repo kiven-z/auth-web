@@ -1,3 +1,4 @@
+import { formatDateTime } from '@/shared/utils/date/dateTime';
 import type { FileRecordPageRow } from '@/api/file/file-record';
 import { selectUserinfo } from '@/components/business/UserProfile';
 import { formatFileSize } from '@/shared/utils/file/fileSize';
@@ -85,6 +86,7 @@ function useFileRecycleTableColumns() {
       prop: 'createTime',
       sortable: true,
       minWidth: 170,
+      formatter: (row: FileRecordPageRow) => formatDateTime(row.createTime),
     },
     // 创建人
     {
@@ -107,6 +109,7 @@ function useFileRecycleTableColumns() {
       prop: 'updateTime',
       sortable: true,
       minWidth: 170,
+      formatter: (row: FileRecordPageRow) => formatDateTime(row.updateTime),
     },
     // 更新人
     {

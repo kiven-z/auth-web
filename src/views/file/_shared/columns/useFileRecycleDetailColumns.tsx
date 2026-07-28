@@ -1,3 +1,4 @@
+import { formatDateTime } from '@/shared/utils/date/dateTime';
 import { selectUserinfo } from '@/components/business/UserProfile';
 import { formatFileSize } from '@/shared/utils/file/fileSize';
 import { ElButton, ElImage, ElLink, ElTag } from 'element-plus';
@@ -83,8 +84,20 @@ function useFileRecycleDetailColumns() {
     { label: t('fileRecycle.fields.bizType'), prop: 'bizType', labelWidth: 120 },
     { label: t('fileRecycle.fields.bizId'), prop: 'bizId', labelWidth: 120 },
     { label: t('fileRecycle.fields.remark'), prop: 'remark', labelWidth: 120, span: 2 },
-    { label: t('table.createTime'), prop: 'createTime', labelWidth: 120 },
-    { label: t('table.updateTime'), prop: 'updateTime', labelWidth: 120 },
+    {
+      label: t('table.createTime'),
+      prop: 'createTime',
+      labelWidth: 120,
+      cellRenderer: ({ value }) => formatDateTime(value),
+    },
+
+    {
+      label: t('table.updateTime'),
+      prop: 'updateTime',
+      labelWidth: 120,
+      cellRenderer: ({ value }) => formatDateTime(value),
+    },
+
     {
       label: t('table.createUsername'),
       prop: 'createUsername',

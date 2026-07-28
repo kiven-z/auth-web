@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import { INSTANT_PICKER_VALUE_FORMAT } from '@/shared/utils/date/dateTime';
 import { getPasswordHistoryPage } from '@/api/log/password-history';
 import AuthPagedTable, { usePaginationState } from '@/components/business/AuthPagedTable';
 import useRemoteUserSearch from '@/shared/composables/dialog/useRemoteUserSearch';
@@ -73,17 +74,17 @@ onMounted(() => {
         <el-date-picker
           v-model="searchForm.changeTimeStart"
           :placeholder="ph.rangeStart()"
+          :value-format="INSTANT_PICKER_VALUE_FORMAT"
           class="w-40!"
           type="datetime"
-          value-format="YYYY-MM-DDTHH:mm:ss"
         />
         <span class="mx-2">-</span>
         <el-date-picker
           v-model="searchForm.changeTimeEnd"
           :placeholder="ph.rangeEnd()"
+          :value-format="INSTANT_PICKER_VALUE_FORMAT"
           class="w-40!"
           type="datetime"
-          value-format="YYYY-MM-DDTHH:mm:ss"
         />
       </el-form-item>
       <!-- 修改IP地址 -->

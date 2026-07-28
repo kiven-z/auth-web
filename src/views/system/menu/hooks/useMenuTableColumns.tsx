@@ -1,3 +1,4 @@
+import { formatDateTime } from '@/shared/utils/date/dateTime';
 /**
  * 菜单管理表格列定义（表格视图与树形视图共用）
  */
@@ -97,8 +98,20 @@ function useMenuTableColumns() {
         </ElTag>
       ),
     },
-    { label: t('table.updateTime'), prop: 'updateTime', sortable: true, minWidth: 170 },
-    { label: t('table.createTime'), prop: 'createTime', sortable: true, minWidth: 170 },
+    {
+      label: t('table.updateTime'),
+      prop: 'updateTime',
+      sortable: true,
+      minWidth: 170,
+      formatter: (row: SysMenuRow) => formatDateTime(row.updateTime),
+    },
+    {
+      label: t('table.createTime'),
+      prop: 'createTime',
+      sortable: true,
+      minWidth: 170,
+      formatter: (row: SysMenuRow) => formatDateTime(row.createTime),
+    },
     {
       label: t('table.actions'),
       fixed: 'right' as const,

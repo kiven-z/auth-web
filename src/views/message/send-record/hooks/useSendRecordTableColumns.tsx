@@ -1,3 +1,4 @@
+import { formatDateTime } from '@/shared/utils/date/dateTime';
 import type { ChannelDeliveryPageRow } from '@/api/message/channel-delivery';
 import { selectUserinfo } from '@/components/business/UserProfile';
 import {
@@ -68,18 +69,21 @@ function useSendRecordTableColumns() {
       prop: 'sentAt',
       sortable: true,
       minWidth: 170,
+      formatter: (row: ChannelDeliveryPageRow) => formatDateTime(row.sentAt),
     },
     {
       label: t('table.createTime'),
       prop: 'createTime',
       sortable: true,
       minWidth: 170,
+      formatter: (row: ChannelDeliveryPageRow) => formatDateTime(row.createTime),
     },
     {
       label: t('table.updateTime'),
       prop: 'updateTime',
       sortable: true,
       minWidth: 170,
+      formatter: (row: ChannelDeliveryPageRow) => formatDateTime(row.updateTime),
     },
     {
       label: t('table.createUsername'),

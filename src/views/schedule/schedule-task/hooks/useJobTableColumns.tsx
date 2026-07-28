@@ -1,3 +1,4 @@
+import { formatDateTime } from '@/shared/utils/date/dateTime';
 /**
  * 定时任务表格列定义
  */
@@ -107,6 +108,7 @@ function useJobTableColumns() {
       label: t('scheduleTask.fields.lastExecutionTime'),
       prop: 'lastExecutionTime',
       minWidth: 170,
+      formatter: (row: SysJobPageRow) => formatDateTime(row.lastExecutionTime),
     },
     {
       label: t('scheduleTask.fields.invokeTarget'),
@@ -118,12 +120,14 @@ function useJobTableColumns() {
       prop: 'updateTime',
       sortable: true,
       minWidth: 170,
+      formatter: (row: SysJobPageRow) => formatDateTime(row.updateTime),
     },
     {
       label: t('table.createTime'),
       prop: 'createTime',
       sortable: true,
       minWidth: 170,
+      formatter: (row: SysJobPageRow) => formatDateTime(row.createTime),
     },
     {
       label: t('table.createUsername'),

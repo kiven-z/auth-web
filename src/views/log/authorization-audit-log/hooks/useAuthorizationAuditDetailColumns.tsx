@@ -1,3 +1,4 @@
+import { formatDateTime } from '@/shared/utils/date/dateTime';
 import { resolveAuditEventTypeMeta } from '@/views/log/authorization-audit-log/constants/authorization-audit-enums';
 import { ElTag } from 'element-plus';
 import { computed } from 'vue';
@@ -51,8 +52,17 @@ function useAuthorizationAuditDetailColumns() {
     { label: t('authorizationAudit.methodParams'), prop: 'methodParams', labelWidth: 120 },
     { label: t('authorizationAudit.exceptionMessage'), prop: 'exceptionMessage', labelWidth: 120 },
     { label: t('authorizationAudit.remark'), prop: 'remark', labelWidth: 120, copy: true },
-    { label: t('table.createTime'), prop: 'createTime' },
-    { label: t('table.updateTime'), prop: 'updateTime' },
+    {
+      label: t('table.createTime'),
+      prop: 'createTime',
+      cellRenderer: ({ value }) => formatDateTime(value),
+    },
+
+    {
+      label: t('table.updateTime'),
+      prop: 'updateTime',
+      cellRenderer: ({ value }) => formatDateTime(value),
+    },
   ]);
 
   return { detailColumns };

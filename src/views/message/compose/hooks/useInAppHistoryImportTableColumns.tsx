@@ -1,3 +1,4 @@
+import { formatDateTime } from '@/shared/utils/date/dateTime';
 import type { InAppSendTaskPageRow } from '@/api/message/in-app-message';
 import {
   IN_APP_MESSAGE_SCOPE_OPTIONS,
@@ -76,6 +77,7 @@ function useInAppHistoryImportTableColumns() {
       prop: 'createTime',
       sortable: true,
       minWidth: 170,
+      formatter: (row: InAppSendTaskPageRow) => formatDateTime(row.createTime),
     },
     {
       label: t('table.actions'),

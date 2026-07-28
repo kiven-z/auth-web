@@ -1,3 +1,4 @@
+import { formatDateTime } from '@/shared/utils/date/dateTime';
 import {
   SEND_RECORD_CHANNEL_FILTER_OPTIONS,
   SEND_RECORD_STATUS_ITEMS,
@@ -78,6 +79,7 @@ function useSendRecordDetailColumns() {
     {
       label: t('sendRecord.field.sentAt'),
       prop: 'sentAt',
+      cellRenderer: ({ value }) => formatDateTime(value),
       labelWidth: 120,
     },
     {
@@ -91,8 +93,20 @@ function useSendRecordDetailColumns() {
       labelWidth: 120,
       span: 2,
     },
-    { label: t('table.createTime'), prop: 'createTime', labelWidth: 120 },
-    { label: t('table.updateTime'), prop: 'updateTime', labelWidth: 120 },
+    {
+      label: t('table.createTime'),
+      prop: 'createTime',
+      labelWidth: 120,
+      cellRenderer: ({ value }) => formatDateTime(value),
+    },
+
+    {
+      label: t('table.updateTime'),
+      prop: 'updateTime',
+      labelWidth: 120,
+      cellRenderer: ({ value }) => formatDateTime(value),
+    },
+
     {
       label: t('table.createUsername'),
       prop: 'createUsername',

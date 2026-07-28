@@ -1,3 +1,4 @@
+import { formatDateTime } from '@/shared/utils/date/dateTime';
 import type { SysPostPageRow } from '@/api/system/post';
 import { selectUserinfo } from '@/components/business/UserProfile';
 import { ElButton, ElTag } from 'element-plus';
@@ -36,8 +37,18 @@ function usePostTableColumns() {
     },
     // 排序号
     { label: t('post.field.orderNum'), prop: 'orderNum', width: 100 },
-    { label: t('table.createTime'), prop: 'createTime', minWidth: 170 },
-    { label: t('table.updateTime'), prop: 'updateTime', minWidth: 170 },
+    {
+      label: t('table.createTime'),
+      prop: 'createTime',
+      minWidth: 170,
+      formatter: (row: SysPostPageRow) => formatDateTime(row.createTime),
+    },
+    {
+      label: t('table.updateTime'),
+      prop: 'updateTime',
+      minWidth: 170,
+      formatter: (row: SysPostPageRow) => formatDateTime(row.updateTime),
+    },
     {
       label: t('table.createUsername'),
       prop: 'createUsername',

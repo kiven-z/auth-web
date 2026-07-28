@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import { INSTANT_PICKER_VALUE_FORMAT } from '@/shared/utils/date/dateTime';
 import { getAuthorizationInvalidationEventPage } from '@/api/ops/authorization-invalidation-event';
 import AuthPagedTable, { usePaginationState } from '@/components/business/AuthPagedTable';
 import {
@@ -98,17 +99,17 @@ onMounted(() => {
         <el-date-picker
           v-model="searchForm.processedAtStart"
           :placeholder="ph.rangeStart()"
+          :value-format="INSTANT_PICKER_VALUE_FORMAT"
           class="w-40!"
           type="datetime"
-          value-format="YYYY-MM-DDTHH:mm:ss"
         />
         <span class="mx-2">-</span>
         <el-date-picker
           v-model="searchForm.processedAtEnd"
           :placeholder="ph.rangeEnd()"
+          :value-format="INSTANT_PICKER_VALUE_FORMAT"
           class="w-40!"
           type="datetime"
-          value-format="YYYY-MM-DDTHH:mm:ss"
         />
       </el-form-item>
 

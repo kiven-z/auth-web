@@ -1,3 +1,4 @@
+import { formatDateTime } from '@/shared/utils/date/dateTime';
 /**
  * 登录日志表格列
  */
@@ -77,6 +78,7 @@ function useLoginLogTableColumns() {
       prop: 'loginTime',
       sortable: true,
       minWidth: 170,
+      formatter: (row: LoginLogPageRow) => formatDateTime(row.loginTime),
     },
     // 登录地区
     {
@@ -96,6 +98,7 @@ function useLoginLogTableColumns() {
       prop: 'createTime',
       sortable: true,
       minWidth: 170,
+      formatter: (row: LoginLogPageRow) => formatDateTime(row.createTime),
     },
     {
       label: t('table.createUsername'),

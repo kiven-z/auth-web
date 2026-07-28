@@ -1,3 +1,4 @@
+import { formatDateTime } from '@/shared/utils/date/dateTime';
 import type { SysPermissionPageRow } from '@/api/system/permission';
 import { selectUserinfo } from '@/components/business/UserProfile';
 import { renderBooleanStatusTag } from '@/shared/composables/layout/renderBooleanStatusTag';
@@ -28,8 +29,18 @@ function usePermissionTableColumns() {
     },
     // 排序号
     { label: t('permissions.field.orderNum'), prop: 'orderNum', width: 100 },
-    { label: t('table.createTime'), prop: 'createTime', minWidth: 170 },
-    { label: t('table.updateTime'), prop: 'updateTime', minWidth: 170 },
+    {
+      label: t('table.createTime'),
+      prop: 'createTime',
+      minWidth: 170,
+      formatter: (row: SysPermissionPageRow) => formatDateTime(row.createTime),
+    },
+    {
+      label: t('table.updateTime'),
+      prop: 'updateTime',
+      minWidth: 170,
+      formatter: (row: SysPermissionPageRow) => formatDateTime(row.updateTime),
+    },
     {
       label: t('table.createUsername'),
       prop: 'createUsername',

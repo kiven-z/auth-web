@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import { INSTANT_PICKER_VALUE_FORMAT } from '@/shared/utils/date/dateTime';
 import { queryPersonalFileRecyclePage } from '@/api/file/file-me-recycle';
 import AuthPagedTable, { usePaginationState } from '@/components/business/AuthPagedTable';
 import { useFormPlaceholder } from '@/shared/composables/i18n/useFormPlaceholder';
@@ -103,17 +104,17 @@ onMounted(() => {
           <el-date-picker
             v-model="searchForm.startTime"
             :placeholder="placeholderBuilder.rangeStart()"
+            :value-format="INSTANT_PICKER_VALUE_FORMAT"
             class="w-42!"
             type="datetime"
-            value-format="YYYY-MM-DDTHH:mm:ss"
           />
           <span class="mx-2">-</span>
           <el-date-picker
             v-model="searchForm.endTime"
             :placeholder="placeholderBuilder.rangeEnd()"
+            :value-format="INSTANT_PICKER_VALUE_FORMAT"
             class="w-42!"
             type="datetime"
-            value-format="YYYY-MM-DDTHH:mm:ss"
           />
         </el-form-item>
       </template>

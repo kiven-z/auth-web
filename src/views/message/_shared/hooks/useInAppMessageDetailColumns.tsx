@@ -1,3 +1,4 @@
+import { formatDateTime } from '@/shared/utils/date/dateTime';
 import {
   IN_APP_MESSAGE_SCOPE_OPTIONS,
   IN_APP_MESSAGE_SOURCE_OPTIONS,
@@ -103,11 +104,28 @@ function useInAppMessageDetailColumns() {
     { label: t('inAppMessage.field.totalCount'), prop: 'totalCount', labelWidth: 120 },
     { label: t('inAppMessage.field.successCount'), prop: 'successCount', labelWidth: 120 },
     { label: t('inAppMessage.field.failCount'), prop: 'failCount', labelWidth: 120 },
-    { label: t('inAppMessage.field.recalledAt'), prop: 'recalledAt', labelWidth: 120 },
+    {
+      label: t('inAppMessage.field.recalledAt'),
+      prop: 'recalledAt',
+      labelWidth: 120,
+      cellRenderer: ({ value }) => formatDateTime(value),
+    },
     { label: t('inAppMessage.field.recallUserId'), prop: 'recallUserId', labelWidth: 120, copy: true },
     { label: t('inAppMessage.field.remark'), prop: 'remark', labelWidth: 120, span: 2 },
-    { label: t('table.createTime'), prop: 'createTime', labelWidth: 120 },
-    { label: t('table.updateTime'), prop: 'updateTime', labelWidth: 120 },
+    {
+      label: t('table.createTime'),
+      prop: 'createTime',
+      labelWidth: 120,
+      cellRenderer: ({ value }) => formatDateTime(value),
+    },
+
+    {
+      label: t('table.updateTime'),
+      prop: 'updateTime',
+      labelWidth: 120,
+      cellRenderer: ({ value }) => formatDateTime(value),
+    },
+
     { label: t('table.createUsername'), prop: 'createUsername', labelWidth: 120 },
     { label: t('table.updateUsername'), prop: 'updateUsername', labelWidth: 120 },
   ]);

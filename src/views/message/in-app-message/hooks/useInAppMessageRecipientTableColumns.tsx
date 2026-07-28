@@ -1,5 +1,6 @@
 import type { InAppSendTaskRecipientPageRow } from '@/api/message/in-app-message';
 import { selectUserinfo } from '@/components/business/UserProfile';
+import { formatDateTime } from '@/shared/utils/date/dateTime';
 import { ElButton, ElTag } from 'element-plus';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
@@ -48,7 +49,7 @@ function useInAppMessageRecipientTableColumns() {
       label: t('inAppMessage.field.readTime'),
       prop: 'readTime',
       minWidth: 170,
-      formatter: (row: InAppSendTaskRecipientPageRow) => row.readTime || '—',
+      formatter: (row: InAppSendTaskRecipientPageRow) => formatDateTime(row.readTime),
     },
     {
       label: t('inAppMessage.field.isDeleted'),
@@ -66,11 +67,13 @@ function useInAppMessageRecipientTableColumns() {
       label: t('table.createTime'),
       prop: 'createTime',
       minWidth: 170,
+      formatter: (row: InAppSendTaskRecipientPageRow) => formatDateTime(row.createTime),
     },
     {
       label: t('table.updateTime'),
       prop: 'updateTime',
       minWidth: 170,
+      formatter: (row: InAppSendTaskRecipientPageRow) => formatDateTime(row.updateTime),
     },
   ]);
 

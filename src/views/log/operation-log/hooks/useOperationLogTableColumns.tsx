@@ -1,3 +1,4 @@
+import { formatDateTime } from '@/shared/utils/date/dateTime';
 /**
  * 操作日志表格列
  */
@@ -96,6 +97,7 @@ function useOperationLogTableColumns() {
       prop: 'createTime',
       sortable: true,
       minWidth: 170,
+      formatter: (row: OperationLogPageRow) => formatDateTime(row.createTime),
     },
     // 创建人
     {

@@ -26,7 +26,7 @@ const { isRemembered, loginAndEstablishSession } = useLoginRemember();
 // 登录表单
 const formData = reactive({
   username: 'Administrator',
-  password: 'admin123',
+  password: 'Admin@123456',
 });
 
 /**

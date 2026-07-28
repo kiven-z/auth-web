@@ -172,3 +172,5 @@ declare global {
     };
   }
 }
+
+export {};

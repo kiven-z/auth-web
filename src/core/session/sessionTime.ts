@@ -15,7 +15,7 @@ export function formatMillisTimestamp(value: number | null | undefined, pattern 
 }
 
 /**
- * 将后端返回的过期时间转为毫秒时间戳（兼容 yyyy/MM/dd HH:mm:ss）。
+ * 将过期时间转为毫秒时间戳
  * @param expires 过期时间
  * @returns 毫秒时间戳
  */
@@ -29,9 +29,8 @@ export function toExpiresTimestamp(expires: string | number | Date | undefined |
   if (expires instanceof Date) {
     return expires.getTime();
   }
-  const normalized = String(expires).replace(/\//g, '-');
-  const timestamp = new Date(normalized).getTime();
-  return Number.isNaN(timestamp) ? 0 : timestamp;
+  const parsed = dayjs(String(expires).replace(/\//g, '-'));
+  return parsed.isValid() ? parsed.valueOf() : 0;
 }
 
 /**

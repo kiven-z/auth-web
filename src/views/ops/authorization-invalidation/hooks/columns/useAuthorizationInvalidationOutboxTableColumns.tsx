@@ -1,3 +1,4 @@
+import { formatDateTime } from '@/shared/utils/date/dateTime';
 import type { AuthorizationInvalidationOutboxPageRow } from '@/api/ops/authorization-invalidation-outbox';
 import { selectUserinfo } from '@/components/business/UserProfile';
 import {
@@ -67,6 +68,7 @@ function useAuthorizationInvalidationOutboxTableColumns() {
       label: t('authorizationInvalidation.nextRetryAt'),
       prop: 'nextRetryAt',
       minWidth: 170,
+      formatter: (row: AuthorizationInvalidationOutboxPageRow) => formatDateTime(row.nextRetryAt),
     },
     {
       label: t('authorizationInvalidation.lastError'),
@@ -93,12 +95,14 @@ function useAuthorizationInvalidationOutboxTableColumns() {
       prop: 'processedAt',
       sortable: true,
       minWidth: 170,
+      formatter: (row: AuthorizationInvalidationOutboxPageRow) => formatDateTime(row.processedAt),
     },
     {
       label: t('table.createTime'),
       prop: 'createTime',
       sortable: true,
       minWidth: 170,
+      formatter: (row: AuthorizationInvalidationOutboxPageRow) => formatDateTime(row.createTime),
     },
     {
       label: t('table.createUsername'),

@@ -1,4 +1,5 @@
 <script lang="tsx" setup>
+import { formatDateTime } from '@/shared/utils/date/dateTime';
 import type { DetailDialog } from '@/api/common';
 import type { SysUserDetail } from '@/api/system/user-base';
 import useUserProfileColumns from '@/components/business/UserProfile/src/useUserProfileColumns';
@@ -52,8 +53,20 @@ const descriptionColumns = computed(() => [
   { label: t('users.field.birthday'), prop: 'birthday', labelWidth: 120 },
   { label: t('users.field.introduction'), prop: 'introduction', labelWidth: 120, span: 2 },
   { label: t('users.field.remark'), prop: 'remark', labelWidth: 120, span: 2 },
-  { label: t('table.createTime'), prop: 'createTime', labelWidth: 120 },
-  { label: t('table.updateTime'), prop: 'updateTime', labelWidth: 120 },
+  {
+    label: t('table.createTime'),
+    prop: 'createTime',
+    labelWidth: 120,
+    cellRenderer: ({ value }) => formatDateTime(value),
+  },
+
+  {
+    label: t('table.updateTime'),
+    prop: 'updateTime',
+    labelWidth: 120,
+    cellRenderer: ({ value }) => formatDateTime(value),
+  },
+
   { label: t('table.createUsername'), prop: 'createUsername', labelWidth: 120 },
   { label: t('table.updateUsername'), prop: 'updateUsername', labelWidth: 120 },
 ]);

@@ -1,3 +1,4 @@
+import { formatDateTime } from '@/shared/utils/date/dateTime';
 import type { SysRolePageRow } from '@/api/system/role';
 import { selectUserinfo } from '@/components/business/UserProfile';
 import { ElButton, ElTag } from 'element-plus';
@@ -33,8 +34,18 @@ function useRoleTableColumns() {
     },
     // 排序号
     { label: t('roles.field.orderNum'), prop: 'orderNum', width: 100 },
-    { label: t('table.createTime'), prop: 'createTime', minWidth: 170 },
-    { label: t('table.updateTime'), prop: 'updateTime', minWidth: 170 },
+    {
+      label: t('table.createTime'),
+      prop: 'createTime',
+      minWidth: 170,
+      formatter: (row: SysRolePageRow) => formatDateTime(row.createTime),
+    },
+    {
+      label: t('table.updateTime'),
+      prop: 'updateTime',
+      minWidth: 170,
+      formatter: (row: SysRolePageRow) => formatDateTime(row.updateTime),
+    },
     {
       label: t('table.createUsername'),
       prop: 'createUsername',

@@ -1,3 +1,4 @@
+import { formatDateTime } from '@/shared/utils/date/dateTime';
 import type { InAppMessageCategoryPageRow } from '@/api/message/in-app-category';
 import { selectUserinfo } from '@/components/business/UserProfile';
 import { renderBooleanStatusTag } from '@/shared/composables/layout/renderBooleanStatusTag';
@@ -48,11 +49,13 @@ function useInAppCategoryTableColumns() {
       label: t('table.createTime'),
       prop: 'createTime',
       minWidth: 170,
+      formatter: (row: InAppMessageCategoryPageRow) => formatDateTime(row.createTime),
     },
     {
       label: t('table.updateTime'),
       prop: 'updateTime',
       minWidth: 170,
+      formatter: (row: InAppMessageCategoryPageRow) => formatDateTime(row.updateTime),
     },
     {
       label: t('table.createUsername'),

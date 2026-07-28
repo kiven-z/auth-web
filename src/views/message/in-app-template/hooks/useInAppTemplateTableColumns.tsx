@@ -1,3 +1,4 @@
+import { formatDateTime } from '@/shared/utils/date/dateTime';
 import type { MessageTemplatePageRow } from '@/api/message/message-template';
 import { selectUserinfo } from '@/components/business/UserProfile';
 import { renderBooleanStatusTag } from '@/shared/composables/layout/renderBooleanStatusTag';
@@ -32,8 +33,20 @@ function useInAppTemplateTableColumns() {
       width: 110,
       formatter: (row: MessageTemplatePageRow) => renderBooleanStatusTag(row.status),
     },
-    { label: t('table.updateTime'), prop: 'updateTime', sortable: true, minWidth: 170 },
-    { label: t('table.createTime'), prop: 'createTime', sortable: true, minWidth: 170 },
+    {
+      label: t('table.updateTime'),
+      prop: 'updateTime',
+      sortable: true,
+      minWidth: 170,
+      formatter: (row: MessageTemplatePageRow) => formatDateTime(row.updateTime),
+    },
+    {
+      label: t('table.createTime'),
+      prop: 'createTime',
+      sortable: true,
+      minWidth: 170,
+      formatter: (row: MessageTemplatePageRow) => formatDateTime(row.createTime),
+    },
     {
       label: t('table.createUsername'),
       prop: 'createUser',
