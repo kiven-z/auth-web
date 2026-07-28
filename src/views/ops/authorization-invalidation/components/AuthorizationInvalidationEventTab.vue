@@ -95,7 +95,7 @@ onMounted(() => {
         </el-select>
       </el-form-item>
 
-      <el-form-item :label="t('authorizationInvalidation.processedAt')" prop="processedAt">
+      <el-form-item :label="t('authorizationInvalidation.processedAt')" prop="processedAtStart">
         <el-date-picker
           v-model="searchForm.processedAtStart"
           :placeholder="ph.rangeStart()"
@@ -103,7 +103,8 @@ onMounted(() => {
           class="w-40!"
           type="datetime"
         />
-        <span class="mx-2">-</span>
+      </el-form-item>
+      <el-form-item prop="processedAtEnd">
         <el-date-picker
           v-model="searchForm.processedAtEnd"
           :placeholder="ph.rangeEnd()"

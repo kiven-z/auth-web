@@ -1,6 +1,6 @@
 {
   "name": "auth-web",
-  "version": "1.0.0",
+  "version": "1.0.0-alpha.1",
   "private": true,
   "type": "module",
   "scripts": {
@@ -39,7 +39,7 @@
   "bugs": {
     "url": ""
   },
-  "license": "MIT",
+  "license": "Apache-2.0",
   "author": {
     "name": "",
     "email": "",

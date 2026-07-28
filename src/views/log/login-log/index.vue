@@ -83,7 +83,7 @@ onMounted(() => {
         </el-select>
       </el-form-item>
 
-      <el-form-item :label="t('loginLog.field.loginTime')" prop="loginTime">
+      <el-form-item :label="t('loginLog.field.loginTime')" prop="loginTimeStart">
         <el-date-picker
           v-model="searchForm.loginTimeStart"
           :placeholder="ph.rangeStart()"
@@ -91,7 +91,8 @@ onMounted(() => {
           class="w-40!"
           type="datetime"
         />
-        <span class="mx-2">-</span>
+      </el-form-item>
+      <el-form-item prop="loginTimeEnd">
         <el-date-picker
           v-model="searchForm.loginTimeEnd"
           :placeholder="ph.rangeEnd()"

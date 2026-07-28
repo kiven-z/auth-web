@@ -20,14 +20,20 @@ const { columns } = useFileRecordTableColumns();
 const searchFormRef = ref<FormInstance>();
 
 const personalFileRecordState = usePaginationState({
-  fetchApi: queryPersonalFileRecordPage,
+  fetchApi: (params) => {
+    const { createTimeRange, ...rest } = params;
+    return queryPersonalFileRecordPage({
+      ...rest,
+      startTime: createTimeRange?.[0],
+      endTime: createTimeRange?.[1],
+    });
+  },
   searchForm: reactive({
     bizType: undefined,
     bizId: undefined,
     contentType: undefined,
     originalName: undefined,
-    startTime: undefined,
-    endTime: undefined,
+    createTimeRange: undefined as [string, string] | undefined,
     isPrivate: undefined,
   }),
 });
@@ -43,15 +49,6 @@ const {
 } = usePersonalFileRecordTableAction({ fetchTableData, selectedRows });
 
 const { searchExpanded, showAdvancedSearchToggle, toggleAdvancedSearch } = useCollapsibleSearchForm(6);
-
-/**
- * 重置查询条件并重新查询。
- */
-async function handleReset(): Promise<void> {
-  personalFileRecordState.searchForm.startTime = undefined;
-  personalFileRecordState.searchForm.endTime = undefined;
-  await resetQuery(searchFormRef.value);
-}
 
 onMounted(() => {
   fetchTableData();
@@ -112,21 +109,14 @@ onMounted(() => {
           </el-select>
         </el-form-item>
         <!-- 创建时间范围筛选 -->
-        <el-form-item v-show="searchExpanded" :label="t('fileRecord.fields.createTimeRange')" prop="startTime">
+        <el-form-item v-show="searchExpanded" :label="t('fileRecord.fields.createTimeRange')" prop="createTimeRange">
           <el-date-picker
-            v-model="searchForm.startTime"
-            :placeholder="placeholderBuilder.rangeStart()"
+            v-model="searchForm.createTimeRange"
+            :end-placeholder="placeholderBuilder.rangeEnd()"
+            :start-placeholder="placeholderBuilder.rangeStart()"
             :value-format="INSTANT_PICKER_VALUE_FORMAT"
-            class="w-42!"
-            type="datetime"
-          />
-          <span class="mx-2">-</span>
-          <el-date-picker
-            v-model="searchForm.endTime"
-            :placeholder="placeholderBuilder.rangeEnd()"
-            :value-format="INSTANT_PICKER_VALUE_FORMAT"
-            class="w-42!"
-            type="datetime"
+            class="w-90!"
+            type="datetimerange"
           />
         </el-form-item>
       </template>
@@ -138,7 +128,7 @@ onMounted(() => {
             {{ t('buttons.actionSearch') }}
           </el-button>
           <!-- 重置 -->
-          <el-button @click="handleReset">
+          <el-button @click="resetQuery(searchFormRef)">
             {{ t('buttons.actionReset') }}
           </el-button>
           <!-- 高级搜索 -->

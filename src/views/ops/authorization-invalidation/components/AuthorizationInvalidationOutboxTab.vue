@@ -120,7 +120,7 @@ onMounted(() => {
           />
         </el-form-item>
 
-        <el-form-item v-show="searchExpanded" :label="t('table.createTime')" prop="createTime">
+        <el-form-item v-show="searchExpanded" :label="t('table.createTime')" prop="createTimeStart">
           <el-date-picker
             v-model="searchForm.createTimeStart"
             :placeholder="ph.rangeStart()"
@@ -128,7 +128,8 @@ onMounted(() => {
             class="w-40!"
             type="datetime"
           />
-          <span class="mx-2">-</span>
+        </el-form-item>
+        <el-form-item v-show="searchExpanded" prop="createTimeEnd">
           <el-date-picker
             v-model="searchForm.createTimeEnd"
             :placeholder="ph.rangeEnd()"
@@ -138,7 +139,11 @@ onMounted(() => {
           />
         </el-form-item>
 
-        <el-form-item v-show="searchExpanded" :label="t('authorizationInvalidation.processedAt')" prop="processedAt">
+        <el-form-item
+          v-show="searchExpanded"
+          :label="t('authorizationInvalidation.processedAt')"
+          prop="processedAtStart"
+        >
           <el-date-picker
             v-model="searchForm.processedAtStart"
             :placeholder="ph.rangeStart()"
@@ -146,7 +151,8 @@ onMounted(() => {
             class="w-40!"
             type="datetime"
           />
-          <span class="mx-2">-</span>
+        </el-form-item>
+        <el-form-item v-show="searchExpanded" prop="processedAtEnd">
           <el-date-picker
             v-model="searchForm.processedAtEnd"
             :placeholder="ph.rangeEnd()"

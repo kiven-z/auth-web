@@ -194,7 +194,7 @@ const descriptionColumns = computed(() => {
       labelWidth: 120,
       span: 2,
     },
-    ...createAuditDetailColumns(),
+    ...createAuditDetailColumns()
   );
 
   return columns;

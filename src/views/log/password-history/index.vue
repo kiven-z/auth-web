@@ -70,7 +70,7 @@ onMounted(() => {
         </el-select>
       </el-form-item>
       <!-- 修改时间 -->
-      <el-form-item :label="t('passwordHistory.changeTime')" prop="changeTime">
+      <el-form-item :label="t('passwordHistory.changeTime')" prop="changeTimeStart">
         <el-date-picker
           v-model="searchForm.changeTimeStart"
           :placeholder="ph.rangeStart()"
@@ -78,7 +78,8 @@ onMounted(() => {
           class="w-40!"
           type="datetime"
         />
-        <span class="mx-2">-</span>
+      </el-form-item>
+      <el-form-item prop="changeTimeEnd">
         <el-date-picker
           v-model="searchForm.changeTimeEnd"
           :placeholder="ph.rangeEnd()"

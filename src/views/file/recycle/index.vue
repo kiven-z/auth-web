@@ -22,15 +22,21 @@ const { columns } = useFileRecycleTableColumns();
 const searchFormRef = ref<FormInstance>();
 
 const fileRecycleState = usePaginationState({
-  fetchApi: getFileRecyclePage,
+  fetchApi: (params) => {
+    const { createTimeRange, ...rest } = params;
+    return getFileRecyclePage({
+      ...rest,
+      startTime: createTimeRange?.[0],
+      endTime: createTimeRange?.[1],
+    });
+  },
   searchForm: reactive({
     ownerUserId: undefined,
     bizType: undefined,
     bizId: undefined,
     contentType: undefined,
     originalName: undefined,
-    startTime: undefined,
-    endTime: undefined,
+    createTimeRange: undefined as [string, string] | undefined,
   }),
 });
 
@@ -43,15 +49,6 @@ const { openDetailDialog, deleteBatchRows, restoreBatchRows } = useFileRecycleTa
 const { userOptions, userSearchLoading, loadUserListByKeyword } = useRemoteUserSearch();
 
 const { searchExpanded, showAdvancedSearchToggle, toggleAdvancedSearch } = useCollapsibleSearchForm(6);
-
-/**
- * 重置查询条件并重新查询。
- */
-async function handleReset(): Promise<void> {
-  fileRecycleState.searchForm.startTime = undefined;
-  fileRecycleState.searchForm.endTime = undefined;
-  await resetQuery(searchFormRef.value);
-}
 
 onMounted(() => {
   fetchTableData();
@@ -120,21 +117,14 @@ onMounted(() => {
           />
         </el-form-item>
         <!-- 创建时间范围筛选 -->
-        <el-form-item v-show="searchExpanded" :label="t('fileRecycle.fields.createTimeRange')" prop="startTime">
+        <el-form-item v-show="searchExpanded" :label="t('fileRecycle.fields.createTimeRange')" prop="createTimeRange">
           <el-date-picker
-            v-model="searchForm.startTime"
-            :placeholder="placeholderBuilder.rangeStart()"
+            v-model="searchForm.createTimeRange"
+            :end-placeholder="placeholderBuilder.rangeEnd()"
+            :start-placeholder="placeholderBuilder.rangeStart()"
             :value-format="INSTANT_PICKER_VALUE_FORMAT"
-            class="w-42!"
-            type="datetime"
-          />
-          <span class="mx-2">-</span>
-          <el-date-picker
-            v-model="searchForm.endTime"
-            :placeholder="placeholderBuilder.rangeEnd()"
-            :value-format="INSTANT_PICKER_VALUE_FORMAT"
-            class="w-42!"
-            type="datetime"
+            class="w-90!"
+            type="datetimerange"
           />
         </el-form-item>
       </template>
@@ -146,7 +136,7 @@ onMounted(() => {
             {{ t('buttons.actionSearch') }}
           </el-button>
           <!-- 重置 -->
-          <el-button v-perms="FILE_RECYCLE_PERMS.QUERY" @click="handleReset">
+          <el-button v-perms="FILE_RECYCLE_PERMS.QUERY" @click="resetQuery(searchFormRef)">
             {{ t('buttons.actionReset') }}
           </el-button>
           <!-- 高级搜索 -->
