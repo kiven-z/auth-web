@@ -46,6 +46,7 @@ const rules = computed<FormRules>(() => ({
     { required: true, message: ph.select('scheduleTask.fields.cronExpression'), trigger: 'change' },
     { max: 255, message: t('scheduleTask.validation.cronExpressionLengthLimit'), trigger: 'change' },
   ],
+  timeZone: [{ required: true, message: ph.select('scheduleTask.fields.timeZone'), trigger: 'change' }],
   misfirePolicy: [{ required: true, message: ph.select('scheduleTask.fields.misfirePolicy'), trigger: 'change' }],
   concurrent: [{ required: true, message: ph.select('scheduleTask.fields.concurrent'), trigger: 'change' }],
   status: [{ required: true, message: ph.select('scheduleTask.fields.status'), trigger: 'change' }],

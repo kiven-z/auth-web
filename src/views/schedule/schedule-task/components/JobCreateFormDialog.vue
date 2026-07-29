@@ -5,6 +5,7 @@ import { useFormPlaceholder } from '@/shared/composables/i18n/useFormPlaceholder
 import JobCatalogClassPicker from '@/views/schedule/schedule-task/components/JobCatalogClassPicker.vue';
 import JobFormScheduleExtrasFields from '@/views/schedule/schedule-task/components/JobFormScheduleExtrasFields.vue';
 import { JOB_TASK_TYPE_OPTIONS } from '@/views/schedule/schedule-task/constants/job-task-enums';
+import { DEFAULT_JOB_TIME_ZONE } from '@/views/schedule/schedule-task/constants/job-time-zones';
 import useBeanInvokePicker from '@/views/schedule/schedule-task/hooks/useBeanInvokePicker';
 import useJobCatalog from '@/views/schedule/schedule-task/hooks/useJobCatalog';
 import useJobGroupRemoteSearch from '@/views/schedule/schedule-task/hooks/useJobGroupRemoteSearch';
@@ -31,6 +32,7 @@ const form = ref<SysJobCreateForm>({
   misfirePolicy: 3,
   concurrent: false,
   status: true,
+  timeZone: DEFAULT_JOB_TIME_ZONE,
   ...props.form,
 });
 
@@ -65,6 +67,7 @@ const rules = computed<FormRules>(() => ({
     { required: true, message: ph.select('scheduleTask.fields.cronExpression'), trigger: 'change' },
     { max: 255, message: t('scheduleTask.validation.cronExpressionLengthLimit'), trigger: 'change' },
   ],
+  timeZone: [{ required: true, message: ph.select('scheduleTask.fields.timeZone'), trigger: 'change' }],
   misfirePolicy: [{ required: true, message: ph.select('scheduleTask.fields.misfirePolicy'), trigger: 'change' }],
   concurrent: [{ required: true, message: ph.select('scheduleTask.fields.concurrent'), trigger: 'change' }],
   status: [{ required: true, message: ph.select('scheduleTask.fields.status'), trigger: 'change' }],

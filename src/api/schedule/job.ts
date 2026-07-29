@@ -33,6 +33,7 @@ export interface SysJobPageRow extends BaseResponsePageRow {
   handlerCode?: string;
   invokeTarget?: string;
   cronExpression?: string;
+  timeZone?: string;
   misfirePolicy?: number;
   concurrent?: boolean;
   startTime?: string;
@@ -56,6 +57,7 @@ export interface SysJobCreateForm {
   handlerCode?: string;
   invokeTarget?: string;
   cronExpression: string;
+  timeZone?: string;
   misfirePolicy: number;
   concurrent: boolean;
   startTime?: string;
@@ -95,6 +97,7 @@ export interface SysJobDetailRow extends BaseResponseDetail {
   handlerCode?: string;
   invokeTarget?: string;
   cronExpression?: string;
+  timeZone?: string;
   misfirePolicy?: number;
   concurrent?: boolean;
   startTime?: string;
@@ -138,6 +141,7 @@ export interface SysJobUpdateForm {
   id: string;
   taskType: string;
   cronExpression: string;
+  timeZone?: string;
   misfirePolicy: number;
   concurrent: boolean;
   startTime?: string;

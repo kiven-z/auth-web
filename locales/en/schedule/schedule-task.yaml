@@ -7,6 +7,7 @@ scheduleTask:
     taskType: Task Type
     invokeTarget: Invoke Target
     cronExpression: Cron Expression
+    timeZone: Time Zone
     misfirePolicy: Misfire Policy
     concurrent: Concurrent
     status: Run Status
@@ -36,6 +37,14 @@ scheduleTask:
       catchUpAll: Catch Up All
       catchUpOnce: Catch Up Once
       ignore: Do Not Catch Up
+    timeZone:
+      Asia_Shanghai: Asia/Shanghai (UTC+8)
+      UTC: UTC
+      Asia_Hong_Kong: Asia/Hong_Kong
+      Asia_Tokyo: Asia/Tokyo
+      Asia_Singapore: Asia/Singapore
+      Europe_London: Europe/London
+      America_New_York: America/New_York
     quartzStatus:
       NOT_REGISTERED: Not Registered
       IDLE: Idle

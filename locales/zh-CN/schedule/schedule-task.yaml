@@ -7,6 +7,7 @@ scheduleTask:
     taskType: 任务类型
     invokeTarget: 调用目标
     cronExpression: Cron 表达式
+    timeZone: 调度时区
     misfirePolicy: 错失策略
     concurrent: 是否并发
     status: 运行状态
@@ -36,6 +37,14 @@ scheduleTask:
       catchUpAll: 补跑全部
       catchUpOnce: 补跑一次
       ignore: 不补跑
+    timeZone:
+      Asia_Shanghai: 东八区 (Asia/Shanghai)
+      UTC: UTC
+      Asia_Hong_Kong: 香港 (Asia/Hong_Kong)
+      Asia_Tokyo: 东京 (Asia/Tokyo)
+      Asia_Singapore: 新加坡 (Asia/Singapore)
+      Europe_London: 伦敦 (Europe/London)
+      America_New_York: 纽约 (America/New_York)
     quartzStatus:
       NOT_REGISTERED: 未注册
       IDLE: 空闲

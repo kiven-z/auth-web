@@ -5,6 +5,7 @@ import { useEditorTheme } from '@/shared/composables/editor/useEditorTheme';
 import { message } from '@/services/feedback/message';
 import { JOB_CRON_PRESET_OPTIONS } from '@/views/schedule/schedule-task/constants/job-cron-presets';
 import { JOB_MISFIRE_POLICY_OPTIONS } from '@/views/schedule/schedule-task/constants/job-task-enums';
+import { JOB_TIME_ZONE_OPTIONS } from '@/views/schedule/schedule-task/constants/job-time-zones';
 import { CodeEditor } from 'monaco-editor-vue3';
 import { onMounted } from 'vue';
 import { useI18n } from 'vue-i18n';
@@ -16,6 +17,7 @@ defineOptions({
 /** 新增与修改表单共用的调度与扩展字段 */
 export interface JobFormScheduleExtrasModel {
   cronExpression: string;
+  timeZone?: string;
   misfirePolicy: number;
   concurrent: boolean;
   status: boolean;
@@ -109,6 +111,19 @@ onMounted(() => {
           :label="t(opt.labelKey)"
           :value="opt.value"
         />
+      </el-select>
+    </el-form-item>
+  </el-col>
+  <!-- 调度时区 -->
+  <el-col :lg="12" :md="12" :sm="24" :xs="24">
+    <el-form-item :label="t('scheduleTask.fields.timeZone')" prop="timeZone">
+      <el-select
+        v-model="form.timeZone"
+        :placeholder="ph.select('scheduleTask.fields.timeZone')"
+        class="w-full"
+        filterable
+      >
+        <el-option v-for="opt in JOB_TIME_ZONE_OPTIONS" :key="opt.value" :label="t(opt.labelKey)" :value="opt.value" />
       </el-select>
     </el-form-item>
   </el-col>

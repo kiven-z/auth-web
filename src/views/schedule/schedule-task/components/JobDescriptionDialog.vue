@@ -11,6 +11,7 @@ import {
   JOB_MISFIRE_POLICY_OPTIONS,
   JOB_TASK_TYPE_OPTIONS,
 } from '@/views/schedule/schedule-task/constants/job-task-enums';
+import { JOB_TIME_ZONE_OPTIONS } from '@/views/schedule/schedule-task/constants/job-time-zones';
 import type { DescriptionItemProps } from 'element-plus';
 import { ElTag } from 'element-plus';
 import { computed } from 'vue';
@@ -96,6 +97,15 @@ const descriptionColumns = computed(() => {
 
   columns.push(
     { label: t('scheduleTask.fields.cronExpression'), prop: 'cronExpression', labelWidth: 120, copy: true },
+    {
+      label: t('scheduleTask.fields.timeZone'),
+      prop: 'timeZone',
+      labelWidth: 120,
+      cellRenderer: ({ value }) => {
+        const option = JOB_TIME_ZONE_OPTIONS.find((item) => item.value === value);
+        return <span>{option ? t(option.labelKey) : (value ?? '—')}</span>;
+      },
+    },
     {
       label: t('scheduleTask.fields.misfirePolicy'),
       prop: 'misfirePolicy',
