@@ -38,7 +38,7 @@ scheduleTask:
       catchUpOnce: 补跑一次
       ignore: 不补跑
     timeZone:
-      Asia_Shanghai: 东八区 (Asia/Shanghai)
+      Asia_Shanghai: 上海
       UTC: UTC
       Asia_Hong_Kong: 香港 (Asia/Hong_Kong)
       Asia_Tokyo: 东京 (Asia/Tokyo)

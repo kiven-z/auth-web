@@ -15,6 +15,3 @@ export const JOB_TIME_ZONE_OPTIONS = [
   { value: 'Europe/London', labelKey: 'scheduleTask.enums.timeZone.Europe_London' },
   { value: 'America/New_York', labelKey: 'scheduleTask.enums.timeZone.America_New_York' },
 ] as const;
-
-/** 调度时区可选值 */
-export type JobTimeZoneValue = (typeof JOB_TIME_ZONE_OPTIONS)[number]['value'];
