@@ -55,6 +55,7 @@ function usePasswordHistoryTableColumns() {
       prop: 'changeTime',
       sortable: true,
       minWidth: 160,
+      formatter: (row: PasswordHistoryPageRow) => formatDateTime(row.changeTime),
     },
     // 创建时间
     {

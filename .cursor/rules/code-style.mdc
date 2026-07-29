@@ -69,12 +69,12 @@ function handleSubmit() {
 - **严禁简写**：所有变量、常量、函数名必须使用完整的单词，严禁使用缩写（例如：使用 `index` 而非 `idx`，`parameter` 而非
   `param`）。
 - **注释规范**（对齐 TypeScript / TSDoc 社区惯例，详见下文 **§注释与 TSDoc**）：
-  - **导出函数、composable、指令**：必须 JSDoc，含 `@param`；有返回值时含 `@returns`。
-  - **导出 `interface` / `type` / `enum`**：类型上方块级 `/** */` 说明用途；一行能说清用单行，需 `@remarks` / `@see` /
+    - **导出函数、composable、指令**：必须 JSDoc，含 `@param`；有返回值时含 `@returns`。
+    - **导出 `interface` / `type` / `enum`**：类型上方块级 `/** */` 说明用途；一行能说清用单行，需 `@remarks` / `@see` /
     `@example` 时用多行。
-  - **类型字段**：非显而易见时写 `/** */`（**禁止**用 `//` 描述 `interface` 字段，以便 IDE 悬停可见）；命名已清晰则省略。
-  - **Vue 模板**：在 HTML 标签上，若使用了多语言标签（如 `:label="t(...)"`），必须在其上方添加中文业务逻辑注释。
-  - **实现细节**：局部变量、`computed`、私有函数能靠命名表达的，不写注释。
+    - **类型字段**：非显而易见时写 `/** */`（**禁止**用 `//` 描述 `interface` 字段，以便 IDE 悬停可见）；命名已清晰则省略。
+    - **Vue 模板**：在 HTML 标签上，若使用了多语言标签（如 `:label="t(...)"`），必须在其上方添加中文业务逻辑注释。
+    - **实现细节**：局部变量、`computed`、私有函数能靠命名表达的，不写注释。
 - **变量声明**：优先使用 `const`，其次 `let`，严禁使用 `var`。
 - **DOM 操作**：严禁直接操作 DOM，必须使用 Vue 模板引用 (`ref`)。
 - 前端id操作一律不要使用Number(xxx)这种，后端使用的是雪花id，使用Number直接精度丢失！也不需要String()转换！
@@ -86,35 +86,35 @@ function handleSubmit() {
 - **Vue 文件**：使用 `const { t } = useI18n()`，模板中通过 `t('key')` 调用。
 - **目录结构**：`src/locales/{lang}/{module}/{page}.yaml`。Key 格式为 `文件名.属性名`。
 - **表单 placeholder（列表搜索 / 弹窗）**：统一使用 `useFormPlaceholder()`（`@/shared/composables/i18n/useFormPlaceholder`），按控件类型调用：
-  - `ph.input(labelKey)`：文本输入
-  - `ph.selectFilter(labelKey)`：列表筛选下拉（清空 = 查全部）
-  - `ph.select(labelKey)`：弹窗/表单录入下拉
-  - `ph.keyword(labelKey)`：远程关键字搜索
-  - `ph.prefix(labelKey)`：前缀类输入
-  - `ph.rangeStart()` / `ph.rangeEnd()`：日期范围
-  - 模板定义在 `locales/*/common/common-page.yaml` 的 `placeholder.*`；仅格式说明、组合搜索等特殊语义才在模块 yaml 保留独立 key。
+    - `ph.input(labelKey)`：文本输入
+    - `ph.selectFilter(labelKey)`：列表筛选下拉（清空 = 查全部）
+    - `ph.select(labelKey)`：弹窗/表单录入下拉
+    - `ph.keyword(labelKey)`：远程关键字搜索
+    - `ph.prefix(labelKey)`：前缀类输入
+    - `ph.rangeStart()` / `ph.rangeEnd()`：日期范围
+    - 模板定义在 `locales/*/common/common-page.yaml` 的 `placeholder.*`；仅格式说明、组合搜索等特殊语义才在模块 yaml 保留独立 key。
 
 ### 3. 视图 (Views) 目录规范
 
 - **目录布局**：`src/views/{module}/{page}/`。
 - **拆分准则**：页面超过 300行必须拆分：
-  - **私有组件**：存放在 `components/` 目录下，命名为大驼峰`PascalCase.vue`（PascalCase）。
-  - **表格配置**：存放在 `config/` 目录下，命名为 `use${camelCase}Columns.tsx`（kebab-case）。
-  - **逻辑抽离**：存放在 `hooks/` 目录下，命名为 `use+{camelCase}.ts|tsx`（后缀禁止包含 `hook`）。
+    - **私有组件**：存放在 `components/` 目录下，命名为大驼峰`PascalCase.vue`（PascalCase）。
+    - **表格配置**：存放在 `config/` 目录下，命名为 `use${camelCase}Columns.tsx`（kebab-case）。
+    - **逻辑抽离**：存放在 `hooks/` 目录下，命名为 `use+{camelCase}.ts|tsx`（后缀禁止包含 `hook`）。
 - **CSS 规范**：使用 **BEM** 命名法。
 - **函数规范（Action 模式）：**
-  - **`handleAdd`**：处理新增按钮点击。
-  - **`handleEdit`**：处理编辑按钮点击。
-  - **`handleDelete`**：处理删除按钮点击。
-  - **`handleSearch`**：处理搜索/查询按钮点击。
-  - **`handleReset`**：处理重置按钮点击。
+    - **`handleAdd`**：处理新增按钮点击。
+    - **`handleEdit`**：处理编辑按钮点击。
+    - **`handleDelete`**：处理删除按钮点击。
+    - **`handleSearch`**：处理搜索/查询按钮点击。
+    - **`handleReset`**：处理重置按钮点击。
 
 - **业务动作函数 (Action 模式)**
-  - **`openCreateDialog`**：打开新增弹窗。
-  - **`openEditDialog`**：打开编辑弹窗。
-  - **`openDetailDialog`**：打开详情弹窗（原 `onView`）。
-  - **`fetchTableData`**：调用 API 获取表格数据。
-  - **`resetQueryForm`**：清空查询表单状态。
+    - **`openCreateDialog`**：打开新增弹窗。
+    - **`openEditDialog`**：打开编辑弹窗。
+    - **`openDetailDialog`**：打开详情弹窗（原 `onView`）。
+    - **`fetchTableData`**：调用 API 获取表格数据。
+    - **`resetQueryForm`**：清空查询表单状态。
 
 views文件目录参考：
 
@@ -135,9 +135,9 @@ views文件目录参考：
 
 - **对象结构**（API 模型、组件 `*Props`、`FormDialog` 扩展、Hook 配置对象、Expose 形状）→ 统一使用 **`interface`**。
 - **仅允许使用 `type` 的场景**（不得强行改成 `interface`）：
-  - 联合类型：`'add' | 'edit'`、`SortDirectionApi = 'ASC' | 'DESC'`
-  - 交叉类型：`CreateX & UpdateX`
-  - 工具类型别名：`Pick`、`Omit`、`ReturnType`、`typeof` 推导等
+    - 联合类型：`'add' | 'edit'`、`SortDirectionApi = 'ASC' | 'DESC'`
+    - 交叉类型：`CreateX & UpdateX`
+    - 工具类型别名：`Pick`、`Omit`、`ReturnType`、`typeof` 推导等
 - **ESLint**：`@typescript-eslint/consistent-type-definitions: ['error', 'interface']`（对象字面量类型定义必须用
   `interface`）。
 - **禁止**：仅为风格把合法 `interface` 改成 `type`，或把联合/交叉写成 `interface`。
@@ -148,8 +148,8 @@ views文件目录参考：
 - **位置**：`src/api/{module}/`。
 - **调用**：使用从 `@/core/http` 导出的 `http` 实例。
 - **方法封装**：
-  - GET 请求：`http.request<T>('get', url, { params })`。
-  - POST 请求：`http.request<T>('post', url, { data })`。
+    - GET 请求：`http.request<T>('get', url, { params })`。
+    - POST 请求：`http.request<T>('post', url, { data })`。
 - **命名**：`query{Resource}Page` (分页), `get{Resource}Detail` (详情), `batchDelete{Resource}` (批量删除)。
 
 ### 6. 批量删除规范
@@ -163,6 +163,8 @@ views文件目录参考：
 
 与 [Google TypeScript Style Guide](https://google.github.io/styleguide/tsguide.html) 及
 [TypeScript JSDoc](https://www.typescriptlang.org/docs/handbook/jsdoc-supported-types.html) 对齐。
+
+全文严禁出现‘为了兼容’、‘与…对齐’、‘综上所述’、‘具有重要意义’等这几类短语。
 
 ### 分层规则
 

@@ -1,3 +1,4 @@
+import { formatDateTime } from '@/shared/utils/date/dateTime';
 import { ElTag } from 'element-plus';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
@@ -21,7 +22,12 @@ function useDeptClosureHealthColumns() {
         </ElTag>
       ),
     },
-    { label: t('dept.closureHealth.field.checkedAt'), prop: 'checkedAt', labelWidth: 140 },
+    {
+      label: t('dept.closureHealth.field.checkedAt'),
+      prop: 'checkedAt',
+      labelWidth: 140,
+      cellRenderer: ({ value }) => formatDateTime(value),
+    },
     { label: t('dept.closureHealth.field.missingParentLink'), prop: 'missingParentLinkCount', labelWidth: 140 },
     { label: t('dept.closureHealth.field.depthChain'), prop: 'depthChainAnomalyCount', labelWidth: 140 },
     {

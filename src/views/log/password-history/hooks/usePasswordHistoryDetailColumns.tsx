@@ -24,7 +24,12 @@ function usePasswordHistoryDetailColumns() {
       copy: true,
       cellRenderer: ({ value }: { value?: string | null }) => <span>{value ?? '—'}</span>,
     },
-    { label: t('passwordHistory.changeTime'), prop: 'changeTime', copy: true },
+    {
+      label: t('passwordHistory.changeTime'),
+      prop: 'changeTime',
+      copy: true,
+      cellRenderer: ({ value }) => formatDateTime(value),
+    },
     { label: t('passwordHistory.changeIp'), prop: 'changeIp' },
     {
       label: t('table.createTime'),
