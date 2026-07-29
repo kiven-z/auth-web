@@ -19,17 +19,14 @@ export function formatMillisTimestamp(value: number | null | undefined, pattern 
  * @param expires 过期时间
  * @returns 毫秒时间戳
  */
-export function toExpiresTimestamp(expires: string | number | Date | undefined | null): number {
+export function toExpiresTimestamp(expires: string | number | undefined | null): number {
   if (expires === undefined || expires === null) {
     return 0;
   }
   if (typeof expires === 'number') {
     return expires;
   }
-  if (expires instanceof Date) {
-    return expires.getTime();
-  }
-  const parsed = dayjs(String(expires).replace(/\//g, '-'));
+  const parsed = dayjs(expires);
   return parsed.isValid() ? parsed.valueOf() : 0;
 }
 
@@ -38,7 +35,7 @@ export function toExpiresTimestamp(expires: string | number | Date | undefined |
  * @param expires 过期时间
  * @returns 毫秒时间戳
  */
-export function resolveSessionExpires(expires: string | number | Date | undefined | null): number {
+export function resolveSessionExpires(expires: string | number | undefined | null): number {
   const source = expires !== undefined && expires !== null ? expires : Date.now() + 8 * 3600000;
   return toExpiresTimestamp(source);
 }

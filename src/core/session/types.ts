@@ -28,8 +28,7 @@ export interface DataInfo<T> {
  */
 export interface SessionTokenPayload {
   accessToken: string;
-  /** `accessToken` 过期时间（时间戳） */
-  expires?: string | number | Date;
+  expires?: string | number;
   username: string;
   roles: Array<string>;
   permissions: Array<string>;
