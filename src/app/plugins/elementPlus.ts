@@ -2,7 +2,7 @@
 import type { App, Component } from 'vue';
 import {
   /**
-   * 为了方便演示平台将 element-plus 导出的所有组件引入，实际使用中如果你没用到哪个组件，将其注释掉就行
+   * 演示平台全量引入 element-plus 组件；未用到的可注释掉。
    * 导出来源：https://github.com/element-plus/element-plus/blob/dev/packages/element-plus/component.ts#L111-L211
    * */
   ElAffix,
@@ -59,7 +59,7 @@ import {
   ElInputNumber,
   ElLink,
   /**
-   * 为了方便演示平台将 element-plus 导出的所有插件引入，实际使用中如果你没用到哪个插件，将其注释掉就行
+   * 演示平台全量引入 element-plus 插件；未用到的可注释掉。
    * 导出来源：https://github.com/element-plus/element-plus/blob/dev/packages/element-plus/plugin.ts#L11-L16
    * */
   ElLoading,

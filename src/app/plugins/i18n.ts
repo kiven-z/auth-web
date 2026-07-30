@@ -1,4 +1,3 @@
-// 多组件库的国际化和本地项目国际化兼容
 import { responsiveStorageNameSpace } from '@/auth/config';
 import { getLocaleDef, locales } from '@/auth/config/locales';
 import { isObject, storageLocal } from '@pureadmin/utils';
@@ -102,7 +101,7 @@ export function transformI18n(message: any = '') {
   if (key && flatI18n(folder).has(key)) {
     return i18n.global.t.call(i18n.global.locale, message);
   } else if (!key && Object.hasOwn(siphonI18n(folder), message)) {
-    // 兼容非嵌套形式的国际化写法
+    // 扁平 key（非嵌套）也能命中翻译
     return i18n.global.t.call(i18n.global.locale, message);
   } else {
     return message;
@@ -110,7 +109,7 @@ export function transformI18n(message: any = '') {
 }
 
 /**
- * 此函数只是配合i18n Ally插件来进行国际化智能提示，并无实际意义（只对提示起作用），如果不需要国际化可删除
+ * 仅供 i18n Ally 做键名智能提示，运行时原样返回 key；不用国际化时可删
  * @param key 键
  * @returns 键
  */

@@ -22,7 +22,7 @@ const props = withDefaults(
     nodeKey?: string;
     expandAllLabel: string;
     collapseAllLabel: string;
-    /** 树容器额外 class，默认固定高度便于与表格视图对齐 */
+    /** 树容器额外 class，默认固定高度，便于和表格侧同屏对照 */
     contentClass?: string;
     /** 仅在 hover 行时挂载操作区，减轻大树首屏渲染压力 */
     showActionsOnHover?: boolean;

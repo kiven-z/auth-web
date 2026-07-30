@@ -1,4 +1,4 @@
-/** 顶级节点 parentId（对齐后端 TreeParentIdUtil.ROOT_PARENT_ID） */
+/** 顶级节点 parentId */
 export const TREE_ROOT_PARENT_ID = '0';
 
 /**

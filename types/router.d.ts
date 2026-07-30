@@ -12,7 +12,7 @@ declare global {
    * @description 完整子路由的`meta`配置表
    */
   interface CustomizeRouteMeta {
-    /** 菜单名称（兼容国际化、非国际化，如何用国际化的写法就必须在根目录的`locales`文件夹下对应添加） `必填` */
+    /** 菜单名称 */
     title: string;
     /** 菜单图标 `可选` */
     icon?: string | FunctionalComponent;
@@ -90,7 +90,7 @@ declare global {
     /** 路由重定向 `可选` */
     redirect?: string;
     meta?: {
-      /** 菜单名称（兼容国际化、非国际化，如何用国际化的写法就必须在根目录的`locales`文件夹下对应添加）`必填` */
+      /** 菜单名称（i18n key 或纯文案；用 key 时须在根目录 `locales` 中补条目）`必填` */
       title: string;
       /** 菜单图标 `可选` */
       icon?: string | FunctionalComponent;

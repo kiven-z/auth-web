@@ -24,7 +24,7 @@ export const NAV_THEME_COLOR_ITEMS: readonly NavThemeColorItem[] = [
   { color: '#2f54eb', themeColor: 'geekBlue' },
   // 日落橙：比火山色更暖、更亮，充满活力而不刺眼
   { color: '#fa8c16', themeColor: 'sunsetOrange' },
-  // 琥珀黄：后台不可或缺的警告/温馨色系，明亮现代
+  // 琥珀黄：警告/温馨色，明亮现代
   { color: '#faad14', themeColor: 'amberYellow' },
   // 赛博绿：比极光绿更翠绿、更有科技感，常用于能源或新金融后台
   { color: '#00b96b', themeColor: 'cyberGreen' },

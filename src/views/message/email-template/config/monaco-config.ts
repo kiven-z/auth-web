@@ -46,7 +46,7 @@ export const FREEMARKER_LOCAL_VARIABLE_PATTERNS = [
 ];
 
 /**
- * 变量表达式中允许忽略的前缀字符（提升 FreeMarker 表达式兼容性）。
+ * 变量表达式中允许忽略的前缀字符
  */
 export const FREEMARKER_PREFIX_TRIM_PATTERN = /^[(!#@/.\s]+/;
 

@@ -4,7 +4,7 @@
 export const DEFAULT_JOB_TIME_ZONE = 'Asia/Shanghai';
 
 /**
- * 调度时区白名单（IANA ZoneId，与后端 SysJobTimeZone 对齐）
+ * 调度时区白名单
  */
 export const JOB_TIME_ZONE_OPTIONS = [
   { value: 'Asia/Shanghai', labelKey: 'scheduleTask.enums.timeZone.Asia_Shanghai' },
