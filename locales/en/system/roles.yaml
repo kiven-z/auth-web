@@ -42,6 +42,5 @@ roles:
     deleteInUse: This role is still assigned via grants. Remove grants before deleting.
   menu:
     dataScope: Data scope
-    policyBind: Policy binding
     grantSubjects: Grant subjects (reverse)
     impactAnalysis: Impact analysis and refresh

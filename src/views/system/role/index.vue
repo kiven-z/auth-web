@@ -180,7 +180,6 @@ onMounted(() => {
                 </el-dropdown-item>
               </Perms>
               <el-dropdown-item>{{ t('roles.menu.dataScope') }}</el-dropdown-item>
-              <el-dropdown-item>{{ t('roles.menu.policyBind') }}</el-dropdown-item>
               <el-dropdown-item>{{ t('roles.menu.grantSubjects') }}</el-dropdown-item>
               <el-dropdown-item>{{ t('roles.menu.impactAnalysis') }}</el-dropdown-item>
             </el-dropdown-menu>
