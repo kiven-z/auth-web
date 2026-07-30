@@ -1,6 +1,6 @@
 {
   "name": "auth-web",
-  "version": "1.0.0-alpha.2",
+  "version": "1.0.0-alpha.3",
   "private": true,
   "type": "module",
   "scripts": {
@@ -31,19 +31,19 @@
     "vite",
     "esm"
   ],
-  "homepage": "",
+  "homepage": "https://github.com/BunnyMaster/auth-web",
   "repository": {
     "type": "git",
-    "url": ""
+    "url": "git+https://github.com/BunnyMaster/auth-web.git"
   },
   "bugs": {
-    "url": ""
+    "url": "https://github.com/BunnyMaster/auth-web/issues"
   },
-  "license": "Apache-2.0",
+  "license": "SEE LICENSE IN LICENSE",
   "author": {
-    "name": "",
-    "email": "",
-    "url": ""
+    "name": "Bunny",
+    "email": "1319900154@qq.com",
+    "url": "https://github.com/BunnyMaster"
   },
   "dependencies": {
     "@pureadmin/utils": "^2.6.2",
