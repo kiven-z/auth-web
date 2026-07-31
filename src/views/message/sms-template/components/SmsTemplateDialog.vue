@@ -99,15 +99,10 @@ defineExpose({ formRef, form });
       <el-col :lg="12" :md="12" :sm="12" :xs="24">
         <!-- 状态 -->
         <el-form-item :label="t('smsTemplate.status')" prop="status">
-          <el-switch
-            v-model="form.status"
-            :active-text="t('buttons.statusActiveText')"
-            :active-value="true"
-            :inactive-text="t('buttons.statusInactiveText')"
-            :inactive-value="false"
-            inline-prompt
-            style="--el-switch-on-color: var(--el-color-success); --el-switch-off-color: var(--el-color-danger)"
-          />
+          <el-radio-group v-model="form.status">
+            <el-radio :value="true">{{ t('buttons.statusActiveText') }}</el-radio>
+            <el-radio :value="false">{{ t('buttons.statusInactiveText') }}</el-radio>
+          </el-radio-group>
         </el-form-item>
       </el-col>
 

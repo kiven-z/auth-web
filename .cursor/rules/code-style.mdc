@@ -94,7 +94,19 @@ function handleSubmit() {
     - `ph.rangeStart()` / `ph.rangeEnd()`：日期范围
     - 模板定义在 `locales/*/common/common-page.yaml` 的 `placeholder.*`；仅格式说明、组合搜索等特殊语义才在模块 yaml 保留独立 key。
 
-### 3. 视图 (Views) 目录规范
+### 3. 表单状态控件选型
+
+按场景选控件，禁止同一语义混用多种形态：
+
+| 场景 | 控件 | 说明 |
+| ---- | ---- | ---- |
+| 实体创建/编辑的 status（启用类，2～3 态） | `el-radio-group` | 文案始终可见；二态文案优先用 `buttons.statusActiveText` / `buttons.statusInactiveText`，或模块内 `*.enum.status.*` |
+| 列表搜索区 status | `el-select` + `clearable` | 可清空 = 查全部 |
+| ≥4 态，或文案较长的枚举 | `el-select` | 表单录入与筛选均可 |
+| 页面/区块「模式切换」（视图、类型、范围等，文案短） | `el-segmented` | 2～5 项；非普通表单字段 |
+| 菜单特性布尔、布局/主题偏好、即时 on/off | `el-switch` | 高密度特性开关；菜单 status 可继续用 switch |
+
+### 4. 视图 (Views) 目录规范
 
 - **目录布局**：`src/views/{module}/{page}/`。
 - **拆分准则**：页面超过 300行必须拆分：
@@ -131,7 +143,7 @@ views文件目录参考：
         useJobGroupTableColumns.tsx
 ```
 
-### 4. TypeScript：`interface` 与 `type`（与 Google / typescript-eslint 默认对齐）
+### 5. TypeScript：`interface` 与 `type`（与 Google / typescript-eslint 默认对齐）
 
 - **对象结构**（API 模型、组件 `*Props`、`FormDialog` 扩展、Hook 配置对象、Expose 形状）→ 统一使用 **`interface`**。
 - **仅允许使用 `type` 的场景**（不得强行改成 `interface`）：
@@ -143,7 +155,7 @@ views文件目录参考：
 - **禁止**：仅为风格把合法 `interface` 改成 `type`，或把联合/交叉写成 `interface`。
 - **无扩展字段的别名**：`interface X extends Y {}` 应写成 `type X = Y`（避免 `@typescript-eslint/no-empty-object-type`）。
 
-### 5. API 接口规范
+### 6. API 接口规范
 
 - **位置**：`src/api/{module}/`。
 - **调用**：使用从 `@/core/http` 导出的 `http` 实例。
@@ -152,7 +164,7 @@ views文件目录参考：
     - POST 请求：`http.request<T>('post', url, { data })`。
 - **命名**：`query{Resource}Page` (分页), `get{Resource}Detail` (详情), `batchDelete{Resource}` (批量删除)。
 
-### 6. 批量删除规范
+### 7. 批量删除规范
 
 - **统一 Hook**：表格批量删除必须使用 `@/shared/composables/table/useBatchDeleteAction`，禁止在各页面 Hook 内重复实现确认/提示/刷新逻辑。
 - **函数名**：`deleteBatchRows(ids?: unknown)`；工具栏批量 `@click="deleteBatchRows()"`，行内

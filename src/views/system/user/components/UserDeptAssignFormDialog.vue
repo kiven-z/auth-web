@@ -86,14 +86,15 @@ defineExpose({ formRef, form });
       <!-- 关联状态 -->
       <el-col :lg="12" :md="12" :sm="12" :xs="24">
         <el-form-item :label="t('relation.status')" prop="status">
-          <el-select v-model="form.status" :placeholder="t('relation.status')" class="w-full">
-            <el-option
+          <el-radio-group v-model="form.status">
+            <el-radio-button
               v-for="option in USER_DEPT_RELATION_STATUS_FILTER_OPTIONS"
               :key="`${option.labelKey}:${String(option.value)}`"
-              :label="t(option.labelKey)"
               :value="option.value"
-            />
-          </el-select>
+            >
+              {{ t(option.labelKey) }}
+            </el-radio-button>
+          </el-radio-group>
         </el-form-item>
       </el-col>
       <!-- 是否主部门 -->
