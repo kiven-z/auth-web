@@ -8,12 +8,7 @@ import type {
   SpreadsheetImportResult,
 } from '@/api/common';
 import { mergePagedExportParams } from '@/api/common';
-import type {
-  DeptBoundUserReference,
-  GrantTableAssignRoleRequest,
-  PostReference,
-  RoleReference,
-} from '@/api/system/grant-table';
+import type { DeptBoundUserReference, PostReference, RoleReference } from '@/api/system/grant-table';
 import { http } from '@/core/http/client';
 import { TREE_ROOT_PARENT_ID } from '@/shared/utils/tree';
 import type { AxiosRequestConfig } from 'axios';
@@ -191,77 +186,6 @@ export function moveDept(data: SysDeptMoveForm): Promise<void> {
  */
 export async function deleteDepts(ids: string[]): Promise<void> {
   await Promise.all(ids.map((id) => deleteDept(id)));
-}
-
-/**
- * 查询部门已分配角色
- * @param deptId 部门主键
- */
-export function getDeptRoles(deptId: string): Promise<RoleReference[]> {
-  return http.get<RoleReference[], unknown>(`/system/dept/${deptId}/roles`);
-}
-
-/**
- * 全量覆盖部门角色授权
- * @param deptId 部门主键
- * @param data 角色编码列表
- */
-export function putDeptRoles(deptId: string, data: GrantTableAssignRoleRequest): Promise<void> {
-  return http.request<void>('put', `/system/dept/${deptId}/roles`, { data });
-}
-
-/**
- * 闭包健康度统计
- */
-export interface DeptClosureHealthStats {
-  onlySelf: number;
-  hasAncestors: number;
-  zeroClosure: number;
-  total: number;
-}
-
-/**
- * 父子直连缺失异常行
- */
-export interface DeptClosureParentLinkAnomaly {
-  id: string;
-  deptName: string;
-  parentId: string;
-  parentLinkStatus: string;
-}
-
-/**
- * 深度链条异常行
- */
-export interface DeptClosureDepthChainAnomaly {
-  id: string;
-  deptName: string;
-  parentId: string;
-  childClosureCnt: number;
-  parentClosureCnt: number;
-  expectedChildCnt: number;
-}
-
-/**
- * 部门闭包表健康检查
- */
-export interface DeptClosureHealth {
-  passed: boolean;
-  checkedAt: string;
-  healthStats: DeptClosureHealthStats;
-  missingParentLinkCount: number;
-  parentLinkSampleTruncated: boolean;
-  parentLinkAnomalies: DeptClosureParentLinkAnomaly[];
-  depthChainAnomalyCount: number;
-  depthChainSampleTruncated: boolean;
-  depthChainAnomalies: DeptClosureDepthChainAnomaly[];
-}
-
-/**
- * 部门闭包表健康检查（只读运维）
- */
-export function getDeptClosureHealth(): Promise<DeptClosureHealth> {
-  return http.get<DeptClosureHealth, unknown>('/system/dept/closure/health');
 }
 
 /**

@@ -1,5 +1,5 @@
 import type { TableActionDeps } from '@/api/common';
-import { getMenuRoles, putMenuRoles } from '@/api/system/menu';
+import { getMenuRoles, putMenuRoles } from '@/api/system/menu/menu-role';
 import { addDrawer } from '@/components/ui/Drawer';
 import { transformI18n } from '@/app/plugins/i18n';
 import { errorMessage, message } from '@/services/feedback/message';

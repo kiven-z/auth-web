@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { getDeptList } from '@/api/system/dept';
+import { getDeptList } from '@/api/system/dept/dept';
 import { getRoleScope, type RoleScopeType, type SysRoleScopeForm } from '@/api/system/role/role-scope';
 import { errorMessage } from '@/services/feedback/message';
 import { ROLE_SCOPE_TYPE_OPTIONS } from '@/views/system/role/constants/role-scope-type';

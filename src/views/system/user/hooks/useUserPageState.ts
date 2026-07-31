@@ -1,4 +1,4 @@
-import { getDeptList, type SysDeptListVO } from '@/api/system/dept';
+import { getDeptList, type SysDeptListVO } from '@/api/system/dept/dept';
 import { getUserPage, type SysUserPageRow } from '@/api/system/user/user';
 import { type PaginationTableState, usePaginationState } from '@/components/business/AuthPagedTable';
 import { handleTree, TREE_ROOT_PARENT_ID } from '@/shared/utils/tree';

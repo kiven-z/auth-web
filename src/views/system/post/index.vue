@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { getPostPage } from '@/api/system/post';
+import { getPostPage } from '@/api/system/post/post';
 import AuthPagedTable, { usePaginationState } from '@/components/business/AuthPagedTable';
 import { useFormPlaceholder } from '@/shared/composables/i18n/useFormPlaceholder';
 import { SYS_POST_PERMS } from '@/views/system/post/constants/permissions';

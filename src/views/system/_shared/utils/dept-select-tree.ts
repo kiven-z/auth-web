@@ -1,4 +1,4 @@
-import type { SysDeptListVO } from '@/api/system/dept';
+import type { SysDeptListVO } from '@/api/system/dept/dept';
 import { handleTree } from '@/shared/utils/tree';
 
 /** 部门选择树节点（cascader / tree-select） */

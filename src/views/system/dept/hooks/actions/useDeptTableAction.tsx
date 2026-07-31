@@ -9,7 +9,7 @@ import {
   type SysDeptListVO,
   type SysDeptUpdateForm,
   updateDept,
-} from '@/api/system/dept';
+} from '@/api/system/dept/dept';
 import { addDialog } from '@/components/ui/Dialog';
 import { operationConfirm } from '@/services/feedback/dialog';
 import { errorMessage, message } from '@/services/feedback/message';

@@ -1,4 +1,4 @@
-import type { SysPostPageRow } from '@/api/system/post';
+import type { SysPostPageRow } from '@/api/system/post/post';
 import { createAuditTableColumns } from '@/shared/composables/table/auditColumns';
 import { ElTag } from 'element-plus';
 import { computed } from 'vue';

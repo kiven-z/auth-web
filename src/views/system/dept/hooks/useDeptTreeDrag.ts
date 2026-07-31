@@ -1,4 +1,4 @@
-import { moveDept, type SysDeptTreeNode } from '@/api/system/dept';
+import { moveDept, type SysDeptTreeNode } from '@/api/system/dept/dept';
 import { useElTreeMoveDrag } from '@/views/system/_shared/hooks/useElTreeMoveDrag';
 import type { Ref } from 'vue';
 import { useI18n } from 'vue-i18n';

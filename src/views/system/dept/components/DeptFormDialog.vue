@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import type { FormDialog } from '@/api/common';
-import { getDeptList, SysDeptCreateForm, SysDeptUpdateForm } from '@/api/system/dept';
+import { getDeptList, SysDeptCreateForm, SysDeptUpdateForm } from '@/api/system/dept/dept';
 import { errorMessage } from '@/services/feedback/message';
 import { buildDeptParentTree, type DeptParentCascaderNode } from '@/views/system/dept/utils/dept-parent';
 import type { CascaderProps, FormInstance, FormRules } from 'element-plus';

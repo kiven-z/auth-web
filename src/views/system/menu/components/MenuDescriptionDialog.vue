@@ -1,7 +1,7 @@
 <script lang="tsx" setup>
 import { createAuditDetailColumns } from '@/shared/composables/table/auditColumns';
 import type { DetailDialog } from '@/api/common';
-import type { SysMenuDetailVO } from '@/api/system/menu';
+import type { SysMenuDetailVO } from '@/api/system/menu/menu';
 import { useRenderIcon } from '@/components/ui/Icon/src/hooks';
 import DetailRelationListSection from '@/components/business/DetailRelationListSection/index.vue';
 import Description from '@/components/ui/Description';

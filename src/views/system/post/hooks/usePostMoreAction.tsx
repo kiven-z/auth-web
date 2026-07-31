@@ -1,5 +1,6 @@
 import type { TableActionDeps } from '@/api/common';
-import { getPostRoles, putPostRoles, type SysPostPageRow } from '@/api/system/post';
+import type { SysPostPageRow } from '@/api/system/post/post';
+import { getPostRoles, putPostRoles } from '@/api/system/post/post-role';
 import { addDrawer } from '@/components/ui/Drawer';
 import { errorMessage, message } from '@/services/feedback/message';
 import OrgGrantRoleAssignDrawer from '@/views/system/_shared/components/OrgGrantRoleAssignDrawer.vue';

@@ -1,6 +1,6 @@
 <script lang="tsx" setup>
-import type { DeptClosureHealth } from '@/api/system/dept';
-import { getDeptClosureHealth } from '@/api/system/dept';
+import type { DeptClosureHealth } from '@/api/system/dept/dept-closure';
+import { getDeptClosureHealth } from '@/api/system/dept/dept-closure';
 import Description from '@/components/ui/Description';
 import { errorMessage } from '@/services/feedback/message';
 import useDeptClosureHealthColumns from '@/views/system/dept/hooks/columns/useDeptClosureHealthColumns';

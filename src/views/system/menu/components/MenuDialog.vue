@@ -1,6 +1,6 @@
 <script lang="ts" setup>
-import type { MenuFormModel } from '@/api/system/menu';
-import { getMenuList } from '@/api/system/menu';
+import type { MenuFormModel } from '@/api/system/menu/menu';
+import { getMenuList } from '@/api/system/menu/menu';
 import AnimateSelector from '@/components/ui/AnimateSelecto/src/index.vue';
 import IconSelect from '@/components/ui/Icon/src/Select.vue';
 import { useRenderIcon } from '@/components/ui/Icon/src/hooks';

@@ -1,5 +1,5 @@
 import type { BaseResponse, IdsEnableStatusRequest, PageResponse, SortSpec } from '@/api/common';
-import type { MenuAssignedRoleRow, MenuAssignRoleRequest, RoleReference } from '@/api/system/grant-table';
+import type { RoleReference } from '@/api/system/grant-table';
 import type { AxiosRequestConfig } from 'axios';
 
 import { http } from '@/core/http/client';
@@ -143,14 +143,4 @@ export function moveMenu(id: string, data: SysMenuMoveForm): Promise<void> {
 /** 批量修改状态 */
 export function updateMenuBatchStatus(data: IdsEnableStatusRequest): Promise<string> {
   return http.request<string>('put', '/system/menu/status', { data });
-}
-
-/** 查询菜单已分配角色 */
-export function getMenuRoles(id: string): Promise<MenuAssignedRoleRow[]> {
-  return http.get<MenuAssignedRoleRow[], AxiosRequestConfig>(`/system/menu/${id}/roles`);
-}
-
-/** 分配角色 */
-export function putMenuRoles(id: string, data: MenuAssignRoleRequest): Promise<string> {
-  return http.request<string>('put', `/system/menu/${id}/roles`, { data });
 }

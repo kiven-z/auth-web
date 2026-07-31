@@ -1,4 +1,4 @@
-import type { SysDeptListVO } from '@/api/system/dept';
+import type { SysDeptListVO } from '@/api/system/dept/dept';
 import { handleTree } from '@/shared/utils/tree';
 
 /** 父级 cascader 节点 */

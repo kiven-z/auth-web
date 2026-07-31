@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import type { MenuFormModel } from '@/api/system/menu';
+import type { MenuFormModel } from '@/api/system/menu/menu';
 import { useI18n } from 'vue-i18n';
 
 defineOptions({ name: 'MenuDialogTypeIframe' });

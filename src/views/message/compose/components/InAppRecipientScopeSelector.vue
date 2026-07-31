@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { InAppRecipientScopeType } from '@/api/message/in-app-message';
-import { getDeptList } from '@/api/system/dept';
+import { getDeptList } from '@/api/system/dept/dept';
 import { errorMessage } from '@/services/feedback/message';
 import useRemotePostSearch from '@/shared/composables/dialog/useRemotePostSearch';
 import useRemoteUserSearch from '@/shared/composables/dialog/useRemoteUserSearch';

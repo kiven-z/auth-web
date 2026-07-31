@@ -1,4 +1,4 @@
-import { searchPostByKeyword, type SysPostSearchOption } from '@/api/system/post';
+import { searchPostByKeyword, type SysPostSearchOption } from '@/api/system/post/post';
 import debounce from 'lodash/debounce';
 import { onScopeDispose, ref } from 'vue';
 

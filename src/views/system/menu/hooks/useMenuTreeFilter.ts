@@ -1,4 +1,4 @@
-import type { SysMenuTreeNode } from '@/api/system/menu';
+import type { SysMenuTreeNode } from '@/api/system/menu/menu';
 import { transformI18n } from '@/app/plugins/i18n';
 
 /**

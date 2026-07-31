@@ -11,12 +11,7 @@ import type {
   TableActionDeps,
 } from '@/api/common';
 import { mergePagedExportParams } from '@/api/common';
-import type {
-  DeptReference,
-  GrantTableAssignRoleRequest,
-  PostBoundUserReference,
-  RoleReference,
-} from '@/api/system/grant-table';
+import type { DeptReference, PostBoundUserReference, RoleReference } from '@/api/system/grant-table';
 import { http } from '@/core/http/client';
 
 export type { SpreadsheetImportResult };
@@ -178,23 +173,6 @@ export function deletePost(id: string): Promise<void> {
  */
 export function batchUpdatePostStatus(data: IdsEnableStatusRequest): Promise<void> {
   return http.request('put', '/system/post/status', { data });
-}
-
-/**
- * 查询岗位已分配角色
- * @param postId 岗位主键
- */
-export function getPostRoles(postId: string): Promise<RoleReference[]> {
-  return http.get<RoleReference[], unknown>(`/system/post/${postId}/roles`);
-}
-
-/**
- * 全量覆盖岗位角色授权
- * @param postId 岗位主键
- * @param data 角色编码列表
- */
-export function putPostRoles(postId: string, data: GrantTableAssignRoleRequest): Promise<void> {
-  return http.request<void>('put', `/system/post/${postId}/roles`, { data });
 }
 
 /**

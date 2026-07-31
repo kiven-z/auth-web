@@ -7,7 +7,7 @@ import {
   type MenuUpdateForm,
   updateMenu,
   updateMenuBatchStatus,
-} from '@/api/system/menu';
+} from '@/api/system/menu/menu';
 import { addDialog } from '@/components/ui/Dialog';
 import { addDrawer } from '@/components/ui/Drawer';
 import { operationConfirm } from '@/services/feedback/dialog';

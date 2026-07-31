@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import type { FormDialog } from '@/api/common';
-import { getDeptList } from '@/api/system/dept';
-import type { SysPostFormModel } from '@/api/system/post';
+import { getDeptList } from '@/api/system/dept/dept';
+import type { SysPostFormModel } from '@/api/system/post/post';
 import { errorMessage } from '@/services/feedback/message';
 import { buildDeptSelectTree, type DeptSelectTreeNode } from '@/views/system/_shared/utils/dept-select-tree';
 import type { CascaderProps, FormInstance, FormRules } from 'element-plus';

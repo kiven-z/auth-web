@@ -1,6 +1,6 @@
 import type { TableActionDeps } from '@/api/common';
-import type { SysPostCreateForm, SysPostPageRow, SysPostUpdateForm } from '@/api/system/post';
-import { batchUpdatePostStatus, createPost, deletePost, getPostDetail, updatePost } from '@/api/system/post';
+import type { SysPostCreateForm, SysPostPageRow, SysPostUpdateForm } from '@/api/system/post/post';
+import { batchUpdatePostStatus, createPost, deletePost, getPostDetail, updatePost } from '@/api/system/post/post';
 import { addDialog } from '@/components/ui/Dialog';
 import { type FormOverlayExpose, useFormOverlaySubmit } from '@/shared/composables/table/useFormOverlaySubmit';
 import { deleteConfirm, operationConfirm } from '@/services/feedback/dialog';
