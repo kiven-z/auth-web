@@ -88,23 +88,23 @@ function useAuthorizationInvalidationEventTableColumns() {
       formatter: (row: AuthorizationInvalidationEventPageRow) => formatDateTime(row.processedAt),
     },
     {
-      label: t('table.createTime'),
-      prop: 'createTime',
+      label: t('table.createdAt'),
+      prop: 'createdAt',
       sortable: true,
       minWidth: 170,
-      formatter: (row: AuthorizationInvalidationEventPageRow) => formatDateTime(row.createTime),
+      formatter: (row: AuthorizationInvalidationEventPageRow) => formatDateTime(row.createdAt),
     },
     {
-      label: t('table.createUsername'),
-      prop: 'createUser',
+      label: t('table.createdByName'),
+      prop: 'createdBy',
       minWidth: 130,
       formatter: (row: AuthorizationInvalidationEventPageRow) => {
-        if (!row.createUser) {
+        if (!row.createdBy) {
           return '-';
         }
         return (
-          <ElButton link type="primary" onClick={() => selectUserinfo(row.createUser, row.createUsername)}>
-            {row.createUsername}
+          <ElButton link type="primary" onClick={() => selectUserinfo(row.createdBy, row.createdByName)}>
+            {row.createdByName}
           </ElButton>
         );
       },

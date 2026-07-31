@@ -38,7 +38,7 @@ const previewContentType = computed(() => {
 });
 
 /** 标题下方展示的时间 */
-const displayCreateTime = computed(() => formatDateTime(detail.value?.createTime));
+const displayCreatedAt = computed(() => formatDateTime(detail.value?.createdAt));
 
 /** 拉取详情 */
 const load = async () => {
@@ -74,7 +74,7 @@ onMounted(load);
         <div class="message-template-detail__letter">
           <div class="message-template-detail__letter-header">
             <h2 v-if="detail?.previewSubject">{{ detail.previewSubject }}</h2>
-            <div>{{ displayCreateTime }}</div>
+            <div>{{ displayCreatedAt }}</div>
           </div>
           <!-- 弹窗内限高由调用方负责 -->
           <div class="max-h-105 overflow-auto">
@@ -88,7 +88,7 @@ onMounted(load);
         <div class="message-template-detail__letter">
           <div class="message-template-detail__letter-header">
             <h2 v-if="detail?.subject">{{ detail.subject }}</h2>
-            <div>{{ displayCreateTime }}</div>
+            <div>{{ displayCreatedAt }}</div>
           </div>
           <div class="max-h-105 overflow-auto">
             <TypedContentView :content="detail?.content ?? ''" content-type="TEXT" />

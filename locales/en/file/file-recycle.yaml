@@ -8,7 +8,7 @@ fileRecycle:
     bizType: Business Type
     bizId: Business ID
     originalName: Original File Name
-    createTimeRange: Created Time Range
+    createdAtRange: Created Time Range
     storagePlatform: Storage Platform
     uploadMode: Upload Mode
     bucket: Bucket

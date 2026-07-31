@@ -11,7 +11,7 @@ inAppInbox:
     title: Title
     categoryId: Subcategory
     categoryName: Subcategory
-    createTime: Time
+    createdAt: Time
     linkUrl: Link
     readStatus: Read status
   action:

@@ -20,9 +20,9 @@ export interface AuthorizationInvalidationOutboxPageQuery {
   /** 业务主键 */
   sourceBizId?: string;
   /** 创建时间（开始） */
-  createTimeStart?: string;
+  createdAtStart?: string;
   /** 创建时间（结束） */
-  createTimeEnd?: string;
+  createdAtEnd?: string;
   /** 处理完成时间（开始） */
   processedAtStart?: string;
   /** 处理完成时间（结束） */

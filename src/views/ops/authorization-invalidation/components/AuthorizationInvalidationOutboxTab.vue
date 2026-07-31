@@ -33,8 +33,8 @@ const outboxState = usePaginationState({
     status: undefined,
     sourceModule: undefined,
     sourceBizId: undefined,
-    createTimeStart: undefined,
-    createTimeEnd: undefined,
+    createdAtStart: undefined,
+    createdAtEnd: undefined,
     processedAtStart: undefined,
     processedAtEnd: undefined,
   }),
@@ -120,18 +120,18 @@ onMounted(() => {
           />
         </el-form-item>
 
-        <el-form-item v-show="searchExpanded" :label="t('table.createTime')" prop="createTimeStart">
+        <el-form-item v-show="searchExpanded" :label="t('table.createdAt')" prop="createdAtStart">
           <el-date-picker
-            v-model="searchForm.createTimeStart"
+            v-model="searchForm.createdAtStart"
             :placeholder="ph.rangeStart()"
             :value-format="INSTANT_PICKER_VALUE_FORMAT"
             class="w-40!"
             type="datetime"
           />
         </el-form-item>
-        <el-form-item v-show="searchExpanded" prop="createTimeEnd">
+        <el-form-item v-show="searchExpanded" prop="createdAtEnd">
           <el-date-picker
-            v-model="searchForm.createTimeEnd"
+            v-model="searchForm.createdAtEnd"
             :placeholder="ph.rangeEnd()"
             :value-format="INSTANT_PICKER_VALUE_FORMAT"
             class="w-40!"

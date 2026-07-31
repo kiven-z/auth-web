@@ -20,7 +20,7 @@ authorizationAudit:
   remark: Remark
   tableTitle: Authorization Audit Logs
   detailTitle: Authorization Audit Detail
-  createUser: Operator
+  createdBy: Operator
   eventTypeEnum:
     GRANTED: Granted
     DENIED: Denied

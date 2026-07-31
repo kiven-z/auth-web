@@ -64,16 +64,16 @@ function useInAppMessageRecipientTableColumns() {
       },
     },
     {
-      label: t('table.createTime'),
-      prop: 'createTime',
+      label: t('table.createdAt'),
+      prop: 'createdAt',
       minWidth: 170,
-      formatter: (row: InAppSendTaskRecipientPageRow) => formatDateTime(row.createTime),
+      formatter: (row: InAppSendTaskRecipientPageRow) => formatDateTime(row.createdAt),
     },
     {
-      label: t('table.updateTime'),
-      prop: 'updateTime',
+      label: t('table.updatedAt'),
+      prop: 'updatedAt',
       minWidth: 170,
-      formatter: (row: InAppSendTaskRecipientPageRow) => formatDateTime(row.updateTime),
+      formatter: (row: InAppSendTaskRecipientPageRow) => formatDateTime(row.updatedAt),
     },
   ]);
 

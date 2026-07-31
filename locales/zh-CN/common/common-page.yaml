@@ -105,10 +105,10 @@ table:
   id: 主键
   assigned: 已分配
   actions: 操作
-  createTime: 创建时间
-  updateTime: 更新时间
-  createUsername: 创建人
-  updateUsername: 更新人
+  createdAt: 创建时间
+  updatedAt: 更新时间
+  createdByName: 创建人
+  updatedByName: 更新人
 placeholder:
   input: 请输入{field}
   selectFilter: 全部{field}

@@ -59,40 +59,40 @@ function usePasswordHistoryTableColumns() {
     },
     // 创建时间
     {
-      label: t('table.createTime'),
-      prop: 'createTime',
+      label: t('table.createdAt'),
+      prop: 'createdAt',
       sortable: true,
       minWidth: 170,
-      formatter: (row: PasswordHistoryPageRow) => formatDateTime(row.createTime),
+      formatter: (row: PasswordHistoryPageRow) => formatDateTime(row.createdAt),
     },
     // 创建人
     {
-      label: t('table.createUsername'),
-      prop: 'createUser',
+      label: t('table.createdByName'),
+      prop: 'createdBy',
       minWidth: 130,
       formatter: (row: PasswordHistoryPageRow) => {
-        if (!row.createUser) {
+        if (!row.createdBy) {
           return <span>—</span>;
         }
         return (
-          <ElButton link type="primary" onClick={() => selectUserinfo(row.createUser, row.createUsername)}>
-            {row.createUsername ?? row.createUser}
+          <ElButton link type="primary" onClick={() => selectUserinfo(row.createdBy, row.createdByName)}>
+            {row.createdByName ?? row.createdBy}
           </ElButton>
         );
       },
     },
     // 更新人
     {
-      label: t('table.updateUsername'),
-      prop: 'updateUser',
+      label: t('table.updatedByName'),
+      prop: 'updatedBy',
       minWidth: 130,
       formatter: (row: PasswordHistoryPageRow) => {
-        if (!row.updateUser) {
+        if (!row.updatedBy) {
           return <span>—</span>;
         }
         return (
-          <ElButton link type="primary" onClick={() => selectUserinfo(row.updateUser, row.updateUsername)}>
-            {row.updateUsername ?? row.updateUser}
+          <ElButton link type="primary" onClick={() => selectUserinfo(row.updatedBy, row.updatedByName)}>
+            {row.updatedByName ?? row.updatedBy}
           </ElButton>
         );
       },

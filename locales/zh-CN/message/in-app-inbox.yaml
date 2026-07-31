@@ -11,7 +11,7 @@ inAppInbox:
     title: 标题
     categoryId: 业务小类
     categoryName: 业务小类
-    createTime: 时间
+    createdAt: 时间
     linkUrl: 跳转链接
     readStatus: 阅读状态
   action:

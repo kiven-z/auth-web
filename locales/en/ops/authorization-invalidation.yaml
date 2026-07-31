@@ -32,8 +32,8 @@ authorizationInvalidation:
   sourceModule: Source Module
   sourceBizId: Source Biz ID
   payload: Invalidation Payload
-  createTimeStart: Create Start
-  createTimeEnd: Create End
+  createdAtStart: Create Start
+  createdAtEnd: Create End
   impactedUserCount: Impacted Users
   versionBumpedCount: Version Bumped Users
   profileRefreshedCount: Profile Refreshed Users

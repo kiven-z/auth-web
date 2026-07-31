@@ -47,12 +47,12 @@ export interface PageResponse<T> {
  */
 export interface BaseResponse {
   id?: string;
-  createTime?: string;
-  updateTime?: string;
-  createUser?: string;
-  updateUser?: string;
-  createUsername?: string | null;
-  updateUsername?: string | null;
+  createdAt?: string;
+  updatedAt?: string;
+  createdBy?: string;
+  updatedBy?: string;
+  createdByName?: string | null;
+  updatedByName?: string | null;
 }
 
 /**
@@ -60,8 +60,8 @@ export interface BaseResponse {
  */
 export interface BaseResponsePageRow extends BaseResponse {
   id: string;
-  createTime: string;
-  updateTime: string;
+  createdAt: string;
+  updatedAt: string;
 }
 
 /**

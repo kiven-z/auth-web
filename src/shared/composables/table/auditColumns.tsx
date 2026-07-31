@@ -10,45 +10,45 @@ import { ElButton } from 'element-plus';
 export function createAuditTableColumns() {
   return [
     {
-      label: transformI18n('table.createTime'),
-      prop: 'createTime',
+      label: transformI18n('table.createdAt'),
+      prop: 'createdAt',
       sortable: true,
       minWidth: 170,
-      formatter: (row: { createTime?: unknown }) => formatDateTime(row.createTime),
+      formatter: (row: { createdAt?: unknown }) => formatDateTime(row.createdAt),
     },
     {
-      label: transformI18n('table.updateTime'),
-      prop: 'updateTime',
+      label: transformI18n('table.updatedAt'),
+      prop: 'updatedAt',
       sortable: true,
       minWidth: 170,
-      formatter: (row: { updateTime?: unknown }) => formatDateTime(row.updateTime),
+      formatter: (row: { updatedAt?: unknown }) => formatDateTime(row.updatedAt),
     },
     {
-      label: transformI18n('table.createUsername'),
-      prop: 'createUsername',
+      label: transformI18n('table.createdByName'),
+      prop: 'createdByName',
       minWidth: 130,
-      formatter: (row: { createUser?: string | null; createUsername?: string | null }) => {
-        if (!row.createUser) {
+      formatter: (row: { createdBy?: string | null; createdByName?: string | null }) => {
+        if (!row.createdBy) {
           return null;
         }
         return (
-          <ElButton link type="primary" onClick={() => selectUserinfo(row.createUser!, row.createUsername)}>
-            {row.createUsername ?? row.createUser}
+          <ElButton link type="primary" onClick={() => selectUserinfo(row.createdBy!, row.createdByName)}>
+            {row.createdByName ?? row.createdBy}
           </ElButton>
         );
       },
     },
     {
-      label: transformI18n('table.updateUsername'),
-      prop: 'updateUsername',
+      label: transformI18n('table.updatedByName'),
+      prop: 'updatedByName',
       minWidth: 130,
-      formatter: (row: { updateUser?: string | null; updateUsername?: string | null }) => {
-        if (!row.updateUser) {
+      formatter: (row: { updatedBy?: string | null; updatedByName?: string | null }) => {
+        if (!row.updatedBy) {
           return null;
         }
         return (
-          <ElButton link type="primary" onClick={() => selectUserinfo(row.updateUser!, row.updateUsername)}>
-            {row.updateUsername ?? row.updateUser}
+          <ElButton link type="primary" onClick={() => selectUserinfo(row.updatedBy!, row.updatedByName)}>
+            {row.updatedByName ?? row.updatedBy}
           </ElButton>
         );
       },
@@ -63,43 +63,43 @@ export function createAuditTableColumns() {
 export function createAuditDetailColumns() {
   return [
     {
-      label: transformI18n('table.createTime'),
-      prop: 'createTime',
+      label: transformI18n('table.createdAt'),
+      prop: 'createdAt',
       labelWidth: 120,
       cellRenderer: ({ value }: { value: any }) => formatDateTime(value),
     },
     {
-      label: transformI18n('table.updateTime'),
-      prop: 'updateTime',
+      label: transformI18n('table.updatedAt'),
+      prop: 'updatedAt',
       labelWidth: 120,
       cellRenderer: ({ value }: { value: any }) => formatDateTime(value),
     },
     {
-      label: transformI18n('table.createUsername'),
-      prop: 'createUsername',
+      label: transformI18n('table.createdByName'),
+      prop: 'createdByName',
       labelWidth: 120,
       cellRenderer({ value, row }: { value: any; row: any }) {
-        if (!row?.createUser) {
+        if (!row?.createdBy) {
           return <span>—</span>;
         }
         return (
-          <ElButton link type="primary" onClick={() => selectUserinfo(row.createUser, value)}>
-            {value ?? row.createUser}
+          <ElButton link type="primary" onClick={() => selectUserinfo(row.createdBy, value)}>
+            {value ?? row.createdBy}
           </ElButton>
         );
       },
     },
     {
-      label: transformI18n('table.updateUsername'),
-      prop: 'updateUsername',
+      label: transformI18n('table.updatedByName'),
+      prop: 'updatedByName',
       labelWidth: 120,
       cellRenderer({ value, row }: { value: any; row: any }) {
-        if (!row?.updateUser) {
+        if (!row?.updatedBy) {
           return <span>—</span>;
         }
         return (
-          <ElButton link type="primary" onClick={() => selectUserinfo(row.updateUser, value)}>
-            {value ?? row.updateUser}
+          <ElButton link type="primary" onClick={() => selectUserinfo(row.updatedBy, value)}>
+            {value ?? row.updatedBy}
           </ElButton>
         );
       },

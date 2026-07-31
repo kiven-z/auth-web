@@ -35,14 +35,14 @@ function useOperationLogDetailColumns() {
     { label: t('operationLog.userAgent'), prop: 'userAgent', labelWidth: 120 },
     { label: t('operationLog.remark'), prop: 'remark', labelWidth: 120, copy: true },
     {
-      label: t('table.createTime'),
-      prop: 'createTime',
+      label: t('table.createdAt'),
+      prop: 'createdAt',
       cellRenderer: ({ value }) => formatDateTime(value),
     },
 
     {
-      label: t('table.updateTime'),
-      prop: 'updateTime',
+      label: t('table.updatedAt'),
+      prop: 'updatedAt',
       cellRenderer: ({ value }) => formatDateTime(value),
     },
   ]);

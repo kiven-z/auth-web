@@ -26,7 +26,7 @@ const auditState = usePaginationState({
     eventType: undefined,
     decisionReason: undefined,
     className: undefined,
-    createUserId: undefined,
+    createdById: undefined,
   }),
 });
 
@@ -88,11 +88,11 @@ onMounted(() => {
         />
       </el-form-item>
 
-      <el-form-item :label="t('table.createUsername')" prop="createUserId">
+      <el-form-item :label="t('table.createdByName')" prop="createdById">
         <el-select
-          v-model="searchForm.createUserId"
+          v-model="searchForm.createdById"
           :loading="userSearchLoading"
-          :placeholder="ph.keyword('authorizationAudit.createUser')"
+          :placeholder="ph.keyword('authorizationAudit.createdBy')"
           :remote-method="loadUserListByKeyword"
           class="w-45!"
           clearable

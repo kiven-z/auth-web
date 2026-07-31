@@ -94,24 +94,24 @@ function useLoginLogTableColumns() {
       formatter: (row: LoginLogPageRow) => loginTypeLabel(row.loginType),
     },
     {
-      label: t('table.createTime'),
-      prop: 'createTime',
+      label: t('table.createdAt'),
+      prop: 'createdAt',
       sortable: true,
       minWidth: 170,
-      formatter: (row: LoginLogPageRow) => formatDateTime(row.createTime),
+      formatter: (row: LoginLogPageRow) => formatDateTime(row.createdAt),
     },
     {
-      label: t('table.createUsername'),
-      prop: 'createUser',
+      label: t('table.createdByName'),
+      prop: 'createdBy',
       minWidth: 130,
       formatter: (row: LoginLogPageRow) => {
-        if (!row.createUser) {
+        if (!row.createdBy) {
           return <span>—</span>;
         }
         return (
-          row.createUser && (
-            <ElButton link type="primary" onClick={() => selectUserinfo(row.createUser, row.createUsername)}>
-              {row.createUsername}
+          row.createdBy && (
+            <ElButton link type="primary" onClick={() => selectUserinfo(row.createdBy, row.createdByName)}>
+              {row.createdByName}
             </ElButton>
           )
         );

@@ -20,7 +20,7 @@ authorizationAudit:
   remark: 备注
   tableTitle: 权限决策审计日志
   detailTitle: 权限决策审计详情
-  createUser: 操作人
+  createdBy: 操作人
   eventTypeEnum:
     GRANTED: 授权通过
     DENIED: 拒绝访问

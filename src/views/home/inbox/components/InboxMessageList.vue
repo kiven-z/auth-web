@@ -76,7 +76,7 @@ const openDetail = (messageId: string) => {
             {{ t('buttons.actionDelete') }}
           </el-button>
         </div>
-        <div class="inbox-message-list__time">{{ formatDateTime(row.createTime, 'YYYY-MM-DD HH:mm') }}</div>
+        <div class="inbox-message-list__time">{{ formatDateTime(row.createdAt, 'YYYY-MM-DD HH:mm') }}</div>
       </div>
     </div>
   </div>

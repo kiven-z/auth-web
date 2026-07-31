@@ -32,8 +32,8 @@ authorizationInvalidation:
   sourceModule: 触发模块
   sourceBizId: 业务主键
   payload: 失效业务键
-  createTimeStart: 创建开始时间
-  createTimeEnd: 创建结束时间
+  createdAtStart: 创建开始时间
+  createdAtEnd: 创建结束时间
   impactedUserCount: 影响用户数
   versionBumpedCount: 版本递增用户数
   profileRefreshedCount: 画像刷新用户数

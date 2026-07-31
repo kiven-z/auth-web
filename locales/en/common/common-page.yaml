@@ -106,10 +106,10 @@ table:
   id: ID
   assigned: Assigned
   actions: Actions
-  createTime: Created At
-  updateTime: Updated At
-  createUsername: Created by
-  updateUsername: Updated by
+  createdAt: Created At
+  updatedAt: Updated At
+  createdByName: Created by
+  updatedByName: Updated by
 placeholder:
   input: Enter {field}
   selectFilter: All {field}

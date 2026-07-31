@@ -73,11 +73,11 @@ function useInAppHistoryImportTableColumns() {
       minWidth: 110,
     },
     {
-      label: t('table.createTime'),
-      prop: 'createTime',
+      label: t('table.createdAt'),
+      prop: 'createdAt',
       sortable: true,
       minWidth: 170,
-      formatter: (row: InAppSendTaskPageRow) => formatDateTime(row.createTime),
+      formatter: (row: InAppSendTaskPageRow) => formatDateTime(row.createdAt),
     },
     {
       label: t('table.actions'),

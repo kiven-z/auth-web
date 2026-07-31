@@ -12,7 +12,7 @@ logJob:
     status: 执行状态
     elapsedTime: 耗时(ms)
     exceptionInfo: 异常信息
-    createTime: 记录时间
+    createdAt: 记录时间
   status:
     success: 成功
     failed: 失败

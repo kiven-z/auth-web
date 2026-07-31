@@ -68,14 +68,14 @@ function useLoginLogDetailColumns() {
     },
     { label: t('loginLog.field.sessionId'), prop: 'sessionId', copy: true },
     {
-      label: t('table.createTime'),
-      prop: 'createTime',
+      label: t('table.createdAt'),
+      prop: 'createdAt',
       cellRenderer: ({ value }) => formatDateTime(value),
     },
 
     {
-      label: t('table.updateTime'),
-      prop: 'updateTime',
+      label: t('table.updatedAt'),
+      prop: 'updatedAt',
       cellRenderer: ({ value }) => formatDateTime(value),
     },
   ]);

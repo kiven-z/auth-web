@@ -93,22 +93,22 @@ function useOperationLogTableColumns() {
     },
     // 创建时间
     {
-      label: t('table.createTime'),
-      prop: 'createTime',
+      label: t('table.createdAt'),
+      prop: 'createdAt',
       sortable: true,
       minWidth: 170,
-      formatter: (row: OperationLogPageRow) => formatDateTime(row.createTime),
+      formatter: (row: OperationLogPageRow) => formatDateTime(row.createdAt),
     },
     // 创建人
     {
-      label: t('table.createUsername'),
-      prop: 'createUser',
+      label: t('table.createdByName'),
+      prop: 'createdBy',
       minWidth: 130,
       formatter: (row: OperationLogPageRow) => {
         return (
-          row.createUser && (
-            <ElButton link type="primary" onClick={() => selectUserinfo(row.createUser, row.createUsername)}>
-              {row.createUsername}
+          row.createdBy && (
+            <ElButton link type="primary" onClick={() => selectUserinfo(row.createdBy, row.createdByName)}>
+              {row.createdByName}
             </ElButton>
           )
         );
@@ -116,14 +116,14 @@ function useOperationLogTableColumns() {
     },
     // 更新人
     {
-      label: t('table.updateUsername'),
-      prop: 'updateUser',
+      label: t('table.updatedByName'),
+      prop: 'updatedBy',
       minWidth: 130,
       formatter: (row: OperationLogPageRow) => {
         return (
-          row.updateUser && (
-            <ElButton link type="primary" onClick={() => selectUserinfo(row.updateUser, row.updateUsername)}>
-              {row.updateUsername}
+          row.updatedBy && (
+            <ElButton link type="primary" onClick={() => selectUserinfo(row.updatedBy, row.updatedByName)}>
+              {row.updatedByName}
             </ElButton>
           )
         );

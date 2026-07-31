@@ -98,20 +98,20 @@ function useAuthorizationInvalidationOutboxTableColumns() {
       formatter: (row: AuthorizationInvalidationOutboxPageRow) => formatDateTime(row.processedAt),
     },
     {
-      label: t('table.createTime'),
-      prop: 'createTime',
+      label: t('table.createdAt'),
+      prop: 'createdAt',
       sortable: true,
       minWidth: 170,
-      formatter: (row: AuthorizationInvalidationOutboxPageRow) => formatDateTime(row.createTime),
+      formatter: (row: AuthorizationInvalidationOutboxPageRow) => formatDateTime(row.createdAt),
     },
     {
-      label: t('table.createUsername'),
-      prop: 'createUser',
+      label: t('table.createdByName'),
+      prop: 'createdBy',
       minWidth: 130,
       formatter: (row: AuthorizationInvalidationOutboxPageRow) => {
-        return row.createUser ? (
-          <ElButton link type="primary" onClick={() => selectUserinfo(row.createUser, row.createUsername)}>
-            {row.createUsername}
+        return row.createdBy ? (
+          <ElButton link type="primary" onClick={() => selectUserinfo(row.createdBy, row.createdByName)}>
+            {row.createdByName}
           </ElButton>
         ) : (
           '-'

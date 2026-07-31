@@ -32,14 +32,14 @@ function usePasswordHistoryDetailColumns() {
     },
     { label: t('passwordHistory.changeIp'), prop: 'changeIp' },
     {
-      label: t('table.createTime'),
-      prop: 'createTime',
+      label: t('table.createdAt'),
+      prop: 'createdAt',
       cellRenderer: ({ value }) => formatDateTime(value),
     },
 
     {
-      label: t('table.updateTime'),
-      prop: 'updateTime',
+      label: t('table.updatedAt'),
+      prop: 'updatedAt',
       cellRenderer: ({ value }) => formatDateTime(value),
     },
   ]);

@@ -15,7 +15,7 @@ export interface AuthorizationAuditQuery {
   decisionReason?: string;
   className?: string;
   /** 操作人用户 ID */
-  createUserId?: string;
+  createdById?: string;
 }
 
 /**

@@ -21,11 +21,11 @@ const searchFormRef = ref<FormInstance>();
 
 const personalFileRecycleState = usePaginationState({
   fetchApi: (params) => {
-    const { createTimeRange, ...rest } = params;
+    const { createdAtRange, ...rest } = params;
     return queryPersonalFileRecyclePage({
       ...rest,
-      startTime: createTimeRange?.[0],
-      endTime: createTimeRange?.[1],
+      startTime: createdAtRange?.[0],
+      endTime: createdAtRange?.[1],
     });
   },
   searchForm: reactive({
@@ -33,7 +33,7 @@ const personalFileRecycleState = usePaginationState({
     bizId: undefined,
     contentType: undefined,
     originalName: undefined,
-    createTimeRange: undefined as [string, string] | undefined,
+    createdAtRange: undefined as [string, string] | undefined,
   }),
 });
 
@@ -97,9 +97,9 @@ onMounted(() => {
       </el-form-item>
       <template v-if="showAdvancedSearchToggle">
         <!-- 创建时间范围筛选 -->
-        <el-form-item v-show="searchExpanded" :label="t('fileRecycle.fields.createTimeRange')" prop="createTimeRange">
+        <el-form-item v-show="searchExpanded" :label="t('fileRecycle.fields.createdAtRange')" prop="createdAtRange">
           <el-date-picker
-            v-model="searchForm.createTimeRange"
+            v-model="searchForm.createdAtRange"
             :end-placeholder="placeholderBuilder.rangeEnd()"
             :start-placeholder="placeholderBuilder.rangeStart()"
             :value-format="INSTANT_PICKER_VALUE_FORMAT"

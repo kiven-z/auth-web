@@ -30,7 +30,7 @@ const contentType = computed(() => {
   return (detail.value?.contentType ?? 'TEXT') as TypedContentTypeCode;
 });
 
-const displayCreateTime = computed(() => formatDateTime(detail.value?.createTime));
+const displayCreatedAt = computed(() => formatDateTime(detail.value?.createdAt));
 
 /**
  * 拉取详情（后端打开即标已读），并刷新未读角标
@@ -67,7 +67,7 @@ onMounted(() => {
       <div class="inbox-message-detail__meta">
         <h2 class="inbox-message-detail__title">{{ detail.title }}</h2>
         <div class="inbox-message-detail__sub">
-          <span v-if="displayCreateTime">{{ displayCreateTime }}</span>
+          <span v-if="displayCreatedAt">{{ displayCreatedAt }}</span>
           <span v-if="detail.categoryName">{{ detail.categoryName }}</span>
         </div>
         <!-- 业务跳转链接 -->

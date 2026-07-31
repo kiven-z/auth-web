@@ -12,7 +12,7 @@ logJob:
     status: Status
     elapsedTime: Elapsed (ms)
     exceptionInfo: Exception Info
-    createTime: Recorded At
+    createdAt: Recorded At
   status:
     success: Success
     failed: Failed

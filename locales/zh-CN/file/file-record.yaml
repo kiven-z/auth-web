@@ -8,7 +8,7 @@ fileRecord:
     bizType: 业务类型
     bizId: 业务ID
     originalName: 原始文件名
-    createTimeRange: 创建时间范围
+    createdAtRange: 创建时间范围
     storagePlatform: 存储平台
     uploadMode: 上传模式
     bucket: 存储桶

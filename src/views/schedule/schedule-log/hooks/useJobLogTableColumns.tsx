@@ -79,22 +79,22 @@ function useJobLogTableColumns() {
     },
     // 记录时间
     {
-      label: t('logJob.field.createTime'),
-      prop: 'createTime',
+      label: t('logJob.field.createdAt'),
+      prop: 'createdAt',
       sortable: true,
       minWidth: 170,
-      formatter: (row: JobLogPageRow) => formatDateTime(row.createTime),
+      formatter: (row: JobLogPageRow) => formatDateTime(row.createdAt),
     },
     // 创建人
     {
-      label: t('table.createUsername'),
-      prop: 'createUser',
+      label: t('table.createdByName'),
+      prop: 'createdBy',
       minWidth: 130,
       formatter: (row: JobLogPageRow) => {
         return (
-          row.createUser && (
-            <ElButton link type="primary" onClick={() => selectUserinfo(row.createUser, row.createUsername)}>
-              {row.createUsername}
+          row.createdBy && (
+            <ElButton link type="primary" onClick={() => selectUserinfo(row.createdBy, row.createdByName)}>
+              {row.createdByName}
             </ElButton>
           )
         );
