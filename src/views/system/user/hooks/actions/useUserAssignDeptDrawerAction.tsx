@@ -5,7 +5,7 @@ import {
   updateUserDept,
   type UserDeptAssignForm,
   type UserDeptPageRow,
-} from '@/api/system/user-dept';
+} from '@/api/system/user/user-dept';
 import { addDialog } from '@/components/ui/Dialog';
 import useBatchDeleteAction from '@/shared/composables/table/useBatchDeleteAction';
 import { type FormOverlayExpose, useFormOverlaySubmit } from '@/shared/composables/table/useFormOverlaySubmit';

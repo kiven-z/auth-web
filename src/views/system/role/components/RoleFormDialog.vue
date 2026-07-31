@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import type { FormDialog } from '@/api/common';
-import type { SysRoleCreateForm, SysRoleUpdateForm } from '@/api/system/role';
+import type { SysRoleCreateForm, SysRoleUpdateForm } from '@/api/system/role/role';
 import { ROLE_CODE_REGEX } from '@/views/system/role/constants/role-code-convention';
 import type { FormInstance, FormRules } from 'element-plus';
 import { reactive, ref } from 'vue';

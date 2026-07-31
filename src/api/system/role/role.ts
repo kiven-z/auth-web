@@ -155,32 +155,6 @@ export function batchUpdateRoleStatus(data: IdsEnableStatusRequest): Promise<voi
 }
 
 /**
- * 查询角色已分配权限
- * @param roleId 角色 ID
- */
-export function getRolePermissions(roleId: string): Promise<PermissionReference[]> {
-  return http.get<PermissionReference[], unknown>(`/system/role/${roleId}/permissions`);
-}
-
-/**
- * 角色权限全量分配请求
- */
-export interface SysRolePermissionAssignRequest {
-  permissionIds: string[];
-}
-
-/**
- * 全量分配角色权限
- * @param roleId 角色 ID
- * @param data 权限 ID 列表
- */
-export function assignRolePermissions(roleId: string, data: SysRolePermissionAssignRequest): Promise<void> {
-  return http.post<void, SysRolePermissionAssignRequest>(`/system/role/${roleId}/permissions`, {
-    data,
-  });
-}
-
-/**
  * 导入角色 Excel（multipart/form-data）
  * @param file 上传的 Excel 文件
  * @returns 导入结果

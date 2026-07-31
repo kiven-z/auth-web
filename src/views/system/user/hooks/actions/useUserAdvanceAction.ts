@@ -7,7 +7,7 @@ import {
   importUserExcel,
   refreshUserAuthorization,
   type SysUserPageQuery,
-} from '@/api/system/user';
+} from '@/api/system/user/user';
 import { usePagedTableExport } from '@/components/business/ExportDialog';
 import useBatchDeleteAction from '@/shared/composables/table/useBatchDeleteAction';
 import useSpreadsheetImportAction from '@/views/system/_shared/hooks/useSpreadsheetImportAction';

@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import type { FormDialog } from '@/api/common';
 import { getDeptList } from '@/api/system/dept';
-import type { UserDeptAssignForm } from '@/api/system/user-dept';
+import type { UserDeptAssignForm } from '@/api/system/user/user-dept';
 import { errorMessage } from '@/services/feedback/message';
 import { USER_DEPT_RELATION_STATUS_FILTER_OPTIONS } from '@/views/system/user/constants/user-dept-relation-status';
 import { buildDeptSelectTree, type DeptSelectTreeNode } from '@/views/system/_shared/utils/dept-select-tree';

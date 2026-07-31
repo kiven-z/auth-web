@@ -1,5 +1,5 @@
 import { formatDateTime } from '@/shared/utils/date/dateTime';
-import type { MeLoginLogPageRow } from '@/api/system/user-me';
+import type { MeLoginLogPageRow } from '@/api/system/user/user-me';
 import {
   LOGIN_LOG_TYPE_FILTER_OPTIONS,
   resolveLoginLogResultMeta,

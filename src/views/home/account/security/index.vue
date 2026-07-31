@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { listMySessions, type MeUserSession } from '@/api/system/user-me';
+import { listMySessions, type MeUserSession } from '@/api/system/user/user-me';
 import { errorMessage } from '@/services/feedback/message';
 import { onMounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';

@@ -1,5 +1,5 @@
-import type { SysRolePageQuery } from '@/api/system/role';
-import { downloadRoleImportTemplate, exportRoleExcel, importRoleExcel } from '@/api/system/role';
+import type { SysRolePageQuery } from '@/api/system/role/role';
+import { downloadRoleImportTemplate, exportRoleExcel, importRoleExcel } from '@/api/system/role/role';
 import { usePagedTableExport } from '@/components/business/ExportDialog';
 import useSpreadsheetImportAction from '@/views/system/_shared/hooks/useSpreadsheetImportAction';
 import { useI18n } from 'vue-i18n';

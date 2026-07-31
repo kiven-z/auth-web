@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { getDeptList } from '@/api/system/dept';
-import { getRoleScope, type RoleScopeType, type SysRoleScopeForm } from '@/api/system/role-scope';
+import { getRoleScope, type RoleScopeType, type SysRoleScopeForm } from '@/api/system/role/role-scope';
 import { errorMessage } from '@/services/feedback/message';
 import { ROLE_SCOPE_TYPE_OPTIONS } from '@/views/system/role/constants/role-scope-type';
 import { buildDeptSelectTree, type DeptSelectTreeNode } from '@/views/system/_shared/utils/dept-select-tree';

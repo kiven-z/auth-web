@@ -1,4 +1,4 @@
-import type { RoleScopeType } from '@/api/system/role-scope';
+import type { RoleScopeType } from '@/api/system/role/role-scope';
 
 /** 角色数据范围类型选项（radio） */
 export interface RoleScopeTypeOption {

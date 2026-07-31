@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { getRolePage } from '@/api/system/role';
+import { getRolePage } from '@/api/system/role/role';
 import type { AssignSeedItem } from '@/components/business/AssignManagePanel';
 import AssignPanel, {
   createAssignCheckboxColumn,

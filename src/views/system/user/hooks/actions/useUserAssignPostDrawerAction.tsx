@@ -6,7 +6,7 @@ import {
   type UserPostAssignForm,
   type UserPostPageRow,
   type UserPostRelationUpdateForm,
-} from '@/api/system/user-post';
+} from '@/api/system/user/user-post';
 import type { TableActionDeps } from '@/api/common';
 import { addDialog } from '@/components/ui/Dialog';
 import useBatchDeleteAction from '@/shared/composables/table/useBatchDeleteAction';

@@ -6,7 +6,7 @@ import useUserAssignDeptDrawerAction from '@/views/system/user/hooks/actions/use
 import { computed, onMounted, reactive, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import useUserDeptAssignTableColumns from '@/views/system/user/hooks/columns/useUserDeptAssignTableColumns';
-import { getUserDeptPage, UserDeptPageRow } from '@/api/system/user-dept';
+import { getUserDeptPage, UserDeptPageRow } from '@/api/system/user/user-dept';
 import { useFormPlaceholder } from '@/shared/composables/i18n/useFormPlaceholder';
 import type { FormInstance } from 'element-plus';
 

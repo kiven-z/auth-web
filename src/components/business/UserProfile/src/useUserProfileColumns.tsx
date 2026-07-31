@@ -5,8 +5,8 @@ import type {
   UserPostReference,
   UserReference,
 } from '@/api/system/grant-table';
-import type { UserDeptPageRow } from '@/api/system/user-dept';
-import type { UserPostPageRow } from '@/api/system/user-post';
+import type { UserDeptPageRow } from '@/api/system/user/user-dept';
+import type { UserPostPageRow } from '@/api/system/user/user-post';
 import useUserProfileDisplay from '@/components/business/UserProfile/src/hooks/useUserProfileDisplay';
 import { DEPT_STATUS_FILTER_OPTIONS } from '@/views/system/dept/constants/dept-search-options';
 import { POST_STATUS_FILTER_OPTIONS } from '@/views/system/post/constants/post-search-options';

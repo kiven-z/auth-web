@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { getMyLoginLogPage } from '@/api/system/user-me';
+import { getMyLoginLogPage } from '@/api/system/user/user-me';
 import AuthPagedTable, { usePaginationState } from '@/components/business/AuthPagedTable';
 import { useFormPlaceholder } from '@/shared/composables/i18n/useFormPlaceholder';
 import useMeLoginLogTableColumns from '@/views/home/account/login-log/hooks/useMeLoginLogTableColumns';

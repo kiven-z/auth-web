@@ -1,5 +1,5 @@
 <script lang="tsx" setup>
-import { kickMySession, listMySessions, type MeUserSession } from '@/api/system/user-me';
+import { kickMySession, listMySessions, type MeUserSession } from '@/api/system/user/user-me';
 import AuthDataTable from '@/components/ui/AuthDataTable';
 import { errorMessage, message } from '@/services/feedback/message';
 import useMeSessionTableColumns from '@/views/home/account/security/hooks/useMeSessionTableColumns';

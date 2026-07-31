@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { clearMyPreferences } from '@/api/system/user-preferences';
+import { clearMyPreferences } from '@/api/system/user/user-preferences';
 import { getConfig } from '@/auth/config';
 import { resetLocalUiPreferences } from '@/core/preferences/storage';
 import { useChangePasswordAction } from '@/components/business/ChangePasswordDialog';

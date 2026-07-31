@@ -1,4 +1,4 @@
-import type { SysUserPageRow } from '@/api/system/user';
+import type { SysUserPageRow } from '@/api/system/user/user';
 import { selectUserinfo } from '@/components/business/UserProfile';
 import useUserProfileDisplay from '@/components/business/UserProfile/src/hooks/useUserProfileDisplay';
 import { Perms } from '@/auth/permission';

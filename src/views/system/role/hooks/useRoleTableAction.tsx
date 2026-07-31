@@ -1,6 +1,6 @@
 import type { TableActionDeps } from '@/api/common';
-import type { SysRoleCreateForm, SysRolePageRow, SysRoleUpdateForm } from '@/api/system/role';
-import { batchUpdateRoleStatus, createRole, deleteRole, getRoleDetail, updateRole } from '@/api/system/role';
+import type { SysRoleCreateForm, SysRolePageRow, SysRoleUpdateForm } from '@/api/system/role/role';
+import { batchUpdateRoleStatus, createRole, deleteRole, getRoleDetail, updateRole } from '@/api/system/role/role';
 import { addDialog } from '@/components/ui/Dialog';
 import { type FormOverlayExpose, useFormOverlaySubmit } from '@/shared/composables/table/useFormOverlaySubmit';
 import { deleteConfirm, operationConfirm } from '@/services/feedback/dialog';

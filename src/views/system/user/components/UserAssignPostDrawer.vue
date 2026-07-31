@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import AuthPagedTable, { usePaginationState } from '@/components/business/AuthPagedTable';
-import { getUserPostPage, type UserPostPageRow } from '@/api/system/user-post';
+import { getUserPostPage, type UserPostPageRow } from '@/api/system/user/user-post';
 import useUserAssignPostDrawerAction from '@/views/system/user/hooks/actions/useUserAssignPostDrawerAction';
 import useUserPostAssignTableColumns from '@/views/system/user/hooks/columns/useUserPostAssignTableColumns';
 import { SYS_USER_POST_PERMS } from '@/views/system/user/constants/permissions';

@@ -1,4 +1,4 @@
-import type { UserPostPageRow } from '@/api/system/user-post';
+import type { UserPostPageRow } from '@/api/system/user/user-post';
 import useUserProfileDisplay from '@/components/business/UserProfile/src/hooks/useUserProfileDisplay';
 import { createAuditTableColumns } from '@/shared/composables/table/auditColumns';
 import { ElCheckTag } from 'element-plus';

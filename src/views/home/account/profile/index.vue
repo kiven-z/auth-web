@@ -1,6 +1,6 @@
 <script lang="ts" setup>
-import { getUserProfile, type SysUserProfileResponse } from '@/api/system/user-base';
-import type { MeProfileUpdateRequest } from '@/api/system/user-me';
+import { getUserProfile, type SysUserProfileResponse } from '@/api/system/user/user-base';
+import type { MeProfileUpdateRequest } from '@/api/system/user/user-me';
 import { readStoredUserProfileEntry, writeUserProfileToStorage } from '@/core/session/userProfileStorage';
 import { errorMessage } from '@/services/feedback/message';
 import { useUserStore } from '@/store/modules/auth/user';

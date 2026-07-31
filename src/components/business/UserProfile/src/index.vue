@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { getUserProfile, type UserDeptReference, type UserPostReference } from '@/api/system/user-base';
+import { getUserProfile, type UserDeptReference, type UserPostReference } from '@/api/system/user/user-base';
 import useUserProfileColumns from '@/components/business/UserProfile/src/useUserProfileColumns';
 import ReDescription from '@/components/ui/Description';
 import { errorMessage } from '@/services/feedback/message';

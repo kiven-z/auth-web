@@ -1,4 +1,4 @@
-import type { MeUserSession } from '@/api/system/user-me';
+import type { MeUserSession } from '@/api/system/user/user-me';
 import { formatMillisTimestamp } from '@/core/session/sessionTime';
 import { ElTag } from 'element-plus';
 import { computed } from 'vue';

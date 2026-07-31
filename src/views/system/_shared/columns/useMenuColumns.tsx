@@ -1,4 +1,4 @@
-import type { RoleBoundMenuItem } from '@/api/system/role';
+import type { RoleBoundMenuItem } from '@/api/system/role/role';
 import { renderBooleanStatusTag } from '@/shared/composables/layout/renderBooleanStatusTag';
 import { MENU_TYPE_OPTIONS } from '@/views/system/menu/constants/menu-type';
 import { computed } from 'vue';

@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import type { FormDialog } from '@/api/common';
-import type { SysUserCreateForm } from '@/api/system/user';
+import type { SysUserCreateForm } from '@/api/system/user/user';
 import { USER_ACCOUNT_STATUS, USER_STATUS_FILTER_OPTIONS } from '@/views/system/user/constants/user-account-status';
 import { USER_GENDER, USER_GENDER_OPTIONS } from '@/views/system/user/constants/user-gender';
 import type { FormInstance, FormRules } from 'element-plus';

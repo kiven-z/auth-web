@@ -1,4 +1,4 @@
-import type { SysRolePageRow } from '@/api/system/role';
+import type { SysRolePageRow } from '@/api/system/role/role';
 import { createAuditTableColumns } from '@/shared/composables/table/auditColumns';
 import { ElTag } from 'element-plus';
 import { computed } from 'vue';

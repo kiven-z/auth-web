@@ -1,5 +1,6 @@
-import { assignRolePermissions, getRolePermissions, type SysRolePageRow } from '@/api/system/role';
-import { type SysRoleScopeForm, upsertRoleScope } from '@/api/system/role-scope';
+import type { SysRolePageRow } from '@/api/system/role/role';
+import { assignRolePermissions, getRolePermissions } from '@/api/system/role/role-permission';
+import { type SysRoleScopeForm, upsertRoleScope } from '@/api/system/role/role-scope';
 import { addDialog } from '@/components/ui/Dialog';
 import { addDrawer } from '@/components/ui/Drawer';
 import { errorMessage, message } from '@/services/feedback/message';

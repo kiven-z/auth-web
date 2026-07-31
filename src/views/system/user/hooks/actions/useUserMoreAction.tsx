@@ -1,7 +1,7 @@
 import type { TableActionDeps } from '@/api/common';
 import { kickAllUserSessions } from '@/api/auth/session';
-import { getUserRoles, putUserRoles } from '@/api/system/user-role';
-import { refreshUserAuthorization, type SysUserPageRow } from '@/api/system/user';
+import { getUserRoles, putUserRoles } from '@/api/system/user/user-role';
+import { refreshUserAuthorization, type SysUserPageRow } from '@/api/system/user/user';
 import { addDialog, closeDialog } from '@/components/ui/Dialog';
 import { addDrawer } from '@/components/ui/Drawer';
 import { operationConfirm } from '@/services/feedback/dialog';

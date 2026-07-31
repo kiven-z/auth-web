@@ -1,7 +1,7 @@
 <script lang="tsx" setup>
 import { createAuditDetailColumns } from '@/shared/composables/table/auditColumns';
 import type { DetailDialog } from '@/api/common';
-import type { SysUserDetail } from '@/api/system/user-base';
+import type { SysUserDetail } from '@/api/system/user/user-base';
 import useUserProfileColumns from '@/components/business/UserProfile/src/useUserProfileColumns';
 import useUserProfileDisplay from '@/components/business/UserProfile/src/hooks/useUserProfileDisplay';
 import DetailRelationListSection from '@/components/business/DetailRelationListSection/index.vue';
