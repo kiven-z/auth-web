@@ -11,6 +11,8 @@ roles:
     status: 状态
     orderNum: 显示顺序
     remark: 备注说明
+    scopeType: 数据范围
+    scopeDeptIds: 指定部门
   status:
     normal: 启用
     disabled: 禁用
@@ -38,9 +40,19 @@ roles:
     roleCodeFormat: 角色编码须为大写字母与下划线，且首字符为大写字母
     roleNameLengthLimit: 角色名称长度不能超过128个字符
     remarkLengthLimit: 备注长度不能超过500个字符
+    scopeDeptIdsRequired: 请至少选择一个部门
   message:
     deleteInUse: 该角色仍被授权对象引用，请先解除授权后再删除
   menu:
     dataScope: 数据范围配置
     grantSubjects: 授权对象管理（反向）
     impactAnalysis: 影响分析与刷新
+  scope:
+    tip: 未配置时画像兜底为「仅本人」；用户级 user_scope 可覆盖本配置
+  scopeType:
+    all: 全部数据
+    self: 仅本人
+    dept: 指定部门
+    deptAndChild: 指定部门及下级
+  placeholder:
+    scopeDeptIds: 请选择部门

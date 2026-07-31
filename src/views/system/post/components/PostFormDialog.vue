@@ -3,7 +3,7 @@ import type { FormDialog } from '@/api/common';
 import { getDeptList } from '@/api/system/dept';
 import type { SysPostFormModel } from '@/api/system/post';
 import { errorMessage } from '@/services/feedback/message';
-import { buildPostDeptCascaderTree, type PostDeptCascaderNode } from '@/views/system/post/utils/post-dept-cascader';
+import { buildDeptSelectTree, type DeptSelectTreeNode } from '@/views/system/_shared/utils/dept-select-tree';
 import type { CascaderProps, FormInstance, FormRules } from 'element-plus';
 import { onMounted, reactive, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
@@ -31,7 +31,7 @@ const deptCascaderProps: CascaderProps = {
   disabled: 'disabled',
 };
 
-const deptTree = ref<PostDeptCascaderNode[]>([]);
+const deptTree = ref<DeptSelectTreeNode[]>([]);
 
 const rules = reactive<FormRules>({
   deptId: [{ required: true, message: t('post.field.deptName'), trigger: 'change' }],
@@ -46,7 +46,7 @@ const rules = reactive<FormRules>({
 const loadDeptTree = async () => {
   try {
     const list = await getDeptList();
-    deptTree.value = buildPostDeptCascaderTree(list ?? []);
+    deptTree.value = buildDeptSelectTree(list ?? []);
   } catch (e: unknown) {
     errorMessage(e);
     deptTree.value = [];

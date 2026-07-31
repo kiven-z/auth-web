@@ -11,6 +11,8 @@ roles:
     status: Status
     orderNum: Order
     remark: Remark
+    scopeType: Data scope
+    scopeDeptIds: Departments
   status:
     normal: Normal
     disabled: Disabled
@@ -38,9 +40,19 @@ roles:
     roleCodeFormat: Role code must use uppercase letters and underscores, starting with a letter
     roleNameLengthLimit: Role name cannot exceed 128 characters
     remarkLengthLimit: Remark cannot exceed 500 characters
+    scopeDeptIdsRequired: Select at least one department
   message:
     deleteInUse: This role is still assigned via grants. Remove grants before deleting.
   menu:
     dataScope: Data scope
     grantSubjects: Grant subjects (reverse)
     impactAnalysis: Impact analysis and refresh
+  scope:
+    tip: When unset, profile falls back to SELF; user_scope overrides this role config
+  scopeType:
+    all: All data
+    self: Self only
+    dept: Selected departments
+    deptAndChild: Selected departments and descendants
+  placeholder:
+    scopeDeptIds: Select departments

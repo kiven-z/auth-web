@@ -44,7 +44,7 @@ const { openCreateDialog, openDetailDialog, openEditDialog, deleteRow, batchUpda
   fetchTableData,
 });
 
-const { openAssignPermissionDrawer } = useRoleMoreAction();
+const { openAssignPermissionDrawer, openDataScopeDialog } = useRoleMoreAction();
 
 const hasSelection = computed(() => selectedRows.value.length > 0);
 
@@ -179,7 +179,11 @@ onMounted(() => {
                   {{ t('roles.assign.permission') }}
                 </el-dropdown-item>
               </Perms>
-              <el-dropdown-item>{{ t('roles.menu.dataScope') }}</el-dropdown-item>
+              <Perms :value="SYS_ROLE_PERMS.UPDATE">
+                <el-dropdown-item @click="openDataScopeDialog(row)">
+                  {{ t('roles.menu.dataScope') }}
+                </el-dropdown-item>
+              </Perms>
               <el-dropdown-item>{{ t('roles.menu.grantSubjects') }}</el-dropdown-item>
               <el-dropdown-item>{{ t('roles.menu.impactAnalysis') }}</el-dropdown-item>
             </el-dropdown-menu>

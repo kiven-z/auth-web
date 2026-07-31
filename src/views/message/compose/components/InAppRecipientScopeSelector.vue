@@ -4,7 +4,7 @@ import { getDeptList } from '@/api/system/dept';
 import { errorMessage } from '@/services/feedback/message';
 import useRemotePostSearch from '@/shared/composables/dialog/useRemotePostSearch';
 import useRemoteUserSearch from '@/shared/composables/dialog/useRemoteUserSearch';
-import { buildPostDeptCascaderTree, type PostDeptCascaderNode } from '@/views/system/post/utils/post-dept-cascader';
+import { buildDeptSelectTree, type DeptSelectTreeNode } from '@/views/system/_shared/utils/dept-select-tree';
 import type { CascaderProps } from 'element-plus';
 import { computed, onMounted, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
@@ -19,7 +19,7 @@ const includeChildren = defineModel<boolean>('includeChildren', { required: true
 
 const { t } = useI18n();
 
-const deptTree = ref<PostDeptCascaderNode[]>([]);
+const deptTree = ref<DeptSelectTreeNode[]>([]);
 const deptTreeLoading = ref(false);
 
 const { userOptions, userSearchLoading, loadUserListByKeyword } = useRemoteUserSearch({
@@ -54,7 +54,7 @@ async function loadDeptTree(): Promise<void> {
   deptTreeLoading.value = true;
   try {
     const list = await getDeptList({ status: true });
-    deptTree.value = buildPostDeptCascaderTree(list ?? []);
+    deptTree.value = buildDeptSelectTree(list ?? []);
   } catch (error: unknown) {
     errorMessage(error);
     deptTree.value = [];
