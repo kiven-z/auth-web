@@ -39,17 +39,6 @@ export interface SysRolePageRow extends BaseResponsePageRow {
 }
 
 /**
- * 角色新增表单
- */
-export interface SysRoleCreateForm {
-  roleCode: string;
-  roleName: string;
-  status: boolean;
-  orderNum?: number;
-  remark?: string;
-}
-
-/**
  * 分页查询角色列表
  * @param params 角色分页查询参数
  * @returns 角色分页行
@@ -103,10 +92,18 @@ export interface SysRoleDetail extends BaseResponse {
 }
 
 /**
- * 角色更新表单
+ * 获取角色详情
+ * @param id 角色主键
+ * @returns 角色详情
  */
-export interface SysRoleUpdateForm {
-  id: string;
+export function getRoleDetail(id: string): Promise<SysRoleDetail> {
+  return http.get<SysRoleDetail, unknown>(`/system/role/${id}`);
+}
+
+/**
+ * 角色新增表单
+ */
+export interface SysRoleCreateForm {
   roleCode: string;
   roleName: string;
   status: boolean;
@@ -123,12 +120,15 @@ export function createRole(data: SysRoleCreateForm): Promise<void> {
 }
 
 /**
- * 获取角色详情
- * @param id 角色主键
- * @returns 角色详情
+ * 角色更新表单
  */
-export function getRoleDetail(id: string): Promise<SysRoleDetail> {
-  return http.get<SysRoleDetail, unknown>(`/system/role/${id}`);
+export interface SysRoleUpdateForm {
+  id: string;
+  roleCode: string;
+  roleName: string;
+  status: boolean;
+  orderNum?: number;
+  remark?: string;
 }
 
 /**
@@ -155,18 +155,18 @@ export function batchUpdateRoleStatus(data: IdsEnableStatusRequest): Promise<voi
 }
 
 /**
- * 角色权限全量分配请求
- */
-export interface SysRolePermissionAssignRequest {
-  permissionIds: string[];
-}
-
-/**
  * 查询角色已分配权限
  * @param roleId 角色 ID
  */
 export function getRolePermissions(roleId: string): Promise<PermissionReference[]> {
   return http.get<PermissionReference[], unknown>(`/system/role/${roleId}/permissions`);
+}
+
+/**
+ * 角色权限全量分配请求
+ */
+export interface SysRolePermissionAssignRequest {
+  permissionIds: string[];
 }
 
 /**

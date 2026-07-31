@@ -2,6 +2,11 @@ import { http } from '@/core/http/client';
 import type { AxiosRequestConfig } from 'axios';
 
 /**
+ * 失败率趋势聚合粒度
+ */
+export type AuthorizationInvalidationFailureRateTrendGranularity = 'DAY' | 'WEEK';
+
+/**
  * 授权失效 Outbox 统计
  */
 export interface AuthorizationInvalidationOutboxStats {
@@ -32,9 +37,14 @@ export interface AuthorizationInvalidationSummary {
 }
 
 /**
- * 失败率趋势聚合粒度
+ * 查询授权失效运维统计摘要
+ * @returns 统计摘要
  */
-export type AuthorizationInvalidationFailureRateTrendGranularity = 'DAY' | 'WEEK';
+export function getAuthorizationInvalidationSummary(): Promise<AuthorizationInvalidationSummary> {
+  return http.get<AuthorizationInvalidationSummary, AxiosRequestConfig>(
+    '/system/ops/authorization-invalidation/summary'
+  );
+}
 
 /**
  * 失败率趋势数据点
@@ -65,16 +75,6 @@ export interface AuthorizationInvalidationFailureRateTrendQuery {
   days?: number;
   startTime?: string;
   endTime?: string;
-}
-
-/**
- * 查询授权失效运维统计摘要
- * @returns 统计摘要
- */
-export function getAuthorizationInvalidationSummary(): Promise<AuthorizationInvalidationSummary> {
-  return http.get<AuthorizationInvalidationSummary, AxiosRequestConfig>(
-    '/system/ops/authorization-invalidation/summary'
-  );
 }
 
 /**

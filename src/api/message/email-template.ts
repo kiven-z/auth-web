@@ -48,31 +48,6 @@ export interface EmailTemplateMonacoFormModel extends EmailTemplateFormModel {
 export type EmailTemplateSaveRequest = EmailTemplateFormModel;
 
 /**
- * 正文对应库字段
- */
-export interface EmailTemplateContentUpdateRequest {
-  id: string;
-  content: string;
-}
-
-/**
- * 离线渲染
- */
-export interface EmailTemplateRenderRequest {
-  content: string;
-  requireFields: EmailTemplateRequireFieldRow[];
-}
-
-/**
- * 离线渲染模板
- * @param data 内容与变量声明
- * @returns 离线渲染模板响应
- */
-export function renderEmailTemplate(data: EmailTemplateRenderRequest): Promise<string> {
-  return http.post<string, EmailTemplateRenderRequest>('/system/message/email-template/render', { data });
-}
-
-/**
  * 新建邮件模板
  * @param data 新建邮件模板请求
  * @returns 新建邮件模板响应
@@ -91,10 +66,35 @@ export function updateEmailTemplate(data: EmailTemplateSaveRequest): Promise<str
 }
 
 /**
+ * 正文对应库字段
+ */
+export interface EmailTemplateContentUpdateRequest {
+  id: string;
+  content: string;
+}
+
+/**
  * 仅更新正文
  * @param data 模板 ID 与正文
  * @returns 更新响应
  */
 export function updateEmailTemplateContent(data: EmailTemplateContentUpdateRequest): Promise<string> {
   return http.request<string>('put', '/system/message/email-template/content', { data });
+}
+
+/**
+ * 离线渲染
+ */
+export interface EmailTemplateRenderRequest {
+  content: string;
+  requireFields: EmailTemplateRequireFieldRow[];
+}
+
+/**
+ * 离线渲染模板
+ * @param data 内容与变量声明
+ * @returns 离线渲染模板响应
+ */
+export function renderEmailTemplate(data: EmailTemplateRenderRequest): Promise<string> {
+  return http.post<string, EmailTemplateRenderRequest>('/system/message/email-template/render', { data });
 }

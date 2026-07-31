@@ -47,42 +47,14 @@ export interface SysJobPageRow extends BaseResponsePageRow {
 }
 
 /**
- * 新增定时任务请求体
+ * 分页查询定时任务
+ * @param params 定时任务分页查询参数
+ * @returns 定时任务分页行
  */
-export interface SysJobCreateForm {
-  jobName: string;
-  jobGroup: string;
-  jobClass?: string;
-  taskType: string;
-  handlerCode?: string;
-  invokeTarget?: string;
-  cronExpression: string;
-  timeZone?: string;
-  misfirePolicy: number;
-  concurrent: boolean;
-  startTime?: string;
-  endTime?: string;
-  status: boolean;
-  jobParams?: string;
-  payloadJson?: string;
-  remark?: string;
-}
-
-/** 白名单任务类 */
-export interface QuartzTaskClassRow {
-  className: string;
-  name: string;
-  description?: string;
-  invokeModes?: string[];
-  jobParamsExample?: string;
-}
-
-/** 白名单任务类可选方法 */
-export interface QuartzTaskMethodRow {
-  methodName: string;
-  parameterSignature: string;
-  returnType: string;
-  invokeTargetExample: string;
+export function getJobPage(params: SysJobPageQuery): Promise<PageResponse<SysJobPageRow>> {
+  return http.get<PageResponse<SysJobPageRow>, AxiosRequestConfig<SysJobPageQuery>>('/system/job', {
+    params,
+  });
 }
 
 /**
@@ -115,23 +87,42 @@ export interface SysJobDetailRow extends BaseResponseDetail {
 }
 
 /**
- * 分页查询定时任务
- * @param params 定时任务分页查询参数
- * @returns 定时任务分页行
- */
-export function getJobPage(params: SysJobPageQuery): Promise<PageResponse<SysJobPageRow>> {
-  return http.get<PageResponse<SysJobPageRow>, AxiosRequestConfig<SysJobPageQuery>>('/system/job', {
-    params,
-  });
-}
-
-/**
  * 定时任务详情
  * @param id 任务主键
  * @returns 任务详情
  */
 export function getJobDetail(id: string): Promise<SysJobDetailRow> {
   return http.get<SysJobDetailRow, AxiosRequestConfig>(`/system/job/${id}`);
+}
+
+/**
+ * 新增定时任务请求体
+ */
+export interface SysJobCreateForm {
+  jobName: string;
+  jobGroup: string;
+  jobClass?: string;
+  taskType: string;
+  handlerCode?: string;
+  invokeTarget?: string;
+  cronExpression: string;
+  timeZone?: string;
+  misfirePolicy: number;
+  concurrent: boolean;
+  startTime?: string;
+  endTime?: string;
+  status: boolean;
+  jobParams?: string;
+  payloadJson?: string;
+  remark?: string;
+}
+
+/**
+ * 新增定时任务
+ * @param data 新增表单数据
+ */
+export function createJob(data: SysJobCreateForm): Promise<string> {
+  return http.post<string, SysJobCreateForm>('/system/job', { data });
 }
 
 /**
@@ -152,14 +143,6 @@ export interface SysJobUpdateForm {
   payloadJson?: string;
   invokeTarget?: string;
   remark?: string;
-}
-
-/**
- * 新增定时任务
- * @param data 新增表单数据
- */
-export function createJob(data: SysJobCreateForm): Promise<string> {
-  return http.post<string, SysJobCreateForm>('/system/job', { data });
 }
 
 /**
@@ -194,11 +177,28 @@ export function deleteJob(id: string): Promise<string> {
   return http.request<string>('delete', `/system/job/${id}`);
 }
 
+/** 白名单任务类 */
+export interface QuartzTaskClassRow {
+  className: string;
+  name: string;
+  description?: string;
+  invokeModes?: string[];
+  jobParamsExample?: string;
+}
+
 /**
  * 白名单任务类列表
  */
 export function getJobCatalogClasses(): Promise<QuartzTaskClassRow[]> {
   return http.get<QuartzTaskClassRow[], AxiosRequestConfig>('/system/job/catalog/classes');
+}
+
+/** 白名单任务类可选方法 */
+export interface QuartzTaskMethodRow {
+  methodName: string;
+  parameterSignature: string;
+  returnType: string;
+  invokeTargetExample: string;
 }
 
 /**

@@ -29,6 +29,18 @@ export interface InAppInboxPageRow extends BaseResponsePageRow {
   readTime?: string | null;
 }
 
+/**
+ * 分页查询我的站内信。
+ * @param params 分页与筛选参数
+ * @returns 收件箱分页数据
+ */
+export function getInAppInboxPage(params: InAppInboxPageQuery): Promise<PageResponse<InAppInboxPageRow>> {
+  return http.get<PageResponse<InAppInboxPageRow>, AxiosRequestConfig<InAppInboxPageQuery>>(
+    '/system/me/message/in-app/inbox',
+    { params }
+  );
+}
+
 /** 大类 Tab / 未读项 */
 export interface InAppInboxMajorUnread {
   majorCategoryId: string;
@@ -42,18 +54,6 @@ export interface InAppInboxUnreadCount {
   totalUnreadCount: number;
   /** 启用大类全量 */
   majors: InAppInboxMajorUnread[];
-}
-
-/**
- * 分页查询我的站内信。
- * @param params 分页与筛选参数
- * @returns 收件箱分页数据
- */
-export function getInAppInboxPage(params: InAppInboxPageQuery): Promise<PageResponse<InAppInboxPageRow>> {
-  return http.get<PageResponse<InAppInboxPageRow>, AxiosRequestConfig<InAppInboxPageQuery>>(
-    '/system/me/message/in-app/inbox',
-    { params }
-  );
 }
 
 /**

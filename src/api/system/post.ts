@@ -22,6 +22,38 @@ import { http } from '@/core/http/client';
 export type { SpreadsheetImportResult };
 
 /**
+ * 岗位关键词搜索参数
+ */
+export interface SysPostSearchQuery {
+  keyword?: string;
+  status?: boolean;
+  limit?: number;
+}
+
+/**
+ * 岗位远程搜索项
+ */
+export interface SysPostSearchOption {
+  id: string;
+  deptId: string;
+  deptName: string;
+  postCode: string;
+  postName: string;
+  status: boolean;
+}
+
+/**
+ * 岗位关键词搜索
+ * @param params 搜索条件
+ * @returns 岗位搜索项列表
+ */
+export function searchPostByKeyword(params: SysPostSearchQuery): Promise<SysPostSearchOption[]> {
+  return http.get<SysPostSearchOption[], AxiosRequestConfig<SysPostSearchQuery>>('/system/post/search', {
+    params,
+  });
+}
+
+/**
  * 岗位分页查询参数
  */
 export interface SysPostPageQuery {
@@ -44,75 +76,6 @@ export interface SysPostPageRow extends BaseResponsePageRow {
   postName: string;
   status: boolean;
   orderNum: number;
-}
-
-/**
- * 岗位保存表单
- */
-export interface SysPostCreateForm {
-  deptId: string;
-  postCode: string;
-  postName: string;
-  status: boolean;
-  orderNum?: number;
-  remark?: string;
-}
-
-/**
- * 岗位更新表单（与新增字段一致，编辑弹层内部带 id）
- */
-export interface SysPostUpdateForm extends SysPostCreateForm {
-  id: string;
-}
-
-/** 岗位新增/编辑弹层共用表单模型 */
-export type SysPostFormModel = SysPostCreateForm | SysPostUpdateForm;
-
-/**
- * 岗位详情
- */
-export interface SysPostDetail extends BaseResponseDetail {
-  deptId: string;
-  postCode: string;
-  postName: string;
-  status: boolean;
-  orderNum: number;
-  remark?: string;
-  boundDept?: DeptReference | null;
-  boundUsers: PostBoundUserReference[];
-  boundRoles: RoleReference[];
-}
-
-/**
- * 岗位远程搜索项
- */
-export interface SysPostSearchOption {
-  id: string;
-  deptId: string;
-  deptName: string;
-  postCode: string;
-  postName: string;
-  status: boolean;
-}
-
-/**
- * 岗位关键词搜索参数
- */
-export interface SysPostSearchQuery {
-  keyword?: string;
-  status?: boolean;
-  limit?: number;
-}
-
-/**
- * 岗位关键词搜索
- * @param params 搜索条件
- * @returns 岗位搜索项列表
- */
-export function searchPostByKeyword(params: SysPostSearchQuery): Promise<SysPostSearchOption[]> {
-  return http.get<SysPostSearchOption[], AxiosRequestConfig<SysPostSearchQuery>>('/system/post/search', {
-    params,
-  });
 }
 
 /**
@@ -141,6 +104,21 @@ export function exportPostExcel(filter: SysPostPageQuery, scope: ExportScopeQuer
 }
 
 /**
+ * 岗位详情
+ */
+export interface SysPostDetail extends BaseResponseDetail {
+  deptId: string;
+  postCode: string;
+  postName: string;
+  status: boolean;
+  orderNum: number;
+  remark?: string;
+  boundDept?: DeptReference | null;
+  boundUsers: PostBoundUserReference[];
+  boundRoles: RoleReference[];
+}
+
+/**
  * 获取岗位详情
  * @param id 岗位主键
  * @returns 岗位详情
@@ -150,12 +128,34 @@ export function getPostDetail(id: string): Promise<SysPostDetail> {
 }
 
 /**
+ * 岗位保存表单
+ */
+export interface SysPostCreateForm {
+  deptId: string;
+  postCode: string;
+  postName: string;
+  status: boolean;
+  orderNum?: number;
+  remark?: string;
+}
+
+/**
  * 新增岗位
  * @param data 岗位新增表单
  */
 export function createPost(data: SysPostCreateForm): Promise<void> {
   return http.post<void, SysPostCreateForm>('/system/post', { data });
 }
+
+/**
+ * 岗位更新表单（与新增字段一致，编辑弹层内部带 id）
+ */
+export interface SysPostUpdateForm extends SysPostCreateForm {
+  id: string;
+}
+
+/** 岗位新增/编辑弹层共用表单模型 */
+export type SysPostFormModel = SysPostCreateForm | SysPostUpdateForm;
 
 /**
  * 更新岗位

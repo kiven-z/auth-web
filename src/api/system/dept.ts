@@ -30,15 +30,6 @@ export interface SysDeptListQuery {
 }
 
 /**
- * 部门表格 / 导出筛选
- */
-export interface SysDeptTableFilter {
-  deptName?: string;
-  deptCode?: string;
-  status?: boolean;
-}
-
-/**
  * 部门列表行 / 扁平 VO
  */
 export interface SysDeptListVO extends BaseResponse {
@@ -55,56 +46,28 @@ export interface SysDeptListVO extends BaseResponse {
 export type SysDeptTreeNode = SysDeptListVO & { children?: SysDeptTreeNode[] };
 
 /**
+ * 查询部门扁平列表
+ */
+export function getDeptList(params?: SysDeptListQuery): Promise<SysDeptListVO[]> {
+  return http.get<SysDeptListVO[], AxiosRequestConfig<SysDeptListQuery>>('/system/dept/list', { params });
+}
+
+/**
+ * 部门表格 / 导出筛选
+ */
+export interface SysDeptTableFilter {
+  deptName?: string;
+  deptCode?: string;
+  status?: boolean;
+}
+
+/**
  * 表格分页查询
  */
 export interface SysDeptPageQuery extends SysDeptTableFilter {
   pageIndex?: number;
   pageSize?: number;
   sort?: SortSpec[];
-}
-
-/** 部门新增表单 */
-export interface SysDeptCreateForm {
-  /** 父部门 ID；空或未选=顶级 */
-  parentId?: string;
-  deptName: string;
-  deptCode: string;
-  status: boolean;
-  orderNum?: number;
-  remark?: string;
-}
-
-/** 部门更新表单 */
-export interface SysDeptUpdateForm extends SysDeptCreateForm {
-  id: string;
-}
-
-/** 部门移动表单 */
-export interface SysDeptMoveForm {
-  id: string;
-  parentId: string;
-}
-
-/**
- * 部门详情
- */
-export interface SysDeptDetail extends BaseResponseDetail {
-  parentId: string;
-  deptName: string;
-  deptCode: string;
-  status: boolean;
-  orderNum: number;
-  remark?: string;
-  boundUsers: DeptBoundUserReference[];
-  boundPosts: PostReference[];
-  boundRoles: RoleReference[];
-}
-
-/**
- * 查询部门扁平列表
- */
-export function getDeptList(params?: SysDeptListQuery): Promise<SysDeptListVO[]> {
-  return http.get<SysDeptListVO[], AxiosRequestConfig<SysDeptListQuery>>('/system/dept/list', { params });
 }
 
 /**
@@ -130,6 +93,17 @@ export function exportDeptExcel(filter: SysDeptPageQuery, scope: ExportScopeQuer
   );
 }
 
+/** 部门新增表单 */
+export interface SysDeptCreateForm {
+  /** 父部门 ID；空或未选=顶级 */
+  parentId?: string;
+  deptName: string;
+  deptCode: string;
+  status: boolean;
+  orderNum?: number;
+  remark?: string;
+}
+
 /**
  * 新增部门
  * @param data 部门表单
@@ -142,6 +116,11 @@ export function createDept(data: SysDeptCreateForm): Promise<void> {
   return http.post<void, SysDeptCreateForm>('/system/dept', { data: body });
 }
 
+/** 部门更新表单 */
+export interface SysDeptUpdateForm extends SysDeptCreateForm {
+  id: string;
+}
+
 /**
  * 更新部门
  * @param data 保存表单
@@ -152,6 +131,21 @@ export function updateDept(data: SysDeptUpdateForm): Promise<void> {
     parentId: data.parentId && data.parentId.length > 0 ? data.parentId : TREE_ROOT_PARENT_ID,
   };
   return http.put<void, SysDeptUpdateForm>('/system/dept', { data: body });
+}
+
+/**
+ * 部门详情
+ */
+export interface SysDeptDetail extends BaseResponseDetail {
+  parentId: string;
+  deptName: string;
+  deptCode: string;
+  status: boolean;
+  orderNum: number;
+  remark?: string;
+  boundUsers: DeptBoundUserReference[];
+  boundPosts: PostReference[];
+  boundRoles: RoleReference[];
 }
 
 /**
@@ -175,6 +169,12 @@ export function deleteDept(id: string): Promise<void> {
  */
 export function batchUpdateDeptStatus(data: IdsEnableStatusRequest): Promise<void> {
   return http.request('put', '/system/dept/status', { data });
+}
+
+/** 部门移动表单 */
+export interface SysDeptMoveForm {
+  id: string;
+  parentId: string;
 }
 
 /**

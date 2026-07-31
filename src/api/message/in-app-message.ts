@@ -46,6 +46,15 @@ export interface InAppComposeResult {
 }
 
 /**
+ * 管理端按范围发送站内信
+ * @param data 发送请求
+ * @returns 发送结果
+ */
+export function sendInAppMessage(data: InAppComposeRequest): Promise<InAppComposeResult> {
+  return http.post<InAppComposeResult, InAppComposeRequest>('/system/message/in-app/send', { data });
+}
+
+/**
  * 站内信发送任务分页查询参数
  */
 export interface InAppSendTaskPageQuery {
@@ -84,6 +93,18 @@ export interface InAppSendTaskPageRow extends BaseResponsePageRow {
 }
 
 /**
+ * 分页查询站内信发送任务
+ * @param params 查询参数
+ * @returns 发送任务分页数据
+ */
+export function getInAppSendTaskPage(params: InAppSendTaskPageQuery) {
+  return http.get<PageResponse<InAppSendTaskPageRow>, AxiosRequestConfig<InAppSendTaskPageQuery>>(
+    '/system/message/in-app/tasks',
+    { params }
+  );
+}
+
+/**
  * 站内信发送任务详情
  */
 export interface InAppSendTaskDetailVO extends BaseResponseDetail {
@@ -115,27 +136,6 @@ export interface InAppSendTaskDetailVO extends BaseResponseDetail {
   /** 撤回操作人用户 ID */
   recallUserId?: string | null;
   remark?: string | null;
-}
-
-/**
- * 管理端按范围发送站内信
- * @param data 发送请求
- * @returns 发送结果
- */
-export function sendInAppMessage(data: InAppComposeRequest): Promise<InAppComposeResult> {
-  return http.post<InAppComposeResult, InAppComposeRequest>('/system/message/in-app/send', { data });
-}
-
-/**
- * 分页查询站内信发送任务
- * @param params 查询参数
- * @returns 发送任务分页数据
- */
-export function getInAppSendTaskPage(params: InAppSendTaskPageQuery) {
-  return http.get<PageResponse<InAppSendTaskPageRow>, AxiosRequestConfig<InAppSendTaskPageQuery>>(
-    '/system/message/in-app/tasks',
-    { params }
-  );
 }
 
 /**

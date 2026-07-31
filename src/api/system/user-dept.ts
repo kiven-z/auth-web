@@ -27,16 +27,6 @@ export interface UserDeptPageRow extends BaseResponsePageRow {
 }
 
 /**
- * 用户部门关联表单
- */
-export interface UserDeptAssignForm {
-  deptId?: string;
-  status: number;
-  isPrimary: boolean;
-  remark?: string | null;
-}
-
-/**
  * 分页查询用户部门关联
  * @param userId 用户 ID
  * @param params 查询条件
@@ -47,6 +37,16 @@ export function getUserDeptPage(userId: string, params: UserDeptPageQuery): Prom
     `/system/user-dept/${userId}/page`,
     { params }
   );
+}
+
+/**
+ * 用户部门关联表单
+ */
+export interface UserDeptAssignForm {
+  deptId?: string;
+  status: number;
+  isPrimary: boolean;
+  remark?: string | null;
 }
 
 /**

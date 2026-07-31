@@ -14,20 +14,20 @@ export interface MeUserPreferenceListVO {
   items: MeUserPreferenceItem[];
 }
 
-/** 个人中心 UI 偏好 upsert 请求体 */
-export interface MeUserPreferenceUpsertRequest {
-  /** 配置键 */
-  configKey: string;
-  /** 非空 JSON 对象 */
-  configValue: Record<string, unknown>;
-}
-
 /**
  * 查询当前用户 UI 偏好配置
  * @returns 偏好列表
  */
 export function listMyPreferences(): Promise<MeUserPreferenceListVO> {
   return http.request<MeUserPreferenceListVO>('get', '/system/me/preferences');
+}
+
+/** 个人中心 UI 偏好 upsert 请求体 */
+export interface MeUserPreferenceUpsertRequest {
+  /** 配置键 */
+  configKey: string;
+  /** 非空 JSON 对象 */
+  configValue: Record<string, unknown>;
 }
 
 /**

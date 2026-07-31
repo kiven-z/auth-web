@@ -4,44 +4,6 @@ import type { AxiosRequestConfig } from 'axios';
 
 import { http } from '@/core/http/client';
 
-/** 菜单新增表单 */
-export interface MenuCreateForm {
-  parentId?: string | null;
-  menuType: number;
-  path?: string;
-  name: string;
-  redirect?: string;
-  component?: string;
-  title: string;
-  icon?: string;
-  showLink: boolean;
-  /** 登录可见 */
-  publicAccess: boolean;
-  menuRank: number;
-  extraIcon?: string;
-  showParent?: boolean;
-  keepAlive: boolean;
-  frameSrc?: string;
-  frameLoading?: boolean;
-  transitionName?: string;
-  enterTransition?: string;
-  leaveTransition?: string;
-  hiddenTag?: boolean;
-  dynamicLevel?: number;
-  activePath?: string;
-  fixedTag?: boolean;
-  status: boolean;
-  remark?: string;
-}
-
-/** 菜单更新表单 */
-export interface MenuUpdateForm extends MenuCreateForm {
-  id: string;
-}
-
-/** 菜单弹窗表单（新建 / 编辑共用） */
-export type MenuFormModel = MenuCreateForm | MenuUpdateForm;
-
 /** 列表查询条件 */
 export interface SysMenuListQuery {
   name?: string;
@@ -73,11 +35,23 @@ export interface SysMenuListVO extends BaseResponse {
 /** 前端树节点 */
 export type SysMenuTreeNode = SysMenuListVO & { children?: SysMenuTreeNode[] };
 
+/** 查询菜单列表（扁平，无分页） */
+export function getMenuList(params?: SysMenuListQuery): Promise<SysMenuListVO[]> {
+  return http.get<SysMenuListVO[], AxiosRequestConfig<SysMenuListQuery>>('/system/menu/list', { params });
+}
+
 /** 表格分页查询 */
 export interface SysMenuPageQuery extends SysMenuListQuery {
   pageIndex?: number;
   pageSize?: number;
   sort?: SortSpec[];
+}
+
+/** 分页查询菜单 */
+export function getMenuPage(params: SysMenuPageQuery): Promise<PageResponse<SysMenuListVO>> {
+  return http.get<PageResponse<SysMenuListVO>, AxiosRequestConfig<SysMenuPageQuery>>('/system/menu/page', {
+    params,
+  });
 }
 
 /** 详情 VO */
@@ -98,32 +72,53 @@ export interface SysMenuDetailVO extends SysMenuListVO {
   boundRoles: RoleReference[];
 }
 
-/** 移动菜单 */
-export interface SysMenuMoveForm {
-  parentId: string;
-}
-
-/** 查询菜单列表（扁平，无分页） */
-export function getMenuList(params?: SysMenuListQuery): Promise<SysMenuListVO[]> {
-  return http.get<SysMenuListVO[], AxiosRequestConfig<SysMenuListQuery>>('/system/menu/list', { params });
-}
-
-/** 分页查询菜单 */
-export function getMenuPage(params: SysMenuPageQuery): Promise<PageResponse<SysMenuListVO>> {
-  return http.get<PageResponse<SysMenuListVO>, AxiosRequestConfig<SysMenuPageQuery>>('/system/menu/page', {
-    params,
-  });
-}
-
 /** 菜单详情 */
 export function getMenuDetail(id: string): Promise<SysMenuDetailVO> {
   return http.get<SysMenuDetailVO, AxiosRequestConfig>(`/system/menu/${id}`);
+}
+
+/** 菜单新增表单 */
+export interface MenuCreateForm {
+  parentId?: string | null;
+  menuType: number;
+  path?: string;
+  name: string;
+  redirect?: string;
+  component?: string;
+  title: string;
+  icon?: string;
+  showLink: boolean;
+  /** 登录可见 */
+  publicAccess: boolean;
+  menuRank: number;
+  extraIcon?: string;
+  showParent?: boolean;
+  keepAlive: boolean;
+  frameSrc?: string;
+  frameLoading?: boolean;
+  transitionName?: string;
+  enterTransition?: string;
+  leaveTransition?: string;
+  hiddenTag?: boolean;
+  dynamicLevel?: number;
+  activePath?: string;
+  fixedTag?: boolean;
+  status: boolean;
+  remark?: string;
 }
 
 /** 新增菜单 */
 export function createMenu(data: MenuCreateForm): Promise<string> {
   return http.post<string, MenuCreateForm>('/system/menu', { data });
 }
+
+/** 菜单更新表单 */
+export interface MenuUpdateForm extends MenuCreateForm {
+  id: string;
+}
+
+/** 菜单弹窗表单（新建 / 编辑共用） */
+export type MenuFormModel = MenuCreateForm | MenuUpdateForm;
 
 /** 修改菜单 */
 export function updateMenu(data: MenuUpdateForm): Promise<string> {
@@ -133,6 +128,11 @@ export function updateMenu(data: MenuUpdateForm): Promise<string> {
 /** 批量删除 */
 export function deleteMenus(ids: string[]): Promise<string> {
   return http.request<string>('delete', '/system/menu', { data: ids });
+}
+
+/** 移动菜单 */
+export interface SysMenuMoveForm {
+  parentId: string;
 }
 
 /** 移动菜单 */

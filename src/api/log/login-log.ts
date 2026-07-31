@@ -33,6 +33,17 @@ export interface LoginLogPageRow extends BaseResponsePageRow {
 }
 
 /**
+ * 分页查询登录日志
+ * @param params 登录日志分页查询参数
+ * @returns 登录日志分页行
+ */
+export function getLoginLogPage(params: LoginLogPageQuery): Promise<PageResponse<LoginLogPageRow>> {
+  return http.get<PageResponse<LoginLogPageRow>, AxiosRequestConfig<LoginLogPageQuery>>('/system/log/login/page', {
+    params,
+  });
+}
+
+/**
  * 登录日志详情
  */
 export interface LoginLogDetailRow extends BaseResponsePageRow {
@@ -49,17 +60,6 @@ export interface LoginLogDetailRow extends BaseResponsePageRow {
   browserType?: string | null;
   loginType?: string | null;
   sessionId?: string | null;
-}
-
-/**
- * 分页查询登录日志
- * @param params 登录日志分页查询参数
- * @returns 登录日志分页行
- */
-export function getLoginLogPage(params: LoginLogPageQuery): Promise<PageResponse<LoginLogPageRow>> {
-  return http.get<PageResponse<LoginLogPageRow>, AxiosRequestConfig<LoginLogPageQuery>>('/system/log/login/page', {
-    params,
-  });
 }
 
 /**

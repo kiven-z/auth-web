@@ -36,13 +36,6 @@ export interface AuthorizationInvalidationEventPageRow extends BaseResponsePageR
 }
 
 /**
- * 授权失效幂等事件详情
- */
-export interface AuthorizationInvalidationEventDetailRow extends AuthorizationInvalidationEventPageRow {
-  remark?: string | null;
-}
-
-/**
  * 分页查询授权失效幂等事件
  * @param params 分页查询参数
  * @returns 分页结果
@@ -54,6 +47,13 @@ export function getAuthorizationInvalidationEventPage(
     '/system/ops/authorization-invalidation/event/page',
     { params }
   );
+}
+
+/**
+ * 授权失效幂等事件详情
+ */
+export interface AuthorizationInvalidationEventDetailRow extends AuthorizationInvalidationEventPageRow {
+  remark?: string | null;
 }
 
 /**

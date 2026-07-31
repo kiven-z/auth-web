@@ -48,6 +48,18 @@ export interface MessageTemplatePageRow extends BaseResponsePageRow {
   description?: string;
 }
 
+/**
+ * 分页查询消息模板
+ * @param params 查询参数
+ * @returns 分页行
+ */
+export function getMessageTemplatePage(params: MessageTemplatePageQuery) {
+  return http.get<PageResponse<MessageTemplatePageRow>, AxiosRequestConfig<MessageTemplatePageQuery>>(
+    '/system/message/template',
+    { params }
+  );
+}
+
 /** 详情 */
 export interface MessageTemplateDetailVO extends BaseResponseDetail {
   channel: MessageChannelCode | string;
@@ -67,18 +79,6 @@ export interface MessageTemplateDetailVO extends BaseResponseDetail {
   imMessageType?: string;
   priority: number;
   status: boolean;
-}
-
-/**
- * 分页查询消息模板
- * @param params 查询参数
- * @returns 分页行
- */
-export function getMessageTemplatePage(params: MessageTemplatePageQuery) {
-  return http.get<PageResponse<MessageTemplatePageRow>, AxiosRequestConfig<MessageTemplatePageQuery>>(
-    '/system/message/template',
-    { params }
-  );
 }
 
 /**
@@ -126,15 +126,6 @@ export function batchUpdateMessageTemplateStatus(data: MessageTemplateBatchStatu
 }
 
 /**
- * 变量列表更新请求（body 含 id、channel、requireFields）
- */
-export interface MessageTemplateRequireFieldsUpdateRequest {
-  id: string;
-  channel: MessageChannelCode;
-  requireFields: MessageTemplateRequireFieldRow[];
-}
-
-/**
  * 查询模板变量声明
  * @param id 模板主键
  * @param channel 消息渠道
@@ -145,6 +136,15 @@ export function getMessageTemplateRequireFields(id: string, channel: MessageChan
     `/system/message/template/${id}/require-fields`,
     { params: { channel } }
   );
+}
+
+/**
+ * 变量列表更新请求（body 含 id、channel、requireFields）
+ */
+export interface MessageTemplateRequireFieldsUpdateRequest {
+  id: string;
+  channel: MessageChannelCode;
+  requireFields: MessageTemplateRequireFieldRow[];
 }
 
 /** 更新模板变量声明 */

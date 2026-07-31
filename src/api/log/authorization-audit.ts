@@ -33,6 +33,20 @@ export interface AuthorizationAuditPageRow extends BaseResponsePageRow {
 }
 
 /**
+ * 分页查询权限决策审计日志
+ * @param params 分页查询参数
+ * @returns 权限决策审计分页行
+ */
+export function getAuthorizationAuditPage(
+  params: AuthorizationAuditQuery
+): Promise<PageResponse<AuthorizationAuditPageRow>> {
+  return http.get<PageResponse<AuthorizationAuditPageRow>, AxiosRequestConfig<AuthorizationAuditQuery>>(
+    '/system/log/authorization-audit/page',
+    { params }
+  );
+}
+
+/**
  * 权限决策审计详情
  */
 export interface AuthorizationAuditDetailRow extends BaseResponsePageRow {
@@ -68,20 +82,6 @@ export interface AuthorizationAuditDetailRow extends BaseResponsePageRow {
   exceptionMessage?: string | null;
   /** 备注 */
   remark?: string | null;
-}
-
-/**
- * 分页查询权限决策审计日志
- * @param params 分页查询参数
- * @returns 权限决策审计分页行
- */
-export function getAuthorizationAuditPage(
-  params: AuthorizationAuditQuery
-): Promise<PageResponse<AuthorizationAuditPageRow>> {
-  return http.get<PageResponse<AuthorizationAuditPageRow>, AxiosRequestConfig<AuthorizationAuditQuery>>(
-    '/system/log/authorization-audit/page',
-    { params }
-  );
 }
 
 /**

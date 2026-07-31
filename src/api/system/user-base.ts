@@ -12,15 +12,6 @@ import { http } from '@/core/http/client';
 export type { UserDeptReference, UserPostReference };
 
 /**
- * 用户远程搜索选项
- */
-export interface UserSearchOption {
-  id: string;
-  username: string;
-  nickname?: string | null;
-}
-
-/**
  * 用户档案
  */
 export interface SysUserProfileResponse {
@@ -38,6 +29,15 @@ export interface SysUserProfileResponse {
   remark?: string | null;
   deptList: UserDeptReference[];
   postList: UserPostReference[];
+}
+
+/**
+ * 查询用户档案（基本信息、部门、岗位）
+ * @param userId 用户 ID（字符串化 Long）
+ * @returns 用户档案
+ */
+export function getUserProfile(userId: string | undefined): Promise<SysUserProfileResponse> {
+  return http.get<SysUserProfileResponse, AxiosRequestConfig>(`/system/user/${userId}/profile`);
 }
 
 /**
@@ -62,21 +62,21 @@ export interface SysUserDetail extends BaseResponse {
 }
 
 /**
- * 查询用户档案（基本信息、部门、岗位）
- * @param userId 用户 ID（字符串化 Long）
- * @returns 用户档案
- */
-export function getUserProfile(userId: string | undefined): Promise<SysUserProfileResponse> {
-  return http.get<SysUserProfileResponse, AxiosRequestConfig>(`/system/user/${userId}/profile`);
-}
-
-/**
  * 查询用户详情（档案 + 生效授权 + 审计字段）
  * @param userId 用户 ID（字符串化 Long）
  * @returns 用户详情
  */
 export function getUserDetail(userId: string): Promise<SysUserDetail> {
   return http.get<SysUserDetail, AxiosRequestConfig>(`/system/user/${userId}/detail`);
+}
+
+/**
+ * 用户远程搜索选项
+ */
+export interface UserSearchOption {
+  id: string;
+  username: string;
+  nickname?: string | null;
 }
 
 /**

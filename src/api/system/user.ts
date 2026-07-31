@@ -96,14 +96,6 @@ export interface SysUserCreateForm {
 }
 
 /**
- * 批量更新用户状态（0=禁用，1=正常，2=锁定）
- */
-export interface SysUserBatchStatusRequest {
-  ids: string[];
-  status: number;
-}
-
-/**
  * 新增用户
  * @param data 用户表单
  */
@@ -132,6 +124,14 @@ export function updateUser(data: SysUserUpdateForm): Promise<void> {
  */
 export function deleteUsers(ids: string[]): Promise<string> {
   return http.request<string>('delete', '/system/user', { data: ids });
+}
+
+/**
+ * 批量更新用户状态（0=禁用，1=正常，2=锁定）
+ */
+export interface SysUserBatchStatusRequest {
+  ids: string[];
+  status: number;
 }
 
 /**

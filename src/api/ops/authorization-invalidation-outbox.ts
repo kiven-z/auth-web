@@ -48,14 +48,6 @@ export interface AuthorizationInvalidationOutboxPageRow extends BaseResponsePage
 }
 
 /**
- * 授权失效 Outbox 详情
- */
-export interface AuthorizationInvalidationOutboxDetailRow extends AuthorizationInvalidationOutboxPageRow {
-  payload?: string | null;
-  remark?: string | null;
-}
-
-/**
  * 分页查询授权失效 Outbox
  * @param params 分页查询参数
  * @returns 分页结果
@@ -67,6 +59,14 @@ export function getAuthorizationInvalidationOutboxPage(
     '/system/ops/authorization-invalidation/outbox/page',
     { params }
   );
+}
+
+/**
+ * 授权失效 Outbox 详情
+ */
+export interface AuthorizationInvalidationOutboxDetailRow extends AuthorizationInvalidationOutboxPageRow {
+  payload?: string | null;
+  remark?: string | null;
 }
 
 /**

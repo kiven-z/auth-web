@@ -26,16 +26,6 @@ export interface PasswordHistoryPageRow extends BaseResponsePageRow {
 }
 
 /**
- * 密码历史日志详情
- */
-export interface PasswordHistoryDetailRow extends BaseResponsePageRow {
-  userId?: string | null;
-  username?: string | null;
-  changeTime: string;
-  changeIp: string;
-}
-
-/**
  * 分页查询密码历史日志
  * @param params 密码历史日志分页查询参数
  * @returns 密码历史日志分页行
@@ -47,6 +37,16 @@ export function getPasswordHistoryPage(
     '/system/log/password-history/page',
     { params }
   );
+}
+
+/**
+ * 密码历史日志详情
+ */
+export interface PasswordHistoryDetailRow extends BaseResponsePageRow {
+  userId?: string | null;
+  username?: string | null;
+  changeTime: string;
+  changeIp: string;
 }
 
 /**

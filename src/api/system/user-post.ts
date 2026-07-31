@@ -27,25 +27,6 @@ export interface UserPostPageRow extends BaseResponsePageRow {
 }
 
 /**
- * 用户岗位关联新增表单
- */
-export interface UserPostAssignForm {
-  postId?: string;
-  status: number;
-  isPrimary: boolean;
-  remark?: string | null;
-}
-
-/**
- * 用户岗位关联更新表单
- */
-export interface UserPostRelationUpdateForm {
-  status: number;
-  isPrimary: boolean;
-  remark?: string | null;
-}
-
-/**
  * 分页查询用户岗位关联
  * @param userId 用户 ID
  * @param params 查询条件
@@ -59,12 +40,31 @@ export function getUserPostPage(userId: string, params: UserPostPageQuery): Prom
 }
 
 /**
+ * 用户岗位关联新增表单
+ */
+export interface UserPostAssignForm {
+  postId?: string;
+  status: number;
+  isPrimary: boolean;
+  remark?: string | null;
+}
+
+/**
  * 新增用户岗位关联
  * @param userId 用户 ID
  * @param form 关联表单
  */
 export function createUserPost(userId: string, form: UserPostAssignForm): Promise<void> {
   return http.post<void, UserPostAssignForm>(`/system/user-post/${userId}`, { data: form });
+}
+
+/**
+ * 用户岗位关联更新表单
+ */
+export interface UserPostRelationUpdateForm {
+  status: number;
+  isPrimary: boolean;
+  remark?: string | null;
 }
 
 /**

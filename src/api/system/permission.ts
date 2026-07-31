@@ -77,6 +77,15 @@ export interface SysPermissionDetail extends BaseResponseDetail {
 }
 
 /**
+ * 获取权限详情
+ * @param id 权限主键
+ * @returns 权限详情
+ */
+export function getPermissionDetail(id: string): Promise<SysPermissionDetail> {
+  return http.get<SysPermissionDetail, unknown>(`/system/permission/${id}`);
+}
+
+/**
  * 权限新增表单
  */
 export interface SysPermissionCreateForm {
@@ -113,15 +122,6 @@ export interface SysPermissionUpdateForm {
  */
 export function updatePermission(data: SysPermissionUpdateForm): Promise<void> {
   return http.put<void, SysPermissionUpdateForm>('/system/permission', { data });
-}
-
-/**
- * 获取权限详情
- * @param id 权限主键
- * @returns 权限详情
- */
-export function getPermissionDetail(id: string): Promise<SysPermissionDetail> {
-  return http.get<SysPermissionDetail, unknown>(`/system/permission/${id}`);
 }
 
 /**

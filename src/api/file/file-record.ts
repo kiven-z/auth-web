@@ -33,6 +33,15 @@ export interface FileRecordPageRow extends BaseResponsePageRow {
 }
 
 /**
+ * 文件记录分页查询
+ */
+export function queryFileRecordPage(params: FileRecordPageQuery): Promise<PageResponse<FileRecordPageRow>> {
+  return http.get<PageResponse<FileRecordPageRow>, AxiosRequestConfig<FileRecordPageQuery>>('/system/file/page', {
+    params,
+  });
+}
+
+/**
  * 文件记录详情
  */
 export interface FileRecordDetail extends BaseResponseDetail {
@@ -54,15 +63,6 @@ export interface FileRecordDetail extends BaseResponseDetail {
   deleteSource?: string;
   deletedBy?: string;
   deletedAt?: string;
-}
-
-/**
- * 文件记录分页查询
- */
-export function queryFileRecordPage(params: FileRecordPageQuery): Promise<PageResponse<FileRecordPageRow>> {
-  return http.get<PageResponse<FileRecordPageRow>, AxiosRequestConfig<FileRecordPageQuery>>('/system/file/page', {
-    params,
-  });
 }
 
 /**

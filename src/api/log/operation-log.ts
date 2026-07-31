@@ -50,6 +50,18 @@ export interface OperationLogPageRow extends BaseResponsePageRow {
 }
 
 /**
+ * 分页查询操作日志
+ * @param params 分页查询参数
+ * @returns 操作日志分页行
+ */
+export function getOperationLogPage(params: OperationLogPageQuery): Promise<PageResponse<OperationLogPageRow>> {
+  return http.get<PageResponse<OperationLogPageRow>, AxiosRequestConfig<OperationLogPageQuery>>(
+    '/system/log/operation/page',
+    { params }
+  );
+}
+
+/**
  * 操作日志详情
  */
 export interface OperationLogDetailRow extends BaseResponsePageRow {
@@ -68,18 +80,6 @@ export interface OperationLogDetailRow extends BaseResponsePageRow {
   ipAddress?: string | null;
   userAgent?: string | null;
   remark?: string | null;
-}
-
-/**
- * 分页查询操作日志
- * @param params 分页查询参数
- * @returns 操作日志分页行
- */
-export function getOperationLogPage(params: OperationLogPageQuery): Promise<PageResponse<OperationLogPageRow>> {
-  return http.get<PageResponse<OperationLogPageRow>, AxiosRequestConfig<OperationLogPageQuery>>(
-    '/system/log/operation/page',
-    { params }
-  );
 }
 
 /**

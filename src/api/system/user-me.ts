@@ -4,6 +4,61 @@ import type { PageResponse } from '@/api/common';
 import { http } from '@/core/http/client';
 
 /**
+ * 当前用户展示资料（顶栏 / 会话校准）
+ */
+export interface MeProfileResponse {
+  username: string;
+  nickname?: string | null;
+  avatar?: string | null;
+  /** 主部门 ID（Long 字符串化） */
+  primaryDeptId?: string | null;
+  /** 主部门名称 */
+  primaryDeptName?: string | null;
+}
+
+/**
+ * 查询当前用户展示资料
+ */
+export function getMyProfile(): Promise<MeProfileResponse> {
+  return http.get<MeProfileResponse, AxiosRequestConfig>('/system/me/profile');
+}
+
+/**
+ * 当前用户资料更新请求
+ */
+export interface MeProfileUpdateRequest {
+  nickname: string;
+  email: string;
+  phone: string;
+  gender?: number | null;
+  birthday?: string | null;
+  introduction?: string | null;
+}
+
+/**
+ * 更新当前用户个人资料
+ * @param data 资料更新表单
+ */
+export function updateMyProfile(data: MeProfileUpdateRequest): Promise<string> {
+  return http.request<string>('put', '/system/me/profile', { data });
+}
+
+/**
+ * 当前用户头像更新请求
+ */
+export interface MeAvatarUpdateRequest {
+  avatar: string;
+}
+
+/**
+ * 更新当前用户头像
+ * @param data 头像更新表单
+ */
+export function updateMyAvatar(data: MeAvatarUpdateRequest): Promise<string> {
+  return http.request<string>('put', '/system/me/avatar', { data });
+}
+
+/**
  * 个人中心活跃会话
  */
 export interface MeUserSession {
@@ -22,81 +77,6 @@ export interface MeUserSession {
 }
 
 /**
- * 个人中心登录日志分页查询参数
- */
-export interface MeLoginLogPageQuery {
-  pageIndex?: number;
-  pageSize?: number;
-  loginResult?: number;
-  loginType?: string;
-}
-
-/**
- * 当前用户资料更新请求
- */
-export interface MeProfileUpdateRequest {
-  nickname: string;
-  email: string;
-  phone: string;
-  gender?: number | null;
-  birthday?: string | null;
-  introduction?: string | null;
-}
-
-/**
- * 当前用户展示资料（顶栏 / 会话校准）
- */
-export interface MeProfileResponse {
-  username: string;
-  nickname?: string | null;
-  avatar?: string | null;
-  /** 主部门 ID（Long 字符串化） */
-  primaryDeptId?: string | null;
-  /** 主部门名称 */
-  primaryDeptName?: string | null;
-}
-
-/**
- * 当前用户头像更新请求
- */
-export interface MeAvatarUpdateRequest {
-  avatar: string;
-}
-
-/**
- * 个人中心登录日志分页行
- */
-export interface MeLoginLogPageRow {
-  loginTime: string;
-  loginRegion?: string | null;
-  loginResult: number;
-  loginType?: string | null;
-}
-
-/**
- * 查询当前用户展示资料
- */
-export function getMyProfile(): Promise<MeProfileResponse> {
-  return http.get<MeProfileResponse, AxiosRequestConfig>('/system/me/profile');
-}
-
-/**
- * 更新当前用户个人资料
- * @param data 资料更新表单
- */
-export function updateMyProfile(data: MeProfileUpdateRequest): Promise<string> {
-  return http.request<string>('put', '/system/me/profile', { data });
-}
-
-/**
- * 更新当前用户头像
- * @param data 头像更新表单
- */
-export function updateMyAvatar(data: MeAvatarUpdateRequest): Promise<string> {
-  return http.request<string>('put', '/system/me/avatar', { data });
-}
-
-/**
  * 查询当前用户活跃会话列表
  */
 export function listMySessions(): Promise<MeUserSession[]> {
@@ -109,6 +89,26 @@ export function listMySessions(): Promise<MeUserSession[]> {
  */
 export function kickMySession(sessionId: string): Promise<void> {
   return http.post<void, unknown>(`/system/me/sessions/${sessionId}/kick`);
+}
+
+/**
+ * 个人中心登录日志分页查询参数
+ */
+export interface MeLoginLogPageQuery {
+  pageIndex?: number;
+  pageSize?: number;
+  loginResult?: number;
+  loginType?: string;
+}
+
+/**
+ * 个人中心登录日志分页行
+ */
+export interface MeLoginLogPageRow {
+  loginTime: string;
+  loginRegion?: string | null;
+  loginResult: number;
+  loginType?: string | null;
 }
 
 /**

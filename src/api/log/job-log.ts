@@ -44,6 +44,17 @@ export interface JobLogPageRow extends BaseResponsePageRow {
 }
 
 /**
+ * 分页查询任务调度日志
+ * @param params 分页查询参数
+ * @returns 任务调度日志分页行
+ */
+export function getJobLogPage(params: JobLogPageQuery): Promise<PageResponse<JobLogPageRow>> {
+  return http.get<PageResponse<JobLogPageRow>, AxiosRequestConfig<JobLogPageQuery>>('/system/log/job/page', {
+    params,
+  });
+}
+
+/**
  * 任务调度日志详情
  */
 export interface JobLogDetailRow extends BaseResponsePageRow {
@@ -61,17 +72,6 @@ export interface JobLogDetailRow extends BaseResponsePageRow {
   exceptionInfo?: string | null;
   /** 耗时（毫秒） */
   elapsedTime?: number | null;
-}
-
-/**
- * 分页查询任务调度日志
- * @param params 分页查询参数
- * @returns 任务调度日志分页行
- */
-export function getJobLogPage(params: JobLogPageQuery): Promise<PageResponse<JobLogPageRow>> {
-  return http.get<PageResponse<JobLogPageRow>, AxiosRequestConfig<JobLogPageQuery>>('/system/log/job/page', {
-    params,
-  });
 }
 
 /**

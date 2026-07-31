@@ -27,48 +27,6 @@ export interface SysJobGroupPageRow extends BaseResponsePageRow {
 }
 
 /**
- * 任务分组详情
- */
-export interface SysJobGroupDetailRow extends BaseResponseDetail {
-  groupCode: string;
-  groupName: string;
-  description?: string;
-  status: boolean;
-  isSystem: boolean;
-  orderNum: number;
-}
-
-/**
- * 新增任务分组请求体
- */
-export interface CreateJobGroupRequest {
-  groupCode: string;
-  groupName: string;
-  description?: string;
-  status: boolean;
-  orderNum?: number;
-}
-
-/**
- * 修改任务分组请求体（不含 groupCode）
- */
-export interface UpdateJobGroupRequest {
-  id: string;
-  groupName: string;
-  description?: string;
-  status: boolean;
-  orderNum: number;
-}
-
-/**
- * 任务分组远程搜索参数
- */
-export interface SysJobGroupSearchQuery {
-  keyword?: string;
-  limit?: number;
-}
-
-/**
  * 分页查询任务分组
  * @param params 任务分组分页查询参数
  * @returns 任务分组分页行
@@ -77,6 +35,14 @@ export function getJobGroupPage(params: SysJobGroupPageQuery): Promise<PageRespo
   return http.get<PageResponse<SysJobGroupPageRow>, AxiosRequestConfig<SysJobGroupPageQuery>>('/system/job-group', {
     params,
   });
+}
+
+/**
+ * 任务分组远程搜索参数
+ */
+export interface SysJobGroupSearchQuery {
+  keyword?: string;
+  limit?: number;
 }
 
 /**
@@ -92,11 +58,34 @@ export function searchJobGroupOptions(params: SysJobGroupSearchQuery): Promise<S
 
 /**
  * 任务分组详情
+ */
+export interface SysJobGroupDetailRow extends BaseResponseDetail {
+  groupCode: string;
+  groupName: string;
+  description?: string;
+  status: boolean;
+  isSystem: boolean;
+  orderNum: number;
+}
+
+/**
+ * 任务分组详情
  * @param id 分组主键
  * @returns 任务分组详情
  */
 export function getJobGroupDetail(id: string): Promise<SysJobGroupDetailRow> {
   return http.get<SysJobGroupDetailRow, AxiosRequestConfig>(`/system/job-group/${id}`);
+}
+
+/**
+ * 新增任务分组请求体
+ */
+export interface CreateJobGroupRequest {
+  groupCode: string;
+  groupName: string;
+  description?: string;
+  status: boolean;
+  orderNum?: number;
 }
 
 /**
@@ -106,6 +95,17 @@ export function getJobGroupDetail(id: string): Promise<SysJobGroupDetailRow> {
  */
 export function createJobGroup(data: CreateJobGroupRequest): Promise<string> {
   return http.post<string, CreateJobGroupRequest>('/system/job-group', { data });
+}
+
+/**
+ * 修改任务分组请求体（不含 groupCode）
+ */
+export interface UpdateJobGroupRequest {
+  id: string;
+  groupName: string;
+  description?: string;
+  status: boolean;
+  orderNum: number;
 }
 
 /**
