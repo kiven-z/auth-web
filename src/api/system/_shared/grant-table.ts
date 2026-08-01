@@ -88,7 +88,7 @@ export type PostBoundUserReference = UserReference & {
 };
 
 /**
- * 全量覆盖主体角色授权请求
+ * 全量覆盖主体角色授权请求（用户 / 部门 / 岗位 / 菜单）
  */
 export interface GrantTableAssignRoleRequest {
   roleIds: string[];
@@ -100,10 +100,3 @@ export interface GrantTableAssignRoleRequest {
 export type MenuAssignedRoleRow = RoleReference & {
   assigned: boolean;
 };
-
-/**
- * 菜单全量覆盖角色请求
- */
-export interface MenuAssignRoleRequest {
-  roleIds: string[];
-}

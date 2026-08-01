@@ -1,4 +1,4 @@
-import type { GrantTableAssignRoleRequest, RoleReference } from '@/api/system/grant-table';
+import type { GrantTableAssignRoleRequest, RoleReference } from '@/api/system/_shared/grant-table';
 import { http } from '@/core/http/client';
 
 /**

@@ -1,5 +1,5 @@
 import type { BaseResponse, IdsEnableStatusRequest, PageResponse, SortSpec } from '@/api/common';
-import type { RoleReference } from '@/api/system/grant-table';
+import type { RoleReference } from '@/api/system/_shared/grant-table';
 import type { AxiosRequestConfig } from 'axios';
 
 import { http } from '@/core/http/client';

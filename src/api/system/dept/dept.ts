@@ -8,7 +8,7 @@ import type {
   SpreadsheetImportResult,
 } from '@/api/common';
 import { mergePagedExportParams } from '@/api/common';
-import type { DeptBoundUserReference, PostReference, RoleReference } from '@/api/system/grant-table';
+import type { DeptBoundUserReference, PostReference, RoleReference } from '@/api/system/_shared/grant-table';
 import { http } from '@/core/http/client';
 import { TREE_ROOT_PARENT_ID } from '@/shared/utils/tree';
 import type { AxiosRequestConfig } from 'axios';

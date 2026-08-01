@@ -10,7 +10,7 @@ import type {
   SpreadsheetImportResult,
 } from '@/api/common';
 import { mergePagedExportParams } from '@/api/common';
-import type { RoleReference } from '@/api/system/grant-table';
+import type { RoleReference } from '@/api/system/_shared/grant-table';
 import { http } from '@/core/http/client';
 
 export type { SpreadsheetImportResult };

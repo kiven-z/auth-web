@@ -1,4 +1,4 @@
-import type { RoleReference } from '@/api/system/grant-table';
+import type { RoleReference } from '@/api/system/_shared/grant-table';
 import { ElTag } from 'element-plus';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';

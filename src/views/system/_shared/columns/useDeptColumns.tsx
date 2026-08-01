@@ -1,4 +1,4 @@
-import type { DeptReference } from '@/api/system/grant-table';
+import type { DeptReference } from '@/api/system/_shared/grant-table';
 import { DEPT_STATUS_FILTER_OPTIONS } from '@/views/system/dept/constants/dept-search-options';
 import { ElTag } from 'element-plus';
 import { computed } from 'vue';

@@ -6,7 +6,7 @@ import type {
   RoleReference,
   UserDeptReference,
   UserPostReference,
-} from '@/api/system/grant-table';
+} from '@/api/system/_shared/grant-table';
 import { http } from '@/core/http/client';
 
 export type { UserDeptReference, UserPostReference };

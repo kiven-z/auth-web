@@ -1,4 +1,4 @@
-import type { PermissionReference } from '@/api/system/grant-table';
+import type { PermissionReference } from '@/api/system/_shared/grant-table';
 import { renderBooleanStatusTag } from '@/shared/composables/layout/renderBooleanStatusTag';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';

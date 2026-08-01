@@ -1,4 +1,4 @@
-import type { PostReference } from '@/api/system/grant-table';
+import type { PostReference } from '@/api/system/_shared/grant-table';
 import { POST_STATUS_FILTER_OPTIONS } from '@/views/system/post/constants/post-search-options';
 import { ElTag } from 'element-plus';
 import { computed } from 'vue';

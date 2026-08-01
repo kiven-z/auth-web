@@ -1,4 +1,4 @@
-import type { MenuAssignedRoleRow, MenuAssignRoleRequest } from '@/api/system/grant-table';
+import type { GrantTableAssignRoleRequest, MenuAssignedRoleRow } from '@/api/system/_shared/grant-table';
 import { http } from '@/core/http/client';
 import type { AxiosRequestConfig } from 'axios';
 
@@ -17,6 +17,6 @@ export function getMenuRoles(id: string): Promise<MenuAssignedRoleRow[]> {
  * @param data 角色 ID 列表
  * @returns 操作结果文案
  */
-export function putMenuRoles(id: string, data: MenuAssignRoleRequest): Promise<string> {
+export function putMenuRoles(id: string, data: GrantTableAssignRoleRequest): Promise<string> {
   return http.request<string>('put', `/system/menu/${id}/roles`, { data });
 }

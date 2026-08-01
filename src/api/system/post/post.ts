@@ -11,7 +11,7 @@ import type {
   TableActionDeps,
 } from '@/api/common';
 import { mergePagedExportParams } from '@/api/common';
-import type { DeptReference, PostBoundUserReference, RoleReference } from '@/api/system/grant-table';
+import type { DeptReference, PostBoundUserReference, RoleReference } from '@/api/system/_shared/grant-table';
 import { http } from '@/core/http/client';
 
 export type { SpreadsheetImportResult };
