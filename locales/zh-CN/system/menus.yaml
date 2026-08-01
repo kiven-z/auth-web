@@ -81,7 +81,7 @@ menus:
     routerName: 请输入路由名称
     path: 请输入路由路径
     icon: 请输入图标名或 Iconify 标识
-    iconManual: 从 Iconify 复制，例如 ep:edit、grommet-icons:system
+    iconManual: 仅支持 ri/ 或 ep/，例如 ri/user-line、ep/edit
     rightExtraIcon: 请输入右侧图标
     rightExtraIconManual: 从 Iconify 复制，格式为 集合名:图标名
     remark: 请输入备注

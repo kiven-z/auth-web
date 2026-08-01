@@ -1,10 +1,10 @@
 import { type Component, defineComponent, h } from 'vue';
 import { FontIcon, IconifyIconOffline, IconifyIconOnline } from '../index';
+import { offlineIconNames } from './offlineIcon';
 import type { iconType } from './types';
 
 /**
- * 支持 `iconfont`、自定义 `svg` 以及 `iconify` 中所有的图标
- * 图标渲染 hooks
+ * 支持 `iconfont`、自定义 `svg` 以及 `iconify` 离线/在线图标
  * @param icon 图标
  * @param attrs iconType 属性
  * @returns Component
@@ -42,14 +42,20 @@ export function useRenderIcon(icon: any, attrs?: iconType): Component {
       },
     });
   } else {
-    // 通过是否存在 : 符号来判断是在线还是本地图标，存在即是在线图标，反之
+    // 已打包离线键走 Offline；否则转在线键名走 CDN
     return defineComponent({
       name: 'Icon',
       render() {
         if (!icon) return;
-        const IconifyIcon = icon.includes(':') ? IconifyIconOnline : IconifyIconOffline;
-        return h(IconifyIcon, {
-          icon,
+        const offlineName = String(icon).replace(':', '/');
+        if (offlineIconNames.has(offlineName)) {
+          return h(IconifyIconOffline, {
+            icon: offlineName,
+            ...attrs,
+          });
+        }
+        return h(IconifyIconOnline, {
+          icon: offlineName.replace('/', ':'),
           ...attrs,
         });
       },

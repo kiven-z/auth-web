@@ -22,8 +22,6 @@ interface MenuDialogProps {
   form?: Partial<MenuFormModel>;
 }
 
-type IconInputMode = 'select' | 'manual';
-
 interface DeptNode {
   id: string;
   value: string;
@@ -38,30 +36,23 @@ const props = withDefaults(defineProps<MenuDialogProps>(), {
   form: () => ({}) as MenuFormModel,
 });
 
-// IconSelect 内置 Tab 前缀；其它 Iconify 集合默认走手动输入模式
-const BUILTIN_ICON_PREFIXES = ['ep:', 'ri:', 'fa-solid:'] as const;
-// Iconify 官网
-const ICONIFY_ICON_SETS_URL = 'https://icon-sets.iconify.design/';
+/** 菜单图标仅允许 ri/*、ep/* */
+const ALLOWED_ICON_PREFIXES = ['ri/', 'ep/'] as const;
 
 const animationType = ref<'all' | 'detail'>('all');
 
-const iconModeSegmentOptions = computed(() => [
-  { label: t('menus.iconPickerBuiltin'), value: 'select' as const },
-  { label: t('menus.iconPickerManual'), value: 'manual' as const },
-]);
-
 /**
- * 根据图标字符串确定输入模式
+ * 非允许集合时清空
  * @param icon 图标字符串
- * @returns 输入模式
+ * @returns 合法键或空串
  */
-function deriveIconInputMode(icon: string | undefined | null): IconInputMode {
+function sanitizeMenuIcon(icon: string | undefined | null): string {
   const iconValue = (icon ?? '').trim();
   if (!iconValue) {
-    return 'select';
+    return '';
   }
   const lower = iconValue.toLowerCase();
-  return BUILTIN_ICON_PREFIXES.some((prefix) => lower.startsWith(prefix)) ? 'select' : 'manual';
+  return ALLOWED_ICON_PREFIXES.some((prefix) => lower.startsWith(prefix)) ? iconValue : '';
 }
 
 const { t } = useI18n();
@@ -81,6 +72,8 @@ const form = ref<MenuFormModel>({
   frameLoading: true,
   dynamicLevel: 1,
   ...props.form,
+  icon: sanitizeMenuIcon(props.form?.icon),
+  extraIcon: sanitizeMenuIcon(props.form?.extraIcon),
 } as MenuFormModel);
 
 // 表单规则
@@ -102,9 +95,6 @@ const parentIdPath = ref<string[]>([]);
 const typeSegmentOptions = computed(() =>
   MENU_TYPE_OPTIONS.map((item) => ({ label: t(String(item.labelKey)), value: item.value }))
 );
-
-const iconInputMode = ref<IconInputMode>(deriveIconInputMode(form.value.icon));
-const extraIconInputMode = ref<IconInputMode>(deriveIconInputMode(form.value.extraIcon));
 
 /**
  * 加载扁平菜单并构造父级级联树
@@ -233,27 +223,11 @@ defineExpose({ formRef, form });
       <el-col :lg="8" :md="12" :sm="12" :xs="24">
         <el-form-item :label="t('menus.icon')" prop="icon">
           <div class="flex w-full flex-col gap-2">
-            <div class="flex flex-wrap items-center gap-2">
-              <component :is="useRenderIcon(form.icon)" v-if="form.icon" class="shrink-0 text-lg" />
-              <el-link
-                :href="ICONIFY_ICON_SETS_URL"
-                rel="noopener noreferrer"
-                target="_blank"
-                type="primary"
-                underline="never"
-              >
-                {{ t('menus.iconifyLibrary') }}
-              </el-link>
-              <el-segmented v-model="iconInputMode" :options="iconModeSegmentOptions" />
+            <div v-if="form.icon" class="flex items-center gap-2">
+              <component :is="useRenderIcon(form.icon)" class="shrink-0 text-lg" />
+              <span class="text-xs text-[var(--el-text-color-secondary)]">{{ form.icon }}</span>
             </div>
-            <IconSelect v-if="iconInputMode === 'select'" v-model="form.icon" class="w-full!" />
-            <el-input
-              v-else
-              v-model="form.icon"
-              :disabled="isFormDisabled"
-              :placeholder="t('menus.placeholder.iconManual')"
-              clearable
-            />
+            <IconSelect v-model="form.icon" class="w-full!" />
           </div>
         </el-form-item>
       </el-col>
@@ -261,27 +235,11 @@ defineExpose({ formRef, form });
       <el-col :lg="8" :md="12" :sm="12" :xs="24">
         <el-form-item :label="t('menus.rightExtraIcon')" prop="extraIcon">
           <div class="flex w-full flex-col gap-2">
-            <div class="flex flex-wrap items-center gap-2">
-              <component :is="useRenderIcon(form.extraIcon)" v-if="form.extraIcon" class="shrink-0 text-lg" />
-              <el-link
-                :href="ICONIFY_ICON_SETS_URL"
-                rel="noopener noreferrer"
-                target="_blank"
-                type="primary"
-                underline="never"
-              >
-                {{ t('menus.iconifyLibrary') }}
-              </el-link>
-              <el-segmented v-model="extraIconInputMode" :options="iconModeSegmentOptions" />
+            <div v-if="form.extraIcon" class="flex items-center gap-2">
+              <component :is="useRenderIcon(form.extraIcon)" class="shrink-0 text-lg" />
+              <span class="text-xs text-[var(--el-text-color-secondary)]">{{ form.extraIcon }}</span>
             </div>
-            <IconSelect v-if="extraIconInputMode === 'select'" v-model="form.extraIcon" class="w-full!" />
-            <el-input
-              v-else
-              v-model="form.extraIcon"
-              :disabled="isFormDisabled"
-              :placeholder="t('menus.placeholder.rightExtraIconManual')"
-              clearable
-            />
+            <IconSelect v-model="form.extraIcon" class="w-full!" />
           </div>
         </el-form-item>
       </el-col>

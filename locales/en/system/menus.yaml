@@ -81,7 +81,7 @@ menus:
     routerName: Enter route name
     path: Enter route path
     icon: Icon name or Iconify id
-    iconManual: Paste from Iconify, e.g. ep:edit or grommet-icons:system
+    iconManual: Only ri/ or ep/, e.g. ri/user-line, ep/edit
     rightExtraIcon: Right side icon
     rightExtraIconManual: Paste from Iconify as collection:icon-name
     remark: Enter remark

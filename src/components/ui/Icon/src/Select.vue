@@ -15,30 +15,17 @@ const inputValue = defineModel({ type: String });
 
 const iconList = ref(IconJson);
 const icon = ref();
-const currentActiveType = ref('ep:');
-// 深拷贝图标数据，前端做搜索
+const currentActiveType = ref('ri:');
 const copyIconList = cloneDeep(iconList.value);
 const totalPage = ref(0);
-// 每页显示35个图标
 const pageSize = ref(35);
 const currentPage = ref(1);
-
-// 搜索条件
 const filterValue = ref('');
 
+/** 仅允许 Remix / Element Plus（Tab 键与 IconJson 一致，仍用冒号） */
 const tabsList = [
-  {
-    label: 'Element Plus',
-    name: 'ep:',
-  },
-  {
-    label: 'Remix Icon',
-    name: 'ri:',
-  },
-  {
-    label: 'Font Awesome 5 Solid',
-    name: 'fa-solid:',
-  },
+  { label: 'Remix Icon', name: 'ri:' },
+  { label: 'Element Plus', name: 'ep:' },
 ];
 
 const pageList = computed(() => {
@@ -53,7 +40,8 @@ const pageList = computed(() => {
 
 const iconItemStyle = computed((): ParameterCSSProperties => {
   return (item) => {
-    if (inputValue.value === currentActiveType.value + item) {
+    const collection = currentActiveType.value.replace(/:$/, '');
+    if (inputValue.value === `${collection}/${item}`) {
       return {
         borderColor: 'var(--el-color-primary)',
         color: 'var(--el-color-primary)',
@@ -62,21 +50,27 @@ const iconItemStyle = computed((): ParameterCSSProperties => {
   };
 });
 
+/**
+ * 从斜杠键名解析 Tab 与图标名（约定仅 `ri/xxx`、`ep/xxx`）
+ */
 function setVal() {
-  currentActiveType.value = inputValue.value.substring(0, inputValue.value.indexOf(':') + 1);
-  icon.value = inputValue.value.substring(inputValue.value.indexOf(':') + 1);
+  const value = inputValue.value ?? '';
+  const slashIndex = value.indexOf('/');
+  if (slashIndex <= 0) {
+    return;
+  }
+  const collection = value.slice(0, slashIndex);
+  currentActiveType.value = collection === 'ep' ? 'ep:' : 'ri:';
+  icon.value = value.slice(slashIndex + 1);
 }
 
 /**
- * 输入之后图标不存在时，设置图标为空，并返回输入框
- * 由于找不到图标会有异常，在异常中设置图标为空
+ * 打开选择器时定位到当前图标所在页
  */
 function onBeforeEnter() {
   try {
     if (isEmpty(icon.value)) return;
-
     setVal();
-    // 寻找当前图标在第几页
     const curIconIndex = copyIconList[currentActiveType.value].findIndex((i) => i === icon.value);
     currentPage.value = Math.ceil((curIconIndex + 1) / pageSize.value);
   } catch (e) {
@@ -95,9 +89,14 @@ function handleClick({ props }) {
   currentActiveType.value = props.name;
 }
 
+/**
+ * 选中后写入离线键名
+ * @param item 图标名（不含集合前缀）
+ */
 function onChangeIcon(item) {
   icon.value = item;
-  inputValue.value = currentActiveType.value + item;
+  const collection = currentActiveType.value.replace(/:$/, '');
+  inputValue.value = `${collection}/${item}`;
 }
 
 function onCurrentChange(page) {
@@ -146,7 +145,7 @@ watch(
           <template #reference>
             <div class="w-[40px] h-[32px] cursor-pointer flex justify-center items-center">
               <IconifyIconOffline v-if="!icon" :icon="Search" />
-              <IconifyIconOnline v-else :icon="inputValue" />
+              <IconifyIconOnline v-else :icon="(inputValue || '').replace('/', ':')" />
             </div>
           </template>
 
@@ -164,7 +163,7 @@ watch(
                     class="icon-item p-2 cursor-pointer mr-2 mt-1 flex justify-center items-center border border-[#e5e7eb]"
                     @click="onChangeIcon(item)"
                   >
-                    <IconifyIconOnline :icon="currentActiveType + item" height="20px" width="20px" />
+                    <IconifyIconOnline :icon="`${currentActiveType}${item}`" height="20px" width="20px" />
                   </li>
                 </ul>
                 <el-empty v-show="pageList.length === 0" :description="`${filterValue} 图标不存在`" :image-size="60" />
