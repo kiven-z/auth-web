@@ -1,21 +1,14 @@
 <script lang="ts" setup>
 import { getDeptList } from '@/api/system/dept/dept';
-import { type DataScopeType, getRoleScope, type SysDataScopeForm } from '@/api/system/role/role-scope';
+import { getRoleScope, type SysDataScopeForm } from '@/api/system/role/role-scope';
 import { errorMessage } from '@/services/feedback/message';
-import { DATA_SCOPE_TYPE_OPTIONS } from '@/views/system/_shared/constants/data-scope-type';
+import DataScopeFormFields from '@/views/system/_shared/components/DataScopeFormFields.vue';
 import { buildDeptSelectTree, type DeptSelectTreeNode } from '@/views/system/_shared/utils/dept-select-tree';
 import type { FormInstance, FormRules } from 'element-plus';
-import { computed, onMounted, reactive, ref, watch } from 'vue';
+import { onMounted, reactive, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 defineOptions({ name: 'RoleDataScopeDialog' });
-
-const treeSelectProps = {
-  value: 'value',
-  label: 'label',
-  children: 'children',
-  disabled: 'disabled',
-};
 
 const props = defineProps<{
   /** 角色主键 */
@@ -34,10 +27,8 @@ const form = ref<SysDataScopeForm>({
   remark: undefined,
 });
 
-const showDeptSelector = computed(() => form.value.scopeType === 'DEPT' || form.value.scopeType === 'DEPT_AND_CHILD');
-
 const rules = reactive<FormRules>({
-  scopeType: [{ required: true, message: t('roles.field.scopeType'), trigger: 'change' }],
+  scopeType: [{ required: true, message: t('dataScope.field.type'), trigger: 'change' }],
   scopeDeptIds: [
     {
       required: true,
@@ -47,7 +38,7 @@ const rules = reactive<FormRules>({
           return;
         }
         if (!value?.length) {
-          callback(new Error(t('roles.validation.scopeDeptIdsRequired')));
+          callback(new Error(t('dataScope.validation.scopeDeptIdsRequired')));
           return;
         }
         callback();
@@ -55,17 +46,8 @@ const rules = reactive<FormRules>({
       trigger: 'change',
     },
   ],
-  remark: [{ max: 500, message: t('roles.validation.remarkLengthLimit'), trigger: 'blur' }],
+  remark: [{ max: 500, message: t('dataScope.validation.remarkMaxLength'), trigger: 'blur' }],
 });
-
-watch(
-  () => form.value.scopeType,
-  (scopeType: DataScopeType) => {
-    if (scopeType !== 'DEPT' && scopeType !== 'DEPT_AND_CHILD') {
-      form.value.scopeDeptIds = [];
-    }
-  }
-);
 
 /**
  * 加载部门树与当前角色范围
@@ -101,51 +83,7 @@ defineExpose({ formRef, form });
   <div v-loading="loading" class="role-data-scope-dialog">
     <el-alert :closable="false" :title="t('roles.scope.tip')" class="mb-4" show-icon type="info" />
     <el-form ref="formRef" :model="form" :rules="rules" label-position="top">
-      <!-- 数据范围类型 -->
-      <el-form-item :label="t('roles.field.scopeType')" prop="scopeType">
-        <el-radio-group v-model="form.scopeType" class="role-data-scope-dialog__types">
-          <el-radio-button v-for="option in DATA_SCOPE_TYPE_OPTIONS" :key="option.value" :value="option.value">
-            {{ t(option.labelKey) }}
-          </el-radio-button>
-        </el-radio-group>
-      </el-form-item>
-
-      <!-- 指定部门（仅 DEPT / DEPT_AND_CHILD） -->
-      <el-form-item v-if="showDeptSelector" :label="t('roles.field.scopeDeptIds')" prop="scopeDeptIds">
-        <el-tree-select
-          v-model="form.scopeDeptIds"
-          :data="deptTree"
-          :placeholder="t('roles.placeholder.scopeDeptIds')"
-          :props="treeSelectProps"
-          check-on-click-node
-          check-strictly
-          class="w-full"
-          clearable
-          default-expand-all
-          filterable
-          multiple
-          show-checkbox
-        />
-      </el-form-item>
-
-      <!-- 备注 -->
-      <el-form-item :label="t('roles.field.remark')" prop="remark">
-        <el-input
-          v-model="form.remark"
-          :placeholder="t('roles.field.remark')"
-          :rows="3"
-          maxlength="500"
-          show-word-limit
-          type="textarea"
-        />
-      </el-form-item>
+      <DataScopeFormFields v-model="form" :dept-tree="deptTree" />
     </el-form>
   </div>
 </template>
-
-<style scoped>
-.role-data-scope-dialog__types {
-  display: flex;
-  flex-wrap: wrap;
-}
-</style>

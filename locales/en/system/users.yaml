@@ -131,18 +131,7 @@ users:
     transferred: Transferred
     partTime: Part-time
   scope:
-    field:
-      type: Scope type
-      deptIds: Selected departments
-    placeholder:
-      deptIds: Please select departments
-    validation:
-      scopeDeptIdsRequired: Select at least one department
     tips:
-      overview: >-
-        With no user row, role scopes apply. Saving a user scope fully overrides roles
-        (including SELF overriding role ALL). To inherit again, clear the override—do not
-        use SELF as a substitute.
       inheritRole: "Current: inheriting role data scope (no user override)."
       overrideActive: "Current: user override is active; role scopes are ignored."
       cleared: User override cleared; role inheritance restored.

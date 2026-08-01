@@ -4,3 +4,12 @@ dataScope:
     self: Self only
     dept: Selected departments
     deptAndChild: Selected departments and descendants
+  field:
+    type: Data scope
+    deptIds: Selected departments
+    remark: Remark
+  placeholder:
+    deptIds: Please select departments
+  validation:
+    scopeDeptIdsRequired: Select at least one department
+    remarkMaxLength: Remark cannot exceed 500 characters

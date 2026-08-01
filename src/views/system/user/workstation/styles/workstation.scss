@@ -16,7 +16,7 @@
     transition: width var(--auth-transition-duration);
 
     &--collapsed {
-      width: 64px;
+      width: 55px;
     }
   }
 
@@ -116,8 +116,7 @@
 
         &::before {
           position: absolute;
-          inset: 0 8px;
-          margin: 4px 0;
+          inset: 0;
           content: '';
           background: var(--el-color-primary);
           border-radius: var(--auth-menu-item-radius, 8px);
