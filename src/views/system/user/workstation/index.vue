@@ -5,13 +5,9 @@ import { useRenderIcon } from '@/components/ui/Icon/src/hooks';
 import '@/components/ui/Icon/src/offline';
 import { getMenuTooltipEffect } from '@/layout/utils/tooltip-effect';
 import { errorMessage } from '@/services/feedback/message';
-import useWorkstationNav, {
-  USER_WORKSTATION_DEFAULT_SECTION,
-  type UserWorkstationSection,
-} from '@/views/system/user/workstation/hooks/useWorkstationNav';
+import useWorkstationNav from '@/views/system/user/workstation/hooks/useWorkstationNav';
 import { ArrowLeft } from '@element-plus/icons-vue';
-import type { MenuInstance } from 'element-plus';
-import { computed, nextTick, ref, watch } from 'vue';
+import { computed, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRoute, useRouter } from 'vue-router';
 
@@ -28,14 +24,15 @@ const router = useRouter();
 const tooltipEffect = getMenuTooltipEffect();
 const { navGroups } = useWorkstationNav();
 
-const menuRef = ref<MenuInstance>();
 const loading = ref(true);
 const profile = ref<SysUserProfileResponse | null>(null);
 const loadFailed = ref(false);
-const activeSection = ref<UserWorkstationSection>(USER_WORKSTATION_DEFAULT_SECTION);
 const sidebarCollapsed = ref(false);
 
 const userId = computed(() => String(route.params.userId ?? ''));
+
+/** 当前子路径段，与菜单 index / 路由 path 一致 */
+const activeSection = computed(() => route.path.split('/').pop() || 'overview');
 
 const displayName = computed(() => {
   if (loading.value) {
@@ -80,20 +77,6 @@ async function loadProfile() {
 }
 
 /**
- * 当前激活项若不在可见菜单中，回落到第一项或默认概览
- */
-function syncActiveSection() {
-  const keys = navGroups.value.flatMap((group) => group.items.map((item) => item.key));
-  if (keys.includes(activeSection.value)) {
-    return;
-  }
-  activeSection.value = keys[0] ?? USER_WORKSTATION_DEFAULT_SECTION;
-  void nextTick(() => {
-    menuRef.value?.updateActiveIndex?.(activeSection.value);
-  });
-}
-
-/**
  * 返回用户列表：优先来源页，否则 SystemUser，再否则首页
  */
 function handleBack() {
@@ -109,23 +92,7 @@ function handleBack() {
   void router.push('/');
 }
 
-/**
- * 切换侧栏折叠
- */
-function toggleCollapse() {
-  sidebarCollapsed.value = !sidebarCollapsed.value;
-}
-
-/**
- * 选中侧栏菜单项
- * @param index el-menu index
- */
-function handleSelect(index: string) {
-  activeSection.value = index as UserWorkstationSection;
-}
-
 watch(userId, () => void loadProfile(), { immediate: true });
-watch(navGroups, syncActiveSection, { immediate: true });
 </script>
 
 <template>
@@ -151,13 +118,13 @@ watch(navGroups, syncActiveSection, { immediate: true });
 
       <el-scrollbar class="user-workstation__scroll">
         <el-menu
-          ref="menuRef"
+          :key="activeSection"
           :collapse="sidebarCollapsed"
           :collapse-transition="false"
           :default-active="activeSection"
           :popper-effect="tooltipEffect"
           class="user-workstation__menu"
-          @select="handleSelect"
+          @select="(index) => router.push(`/system/user-workstation/${userId}/${index}`)"
         >
           <el-menu-item-group v-for="group in navGroups" :key="group.key" :title="sidebarCollapsed ? '' : group.title">
             <el-menu-item v-for="item in group.items" :key="item.key" :index="item.key">
@@ -178,7 +145,7 @@ watch(navGroups, syncActiveSection, { immediate: true });
           <el-icon class="user-workstation__footer-icon"><ArrowLeft /></el-icon>
           <span v-show="!sidebarCollapsed">{{ t('users.workstation.back') }}</span>
         </button>
-        <button class="user-workstation__footer-btn" type="button" @click="toggleCollapse">
+        <button class="user-workstation__footer-btn" type="button" @click="sidebarCollapsed = !sidebarCollapsed">
           <IconifyIconOffline
             :icon="sidebarCollapsed ? ArrowRightDouble : ArrowLeftDouble"
             class="user-workstation__footer-icon"
@@ -391,6 +358,8 @@ watch(navGroups, syncActiveSection, { immediate: true });
   &__main {
     flex: 1;
     min-width: 0;
+    height: 100%;
+    overflow: hidden;
   }
 }
 </style>

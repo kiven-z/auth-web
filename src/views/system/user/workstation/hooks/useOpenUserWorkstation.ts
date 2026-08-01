@@ -14,7 +14,7 @@ export function useOpenUserWorkstation() {
    */
   function openUserWorkstation(userId: string) {
     void router.push({
-      name: 'UserWorkstation',
+      name: 'UserWorkstationOverview',
       params: { userId },
       state: { UserWorkstation: route.fullPath },
     });

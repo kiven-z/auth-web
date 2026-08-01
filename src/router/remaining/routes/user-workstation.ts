@@ -7,11 +7,25 @@ export default [
     path: '/system/user-workstation/:userId',
     name: 'UserWorkstation',
     component: () => import('@/views/system/user/workstation/index.vue'),
+    /** 相对当前父路径，保留 :userId；裸 overview 会吃掉 userId 段 */
+    redirect: './overview',
     meta: {
       title: $t('users.workstation.title'),
       showLink: false,
       /** 进入门槛：与用户列表查询权限一致 */
       auths: SYS_USER_PERMS.QUERY,
     },
+    children: [
+      {
+        path: 'overview',
+        name: 'UserWorkstationOverview',
+        component: () => import('@/views/system/user/workstation/panels/OverviewPanel.vue'),
+        meta: {
+          title: $t('users.workstation.nav.overview'),
+          showLink: false,
+          auths: SYS_USER_PERMS.QUERY,
+        },
+      },
+    ],
   },
 ] satisfies Array<RouteConfigsTable>;
