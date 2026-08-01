@@ -3,7 +3,7 @@ import type { SysDeptListVO } from '@/api/system/dept/dept';
 import { getDeptRoles, putDeptRoles } from '@/api/system/dept/dept-role';
 import { addDrawer } from '@/components/ui/Drawer';
 import { errorMessage, message } from '@/services/feedback/message';
-import OrgGrantRoleAssignDrawer from '@/views/system/_shared/components/OrgGrantRoleAssignDrawer.vue';
+import RoleAssignPanel from '@/views/system/_shared/components/RoleAssignPanel.vue';
 import { ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 
@@ -40,7 +40,7 @@ function useDeptMoreAction(deps: DeptMoreActionDeps) {
       closeOnPressEscape: false,
       showClose: true,
       contentRenderer: () => (
-        <OrgGrantRoleAssignDrawer
+        <RoleAssignPanel
           ref={drawerRef}
           leftTitle={t('dept.assignRole.currentDept')}
           leftSubtitle={`${row.deptName}（${row.deptCode}）`}

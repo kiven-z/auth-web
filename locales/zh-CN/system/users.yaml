@@ -22,9 +22,9 @@ users:
       grantPost: 任职岗位
       grantScope: 数据权限范围
       security: 账号安全
-      authRefresh: 刷新授权
     security:
       passwordDesc: 管理员重置该用户的登录密码
+      authRefresh: 刷新授权
       authRefreshDesc: 强制重建该用户的授权画像缓存
       kickDesc: 踢出该用户的全部活跃会话
       delete: 删除用户
@@ -74,7 +74,6 @@ users:
     new: 新密码
     confirm: 确认密码
   session:
-    view: 查看会话
     subtitle: '{username} 的活跃会话'
     device: 设备
     browser: 浏览器
@@ -95,12 +94,12 @@ users:
     batchAction: 批量刷新授权
     success: 授权刷新成功
   deptAssign:
-    drawerTip: 维护用户的组织隶属，部门角色据此生效。
+    panelTip: 维护用户的组织隶属，部门角色据此生效。
     createTitle: 新增部门关联
     editTitle: 编辑部门关联
     clearAllConfirm: 将清空该用户的全部部门关联，是否继续？
   postAssign:
-    drawerTip: 维护用户的任职岗位，与部门隶属分开配置，岗位角色据此生效。
+    panelTip: 维护用户的任职岗位，与部门隶属分开配置，岗位角色据此生效。
     createTitle: 新增岗位关联
     editTitle: 编辑岗位关联
     searchPlaceholder: 输入岗位名称或编码搜索

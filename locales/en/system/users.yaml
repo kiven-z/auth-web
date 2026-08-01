@@ -22,9 +22,9 @@ users:
       grantPost: Post assignment
       grantScope: Data scope
       security: Account security
-      authRefresh: Refresh authorization
     security:
       passwordDesc: Reset this user's login password as an administrator
+      authRefresh: Refresh authorization
       authRefreshDesc: Force rebuild of this user's authorization profile cache
       kickDesc: Sign out all active sessions for this user
       delete: Delete user
@@ -74,7 +74,6 @@ users:
     new: New password
     confirm: Confirm password
   session:
-    view: View sessions
     subtitle: Active sessions for {username}
     device: Device
     browser: Browser
@@ -95,12 +94,12 @@ users:
     batchAction: Batch refresh authorization
     success: Authorization refreshed successfully
   deptAssign:
-    drawerTip: Manage organizational membership; department roles apply accordingly.
+    panelTip: Manage organizational membership; department roles apply accordingly.
     createTitle: Add department assignment
     editTitle: Edit department assignment
     clearAllConfirm: This will remove all department assignments for this user. Continue?
   postAssign:
-    drawerTip: Manage post assignments separately from dept membership; post roles apply accordingly.
+    panelTip: Manage post assignments separately from dept membership; post roles apply accordingly.
     createTitle: Add post assignment
     editTitle: Edit post assignment
     searchPlaceholder: Search by post name or code

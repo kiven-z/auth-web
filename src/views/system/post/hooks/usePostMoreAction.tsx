@@ -3,7 +3,7 @@ import type { SysPostPageRow } from '@/api/system/post/post';
 import { getPostRoles, putPostRoles } from '@/api/system/post/post-role';
 import { addDrawer } from '@/components/ui/Drawer';
 import { errorMessage, message } from '@/services/feedback/message';
-import OrgGrantRoleAssignDrawer from '@/views/system/_shared/components/OrgGrantRoleAssignDrawer.vue';
+import RoleAssignPanel from '@/views/system/_shared/components/RoleAssignPanel.vue';
 import { ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 
@@ -37,7 +37,7 @@ function usePostMoreAction(deps: PostMoreActionDeps) {
       closeOnPressEscape: false,
       showClose: true,
       contentRenderer: () => (
-        <OrgGrantRoleAssignDrawer
+        <RoleAssignPanel
           ref={drawerRef}
           leftTitle={t('post.assign.current')}
           leftSubtitle={`${row.postName}（${row.postCode}）`}

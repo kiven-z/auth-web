@@ -13,7 +13,7 @@ import type { FormInstance } from 'element-plus';
 import { computed, onMounted, reactive, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 
-defineOptions({ name: 'OrgGrantRoleAssignDrawer' });
+defineOptions({ name: 'RoleAssignPanel' });
 
 const props = withDefaults(
   defineProps<{
@@ -53,7 +53,7 @@ const { tableData, loading, searchForm, fetchTableData, resetQuery } = roleState
 
 useAssignTableLabels(assign, tableData);
 
-const roleDrawerDataColumns = computed<TableColumnList>(() => [
+const roleAssignDataColumns = computed<TableColumnList>(() => [
   createAssignCheckboxColumn(assign, props.assignRowKey, { label: t('table.assigned') }),
   {
     label: t('roles.field.roleCode'),
@@ -131,7 +131,7 @@ defineExpose({
     </el-form>
 
     <AuthPagedTable
-      :columns="roleDrawerDataColumns"
+      :columns="roleAssignDataColumns"
       :state="roleState"
       :title="tableTitle ?? t('roles.title.module')"
       @row-dblclick="(row: Record<string, unknown>) => toggle(row)"

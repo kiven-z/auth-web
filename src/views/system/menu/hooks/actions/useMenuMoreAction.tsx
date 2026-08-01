@@ -3,7 +3,7 @@ import { getMenuRoles, putMenuRoles } from '@/api/system/menu/menu-role';
 import { addDrawer } from '@/components/ui/Drawer';
 import { transformI18n } from '@/app/plugins/i18n';
 import { errorMessage, message } from '@/services/feedback/message';
-import OrgGrantRoleAssignDrawer from '@/views/system/_shared/components/OrgGrantRoleAssignDrawer.vue';
+import RoleAssignPanel from '@/views/system/_shared/components/RoleAssignPanel.vue';
 import type { SysMenuRow } from '@/views/system/menu/hooks/useMenuPageState';
 import { ref } from 'vue';
 import { useI18n } from 'vue-i18n';
@@ -42,7 +42,7 @@ function useMenuMoreAction(deps: MenuTableActionDeps) {
       closeOnPressEscape: false,
       showClose: true,
       contentRenderer: () => (
-        <OrgGrantRoleAssignDrawer
+        <RoleAssignPanel
           ref={drawerRef}
           leftTitle={t('sysMenu.name')}
           leftSubtitle={`${transformI18n(row.title)} (${row.name})`}

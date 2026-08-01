@@ -4,9 +4,10 @@ import { type SysUserUpdateForm, updateUser } from '@/api/system/user/user';
 import { errorMessage, message } from '@/services/feedback/message';
 import { USER_STATUS_FILTER_OPTIONS } from '@/views/system/user/constants/user-account-status';
 import { USER_GENDER_OPTIONS } from '@/views/system/user/constants/user-gender';
+import { WORKSTATION_PROFILE_KEY } from '@/views/system/user/workstation/hooks/useWorkstationProfileContext';
 import AvatarUpdatePanel from '@/views/system/user/workstation/panels/profile/AvatarUpdatePanel.vue';
 import type { FormInstance, FormRules } from 'element-plus';
-import { computed, ref, watch } from 'vue';
+import { computed, inject, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRoute } from 'vue-router';
 
@@ -14,6 +15,7 @@ defineOptions({ name: 'UserWorkstationProfilePanel' });
 
 const { t } = useI18n();
 const route = useRoute();
+const workstationProfile = inject(WORKSTATION_PROFILE_KEY, null);
 
 const loading = ref(false);
 const submitting = ref(false);
@@ -121,6 +123,7 @@ async function handleSave() {
     if (profile.value) {
       profile.value = { ...profile.value, ...form.value };
     }
+    workstationProfile?.patchProfile(form.value);
   } catch (error: unknown) {
     errorMessage(error);
   } finally {
@@ -137,6 +140,7 @@ function handleAvatarUpdated(avatarUrl: string) {
     return;
   }
   profile.value = { ...profile.value, avatar: avatarUrl };
+  workstationProfile?.patchProfile({ avatar: avatarUrl });
 }
 
 watch(userId, () => void loadProfile(), { immediate: true });

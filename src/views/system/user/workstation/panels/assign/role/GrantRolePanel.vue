@@ -2,7 +2,7 @@
 import { getUserProfile } from '@/api/system/user/user-base';
 import { getUserRoles, putUserRoles } from '@/api/system/user/user-role';
 import { errorMessage, message } from '@/services/feedback/message';
-import OrgGrantRoleAssignDrawer from '@/views/system/_shared/components/OrgGrantRoleAssignDrawer.vue';
+import RoleAssignPanel from '@/views/system/_shared/components/RoleAssignPanel.vue';
 import { SYS_USER_ROLE_PERMS } from '@/views/system/user/constants/permissions';
 import { computed, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
@@ -91,7 +91,7 @@ watch(userId, () => void loadUserTitle(), { immediate: true });
       </el-button>
     </div>
 
-    <OrgGrantRoleAssignDrawer
+    <RoleAssignPanel
       v-if="userId"
       :key="assignPanelKey"
       ref="assignRef"

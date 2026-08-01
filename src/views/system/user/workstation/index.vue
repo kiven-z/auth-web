@@ -5,10 +5,11 @@ import '@/components/ui/Icon/src/offline';
 import { getMenuTooltipEffect } from '@/layout/utils/tooltip-effect';
 import { errorMessage } from '@/services/feedback/message';
 import useWorkstationNav from '@/views/system/user/workstation/hooks/useWorkstationNav';
+import { WORKSTATION_PROFILE_KEY } from '@/views/system/user/workstation/hooks/useWorkstationProfileContext';
 import useWorkstationSectionTransition from '@/views/system/user/workstation/hooks/useWorkstationSectionTransition';
 import { ArrowLeft } from '@element-plus/icons-vue';
 import 'animate.css';
-import { computed, ref, watch } from 'vue';
+import { computed, provide, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRoute, useRouter } from 'vue-router';
 import ArrowLeftDouble from '~icons/ri/arrow-left-double-fill';
@@ -52,6 +53,19 @@ const subtitle = computed(() => {
   }
   return profile.value.username;
 });
+
+/**
+ * 合并更新壳层档案（资料 / 头像变更后由子面板调用）
+ * @param patch 局部字段
+ */
+function patchProfile(patch: Partial<SysUserProfileResponse>) {
+  if (!profile.value) {
+    return;
+  }
+  profile.value = { ...profile.value, ...patch };
+}
+
+provide(WORKSTATION_PROFILE_KEY, { profile, patchProfile });
 
 /**
  * 拉取工作台顶部展示用的用户档案
@@ -119,7 +133,6 @@ watch(userId, () => void loadProfile(), { immediate: true });
 
       <el-scrollbar class="user-workstation__scroll">
         <el-menu
-          :key="activeSection"
           :collapse="sidebarCollapsed"
           :collapse-transition="false"
           :default-active="activeSection"

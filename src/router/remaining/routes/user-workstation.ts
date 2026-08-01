@@ -72,6 +72,16 @@ export default [
         },
       },
       {
+        path: 'grant-scope',
+        name: 'UserWorkstationGrantScope',
+        component: () => import('@/views/system/user/workstation/panels/assign/role/GrantScopePanel.vue'),
+        meta: {
+          title: $t('users.workstation.nav.grantScope'),
+          showLink: false,
+          auths: SYS_USER_PERMS.QUERY,
+        },
+      },
+      {
         path: 'security',
         name: 'UserWorkstationSecurity',
         component: () => import('@/views/system/user/workstation/panels/security/SecurityPanel.vue'),

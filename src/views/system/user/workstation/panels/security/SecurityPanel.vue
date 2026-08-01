@@ -7,7 +7,7 @@ import ActionRow from '@/components/ui/ActionRow';
 import { deleteConfirm } from '@/services/feedback/dialog';
 import { errorMessage, message } from '@/services/feedback/message';
 import { SYS_USER_PERMS } from '@/views/system/user/constants/permissions';
-import useUserMoreAction from '@/views/system/user/workstation/hooks/security/useUserMoreAction';
+import useUserSecurityAction from '@/views/system/user/workstation/hooks/security/useUserSecurityAction';
 import AdminSessionsPanel from '@/views/system/user/workstation/panels/security/AdminSessionsPanel.vue';
 import { computed, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
@@ -37,7 +37,7 @@ const showActionsSection = computed(
 );
 
 const { openAdminResetPasswordDialog } = useChangePasswordAction();
-const { kickAllForUser, refreshUserAuth } = useUserMoreAction();
+const { kickAllForUser, refreshUserAuth } = useUserSecurityAction();
 
 /**
  * 拉取用户名供弹窗标题与会话字幕
@@ -127,11 +127,11 @@ watch(userId, () => void loadUsername(), { immediate: true });
         </ActionRow>
 
         <ActionRow v-if="hasAuth(SYS_USER_PERMS.AUTH_REFRESH)">
-          <template #title>{{ t('users.workstation.nav.authRefresh') }}</template>
+          <template #title>{{ t('users.workstation.security.authRefresh') }}</template>
           <template #description>{{ t('users.workstation.security.authRefreshDesc') }}</template>
           <template #actions>
             <el-button type="warning" @click="refreshUserAuth(userId)">
-              {{ t('users.workstation.nav.authRefresh') }}
+              {{ t('users.workstation.security.authRefresh') }}
             </el-button>
           </template>
         </ActionRow>

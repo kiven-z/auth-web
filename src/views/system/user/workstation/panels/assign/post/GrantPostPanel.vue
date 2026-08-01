@@ -9,7 +9,7 @@ import { USER_DEPT_RELATION_STATUS_FILTER_OPTIONS } from '@/views/system/user/co
 import useGrantPostAction from '@/views/system/user/workstation/hooks/post/useGrantPostAction';
 import useUserPostAssignTableColumns from '@/views/system/user/workstation/hooks/post/useUserPostAssignTableColumns';
 import type { FormInstance } from 'element-plus';
-import { computed, onMounted, reactive, ref } from 'vue';
+import { computed, reactive, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRoute } from 'vue-router';
 
@@ -19,9 +19,9 @@ const route = useRoute();
 const { t } = useI18n();
 const ph = useFormPlaceholder();
 
-const userId = String(route.params.userId ?? '');
+const userId = computed(() => String(route.params.userId ?? ''));
 const username = ref('');
-const nickname = ref<string | null>(null);
+const nickname = ref('');
 const searchFormRef = ref<FormInstance>();
 
 const postAssignState = usePaginationState<UserPostPageRow, UserPostPageQuery>({
@@ -30,7 +30,7 @@ const postAssignState = usePaginationState<UserPostPageRow, UserPostPageQuery>({
     postName: undefined,
     status: undefined,
   }),
-  fetchApi: (query) => getUserPostPage(userId, query),
+  fetchApi: (query) => getUserPostPage(userId.value, query),
 });
 const { fetchTableData, resetQuery, loading, searchForm, selectedRows } = postAssignState;
 
@@ -49,27 +49,33 @@ const { columns } = useUserPostAssignTableColumns();
  * 拉取用户名用于表格标题
  */
 async function loadUserTitle() {
-  if (!userId) {
+  if (!userId.value) {
     return;
   }
   try {
-    const profile = await getUserProfile(userId);
+    const profile = await getUserProfile(userId.value);
     username.value = profile.username;
     nickname.value = profile.nickname;
   } catch (error: unknown) {
     errorMessage(error);
+    username.value = '';
+    nickname.value = '';
   }
 }
 
-onMounted(() => {
-  void loadUserTitle();
-  void fetchTableData();
-});
+watch(
+  userId,
+  () => {
+    void loadUserTitle();
+    void fetchTableData();
+  },
+  { immediate: true }
+);
 </script>
 
 <template>
   <div class="flex flex-col">
-    <el-alert :title="t('users.postAssign.drawerTip')" closable show-icon type="info" />
+    <el-alert :title="t('users.postAssign.panelTip')" closable show-icon type="info" />
     <el-form ref="searchFormRef" v-enter-submit="fetchTableData" :model="searchForm" class="pt-2 pl-6" inline>
       <!-- 岗位编码 -->
       <el-form-item :label="t('post.field.postCode')" prop="postCode">
