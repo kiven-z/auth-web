@@ -1,27 +1,27 @@
 <script lang="ts" setup>
 defineOptions({
-  name: 'AccountActionRow',
+  name: 'ActionRow',
 });
 </script>
 
 <template>
-  <section class="account-action-row">
-    <div class="account-action-row__main">
-      <el-text class="account-action-row__title" tag="b">
+  <section class="action-row">
+    <div class="action-row__main">
+      <el-text class="action-row__title" tag="b">
         <slot name="title" />
       </el-text>
-      <el-text class="account-action-row__desc" type="info">
+      <el-text class="action-row__desc" type="info">
         <slot name="description" />
       </el-text>
     </div>
-    <div class="account-action-row__actions">
+    <div class="action-row__actions">
       <slot name="actions" />
     </div>
   </section>
 </template>
 
 <style lang="scss" scoped>
-.account-action-row {
+.action-row {
   display: flex;
   flex-wrap: wrap;
   gap: 12px;

@@ -2,7 +2,7 @@
 import { getUserProfile } from '@/api/system/user/user-base';
 import { hasAuth } from '@/auth/permission';
 import { useChangePasswordAction } from '@/components/business/ChangePasswordDialog';
-import AccountActionRow from '@/components/ui/AccountActionRow';
+import ActionRow from '@/components/ui/ActionRow';
 import { errorMessage } from '@/services/feedback/message';
 import { SYS_USER_PERMS } from '@/views/system/user/constants/permissions';
 import useUserMoreAction from '@/views/system/user/workstation/hooks/security/useUserMoreAction';
@@ -79,7 +79,7 @@ watch(userId, () => void loadUsername(), { immediate: true });
       <el-divider content-position="left">{{ t('account.section.accountActions') }}</el-divider>
 
       <div class="security-panel__actions">
-        <AccountActionRow v-if="hasAuth(SYS_USER_PERMS.UPDATE)">
+        <ActionRow v-if="hasAuth(SYS_USER_PERMS.UPDATE)">
           <template #title>{{ t('users.password.reset') }}</template>
           <template #description>{{ t('users.workstation.security.passwordDesc') }}</template>
           <template #actions>
@@ -87,9 +87,9 @@ watch(userId, () => void loadUsername(), { immediate: true });
               {{ t('users.password.reset') }}
             </el-button>
           </template>
-        </AccountActionRow>
+        </ActionRow>
 
-        <AccountActionRow v-if="hasAuth(SYS_USER_PERMS.AUTH_REFRESH)">
+        <ActionRow v-if="hasAuth(SYS_USER_PERMS.AUTH_REFRESH)">
           <template #title>{{ t('users.workstation.nav.authRefresh') }}</template>
           <template #description>{{ t('users.workstation.security.authRefreshDesc') }}</template>
           <template #actions>
@@ -97,9 +97,9 @@ watch(userId, () => void loadUsername(), { immediate: true });
               {{ t('users.workstation.nav.authRefresh') }}
             </el-button>
           </template>
-        </AccountActionRow>
+        </ActionRow>
 
-        <AccountActionRow v-if="hasAuth(SYS_USER_PERMS.KICK_ALL)">
+        <ActionRow v-if="hasAuth(SYS_USER_PERMS.KICK_ALL)">
           <template #title>{{ t('users.session.kickAll') }}</template>
           <template #description>{{ t('users.workstation.security.kickDesc') }}</template>
           <template #actions>
@@ -107,7 +107,7 @@ watch(userId, () => void loadUsername(), { immediate: true });
               {{ t('users.session.kickAll') }}
             </el-button>
           </template>
-        </AccountActionRow>
+        </ActionRow>
       </div>
     </section>
   </div>
@@ -119,7 +119,7 @@ watch(userId, () => void loadUsername(), { immediate: true });
     display: flex;
     flex-direction: column;
 
-    > .account-action-row + .account-action-row {
+    > .action-row + .action-row {
       margin-top: 24px;
       padding-top: 24px;
       border-top: 1px solid var(--el-border-color-lighter);

@@ -3,7 +3,7 @@ import { clearMyPreferences } from '@/api/system/user/user-preferences';
 import { getConfig } from '@/auth/config';
 import { resetLocalUiPreferences } from '@/core/preferences/storage';
 import { useChangePasswordAction } from '@/components/business/ChangePasswordDialog';
-import AccountActionRow from '@/components/ui/AccountActionRow';
+import ActionRow from '@/components/ui/ActionRow';
 import { multiConfirm } from '@/services/feedback/dialog';
 import { errorMessage, message } from '@/services/feedback/message';
 import { ref } from 'vue';
@@ -70,7 +70,7 @@ async function handleResetPreferences() {
 
 <template>
   <div class="profile-security-card">
-    <AccountActionRow>
+    <ActionRow>
       <template #title>{{ t('users.password.reset') }}</template>
       <template #description>{{ t('users.password.old') }} / {{ t('users.password.new') }}</template>
       <template #actions>
@@ -78,10 +78,10 @@ async function handleResetPreferences() {
           {{ t('users.password.reset') }}
         </el-button>
       </template>
-    </AccountActionRow>
+    </ActionRow>
 
     <el-divider />
-    <AccountActionRow>
+    <ActionRow>
       <template #title>{{ t('account.preferences.title') }}</template>
       <template #description>{{ t('account.preferences.subtitle') }}</template>
       <template #actions>
@@ -89,7 +89,7 @@ async function handleResetPreferences() {
           {{ t('account.preferences.reset') }}
         </el-button>
       </template>
-    </AccountActionRow>
+    </ActionRow>
   </div>
 </template>
 
