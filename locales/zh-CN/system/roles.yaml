@@ -49,10 +49,5 @@ roles:
     impactAnalysis: 影响分析与刷新
   scope:
     tip: 未配置时画像兜底为「仅本人」；用户级 user_scope 可覆盖本配置
-  scopeType:
-    all: 全部数据
-    self: 仅本人
-    dept: 指定部门
-    deptAndChild: 指定部门及下级
   placeholder:
     scopeDeptIds: 请选择部门

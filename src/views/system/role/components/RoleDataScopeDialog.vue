@@ -1,8 +1,8 @@
 <script lang="ts" setup>
 import { getDeptList } from '@/api/system/dept/dept';
-import { getRoleScope, type RoleScopeType, type SysRoleScopeForm } from '@/api/system/role/role-scope';
+import { type DataScopeType, getRoleScope, type SysDataScopeForm } from '@/api/system/role/role-scope';
 import { errorMessage } from '@/services/feedback/message';
-import { ROLE_SCOPE_TYPE_OPTIONS } from '@/views/system/role/constants/role-scope-type';
+import { DATA_SCOPE_TYPE_OPTIONS } from '@/views/system/_shared/constants/data-scope-type';
 import { buildDeptSelectTree, type DeptSelectTreeNode } from '@/views/system/_shared/utils/dept-select-tree';
 import type { FormInstance, FormRules } from 'element-plus';
 import { computed, onMounted, reactive, ref, watch } from 'vue';
@@ -28,7 +28,7 @@ const formRef = ref<FormInstance>();
 const loading = ref(true);
 const deptTree = ref<DeptSelectTreeNode[]>([]);
 
-const form = ref<SysRoleScopeForm>({
+const form = ref<SysDataScopeForm>({
   scopeType: 'SELF',
   scopeDeptIds: [],
   remark: undefined,
@@ -60,7 +60,7 @@ const rules = reactive<FormRules>({
 
 watch(
   () => form.value.scopeType,
-  (scopeType: RoleScopeType) => {
+  (scopeType: DataScopeType) => {
     if (scopeType !== 'DEPT' && scopeType !== 'DEPT_AND_CHILD') {
       form.value.scopeDeptIds = [];
     }
@@ -104,7 +104,7 @@ defineExpose({ formRef, form });
       <!-- 数据范围类型 -->
       <el-form-item :label="t('roles.field.scopeType')" prop="scopeType">
         <el-radio-group v-model="form.scopeType" class="role-data-scope-dialog__types">
-          <el-radio-button v-for="option in ROLE_SCOPE_TYPE_OPTIONS" :key="option.value" :value="option.value">
+          <el-radio-button v-for="option in DATA_SCOPE_TYPE_OPTIONS" :key="option.value" :value="option.value">
             {{ t(option.labelKey) }}
           </el-radio-button>
         </el-radio-group>

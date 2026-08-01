@@ -49,10 +49,5 @@ roles:
     impactAnalysis: Impact analysis and refresh
   scope:
     tip: When unset, profile falls back to SELF; user_scope overrides this role config
-  scopeType:
-    all: All data
-    self: Self only
-    dept: Selected departments
-    deptAndChild: Selected departments and descendants
   placeholder:
     scopeDeptIds: Select departments

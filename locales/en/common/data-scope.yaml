@@ -1,0 +1,6 @@
+dataScope:
+  type:
+    all: All data
+    self: Self only
+    dept: Selected departments
+    deptAndChild: Selected departments and descendants

@@ -1,10 +1,8 @@
 import { http } from '@/core/http/client';
+import type { DataScopeType, SysDataScopeForm } from '@/api/system/_shared/data-scope';
 import type { AxiosRequestConfig } from 'axios';
 
-/**
- * 角色数据范围类型（库表存储值）
- */
-export type RoleScopeType = 'ALL' | 'SELF' | 'DEPT' | 'DEPT_AND_CHILD';
+export type { DataScopeType, SysDataScopeForm };
 
 /**
  * 角色数据范围回显
@@ -12,7 +10,7 @@ export type RoleScopeType = 'ALL' | 'SELF' | 'DEPT' | 'DEPT_AND_CHILD';
 export interface SysRoleScopeVO {
   id?: string;
   roleId: string;
-  scopeType: RoleScopeType;
+  scopeType: DataScopeType;
   scopeDeptIds: string[];
   remark?: string | null;
 }
@@ -27,21 +25,12 @@ export function getRoleScope(roleId: string): Promise<SysRoleScopeVO | null> {
 }
 
 /**
- * 角色数据范围保存表单
- */
-export interface SysRoleScopeForm {
-  scopeType: RoleScopeType;
-  scopeDeptIds: string[];
-  remark?: string | null;
-}
-
-/**
  * 保存角色数据范围（upsert）
  * @param roleId 角色 ID
  * @param data 范围表单
  */
-export function upsertRoleScope(roleId: string, data: SysRoleScopeForm): Promise<void> {
-  return http.put<void, SysRoleScopeForm>(`/system/role/${roleId}/scope`, {
+export function upsertRoleScope(roleId: string, data: SysDataScopeForm): Promise<void> {
+  return http.put<void, SysDataScopeForm>(`/system/role/${roleId}/scope`, {
     data,
-  } as AxiosRequestConfig<SysRoleScopeForm>);
+  } as AxiosRequestConfig<SysDataScopeForm>);
 }

@@ -130,3 +130,20 @@ users:
     normal: 正常
     transferred: 已调离
     partTime: 兼职
+  scope:
+    field:
+      type: 范围类型
+      deptIds: 指定部门
+    placeholder:
+      deptIds: 请选择部门
+    validation:
+      scopeDeptIdsRequired: 请至少选择一个部门
+    tips:
+      overview: 未配置时继承角色数据范围；一旦保存用户级配置将完全覆盖角色结果（含用「仅本人」压掉角色「全部数据」）。要恢复继承须清除覆盖，不能改成「仅本人」代替。
+      inheritRole: 当前：继承角色数据范围（无用户级覆盖）。
+      overrideActive: 当前：用户级覆盖已生效，角色数据范围不再参与合并。
+      cleared: 已清除用户级覆盖，恢复继承角色。
+    action:
+      enableOverride: 启用用户覆盖
+      cancelDraft: 取消
+      clearOverride: 清除覆盖
