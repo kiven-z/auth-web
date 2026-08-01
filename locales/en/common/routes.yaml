@@ -1,0 +1,40 @@
+routes:
+  systemManagement: System Management
+  userManagement: User Management
+  roleManagement: Role Management
+  permissionManagement: Permission Management
+  deptManagement: Department Management
+  postManagement: Post Management
+  menuManagement: Menu Management
+  onlineUser: Session Users
+
+  messageManagement: Message Management
+  emailTemplate: Email message templates
+  smsTemplate: SMS message templates
+  inAppTemplate: In-app message templates
+  messageCompose: Compose in-app message
+  inAppMessage: In-app send tasks
+  inAppCategory: In-app message categories
+  sendRecord: Message send records
+
+  schedule: Task Scheduling
+  scheduleGroup: Schedule Groups
+  scheduleTask: Scheduled Tasks
+
+  authorizationAudit: Authorization Audit
+  logManagement: Log Management
+  scheduleLog: Schedule Logs
+  passwordHistory: Password History
+  loginLog: Login Logs
+  operationLog: Operation Logs
+  authLog: Authorization Logs
+
+  opsManagement: Operations Center
+  authorizationInvalidation: Authorization Invalidation Ops
+
+  fileManagement: File Management
+  fileRecord: File Record
+  fileRecycle: File Recycle
+  myFiles: My Files
+  myFileRecycle: My Recycle Bin
+  myInbox: My Messages

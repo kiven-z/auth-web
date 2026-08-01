@@ -1,6 +1,7 @@
 import { responsiveStorageNameSpace } from '@/auth/config';
 import { getLocaleDef, locales } from '@/auth/config/locales';
 import { isObject, storageLocal } from '@pureadmin/utils';
+import merge from 'lodash/merge';
 import type { App, WritableComputedRef } from 'vue';
 import { createI18n, type I18n } from 'vue-i18n';
 
@@ -22,8 +23,8 @@ const siphonI18n = (function () {
     if (!cache[lang]) {
       cache[lang] = {};
     }
-    // 合并该文件中的所有 YAML 键到对应语言的缓存
-    Object.assign(cache[lang], module.default);
+    // 深合并：同名根 key（如 menus）可拆到多个文件而不互相覆盖
+    merge(cache[lang], module.default);
   }
 
   return (prefix = 'zh-CN') => {
