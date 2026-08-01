@@ -27,6 +27,8 @@ users:
       passwordDesc: Reset this user's login password as an administrator
       authRefreshDesc: Force rebuild of this user's authorization profile cache
       kickDesc: Sign out all active sessions for this user
+      delete: Delete user
+      deleteDesc: Delete this user account; related grants will be revoked and cannot be undone
   field:
     username: Username
     nickname: Nickname

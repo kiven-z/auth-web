@@ -124,6 +124,7 @@ function useWorkstationNav() {
               SYS_USER_PERMS.AUTH_REFRESH,
               SYS_USER_PERMS.KICK_ALL,
               SYS_USER_PERMS.VIEW_SESSIONS,
+              SYS_USER_PERMS.DELETE,
             ],
           },
         ],

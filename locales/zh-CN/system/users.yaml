@@ -27,6 +27,8 @@ users:
       passwordDesc: 管理员重置该用户的登录密码
       authRefreshDesc: 强制重建该用户的授权画像缓存
       kickDesc: 踢出该用户的全部活跃会话
+      delete: 删除用户
+      deleteDesc: 删除该用户账号，关联授权将失效且不可恢复
   field:
     username: 用户名
     nickname: 昵称

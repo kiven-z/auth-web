@@ -1,15 +1,17 @@
 <script lang="ts" setup>
+import { deleteUsers } from '@/api/system/user/user';
 import { getUserProfile } from '@/api/system/user/user-base';
 import { hasAuth } from '@/auth/permission';
 import { useChangePasswordAction } from '@/components/business/ChangePasswordDialog';
 import ActionRow from '@/components/ui/ActionRow';
-import { errorMessage } from '@/services/feedback/message';
+import { deleteConfirm } from '@/services/feedback/dialog';
+import { errorMessage, message } from '@/services/feedback/message';
 import { SYS_USER_PERMS } from '@/views/system/user/constants/permissions';
 import useUserMoreAction from '@/views/system/user/workstation/hooks/security/useUserMoreAction';
 import AdminSessionsPanel from '@/views/system/user/workstation/panels/security/AdminSessionsPanel.vue';
 import { computed, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { useRoute } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 
 defineOptions({
   name: 'UserWorkstationSecurityPanel',
@@ -17,15 +19,21 @@ defineOptions({
 
 const { t } = useI18n();
 const route = useRoute();
+const router = useRouter();
 
 const loading = ref(false);
+const deleting = ref(false);
 const username = ref('');
 const sessionsPanelRef = ref<{ loadSessions: () => Promise<void> } | null>(null);
 
 const userId = computed(() => String(route.params.userId ?? ''));
 
 const showActionsSection = computed(
-  () => hasAuth(SYS_USER_PERMS.UPDATE) || hasAuth(SYS_USER_PERMS.AUTH_REFRESH) || hasAuth(SYS_USER_PERMS.KICK_ALL)
+  () =>
+    hasAuth(SYS_USER_PERMS.UPDATE) ||
+    hasAuth(SYS_USER_PERMS.AUTH_REFRESH) ||
+    hasAuth(SYS_USER_PERMS.KICK_ALL) ||
+    hasAuth(SYS_USER_PERMS.DELETE)
 );
 
 const { openAdminResetPasswordDialog } = useChangePasswordAction();
@@ -63,6 +71,35 @@ async function handleKickAll() {
     successI18nKey: 'users.session.kickAllSuccess',
     onSuccess: () => sessionsPanelRef.value?.loadSessions(),
   });
+}
+
+/**
+ * 删除当前用户并返回列表
+ */
+async function handleDeleteUser() {
+  if (!userId.value) {
+    return;
+  }
+
+  const confirmed = await deleteConfirm();
+  if (!confirmed) {
+    return;
+  }
+
+  deleting.value = true;
+  try {
+    await deleteUsers([userId.value]);
+    message(t('tips.deleteSuccess'), { type: 'success' });
+    if (router.hasRoute('SystemUser')) {
+      await router.push({ name: 'SystemUser' });
+      return;
+    }
+    await router.push('/');
+  } catch (error: unknown) {
+    errorMessage(error);
+  } finally {
+    deleting.value = false;
+  }
 }
 
 watch(userId, () => void loadUsername(), { immediate: true });
@@ -105,6 +142,16 @@ watch(userId, () => void loadUsername(), { immediate: true });
           <template #actions>
             <el-button type="danger" @click="handleKickAll">
               {{ t('users.session.kickAll') }}
+            </el-button>
+          </template>
+        </ActionRow>
+
+        <ActionRow v-if="hasAuth(SYS_USER_PERMS.DELETE)">
+          <template #title>{{ t('users.workstation.security.delete') }}</template>
+          <template #description>{{ t('users.workstation.security.deleteDesc') }}</template>
+          <template #actions>
+            <el-button :loading="deleting" type="danger" @click="handleDeleteUser">
+              {{ t('users.workstation.security.delete') }}
             </el-button>
           </template>
         </ActionRow>
