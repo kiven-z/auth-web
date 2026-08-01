@@ -5,6 +5,29 @@ users:
     edit: Edit User
     profile: User profile
     view: View user details
+  workstation:
+    title: User workstation
+    back: Back to users
+    loadingName: Loading…
+    unknownUser: User not found
+    loadFailedHint: Failed to load profile
+    open: Workstation
+    nav:
+      group:
+        overview: Overview
+        profile: Profile
+        grant: Authorization
+        security: Account security
+      overview: User info
+      profile: Edit profile
+      grantRole: Roles
+      grantDept: Departments
+      grantPost: Posts
+      grantScope: Data scope
+      password: Reset password
+      authRefresh: Refresh authorization
+      kick: Sign out
+      sessions: Sessions
   field:
     username: Username
     nickname: Nickname

@@ -9,6 +9,9 @@
   /* 左侧菜单展开、收起动画时长 */
   --auth-transition-duration: 0.3s;
 
+  /* 菜单叶子激活胶囊圆角（主侧栏 ::before / 页内导航共用） */
+  --auth-menu-item-radius: 8px;
+
   /* 常用border-color 需要时可取用 */
   --auth-border-color: rgb(5 5 5 / 6%);
 

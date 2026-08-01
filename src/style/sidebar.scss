@@ -191,7 +191,7 @@
       margin: 4px 0;
       content: '';
       background: var(--el-color-primary) !important;
-      border-radius: 3px;
+      border-radius: var(--auth-menu-item-radius, 8px);
     }
 
     .el-menu .el-menu--inline .el-sub-menu__title,
@@ -238,7 +238,7 @@
       margin: 4px 0;
       content: '';
       background: var(--el-color-primary) !important;
-      border-radius: 3px;
+      border-radius: var(--auth-menu-item-radius, 8px);
     }
   }
 
@@ -301,7 +301,7 @@
       clear: both;
       content: '';
       background: var(--el-color-primary) !important;
-      border-radius: 3px;
+      border-radius: var(--auth-menu-item-radius, 8px);
     }
 
     .el-menu-item,
@@ -389,7 +389,7 @@
       clear: both;
       content: '';
       background: var(--el-color-primary) !important;
-      border-radius: 3px;
+      border-radius: var(--auth-menu-item-radius, 8px);
     }
   }
 

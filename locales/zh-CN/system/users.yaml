@@ -5,6 +5,29 @@ users:
     edit: 编辑用户
     profile: 用户档案
     view: 查看用户详情
+  workstation:
+    title: 用户工作台
+    back: 返回用户列表
+    loadingName: 加载中…
+    unknownUser: 用户不存在
+    loadFailedHint: 档案加载失败
+    open: 工作台
+    nav:
+      group:
+        overview: 概览
+        profile: 个人信息
+        grant: 授权
+        security: 账号安全
+      overview: 用户信息
+      profile: 编辑资料
+      grantRole: 角色
+      grantDept: 部门
+      grantPost: 岗位
+      grantScope: 数据权限范围
+      password: 重置密码
+      authRefresh: 刷新授权
+      kick: 踢下线
+      sessions: 会话列表
   field:
     username: 用户名
     nickname: 昵称

@@ -1,4 +1,4 @@
-import { isOneOfArray } from '@/auth/permission';
+import { hasAuth, isOneOfArray } from '@/auth/permission';
 import { ApiConflictError } from '@/core/http/apiError';
 import { isLoggedIn } from '@/core/session/sessionAuth';
 import { ensureAuthenticatedSession } from '@/core/session/sessionBootstrap';
@@ -20,7 +20,7 @@ const whiteList = ['/login'];
 const { VITE_HIDE_HOME } = import.meta.env;
 
 /**
- * 登录态与权限守卫：校验登录、会话就绪、角色鉴权、冷启动动态路由
+ * 登录态与权限守卫：校验登录、会话就绪、角色鉴权、权限码、冷启动动态路由
  * @param router 路由
  */
 export function createAuthGuard(router: Router): void {
@@ -39,7 +39,7 @@ export function createAuthGuard(router: Router): void {
       }
     }
 
-    if (isBlockedByRoles(to)) {
+    if (isBlockedByRoles(to) || isBlockedByAuths(to)) {
       next({ path: '/error/403' });
       return;
     }
@@ -108,6 +108,17 @@ function isBlockedByRoles(to: RouteLocationNormalized): boolean {
   }
   const userInfo = readUserProfileFromStorage();
   return !isOneOfArray(to.meta.roles, userInfo?.roles);
+}
+
+/**
+ * 目标路由是否因权限码不足被拦截（meta.auths 未配置则不校验）
+ */
+function isBlockedByAuths(to: RouteLocationNormalized): boolean {
+  const auths = to.meta?.auths;
+  if (auths == null || (Array.isArray(auths) && auths.length === 0)) {
+    return false;
+  }
+  return !hasAuth(auths);
 }
 
 /**

@@ -24,8 +24,13 @@ declare global {
     publicAccess?: boolean;
     /** 是否显示父级菜单 `可选` */
     showParent?: boolean;
-    /** 页面级别权限设置 `可选` */
+    /** 页面级别角色设置 `可选` */
     roles?: Array<string>;
+    /**
+     * 页面级权限码（按钮权限）。
+     * 字符串或数组均为 AND：须全部满足；未配置则不校验。
+     */
+    auths?: string | Array<string>;
     /** 路由组件缓存（开启 `true`、关闭 `false`）`可选` */
     keepAlive?: boolean;
     /** 内嵌的`iframe`链接 `可选` */
@@ -96,6 +101,11 @@ declare global {
       icon?: string | FunctionalComponent;
       /** 是否在菜单中显示（默认`true`）`可选` */
       showLink?: boolean;
+      /**
+       * 页面级权限码（按钮权限）。
+       * 字符串或数组均为 AND：须全部满足；未配置则不校验。
+       */
+      auths?: string | Array<string>;
       /** 菜单升序排序，值越高排的越后（只针对顶级路由）`可选` */
       rank?: number;
     };

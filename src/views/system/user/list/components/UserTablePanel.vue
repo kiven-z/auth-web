@@ -1,20 +1,14 @@
 <script lang="ts" setup>
 import AuthPagedTable from '@/components/business/AuthPagedTable';
-import { useChangePasswordAction } from '@/components/business/ChangePasswordDialog';
 import { useFormPlaceholder } from '@/shared/composables/i18n/useFormPlaceholder';
 import { useCollapsibleSearchForm } from '@/shared/composables/search/useCollapsibleSearchForm';
-import {
-  SYS_USER_DEPT_PERMS,
-  SYS_USER_PERMS,
-  SYS_USER_POST_PERMS,
-  SYS_USER_ROLE_PERMS,
-} from '@/views/system/user/constants/permissions';
+import { SYS_USER_PERMS } from '@/views/system/user/constants/permissions';
 import { USER_ACCOUNT_STATUS, USER_STATUS_FILTER_OPTIONS } from '@/views/system/user/constants/user-account-status';
 import useUserAdvanceAction from '@/views/system/user/list/hooks/actions/useUserAdvanceAction';
-import useUserMoreAction from '@/views/system/user/security/hooks/useUserMoreAction';
 import useUserTableAction from '@/views/system/user/list/hooks/actions/useUserTableAction';
 import useUserTableColumns from '@/views/system/user/list/hooks/columns/useUserTableColumns';
 import useUserPageState from '@/views/system/user/list/hooks/useUserPageState';
+import { useOpenUserWorkstation } from '@/views/system/user/workstation/hooks/useOpenUserWorkstation';
 import type { FormInstance } from 'element-plus';
 import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
@@ -31,7 +25,7 @@ const searchFormRef = ref<FormInstance>();
 const { tableState, fetchUserTable, resetUserSearch } = useUserPageState();
 const { loading, searchForm, selectedRows, pagination } = tableState;
 
-const { openCreateDialog, openUserDetailDialog, openEditDialog, batchUpdateStatus } = useUserTableAction({
+const { openCreateDialog, batchUpdateStatus } = useUserTableAction({
   fetchTableData: fetchUserTable,
 });
 
@@ -43,18 +37,7 @@ const { exporting, openExportDialog, openImportDialog, deleteBatchRows, batchKic
     pagination,
   });
 
-const {
-  openAssignDeptDrawer,
-  openAssignPostDrawer,
-  openAssignRoleDrawer,
-  openAdminUpdateAvatarDialog,
-  openViewSessionsDialog,
-  kickAllForUser,
-  refreshUserAuth,
-} = useUserMoreAction({ fetchTableData: fetchUserTable });
-
-// 修改密码
-const { openAdminResetPasswordDialog } = useChangePasswordAction();
+const { openUserWorkstation } = useOpenUserWorkstation();
 const { searchExpanded, showAdvancedSearchToggle, toggleAdvancedSearch } = useCollapsibleSearchForm(6);
 
 const hasSelection = computed(() => selectedRows.value.length > 0);
@@ -212,66 +195,10 @@ const hasSelection = computed(() => selectedRows.value.length > 0);
       </template>
 
       <template #actions="{ row }">
-        <!-- 查看 -->
-        <el-button v-perms="SYS_USER_PERMS.QUERY" link type="primary" @click="openUserDetailDialog(row)">
-          {{ t('buttons.actionView') }}
+        <!-- 工作台 -->
+        <el-button v-perms="SYS_USER_PERMS.QUERY" link type="primary" @click="openUserWorkstation(row.id)">
+          {{ t('users.workstation.open') }}
         </el-button>
-        <!-- 修改 -->
-        <el-button v-perms="SYS_USER_PERMS.UPDATE" link type="primary" @click="openEditDialog(row)">
-          {{ t('buttons.actionEdit') }}
-        </el-button>
-        <!-- 删除 -->
-        <el-button v-perms="SYS_USER_PERMS.DELETE" link type="danger" @click="deleteBatchRows([row.id])">
-          {{ t('buttons.actionDelete') }}
-        </el-button>
-
-        <!-- 更多 -->
-        <el-dropdown trigger="click">
-          <el-button class="ml-2!" link type="primary">{{ t('buttons.actionMore') }}</el-button>
-          <template #dropdown>
-            <Perms :value="SYS_USER_ROLE_PERMS.UPDATE">
-              <el-dropdown-item @click="openAssignRoleDrawer(row)">
-                {{ t('assign.role') }}
-              </el-dropdown-item>
-            </Perms>
-            <Perms :value="SYS_USER_DEPT_PERMS.QUERY">
-              <el-dropdown-item @click="openAssignDeptDrawer(row)">
-                {{ t('assign.dept') }}
-              </el-dropdown-item>
-            </Perms>
-            <Perms :value="SYS_USER_POST_PERMS.QUERY">
-              <el-dropdown-item @click="openAssignPostDrawer(row)">
-                {{ t('assign.post') }}
-              </el-dropdown-item>
-            </Perms>
-            <Perms :value="SYS_USER_PERMS.UPDATE">
-              <el-dropdown-item @click="openAdminUpdateAvatarDialog(row.id, row.username, row.avatar)">
-                {{ t('users.avatar.update') }}
-              </el-dropdown-item>
-            </Perms>
-            <Perms :value="SYS_USER_PERMS.UPDATE">
-              <el-dropdown-item @click="openAdminResetPasswordDialog(row.id, row.username)">
-                {{ t('users.password.reset') }}
-              </el-dropdown-item>
-            </Perms>
-            <!-- 查看会话 -->
-            <Perms :value="SYS_USER_PERMS.VIEW_SESSIONS">
-              <el-dropdown-item @click="openViewSessionsDialog(row)">
-                {{ t('users.session.view') }}
-              </el-dropdown-item>
-            </Perms>
-            <Perms :value="SYS_USER_PERMS.KICK_ALL">
-              <el-dropdown-item @click="kickAllForUser(row.id)">
-                {{ t('users.kick.action') }}
-              </el-dropdown-item>
-            </Perms>
-            <Perms :value="SYS_USER_PERMS.AUTH_REFRESH">
-              <el-dropdown-item @click="refreshUserAuth(row)">
-                {{ t('users.authRefresh.action') }}
-              </el-dropdown-item>
-            </Perms>
-          </template>
-        </el-dropdown>
       </template>
     </AuthPagedTable>
   </div>

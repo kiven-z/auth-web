@@ -1,21 +1,45 @@
-// 本地图标在 src/layout/index.vue 加载，避免首屏启动时一并拉取
-// https://icon-sets.iconify.design/ep/?keyword=ep
+// 本地离线图标：在 Layout / 工作台等入口 import 本文件后生效，避免依赖 Iconify CDN
+// https://icon-sets.iconify.design/ep/
+// https://icon-sets.iconify.design/ri/
 import { addIcon } from '@iconify/vue/dist/offline';
 import { getSvgInfo } from '@pureadmin/utils';
 import EpHomeFilled from '~icons/ep/home-filled?raw';
-// https://icon-sets.iconify.design/ri/?keyword=ri
+import RiBriefcaseLine from '~icons/ri/briefcase-line?raw';
+import RiDashboardLine from '~icons/ri/dashboard-line?raw';
+import RiDatabase2Line from '~icons/ri/database-2-line?raw';
+import RiDeviceLine from '~icons/ri/device-line?raw';
 import RiInformationLine from '~icons/ri/information-line?raw';
+import RiLockPasswordLine from '~icons/ri/lock-password-line?raw';
+import RiLogoutBoxRLine from '~icons/ri/logout-box-r-line?raw';
+import RiOrganizationChart from '~icons/ri/organization-chart?raw';
+import RiRefreshLine from '~icons/ri/refresh-line?raw';
 import RiSearchLine from '~icons/ri/search-line?raw';
+import RiShieldUserLine from '~icons/ri/shield-user-line?raw';
+import RiUserSettingsLine from '~icons/ri/user-settings-line?raw';
 
+/**
+ * 离线图标表。键统一为 `集合/图标名`（斜杠）；`useRenderIcon` 会把 `集合:图标名` 规范成同一形式。
+ * 后端菜单 icon、工作台 nav 均应使用本表中的键。
+ */
 const icons = [
-  // Element Plus Icon: https://github.com/element-plus/element-plus-icons
+  // Element Plus
   ['ep/home-filled', EpHomeFilled],
-  // Remix Icon: https://github.com/Remix-Design/RemixIcon
+  // Remix — 通用
   ['ri/search-line', RiSearchLine],
   ['ri/information-line', RiInformationLine],
+  ['ri/user-settings-line', RiUserSettingsLine],
+  // Remix — 用户工作台
+  ['ri/dashboard-line', RiDashboardLine],
+  ['ri/shield-user-line', RiShieldUserLine],
+  ['ri/organization-chart', RiOrganizationChart],
+  ['ri/briefcase-line', RiBriefcaseLine],
+  ['ri/database-2-line', RiDatabase2Line],
+  ['ri/lock-password-line', RiLockPasswordLine],
+  ['ri/refresh-line', RiRefreshLine],
+  ['ri/logout-box-r-line', RiLogoutBoxRLine],
+  ['ri/device-line', RiDeviceLine],
 ];
 
-// 本地菜单图标，后端在路由的 icon 中返回对应的图标字符串并且前端在此处使用 addIcon 添加即可渲染菜单图标
 icons.forEach(([name, icon]) => {
   addIcon(name as string, getSvgInfo(icon as string));
 });
