@@ -4,7 +4,7 @@ import { errorMessage, message } from '@/services/feedback/message';
 import { USER_STATUS_FILTER_OPTIONS } from '@/views/system/user/constants/user-account-status';
 import { USER_GENDER_OPTIONS } from '@/views/system/user/constants/user-gender';
 import { WORKSTATION_PROFILE_KEY } from '@/views/system/user/workstation/constants/workstation-profile';
-import AvatarUpdateDialogPanel from '@/views/system/user/workstation/panels/security/AvatarUpdateDialogPanel.vue';
+import AvatarUpdatePanel from '@/views/system/user/workstation/panels/profile/AvatarUpdatePanel.vue';
 import type { FormInstance, FormRules } from 'element-plus';
 import { computed, inject, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
@@ -120,7 +120,7 @@ watch(
   <div v-loading="loading" class="profile-panel">
     <template v-if="profile">
       <el-divider content-position="left">{{ t('users.avatar.update') }}</el-divider>
-      <AvatarUpdateDialogPanel
+      <AvatarUpdatePanel
         :avatar="profile.avatar"
         :user-id="profile.id"
         :username="profile.username"

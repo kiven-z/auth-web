@@ -29,7 +29,7 @@ export default [
       {
         path: 'profile',
         name: 'UserWorkstationProfile',
-        component: () => import('@/views/system/user/workstation/panels/ProfilePanel.vue'),
+        component: () => import('@/views/system/user/workstation/panels/profile/ProfilePanel.vue'),
         meta: {
           title: $t('users.workstation.nav.profile'),
           showLink: false,

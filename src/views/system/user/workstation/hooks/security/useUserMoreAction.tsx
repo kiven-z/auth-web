@@ -2,27 +2,17 @@ import type { TableActionDeps } from '@/api/common';
 import { kickAllUserSessions } from '@/api/auth/session';
 import { getUserRoles, putUserRoles } from '@/api/system/user/user-role';
 import { refreshUserAuthorization, type SysUserPageRow } from '@/api/system/user/user';
-import { addDialog, closeDialog } from '@/components/ui/Dialog/index';
-import { addDrawer } from '@/components/ui/Drawer/index';
+import { addDialog, closeDialog } from '@/components/ui/Dialog';
+import { addDrawer } from '@/components/ui/Drawer';
 import { operationConfirm } from '@/services/feedback/dialog';
 import { errorMessage, message } from '@/services/feedback/message';
 import OrgGrantRoleAssignDrawer from '@/views/system/_shared/components/OrgGrantRoleAssignDrawer.vue';
-import AvatarUpdateDialogPanel from '@/views/system/user/workstation/panels/security/AvatarUpdateDialogPanel.vue';
+import AvatarUpdatePanel from '@/views/system/user/workstation/panels/profile/AvatarUpdatePanel.vue';
 import UserAssignDeptDrawer from '@/views/system/user/workstation/panels/assign/dept/UserAssignDeptDrawer.vue';
 import UserAssignPostDrawer from '@/views/system/user/workstation/panels/assign/post/UserAssignPostDrawer.vue';
 import UserSessionDialog from '@/views/system/_shared/components/UserSessionDialog.vue';
 import { h, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
-
-/** 管理员更新用户头像弹窗面板属性 */
-export interface AvatarUpdateDialogPanelProps {
-  /** 目标用户主键 */
-  userId: string;
-  /** 目标用户名 */
-  username: string;
-  /** 当前头像 URL */
-  avatar?: string | null;
-}
 
 interface KickAllForUserOptions {
   /** 成功后回调（如弹窗内刷新会话列表） */
@@ -157,7 +147,7 @@ function useUserMoreAction(deps: TableActionDeps) {
       closeOnPressEscape: false,
       hideFooter: true,
       contentRenderer: ({ options, index }) =>
-        h(AvatarUpdateDialogPanel, {
+        h(AvatarUpdatePanel, {
           userId,
           username,
           avatar,

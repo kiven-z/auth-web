@@ -1,16 +1,27 @@
+<script lang="ts">
+/** 更新用户头像面板属性 */
+export interface AvatarUpdatePanelProps {
+  /** 目标用户主键 */
+  userId: string;
+  /** 目标用户名 */
+  username: string;
+  /** 当前头像 URL */
+  avatar?: string | null;
+}
+</script>
+
 <script lang="ts" setup>
 import { updateUserAvatar } from '@/api/system/user/user';
 import AvatarEditor from '@/components/business/AvatarEditor';
-import type { AvatarUpdateDialogPanelProps } from '@/views/system/user/workstation/hooks/security/useUserMoreAction';
 import { message } from '@/services/feedback/message';
 import { ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 defineOptions({
-  name: 'AvatarUpdateDialogPanel',
+  name: 'AvatarUpdatePanel',
 });
 
-const props = defineProps<AvatarUpdateDialogPanelProps>();
+const props = defineProps<AvatarUpdatePanelProps>();
 
 const emit = defineEmits<{
   success: [avatarUrl: string];
@@ -39,27 +50,27 @@ async function handleAvatarUploaded(avatarUrl: string): Promise<void> {
 </script>
 
 <template>
-  <div class="avatar-update-dialog-panel">
+  <div class="avatar-update-panel">
     <el-alert
       :closable="false"
       :title="t('account.avatar.uploadHint')"
-      class="avatar-update-dialog-panel__hint"
+      class="avatar-update-panel__hint"
       show-icon
       type="info"
     />
 
-    <div class="avatar-update-dialog-panel__editor">
+    <div class="avatar-update-panel__editor">
       <AvatarEditor :avatar="displayAvatar" :size="96" @uploaded="handleAvatarUploaded" />
-      <div class="avatar-update-dialog-panel__meta">
-        <p class="avatar-update-dialog-panel__username">{{ username }}</p>
-        <p class="avatar-update-dialog-panel__tip">{{ t('users.avatar.updateHint') }}</p>
+      <div class="avatar-update-panel__meta">
+        <p class="avatar-update-panel__username">{{ username }}</p>
+        <p class="avatar-update-panel__tip">{{ t('users.avatar.updateHint') }}</p>
       </div>
     </div>
   </div>
 </template>
 
 <style lang="scss" scoped>
-.avatar-update-dialog-panel {
+.avatar-update-panel {
   &__hint {
     margin-bottom: 16px;
   }
