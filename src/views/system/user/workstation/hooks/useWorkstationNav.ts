@@ -30,7 +30,7 @@ export interface UserWorkstationNavItem {
   key: UserWorkstationSection;
   /** 菜单文案 */
   label: string;
-  /** Remix Icon 离线键，须在 Icon/src/offline packs 注册（`ri/图标名`） */
+  /** Remix Icon 离线键，须在 Icon/src/offline/packs/ri 注册（`ri/图标名`） */
   icon: string;
 }
 
