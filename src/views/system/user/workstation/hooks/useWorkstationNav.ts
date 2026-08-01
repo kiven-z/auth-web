@@ -16,10 +16,7 @@ export type UserWorkstationSection =
   | 'grant-dept'
   | 'grant-post'
   | 'grant-scope'
-  | 'security-password'
-  | 'security-auth-refresh'
-  | 'security-kick'
-  | 'security-sessions';
+  | 'security';
 
 /** 侧栏分组键 */
 export type UserWorkstationNavGroup = 'overview' | 'profile' | 'grant' | 'security';
@@ -58,7 +55,7 @@ function useWorkstationNav() {
     const groups: Array<{
       key: UserWorkstationNavGroup;
       title: string;
-      items: Array<UserWorkstationNavItem & { auth?: string }>;
+      items: Array<UserWorkstationNavItem & { auth?: string; anyAuth?: string[] }>;
     }> = [
       {
         key: 'overview',
@@ -119,28 +116,15 @@ function useWorkstationNav() {
         title: t('users.workstation.nav.group.security'),
         items: [
           {
-            key: 'security-password',
-            label: t('users.workstation.nav.password'),
+            key: 'security',
+            label: t('users.workstation.nav.security'),
             icon: 'ri/lock-password-line',
-            auth: SYS_USER_PERMS.UPDATE,
-          },
-          {
-            key: 'security-auth-refresh',
-            label: t('users.workstation.nav.authRefresh'),
-            icon: 'ri/refresh-line',
-            auth: SYS_USER_PERMS.AUTH_REFRESH,
-          },
-          {
-            key: 'security-kick',
-            label: t('users.workstation.nav.kick'),
-            icon: 'ri/logout-box-r-line',
-            auth: SYS_USER_PERMS.KICK_ALL,
-          },
-          {
-            key: 'security-sessions',
-            label: t('users.workstation.nav.sessions'),
-            icon: 'ri/device-line',
-            auth: SYS_USER_PERMS.VIEW_SESSIONS,
+            anyAuth: [
+              SYS_USER_PERMS.UPDATE,
+              SYS_USER_PERMS.AUTH_REFRESH,
+              SYS_USER_PERMS.KICK_ALL,
+              SYS_USER_PERMS.VIEW_SESSIONS,
+            ],
           },
         ],
       },
@@ -151,7 +135,12 @@ function useWorkstationNav() {
         key: group.key,
         title: group.title,
         items: group.items
-          .filter((item) => !item.auth || hasAuth(item.auth))
+          .filter((item) => {
+            if (item.anyAuth?.length) {
+              return item.anyAuth.some((code) => hasAuth(code));
+            }
+            return !item.auth || hasAuth(item.auth);
+          })
           .map(({ key, label, icon }) => ({ key, label, icon })),
       }))
       .filter((group) => group.items.length > 0);

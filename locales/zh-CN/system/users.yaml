@@ -12,7 +12,7 @@ users:
     nav:
       group:
         overview: 概览
-        profile: 个人信息
+        profile: 资料
         grant: 授权
         security: 账号安全
       overview: 用户信息
@@ -21,10 +21,12 @@ users:
       grantDept: 部门隶属
       grantPost: 任职岗位
       grantScope: 数据权限范围
-      password: 重置密码
+      security: 账号安全
       authRefresh: 刷新授权
-      kick: 踢下线
-      sessions: 会话列表
+    security:
+      passwordDesc: 管理员重置该用户的登录密码
+      authRefreshDesc: 强制重建该用户的授权画像缓存
+      kickDesc: 踢出该用户的全部活跃会话
   field:
     username: 用户名
     nickname: 昵称

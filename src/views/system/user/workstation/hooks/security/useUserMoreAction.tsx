@@ -23,8 +23,8 @@ interface KickAllForUserOptions {
  * @param deps 表格操作依赖
  * @returns 操作方法
  */
-function useUserMoreAction(deps: TableActionDeps) {
-  const { fetchTableData } = deps;
+function useUserMoreAction(deps: Partial<TableActionDeps> = {}) {
+  const fetchTableData = deps.fetchTableData ?? (async () => undefined);
   const { t } = useI18n();
 
   /**
@@ -128,16 +128,16 @@ function useUserMoreAction(deps: TableActionDeps) {
 
   /**
    * 刷新指定用户的授权画像缓存
-   * @param row 用户行
+   * @param userId 目标用户主键
    */
-  const refreshUserAuth = async (row: SysUserPageRow) => {
+  const refreshUserAuth = async (userId: string) => {
     const confirmed = await operationConfirm();
     if (!confirmed) {
       return;
     }
 
     try {
-      await refreshUserAuthorization([row.id]);
+      await refreshUserAuthorization([userId]);
       message(t('users.authRefresh.success'), { type: 'success' });
     } catch (error: unknown) {
       errorMessage(error);

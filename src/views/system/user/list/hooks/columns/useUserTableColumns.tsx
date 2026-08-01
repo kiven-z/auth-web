@@ -52,7 +52,6 @@ function useUserTableColumns() {
     {
       label: t('table.actions'),
       fixed: 'right' as const,
-      minWidth: 160,
       slot: 'actions',
     },
   ]);

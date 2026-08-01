@@ -71,6 +71,17 @@ export default [
           auths: SYS_USER_POST_PERMS.QUERY,
         },
       },
+      {
+        path: 'security',
+        name: 'UserWorkstationSecurity',
+        component: () => import('@/views/system/user/workstation/panels/security/SecurityPanel.vue'),
+        meta: {
+          title: $t('users.workstation.nav.security'),
+          showLink: false,
+          /** 页内按动作细粒度鉴权；入口与工作台查询权一致 */
+          auths: SYS_USER_PERMS.QUERY,
+        },
+      },
     ],
   },
 ] satisfies Array<RouteConfigsTable>;

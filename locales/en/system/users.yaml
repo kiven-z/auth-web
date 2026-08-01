@@ -21,10 +21,12 @@ users:
       grantDept: Department membership
       grantPost: Post assignment
       grantScope: Data scope
-      password: Reset password
+      security: Account security
       authRefresh: Refresh authorization
-      kick: Sign out
-      sessions: Sessions
+    security:
+      passwordDesc: Reset this user's login password as an administrator
+      authRefreshDesc: Force rebuild of this user's authorization profile cache
+      kickDesc: Sign out all active sessions for this user
   field:
     username: Username
     nickname: Nickname
