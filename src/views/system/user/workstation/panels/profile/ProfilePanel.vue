@@ -1,27 +1,29 @@
 <script lang="ts" setup>
+import { getUserProfile, type SysUserProfileResponse } from '@/api/system/user/user-base';
 import { type SysUserUpdateForm, updateUser } from '@/api/system/user/user';
 import { errorMessage, message } from '@/services/feedback/message';
 import { USER_STATUS_FILTER_OPTIONS } from '@/views/system/user/constants/user-account-status';
 import { USER_GENDER_OPTIONS } from '@/views/system/user/constants/user-gender';
-import { WORKSTATION_PROFILE_KEY } from '@/views/system/user/workstation/constants/workstation-profile';
 import AvatarUpdatePanel from '@/views/system/user/workstation/panels/profile/AvatarUpdatePanel.vue';
 import type { FormInstance, FormRules } from 'element-plus';
-import { computed, inject, ref, watch } from 'vue';
+import { computed, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
+import { useRoute } from 'vue-router';
 
 defineOptions({ name: 'UserWorkstationProfilePanel' });
 
 const { t } = useI18n();
-const workstation = inject(WORKSTATION_PROFILE_KEY);
+const route = useRoute();
 
+const loading = ref(false);
 const submitting = ref(false);
+const profile = ref<SysUserProfileResponse | null>(null);
 const formRef = ref<FormInstance>();
 const form = ref({} as SysUserUpdateForm);
 /** 上次加载/保存成功的快照，供重置 */
 const snapshot = ref({} as SysUserUpdateForm);
 
-const profile = computed(() => workstation?.profile.value ?? null);
-const loading = computed(() => workstation?.loading.value ?? false);
+const userId = computed(() => String(route.params.userId ?? ''));
 
 const rules = computed<FormRules>(() => ({
   username: [
@@ -45,6 +47,50 @@ const rules = computed<FormRules>(() => ({
   ],
   remark: [{ max: 500, message: t('users.validation.remarkMaxLength'), trigger: 'blur' }],
 }));
+
+/**
+ * 将档案响应写入表单与快照（排除 avatar / deptList / postList）
+ * @param row 用户档案
+ */
+function applyProfileToForm(row: SysUserProfileResponse) {
+  const next = {
+    id: row.id,
+    username: row.username,
+    nickname: row.nickname,
+    email: row.email,
+    phone: row.phone,
+    employeeNo: row.employeeNo,
+    status: row.status,
+    gender: row.gender,
+    birthday: row.birthday,
+    introduction: row.introduction,
+    remark: row.remark,
+  } as SysUserUpdateForm;
+  form.value = next;
+  snapshot.value = { ...next };
+}
+
+/**
+ * 拉取用户档案并填充表单
+ */
+async function loadProfile() {
+  if (!userId.value) {
+    profile.value = null;
+    return;
+  }
+
+  loading.value = true;
+  try {
+    const row = await getUserProfile(userId.value);
+    profile.value = row;
+    applyProfileToForm(row);
+  } catch (error: unknown) {
+    errorMessage(error);
+    profile.value = null;
+  } finally {
+    loading.value = false;
+  }
+}
 
 /**
  * 重置为上次成功快照
@@ -72,7 +118,9 @@ async function handleSave() {
     await updateUser(form.value);
     message(t('tips.editSuccess'), { type: 'success' });
     snapshot.value = { ...form.value };
-    workstation?.patchProfile({ ...form.value });
+    if (profile.value) {
+      profile.value = { ...profile.value, ...form.value };
+    }
   } catch (error: unknown) {
     errorMessage(error);
   } finally {
@@ -81,39 +129,17 @@ async function handleSave() {
 }
 
 /**
- * 头像更新后同步侧栏
+ * 头像更新后同步本地面板展示
  * @param avatarUrl 新头像 URL
  */
 function handleAvatarUpdated(avatarUrl: string) {
-  workstation?.patchProfile({ avatar: avatarUrl });
+  if (!profile.value) {
+    return;
+  }
+  profile.value = { ...profile.value, avatar: avatarUrl };
 }
 
-watch(
-  () => profile.value?.id,
-  (id) => {
-    const row = profile.value;
-    if (!id || !row) {
-      return;
-    }
-    // Response → Form 白名单，排除 avatar / deptList / postList
-    const next = {
-      id: row.id,
-      username: row.username,
-      nickname: row.nickname,
-      email: row.email,
-      phone: row.phone,
-      employeeNo: row.employeeNo,
-      status: row.status,
-      gender: row.gender,
-      birthday: row.birthday,
-      introduction: row.introduction,
-      remark: row.remark,
-    } as SysUserUpdateForm;
-    form.value = next;
-    snapshot.value = { ...next };
-  },
-  { immediate: true }
-);
+watch(userId, () => void loadProfile(), { immediate: true });
 </script>
 
 <template>

@@ -4,14 +4,13 @@ import { useRenderIcon } from '@/components/ui/Icon/src/hooks';
 import '@/components/ui/Icon/src/offline';
 import { getMenuTooltipEffect } from '@/layout/utils/tooltip-effect';
 import { errorMessage } from '@/services/feedback/message';
-import { WORKSTATION_PROFILE_KEY } from '@/views/system/user/workstation/constants/workstation-profile';
 import useWorkstationNav from '@/views/system/user/workstation/hooks/useWorkstationNav';
 import useWorkstationSectionTransition from '@/views/system/user/workstation/hooks/useWorkstationSectionTransition';
 import { ArrowLeft } from '@element-plus/icons-vue';
-import { computed, provide, ref, watch } from 'vue';
+import 'animate.css';
+import { computed, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRoute, useRouter } from 'vue-router';
-
 import ArrowLeftDouble from '~icons/ri/arrow-left-double-fill';
 import ArrowRightDouble from '~icons/ri/arrow-right-double-fill';
 
@@ -95,19 +94,6 @@ function handleBack() {
 }
 
 watch(userId, () => void loadProfile(), { immediate: true });
-
-/**
- * 合并更新本地档案（侧栏与子面板同步）
- * @param patch 局部字段
- */
-function patchProfile(patch: Partial<SysUserProfileResponse>) {
-  if (!profile.value) {
-    return;
-  }
-  profile.value = { ...profile.value, ...patch };
-}
-
-provide(WORKSTATION_PROFILE_KEY, { profile, loading, loadFailed, patchProfile });
 </script>
 
 <template>

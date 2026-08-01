@@ -1,14 +1,14 @@
 <script lang="ts" setup>
-import 'animate.css';
 import '@/components/ui/Icon/src/offline/shell';
+import { getLayoutSnapshot } from '@/core/preferences/storage';
 import { useBreakpointLayout } from '@/layout/composables/useBreakpointLayout';
 import { useLayout } from '@/layout/hooks/layout/useLayout';
 import { useUiTheme } from '@/layout/hooks/theme/useUiTheme';
 import LayoutHeader from '@/layout/shell/LayoutHeader.vue';
 import LayoutSidebar from '@/layout/shell/LayoutSidebar.vue';
-import { getLayoutSnapshot } from '@/core/preferences/storage';
 import { useAppStore } from '@/store/modules/app/app';
 import { useSettingStore } from '@/store/modules/app/settings';
+import 'animate.css';
 import { computed, onBeforeMount, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 
