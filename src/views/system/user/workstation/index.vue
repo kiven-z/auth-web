@@ -189,7 +189,9 @@ watch(navGroups, syncActiveSection, { immediate: true });
     </aside>
 
     <!-- 右侧面板后续按分区接入 -->
-    <main class="user-workstation__main" />
+    <main class="user-workstation__main">
+      <router-view />
+    </main>
   </div>
 </template>
 

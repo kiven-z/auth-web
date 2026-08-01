@@ -1,24 +1,23 @@
 import {
-  batchDeleteUserPosts,
-  clearUserPosts,
-  createUserPost,
-  updateUserPost,
-  type UserPostAssignForm,
-  type UserPostPageRow,
-  type UserPostRelationUpdateForm,
-} from '@/api/system/user/user-post';
-import type { TableActionDeps } from '@/api/common';
-import { addDialog } from '@/components/ui/Dialog';
+  batchDeleteUserDepts,
+  clearUserDepts,
+  createUserDept,
+  updateUserDept,
+  type UserDeptAssignForm,
+  type UserDeptPageRow,
+} from '@/api/system/user/user-dept';
+import { addDialog } from '@/components/ui/Dialog/index';
 import useBatchDeleteAction from '@/shared/composables/table/useBatchDeleteAction';
 import { type FormOverlayExpose, useFormOverlaySubmit } from '@/shared/composables/table/useFormOverlaySubmit';
 import { errorMessage, message } from '@/services/feedback/message';
 import { multiConfirm } from '@/services/feedback/dialog';
-import UserPostAssignFormDialog from '@/views/system/user/assign/post/components/UserPostAssignFormDialog.vue';
+import UserDeptAssignFormDialog from '@/views/system/user/workstation/panels/assign/dept/UserDeptAssignFormDialog.vue';
 import { h, ref, type Ref } from 'vue';
 import { useI18n } from 'vue-i18n';
+import type { TableActionDeps } from '@/api/common';
 
-/** 用户分配岗位抽屉操作依赖 */
-interface UserAssignPostDrawerActionDeps extends TableActionDeps {
+/** 用户分配部门抽屉操作依赖 */
+interface UserAssignDeptDrawerActionDeps extends TableActionDeps {
   /** 用户主键 */
   userId: string;
   /** 表格多选主键 */
@@ -26,49 +25,49 @@ interface UserAssignPostDrawerActionDeps extends TableActionDeps {
 }
 
 /**
- * 用户分配岗位抽屉：分页查询、新增与编辑岗位关联
+ * 用户分配部门抽屉：分页查询、新增与编辑部门关联
  * @param deps 抽屉操作依赖
- * @returns 抽屉操作方法
+ * @returns 抽屉状态与操作方法
  */
-function useUserAssignPostDrawerAction(deps: UserAssignPostDrawerActionDeps) {
+function useUserAssignDeptDrawerAction(deps: UserAssignDeptDrawerActionDeps) {
   const { userId, fetchTableData, selectedRows } = deps;
   const { t } = useI18n();
   const { createFormBeforeSure } = useFormOverlaySubmit();
 
   const { deleteBatchRows } = useBatchDeleteAction({
     selectedRows,
-    deleteApi: (ids) => batchDeleteUserPosts(userId, ids),
+    deleteApi: (ids) => batchDeleteUserDepts(userId, ids),
     onSuccess: fetchTableData,
   });
 
   /**
-   * 打开编辑岗位关联弹窗
+   * 打开编辑部门关联弹窗
    * @param row 表格行
    */
-  const openEditDialog = (row: UserPostPageRow) => {
-    const dialogFormRef = ref<FormOverlayExpose<UserPostRelationUpdateForm> | null>(null);
+  const openEditDialog = (row: UserDeptPageRow) => {
+    const dialogFormRef = ref<FormOverlayExpose<UserDeptAssignForm> | null>(null);
 
     addDialog({
-      title: t('users.postAssign.editTitle'),
+      title: t('users.deptAssign.editTitle'),
       draggable: true,
       fullscreenIcon: true,
       closeOnClickModal: false,
       closeOnPressEscape: false,
       contentRenderer: () =>
-        h(UserPostAssignFormDialog, {
+        h(UserDeptAssignFormDialog, {
           ref: dialogFormRef,
-          editMode: true,
           form: {
+            deptId: row.deptId,
             status: row.status,
             isPrimary: row.isPrimary,
             remark: row.remark ?? undefined,
           },
         }),
-      beforeSure: createFormBeforeSure<UserPostRelationUpdateForm>({
+      beforeSure: createFormBeforeSure<UserDeptAssignForm>({
         formExposeRef: dialogFormRef,
         successI18nKey: 'tips.editSuccess',
         onSubmit: async (formPayload) => {
-          await updateUserPost(userId, row.id, formPayload);
+          await updateUserDept(userId, row.id, formPayload);
           await fetchTableData();
         },
       }),
@@ -76,23 +75,23 @@ function useUserAssignPostDrawerAction(deps: UserAssignPostDrawerActionDeps) {
   };
 
   /**
-   * 打开新增岗位关联弹窗
+   * 打开新增部门关联弹窗
    */
   const openCreateDialog = () => {
-    const dialogFormRef = ref<FormOverlayExpose<UserPostAssignForm> | null>(null);
+    const dialogFormRef = ref<FormOverlayExpose<UserDeptAssignForm> | null>(null);
 
     addDialog({
-      title: t('users.postAssign.createTitle'),
+      title: t('users.deptAssign.createTitle'),
       draggable: true,
       fullscreenIcon: true,
       closeOnClickModal: false,
       closeOnPressEscape: false,
-      contentRenderer: () => h(UserPostAssignFormDialog, { ref: dialogFormRef }),
-      beforeSure: createFormBeforeSure<UserPostAssignForm>({
+      contentRenderer: () => h(UserDeptAssignFormDialog, { ref: dialogFormRef }),
+      beforeSure: createFormBeforeSure<UserDeptAssignForm>({
         formExposeRef: dialogFormRef,
         successI18nKey: 'tips.addSuccess',
         onSubmit: async (formPayload) => {
-          await createUserPost(userId, formPayload);
+          await createUserDept(userId, formPayload);
           await fetchTableData();
         },
       }),
@@ -100,13 +99,13 @@ function useUserAssignPostDrawerAction(deps: UserAssignPostDrawerActionDeps) {
   };
 
   /**
-   * 清空当前用户全部岗位关联
+   * 清空当前用户全部部门关联
    */
-  const clearAllPosts = async () => {
+  const clearAllDepts = async () => {
     const confirmed = await multiConfirm([
       {
-        title: t('users.postAssign.clearAllConfirm'),
-        message: t('users.postAssign.clearAllConfirm'),
+        title: t('users.deptAssign.clearAllConfirm'),
+        message: t('users.deptAssign.clearAllConfirm'),
       },
     ]);
     if (!confirmed) {
@@ -114,7 +113,7 @@ function useUserAssignPostDrawerAction(deps: UserAssignPostDrawerActionDeps) {
     }
 
     try {
-      await clearUserPosts(userId);
+      await clearUserDepts(userId);
       message(t('tips.deleteSuccess'), { type: 'success' });
       selectedRows.value = [];
       await fetchTableData();
@@ -127,8 +126,8 @@ function useUserAssignPostDrawerAction(deps: UserAssignPostDrawerActionDeps) {
     openCreateDialog,
     openEditDialog,
     deleteBatchRows,
-    clearAllPosts,
+    clearAllDepts,
   };
 }
 
-export default useUserAssignPostDrawerAction;
+export default useUserAssignDeptDrawerAction;

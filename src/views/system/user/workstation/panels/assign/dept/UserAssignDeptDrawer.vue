@@ -1,16 +1,16 @@
 <script lang="ts" setup>
 import AuthPagedTable, { usePaginationState } from '@/components/business/AuthPagedTable';
-import { getUserPostPage, type UserPostPageRow } from '@/api/system/user/user-post';
-import useUserAssignPostDrawerAction from '@/views/system/user/assign/post/hooks/useUserAssignPostDrawerAction';
-import useUserPostAssignTableColumns from '@/views/system/user/assign/post/hooks/useUserPostAssignTableColumns';
-import { SYS_USER_POST_PERMS } from '@/views/system/user/constants/permissions';
+import { SYS_USER_DEPT_PERMS } from '@/views/system/user/constants/permissions';
 import { USER_DEPT_RELATION_STATUS_FILTER_OPTIONS } from '@/views/system/user/constants/user-dept-relation-status';
-import { useFormPlaceholder } from '@/shared/composables/i18n/useFormPlaceholder';
-import type { FormInstance } from 'element-plus';
+import useUserAssignDeptDrawerAction from '@/views/system/user/workstation/hooks/dept/useUserAssignDeptDrawerAction';
 import { computed, onMounted, reactive, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
+import useUserDeptAssignTableColumns from '@/views/system/user/workstation/hooks/dept/useUserDeptAssignTableColumns';
+import { getUserDeptPage, UserDeptPageRow } from '@/api/system/user/user-dept';
+import { useFormPlaceholder } from '@/shared/composables/i18n/useFormPlaceholder';
+import type { FormInstance } from 'element-plus';
 
-defineOptions({ name: 'UserAssignPostDrawer' });
+defineOptions({ name: 'UserAssignDeptDrawer' });
 
 const props = defineProps<{
   userId: string;
@@ -23,24 +23,24 @@ const ph = useFormPlaceholder();
 
 const searchFormRef = ref<FormInstance>();
 
-const postAssignState = usePaginationState<UserPostPageRow>({
+const deptAssignState = usePaginationState<UserDeptPageRow>({
   searchForm: reactive({
-    postCode: undefined,
-    postName: undefined,
+    deptName: undefined,
+    deptCode: undefined,
     status: undefined,
   }),
   fetchApi: (query) =>
-    getUserPostPage(props.userId, {
+    getUserDeptPage(props.userId, {
       pageIndex: query.pageIndex as number,
       pageSize: query.pageSize as number,
-      postCode: query.postCode as string,
-      postName: query.postName as string,
+      deptName: query.deptName as string,
+      deptCode: query.deptCode as string,
       status: query.status as number,
     }),
 });
-const { fetchTableData, resetQuery, loading, searchForm, selectedRows } = postAssignState;
+const { fetchTableData, resetQuery, loading, searchForm, selectedRows } = deptAssignState;
 
-const { openCreateDialog, openEditDialog, deleteBatchRows, clearAllPosts } = useUserAssignPostDrawerAction({
+const { openCreateDialog, openEditDialog, deleteBatchRows, clearAllDepts } = useUserAssignDeptDrawerAction({
   userId: props.userId,
   fetchTableData,
   selectedRows,
@@ -48,7 +48,7 @@ const { openCreateDialog, openEditDialog, deleteBatchRows, clearAllPosts } = use
 
 const hasSelection = computed(() => selectedRows.value.length > 0);
 
-const { columns } = useUserPostAssignTableColumns();
+const { columns } = useUserDeptAssignTableColumns();
 
 onMounted(() => {
   fetchTableData();
@@ -57,22 +57,22 @@ onMounted(() => {
 
 <template>
   <div class="flex flex-col">
-    <el-alert :title="t('users.postAssign.drawerTip')" closable show-icon type="info" />
+    <el-alert :title="t('users.deptAssign.drawerTip')" closable show-icon type="info" />
     <el-form ref="searchFormRef" v-enter-submit="fetchTableData" :model="searchForm" class="pt-2 pl-6" inline>
-      <!-- 岗位编码 -->
-      <el-form-item :label="t('post.field.postCode')" prop="postCode">
+      <!-- 部门名称 -->
+      <el-form-item :label="t('dept.field.deptName')" prop="deptName">
         <el-input
-          v-model="searchForm.postCode"
-          :placeholder="ph.input('post.field.postCode')"
+          v-model="searchForm.deptName"
+          :placeholder="ph.input('dept.field.deptName')"
           class="w-45!"
           clearable
         />
       </el-form-item>
-      <!-- 岗位名称 -->
-      <el-form-item :label="t('post.field.postName')" prop="postName">
+      <!-- 部门编码 -->
+      <el-form-item :label="t('dept.field.deptCode')" prop="deptCode">
         <el-input
-          v-model="searchForm.postName"
-          :placeholder="ph.input('post.field.postName')"
+          v-model="searchForm.deptCode"
+          :placeholder="ph.input('dept.field.deptCode')"
           class="w-45!"
           clearable
         />
@@ -86,10 +86,10 @@ onMounted(() => {
           clearable
         >
           <el-option
-            v-for="option in USER_DEPT_RELATION_STATUS_FILTER_OPTIONS"
-            :key="`${option.labelKey}:${String(option.value)}`"
-            :label="t(option.labelKey)"
-            :value="option.value"
+            v-for="opt in USER_DEPT_RELATION_STATUS_FILTER_OPTIONS"
+            :key="`${opt.labelKey}:${String(opt.value)}`"
+            :label="t(opt.labelKey)"
+            :value="opt.value"
           />
         </el-select>
       </el-form-item>
@@ -97,11 +97,11 @@ onMounted(() => {
       <el-form-item>
         <el-button-group>
           <!-- 搜索 -->
-          <el-button v-perms="SYS_USER_POST_PERMS.QUERY" :loading="loading" type="primary" @click="fetchTableData">
+          <el-button v-perms="SYS_USER_DEPT_PERMS.QUERY" :loading="loading" type="primary" @click="fetchTableData">
             {{ t('buttons.actionSearch') }}
           </el-button>
           <!-- 重置 -->
-          <el-button v-perms="SYS_USER_POST_PERMS.QUERY" @click="resetQuery(searchFormRef)">
+          <el-button v-perms="SYS_USER_DEPT_PERMS.QUERY" @click="resetQuery(searchFormRef)">
             {{ t('buttons.actionReset') }}
           </el-button>
         </el-button-group>
@@ -111,34 +111,34 @@ onMounted(() => {
     <AuthPagedTable
       :adaptive-config="{ offsetBottom: 32 }"
       :columns="columns"
-      :state="postAssignState"
+      :state="deptAssignState"
       :title="`${nickname || username} (${username})`"
       show-overflow-tooltip
     >
       <template #buttons>
         <el-button-group>
-          <el-button v-perms="SYS_USER_POST_PERMS.CREATE" type="primary" @click="openCreateDialog">
+          <el-button v-perms="SYS_USER_DEPT_PERMS.CREATE" type="primary" @click="openCreateDialog">
             {{ t('buttons.actionAdd') }}
           </el-button>
           <el-button
-            v-perms="SYS_USER_POST_PERMS.DELETE"
+            v-perms="SYS_USER_DEPT_PERMS.DELETE"
             :disabled="!hasSelection"
             type="danger"
             @click="deleteBatchRows()"
           >
             {{ t('buttons.actionBatchDelete') }}
           </el-button>
-          <el-button v-perms="SYS_USER_POST_PERMS.DELETE" type="danger" @click="clearAllPosts">
+          <el-button v-perms="SYS_USER_DEPT_PERMS.DELETE" type="danger" @click="clearAllDepts">
             {{ t('buttons.assignClearAll') }}
           </el-button>
         </el-button-group>
       </template>
 
       <template #actions="{ row }">
-        <el-button v-perms="SYS_USER_POST_PERMS.UPDATE" link type="primary" @click="openEditDialog(row)">
+        <el-button v-perms="SYS_USER_DEPT_PERMS.UPDATE" link type="primary" @click="openEditDialog(row)">
           {{ t('buttons.actionEdit') }}
         </el-button>
-        <el-button v-perms="SYS_USER_POST_PERMS.DELETE" link type="danger" @click="deleteBatchRows([row.id])">
+        <el-button v-perms="SYS_USER_DEPT_PERMS.DELETE" link type="danger" @click="deleteBatchRows([row.id])">
           {{ t('buttons.actionDelete') }}
         </el-button>
       </template>
