@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import 'animate.css';
-import '@/components/ui/Icon/src/offlineIcon';
+import '@/components/ui/Icon/src/offline/shell';
 import { useBreakpointLayout } from '@/layout/composables/useBreakpointLayout';
 import { useLayout } from '@/layout/hooks/layout/useLayout';
 import { useUiTheme } from '@/layout/hooks/theme/useUiTheme';

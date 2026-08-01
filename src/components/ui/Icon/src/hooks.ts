@@ -1,6 +1,6 @@
 import { type Component, defineComponent, h } from 'vue';
 import { FontIcon, IconifyIconOffline, IconifyIconOnline } from '../index';
-import { offlineIconNames } from './offlineIcon';
+import { offlineIconNames } from './offline/nameSet';
 import type { iconType } from './types';
 
 /**

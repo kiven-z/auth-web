@@ -2,7 +2,7 @@
 // 独立全页不经 Layout，需自行加载离线图标表
 import { getUserProfile, type SysUserProfileResponse } from '@/api/system/user/user-base';
 import { useRenderIcon } from '@/components/ui/Icon/src/hooks';
-import '@/components/ui/Icon/src/offlineIcon';
+import '@/components/ui/Icon/src/offline';
 import { getMenuTooltipEffect } from '@/layout/utils/tooltip-effect';
 import { errorMessage } from '@/services/feedback/message';
 import useWorkstationNav, {
