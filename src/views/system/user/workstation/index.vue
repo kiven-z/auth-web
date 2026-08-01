@@ -1,17 +1,14 @@
 <script lang="ts" setup>
 // 独立全页不经 Layout，需自行加载离线图标表
 import { getUserProfile, type SysUserProfileResponse } from '@/api/system/user/user-base';
-import { hasAuth } from '@/auth/permission';
 import { useRenderIcon } from '@/components/ui/Icon/src/hooks';
 import '@/components/ui/Icon/src/offlineIcon';
 import { getMenuTooltipEffect } from '@/layout/utils/tooltip-effect';
 import { errorMessage } from '@/services/feedback/message';
-import {
+import useWorkstationNav, {
   USER_WORKSTATION_DEFAULT_SECTION,
-  USER_WORKSTATION_NAV_GROUPS,
-  type UserWorkstationNavGroupConfig,
   type UserWorkstationSection,
-} from '@/views/system/user/workstation/constants/nav';
+} from '@/views/system/user/workstation/hooks/useWorkstationNav';
 import { ArrowLeft } from '@element-plus/icons-vue';
 import type { MenuInstance } from 'element-plus';
 import { computed, nextTick, ref, watch } from 'vue';
@@ -29,6 +26,7 @@ const { t } = useI18n();
 const route = useRoute();
 const router = useRouter();
 const tooltipEffect = getMenuTooltipEffect();
+const { navGroups } = useWorkstationNav();
 
 const menuRef = ref<MenuInstance>();
 const loading = ref(true);
@@ -38,16 +36,6 @@ const activeSection = ref<UserWorkstationSection>(USER_WORKSTATION_DEFAULT_SECTI
 const sidebarCollapsed = ref(false);
 
 const userId = computed(() => String(route.params.userId ?? ''));
-
-/**
- * 按权限过滤后的侧栏分组（空分组不展示）
- */
-const visibleNavGroups = computed((): UserWorkstationNavGroupConfig[] => {
-  return USER_WORKSTATION_NAV_GROUPS.map((group) => ({
-    ...group,
-    items: group.items.filter((item) => !item.auth || hasAuth(item.auth)),
-  })).filter((group) => group.items.length > 0);
-});
 
 const displayName = computed(() => {
   if (loading.value) {
@@ -95,7 +83,7 @@ async function loadProfile() {
  * 当前激活项若不在可见菜单中，回落到第一项或默认概览
  */
 function syncActiveSection() {
-  const keys = visibleNavGroups.value.flatMap((group) => group.items.map((item) => item.key));
+  const keys = navGroups.value.flatMap((group) => group.items.map((item) => item.key));
   if (keys.includes(activeSection.value)) {
     return;
   }
@@ -137,7 +125,7 @@ function handleSelect(index: string) {
 }
 
 watch(userId, () => void loadProfile(), { immediate: true });
-watch(visibleNavGroups, syncActiveSection, { immediate: true });
+watch(navGroups, syncActiveSection, { immediate: true });
 </script>
 
 <template>
@@ -171,17 +159,13 @@ watch(visibleNavGroups, syncActiveSection, { immediate: true });
           class="user-workstation__menu"
           @select="handleSelect"
         >
-          <el-menu-item-group
-            v-for="group in visibleNavGroups"
-            :key="group.key"
-            :title="sidebarCollapsed ? '' : t(group.titleKey)"
-          >
+          <el-menu-item-group v-for="group in navGroups" :key="group.key" :title="sidebarCollapsed ? '' : group.title">
             <el-menu-item v-for="item in group.items" :key="item.key" :index="item.key">
               <div class="user-workstation__menu-icon">
                 <component :is="useRenderIcon(item.icon)" />
               </div>
               <template #title>
-                <span class="user-workstation__menu-title">{{ t(item.labelKey) }}</span>
+                <span class="user-workstation__menu-title">{{ item.label }}</span>
               </template>
             </el-menu-item>
           </el-menu-item-group>
@@ -319,11 +303,12 @@ watch(visibleNavGroups, syncActiveSection, { immediate: true });
       background-color: transparent !important;
 
       &:hover {
-        color: var(--auth-theme-menu-title-hover) !important;
+        background-color: var(--auth-theme-menu-hover, var(--el-fill-color-light)) !important;
+        border-radius: var(--auth-menu-item-radius, 8px);
       }
 
       &.is-active {
-        color: #fff !important;
+        color: #fff;
 
         &::before {
           position: absolute;
@@ -336,9 +321,8 @@ watch(visibleNavGroups, syncActiveSection, { immediate: true });
 
         .user-workstation__menu-icon,
         .user-workstation__menu-title {
-          position: relative;
           z-index: 1;
-          color: inherit;
+          color: #fff;
         }
       }
     }
@@ -350,17 +334,11 @@ watch(visibleNavGroups, syncActiveSection, { immediate: true });
         display: none;
       }
 
-      :deep(.el-menu-item) {
-        padding: 0 !important;
-        min-width: 0 !important;
-      }
-
       :deep(.el-menu-tooltip__trigger) {
         display: flex;
         align-items: center;
         justify-content: center;
         width: 100%;
-        padding: 0;
       }
 
       .user-workstation__menu-icon {
