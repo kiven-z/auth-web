@@ -1,57 +1,69 @@
 <script lang="ts" setup>
 import AuthPagedTable, { usePaginationState } from '@/components/business/AuthPagedTable';
-import { getUserPostPage, type UserPostPageRow } from '@/api/system/user/user-post';
-import useUserAssignPostDrawerAction from '@/views/system/user/workstation/hooks/post/useUserAssignPostDrawerAction';
-import useUserPostAssignTableColumns from '@/views/system/user/workstation/hooks/post/useUserPostAssignTableColumns';
+import { getUserProfile } from '@/api/system/user/user-base';
+import { getUserPostPage, type UserPostPageQuery, type UserPostPageRow } from '@/api/system/user/user-post';
+import { errorMessage } from '@/services/feedback/message';
+import { useFormPlaceholder } from '@/shared/composables/i18n/useFormPlaceholder';
 import { SYS_USER_POST_PERMS } from '@/views/system/user/constants/permissions';
 import { USER_DEPT_RELATION_STATUS_FILTER_OPTIONS } from '@/views/system/user/constants/user-dept-relation-status';
-import { useFormPlaceholder } from '@/shared/composables/i18n/useFormPlaceholder';
+import useGrantPostAction from '@/views/system/user/workstation/hooks/post/useGrantPostAction';
+import useUserPostAssignTableColumns from '@/views/system/user/workstation/hooks/post/useUserPostAssignTableColumns';
 import type { FormInstance } from 'element-plus';
 import { computed, onMounted, reactive, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
+import { useRoute } from 'vue-router';
 
-defineOptions({ name: 'UserAssignPostDrawer' });
+defineOptions({ name: 'UserWorkstationGrantPostPanel' });
 
-const props = defineProps<{
-  userId: string;
-  username: string;
-  nickname?: string | null;
-}>();
-
+const route = useRoute();
 const { t } = useI18n();
 const ph = useFormPlaceholder();
 
+const userId = String(route.params.userId ?? '');
+const username = ref('');
+const nickname = ref<string | null>(null);
 const searchFormRef = ref<FormInstance>();
 
-const postAssignState = usePaginationState<UserPostPageRow>({
+const postAssignState = usePaginationState<UserPostPageRow, UserPostPageQuery>({
   searchForm: reactive({
     postCode: undefined,
     postName: undefined,
     status: undefined,
   }),
-  fetchApi: (query) =>
-    getUserPostPage(props.userId, {
-      pageIndex: query.pageIndex as number,
-      pageSize: query.pageSize as number,
-      postCode: query.postCode as string,
-      postName: query.postName as string,
-      status: query.status as number,
-    }),
+  fetchApi: (query) => getUserPostPage(userId, query),
 });
 const { fetchTableData, resetQuery, loading, searchForm, selectedRows } = postAssignState;
 
-const { openCreateDialog, openEditDialog, deleteBatchRows, clearAllPosts } = useUserAssignPostDrawerAction({
-  userId: props.userId,
+const { openCreateDialog, openEditDialog, deleteBatchRows, clearAllPosts } = useGrantPostAction({
+  userId,
   fetchTableData,
   selectedRows,
 });
 
 const hasSelection = computed(() => selectedRows.value.length > 0);
+const tableTitle = computed(() => `${nickname.value || username.value} (${username.value})`);
 
 const { columns } = useUserPostAssignTableColumns();
 
+/**
+ * 拉取用户名用于表格标题
+ */
+async function loadUserTitle() {
+  if (!userId) {
+    return;
+  }
+  try {
+    const profile = await getUserProfile(userId);
+    username.value = profile.username;
+    nickname.value = profile.nickname;
+  } catch (error: unknown) {
+    errorMessage(error);
+  }
+}
+
 onMounted(() => {
-  fetchTableData();
+  void loadUserTitle();
+  void fetchTableData();
 });
 </script>
 
@@ -112,7 +124,7 @@ onMounted(() => {
       :adaptive-config="{ offsetBottom: 32 }"
       :columns="columns"
       :state="postAssignState"
-      :title="`${nickname || username} (${username})`"
+      :title="tableTitle"
       show-overflow-tooltip
     >
       <template #buttons>

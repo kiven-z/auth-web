@@ -2,9 +2,6 @@ users:
   title:
     module: 用户
     create: 新增用户
-    edit: 编辑用户
-    profile: 用户档案
-    view: 查看用户详情
   workstation:
     title: 用户工作台
     back: 返回用户列表
@@ -20,9 +17,9 @@ users:
         security: 账号安全
       overview: 用户信息
       profile: 编辑资料
-      grantRole: 角色
-      grantDept: 部门
-      grantPost: 岗位
+      grantRole: 分配角色
+      grantDept: 部门隶属
+      grantPost: 任职岗位
       grantScope: 数据权限范围
       password: 重置密码
       authRefresh: 刷新授权
@@ -87,12 +84,10 @@ users:
     kickSuccess: 会话已踢下线
     kickAllSuccess: 已全部踢下线
   kick:
-    action: 用户下线
     batchAction: 批量用户下线
     success: 用户已全部下线
     batchSuccess: 批量用户下线成功
   authRefresh:
-    action: 刷新授权
     batchAction: 批量刷新授权
     success: 授权刷新成功
   deptAssign:
@@ -100,12 +95,6 @@ users:
     createTitle: 新增部门关联
     editTitle: 编辑部门关联
     clearAllConfirm: 将清空该用户的全部部门关联，是否继续？
-    currentPrimary: 当前主部门
-    noPrimary: 暂无主部门
-    setPrimary: 设为主部门
-    transfer: 调离
-    setPrimarySuccess: 已设为主部门
-    transferSuccess: 已调离该部门
   postAssign:
     drawerTip: 维护用户的任职岗位，与部门隶属分开配置，岗位角色据此生效。
     createTitle: 新增岗位关联
@@ -138,4 +127,3 @@ users:
     normal: 正常
     transferred: 已调离
     partTime: 兼职
-  message:

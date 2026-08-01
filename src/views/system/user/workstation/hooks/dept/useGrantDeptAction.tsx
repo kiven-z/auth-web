@@ -6,18 +6,18 @@ import {
   type UserDeptAssignForm,
   type UserDeptPageRow,
 } from '@/api/system/user/user-dept';
-import { addDialog } from '@/components/ui/Dialog/index';
+import { addDialog } from '@/components/ui/Dialog';
 import useBatchDeleteAction from '@/shared/composables/table/useBatchDeleteAction';
 import { type FormOverlayExpose, useFormOverlaySubmit } from '@/shared/composables/table/useFormOverlaySubmit';
 import { errorMessage, message } from '@/services/feedback/message';
 import { multiConfirm } from '@/services/feedback/dialog';
 import UserDeptAssignFormDialog from '@/views/system/user/workstation/panels/assign/dept/UserDeptAssignFormDialog.vue';
-import { h, ref, type Ref } from 'vue';
+import { ref, type Ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import type { TableActionDeps } from '@/api/common';
 
-/** 用户分配部门抽屉操作依赖 */
-interface UserAssignDeptDrawerActionDeps extends TableActionDeps {
+/** 用户工作台「分配部门」面板操作依赖 */
+interface GrantDeptActionDeps extends TableActionDeps {
   /** 用户主键 */
   userId: string;
   /** 表格多选主键 */
@@ -25,11 +25,11 @@ interface UserAssignDeptDrawerActionDeps extends TableActionDeps {
 }
 
 /**
- * 用户分配部门抽屉：分页查询、新增与编辑部门关联
- * @param deps 抽屉操作依赖
- * @returns 抽屉状态与操作方法
+ * 用户工作台分配部门：新增、编辑、批量删除、清空
+ * @param deps 面板操作依赖
+ * @returns 面板操作方法
  */
-function useUserAssignDeptDrawerAction(deps: UserAssignDeptDrawerActionDeps) {
+function useGrantDeptAction(deps: GrantDeptActionDeps) {
   const { userId, fetchTableData, selectedRows } = deps;
   const { t } = useI18n();
   const { createFormBeforeSure } = useFormOverlaySubmit();
@@ -53,16 +53,17 @@ function useUserAssignDeptDrawerAction(deps: UserAssignDeptDrawerActionDeps) {
       fullscreenIcon: true,
       closeOnClickModal: false,
       closeOnPressEscape: false,
-      contentRenderer: () =>
-        h(UserDeptAssignFormDialog, {
-          ref: dialogFormRef,
-          form: {
+      contentRenderer: () => (
+        <UserDeptAssignFormDialog
+          ref={dialogFormRef}
+          form={{
             deptId: row.deptId,
             status: row.status,
             isPrimary: row.isPrimary,
             remark: row.remark ?? undefined,
-          },
-        }),
+          }}
+        />
+      ),
       beforeSure: createFormBeforeSure<UserDeptAssignForm>({
         formExposeRef: dialogFormRef,
         successI18nKey: 'tips.editSuccess',
@@ -86,7 +87,7 @@ function useUserAssignDeptDrawerAction(deps: UserAssignDeptDrawerActionDeps) {
       fullscreenIcon: true,
       closeOnClickModal: false,
       closeOnPressEscape: false,
-      contentRenderer: () => h(UserDeptAssignFormDialog, { ref: dialogFormRef }),
+      contentRenderer: () => <UserDeptAssignFormDialog ref={dialogFormRef} />,
       beforeSure: createFormBeforeSure<UserDeptAssignForm>({
         formExposeRef: dialogFormRef,
         successI18nKey: 'tips.addSuccess',
@@ -130,4 +131,4 @@ function useUserAssignDeptDrawerAction(deps: UserAssignDeptDrawerActionDeps) {
   };
 }
 
-export default useUserAssignDeptDrawerAction;
+export default useGrantDeptAction;

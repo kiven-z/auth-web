@@ -1,5 +1,5 @@
 import { $t } from '@/app/plugins/i18n';
-import { SYS_USER_PERMS } from '@/views/system/user/constants/permissions';
+import { SYS_USER_DEPT_PERMS, SYS_USER_PERMS, SYS_USER_POST_PERMS } from '@/views/system/user/constants/permissions';
 
 /** 用户管理工作台（独立全页，不进侧栏菜单，由用户列表进入） */
 export default [
@@ -34,6 +34,26 @@ export default [
           title: $t('users.workstation.nav.profile'),
           showLink: false,
           auths: SYS_USER_PERMS.UPDATE,
+        },
+      },
+      {
+        path: 'grant-dept',
+        name: 'UserWorkstationGrantDept',
+        component: () => import('@/views/system/user/workstation/panels/assign/dept/GrantDeptPanel.vue'),
+        meta: {
+          title: $t('users.workstation.nav.grantDept'),
+          showLink: false,
+          auths: SYS_USER_DEPT_PERMS.QUERY,
+        },
+      },
+      {
+        path: 'grant-post',
+        name: 'UserWorkstationGrantPost',
+        component: () => import('@/views/system/user/workstation/panels/assign/post/GrantPostPanel.vue'),
+        meta: {
+          title: $t('users.workstation.nav.grantPost'),
+          showLink: false,
+          auths: SYS_USER_POST_PERMS.QUERY,
         },
       },
     ],

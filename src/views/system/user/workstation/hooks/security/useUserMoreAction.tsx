@@ -8,8 +8,6 @@ import { operationConfirm } from '@/services/feedback/dialog';
 import { errorMessage, message } from '@/services/feedback/message';
 import OrgGrantRoleAssignDrawer from '@/views/system/_shared/components/OrgGrantRoleAssignDrawer.vue';
 import AvatarUpdatePanel from '@/views/system/user/workstation/panels/profile/AvatarUpdatePanel.vue';
-import UserAssignDeptDrawer from '@/views/system/user/workstation/panels/assign/dept/UserAssignDeptDrawer.vue';
-import UserAssignPostDrawer from '@/views/system/user/workstation/panels/assign/post/UserAssignPostDrawer.vue';
 import UserSessionDialog from '@/views/system/_shared/components/UserSessionDialog.vue';
 import { h, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
@@ -21,57 +19,13 @@ interface KickAllForUserOptions {
 }
 
 /**
- * 用户表格行内「更多」操作
+ * 用户工作台安全 / 授权相关操作（角色分配、会话、踢下线等）
  * @param deps 表格操作依赖
- * @returns 更多操作方法
+ * @returns 操作方法
  */
 function useUserMoreAction(deps: TableActionDeps) {
   const { fetchTableData } = deps;
   const { t } = useI18n();
-
-  /**
-   * 打开分配部门抽屉
-   * @param row 用户行
-   */
-  const openAssignDeptDrawer = (row: SysUserPageRow) => {
-    addDrawer({
-      title: t('assign.dept'),
-      size: '100%',
-      resizable: true,
-      closeOnClickModal: false,
-      closeOnPressEscape: false,
-      showClose: true,
-      hideFooter: true,
-      contentRenderer: () =>
-        h(UserAssignDeptDrawer, {
-          userId: row.id,
-          username: row.username,
-          nickname: row.nickname,
-        }),
-    });
-  };
-
-  /**
-   * 打开分配岗位抽屉
-   * @param row 用户行
-   */
-  const openAssignPostDrawer = (row: SysUserPageRow) => {
-    addDrawer({
-      title: t('assign.post'),
-      size: '100%',
-      resizable: true,
-      closeOnClickModal: false,
-      closeOnPressEscape: false,
-      showClose: true,
-      hideFooter: true,
-      contentRenderer: () =>
-        h(UserAssignPostDrawer, {
-          userId: row.id,
-          username: row.username,
-          nickname: row.nickname,
-        }),
-    });
-  };
 
   /**
    * 打开分配角色抽屉
@@ -191,8 +145,6 @@ function useUserMoreAction(deps: TableActionDeps) {
   };
 
   return {
-    openAssignDeptDrawer,
-    openAssignPostDrawer,
     openAssignRoleDrawer,
     openAdminUpdateAvatarDialog,
     openViewSessionsDialog,

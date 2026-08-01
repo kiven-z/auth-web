@@ -1,6 +1,5 @@
 <script lang="ts" setup>
-import type { SysPermissionPageRow } from '@/api/system/permission';
-import { getPermissionPage } from '@/api/system/permission';
+import { getPermissionPage, type SysPermissionPageQuery, type SysPermissionPageRow } from '@/api/system/permission';
 import type { AssignSeedItem } from '@/components/business/AssignManagePanel';
 import AssignPanel, {
   createAssignCheckboxColumn,
@@ -36,19 +35,12 @@ const assign = useAssignChecked({
 const { getSelectedKeys, toggle, applySeed } = assign;
 
 // 权限状态
-const permissionState = usePaginationState<SysPermissionPageRow>({
+const permissionState = usePaginationState<SysPermissionPageRow, SysPermissionPageQuery>({
   searchForm: reactive({
     permissionName: undefined,
     permissionCode: undefined,
   }),
-  fetchApi: (query) =>
-    getPermissionPage({
-      pageIndex: query.pageIndex as number,
-      pageSize: query.pageSize as number,
-      permissionName: query.permissionName as string,
-      permissionCode: query.permissionCode as string,
-      status: true,
-    }),
+  fetchApi: (query) => getPermissionPage({ ...query, status: true }),
 });
 
 const { tableData, loading, searchForm, fetchTableData, resetQuery } = permissionState;

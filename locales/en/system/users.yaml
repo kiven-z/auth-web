@@ -2,9 +2,6 @@ users:
   title:
     module: Users
     create: Add User
-    edit: Edit User
-    profile: User profile
-    view: View user details
   workstation:
     title: User workstation
     back: Back to users
@@ -20,9 +17,9 @@ users:
         security: Account security
       overview: User info
       profile: Edit profile
-      grantRole: Roles
-      grantDept: Departments
-      grantPost: Posts
+      grantRole: Assign roles
+      grantDept: Department membership
+      grantPost: Post assignment
       grantScope: Data scope
       password: Reset password
       authRefresh: Refresh authorization
@@ -87,12 +84,10 @@ users:
     kickSuccess: Session kicked successfully
     kickAllSuccess: All sessions kicked successfully
   kick:
-    action: Sign out user
     batchAction: Batch sign out users
     success: User signed out successfully
     batchSuccess: Selected users signed out successfully
   authRefresh:
-    action: Refresh authorization
     batchAction: Batch refresh authorization
     success: Authorization refreshed successfully
   deptAssign:
@@ -100,12 +95,6 @@ users:
     createTitle: Add department assignment
     editTitle: Edit department assignment
     clearAllConfirm: This will remove all department assignments for this user. Continue?
-    currentPrimary: Current primary department
-    noPrimary: No primary department
-    setPrimary: Set as primary
-    transfer: Transfer out
-    setPrimarySuccess: Set as primary department
-    transferSuccess: Transferred out of department
   postAssign:
     drawerTip: Manage post assignments separately from dept membership; post roles apply accordingly.
     createTitle: Add post assignment
@@ -138,4 +127,3 @@ users:
     normal: Active
     transferred: Transferred
     partTime: Part-time
-  message:

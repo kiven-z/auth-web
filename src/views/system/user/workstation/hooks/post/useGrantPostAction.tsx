@@ -8,17 +8,17 @@ import {
   type UserPostRelationUpdateForm,
 } from '@/api/system/user/user-post';
 import type { TableActionDeps } from '@/api/common';
-import { addDialog } from '@/components/ui/Dialog/index';
+import { addDialog } from '@/components/ui/Dialog';
 import useBatchDeleteAction from '@/shared/composables/table/useBatchDeleteAction';
 import { type FormOverlayExpose, useFormOverlaySubmit } from '@/shared/composables/table/useFormOverlaySubmit';
 import { errorMessage, message } from '@/services/feedback/message';
 import { multiConfirm } from '@/services/feedback/dialog';
 import UserPostAssignFormDialog from '@/views/system/user/workstation/panels/assign/post/UserPostAssignFormDialog.vue';
-import { h, ref, type Ref } from 'vue';
+import { ref, type Ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 
-/** 用户分配岗位抽屉操作依赖 */
-interface UserAssignPostDrawerActionDeps extends TableActionDeps {
+/** 用户工作台「分配岗位」面板操作依赖 */
+interface GrantPostActionDeps extends TableActionDeps {
   /** 用户主键 */
   userId: string;
   /** 表格多选主键 */
@@ -26,11 +26,11 @@ interface UserAssignPostDrawerActionDeps extends TableActionDeps {
 }
 
 /**
- * 用户分配岗位抽屉：分页查询、新增与编辑岗位关联
- * @param deps 抽屉操作依赖
- * @returns 抽屉操作方法
+ * 用户工作台分配岗位：新增、编辑、批量删除、清空
+ * @param deps 面板操作依赖
+ * @returns 面板操作方法
  */
-function useUserAssignPostDrawerAction(deps: UserAssignPostDrawerActionDeps) {
+function useGrantPostAction(deps: GrantPostActionDeps) {
   const { userId, fetchTableData, selectedRows } = deps;
   const { t } = useI18n();
   const { createFormBeforeSure } = useFormOverlaySubmit();
@@ -54,16 +54,17 @@ function useUserAssignPostDrawerAction(deps: UserAssignPostDrawerActionDeps) {
       fullscreenIcon: true,
       closeOnClickModal: false,
       closeOnPressEscape: false,
-      contentRenderer: () =>
-        h(UserPostAssignFormDialog, {
-          ref: dialogFormRef,
-          editMode: true,
-          form: {
+      contentRenderer: () => (
+        <UserPostAssignFormDialog
+          ref={dialogFormRef}
+          editMode={true}
+          form={{
             status: row.status,
             isPrimary: row.isPrimary,
             remark: row.remark ?? undefined,
-          },
-        }),
+          }}
+        />
+      ),
       beforeSure: createFormBeforeSure<UserPostRelationUpdateForm>({
         formExposeRef: dialogFormRef,
         successI18nKey: 'tips.editSuccess',
@@ -87,7 +88,7 @@ function useUserAssignPostDrawerAction(deps: UserAssignPostDrawerActionDeps) {
       fullscreenIcon: true,
       closeOnClickModal: false,
       closeOnPressEscape: false,
-      contentRenderer: () => h(UserPostAssignFormDialog, { ref: dialogFormRef }),
+      contentRenderer: () => <UserPostAssignFormDialog ref={dialogFormRef} />,
       beforeSure: createFormBeforeSure<UserPostAssignForm>({
         formExposeRef: dialogFormRef,
         successI18nKey: 'tips.addSuccess',
@@ -131,4 +132,4 @@ function useUserAssignPostDrawerAction(deps: UserAssignPostDrawerActionDeps) {
   };
 }
 
-export default useUserAssignPostDrawerAction;
+export default useGrantPostAction;

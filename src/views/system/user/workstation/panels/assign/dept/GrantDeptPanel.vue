@@ -1,57 +1,69 @@
 <script lang="ts" setup>
 import AuthPagedTable, { usePaginationState } from '@/components/business/AuthPagedTable';
+import { getUserProfile } from '@/api/system/user/user-base';
+import { getUserDeptPage, type UserDeptPageQuery, type UserDeptPageRow } from '@/api/system/user/user-dept';
+import { errorMessage } from '@/services/feedback/message';
+import { useFormPlaceholder } from '@/shared/composables/i18n/useFormPlaceholder';
 import { SYS_USER_DEPT_PERMS } from '@/views/system/user/constants/permissions';
 import { USER_DEPT_RELATION_STATUS_FILTER_OPTIONS } from '@/views/system/user/constants/user-dept-relation-status';
-import useUserAssignDeptDrawerAction from '@/views/system/user/workstation/hooks/dept/useUserAssignDeptDrawerAction';
+import useGrantDeptAction from '@/views/system/user/workstation/hooks/dept/useGrantDeptAction';
+import useUserDeptAssignTableColumns from '@/views/system/user/workstation/hooks/dept/useUserDeptAssignTableColumns';
+import type { FormInstance } from 'element-plus';
 import { computed, onMounted, reactive, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
-import useUserDeptAssignTableColumns from '@/views/system/user/workstation/hooks/dept/useUserDeptAssignTableColumns';
-import { getUserDeptPage, UserDeptPageRow } from '@/api/system/user/user-dept';
-import { useFormPlaceholder } from '@/shared/composables/i18n/useFormPlaceholder';
-import type { FormInstance } from 'element-plus';
+import { useRoute } from 'vue-router';
 
-defineOptions({ name: 'UserAssignDeptDrawer' });
+defineOptions({ name: 'UserWorkstationGrantDeptPanel' });
 
-const props = defineProps<{
-  userId: string;
-  username: string;
-  nickname?: string | null;
-}>();
-
+const route = useRoute();
 const { t } = useI18n();
 const ph = useFormPlaceholder();
 
+const userId = String(route.params.userId ?? '');
+const username = ref('');
+const nickname = ref<string | null>(null);
 const searchFormRef = ref<FormInstance>();
 
-const deptAssignState = usePaginationState<UserDeptPageRow>({
+const deptAssignState = usePaginationState<UserDeptPageRow, UserDeptPageQuery>({
   searchForm: reactive({
     deptName: undefined,
     deptCode: undefined,
     status: undefined,
   }),
-  fetchApi: (query) =>
-    getUserDeptPage(props.userId, {
-      pageIndex: query.pageIndex as number,
-      pageSize: query.pageSize as number,
-      deptName: query.deptName as string,
-      deptCode: query.deptCode as string,
-      status: query.status as number,
-    }),
+  fetchApi: (query) => getUserDeptPage(userId, query),
 });
 const { fetchTableData, resetQuery, loading, searchForm, selectedRows } = deptAssignState;
 
-const { openCreateDialog, openEditDialog, deleteBatchRows, clearAllDepts } = useUserAssignDeptDrawerAction({
-  userId: props.userId,
+const { openCreateDialog, openEditDialog, deleteBatchRows, clearAllDepts } = useGrantDeptAction({
+  userId,
   fetchTableData,
   selectedRows,
 });
 
 const hasSelection = computed(() => selectedRows.value.length > 0);
+const tableTitle = computed(() => `${nickname.value || username.value} (${username.value})`);
 
 const { columns } = useUserDeptAssignTableColumns();
 
+/**
+ * 拉取用户名用于表格标题
+ */
+async function loadUserTitle() {
+  if (!userId) {
+    return;
+  }
+  try {
+    const profile = await getUserProfile(userId);
+    username.value = profile.username;
+    nickname.value = profile.nickname;
+  } catch (error: unknown) {
+    errorMessage(error);
+  }
+}
+
 onMounted(() => {
-  fetchTableData();
+  void loadUserTitle();
+  void fetchTableData();
 });
 </script>
 
@@ -112,7 +124,7 @@ onMounted(() => {
       :adaptive-config="{ offsetBottom: 32 }"
       :columns="columns"
       :state="deptAssignState"
-      :title="`${nickname || username} (${username})`"
+      :title="tableTitle"
       show-overflow-tooltip
     >
       <template #buttons>
