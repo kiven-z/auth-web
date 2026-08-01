@@ -1,23 +1,19 @@
 import type { TableActionDeps } from '@/api/common';
-import { getUserProfile } from '@/api/system/user/user-base';
 import {
   batchUpdateUserStatus,
   createUser,
   type SysUserCreateForm,
-  type SysUserPageRow,
-  type SysUserUpdateForm,
-  updateUser,
 } from '@/api/system/user/user';
 import { addDialog } from '@/components/ui/Dialog';
 import { type FormOverlayExpose, useFormOverlaySubmit } from '@/shared/composables/table/useFormOverlaySubmit';
 import { operationConfirm } from '@/services/feedback/dialog';
 import { errorMessage, message } from '@/services/feedback/message';
-import UserFormDialog from '@/views/system/user/workstation/panels/UserFormDialog.vue';
+import UserCreateFormDialog from '@/views/system/user/list/components/UserCreateFormDialog.vue';
 import { h, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 /**
- * 用户表格写操作：新增、编辑、批量改状态
+ * 用户表格写操作：新增、批量改状态
  * @param deps 表格操作依赖
  * @returns 表格操作方法
  */
@@ -38,7 +34,7 @@ function useUserTableAction(deps: TableActionDeps) {
       fullscreenIcon: true,
       closeOnClickModal: false,
       closeOnPressEscape: false,
-      contentRenderer: () => h(UserFormDialog, { ref: dialogFormRef, mode: 'add' }),
+      contentRenderer: () => h(UserCreateFormDialog, { ref: dialogFormRef }),
       beforeSure: createFormBeforeSure<SysUserCreateForm>({
         formExposeRef: dialogFormRef,
         successI18nKey: 'tips.addSuccess',
@@ -48,38 +44,6 @@ function useUserTableAction(deps: TableActionDeps) {
         },
       }),
     });
-  };
-
-  /**
-   * 打开编辑用户弹窗
-   * @param row 用户行
-   */
-  const openEditDialog = async (row: SysUserPageRow) => {
-    try {
-      const profile = await getUserProfile(row.id);
-      const dialogFormRef = ref<FormOverlayExpose<SysUserUpdateForm> | null>(null);
-
-      addDialog({
-        title: t('users.title.edit'),
-        draggable: true,
-        fullscreenIcon: true,
-        closeOnClickModal: false,
-        closeOnPressEscape: false,
-        contentRenderer: () =>
-          h(UserFormDialog, { ref: dialogFormRef, mode: 'edit', form: profile as SysUserUpdateForm }),
-        beforeSure: createFormBeforeSure<SysUserUpdateForm>({
-          formExposeRef: dialogFormRef,
-          requireId: true,
-          successI18nKey: 'tips.editSuccess',
-          onSubmit: async (formData) => {
-            await updateUser(formData);
-            await fetchTableData();
-          },
-        }),
-      });
-    } catch (error: unknown) {
-      errorMessage(error);
-    }
   };
 
   /**
@@ -108,7 +72,6 @@ function useUserTableAction(deps: TableActionDeps) {
 
   return {
     openCreateDialog,
-    openEditDialog,
     batchUpdateStatus,
   };
 }

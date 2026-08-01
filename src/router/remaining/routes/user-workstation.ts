@@ -26,6 +26,16 @@ export default [
           auths: SYS_USER_PERMS.QUERY,
         },
       },
+      {
+        path: 'profile',
+        name: 'UserWorkstationProfile',
+        component: () => import('@/views/system/user/workstation/panels/ProfilePanel.vue'),
+        meta: {
+          title: $t('users.workstation.nav.profile'),
+          showLink: false,
+          auths: SYS_USER_PERMS.UPDATE,
+        },
+      },
     ],
   },
 ] satisfies Array<RouteConfigsTable>;

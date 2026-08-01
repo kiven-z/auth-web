@@ -1,11 +1,11 @@
 <script lang="tsx" setup>
-import { createAuditDetailColumns } from '@/shared/composables/table/auditColumns';
 import { getUserDetail, type SysUserDetail } from '@/api/system/user/user-base';
-import useUserProfileColumns from '@/components/business/UserProfile/src/useUserProfileColumns';
-import useUserProfileDisplay from '@/components/business/UserProfile/src/hooks/useUserProfileDisplay';
 import DetailRelationListSection from '@/components/business/DetailRelationListSection/index.vue';
+import useUserProfileDisplay from '@/components/business/UserProfile/src/hooks/useUserProfileDisplay';
+import useUserProfileColumns from '@/components/business/UserProfile/src/useUserProfileColumns';
 import Description from '@/components/ui/Description';
 import { errorMessage } from '@/services/feedback/message';
+import { createAuditDetailColumns } from '@/shared/composables/table/auditColumns';
 import usePermissionColumns from '@/views/system/_shared/columns/usePermissionColumns';
 import useRoleColumns from '@/views/system/_shared/columns/useRoleColumns';
 import { ElAvatar } from 'element-plus';
@@ -129,11 +129,3 @@ watch(
     </template>
   </div>
 </template>
-
-<style scoped>
-.overview-panel {
-  height: 100%;
-  padding: 1.2rem;
-  overflow: auto;
-}
-</style>

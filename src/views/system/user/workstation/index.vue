@@ -6,8 +6,9 @@ import '@/components/ui/Icon/src/offline';
 import { getMenuTooltipEffect } from '@/layout/utils/tooltip-effect';
 import { errorMessage } from '@/services/feedback/message';
 import useWorkstationNav from '@/views/system/user/workstation/hooks/useWorkstationNav';
+import { WORKSTATION_REFRESH_PROFILE_KEY } from '@/views/system/user/workstation/constants/workstation-profile';
 import { ArrowLeft } from '@element-plus/icons-vue';
-import { computed, ref, watch } from 'vue';
+import { computed, provide, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRoute, useRouter } from 'vue-router';
 
@@ -93,6 +94,8 @@ function handleBack() {
 }
 
 watch(userId, () => void loadProfile(), { immediate: true });
+
+provide(WORKSTATION_REFRESH_PROFILE_KEY, loadProfile);
 </script>
 
 <template>
@@ -359,7 +362,9 @@ watch(userId, () => void loadProfile(), { immediate: true });
     flex: 1;
     min-width: 0;
     height: 100%;
-    overflow: hidden;
+    padding: 1.2rem;
+    overflow: auto;
+    background: var(--el-bg-color);
   }
 }
 </style>
