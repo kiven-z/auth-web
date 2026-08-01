@@ -1,12 +1,13 @@
 <script lang="ts" setup>
-import { useRouter } from 'vue-router';
 import noServer from '@/assets/status/500.svg?component';
+import ErrorPageActions from '@/views/home/error/components/ErrorPageActions.vue';
+import { useI18n } from 'vue-i18n';
 
 defineOptions({
-  name: '500',
+  name: 'ServerErrorPage',
 });
 
-const router = useRouter();
+const { t } = useI18n();
 </script>
 
 <template>
@@ -15,57 +16,21 @@ const router = useRouter();
     <div class="mt-8 md:ml-12 md:mt-0 text-center md:text-left">
       <p
         v-motion
-        :enter="{
-          opacity: 1,
-          y: 0,
-          transition: {
-            delay: 80,
-          },
-        }"
-        :initial="{
-          opacity: 0,
-          y: 100,
-        }"
+        :enter="{ opacity: 1, y: 0, transition: { delay: 80 } }"
+        :initial="{ opacity: 0, y: 100 }"
         class="font-medium text-4xl mb-4! dark:text-white"
       >
         500
       </p>
       <p
         v-motion
-        :enter="{
-          opacity: 1,
-          y: 0,
-          transition: {
-            delay: 120,
-          },
-        }"
-        :initial="{
-          opacity: 0,
-          y: 100,
-        }"
+        :enter="{ opacity: 1, y: 0, transition: { delay: 120 } }"
+        :initial="{ opacity: 0, y: 100 }"
         class="text-xl mb-4! text-gray-500"
       >
-        抱歉，服务器出错了
+        {{ t('errorPage.serverError') }}
       </p>
-      <el-button
-        v-motion
-        :enter="{
-          opacity: 1,
-          y: 0,
-          transition: {
-            delay: 160,
-          },
-        }"
-        :initial="{
-          opacity: 0,
-          y: 100,
-        }"
-        class="block mx-auto md:inline-block md:mx-0"
-        type="primary"
-        @click="router.push('/')"
-      >
-        返回首页
-      </el-button>
+      <ErrorPageActions />
     </div>
   </div>
 </template>

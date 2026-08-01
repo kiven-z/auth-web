@@ -8,7 +8,7 @@ import {
   type SysUserUpdateForm,
   updateUser,
 } from '@/api/system/user/user';
-import { addDialog } from '@/components/ui/Dialog/index';
+import { addDialog } from '@/components/ui/Dialog';
 import { type FormOverlayExpose, useFormOverlaySubmit } from '@/shared/composables/table/useFormOverlaySubmit';
 import { operationConfirm } from '@/services/feedback/dialog';
 import { errorMessage, message } from '@/services/feedback/message';
