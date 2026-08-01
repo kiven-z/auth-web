@@ -6,7 +6,7 @@ import '@/components/ui/Icon/src/offline';
 import { getMenuTooltipEffect } from '@/layout/utils/tooltip-effect';
 import { errorMessage } from '@/services/feedback/message';
 import useWorkstationNav from '@/views/system/user/workstation/hooks/useWorkstationNav';
-import { WORKSTATION_REFRESH_PROFILE_KEY } from '@/views/system/user/workstation/constants/workstation-profile';
+import { WORKSTATION_PROFILE_KEY } from '@/views/system/user/workstation/constants/workstation-profile';
 import { ArrowLeft } from '@element-plus/icons-vue';
 import { computed, provide, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
@@ -95,7 +95,18 @@ function handleBack() {
 
 watch(userId, () => void loadProfile(), { immediate: true });
 
-provide(WORKSTATION_REFRESH_PROFILE_KEY, loadProfile);
+/**
+ * 合并更新本地档案（侧栏与子面板同步）
+ * @param patch 局部字段
+ */
+function patchProfile(patch: Partial<SysUserProfileResponse>) {
+  if (!profile.value) {
+    return;
+  }
+  profile.value = { ...profile.value, ...patch };
+}
+
+provide(WORKSTATION_PROFILE_KEY, { profile, loading, loadFailed, patchProfile });
 </script>
 
 <template>

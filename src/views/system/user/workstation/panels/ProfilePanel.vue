@@ -1,31 +1,27 @@
 <script lang="ts" setup>
 import { type SysUserUpdateForm, updateUser } from '@/api/system/user/user';
-import { getUserProfile, type SysUserProfileResponse } from '@/api/system/user/user-base';
 import { errorMessage, message } from '@/services/feedback/message';
 import { USER_STATUS_FILTER_OPTIONS } from '@/views/system/user/constants/user-account-status';
-import { USER_GENDER, USER_GENDER_OPTIONS } from '@/views/system/user/constants/user-gender';
-import { WORKSTATION_REFRESH_PROFILE_KEY } from '@/views/system/user/workstation/constants/workstation-profile';
+import { USER_GENDER_OPTIONS } from '@/views/system/user/constants/user-gender';
+import { WORKSTATION_PROFILE_KEY } from '@/views/system/user/workstation/constants/workstation-profile';
 import AvatarUpdateDialogPanel from '@/views/system/user/workstation/panels/security/AvatarUpdateDialogPanel.vue';
 import type { FormInstance, FormRules } from 'element-plus';
 import { computed, inject, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { useRoute } from 'vue-router';
 
 defineOptions({ name: 'UserWorkstationProfilePanel' });
 
-const route = useRoute();
 const { t } = useI18n();
-const refreshWorkstationProfile = inject(WORKSTATION_REFRESH_PROFILE_KEY, null);
+const workstation = inject(WORKSTATION_PROFILE_KEY);
 
-const loading = ref(false);
 const submitting = ref(false);
-const profile = ref<SysUserProfileResponse | null>(null);
 const formRef = ref<FormInstance>();
-const form = ref<SysUserUpdateForm>(emptyForm(''));
+const form = ref({} as SysUserUpdateForm);
 /** 上次加载/保存成功的快照，供重置 */
-const snapshot = ref<SysUserUpdateForm>(emptyForm(''));
+const snapshot = ref({} as SysUserUpdateForm);
 
-const userId = computed(() => String(route.params.userId ?? ''));
+const profile = computed(() => workstation?.profile.value ?? null);
+const loading = computed(() => workstation?.loading.value ?? false);
 
 const rules = computed<FormRules>(() => ({
   username: [
@@ -49,66 +45,6 @@ const rules = computed<FormRules>(() => ({
   ],
   remark: [{ max: 500, message: t('users.validation.remarkMaxLength'), trigger: 'blur' }],
 }));
-
-/**
- * 空更新表单
- * @param id 用户主键
- */
-function emptyForm(id: string): SysUserUpdateForm {
-  return {
-    id,
-    username: '',
-    nickname: '',
-    email: '',
-    phone: '',
-    status: 1,
-    gender: USER_GENDER.unknown,
-  };
-}
-
-/**
- * 档案转更新表单
- * @param row 用户档案
- */
-function toForm(row: SysUserProfileResponse): SysUserUpdateForm {
-  return {
-    id: row.id,
-    username: row.username,
-    nickname: row.nickname ?? '',
-    email: row.email ?? '',
-    phone: row.phone ?? '',
-    employeeNo: row.employeeNo ?? undefined,
-    status: row.status,
-    gender: row.gender ?? USER_GENDER.unknown,
-    birthday: row.birthday ?? undefined,
-    introduction: row.introduction ?? undefined,
-    remark: row.remark ?? undefined,
-  };
-}
-
-/**
- * 拉取档案并填入表单
- */
-async function loadProfile() {
-  if (!userId.value) {
-    profile.value = null;
-    return;
-  }
-
-  loading.value = true;
-  try {
-    const row = await getUserProfile(userId.value);
-    profile.value = row;
-    const next = toForm(row);
-    form.value = { ...next };
-    snapshot.value = { ...next };
-  } catch (error: unknown) {
-    errorMessage(error);
-    profile.value = null;
-  } finally {
-    loading.value = false;
-  }
-}
 
 /**
  * 重置为上次成功快照
@@ -136,10 +72,7 @@ async function handleSave() {
     await updateUser(form.value);
     message(t('tips.editSuccess'), { type: 'success' });
     snapshot.value = { ...form.value };
-    if (profile.value) {
-      profile.value = { ...profile.value, ...form.value };
-    }
-    await refreshWorkstationProfile?.();
+    workstation?.patchProfile({ ...form.value });
   } catch (error: unknown) {
     errorMessage(error);
   } finally {
@@ -151,14 +84,36 @@ async function handleSave() {
  * 头像更新后同步侧栏
  * @param avatarUrl 新头像 URL
  */
-async function handleAvatarUpdated(avatarUrl: string) {
-  if (profile.value) {
-    profile.value = { ...profile.value, avatar: avatarUrl };
-  }
-  await refreshWorkstationProfile?.();
+function handleAvatarUpdated(avatarUrl: string) {
+  workstation?.patchProfile({ avatar: avatarUrl });
 }
 
-watch(userId, () => void loadProfile(), { immediate: true });
+watch(
+  () => profile.value?.id,
+  (id) => {
+    const row = profile.value;
+    if (!id || !row) {
+      return;
+    }
+    // Response → Form 白名单，排除 avatar / deptList / postList
+    const next = {
+      id: row.id,
+      username: row.username,
+      nickname: row.nickname,
+      email: row.email,
+      phone: row.phone,
+      employeeNo: row.employeeNo,
+      status: row.status,
+      gender: row.gender,
+      birthday: row.birthday,
+      introduction: row.introduction,
+      remark: row.remark,
+    } as SysUserUpdateForm;
+    form.value = next;
+    snapshot.value = { ...next };
+  },
+  { immediate: true }
+);
 </script>
 
 <template>
