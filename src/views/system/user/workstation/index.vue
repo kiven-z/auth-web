@@ -1,12 +1,12 @@
 <script lang="ts" setup>
-// 独立全页不经 Layout，需自行加载离线图标表
 import { getUserProfile, type SysUserProfileResponse } from '@/api/system/user/user-base';
 import { useRenderIcon } from '@/components/ui/Icon/src/hooks';
 import '@/components/ui/Icon/src/offline';
 import { getMenuTooltipEffect } from '@/layout/utils/tooltip-effect';
 import { errorMessage } from '@/services/feedback/message';
-import useWorkstationNav from '@/views/system/user/workstation/hooks/useWorkstationNav';
 import { WORKSTATION_PROFILE_KEY } from '@/views/system/user/workstation/constants/workstation-profile';
+import useWorkstationNav from '@/views/system/user/workstation/hooks/useWorkstationNav';
+import useWorkstationSectionTransition from '@/views/system/user/workstation/hooks/useWorkstationSectionTransition';
 import { ArrowLeft } from '@element-plus/icons-vue';
 import { computed, provide, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
@@ -24,6 +24,7 @@ const route = useRoute();
 const router = useRouter();
 const tooltipEffect = getMenuTooltipEffect();
 const { navGroups } = useWorkstationNav();
+const { enterActiveClass, leaveActiveClass } = useWorkstationSectionTransition(navGroups);
 
 const loading = ref(true);
 const profile = ref<SysUserProfileResponse | null>(null);
@@ -169,9 +170,15 @@ provide(WORKSTATION_PROFILE_KEY, { profile, loading, loadFailed, patchProfile })
       </div>
     </aside>
 
-    <!-- 右侧面板后续按分区接入 -->
+    <!-- 右侧面板：按侧栏上下方向切换滑动动画 -->
     <main class="user-workstation__main">
-      <router-view />
+      <router-view v-slot="{ Component, route: childRoute }">
+        <Transition :enter-active-class="enterActiveClass" :leave-active-class="leaveActiveClass" mode="out-in">
+          <div :key="childRoute.fullPath" class="user-workstation__panel">
+            <component :is="Component" />
+          </div>
+        </Transition>
+      </router-view>
     </main>
   </div>
 </template>

@@ -197,5 +197,16 @@
     padding: 1.2rem;
     overflow: auto;
     background: var(--el-bg-color);
+    /* 可滚动，不显示滚动条 */
+    scrollbar-width: none;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+
+  &__panel {
+    /* 分区切换动画时长（animate.css 读取该变量） */
+    --animate-duration: 0.32s;
   }
 }
