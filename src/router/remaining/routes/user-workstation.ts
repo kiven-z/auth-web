@@ -1,5 +1,10 @@
 import { $t } from '@/app/plugins/i18n';
-import { SYS_USER_DEPT_PERMS, SYS_USER_PERMS, SYS_USER_POST_PERMS } from '@/views/system/user/constants/permissions';
+import {
+  SYS_USER_DEPT_PERMS,
+  SYS_USER_PERMS,
+  SYS_USER_POST_PERMS,
+  SYS_USER_ROLE_PERMS,
+} from '@/views/system/user/constants/permissions';
 
 /** 用户管理工作台（独立全页，不进侧栏菜单，由用户列表进入） */
 export default [
@@ -34,6 +39,16 @@ export default [
           title: $t('users.workstation.nav.profile'),
           showLink: false,
           auths: SYS_USER_PERMS.UPDATE,
+        },
+      },
+      {
+        path: 'grant-role',
+        name: 'UserWorkstationGrantRole',
+        component: () => import('@/views/system/user/workstation/panels/assign/role/GrantRolePanel.vue'),
+        meta: {
+          title: $t('users.workstation.nav.grantRole'),
+          showLink: false,
+          auths: SYS_USER_ROLE_PERMS.QUERY,
         },
       },
       {

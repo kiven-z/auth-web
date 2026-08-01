@@ -15,15 +15,6 @@ const UP_ENTER = `${ANIMATE_PREFIX} animate__fadeInDown`;
 const UP_LEAVE = `${ANIMATE_PREFIX} animate__fadeOutDown`;
 
 /**
- * 从路由 path 取工作台分区段
- * @param path 完整 path
- * @returns 分区键
- */
-function resolveSectionFromPath(path: string): string {
-  return path.split('/').pop() || USER_WORKSTATION_DEFAULT_SECTION;
-}
-
-/**
  * 按侧栏菜单顺序推导分区切换方向，产出 animate.css 进/离场类
  * @param navGroups 可见侧栏分组
  * @returns enter / leave active class
@@ -58,7 +49,10 @@ function useWorkstationSectionTransition(navGroups: ComputedRef<UserWorkstationN
   }
 
   onBeforeRouteUpdate((to, from) => {
-    applyDirection(resolveSectionFromPath(from.path), resolveSectionFromPath(to.path));
+    applyDirection(
+      from.path.split('/').pop() || USER_WORKSTATION_DEFAULT_SECTION,
+      to.path.split('/').pop() || USER_WORKSTATION_DEFAULT_SECTION
+    );
   });
 
   return { enterActiveClass, leaveActiveClass };
