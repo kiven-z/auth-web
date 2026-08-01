@@ -1,6 +1,6 @@
 <script lang="ts" setup>
-import UserDeptTreePanel from '@/views/system/user/components/UserDeptTreePanel.vue';
-import UserTablePanel from '@/views/system/user/components/UserTablePanel.vue';
+import UserDeptTreePanel from '@/views/system/user/list/components/UserDeptTreePanel.vue';
+import UserTablePanel from '@/views/system/user/list/components/UserTablePanel.vue';
 
 defineOptions({
   name: 'SystemUser',

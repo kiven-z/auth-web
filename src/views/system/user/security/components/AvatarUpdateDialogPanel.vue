@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { updateUserAvatar } from '@/api/system/user/user';
 import AvatarEditor from '@/components/business/AvatarEditor';
-import type { AvatarUpdateDialogPanelProps } from '@/views/system/user/hooks/actions/useUserMoreAction';
+import type { AvatarUpdateDialogPanelProps } from '@/views/system/user/security/hooks/useUserMoreAction';
 import { message } from '@/services/feedback/message';
 import { ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';

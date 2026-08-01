@@ -10,11 +10,11 @@ import {
   SYS_USER_ROLE_PERMS,
 } from '@/views/system/user/constants/permissions';
 import { USER_ACCOUNT_STATUS, USER_STATUS_FILTER_OPTIONS } from '@/views/system/user/constants/user-account-status';
-import useUserAdvanceAction from '@/views/system/user/hooks/actions/useUserAdvanceAction';
-import useUserMoreAction from '@/views/system/user/hooks/actions/useUserMoreAction';
-import useUserTableAction from '@/views/system/user/hooks/actions/useUserTableAction';
-import useUserTableColumns from '@/views/system/user/hooks/columns/useUserTableColumns';
-import useUserPageState from '@/views/system/user/hooks/useUserPageState';
+import useUserAdvanceAction from '@/views/system/user/list/hooks/actions/useUserAdvanceAction';
+import useUserMoreAction from '@/views/system/user/security/hooks/useUserMoreAction';
+import useUserTableAction from '@/views/system/user/list/hooks/actions/useUserTableAction';
+import useUserTableColumns from '@/views/system/user/list/hooks/columns/useUserTableColumns';
+import useUserPageState from '@/views/system/user/list/hooks/useUserPageState';
 import type { FormInstance } from 'element-plus';
 import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';

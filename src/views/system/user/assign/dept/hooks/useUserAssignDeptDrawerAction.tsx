@@ -6,12 +6,12 @@ import {
   type UserDeptAssignForm,
   type UserDeptPageRow,
 } from '@/api/system/user/user-dept';
-import { addDialog } from '@/components/ui/Dialog';
+import { addDialog } from '@/components/ui/Dialog/index';
 import useBatchDeleteAction from '@/shared/composables/table/useBatchDeleteAction';
 import { type FormOverlayExpose, useFormOverlaySubmit } from '@/shared/composables/table/useFormOverlaySubmit';
 import { errorMessage, message } from '@/services/feedback/message';
 import { multiConfirm } from '@/services/feedback/dialog';
-import UserDeptAssignFormDialog from '@/views/system/user/components/UserDeptAssignFormDialog.vue';
+import UserDeptAssignFormDialog from '@/views/system/user/assign/dept/components/UserDeptAssignFormDialog.vue';
 import { h, ref, type Ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import type { TableActionDeps } from '@/api/common';

@@ -8,12 +8,12 @@ import {
   type SysUserUpdateForm,
   updateUser,
 } from '@/api/system/user/user';
-import { addDialog } from '@/components/ui/Dialog';
+import { addDialog } from '@/components/ui/Dialog/index';
 import { type FormOverlayExpose, useFormOverlaySubmit } from '@/shared/composables/table/useFormOverlaySubmit';
 import { operationConfirm } from '@/services/feedback/dialog';
 import { errorMessage, message } from '@/services/feedback/message';
-import UserDescriptionDialog from '@/views/system/user/components/UserDescriptionDialog.vue';
-import UserFormDialog from '@/views/system/user/components/UserFormDialog.vue';
+import UserDescriptionDialog from '@/views/system/user/form/components/UserDescriptionDialog.vue';
+import UserFormDialog from '@/views/system/user/form/components/UserFormDialog.vue';
 import { h, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 

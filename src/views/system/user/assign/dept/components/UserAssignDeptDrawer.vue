@@ -2,10 +2,10 @@
 import AuthPagedTable, { usePaginationState } from '@/components/business/AuthPagedTable';
 import { SYS_USER_DEPT_PERMS } from '@/views/system/user/constants/permissions';
 import { USER_DEPT_RELATION_STATUS_FILTER_OPTIONS } from '@/views/system/user/constants/user-dept-relation-status';
-import useUserAssignDeptDrawerAction from '@/views/system/user/hooks/actions/useUserAssignDeptDrawerAction';
+import useUserAssignDeptDrawerAction from '@/views/system/user/assign/dept/hooks/useUserAssignDeptDrawerAction';
 import { computed, onMounted, reactive, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
-import useUserDeptAssignTableColumns from '@/views/system/user/hooks/columns/useUserDeptAssignTableColumns';
+import useUserDeptAssignTableColumns from '@/views/system/user/assign/dept/hooks/useUserDeptAssignTableColumns';
 import { getUserDeptPage, UserDeptPageRow } from '@/api/system/user/user-dept';
 import { useFormPlaceholder } from '@/shared/composables/i18n/useFormPlaceholder';
 import type { FormInstance } from 'element-plus';

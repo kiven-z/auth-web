@@ -13,7 +13,7 @@ import useBatchDeleteAction from '@/shared/composables/table/useBatchDeleteActio
 import { type FormOverlayExpose, useFormOverlaySubmit } from '@/shared/composables/table/useFormOverlaySubmit';
 import { errorMessage, message } from '@/services/feedback/message';
 import { multiConfirm } from '@/services/feedback/dialog';
-import UserPostAssignFormDialog from '@/views/system/user/components/UserPostAssignFormDialog.vue';
+import UserPostAssignFormDialog from '@/views/system/user/assign/post/components/UserPostAssignFormDialog.vue';
 import { h, ref, type Ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 

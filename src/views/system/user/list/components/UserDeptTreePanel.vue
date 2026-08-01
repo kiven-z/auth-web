@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { USER_DEPT_ALL_NODE_ID } from '@/views/system/user/constants/user-dept-tree';
-import useUserPageState from '@/views/system/user/hooks/useUserPageState';
+import useUserPageState from '@/views/system/user/list/hooks/useUserPageState';
 import { onMounted } from 'vue';
 import { useI18n } from 'vue-i18n';
 
