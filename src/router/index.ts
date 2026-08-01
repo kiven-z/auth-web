@@ -2,7 +2,7 @@ import { buildHierarchyTree } from '@/shared/utils/tree';
 import { usePermissionStore } from '@/store/modules/auth/permission';
 import { cloneDeep } from '@pureadmin/utils';
 import { createRouter, type RouteComponent, type Router, type RouteRecordRaw } from 'vue-router';
-import remainingRouter from './modules/remaining';
+import remainingRouter from './remaining';
 import { ascending } from './utils/menu-sort';
 import { getHistoryMode } from './utils/misc';
 import { formatFlatteningRoutes, formatTwoStageRoutes } from './utils/route-tree';
@@ -12,11 +12,11 @@ import { createKeepAliveGuard } from './guards/keepalive';
 import { createProgressGuard, resetLoadedPaths } from './guards/progress';
 import { createTitleGuard } from './guards/title';
 
-/** 自动导入全部静态路由，无需再手动引入！匹配 src/router/modules 目录（任何嵌套级别）中具有 .ts 扩展名的所有文件，除了 remaining.ts 文件
+/** 自动导入全部静态路由，无需再手动引入！匹配 src/router/modules 目录（任何嵌套级别）中具有 .ts 扩展名的所有文件
+ * remaining 路由见 ./remaining，由下方单独引入
  * 如何匹配所有文件请看：https://github.com/mrmlnc/fast-glob#basic-syntax
- * 如何排除文件请看：https://cn.vitejs.dev/guide/features.html#negative-patterns
  */
-const modules: Record<string, any> = import.meta.glob(['./modules/**/*.ts', '!./modules/**/remaining.ts'], {
+const modules: Record<string, any> = import.meta.glob(['./modules/**/*.ts'], {
   eager: true,
 });
 
