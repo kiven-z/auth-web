@@ -1,16 +1,16 @@
 <script lang="ts" setup>
 import AuthPagedTable from '@/components/business/AuthPagedTable';
 import { SYS_MENU_PERMS } from '@/views/system/menu/constants/permissions';
-import { MENU_TYPE_OPTIONS } from '@/views/system/menu/constants/menu-type';
+import { useMenuTypeOptions } from '@/views/system/menu/hooks/options/useMenuTypeOptions';
 import useMenuMoreAction from '@/views/system/menu/hooks/actions/useMenuMoreAction';
 import useMenuPageState from '@/views/system/menu/hooks/useMenuPageState';
 import useMenuTableAction from '@/views/system/menu/hooks/actions/useMenuTableAction';
-import useMenuTableColumns from '@/views/system/menu/hooks/useMenuTableColumns';
+import useMenuTableColumns from '@/views/system/menu/hooks/columns/useMenuTableColumns';
+import { useCommonBooleanStatusOptions } from '@/shared/composables/i18n/useCommonBooleanStatusOptions';
 import { useFormPlaceholder } from '@/shared/composables/i18n/useFormPlaceholder';
 import type { FormInstance } from 'element-plus';
 import { onMounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { COMMON_BOOLEAN_STATUS_FILTER_OPTIONS } from '@/shared/constants/boolean-status';
 
 defineOptions({
   name: 'MenuTableView',
@@ -18,6 +18,8 @@ defineOptions({
 
 const { t } = useI18n();
 const ph = useFormPlaceholder();
+const booleanStatusOptions = useCommonBooleanStatusOptions();
+const menuTypeOptions = useMenuTypeOptions();
 const searchFormRef = ref<FormInstance>();
 
 const { tableColumns } = useMenuTableColumns();
@@ -69,16 +71,16 @@ onMounted(() => {
           class="w-40!"
           clearable
         >
-          <el-option v-for="opt in MENU_TYPE_OPTIONS" :key="opt.value" :label="t(opt.labelKey)" :value="opt.value" />
+          <el-option v-for="opt in menuTypeOptions" :key="opt.value" :label="opt.label" :value="opt.value" />
         </el-select>
       </el-form-item>
 
       <el-form-item :label="t('sysMenu.status')" prop="status">
         <el-select v-model="searchForm.status" :placeholder="ph.selectFilter('sysMenu.status')" class="w-35!" clearable>
           <el-option
-            v-for="opt in COMMON_BOOLEAN_STATUS_FILTER_OPTIONS"
-            :key="`${opt.labelKey}:${String(opt.value)}`"
-            :label="t(opt.labelKey)"
+            v-for="opt in booleanStatusOptions"
+            :key="String(opt.value)"
+            :label="opt.label"
             :value="opt.value"
           />
         </el-select>
@@ -90,11 +92,9 @@ onMounted(() => {
 
       <el-form-item>
         <el-button-group>
-          <!-- 搜索 -->
           <el-button :loading="loading" type="primary" @click="fetchTableData">
             {{ t('buttons.actionSearch') }}
           </el-button>
-          <!-- 重置 -->
           <el-button @click="resetQuery(searchFormRef)">{{ t('buttons.actionReset') }}</el-button>
         </el-button-group>
       </el-form-item>

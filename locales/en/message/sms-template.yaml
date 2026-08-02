@@ -1,5 +1,4 @@
 smsTemplate:
-  name: SMS message template
   tableTitle: SMS templates
   addDialogTitle: Add SMS template
   editDialogTitle: Edit SMS template
@@ -11,8 +10,6 @@ smsTemplate:
   content: Template body
   priority: Send priority
   status: Status
-  testSendDialogTitle: Test send
-  testSendMenu: Test send
   testSendPhone: Recipient phone
   testSendPhonePlaceholder: Enter recipient phone number
   placeholder:

@@ -26,7 +26,6 @@ const { t } = useI18n();
       </el-form-item>
     </el-col>
 
-    <!-- 开关组 -->
     <el-col :lg="8" :md="12" :sm="12" :xs="24">
       <el-form-item :label="t('menus.frameLoading')" prop="frameLoading">
         <el-switch
@@ -65,7 +64,6 @@ const { t } = useI18n();
 
     <el-col :lg="8" :md="12" :sm="12" :xs="24">
       <el-form-item :label="t('menus.showParent')" prop="showParent">
-        <!-- 显示隐藏 -->
         <el-switch
           v-model="formModel.showParent"
           :active-text="t('status.show')"
@@ -76,10 +74,8 @@ const { t } = useI18n();
       </el-form-item>
     </el-col>
 
-    <!-- 第四行 - 开关组 -->
     <el-col :lg="8" :md="12" :sm="12" :xs="24">
       <el-form-item :label="t('menus.keepAlive')" prop="keepAlive">
-        <!-- 缓存、不缓存 -->
         <el-switch
           v-model="formModel.keepAlive"
           :active-text="t('status.cache')"
@@ -114,7 +110,6 @@ const { t } = useI18n();
       </el-form-item>
     </el-col>
 
-    <!-- 第五行 -->
     <el-col :lg="8" :md="12" :sm="12" :xs="24">
       <el-form-item :label="t('menus.status')" prop="status">
         <el-switch

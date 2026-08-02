@@ -67,7 +67,6 @@ scheduleTask:
   validation:
     jobNameLengthLimit: 任务名称不能超过 64 个字符
     cronExpressionLengthLimit: Cron 表达式不能超过 255 个字符
-    remarkLengthLimit: 备注不能超过 500 个字符
   messages:
     templateExampleUnavailable: 当前任务类暂无模板示例
   actions:

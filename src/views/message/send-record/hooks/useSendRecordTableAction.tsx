@@ -1,4 +1,4 @@
-import type { TableActionWithSelectionDeps } from '@/api/common';
+import type { TableActionWithSelectionDeps } from '@/shared/types/table-action';
 import {
   batchDeleteChannelDeliveries,
   type ChannelDeliveryPageRow,
@@ -8,7 +8,7 @@ import { Description } from '@/components/ui/Description';
 import { addDialog } from '@/components/ui/Dialog';
 import { errorMessage } from '@/services/feedback/message';
 import useBatchDeleteAction from '@/shared/composables/table/useBatchDeleteAction';
-import useSendRecordDetailColumns from '@/views/message/send-record/hooks/useSendRecordDetailColumns';
+import useSendRecordDetailColumns from '@/views/message/send-record/hooks/columns/useSendRecordDetailColumns';
 import { useDebounceFn } from '@vueuse/core';
 import { useI18n } from 'vue-i18n';
 

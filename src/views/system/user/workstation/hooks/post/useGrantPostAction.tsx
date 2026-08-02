@@ -7,7 +7,7 @@ import {
   type UserPostPageRow,
   type UserPostRelationUpdateForm,
 } from '@/api/system/user/user-post';
-import type { TableActionDeps } from '@/api/common';
+import type { TableActionDeps } from '@/shared/types/table-action';
 import { addDialog } from '@/components/ui/Dialog';
 import useBatchDeleteAction from '@/shared/composables/table/useBatchDeleteAction';
 import { type FormOverlayExpose, useFormOverlaySubmit } from '@/shared/composables/table/useFormOverlaySubmit';

@@ -3,7 +3,7 @@ import type { SysUserProfileResponse } from '@/api/system/user/user-base';
 import { type MeProfileUpdateRequest, updateMyProfile } from '@/api/system/user/user-me';
 import { multiConfirm } from '@/services/feedback/dialog';
 import { errorMessage, message } from '@/services/feedback/message';
-import { USER_GENDER_OPTIONS } from '@/views/system/user/constants/user-gender';
+import useUserOptions from '@/views/system/user/hooks/options/useUserOptions';
 import { type FormInstance, type FormRules } from 'element-plus';
 import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
@@ -21,6 +21,7 @@ const emit = defineEmits<{
 }>();
 
 const { t } = useI18n();
+const { genderOptions: userGenderOptions } = useUserOptions();
 const formRef = ref<FormInstance>();
 const submitting = ref(false);
 const initialEmail = ref<string | null | undefined>();
@@ -151,8 +152,8 @@ async function handleSave() {
         <el-col :lg="12" :md="12" :sm="12" :xs="24">
           <el-form-item :label="t('users.field.gender')" prop="gender">
             <el-radio-group v-model="form.gender">
-              <el-radio v-for="opt in USER_GENDER_OPTIONS" :key="opt.value" :value="opt.value">
-                {{ t(String(opt.labelKey)) }}
+              <el-radio v-for="opt in userGenderOptions" :key="opt.value" :value="opt.value">
+                {{ opt.label }}
               </el-radio>
             </el-radio-group>
           </el-form-item>

@@ -1,17 +1,13 @@
 inAppInbox:
   badgeTitle: My messages
-  title: My messages
   selectAll: Select all
   empty: No messages
   emptyMajors: No message categories
-  loadMajorsFailed: Failed to load message categories. Please try again later.
   unread: Unread
   read: Read
   field:
     title: Title
     categoryId: Subcategory
-    categoryName: Subcategory
-    createdAt: Time
     linkUrl: Link
     readStatus: Read status
   action:

@@ -1,14 +1,14 @@
 <script lang="ts" setup>
-import type { FormDialog } from '@/api/common';
+import type { FormDialog } from '@/shared/types/dialog';
 import type { SysJobCreateForm } from '@/api/schedule/job';
 import { useFormPlaceholder } from '@/shared/composables/i18n/useFormPlaceholder';
 import JobCatalogClassPicker from '@/views/schedule/schedule-task/components/JobCatalogClassPicker.vue';
 import JobFormScheduleExtrasFields from '@/views/schedule/schedule-task/components/JobFormScheduleExtrasFields.vue';
-import { JOB_TASK_TYPE_OPTIONS } from '@/views/schedule/schedule-task/constants/job-task-enums';
 import { DEFAULT_JOB_TIME_ZONE } from '@/views/schedule/schedule-task/constants/job-time-zones';
 import useBeanInvokePicker from '@/views/schedule/schedule-task/hooks/useBeanInvokePicker';
 import useJobCatalog from '@/views/schedule/schedule-task/hooks/useJobCatalog';
 import useJobGroupRemoteSearch from '@/views/schedule/schedule-task/hooks/useJobGroupRemoteSearch';
+import useJobFormOptions from '@/views/schedule/schedule-task/hooks/options/useJobFormOptions';
 import type { FormInstance, FormRules } from 'element-plus';
 import { computed, onMounted, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
@@ -25,6 +25,7 @@ const props = withDefaults(defineProps<JobCreateFormDialogProps>(), {
 
 const { t } = useI18n();
 const ph = useFormPlaceholder();
+const { taskTypeOptions } = useJobFormOptions();
 const formRef = ref<FormInstance>();
 
 const form = ref<SysJobCreateForm>({
@@ -147,12 +148,7 @@ defineExpose({ formRef, form });
       <el-col :lg="12" :md="12" :sm="24" :xs="24">
         <el-form-item :label="t('scheduleTask.fields.taskType')" prop="taskType">
           <el-select v-model="form.taskType" :placeholder="ph.select('scheduleTask.fields.taskType')" class="w-full">
-            <el-option
-              v-for="opt in JOB_TASK_TYPE_OPTIONS"
-              :key="opt.value"
-              :label="t(opt.labelKey)"
-              :value="opt.value"
-            />
+            <el-option v-for="opt in taskTypeOptions" :key="opt.value" :label="opt.label" :value="opt.value" />
           </el-select>
         </el-form-item>
       </el-col>

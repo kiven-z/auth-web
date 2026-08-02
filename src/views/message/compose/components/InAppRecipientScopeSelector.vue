@@ -74,12 +74,10 @@ onMounted(() => {
 
 <template>
   <div class="in-app-recipient-scope-selector">
-    <!-- 接收范围类型 -->
     <el-form-item :label="t('inAppCompose.recipientScope')" prop="recipientScopeType">
       <el-segmented v-model="recipientScopeType" :options="scopeSegmentedOptions" class="w-full" />
     </el-form-item>
 
-    <!-- 指定用户 -->
     <el-form-item
       v-if="recipientScopeType === 'USER' && showScopeIds"
       :label="t('inAppCompose.selectUsers')"
@@ -105,7 +103,6 @@ onMounted(() => {
       </el-select>
     </el-form-item>
 
-    <!-- 指定岗位 -->
     <el-form-item
       v-if="recipientScopeType === 'POST' && showScopeIds"
       :label="t('inAppCompose.selectPosts')"
@@ -131,7 +128,6 @@ onMounted(() => {
       </el-select>
     </el-form-item>
 
-    <!-- 指定部门 -->
     <template v-if="recipientScopeType === 'DEPT' && showScopeIds">
       <el-form-item :label="t('inAppCompose.selectDepts')" prop="recipientScopeIds">
         <div v-loading="deptTreeLoading" class="w-full">
@@ -157,7 +153,6 @@ onMounted(() => {
       </el-form-item>
     </template>
 
-    <!-- 全员提示 -->
     <el-alert v-if="recipientScopeType === 'ALL'" :closable="false" show-icon type="warning">
       {{ t('inAppCompose.allScopeHint') }}
     </el-alert>

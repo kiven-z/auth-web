@@ -1,5 +1,5 @@
 import type { RoleReference } from '@/api/system/_shared/grant-table';
-import { ElTag } from 'element-plus';
+import { renderBooleanStatusTag } from '@/shared/composables/layout/renderBooleanStatusTag';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 
@@ -17,11 +17,7 @@ function useRoleColumns() {
       label: t('roles.field.status'),
       prop: 'status',
       minWidth: 90,
-      formatter: (row: RoleReference) => (
-        <ElTag type={row.status ? 'success' : 'danger'} effect="plain">
-          {t(row.status ? 'roles.status.normal' : 'roles.status.disabled')}
-        </ElTag>
-      ),
+      formatter: (row: RoleReference) => renderBooleanStatusTag(row.status),
     },
   ]);
 

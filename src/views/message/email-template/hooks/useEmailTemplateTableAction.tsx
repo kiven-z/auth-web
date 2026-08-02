@@ -1,4 +1,4 @@
-import type { TableActionWithSelectionDeps } from '@/api/common';
+import type { TableActionWithSelectionDeps } from '@/shared/types/table-action';
 import type { EmailTemplateFormModel } from '@/api/message/email-template';
 import { createEmailTemplate, type EmailTemplatePageRow, updateEmailTemplate } from '@/api/message/email-template';
 import {
@@ -21,15 +21,14 @@ import { useI18n } from 'vue-i18n';
 
 /**
  * 邮件模板表格操作：弹窗与写接口
- * @param deps 表格操作依赖
- * @returns 表格操作方法
+ * @param deps 选中行与刷新回调
+ * @returns 增删改、详情与批量启停
  */
 function useEmailTemplateTableAction(deps: TableActionWithSelectionDeps) {
   const { fetchTableData, selectedRows } = deps;
   const { t } = useI18n();
   const { detailColumns } = useEmailTemplateDetailColumns();
 
-  // 删除操作
   const { deleteBatchRows } = useBatchDeleteAction({
     selectedRows,
     deleteApi: (ids) => batchDeleteMessageTemplates(ids, EMAIL_TEMPLATE_CHANNEL),

@@ -3,11 +3,11 @@ import { getPostPage } from '@/api/system/post/post';
 import AuthPagedTable, { usePaginationState } from '@/components/business/AuthPagedTable';
 import { useFormPlaceholder } from '@/shared/composables/i18n/useFormPlaceholder';
 import { SYS_POST_PERMS } from '@/views/system/post/constants/permissions';
-import { POST_STATUS_FILTER_OPTIONS } from '@/views/system/post/constants/post-search-options';
-import usePostAdvanceAction from '@/views/system/post/hooks/usePostAdvanceAction';
-import usePostMoreAction from '@/views/system/post/hooks/usePostMoreAction';
-import usePostTableAction from '@/views/system/post/hooks/usePostTableAction';
-import usePostTableColumns from '@/views/system/post/hooks/usePostTableColumns';
+import usePostAdvanceAction from '@/views/system/post/hooks/actions/usePostAdvanceAction';
+import usePostMoreAction from '@/views/system/post/hooks/actions/usePostMoreAction';
+import { useCommonBooleanStatusOptions } from '@/shared/composables/i18n/useCommonBooleanStatusOptions';
+import usePostTableAction from '@/views/system/post/hooks/actions/usePostTableAction';
+import usePostTableColumns from '@/views/system/post/hooks/columns/usePostTableColumns';
 import type { FormInstance } from 'element-plus';
 import { computed, onMounted, reactive, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
@@ -18,6 +18,7 @@ defineOptions({
 
 const { t } = useI18n();
 const ph = useFormPlaceholder();
+const booleanStatusOptions = useCommonBooleanStatusOptions();
 
 const { columns } = usePostTableColumns();
 
@@ -63,7 +64,6 @@ onMounted(() => {
       class="bg-bg_color w-[99/100] overflow-auto pl-8 pt-3"
       inline
     >
-      <!-- 岗位编码 -->
       <el-form-item :label="t('post.field.postCode')" prop="postCode">
         <el-input
           v-model="searchForm.postCode"
@@ -72,7 +72,6 @@ onMounted(() => {
           clearable
         />
       </el-form-item>
-      <!-- 岗位名称 -->
       <el-form-item :label="t('post.field.postName')" prop="postName">
         <el-input
           v-model="searchForm.postName"
@@ -81,7 +80,6 @@ onMounted(() => {
           clearable
         />
       </el-form-item>
-      <!-- 所属部门 -->
       <el-form-item :label="t('post.field.deptName')" prop="deptName">
         <el-input
           v-model="searchForm.deptName"
@@ -90,7 +88,6 @@ onMounted(() => {
           clearable
         />
       </el-form-item>
-      <!-- 状态 -->
       <el-form-item :label="t('post.field.status')" prop="status">
         <el-select
           v-model="searchForm.status"
@@ -99,9 +96,9 @@ onMounted(() => {
           clearable
         >
           <el-option
-            v-for="opt in POST_STATUS_FILTER_OPTIONS"
-            :key="`${opt.labelKey}:${String(opt.value)}`"
-            :label="t(opt.labelKey)"
+            v-for="opt in booleanStatusOptions"
+            :key="String(opt.value)"
+            :label="opt.label"
             :value="opt.value"
           />
         </el-select>
@@ -109,11 +106,9 @@ onMounted(() => {
 
       <el-form-item>
         <el-button-group>
-          <!-- 搜索 -->
           <el-button v-perms="SYS_POST_PERMS.QUERY" :loading="loading" type="primary" @click="fetchTableData">
             {{ t('buttons.actionSearch') }}
           </el-button>
-          <!-- 重置 -->
           <el-button v-perms="SYS_POST_PERMS.QUERY" @click="resetQuery(searchFormRef)">
             {{ t('buttons.actionReset') }}
           </el-button>
@@ -124,7 +119,6 @@ onMounted(() => {
     <AuthPagedTable :columns="columns" :state="postState" :title="t('post.page.title')">
       <template #buttons>
         <el-button-group type="primary">
-          <!-- 添加 -->
           <el-button v-perms="SYS_POST_PERMS.CREATE" type="primary" @click="openCreateDialog">
             {{ t('buttons.actionAdd') }}
           </el-button>
@@ -150,7 +144,6 @@ onMounted(() => {
               {{ t('buttons.actionAdvanced') }}
             </el-button>
             <template #dropdown>
-              <!-- 从 Excel 导入 -->
               <Perms :value="SYS_POST_PERMS.IMPORT">
                 <el-dropdown-item @click="openImportDialog">
                   {{ t('buttons.importExcel') }}
@@ -167,15 +160,12 @@ onMounted(() => {
       </template>
 
       <template #actions="{ row }">
-        <!-- 查看 -->
         <el-button v-perms="SYS_POST_PERMS.QUERY" link type="primary" @click="openDetailDialog(row)">
           {{ t('buttons.actionView') }}
         </el-button>
-        <!-- 修改 -->
         <el-button v-perms="SYS_POST_PERMS.UPDATE" link type="primary" @click="openEditDialog(row)">
           {{ t('buttons.actionEdit') }}
         </el-button>
-        <!-- 删除 -->
         <el-button v-perms="SYS_POST_PERMS.DELETE" link type="danger" @click="deleteRow(row)">
           {{ t('buttons.actionDelete') }}
         </el-button>

@@ -17,24 +17,9 @@ operationLog:
   remark: 备注
   tableTitle: 操作日志
   detailTitle: 操作日志详情
-  moduleEnum:
-    SYSTEM:USER: 系统管理-用户
-    SYSTEM:ROLE: 系统管理-角色
-    SYSTEM:DEPT: 系统管理-部门
-    SYSTEM:PROJECT: 系统管理-项目
-    SYSTEM:SECURITY_CONFIG: 系统管理-安全配置
-    SYSTEM:MENU: 系统管理-菜单
-    SYSTEM:POST: 系统管理-岗位
-    SYSTEM:JOB: 系统管理-定时任务
   operationTypeEnum:
     CREATE: 新增
     UPDATE: 更新
     DELETE: 删除
     QUERY: 查询
     EXPORT: 导出
-  targetTypeEnum:
-    User: 用户
-    Dept: 部门
-    Role: 角色
-    Menu: 菜单
-    Post: 岗位

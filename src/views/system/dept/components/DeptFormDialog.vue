@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import type { FormDialog } from '@/api/common';
+import type { FormDialog } from '@/shared/types/dialog';
 import { getDeptList, SysDeptCreateForm, SysDeptUpdateForm } from '@/api/system/dept/dept';
 import { errorMessage } from '@/services/feedback/message';
 import { buildDeptParentTree, type DeptParentCascaderNode } from '@/views/system/dept/utils/dept-parent';
@@ -98,8 +98,8 @@ defineExpose({ formRef, form });
       <el-col :lg="12" :md="12" :sm="12" :xs="24">
         <el-form-item :label="t('dept.field.status')" prop="status">
           <el-radio-group v-model="form.status">
-            <el-radio :value="true">{{ t('dept.enum.status.normal') }}</el-radio>
-            <el-radio :value="false">{{ t('dept.enum.status.disabled') }}</el-radio>
+            <el-radio :value="true">{{ t('buttons.statusActiveText') }}</el-radio>
+            <el-radio :value="false">{{ t('buttons.statusInactiveText') }}</el-radio>
           </el-radio-group>
         </el-form-item>
       </el-col>

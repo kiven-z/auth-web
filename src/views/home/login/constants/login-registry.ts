@@ -1,24 +1,22 @@
-import { LoginMode, type LoginModeMeta } from '@/views/home/login/constants/types';
+import { LoginMode, type LoginModeMeta } from '@/views/home/login/types/login-mode';
 import { type Component, defineAsyncComponent, markRaw } from 'vue';
 
 /**
- * 登录方式注册表（切换按钮 + 表单组件）
- * 新增登录方式时：先在 types 中扩展 {@link LoginMode}，再在此处追加一条。
+ * 登录方式注册表（表单组件映射）
+ * 新增登录方式时：先在 types/login-mode 中扩展 {@link LoginMode}，再在此处追加一条，
+ * 并同步更新 useLoginModeOptions 中的 `t('key')` 文案。
  */
 export const loginModeRegistry: LoginModeMeta[] = [
   {
     mode: LoginMode.UsernamePassword,
-    labelKey: 'login.authUsernamePasswordLogin',
     component: () => import('../components/UsernamePasswordForm.vue'),
   },
   {
     mode: LoginMode.Email,
-    labelKey: 'login.authEmailLogin',
     component: () => import('../components/EmailLoginForm.vue'),
   },
   {
     mode: LoginMode.Sms,
-    labelKey: 'login.authSmsLogin',
     component: () => import('../components/SmsLoginForm.vue'),
   },
 ];
@@ -26,7 +24,7 @@ export const loginModeRegistry: LoginModeMeta[] = [
 /** 默认登录方式（注册表第一项） */
 export const defaultLoginMode = loginModeRegistry[0]!.mode;
 
-/** 供切换按钮 `v-for` 使用（与注册表同源） */
+/** 供切换按钮顺序 / 下标查找使用（与注册表同源） */
 export const loginModes = loginModeRegistry;
 
 /**

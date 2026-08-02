@@ -1,6 +1,5 @@
 import type { PostReference } from '@/api/system/_shared/grant-table';
-import { POST_STATUS_FILTER_OPTIONS } from '@/views/system/post/constants/post-search-options';
-import { ElTag } from 'element-plus';
+import { renderBooleanStatusTag } from '@/shared/composables/layout/renderBooleanStatusTag';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 
@@ -18,15 +17,7 @@ function usePostColumns() {
       label: t('post.field.status'),
       prop: 'status',
       minWidth: 90,
-      formatter: (row: PostReference) => {
-        const option = POST_STATUS_FILTER_OPTIONS.find((item) => item.value === row.status);
-        const labelKey = option?.labelKey ?? (row.status ? 'post.enums.status.normal' : 'post.enums.status.disabled');
-        return (
-          <ElTag type={row.status ? 'success' : 'danger'} effect="plain">
-            {t(labelKey)}
-          </ElTag>
-        );
-      },
+      formatter: (row: PostReference) => renderBooleanStatusTag(row.status),
     },
   ]);
 

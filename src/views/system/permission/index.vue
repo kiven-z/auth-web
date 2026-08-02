@@ -1,8 +1,8 @@
 <script lang="ts" setup>
 import { getPermissionPage } from '@/api/system/permission';
 import AuthPagedTable, { usePaginationState } from '@/components/business/AuthPagedTable';
+import { useCommonBooleanStatusOptions } from '@/shared/composables/i18n/useCommonBooleanStatusOptions';
 import { useFormPlaceholder } from '@/shared/composables/i18n/useFormPlaceholder';
-import { COMMON_BOOLEAN_STATUS_FILTER_OPTIONS } from '@/shared/constants/boolean-status';
 import { SYS_PERMISSION_PERMS } from '@/views/system/permission/constants/permissions';
 import usePermissionAdvanceAction from '@/views/system/permission/hooks/usePermissionAdvanceAction';
 import usePermissionTableAction from '@/views/system/permission/hooks/usePermissionTableAction';
@@ -17,6 +17,7 @@ defineOptions({
 
 const { t } = useI18n();
 const ph = useFormPlaceholder();
+const booleanStatusOptions = useCommonBooleanStatusOptions();
 
 const { columns } = usePermissionTableColumns();
 
@@ -59,7 +60,6 @@ onMounted(() => {
       class="bg-bg_color w-[99/100] overflow-auto pl-8 pt-3"
       inline
     >
-      <!-- 权限编码 -->
       <el-form-item :label="t('permissions.field.permissionCode')" prop="permissionCode">
         <el-input
           v-model="searchForm.permissionCode"
@@ -68,7 +68,6 @@ onMounted(() => {
           clearable
         />
       </el-form-item>
-      <!-- 权限名称 -->
       <el-form-item :label="t('permissions.field.permissionName')" prop="permissionName">
         <el-input
           v-model="searchForm.permissionName"
@@ -77,7 +76,6 @@ onMounted(() => {
           clearable
         />
       </el-form-item>
-      <!-- 状态 -->
       <el-form-item :label="t('permissions.field.status')" prop="status">
         <el-select
           v-model="searchForm.status"
@@ -86,9 +84,9 @@ onMounted(() => {
           clearable
         >
           <el-option
-            v-for="opt in COMMON_BOOLEAN_STATUS_FILTER_OPTIONS"
-            :key="`${opt.labelKey}:${String(opt.value)}`"
-            :label="t(opt.labelKey)"
+            v-for="opt in booleanStatusOptions"
+            :key="String(opt.value)"
+            :label="opt.label"
             :value="opt.value"
           />
         </el-select>
@@ -96,11 +94,9 @@ onMounted(() => {
 
       <el-form-item>
         <el-button-group>
-          <!-- 搜索 -->
           <el-button v-perms="SYS_PERMISSION_PERMS.QUERY" :loading="loading" type="primary" @click="fetchTableData">
             {{ t('buttons.actionSearch') }}
           </el-button>
-          <!-- 重置 -->
           <el-button v-perms="SYS_PERMISSION_PERMS.QUERY" @click="resetQuery(searchFormRef)">
             {{ t('buttons.actionReset') }}
           </el-button>
@@ -136,7 +132,6 @@ onMounted(() => {
               {{ t('buttons.actionAdvanced') }}
             </el-button>
             <template #dropdown>
-              <!-- 从 Excel 导入 -->
               <Perms :value="SYS_PERMISSION_PERMS.IMPORT">
                 <el-dropdown-item @click="openImportDialog">
                   {{ t('buttons.importExcel') }}
@@ -153,15 +148,12 @@ onMounted(() => {
       </template>
 
       <template #actions="{ row }">
-        <!-- 查看 -->
         <el-button v-perms="SYS_PERMISSION_PERMS.DETAIL" link type="primary" @click="openDetailDialog(row)">
           {{ t('buttons.actionView') }}
         </el-button>
-        <!-- 修改/编辑 -->
         <el-button v-perms="SYS_PERMISSION_PERMS.UPDATE" link type="primary" @click="openEditDialog(row)">
           {{ t('buttons.actionEdit') }}
         </el-button>
-        <!-- 删除 -->
         <el-button v-perms="SYS_PERMISSION_PERMS.DELETE" link type="danger" @click="deleteRow(row)">
           {{ t('buttons.actionDelete') }}
         </el-button>

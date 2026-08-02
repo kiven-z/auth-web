@@ -1,17 +1,6 @@
+import { USER_GENDER } from '@/views/system/user/constants/user-enums';
 import { ElCheckTag, ElTag } from 'element-plus';
 import { useI18n } from 'vue-i18n';
-
-const ACCOUNT_STATUS_META = {
-  0: { labelKey: 'users.accountStatus.disabled', tagType: 'danger' },
-  1: { labelKey: 'users.accountStatus.normal', tagType: 'success' },
-  2: { labelKey: 'users.accountStatus.locked', tagType: 'warning' },
-} as const satisfies Record<number, { labelKey: string; tagType: 'success' | 'warning' | 'danger' }>;
-
-const RELATION_STATUS_META = {
-  0: { labelKey: 'users.relationStatus.transferred', tagType: 'info' },
-  1: { labelKey: 'users.relationStatus.normal', tagType: 'success' },
-  2: { labelKey: 'users.relationStatus.partTime', tagType: 'warning' },
-} as const satisfies Record<number, { labelKey: string; tagType: 'success' | 'warning' | 'info' }>;
 
 /**
  * 用户档案相关字段展示（账号状态、性别、组织关联状态）
@@ -29,12 +18,26 @@ function useUserProfileDisplay() {
     if (value === undefined || value === null) {
       return <span>-</span>;
     }
-    const meta = ACCOUNT_STATUS_META[value];
-    return (
-      <ElTag type={meta.tagType} effect="plain">
-        {t(meta.labelKey)}
-      </ElTag>
-    );
+    switch (value) {
+      case 1:
+        return (
+          <ElTag type="success" effect="plain">
+            {t('users.accountStatus.normal')}
+          </ElTag>
+        );
+      case 2:
+        return (
+          <ElTag type="warning" effect="plain">
+            {t('users.accountStatus.locked')}
+          </ElTag>
+        );
+      default:
+        return (
+          <ElTag type="danger" effect="plain">
+            {t('users.accountStatus.disabled')}
+          </ElTag>
+        );
+    }
   }
 
   /**
@@ -43,12 +46,13 @@ function useUserProfileDisplay() {
    * @returns 性别文案
    */
   function renderUserGender(value: number | undefined | null) {
-    if (value === undefined || value === null) {
-      return <span>{t('users.genderLabel.unknown')}</span>;
+    if (value === USER_GENDER.male) {
+      return <span>{t('users.genderLabel.male')}</span>;
     }
-    const labelKey =
-      value === 1 ? 'users.genderLabel.male' : value === 2 ? 'users.genderLabel.female' : 'users.genderLabel.unknown';
-    return <span>{t(labelKey)}</span>;
+    if (value === USER_GENDER.female) {
+      return <span>{t('users.genderLabel.female')}</span>;
+    }
+    return <span>{t('users.genderLabel.unknown')}</span>;
   }
 
   /**
@@ -60,12 +64,26 @@ function useUserProfileDisplay() {
     if (value === undefined || value === null) {
       return <span>-</span>;
     }
-    const meta = RELATION_STATUS_META[value];
-    return (
-      <ElTag type={meta.tagType} effect="plain">
-        {t(meta.labelKey)}
-      </ElTag>
-    );
+    switch (value) {
+      case 1:
+        return (
+          <ElTag type="success" effect="plain">
+            {t('users.relationStatus.normal')}
+          </ElTag>
+        );
+      case 2:
+        return (
+          <ElTag type="warning" effect="plain">
+            {t('users.relationStatus.partTime')}
+          </ElTag>
+        );
+      default:
+        return (
+          <ElTag type="info" effect="plain">
+            {t('users.relationStatus.transferred')}
+          </ElTag>
+        );
+    }
   }
 
   /**

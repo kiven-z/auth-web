@@ -45,7 +45,6 @@ import:
   fileTypeInvalid: Only .xlsx files are supported
 buttons:
   loginOut: Logout
-  login: Login
   openSystemSet: Open system config
   reload: Reload
   closeCurrentTab: Close current tab
@@ -72,13 +71,11 @@ buttons:
   actionRecall: Recall
   actionDownload: Download
   actionDelete: Delete
-  actionForceDelete: Force delete
   actionBatchDownload: Batch download
   actionRestore: Restore
   actionBatchRestore: Batch restore
   actionBatchDelete: Batch delete
   actionMore: More
-  actionBatchAdd: Batch add
   actionBatchStatus: Change status
   actionBatchEnable: Enable selected
   actionBatchLock: Lock selected
@@ -99,7 +96,6 @@ assign:
   role: Assign roles
   dept: Dept membership
   post: Post assignment
-  permission: Assign permissions
 
 table:
   idx: No
@@ -127,12 +123,6 @@ search:
   placeholder: Search menu (supports pinyin)
 status:
   loading: Loading...
-  message: Messages
-  notify: Notifications
-  todo: Todos
-  noMessage: No messages
-  noNotify: No notifications
-  noTodo: No todos
   open: On
   close: Off
   show: Show

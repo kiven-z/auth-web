@@ -10,7 +10,8 @@ import { errorMessage } from '@/services/feedback/message';
 import MenuTypeIframeDialog from '@/views/system/menu/components/MenuTypeIframeDialog.vue';
 import MenuTypeLinkDialog from '@/views/system/menu/components/MenuTypeLinkDialog.vue';
 import MenuTypeMenuDialog from '@/views/system/menu/components/MenuTypeMenuDialog.vue';
-import { MENU_TYPE_OPTIONS, MenuTypeEnums } from '@/views/system/menu/constants/menu-type';
+import { MenuTypeEnums } from '@/views/system/menu/constants/menu-type';
+import { useMenuTypeOptions } from '@/views/system/menu/hooks/options/useMenuTypeOptions';
 import { findMenuIdPath } from '@/views/system/menu/utils/menu-tree';
 import type { CascaderProps, FormInstance, FormRules } from 'element-plus';
 import { computed, onMounted, ref, watch } from 'vue';
@@ -56,6 +57,7 @@ function sanitizeMenuIcon(icon: string | undefined | null): string {
 }
 
 const { t } = useI18n();
+const menuTypeOptions = useMenuTypeOptions();
 
 const formRef = ref<FormInstance>();
 const form = ref<MenuFormModel>({
@@ -93,7 +95,7 @@ const deptTree = ref<DeptNode[]>([]);
 const parentIdPath = ref<string[]>([]);
 
 const typeSegmentOptions = computed(() =>
-  MENU_TYPE_OPTIONS.map((item) => ({ label: t(String(item.labelKey)), value: item.value }))
+  menuTypeOptions.value.map((item) => ({ label: item.label, value: item.value }))
 );
 
 /**

@@ -15,11 +15,7 @@ import useInAppMessageDetailColumns from '@/views/message/_shared/hooks/useInApp
 import useInAppHistoryImportTableColumns from '@/views/message/compose/hooks/useInAppHistoryImportTableColumns';
 import type { InAppHistoryImportPayload } from '@/views/message/compose/types/compose-import';
 import { IN_APP_MESSAGE_PERMS } from '@/views/message/in-app-message/constants/permissions';
-import {
-  IN_APP_MESSAGE_SCOPE_OPTIONS,
-  IN_APP_MESSAGE_SOURCE_OPTIONS,
-  IN_APP_MESSAGE_STATUS_ITEMS,
-} from '@/views/message/in-app-message/constants/task-enums';
+import useInAppMessageOptions from '@/views/message/in-app-message/hooks/options/useInAppMessageOptions';
 import type { FormInstance } from 'element-plus';
 import { h, onMounted, reactive, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
@@ -34,6 +30,7 @@ const emit = defineEmits<{
 
 const { t } = useI18n();
 const ph = useFormPlaceholder();
+const { statusOptions, sourceOptions, scopeOptions } = useInAppMessageOptions();
 const { columns } = useInAppHistoryImportTableColumns();
 const { detailColumns } = useInAppMessageDetailColumns();
 const searchFormRef = ref<FormInstance>();
@@ -107,7 +104,6 @@ onMounted(() => {
       class="w-full overflow-auto pl-8 pt-3"
       inline
     >
-      <!-- 标题关键字 -->
       <el-form-item :label="t('inAppMessage.field.title')" prop="title">
         <el-input
           v-model="searchForm.title"
@@ -116,7 +112,6 @@ onMounted(() => {
           clearable
         />
       </el-form-item>
-      <!-- 任务状态 -->
       <el-form-item :label="t('inAppMessage.field.status')" prop="status">
         <el-select
           v-model="searchForm.status"
@@ -124,15 +119,9 @@ onMounted(() => {
           class="w-45!"
           clearable
         >
-          <el-option
-            v-for="item in IN_APP_MESSAGE_STATUS_ITEMS"
-            :key="item.value"
-            :label="t(item.labelKey)"
-            :value="item.value"
-          />
+          <el-option v-for="item in statusOptions" :key="item.value" :label="item.label" :value="item.value" />
         </el-select>
       </el-form-item>
-      <!-- 接收范围 -->
       <el-form-item :label="t('inAppMessage.field.recipientScopeType')" prop="recipientScopeType">
         <el-select
           v-model="searchForm.recipientScopeType"
@@ -140,15 +129,9 @@ onMounted(() => {
           class="w-45!"
           clearable
         >
-          <el-option
-            v-for="item in IN_APP_MESSAGE_SCOPE_OPTIONS"
-            :key="item.value"
-            :label="t(item.labelKey)"
-            :value="item.value"
-          />
+          <el-option v-for="item in scopeOptions" :key="item.value" :label="item.label" :value="item.value" />
         </el-select>
       </el-form-item>
-      <!-- 来源 -->
       <el-form-item :label="t('inAppMessage.field.sourceType')" prop="sourceType">
         <el-select
           v-model="searchForm.sourceType"
@@ -156,22 +139,15 @@ onMounted(() => {
           class="w-45!"
           clearable
         >
-          <el-option
-            v-for="item in IN_APP_MESSAGE_SOURCE_OPTIONS"
-            :key="item.value"
-            :label="t(item.labelKey)"
-            :value="item.value"
-          />
+          <el-option v-for="item in sourceOptions" :key="item.value" :label="item.label" :value="item.value" />
         </el-select>
       </el-form-item>
 
       <el-form-item>
         <el-button-group>
-          <!-- 搜索 -->
           <el-button v-perms="IN_APP_MESSAGE_PERMS.QUERY" :loading="loading" type="primary" @click="fetchTableData">
             {{ t('buttons.actionSearch') }}
           </el-button>
-          <!-- 重置 -->
           <el-button v-perms="IN_APP_MESSAGE_PERMS.QUERY" @click="resetQuery(searchFormRef)">
             {{ t('buttons.actionReset') }}
           </el-button>
@@ -186,11 +162,9 @@ onMounted(() => {
       show-overflow-tooltip
     >
       <template #actions="{ row }">
-        <!-- 查看 -->
         <el-button v-perms="IN_APP_MESSAGE_PERMS.DETAIL" link type="primary" @click="openDetailDialog(row)">
           {{ t('buttons.actionView') }}
         </el-button>
-        <!-- 直接导入定稿内容 -->
         <el-button
           v-perms="IN_APP_MESSAGE_PERMS.DETAIL"
           :loading="importingId === row.id"

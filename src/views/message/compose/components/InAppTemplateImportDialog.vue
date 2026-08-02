@@ -106,7 +106,6 @@ onMounted(() => {
       class="w-full overflow-auto pl-8 pt-3"
       inline
     >
-      <!-- 场景编码 -->
       <el-form-item :label="t('inAppTemplate.templateCode')" prop="templateCode">
         <el-input
           v-model="searchForm.templateCode"
@@ -115,7 +114,6 @@ onMounted(() => {
           clearable
         />
       </el-form-item>
-      <!-- 模板名称 -->
       <el-form-item :label="t('inAppTemplate.templateName')" prop="templateName">
         <el-input
           v-model="searchForm.templateName"
@@ -124,7 +122,6 @@ onMounted(() => {
           clearable
         />
       </el-form-item>
-      <!-- 标题模板 -->
       <el-form-item :label="t('inAppTemplate.subject')" prop="subject">
         <el-input
           v-model="searchForm.subject"
@@ -133,7 +130,6 @@ onMounted(() => {
           clearable
         />
       </el-form-item>
-      <!-- 正文类型 -->
       <el-form-item :label="t('inAppTemplate.contentType')" prop="imMessageType">
         <el-select
           v-model="searchForm.imMessageType"
@@ -147,11 +143,9 @@ onMounted(() => {
 
       <el-form-item>
         <el-button-group>
-          <!-- 搜索 -->
           <el-button :loading="loading" type="primary" @click="fetchTableData">
             {{ t('buttons.actionSearch') }}
           </el-button>
-          <!-- 重置 -->
           <el-button @click="resetQuery(searchFormRef)">{{ t('buttons.actionReset') }}</el-button>
         </el-button-group>
       </el-form-item>
@@ -164,11 +158,9 @@ onMounted(() => {
       show-overflow-tooltip
     >
       <template #actions="{ row }">
-        <!-- 查看 -->
         <el-button link type="primary" @click="openDetailDialog(row)">
           {{ t('buttons.actionView') }}
         </el-button>
-        <!-- 导入（原文 / 预览） -->
         <el-dropdown trigger="click" @command="(command) => handleImport(row, command)">
           <el-button :loading="importingId === row.id" class="ml-2!" link type="primary">
             {{ t('inAppCompose.importTemplateConfirm') }}

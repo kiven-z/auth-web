@@ -3,8 +3,8 @@ import { INSTANT_PICKER_VALUE_FORMAT } from '@/shared/utils/date/dateTime';
 import { getLoginLogPage } from '@/api/log/login-log';
 import AuthPagedTable, { usePaginationState } from '@/components/business/AuthPagedTable';
 import useRemoteUserSearch from '@/shared/composables/dialog/useRemoteUserSearch';
-import { LOGIN_LOG_RESULT_ITEMS, LOGIN_LOG_TYPE_FILTER_OPTIONS } from '@/views/log/login-log/constants/login-log-enums';
 import { SYS_LOG_LOGIN_PERMS } from '@/views/log/login-log/constants/permissions';
+import useLoginLogOptions from '@/views/log/login-log/hooks/options/useLoginLogOptions';
 import useLoginLogTableAction from '@/views/log/login-log/hooks/useLoginLogTableAction';
 import useLoginLogTableColumns from '@/views/log/login-log/hooks/useLoginLogTableColumns';
 import { useFormPlaceholder } from '@/shared/composables/i18n/useFormPlaceholder';
@@ -18,6 +18,7 @@ defineOptions({
 
 const { t } = useI18n();
 const ph = useFormPlaceholder();
+const { loginResultOptions, loginTypeOptions } = useLoginLogOptions();
 const { columns } = useLoginLogTableColumns();
 const searchFormRef = ref<FormInstance>();
 
@@ -74,12 +75,7 @@ onMounted(() => {
           class="w-45!"
           clearable
         >
-          <el-option
-            v-for="item in LOGIN_LOG_RESULT_ITEMS"
-            :key="item.code"
-            :label="t(item.labelKey)"
-            :value="item.code"
-          />
+          <el-option v-for="item in loginResultOptions" :key="item.value" :label="item.label" :value="item.value" />
         </el-select>
       </el-form-item>
 
@@ -109,22 +105,15 @@ onMounted(() => {
           class="w-45!"
           clearable
         >
-          <el-option
-            v-for="item in LOGIN_LOG_TYPE_FILTER_OPTIONS"
-            :key="item.value"
-            :label="t(item.labelKey)"
-            :value="item.value"
-          />
+          <el-option v-for="item in loginTypeOptions" :key="item.value" :label="item.label" :value="item.value" />
         </el-select>
       </el-form-item>
 
       <el-form-item>
         <el-button-group>
-          <!-- 搜索 -->
           <el-button v-perms="SYS_LOG_LOGIN_PERMS.QUERY" :loading="loading" type="primary" @click="fetchTableData">
             {{ t('buttons.actionSearch') }}
           </el-button>
-          <!-- 重置 -->
           <el-button v-perms="SYS_LOG_LOGIN_PERMS.QUERY" @click="resetQuery(searchFormRef)">
             {{ t('buttons.actionReset') }}
           </el-button>

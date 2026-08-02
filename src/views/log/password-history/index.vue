@@ -46,7 +46,6 @@ onMounted(() => {
 
 <template>
   <div>
-    <!-- 搜索表单 -->
     <el-form
       ref="searchFormRef"
       v-enter-submit="fetchTableData"
@@ -54,7 +53,6 @@ onMounted(() => {
       class="bg-bg_color w-[99/100] overflow-auto pl-8 pt-3"
       inline
     >
-      <!-- 用户 -->
       <el-form-item :label="t('passwordHistory.userId')" prop="userId">
         <el-select
           v-model="searchForm.userId"
@@ -69,7 +67,6 @@ onMounted(() => {
           <el-option v-for="item in userOptions" :key="item.id" :label="item.username" :value="item.id" />
         </el-select>
       </el-form-item>
-      <!-- 修改时间 -->
       <el-form-item :label="t('passwordHistory.changeTime')" prop="changeTimeStart">
         <el-date-picker
           v-model="searchForm.changeTimeStart"
@@ -88,7 +85,6 @@ onMounted(() => {
           type="datetime"
         />
       </el-form-item>
-      <!-- 修改IP地址 -->
       <el-form-item :label="t('passwordHistory.changeIp')" prop="changeIp">
         <el-input
           v-model="searchForm.changeIp"
@@ -100,7 +96,6 @@ onMounted(() => {
 
       <el-form-item>
         <el-button-group>
-          <!-- 搜索 -->
           <el-button
             v-perms="SYS_LOG_PASSWORD_HISTORY_PERMS.QUERY"
             :loading="loading"
@@ -109,7 +104,6 @@ onMounted(() => {
           >
             {{ t('buttons.actionSearch') }}
           </el-button>
-          <!-- 重置 -->
           <el-button v-perms="SYS_LOG_PASSWORD_HISTORY_PERMS.QUERY" @click="resetQuery(searchFormRef)">
             {{ t('buttons.actionReset') }}
           </el-button>
@@ -132,7 +126,6 @@ onMounted(() => {
 
             <template #dropdown>
               <el-dropdown-item :disabled="selectedRows.length <= 0" type="danger" @click="deleteBatchRows()">
-                <!-- 批量删除 -->
                 {{ t('buttons.actionBatchDelete') }}
               </el-dropdown-item>
             </template>
@@ -141,11 +134,9 @@ onMounted(() => {
       </template>
 
       <template #actions="{ row }">
-        <!-- 查看 -->
         <el-button v-perms="SYS_LOG_PASSWORD_HISTORY_PERMS.DETAIL" link type="primary" @click="openDetailDialog(row)">
           {{ t('buttons.actionView') }}
         </el-button>
-        <!-- 删除 -->
         <el-button
           v-perms="SYS_LOG_PASSWORD_HISTORY_PERMS.DELETE"
           link

@@ -1,4 +1,4 @@
-import type { TableActionWithSelectionDeps } from '@/api/common';
+import type { TableActionWithSelectionDeps } from '@/shared/types/table-action';
 import { deleteJobLog, getJobLogDetail, type JobLogPageRow } from '@/api/log/job-log';
 import { Description } from '@/components/ui/Description';
 import { addDialog } from '@/components/ui/Dialog';

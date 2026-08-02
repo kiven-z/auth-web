@@ -1,4 +1,4 @@
-import type { TableActionDeps } from '@/api/common';
+import type { TableActionDeps } from '@/shared/types/table-action';
 import { batchUpdateUserStatus, createUser, type SysUserCreateForm } from '@/api/system/user/user';
 import { addDialog } from '@/components/ui/Dialog';
 import { type FormOverlayExpose, useFormOverlaySubmit } from '@/shared/composables/table/useFormOverlaySubmit';

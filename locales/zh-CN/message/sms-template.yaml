@@ -1,5 +1,4 @@
 smsTemplate:
-  name: 短信消息模板
   tableTitle: 短信消息模板
   addDialogTitle: 新增短信模板
   editDialogTitle: 编辑短信模板
@@ -11,8 +10,6 @@ smsTemplate:
   content: 模板正文
   priority: 发送优先级
   status: 状态
-  testSendDialogTitle: 测试发送
-  testSendMenu: 测试发送
   testSendPhone: 收件手机号
   testSendPhonePlaceholder: 请输入收件手机号
   placeholder:

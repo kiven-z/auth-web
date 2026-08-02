@@ -1,7 +1,7 @@
 import { formatDateTime } from '@/shared/utils/date/dateTime';
 import type { AuthorizationAuditPageRow } from '@/api/log/authorization-audit';
 import { selectUserinfo } from '@/components/business/UserProfile';
-import { resolveAuditEventTypeMeta } from '@/views/log/authorization-audit-log/constants/authorization-audit-enums';
+import useAuthorizationAuditOptions from '@/views/log/authorization-audit-log/hooks/options/useAuthorizationAuditOptions';
 import { ElButton, ElTag } from 'element-plus';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
@@ -12,6 +12,7 @@ import { useI18n } from 'vue-i18n';
  */
 function useAuthorizationAuditTableColumns() {
   const { t } = useI18n();
+  const { eventTypeOptions } = useAuthorizationAuditOptions();
 
   const columns = computed<TableColumnList>(() => [
     {
@@ -24,7 +25,6 @@ function useAuthorizationAuditTableColumns() {
       label: t('table.idx'),
       minWidth: 60,
     },
-    // 事件类型
     {
       label: t('authorizationAudit.eventType'),
       prop: 'eventType',
@@ -33,31 +33,27 @@ function useAuthorizationAuditTableColumns() {
         if (!row.eventType) {
           return <span>—</span>;
         }
-        const meta = resolveAuditEventTypeMeta(row.eventType);
-        if (!meta) {
+        const option = eventTypeOptions.value.find((item) => item.value === row.eventType);
+        if (!option) {
           return <span>{row.eventType}</span>;
         }
-        const label = t(meta.labelKey);
         return (
-          <ElTag type={meta.tagType} effect="plain">
-            {label}
+          <ElTag type={option.tagType} effect="plain">
+            {option.label}
           </ElTag>
         );
       },
     },
-    // 决策原因
     {
       label: t('authorizationAudit.decisionReason'),
       prop: 'decisionReason',
       minWidth: 140,
     },
-    // 类名
     {
       label: t('authorizationAudit.className'),
       prop: 'className',
       minWidth: 200,
     },
-    // 方法名
     {
       label: t('authorizationAudit.methodName'),
       prop: 'methodName',

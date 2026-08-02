@@ -13,7 +13,6 @@ account:
     employeeNo: Employee No.
     basicInfo: Basic Information
   avatar:
-    select: Select Avatar
     uploadHint: JPG/PNG/WEBP only, up to 2MB
     fileTypeInvalid: Only JPG/PNG/WEBP images are supported
     fileSizeExceeded: Avatar size cannot exceed 2MB

@@ -1,8 +1,8 @@
 <script lang="ts" setup>
-import type { FormDialog } from '@/api/common';
+import type { FormDialog } from '@/shared/types/dialog';
 import type { SysUserCreateForm } from '@/api/system/user/user';
-import { USER_ACCOUNT_STATUS, USER_STATUS_FILTER_OPTIONS } from '@/views/system/user/constants/user-account-status';
-import { USER_GENDER, USER_GENDER_OPTIONS } from '@/views/system/user/constants/user-gender';
+import { USER_ACCOUNT_STATUS, USER_GENDER } from '@/views/system/user/constants/user-enums';
+import useUserOptions from '@/views/system/user/hooks/options/useUserOptions';
 import type { FormInstance, FormRules } from 'element-plus';
 import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
@@ -14,6 +14,7 @@ const props = withDefaults(defineProps<FormDialog<SysUserCreateForm>>(), {
 });
 
 const { t } = useI18n();
+const { statusFilterOptions: userStatusOptions, genderOptions: userGenderOptions } = useUserOptions();
 const formRef = ref<FormInstance>();
 const form = ref<SysUserCreateForm>({
   status: USER_ACCOUNT_STATUS.normal,
@@ -54,13 +55,11 @@ defineExpose({ formRef, form });
 <template>
   <el-form ref="formRef" :model="form" :rules="rules" label-width="auto">
     <el-row :gutter="14">
-      <!-- 用户名 -->
       <el-col :lg="12" :md="12" :sm="12" :xs="24">
         <el-form-item :label="t('users.field.username')" prop="username">
           <el-input v-model="form.username" :placeholder="t('users.field.username')" clearable />
         </el-form-item>
       </el-col>
-      <!-- 初始密码 -->
       <el-col :lg="12" :md="12" :sm="12" :xs="24">
         <el-form-item :label="t('users.password.initial')" prop="initialPassword">
           <el-input
@@ -72,51 +71,44 @@ defineExpose({ formRef, form });
           />
         </el-form-item>
       </el-col>
-      <!-- 昵称 -->
       <el-col :lg="12" :md="12" :sm="12" :xs="24">
         <el-form-item :label="t('users.field.nickname')" prop="nickname">
           <el-input v-model="form.nickname" :placeholder="t('users.field.nickname')" clearable />
         </el-form-item>
       </el-col>
-      <!-- 邮箱 -->
       <el-col :lg="12" :md="12" :sm="12" :xs="24">
         <el-form-item :label="t('users.field.email')" prop="email">
           <el-input v-model="form.email" :placeholder="t('users.field.email')" clearable />
         </el-form-item>
       </el-col>
-      <!-- 手机号 -->
       <el-col :lg="12" :md="12" :sm="12" :xs="24">
         <el-form-item :label="t('users.field.phone')" prop="phone">
           <el-input v-model="form.phone" :placeholder="t('users.field.phone')" clearable />
         </el-form-item>
       </el-col>
-      <!-- 工号 -->
       <el-col :lg="12" :md="12" :sm="12" :xs="24">
         <el-form-item :label="t('relation.employeeNo')" prop="employeeNo">
           <el-input v-model="form.employeeNo" :placeholder="t('relation.employeeNo')" clearable />
         </el-form-item>
       </el-col>
-      <!-- 状态 -->
       <el-col :lg="12" :md="12" :sm="12" :xs="24">
         <el-form-item :label="t('users.field.status')" prop="status">
           <el-radio-group v-model="form.status">
-            <el-radio v-for="opt in USER_STATUS_FILTER_OPTIONS" :key="opt.value" :value="opt.value">
-              {{ t(opt.labelKey) }}
+            <el-radio v-for="opt in userStatusOptions" :key="opt.value" :value="opt.value">
+              {{ opt.label }}
             </el-radio>
           </el-radio-group>
         </el-form-item>
       </el-col>
-      <!-- 性别 -->
       <el-col :lg="12" :md="12" :sm="12" :xs="24">
         <el-form-item :label="t('users.field.gender')" prop="gender">
           <el-radio-group v-model="form.gender">
-            <el-radio v-for="opt in USER_GENDER_OPTIONS" :key="opt.value" :value="opt.value">
-              {{ t(opt.labelKey) }}
+            <el-radio v-for="opt in userGenderOptions" :key="opt.value" :value="opt.value">
+              {{ opt.label }}
             </el-radio>
           </el-radio-group>
         </el-form-item>
       </el-col>
-      <!-- 出生日期 -->
       <el-col :lg="12" :md="12" :sm="12" :xs="24">
         <el-form-item :label="t('users.field.birthday')" prop="birthday">
           <el-date-picker
@@ -129,7 +121,6 @@ defineExpose({ formRef, form });
           />
         </el-form-item>
       </el-col>
-      <!-- 个人简介 -->
       <el-col :span="24">
         <el-form-item :label="t('users.field.introduction')" prop="introduction">
           <el-input
@@ -142,7 +133,6 @@ defineExpose({ formRef, form });
           />
         </el-form-item>
       </el-col>
-      <!-- 备注 -->
       <el-col :span="24">
         <el-form-item :label="t('users.field.remark')" prop="remark">
           <el-input

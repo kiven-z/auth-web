@@ -49,7 +49,6 @@ onMounted(() => {
       class="bg-bg_color w-[99/100] overflow-auto pl-8 pt-3"
       inline
     >
-      <!-- 用户 -->
       <el-form-item :label="t('onlineUser.field.user')" prop="userId">
         <el-select
           v-model="searchForm.userId"
@@ -67,11 +66,9 @@ onMounted(() => {
 
       <el-form-item>
         <el-button-group>
-          <!-- 搜索 -->
           <el-button v-perms="SYS_ONLINE_USER_PERMS.QUERY" :loading="loading" type="primary" @click="fetchTableData">
             {{ t('buttons.actionSearch') }}
           </el-button>
-          <!-- 重置 -->
           <el-button v-perms="SYS_ONLINE_USER_PERMS.QUERY" @click="resetQuery(searchFormRef)">
             {{ t('buttons.actionReset') }}
           </el-button>

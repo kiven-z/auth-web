@@ -1,4 +1,4 @@
-import type { TableActionWithSelectionDeps } from '@/api/common';
+import type { TableActionWithSelectionDeps } from '@/shared/types/table-action';
 import { deleteLoginLog, getLoginLogDetail, type LoginLogPageRow } from '@/api/log/login-log';
 import { Description } from '@/components/ui/Description';
 import { addDialog } from '@/components/ui/Dialog';

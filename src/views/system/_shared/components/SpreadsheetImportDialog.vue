@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import type { SpreadsheetImportResult } from '@/api/common';
+import type { SpreadsheetImportResult } from '@/api/common/import';
 import AuthDataTable from '@/components/ui/AuthDataTable';
 import { errorMessage, message } from '@/services/feedback/message';
 import { buildExportFilenameStamp } from '@/shared/utils/date/dateTime';
@@ -149,7 +149,6 @@ defineExpose<SpreadsheetImportDialogExpose>({ submitImport: handleImport });
 
 <template>
   <div class="spreadsheet-import">
-    <!-- 上传区域 -->
     <el-upload
       ref="uploadRef"
       :auto-upload="false"
@@ -161,7 +160,6 @@ defineExpose<SpreadsheetImportDialogExpose>({ submitImport: handleImport });
       drag
       @change="handleFileChange"
     >
-      <!-- 拖拽/点击提示文案 -->
       <div class="el-upload__text">{{ t('import.dropOrClickHint') }}</div>
       <template #tip>
         <div class="el-upload__tip">{{ t('import.fileTypeHint') }}</div>

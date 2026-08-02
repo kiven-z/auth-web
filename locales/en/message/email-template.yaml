@@ -1,5 +1,4 @@
 emailTemplate:
-  name: Email message template
   tableTitle: Email templates
   templateCode: Scene code
   templateName: Template name
@@ -13,8 +12,6 @@ emailTemplate:
   editDialogTitle: Edit email template
   templateEditDialogTitle: Edit template body
   detailDialogTitle: Email template detail
-  testSendDialogTitle: Test send
-  testSendMenu: Test send
   templateEditMenu: Edit body
   testSendEmail: Recipient email
   testSendEmailPlaceholder: Enter recipient email

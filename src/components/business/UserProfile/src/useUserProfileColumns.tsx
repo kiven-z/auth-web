@@ -8,10 +8,9 @@ import type {
 import type { UserDeptPageRow } from '@/api/system/user/user-dept';
 import type { UserPostPageRow } from '@/api/system/user/user-post';
 import useUserProfileDisplay from '@/components/business/UserProfile/src/hooks/useUserProfileDisplay';
-import { DEPT_STATUS_FILTER_OPTIONS } from '@/views/system/dept/constants/dept-search-options';
-import { POST_STATUS_FILTER_OPTIONS } from '@/views/system/post/constants/post-search-options';
+import { renderBooleanStatusTag } from '@/shared/composables/layout/renderBooleanStatusTag';
 import { computed } from 'vue';
-import { ElAvatar, ElCheckTag, ElTag } from 'element-plus';
+import { ElAvatar, ElCheckTag } from 'element-plus';
 import { useI18n } from 'vue-i18n';
 
 interface RelationStatusRow {
@@ -94,15 +93,7 @@ function useUserProfileColumns() {
     {
       label: t('dept.field.status'),
       prop: 'status',
-      cellRenderer: ({ value }: { value: boolean }) => {
-        const option = DEPT_STATUS_FILTER_OPTIONS.find((item) => item.value === value);
-        const labelKey = option?.labelKey ?? (value ? 'dept.enum.status.normal' : 'dept.enum.status.disabled');
-        return (
-          <ElTag type={value ? 'success' : 'danger'} effect="plain">
-            {t(labelKey)}
-          </ElTag>
-        );
-      },
+      cellRenderer: ({ value }: { value: boolean }) => renderBooleanStatusTag(value),
     },
     {
       label: t('relation.status'),
@@ -135,15 +126,7 @@ function useUserProfileColumns() {
     {
       label: t('post.field.status'),
       prop: 'status',
-      cellRenderer: ({ value }: { value: boolean }) => {
-        const option = POST_STATUS_FILTER_OPTIONS.find((item) => item.value === value);
-        const labelKey = option?.labelKey ?? (value ? 'post.enums.status.normal' : 'post.enums.status.disabled');
-        return (
-          <ElTag type={value ? 'success' : 'danger'} effect="plain">
-            {t(labelKey)}
-          </ElTag>
-        );
-      },
+      cellRenderer: ({ value }: { value: boolean }) => renderBooleanStatusTag(value),
     },
     {
       label: t('relation.status'),

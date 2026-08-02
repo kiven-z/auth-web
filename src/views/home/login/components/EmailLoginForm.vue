@@ -2,7 +2,7 @@
 import { loginByEmailApi, sendEmailCodeApi } from '@/api/auth';
 import { useRenderIcon } from '@/components/ui/Icon/src/hooks';
 import { errorMessage, message } from '@/services/feedback/message';
-import { LoginFormEmits } from '@/views/home/login/constants/types';
+import { LoginFormEmits } from '@/views/home/login/types/login-mode';
 import { useLoginRemember } from '@/views/home/login/hooks/useLoginRemember';
 import { useSendCodeCountdown } from '@/views/home/login/hooks/useSendCodeCountdown';
 import { emailLoginRules } from '@/views/home/login/rules/email.rules';

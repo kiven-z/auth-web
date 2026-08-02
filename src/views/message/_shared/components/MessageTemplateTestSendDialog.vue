@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import type { FormDialog } from '@/api/common';
+import type { FormDialog } from '@/shared/types/dialog';
 import type { FormInstance, FormRules } from 'element-plus';
 import { reactive, ref } from 'vue';
 import { useI18n } from 'vue-i18n';

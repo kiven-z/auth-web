@@ -1,4 +1,4 @@
-import type { PageResponse } from '@/api/common';
+import type { PageResponse } from '@/api/common/page';
 import { errorMessage } from '@/services/feedback/message';
 import type { Ref } from 'vue';
 

@@ -18,9 +18,6 @@ post:
     employeeNo: Employee No.
     isPrimaryPosition: Primary Post
   enums:
-    status:
-      normal: Normal
-      disabled: Disabled
     primary:
       yes: Primary
       no: Secondary

@@ -1,4 +1,6 @@
-import type { BaseResponseDetail, BaseResponsePageRow, IdsEnableStatusRequest, SortSpec } from '@/api/common';
+import type { SortSpec } from '@/api/common/page';
+import type { BaseResponseDetail, BaseResponsePageRow } from '@/api/common/response';
+import type { IdsEnableStatusRequest } from '@/api/common/request';
 import { http } from '@/core/http/client';
 import type { AxiosRequestConfig } from 'axios';
 

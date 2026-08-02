@@ -45,7 +45,6 @@ import:
   fileTypeInvalid: 仅支持 .xlsx 格式
 buttons:
   loginOut: 退出系统
-  login: 登录
   openSystemSet: 打开系统配置
   reload: 重新加载
   closeCurrentTab: 关闭当前标签页
@@ -72,13 +71,11 @@ buttons:
   actionRecall: 撤回
   actionDownload: 下载
   actionDelete: 删除
-  actionForceDelete: 强制删除
   actionBatchDownload: 批量下载
   actionRestore: 恢复
   actionBatchRestore: 批量恢复
   actionBatchDelete: 批量删除
   actionMore: 更多
-  actionBatchAdd: 批量添加
   actionBatchStatus: 修改状态
   actionBatchEnable: 批量启用
   actionBatchLock: 批量锁定
@@ -99,7 +96,6 @@ assign:
   role: 分配角色
   dept: 部门隶属
   post: 任职岗位
-  permission: 分配权限
 table:
   idx: 序号
   id: 主键
@@ -126,12 +122,6 @@ search:
   placeholder: 搜索菜单（支持拼音搜索）
 status:
   loading: 加载中...
-  message: 消息
-  notify: 通知
-  todo: 待办
-  noMessage: 暂无消息
-  noNotify: 暂无通知
-  noTodo: 暂无待办
   open: 开启
   close: 关闭
   show: 显示

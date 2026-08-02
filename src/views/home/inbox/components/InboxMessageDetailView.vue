@@ -70,16 +70,16 @@ onMounted(() => {
           <span v-if="displayCreatedAt">{{ displayCreatedAt }}</span>
           <span v-if="detail.categoryName">{{ detail.categoryName }}</span>
         </div>
-        <!-- 业务跳转链接 -->
-        <a
+        <el-link
           v-if="detail.linkUrl"
           :href="detail.linkUrl"
           class="inbox-message-detail__link"
           rel="noopener noreferrer"
           target="_blank"
+          type="primary"
         >
           {{ t('inAppInbox.field.linkUrl') }}
-        </a>
+        </el-link>
       </div>
 
       <TypedContentView :content="detail.content" :content-type="contentType" />
@@ -130,9 +130,7 @@ onMounted(() => {
   }
 
   &__link {
-    display: inline-block;
     margin-top: 8px;
-    color: var(--el-color-primary);
     font-size: 13px;
   }
 }

@@ -92,7 +92,6 @@ function handleClose(options: DialogOptions, index: number, args = { command: 'c
     @openAutoFocus="eventsCallBack('openAutoFocus', options, index)"
     @opened="eventsCallBack('open', options, index)"
   >
-    <!-- header -->
     <template v-if="options?.fullscreenIcon || options?.headerRenderer" #header="{ close, titleId, titleClass }">
       <div v-if="options?.fullscreenIcon" class="flex items-center justify-between">
         <span :id="titleId" :class="titleClass">{{ options?.title }}</span>
@@ -119,7 +118,6 @@ function handleClose(options: DialogOptions, index: number, args = { command: 'c
       v-bind="options?.props"
       @close="(args) => handleClose(options, index, args)"
     />
-    <!-- footer -->
     <template v-if="!options?.hideFooter" #footer>
       <template v-if="options?.footerRenderer">
         <component :is="options?.footerRenderer({ options, index })" />

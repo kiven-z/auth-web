@@ -69,11 +69,10 @@ function handleSubmit() {
 - **严禁简写**：所有变量、常量、函数名必须使用完整的单词，严禁使用缩写（例如：使用 `index` 而非 `idx`，`parameter` 而非
   `param`）。
 - **注释规范**（对齐 TypeScript / TSDoc 社区惯例，详见下文 **§注释与 TSDoc**）：
-    - **导出函数、composable、指令**：必须 JSDoc，含 `@param`；有返回值时含 `@returns`。
-    - **导出 `interface` / `type` / `enum`**：类型上方块级 `/** */` 说明用途；一行能说清用单行，需 `@remarks` / `@see` /
-    `@example` 时用多行。
-    - **类型字段**：非显而易见时写 `/** */`（**禁止**用 `//` 描述 `interface` 字段，以便 IDE 悬停可见）；命名已清晰则省略。
-    - **Vue 模板**：在 HTML 标签上，若使用了多语言标签（如 `:label="t(...)"`），必须在其上方添加中文业务逻辑注释。
+    - **导出函数、composable、指令**：必须 JSDoc；有参写 `@param`（写业务含义，禁止复述参数名）；有返回写 `@returns`（写语义，禁止写「结果」）。
+    - **导出 `interface` / `type` / `enum`**：类型上方块级 `/** */` 说明用途；一行能说清用单行。
+    - **类型字段**：仅非显而易见时写 `/** */`（**禁止**用 `//`）；`id` / `pageSize` / `status` 等自解释字段省略。
+    - **Vue 模板**：仅当业务含义 ≠ `t(...)` / 按钮文案时写 `<!-- -->`（数据来源、互斥、隐藏条件）；禁止同义复述。
     - **实现细节**：局部变量、`computed`、私有函数能靠命名表达的，不写注释。
 - **变量声明**：优先使用 `const`，其次 `let`，严禁使用 `var`。
 - **DOM 操作**：严禁直接操作 DOM，必须使用 Vue 模板引用 (`ref`)。
@@ -85,6 +84,11 @@ function handleSubmit() {
 - **例外（占位提示）**：含「即将上线」「待开发」等临时占位文案，直接写中文硬编码，**不要**加入多语言文件。
 - **Vue 文件**：使用 `const { t } = useI18n()`，模板中通过 `t('key')` 调用。
 - **目录结构**：`src/locales/{lang}/{module}/{page}.yaml`。Key 格式为 `文件名.属性名`。
+- **筛选项 / 枚举 UI 文案**（细则见 `i18n-options.mdc`）：
+    - **禁止**在 `constants` 顶层调用 `t()` 并把译文写入常量（切语言不更新）。
+    - **禁止**新增 `labelKey` + 消费处 `t(opt.labelKey)`；共享选项用 `useXxxOptions()`，在 `computed` 内直接 `t('key')`，消费侧用 `opt.label`。
+    - 范例：`useCommonBooleanStatusOptions`（`@/shared/composables/i18n/useCommonBooleanStatusOptions`）。
+    - **不要**把 `successI18nKey`、API `messageKey` 当成 UI 选项改造。
 - **表单 placeholder（列表搜索 / 弹窗）**：统一使用 `useFormPlaceholder()`（`@/shared/composables/i18n/useFormPlaceholder`），按控件类型调用：
     - `ph.input(labelKey)`：文本输入
     - `ph.selectFilter(labelKey)`：列表筛选下拉（清空 = 查全部）
@@ -176,57 +180,66 @@ views文件目录参考：
 与 [Google TypeScript Style Guide](https://google.github.io/styleguide/tsguide.html) 及
 [TypeScript JSDoc](https://www.typescriptlang.org/docs/handbook/jsdoc-supported-types.html) 对齐。
 
+原则：**写意图，不写翻译**；导出契约必写，实现细节默认不写；语言统一中文。
+
 全文严禁出现‘为了兼容’、‘与…对齐’、‘综上所述’、‘具有重要意义’等这几类短语。
 
-### 分层规则
+### 分层规则（必写 / 选写 / 禁止）
 
 | 层级 | 格式 | 要求 |
 | ---- | ---- | ---- |
-| 导出函数 / composable / 指令 | JSDoc `/** */` | 必须 `@param`；有返回值必须 `@returns` |
-| 导出 `interface` / `type` / `enum` | 块级 `/** */` | 说明业务含义；短描述单行即可 |
-| `interface` 字段（导出类型） | TSDoc `/** */` | 仅补充非显而易见语义；**禁止** `//` |
-| 组件 `defineExpose` 方法 | JSDoc `/** */` | 同导出函数，含 `@returns`（如有） |
-| 页面 / 组件内部实现 | 省略或 `//` | 不重复命名；`computed` 名已清晰则不注释 |
-| Vue 模板业务块 | `<!-- -->` | 多语言表单项等需中文业务说明 |
+| `api/`、`shared/composables/` 导出函数 / composable / 指令 | JSDoc `/** */` | **必写**；有参写 `@param`（业务含义）；有返回写 `@returns`（语义，禁止「结果」） |
+| 导出 `interface` / `type` / `enum` | 块级 `/** */` | **必写**类型用途；短描述单行即可 |
+| `interface` 字段（导出类型） | TSDoc `/** */` | **选写**：仅非显而易见语义（单位、1-based、未传默认值、Long 字符串化等）；**禁止** `//` |
+| 组件 `defineExpose` 方法 | JSDoc `/** */` | 同导出函数 |
+| 页面 / 组件内部实现 | 省略或 `//` | **默认不写**；不重复命名；`computed` / `handleXxx` 名已清晰则不注释 |
+| Vue 模板 | `<!-- -->` | **选写**：仅当业务含义 ≠ label / 按钮文案（数据来源、互斥、树视图约束等） |
+| barrel `index.ts`、纯 re-export | 省略 | **可不写** |
 
 ### 示例
 
-ExportDialog 对外仅导出 `usePagedTableExport`（`index.ts`）；以下为模块内 `src/types.ts` / `src/toApiScope.ts` 写法示例。
+**好（契约 + 意图）：**
 
 ```ts
-/** 导出范围（组件内定义，toApiScope 映射至 @/api/common） */
-export type ExportScope = 'CURRENT_PAGE' | 'PAGE_RANGE' | 'FULL_ASYNC';
+/**
+ * 按角色查询授权对象（用户 / 部门 / 岗位）
+ * @param roleId 角色 ID
+ * @returns 授权对象；无授权时三类均为空列表
+ */
+export function getRoleGrantSubjects(roleId: string): Promise<SysRoleGrantSubjects> { /* ... */ }
 
 /** 导出弹窗表单状态 */
 export interface ExportDialogFormState {
-  /** 导出范围 */
   exportScope: ExportScope;
-  /** 起始页（仅 PAGE_RANGE） */
+  /** 起始页（仅 PAGE_RANGE；1-based，含） */
   fromPage: number;
 }
+```
 
-/**
- * 根据弹窗选择与分页状态组装导出页码参数（见 ExportDialog/src/toApiScope.ts）
- * @param form 弹窗表单
- * @param pagination 列表分页状态
- * @returns 导出范围及后端 pageIndex / pageSize
- */
-export function resolveExportPageParams(
-  form: ExportDialogFormState,
-  pagination: PagedTableExportPagination
-) { /* ... */ }
+```html
+<!-- 大类 Tab：数据来自未读接口 majors -->
+<!-- 新增下级（仅树视图） -->
+```
 
-/**
- * 分页表格 Excel 导出
- * @param options 导出配置
- * @returns `exporting` 加载状态与 `openExportDialog` 打开弹窗方法
- */
-function usePagedTableExport(options: UsePagedTableExportOptions) { /* ... */ }
+**坏（禁止）：**
+
+```ts
+/** @param instance 实例 @returns 结果 */
+// 删除操作
+/** 每页条数 */  // 配 pageSize
+```
+
+```html
+<!-- 搜索 -->
+<!-- 重置 -->
+<!-- 状态 -->
 ```
 
 ### 禁止
 
 - 用 `//` 注释 `interface` / `type` 的字段（IDE 悬停不可见）。
-- 注释重复标识符含义（如 `// 当前页` 搭配 `currentPage`）。
-- 为显而易见字段强行写注释。
+- 注释重复标识符含义（如 `// 当前页` 搭配 `currentPage`；`<!-- 搜索 -->` 搭配搜索按钮）。
+- 为显而易见字段强行写注释（`id`、`pageSize`、`status`、`remark` 等）。
+- `@param` / `@returns` 仅复述参数名或写「结果」「参数」等空壳描述。
 - 同一文件内对同类导出类型混用 `//` 与 `/** */` 描述字段。
+- 因存在 `t(...)` 就强制在模板上方加同义中文注释。

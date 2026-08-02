@@ -30,7 +30,9 @@ routes:
   authLog: Authorization Logs
 
   opsManagement: Operations Center
-  authorizationInvalidation: Authorization Invalidation Ops
+  authorizationInvalidationEvent: Idempotency Events
+  authorizationInvalidationOutbox: Delivery Queue
+  authorizationInvalidationStats: Failure Rate Stats
 
   fileManagement: File Management
   fileRecord: File Record

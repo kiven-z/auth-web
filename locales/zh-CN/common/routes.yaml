@@ -30,7 +30,9 @@ routes:
   authLog: 授权日志
 
   opsManagement: 运维中心
-  authorizationInvalidation: 授权失效运维
+  authorizationInvalidationEvent: 幂等事件
+  authorizationInvalidationOutbox: 投递队列
+  authorizationInvalidationStats: 失败率统计
 
   fileManagement: 文件管理
   fileRecord: 文件记录

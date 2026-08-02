@@ -43,7 +43,6 @@ onMounted(() => {
     >
       <template #toolbar>
         <el-button-group type="primary">
-          <!-- 新增分类 -->
           <el-button v-perms="IN_APP_CATEGORY_PERMS.CREATE" @click="openCreateDialog()">
             {{ t('buttons.actionAdd') }}
           </el-button>

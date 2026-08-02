@@ -1,11 +1,10 @@
 <script lang="ts" setup>
 import { WALL_CLOCK_PICKER_VALUE_FORMAT } from '@/shared/utils/date/dateTime';
+import { useCommonBooleanStatusOptions } from '@/shared/composables/i18n/useCommonBooleanStatusOptions';
 import { useFormPlaceholder } from '@/shared/composables/i18n/useFormPlaceholder';
 import { useEditorTheme } from '@/shared/composables/editor/useEditorTheme';
 import { message } from '@/services/feedback/message';
-import { JOB_CRON_PRESET_OPTIONS } from '@/views/schedule/schedule-task/constants/job-cron-presets';
-import { JOB_MISFIRE_POLICY_OPTIONS } from '@/views/schedule/schedule-task/constants/job-task-enums';
-import { JOB_TIME_ZONE_OPTIONS } from '@/views/schedule/schedule-task/constants/job-time-zones';
+import useJobFormOptions from '@/views/schedule/schedule-task/hooks/options/useJobFormOptions';
 import { CodeEditor } from 'monaco-editor-vue3';
 import { onMounted } from 'vue';
 import { useI18n } from 'vue-i18n';
@@ -33,7 +32,9 @@ const form = defineModel<JobFormScheduleExtrasModel>('form', { required: true })
 
 const { t } = useI18n();
 const ph = useFormPlaceholder();
+const booleanStatusOptions = useCommonBooleanStatusOptions();
 const { monacoTheme } = useEditorTheme();
+const { cronPresetOptions, timeZoneOptions, misfirePolicyOptions } = useJobFormOptions();
 
 /**
  * 格式化后写入 job_params；force 为 true 时始终覆盖
@@ -94,7 +95,6 @@ onMounted(() => {
     </el-alert>
   </el-col>
 
-  <!-- Cron 表达式 -->
   <el-col :lg="12" :md="12" :sm="24" :xs="24">
     <el-form-item :label="t('scheduleTask.fields.cronExpression')" prop="cronExpression">
       <el-select
@@ -105,16 +105,10 @@ onMounted(() => {
         default-first-option
         filterable
       >
-        <el-option
-          v-for="opt in JOB_CRON_PRESET_OPTIONS"
-          :key="opt.value"
-          :label="t(opt.labelKey)"
-          :value="opt.value"
-        />
+        <el-option v-for="opt in cronPresetOptions" :key="opt.value" :label="opt.label" :value="opt.value" />
       </el-select>
     </el-form-item>
   </el-col>
-  <!-- 调度时区 -->
   <el-col :lg="12" :md="12" :sm="24" :xs="24">
     <el-form-item :label="t('scheduleTask.fields.timeZone')" prop="timeZone">
       <el-select
@@ -123,11 +117,10 @@ onMounted(() => {
         class="w-full"
         filterable
       >
-        <el-option v-for="opt in JOB_TIME_ZONE_OPTIONS" :key="opt.value" :label="t(opt.labelKey)" :value="opt.value" />
+        <el-option v-for="opt in timeZoneOptions" :key="opt.value" :label="opt.label" :value="opt.value" />
       </el-select>
     </el-form-item>
   </el-col>
-  <!-- 错失策略 -->
   <el-col :lg="12" :md="12" :sm="24" :xs="24">
     <el-form-item :label="t('scheduleTask.fields.misfirePolicy')" prop="misfirePolicy">
       <el-select
@@ -135,16 +128,10 @@ onMounted(() => {
         :placeholder="ph.select('scheduleTask.fields.misfirePolicy')"
         class="w-full"
       >
-        <el-option
-          v-for="opt in JOB_MISFIRE_POLICY_OPTIONS"
-          :key="opt.value"
-          :label="t(opt.labelKey)"
-          :value="opt.value"
-        />
+        <el-option v-for="opt in misfirePolicyOptions" :key="opt.value" :label="opt.label" :value="opt.value" />
       </el-select>
     </el-form-item>
   </el-col>
-  <!-- 是否并发 -->
   <el-col :lg="12" :md="12" :sm="24" :xs="24">
     <el-form-item :label="t('scheduleTask.fields.concurrent')" prop="concurrent">
       <el-radio-group v-model="form.concurrent">
@@ -153,16 +140,15 @@ onMounted(() => {
       </el-radio-group>
     </el-form-item>
   </el-col>
-  <!-- 运行状态 -->
   <el-col :lg="12" :md="12" :sm="24" :xs="24">
     <el-form-item :label="t('scheduleTask.fields.status')" prop="status">
       <el-radio-group v-model="form.status">
-        <el-radio :value="true">{{ t('buttons.statusActiveText') }}</el-radio>
-        <el-radio :value="false">{{ t('buttons.statusInactiveText') }}</el-radio>
+        <el-radio v-for="opt in booleanStatusOptions" :key="String(opt.value)" :value="opt.value">
+          {{ opt.label }}
+        </el-radio>
       </el-radio-group>
     </el-form-item>
   </el-col>
-  <!-- 开始时间 -->
   <el-col :lg="12" :md="12" :sm="24" :xs="24">
     <el-form-item :label="t('scheduleTask.fields.startTime')" prop="startTime">
       <el-date-picker
@@ -175,7 +161,6 @@ onMounted(() => {
       />
     </el-form-item>
   </el-col>
-  <!-- 结束时间 -->
   <el-col :lg="12" :md="12" :sm="24" :xs="24">
     <el-form-item :label="t('scheduleTask.fields.endTime')" prop="endTime">
       <el-date-picker
@@ -188,7 +173,6 @@ onMounted(() => {
       />
     </el-form-item>
   </el-col>
-  <!-- 执行参数 JSON -->
   <el-col :span="24">
     <el-form-item :label="t('scheduleTask.fields.jobParams')" prop="jobParams">
       <div class="flex w-full min-w-0 flex-col gap-2">
@@ -208,7 +192,6 @@ onMounted(() => {
       </div>
     </el-form-item>
   </el-col>
-  <!-- 备注 -->
   <el-col :span="24">
     <el-form-item :label="t('scheduleTask.fields.remark')" prop="remark">
       <el-input

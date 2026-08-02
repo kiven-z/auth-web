@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import type { FormDialog } from '@/api/common';
+import type { FormDialog } from '@/shared/types/dialog';
 import type { SysRoleCreateForm, SysRoleUpdateForm } from '@/api/system/role/role';
 import { ROLE_CODE_REGEX } from '@/views/system/role/constants/role-code-convention';
 import type { FormInstance, FormRules } from 'element-plus';
@@ -40,34 +40,29 @@ defineExpose({ formRef, form });
 <template>
   <el-form ref="formRef" :model="form" :rules="rules" label-width="auto">
     <el-row :gutter="14">
-      <!-- 角色编码 -->
       <el-col :lg="12" :md="12" :sm="12" :xs="24">
         <el-form-item :label="t('roles.field.roleCode')" prop="roleCode">
           <el-input v-model="form.roleCode" :placeholder="t('roles.field.roleCode')" />
         </el-form-item>
       </el-col>
-      <!-- 角色名称 -->
       <el-col :lg="12" :md="12" :sm="12" :xs="24">
         <el-form-item :label="t('roles.field.roleName')" prop="roleName">
           <el-input v-model="form.roleName" :placeholder="t('roles.field.roleName')" />
         </el-form-item>
       </el-col>
-      <!-- 状态 -->
       <el-col :lg="12" :md="12" :sm="12" :xs="24">
         <el-form-item :label="t('roles.field.status')" prop="status">
           <el-radio-group v-model="form.status">
-            <el-radio :value="true">{{ t('roles.status.normal') }}</el-radio>
-            <el-radio :value="false">{{ t('roles.status.disabled') }}</el-radio>
+            <el-radio :value="true">{{ t('buttons.statusActiveText') }}</el-radio>
+            <el-radio :value="false">{{ t('buttons.statusInactiveText') }}</el-radio>
           </el-radio-group>
         </el-form-item>
       </el-col>
-      <!-- 显示顺序 -->
       <el-col :lg="12" :md="12" :sm="12" :xs="24">
         <el-form-item :label="t('roles.field.orderNum')" prop="orderNum">
           <el-input-number v-model="form.orderNum" :max="9999" :min="0" />
         </el-form-item>
       </el-col>
-      <!-- 备注 -->
       <el-col :span="24">
         <el-form-item :label="t('roles.field.remark')" prop="remark">
           <el-input

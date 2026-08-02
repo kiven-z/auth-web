@@ -1,8 +1,6 @@
 imageCropper:
   cancel: Cancel
   reset: Reset
-  confirm: Confirm
   confirmUpload: Confirm and Upload
   empty: Please select an image first
-  hint: Drag and zoom the image to adjust the crop area
   defaultTitle: Crop Image

@@ -3,8 +3,8 @@ import { type InAppComposeRequest, sendInAppMessage } from '@/api/message/in-app
 import { operationConfirm } from '@/services/feedback/dialog';
 import { errorMessage, message } from '@/services/feedback/message';
 import { MESSAGE_TEMPLATE_CONTENT_TYPES } from '@/views/message/_shared/constants/content-type';
-import useInAppCategoryMajorOptions from '@/views/message/_shared/hooks/useInAppCategoryMajorOptions';
-import useInAppCategorySubOptions from '@/views/message/_shared/hooks/useInAppCategorySubOptions';
+import { useInAppCategoryMajorOptions } from '@/shared/composables/message/useInAppCategoryMajorOptions';
+import { useInAppCategorySubOptions } from '@/shared/composables/message/useInAppCategorySubOptions';
 import InAppRecipientScopeSelector from '@/views/message/compose/components/InAppRecipientScopeSelector.vue';
 import { IN_APP_COMPOSE_PERMS } from '@/views/message/compose/constants/permissions';
 import useInAppComposeImport from '@/views/message/compose/hooks/useInAppComposeImport';
@@ -139,11 +139,9 @@ async function handleSend() {
           </el-button>
           <template #dropdown>
             <el-dropdown-menu>
-              <!-- 从模板导入 -->
               <el-dropdown-item @click="openTemplateImportDialog">
                 {{ t('inAppCompose.importTemplate') }}
               </el-dropdown-item>
-              <!-- 从历史发送导入 -->
               <Perms :value="IN_APP_COMPOSE_PERMS.QUERY">
                 <el-dropdown-item @click="openHistoryImportDialog">
                   {{ t('inAppCompose.importHistory') }}
@@ -171,12 +169,10 @@ async function handleSend() {
 
       <el-divider />
 
-      <!-- 来源模板 -->
       <el-form-item v-if="form.templateCode" :label="t('inAppCompose.templateCodeTrace')">
         <el-tag type="info">{{ form.templateCode }}</el-tag>
       </el-form-item>
 
-      <!-- 标题 -->
       <el-form-item :label="t('inAppCompose.title')" prop="title">
         <el-input
           v-model="form.title"
@@ -187,12 +183,10 @@ async function handleSend() {
         />
       </el-form-item>
 
-      <!-- 正文类型 -->
       <el-form-item :label="t('inAppCompose.contentType')" prop="contentType">
         <el-segmented v-model="form.contentType" :options="MESSAGE_TEMPLATE_CONTENT_TYPES" class="w-full" />
       </el-form-item>
 
-      <!-- 业务大类 -->
       <el-form-item :label="t('inAppCompose.majorCategory')" required>
         <el-select
           v-model="majorCategoryId"
@@ -207,7 +201,6 @@ async function handleSend() {
         </el-select>
       </el-form-item>
 
-      <!-- 业务小类 -->
       <el-form-item :label="t('inAppCompose.categoryId')" prop="categoryId">
         <el-select
           v-model="form.categoryId"
@@ -221,7 +214,6 @@ async function handleSend() {
         </el-select>
       </el-form-item>
 
-      <!-- 跳转链接 -->
       <el-form-item :label="t('inAppCompose.linkUrl')" prop="linkUrl">
         <el-input
           v-model="form.linkUrl"
@@ -231,7 +223,6 @@ async function handleSend() {
         />
       </el-form-item>
 
-      <!-- 正文 -->
       <el-form-item :label="t('inAppCompose.body')" prop="body">
         <InAppTemplateContentEditor v-model="form.body" :content-type="form.contentType" />
       </el-form-item>

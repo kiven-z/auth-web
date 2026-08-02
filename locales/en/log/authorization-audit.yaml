@@ -12,9 +12,6 @@ authorizationAudit:
   userPermissionsSummary: User Permissions
   policyCode: Policy Code
   policyDecision: Policy Decision
-  policyDecisionEnum:
-    'true': 'Yes'
-    'false': 'No'
   methodParams: Method Params
   exceptionMessage: Exception
   remark: Remark

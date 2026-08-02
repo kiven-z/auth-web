@@ -40,7 +40,6 @@ defineExpose({ formRef, form });
 
 <template>
   <el-form ref="formRef" :model="form" :rules="rules" label-width="auto">
-    <!-- 旧密码 -->
     <el-form-item v-if="mode === 'self-change'" :label="t('users.password.old')" prop="oldPassword">
       <el-input
         v-model="form.oldPassword"
@@ -50,7 +49,6 @@ defineExpose({ formRef, form });
         type="password"
       />
     </el-form-item>
-    <!-- 新密码 -->
     <el-form-item :label="t('users.password.new')" prop="newPassword">
       <el-input
         v-model="form.newPassword"
@@ -60,7 +58,6 @@ defineExpose({ formRef, form });
         type="password"
       />
     </el-form-item>
-    <!-- 确认密码 -->
     <el-form-item :label="t('users.password.confirm')" prop="confirmPassword">
       <el-input
         v-model="form.confirmPassword"

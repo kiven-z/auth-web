@@ -1,13 +1,14 @@
 authorizationInvalidation:
-  pageTitle: 授权失效运维
-  tabEvent: 幂等事件
-  tabOutbox: 投递队列
-  tabStats: 失败率统计
   statsRefresh: 刷新统计
+  statsLastRefreshed: '上次刷新：{time}'
   statsOutboxSection: 投递队列统计
   statsEventSection: 幂等事件统计
   statsTotalCount: 总记录数
   statsFailureRate: 失败率
+  statsShareOfTotal: '占总数 {percent}%'
+  statsAbnormalCount: '异常（待重试+死信）{count} 条'
+  statsDeadTooltip: 超过重试上限或人工终止的投递，需关注
+  statsFailureRateTooltip: '失败率 =（待重试 + 死信）/ 总数'
   statsTrendSection: 失败率趋势
   statsTrendGranularityDay: 按日
   statsTrendGranularityWeek: 按周
@@ -32,15 +33,11 @@ authorizationInvalidation:
   sourceModule: 触发模块
   sourceBizId: 业务主键
   payload: 失效业务键
-  createdAtStart: 创建开始时间
-  createdAtEnd: 创建结束时间
   impactedUserCount: 影响用户数
   versionBumpedCount: 版本递增用户数
   profileRefreshedCount: 画像刷新用户数
   profileEvictedCount: 画像驱逐用户数
   processedAt: 处理完成时间
-  processedAtStart: 开始时间
-  processedAtEnd: 结束时间
   remark: 备注
   tableTitle: 授权失效幂等事件
   detailTitle: 授权失效幂等事件详情

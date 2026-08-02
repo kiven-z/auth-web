@@ -20,10 +20,6 @@ dept:
     remark: Remark
     parentDept: Parent Department
     parentTopLevel: Top Level
-  enum:
-    status:
-      normal: Normal
-      disabled: Disabled
   action:
     addChild: Add Child
   message:

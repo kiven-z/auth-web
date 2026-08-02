@@ -3,10 +3,10 @@ import { getRolePage } from '@/api/system/role/role';
 import AuthPagedTable, { usePaginationState } from '@/components/business/AuthPagedTable';
 import { useFormPlaceholder } from '@/shared/composables/i18n/useFormPlaceholder';
 import { SYS_ROLE_PERMS } from '@/views/system/role/constants/permissions';
-import { ROLE_STATUS_FILTER_OPTIONS } from '@/views/system/role/constants/role-search-options';
-import useRoleAdvanceAction from '@/views/system/role/hooks/useRoleAdvanceAction';
-import useRoleMoreAction from '@/views/system/role/hooks/useRoleMoreAction';
-import useRoleTableAction from '@/views/system/role/hooks/useRoleTableAction';
+import useRoleAdvanceAction from '@/views/system/role/hooks/actions/useRoleAdvanceAction';
+import useRoleMoreAction from '@/views/system/role/hooks/actions/useRoleMoreAction';
+import { useCommonBooleanStatusOptions } from '@/shared/composables/i18n/useCommonBooleanStatusOptions';
+import useRoleTableAction from '@/views/system/role/hooks/actions/useRoleTableAction';
 import useRoleTableColumns from '@/views/system/role/hooks/useRoleTableColumns';
 import type { FormInstance } from 'element-plus';
 import { computed, onMounted, reactive, ref } from 'vue';
@@ -18,6 +18,7 @@ defineOptions({
 
 const { t } = useI18n();
 const ph = useFormPlaceholder();
+const booleanStatusOptions = useCommonBooleanStatusOptions();
 
 const { columns } = useRoleTableColumns();
 
@@ -44,7 +45,7 @@ const { openCreateDialog, openDetailDialog, openEditDialog, deleteRow, batchUpda
   fetchTableData,
 });
 
-const { openAssignPermissionDrawer, openDataScopeDialog } = useRoleMoreAction();
+const { openAssignPermissionDrawer, openDataScopeDialog, openGrantSubjectsDrawer } = useRoleMoreAction();
 
 const hasSelection = computed(() => selectedRows.value.length > 0);
 
@@ -62,7 +63,6 @@ onMounted(() => {
       class="bg-bg_color w-[99/100] overflow-auto pl-8 pt-3"
       inline
     >
-      <!-- 角色编码 -->
       <el-form-item :label="t('roles.field.roleCode')" prop="roleCode">
         <el-input
           v-model="searchForm.roleCode"
@@ -71,7 +71,6 @@ onMounted(() => {
           clearable
         />
       </el-form-item>
-      <!-- 角色名称 -->
       <el-form-item :label="t('roles.field.roleName')" prop="roleName">
         <el-input
           v-model="searchForm.roleName"
@@ -80,7 +79,6 @@ onMounted(() => {
           clearable
         />
       </el-form-item>
-      <!-- 状态 -->
       <el-form-item :label="t('roles.field.status')" prop="status">
         <el-select
           v-model="searchForm.status"
@@ -89,9 +87,9 @@ onMounted(() => {
           clearable
         >
           <el-option
-            v-for="opt in ROLE_STATUS_FILTER_OPTIONS"
-            :key="`${opt.labelKey}:${String(opt.value)}`"
-            :label="t(opt.labelKey)"
+            v-for="opt in booleanStatusOptions"
+            :key="String(opt.value)"
+            :label="opt.label"
             :value="opt.value"
           />
         </el-select>
@@ -99,11 +97,9 @@ onMounted(() => {
 
       <el-form-item>
         <el-button-group>
-          <!-- 搜索 -->
           <el-button v-perms="SYS_ROLE_PERMS.QUERY" :loading="loading" type="primary" @click="fetchTableData">
             {{ t('buttons.actionSearch') }}
           </el-button>
-          <!-- 重置 -->
           <el-button v-perms="SYS_ROLE_PERMS.QUERY" @click="resetQuery(searchFormRef)">
             {{ t('buttons.actionReset') }}
           </el-button>
@@ -139,7 +135,6 @@ onMounted(() => {
               {{ t('buttons.actionAdvanced') }}
             </el-button>
             <template #dropdown>
-              <!-- 从 Excel 导入 -->
               <Perms :value="SYS_ROLE_PERMS.IMPORT">
                 <el-dropdown-item @click="openImportDialog">
                   {{ t('buttons.importExcel') }}
@@ -156,21 +151,17 @@ onMounted(() => {
       </template>
 
       <template #actions="{ row }">
-        <!-- 查看 -->
         <el-button v-perms="SYS_ROLE_PERMS.DETAIL" link type="primary" @click="openDetailDialog(row)">
           {{ t('buttons.actionView') }}
         </el-button>
-        <!-- 修改/编辑 -->
         <el-button v-perms="SYS_ROLE_PERMS.UPDATE" link type="primary" @click="openEditDialog(row)">
           {{ t('buttons.actionEdit') }}
         </el-button>
-        <!-- 删除 -->
         <el-button v-perms="SYS_ROLE_PERMS.DELETE" link type="danger" @click="deleteRow(row)">
           {{ t('buttons.actionDelete') }}
         </el-button>
 
         <el-dropdown trigger="click">
-          <!-- 更多 -->
           <el-button class="ml-2!" link type="primary">{{ t('buttons.actionMore') }}</el-button>
           <template #dropdown>
             <el-dropdown-menu>
@@ -184,7 +175,11 @@ onMounted(() => {
                   {{ t('roles.menu.dataScope') }}
                 </el-dropdown-item>
               </Perms>
-              <el-dropdown-item>{{ t('roles.menu.grantSubjects') }}</el-dropdown-item>
+              <Perms :value="SYS_ROLE_PERMS.UPDATE">
+                <el-dropdown-item @click="openGrantSubjectsDrawer(row)">
+                  {{ t('roles.menu.grantSubjects') }}
+                </el-dropdown-item>
+              </Perms>
               <el-dropdown-item>{{ t('roles.menu.impactAnalysis') }}</el-dropdown-item>
             </el-dropdown-menu>
           </template>

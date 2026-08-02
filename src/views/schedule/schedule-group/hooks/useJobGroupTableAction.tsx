@@ -1,4 +1,4 @@
-import type { TableActionDeps } from '@/api/common';
+import type { TableActionDeps } from '@/shared/types/table-action';
 import {
   createJobGroup,
   type CreateJobGroupRequest,

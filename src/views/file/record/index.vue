@@ -72,7 +72,6 @@ onMounted(() => {
       class="bg-bg_color w-[99/100] overflow-auto pl-8 pt-3"
       inline
     >
-      <!-- 归属用户筛选 -->
       <el-form-item :label="t('fileRecord.fields.ownerUserId')" prop="ownerUserId">
         <el-select
           v-model="searchForm.ownerUserId"
@@ -87,7 +86,6 @@ onMounted(() => {
           <el-option v-for="item in userOptions" :key="item.id" :label="item.username" :value="item.id" />
         </el-select>
       </el-form-item>
-      <!-- 业务类型筛选 -->
       <el-form-item :label="t('fileRecord.fields.bizType')" prop="bizType">
         <el-input
           v-model="searchForm.bizType"
@@ -96,7 +94,6 @@ onMounted(() => {
           clearable
         />
       </el-form-item>
-      <!-- 业务ID筛选 -->
       <el-form-item :label="t('fileRecord.fields.bizId')" prop="bizId">
         <el-input
           v-model="searchForm.bizId"
@@ -105,7 +102,6 @@ onMounted(() => {
           clearable
         />
       </el-form-item>
-      <!-- 文件名筛选 -->
       <el-form-item :label="t('fileRecord.fields.originalName')" prop="originalName">
         <el-input
           v-model="searchForm.originalName"
@@ -115,7 +111,6 @@ onMounted(() => {
         />
       </el-form-item>
       <template v-if="showAdvancedSearchToggle">
-        <!-- 文件类型筛选 -->
         <el-form-item v-show="searchExpanded" :label="t('fileRecord.fields.contentType')" prop="contentType">
           <el-input
             v-model="searchForm.contentType"
@@ -124,14 +119,12 @@ onMounted(() => {
             clearable
           />
         </el-form-item>
-        <!-- 是否私有文件筛选 -->
         <el-form-item v-show="searchExpanded" :label="t('fileRecord.fields.isPrivate')" prop="isPrivate">
           <el-select v-model="searchForm.isPrivate" class="w-42!" clearable>
             <el-option :label="t('status.yes')" :value="true" />
             <el-option :label="t('status.no')" :value="false" />
           </el-select>
         </el-form-item>
-        <!-- 创建时间范围筛选 -->
         <el-form-item v-show="searchExpanded" :label="t('fileRecord.fields.createdAtRange')" prop="createdAtRange">
           <el-date-picker
             v-model="searchForm.createdAtRange"
@@ -146,15 +139,12 @@ onMounted(() => {
 
       <el-form-item>
         <el-button-group>
-          <!-- 搜索 -->
           <el-button v-perms="FILE_RECORD_PERMS.QUERY" :loading="loading" type="primary" @click="fetchTableData">
             {{ t('buttons.actionSearch') }}
           </el-button>
-          <!-- 重置 -->
           <el-button v-perms="FILE_RECORD_PERMS.QUERY" @click="resetQuery(searchFormRef)">
             {{ t('buttons.actionReset') }}
           </el-button>
-          <!-- 高级搜索 -->
           <el-button v-if="showAdvancedSearchToggle" @click="toggleAdvancedSearch">
             {{ searchExpanded ? t('buttons.actionCollapseSearch') : t('buttons.actionAdvancedSearch') }}
           </el-button>
@@ -213,7 +203,6 @@ onMounted(() => {
       </template>
 
       <template #actions="{ row }">
-        <!-- 下载文件 -->
         <el-button
           v-perms="FILE_RECORD_PERMS.DOWNLOAD"
           :loading="currentDownloadingRowId === row.id"
@@ -223,11 +212,9 @@ onMounted(() => {
         >
           {{ t('buttons.actionDownload') }}
         </el-button>
-        <!-- 查看详情 -->
         <el-button v-perms="FILE_RECORD_PERMS.QUERY" link type="primary" @click="openDetailDialog(row)">
           {{ t('buttons.actionView') }}
         </el-button>
-        <!-- 删除文件记录 -->
         <el-button v-perms="FILE_RECORD_PERMS.DELETE" link type="danger" @click="deleteBatchRows([row.id])">
           {{ t('buttons.actionDelete') }}
         </el-button>

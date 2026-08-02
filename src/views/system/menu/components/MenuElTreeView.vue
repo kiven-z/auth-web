@@ -3,12 +3,12 @@ import AuthElTreePanel from '@/components/business/AuthElTreePanel';
 import { useRenderIcon } from '@/components/ui/Icon/src/hooks';
 import { transformI18n } from '@/app/plugins/i18n';
 import MenuRowActions from '@/views/system/menu/components/MenuRowActions.vue';
-import { MENU_TYPE_OPTIONS } from '@/views/system/menu/constants/menu-type';
 import { SYS_MENU_PERMS } from '@/views/system/menu/constants/permissions';
 import useMenuTableAction from '@/views/system/menu/hooks/actions/useMenuTableAction';
 import useMenuPageState from '@/views/system/menu/hooks/useMenuPageState';
 import { useMenuTreeDrag } from '@/views/system/menu/hooks/useMenuTreeDrag';
 import { useMenuTreeFilter } from '@/views/system/menu/hooks/useMenuTreeFilter';
+import { useMenuTypeOptions } from '@/views/system/menu/hooks/options/useMenuTypeOptions';
 import { onMounted, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 
@@ -22,6 +22,7 @@ const treeProps = {
 } as const;
 
 const { t, locale } = useI18n();
+const menuTypeOptions = useMenuTypeOptions();
 
 const { loading, selectedRows, treeData, treeKeyword, viewMode, fetchTableData, fetchTreeData, refresh } =
   useMenuPageState();
@@ -93,13 +94,13 @@ onMounted(() => {
       <span class="font-medium">{{ transformI18n(data.title) }}</span>
       <el-text type="info">({{ data.name }})</el-text>
       <el-tag
-        v-for="option in MENU_TYPE_OPTIONS.filter((item) => item.value === data.menuType)"
+        v-for="option in menuTypeOptions.filter((item) => item.value === data.menuType)"
         :key="option.value"
         :type="option.tagType"
         effect="plain"
         size="small"
       >
-        {{ t(option.labelKey) }}
+        {{ option.label }}
       </el-tag>
       <el-tag :type="data.status ? 'success' : 'danger'" effect="plain" size="small">
         {{ data.status ? t('buttons.statusActiveText') : t('buttons.statusInactiveText') }}

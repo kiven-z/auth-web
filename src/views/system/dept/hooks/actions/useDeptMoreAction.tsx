@@ -1,4 +1,4 @@
-import type { TableActionDeps } from '@/api/common';
+import type { TableActionDeps } from '@/shared/types/table-action';
 import type { SysDeptListVO } from '@/api/system/dept/dept';
 import { getDeptRoles, putDeptRoles } from '@/api/system/dept/dept-role';
 import { addDrawer } from '@/components/ui/Drawer';

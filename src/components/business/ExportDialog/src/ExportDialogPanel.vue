@@ -87,12 +87,9 @@ defineExpose<ExportDialogPanelExpose>({ validate, getFormState });
 
 <template>
   <el-form ref="formRef" :model="form" :rules="rules" label-width="96px">
-    <!-- 导出方式 -->
     <el-form-item :label="t('export.scopeLabel')">
       <el-radio-group v-model="form.exportScope">
-        <!-- 当前页 -->
         <el-radio value="CURRENT_PAGE">{{ t('export.scopeCurrentPage') }}</el-radio>
-        <!-- 指定页码范围 -->
         <el-radio value="PAGE_RANGE">{{ t('export.scopePageRange') }}</el-radio>
         <!-- 全量异步（预留，未开发；提示文案故意不走 i18n） -->
         <el-tooltip content="敬请期待，全量异步导出将在后续版本提供" placement="top">
@@ -103,18 +100,14 @@ defineExpose<ExportDialogPanelExpose>({ validate, getFormState });
       </el-radio-group>
     </el-form-item>
 
-    <!-- 当前页说明 -->
     <p v-if="form.exportScope === 'CURRENT_PAGE'">
       {{ t('export.currentPageSummary', { page: props.currentPage, size: props.pageSize }) }}
     </p>
 
-    <!-- 页码区间 -->
     <template v-if="form.exportScope === 'PAGE_RANGE'">
-      <!-- 起始页 -->
       <el-form-item :label="t('export.fromPage')" prop="fromPage">
         <el-input-number v-model="form.fromPage" :max="maxPage" :min="1" />
       </el-form-item>
-      <!-- 结束页 -->
       <el-form-item :label="t('export.toPage')" prop="toPage">
         <el-input-number v-model="form.toPage" :max="maxPage" :min="1" />
       </el-form-item>

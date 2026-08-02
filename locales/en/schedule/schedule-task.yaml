@@ -67,7 +67,6 @@ scheduleTask:
   validation:
     jobNameLengthLimit: Job name must not exceed 64 characters
     cronExpressionLengthLimit: Cron expression must not exceed 255 characters
-    remarkLengthLimit: Remark must not exceed 500 characters
   messages:
     templateExampleUnavailable: No template example is available for the current task class
   actions:

@@ -1,4 +1,4 @@
-import type { TableActionDeps } from '@/api/common';
+import type { TableActionDeps } from '@/shared/types/table-action';
 import type { MessageTemplatePageRow } from '@/api/message/message-template';
 import { useOpenMessageTemplateRequireFields } from '@/views/message/_shared/hooks/useOpenMessageTemplateRequireFields';
 import { useOpenMessageTemplateTestSend } from '@/views/message/_shared/hooks/useOpenMessageTemplateTestSend';

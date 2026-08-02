@@ -9,7 +9,7 @@ import type { AuthHttpError, AuthHttpRequestConfig } from '../types';
 
 /**
  * 响应拦截：Result 解包、业务错误与鉴权恢复（优先刷新重放，失败后再登出）。
- * @param instance 实例
+ * @param instance Axios 实例
  */
 export function attachResponseInterceptors(instance: AxiosInstance): void {
   instance.interceptors.response.use(
@@ -18,11 +18,7 @@ export function attachResponseInterceptors(instance: AxiosInstance): void {
   );
 }
 
-/**
- * 处理成功响应
- * @param response 响应
- * @returns 结果
- */
+/** Blob / Result 信封解包；业务码非成功则转错误拒绝 */
 function handleResponseSuccess(response: AxiosResponse) {
   const config = response.config as AuthHttpRequestConfig;
   const raw = response.data;
@@ -41,12 +37,7 @@ function handleResponseSuccess(response: AxiosResponse) {
   return raw;
 }
 
-/**
- * 处理错误响应
- * @param instance 实例
- * @param error 错误
- * @returns 结果
- */
+/** 鉴权恢复（刷新重放）或登出；信封错误走统一拒绝 */
 async function handleResponseError(instance: AxiosInstance, error: AuthHttpError): Promise<unknown> {
   error.isCancelRequest = Axios.isCancel(error);
   const { response, config } = error;

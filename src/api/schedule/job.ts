@@ -1,13 +1,11 @@
-import type {
-  BaseResponseDetail,
-  BaseResponsePageRow,
-  IdsEnableStatusRequest,
-  PageResponse,
-  SortSpec,
-} from '@/api/common';
+import type { PageResponse, SortSpec } from '@/api/common/page';
+import type { BaseResponseDetail, BaseResponsePageRow } from '@/api/common/response';
+import type { IdsEnableStatusRequest } from '@/api/common/request';
 import { http } from '@/core/http/client';
-import type { SysJobLastExecutionStatus } from '@/views/schedule/schedule-task/constants/job-last-execution-status';
-import type { SysJobQuartzRuntimeStatus } from '@/views/schedule/schedule-task/constants/job-quartz-runtime-status';
+import type {
+  SysJobLastExecutionStatus,
+  SysJobQuartzRuntimeStatus,
+} from '@/views/schedule/schedule-task/types/job-runtime-status';
 import type { AxiosRequestConfig } from 'axios';
 
 /**

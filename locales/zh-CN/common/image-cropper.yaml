@@ -1,8 +1,6 @@
 imageCropper:
   cancel: 取消
   reset: 重置
-  confirm: 确认
   confirmUpload: 确认并上传
   empty: 请先选择一张图片
-  hint: 请拖拽并缩放图片以调整裁剪区域
   defaultTitle: 裁剪图片

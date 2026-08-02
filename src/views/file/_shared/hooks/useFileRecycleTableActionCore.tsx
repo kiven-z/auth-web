@@ -1,4 +1,4 @@
-import type { TableActionWithSelectionDeps } from '@/api/common';
+import type { TableActionWithSelectionDeps } from '@/shared/types/table-action';
 import type { FileRecordDetail, FileRecordPageRow } from '@/api/file/file-record';
 import { Description } from '@/components/ui/Description';
 import { addDialog } from '@/components/ui/Dialog';

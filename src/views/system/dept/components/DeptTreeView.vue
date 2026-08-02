@@ -72,7 +72,7 @@ onMounted(() => {
       <span :class="{ 'text-(--el-text-color-secondary)': !data.status }" class="font-medium">{{ data.deptName }}</span>
       <el-text type="info">({{ data.deptCode }})</el-text>
       <el-tag :type="data.status ? 'success' : 'danger'" effect="plain" size="small">
-        {{ data.status ? t('dept.enum.status.normal') : t('dept.enum.status.disabled') }}
+        {{ data.status ? t('buttons.statusActiveText') : t('buttons.statusInactiveText') }}
       </el-tag>
     </template>
 

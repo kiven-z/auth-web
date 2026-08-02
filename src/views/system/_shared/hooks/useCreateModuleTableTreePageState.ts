@@ -1,4 +1,4 @@
-import type { PageResponse } from '@/api/common';
+import type { PageResponse } from '@/api/common/page';
 import { usePaginationState } from '@/components/business/AuthPagedTable/src/usePaginationState';
 import { errorMessage } from '@/services/feedback/message';
 import { handleTree } from '@/shared/utils/tree';

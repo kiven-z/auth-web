@@ -1,10 +1,6 @@
 import { createAuditDetailColumns } from '@/shared/composables/table/auditColumns';
 import { formatDateTime } from '@/shared/utils/date/dateTime';
-import {
-  IN_APP_MESSAGE_SCOPE_OPTIONS,
-  IN_APP_MESSAGE_SOURCE_OPTIONS,
-  IN_APP_MESSAGE_STATUS_ITEMS,
-} from '@/views/message/in-app-message/constants/task-enums';
+import useInAppMessageOptions from '@/views/message/in-app-message/hooks/options/useInAppMessageOptions';
 import { ElTag } from 'element-plus';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
@@ -15,6 +11,7 @@ import { useI18n } from 'vue-i18n';
  */
 function useInAppMessageDetailColumns() {
   const { t } = useI18n();
+  const { statusOptions, sourceOptions, scopeOptions } = useInAppMessageOptions();
 
   const detailColumns = computed(() => [
     {
@@ -32,13 +29,13 @@ function useInAppMessageDetailColumns() {
         if (!value) {
           return <span>—</span>;
         }
-        const meta = IN_APP_MESSAGE_STATUS_ITEMS.find((item) => item.value === value);
-        if (!meta) {
+        const option = statusOptions.value.find((item) => item.value === value);
+        if (!option) {
           return <span>{value}</span>;
         }
         return (
-          <ElTag type={meta.tagType} effect="plain">
-            {t(meta.labelKey)}
+          <ElTag type={option.tagType} effect="plain">
+            {option.label}
           </ElTag>
         );
       },
@@ -51,8 +48,8 @@ function useInAppMessageDetailColumns() {
         if (!value) {
           return <span>—</span>;
         }
-        const labelKey = IN_APP_MESSAGE_SOURCE_OPTIONS.find((item) => item.value === value)?.labelKey;
-        return <span>{labelKey ? t(labelKey) : value}</span>;
+        const option = sourceOptions.value.find((item) => item.value === value);
+        return <span>{option?.label ?? value}</span>;
       },
     },
     {
@@ -63,8 +60,8 @@ function useInAppMessageDetailColumns() {
         if (!value) {
           return <span>—</span>;
         }
-        const labelKey = IN_APP_MESSAGE_SCOPE_OPTIONS.find((item) => item.value === value)?.labelKey;
-        return <span>{labelKey ? t(labelKey) : value}</span>;
+        const option = scopeOptions.value.find((item) => item.value === value);
+        return <span>{option?.label ?? value}</span>;
       },
     },
     {

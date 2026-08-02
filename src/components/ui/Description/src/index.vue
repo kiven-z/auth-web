@@ -121,7 +121,6 @@ const resolveCellContent = (row: Row, item: ColumnProps, index: number) => {
           :title="rowIndex === 0 ? title : undefined"
           v-bind="$attrs"
         >
-          <!-- 描述项 -->
           <el-descriptions-item
             v-for="item in columns"
             :key="`${getRowKey(row, rowIndex)}-${item.prop}`"
@@ -161,9 +160,7 @@ const resolveCellContent = (row: Row, item: ColumnProps, index: number) => {
       <!-- 单个对象 -> 单个描述 -->
       <el-descriptions v-else :border="border" :column="column" :title="title" v-bind="$attrs">
         <el-descriptions-item v-for="item in columns" :key="item.prop" v-bind="getItemProps(item)">
-          <!-- 描述项 -->
           <template v-if="item.labelRenderer" #label>
-            <!-- 描述项标签 -->
             <component :is="item.labelRenderer({ data })" />
           </template>
 

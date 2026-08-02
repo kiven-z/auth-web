@@ -1,4 +1,4 @@
-import type { TableActionDeps } from '@/api/common';
+import type { TableActionDeps } from '@/shared/types/table-action';
 import type { SysPermissionCreateForm, SysPermissionPageRow, SysPermissionUpdateForm } from '@/api/system/permission';
 import {
   batchUpdatePermissionStatus,

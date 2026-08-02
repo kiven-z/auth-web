@@ -1,9 +1,9 @@
 <script lang="ts" setup>
-import type { FormDialog } from '@/api/common';
+import type { FormDialog } from '@/shared/types/dialog';
 import { getDeptList } from '@/api/system/dept/dept';
 import type { UserDeptAssignForm } from '@/api/system/user/user-dept';
 import { errorMessage } from '@/services/feedback/message';
-import { USER_DEPT_RELATION_STATUS_FILTER_OPTIONS } from '@/views/system/user/constants/user-dept-relation-status';
+import useUserOptions from '@/views/system/user/hooks/options/useUserOptions';
 import { buildDeptSelectTree, type DeptSelectTreeNode } from '@/views/system/_shared/utils/dept-select-tree';
 import type { CascaderProps, FormInstance, FormRules } from 'element-plus';
 import { onMounted, reactive, ref } from 'vue';
@@ -16,6 +16,7 @@ const props = withDefaults(defineProps<UserDeptAssignFormDialogProps>(), {
 });
 
 const { t } = useI18n();
+const { relationStatusOptions } = useUserOptions();
 const formRef = ref<FormInstance>();
 const form = ref<UserDeptAssignForm>({
   status: 1,
@@ -63,7 +64,6 @@ defineExpose({ formRef, form });
 <template>
   <el-form ref="formRef" :model="form" :rules="rules" label-width="auto">
     <el-row :gutter="14">
-      <!-- 所属部门 -->
       <el-col :span="24">
         <el-form-item :label="t('dept.field.deptName')" prop="deptId">
           <el-cascader
@@ -83,21 +83,15 @@ defineExpose({ formRef, form });
           </el-cascader>
         </el-form-item>
       </el-col>
-      <!-- 关联状态 -->
       <el-col :lg="12" :md="12" :sm="12" :xs="24">
         <el-form-item :label="t('relation.status')" prop="status">
           <el-radio-group v-model="form.status">
-            <el-radio-button
-              v-for="option in USER_DEPT_RELATION_STATUS_FILTER_OPTIONS"
-              :key="`${option.labelKey}:${String(option.value)}`"
-              :value="option.value"
-            >
-              {{ t(option.labelKey) }}
+            <el-radio-button v-for="option in relationStatusOptions" :key="String(option.value)" :value="option.value">
+              {{ option.label }}
             </el-radio-button>
           </el-radio-group>
         </el-form-item>
       </el-col>
-      <!-- 是否主部门 -->
       <el-col :lg="12" :md="12" :sm="12" :xs="24">
         <el-form-item :label="t('relation.isPrimary')" prop="isPrimary">
           <el-radio-group v-model="form.isPrimary">
@@ -106,7 +100,6 @@ defineExpose({ formRef, form });
           </el-radio-group>
         </el-form-item>
       </el-col>
-      <!-- 备注 -->
       <el-col :span="24">
         <el-form-item :label="t('users.field.remark')" prop="remark">
           <el-input

@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import type { DataScopeType, SysDataScopeForm } from '@/api/system/_shared/data-scope';
-import { DATA_SCOPE_TYPE_OPTIONS } from '@/views/system/_shared/constants/data-scope-type';
+import { useDataScopeTypeOptions } from '@/views/system/_shared/hooks/useDataScopeTypeOptions';
 import type { DeptSelectTreeNode } from '@/views/system/_shared/utils/dept-select-tree';
 import { computed, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
@@ -22,6 +22,7 @@ const props = defineProps<{
 }>();
 
 const { t } = useI18n();
+const dataScopeTypeOptions = useDataScopeTypeOptions();
 
 const showDeptSelector = computed(() => form.value.scopeType === 'DEPT' || form.value.scopeType === 'DEPT_AND_CHILD');
 
@@ -36,11 +37,10 @@ watch(
 </script>
 
 <template>
-  <!-- 范围类型 -->
   <el-form-item :label="t('dataScope.field.type')" prop="scopeType">
     <el-radio-group v-model="form.scopeType" class="data-scope-form-fields__types">
-      <el-radio-button v-for="option in DATA_SCOPE_TYPE_OPTIONS" :key="option.value" :value="option.value">
-        {{ t(option.labelKey) }}
+      <el-radio-button v-for="option in dataScopeTypeOptions" :key="option.value" :value="option.value">
+        {{ option.label }}
       </el-radio-button>
     </el-radio-group>
   </el-form-item>
@@ -65,7 +65,6 @@ watch(
     />
   </el-form-item>
 
-  <!-- 备注 -->
   <el-form-item :label="t('dataScope.field.remark')" prop="remark">
     <el-input
       v-model="form.remark"

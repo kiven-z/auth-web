@@ -13,7 +13,7 @@ import { useInAppInboxStore } from '@/store/modules/message/inAppInbox';
 import HomePageToolbar from '@/views/home/_shared/components/HomePageToolbar.vue';
 import InboxMessageList from '@/views/home/inbox/components/InboxMessageList.vue';
 import useInboxTableAction from '@/views/home/inbox/hooks/useInboxTableAction';
-import useInAppCategorySubOptions from '@/views/message/_shared/hooks/useInAppCategorySubOptions';
+import { useInAppCategorySubOptions } from '@/shared/composables/message/useInAppCategorySubOptions';
 import type { FormInstance } from 'element-plus';
 import { storeToRefs } from 'pinia';
 import { computed, onMounted, reactive, ref, toRef } from 'vue';
@@ -167,7 +167,6 @@ onMounted(async () => {
       <template v-else>
         <div ref="filterRef" class="inbox-page__filter">
           <el-form ref="searchFormRef" v-enter-submit="refreshListAndMajors" :model="searchForm" inline>
-            <!-- 已读状态筛选 -->
             <el-form-item :label="t('inAppInbox.field.readStatus')" prop="isRead">
               <el-select
                 v-model="searchForm.isRead"
@@ -180,7 +179,6 @@ onMounted(async () => {
               </el-select>
             </el-form-item>
 
-            <!-- 业务小类 -->
             <el-form-item :label="t('inAppInbox.field.categoryId')" prop="categoryId">
               <el-select
                 v-model="searchForm.categoryId"
@@ -196,7 +194,6 @@ onMounted(async () => {
               </el-select>
             </el-form-item>
 
-            <!-- 标题关键字 -->
             <el-form-item :label="t('inAppInbox.field.title')" prop="title">
               <el-input
                 v-model="searchForm.title"

@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import type { FormDialog } from '@/api/common';
+import type { FormDialog } from '@/shared/types/dialog';
 import type { SysPermissionCreateForm, SysPermissionUpdateForm } from '@/api/system/permission';
 import { PERMISSION_CODE_REGEX } from '@/views/system/permission/constants/permission-code-convention';
 import { useFormPlaceholder } from '@/shared/composables/i18n/useFormPlaceholder';
@@ -42,19 +42,16 @@ defineExpose({ formRef, form });
 <template>
   <el-form ref="formRef" :model="form" :rules="rules" label-width="auto">
     <el-row :gutter="14">
-      <!-- 权限编码 -->
       <el-col :lg="12" :md="12" :sm="12" :xs="24">
         <el-form-item :label="t('permissions.field.permissionCode')" prop="permissionCode">
           <el-input v-model="form.permissionCode" :placeholder="ph.input('permissions.field.permissionCode')" />
         </el-form-item>
       </el-col>
-      <!-- 权限名称 -->
       <el-col :lg="12" :md="12" :sm="12" :xs="24">
         <el-form-item :label="t('permissions.field.permissionName')" prop="permissionName">
           <el-input v-model="form.permissionName" :placeholder="ph.input('permissions.field.permissionName')" />
         </el-form-item>
       </el-col>
-      <!-- 状态 -->
       <el-col :lg="12" :md="12" :sm="12" :xs="24">
         <el-form-item :label="t('permissions.field.status')" prop="status">
           <el-radio-group v-model="form.status">
@@ -63,13 +60,11 @@ defineExpose({ formRef, form });
           </el-radio-group>
         </el-form-item>
       </el-col>
-      <!-- 显示顺序 -->
       <el-col :lg="12" :md="12" :sm="12" :xs="24">
         <el-form-item :label="t('permissions.field.orderNum')" prop="orderNum">
           <el-input-number v-model="form.orderNum" :max="9999" :min="0" />
         </el-form-item>
       </el-col>
-      <!-- 备注 -->
       <el-col :span="24">
         <el-form-item :label="t('permissions.field.remark')" prop="remark">
           <el-input

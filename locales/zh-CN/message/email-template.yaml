@@ -1,5 +1,4 @@
 emailTemplate:
-  name: 邮件消息模板
   tableTitle: 邮件消息模板
   templateCode: 场景编码
   templateName: 模板名称
@@ -13,8 +12,6 @@ emailTemplate:
   editDialogTitle: 编辑邮件模板
   templateEditDialogTitle: 编辑模板正文
   detailDialogTitle: 邮件模板详情
-  testSendDialogTitle: 测试发送
-  testSendMenu: 测试发送
   templateEditMenu: 模板编辑
   testSendEmail: 收件邮箱
   testSendEmailPlaceholder: 请输入收件邮箱

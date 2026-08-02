@@ -5,7 +5,7 @@ import { getUserDeptPage, type UserDeptPageQuery, type UserDeptPageRow } from '@
 import { errorMessage } from '@/services/feedback/message';
 import { useFormPlaceholder } from '@/shared/composables/i18n/useFormPlaceholder';
 import { SYS_USER_DEPT_PERMS } from '@/views/system/user/constants/permissions';
-import { USER_DEPT_RELATION_STATUS_FILTER_OPTIONS } from '@/views/system/user/constants/user-dept-relation-status';
+import useUserOptions from '@/views/system/user/hooks/options/useUserOptions';
 import useGrantDeptAction from '@/views/system/user/workstation/hooks/dept/useGrantDeptAction';
 import useUserDeptAssignTableColumns from '@/views/system/user/workstation/hooks/dept/useUserDeptAssignTableColumns';
 import type { FormInstance } from 'element-plus';
@@ -18,6 +18,7 @@ defineOptions({ name: 'UserWorkstationGrantDeptPanel' });
 const route = useRoute();
 const { t } = useI18n();
 const ph = useFormPlaceholder();
+const { relationStatusOptions } = useUserOptions();
 
 const userId = computed(() => String(route.params.userId ?? ''));
 const username = ref('');
@@ -77,7 +78,6 @@ watch(
   <div class="flex flex-col">
     <el-alert :title="t('users.deptAssign.panelTip')" closable show-icon type="info" />
     <el-form ref="searchFormRef" v-enter-submit="fetchTableData" :model="searchForm" class="pt-2 pl-6" inline>
-      <!-- 部门名称 -->
       <el-form-item :label="t('dept.field.deptName')" prop="deptName">
         <el-input
           v-model="searchForm.deptName"
@@ -86,7 +86,6 @@ watch(
           clearable
         />
       </el-form-item>
-      <!-- 部门编码 -->
       <el-form-item :label="t('dept.field.deptCode')" prop="deptCode">
         <el-input
           v-model="searchForm.deptCode"
@@ -95,7 +94,6 @@ watch(
           clearable
         />
       </el-form-item>
-      <!-- 关联状态 -->
       <el-form-item :label="t('relation.status')" prop="status">
         <el-select
           v-model="searchForm.status"
@@ -104,9 +102,9 @@ watch(
           clearable
         >
           <el-option
-            v-for="opt in USER_DEPT_RELATION_STATUS_FILTER_OPTIONS"
-            :key="`${opt.labelKey}:${String(opt.value)}`"
-            :label="t(opt.labelKey)"
+            v-for="opt in relationStatusOptions"
+            :key="String(opt.value)"
+            :label="opt.label"
             :value="opt.value"
           />
         </el-select>
@@ -114,11 +112,9 @@ watch(
 
       <el-form-item>
         <el-button-group>
-          <!-- 搜索 -->
           <el-button v-perms="SYS_USER_DEPT_PERMS.QUERY" :loading="loading" type="primary" @click="fetchTableData">
             {{ t('buttons.actionSearch') }}
           </el-button>
-          <!-- 重置 -->
           <el-button v-perms="SYS_USER_DEPT_PERMS.QUERY" @click="resetQuery(searchFormRef)">
             {{ t('buttons.actionReset') }}
           </el-button>

@@ -2,10 +2,10 @@
 import { getJobGroupPage } from '@/api/schedule/job-group';
 import { SYS_JOB_GROUP_PERMS } from '@/views/schedule/schedule-group/constants/permissions';
 import AuthPagedTable, { usePaginationState } from '@/components/business/AuthPagedTable';
-import { COMMON_BOOLEAN_STATUS_FILTER_OPTIONS } from '@/shared/constants/boolean-status';
+import { useCommonBooleanStatusOptions } from '@/shared/composables/i18n/useCommonBooleanStatusOptions';
+import { useFormPlaceholder } from '@/shared/composables/i18n/useFormPlaceholder';
 import useJobGroupTableAction from '@/views/schedule/schedule-group/hooks/useJobGroupTableAction';
 import useJobGroupTableColumns from '@/views/schedule/schedule-group/hooks/useJobGroupTableColumns';
-import { useFormPlaceholder } from '@/shared/composables/i18n/useFormPlaceholder';
 import type { FormInstance } from 'element-plus';
 import { onMounted, reactive, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
@@ -16,6 +16,7 @@ defineOptions({
 
 const { t } = useI18n();
 const ph = useFormPlaceholder();
+const booleanStatusOptions = useCommonBooleanStatusOptions();
 const { columns } = useJobGroupTableColumns();
 const searchFormRef = ref<FormInstance>();
 
@@ -49,7 +50,6 @@ onMounted(() => {
       class="bg-bg_color w-[99/100] overflow-auto pl-8 pt-3"
       inline
     >
-      <!-- 分组编码 -->
       <el-form-item :label="t('scheduleGroup.code')" prop="groupCode">
         <el-input
           v-model="searchForm.groupCode"
@@ -58,7 +58,6 @@ onMounted(() => {
           clearable
         />
       </el-form-item>
-      <!-- 分组名称 -->
       <el-form-item :label="t('scheduleGroup.name')" prop="groupName">
         <el-input
           v-model="searchForm.groupName"
@@ -67,7 +66,6 @@ onMounted(() => {
           clearable
         />
       </el-form-item>
-      <!-- 分组状态 -->
       <el-form-item :label="t('scheduleGroup.status')" prop="status">
         <el-select
           v-model="searchForm.status"
@@ -76,9 +74,9 @@ onMounted(() => {
           clearable
         >
           <el-option
-            v-for="opt in COMMON_BOOLEAN_STATUS_FILTER_OPTIONS"
-            :key="`${opt.labelKey}:${String(opt.value)}`"
-            :label="t(opt.labelKey)"
+            v-for="opt in booleanStatusOptions"
+            :key="String(opt.value)"
+            :label="opt.label"
             :value="opt.value"
           />
         </el-select>
@@ -86,11 +84,9 @@ onMounted(() => {
 
       <el-form-item>
         <el-button-group>
-          <!-- 搜索 -->
           <el-button v-perms="SYS_JOB_GROUP_PERMS.QUERY" :loading="loading" type="primary" @click="fetchTableData">
             {{ t('buttons.actionSearch') }}
           </el-button>
-          <!-- 重置 -->
           <el-button v-perms="SYS_JOB_GROUP_PERMS.QUERY" @click="resetQuery(searchFormRef)">
             {{ t('buttons.actionReset') }}
           </el-button>
@@ -105,22 +101,18 @@ onMounted(() => {
       show-overflow-tooltip
     >
       <template #buttons>
-        <!-- 添加 -->
         <el-button v-perms="SYS_JOB_GROUP_PERMS.CREATE" type="primary" @click="openCreateDialog">
           {{ t('buttons.actionAdd') }}
         </el-button>
       </template>
 
       <template #actions="{ row }">
-        <!-- 查看 -->
         <el-button v-perms="SYS_JOB_GROUP_PERMS.QUERY" link type="primary" @click="openDetailDialog(row)">
           {{ t('buttons.actionView') }}
         </el-button>
-        <!-- 修改/编辑 -->
         <el-button v-perms="SYS_JOB_GROUP_PERMS.UPDATE" link type="primary" @click="openEditDialog(row)">
           {{ t('buttons.actionEdit') }}
         </el-button>
-        <!-- 删除 -->
         <el-button
           v-perms="SYS_JOB_GROUP_PERMS.DELETE"
           :disabled="row.isSystem"

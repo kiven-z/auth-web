@@ -20,10 +20,6 @@ dept:
     remark: 备注
     parentDept: 上级部门
     parentTopLevel: 顶级部门
-  enum:
-    status:
-      normal: 启用
-      disabled: 禁用
   action:
     addChild: 新增下级
   message:

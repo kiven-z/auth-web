@@ -60,7 +60,6 @@ async function handleAvatarUploaded(avatarUrl: string): Promise<void> {
         </div>
 
         <div class="profile-personal-info-card__meta">
-          <!-- 所属部门 -->
           <div v-if="profile.deptList?.length" class="profile-personal-info-card__meta-row">
             <span>{{ t('assign.dept') }}：</span>
             <el-tag
@@ -73,7 +72,6 @@ async function handleAvatarUploaded(avatarUrl: string): Promise<void> {
             </el-tag>
           </div>
 
-          <!-- 任职岗位 -->
           <div v-if="profile.postList?.length" class="profile-personal-info-card__meta-row">
             <span>{{ t('assign.post') }}：</span>
             <el-tag

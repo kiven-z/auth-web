@@ -1,10 +1,8 @@
 import { formatDateTime } from '@/shared/utils/date/dateTime';
 import type { MeLoginLogPageRow } from '@/api/system/user/user-me';
-import {
-  LOGIN_LOG_TYPE_FILTER_OPTIONS,
-  resolveLoginLogResultMeta,
-} from '@/views/log/login-log/constants/login-log-enums';
+import useLoginLogOptions from '@/views/log/login-log/hooks/options/useLoginLogOptions';
 import { ElTag } from 'element-plus';
+import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 /**
@@ -13,14 +11,9 @@ import { useI18n } from 'vue-i18n';
  */
 function useMeLoginLogTableColumns() {
   const { t } = useI18n();
+  const { loginResultOptions, loginTypeOptions } = useLoginLogOptions();
 
-  const loginTypeLabel = (type: string | null | undefined) => {
-    if (!type) return '';
-    const option = LOGIN_LOG_TYPE_FILTER_OPTIONS.find((item) => item.value === type);
-    return option ? t(option.labelKey) : type;
-  };
-
-  const meLoginLogTableColumns = [
+  const meLoginLogTableColumns = computed(() => [
     {
       label: t('loginLog.field.loginTime'),
       prop: 'loginTime',
@@ -40,12 +33,12 @@ function useMeLoginLogTableColumns() {
       formatter: (row: MeLoginLogPageRow) => {
         const code = row.loginResult;
         if (code === undefined || code === null) return <span>—</span>;
-        const meta = resolveLoginLogResultMeta(code);
-        if (!meta) return <span>{String(code)}</span>;
+        const option = loginResultOptions.value.find((item) => item.value === code);
+        if (!option) return <span>{String(code)}</span>;
 
         return (
-          <ElTag type={meta.tagType} effect="plain">
-            {t(meta.labelKey)}
+          <ElTag type={option.tagType} effect="plain">
+            {option.label}
           </ElTag>
         );
       },
@@ -54,9 +47,13 @@ function useMeLoginLogTableColumns() {
       label: t('loginLog.field.loginType'),
       prop: 'loginType',
       minWidth: 130,
-      formatter: (row: MeLoginLogPageRow) => loginTypeLabel(row.loginType),
+      formatter: (row: MeLoginLogPageRow) => {
+        if (!row.loginType) return '';
+        const option = loginTypeOptions.value.find((item) => item.value === row.loginType);
+        return option?.label ?? row.loginType;
+      },
     },
-  ];
+  ]);
 
   return { meLoginLogTableColumns };
 }

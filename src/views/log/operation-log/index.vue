@@ -58,7 +58,6 @@ onMounted(() => {
       class="bg-bg_color w-[99/100] overflow-auto pl-8 pt-3"
       inline
     >
-      <!-- 操作用户 -->
       <el-form-item :label="t('operationLog.user')" prop="userId">
         <el-select
           v-model="searchForm.userId"
@@ -74,7 +73,6 @@ onMounted(() => {
         </el-select>
       </el-form-item>
 
-      <!-- 操作类型 -->
       <el-form-item :label="t('operationLog.operationType')" prop="operationType">
         <el-select
           v-model="searchForm.operationType"
@@ -91,12 +89,10 @@ onMounted(() => {
         </el-select>
       </el-form-item>
 
-      <!-- 操作模块 -->
       <el-form-item :label="t('operationLog.module')" prop="module">
         <el-input v-model="searchForm.module" :placeholder="ph.input('operationLog.module')" class="w-45!" clearable />
       </el-form-item>
 
-      <!-- 目标类型 -->
       <el-form-item :label="t('operationLog.targetType')" prop="targetType">
         <el-input
           v-model="searchForm.targetType"
@@ -107,7 +103,6 @@ onMounted(() => {
       </el-form-item>
 
       <template v-if="showAdvancedSearchToggle">
-        <!-- 目标 ID -->
         <el-form-item v-show="searchExpanded" :label="t('operationLog.targetId')" prop="targetId">
           <el-input
             v-model="searchForm.targetId"
@@ -117,7 +112,6 @@ onMounted(() => {
           />
         </el-form-item>
 
-        <!-- HTTP 方法 -->
         <el-form-item v-show="searchExpanded" :label="t('operationLog.requestMethod')" prop="requestMethod">
           <el-select
             v-model="searchForm.requestMethod"
@@ -132,15 +126,12 @@ onMounted(() => {
 
       <el-form-item>
         <el-button-group>
-          <!-- 搜索 -->
           <el-button v-perms="SYS_LOG_OPERATION_PERMS.QUERY" :loading="loading" type="primary" @click="fetchTableData">
             {{ t('buttons.actionSearch') }}
           </el-button>
-          <!-- 重置 -->
           <el-button v-perms="SYS_LOG_OPERATION_PERMS.QUERY" @click="resetQuery(searchFormRef)">
             {{ t('buttons.actionReset') }}
           </el-button>
-          <!-- 高级搜索 -->
           <el-button v-if="showAdvancedSearchToggle" @click="toggleAdvancedSearch">
             {{ searchExpanded ? t('buttons.actionCollapseSearch') : t('buttons.actionAdvancedSearch') }}
           </el-button>
@@ -171,11 +162,9 @@ onMounted(() => {
       </template>
 
       <template #actions="{ row }">
-        <!-- 查看 -->
         <el-button v-perms="SYS_LOG_OPERATION_PERMS.DETAIL" link type="primary" @click="openDetailDialog(row)">
           {{ t('buttons.actionView') }}
         </el-button>
-        <!-- 删除 -->
         <el-button v-perms="SYS_LOG_OPERATION_PERMS.DELETE" link type="danger" @click="deleteBatchRows([row.id])">
           {{ t('buttons.actionDelete') }}
         </el-button>

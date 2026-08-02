@@ -1,4 +1,4 @@
-import type { ImportRowError } from '@/api/common';
+import type { ImportRowError } from '@/api/common/import';
 import { buildExportFilenameStamp } from '@/shared/utils/date/dateTime';
 import * as XLSX from 'xlsx';
 

@@ -1,6 +1,6 @@
 <script lang="tsx" setup>
 import { createAuditDetailColumns } from '@/shared/composables/table/auditColumns';
-import type { DetailDialog } from '@/api/common';
+import type { DetailDialog } from '@/shared/types/dialog';
 import type { SysMenuDetailVO } from '@/api/system/menu/menu';
 import { useRenderIcon } from '@/components/ui/Icon/src/hooks';
 import DetailRelationListSection from '@/components/business/DetailRelationListSection/index.vue';
@@ -9,7 +9,7 @@ import { renderBooleanStatusTag } from '@/shared/composables/layout/renderBoolea
 import { transformI18n } from '@/app/plugins/i18n';
 import useRoleColumns from '@/views/system/_shared/columns/useRoleColumns';
 import { TREE_ROOT_PARENT_ID } from '@/shared/utils/tree';
-import { MENU_TYPE_OPTIONS } from '@/views/system/menu/constants/menu-type';
+import { useMenuTypeOptions } from '@/views/system/menu/hooks/options/useMenuTypeOptions';
 import { ElTag } from 'element-plus';
 import { computed, h } from 'vue';
 import { useI18n } from 'vue-i18n';
@@ -25,6 +25,7 @@ type MenuDescriptionDialogProps = DetailDialog<SysMenuDetailVO> & {
 
 const props = defineProps<MenuDescriptionDialogProps>();
 const { t } = useI18n();
+const menuTypeOptions = useMenuTypeOptions();
 
 const { roleColumns } = useRoleColumns();
 
@@ -68,13 +69,13 @@ const descriptionColumns = computed(() => [
     prop: 'menuType',
     labelWidth: 120,
     cellRenderer: ({ value }: { value: number }) => {
-      const option = MENU_TYPE_OPTIONS.find((item) => item.value === value);
+      const option = menuTypeOptions.value.find((item) => item.value === value);
       if (!option) {
         return <span>{value}</span>;
       }
       return (
         <ElTag type={option.tagType} effect="plain">
-          {t(option.labelKey as string)}
+          {option.label}
         </ElTag>
       );
     },

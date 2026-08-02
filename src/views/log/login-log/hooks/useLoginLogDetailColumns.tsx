@@ -1,8 +1,5 @@
 import { formatDateTime } from '@/shared/utils/date/dateTime';
-import {
-  LOGIN_LOG_TYPE_FILTER_OPTIONS,
-  resolveLoginLogResultMeta,
-} from '@/views/log/login-log/constants/login-log-enums';
+import useLoginLogOptions from '@/views/log/login-log/hooks/options/useLoginLogOptions';
 import { ElTag } from 'element-plus';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
@@ -13,6 +10,7 @@ import { useI18n } from 'vue-i18n';
  */
 function useLoginLogDetailColumns() {
   const { t } = useI18n();
+  const { loginResultOptions, loginTypeOptions } = useLoginLogOptions();
 
   const detailColumns = computed(() => [
     {
@@ -31,13 +29,13 @@ function useLoginLogDetailColumns() {
         if (value === undefined || value === null) {
           return <span>—</span>;
         }
-        const meta = resolveLoginLogResultMeta(value);
-        if (!meta) {
+        const option = loginResultOptions.value.find((item) => item.value === value);
+        if (!option) {
           return <span>{String(value)}</span>;
         }
         return (
-          <ElTag type={meta.tagType} effect="plain">
-            {t(meta.labelKey)}
+          <ElTag type={option.tagType} effect="plain">
+            {option.label}
           </ElTag>
         );
       },
@@ -62,8 +60,8 @@ function useLoginLogDetailColumns() {
       labelWidth: 120,
       cellRenderer: ({ value }: { value: string | null }) => {
         if (!value) return <span />;
-        const option = LOGIN_LOG_TYPE_FILTER_OPTIONS.find((item) => item.value === value);
-        return <span>{option ? t(option.labelKey) : value}</span>;
+        const option = loginTypeOptions.value.find((item) => item.value === value);
+        return <span>{option?.label ?? value}</span>;
       },
     },
     { label: t('loginLog.field.sessionId'), prop: 'sessionId', copy: true },

@@ -1,6 +1,7 @@
 import type { AxiosRequestConfig } from 'axios';
 
-import type { BaseResponseDetail, BaseResponsePageRow, PageResponse, SortSpec } from '@/api/common';
+import type { PageResponse, SortSpec } from '@/api/common/page';
+import type { BaseResponseDetail, BaseResponsePageRow } from '@/api/common/response';
 import { http } from '@/core/http/client';
 
 /** 消息渠道*/

@@ -1,17 +1,12 @@
 <script lang="tsx" setup>
-import { createAuditDetailColumns } from '@/shared/composables/table/auditColumns';
-import { formatDateTime } from '@/shared/utils/date/dateTime';
-import type { DetailDialog } from '@/api/common';
+import type { DetailDialog } from '@/shared/types/dialog';
 import type { SysJobDetailRow } from '@/api/schedule/job';
 import Description from '@/components/ui/Description';
 import { renderBooleanStatusTag } from '@/shared/composables/layout/renderBooleanStatusTag';
-import { JOB_LAST_EXECUTION_STATUS_OPTIONS } from '@/views/schedule/schedule-task/constants/job-last-execution-status';
-import { JOB_QUARTZ_RUNTIME_STATUS_OPTIONS } from '@/views/schedule/schedule-task/constants/job-quartz-runtime-status';
-import {
-  JOB_MISFIRE_POLICY_OPTIONS,
-  JOB_TASK_TYPE_OPTIONS,
-} from '@/views/schedule/schedule-task/constants/job-task-enums';
-import { JOB_TIME_ZONE_OPTIONS } from '@/views/schedule/schedule-task/constants/job-time-zones';
+import { createAuditDetailColumns } from '@/shared/composables/table/auditColumns';
+import { formatDateTime } from '@/shared/utils/date/dateTime';
+import useJobFormOptions from '@/views/schedule/schedule-task/hooks/options/useJobFormOptions';
+import useJobRuntimeStatusOptions from '@/views/schedule/schedule-task/hooks/options/useJobRuntimeStatusOptions';
 import type { DescriptionItemProps } from 'element-plus';
 import { ElTag } from 'element-plus';
 import { computed } from 'vue';
@@ -32,32 +27,29 @@ type DescriptionColumn = Partial<DescriptionItemProps> & {
   cellRenderer?: (params: { value: any; data: any; index: number; row: SysJobDetailRow }) => any;
 };
 
-const props = defineProps<JobDescriptionDialogProps>();
+defineProps<JobDescriptionDialogProps>();
 const { t } = useI18n();
+const { taskTypeOptions, timeZoneOptions, misfirePolicyOptions } = useJobFormOptions();
+const { quartzRuntimeStatusOptions, lastExecutionStatusOptions } = useJobRuntimeStatusOptions();
 
 const descriptionColumns = computed(() => {
-  const data = props.data;
   const columns: DescriptionColumn[] = [
     { label: t('table.id'), prop: 'id', labelWidth: 120, copy: true },
     { label: t('scheduleTask.fields.jobName'), prop: 'jobName', labelWidth: 120, copy: true },
     { label: t('scheduleTask.fields.jobGroup'), prop: 'jobGroup', labelWidth: 120, copy: true },
-    {
-      label: t('scheduleTask.fields.jobGroupName'),
-      prop: 'jobGroupName',
-      labelWidth: 120,
-    },
+    { label: t('scheduleTask.fields.jobGroupName'), prop: 'jobGroupName', labelWidth: 120 },
     {
       label: t('scheduleTask.fields.taskType'),
       prop: 'taskType',
       labelWidth: 120,
       cellRenderer: ({ value }) => {
-        const option = JOB_TASK_TYPE_OPTIONS.find((item) => item.value === value);
+        const option = taskTypeOptions.value.find((item) => item.value === value);
         if (!option) {
           return <span>{value ?? '—'}</span>;
         }
         return (
           <ElTag effect="plain" type="info">
-            {t(option.labelKey)}
+            {option.label}
           </ElTag>
         );
       },
@@ -73,37 +65,16 @@ const descriptionColumns = computed(() => {
         return renderBooleanStatusTag(value);
       },
     },
-  ];
-
-  if (data.taskType === 'BEAN_INVOKE' || data.invokeTarget) {
-    columns.push({
-      label: t('scheduleTask.fields.invokeTarget'),
-      prop: 'invokeTarget',
-      labelWidth: 120,
-      span: 2,
-      copy: true,
-    });
-  }
-
-  if (data.taskType === 'CUSTOM_CLASS' || data.jobClass) {
-    columns.push({
-      label: t('scheduleTask.fields.jobClass'),
-      prop: 'jobClass',
-      labelWidth: 120,
-      span: 2,
-      copy: true,
-    });
-  }
-
-  columns.push(
+    { label: t('scheduleTask.fields.invokeTarget'), prop: 'invokeTarget', labelWidth: 120, span: 2, copy: true },
+    { label: t('scheduleTask.fields.jobClass'), prop: 'jobClass', labelWidth: 120, span: 2, copy: true },
     { label: t('scheduleTask.fields.cronExpression'), prop: 'cronExpression', labelWidth: 120, copy: true },
     {
       label: t('scheduleTask.fields.timeZone'),
       prop: 'timeZone',
       labelWidth: 120,
       cellRenderer: ({ value }) => {
-        const option = JOB_TIME_ZONE_OPTIONS.find((item) => item.value === value);
-        return <span>{option ? t(option.labelKey) : (value ?? '—')}</span>;
+        const option = timeZoneOptions.value.find((item) => item.value === value);
+        return <span>{option?.label ?? value ?? '—'}</span>;
       },
     },
     {
@@ -111,8 +82,8 @@ const descriptionColumns = computed(() => {
       prop: 'misfirePolicy',
       labelWidth: 120,
       cellRenderer: ({ value }) => {
-        const option = JOB_MISFIRE_POLICY_OPTIONS.find((item) => item.value === value);
-        return <span>{option ? t(option.labelKey) : '—'}</span>;
+        const option = misfirePolicyOptions.value.find((item) => item.value === value);
+        return <span>{option?.label ?? '—'}</span>;
       },
     },
     {
@@ -138,26 +109,24 @@ const descriptionColumns = computed(() => {
       labelWidth: 120,
       cellRenderer: ({ value }) => formatDateTime(value),
     },
-
     {
       label: t('scheduleTask.fields.nextFireTime'),
       prop: 'nextFireTime',
       labelWidth: 120,
       cellRenderer: ({ value }) => formatDateTime(value),
     },
-
     {
       label: t('scheduleTask.fields.quartzRuntimeStatus'),
       prop: 'quartzRuntimeStatus',
       labelWidth: 120,
       cellRenderer: ({ value }) => {
-        const option = JOB_QUARTZ_RUNTIME_STATUS_OPTIONS.find((item) => item.value === value);
+        const option = quartzRuntimeStatusOptions.value.find((item) => item.value === value);
         if (!option) {
           return <span>{value ?? '—'}</span>;
         }
         return (
           <ElTag effect="plain" type={option.tagType}>
-            {t(option.labelKey)}
+            {option.label}
           </ElTag>
         );
       },
@@ -173,13 +142,13 @@ const descriptionColumns = computed(() => {
       prop: 'lastExecutionStatus',
       labelWidth: 120,
       cellRenderer: ({ value }) => {
-        const option = JOB_LAST_EXECUTION_STATUS_OPTIONS.find((item) => item.value === value);
+        const option = lastExecutionStatusOptions.value.find((item) => item.value === value);
         if (!option) {
           return <span>{value ?? '—'}</span>;
         }
         return (
           <ElTag effect="plain" type={option.tagType}>
-            {t(option.labelKey)}
+            {option.label}
           </ElTag>
         );
       },
@@ -190,22 +159,10 @@ const descriptionColumns = computed(() => {
       labelWidth: 120,
       cellRenderer: ({ value }) => formatDateTime(value),
     },
-
-    {
-      label: t('scheduleTask.fields.jobParams'),
-      prop: 'jobParams',
-      labelWidth: 120,
-      span: 2,
-      copy: true,
-    },
-    {
-      label: t('scheduleTask.fields.remark'),
-      prop: 'remark',
-      labelWidth: 120,
-      span: 2,
-    },
-    ...createAuditDetailColumns()
-  );
+    { label: t('scheduleTask.fields.jobParams'), prop: 'jobParams', labelWidth: 120, span: 2, copy: true },
+    { label: t('scheduleTask.fields.remark'), prop: 'remark', labelWidth: 120, span: 2 },
+    ...createAuditDetailColumns(),
+  ];
 
   return columns;
 });

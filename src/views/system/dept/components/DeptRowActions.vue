@@ -73,7 +73,6 @@ onUnmounted(() => {
 
 <template>
   <div class="dept-row-actions flex flex-wrap items-center gap-x-1">
-    <!-- 查看 -->
     <el-button v-perms="SYS_DEPT_PERMS.QUERY" link type="primary" @click="openDetailDialog(row)">
       {{ t('buttons.actionView') }}
     </el-button>
@@ -89,17 +88,14 @@ onUnmounted(() => {
       {{ t('dept.action.addChild') }}
     </el-button>
 
-    <!-- 编辑 -->
     <el-button v-perms="SYS_DEPT_PERMS.UPDATE" link type="primary" @click="openEditDialog(row)">
       {{ t('buttons.actionEdit') }}
     </el-button>
 
-    <!-- 删除 -->
     <el-button v-perms="SYS_DEPT_PERMS.DELETE" link type="danger" @click="deleteBatchRows([row.id])">
       {{ t('buttons.actionDelete') }}
     </el-button>
 
-    <!-- 更多 -->
     <Perms :value="SYS_DEPT_PERMS.UPDATE">
       <el-dropdown
         :teleported="dropdownTeleported"

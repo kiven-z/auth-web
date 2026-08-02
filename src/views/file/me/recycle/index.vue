@@ -59,7 +59,6 @@ onMounted(() => {
       class="bg-bg_color w-[99/100] overflow-auto pl-8 pt-3"
       inline
     >
-      <!-- 业务类型筛选 -->
       <el-form-item :label="t('fileRecycle.fields.bizType')" prop="bizType">
         <el-input
           v-model="searchForm.bizType"
@@ -68,7 +67,6 @@ onMounted(() => {
           clearable
         />
       </el-form-item>
-      <!-- 业务ID筛选 -->
       <el-form-item :label="t('fileRecycle.fields.bizId')" prop="bizId">
         <el-input
           v-model="searchForm.bizId"
@@ -77,7 +75,6 @@ onMounted(() => {
           clearable
         />
       </el-form-item>
-      <!-- 文件名筛选 -->
       <el-form-item :label="t('fileRecycle.fields.originalName')" prop="originalName">
         <el-input
           v-model="searchForm.originalName"
@@ -86,7 +83,6 @@ onMounted(() => {
           clearable
         />
       </el-form-item>
-      <!-- 文件类型筛选 -->
       <el-form-item :label="t('fileRecycle.fields.contentType')" prop="contentType">
         <el-input
           v-model="searchForm.contentType"
@@ -96,7 +92,6 @@ onMounted(() => {
         />
       </el-form-item>
       <template v-if="showAdvancedSearchToggle">
-        <!-- 创建时间范围筛选 -->
         <el-form-item v-show="searchExpanded" :label="t('fileRecycle.fields.createdAtRange')" prop="createdAtRange">
           <el-date-picker
             v-model="searchForm.createdAtRange"
@@ -111,15 +106,12 @@ onMounted(() => {
 
       <el-form-item>
         <el-button-group>
-          <!-- 搜索 -->
           <el-button :loading="loading" type="primary" @click="fetchTableData">
             {{ t('buttons.actionSearch') }}
           </el-button>
-          <!-- 重置 -->
           <el-button @click="resetQuery(searchFormRef)">
             {{ t('buttons.actionReset') }}
           </el-button>
-          <!-- 高级搜索 -->
           <el-button v-if="showAdvancedSearchToggle" @click="toggleAdvancedSearch">
             {{ searchExpanded ? t('buttons.actionCollapseSearch') : t('buttons.actionAdvancedSearch') }}
           </el-button>
@@ -135,11 +127,9 @@ onMounted(() => {
     >
       <template #buttons>
         <el-button-group type="primary">
-          <!-- 批量恢复 -->
           <el-button :disabled="selectedRows.length <= 0" type="primary" @click="restoreBatchRows()">
             {{ t('buttons.actionBatchRestore') }}
           </el-button>
-          <!-- 批量彻底删除 -->
           <el-button :disabled="selectedRows.length <= 0" type="danger" @click="deleteBatchRows()">
             {{ t('buttons.actionBatchDelete') }}
           </el-button>
@@ -147,15 +137,12 @@ onMounted(() => {
       </template>
 
       <template #actions="{ row }">
-        <!-- 恢复 -->
         <el-button link type="primary" @click="restoreBatchRows([row.id])">
           {{ t('buttons.actionRestore') }}
         </el-button>
-        <!-- 查看详情 -->
         <el-button link type="primary" @click="openDetailDialog(row)">
           {{ t('buttons.actionView') }}
         </el-button>
-        <!-- 彻底删除 -->
         <el-button link type="danger" @click="deleteBatchRows([row.id])">
           {{ t('buttons.actionDelete') }}
         </el-button>

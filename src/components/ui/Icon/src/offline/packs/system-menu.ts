@@ -9,7 +9,9 @@ import RiFileList3Line from '~icons/ri/file-list-3-line?raw';
 import RiFileShield2Line from '~icons/ri/file-shield-2-line?raw';
 import RiFileUserLine from '~icons/ri/file-user-line?raw';
 import RiHistoryLine from '~icons/ri/history-line?raw';
+import RiInbox2Line from '~icons/ri/inbox-2-line?raw';
 import RiKey2Line from '~icons/ri/key-2-line?raw';
+import RiLineChartLine from '~icons/ri/line-chart-line?raw';
 import RiListCheck3 from '~icons/ri/list-check-3?raw';
 import RiLockPasswordLine from '~icons/ri/lock-password-line?raw';
 import RiLoginBoxLine from '~icons/ri/login-box-line?raw';
@@ -57,6 +59,8 @@ registerOfflineIcons([
   ['ri/stack-line', RiStackLine],
   ['ri/list-check-3', RiListCheck3],
   ['ri/shield-cross-line', RiShieldCrossLine],
+  ['ri/inbox-2-line', RiInbox2Line],
+  ['ri/line-chart-line', RiLineChartLine],
   ['ri/file-2-line', RiFile2Line],
   ['ri/file-user-line', RiFileUserLine],
   ['ri/file-cloud-line', RiFileCloudLine],

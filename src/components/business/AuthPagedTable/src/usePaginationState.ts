@@ -1,4 +1,4 @@
-import type { PageResponse } from '@/api/common';
+import type { PageResponse } from '@/api/common/page';
 import { runPagedTableFetch } from '@/components/business/AuthPagedTable/src/pagination';
 import type { FormInstance } from 'element-plus';
 import { reactive, ref } from 'vue';

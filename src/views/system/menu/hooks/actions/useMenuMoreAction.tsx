@@ -1,4 +1,4 @@
-import type { TableActionDeps } from '@/api/common';
+import type { TableActionDeps } from '@/shared/types/table-action';
 import { getMenuRoles, putMenuRoles } from '@/api/system/menu/menu-role';
 import { addDrawer } from '@/components/ui/Drawer';
 import { transformI18n } from '@/app/plugins/i18n';

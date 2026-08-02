@@ -1,4 +1,4 @@
-import type { TableActionWithSelectionDeps } from '@/api/common';
+import type { TableActionWithSelectionDeps } from '@/shared/types/table-action';
 import {
   deletePasswordHistory,
   getPasswordHistoryDetail,
@@ -13,15 +13,14 @@ import { useI18n } from 'vue-i18n';
 
 /**
  * 密码历史日志表格操作
- * @param deps 表格操作依赖
- * @returns 表格操作方法
+ * @param deps 选中行与刷新回调
+ * @returns 批量删除与打开详情
  */
 function usePasswordHistoryTableAction(deps: TableActionWithSelectionDeps) {
   const { fetchTableData, selectedRows } = deps;
   const { t } = useI18n();
   const { detailColumns } = usePasswordHistoryDetailColumns();
 
-  // 删除操作
   const { deleteBatchRows } = useBatchDeleteAction({
     selectedRows,
     deleteApi: deletePasswordHistory,

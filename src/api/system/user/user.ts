@@ -1,5 +1,8 @@
-import type { BaseResponsePageRow, ExportScopeQueryFields, PageResponse, SpreadsheetImportResult } from '@/api/common';
-import { mergePagedExportParams } from '@/api/common';
+import type { PageResponse } from '@/api/common/page';
+import type { BaseResponsePageRow } from '@/api/common/response';
+import type { ExportScopeQueryFields } from '@/api/common/export';
+import { mergePagedExportParams } from '@/api/common/export';
+import type { SpreadsheetImportResult } from '@/api/common/import';
 import { http } from '@/core/http/client';
 import type { AxiosRequestConfig } from 'axios';
 

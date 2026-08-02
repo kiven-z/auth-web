@@ -59,7 +59,6 @@ const hasSelection = computed(() => selectedRows.value.length > 0);
       <el-button type="danger">{{ t('buttons.actionAdvanced') }}</el-button>
       <template #dropdown>
         <el-dropdown-menu>
-          <!-- 从 Excel 导入 -->
           <Perms :value="SYS_DEPT_PERMS.IMPORT">
             <el-dropdown-item @click="openImportDialog()">
               {{ t('buttons.importExcel') }}

@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import type { FormDialog } from '@/api/common';
+import type { FormDialog } from '@/shared/types/dialog';
 import useRemoteUserSearch from '@/shared/composables/dialog/useRemoteUserSearch';
 import type { FormInstance, FormRules } from 'element-plus';
 import { reactive, ref } from 'vue';
@@ -48,7 +48,6 @@ defineExpose({ formRef, form });
 
 <template>
   <el-form ref="formRef" :model="form" :rules="rules" label-width="auto">
-    <!-- 接收用户 -->
     <el-form-item :label="t(targetLabelI18nKey)" prop="target">
       <el-select
         v-model="form.target"

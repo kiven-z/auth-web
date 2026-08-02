@@ -17,24 +17,9 @@ operationLog:
   remark: Remark
   tableTitle: Operation Logs
   detailTitle: Operation Log Detail
-  moduleEnum:
-    SYSTEM:USER: System - User
-    SYSTEM:ROLE: System - Role
-    SYSTEM:DEPT: System - Dept
-    SYSTEM:PROJECT: System - Project
-    SYSTEM:SECURITY_CONFIG: System - Security Config
-    SYSTEM:MENU: System - Menu
-    SYSTEM:POST: System - Post
-    SYSTEM:JOB: System - Job
   operationTypeEnum:
     CREATE: Create
     UPDATE: Update
     DELETE: Delete
     QUERY: Query
     EXPORT: Export
-  targetTypeEnum:
-    User: User
-    Dept: Dept
-    Role: Role
-    Menu: Menu
-    Post: Post

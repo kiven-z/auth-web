@@ -64,7 +64,6 @@ onMounted(() => {
       class="bg-bg_color w-[99/100] overflow-auto pl-8 pt-3"
       inline
     >
-      <!-- 归属用户筛选 -->
       <el-form-item :label="t('fileRecycle.fields.ownerUserId')" prop="ownerUserId">
         <el-select
           v-model="searchForm.ownerUserId"
@@ -79,7 +78,6 @@ onMounted(() => {
           <el-option v-for="item in userOptions" :key="item.id" :label="item.username" :value="item.id" />
         </el-select>
       </el-form-item>
-      <!-- 业务类型筛选 -->
       <el-form-item :label="t('fileRecycle.fields.bizType')" prop="bizType">
         <el-input
           v-model="searchForm.bizType"
@@ -88,7 +86,6 @@ onMounted(() => {
           clearable
         />
       </el-form-item>
-      <!-- 业务ID筛选 -->
       <el-form-item :label="t('fileRecycle.fields.bizId')" prop="bizId">
         <el-input
           v-model="searchForm.bizId"
@@ -97,7 +94,6 @@ onMounted(() => {
           clearable
         />
       </el-form-item>
-      <!-- 文件名筛选 -->
       <el-form-item :label="t('fileRecycle.fields.originalName')" prop="originalName">
         <el-input
           v-model="searchForm.originalName"
@@ -107,7 +103,6 @@ onMounted(() => {
         />
       </el-form-item>
       <template v-if="showAdvancedSearchToggle">
-        <!-- 文件类型筛选 -->
         <el-form-item v-show="searchExpanded" :label="t('fileRecycle.fields.contentType')" prop="contentType">
           <el-input
             v-model="searchForm.contentType"
@@ -116,7 +111,6 @@ onMounted(() => {
             clearable
           />
         </el-form-item>
-        <!-- 创建时间范围筛选 -->
         <el-form-item v-show="searchExpanded" :label="t('fileRecycle.fields.createdAtRange')" prop="createdAtRange">
           <el-date-picker
             v-model="searchForm.createdAtRange"
@@ -131,15 +125,12 @@ onMounted(() => {
 
       <el-form-item>
         <el-button-group>
-          <!-- 搜索 -->
           <el-button v-perms="FILE_RECYCLE_PERMS.QUERY" :loading="loading" type="primary" @click="fetchTableData">
             {{ t('buttons.actionSearch') }}
           </el-button>
-          <!-- 重置 -->
           <el-button v-perms="FILE_RECYCLE_PERMS.QUERY" @click="resetQuery(searchFormRef)">
             {{ t('buttons.actionReset') }}
           </el-button>
-          <!-- 高级搜索 -->
           <el-button v-if="showAdvancedSearchToggle" @click="toggleAdvancedSearch">
             {{ searchExpanded ? t('buttons.actionCollapseSearch') : t('buttons.actionAdvancedSearch') }}
           </el-button>
@@ -155,7 +146,6 @@ onMounted(() => {
     >
       <template #buttons>
         <el-button-group type="primary">
-          <!-- 批量恢复 -->
           <el-button
             v-perms="FILE_RECYCLE_PERMS.RESTORE"
             :disabled="selectedRows.length <= 0"
@@ -164,7 +154,6 @@ onMounted(() => {
           >
             {{ t('buttons.actionBatchRestore') }}
           </el-button>
-          <!-- 批量彻底删除 -->
           <el-button
             v-perms="FILE_RECYCLE_PERMS.PURGE"
             :disabled="selectedRows.length <= 0"
@@ -177,15 +166,12 @@ onMounted(() => {
       </template>
 
       <template #actions="{ row }">
-        <!-- 恢复 -->
         <el-button v-perms="FILE_RECYCLE_PERMS.RESTORE" link type="primary" @click="restoreBatchRows([row.id])">
           {{ t('buttons.actionRestore') }}
         </el-button>
-        <!-- 查看详情 -->
         <el-button v-perms="FILE_RECYCLE_PERMS.QUERY" link type="primary" @click="openDetailDialog(row)">
           {{ t('buttons.actionView') }}
         </el-button>
-        <!-- 彻底删除 -->
         <el-button v-perms="FILE_RECYCLE_PERMS.PURGE" link type="danger" @click="deleteBatchRows([row.id])">
           {{ t('buttons.actionDelete') }}
         </el-button>

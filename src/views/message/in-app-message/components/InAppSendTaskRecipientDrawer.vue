@@ -61,7 +61,6 @@ onMounted(() => {
     />
 
     <el-form ref="searchFormRef" v-enter-submit="fetchTableData" :model="searchForm" class="pt-2 pl-6" inline>
-      <!-- 按用户筛选 -->
       <el-form-item :label="t('inAppMessage.field.userId')" prop="userId">
         <el-select
           v-model="searchForm.userId"
@@ -76,7 +75,6 @@ onMounted(() => {
           <el-option v-for="item in userOptions" :key="item.id" :label="item.username" :value="item.id" />
         </el-select>
       </el-form-item>
-      <!-- 阅读状态 -->
       <el-form-item :label="t('inAppMessage.field.readStatus')" prop="isRead">
         <el-select
           v-model="searchForm.isRead"
@@ -88,7 +86,6 @@ onMounted(() => {
           <el-option :label="t('inAppMessage.readStatus.read')" :value="true" />
         </el-select>
       </el-form-item>
-      <!-- 用户侧删除状态 -->
       <el-form-item :label="t('inAppMessage.field.deletedStatus')" prop="isDeleted">
         <el-select
           v-model="searchForm.isDeleted"
@@ -103,11 +100,9 @@ onMounted(() => {
 
       <el-form-item>
         <el-button-group>
-          <!-- 搜索 -->
           <el-button v-perms="IN_APP_MESSAGE_PERMS.DETAIL" :loading="loading" type="primary" @click="fetchTableData">
             {{ t('buttons.actionSearch') }}
           </el-button>
-          <!-- 重置 -->
           <el-button v-perms="IN_APP_MESSAGE_PERMS.DETAIL" @click="resetQuery(searchFormRef)">
             {{ t('buttons.actionReset') }}
           </el-button>

@@ -48,9 +48,6 @@ menus:
   dialogPath: 路由路径
   menuRank: 排序
   icon: 图标
-  iconPickerBuiltin: 内置搜索
-  iconPickerManual: 手动输入
-  iconifyLibrary: Iconify 图标库
   rightExtraIcon: 右侧额外图标
   remark: 备注
   frameSrc: 内嵌地址
@@ -80,10 +77,6 @@ menus:
     outsideChainName: 请输入外链名称
     routerName: 请输入路由名称
     path: 请输入路由路径
-    icon: 请输入图标名或 Iconify 标识
-    iconManual: 仅支持 ri/ 或 ep/，例如 ri/user-line、ep/edit
-    rightExtraIcon: 请输入右侧图标
-    rightExtraIconManual: 从 Iconify 复制，格式为 集合名:图标名
     remark: 请输入备注
     frameSrc: 请输入 iframe 地址
     component: 例如 layout/routerView/default
@@ -93,8 +86,6 @@ menus:
     leaveTransition: animate.css 离场类名
     transitionName: Vue 内置 transition 名称
   tips:
-    switchInputMethod: 切换输入方式
-    openIconOnline: 在线图标库
     simpleAnimation: 简单动画
     detailAnimation: 详细动画
     useAnimationCautionaryNotes: 使用页面过渡动画前请阅读以下说明

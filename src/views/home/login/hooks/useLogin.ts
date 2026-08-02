@@ -3,7 +3,7 @@ import { getTopMenu } from '@/router/utils/misc';
 import { initRouter } from '@/router/utils/route-registry';
 import { message } from '@/services/feedback/message';
 import { defaultLoginMode } from '@/views/home/login/constants/login-registry';
-import type { LoginMode } from '@/views/home/login/constants/types';
+import type { LoginMode } from '@/views/home/login/types/login-mode';
 import { ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';

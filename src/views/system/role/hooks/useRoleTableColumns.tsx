@@ -1,6 +1,6 @@
 import type { SysRolePageRow } from '@/api/system/role/role';
+import { renderBooleanStatusTag } from '@/shared/composables/layout/renderBooleanStatusTag';
 import { createAuditTableColumns } from '@/shared/composables/table/auditColumns';
-import { ElTag } from 'element-plus';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 
@@ -23,13 +23,7 @@ function useRoleTableColumns() {
       label: t('roles.field.status'),
       prop: 'status',
       minWidth: 100,
-      formatter: (row: SysRolePageRow) => {
-        return (
-          <ElTag type={row.status ? 'success' : 'danger'} effect="plain">
-            {row.status ? t('roles.status.normal') : t('roles.status.disabled')}
-          </ElTag>
-        );
-      },
+      formatter: (row: SysRolePageRow) => renderBooleanStatusTag(row.status),
     },
     // 排序号
     { label: t('roles.field.orderNum'), prop: 'orderNum', width: 100 },

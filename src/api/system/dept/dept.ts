@@ -1,13 +1,9 @@
-import type {
-  BaseResponse,
-  BaseResponseDetail,
-  ExportScopeQueryFields,
-  IdsEnableStatusRequest,
-  PageResponse,
-  SortSpec,
-  SpreadsheetImportResult,
-} from '@/api/common';
-import { mergePagedExportParams } from '@/api/common';
+import type { PageResponse, SortSpec } from '@/api/common/page';
+import type { BaseResponse, BaseResponseDetail } from '@/api/common/response';
+import type { ExportScopeQueryFields } from '@/api/common/export';
+import { mergePagedExportParams } from '@/api/common/export';
+import type { SpreadsheetImportResult } from '@/api/common/import';
+import type { IdsEnableStatusRequest } from '@/api/common/request';
 import type { DeptBoundUserReference, PostReference, RoleReference } from '@/api/system/_shared/grant-table';
 import { http } from '@/core/http/client';
 import { TREE_ROOT_PARENT_ID } from '@/shared/utils/tree';

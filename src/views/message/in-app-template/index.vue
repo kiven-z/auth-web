@@ -5,8 +5,8 @@ import {
   type MessageTemplatePageRow,
 } from '@/api/message/message-template';
 import AuthPagedTable, { usePaginationState } from '@/components/business/AuthPagedTable';
+import { useCommonBooleanStatusOptions } from '@/shared/composables/i18n/useCommonBooleanStatusOptions';
 import { useFormPlaceholder } from '@/shared/composables/i18n/useFormPlaceholder';
-import { COMMON_BOOLEAN_STATUS_FILTER_OPTIONS } from '@/shared/constants/boolean-status';
 import { IN_APP_TEMPLATE_CHANNEL } from '@/views/message/_shared/constants/channel';
 import { MESSAGE_TEMPLATE_CONTENT_TYPES } from '@/views/message/_shared/constants/content-type';
 import { IN_APP_TEMPLATE_PERMS } from '@/views/message/in-app-template/constants/permissions';
@@ -23,6 +23,7 @@ defineOptions({
 
 const { t } = useI18n();
 const ph = useFormPlaceholder();
+const booleanStatusOptions = useCommonBooleanStatusOptions();
 const { columns } = useInAppTemplateTableColumns();
 const searchFormRef = ref<FormInstance>();
 
@@ -69,7 +70,6 @@ onMounted(() => {
           clearable
         />
       </el-form-item>
-      <!-- 模板名称 -->
       <el-form-item :label="t('inAppTemplate.templateName')" prop="templateName">
         <el-input
           v-model="searchForm.templateName"
@@ -87,7 +87,6 @@ onMounted(() => {
           clearable
         />
       </el-form-item>
-      <!-- 正文类型 -->
       <el-form-item :label="t('inAppTemplate.contentType')" prop="imMessageType">
         <el-select
           v-model="searchForm.imMessageType"
@@ -98,7 +97,6 @@ onMounted(() => {
           <el-option v-for="type in MESSAGE_TEMPLATE_CONTENT_TYPES" :key="type" :label="type" :value="type" />
         </el-select>
       </el-form-item>
-      <!-- 状态 -->
       <el-form-item :label="t('inAppTemplate.status')" prop="status">
         <el-select
           v-model="searchForm.status"
@@ -107,9 +105,9 @@ onMounted(() => {
           clearable
         >
           <el-option
-            v-for="opt in COMMON_BOOLEAN_STATUS_FILTER_OPTIONS"
-            :key="`${opt.labelKey}:${String(opt.value)}`"
-            :label="t(opt.labelKey)"
+            v-for="opt in booleanStatusOptions"
+            :key="String(opt.value)"
+            :label="opt.label"
             :value="opt.value"
           />
         </el-select>
@@ -117,11 +115,9 @@ onMounted(() => {
 
       <el-form-item>
         <el-button-group>
-          <!-- 搜索 -->
           <el-button v-perms="IN_APP_TEMPLATE_PERMS.QUERY" :loading="loading" type="primary" @click="fetchTableData">
             {{ t('buttons.actionSearch') }}
           </el-button>
-          <!-- 重置 -->
           <el-button v-perms="IN_APP_TEMPLATE_PERMS.QUERY" @click="resetQuery(searchFormRef)">
             {{ t('buttons.actionReset') }}
           </el-button>
@@ -137,31 +133,26 @@ onMounted(() => {
     >
       <template #buttons>
         <el-button-group type="primary">
-          <!-- 添加 -->
           <el-button v-perms="IN_APP_TEMPLATE_PERMS.CREATE" @click="openCreateDrawer">
             {{ t('buttons.actionAdd') }}
           </el-button>
 
-          <!-- 高级功能 -->
           <el-dropdown trigger="click">
             <el-button type="danger">
               {{ t('buttons.actionAdvanced') }}
             </el-button>
 
             <template #dropdown>
-              <!-- 批量删除 -->
               <Perms :value="IN_APP_TEMPLATE_PERMS.DELETE">
                 <el-dropdown-item :disabled="selectedRows.length <= 0" @click="deleteBatchRows()">
                   {{ t('buttons.actionBatchDelete') }}
                 </el-dropdown-item>
               </Perms>
-              <!-- 批量启用 -->
               <Perms :value="IN_APP_TEMPLATE_PERMS.UPDATE">
                 <el-dropdown-item :disabled="selectedRows.length <= 0" @click="batchUpdateStatus(true)">
                   {{ t('buttons.actionBatchEnable') }}
                 </el-dropdown-item>
               </Perms>
-              <!-- 批量停用 -->
               <Perms :value="IN_APP_TEMPLATE_PERMS.UPDATE">
                 <el-dropdown-item :disabled="selectedRows.length <= 0" @click="batchUpdateStatus(false)">
                   {{ t('buttons.actionBatchDisable') }}
@@ -173,30 +164,24 @@ onMounted(() => {
       </template>
 
       <template #actions="{ row }">
-        <!-- 查看 -->
         <el-button v-perms="IN_APP_TEMPLATE_PERMS.DETAIL" link type="primary" @click="openDetailDialog(row)">
           {{ t('buttons.actionView') }}
         </el-button>
-        <!-- 编辑 -->
         <el-button v-perms="IN_APP_TEMPLATE_PERMS.UPDATE" link type="primary" @click="openEditDrawer(row)">
           {{ t('buttons.actionEdit') }}
         </el-button>
-        <!-- 删除 -->
         <el-button v-perms="IN_APP_TEMPLATE_PERMS.DELETE" link type="danger" @click="deleteBatchRows([row.id])">
           {{ t('buttons.actionDelete') }}
         </el-button>
-        <!-- 更多 -->
         <el-dropdown trigger="click">
           <el-button class="ml-2!" link type="primary">{{ t('buttons.actionMore') }}</el-button>
           <template #dropdown>
             <el-dropdown-menu>
-              <!-- 必填变量 -->
               <Perms :value="IN_APP_TEMPLATE_PERMS.UPDATE">
                 <el-dropdown-item @click="openRequireFields(row)">
                   {{ t('messageTemplate.requireFieldsMenu') }}
                 </el-dropdown-item>
               </Perms>
-              <!-- 测试发送 -->
               <Perms :value="IN_APP_TEMPLATE_PERMS.UPDATE">
                 <el-dropdown-item @click="openTestSend(row)">
                   {{ t('messageTemplate.testSendMenu') }}

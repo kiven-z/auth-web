@@ -18,9 +18,6 @@ post:
     employeeNo: 工号
     isPrimaryPosition: 是否主岗位
   enums:
-    status:
-      normal: 启用
-      disabled: 禁用
     primary:
       yes: 主岗位
       no: 副岗位

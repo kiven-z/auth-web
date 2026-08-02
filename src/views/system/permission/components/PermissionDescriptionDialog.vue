@@ -1,6 +1,6 @@
 <script lang="tsx" setup>
 import { createAuditDetailColumns } from '@/shared/composables/table/auditColumns';
-import type { DetailDialog } from '@/api/common';
+import type { DetailDialog } from '@/shared/types/dialog';
 import type { SysPermissionDetail } from '@/api/system/permission';
 import DetailRelationListSection from '@/components/business/DetailRelationListSection/index.vue';
 import Description from '@/components/ui/Description';
@@ -37,10 +37,8 @@ const descriptionColumns = computed(() => [
 
 <template>
   <div>
-    <!-- 权限基础信息 -->
     <Description :column="2" :columns="descriptionColumns" :data="data ?? {}" />
 
-    <!-- 已绑定角色 -->
     <el-divider />
     <DetailRelationListSection
       :columns="roleColumns"

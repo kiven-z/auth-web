@@ -1,5 +1,5 @@
 import { formatDateTime } from '@/shared/utils/date/dateTime';
-import { resolveAuditEventTypeMeta } from '@/views/log/authorization-audit-log/constants/authorization-audit-enums';
+import useAuthorizationAuditOptions from '@/views/log/authorization-audit-log/hooks/options/useAuthorizationAuditOptions';
 import { ElTag } from 'element-plus';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
@@ -10,6 +10,7 @@ import { useI18n } from 'vue-i18n';
  */
 function useAuthorizationAuditDetailColumns() {
   const { t } = useI18n();
+  const { eventTypeOptions } = useAuthorizationAuditOptions();
 
   const detailColumns = computed(() => [
     {
@@ -17,34 +18,25 @@ function useAuthorizationAuditDetailColumns() {
       prop: 'eventType',
       labelWidth: 120,
       cellRenderer: ({ value }: { value: string }) => {
-        const meta = resolveAuditEventTypeMeta(value);
-        if (!meta) {
+        const option = eventTypeOptions.value.find((item) => item.value === value);
+        if (!option) {
           return <span>{value}</span>;
         }
         return (
-          <ElTag type={meta.tagType} effect="plain">
-            {t(meta.labelKey)}
+          <ElTag type={option.tagType} effect="plain">
+            {option.label}
           </ElTag>
         );
       },
     },
     { label: t('authorizationAudit.sessionId'), prop: 'sessionId', labelWidth: 120, copy: true },
-    {
-      label: t('authorizationAudit.requiredPermission'),
-      prop: 'requiredPermission',
-      labelWidth: 120,
-      copy: true,
-    },
+    { label: t('authorizationAudit.requiredPermission'), prop: 'requiredPermission', labelWidth: 120, copy: true },
     { label: t('authorizationAudit.requestMethod'), prop: 'requestMethod', labelWidth: 120 },
     { label: t('authorizationAudit.requestUri'), prop: 'requestUri', labelWidth: 120, copy: true },
     { label: t('authorizationAudit.requestIp'), prop: 'requestIp', labelWidth: 120, copy: true },
     { label: t('authorizationAudit.decisionReason'), prop: 'decisionReason', labelWidth: 120 },
     { label: t('authorizationAudit.decisionDetail'), prop: 'decisionDetail', labelWidth: 120, copy: true },
-    {
-      label: t('authorizationAudit.userPermissionsSummary'),
-      prop: 'userPermissionsSummary',
-      labelWidth: 120,
-    },
+    { label: t('authorizationAudit.userPermissionsSummary'), prop: 'userPermissionsSummary', labelWidth: 120 },
     { label: t('authorizationAudit.policyCode'), prop: 'policyCode', labelWidth: 120, copy: true },
     { label: t('authorizationAudit.policyDecision'), prop: 'policyDecision', labelWidth: 120 },
     { label: t('authorizationAudit.className'), prop: 'className', labelWidth: 120, copy: true },

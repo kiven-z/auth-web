@@ -97,17 +97,14 @@ function handleClose(options: DrawerOptions, index: number, args = { command: 'c
     @open-auto-focus="eventsCallBack('openAutoFocus', options, index)"
     @close-auto-focus="eventsCallBack('closeAutoFocus', options, index)"
   >
-    <!-- header  -->
     <template v-if="options?.headerRenderer" #header="{ close, titleId, titleClass }">
       <component :is="options?.headerRenderer({ close, titleId, titleClass })" />
     </template>
-    <!--  body  -->
     <component
       :is="options.contentRenderer({ options, index })"
       v-bind="options?.props"
       @close="(args) => handleClose(options, index, args)"
     />
-    <!-- footer  -->
     <template v-if="!options?.hideFooter" #footer>
       <template v-if="options?.footerRenderer">
         <component :is="options?.footerRenderer({ options, index })" />

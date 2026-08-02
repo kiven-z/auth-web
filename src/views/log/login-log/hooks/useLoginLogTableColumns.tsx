@@ -1,13 +1,7 @@
 import { formatDateTime } from '@/shared/utils/date/dateTime';
-/**
- * 登录日志表格列
- */
 import type { LoginLogPageRow } from '@/api/log/login-log';
 import { selectUserinfo } from '@/components/business/UserProfile';
-import {
-  LOGIN_LOG_TYPE_FILTER_OPTIONS,
-  resolveLoginLogResultMeta,
-} from '@/views/log/login-log/constants/login-log-enums';
+import useLoginLogOptions from '@/views/log/login-log/hooks/options/useLoginLogOptions';
 import { ElButton, ElTag } from 'element-plus';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
@@ -18,12 +12,7 @@ import { useI18n } from 'vue-i18n';
  */
 function useLoginLogTableColumns() {
   const { t } = useI18n();
-
-  const loginTypeLabel = (type: string | null | undefined) => {
-    if (!type) return '';
-    const option = LOGIN_LOG_TYPE_FILTER_OPTIONS.find((item) => item.value === type);
-    return option ? t(option.labelKey) : type;
-  };
+  const { loginResultOptions, loginTypeOptions } = useLoginLogOptions();
 
   const columns = computed<TableColumnList>(() => [
     {
@@ -36,7 +25,6 @@ function useLoginLogTableColumns() {
       label: t('table.idx'),
       minWidth: 60,
     },
-    // 用户
     {
       label: t('loginLog.field.user'),
       prop: 'username',
@@ -54,7 +42,6 @@ function useLoginLogTableColumns() {
         );
       },
     },
-    // 登录结果
     {
       label: t('loginLog.field.loginResult'),
       prop: 'loginResult',
@@ -62,17 +49,16 @@ function useLoginLogTableColumns() {
       formatter: (row: LoginLogPageRow) => {
         const code = row.loginResult;
         if (code === undefined || code === null) return <span>—</span>;
-        const meta = resolveLoginLogResultMeta(code);
-        if (!meta) return <span>{String(code)}</span>;
+        const option = loginResultOptions.value.find((item) => item.value === code);
+        if (!option) return <span>{String(code)}</span>;
 
         return (
-          <ElTag type={meta.tagType} effect="plain">
-            {t(meta.labelKey)}
+          <ElTag type={option.tagType} effect="plain">
+            {option.label}
           </ElTag>
         );
       },
     },
-    // 登录时间
     {
       label: t('loginLog.field.loginTime'),
       prop: 'loginTime',
@@ -80,18 +66,20 @@ function useLoginLogTableColumns() {
       minWidth: 170,
       formatter: (row: LoginLogPageRow) => formatDateTime(row.loginTime),
     },
-    // 登录地区
     {
       label: t('loginLog.field.loginRegion'),
       prop: 'loginRegion',
       minWidth: 140,
     },
-    // 登录类型
     {
       label: t('loginLog.field.loginType'),
       prop: 'loginType',
       minWidth: 130,
-      formatter: (row: LoginLogPageRow) => loginTypeLabel(row.loginType),
+      formatter: (row: LoginLogPageRow) => {
+        if (!row.loginType) return '';
+        const option = loginTypeOptions.value.find((item) => item.value === row.loginType);
+        return option?.label ?? row.loginType;
+      },
     },
     {
       label: t('table.createdAt'),

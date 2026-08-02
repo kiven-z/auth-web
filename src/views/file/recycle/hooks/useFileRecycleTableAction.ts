@@ -1,4 +1,4 @@
-import type { TableActionWithSelectionDeps } from '@/api/common';
+import type { TableActionWithSelectionDeps } from '@/shared/types/table-action';
 import { getFileRecycleDetail, purgeFileRecycle, restoreFileRecycle } from '@/api/file/file-recycle';
 import useFileRecycleTableActionCore from '@/views/file/_shared/hooks/useFileRecycleTableActionCore';
 

@@ -1,4 +1,5 @@
-import type { BaseResponseDetail, BaseResponsePageRow, PageResponse, SortSpec } from '@/api/common';
+import type { PageResponse, SortSpec } from '@/api/common/page';
+import type { BaseResponseDetail, BaseResponsePageRow } from '@/api/common/response';
 import type { InAppTemplateContentType } from '@/api/message/in-app-template';
 import { http } from '@/core/http/client';
 import type { AxiosRequestConfig } from 'axios';

@@ -3,7 +3,7 @@ import { getMyLoginLogPage } from '@/api/system/user/user-me';
 import AuthPagedTable, { usePaginationState } from '@/components/business/AuthPagedTable';
 import { useFormPlaceholder } from '@/shared/composables/i18n/useFormPlaceholder';
 import useMeLoginLogTableColumns from '@/views/home/account/login-log/hooks/useMeLoginLogTableColumns';
-import { LOGIN_LOG_RESULT_ITEMS, LOGIN_LOG_TYPE_FILTER_OPTIONS } from '@/views/log/login-log/constants/login-log-enums';
+import useLoginLogOptions from '@/views/log/login-log/hooks/options/useLoginLogOptions';
 import type { FormInstance } from 'element-plus';
 import { onMounted, reactive, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
@@ -14,6 +14,7 @@ defineOptions({
 
 const { t } = useI18n();
 const ph = useFormPlaceholder();
+const { loginResultOptions, loginTypeOptions } = useLoginLogOptions();
 const { meLoginLogTableColumns } = useMeLoginLogTableColumns();
 const searchFormRef = ref<FormInstance>();
 
@@ -48,12 +49,7 @@ onMounted(() => {
           class="account-login-log__select"
           clearable
         >
-          <el-option
-            v-for="item in LOGIN_LOG_RESULT_ITEMS"
-            :key="item.code"
-            :label="t(item.labelKey)"
-            :value="item.code"
-          />
+          <el-option v-for="item in loginResultOptions" :key="item.value" :label="item.label" :value="item.value" />
         </el-select>
       </el-form-item>
 
@@ -64,12 +60,7 @@ onMounted(() => {
           class="account-login-log__select"
           clearable
         >
-          <el-option
-            v-for="item in LOGIN_LOG_TYPE_FILTER_OPTIONS"
-            :key="item.value"
-            :label="t(item.labelKey)"
-            :value="item.value"
-          />
+          <el-option v-for="item in loginTypeOptions" :key="item.value" :label="item.label" :value="item.value" />
         </el-select>
       </el-form-item>
 

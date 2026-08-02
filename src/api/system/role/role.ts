@@ -1,21 +1,12 @@
 import type { AxiosRequestConfig } from 'axios';
 
-import type {
-  BaseResponse,
-  BaseResponsePageRow,
-  ExportScopeQueryFields,
-  IdsEnableStatusRequest,
-  PageResponse,
-  SortSpec,
-  SpreadsheetImportResult,
-} from '@/api/common';
-import { mergePagedExportParams } from '@/api/common';
-import type {
-  DeptReference,
-  PermissionReference,
-  PostReference,
-  UserReference,
-} from '@/api/system/_shared/grant-table';
+import type { PageResponse, SortSpec } from '@/api/common/page';
+import type { BaseResponse, BaseResponsePageRow } from '@/api/common/response';
+import type { ExportScopeQueryFields } from '@/api/common/export';
+import { mergePagedExportParams } from '@/api/common/export';
+import type { SpreadsheetImportResult } from '@/api/common/import';
+import type { IdsEnableStatusRequest } from '@/api/common/request';
+import type { PermissionReference } from '@/api/system/_shared/grant-table';
 import { http } from '@/core/http/client';
 
 export type { SpreadsheetImportResult };
@@ -81,7 +72,7 @@ export interface RoleBoundMenuItem {
 }
 
 /**
- * 角色详情
+ * 角色详情（基本信息 + 权限 + 菜单；授权对象见 grant-subjects）
  */
 export interface SysRoleDetail extends BaseResponse {
   roleCode: string;
@@ -91,9 +82,6 @@ export interface SysRoleDetail extends BaseResponse {
   remark?: string;
   boundPermissions: PermissionReference[];
   boundMenus: RoleBoundMenuItem[];
-  boundUsers: UserReference[];
-  boundDepts: DeptReference[];
-  boundPosts: PostReference[];
 }
 
 /**

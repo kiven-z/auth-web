@@ -1,9 +1,10 @@
 <script lang="ts" setup>
-import type { FormDialog } from '@/api/common';
+import type { FormDialog } from '@/shared/types/dialog';
 import type { InAppTemplateFormModel } from '@/api/message/in-app-template';
 import type { FormInstance, FormRules } from 'element-plus';
 import InAppTemplateContentEditor from '@/views/message/in-app-template/components/InAppTemplateContentEditor.vue';
 import { MESSAGE_TEMPLATE_CONTENT_TYPES } from '@/views/message/_shared/constants/content-type';
+import { useCommonBooleanStatusOptions } from '@/shared/composables/i18n/useCommonBooleanStatusOptions';
 import { reactive, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 
@@ -18,6 +19,7 @@ const props = withDefaults(defineProps<InAppTemplateDrawerProps>(), {
 });
 
 const { t } = useI18n();
+const booleanStatusOptions = useCommonBooleanStatusOptions();
 const formRef = ref<FormInstance>();
 
 const form = ref<InAppTemplateFormModel>({
@@ -70,7 +72,6 @@ defineExpose({ formRef, form });
         </el-form-item>
       </el-col>
 
-      <!-- 模板名称 -->
       <el-col :lg="12" :md="12" :sm="12" :xs="24">
         <el-form-item :label="t('inAppTemplate.templateName')" prop="templateName">
           <el-input
@@ -94,7 +95,6 @@ defineExpose({ formRef, form });
         </el-form-item>
       </el-col>
 
-      <!-- 正文类型 -->
       <el-col :lg="12" :md="12" :sm="12" :xs="24">
         <el-form-item :label="t('inAppTemplate.contentType')" prop="contentType">
           <el-radio-group v-model="form.contentType">
@@ -106,24 +106,22 @@ defineExpose({ formRef, form });
       </el-col>
 
       <el-col :lg="12" :md="12" :sm="12" :xs="24">
-        <!-- 优先级 -->
         <el-form-item :label="t('inAppTemplate.priority')" prop="priority">
           <el-input-number v-model="form.priority" :max="10" :min="1" class="w-full" controls-position="right" />
         </el-form-item>
       </el-col>
 
       <el-col :lg="12" :md="12" :sm="12" :xs="24">
-        <!-- 状态 -->
         <el-form-item :label="t('inAppTemplate.status')" prop="status">
           <el-radio-group v-model="form.status">
-            <el-radio :value="true">{{ t('buttons.statusActiveText') }}</el-radio>
-            <el-radio :value="false">{{ t('buttons.statusInactiveText') }}</el-radio>
+            <el-radio v-for="opt in booleanStatusOptions" :key="String(opt.value)" :value="opt.value">
+              {{ opt.label }}
+            </el-radio>
           </el-radio-group>
         </el-form-item>
       </el-col>
 
       <el-col :span="24">
-        <!-- 描述 -->
         <el-form-item :label="t('inAppTemplate.description')" prop="description">
           <el-input
             v-model="form.description"

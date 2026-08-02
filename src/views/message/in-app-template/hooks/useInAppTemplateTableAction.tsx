@@ -1,4 +1,4 @@
-import type { TableActionWithSelectionDeps } from '@/api/common';
+import type { TableActionWithSelectionDeps } from '@/shared/types/table-action';
 import { createInAppTemplate, type InAppTemplateFormModel, updateInAppTemplate } from '@/api/message/in-app-template';
 import {
   batchDeleteMessageTemplates,

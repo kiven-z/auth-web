@@ -14,7 +14,7 @@ import { multiConfirm } from '@/services/feedback/dialog';
 import UserDeptAssignFormDialog from '@/views/system/user/workstation/panels/assign/dept/UserDeptAssignFormDialog.vue';
 import { ref, type Ref } from 'vue';
 import { useI18n } from 'vue-i18n';
-import type { TableActionDeps } from '@/api/common';
+import type { TableActionDeps } from '@/shared/types/table-action';
 
 /** 用户工作台「分配部门」面板操作依赖 */
 interface GrantDeptActionDeps extends TableActionDeps {

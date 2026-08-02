@@ -12,9 +12,6 @@ authorizationAudit:
   userPermissionsSummary: 用户权限摘要
   policyCode: 策略编码
   policyDecision: 策略决策
-  policyDecisionEnum:
-    'true': 是
-    'false': 否
   methodParams: 方法参数
   exceptionMessage: 异常信息
   remark: 备注
@@ -24,10 +21,3 @@ authorizationAudit:
   eventTypeEnum:
     GRANTED: 授权通过
     DENIED: 拒绝访问
-  decisionReasonEnum:
-    MATCHED: 权限匹配
-    ACCESS_DENIED: 拒绝访问
-    UNAUTHENTICATED: 未认证
-    FORBIDDEN: 禁止访问
-    METHOD_NOT_ALLOWED: 方法不允许
-    NOT_FOUND: 未找到

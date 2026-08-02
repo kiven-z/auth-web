@@ -2,8 +2,7 @@
 import { getUserProfile, type SysUserProfileResponse } from '@/api/system/user/user-base';
 import { type SysUserUpdateForm, updateUser } from '@/api/system/user/user';
 import { errorMessage, message } from '@/services/feedback/message';
-import { USER_STATUS_FILTER_OPTIONS } from '@/views/system/user/constants/user-account-status';
-import { USER_GENDER_OPTIONS } from '@/views/system/user/constants/user-gender';
+import useUserOptions from '@/views/system/user/hooks/options/useUserOptions';
 import { WORKSTATION_PROFILE_KEY } from '@/views/system/user/workstation/hooks/useWorkstationProfileContext';
 import AvatarUpdatePanel from '@/views/system/user/workstation/panels/profile/AvatarUpdatePanel.vue';
 import type { FormInstance, FormRules } from 'element-plus';
@@ -14,6 +13,7 @@ import { useRoute } from 'vue-router';
 defineOptions({ name: 'UserWorkstationProfilePanel' });
 
 const { t } = useI18n();
+const { statusFilterOptions: userStatusOptions, genderOptions: userGenderOptions } = useUserOptions();
 const route = useRoute();
 const workstationProfile = inject(WORKSTATION_PROFILE_KEY, null);
 
@@ -160,57 +160,49 @@ watch(userId, () => void loadProfile(), { immediate: true });
       <el-divider content-position="left">{{ t('account.field.basicInfo') }}</el-divider>
       <el-form ref="formRef" :model="form" :rules="rules" label-width="auto">
         <el-row :gutter="14">
-          <!-- 用户名 -->
           <el-col :lg="12" :md="12" :sm="12" :xs="24">
             <el-form-item :label="t('users.field.username')" prop="username">
               <el-input v-model="form.username" :placeholder="t('users.field.username')" clearable />
             </el-form-item>
           </el-col>
-          <!-- 昵称 -->
           <el-col :lg="12" :md="12" :sm="12" :xs="24">
             <el-form-item :label="t('users.field.nickname')" prop="nickname">
               <el-input v-model="form.nickname" :placeholder="t('users.field.nickname')" clearable />
             </el-form-item>
           </el-col>
-          <!-- 邮箱 -->
           <el-col :lg="12" :md="12" :sm="12" :xs="24">
             <el-form-item :label="t('users.field.email')" prop="email">
               <el-input v-model="form.email" :placeholder="t('users.field.email')" clearable />
             </el-form-item>
           </el-col>
-          <!-- 手机号 -->
           <el-col :lg="12" :md="12" :sm="12" :xs="24">
             <el-form-item :label="t('users.field.phone')" prop="phone">
               <el-input v-model="form.phone" :placeholder="t('users.field.phone')" clearable />
             </el-form-item>
           </el-col>
-          <!-- 工号 -->
           <el-col :lg="12" :md="12" :sm="12" :xs="24">
             <el-form-item :label="t('relation.employeeNo')" prop="employeeNo">
               <el-input v-model="form.employeeNo" :placeholder="t('relation.employeeNo')" clearable />
             </el-form-item>
           </el-col>
-          <!-- 状态 -->
           <el-col :lg="12" :md="12" :sm="12" :xs="24">
             <el-form-item :label="t('users.field.status')" prop="status">
               <el-radio-group v-model="form.status">
-                <el-radio v-for="opt in USER_STATUS_FILTER_OPTIONS" :key="opt.value" :value="opt.value">
-                  {{ t(opt.labelKey) }}
+                <el-radio v-for="opt in userStatusOptions" :key="opt.value" :value="opt.value">
+                  {{ opt.label }}
                 </el-radio>
               </el-radio-group>
             </el-form-item>
           </el-col>
-          <!-- 性别 -->
           <el-col :lg="12" :md="12" :sm="12" :xs="24">
             <el-form-item :label="t('users.field.gender')" prop="gender">
               <el-radio-group v-model="form.gender">
-                <el-radio v-for="opt in USER_GENDER_OPTIONS" :key="opt.value" :value="opt.value">
-                  {{ t(opt.labelKey) }}
+                <el-radio v-for="opt in userGenderOptions" :key="opt.value" :value="opt.value">
+                  {{ opt.label }}
                 </el-radio>
               </el-radio-group>
             </el-form-item>
           </el-col>
-          <!-- 出生日期 -->
           <el-col :lg="12" :md="12" :sm="12" :xs="24">
             <el-form-item :label="t('users.field.birthday')" prop="birthday">
               <el-date-picker
@@ -223,7 +215,6 @@ watch(userId, () => void loadProfile(), { immediate: true });
               />
             </el-form-item>
           </el-col>
-          <!-- 个人简介 -->
           <el-col :span="24">
             <el-form-item :label="t('users.field.introduction')" prop="introduction">
               <el-input
@@ -236,7 +227,6 @@ watch(userId, () => void loadProfile(), { immediate: true });
               />
             </el-form-item>
           </el-col>
-          <!-- 备注 -->
           <el-col :span="24">
             <el-form-item :label="t('users.field.remark')" prop="remark">
               <el-input

@@ -1,4 +1,5 @@
-import type { BaseResponsePageRow, PageResponse, SortSpec } from '@/api/common';
+import type { PageResponse, SortSpec } from '@/api/common/page';
+import type { BaseResponsePageRow } from '@/api/common/response';
 import { http } from '@/core/http/client';
 import type { AxiosRequestConfig } from 'axios';
 

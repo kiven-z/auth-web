@@ -1,15 +1,14 @@
 <script lang="tsx" setup>
 import { createAuditDetailColumns } from '@/shared/composables/table/auditColumns';
-import type { DetailDialog } from '@/api/common';
+import type { DetailDialog } from '@/shared/types/dialog';
 import type { SysDeptDetail } from '@/api/system/dept/dept';
 import useUserProfileColumns from '@/components/business/UserProfile/src/useUserProfileColumns';
 import DetailRelationListSection from '@/components/business/DetailRelationListSection/index.vue';
 import Description from '@/components/ui/Description';
 import usePostColumns from '@/views/system/_shared/columns/usePostColumns';
 import useRoleColumns from '@/views/system/_shared/columns/useRoleColumns';
+import { renderBooleanStatusTag } from '@/shared/composables/layout/renderBooleanStatusTag';
 import { TREE_ROOT_PARENT_ID } from '@/shared/utils/tree';
-import { DEPT_STATUS_FILTER_OPTIONS } from '@/views/system/dept/constants/dept-search-options';
-import { ElTag } from 'element-plus';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 
@@ -53,15 +52,7 @@ const descriptionColumns = computed(() => [
     label: t('dept.field.status'),
     prop: 'status',
     labelWidth: 120,
-    cellRenderer: ({ value }: { value: boolean }) => {
-      const option = DEPT_STATUS_FILTER_OPTIONS.find((item) => item.value === value);
-      const labelKey = option?.labelKey ?? (value ? 'dept.enum.status.normal' : 'dept.enum.status.disabled');
-      return (
-        <ElTag type={value ? 'success' : 'danger'} effect="plain">
-          {t(labelKey)}
-        </ElTag>
-      );
-    },
+    cellRenderer: ({ value }: { value: boolean }) => renderBooleanStatusTag(value),
   },
   { label: t('dept.field.orderNum'), prop: 'orderNum', labelWidth: 120 },
   { label: t('dept.field.remark'), prop: 'remark', labelWidth: 120, span: 2 },
@@ -75,7 +66,6 @@ const descriptionColumns = computed(() => [
 
     <el-divider />
 
-    <!-- 绑定用户 -->
     <DetailRelationListSection
       :columns="userRelationBindingColumns"
       :empty-text="t('dept.binding.users.empty')"
@@ -84,7 +74,6 @@ const descriptionColumns = computed(() => [
       row-key="id"
     />
 
-    <!-- 绑定岗位 -->
     <DetailRelationListSection
       :columns="postColumns"
       :empty-text="t('dept.binding.posts.empty')"
@@ -94,7 +83,6 @@ const descriptionColumns = computed(() => [
       row-key="id"
     />
 
-    <!-- 绑定角色 -->
     <DetailRelationListSection
       :columns="roleColumns"
       :empty-text="t('dept.binding.roles.empty')"

@@ -3,7 +3,8 @@ import AuthPagedTable from '@/components/business/AuthPagedTable';
 import { useFormPlaceholder } from '@/shared/composables/i18n/useFormPlaceholder';
 import { useCollapsibleSearchForm } from '@/shared/composables/search/useCollapsibleSearchForm';
 import { SYS_USER_PERMS } from '@/views/system/user/constants/permissions';
-import { USER_ACCOUNT_STATUS, USER_STATUS_FILTER_OPTIONS } from '@/views/system/user/constants/user-account-status';
+import { USER_ACCOUNT_STATUS } from '@/views/system/user/constants/user-enums';
+import useUserOptions from '@/views/system/user/hooks/options/useUserOptions';
 import useUserAdvanceAction from '@/views/system/user/list/hooks/actions/useUserAdvanceAction';
 import useUserTableAction from '@/views/system/user/list/hooks/actions/useUserTableAction';
 import useUserTableColumns from '@/views/system/user/list/hooks/columns/useUserTableColumns';
@@ -19,6 +20,7 @@ defineOptions({
 
 const { t } = useI18n();
 const ph = useFormPlaceholder();
+const { statusFilterOptions: userStatusOptions } = useUserOptions();
 const { columns } = useUserTableColumns();
 const searchFormRef = ref<FormInstance>();
 
@@ -52,7 +54,6 @@ const hasSelection = computed(() => selectedRows.value.length > 0);
       class="bg-bg_color w-[99/100] overflow-auto pl-8 pt-3"
       inline
     >
-      <!-- 用户名 -->
       <el-form-item :label="t('users.field.username')" prop="username">
         <el-input
           v-model="searchForm.username"
@@ -61,7 +62,6 @@ const hasSelection = computed(() => selectedRows.value.length > 0);
           clearable
         />
       </el-form-item>
-      <!-- 昵称 -->
       <el-form-item :label="t('users.field.nickname')" prop="nickname">
         <el-input
           v-model="searchForm.nickname"
@@ -70,16 +70,13 @@ const hasSelection = computed(() => selectedRows.value.length > 0);
           clearable
         />
       </el-form-item>
-      <!-- 手机号 -->
       <el-form-item :label="t('users.field.phone')" prop="phone">
         <el-input v-model="searchForm.phone" :placeholder="ph.input('users.field.phone')" class="w-45!" clearable />
       </el-form-item>
-      <!-- 邮箱 -->
       <el-form-item :label="t('users.field.email')" prop="email">
         <el-input v-model="searchForm.email" :placeholder="ph.input('users.field.email')" class="w-45!" clearable />
       </el-form-item>
       <template v-if="showAdvancedSearchToggle">
-        <!-- 工号 -->
         <el-form-item v-show="searchExpanded" :label="t('relation.employeeNo')" prop="employeeNo">
           <el-input
             v-model="searchForm.employeeNo"
@@ -88,7 +85,6 @@ const hasSelection = computed(() => selectedRows.value.length > 0);
             clearable
           />
         </el-form-item>
-        <!-- 状态 -->
         <el-form-item v-show="searchExpanded" :label="t('users.field.status')" prop="status">
           <el-select
             v-model="searchForm.status"
@@ -96,27 +92,19 @@ const hasSelection = computed(() => selectedRows.value.length > 0);
             class="w-45!"
             clearable
           >
-            <el-option
-              v-for="opt in USER_STATUS_FILTER_OPTIONS"
-              :key="opt.value"
-              :label="t(opt.labelKey)"
-              :value="opt.value"
-            />
+            <el-option v-for="opt in userStatusOptions" :key="opt.value" :label="opt.label" :value="opt.value" />
           </el-select>
         </el-form-item>
       </template>
 
       <el-form-item>
         <el-button-group>
-          <!-- 搜索 -->
           <el-button v-perms="SYS_USER_PERMS.QUERY" :loading="loading" type="primary" @click="fetchUserTable">
             {{ t('buttons.actionSearch') }}
           </el-button>
-          <!-- 重置 -->
           <el-button v-perms="SYS_USER_PERMS.QUERY" @click="resetUserSearch(searchFormRef)">
             {{ t('buttons.actionReset') }}
           </el-button>
-          <!-- 高级搜索 -->
           <el-button v-if="showAdvancedSearchToggle" @click="toggleAdvancedSearch">
             {{ searchExpanded ? t('buttons.actionCollapseSearch') : t('buttons.actionAdvancedSearch') }}
           </el-button>
@@ -131,7 +119,6 @@ const hasSelection = computed(() => selectedRows.value.length > 0);
             {{ t('buttons.actionAdd') }}
           </el-button>
 
-          <!-- 修改状态 -->
           <Perms :value="SYS_USER_PERMS.UPDATE">
             <el-dropdown trigger="click">
               <el-button :disabled="!hasSelection" type="warning">
@@ -160,7 +147,6 @@ const hasSelection = computed(() => selectedRows.value.length > 0);
             </el-dropdown>
           </Perms>
 
-          <!-- 高级功能 -->
           <el-dropdown trigger="click">
             <el-button type="danger">{{ t('buttons.actionAdvanced') }}</el-button>
             <template #dropdown>
@@ -195,7 +181,6 @@ const hasSelection = computed(() => selectedRows.value.length > 0);
       </template>
 
       <template #actions="{ row }">
-        <!-- 工作台 -->
         <el-button v-perms="SYS_USER_PERMS.QUERY" link type="primary" @click="openUserWorkstation(row.id)">
           {{ t('users.workstation.open') }}
         </el-button>

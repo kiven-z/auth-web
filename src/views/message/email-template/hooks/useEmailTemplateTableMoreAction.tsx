@@ -1,4 +1,4 @@
-import type { TableActionDeps } from '@/api/common';
+import type { TableActionDeps } from '@/shared/types/table-action';
 import type { EmailTemplateMonacoFormModel } from '@/api/message/email-template';
 import { type EmailTemplatePageRow, updateEmailTemplateContent } from '@/api/message/email-template';
 import { getMessageTemplateById } from '@/api/message/message-template';

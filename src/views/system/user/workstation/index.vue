@@ -7,13 +7,11 @@ import { errorMessage } from '@/services/feedback/message';
 import useWorkstationNav from '@/views/system/user/workstation/hooks/useWorkstationNav';
 import { WORKSTATION_PROFILE_KEY } from '@/views/system/user/workstation/hooks/useWorkstationProfileContext';
 import useWorkstationSectionTransition from '@/views/system/user/workstation/hooks/useWorkstationSectionTransition';
-import { ArrowLeft } from '@element-plus/icons-vue';
+import { ArrowLeft, DArrowLeft, DArrowRight } from '@element-plus/icons-vue';
 import 'animate.css';
 import { computed, provide, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRoute, useRouter } from 'vue-router';
-import ArrowLeftDouble from '~icons/ri/arrow-left-double-fill';
-import ArrowRightDouble from '~icons/ri/arrow-right-double-fill';
 
 defineOptions({
   name: 'UserWorkstation',
@@ -113,7 +111,6 @@ watch(userId, () => void loadProfile(), { immediate: true });
 <template>
   <div v-loading="loading" class="user-workstation">
     <aside :class="['user-workstation__sidebar', { 'user-workstation__sidebar--collapsed': sidebarCollapsed }]">
-      <!-- 顶部身份 -->
       <div class="user-workstation__profile">
         <el-avatar
           :size="sidebarCollapsed ? 32 : 44"
@@ -157,14 +154,18 @@ watch(userId, () => void loadProfile(), { immediate: true });
       <div class="user-workstation__footer">
         <button class="user-workstation__footer-btn" type="button" @click="handleBack">
           <el-icon class="user-workstation__footer-icon"><ArrowLeft /></el-icon>
-          <span v-show="!sidebarCollapsed">{{ t('users.workstation.back') }}</span>
+          <span v-show="!sidebarCollapsed" class="user-workstation__footer-label">
+            {{ t('users.workstation.back') }}
+          </span>
         </button>
         <button class="user-workstation__footer-btn" type="button" @click="sidebarCollapsed = !sidebarCollapsed">
-          <IconifyIconOffline
-            :icon="sidebarCollapsed ? ArrowRightDouble : ArrowLeftDouble"
-            class="user-workstation__footer-icon"
-          />
-          <span v-show="!sidebarCollapsed">{{ t('buttons.clickCollapse') }}</span>
+          <el-icon class="user-workstation__footer-icon">
+            <DArrowRight v-if="sidebarCollapsed" />
+            <DArrowLeft v-else />
+          </el-icon>
+          <span v-show="!sidebarCollapsed" class="user-workstation__footer-label">
+            {{ t('buttons.clickCollapse') }}
+          </span>
         </button>
       </div>
     </aside>

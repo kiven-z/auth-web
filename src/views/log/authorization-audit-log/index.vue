@@ -2,8 +2,8 @@
 import { getAuthorizationAuditPage } from '@/api/log/authorization-audit';
 import AuthPagedTable, { usePaginationState } from '@/components/business/AuthPagedTable';
 import useRemoteUserSearch from '@/shared/composables/dialog/useRemoteUserSearch';
-import { AUDIT_EVENT_TYPE_ITEMS } from '@/views/log/authorization-audit-log/constants/authorization-audit-enums';
 import { SYS_LOG_AUTHORIZATION_AUDIT_PERMS } from '@/views/log/authorization-audit-log/constants/permissions';
+import useAuthorizationAuditOptions from '@/views/log/authorization-audit-log/hooks/options/useAuthorizationAuditOptions';
 import useAuthorizationAuditTableAction from '@/views/log/authorization-audit-log/hooks/useAuthorizationAuditTableAction';
 import useAuthorizationAuditTableColumns from '@/views/log/authorization-audit-log/hooks/useAuthorizationAuditTableColumns';
 import { useFormPlaceholder } from '@/shared/composables/i18n/useFormPlaceholder';
@@ -17,6 +17,7 @@ defineOptions({
 
 const { t } = useI18n();
 const ph = useFormPlaceholder();
+const { eventTypeOptions } = useAuthorizationAuditOptions();
 const { columns } = useAuthorizationAuditTableColumns();
 const searchFormRef = ref<FormInstance>();
 
@@ -53,7 +54,6 @@ onMounted(() => {
       class="bg-bg_color w-[99/100] overflow-auto pl-8 pt-3"
       inline
     >
-      <!-- 事件类型 -->
       <el-form-item :label="t('authorizationAudit.eventType')" prop="eventType">
         <el-select
           v-model="searchForm.eventType"
@@ -61,12 +61,7 @@ onMounted(() => {
           class="w-45!"
           clearable
         >
-          <el-option
-            v-for="item in AUDIT_EVENT_TYPE_ITEMS"
-            :key="item.value"
-            :label="t(item.labelKey)"
-            :value="item.value"
-          />
+          <el-option v-for="item in eventTypeOptions" :key="item.value" :label="item.label" :value="item.value" />
         </el-select>
       </el-form-item>
 
@@ -105,7 +100,6 @@ onMounted(() => {
 
       <el-form-item>
         <el-button-group>
-          <!-- 搜索 -->
           <el-button
             v-perms="SYS_LOG_AUTHORIZATION_AUDIT_PERMS.QUERY"
             :loading="loading"
@@ -114,7 +108,6 @@ onMounted(() => {
           >
             {{ t('buttons.actionSearch') }}
           </el-button>
-          <!-- 重置 -->
           <el-button v-perms="SYS_LOG_AUTHORIZATION_AUDIT_PERMS.QUERY" @click="resetQuery(searchFormRef)">
             {{ t('buttons.actionReset') }}
           </el-button>
@@ -145,7 +138,6 @@ onMounted(() => {
       </template>
 
       <template #actions="{ row }">
-        <!-- 查看 -->
         <el-button
           v-perms="SYS_LOG_AUTHORIZATION_AUDIT_PERMS.DETAIL"
           link
@@ -154,7 +146,6 @@ onMounted(() => {
         >
           {{ t('buttons.actionView') }}
         </el-button>
-        <!-- 删除 -->
         <el-button
           v-perms="SYS_LOG_AUTHORIZATION_AUDIT_PERMS.DELETE"
           link

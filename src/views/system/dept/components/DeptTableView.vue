@@ -2,10 +2,10 @@
 import AuthPagedTable from '@/components/business/AuthPagedTable';
 import { useFormPlaceholder } from '@/shared/composables/i18n/useFormPlaceholder';
 import DeptRowActions from '@/views/system/dept/components/DeptRowActions.vue';
-import { DEPT_STATUS_FILTER_OPTIONS } from '@/views/system/dept/constants/dept-search-options';
 import useDeptPageState from '@/views/system/dept/hooks/useDeptPageState';
 import DeptHeadButtons from '@/views/system/dept/components/DeptHeadButtons.vue';
 import useDeptTableColumns from '@/views/system/dept/hooks/columns/useDeptTableColumns';
+import { useCommonBooleanStatusOptions } from '@/shared/composables/i18n/useCommonBooleanStatusOptions';
 import type { FormInstance } from 'element-plus';
 import { onMounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
@@ -16,6 +16,7 @@ defineOptions({
 
 const { t } = useI18n();
 const ph = useFormPlaceholder();
+const booleanStatusOptions = useCommonBooleanStatusOptions();
 const searchFormRef = ref<FormInstance>();
 
 const { tableColumns } = useDeptTableColumns();
@@ -62,9 +63,9 @@ onMounted(() => {
           clearable
         >
           <el-option
-            v-for="opt in DEPT_STATUS_FILTER_OPTIONS"
-            :key="`${opt.labelKey}:${String(opt.value)}`"
-            :label="t(opt.labelKey as string)"
+            v-for="opt in booleanStatusOptions"
+            :key="String(opt.value)"
+            :label="opt.label"
             :value="opt.value"
           />
         </el-select>
@@ -72,11 +73,9 @@ onMounted(() => {
 
       <el-form-item>
         <el-button-group>
-          <!-- 搜索 -->
           <el-button :loading="loading" type="primary" @click="fetchTableData">
             {{ t('buttons.actionSearch') }}
           </el-button>
-          <!-- 重置 -->
           <el-button @click="resetQuery(searchFormRef)">{{ t('buttons.actionReset') }}</el-button>
         </el-button-group>
       </el-form-item>

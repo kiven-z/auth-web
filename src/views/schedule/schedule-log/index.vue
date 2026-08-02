@@ -1,15 +1,12 @@
 <script lang="ts" setup>
 import { getJobLogPage } from '@/api/log/job-log';
 import AuthPagedTable, { usePaginationState } from '@/components/business/AuthPagedTable';
-import {
-  LOG_JOB_STATUS_ITEMS,
-  LOG_JOB_TRIGGER_TYPE_FILTER_OPTIONS,
-} from '@/views/schedule/schedule-log/constants/job-log-enums';
+import { useFormPlaceholder } from '@/shared/composables/i18n/useFormPlaceholder';
+import { useCollapsibleSearchForm } from '@/shared/composables/search/useCollapsibleSearchForm';
 import { SYS_JOB_LOG_PERMS } from '@/views/schedule/schedule-log/constants/permissions';
+import useJobLogOptions from '@/views/schedule/schedule-log/hooks/options/useJobLogOptions';
 import useJobLogTableAction from '@/views/schedule/schedule-log/hooks/useJobLogTableAction';
 import useJobLogTableColumns from '@/views/schedule/schedule-log/hooks/useJobLogTableColumns';
-import { useCollapsibleSearchForm } from '@/shared/composables/search/useCollapsibleSearchForm';
-import { useFormPlaceholder } from '@/shared/composables/i18n/useFormPlaceholder';
 import type { FormInstance } from 'element-plus';
 import { onMounted, reactive, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
@@ -20,6 +17,7 @@ defineOptions({
 
 const { t } = useI18n();
 const ph = useFormPlaceholder();
+const { statusOptions: jobLogStatusOptions, triggerTypeOptions: jobLogTriggerTypeOptions } = useJobLogOptions();
 const { columns } = useJobLogTableColumns();
 const searchFormRef = ref<FormInstance>();
 
@@ -56,11 +54,9 @@ onMounted(() => {
       class="bg-bg_color w-[99/100] overflow-auto pl-8 pt-3"
       inline
     >
-      <!-- 任务 ID -->
       <el-form-item :label="t('logJob.field.jobId')" prop="jobId">
         <el-input v-model="searchForm.jobId" :placeholder="ph.input('logJob.field.jobId')" class="w-45!" clearable />
       </el-form-item>
-      <!-- 任务名称 -->
       <el-form-item :label="t('logJob.field.jobName')" prop="jobName">
         <el-input
           v-model="searchForm.jobName"
@@ -69,7 +65,6 @@ onMounted(() => {
           clearable
         />
       </el-form-item>
-      <!-- 任务分组 -->
       <el-form-item :label="t('logJob.field.jobGroup')" prop="jobGroup">
         <el-input
           v-model="searchForm.jobGroup"
@@ -78,7 +73,6 @@ onMounted(() => {
           clearable
         />
       </el-form-item>
-      <!-- 状态 -->
       <el-form-item :label="t('logJob.field.status')" prop="status">
         <el-select
           v-model="searchForm.status"
@@ -87,16 +81,15 @@ onMounted(() => {
           clearable
         >
           <el-option
-            v-for="opt in LOG_JOB_STATUS_ITEMS"
-            :key="`${opt.labelKey}:${String(opt.value)}`"
-            :label="t(opt.labelKey)"
+            v-for="opt in jobLogStatusOptions"
+            :key="String(opt.value)"
+            :label="opt.label"
             :value="opt.value"
           />
         </el-select>
       </el-form-item>
 
       <template v-if="showAdvancedSearchToggle">
-        <!-- 调用目标 -->
         <el-form-item v-show="searchExpanded" :label="t('logJob.field.invokeTarget')" prop="invokeTarget">
           <el-input
             v-model="searchForm.invokeTarget"
@@ -105,7 +98,6 @@ onMounted(() => {
             clearable
           />
         </el-form-item>
-        <!-- 触发类型 -->
         <el-form-item v-show="searchExpanded" :label="t('logJob.field.triggerType')" prop="triggerType">
           <el-select
             v-model="searchForm.triggerType"
@@ -113,15 +105,9 @@ onMounted(() => {
             class="w-45!"
             clearable
           >
-            <el-option
-              v-for="opt in LOG_JOB_TRIGGER_TYPE_FILTER_OPTIONS"
-              :key="opt.value"
-              :label="t(opt.labelKey as string)"
-              :value="opt.value"
-            />
+            <el-option v-for="opt in jobLogTriggerTypeOptions" :key="opt.value" :label="opt.label" :value="opt.value" />
           </el-select>
         </el-form-item>
-        <!-- 执行耗时(ms) -->
         <el-form-item v-show="searchExpanded" :label="t('logJob.field.elapsedTime')" prop="elapsedTime">
           <el-input-number
             v-model="searchForm.elapsedTime"
@@ -134,15 +120,12 @@ onMounted(() => {
 
       <el-form-item>
         <el-button-group>
-          <!-- 搜索 -->
           <el-button v-perms="SYS_JOB_LOG_PERMS.QUERY" :loading="loading" type="primary" @click="fetchTableData">
             {{ t('buttons.actionSearch') }}
           </el-button>
-          <!-- 重置 -->
           <el-button v-perms="SYS_JOB_LOG_PERMS.QUERY" @click="resetQuery(searchFormRef)">
             {{ t('buttons.actionReset') }}
           </el-button>
-          <!-- 高级搜索 -->
           <el-button v-if="showAdvancedSearchToggle" @click="toggleAdvancedSearch">
             {{ searchExpanded ? t('buttons.actionCollapseSearch') : t('buttons.actionAdvancedSearch') }}
           </el-button>

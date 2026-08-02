@@ -50,12 +50,10 @@ const onSelectionChange = (rows: InAppMessageCategoryPageRow[]) => {
     >
       <template #buttons>
         <el-button-group type="primary">
-          <!-- 新增分类 -->
           <el-button v-perms="IN_APP_CATEGORY_PERMS.CREATE" @click="openCreateDialog()">
             {{ t('buttons.actionAdd') }}
           </el-button>
 
-          <!-- 批量启停 -->
           <Perms :value="IN_APP_CATEGORY_PERMS.UPDATE">
             <el-dropdown trigger="click">
               <el-button :disabled="selectedRows.length <= 0" type="warning">
@@ -72,7 +70,6 @@ const onSelectionChange = (rows: InAppMessageCategoryPageRow[]) => {
             </el-dropdown>
           </Perms>
 
-          <!-- 批量删除 -->
           <Perms :value="IN_APP_CATEGORY_PERMS.DELETE">
             <el-dropdown trigger="click">
               <el-button type="danger">{{ t('buttons.actionAdvanced') }}</el-button>

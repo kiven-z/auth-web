@@ -1,6 +1,7 @@
 <script lang="ts" setup>
-import type { FormDialog } from '@/api/common';
+import type { FormDialog } from '@/shared/types/dialog';
 import type { CreateJobGroupRequest, UpdateJobGroupRequest } from '@/api/schedule/job-group';
+import { useCommonBooleanStatusOptions } from '@/shared/composables/i18n/useCommonBooleanStatusOptions';
 import type { FormInstance, FormRules } from 'element-plus';
 import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
@@ -21,6 +22,7 @@ const props = withDefaults(defineProps<ScheduleGroupFormDialogProps>(), {
 });
 
 const { t } = useI18n();
+const booleanStatusOptions = useCommonBooleanStatusOptions();
 const formRef = ref<FormInstance>();
 
 const form = ref<JobGroupForm>({
@@ -73,8 +75,9 @@ defineExpose({ formRef, form });
       <el-col :lg="12" :md="12" :sm="24" :xs="24">
         <el-form-item :label="t('scheduleGroup.status')" prop="status">
           <el-radio-group v-model="form.status">
-            <el-radio :value="true">{{ t('buttons.statusActiveText') }}</el-radio>
-            <el-radio :value="false">{{ t('buttons.statusInactiveText') }}</el-radio>
+            <el-radio v-for="opt in booleanStatusOptions" :key="String(opt.value)" :value="opt.value">
+              {{ opt.label }}
+            </el-radio>
           </el-radio-group>
         </el-form-item>
       </el-col>

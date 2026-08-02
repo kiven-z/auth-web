@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import type { FormDialog } from '@/api/common';
+import type { FormDialog } from '@/shared/types/dialog';
 import { getDeptList } from '@/api/system/dept/dept';
 import type { SysPostFormModel } from '@/api/system/post/post';
 import { errorMessage } from '@/services/feedback/message';
@@ -63,19 +63,16 @@ defineExpose({ formRef, form });
 <template>
   <el-form ref="formRef" :model="form" :rules="rules" label-width="auto">
     <el-row :gutter="14">
-      <!-- 岗位编码 -->
       <el-col :lg="12" :md="12" :sm="12" :xs="24">
         <el-form-item :label="t('post.field.postCode')" prop="postCode">
           <el-input v-model="form.postCode" :placeholder="t('post.field.postCode')" clearable />
         </el-form-item>
       </el-col>
-      <!-- 岗位名称 -->
       <el-col :lg="12" :md="12" :sm="12" :xs="24">
         <el-form-item :label="t('post.field.postName')" prop="postName">
           <el-input v-model="form.postName" :placeholder="t('post.field.postName')" clearable />
         </el-form-item>
       </el-col>
-      <!-- 所属部门 -->
       <el-col :lg="12" :md="12" :sm="12" :xs="24">
         <el-form-item :label="t('post.field.deptName')" prop="deptId">
           <el-cascader
@@ -95,22 +92,19 @@ defineExpose({ formRef, form });
           </el-cascader>
         </el-form-item>
       </el-col>
-      <!-- 状态 -->
       <el-col :lg="12" :md="12" :sm="12" :xs="24">
         <el-form-item :label="t('post.field.status')" prop="status">
           <el-radio-group v-model="form.status">
-            <el-radio :value="true">{{ t('post.enums.status.normal') }}</el-radio>
-            <el-radio :value="false">{{ t('post.enums.status.disabled') }}</el-radio>
+            <el-radio :value="true">{{ t('buttons.statusActiveText') }}</el-radio>
+            <el-radio :value="false">{{ t('buttons.statusInactiveText') }}</el-radio>
           </el-radio-group>
         </el-form-item>
       </el-col>
-      <!-- 显示顺序 -->
       <el-col :lg="12" :md="12" :sm="12" :xs="24">
         <el-form-item :label="t('post.field.orderNum')" prop="orderNum">
           <el-input-number v-model="form.orderNum" :max="9999" :min="0" />
         </el-form-item>
       </el-col>
-      <!-- 备注 -->
       <el-col :span="24">
         <el-form-item :label="t('post.field.remark')" prop="remark">
           <el-input

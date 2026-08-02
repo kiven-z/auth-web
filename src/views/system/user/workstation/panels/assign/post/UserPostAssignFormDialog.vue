@@ -1,8 +1,8 @@
 <script lang="ts" setup>
-import type { FormDialog } from '@/api/common';
+import type { FormDialog } from '@/shared/types/dialog';
 import type { UserPostAssignForm, UserPostRelationUpdateForm } from '@/api/system/user/user-post';
 import useRemotePostSearch from '@/shared/composables/dialog/useRemotePostSearch';
-import { USER_DEPT_RELATION_STATUS_FILTER_OPTIONS } from '@/views/system/user/constants/user-dept-relation-status';
+import useUserOptions from '@/views/system/user/hooks/options/useUserOptions';
 import type { FormInstance, FormRules } from 'element-plus';
 import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
@@ -18,6 +18,7 @@ const props = withDefaults(defineProps<UserPostAssignFormDialogProps>(), {
 });
 
 const { t } = useI18n();
+const { relationStatusOptions } = useUserOptions();
 const formRef = ref<FormInstance>();
 const form = ref<UserPostAssignForm>({
   status: 1,
@@ -75,21 +76,15 @@ defineExpose({ formRef, form });
           </el-select>
         </el-form-item>
       </el-col>
-      <!-- 关联状态 -->
       <el-col :lg="12" :md="12" :sm="12" :xs="24">
         <el-form-item :label="t('relation.status')" prop="status">
           <el-radio-group v-model="form.status">
-            <el-radio-button
-              v-for="option in USER_DEPT_RELATION_STATUS_FILTER_OPTIONS"
-              :key="`${option.labelKey}:${String(option.value)}`"
-              :value="option.value"
-            >
-              {{ t(option.labelKey) }}
+            <el-radio-button v-for="option in relationStatusOptions" :key="String(option.value)" :value="option.value">
+              {{ option.label }}
             </el-radio-button>
           </el-radio-group>
         </el-form-item>
       </el-col>
-      <!-- 是否主岗位 -->
       <el-col :lg="12" :md="12" :sm="12" :xs="24">
         <el-form-item :label="t('post.field.isPrimaryPosition')" prop="isPrimary">
           <el-radio-group v-model="form.isPrimary">
@@ -98,7 +93,6 @@ defineExpose({ formRef, form });
           </el-radio-group>
         </el-form-item>
       </el-col>
-      <!-- 备注 -->
       <el-col :span="24">
         <el-form-item :label="t('users.field.remark')" prop="remark">
           <el-input

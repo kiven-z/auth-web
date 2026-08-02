@@ -1,4 +1,6 @@
-import type { BaseResponse, IdsEnableStatusRequest, PageResponse, SortSpec } from '@/api/common';
+import type { PageResponse, SortSpec } from '@/api/common/page';
+import type { BaseResponse } from '@/api/common/response';
+import type { IdsEnableStatusRequest } from '@/api/common/request';
 import type { RoleReference } from '@/api/system/_shared/grant-table';
 import type { AxiosRequestConfig } from 'axios';
 

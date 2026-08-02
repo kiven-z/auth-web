@@ -7,10 +7,8 @@ import {
   IN_APP_MESSAGE_DELETABLE_STATUS,
   IN_APP_MESSAGE_RECALLABLE_STATUS,
   IN_APP_MESSAGE_RETRYABLE_STATUS,
-  IN_APP_MESSAGE_SCOPE_OPTIONS,
-  IN_APP_MESSAGE_SOURCE_OPTIONS,
-  IN_APP_MESSAGE_STATUS_ITEMS,
 } from '@/views/message/in-app-message/constants/task-enums';
+import useInAppMessageOptions from '@/views/message/in-app-message/hooks/options/useInAppMessageOptions';
 import useInAppMessageTableAction from '@/views/message/in-app-message/hooks/useInAppMessageTableAction';
 import useInAppMessageTableColumns from '@/views/message/in-app-message/hooks/useInAppMessageTableColumns';
 import type { FormInstance } from 'element-plus';
@@ -23,6 +21,7 @@ defineOptions({
 
 const { t } = useI18n();
 const ph = useFormPlaceholder();
+const { statusOptions, sourceOptions, scopeOptions } = useInAppMessageOptions();
 const { columns } = useInAppMessageTableColumns();
 const searchFormRef = ref<FormInstance>();
 
@@ -56,7 +55,6 @@ onMounted(() => {
       class="bg-bg_color w-[99/100] overflow-auto pl-8 pt-3"
       inline
     >
-      <!-- 标题关键字 -->
       <el-form-item :label="t('inAppMessage.field.title')" prop="title">
         <el-input
           v-model="searchForm.title"
@@ -65,7 +63,6 @@ onMounted(() => {
           clearable
         />
       </el-form-item>
-      <!-- 任务状态 -->
       <el-form-item :label="t('inAppMessage.field.status')" prop="status">
         <el-select
           v-model="searchForm.status"
@@ -73,15 +70,9 @@ onMounted(() => {
           class="w-45!"
           clearable
         >
-          <el-option
-            v-for="item in IN_APP_MESSAGE_STATUS_ITEMS"
-            :key="item.value"
-            :label="t(item.labelKey)"
-            :value="item.value"
-          />
+          <el-option v-for="item in statusOptions" :key="item.value" :label="item.label" :value="item.value" />
         </el-select>
       </el-form-item>
-      <!-- 接收范围 -->
       <el-form-item :label="t('inAppMessage.field.recipientScopeType')" prop="recipientScopeType">
         <el-select
           v-model="searchForm.recipientScopeType"
@@ -89,15 +80,9 @@ onMounted(() => {
           class="w-45!"
           clearable
         >
-          <el-option
-            v-for="item in IN_APP_MESSAGE_SCOPE_OPTIONS"
-            :key="item.value"
-            :label="t(item.labelKey)"
-            :value="item.value"
-          />
+          <el-option v-for="item in scopeOptions" :key="item.value" :label="item.label" :value="item.value" />
         </el-select>
       </el-form-item>
-      <!-- 来源 -->
       <el-form-item :label="t('inAppMessage.field.sourceType')" prop="sourceType">
         <el-select
           v-model="searchForm.sourceType"
@@ -105,22 +90,15 @@ onMounted(() => {
           class="w-45!"
           clearable
         >
-          <el-option
-            v-for="item in IN_APP_MESSAGE_SOURCE_OPTIONS"
-            :key="item.value"
-            :label="t(item.labelKey)"
-            :value="item.value"
-          />
+          <el-option v-for="item in sourceOptions" :key="item.value" :label="item.label" :value="item.value" />
         </el-select>
       </el-form-item>
 
       <el-form-item>
         <el-button-group>
-          <!-- 搜索 -->
           <el-button v-perms="IN_APP_MESSAGE_PERMS.QUERY" :loading="loading" type="primary" @click="fetchTableData">
             {{ t('buttons.actionSearch') }}
           </el-button>
-          <!-- 重置 -->
           <el-button v-perms="IN_APP_MESSAGE_PERMS.QUERY" @click="resetQuery(searchFormRef)">
             {{ t('buttons.actionReset') }}
           </el-button>
@@ -143,7 +121,6 @@ onMounted(() => {
 
             <template #dropdown>
               <el-dropdown-item :disabled="selectedRows.length <= 0" type="danger" @click="deleteBatchRows()">
-                <!-- 批量删除 -->
                 {{ t('buttons.actionBatchDelete') }}
               </el-dropdown-item>
             </template>
@@ -152,11 +129,9 @@ onMounted(() => {
       </template>
 
       <template #actions="{ row }">
-        <!-- 查看 -->
         <el-button v-perms="IN_APP_MESSAGE_PERMS.DETAIL" link type="primary" @click="openDetailDialog(row)">
           {{ t('buttons.actionView') }}
         </el-button>
-        <!-- 收件人明细 -->
         <el-button v-perms="IN_APP_MESSAGE_PERMS.DETAIL" link type="primary" @click="openRecipientsDrawer(row)">
           {{ t('inAppMessage.action.recipients') }}
         </el-button>

@@ -14,16 +14,14 @@ import globalization from '@/assets/svg/globalization.svg?component';
 import Check from '~icons/ep/check';
 
 import Segmented from '@/components/ui/Segmented';
-import { formComponentMap, loginModes } from '@/views/home/login/constants/login-registry';
+import { formComponentMap } from '@/views/home/login/constants/login-registry';
 import { computed } from 'vue';
-import { useI18n } from 'vue-i18n';
 import Motion from './components/Motion';
+import { useLoginModeOptions } from './hooks/useLoginModeOptions';
 
 defineOptions({
   name: 'AuthLogin',
 });
-
-const { t } = useI18n();
 
 const { initStorage } = useLayout();
 
@@ -32,8 +30,10 @@ const title = getAppTitle();
 const { locale, translation, localeOptions, getDropdownItemStyle, getDropdownItemClass } = useTranslationLang();
 
 const { currentMode, formKey, switchMode, onLoginSuccess } = useLogin();
+const loginModeOptions = useLoginModeOptions();
 
 const activeFormComponent = computed(() => formComponentMap[currentMode.value]);
+const currentModeIndex = computed(() => loginModeOptions.value.findIndex((item) => item.value === currentMode.value));
 
 initStorage();
 dataThemeChange(overallStyle.value);
@@ -43,7 +43,6 @@ dataThemeChange(overallStyle.value);
   <div class="select-none h-full">
     <img :src="bg" alt="bg" class="wave" />
     <div class="flex-c absolute right-5 top-3">
-      <!-- 主题 -->
       <el-switch
         v-model="dataTheme"
         :active-icon="dayIcon"
@@ -51,7 +50,6 @@ dataThemeChange(overallStyle.value);
         inline-prompt
         @change="dataThemeChange"
       />
-      <!-- 国际化 -->
       <el-dropdown trigger="click">
         <globalization
           class="hover:text-primary hover:bg-transparent! w-5 h-5 ml-1.5 cursor-pointer outline-hidden duration-300"
@@ -89,10 +87,9 @@ dataThemeChange(overallStyle.value);
             <component :is="activeFormComponent" :key="formKey" @login-success="onLoginSuccess" />
           </Motion>
 
-          <!-- 登录方式切换 — Segmented 分段控制器 -->
           <Segmented
-            :model-value="loginModes.findIndex((item) => item.mode === currentMode)"
-            :options="loginModes.map((item) => ({ label: t(item.labelKey), value: item.mode }))"
+            :model-value="currentModeIndex"
+            :options="loginModeOptions"
             block
             class="mt-2"
             size="default"

@@ -1,13 +1,14 @@
 authorizationInvalidation:
-  pageTitle: Authorization Invalidation Ops
-  tabEvent: Idempotency Events
-  tabOutbox: Outbox Queue
-  tabStats: Failure Rate Stats
   statsRefresh: Refresh Stats
+  statsLastRefreshed: 'Last refreshed: {time}'
   statsOutboxSection: Outbox Queue Stats
   statsEventSection: Idempotency Event Stats
   statsTotalCount: Total Records
   statsFailureRate: Failure Rate
+  statsShareOfTotal: '{percent}% of total'
+  statsAbnormalCount: 'Abnormal (failed + dead): {count}'
+  statsDeadTooltip: Deliveries that exceeded retry limits or were terminated; needs attention
+  statsFailureRateTooltip: 'Failure rate = (failed + dead) / total'
   statsTrendSection: Failure Rate Trend
   statsTrendGranularityDay: Daily
   statsTrendGranularityWeek: Weekly
@@ -32,15 +33,11 @@ authorizationInvalidation:
   sourceModule: Source Module
   sourceBizId: Source Biz ID
   payload: Invalidation Payload
-  createdAtStart: Create Start
-  createdAtEnd: Create End
   impactedUserCount: Impacted Users
   versionBumpedCount: Version Bumped Users
   profileRefreshedCount: Profile Refreshed Users
   profileEvictedCount: Profile Evicted Users
   processedAt: Processed At
-  processedAtStart: Start Time
-  processedAtEnd: End Time
   remark: Remark
   tableTitle: Authorization Invalidation Events
   detailTitle: Authorization Invalidation Event Detail

@@ -1,6 +1,6 @@
 import type { AxiosRequestConfig } from 'axios';
 
-import type { PageResponse } from '@/api/common';
+import type { PageResponse } from '@/api/common/page';
 import { http } from '@/core/http/client';
 
 /**

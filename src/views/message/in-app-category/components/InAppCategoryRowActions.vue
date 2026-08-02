@@ -33,7 +33,6 @@ const canAddChild = computed(() => props.row.parentId === TREE_ROOT_PARENT_ID &&
 
 <template>
   <div class="flex flex-wrap items-center gap-x-1">
-    <!-- 查看详情 -->
     <el-button v-perms="IN_APP_CATEGORY_PERMS.DETAIL" link type="primary" @click="openDetailDialog(row)">
       {{ t('buttons.actionView') }}
     </el-button>
@@ -49,17 +48,14 @@ const canAddChild = computed(() => props.row.parentId === TREE_ROOT_PARENT_ID &&
       {{ t('inAppCategory.action.addChild') }}
     </el-button>
 
-    <!-- 编辑 -->
     <el-button v-perms="IN_APP_CATEGORY_PERMS.UPDATE" link type="primary" @click="openEditDialog(row)">
       {{ t('buttons.actionEdit') }}
     </el-button>
 
-    <!-- 删除 -->
     <el-button v-perms="IN_APP_CATEGORY_PERMS.DELETE" link type="danger" @click="deleteBatchRows([row.id])">
       {{ t('buttons.actionDelete') }}
     </el-button>
 
-    <!-- 单行启停 -->
     <Perms :value="IN_APP_CATEGORY_PERMS.UPDATE">
       <el-dropdown trigger="click">
         <el-button class="ml-1!" link type="primary">{{ t('buttons.actionMore') }}</el-button>

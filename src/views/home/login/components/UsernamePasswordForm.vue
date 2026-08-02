@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { loginByUsernameApi } from '@/api/auth';
 import { useRenderIcon } from '@/components/ui/Icon/src/hooks';
-import { LoginFormEmits } from '@/views/home/login/constants/types';
+import { LoginFormEmits } from '@/views/home/login/types/login-mode';
 import { usernamePasswordRules } from '@/views/home/login/rules/username-password.rules';
 import type { FormInstance } from 'element-plus';
 import { reactive, ref } from 'vue';

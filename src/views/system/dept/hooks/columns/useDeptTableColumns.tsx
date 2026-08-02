@@ -1,6 +1,6 @@
 import type { SysDeptRow } from '@/views/system/dept/hooks/useDeptPageState';
+import { renderBooleanStatusTag } from '@/shared/composables/layout/renderBooleanStatusTag';
 import { createAuditTableColumns } from '@/shared/composables/table/auditColumns';
-import { ElTag } from 'element-plus';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 
@@ -30,14 +30,7 @@ function useDeptTableColumns() {
       label: t('dept.field.status'),
       prop: 'status',
       width: 100,
-      formatter: (row: SysDeptRow) => {
-        const isNormal = row.status === true;
-        return (
-          <ElTag type={isNormal ? 'success' : 'danger'} effect="plain">
-            {isNormal ? t('dept.enum.status.normal') : t('dept.enum.status.disabled')}
-          </ElTag>
-        );
-      },
+      formatter: (row: SysDeptRow) => renderBooleanStatusTag(row.status),
     },
     ...createAuditTableColumns(),
     { label: t('table.actions'), fixed: 'right', width: 220, slot: 'actions' },

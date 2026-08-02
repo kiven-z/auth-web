@@ -13,7 +13,6 @@ account:
     employeeNo: 工号
     basicInfo: 基本信息
   avatar:
-    select: 选择头像
     uploadHint: 仅支持 JPG/PNG/WEBP，大小不超过 2MB
     fileTypeInvalid: 仅支持 JPG/PNG/WEBP 图片
     fileSizeExceeded: 头像大小不能超过 2MB

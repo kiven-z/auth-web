@@ -1,8 +1,9 @@
 <script lang="ts" setup>
-import type { FormDialog } from '@/api/common';
+import type { FormDialog } from '@/shared/types/dialog';
 import type { InAppMessageCategoryFormModel } from '@/api/message/in-app-category';
+import { useCommonBooleanStatusOptions } from '@/shared/composables/i18n/useCommonBooleanStatusOptions';
 import { useFormPlaceholder } from '@/shared/composables/i18n/useFormPlaceholder';
-import useInAppCategoryMajorOptions from '@/views/message/_shared/hooks/useInAppCategoryMajorOptions';
+import { useInAppCategoryMajorOptions } from '@/shared/composables/message/useInAppCategoryMajorOptions';
 import type { FormInstance, FormRules } from 'element-plus';
 import { computed, onMounted, reactive, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
@@ -17,6 +18,7 @@ const props = withDefaults(defineProps<FormDialog<InAppMessageCategoryFormModel>
 
 const { t } = useI18n();
 const ph = useFormPlaceholder();
+const booleanStatusOptions = useCommonBooleanStatusOptions();
 const formRef = ref<FormInstance>();
 
 const form = ref<InAppMessageCategoryFormModel>({
@@ -74,7 +76,6 @@ defineExpose({ formRef, form });
         </el-form-item>
       </el-col>
 
-      <!-- 分类码 -->
       <el-col :lg="12" :md="12" :sm="12" :xs="24">
         <el-form-item :label="t('inAppCategory.field.code')" prop="code">
           <el-input
@@ -87,7 +88,6 @@ defineExpose({ formRef, form });
         </el-form-item>
       </el-col>
 
-      <!-- 展示名 -->
       <el-col :lg="12" :md="12" :sm="12" :xs="24">
         <el-form-item :label="t('inAppCategory.field.name')" prop="name">
           <el-input
@@ -100,24 +100,22 @@ defineExpose({ formRef, form });
         </el-form-item>
       </el-col>
 
-      <!-- 排序 -->
       <el-col :lg="12" :md="12" :sm="12" :xs="24">
         <el-form-item :label="t('inAppCategory.field.sortOrder')" prop="sortOrder">
           <el-input-number v-model="form.sortOrder" :min="0" class="w-full!" controls-position="right" />
         </el-form-item>
       </el-col>
 
-      <!-- 状态 -->
       <el-col :lg="12" :md="12" :sm="12" :xs="24">
         <el-form-item :label="t('inAppCategory.field.status')" prop="status">
           <el-radio-group v-model="form.status">
-            <el-radio :value="true">{{ t('buttons.statusActiveText') }}</el-radio>
-            <el-radio :value="false">{{ t('buttons.statusInactiveText') }}</el-radio>
+            <el-radio v-for="opt in booleanStatusOptions" :key="String(opt.value)" :value="opt.value">
+              {{ opt.label }}
+            </el-radio>
           </el-radio-group>
         </el-form-item>
       </el-col>
 
-      <!-- 备注 -->
       <el-col :span="24">
         <el-form-item :label="t('inAppCategory.field.remark')" prop="remark">
           <el-input

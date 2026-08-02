@@ -2,8 +2,8 @@
 import type { SysJobDetailRow, SysJobUpdateForm } from '@/api/schedule/job';
 import { useFormPlaceholder } from '@/shared/composables/i18n/useFormPlaceholder';
 import JobFormScheduleExtrasFields from '@/views/schedule/schedule-task/components/JobFormScheduleExtrasFields.vue';
-import { JOB_TASK_TYPE_OPTIONS } from '@/views/schedule/schedule-task/constants/job-task-enums';
 import useJobCatalog from '@/views/schedule/schedule-task/hooks/useJobCatalog';
+import useJobFormOptions from '@/views/schedule/schedule-task/hooks/options/useJobFormOptions';
 import type { FormInstance, FormRules } from 'element-plus';
 import { computed, onMounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
@@ -20,6 +20,7 @@ const props = defineProps<JobUpdateFormDialogProps>();
 
 const { t } = useI18n();
 const ph = useFormPlaceholder();
+const { taskTypeOptions } = useJobFormOptions();
 const formRef = ref<FormInstance>();
 
 const form = ref(props.detail as SysJobUpdateForm);
@@ -27,8 +28,8 @@ const form = ref(props.detail as SysJobUpdateForm);
 const { findJobParamsExample, loadCatalogClasses } = useJobCatalog();
 
 const taskTypeLabel = computed(() => {
-  const option = JOB_TASK_TYPE_OPTIONS.find((item) => item.value === props.detail.taskType);
-  return option ? t(option.labelKey) : (props.detail.taskType ?? '—');
+  const option = taskTypeOptions.value.find((item) => item.value === props.detail.taskType);
+  return option?.label ?? props.detail.taskType ?? '—';
 });
 
 const isBeanInvoke = computed(() => form.value.taskType === 'BEAN_INVOKE');

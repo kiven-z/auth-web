@@ -3,6 +3,11 @@
  */
 
 /**
+ * 统一授权主体类型（与后端 GrantTableSubjectType 一致）
+ */
+export type GrantTableSubjectType = 'USER' | 'DEPT' | 'POST';
+
+/**
  * 角色关联回显
  */
 export interface RoleReference {

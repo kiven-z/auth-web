@@ -1,10 +1,6 @@
-import { formatDateTime } from '@/shared/utils/date/dateTime';
 import type { InAppSendTaskPageRow } from '@/api/message/in-app-message';
-import {
-  IN_APP_MESSAGE_SCOPE_OPTIONS,
-  IN_APP_MESSAGE_SOURCE_OPTIONS,
-  IN_APP_MESSAGE_STATUS_ITEMS,
-} from '@/views/message/in-app-message/constants/task-enums';
+import { formatDateTime } from '@/shared/utils/date/dateTime';
+import useInAppMessageOptions from '@/views/message/in-app-message/hooks/options/useInAppMessageOptions';
 import { ElTag } from 'element-plus';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
@@ -15,6 +11,7 @@ import { useI18n } from 'vue-i18n';
  */
 function useInAppHistoryImportTableColumns() {
   const { t } = useI18n();
+  const { statusOptions, sourceOptions, scopeOptions } = useInAppMessageOptions();
 
   const columns = computed<TableColumnList>(() => [
     {
@@ -33,13 +30,13 @@ function useInAppHistoryImportTableColumns() {
       prop: 'status',
       minWidth: 120,
       formatter: (row: InAppSendTaskPageRow) => {
-        const meta = IN_APP_MESSAGE_STATUS_ITEMS.find((item) => item.value === row.status);
-        if (!meta) {
+        const option = statusOptions.value.find((item) => item.value === row.status);
+        if (!option) {
           return <span>{row.status || '—'}</span>;
         }
         return (
-          <ElTag type={meta.tagType} effect="plain">
-            {t(meta.labelKey)}
+          <ElTag type={option.tagType} effect="plain">
+            {option.label}
           </ElTag>
         );
       },
@@ -49,8 +46,8 @@ function useInAppHistoryImportTableColumns() {
       prop: 'recipientScopeType',
       minWidth: 120,
       formatter: (row: InAppSendTaskPageRow) => {
-        const labelKey = IN_APP_MESSAGE_SCOPE_OPTIONS.find((item) => item.value === row.recipientScopeType)?.labelKey;
-        return labelKey ? t(labelKey) : row.recipientScopeType || '—';
+        const option = scopeOptions.value.find((item) => item.value === row.recipientScopeType);
+        return option?.label ?? row.recipientScopeType ?? '—';
       },
     },
     {
@@ -58,8 +55,8 @@ function useInAppHistoryImportTableColumns() {
       prop: 'sourceType',
       minWidth: 130,
       formatter: (row: InAppSendTaskPageRow) => {
-        const labelKey = IN_APP_MESSAGE_SOURCE_OPTIONS.find((item) => item.value === row.sourceType)?.labelKey;
-        return labelKey ? t(labelKey) : row.sourceType || '—';
+        const option = sourceOptions.value.find((item) => item.value === row.sourceType);
+        return option?.label ?? row.sourceType ?? '—';
       },
     },
     {
