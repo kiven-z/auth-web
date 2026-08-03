@@ -33,10 +33,23 @@ roles:
     roleNameLengthLimit: Role name cannot exceed 128 characters
     remarkLengthLimit: Remark cannot exceed 500 characters
   menu:
+    authorizationSurface: View authorization surface
     dataScope: Data scope
     grantSubjects: Grant subject management
     impactAnalysis: Impact analysis and refresh
+  authorizationSurface:
+    title: Role authorization surface
+    keyword: Keyword
+    subjectLabel: Subject label
+    subjectId: Subject ID
   scope:
     tip: When unset, profile falls back to SELF; user_scope overrides this role config
   grantSubjects:
     saveCurrent: Save grants
+  impact:
+    title: Role impact analysis
+    impactedUsers: Impacted users
+    tip: Impacted users expand from USER / DEPT / POST grants (deduped). Manual refresh only rematerializes AuthProfile; normal grant changes already invalidate automatically
+    refreshSelected: Refresh selected profiles
+    refreshAll: Refresh impacted user authorization
+    refreshSuccess: Submitted refresh for {count} user profile(s)

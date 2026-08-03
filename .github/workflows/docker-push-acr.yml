@@ -5,7 +5,6 @@ name: Build and push auth-web to ACR
 
 on:
   push:
-    branches: [main, master]
     tags: ["v*"]
   workflow_dispatch:
 

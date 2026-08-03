@@ -1,9 +1,10 @@
 import type { TableActionDeps } from '@/shared/types/table-action';
 import type { SysPostPageRow } from '@/api/system/post/post';
 import { getPostRoles, putPostRoles } from '@/api/system/post/post-role';
-import { addDrawer } from '@/components/ui/Drawer/index';
+import { addDrawer } from '@/components/ui/Drawer';
 import { errorMessage, message } from '@/services/feedback/message';
-import RoleAssignPanel from '@/views/system/_shared/components/RoleAssignPanel.vue';
+import RoleAssignPanel from '@/views/system/_shared/assign/RoleAssignPanel.vue';
+import useOpenPostAuthorizationSurface from '@/views/system/post/hooks/authorization/useOpenPostAuthorizationSurface';
 import { ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 
@@ -15,13 +16,14 @@ interface AssignPanelExpose {
 }
 
 /**
- * 岗位「更多」操作（分配角色）
+ * 岗位「更多」操作（授权面、分配角色）
  * @param deps 操作依赖
  * @returns 更多操作方法
  */
 function usePostMoreAction(deps: PostMoreActionDeps) {
   const { fetchTableData } = deps;
   const { t } = useI18n();
+  const { openPostAuthorizationSurface } = useOpenPostAuthorizationSurface();
 
   /**
    * 打开分配角色抽屉
@@ -65,6 +67,7 @@ function usePostMoreAction(deps: PostMoreActionDeps) {
   };
 
   return {
+    openPostAuthorizationSurface,
     openAssignRoleDrawer,
   };
 }

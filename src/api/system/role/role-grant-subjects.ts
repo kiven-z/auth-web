@@ -11,26 +11,17 @@ export interface GrantSubjectItem {
 }
 
 /**
- * 角色授权对象按主体类型回显
- */
-export interface SysRoleGrantSubjects {
-  subjectType: GrantTableSubjectType;
-  /** 空数组表示该类型无授权 */
-  subjects: GrantSubjectItem[];
-}
-
-/**
- * 按角色与主体类型查询授权对象
+ * 查询角色授权对象种子（Assign 灌种：id + label）
  * @param roleId 角色 ID
  * @param subjectType 主体类型
- * @returns 种子列表；无授权时 subjects 为空
+ * @returns 种子列表；无授权时为空数组
  */
-export function getRoleGrantSubjects(
+export function getRoleGrantSubjectSeeds(
   roleId: string,
   subjectType: GrantTableSubjectType
-): Promise<SysRoleGrantSubjects> {
-  return http.get<SysRoleGrantSubjects, { subjectType: GrantTableSubjectType }>(
-    `/system/role/${roleId}/grant-subjects`,
+): Promise<GrantSubjectItem[]> {
+  return http.get<GrantSubjectItem[], { subjectType: GrantTableSubjectType }>(
+    `/system/role/${roleId}/grant-subjects/ids`,
     { params: { subjectType } }
   );
 }

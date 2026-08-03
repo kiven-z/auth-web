@@ -2,12 +2,11 @@
 import { createAuditDetailColumns } from '@/shared/composables/table/auditColumns';
 import type { DetailDialog } from '@/shared/types/dialog';
 import type { SysPostDetail } from '@/api/system/post/post';
-import useUserProfileColumns from '@/components/business/UserProfile/src/useUserProfileColumns';
-import DetailRelationListSection from '@/components/business/DetailRelationListSection/index.vue';
+import DetailRelationCountBar from '@/components/business/DetailRelationCountBar/index.vue';
 import Description from '@/components/ui/Description';
-import useDeptColumns from '@/views/system/_shared/columns/useDeptColumns';
-import useRoleColumns from '@/views/system/_shared/columns/useRoleColumns';
+import useDeptColumns from '@/views/system/post/hooks/columns/useDeptColumns';
 import { renderBooleanStatusTag } from '@/shared/composables/layout/renderBooleanStatusTag';
+import useOpenPostAuthorizationSurface from '@/views/system/post/hooks/authorization/useOpenPostAuthorizationSurface';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 
@@ -17,11 +16,10 @@ defineOptions({
 
 type PostDetailDialogProps = DetailDialog<SysPostDetail>;
 
-defineProps<PostDetailDialogProps>();
+const props = defineProps<PostDetailDialogProps>();
 const { t } = useI18n();
+const { openPostAuthorizationSurface } = useOpenPostAuthorizationSurface();
 
-const { userRelationBindingColumns } = useUserProfileColumns();
-const { roleColumns } = useRoleColumns();
 const { deptDescriptionColumns } = useDeptColumns();
 
 const descriptionColumns = computed(() => [
@@ -36,6 +34,11 @@ const descriptionColumns = computed(() => [
   { label: t('post.field.orderNum'), prop: 'orderNum', labelWidth: 120 },
   { label: t('post.field.remark'), prop: 'remark', labelWidth: 120, span: 2 },
   ...createAuditDetailColumns(),
+]);
+
+const relationCountItems = computed(() => [
+  { label: t('post.bound.users.title'), count: props.data?.boundUserCount },
+  { label: t('post.bound.roles.title'), count: props.data?.boundRoleCount },
 ]);
 </script>
 
@@ -52,21 +55,15 @@ const descriptionColumns = computed(() => [
 
     <el-divider />
 
-    <DetailRelationListSection
-      :columns="userRelationBindingColumns"
-      :empty-text="t('post.bound.users.empty')"
-      :items="data.boundUsers"
-      :title="t('post.bound.users.title')"
-      row-key="id"
-    />
-
-    <DetailRelationListSection
-      :columns="roleColumns"
-      :empty-text="t('post.bound.roles.empty')"
-      :items="data.boundRoles"
-      :title="t('post.bound.roles.title')"
-      class="mt-4"
-      row-key="id"
+    <DetailRelationCountBar
+      :items="relationCountItems"
+      @view-authorization="
+        openPostAuthorizationSurface({
+          postId: data.id,
+          postCode: data.postCode,
+          postName: data.postName,
+        })
+      "
     />
   </div>
 </template>

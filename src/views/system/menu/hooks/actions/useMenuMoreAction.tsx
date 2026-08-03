@@ -3,7 +3,8 @@ import { getMenuRoles, putMenuRoles } from '@/api/system/menu/menu-role';
 import { addDrawer } from '@/components/ui/Drawer';
 import { transformI18n } from '@/app/plugins/i18n';
 import { errorMessage, message } from '@/services/feedback/message';
-import RoleAssignPanel from '@/views/system/_shared/components/RoleAssignPanel.vue';
+import RoleAssignPanel from '@/views/system/_shared/assign/RoleAssignPanel.vue';
+import useOpenMenuAuthorizationSurface from '@/views/system/menu/hooks/authorization/useOpenMenuAuthorizationSurface';
 import type { SysMenuRow } from '@/views/system/menu/hooks/useMenuPageState';
 import { ref } from 'vue';
 import { useI18n } from 'vue-i18n';
@@ -19,13 +20,14 @@ interface AssignPanelExpose {
 }
 
 /**
- * 菜单「更多」操作
+ * 菜单「更多」操作（授权面、分配角色）
  * @param deps 表格操作依赖
  * @returns 更多操作方法
  */
 function useMenuMoreAction(deps: MenuTableActionDeps) {
   const { refresh } = deps;
   const { t } = useI18n();
+  const { openMenuAuthorizationSurface } = useOpenMenuAuthorizationSurface();
 
   /**
    * 打开分配角色抽屉
@@ -67,6 +69,7 @@ function useMenuMoreAction(deps: MenuTableActionDeps) {
   };
 
   return {
+    openMenuAuthorizationSurface,
     openAssignRoleDrawer,
   };
 }

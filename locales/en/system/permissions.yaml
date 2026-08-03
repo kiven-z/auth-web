@@ -8,6 +8,10 @@ permissions:
     view: View Permission Details
   assign:
     sectionLabel: Assigned permissions
+  menu:
+    authorizationSurface: View authorization surface
+  authorizationSurface:
+    title: Permission authorization surface
   field:
     permissionCode: Permission Code
     permissionName: Permission Name

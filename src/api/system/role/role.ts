@@ -6,7 +6,6 @@ import type { ExportScopeQueryFields } from '@/api/common/export';
 import { mergePagedExportParams } from '@/api/common/export';
 import type { SpreadsheetImportResult } from '@/api/common/import';
 import type { IdsEnableStatusRequest } from '@/api/common/request';
-import type { PermissionReference } from '@/api/system/_shared/grant-table';
 import { http } from '@/core/http/client';
 
 export type { SpreadsheetImportResult };
@@ -60,7 +59,7 @@ export function exportRoleExcel(filter: SysRolePageQuery, scope: ExportScopeQuer
 }
 
 /**
- * 角色详情-已绑定菜单项（数据来自 sys_menu_role）
+ * 角色已绑定菜单项（授权面分页行）
  */
 export interface RoleBoundMenuItem {
   id: string;
@@ -72,7 +71,7 @@ export interface RoleBoundMenuItem {
 }
 
 /**
- * 角色详情（基本信息 + 权限 + 菜单；授权对象见 grant-subjects）
+ * 角色详情（标量 + 授权关系计数）
  */
 export interface SysRoleDetail extends BaseResponse {
   roleCode: string;
@@ -80,8 +79,11 @@ export interface SysRoleDetail extends BaseResponse {
   status: boolean;
   orderNum: number;
   remark?: string;
-  boundPermissions: PermissionReference[];
-  boundMenus: RoleBoundMenuItem[];
+  permissionCount: number;
+  menuCount: number;
+  grantUserCount: number;
+  grantDeptCount: number;
+  grantPostCount: number;
 }
 
 /**

@@ -1,12 +1,13 @@
 <script lang="ts" setup>
 import { getUserProfile, type SysUserProfileResponse } from '@/api/system/user/user-base';
+import { UserAvatar } from '@/components/business/UserProfile';
 import { useRenderIcon } from '@/components/ui/Icon/src/hooks';
 import '@/components/ui/Icon/src/offline';
 import { getMenuTooltipEffect } from '@/layout/utils/tooltip-effect';
 import { errorMessage } from '@/services/feedback/message';
-import useWorkstationNav from '@/views/system/user/workstation/hooks/useWorkstationNav';
-import { WORKSTATION_PROFILE_KEY } from '@/views/system/user/workstation/hooks/useWorkstationProfileContext';
-import useWorkstationSectionTransition from '@/views/system/user/workstation/hooks/useWorkstationSectionTransition';
+import useWorkstationNav from '@/views/system/user/workstation/hooks/shell/useWorkstationNav';
+import { WORKSTATION_PROFILE_KEY } from '@/views/system/user/workstation/hooks/shell/useWorkstationProfileContext';
+import useWorkstationSectionTransition from '@/views/system/user/workstation/hooks/shell/useWorkstationSectionTransition';
 import { ArrowLeft, DArrowLeft, DArrowRight } from '@element-plus/icons-vue';
 import 'animate.css';
 import { computed, provide, ref, watch } from 'vue';
@@ -112,13 +113,12 @@ watch(userId, () => void loadProfile(), { immediate: true });
   <div v-loading="loading" class="user-workstation">
     <aside :class="['user-workstation__sidebar', { 'user-workstation__sidebar--collapsed': sidebarCollapsed }]">
       <div class="user-workstation__profile">
-        <el-avatar
+        <UserAvatar
+          :avatar="profile?.avatar"
+          :name="displayName"
           :size="sidebarCollapsed ? 32 : 44"
-          :src="profile?.avatar || undefined"
           class="user-workstation__avatar"
-        >
-          {{ displayName.slice(0, 1) }}
-        </el-avatar>
+        />
         <div v-show="!sidebarCollapsed" class="user-workstation__identity">
           <div :title="displayName" class="user-workstation__name">{{ displayName }}</div>
           <div v-if="subtitle" :title="subtitle" class="user-workstation__subtitle">{{ subtitle }}</div>

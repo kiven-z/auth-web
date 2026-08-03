@@ -1,7 +1,7 @@
 <script lang="ts" setup>
-import AuthPagedTable, { usePaginationState } from '@/components/business/AuthPagedTable';
 import { getUserProfile } from '@/api/system/user/user-base';
 import { getUserDeptPage, type UserDeptPageQuery, type UserDeptPageRow } from '@/api/system/user/user-dept';
+import AuthPagedTable, { usePaginationState } from '@/components/business/AuthPagedTable';
 import { errorMessage } from '@/services/feedback/message';
 import { useFormPlaceholder } from '@/shared/composables/i18n/useFormPlaceholder';
 import { SYS_USER_DEPT_PERMS } from '@/views/system/user/constants/permissions';
@@ -36,7 +36,7 @@ const deptAssignState = usePaginationState<UserDeptPageRow, UserDeptPageQuery>({
 const { fetchTableData, resetQuery, loading, searchForm, selectedRows } = deptAssignState;
 
 const { openCreateDialog, openEditDialog, deleteBatchRows, clearAllDepts } = useGrantDeptAction({
-  userId,
+  userId: userId.value,
   fetchTableData,
   selectedRows,
 });
@@ -56,11 +56,11 @@ async function loadUserTitle() {
   try {
     const profile = await getUserProfile(userId.value);
     username.value = profile.username;
-    nickname.value = profile.nickname;
+    nickname.value = profile.nickname ?? '';
   } catch (error: unknown) {
     errorMessage(error);
     username.value = '';
-    nickname.value = null;
+    nickname.value = '';
   }
 }
 
@@ -122,13 +122,7 @@ watch(
       </el-form-item>
     </el-form>
 
-    <AuthPagedTable
-      :adaptive-config="{ offsetBottom: 32 }"
-      :columns="columns"
-      :state="deptAssignState"
-      :title="tableTitle"
-      show-overflow-tooltip
-    >
+    <AuthPagedTable :columns="columns" :state="deptAssignState" :title="tableTitle" show-overflow-tooltip>
       <template #buttons>
         <el-button-group>
           <el-button v-perms="SYS_USER_DEPT_PERMS.CREATE" type="primary" @click="openCreateDialog">

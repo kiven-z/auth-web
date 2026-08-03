@@ -29,7 +29,6 @@ onMounted(() => {
     <el-badge
       :class="totalUnreadCount > 0 && 'animate__animated animate__tada animate__infinite'"
       :hidden="totalUnreadCount <= 0"
-      :max="99"
       :value="totalUnreadCount"
     >
       <span class="notice-badge__icon">

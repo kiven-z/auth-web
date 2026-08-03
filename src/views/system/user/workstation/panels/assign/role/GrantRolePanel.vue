@@ -1,8 +1,8 @@
 <script lang="ts" setup>
 import { getUserProfile } from '@/api/system/user/user-base';
-import { getUserRoles, putUserRoles } from '@/api/system/user/user-role';
+import { getUserRolePage, putUserRoles } from '@/api/system/user/user-role';
 import { errorMessage, message } from '@/services/feedback/message';
-import RoleAssignPanel from '@/views/system/_shared/components/RoleAssignPanel.vue';
+import RoleAssignPanel from '@/views/system/_shared/assign/RoleAssignPanel.vue';
 import { SYS_USER_ROLE_PERMS } from '@/views/system/user/constants/permissions';
 import { computed, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
@@ -31,8 +31,8 @@ const assignPanelKey = ref(0);
  * @returns 已分配角色种子
  */
 async function loadAssigned() {
-  const rows = await getUserRoles(userId.value);
-  return rows.map((roleRow) => ({ key: roleRow.id, label: roleRow.roleName }));
+  const page = await getUserRolePage(userId.value, {});
+  return (page.list ?? []).map((roleRow) => ({ key: roleRow.id, label: roleRow.roleName }));
 }
 
 /**

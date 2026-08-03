@@ -30,6 +30,10 @@ dept:
     confirmSibling: Move "{dept}" to the same level as "{peer}"? New parent will be "{parent}".
   assignRole:
     currentDept: Current department
+  menu:
+    authorizationSurface: View authorization surface
+  authorizationSurface:
+    title: Department authorization surface
   binding:
     users:
       title: Linked Users

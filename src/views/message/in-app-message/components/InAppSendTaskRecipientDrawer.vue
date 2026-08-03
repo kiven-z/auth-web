@@ -111,7 +111,6 @@ onMounted(() => {
     </el-form>
 
     <AuthPagedTable
-      :adaptive-config="{ offsetBottom: 32 }"
       :columns="columns"
       :state="recipientState"
       :title="title || t('inAppMessage.title.recipients')"

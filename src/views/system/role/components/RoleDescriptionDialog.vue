@@ -1,12 +1,11 @@
 <script lang="tsx" setup>
+import type { SysRoleDetail } from '@/api/system/role/role';
+import DetailRelationCountBar from '@/components/business/DetailRelationCountBar/index.vue';
+import Description from '@/components/ui/Description';
+import { renderBooleanStatusTag } from '@/shared/composables/layout/renderBooleanStatusTag';
 import { createAuditDetailColumns } from '@/shared/composables/table/auditColumns';
 import type { DetailDialog } from '@/shared/types/dialog';
-import type { SysRoleDetail } from '@/api/system/role/role';
-import DetailRelationListSection from '@/components/business/DetailRelationListSection/index.vue';
-import Description from '@/components/ui/Description';
-import useMenuColumns from '@/views/system/_shared/columns/useMenuColumns';
-import usePermissionColumns from '@/views/system/_shared/columns/usePermissionColumns';
-import { renderBooleanStatusTag } from '@/shared/composables/layout/renderBooleanStatusTag';
+import useOpenRoleAuthorizationSurface from '@/views/system/role/hooks/authorization/useOpenRoleAuthorizationSurface';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 
@@ -16,11 +15,9 @@ defineOptions({
 
 type RoleDescriptionDialogProps = DetailDialog<SysRoleDetail>;
 
-defineProps<RoleDescriptionDialogProps>();
+const props = defineProps<RoleDescriptionDialogProps>();
 const { t } = useI18n();
-
-const { permissionColumns } = usePermissionColumns();
-const { menuColumns } = useMenuColumns();
+const { openRoleAuthorizationSurface } = useOpenRoleAuthorizationSurface();
 
 const descriptionColumns = computed(() => [
   { label: t('roles.field.roleCode'), prop: 'roleCode', labelWidth: 120, copy: true },
@@ -35,6 +32,14 @@ const descriptionColumns = computed(() => [
   { label: t('roles.field.remark'), prop: 'remark', labelWidth: 120, span: 2 },
   ...createAuditDetailColumns(),
 ]);
+
+const relationCountItems = computed(() => [
+  { label: t('roles.bound.permissionsTitle'), count: props.data?.permissionCount },
+  { label: t('roles.bound.menus.title'), count: props.data?.menuCount },
+  { label: t('roles.bound.users.title'), count: props.data?.grantUserCount },
+  { label: t('roles.bound.depts.title'), count: props.data?.grantDeptCount },
+  { label: t('roles.bound.posts.title'), count: props.data?.grantPostCount },
+]);
 </script>
 
 <template>
@@ -43,21 +48,15 @@ const descriptionColumns = computed(() => [
 
     <el-divider />
 
-    <DetailRelationListSection
-      :columns="permissionColumns"
-      :empty-text="t('roles.bound.permissionsEmpty')"
-      :items="data.boundPermissions"
-      :title="t('roles.bound.permissionsTitle')"
-      row-key="id"
-    />
-
-    <DetailRelationListSection
-      :columns="menuColumns"
-      :empty-text="t('roles.bound.menus.empty')"
-      :items="data.boundMenus"
-      :title="t('roles.bound.menus.title')"
-      class="mt-4"
-      row-key="id"
+    <DetailRelationCountBar
+      :items="relationCountItems"
+      @view-authorization="
+        openRoleAuthorizationSurface({
+          roleId: data.id,
+          roleCode: data.roleCode,
+          roleName: data.roleName,
+        })
+      "
     />
   </div>
 </template>

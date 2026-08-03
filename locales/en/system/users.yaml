@@ -50,6 +50,8 @@ users:
     allDepts: All
   assign:
     current: Current user
+  authorizationSurface:
+    title: User authorization surface
   bound:
     depts:
       title: Department assignments
@@ -57,6 +59,9 @@ users:
     posts:
       title: Post assignments
       empty: No post assignments
+    directRoles:
+      title: Direct roles
+      empty: No direct roles
   effective:
     roles:
       title: Effective roles

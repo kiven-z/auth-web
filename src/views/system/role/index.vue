@@ -5,9 +5,11 @@ import { useFormPlaceholder } from '@/shared/composables/i18n/useFormPlaceholder
 import { SYS_ROLE_PERMS } from '@/views/system/role/constants/permissions';
 import useRoleAdvanceAction from '@/views/system/role/hooks/actions/useRoleAdvanceAction';
 import useRoleMoreAction from '@/views/system/role/hooks/actions/useRoleMoreAction';
+import useOpenRoleAuthorizationSurface from '@/views/system/role/hooks/authorization/useOpenRoleAuthorizationSurface';
+import useOpenRoleImpactAnalysis from '@/views/system/role/hooks/impact/useOpenRoleImpactAnalysis';
 import { useCommonBooleanStatusOptions } from '@/shared/composables/i18n/useCommonBooleanStatusOptions';
 import useRoleTableAction from '@/views/system/role/hooks/actions/useRoleTableAction';
-import useRoleTableColumns from '@/views/system/role/hooks/useRoleTableColumns';
+import useRoleTableColumns from '@/views/system/role/hooks/columns/useRoleTableColumns';
 import type { FormInstance } from 'element-plus';
 import { computed, onMounted, reactive, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
@@ -45,6 +47,8 @@ const { openCreateDialog, openDetailDialog, openEditDialog, deleteRow, batchUpda
   fetchTableData,
 });
 
+const { openRoleAuthorizationSurface } = useOpenRoleAuthorizationSurface();
+const { openRoleImpactAnalysis } = useOpenRoleImpactAnalysis();
 const { openAssignPermissionDrawer, openDataScopeDialog, openGrantSubjectsDrawer } = useRoleMoreAction();
 
 const hasSelection = computed(() => selectedRows.value.length > 0);
@@ -165,6 +169,19 @@ onMounted(() => {
           <el-button class="ml-2!" link type="primary">{{ t('buttons.actionMore') }}</el-button>
           <template #dropdown>
             <el-dropdown-menu>
+              <Perms :value="SYS_ROLE_PERMS.QUERY">
+                <el-dropdown-item
+                  @click="
+                    openRoleAuthorizationSurface({
+                      roleId: row.id,
+                      roleCode: row.roleCode,
+                      roleName: row.roleName,
+                    })
+                  "
+                >
+                  {{ t('roles.menu.authorizationSurface') }}
+                </el-dropdown-item>
+              </Perms>
               <Perms :value="SYS_ROLE_PERMS.UPDATE">
                 <el-dropdown-item @click="openAssignPermissionDrawer(row)">
                   {{ t('roles.assign.permission') }}
@@ -180,7 +197,13 @@ onMounted(() => {
                   {{ t('roles.menu.grantSubjects') }}
                 </el-dropdown-item>
               </Perms>
-              <el-dropdown-item>{{ t('roles.menu.impactAnalysis') }}</el-dropdown-item>
+              <Perms :value="SYS_ROLE_PERMS.QUERY">
+                <el-dropdown-item
+                  @click="openRoleImpactAnalysis({ roleId: row.id, roleCode: row.roleCode, roleName: row.roleName })"
+                >
+                  {{ t('roles.menu.impactAnalysis') }}
+                </el-dropdown-item>
+              </Perms>
             </el-dropdown-menu>
           </template>
         </el-dropdown>

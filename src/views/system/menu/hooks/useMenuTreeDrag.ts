@@ -1,6 +1,6 @@
 import { moveMenu, type SysMenuTreeNode } from '@/api/system/menu/menu';
 import { transformI18n } from '@/app/plugins/i18n';
-import { useElTreeMoveDrag } from '@/views/system/_shared/hooks/useElTreeMoveDrag';
+import { useElTreeMoveDrag } from '@/views/system/_shared/tree/useElTreeMoveDrag';
 import type { Ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 

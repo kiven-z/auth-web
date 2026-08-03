@@ -3,7 +3,7 @@ import { getUserProfile, type SysUserProfileResponse } from '@/api/system/user/u
 import { type SysUserUpdateForm, updateUser } from '@/api/system/user/user';
 import { errorMessage, message } from '@/services/feedback/message';
 import useUserOptions from '@/views/system/user/hooks/options/useUserOptions';
-import { WORKSTATION_PROFILE_KEY } from '@/views/system/user/workstation/hooks/useWorkstationProfileContext';
+import { WORKSTATION_PROFILE_KEY } from '@/views/system/user/workstation/hooks/shell/useWorkstationProfileContext';
 import AvatarUpdatePanel from '@/views/system/user/workstation/panels/profile/AvatarUpdatePanel.vue';
 import type { FormInstance, FormRules } from 'element-plus';
 import { computed, inject, ref, watch } from 'vue';
@@ -51,7 +51,7 @@ const rules = computed<FormRules>(() => ({
 }));
 
 /**
- * 将档案响应写入表单与快照（排除 avatar / deptList / postList）
+ * 将档案响应写入表单与快照（排除 avatar 与组织计数）
  * @param row 用户档案
  */
 function applyProfileToForm(row: SysUserProfileResponse) {

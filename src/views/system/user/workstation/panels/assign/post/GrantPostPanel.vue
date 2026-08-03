@@ -36,7 +36,7 @@ const postAssignState = usePaginationState<UserPostPageRow, UserPostPageQuery>({
 const { fetchTableData, resetQuery, loading, searchForm, selectedRows } = postAssignState;
 
 const { openCreateDialog, openEditDialog, deleteBatchRows, clearAllPosts } = useGrantPostAction({
-  userId,
+  userId: userId.value,
   fetchTableData,
   selectedRows,
 });
@@ -122,13 +122,7 @@ watch(
       </el-form-item>
     </el-form>
 
-    <AuthPagedTable
-      :adaptive-config="{ offsetBottom: 32 }"
-      :columns="columns"
-      :state="postAssignState"
-      :title="tableTitle"
-      show-overflow-tooltip
-    >
+    <AuthPagedTable :columns="columns" :state="postAssignState" :title="tableTitle" show-overflow-tooltip>
       <template #buttons>
         <el-button-group>
           <el-button v-perms="SYS_USER_POST_PERMS.CREATE" type="primary" @click="openCreateDialog">

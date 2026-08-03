@@ -4,7 +4,7 @@ import AuthDataTable from '@/components/ui/AuthDataTable';
 import { operationConfirm } from '@/services/feedback/dialog';
 import { errorMessage, message } from '@/services/feedback/message';
 import useUserSessionTableColumns from '@/views/system/_shared/columns/useUserSessionTableColumns';
-import { SYS_SESSION_PERMS } from '@/views/system/_shared/constants/session-permissions';
+import { SYS_SESSION_PERMS } from '@/views/system/_shared/session/session-permissions';
 import { computed, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 

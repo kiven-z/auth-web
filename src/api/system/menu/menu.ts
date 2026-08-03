@@ -1,7 +1,6 @@
 import type { PageResponse, SortSpec } from '@/api/common/page';
 import type { BaseResponse } from '@/api/common/response';
 import type { IdsEnableStatusRequest } from '@/api/common/request';
-import type { RoleReference } from '@/api/system/_shared/grant-table';
 import type { AxiosRequestConfig } from 'axios';
 
 import { http } from '@/core/http/client';
@@ -71,7 +70,7 @@ export interface SysMenuDetailVO extends SysMenuListVO {
   dynamicLevel?: number;
   activePath?: string;
   remark?: string;
-  boundRoles: RoleReference[];
+  boundRoleCount: number;
 }
 
 /** 菜单详情 */

@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import type { LocaleType } from '@/auth/config/locales';
-import DefaultAvatar from '@/assets/user.png';
+import { UserAvatar } from '@/components/business/UserProfile';
 import { useTranslationLang } from '@/layout/hooks/locale/useTranslationLang';
 import { useLayoutUiStore } from '@/store/modules/app/layout-ui';
 import { useUserStore } from '@/store/modules/auth/user';
@@ -29,12 +29,9 @@ const { openWithReturn } = useHomePageNavigation();
 const layoutUiStore = useLayoutUiStore();
 const userStore = useUserStore();
 
-/** 无头像时用默认图 */
-const userAvatar = computed(() => (userStore.avatar ? userStore.avatar : DefaultAvatar));
 /** 昵称优先，否则用户名 */
 const displayName = computed(() => (userStore.nickname ? userStore.nickname : userStore.username));
 const primaryDeptName = computed(() => userStore.primaryDeptName ?? '');
-const avatarStyle = computed(() => (displayName.value ? { marginRight: '10px' } : ''));
 
 /**
  * 退出登录并清理本地会话
@@ -109,8 +106,8 @@ watch(
   </span>
   <el-dropdown trigger="click">
     <span class="el-dropdown-link navbar-bg-hover select-none">
-      <img :src="userAvatar" :style="avatarStyle" alt="avatar" />
-      <p v-if="displayName" class="dark:text-white">{{ displayName }}</p>
+      <UserAvatar :avatar="userStore.avatar" :name="displayName" :size="22" class="layout-toolbar__avatar" />
+      <span v-if="displayName" class="dark:text-white">{{ displayName }}</span>
     </span>
     <template #dropdown>
       <el-dropdown-menu class="layout-toolbar__logout-menu">
@@ -163,10 +160,8 @@ watch(
     font-size: 14px;
   }
 
-  img {
-    width: 22px;
-    height: 22px;
-    border-radius: 50%;
+  .layout-toolbar__avatar {
+    margin-right: 10px;
   }
 }
 

@@ -34,12 +34,6 @@
     padding: 16px 0;
   }
 
-  &__avatar {
-    flex-shrink: 0;
-    color: var(--el-color-white);
-    background: var(--el-color-primary-light-5);
-  }
-
   &__identity {
     flex: 1;
     min-width: 0;

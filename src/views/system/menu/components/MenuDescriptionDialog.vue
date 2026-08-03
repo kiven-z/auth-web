@@ -3,12 +3,12 @@ import { createAuditDetailColumns } from '@/shared/composables/table/auditColumn
 import type { DetailDialog } from '@/shared/types/dialog';
 import type { SysMenuDetailVO } from '@/api/system/menu/menu';
 import { useRenderIcon } from '@/components/ui/Icon/src/hooks';
-import DetailRelationListSection from '@/components/business/DetailRelationListSection/index.vue';
+import DetailRelationCountBar from '@/components/business/DetailRelationCountBar/index.vue';
 import Description from '@/components/ui/Description';
 import { renderBooleanStatusTag } from '@/shared/composables/layout/renderBooleanStatusTag';
 import { transformI18n } from '@/app/plugins/i18n';
-import useRoleColumns from '@/views/system/_shared/columns/useRoleColumns';
 import { TREE_ROOT_PARENT_ID } from '@/shared/utils/tree';
+import useOpenMenuAuthorizationSurface from '@/views/system/menu/hooks/authorization/useOpenMenuAuthorizationSurface';
 import { useMenuTypeOptions } from '@/views/system/menu/hooks/options/useMenuTypeOptions';
 import { ElTag } from 'element-plus';
 import { computed, h } from 'vue';
@@ -26,8 +26,7 @@ type MenuDescriptionDialogProps = DetailDialog<SysMenuDetailVO> & {
 const props = defineProps<MenuDescriptionDialogProps>();
 const { t } = useI18n();
 const menuTypeOptions = useMenuTypeOptions();
-
-const { roleColumns } = useRoleColumns();
+const { openMenuAuthorizationSurface } = useOpenMenuAuthorizationSurface();
 
 const parentLabel = computed(() => {
   if (props.parentMenuLabel) {
@@ -155,6 +154,10 @@ const descriptionColumns = computed(() => [
   { label: t('menus.remark'), prop: 'remark', labelWidth: 120, span: 2 },
   ...createAuditDetailColumns(),
 ]);
+
+const relationCountItems = computed(() => [
+  { label: t('sysMenu.bound.roles.title'), count: props.data?.boundRoleCount },
+]);
 </script>
 
 <template>
@@ -163,12 +166,15 @@ const descriptionColumns = computed(() => [
 
     <el-divider />
 
-    <DetailRelationListSection
-      :columns="roleColumns"
-      :empty-text="t('sysMenu.bound.roles.empty')"
-      :items="data.boundRoles"
-      :title="t('sysMenu.bound.roles.title')"
-      row-key="id"
+    <DetailRelationCountBar
+      :items="relationCountItems"
+      @view-authorization="
+        openMenuAuthorizationSurface({
+          menuId: data.id,
+          name: data.name,
+          title: transformI18n(data.title ?? ''),
+        })
+      "
     />
   </div>
 </template>

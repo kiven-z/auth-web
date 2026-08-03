@@ -4,7 +4,6 @@ import type { ExportScopeQueryFields } from '@/api/common/export';
 import { mergePagedExportParams } from '@/api/common/export';
 import type { SpreadsheetImportResult } from '@/api/common/import';
 import type { IdsEnableStatusRequest } from '@/api/common/request';
-import type { DeptBoundUserReference, PostReference, RoleReference } from '@/api/system/_shared/grant-table';
 import { http } from '@/core/http/client';
 import { TREE_ROOT_PARENT_ID } from '@/shared/utils/tree';
 import type { AxiosRequestConfig } from 'axios';
@@ -125,7 +124,7 @@ export function updateDept(data: SysDeptUpdateForm): Promise<void> {
 }
 
 /**
- * 部门详情
+ * 部门详情（标量 + 授权关系计数）
  */
 export interface SysDeptDetail extends BaseResponseDetail {
   parentId: string;
@@ -134,9 +133,9 @@ export interface SysDeptDetail extends BaseResponseDetail {
   status: boolean;
   orderNum: number;
   remark?: string;
-  boundUsers: DeptBoundUserReference[];
-  boundPosts: PostReference[];
-  boundRoles: RoleReference[];
+  boundUserCount: number;
+  boundPostCount: number;
+  boundRoleCount: number;
 }
 
 /**

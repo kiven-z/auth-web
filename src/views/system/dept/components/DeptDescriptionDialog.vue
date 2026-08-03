@@ -2,13 +2,11 @@
 import { createAuditDetailColumns } from '@/shared/composables/table/auditColumns';
 import type { DetailDialog } from '@/shared/types/dialog';
 import type { SysDeptDetail } from '@/api/system/dept/dept';
-import useUserProfileColumns from '@/components/business/UserProfile/src/useUserProfileColumns';
-import DetailRelationListSection from '@/components/business/DetailRelationListSection/index.vue';
+import DetailRelationCountBar from '@/components/business/DetailRelationCountBar/index.vue';
 import Description from '@/components/ui/Description';
-import usePostColumns from '@/views/system/_shared/columns/usePostColumns';
-import useRoleColumns from '@/views/system/_shared/columns/useRoleColumns';
 import { renderBooleanStatusTag } from '@/shared/composables/layout/renderBooleanStatusTag';
 import { TREE_ROOT_PARENT_ID } from '@/shared/utils/tree';
+import useOpenDeptAuthorizationSurface from '@/views/system/dept/hooks/authorization/useOpenDeptAuthorizationSurface';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 
@@ -23,10 +21,7 @@ type DeptDescriptionDialogProps = DetailDialog<SysDeptDetail> & {
 
 const props = defineProps<DeptDescriptionDialogProps>();
 const { t } = useI18n();
-
-const { userRelationBindingColumns } = useUserProfileColumns();
-const { postColumns } = usePostColumns();
-const { roleColumns } = useRoleColumns();
+const { openDeptAuthorizationSurface } = useOpenDeptAuthorizationSurface();
 
 const parentLabel = computed(() => {
   if (props.parentDeptLabel) {
@@ -58,6 +53,12 @@ const descriptionColumns = computed(() => [
   { label: t('dept.field.remark'), prop: 'remark', labelWidth: 120, span: 2 },
   ...createAuditDetailColumns(),
 ]);
+
+const relationCountItems = computed(() => [
+  { label: t('dept.binding.users.title'), count: props.data?.boundUserCount },
+  { label: t('dept.binding.posts.title'), count: props.data?.boundPostCount },
+  { label: t('dept.binding.roles.title'), count: props.data?.boundRoleCount },
+]);
 </script>
 
 <template>
@@ -66,30 +67,15 @@ const descriptionColumns = computed(() => [
 
     <el-divider />
 
-    <DetailRelationListSection
-      :columns="userRelationBindingColumns"
-      :empty-text="t('dept.binding.users.empty')"
-      :items="data.boundUsers"
-      :title="t('dept.binding.users.title')"
-      row-key="id"
-    />
-
-    <DetailRelationListSection
-      :columns="postColumns"
-      :empty-text="t('dept.binding.posts.empty')"
-      :items="data.boundPosts"
-      :title="t('dept.binding.posts.title')"
-      class="mt-4"
-      row-key="id"
-    />
-
-    <DetailRelationListSection
-      :columns="roleColumns"
-      :empty-text="t('dept.binding.roles.empty')"
-      :items="data.boundRoles"
-      :title="t('dept.binding.roles.title')"
-      class="mt-4"
-      row-key="id"
+    <DetailRelationCountBar
+      :items="relationCountItems"
+      @view-authorization="
+        openDeptAuthorizationSurface({
+          deptId: data.id,
+          deptCode: data.deptCode,
+          deptName: data.deptName,
+        })
+      "
     />
   </div>
 </template>

@@ -33,10 +33,23 @@ roles:
     roleNameLengthLimit: 角色名称长度不能超过128个字符
     remarkLengthLimit: 备注长度不能超过500个字符
   menu:
+    authorizationSurface: 查看授权面
     dataScope: 数据范围配置
     grantSubjects: 授权对象管理
     impactAnalysis: 影响分析与刷新
+  authorizationSurface:
+    title: 角色授权面
+    keyword: 关键词
+    subjectLabel: 主体名称
+    subjectId: 主体 ID
   scope:
     tip: 未配置时画像兜底为「仅本人」；用户级 user_scope 可覆盖本配置
   grantSubjects:
     saveCurrent: 保存授权
+  impact:
+    title: 角色影响分析
+    impactedUsers: 影响用户
+    tip: 影响用户由 USER / DEPT / POST 授权对象展开去重；手动刷新仅补救画像，正常改授权已自动失效重建
+    refreshSelected: 刷新勾选用户画像
+    refreshAll: 刷新受影响用户授权
+    refreshSuccess: 已提交刷新 {count} 个用户画像

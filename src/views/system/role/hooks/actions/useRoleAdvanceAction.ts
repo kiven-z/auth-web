@@ -1,7 +1,7 @@
 import type { SysRolePageQuery } from '@/api/system/role/role';
 import { downloadRoleImportTemplate, exportRoleExcel, importRoleExcel } from '@/api/system/role/role';
 import { usePagedTableExport } from '@/components/business/ExportDialog';
-import useSpreadsheetImportAction from '@/views/system/_shared/hooks/useSpreadsheetImportAction';
+import useSpreadsheetImportAction from '@/views/system/_shared/import/useSpreadsheetImportAction';
 import { useI18n } from 'vue-i18n';
 
 /** 角色页 Excel 导出 composable 配置 */

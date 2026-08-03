@@ -36,6 +36,10 @@ sysMenu:
     roles:
       title: Bound roles
       empty: No roles bound
+  menu:
+    authorizationSurface: View authorization surface
+  authorizationSurface:
+    title: Menu authorization surface
   action:
     addChild: Add Child
 

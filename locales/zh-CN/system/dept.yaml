@@ -30,6 +30,10 @@ dept:
     confirmSibling: 确定将「{dept}」调整为与「{peer}」同级吗？新的上级为「{parent}」。
   assignRole:
     currentDept: 当前部门
+  menu:
+    authorizationSurface: 查看授权面
+  authorizationSurface:
+    title: 部门授权面
   binding:
     users:
       title: 关联用户

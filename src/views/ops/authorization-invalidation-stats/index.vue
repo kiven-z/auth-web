@@ -8,9 +8,7 @@ import { errorMessage } from '@/services/feedback/message';
 import { formatDateTime } from '@/shared/utils/date/dateTime';
 import AuthorizationInvalidationFailureRateTrendCard from '@/views/ops/authorization-invalidation-stats/components/AuthorizationInvalidationFailureRateTrendCard.vue';
 import { SYS_AUTH_INVALIDATION_OUTBOX_PERMS } from '@/views/ops/_shared/constants/permissions';
-import { AUTH_INVALIDATION_ROUTES } from '@/views/ops/_shared/constants/routes';
 import useAuthorizationInvalidationStatsMetrics from '@/views/ops/authorization-invalidation-stats/hooks/useAuthorizationInvalidationStatsMetrics';
-import type { AuthorizationInvalidationStatsNavigatePayload } from '@/views/ops/_shared/types/stats-navigation';
 import { computed, onMounted, ref, unref, useTemplateRef } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
@@ -59,25 +57,6 @@ async function reload() {
   await Promise.all([reloadSummary(), trendCardRef.value?.reloadTrend()]);
 }
 
-/**
- * KPI 跳转到对应列表页并带上筛选参数
- * @param payload 跳转目标
- */
-function handleMetricNavigate(payload: AuthorizationInvalidationStatsNavigatePayload) {
-  if (payload.target === 'outbox') {
-    void router.push({
-      path: AUTH_INVALIDATION_ROUTES.OUTBOX,
-      query: payload.status ? { status: payload.status } : {},
-    });
-    return;
-  }
-
-  void router.push({
-    path: AUTH_INVALIDATION_ROUTES.EVENT,
-    query: payload.processing === undefined ? {} : { processing: String(payload.processing) },
-  });
-}
-
 onMounted(() => {
   void reloadSummary();
 });
@@ -115,7 +94,7 @@ onMounted(() => {
             :tone="metric.tone"
             :tooltip="metric.tooltip"
             :value="metric.value"
-            @click="handleMetricNavigate(metric.navigate)"
+            @click="() => router.push(metric.to)"
           />
         </el-col>
       </el-row>
@@ -136,7 +115,7 @@ onMounted(() => {
             :tone="metric.tone"
             :tooltip="metric.tooltip"
             :value="metric.value"
-            @click="handleMetricNavigate(metric.navigate)"
+            @click="() => router.push(metric.to)"
           />
         </el-col>
       </el-row>

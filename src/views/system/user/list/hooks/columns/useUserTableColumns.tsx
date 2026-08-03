@@ -1,10 +1,10 @@
 import type { SysUserPageRow } from '@/api/system/user/user';
-import { selectUserinfo } from '@/components/business/UserProfile';
+import { selectUserinfo, UserAvatar } from '@/components/business/UserProfile';
 import useUserProfileDisplay from '@/components/business/UserProfile/src/hooks/useUserProfileDisplay';
 import { Perms } from '@/auth/permission';
 import { SYS_USER_PERMS } from '@/views/system/user/constants/permissions';
 import { createAuditTableColumns } from '@/shared/composables/table/auditColumns';
-import { ElAvatar, ElButton } from 'element-plus';
+import { ElButton } from 'element-plus';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 
@@ -37,7 +37,9 @@ function useUserTableColumns() {
       label: t('users.field.avatarURL'),
       prop: 'avatar',
       minWidth: 72,
-      formatter: (row: SysUserPageRow) => <ElAvatar size={32} src={row.avatar ?? undefined} />,
+      formatter: (row: SysUserPageRow) => (
+        <UserAvatar avatar={row.avatar} name={row.nickname || row.username} size={32} />
+      ),
     },
     { label: t('users.field.phone'), prop: 'phone', minWidth: 130, showOverflowTooltip: true },
     { label: t('users.field.email'), prop: 'email', minWidth: 160, showOverflowTooltip: true },

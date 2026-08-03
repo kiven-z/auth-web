@@ -3,7 +3,8 @@ import type { SysDeptListVO } from '@/api/system/dept/dept';
 import { getDeptRoles, putDeptRoles } from '@/api/system/dept/dept-role';
 import { addDrawer } from '@/components/ui/Drawer';
 import { errorMessage, message } from '@/services/feedback/message';
-import RoleAssignPanel from '@/views/system/_shared/components/RoleAssignPanel.vue';
+import RoleAssignPanel from '@/views/system/_shared/assign/RoleAssignPanel.vue';
+import useOpenDeptAuthorizationSurface from '@/views/system/dept/hooks/authorization/useOpenDeptAuthorizationSurface';
 import { ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 
@@ -18,13 +19,14 @@ interface AssignPanelExpose {
 }
 
 /**
- * 部门「更多」操作（分配角色）
+ * 部门「更多」操作（授权面、分配角色）
  * @param deps 操作依赖
  * @returns 更多操作方法
  */
 function useDeptMoreAction(deps: DeptMoreActionDeps) {
   const { refresh } = deps;
   const { t } = useI18n();
+  const { openDeptAuthorizationSurface } = useOpenDeptAuthorizationSurface();
 
   /**
    * 打开分配角色抽屉
@@ -68,6 +70,7 @@ function useDeptMoreAction(deps: DeptMoreActionDeps) {
   };
 
   return {
+    openDeptAuthorizationSurface,
     openAssignRoleDrawer,
   };
 }

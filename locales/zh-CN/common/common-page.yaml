@@ -43,6 +43,11 @@ import:
   fileRequired: 请先选择要上传的文件
   fileLimitExceeded: 文件大小不能超过 10MB
   fileTypeInvalid: 仅支持 .xlsx 格式
+authorization:
+  view: 查看授权
+  relationTitle: 授权关系
+  surface:
+    keyword: 关键词
 buttons:
   loginOut: 退出系统
   openSystemSet: 打开系统配置

@@ -3,7 +3,7 @@ import type { SysUserProfileResponse } from '@/api/system/user/user-base';
 import { updateMyAvatar } from '@/api/system/user/user-me';
 import AvatarEditor from '@/components/business/AvatarEditor';
 import { message } from '@/services/feedback/message';
-import { ref, watch } from 'vue';
+import { computed, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 defineOptions({
@@ -20,6 +20,9 @@ const emit = defineEmits<{
 
 const { t } = useI18n();
 const displayAvatar = ref(props.profile.avatar);
+
+const deptCount = computed(() => Number(props.profile.deptCount ?? 0));
+const postCount = computed(() => Number(props.profile.postCount ?? 0));
 
 watch(
   () => props.profile.avatar,
@@ -60,28 +63,15 @@ async function handleAvatarUploaded(avatarUrl: string): Promise<void> {
         </div>
 
         <div class="profile-personal-info-card__meta">
-          <div v-if="profile.deptList?.length" class="profile-personal-info-card__meta-row">
-            <span>{{ t('assign.dept') }}：</span>
-            <el-tag
-              v-for="dept in profile.deptList"
-              :key="dept.id"
-              :type="dept.isPrimary ? 'primary' : 'info'"
-              effect="plain"
-            >
-              {{ dept.deptName }}
-            </el-tag>
-          </div>
-
-          <div v-if="profile.postList?.length" class="profile-personal-info-card__meta-row">
-            <span>{{ t('assign.post') }}：</span>
-            <el-tag
-              v-for="post in profile.postList"
-              :key="post.id"
-              :type="post.isPrimary ? 'primary' : 'info'"
-              effect="plain"
-            >
-              {{ post.postName }}
-            </el-tag>
+          <div class="profile-personal-info-card__meta-row">
+            <span class="profile-personal-info-card__metric">
+              <span class="profile-personal-info-card__metric-label">{{ t('users.bound.depts.title') }}</span>
+              <span class="profile-personal-info-card__metric-value">{{ deptCount }}</span>
+            </span>
+            <span class="profile-personal-info-card__metric">
+              <span class="profile-personal-info-card__metric-label">{{ t('users.bound.posts.title') }}</span>
+              <span class="profile-personal-info-card__metric-value">{{ postCount }}</span>
+            </span>
           </div>
         </div>
       </div>
@@ -127,8 +117,27 @@ async function handleAvatarUploaded(avatarUrl: string): Promise<void> {
   &__meta-row {
     display: flex;
     flex-wrap: wrap;
+    gap: 8px 20px;
+    align-items: baseline;
+  }
+
+  &__metric {
+    display: inline-flex;
     gap: 8px;
-    align-items: center;
+    align-items: baseline;
+    cursor: default;
+  }
+
+  &__metric-label {
+    font-size: 13px;
+    color: var(--el-text-color-secondary);
+  }
+
+  &__metric-value {
+    font-size: 16px;
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+    color: var(--el-text-color-primary);
   }
 
   &__avatar-hint {

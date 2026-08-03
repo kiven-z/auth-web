@@ -1,15 +1,7 @@
 import type { AxiosRequestConfig } from 'axios';
 
 import type { BaseResponse } from '@/api/common/response';
-import type {
-  PermissionReference,
-  RoleReference,
-  UserDeptReference,
-  UserPostReference,
-} from '@/api/system/_shared/grant-table';
 import { http } from '@/core/http/client';
-
-export type { UserDeptReference, UserPostReference };
 
 /**
  * 用户档案
@@ -27,12 +19,12 @@ export interface SysUserProfileResponse {
   birthday?: string | null;
   introduction?: string | null;
   remark?: string | null;
-  deptList: UserDeptReference[];
-  postList: UserPostReference[];
+  deptCount: number;
+  postCount: number;
 }
 
 /**
- * 查询用户档案（基本信息、部门、岗位）
+ * 查询用户档案（基本信息与组织关联数）
  * @param userId 用户 ID（字符串化 Long）
  * @returns 用户档案
  */
@@ -41,7 +33,7 @@ export function getUserProfile(userId: string | undefined): Promise<SysUserProfi
 }
 
 /**
- * 用户详情
+ * 用户详情（档案 + 授权关系计数 + 审计字段）
  */
 export interface SysUserDetail extends BaseResponse {
   username: string;
@@ -55,14 +47,15 @@ export interface SysUserDetail extends BaseResponse {
   birthday?: string | null;
   introduction?: string | null;
   remark?: string | null;
-  deptList: UserDeptReference[];
-  postList: UserPostReference[];
-  effectiveRoles: RoleReference[];
-  effectivePermissions: PermissionReference[];
+  deptCount: number;
+  postCount: number;
+  directRoleCount: number;
+  effectiveRoleCount: number;
+  effectivePermissionCount: number;
 }
 
 /**
- * 查询用户详情（档案 + 生效授权 + 审计字段）
+ * 查询用户详情（档案 + 授权关系计数 + 审计字段）
  * @param userId 用户 ID（字符串化 Long）
  * @returns 用户详情
  */

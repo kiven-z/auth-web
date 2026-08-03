@@ -8,6 +8,10 @@ post:
     view: 查看岗位详情
   assign:
     current: 当前岗位
+  menu:
+    authorizationSurface: 查看授权面
+  authorizationSurface:
+    title: 岗位授权面
   field:
     postCode: 岗位编码
     postName: 岗位名称

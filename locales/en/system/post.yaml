@@ -8,6 +8,10 @@ post:
     view: View Post Details
   assign:
     current: Current post
+  menu:
+    authorizationSurface: View authorization surface
+  authorizationSurface:
+    title: Post authorization surface
   field:
     postCode: Post Code
     postName: Post Name

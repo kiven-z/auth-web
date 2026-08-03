@@ -3,7 +3,7 @@ import type { DialogOptions } from '@/components/ui/Dialog/type';
 import type { SysDeptPageQuery } from '@/api/system/dept/dept';
 import { downloadDeptImportTemplate, exportDeptExcel, importDeptExcel } from '@/api/system/dept/dept';
 import { usePagedTableExport } from '@/components/business/ExportDialog';
-import useSpreadsheetImportAction from '@/views/system/_shared/hooks/useSpreadsheetImportAction';
+import useSpreadsheetImportAction from '@/views/system/_shared/import/useSpreadsheetImportAction';
 import DeptClosureHealthDialog from '@/views/system/dept/components/DeptClosureHealthDialog.vue';
 import { h, ref } from 'vue';
 import { useI18n } from 'vue-i18n';

@@ -6,7 +6,7 @@ import type { ExportScopeQueryFields } from '@/api/common/export';
 import { mergePagedExportParams } from '@/api/common/export';
 import type { SpreadsheetImportResult } from '@/api/common/import';
 import type { IdsEnableStatusRequest } from '@/api/common/request';
-import type { DeptReference, PostBoundUserReference, RoleReference } from '@/api/system/_shared/grant-table';
+import type { DeptReference } from '@/api/system/_shared/grant-table';
 import { http } from '@/core/http/client';
 
 export type { SpreadsheetImportResult };
@@ -104,8 +104,8 @@ export interface SysPostDetail extends BaseResponseDetail {
   orderNum: number;
   remark?: string;
   boundDept?: DeptReference | null;
-  boundUsers: PostBoundUserReference[];
-  boundRoles: RoleReference[];
+  boundUserCount: number;
+  boundRoleCount: number;
 }
 
 /**

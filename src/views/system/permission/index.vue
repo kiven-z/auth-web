@@ -1,12 +1,13 @@
 <script lang="ts" setup>
-import { getPermissionPage } from '@/api/system/permission';
+import { getPermissionPage } from '@/api/system/permission/permission';
 import AuthPagedTable, { usePaginationState } from '@/components/business/AuthPagedTable';
 import { useCommonBooleanStatusOptions } from '@/shared/composables/i18n/useCommonBooleanStatusOptions';
 import { useFormPlaceholder } from '@/shared/composables/i18n/useFormPlaceholder';
 import { SYS_PERMISSION_PERMS } from '@/views/system/permission/constants/permissions';
-import usePermissionAdvanceAction from '@/views/system/permission/hooks/usePermissionAdvanceAction';
-import usePermissionTableAction from '@/views/system/permission/hooks/usePermissionTableAction';
-import usePermissionTableColumns from '@/views/system/permission/hooks/usePermissionTableColumns';
+import usePermissionAdvanceAction from '@/views/system/permission/hooks/actions/usePermissionAdvanceAction';
+import useOpenPermissionAuthorizationSurface from '@/views/system/permission/hooks/authorization/useOpenPermissionAuthorizationSurface';
+import usePermissionTableAction from '@/views/system/permission/hooks/actions/usePermissionTableAction';
+import usePermissionTableColumns from '@/views/system/permission/hooks/columns/usePermissionTableColumns';
 import type { FormInstance } from 'element-plus';
 import { computed, onMounted, reactive, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
@@ -43,6 +44,8 @@ const { exporting, openExportDialog, openImportDialog } = usePermissionAdvanceAc
 const { openCreateDialog, openDetailDialog, openEditDialog, deleteRow, batchUpdateStatus } = usePermissionTableAction({
   fetchTableData,
 });
+
+const { openPermissionAuthorizationSurface } = useOpenPermissionAuthorizationSurface();
 
 const hasSelection = computed(() => selectedRows.value.length > 0);
 
@@ -157,6 +160,27 @@ onMounted(() => {
         <el-button v-perms="SYS_PERMISSION_PERMS.DELETE" link type="danger" @click="deleteRow(row)">
           {{ t('buttons.actionDelete') }}
         </el-button>
+
+        <el-dropdown trigger="click">
+          <el-button class="ml-2!" link type="primary">{{ t('buttons.actionMore') }}</el-button>
+          <template #dropdown>
+            <el-dropdown-menu>
+              <Perms :value="SYS_PERMISSION_PERMS.QUERY">
+                <el-dropdown-item
+                  @click="
+                    openPermissionAuthorizationSurface({
+                      permissionId: row.id,
+                      permissionCode: row.permissionCode,
+                      permissionName: row.permissionName,
+                    })
+                  "
+                >
+                  {{ t('permissions.menu.authorizationSurface') }}
+                </el-dropdown-item>
+              </Perms>
+            </el-dropdown-menu>
+          </template>
+        </el-dropdown>
       </template>
     </AuthPagedTable>
   </div>

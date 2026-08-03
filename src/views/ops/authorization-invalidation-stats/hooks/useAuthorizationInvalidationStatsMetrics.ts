@@ -3,9 +3,10 @@ import type {
   AuthorizationInvalidationOutboxStats,
 } from '@/api/ops/authorization-invalidation-summary';
 import type { StatMetricTone } from '@/components/business/StatMetricCard';
-import type { AuthorizationInvalidationStatsNavigatePayload } from '@/views/ops/_shared/types/stats-navigation';
+import { AUTH_INVALIDATION_ROUTES } from '@/views/ops/_shared/constants/routes';
 import { computed, type ComputedRef, type MaybeRefOrGetter, toValue } from 'vue';
 import { useI18n } from 'vue-i18n';
+import type { RouteLocationRaw } from 'vue-router';
 
 /** 失败率告警阈值（百分比） */
 export const FAILURE_RATE_DANGER_PERCENT = 5;
@@ -23,7 +24,7 @@ export interface AuthorizationInvalidationStatMetric {
   tone: StatMetricTone;
   tooltip?: string;
   clickable: boolean;
-  navigate: AuthorizationInvalidationStatsNavigatePayload;
+  to: RouteLocationRaw;
 }
 
 /**
@@ -93,7 +94,7 @@ function useAuthorizationInvalidationStatsMetrics(
         value: total,
         tone: 'default',
         clickable: true,
-        navigate: { target: 'outbox' },
+        to: { path: AUTH_INVALIDATION_ROUTES.OUTBOX },
       },
       {
         key: 'outbox-pending',
@@ -102,7 +103,7 @@ function useAuthorizationInvalidationStatsMetrics(
         footer: formatShare(pending, total),
         tone: pending > 0 ? 'info' : 'default',
         clickable: true,
-        navigate: { target: 'outbox', status: 'PENDING' },
+        to: { path: AUTH_INVALIDATION_ROUTES.OUTBOX, query: { status: 'PENDING' } },
       },
       {
         key: 'outbox-processing',
@@ -111,7 +112,7 @@ function useAuthorizationInvalidationStatsMetrics(
         footer: formatShare(processing, total),
         tone: processing > 0 ? 'warning' : 'default',
         clickable: true,
-        navigate: { target: 'outbox', status: 'PROCESSING' },
+        to: { path: AUTH_INVALIDATION_ROUTES.OUTBOX, query: { status: 'PROCESSING' } },
       },
       {
         key: 'outbox-success',
@@ -120,7 +121,7 @@ function useAuthorizationInvalidationStatsMetrics(
         footer: formatShare(success, total),
         tone: 'success',
         clickable: true,
-        navigate: { target: 'outbox', status: 'SUCCESS' },
+        to: { path: AUTH_INVALIDATION_ROUTES.OUTBOX, query: { status: 'SUCCESS' } },
       },
       {
         key: 'outbox-failed',
@@ -129,7 +130,7 @@ function useAuthorizationInvalidationStatsMetrics(
         footer: formatShare(failed, total),
         tone: failed > 0 ? 'danger' : 'default',
         clickable: true,
-        navigate: { target: 'outbox', status: 'FAILED' },
+        to: { path: AUTH_INVALIDATION_ROUTES.OUTBOX, query: { status: 'FAILED' } },
       },
       {
         key: 'outbox-dead',
@@ -139,7 +140,7 @@ function useAuthorizationInvalidationStatsMetrics(
         tone: dead > 0 ? 'danger' : 'default',
         tooltip: t('authorizationInvalidation.statsDeadTooltip'),
         clickable: true,
-        navigate: { target: 'outbox', status: 'DEAD' },
+        to: { path: AUTH_INVALIDATION_ROUTES.OUTBOX, query: { status: 'DEAD' } },
       },
       {
         key: 'outbox-failure-rate',
@@ -151,7 +152,7 @@ function useAuthorizationInvalidationStatsMetrics(
         tone: resolveFailureRateTone(failureRate),
         tooltip: t('authorizationInvalidation.statsFailureRateTooltip'),
         clickable: true,
-        navigate: { target: 'outbox', status: 'FAILED' },
+        to: { path: AUTH_INVALIDATION_ROUTES.OUTBOX, query: { status: 'FAILED' } },
       },
     ];
   });
@@ -169,7 +170,7 @@ function useAuthorizationInvalidationStatsMetrics(
         value: total,
         tone: 'default',
         clickable: true,
-        navigate: { target: 'event' },
+        to: { path: AUTH_INVALIDATION_ROUTES.EVENT },
       },
       {
         key: 'event-processing',
@@ -178,7 +179,7 @@ function useAuthorizationInvalidationStatsMetrics(
         footer: formatShare(processing, total),
         tone: processing > 0 ? 'warning' : 'default',
         clickable: true,
-        navigate: { target: 'event', processing: true },
+        to: { path: AUTH_INVALIDATION_ROUTES.EVENT, query: { processing: 'true' } },
       },
       {
         key: 'event-completed',
@@ -187,7 +188,7 @@ function useAuthorizationInvalidationStatsMetrics(
         footer: formatShare(completed, total),
         tone: 'success',
         clickable: true,
-        navigate: { target: 'event', processing: false },
+        to: { path: AUTH_INVALIDATION_ROUTES.EVENT, query: { processing: 'false' } },
       },
     ];
   });

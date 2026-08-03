@@ -2,7 +2,7 @@
 import { getDeptList } from '@/api/system/dept/dept';
 import { getRoleScope, type SysDataScopeForm } from '@/api/system/role/role-scope';
 import { errorMessage } from '@/services/feedback/message';
-import DataScopeFormFields from '@/views/system/_shared/components/DataScopeFormFields.vue';
+import DataScopeFormFields from '@/views/system/_shared/scope/DataScopeFormFields.vue';
 import { buildDeptSelectTree, type DeptSelectTreeNode } from '@/views/system/_shared/utils/dept-select-tree';
 import type { FormInstance, FormRules } from 'element-plus';
 import { onMounted, reactive, ref } from 'vue';

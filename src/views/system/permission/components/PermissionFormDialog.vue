@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import type { FormDialog } from '@/shared/types/dialog';
-import type { SysPermissionCreateForm, SysPermissionUpdateForm } from '@/api/system/permission';
+import type { SysPermissionCreateForm, SysPermissionUpdateForm } from '@/api/system/permission/permission';
 import { PERMISSION_CODE_REGEX } from '@/views/system/permission/constants/permission-code-convention';
 import { useFormPlaceholder } from '@/shared/composables/i18n/useFormPlaceholder';
 import type { FormInstance, FormRules } from 'element-plus';

@@ -7,10 +7,11 @@ import type {
 } from '@/api/system/_shared/grant-table';
 import type { UserDeptPageRow } from '@/api/system/user/user-dept';
 import type { UserPostPageRow } from '@/api/system/user/user-post';
+import { UserAvatar } from '@/components/business/UserProfile';
 import useUserProfileDisplay from '@/components/business/UserProfile/src/hooks/useUserProfileDisplay';
 import { renderBooleanStatusTag } from '@/shared/composables/layout/renderBooleanStatusTag';
+import { ElCheckTag } from 'element-plus';
 import { computed } from 'vue';
-import { ElAvatar, ElCheckTag } from 'element-plus';
 import { useI18n } from 'vue-i18n';
 
 interface RelationStatusRow {
@@ -50,8 +51,8 @@ function useUserProfileColumns() {
     {
       label: t('users.field.avatarURL'),
       prop: 'avatar',
-      cellRenderer: ({ value }: { value: string }) => {
-        return <ElAvatar src={value} size={40} />;
+      cellRenderer: ({ value, row }: { value: string; row: { nickname?: string | null; username?: string } }) => {
+        return <UserAvatar avatar={value} name={row?.nickname || row?.username} size={40} />;
       },
     },
     {

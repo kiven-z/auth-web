@@ -16,5 +16,7 @@ export const selectUserinfo = async (userId: string, username?: string | null) =
   });
 };
 
+export { default as UserAvatar } from './components/UserAvatar.vue';
+
 export const UserProfile = withInstall(UserProfileWidget);
 export default UserProfile;

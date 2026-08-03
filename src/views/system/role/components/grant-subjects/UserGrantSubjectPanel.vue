@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { getRoleGrantSubjects, putRoleGrantSubjects } from '@/api/system/role/role-grant-subjects';
+import { getRoleGrantSubjectSeeds, putRoleGrantSubjects } from '@/api/system/role/role-grant-subjects';
 import { getUserPage, type SysUserPageQuery, type SysUserPageRow } from '@/api/system/user/user';
 import AssignPanel, {
   createAssignCheckboxColumn,
@@ -61,9 +61,8 @@ const columns = computed<TableColumnList>(() => [
 async function loadSeed() {
   seedLoading.value = true;
   try {
-    const data = await getRoleGrantSubjects(props.roleId, 'USER');
-    const seed = (data.subjects ?? []).map((item) => ({ key: item.id, label: item.label }));
-    assign.applySeed(seed);
+    const subjects = await getRoleGrantSubjectSeeds(props.roleId, 'USER');
+    assign.applySeed(subjects.map((item) => ({ key: item.id, label: item.label })));
   } catch (error: unknown) {
     errorMessage(error);
     assign.applySeed([]);

@@ -8,6 +8,10 @@ permissions:
     view: 查看权限详情
   assign:
     sectionLabel: 已分配权限
+  menu:
+    authorizationSurface: 查看授权面
+  authorizationSurface:
+    title: 权限授权面
   field:
     permissionCode: 权限编码
     permissionName: 权限名称

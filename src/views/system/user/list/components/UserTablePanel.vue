@@ -9,7 +9,7 @@ import useUserAdvanceAction from '@/views/system/user/list/hooks/actions/useUser
 import useUserTableAction from '@/views/system/user/list/hooks/actions/useUserTableAction';
 import useUserTableColumns from '@/views/system/user/list/hooks/columns/useUserTableColumns';
 import useUserPageState from '@/views/system/user/list/hooks/useUserPageState';
-import { useOpenUserWorkstation } from '@/views/system/user/workstation/hooks/useOpenUserWorkstation';
+import { useOpenUserWorkstation } from '@/views/system/user/hooks/useOpenUserWorkstation';
 import type { FormInstance } from 'element-plus';
 import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';

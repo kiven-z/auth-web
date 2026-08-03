@@ -1,4 +1,4 @@
-import { SYS_SESSION_PERMS } from '@/views/system/_shared/constants/session-permissions';
+import { SYS_SESSION_PERMS } from '@/views/system/_shared/session/session-permissions';
 
 /**
  * 用户管理模块按钮权限码

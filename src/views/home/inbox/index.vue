@@ -153,7 +153,7 @@ onMounted(async () => {
       >
         <el-tab-pane v-for="major in majors" :key="major.majorCategoryId" :name="major.majorCategoryId">
           <template #label>
-            <el-badge :hidden="major.unreadCount <= 0" :max="99" :value="major.unreadCount">
+            <el-badge :hidden="major.unreadCount <= 0" :value="major.unreadCount">
               <span>{{ major.majorCategoryName }}</span>
             </el-badge>
           </template>

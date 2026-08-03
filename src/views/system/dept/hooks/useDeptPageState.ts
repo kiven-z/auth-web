@@ -1,5 +1,5 @@
 import { getDeptList, getDeptPage, type SysDeptListVO, type SysDeptTreeNode } from '@/api/system/dept/dept';
-import { useCreateModuleTableTreePageState } from '@/views/system/_shared/hooks/useCreateModuleTableTreePageState';
+import { useCreateModuleTableTreePageState } from '@/views/system/_shared/tree/useCreateModuleTableTreePageState';
 import { reactive, ref } from 'vue';
 
 /**

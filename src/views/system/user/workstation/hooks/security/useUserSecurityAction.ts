@@ -42,18 +42,21 @@ function useUserSecurityAction() {
   /**
    * 刷新指定用户的授权画像缓存
    * @param userId 目标用户主键
+   * @returns 是否实际触发了刷新
    */
-  async function refreshUserAuth(userId: string) {
+  async function refreshUserAuth(userId: string): Promise<boolean> {
     const confirmed = await operationConfirm();
     if (!confirmed) {
-      return;
+      return false;
     }
 
     try {
       await refreshUserAuthorization([userId]);
       message(t('users.authRefresh.success'), { type: 'success' });
+      return true;
     } catch (error: unknown) {
       errorMessage(error);
+      return false;
     }
   }
 

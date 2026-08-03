@@ -10,7 +10,7 @@ import {
 } from '@/api/system/user/user';
 import { usePagedTableExport } from '@/components/business/ExportDialog';
 import useBatchDeleteAction from '@/shared/composables/table/useBatchDeleteAction';
-import useSpreadsheetImportAction from '@/views/system/_shared/hooks/useSpreadsheetImportAction';
+import useSpreadsheetImportAction from '@/views/system/_shared/import/useSpreadsheetImportAction';
 import { operationConfirm } from '@/services/feedback/dialog';
 import { errorMessage, message } from '@/services/feedback/message';
 import { useI18n } from 'vue-i18n';

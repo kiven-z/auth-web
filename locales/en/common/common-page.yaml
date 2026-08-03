@@ -43,6 +43,11 @@ import:
   fileRequired: Please select a file first
   fileLimitExceeded: File size cannot exceed 10MB
   fileTypeInvalid: Only .xlsx files are supported
+authorization:
+  view: View authorization
+  relationTitle: Authorization relations
+  surface:
+    keyword: Keyword
 buttons:
   loginOut: Logout
   openSystemSet: Open system config

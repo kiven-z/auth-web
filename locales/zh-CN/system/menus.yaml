@@ -36,6 +36,10 @@ sysMenu:
     roles:
       title: 已绑定角色
       empty: 暂无绑定角色
+  menu:
+    authorizationSurface: 查看授权面
+  authorizationSurface:
+    title: 菜单授权面
   action:
     addChild: 新增下级
 

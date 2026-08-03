@@ -46,7 +46,7 @@ const { openCreateDialog, openDetailDialog, openEditDialog, deleteRow, batchUpda
   fetchTableData,
 });
 
-const { openAssignRoleDrawer } = usePostMoreAction({ fetchTableData });
+const { openPostAuthorizationSurface, openAssignRoleDrawer } = usePostMoreAction({ fetchTableData });
 
 const hasSelection = computed(() => selectedRows.value.length > 0);
 
@@ -173,11 +173,26 @@ onMounted(() => {
         <el-dropdown trigger="click">
           <el-button class="ml-2!" link type="primary">{{ t('buttons.actionMore') }}</el-button>
           <template #dropdown>
-            <Perms :value="SYS_POST_PERMS.UPDATE">
-              <el-dropdown-item @click="openAssignRoleDrawer(row)">
-                {{ t('assign.role') }}
-              </el-dropdown-item>
-            </Perms>
+            <el-dropdown-menu>
+              <Perms :value="SYS_POST_PERMS.QUERY">
+                <el-dropdown-item
+                  @click="
+                    openPostAuthorizationSurface({
+                      postId: row.id,
+                      postCode: row.postCode,
+                      postName: row.postName,
+                    })
+                  "
+                >
+                  {{ t('post.menu.authorizationSurface') }}
+                </el-dropdown-item>
+              </Perms>
+              <Perms :value="SYS_POST_PERMS.UPDATE">
+                <el-dropdown-item @click="openAssignRoleDrawer(row)">
+                  {{ t('assign.role') }}
+                </el-dropdown-item>
+              </Perms>
+            </el-dropdown-menu>
           </template>
         </el-dropdown>
       </template>

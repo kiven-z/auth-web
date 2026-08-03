@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import { treeRowActionsLockKey } from '@/components/business/AuthElTreePanel/src/treeRowActionsLock';
+import { transformI18n } from '@/app/plugins/i18n';
 import { SYS_MENU_PERMS } from '@/views/system/menu/constants/permissions';
 import useMenuMoreAction from '@/views/system/menu/hooks/actions/useMenuMoreAction';
 import useMenuTableAction from '@/views/system/menu/hooks/actions/useMenuTableAction';
@@ -36,7 +37,7 @@ const { openDetailDialog, openEditDialog, openCreateDialog, deleteBatchRows } = 
   viewMode,
   selectedRows,
 });
-const { openAssignRoleDrawer } = useMenuMoreAction({
+const { openMenuAuthorizationSurface, openAssignRoleDrawer } = useMenuMoreAction({
   fetchTableData,
   fetchTreeData,
   refresh,
@@ -97,24 +98,37 @@ onUnmounted(() => {
       {{ t('buttons.actionDelete') }}
     </el-button>
 
-    <Perms :value="SYS_MENU_PERMS.UPDATE">
-      <el-dropdown
-        :teleported="dropdownTeleported"
-        trigger="click"
-        @click.stop
-        @visible-change="handleDropdownVisibleChange"
-      >
-        <el-button class="ml-2!" link type="primary" @pointerdown.stop="lockRowForDropdown">
-          {{ t('buttons.actionMore') }}
-        </el-button>
-        <template #dropdown>
-          <el-dropdown-menu>
+    <el-dropdown
+      :teleported="dropdownTeleported"
+      trigger="click"
+      @click.stop
+      @visible-change="handleDropdownVisibleChange"
+    >
+      <el-button class="ml-2!" link type="primary" @pointerdown.stop="lockRowForDropdown">
+        {{ t('buttons.actionMore') }}
+      </el-button>
+      <template #dropdown>
+        <el-dropdown-menu>
+          <Perms :value="SYS_MENU_PERMS.QUERY">
+            <el-dropdown-item
+              @click="
+                openMenuAuthorizationSurface({
+                  menuId: row.id,
+                  name: row.name,
+                  title: transformI18n(row.title),
+                })
+              "
+            >
+              {{ t('sysMenu.menu.authorizationSurface') }}
+            </el-dropdown-item>
+          </Perms>
+          <Perms :value="SYS_MENU_PERMS.UPDATE">
             <el-dropdown-item @click="openAssignRoleDrawer(row)">
               {{ t('assign.role') }}
             </el-dropdown-item>
-          </el-dropdown-menu>
-        </template>
-      </el-dropdown>
-    </Perms>
+          </Perms>
+        </el-dropdown-menu>
+      </template>
+    </el-dropdown>
   </div>
 </template>

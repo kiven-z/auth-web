@@ -1,13 +1,13 @@
 <script lang="ts" setup>
 import AuthPagedTable from '@/components/business/AuthPagedTable';
-import { SYS_MENU_PERMS } from '@/views/system/menu/constants/permissions';
-import { useMenuTypeOptions } from '@/views/system/menu/hooks/options/useMenuTypeOptions';
-import useMenuMoreAction from '@/views/system/menu/hooks/actions/useMenuMoreAction';
-import useMenuPageState from '@/views/system/menu/hooks/useMenuPageState';
-import useMenuTableAction from '@/views/system/menu/hooks/actions/useMenuTableAction';
-import useMenuTableColumns from '@/views/system/menu/hooks/columns/useMenuTableColumns';
 import { useCommonBooleanStatusOptions } from '@/shared/composables/i18n/useCommonBooleanStatusOptions';
 import { useFormPlaceholder } from '@/shared/composables/i18n/useFormPlaceholder';
+import MenuRowActions from '@/views/system/menu/components/MenuRowActions.vue';
+import { SYS_MENU_PERMS } from '@/views/system/menu/constants/permissions';
+import useMenuTableAction from '@/views/system/menu/hooks/actions/useMenuTableAction';
+import useMenuTableColumns from '@/views/system/menu/hooks/columns/useMenuTableColumns';
+import { useMenuTypeOptions } from '@/views/system/menu/hooks/options/useMenuTypeOptions';
+import useMenuPageState from '@/views/system/menu/hooks/useMenuPageState';
 import type { FormInstance } from 'element-plus';
 import { onMounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
@@ -28,18 +28,12 @@ const menuPageState = useMenuPageState();
 const { loading, selectedRows, searchForm, fetchTableData, fetchTreeData, resetQuery, refresh, viewMode } =
   menuPageState;
 
-const { openCreateDialog, openEditDialog, openDetailDialog, deleteBatchRows, batchUpdateStatus } = useMenuTableAction({
+const { openCreateDialog, deleteBatchRows, batchUpdateStatus } = useMenuTableAction({
   fetchTableData,
   fetchTreeData,
   refresh,
   viewMode,
   selectedRows,
-});
-
-const { openAssignRoleDrawer } = useMenuMoreAction({
-  fetchTableData,
-  fetchTreeData,
-  refresh,
 });
 
 onMounted(() => {
@@ -114,14 +108,14 @@ onMounted(() => {
 
           <Perms :value="SYS_MENU_PERMS.UPDATE">
             <el-dropdown trigger="click">
-              <el-button type="warning">
+              <el-button type="warning" :disabled="selectedRows.length <= 0">
                 {{ t('buttons.actionBatchStatus') }}
               </el-button>
               <template #dropdown>
-                <el-dropdown-item :disabled="selectedRows.length <= 0" @click="batchUpdateStatus(selectedRows, true)">
+                <el-dropdown-item @click="batchUpdateStatus(selectedRows, true)">
                   {{ t('buttons.actionBatchEnable') }}
                 </el-dropdown-item>
-                <el-dropdown-item :disabled="selectedRows.length <= 0" @click="batchUpdateStatus(selectedRows, false)">
+                <el-dropdown-item @click="batchUpdateStatus(selectedRows, false)">
                   {{ t('buttons.actionBatchDisable') }}
                 </el-dropdown-item>
               </template>
@@ -142,27 +136,7 @@ onMounted(() => {
       </template>
 
       <template #actions="{ row }">
-        <el-button v-perms="SYS_MENU_PERMS.QUERY" link type="primary" @click="openDetailDialog(row)">
-          {{ t('buttons.actionView') }}
-        </el-button>
-        <el-button v-perms="SYS_MENU_PERMS.UPDATE" link type="primary" @click="openEditDialog(row)">
-          {{ t('buttons.actionEdit') }}
-        </el-button>
-        <el-button v-perms="SYS_MENU_PERMS.DELETE" link type="danger" @click="deleteBatchRows([row.id])">
-          {{ t('buttons.actionDelete') }}
-        </el-button>
-        <Perms :value="SYS_MENU_PERMS.UPDATE">
-          <el-dropdown trigger="click">
-            <el-button class="ml-2!" link type="primary">{{ t('buttons.actionMore') }}</el-button>
-            <template #dropdown>
-              <el-dropdown-menu>
-                <el-dropdown-item @click="openAssignRoleDrawer(row)">
-                  {{ t('assign.role') }}
-                </el-dropdown-item>
-              </el-dropdown-menu>
-            </template>
-          </el-dropdown>
-        </Perms>
+        <MenuRowActions :row="row" />
       </template>
     </AuthPagedTable>
   </div>

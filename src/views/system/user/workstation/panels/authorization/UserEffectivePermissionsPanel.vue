@@ -1,0 +1,74 @@
+<script lang="ts" setup>
+import type { PermissionReference } from '@/api/system/_shared/grant-table';
+import type { UserEffectivePermissionPageQuery } from '@/api/system/user/user-authorization';
+import AuthPagedTable, { usePaginationState } from '@/components/business/AuthPagedTable';
+import { useFormPlaceholder } from '@/shared/composables/i18n/useFormPlaceholder';
+import type { AuthorizationSurfacePanelProps } from '@/views/system/_shared/authorization/types';
+import usePermissionColumns from '@/views/system/_shared/columns/usePermissionColumns';
+import type { FormInstance } from 'element-plus';
+import { onMounted, reactive, ref } from 'vue';
+import { useI18n } from 'vue-i18n';
+
+defineOptions({ name: 'UserEffectivePermissionsPanel' });
+
+/** 用户生效权限分页面板（仅启用，无 status 筛选） */
+type UserEffectivePermissionsPanelProps = AuthorizationSurfacePanelProps<
+  PermissionReference,
+  UserEffectivePermissionPageQuery
+>;
+
+const props = defineProps<UserEffectivePermissionsPanelProps>();
+
+const { t } = useI18n();
+const ph = useFormPlaceholder();
+const { permissionColumns } = usePermissionColumns();
+const searchFormRef = ref<FormInstance>();
+
+const permissionState = usePaginationState<PermissionReference, UserEffectivePermissionPageQuery>({
+  searchForm: reactive({
+    permissionCode: undefined,
+    permissionName: undefined,
+  }),
+  fetchApi: (query) => props.fetchPage(query),
+});
+const { fetchTableData, resetQuery, loading, searchForm } = permissionState;
+
+onMounted(() => {
+  void fetchTableData();
+});
+</script>
+
+<template>
+  <div class="user-effective-permissions-panel">
+    <el-form ref="searchFormRef" v-enter-submit="fetchTableData" :model="searchForm" class="pt-2 pl-2" inline>
+      <el-form-item :label="t('permissions.field.permissionCode')" prop="permissionCode">
+        <el-input
+          v-model="searchForm.permissionCode"
+          :placeholder="ph.input('permissions.field.permissionCode')"
+          class="w-45!"
+          clearable
+        />
+      </el-form-item>
+      <el-form-item :label="t('permissions.field.permissionName')" prop="permissionName">
+        <el-input
+          v-model="searchForm.permissionName"
+          :placeholder="ph.input('permissions.field.permissionName')"
+          class="w-45!"
+          clearable
+        />
+      </el-form-item>
+      <el-form-item>
+        <el-button-group>
+          <el-button v-perms="queryPerm" :loading="loading" type="primary" @click="fetchTableData">
+            {{ t('buttons.actionSearch') }}
+          </el-button>
+          <el-button v-perms="queryPerm" @click="resetQuery(searchFormRef)">
+            {{ t('buttons.actionReset') }}
+          </el-button>
+        </el-button-group>
+      </el-form-item>
+    </el-form>
+
+    <AuthPagedTable :columns="permissionColumns" :state="permissionState" :title="title" show-overflow-tooltip />
+  </div>
+</template>

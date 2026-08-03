@@ -1,11 +1,11 @@
 import type { SysRolePageRow } from '@/api/system/role/role';
 import { assignRolePermissions, getRolePermissions } from '@/api/system/role/role-permission';
 import { type SysDataScopeForm, upsertRoleScope } from '@/api/system/role/role-scope';
-import { addDialog } from '@/components/ui/Dialog/index';
-import { addDrawer } from '@/components/ui/Drawer/index';
+import { addDialog } from '@/components/ui/Dialog';
+import { addDrawer } from '@/components/ui/Drawer';
 import { errorMessage, message } from '@/services/feedback/message';
 import { type FormOverlayExpose, useFormOverlaySubmit } from '@/shared/composables/table/useFormOverlaySubmit';
-import PermissionAssignDrawer from '@/views/system/_shared/components/PermissionAssignDrawer.vue';
+import PermissionAssignDrawer from '@/views/system/role/components/PermissionAssignDrawer.vue';
 import RoleDataScopeDialog from '@/views/system/role/components/RoleDataScopeDialog.vue';
 import RoleGrantSubjectsAssignDrawer from '@/views/system/role/components/grant-subjects/RoleGrantSubjectsAssignDrawer.vue';
 import { ref } from 'vue';
