@@ -3,8 +3,8 @@ import { type InAppComposeRequest, sendInAppMessage } from '@/api/message/in-app
 import { operationConfirm } from '@/services/feedback/dialog';
 import { errorMessage, message } from '@/services/feedback/message';
 import { MESSAGE_TEMPLATE_CONTENT_TYPES } from '@/views/message/_shared/constants/content-type';
-import { useInAppCategoryMajorOptions } from '@/shared/composables/message/useInAppCategoryMajorOptions';
-import { useInAppCategorySubOptions } from '@/shared/composables/message/useInAppCategorySubOptions';
+import { useInAppCategoryMajorOptions } from '@/views/message/_shared/hooks/options/useInAppCategoryMajorOptions';
+import { useInAppCategorySubOptions } from '@/views/message/_shared/hooks/options/useInAppCategorySubOptions';
 import InAppRecipientScopeSelector from '@/views/message/compose/components/InAppRecipientScopeSelector.vue';
 import { IN_APP_COMPOSE_PERMS } from '@/views/message/compose/constants/permissions';
 import useInAppComposeImport from '@/views/message/compose/hooks/useInAppComposeImport';

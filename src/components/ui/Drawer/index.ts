@@ -1,6 +1,6 @@
 import reDrawer from './index.vue';
 import type { ArgsType, ButtonProps, DrawerOptions, DrawerProps, EventType } from './type';
-import { withInstall } from '@pureadmin/utils';
+import { withInstall } from '@/shared/vue/withInstall';
 import { useTimeoutFn } from '@vueuse/core';
 import { ref } from 'vue';
 

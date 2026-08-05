@@ -15,7 +15,7 @@ import { operationConfirm } from '@/services/feedback/dialog';
 import { errorMessage, message } from '@/services/feedback/message';
 import useBatchDeleteAction from '@/shared/composables/table/useBatchDeleteAction';
 import { type FormOverlayExpose, useFormOverlaySubmit } from '@/shared/composables/table/useFormOverlaySubmit';
-import { TREE_ROOT_PARENT_ID } from '@/shared/utils/tree';
+import { TREE_ROOT_PARENT_ID } from '@/shared/utils/tree/tree';
 import DeptDescriptionDialog from '@/views/system/dept/components/DeptDescriptionDialog.vue';
 import DeptFormDialog from '@/views/system/dept/components/DeptFormDialog.vue';
 import type { DeptViewMode, SysDeptRow } from '@/views/system/dept/hooks/useDeptPageState';

@@ -1,6 +1,6 @@
 import { createAuditDetailColumns } from '@/shared/composables/table/auditColumns';
 import { renderBooleanStatusTag } from '@/shared/composables/layout/renderBooleanStatusTag';
-import { TREE_ROOT_PARENT_ID } from '@/shared/utils/tree';
+import { TREE_ROOT_PARENT_ID } from '@/shared/utils/tree/tree';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 

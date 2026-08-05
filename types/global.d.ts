@@ -3,7 +3,7 @@
  */
 declare global {
   /**
-   * 表格列定义（AuthDataTable、TableBar 列配置共用）
+   * 表格列定义（DataTable、TableBar 列配置共用）
    */
   interface TableColumns {
     type?: 'selection' | 'index' | 'expand';
@@ -70,30 +70,14 @@ declare global {
   }
 
   /**
-   * 对应 `public/platform-config.json` 文件的类型声明
+   * 对应 `public/platform-config.json`：仅部署/产品壳配置（不含用户偏好出厂默认）
    */
   interface PlatformConfigs {
-    Version?: string;
     Title?: string;
     FixedHeader?: boolean;
     HiddenSideBar?: boolean;
-    MultiTagsCache?: boolean;
     MaxTagsLevel?: number;
     KeepAlive?: boolean;
-    Locale?: string;
-    Layout?: string;
-    Theme?: string;
-    DarkMode?: boolean;
-    OverallStyle?: string;
-    Grey?: boolean;
-    Weak?: boolean;
-    HideTabs?: boolean;
-    HideFooter?: boolean;
-    Stretch?: boolean | number;
-    SidebarStatus?: boolean;
-    EpThemeColor?: string;
-    ShowLogo?: boolean;
-    ShowModel?: string;
     MenuArrowIconNoTransition?: boolean;
     CachingAsyncRoutes?: boolean;
     TooltipEffect?: Effect;
@@ -105,7 +89,6 @@ declare global {
    * 与 `PlatformConfigs` 类型不同，这里是缓存到浏览器本地存储的类型声明
    */
   interface StorageConfigs {
-    version?: string;
     title?: string;
     fixedHeader?: boolean;
     hiddenSideBar?: boolean;
@@ -113,16 +96,14 @@ declare global {
     keepAlive?: boolean;
     locale?: string;
     layout?: string;
-    theme?: string;
-    darkMode?: boolean;
+    navTheme?: string;
+    colorScheme?: string;
     grey?: boolean;
     weak?: boolean;
     hideTabs?: boolean;
     hideFooter?: boolean;
     sidebarStatus?: boolean;
-    epThemeColor?: string;
-    themeColor?: string;
-    overallStyle?: string;
+    primaryColor?: string;
     showLogo?: boolean;
     showModel?: string;
     menuSearchHistory?: number;
@@ -137,13 +118,15 @@ declare global {
       locale?: string;
     };
     layout: {
-      layout?: string;
-      theme?: string;
-      darkMode?: boolean;
+      /** vertical / horizontal / mix */
+      layout?: 'vertical' | 'horizontal' | 'mix';
+      /** 侧栏皮肤偏好（暗色下 light 仅在 apply 时回落，不改写本字段） */
+      navTheme?: string;
+      /** light / dark / system */
+      colorScheme?: string;
       sidebarStatus?: boolean;
-      epThemeColor?: string;
-      themeColor?: string;
-      overallStyle?: string;
+      /** Element 主色，与侧栏白皮肤解耦 */
+      primaryColor?: string;
     };
     configure: {
       grey?: boolean;

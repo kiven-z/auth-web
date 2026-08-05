@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { getUserProfile } from '@/api/system/user/user-base';
 import { getUserDeptPage, type UserDeptPageQuery, type UserDeptPageRow } from '@/api/system/user/user-dept';
-import AuthPagedTable, { usePaginationState } from '@/components/business/AuthPagedTable';
+import PagedTable, { usePaginationState } from '@/components/table/PagedTable';
 import { errorMessage } from '@/services/feedback/message';
 import { useFormPlaceholder } from '@/shared/composables/i18n/useFormPlaceholder';
 import { SYS_USER_DEPT_PERMS } from '@/views/system/user/constants/permissions';
@@ -122,7 +122,7 @@ watch(
       </el-form-item>
     </el-form>
 
-    <AuthPagedTable :columns="columns" :state="deptAssignState" :title="tableTitle" show-overflow-tooltip>
+    <PagedTable :columns="columns" :state="deptAssignState" :title="tableTitle" show-overflow-tooltip>
       <template #buttons>
         <el-button-group>
           <el-button v-perms="SYS_USER_DEPT_PERMS.CREATE" type="primary" @click="openCreateDialog">
@@ -150,6 +150,6 @@ watch(
           {{ t('buttons.actionDelete') }}
         </el-button>
       </template>
-    </AuthPagedTable>
+    </PagedTable>
   </div>
 </template>

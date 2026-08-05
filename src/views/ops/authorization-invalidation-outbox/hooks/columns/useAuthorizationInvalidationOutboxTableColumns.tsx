@@ -1,6 +1,6 @@
 import { formatDateTime } from '@/shared/utils/date/dateTime';
 import type { AuthorizationInvalidationOutboxPageRow } from '@/api/ops/authorization-invalidation-outbox';
-import { selectUserinfo } from '@/components/business/UserProfile';
+import { selectUserinfo } from '@/components/domain/user/UserProfile';
 import useAuthorizationInvalidationOptions from '@/views/ops/_shared/hooks/options/useAuthorizationInvalidationOptions';
 import { ElButton, ElTag } from 'element-plus';
 import { computed } from 'vue';

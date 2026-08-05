@@ -2,12 +2,12 @@
 import { useLayout } from '@/layout/hooks/layout/useLayout';
 import { useTranslationLang } from '@/layout/hooks/locale/useTranslationLang';
 import { useUiTheme } from '@/layout/hooks/theme/useUiTheme';
-import { getAppTitle } from '@/layout/utils/brand';
+import { getAppTitle, getLogoUrl } from '@/layout/utils/platform';
 import useLogin from './hooks/useLogin';
 
-import avatar from '@/assets/login/avatar.svg?component';
-import bg from '@/assets/login/bg.png';
-import illustration from '@/assets/login/illustration.svg?component';
+import IllustrationDark from '@/assets/login/illustration-dark.svg?component';
+import IllustrationLight from '@/assets/login/illustration-light.svg?component';
+import LoginBackground from '@/assets/login/login-bg.png';
 import darkIcon from '@/assets/svg/dark.svg?component';
 import dayIcon from '@/assets/svg/day.svg?component';
 import globalization from '@/assets/svg/globalization.svg?component';
@@ -18,6 +18,7 @@ import { formComponentMap } from '@/views/home/login/constants/login-registry';
 import { computed } from 'vue';
 import Motion from './components/Motion';
 import { useLoginModeOptions } from './hooks/useLoginModeOptions';
+import { useLoginThemeTransition } from './hooks/useLoginThemeTransition';
 
 defineOptions({
   name: 'AuthLogin',
@@ -25,8 +26,10 @@ defineOptions({
 
 const { initStorage } = useLayout();
 
-const { dataTheme, overallStyle, dataThemeChange } = useUiTheme();
+const { dataTheme, colorScheme, setColorScheme } = useUiTheme();
+const { switchRef, beforeThemeChange } = useLoginThemeTransition(dataTheme, () => setColorScheme());
 const title = getAppTitle();
+const logoUrl = getLogoUrl();
 const { locale, translation, localeOptions, getDropdownItemStyle, getDropdownItemClass } = useTranslationLang();
 
 const { currentMode, formKey, switchMode, onLoginSuccess } = useLogin();
@@ -34,22 +37,27 @@ const loginModeOptions = useLoginModeOptions();
 
 const activeFormComponent = computed(() => formComponentMap[currentMode.value]);
 const currentModeIndex = computed(() => loginModeOptions.value.findIndex((item) => item.value === currentMode.value));
+/** 浅色人物插画 / 深色科技拓扑，随登录页开关切换 */
+const loginIllustration = computed(() => (dataTheme.value ? IllustrationDark : IllustrationLight));
 
 initStorage();
-dataThemeChange(overallStyle.value);
+setColorScheme(colorScheme.value);
 </script>
 
 <template>
   <div class="select-none h-full">
-    <img :src="bg" alt="bg" class="wave" />
+    <img :src="LoginBackground" alt="bg" class="wave" />
     <div class="flex-c absolute right-5 top-3">
-      <el-switch
-        v-model="dataTheme"
-        :active-icon="dayIcon"
-        :inactive-icon="darkIcon"
-        inline-prompt
-        @change="dataThemeChange"
-      />
+      <div class="theme-toggler-content theme-toggler">
+        <el-switch
+          ref="switchRef"
+          v-model="dataTheme"
+          :active-icon="dayIcon"
+          :before-change="beforeThemeChange"
+          :inactive-icon="darkIcon"
+          inline-prompt
+        />
+      </div>
       <el-dropdown trigger="click">
         <globalization
           class="hover:text-primary hover:bg-transparent! w-5 h-5 ml-1.5 cursor-pointer outline-hidden duration-300"
@@ -72,12 +80,12 @@ dataThemeChange(overallStyle.value);
     </div>
 
     <div class="login-container">
-      <div class="img">
-        <component :is="illustration" />
+      <div aria-hidden="true" class="img">
+        <component :is="loginIllustration" />
       </div>
       <div class="login-box">
         <div class="login-form">
-          <avatar class="avatar" />
+          <img :src="logoUrl" alt="" class="login-form__logo" />
           <Motion>
             <h2 class="text-center outline-hidden">{{ title }}</h2>
           </Motion>
@@ -103,4 +111,9 @@ dataThemeChange(overallStyle.value);
 
 <style lang="scss" scoped>
 @use './styles/login';
+</style>
+
+<!-- view-transition 伪元素挂在 document，不可 scoped；仅 data-theme-transition 触发时播放 -->
+<style lang="scss">
+@use './styles/theme-transition';
 </style>

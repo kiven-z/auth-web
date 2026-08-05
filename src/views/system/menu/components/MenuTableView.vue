@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import AuthPagedTable from '@/components/business/AuthPagedTable';
+import PagedTable from '@/components/table/PagedTable';
 import { useCommonBooleanStatusOptions } from '@/shared/composables/i18n/useCommonBooleanStatusOptions';
 import { useFormPlaceholder } from '@/shared/composables/i18n/useFormPlaceholder';
 import MenuRowActions from '@/views/system/menu/components/MenuRowActions.vue';
@@ -94,12 +94,7 @@ onMounted(() => {
       </el-form-item>
     </el-form>
 
-    <AuthPagedTable
-      :columns="tableColumns"
-      :state="menuPageState"
-      :title="t('sysMenu.tableTitle')"
-      show-overflow-tooltip
-    >
+    <PagedTable :columns="tableColumns" :state="menuPageState" :title="t('sysMenu.tableTitle')" show-overflow-tooltip>
       <template #buttons>
         <el-button-group type="primary">
           <el-button v-perms="SYS_MENU_PERMS.CREATE" type="primary" @click="openCreateDialog()">
@@ -108,7 +103,7 @@ onMounted(() => {
 
           <Perms :value="SYS_MENU_PERMS.UPDATE">
             <el-dropdown trigger="click">
-              <el-button type="warning" :disabled="selectedRows.length <= 0">
+              <el-button :disabled="selectedRows.length <= 0" type="warning">
                 {{ t('buttons.actionBatchStatus') }}
               </el-button>
               <template #dropdown>
@@ -138,6 +133,6 @@ onMounted(() => {
       <template #actions="{ row }">
         <MenuRowActions :row="row" />
       </template>
-    </AuthPagedTable>
+    </PagedTable>
   </div>
 </template>

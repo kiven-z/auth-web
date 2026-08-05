@@ -1,6 +1,6 @@
 import { getConfig } from '@/auth/config';
 import { transformI18n } from '@/app/plugins/i18n';
-import { isUrl } from '@pureadmin/utils';
+import { isUrl } from '@/shared/utils/url/url';
 import type { Router } from 'vue-router';
 
 /**

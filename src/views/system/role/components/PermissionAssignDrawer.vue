@@ -4,13 +4,13 @@ import {
   type SysPermissionPageQuery,
   type SysPermissionPageRow,
 } from '@/api/system/permission/permission';
-import type { AssignSeedItem } from '@/components/business/AssignManagePanel';
+import type { AssignSeedItem } from '@/components/domain/assign/AssignPanel';
 import AssignPanel, {
   createAssignCheckboxColumn,
   useAssignChecked,
   useAssignTableLabels,
-} from '@/components/business/AssignManagePanel';
-import AuthPagedTable, { usePaginationState } from '@/components/business/AuthPagedTable';
+} from '@/components/domain/assign/AssignPanel';
+import PagedTable, { usePaginationState } from '@/components/table/PagedTable';
 import { useFormPlaceholder } from '@/shared/composables/i18n/useFormPlaceholder';
 import { errorMessage } from '@/services/feedback/message';
 import type { FormInstance } from 'element-plus';
@@ -125,7 +125,7 @@ defineExpose({ getSelectedKeys });
       </el-form-item>
     </el-form>
 
-    <AuthPagedTable
+    <PagedTable
       :columns="permissionDrawerColumns"
       :state="permissionState"
       :title="tableTitle"

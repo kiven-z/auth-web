@@ -2,7 +2,7 @@
 import { createAuditDetailColumns } from '@/shared/composables/table/auditColumns';
 import type { DetailDialog } from '@/shared/types/dialog';
 import type { SysPostDetail } from '@/api/system/post/post';
-import DetailRelationCountBar from '@/components/business/DetailRelationCountBar/index.vue';
+import DetailRelationCountBar from '@/components/domain/detail/DetailRelationCountBar';
 import Description from '@/components/ui/Description';
 import useDeptColumns from '@/views/system/post/hooks/columns/useDeptColumns';
 import { renderBooleanStatusTag } from '@/shared/composables/layout/renderBooleanStatusTag';

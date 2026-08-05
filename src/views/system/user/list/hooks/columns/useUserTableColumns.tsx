@@ -1,6 +1,5 @@
 import type { SysUserPageRow } from '@/api/system/user/user';
-import { selectUserinfo, UserAvatar } from '@/components/business/UserProfile';
-import useUserProfileDisplay from '@/components/business/UserProfile/src/hooks/useUserProfileDisplay';
+import { selectUserinfo, UserAvatar, useUserProfileDisplay } from '@/components/domain/user/UserProfile';
 import { Perms } from '@/auth/permission';
 import { SYS_USER_PERMS } from '@/views/system/user/constants/permissions';
 import { createAuditTableColumns } from '@/shared/composables/table/auditColumns';
@@ -54,6 +53,7 @@ function useUserTableColumns() {
     {
       label: t('table.actions'),
       fixed: 'right' as const,
+      minWidth: 100,
       slot: 'actions',
     },
   ]);

@@ -4,7 +4,7 @@ import {
   type MessageTemplatePageQuery,
   type MessageTemplatePageRow,
 } from '@/api/message/message-template';
-import AuthPagedTable, { usePaginationState } from '@/components/business/AuthPagedTable';
+import PagedTable, { usePaginationState } from '@/components/table/PagedTable';
 import { useCommonBooleanStatusOptions } from '@/shared/composables/i18n/useCommonBooleanStatusOptions';
 import { useFormPlaceholder } from '@/shared/composables/i18n/useFormPlaceholder';
 import { IN_APP_TEMPLATE_CHANNEL } from '@/views/message/_shared/constants/channel';
@@ -125,7 +125,7 @@ onMounted(() => {
       </el-form-item>
     </el-form>
 
-    <AuthPagedTable
+    <PagedTable
       :columns="columns"
       :state="inAppTemplateState"
       :title="t('inAppTemplate.tableTitle')"
@@ -191,6 +191,6 @@ onMounted(() => {
           </template>
         </el-dropdown>
       </template>
-    </AuthPagedTable>
+    </PagedTable>
   </div>
 </template>

@@ -2,12 +2,12 @@
 import { createAuditDetailColumns } from '@/shared/composables/table/auditColumns';
 import type { DetailDialog } from '@/shared/types/dialog';
 import type { SysMenuDetailVO } from '@/api/system/menu/menu';
-import { useRenderIcon } from '@/components/ui/Icon/src/hooks';
-import DetailRelationCountBar from '@/components/business/DetailRelationCountBar/index.vue';
+import { useRenderIcon } from '@/components/ui/Icon';
+import DetailRelationCountBar from '@/components/domain/detail/DetailRelationCountBar';
 import Description from '@/components/ui/Description';
 import { renderBooleanStatusTag } from '@/shared/composables/layout/renderBooleanStatusTag';
 import { transformI18n } from '@/app/plugins/i18n';
-import { TREE_ROOT_PARENT_ID } from '@/shared/utils/tree';
+import { TREE_ROOT_PARENT_ID } from '@/shared/utils/tree/tree';
 import useOpenMenuAuthorizationSurface from '@/views/system/menu/hooks/authorization/useOpenMenuAuthorizationSurface';
 import { useMenuTypeOptions } from '@/views/system/menu/hooks/options/useMenuTypeOptions';
 import { ElTag } from 'element-plus';

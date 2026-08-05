@@ -1,14 +1,12 @@
 <script lang="ts" setup>
 import { getConfig } from '@/auth/config';
 import { menuType } from '@/layout/types';
-import { ReText } from '@/components/ui/ReText';
-import { useLayout } from '@/layout/hooks/layout/useLayout';
+import { useLayoutCapabilities } from '@/layout/hooks/layout/useLayoutCapabilities';
 import { MENU_TITLE_ROW_STYLE } from '@/layout/utils/menu-path';
-import { getMenuTooltipEffect } from '@/layout/utils/tooltip-effect';
 import { transformI18n } from '@/app/plugins/i18n';
 import { useAppStore } from '@/store/modules/app/app';
 import SidebarLinkItem from './SidebarLinkItem.vue';
-import { useRenderIcon } from '@/components/ui/Icon/src/hooks';
+import { useRenderIcon } from '@/components/ui/Icon';
 import { computed, type CSSProperties, type PropType, ref, toRaw, useAttrs } from 'vue';
 
 import ArrowUp from '~icons/ep/arrow-up-bold';
@@ -18,9 +16,8 @@ import ArrowRight from '~icons/ep/arrow-right-bold';
 
 const attrs = useAttrs();
 const appStore = useAppStore();
-const { layout } = useLayout();
+const { mode } = useLayoutCapabilities();
 const isCollapse = computed(() => !appStore.getSidebarStatus);
-const tooltipEffect = getMenuTooltipEffect();
 const getDivStyle = MENU_TITLE_ROW_STYLE;
 
 const props = defineProps({
@@ -50,7 +47,7 @@ const getSubMenuIconStyle = computed((): CSSProperties => {
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    margin: layout.value === 'horizontal' ? '0 5px 0 0' : isCollapse.value ? '0 auto' : '0 5px 0 0',
+    margin: mode.value === 'horizontal' ? '0 5px 0 0' : isCollapse.value ? '0 auto' : '0 5px 0 0',
   };
 });
 
@@ -58,10 +55,10 @@ const textClass = computed(() => {
   const item = props.item;
   const baseClass = 'w-full! text-inherit!';
   if (
-    layout.value !== 'horizontal' &&
+    mode.value !== 'horizontal' &&
     isCollapse.value &&
     !toRaw(item.meta.icon) &&
-    ((layout.value === 'vertical' && item.parentId === null) || (layout.value === 'mix' && item.pathList.length === 2))
+    ((mode.value === 'vertical' && item.parentId === null) || (mode.value === 'mix' && item.pathList.length === 2))
   ) {
     return `${baseClass} min-w-[54px]! text-center! px-3!`;
   }
@@ -134,8 +131,8 @@ function resolvePath(routePath: string) {
       </div>
       <el-text
         v-if="
-          (!item?.meta.icon && isCollapse && layout === 'vertical' && item?.pathList?.length === 1) ||
-          (!onlyOneChild.meta.icon && isCollapse && layout === 'mix' && item?.pathList?.length === 2)
+          (!item?.meta.icon && isCollapse && mode === 'vertical' && item?.pathList?.length === 1) ||
+          (!onlyOneChild.meta.icon && isCollapse && mode === 'mix' && item?.pathList?.length === 2)
         "
         class="w-full! px-3! min-w-[54px]! text-center! text-inherit!"
         truncated
@@ -145,15 +142,9 @@ function resolvePath(routePath: string) {
 
       <template #title>
         <div :style="getDivStyle">
-          <ReText
-            :tippyProps="{
-              offset: [0, -10],
-              theme: tooltipEffect,
-            }"
-            class="w-full! text-inherit!"
-          >
+          <el-text class="w-full! text-inherit!" truncated>
             {{ transformI18n(onlyOneChild.meta.title) }}
-          </ReText>
+          </el-text>
           <div v-if="onlyOneChild.meta.extraIcon" class="flex justify-center items-center">
             <component :is="useRenderIcon(toRaw(onlyOneChild.meta.extraIcon))" class="w-[30px] h-[30px]" />
           </div>
@@ -166,20 +157,17 @@ function resolvePath(routePath: string) {
       <div v-if="toRaw(item.meta.icon)" :style="getSubMenuIconStyle" class="layout-menu__icon">
         <component :is="useRenderIcon(item.meta && toRaw(item.meta.icon))" />
       </div>
-      <ReText
+      <el-text
         v-if="
-          layout === 'mix' && toRaw(item.meta.icon)
+          mode === 'mix' && toRaw(item.meta.icon)
             ? !isCollapse || item?.pathList?.length !== 2
-            : !(layout === 'vertical' && isCollapse && toRaw(item.meta.icon) && item.parentId === null)
+            : !(mode === 'vertical' && isCollapse && toRaw(item.meta.icon) && item.parentId === null)
         "
         :class="textClass"
-        :tippyProps="{
-          offset: [0, -10],
-          theme: tooltipEffect,
-        }"
+        truncated
       >
         {{ transformI18n(item.meta.title) }}
-      </ReText>
+      </el-text>
       <div v-if="!isCollapse && item.meta.extraIcon" class="flex justify-center items-center">
         <component :is="useRenderIcon(toRaw(item.meta.extraIcon))" class="w-[30px] h-[30px]" />
       </div>

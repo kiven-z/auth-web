@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { INSTANT_PICKER_VALUE_FORMAT } from '@/shared/utils/date/dateTime';
 import { getLoginLogPage } from '@/api/log/login-log';
-import AuthPagedTable, { usePaginationState } from '@/components/business/AuthPagedTable';
+import PagedTable, { usePaginationState } from '@/components/table/PagedTable';
 import useRemoteUserSearch from '@/shared/composables/dialog/useRemoteUserSearch';
 import { SYS_LOG_LOGIN_PERMS } from '@/views/log/login-log/constants/permissions';
 import useLoginLogOptions from '@/views/log/login-log/hooks/options/useLoginLogOptions';
@@ -121,7 +121,7 @@ onMounted(() => {
       </el-form-item>
     </el-form>
 
-    <AuthPagedTable :columns="columns" :state="loginLogState" :title="t('loginLog.title.table')" show-overflow-tooltip>
+    <PagedTable :columns="columns" :state="loginLogState" :title="t('loginLog.title.table')" show-overflow-tooltip>
       <template #buttons>
         <Perms :value="SYS_LOG_LOGIN_PERMS.DELETE">
           <el-dropdown trigger="click">
@@ -146,6 +146,6 @@ onMounted(() => {
           {{ t('buttons.actionDelete') }}
         </el-button>
       </template>
-    </AuthPagedTable>
+    </PagedTable>
   </div>
 </template>

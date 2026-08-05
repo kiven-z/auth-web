@@ -1,7 +1,10 @@
 import './index.css';
 import type { OptionsType } from './type';
-import { useRenderIcon } from '@/components/ui/Icon/src/hooks';
-import { isFunction, isNumber, useDark, useResizeObserver } from '@pureadmin/utils';
+import { useRenderIcon } from '@/components/ui/Icon';
+import { useDark } from '@/shared/composables/theme/useDark';
+import isFunction from 'lodash/isFunction';
+import isNumber from 'lodash/isNumber';
+import { useResizeObserver } from '@vueuse/core';
 import { defineComponent, getCurrentInstance, h, nextTick, type PropType, ref, toRef, watch } from 'vue';
 
 const props = {
@@ -47,6 +50,7 @@ export default defineComponent({
     const initStatus = ref(false);
     const curMouseActive = ref(-1);
     const segmentedItembg = ref('');
+    const segmentedRootRef = ref<HTMLDivElement>();
     const instance = getCurrentInstance()!;
     const curIndex = isNumber(props.modelValue) ? toRef(props, 'modelValue') : ref(0);
 
@@ -85,15 +89,13 @@ export default defineComponent({
       });
     }
 
-    function handleResizeInit() {
-      useResizeObserver('.auth-segmented', () => {
+    if (props.block || props.resize) {
+      useResizeObserver(segmentedRootRef, () => {
         nextTick(() => {
           handleInit(curIndex.value);
         });
       });
     }
-
-    (props.block || props.resize) && handleResizeInit();
 
     watch(
       () => curIndex.value,
@@ -107,9 +109,12 @@ export default defineComponent({
       }
     );
 
-    watch(() => props.size, handleResizeInit, {
-      immediate: true,
-    });
+    watch(
+      () => props.size,
+      () => {
+        handleInit(curIndex.value);
+      }
+    );
 
     const rendLabel = () => {
       return props.options.map((option, index) => {
@@ -157,6 +162,7 @@ export default defineComponent({
 
     return () => (
       <div
+        ref={segmentedRootRef}
         class={{
           'auth-segmented': true,
           'auth-segmented-block': props.block,

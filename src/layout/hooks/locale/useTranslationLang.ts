@@ -1,7 +1,6 @@
 import { localeOptions, type LocaleType } from '@/auth/config/locales';
-import { getLocaleSnapshot, patchLocale } from '@/core/preferences/storage';
+import { getLocaleSnapshot, patchLocale } from '@/core/preferences/persistence/storage';
 import { changeDocumentTitle } from '@/layout/composables/useDocumentTitle';
-import { useEpThemeStore } from '@/store/modules/app/epTheme';
 import { onBeforeMount, type Ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRoute } from 'vue-router';
@@ -14,7 +13,6 @@ import { useRoute } from 'vue-router';
 export function useTranslationLang(menuRef?: Ref<{ handleResize?: () => void } | undefined>) {
   const { locale, t } = useI18n();
   const route = useRoute();
-  const epThemeStore = useEpThemeStore();
 
   /**
    * 设置界面语言并持久化
@@ -42,8 +40,8 @@ export function useTranslationLang(menuRef?: Ref<{ handleResize?: () => void } |
    */
   function getDropdownItemStyle(current: string, target: string): Record<string, string> {
     return {
-      background: current === target ? epThemeStore.epThemeColor : '',
-      color: current === target ? '#f4f4f5' : '#000',
+      background: current === target ? 'var(--el-color-primary)' : '',
+      color: current === target ? 'var(--auth-text-anti)' : 'var(--auth-text-primary)',
     };
   }
 

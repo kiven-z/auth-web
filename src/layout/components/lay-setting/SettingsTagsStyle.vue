@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import Segmented, { type OptionsType } from '@/components/ui/Segmented';
 import { useUiConfigure } from '@/layout/hooks/configure/useUiConfigure';
-import { getConfigureSnapshot } from '@/core/preferences/storage';
+import { getConfigureSnapshot } from '@/core/preferences/persistence/storage';
 import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 

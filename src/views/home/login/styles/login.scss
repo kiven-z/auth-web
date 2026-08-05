@@ -3,7 +3,7 @@
   bottom: 0;
   left: 0;
   z-index: -1;
-  width: 80%;
+  width: 100%;
   height: 100%;
 }
 
@@ -21,8 +21,9 @@
   align-items: center;
   justify-content: flex-end;
 
-  img {
-    width: 500px;
+  :deep(svg) {
+    width: min(500px, 100%);
+    height: auto;
   }
 }
 
@@ -36,22 +37,20 @@
   width: 360px;
   padding: 0 4px;
 
+  &__logo {
+    display: block;
+    margin: 0 auto;
+    height: 72px;
+  }
+
   h2 {
     margin: 15px 0;
-    font:
-      bold 200% Consolas,
-      Monaco,
-      monospace;
-    color: #999;
+    font: bold 200% Consolas,
+    Monaco,
+    monospace;
+    color: var(--auth-text-placeholder);
     text-transform: uppercase;
   }
-}
-
-.avatar {
-  display: block;
-  height: 64px;
-  margin: 0 auto;
-  scale: 150%;
 }
 
 @media screen and (width <= 1180px) {
@@ -68,10 +67,8 @@
     }
   }
 
-  .img {
-    img {
-      width: 360px;
-    }
+  .img :deep(svg) {
+    width: min(360px, 100%);
   }
 }
 

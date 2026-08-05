@@ -7,8 +7,8 @@ import {
   type RoleImpactSummary,
   type RoleImpactUserPageQuery,
 } from '@/api/system/role/role-impact';
-import AuthPagedTable, { usePaginationState } from '@/components/business/AuthPagedTable';
-import useUserProfileColumns from '@/components/business/UserProfile/src/useUserProfileColumns';
+import PagedTable, { usePaginationState } from '@/components/table/PagedTable';
+import { useUserProfileColumns } from '@/components/domain/user/UserProfile';
 import { operationConfirm } from '@/services/feedback/dialog';
 import { errorMessage, message } from '@/services/feedback/message';
 import { useFormPlaceholder } from '@/shared/composables/i18n/useFormPlaceholder';
@@ -172,7 +172,7 @@ onMounted(() => {
       </el-form-item>
     </el-form>
 
-    <AuthPagedTable
+    <PagedTable
       :columns="impactUserColumns"
       :state="impactUserState"
       :title="t('roles.impact.impactedUsers')"

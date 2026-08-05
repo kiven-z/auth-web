@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { animates } from './animate';
-import { cloneDeep } from '@pureadmin/utils';
+import cloneDeep from 'lodash/cloneDeep';
 import { useI18n } from 'vue-i18n';
 import { computed, ref } from 'vue';
 
@@ -34,7 +34,7 @@ const animateClass = computed(() => {
     'cursor-pointer',
     'transition-all',
     'justify-center',
-    'border-[#e5e7eb]',
+    'border-auth-border',
     'hover:text-primary',
     'hover:duration-[700ms]',
   ];
@@ -91,7 +91,7 @@ function onMouseleave() {
   >
     <template #empty>
       <div class="w-[280px]">
-        <el-scrollbar :view-style="{ overflow: 'hidden' }" class="border-t border-[#e5e7eb]" height="212px" noresize>
+        <el-scrollbar :view-style="{ overflow: 'hidden' }" class="border-t border-auth-border" height="212px" noresize>
           <ul class="flex flex-wrap justify-around mb-1!">
             <li
               v-for="(animate, index) in animatesList"

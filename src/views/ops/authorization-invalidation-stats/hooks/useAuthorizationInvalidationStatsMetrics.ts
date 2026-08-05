@@ -2,7 +2,7 @@ import type {
   AuthorizationInvalidationEventStats,
   AuthorizationInvalidationOutboxStats,
 } from '@/api/ops/authorization-invalidation-summary';
-import type { StatMetricTone } from '@/components/business/StatMetricCard';
+import type { StatMetricTone } from '@/components/ui/StatMetricCard';
 import { AUTH_INVALIDATION_ROUTES } from '@/views/ops/_shared/constants/routes';
 import { computed, type ComputedRef, type MaybeRefOrGetter, toValue } from 'vue';
 import { useI18n } from 'vue-i18n';

@@ -46,7 +46,6 @@
     "url": "https://github.com/BunnyMaster"
   },
   "dependencies": {
-    "@pureadmin/utils": "^2.6.2",
     "@vueuse/core": "^14.0.0",
     "@vueuse/motion": "^3.0.3",
     "animate.css": "^4.1.1",

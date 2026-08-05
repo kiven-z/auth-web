@@ -2,7 +2,7 @@
 import { createAuditDetailColumns } from '@/shared/composables/table/auditColumns';
 import type { DetailDialog } from '@/shared/types/dialog';
 import type { SysPermissionDetail } from '@/api/system/permission/permission';
-import DetailRelationCountBar from '@/components/business/DetailRelationCountBar/index.vue';
+import DetailRelationCountBar from '@/components/domain/detail/DetailRelationCountBar';
 import Description from '@/components/ui/Description';
 import { renderBooleanStatusTag } from '@/shared/composables/layout/renderBooleanStatusTag';
 import useOpenPermissionAuthorizationSurface from '@/views/system/permission/hooks/authorization/useOpenPermissionAuthorizationSurface';

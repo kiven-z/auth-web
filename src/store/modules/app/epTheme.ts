@@ -1,37 +1,40 @@
-import { getLayoutSnapshot, patchLayout } from '@/core/preferences/storage';
-import { getConfig } from '@/auth/config';
+import { DEFAULT_NAV_THEME, DEFAULT_PRIMARY_COLOR } from '@/core/preferences/runtime/theme-defaults';
 import { defineStore } from 'pinia';
+import { getLayoutSnapshot, patchLayout } from '@/core/preferences/persistence/storage';
 
+/**
+ * Element 主色与当前生效侧栏皮肤的运行时镜像（由 applyThemePreferences 写入）
+ */
 export const useEpThemeStore = defineStore('ep-theme', {
   state: () => {
     const layout = getLayoutSnapshot();
     return {
-      epThemeColor: layout.epThemeColor ?? getConfig().EpThemeColor,
-      epTheme: layout.theme ?? getConfig().Theme,
+      primaryColor: layout.primaryColor ?? DEFAULT_PRIMARY_COLOR,
+      navTheme: layout.navTheme ?? DEFAULT_NAV_THEME,
     };
   },
   getters: {
-    getEpThemeColor(state) {
-      return state.epThemeColor;
+    getPrimaryColor(state) {
+      return state.primaryColor;
     },
-    /** 用于mix导航模式下hamburger-svg的fill属性 */
+    /** mix 导航模式下 hamburger 的 fill */
     fill(state) {
-      if (state.epTheme === 'light') {
-        return '#409eff';
+      if (state.navTheme === 'light') {
+        return 'var(--el-color-primary)';
       }
-      return '#fff';
+      return 'var(--auth-text-anti)';
     },
   },
   actions: {
     /**
-     * 设置 Element 主色（经 preferences layout 网关持久化）
+     * 设置主色并持久化
      * @param newColor 色值
      */
-    setEpThemeColor(newColor: string): void {
+    setPrimaryColor(newColor: string): void {
       const layout = getLayoutSnapshot();
-      this.epTheme = layout.theme ?? getConfig().Theme;
-      this.epThemeColor = newColor;
-      patchLayout({ ...layout, epThemeColor: newColor, theme: this.epTheme });
+      this.navTheme = layout.navTheme ?? DEFAULT_NAV_THEME;
+      this.primaryColor = newColor;
+      patchLayout({ ...layout, primaryColor: newColor, navTheme: this.navTheme });
     },
   },
 });

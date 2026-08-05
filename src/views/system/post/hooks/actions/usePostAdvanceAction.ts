@@ -1,6 +1,6 @@
 import type { SysPostPageQuery } from '@/api/system/post/post';
 import { downloadPostImportTemplate, exportPostExcel, importPostExcel } from '@/api/system/post/post';
-import { usePagedTableExport } from '@/components/business/ExportDialog';
+import { usePagedTableExport } from '@/components/domain/file/ExportDialog';
 import useSpreadsheetImportAction from '@/views/system/_shared/import/useSpreadsheetImportAction';
 import { useI18n } from 'vue-i18n';
 

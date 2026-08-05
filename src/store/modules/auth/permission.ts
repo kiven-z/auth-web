@@ -1,7 +1,7 @@
 import { constantMenus } from '@/router';
 import { ascending, filterNoPermissionTree, filterTree } from '@/router/utils/menu-sort';
 import { formatFlatteningRoutes } from '@/router/utils/route-tree';
-import { getKeyList } from '@pureadmin/utils';
+import { getKeyList } from '@/shared/utils/array/getKeyList';
 import { defineStore } from 'pinia';
 import type { cacheType } from '../../types';
 import { useMultiTagsStore } from '../app/multiTags';

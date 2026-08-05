@@ -21,7 +21,7 @@ vi.mock('@/app/plugins/i18n', () => ({
   },
 }));
 
-vi.mock('@pureadmin/utils', () => ({
+vi.mock('@/core/storage/storageLocal', () => ({
   storageLocal: () => ({
     removeItem: storageRemoveMock,
   }),

@@ -1,6 +1,6 @@
 import { formatDateTime } from '@/shared/utils/date/dateTime';
 import type { LoginLogPageRow } from '@/api/log/login-log';
-import { selectUserinfo } from '@/components/business/UserProfile';
+import { selectUserinfo } from '@/components/domain/user/UserProfile';
 import useLoginLogOptions from '@/views/log/login-log/hooks/options/useLoginLogOptions';
 import { ElButton, ElTag } from 'element-plus';
 import { computed } from 'vue';

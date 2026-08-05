@@ -1,9 +1,9 @@
 <script lang="ts" setup>
 import { getInAppSendTaskById, type InAppSendTaskDetailVO } from '@/api/message/in-app-message';
-import type { TypedContentTypeCode } from '@/components/business/TypedContentView';
-import TypedContentView from '@/components/business/TypedContentView';
+import type { TypedContentTypeCode } from '@/components/domain/content/TypedContentView';
+import TypedContentView from '@/components/domain/content/TypedContentView';
+import type { ColumnProps } from '@/components/ui/Description';
 import ReDescription from '@/components/ui/Description';
-import type { ColumnProps } from '@/components/ui/Description/src/types';
 import { errorMessage } from '@/services/feedback/message';
 import { computed, onMounted, ref } from 'vue';
 

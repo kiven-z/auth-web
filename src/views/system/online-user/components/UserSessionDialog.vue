@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { kickUserSession, listUserSessions, type UserSessionIndex } from '@/api/auth/session';
-import AuthDataTable from '@/components/ui/AuthDataTable';
+import DataTable from '@/components/table/DataTable';
 import { operationConfirm } from '@/services/feedback/dialog';
 import { errorMessage, message } from '@/services/feedback/message';
 import useUserSessionTableColumns from '@/views/system/_shared/columns/useUserSessionTableColumns';
@@ -111,7 +111,7 @@ onMounted(() => {
 
     <el-empty v-if="!loading && sessions.length <= 0" :description="t('users.session.empty')" />
 
-    <AuthDataTable
+    <DataTable
       v-else
       :adaptive="false"
       :columns="columns"
@@ -133,6 +133,6 @@ onMounted(() => {
           {{ t('users.session.kickOne') }}
         </el-button>
       </template>
-    </AuthDataTable>
+    </DataTable>
   </div>
 </template>

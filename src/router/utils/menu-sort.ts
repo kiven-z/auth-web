@@ -1,6 +1,6 @@
 import { isOneOfArray } from '@/auth/permission';
 import { useUserStore } from '@/store/modules/auth/user';
-import { cloneDeep } from '@pureadmin/utils';
+import cloneDeep from 'lodash/cloneDeep';
 import isEmpty from 'lodash/isEmpty';
 import type { RouteComponent } from 'vue-router';
 

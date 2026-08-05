@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { getJobPage } from '@/api/schedule/job';
-import AuthPagedTable, { usePaginationState } from '@/components/business/AuthPagedTable';
+import PagedTable, { usePaginationState } from '@/components/table/PagedTable';
 import { useCommonBooleanStatusOptions } from '@/shared/composables/i18n/useCommonBooleanStatusOptions';
 import { useFormPlaceholder } from '@/shared/composables/i18n/useFormPlaceholder';
 import { SYS_JOB_PERMS } from '@/views/schedule/schedule-task/constants/permissions';
@@ -95,12 +95,7 @@ onMounted(() => {
       </el-form-item>
     </el-form>
 
-    <AuthPagedTable
-      :columns="columns"
-      :state="jobState"
-      :title="t('scheduleTask.page.tableTitle')"
-      show-overflow-tooltip
-    >
+    <PagedTable :columns="columns" :state="jobState" :title="t('scheduleTask.page.tableTitle')" show-overflow-tooltip>
       <template #buttons>
         <el-button-group type="primary">
           <el-button v-perms="SYS_JOB_PERMS.CREATE" @click="openCreateDialog">{{ t('buttons.actionAdd') }}</el-button>
@@ -152,6 +147,6 @@ onMounted(() => {
           </el-dropdown>
         </Perms>
       </template>
-    </AuthPagedTable>
+    </PagedTable>
   </div>
 </template>

@@ -1,9 +1,9 @@
 <script lang="ts" setup>
-import { cloneDeep } from '@pureadmin/utils';
+import cloneDeep from 'lodash/cloneDeep';
 import isEmpty from 'lodash/isEmpty';
 import Search from '~icons/ri/search-eye-line';
 import { computed, CSSProperties, ref, watch } from 'vue';
-import { IconJson } from '@/components/ui/Icon/data';
+import { IconJson } from '../data';
 
 type ParameterCSSProperties = (item?: string) => CSSProperties | undefined;
 
@@ -160,7 +160,7 @@ watch(
                     :key="key"
                     :style="iconItemStyle(item)"
                     :title="item"
-                    class="icon-item p-2 cursor-pointer mr-2 mt-1 flex justify-center items-center border border-[#e5e7eb]"
+                    class="icon-item p-2 cursor-pointer mr-2 mt-1 flex justify-center items-center border border-auth-border"
                     @click="onChangeIcon(item)"
                   >
                     <IconifyIconOnline :icon="`${currentActiveType}${item}`" height="20px" width="20px" />
@@ -171,7 +171,7 @@ watch(
             </el-tab-pane>
           </el-tabs>
 
-          <div class="w-full h-9 flex items-center overflow-auto border-t border-[#e5e7eb]">
+          <div class="w-full h-9 flex items-center overflow-auto border-t border-auth-border">
             <el-pagination
               :current-page="currentPage"
               :page-size="pageSize"
@@ -204,13 +204,13 @@ watch(
 :deep(.el-tabs__nav-next) {
   font-size: 15px;
   line-height: 32px;
-  box-shadow: -5px 0 5px -6px #ccc;
+  box-shadow: -5px 0 5px -6px var(--auth-color-border);
 }
 
 :deep(.el-tabs__nav-prev) {
   font-size: 15px;
   line-height: 32px;
-  box-shadow: 5px 0 5px -6px #ccc;
+  box-shadow: 5px 0 5px -6px var(--auth-color-border);
 }
 
 :deep(.el-input-group__append) {

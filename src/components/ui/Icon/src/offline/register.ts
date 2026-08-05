@@ -1,5 +1,5 @@
 import { addIcon } from '@iconify/vue/dist/offline';
-import { getSvgInfo } from '@pureadmin/utils';
+import { getSvgInfo } from '@/shared/utils/svg/getSvgInfo';
 import { offlineIconNameSet } from './nameSet';
 
 /**

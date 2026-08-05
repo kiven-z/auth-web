@@ -8,5 +8,3 @@ export const AUTH_RECOVERY_RULE_IDS = {
   UNKNOWN_401_LOGOUT: 'logout-on-unknown-401',
   FALLBACK_PASS: 'fallback-pass-through',
 } as const;
-
-export type AuthRecoveryRuleId = (typeof AUTH_RECOVERY_RULE_IDS)[keyof typeof AUTH_RECOVERY_RULE_IDS];

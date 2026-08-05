@@ -1,6 +1,6 @@
 <script lang="ts" setup>
-import AuthElTreePanel from '@/components/business/AuthElTreePanel';
-import { useRenderIcon } from '@/components/ui/Icon/src/hooks';
+import ElTreePanel from '@/components/domain/tree/ElTreePanel';
+import { useRenderIcon } from '@/components/ui/Icon';
 import { transformI18n } from '@/app/plugins/i18n';
 import MenuRowActions from '@/views/system/menu/components/MenuRowActions.vue';
 import { SYS_MENU_PERMS } from '@/views/system/menu/constants/permissions';
@@ -59,7 +59,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <AuthElTreePanel
+  <ElTreePanel
     ref="panelRef"
     :allow-drag="allowDrag"
     :allow-drop="allowDrop"
@@ -110,5 +110,5 @@ onMounted(() => {
     <template #actions="{ data }">
       <MenuRowActions :row="data" show-add-child />
     </template>
-  </AuthElTreePanel>
+  </ElTreePanel>
 </template>

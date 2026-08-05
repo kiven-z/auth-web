@@ -1,6 +1,6 @@
 import { multipleTabsKey } from '@/auth/config/auth/auth-config';
 import Cookies from 'js-cookie';
-import { readStoredUserProfileEntry } from './userProfileStorage';
+import { readStoredUserProfileEntry } from './profile/userProfileStorage';
 
 /**
  * 是否已设置多标签页登录标志 Cookie。

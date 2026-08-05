@@ -1,7 +1,7 @@
 import type { UserLoginResponse } from '@/api/auth/types';
 import { hydrateAuthenticatedSessionSideEffects } from '@/core/session/sessionBootstrap';
-import { applyRememberPreferencesFromResponse } from './rememberPreferences';
-import { setToken } from './sessionToken';
+import { applyRememberPreferencesFromResponse } from './remember/rememberPreferences';
+import { setToken } from './token/sessionToken';
 import type { SessionTokenPayload } from './types';
 
 /**

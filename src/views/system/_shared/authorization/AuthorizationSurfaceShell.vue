@@ -1,6 +1,6 @@
 <script lang="ts" setup>
-import type { DetailRelationCountItem } from '@/components/business/DetailRelationCountBar/index.vue';
-import DetailRelationCountBar from '@/components/business/DetailRelationCountBar/index.vue';
+import type { DetailRelationCountItem } from '@/components/domain/detail/DetailRelationCountBar';
+import DetailRelationCountBar from '@/components/domain/detail/DetailRelationCountBar';
 
 defineOptions({ name: 'AuthorizationSurfaceShell' });
 
@@ -18,8 +18,8 @@ withDefaults(defineProps<AuthorizationSurfaceShellProps>(), {
 </script>
 
 <template>
-  <div v-loading="loading" class="authorization-surface-shell">
-    <div class="authorization-surface-shell__summary">
+  <div class="authorization-surface-shell">
+    <div v-loading="loading" class="authorization-surface-shell__summary">
       <DetailRelationCountBar
         :items="items"
         :show-view-authorization="false"

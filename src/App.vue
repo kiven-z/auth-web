@@ -2,8 +2,8 @@
 import { getLocaleDef } from '@/auth/config/locales';
 import { AuthDialog, closeAllDialog } from '@/components/ui/Dialog';
 import { AuthDrawer, closeAllDrawer } from '@/components/ui/Drawer';
-import { getUiPreferenceState } from '@/core/preferences/storage';
-import SessionWatermark from '@/components/business/SessionWatermark';
+import { getUiPreferenceState } from '@/core/preferences/persistence/storage';
+import SessionWatermark from '@/components/layout/SessionWatermark';
 import { ElConfigProvider } from 'element-plus';
 import { computed } from 'vue';
 import { useRouter } from 'vue-router';

@@ -2,7 +2,7 @@
 import { deleteUsers } from '@/api/system/user/user';
 import { getUserProfile } from '@/api/system/user/user-base';
 import { hasAuth } from '@/auth/permission';
-import { useChangePasswordAction } from '@/components/business/ChangePasswordDialog';
+import { useChangePasswordAction } from '@/components/domain/user/ChangePasswordDialog';
 import ActionRow from '@/components/ui/ActionRow';
 import { deleteConfirm } from '@/services/feedback/dialog';
 import { errorMessage, message } from '@/services/feedback/message';

@@ -1,5 +1,5 @@
 import { findMatchedAuthRecoveryRule } from './matcher';
-import { LOCAL_AUTH_RECOVERY_RULES, resolveAuthRecoveryRules } from './policy';
+import { LOCAL_AUTH_RECOVERY_RULES } from './policy';
 import type { AuthRecoveryContext, AuthRecoveryDecision, AuthRecoveryRule, RecoveryAction } from './types';
 
 /**
@@ -37,7 +37,7 @@ export function resolveAuthRecoveryDecision(
   rules: readonly AuthRecoveryRule[] = LOCAL_AUTH_RECOVERY_RULES
 ): AuthRecoveryDecision {
   // 解析生效规则集
-  const effectiveRules = resolveAuthRecoveryRules({ overrideRules: rules });
+  const effectiveRules = rules ?? LOCAL_AUTH_RECOVERY_RULES;
   // 匹配规则
   const matchedRule = findMatchedAuthRecoveryRule(effectiveRules, context);
   // 解析恢复动作

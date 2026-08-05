@@ -1,5 +1,5 @@
 import type { SysDeptListVO } from '@/api/system/dept/dept';
-import { handleTree } from '@/shared/utils/tree';
+import { handleTree } from '@/shared/utils/tree/tree';
 
 /** 父级 cascader 节点 */
 export interface DeptParentCascaderNode {

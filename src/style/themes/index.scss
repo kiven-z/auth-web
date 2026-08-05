@@ -1,0 +1,72 @@
+/**
+ * 侧栏 data-theme 皮肤：只覆盖 --auth-theme-*，不写组件选择器
+ * 主色激活条统一 var(--el-color-primary)，由 apply 运行时写入
+ */
+
+@use 'mixin' as *;
+
+/* 白侧栏：中性色吃 token，激活条跟主色 */
+html[data-theme='light'] {
+  --auth-theme-sub-menu-active-text: var(--auth-text-primary);
+  --auth-theme-menu-bg: var(--auth-bg-container);
+  --auth-theme-menu-hover: var(--auth-bg-secondary);
+  --auth-theme-sub-menu-bg: var(--auth-bg-container);
+  --auth-theme-menu-text: var(--auth-text-secondary);
+  --auth-theme-sidebar-logo: var(--auth-bg-container);
+  --auth-theme-menu-title-hover: var(--auth-text-primary);
+  --auth-theme-menu-active-before: var(--el-color-primary);
+}
+
+/* 道奇蓝（暗色方案下白侧栏的 DOM 回落） */
+html[data-theme='default'] {
+  @include dark-nav-theme($menu-bg: #001529, $sub-menu-bg: #000c17, $sidebar-logo: #002140);
+}
+
+/* 腾讯蓝品牌深蓝侧栏 */
+html[data-theme='tencentBlue'] {
+  @include dark-nav-theme($menu-bg: #001529, $sub-menu-bg: #000c17, $sidebar-logo: #002140);
+}
+
+html[data-theme='saucePurple'] {
+  @include dark-nav-theme($menu-bg: #130824, $sub-menu-bg: #000, $sidebar-logo: #1f0c38, $menu-text: #7a80b4);
+}
+
+html[data-theme='pink'] {
+  @include dark-nav-theme($menu-bg: #28081a, $sub-menu-bg: #000, $sidebar-logo: #3f0d29, $menu-text: #7a80b4);
+}
+
+html[data-theme='dusk'] {
+  @include dark-nav-theme($menu-bg: #2a0608, $sub-menu-bg: #000, $sidebar-logo: #42090c);
+}
+
+html[data-theme='volcano'] {
+  @include dark-nav-theme($menu-bg: #2b0e05, $sub-menu-bg: #0f0603, $sidebar-logo: #441708);
+}
+
+html[data-theme='mingQing'] {
+  @include dark-nav-theme($menu-bg: #032121, $sub-menu-bg: #000, $sidebar-logo: #053434, $menu-text: #7a80b4);
+}
+
+html[data-theme='auroraGreen'] {
+  @include dark-nav-theme($menu-bg: #0b1e15, $sub-menu-bg: #000, $sidebar-logo: #112f21, $menu-text: #7a80b4);
+}
+
+html[data-theme='geekBlue'] {
+  @include dark-nav-theme($menu-bg: #061178, $sub-menu-bg: #030852, $sidebar-logo: #10239e, $hover-mix: 18%);
+}
+
+html[data-theme='sunsetOrange'] {
+  @include dark-nav-theme($menu-bg: #2b1600, $sub-menu-bg: #1a0d00, $sidebar-logo: #441f00);
+}
+
+html[data-theme='amberYellow'] {
+  @include dark-nav-theme($menu-bg: #2b1d00, $sub-menu-bg: #1a1200, $sidebar-logo: #443000);
+}
+
+html[data-theme='cyberGreen'] {
+  @include dark-nav-theme($menu-bg: #002b1a, $sub-menu-bg: #001a10, $sidebar-logo: #004d2e);
+}
+
+html[data-theme='darkSlate'] {
+  @include dark-nav-theme($menu-bg: #1a1d24, $sub-menu-bg: #12151a, $sidebar-logo: #2b303a, $hover-mix: 35%);
+}

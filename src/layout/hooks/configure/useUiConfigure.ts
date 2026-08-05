@@ -1,5 +1,5 @@
-import { applyConfigureSideEffects } from '@/core/preferences/apply';
-import { patchConfigure } from '@/core/preferences/storage';
+import { applyConfigureSideEffects } from '@/core/preferences/runtime/apply';
+import { patchConfigure } from '@/core/preferences/persistence/storage';
 
 /** configure 局部字段补丁 */
 type ConfigurePatch = Partial<ResponsiveStorage['configure']>;

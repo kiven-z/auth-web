@@ -1,8 +1,9 @@
 <script lang="ts" setup>
-import { useLayout } from '@/layout/hooks/layout/useLayout';
+import { useLayoutCapabilities } from '@/layout/hooks/layout/useLayoutCapabilities';
 import MixTopMenu from '@/layout/shell/MixTopMenu.vue';
 import HeaderToolbar from '@/layout/shell/HeaderToolbar.vue';
 import { useAppStore } from '@/store/modules/app/app';
+import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import LaySidebarBreadCrumb from '../components/lay-sidebar/components/SidebarBreadCrumb.vue';
 
@@ -11,7 +12,20 @@ import MenuUnfold from '~icons/ri/menu-unfold-fill';
 
 const { t } = useI18n();
 const appStore = useAppStore();
-const { layout } = useLayout();
+const { capabilities, mode } = useLayoutCapabilities();
+
+const showBreadcrumb = computed(() => capabilities.value.showNavbarBreadcrumb && appStore.device !== 'mobile');
+
+/** 竖/混合顶栏中段槽位（切换时淡入淡出） */
+const navbarSlotKey = computed(() => {
+  if (capabilities.value.showMixTopMenu) {
+    return 'mix-menu';
+  }
+  if (capabilities.value.showNavbarToolbar) {
+    return 'toolbar';
+  }
+  return 'empty';
+});
 </script>
 
 <template>
@@ -28,13 +42,16 @@ const { layout } = useLayout();
       />
     </div>
 
-    <LaySidebarBreadCrumb v-if="layout !== 'mix' && appStore.device !== 'mobile'" class="layout-navbar__breadcrumb" />
+    <Transition mode="out-in" name="layout-chrome">
+      <LaySidebarBreadCrumb v-if="showBreadcrumb" :key="`crumb-${mode}`" class="layout-navbar__breadcrumb" />
+    </Transition>
 
-    <MixTopMenu v-if="layout === 'mix'" />
-
-    <div v-if="layout === 'vertical'" class="layout-navbar__toolbar">
-      <HeaderToolbar />
-    </div>
+    <Transition mode="out-in" name="layout-chrome">
+      <MixTopMenu v-if="capabilities.showMixTopMenu" :key="navbarSlotKey" />
+      <div v-else-if="capabilities.showNavbarToolbar" :key="navbarSlotKey" class="layout-navbar__toolbar">
+        <HeaderToolbar />
+      </div>
+    </Transition>
   </div>
 </template>
 
@@ -57,7 +74,7 @@ const { layout } = useLayout();
     justify-content: flex-end;
     min-width: 280px;
     height: 48px;
-    color: #000000d9;
+    color: var(--auth-text-primary);
   }
 
   .layout-navbar__breadcrumb {

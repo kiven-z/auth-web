@@ -5,7 +5,7 @@ const mocks = vi.hoisted(() => ({
   cookiesGet: vi.fn(),
 }));
 
-vi.mock('@pureadmin/utils', () => ({
+vi.mock('@/core/storage/storageLocal', () => ({
   storageLocal: () => ({
     getItem: mocks.mockGetItem,
     setItem: vi.fn(),

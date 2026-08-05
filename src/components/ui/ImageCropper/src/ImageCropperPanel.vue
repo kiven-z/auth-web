@@ -21,7 +21,7 @@ const cropperConfig = computed(() => ({
   boxStyle: {
     width: '100%',
     maxHeight: props.maxHeight,
-    backgroundColor: '#f5f7fa',
+    backgroundColor: 'var(--auth-bg-secondary)',
   },
   options: {
     viewMode: 1,

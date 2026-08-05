@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { getJobGroupPage } from '@/api/schedule/job-group';
 import { SYS_JOB_GROUP_PERMS } from '@/views/schedule/schedule-group/constants/permissions';
-import AuthPagedTable, { usePaginationState } from '@/components/business/AuthPagedTable';
+import PagedTable, { usePaginationState } from '@/components/table/PagedTable';
 import { useCommonBooleanStatusOptions } from '@/shared/composables/i18n/useCommonBooleanStatusOptions';
 import { useFormPlaceholder } from '@/shared/composables/i18n/useFormPlaceholder';
 import useJobGroupTableAction from '@/views/schedule/schedule-group/hooks/useJobGroupTableAction';
@@ -94,12 +94,7 @@ onMounted(() => {
       </el-form-item>
     </el-form>
 
-    <AuthPagedTable
-      :columns="columns"
-      :state="jobGroupState"
-      :title="t('scheduleGroup.tableTitle')"
-      show-overflow-tooltip
-    >
+    <PagedTable :columns="columns" :state="jobGroupState" :title="t('scheduleGroup.tableTitle')" show-overflow-tooltip>
       <template #buttons>
         <el-button v-perms="SYS_JOB_GROUP_PERMS.CREATE" type="primary" @click="openCreateDialog">
           {{ t('buttons.actionAdd') }}
@@ -139,6 +134,6 @@ onMounted(() => {
           </el-dropdown>
         </Perms>
       </template>
-    </AuthPagedTable>
+    </PagedTable>
   </div>
 </template>

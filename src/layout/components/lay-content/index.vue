@@ -3,11 +3,16 @@ import { useI18n } from 'vue-i18n';
 import LayFrame from '../lay-frame/index.vue';
 import LayFooter from '../lay-footer/index.vue';
 import { getConfig } from '@/auth/config';
-import { getUiPreferenceState } from '@/core/preferences/storage';
-import { isNumber } from '@pureadmin/utils';
+import { getUiPreferenceState } from '@/core/preferences/persistence/storage';
+import { useLayoutCapabilities } from '@/layout/hooks/layout/useLayoutCapabilities';
+import isNumber from 'lodash/isNumber';
 import BackTopIcon from '@/assets/svg/back_top.svg?component';
 import { computed, defineComponent, h, Transition } from 'vue';
 import { usePermissionStore } from '@/store/modules/auth/permission';
+
+defineOptions({
+  name: 'LayContent',
+});
 
 const props = defineProps({
   fixedHeader: Boolean,
@@ -15,6 +20,7 @@ const props = defineProps({
 
 const { t } = useI18n();
 const preferenceState = getUiPreferenceState();
+const { capabilities } = useLayoutCapabilities();
 const platformConfig = getConfig();
 const showModel = computed(() => preferenceState.configure?.showModel || 'smart');
 
@@ -40,29 +46,19 @@ const stretch = computed(() => {
   return preferenceState.configure.stretch;
 });
 
-const layout = computed(() => {
-  return preferenceState.layout.layout === 'vertical';
-});
+const isVerticalLayout = computed(() => capabilities.value.mode === 'vertical');
 
 const getMainWidth = computed(() => {
   return isNumber(stretch.value) ? stretch.value + 'px' : stretch.value ? '1440px' : '100%';
 });
 
 const getSectionStyle = computed(() => {
-  const isVerticalLayout = layout.value;
+  const vertical = isVerticalLayout.value;
   return [
-    hideTabs.value && isVerticalLayout ? 'padding-top: 48px;' : '',
-    !hideTabs.value && isVerticalLayout
-      ? showModel.value === 'chrome'
-        ? 'padding-top: 85px;'
-        : 'padding-top: 81px;'
-      : '',
-    hideTabs.value && !isVerticalLayout ? 'padding-top: 48px;' : '',
-    !hideTabs.value && !isVerticalLayout
-      ? showModel.value === 'chrome'
-        ? 'padding-top: 85px;'
-        : 'padding-top: 81px;'
-      : '',
+    hideTabs.value && vertical ? 'padding-top: 48px;' : '',
+    !hideTabs.value && vertical ? (showModel.value === 'chrome' ? 'padding-top: 85px;' : 'padding-top: 81px;') : '',
+    hideTabs.value && !vertical ? 'padding-top: 48px;' : '',
+    !hideTabs.value && !vertical ? (showModel.value === 'chrome' ? 'padding-top: 85px;' : 'padding-top: 81px;') : '',
     props.fixedHeader
       ? ''
       : `padding-top: 0;${hideTabs.value ? 'min-height: calc(100vh - 48px);' : 'min-height: calc(100vh - 86px);'}`,

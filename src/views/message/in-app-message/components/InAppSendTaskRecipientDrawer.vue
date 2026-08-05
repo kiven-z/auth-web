@@ -5,7 +5,7 @@ import {
   type InAppSendTaskRecipientPageQuery,
   type InAppSendTaskRecipientPageRow,
 } from '@/api/message/in-app-message';
-import AuthPagedTable, { usePaginationState } from '@/components/business/AuthPagedTable';
+import PagedTable, { usePaginationState } from '@/components/table/PagedTable';
 import useRemoteUserSearch from '@/shared/composables/dialog/useRemoteUserSearch';
 import { useFormPlaceholder } from '@/shared/composables/i18n/useFormPlaceholder';
 import { IN_APP_MESSAGE_PERMS } from '@/views/message/in-app-message/constants/permissions';
@@ -110,7 +110,7 @@ onMounted(() => {
       </el-form-item>
     </el-form>
 
-    <AuthPagedTable
+    <PagedTable
       :columns="columns"
       :state="recipientState"
       :title="title || t('inAppMessage.title.recipients')"

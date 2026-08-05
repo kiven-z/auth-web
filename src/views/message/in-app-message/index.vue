@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { getInAppSendTaskPage, type InAppSendTaskPageQuery } from '@/api/message/in-app-message';
-import AuthPagedTable, { usePaginationState } from '@/components/business/AuthPagedTable';
+import PagedTable, { usePaginationState } from '@/components/table/PagedTable';
 import { useFormPlaceholder } from '@/shared/composables/i18n/useFormPlaceholder';
 import { IN_APP_MESSAGE_PERMS } from '@/views/message/in-app-message/constants/permissions';
 import {
@@ -106,7 +106,7 @@ onMounted(() => {
       </el-form-item>
     </el-form>
 
-    <AuthPagedTable
+    <PagedTable
       :columns="columns"
       :state="inAppMessageState"
       :title="t('inAppMessage.title.table')"
@@ -170,6 +170,6 @@ onMounted(() => {
           {{ t('buttons.actionDelete') }}
         </el-button>
       </template>
-    </AuthPagedTable>
+    </PagedTable>
   </div>
 </template>

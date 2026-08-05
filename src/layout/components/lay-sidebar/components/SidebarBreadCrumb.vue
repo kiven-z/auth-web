@@ -2,7 +2,7 @@
 import { transformI18n } from '@/app/plugins/i18n';
 import { findRouteByPath, getParentPaths } from '@/router/utils/route-tree';
 import { useMultiTagsStore } from '@/store/modules/app/multiTags';
-import { isEqual } from '@pureadmin/utils';
+import isEqual from 'lodash/isEqual';
 import { onMounted, ref, toRaw, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 

@@ -1,6 +1,6 @@
 <script lang="tsx" setup>
 import { kickMySession, listMySessions, type MeUserSession } from '@/api/system/user/user-me';
-import AuthDataTable from '@/components/ui/AuthDataTable';
+import DataTable from '@/components/table/DataTable';
 import { errorMessage, message } from '@/services/feedback/message';
 import useMeSessionTableColumns from '@/views/home/account/security/hooks/useMeSessionTableColumns';
 import { computed, ref } from 'vue';
@@ -54,7 +54,7 @@ async function handleRevokeSession(sessionId: string) {
     <el-text class="profile-sessions-panel__subtitle" type="info">{{ t('account.session.subtitle') }}</el-text>
 
     <el-empty v-if="sessionList.length <= 0" :description="t('users.session.empty')" />
-    <AuthDataTable
+    <DataTable
       v-else
       :adaptive="false"
       :columns="meSessionTableColumns"
@@ -75,7 +75,7 @@ async function handleRevokeSession(sessionId: string) {
           {{ t('account.session.revoke') }}
         </el-button>
       </template>
-    </AuthDataTable>
+    </DataTable>
   </div>
 </template>
 

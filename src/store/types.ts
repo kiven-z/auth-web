@@ -1,4 +1,5 @@
 import type { RouteRecordName } from 'vue-router';
+import type { LayoutMode } from '@/shared/utils/layout/layout-mode';
 
 /** 标签页缓存模式 */
 export interface cacheType {
@@ -20,7 +21,7 @@ export interface appType {
     /** 是否由用户手动点击折叠侧边栏 */
     isClickCollapse: boolean;
   };
-  layout: string;
+  layout: LayoutMode;
   device: string;
   viewportSize: { width: number; height: number };
 }

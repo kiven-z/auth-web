@@ -1,4 +1,8 @@
-import { debounce, isArray, isFunction, isObject, throttle } from '@pureadmin/utils';
+import debounce from 'lodash/debounce';
+import isArray from 'lodash/isArray';
+import isFunction from 'lodash/isFunction';
+import isObject from 'lodash/isObject';
+import throttle from 'lodash/throttle';
 import { useEventListener } from '@vueuse/core';
 import type { Directive, DirectiveBinding } from 'vue';
 
@@ -43,7 +47,11 @@ export const optimize: Directive = {
           el,
           value.event,
           type === 'debounce'
-            ? debounce(params ? () => value.fn(...params) : value.fn, value?.timeout ?? 200, value?.immediate ?? false)
+            ? debounce(
+                params ? () => value.fn(...params) : value.fn,
+                value?.timeout ?? 200,
+                value?.immediate ? { leading: true, trailing: false } : {}
+              )
             : throttle(params ? () => value.fn(...params) : value.fn, value?.timeout ?? 1000)
         );
       } else {

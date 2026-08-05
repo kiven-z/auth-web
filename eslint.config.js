@@ -92,6 +92,17 @@ export default defineConfig([
           varsIgnorePattern: '^_',
         },
       ],
+      'no-restricted-imports': [
+        'error',
+        {
+          patterns: [
+            {
+              group: ['@/components/**/src', '@/components/**/src/**'],
+              message: '只允许从组件包根引入（index.ts），禁止 @/components/.../src/... 深路径',
+            },
+          ],
+        },
+      ],
     },
   }),
   {
@@ -149,6 +160,17 @@ export default defineConfig([
       'vue/component-definition-name-casing': ['error', 'PascalCase'],
       'vue/no-setup-props-reactivity-loss': 'off',
       '@typescript-eslint/consistent-type-definitions': ['error', 'interface'],
+      'no-restricted-imports': [
+        'error',
+        {
+          patterns: [
+            {
+              group: ['@/components/**/src', '@/components/**/src/**'],
+              message: '只允许从组件包根引入（index.ts），禁止 @/components/.../src/... 深路径',
+            },
+          ],
+        },
+      ],
       'vue/html-self-closing': [
         'error',
         {

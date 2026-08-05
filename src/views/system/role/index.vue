@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { getRolePage } from '@/api/system/role/role';
-import AuthPagedTable, { usePaginationState } from '@/components/business/AuthPagedTable';
+import PagedTable, { usePaginationState } from '@/components/table/PagedTable';
 import { useFormPlaceholder } from '@/shared/composables/i18n/useFormPlaceholder';
 import { SYS_ROLE_PERMS } from '@/views/system/role/constants/permissions';
 import useRoleAdvanceAction from '@/views/system/role/hooks/actions/useRoleAdvanceAction';
@@ -111,7 +111,7 @@ onMounted(() => {
       </el-form-item>
     </el-form>
 
-    <AuthPagedTable :columns="columns" :state="roleState" :title="t('roles.title.page')">
+    <PagedTable :columns="columns" :state="roleState" :title="t('roles.title.page')">
       <template #buttons>
         <el-button-group type="primary">
           <el-button v-perms="SYS_ROLE_PERMS.CREATE" type="primary" @click="openCreateDialog">
@@ -208,6 +208,6 @@ onMounted(() => {
           </template>
         </el-dropdown>
       </template>
-    </AuthPagedTable>
+    </PagedTable>
   </div>
 </template>

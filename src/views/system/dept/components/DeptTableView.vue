@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import AuthPagedTable from '@/components/business/AuthPagedTable';
+import PagedTable from '@/components/table/PagedTable';
 import { useFormPlaceholder } from '@/shared/composables/i18n/useFormPlaceholder';
 import DeptRowActions from '@/views/system/dept/components/DeptRowActions.vue';
 import useDeptPageState from '@/views/system/dept/hooks/useDeptPageState';
@@ -81,7 +81,7 @@ onMounted(() => {
       </el-form-item>
     </el-form>
 
-    <AuthPagedTable :columns="tableColumns" :state="deptState" :title="t('dept.page.title')" show-overflow-tooltip>
+    <PagedTable :columns="tableColumns" :state="deptState" :title="t('dept.page.title')" show-overflow-tooltip>
       <template #buttons>
         <DeptHeadButtons />
       </template>
@@ -89,6 +89,6 @@ onMounted(() => {
       <template #actions="{ row }">
         <DeptRowActions :row="row" />
       </template>
-    </AuthPagedTable>
+    </PagedTable>
   </div>
 </template>

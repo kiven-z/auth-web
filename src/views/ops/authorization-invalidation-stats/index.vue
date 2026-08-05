@@ -3,7 +3,7 @@ import {
   type AuthorizationInvalidationSummary,
   getAuthorizationInvalidationSummary,
 } from '@/api/ops/authorization-invalidation-summary';
-import { StatMetricCard } from '@/components/business/StatMetricCard';
+import { StatMetricCard } from '@/components/ui/StatMetricCard';
 import { errorMessage } from '@/services/feedback/message';
 import { formatDateTime } from '@/shared/utils/date/dateTime';
 import AuthorizationInvalidationFailureRateTrendCard from '@/views/ops/authorization-invalidation-stats/components/AuthorizationInvalidationFailureRateTrendCard.vue';

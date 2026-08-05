@@ -25,7 +25,7 @@ onMounted(() => {
 
 <template>
   <div class="user-dept-tree bg-bg_color">
-    <div class="p-2">
+    <div class="user-dept-tree__search p-2">
       <el-input v-model="treeKeyword" :placeholder="t('dept.placeholder.treeKeyword')" clearable />
     </div>
 
@@ -56,8 +56,13 @@ onMounted(() => {
   display: flex;
   flex: 1;
   flex-direction: column;
-  height: calc(100vh - 158px);
+  height: 100%;
+  min-height: 0;
   overflow: hidden;
+
+  &__search {
+    flex-shrink: 0;
+  }
 
   &__body {
     flex: 1;

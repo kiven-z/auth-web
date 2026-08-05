@@ -1,7 +1,8 @@
 <script lang="ts" setup>
-import { applyThemePreferences } from '@/core/preferences/apply';
+import { applyThemePreferences } from '@/core/preferences/runtime/apply';
 import { useUiLayout } from '@/layout/hooks/layout/useUiLayout';
 import { useUiTheme } from '@/layout/hooks/theme/useUiTheme';
+import { toLayoutMode } from '@/shared/utils/layout/layout-mode';
 import { unref } from 'vue';
 import LayPanel from '../lay-panel/index.vue';
 import SettingsLayoutMode from './SettingsLayoutMode.vue';
@@ -9,12 +10,17 @@ import SettingsOverallStyle from './SettingsOverallStyle.vue';
 import SettingsTagsStyle from './SettingsTagsStyle.vue';
 import SettingsToggles from './SettingsToggles.vue';
 
+defineOptions({
+  name: 'LaySetting',
+});
+
 const { setLayoutMode } = useUiLayout();
 const { layoutTheme } = useUiTheme();
 
-/* 初始化布局与主题：主题必须走 apply，避免 theme/themeColor 分叉时写错 data-theme */
+/* 初始化布局与主题 */
 if (unref(layoutTheme)) {
-  setLayoutMode(unref(layoutTheme).layout);
+  const layoutMode = toLayoutMode(unref(layoutTheme).layout);
+  setLayoutMode(layoutMode);
   applyThemePreferences();
 }
 </script>

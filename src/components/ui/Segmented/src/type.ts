@@ -1,5 +1,5 @@
 import type { Component, VNode } from 'vue';
-import type { iconType } from '@/components/ui/Icon/src/types.ts';
+import type { iconType } from '@/components/ui/Icon';
 
 /** 分段控制器选项 */
 export interface OptionsType {

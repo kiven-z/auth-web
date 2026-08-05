@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { getAuthorizationInvalidationOutboxPage } from '@/api/ops/authorization-invalidation-outbox';
-import AuthPagedTable, { usePaginationState } from '@/components/business/AuthPagedTable';
+import PagedTable, { usePaginationState } from '@/components/table/PagedTable';
 import { useFormPlaceholder } from '@/shared/composables/i18n/useFormPlaceholder';
 import { useCollapsibleSearchForm } from '@/shared/composables/search/useCollapsibleSearchForm';
 import { INSTANT_PICKER_VALUE_FORMAT } from '@/shared/utils/date/dateTime';
@@ -195,7 +195,7 @@ onMounted(() => {
       </el-form-item>
     </el-form>
 
-    <AuthPagedTable
+    <PagedTable
       :columns="columns"
       :state="outboxState"
       :title="t('authorizationInvalidation.outboxTableTitle')"
@@ -220,6 +220,6 @@ onMounted(() => {
           {{ t('authorizationInvalidation.retryAction') }}
         </el-button>
       </template>
-    </AuthPagedTable>
+    </PagedTable>
   </div>
 </template>

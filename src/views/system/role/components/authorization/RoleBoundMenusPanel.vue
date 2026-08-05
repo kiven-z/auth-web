@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import type { RoleBoundMenuItem } from '@/api/system/role/role';
 import type { RoleMenuPageQuery } from '@/api/system/role/role-authorization';
-import AuthPagedTable, { usePaginationState } from '@/components/business/AuthPagedTable';
+import PagedTable, { usePaginationState } from '@/components/table/PagedTable';
 import { useFormPlaceholder } from '@/shared/composables/i18n/useFormPlaceholder';
 import { useCommonBooleanStatusOptions } from '@/shared/composables/i18n/useCommonBooleanStatusOptions';
 import type { AuthorizationSurfacePanelProps } from '@/views/system/_shared/authorization/types';
@@ -69,6 +69,6 @@ onMounted(() => {
       </el-form-item>
     </el-form>
 
-    <AuthPagedTable :columns="menuColumns" :state="menuState" :title="title" show-overflow-tooltip />
+    <PagedTable :columns="menuColumns" :state="menuState" :title="title" show-overflow-tooltip />
   </div>
 </template>

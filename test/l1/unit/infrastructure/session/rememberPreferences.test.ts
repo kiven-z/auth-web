@@ -5,7 +5,7 @@ const { mockSetItem, mockGetItem } = vi.hoisted(() => ({
   mockGetItem: vi.fn(),
 }));
 
-vi.mock('@pureadmin/utils', () => ({
+vi.mock('@/core/storage/storageLocal', () => ({
   storageLocal: () => ({
     getItem: mockGetItem,
     setItem: mockSetItem,
@@ -20,7 +20,7 @@ describe('rememberPreferences', () => {
   });
 
   it('writes loginDay from readMeDay when remembered', async () => {
-    const { applyRememberPreferencesFromResponse } = await import('@/core/session/rememberPreferences');
+    const { applyRememberPreferencesFromResponse } = await import('@/core/session/remember/rememberPreferences');
 
     applyRememberPreferencesFromResponse(true, 14);
 
@@ -31,7 +31,7 @@ describe('rememberPreferences', () => {
   });
 
   it('writes loginDay 0 when not remembered', async () => {
-    const { applyRememberPreferencesFromResponse } = await import('@/core/session/rememberPreferences');
+    const { applyRememberPreferencesFromResponse } = await import('@/core/session/remember/rememberPreferences');
 
     applyRememberPreferencesFromResponse(false, 14);
 

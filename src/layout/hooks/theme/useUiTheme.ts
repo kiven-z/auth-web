@@ -1,107 +1,87 @@
-import { getConfig } from '@/auth/config';
-import { applyThemePreferences } from '@/core/preferences/apply';
-import { NAV_THEME_COLOR_ITEMS } from '@/core/preferences/nav-theme-colors';
-import { reconcileNavTheme } from '@/core/preferences/reconcile-nav-theme';
-import { getLayoutSnapshot, patchLayout } from '@/core/preferences/storage';
-import { useEpThemeStore } from '@/store/modules/app/epTheme';
+import { applyThemePreferences } from '@/core/preferences/runtime/apply';
+import { NAV_THEME_COLOR_ITEMS, resolvePrimaryColorForNavTheme } from '@/core/preferences/defaults/nav-theme-colors';
+import { getLayoutSnapshot, patchLayout } from '@/core/preferences/persistence/storage';
+import { type ColorScheme, DEFAULT_COLOR_SCHEME, DEFAULT_NAV_THEME } from '@/core/preferences/runtime/theme-defaults';
 import { ref } from 'vue';
 import type { themeColorsType } from '../../types';
 import { useLayout } from '@/layout/hooks/layout/useLayout';
 
-const OVERALL_STYLES = new Set(['light', 'dark', 'system']);
+const COLOR_SCHEMES = new Set<ColorScheme>(['light', 'dark', 'system']);
 
 /**
- * UI 主题与 layout 色相关写入（经 preferences storage 网关）
+ * UI 主题读写（经 preferences storage 网关）
  * @returns 主题读写与 DOM 副作用
  */
 export function useUiTheme() {
   const { layoutTheme } = useLayout();
   const layoutSnapshot = getLayoutSnapshot();
-  const epThemeStore = useEpThemeStore();
 
   const themeColors = ref<Array<themeColorsType>>([...NAV_THEME_COLOR_ITEMS]);
 
-  const dataTheme = ref<boolean>(layoutSnapshot.darkMode ?? false);
-  const overallStyle = ref<string>(layoutSnapshot.overallStyle ?? 'light');
+  /** 是否按深色渲染（登录页开关 / 设置面板 Segmented 共用） */
+  const dataTheme = ref<boolean>(
+    layoutSnapshot.colorScheme === 'dark' ||
+      (layoutSnapshot.colorScheme === 'system' &&
+        typeof window !== 'undefined' &&
+        window.matchMedia('(prefers-color-scheme: dark)').matches)
+  );
+  const colorScheme = ref<ColorScheme>(
+    layoutSnapshot.colorScheme === 'light' ||
+      layoutSnapshot.colorScheme === 'dark' ||
+      layoutSnapshot.colorScheme === 'system'
+      ? layoutSnapshot.colorScheme
+      : DEFAULT_COLOR_SCHEME
+  );
 
   /**
-   * 设置 Element Plus 主色并持久化
+   * 设置 Element 主色并持久化
    * @param color 色值
-   * @param options skipApply 为 true 时仅写入 storage，由调用方统一 apply
    */
-  function setEpThemeColor(color: string, options?: { skipApply?: boolean }): void {
+  function setPrimaryColor(color: string): void {
+    patchLayout({ primaryColor: color });
+    applyThemePreferences();
+  }
+
+  /**
+   * 设置侧栏皮肤并同步主色（方案 A：色板即整套主题）
+   * @param navTheme 侧栏皮肤标识
+   */
+  function setNavTheme(navTheme = DEFAULT_NAV_THEME): void {
     patchLayout({
-      epThemeColor: color,
-      theme: getLayoutSnapshot().theme ?? getConfig().Theme,
+      navTheme,
+      primaryColor: resolvePrimaryColorForNavTheme(navTheme),
     });
-    if (!options?.skipApply) {
-      applyThemePreferences();
-    }
+    applyThemePreferences();
   }
 
   /**
-   * 设置导航主题色
-   * @param theme 主题标识
-   * @param isClick 是否用户点击（保留原 themeColor 逻辑）
-   * @param options skipApply 为 true 时仅写入 storage，由调用方统一 apply
+   * 浅色 / 深色 / 跟随系统
+   * @param scheme 颜色方案；登录页开关可能不传，此时按 dataTheme 同步为 light/dark
    */
-  function setLayoutThemeColor(
-    theme = getConfig().Theme ?? 'light',
-    isClick = true,
-    options?: { skipApply?: boolean }
-  ): void {
-    const snapshot = getLayoutSnapshot();
-    const patch: Partial<ResponsiveStorage['layout']> = {
-      theme,
-      themeColor: isClick ? theme : snapshot.themeColor,
-    };
-
-    if (theme === 'default' || theme === 'light') {
-      patch.epThemeColor = getConfig().EpThemeColor;
+  function setColorScheme(scheme?: string): void {
+    if (scheme && COLOR_SCHEMES.has(scheme as ColorScheme)) {
+      colorScheme.value = scheme as ColorScheme;
     } else {
-      const colors = themeColors.value.find((item) => item.themeColor === theme);
-      if (colors) {
-        patch.epThemeColor = colors.color;
-      }
+      colorScheme.value = dataTheme.value ? 'dark' : 'light';
     }
 
-    patchLayout(patch);
-    if (!options?.skipApply) {
-      applyThemePreferences();
-    }
-  }
-
-  /**
-   * 浅色 / 深色 / 跟随系统整体风格切换
-   * @param overall 整体风格；登录页开关可能传入非标准值，此时按 dataTheme 同步为 light/dark
-   */
-  function dataThemeChange(overall?: string): void {
-    if (overall && OVERALL_STYLES.has(overall)) {
-      overallStyle.value = overall;
-    } else {
-      overallStyle.value = dataTheme.value ? 'dark' : 'light';
-    }
-
-    if (overallStyle.value === 'system') {
+    if (colorScheme.value === 'system') {
       dataTheme.value = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    } else {
+      dataTheme.value = colorScheme.value === 'dark';
     }
 
-    const snapshot = getLayoutSnapshot();
-    const baseTheme = epThemeStore.epTheme ?? snapshot.theme ?? getConfig().Theme ?? 'light';
-    const nextTheme = reconcileNavTheme({ theme: baseTheme, themeColor: snapshot.themeColor }, dataTheme.value);
-    setLayoutThemeColor(nextTheme, false, { skipApply: true });
-
-    patchLayout({ darkMode: dataTheme.value, overallStyle: overallStyle.value });
+    patchLayout({ colorScheme: colorScheme.value });
     applyThemePreferences();
   }
 
   return {
     dataTheme,
-    overallStyle,
+    colorScheme,
     layoutTheme,
     themeColors,
-    setEpThemeColor,
-    setLayoutThemeColor,
-    dataThemeChange,
+    setPrimaryColor,
+    setNavTheme,
+    setColorScheme,
   };
 }

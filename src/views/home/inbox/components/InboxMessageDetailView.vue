@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { getInAppInboxDetail, type InAppInboxDetail } from '@/api/message/in-app-inbox';
-import type { TypedContentTypeCode } from '@/components/business/TypedContentView';
-import TypedContentView from '@/components/business/TypedContentView';
+import type { TypedContentTypeCode } from '@/components/domain/content/TypedContentView';
+import TypedContentView from '@/components/domain/content/TypedContentView';
 import { errorMessage } from '@/services/feedback/message';
 import { formatDateTime } from '@/shared/utils/date/dateTime';
 import { useInAppInboxStore } from '@/store/modules/message/inAppInbox';

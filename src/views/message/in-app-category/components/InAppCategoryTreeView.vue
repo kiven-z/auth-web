@@ -1,6 +1,6 @@
 <script lang="ts" setup>
-import AuthElTreePanel from '@/components/business/AuthElTreePanel';
-import { TREE_ROOT_PARENT_ID } from '@/shared/utils/tree';
+import ElTreePanel from '@/components/domain/tree/ElTreePanel';
+import { TREE_ROOT_PARENT_ID } from '@/shared/utils/tree/tree';
 import InAppCategoryRowActions from '@/views/message/in-app-category/components/InAppCategoryRowActions.vue';
 import InAppCategorySearchForm from '@/views/message/in-app-category/components/InAppCategorySearchForm.vue';
 import { IN_APP_CATEGORY_PERMS } from '@/views/message/in-app-category/constants/permissions';
@@ -31,7 +31,7 @@ onMounted(() => {
   <div>
     <InAppCategorySearchForm />
 
-    <AuthElTreePanel
+    <ElTreePanel
       :collapse-all-label="t('inAppCategory.page.tree.collapseAll')"
       :expand-all-label="t('inAppCategory.page.tree.expandAll')"
       :loading="loading"
@@ -63,6 +63,6 @@ onMounted(() => {
       <template #actions="{ data }">
         <InAppCategoryRowActions :row="data" />
       </template>
-    </AuthElTreePanel>
+    </ElTreePanel>
   </div>
 </template>

@@ -16,7 +16,7 @@ const { device } = storeToRefs(useAppStore());
 </script>
 
 <template>
-  <div class="search-footer text-[#333] dark:text-white">
+  <div class="search-footer text-auth-text dark:text-auth-text">
     <span class="search-footer__item">
       <EnterOutlined class="search-footer__icon" />
       {{ t('buttons.confirm') }}
@@ -51,9 +51,9 @@ const { device } = storeToRefs(useAppStore());
     margin-right: 3px;
     font-size: 20px;
     box-shadow:
-      inset 0 -2px #cdcde6,
-      inset 0 0 1px 1px #fff,
-      0 1px 2px 1px #1e235a66;
+      inset 0 -2px var(--auth-color-border),
+      inset 0 0 1px 1px var(--auth-bg-container),
+      0 1px 2px 1px color-mix(in srgb, var(--auth-color-gray-12) 40%, transparent);
   }
 
   .search-footer__total {

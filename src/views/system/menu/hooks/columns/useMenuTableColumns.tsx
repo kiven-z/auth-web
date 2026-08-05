@@ -1,5 +1,5 @@
 import { formatDateTime } from '@/shared/utils/date/dateTime';
-import { useRenderIcon } from '@/components/ui/Icon/src/hooks';
+import { useRenderIcon } from '@/components/ui/Icon';
 import { renderBooleanStatusTag } from '@/shared/composables/layout/renderBooleanStatusTag';
 import { transformI18n } from '@/app/plugins/i18n';
 import type { SysMenuRow } from '@/views/system/menu/hooks/useMenuPageState';
@@ -103,7 +103,7 @@ function useMenuTableColumns() {
     {
       label: t('table.actions'),
       fixed: 'right' as const,
-      width: 200,
+      width: 220,
       slot: 'actions',
     },
   ]);

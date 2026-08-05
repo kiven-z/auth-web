@@ -1,6 +1,7 @@
 import { responsiveStorageNameSpace } from '@/auth/config';
 import { getLocaleDef, locales } from '@/auth/config/locales';
-import { isObject, storageLocal } from '@pureadmin/utils';
+import { storageLocal } from '@/core/storage/storageLocal';
+import isObject from 'lodash/isObject';
 import merge from 'lodash/merge';
 import type { App, WritableComputedRef } from 'vue';
 import { createI18n, type I18n } from 'vue-i18n';

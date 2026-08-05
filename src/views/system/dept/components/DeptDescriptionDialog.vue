@@ -2,10 +2,10 @@
 import { createAuditDetailColumns } from '@/shared/composables/table/auditColumns';
 import type { DetailDialog } from '@/shared/types/dialog';
 import type { SysDeptDetail } from '@/api/system/dept/dept';
-import DetailRelationCountBar from '@/components/business/DetailRelationCountBar/index.vue';
+import DetailRelationCountBar from '@/components/domain/detail/DetailRelationCountBar';
 import Description from '@/components/ui/Description';
 import { renderBooleanStatusTag } from '@/shared/composables/layout/renderBooleanStatusTag';
-import { TREE_ROOT_PARENT_ID } from '@/shared/utils/tree';
+import { TREE_ROOT_PARENT_ID } from '@/shared/utils/tree/tree';
 import useOpenDeptAuthorizationSurface from '@/views/system/dept/hooks/authorization/useOpenDeptAuthorizationSurface';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';

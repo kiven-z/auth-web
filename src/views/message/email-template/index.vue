@@ -4,7 +4,7 @@ import {
   type MessageTemplatePageQuery,
   type MessageTemplatePageRow,
 } from '@/api/message/message-template';
-import AuthPagedTable, { usePaginationState } from '@/components/business/AuthPagedTable';
+import PagedTable, { usePaginationState } from '@/components/table/PagedTable';
 import useEmailTemplateTableAction from '@/views/message/email-template/hooks/useEmailTemplateTableAction';
 import useEmailTemplateTableColumns from '@/views/message/email-template/hooks/useEmailTemplateTableColumns';
 import { useCommonBooleanStatusOptions } from '@/shared/composables/i18n/useCommonBooleanStatusOptions';
@@ -112,7 +112,7 @@ onMounted(() => {
       </el-form-item>
     </el-form>
 
-    <AuthPagedTable
+    <PagedTable
       :columns="columns"
       :state="emailTemplateState"
       :title="t('emailTemplate.tableTitle')"
@@ -183,6 +183,6 @@ onMounted(() => {
           </template>
         </el-dropdown>
       </template>
-    </AuthPagedTable>
+    </PagedTable>
   </div>
 </template>

@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import type { InAppMessageCategoryPageRow } from '@/api/message/in-app-category';
-import AuthDataTable from '@/components/ui/AuthDataTable';
-import TableBar from '@/components/ui/TableBar';
+import DataTable from '@/components/table/DataTable';
+import TableBar from '@/components/table/TableBar';
 import InAppCategoryRowActions from '@/views/message/in-app-category/components/InAppCategoryRowActions.vue';
 import InAppCategorySearchForm from '@/views/message/in-app-category/components/InAppCategorySearchForm.vue';
 import { IN_APP_CATEGORY_PERMS } from '@/views/message/in-app-category/constants/permissions';
@@ -84,14 +84,14 @@ const onSelectionChange = (rows: InAppMessageCategoryPageRow[]) => {
       </template>
 
       <template #default="{ size, dynamicColumns }">
-        <AuthDataTable
+        <DataTable
           :columns="dynamicColumns"
           :data="treeData"
           :loading="loading"
           :pagination="null"
           :size="size"
           :tree-props="treeProps"
-          adaptive
+          adaptive="viewport"
           align-whole="center"
           border
           default-expand-all
@@ -103,7 +103,7 @@ const onSelectionChange = (rows: InAppMessageCategoryPageRow[]) => {
           <template #actions="{ row }">
             <InAppCategoryRowActions :row="row" />
           </template>
-        </AuthDataTable>
+        </DataTable>
       </template>
     </TableBar>
   </div>

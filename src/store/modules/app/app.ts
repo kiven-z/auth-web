@@ -1,18 +1,19 @@
-import { getLayoutSnapshot } from '@/core/preferences/storage';
-import { getConfig } from '@/auth/config';
-import { deviceDetection } from '@pureadmin/utils';
+import { getLayoutSnapshot } from '@/core/preferences/persistence/storage';
+import { DEFAULT_LAYOUT, DEFAULT_SIDEBAR_OPENED } from '@/core/preferences/defaults/preference-defaults';
+import { deviceDetection } from '@/shared/utils/device/deviceDetection';
+import { type LayoutMode, toLayoutMode } from '@/shared/utils/layout/layout-mode';
 import { defineStore } from 'pinia';
-import { setSidebarOpened } from '@/core/preferences/actions';
+import { setSidebarOpened } from '@/core/preferences/runtime/actions';
 import type { appType } from '../../types';
 
 export const useAppStore = defineStore('app', {
   state: (): appType => ({
     sidebar: {
-      opened: getLayoutSnapshot().sidebarStatus ?? getConfig().SidebarStatus,
+      opened: getLayoutSnapshot().sidebarStatus ?? DEFAULT_SIDEBAR_OPENED,
       withoutAnimation: false,
       isClickCollapse: false,
     },
-    layout: getLayoutSnapshot().layout ?? getConfig().Layout,
+    layout: toLayoutMode(getLayoutSnapshot().layout ?? DEFAULT_LAYOUT),
     device: deviceDetection() ? 'mobile' : 'desktop',
     viewportSize: {
       width: document.documentElement.clientWidth,
@@ -43,7 +44,7 @@ export const useAppStore = defineStore('app', {
     toggleDevice(device: string) {
       this.device = device;
     },
-    setLayout(layout) {
+    setLayout(layout: LayoutMode) {
       this.layout = layout;
     },
     setViewportSize(size) {

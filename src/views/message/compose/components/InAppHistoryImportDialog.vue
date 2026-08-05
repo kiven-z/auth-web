@@ -6,7 +6,7 @@ import {
   type InAppSendTaskPageRow,
 } from '@/api/message/in-app-message';
 import type { InAppTemplateContentType } from '@/api/message/in-app-template';
-import AuthPagedTable, { usePaginationState } from '@/components/business/AuthPagedTable';
+import PagedTable, { usePaginationState } from '@/components/table/PagedTable';
 import { addDialog } from '@/components/ui/Dialog';
 import { errorMessage } from '@/services/feedback/message';
 import { useFormPlaceholder } from '@/shared/composables/i18n/useFormPlaceholder';
@@ -155,7 +155,7 @@ onMounted(() => {
       </el-form-item>
     </el-form>
 
-    <AuthPagedTable
+    <PagedTable
       :columns="columns"
       :state="historyImportState"
       :title="t('inAppCompose.importHistoryDialogTitle')"
@@ -176,6 +176,6 @@ onMounted(() => {
           {{ t('inAppCompose.importTemplateConfirm') }}
         </el-button>
       </template>
-    </AuthPagedTable>
+    </PagedTable>
   </div>
 </template>

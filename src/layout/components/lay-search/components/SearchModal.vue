@@ -12,7 +12,8 @@ import { onKeyStroke, useDebounceFn } from '@vueuse/core';
 import { storeToRefs } from 'pinia';
 import { useAppStore } from '@/store/modules/app/app';
 import { usePermissionStore } from '@/store/modules/auth/permission';
-import { cloneDeep, storageLocal } from '@pureadmin/utils';
+import { storageLocal } from '@/core/storage/storageLocal';
+import cloneDeep from 'lodash/cloneDeep';
 import SearchIcon from '~icons/ri/search-line';
 
 interface Props {

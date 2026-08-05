@@ -1,5 +1,5 @@
 import type { UserPostPageRow } from '@/api/system/user/user-post';
-import useUserProfileDisplay from '@/components/business/UserProfile/src/hooks/useUserProfileDisplay';
+import { useUserProfileDisplay } from '@/components/domain/user/UserProfile';
 import { createAuditTableColumns } from '@/shared/composables/table/auditColumns';
 import { ElCheckTag } from 'element-plus';
 import { computed } from 'vue';

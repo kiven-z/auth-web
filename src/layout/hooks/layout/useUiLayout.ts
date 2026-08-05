@@ -1,8 +1,10 @@
-import { setSidebarOpened } from '@/core/preferences/actions';
-import { applyLayoutPreferences } from '@/core/preferences/apply';
-import { setRuntimeLayoutOverride } from '@/core/preferences/runtime-layout';
-import { getLayoutSnapshot, patchLayout } from '@/core/preferences/storage';
+import { setSidebarOpened } from '@/core/preferences/runtime/actions';
+import { applyLayoutPreferences } from '@/core/preferences/runtime/apply';
+import { setRuntimeLayoutOverride } from '@/core/preferences/defaults/runtime-layout';
+import { getLayoutSnapshot, patchLayout } from '@/core/preferences/persistence/storage';
 import { useLayout } from '@/layout/hooks/layout/useLayout';
+import { useAppStore } from '@/store/modules/app/app';
+import { type LayoutMode, toLayoutMode } from '@/shared/utils/layout/layout-mode';
 
 /**
  * UI 布局模式与侧栏状态写入（经 preferences storage 网关）
@@ -15,7 +17,8 @@ export function useUiLayout() {
    * 设置导航布局模式（vertical / horizontal / mix）
    * @param layoutModel 布局模式
    */
-  function setLayoutMode(layoutModel: string): void {
+  function setLayoutMode(layoutModel: LayoutMode): void {
+    useAppStore().sidebar.withoutAnimation = false;
     patchLayout({ layout: layoutModel });
     applyLayoutPreferences();
   }
@@ -25,8 +28,9 @@ export function useUiLayout() {
    * @param layoutModel 当前视口应展示的布局
    */
   function setResponsiveLayoutTheme(layoutModel: string): void {
-    const preferredLayout = getLayoutSnapshot().layout;
-    setRuntimeLayoutOverride(layoutModel === preferredLayout ? null : layoutModel);
+    const preferredLayout = toLayoutMode(getLayoutSnapshot().layout);
+    const nextLayout = toLayoutMode(layoutModel);
+    setRuntimeLayoutOverride(nextLayout === preferredLayout ? null : nextLayout);
   }
 
   return {

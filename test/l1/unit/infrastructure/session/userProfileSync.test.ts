@@ -3,13 +3,13 @@ import { beforeEach, describe, expect, it, vi } from 'vitest';
 describe('userProfileSync', () => {
   beforeEach(async () => {
     vi.resetModules();
-    const { resetUserProfileSync } = await import('@/core/session/userProfileSync');
+    const { resetUserProfileSync } = await import('@/core/session/profile/userProfileSync');
     resetUserProfileSync();
   });
 
   it('invokes registered handler when syncing profile', async () => {
     const handler = vi.fn();
-    const { registerUserProfileSync, syncUserProfileToStore } = await import('@/core/session/userProfileSync');
+    const { registerUserProfileSync, syncUserProfileToStore } = await import('@/core/session/profile/userProfileSync');
 
     registerUserProfileSync(handler);
     const profile = {
@@ -28,7 +28,7 @@ describe('userProfileSync', () => {
   });
 
   it('does nothing when no handler is registered', async () => {
-    const { syncUserProfileToStore } = await import('@/core/session/userProfileSync');
+    const { syncUserProfileToStore } = await import('@/core/session/profile/userProfileSync');
 
     expect(() =>
       syncUserProfileToStore({

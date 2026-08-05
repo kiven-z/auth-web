@@ -1,4 +1,4 @@
-import { useDark } from '@pureadmin/utils';
+import { useDark } from '@/shared/composables/theme/useDark';
 import { computed, type ComputedRef, type Ref } from 'vue';
 
 /** 编辑器主题（与应用明暗一致） */

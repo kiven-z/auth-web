@@ -87,10 +87,10 @@ export interface menuType {
   redirect?: string;
 }
 
-/** 主题色配置 */
+/** 侧栏主题色板项 */
 export interface themeColorsType {
   color: string;
-  themeColor: string;
+  navTheme: string;
 }
 
 /** 带 wrap 的滚动条 DOM */

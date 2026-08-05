@@ -4,9 +4,9 @@ import { API_SUCCESS_CODE } from '@/auth/config/http-config';
 import { ApiBusinessError } from '@/core/http/apiError';
 import { isApiResultEnvelope } from '@/core/http/apiResult';
 import { createHttpAxiosInstance } from '@/core/http/axiosDefaults';
-import { applyRememberPreferencesFromResponse } from '@/core/session/rememberPreferences';
-import { readSessionPreferences } from '@/core/session/sessionPreferences';
-import { setToken } from '@/core/session/sessionToken';
+import { applyRememberPreferencesFromResponse } from '@/core/session/remember/rememberPreferences';
+import { readSessionPreferences } from '@/core/session/remember/sessionPreferences';
+import { setToken } from '@/core/session/token/sessionToken';
 import type { AxiosInstance } from 'axios';
 
 // 刷新专用客户端（无鉴权/恢复拦截器），避免 refresh 走 http 封装形成模块环依赖

@@ -1,10 +1,9 @@
 <script lang="ts" setup>
 import type { MenuFormModel } from '@/api/system/menu/menu';
 import { getMenuList } from '@/api/system/menu/menu';
-import AnimateSelector from '@/components/ui/AnimateSelecto/src/index.vue';
-import IconSelect from '@/components/ui/Icon/src/Select.vue';
-import { useRenderIcon } from '@/components/ui/Icon/src/hooks';
-import { handleTree, TREE_ROOT_PARENT_ID } from '@/shared/utils/tree';
+import AnimateSelector from '@/components/ui/AnimateSelecto';
+import { IconSelect, useRenderIcon } from '@/components/ui/Icon';
+import { handleTree, TREE_ROOT_PARENT_ID } from '@/shared/utils/tree/tree';
 import { transformI18n } from '@/app/plugins/i18n';
 import { errorMessage } from '@/services/feedback/message';
 import MenuTypeIframeDialog from '@/views/system/menu/components/form/MenuTypeIframeDialog.vue';

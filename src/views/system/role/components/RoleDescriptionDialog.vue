@@ -1,6 +1,6 @@
 <script lang="tsx" setup>
 import type { SysRoleDetail } from '@/api/system/role/role';
-import DetailRelationCountBar from '@/components/business/DetailRelationCountBar/index.vue';
+import DetailRelationCountBar from '@/components/domain/detail/DetailRelationCountBar';
 import Description from '@/components/ui/Description';
 import { renderBooleanStatusTag } from '@/shared/composables/layout/renderBooleanStatusTag';
 import { createAuditDetailColumns } from '@/shared/composables/table/auditColumns';

@@ -1,8 +1,8 @@
 <script lang="ts" setup>
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { getUiPreferenceState } from '@/core/preferences/storage';
-import { getMenuTooltipEffect } from '@/layout/utils/tooltip-effect';
+import { getUiPreferenceState } from '@/core/preferences/persistence/storage';
+import { getMenuTooltipEffect } from '@/layout/utils/platform';
 
 import MenuFold from '~icons/ri/menu-fold-fill';
 import ArrowLeft from '~icons/ri/arrow-left-double-fill';
@@ -24,8 +24,8 @@ const emit = defineEmits<{
 const { t } = useI18n();
 const tooltipEffect = getMenuTooltipEffect();
 const preferenceState = getUiPreferenceState();
-const themeColor = computed(() => preferenceState.layout?.themeColor);
-const isLightTheme = computed(() => themeColor.value === 'light');
+const navTheme = computed(() => preferenceState.layout?.navTheme);
+const isLightTheme = computed(() => navTheme.value === 'light');
 
 const tipContent = computed(() => (props.isActive ? t('buttons.clickCollapse') : t('buttons.clickExpand')));
 const foldIcon = computed(() => (props.variant === 'left' ? MenuFold : ArrowLeft));

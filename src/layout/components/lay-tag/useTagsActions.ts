@@ -6,7 +6,7 @@ import NProgress from '@/services/progress';
 import { useMultiTagsStore } from '@/store/modules/app/multiTags';
 import { usePermissionStore } from '@/store/modules/auth/permission';
 import { useSettingStore } from '@/store/modules/app/settings';
-import { isEqual } from '@pureadmin/utils';
+import isEqual from 'lodash/isEqual';
 import isEmpty from 'lodash/isEmpty';
 import { nextTick, type Ref, toRaw } from 'vue';
 import type { RouteLocationNormalizedLoaded, Router } from 'vue-router';

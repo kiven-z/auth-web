@@ -1,17 +1,18 @@
 import { logoutApi } from '@/api/auth';
-import { stopSync } from '@/core/preferences/sync';
-import { resetUserDisplayProfileHydration } from '@/core/session/displayProfile';
+import { stopSync } from '@/core/preferences/persistence/sync';
+import { resetUserDisplayProfileHydration } from '@/core/session/profile/displayProfile';
 import { resetSessionBootstrap } from '@/core/session/sessionBootstrap';
-import { readSessionPreferences, writeSessionPreferences } from '@/core/session/sessionPreferences';
-import { removeToken } from '@/core/session/sessionToken';
-import { readUserProfileFromStorage } from '@/core/session/userProfileStorage';
+import { readSessionPreferences, writeSessionPreferences } from '@/core/session/remember/sessionPreferences';
+import { removeToken } from '@/core/session/token/sessionToken';
+import type { UserProfileSnapshot } from '@/core/session/types';
+import { readUserProfileFromStorage } from '@/core/session/profile/userProfileStorage';
 import { routerArrays } from '@/layout/types';
 import { resetRouter, router } from '@/router';
 import { defineStore } from 'pinia';
 import type { userType } from '../../types';
 import { useMultiTagsStore } from '../app/multiTags';
 
-export const useUserStore = defineStore('pure-user', {
+export const useUserStore = defineStore('auth-user', {
   state: (): userType => {
     const u = readUserProfileFromStorage();
     const prefs = readSessionPreferences();
@@ -29,27 +30,21 @@ export const useUserStore = defineStore('pure-user', {
     };
   },
   actions: {
-    SET_AVATAR(avatar: string) {
-      this.avatar = avatar;
-    },
-    SET_USERNAME(username: string) {
-      this.username = username;
-    },
-    SET_NICKNAME(nickname: string) {
-      this.nickname = nickname;
-    },
-    SET_PRIMARY_DEPT(primaryDeptId: string, primaryDeptName: string) {
-      this.primaryDeptId = primaryDeptId;
-      this.primaryDeptName = primaryDeptName;
-    },
-    SET_USER_ID(userId: string) {
-      this.userId = userId;
-    },
-    SET_ROLES(roles: Array<string>) {
-      this.roles = roles;
-    },
-    SET_PERMS(permissions: Array<string>) {
-      this.permissions = permissions;
+    /**
+     * 用会话资料快照覆盖当前用户展示态。
+     * @param profile 用户资料快照
+     */
+    applyUserProfile(profile: UserProfileSnapshot) {
+      this.$patch({
+        avatar: profile.avatar,
+        username: profile.username,
+        nickname: profile.nickname,
+        primaryDeptId: profile.primaryDeptId,
+        primaryDeptName: profile.primaryDeptName,
+        roles: profile.roles,
+        permissions: profile.permissions,
+        userId: profile.userId,
+      });
     },
 
     /**

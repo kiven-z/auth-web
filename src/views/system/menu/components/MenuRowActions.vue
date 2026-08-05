@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { treeRowActionsLockKey } from '@/components/business/AuthElTreePanel/src/treeRowActionsLock';
+import { treeRowActionsLockKey } from '@/components/domain/tree/ElTreePanel';
 import { transformI18n } from '@/app/plugins/i18n';
 import { SYS_MENU_PERMS } from '@/views/system/menu/constants/permissions';
 import useMenuMoreAction from '@/views/system/menu/hooks/actions/useMenuMoreAction';

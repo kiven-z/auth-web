@@ -1,9 +1,8 @@
-import { addDialog, type ButtonProps, closeDialog } from '@/components/ui/Dialog';
-import type { DialogOptions } from '@/components/ui/Dialog/type';
-import type { ImageCropperPanelExpose, OpenImageCropDialogOptions } from '@/components/ui/ImageCropper/types';
 import { transformI18n } from '@/app/plugins/i18n';
-import { ref } from 'vue';
+import { addDialog, type ButtonProps, closeDialog, type DialogOptions } from '@/components/ui/Dialog';
 import ImageCropperPanel from '@/components/ui/ImageCropper/src/ImageCropperPanel.vue';
+import { ref } from 'vue';
+import type { ImageCropperPanelExpose, OpenImageCropDialogOptions } from '../types';
 
 /**
  * 打开图片裁剪弹窗

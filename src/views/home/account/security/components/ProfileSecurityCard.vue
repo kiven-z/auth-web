@@ -1,8 +1,8 @@
 <script lang="ts" setup>
 import { clearMyPreferences } from '@/api/system/user/user-preferences';
-import { getConfig } from '@/auth/config';
-import { resetLocalUiPreferences } from '@/core/preferences/storage';
-import { useChangePasswordAction } from '@/components/business/ChangePasswordDialog';
+import { createDefaultUiPreferences } from '@/core/preferences/defaults/preference-defaults';
+import { resetLocalUiPreferences } from '@/core/preferences/persistence/storage';
+import { useChangePasswordAction } from '@/components/domain/user/ChangePasswordDialog';
 import ActionRow from '@/components/ui/ActionRow';
 import { multiConfirm } from '@/services/feedback/dialog';
 import { errorMessage, message } from '@/services/feedback/message';
@@ -35,29 +35,7 @@ async function handleResetPreferences() {
   resetting.value = true;
   try {
     await clearMyPreferences();
-    const config = getConfig();
-    resetLocalUiPreferences({
-      locale: { locale: config.Locale ?? 'zh' },
-      layout: {
-        layout: config.Layout ?? 'vertical',
-        theme: config.Theme ?? 'light',
-        darkMode: config.DarkMode ?? false,
-        sidebarStatus: config.SidebarStatus ?? true,
-        epThemeColor: config.EpThemeColor ?? '#409EFF',
-        themeColor: config.Theme ?? 'light',
-        overallStyle: config.OverallStyle ?? 'light',
-      },
-      configure: {
-        grey: config.Grey ?? false,
-        weak: config.Weak ?? false,
-        hideTabs: config.HideTabs ?? false,
-        hideFooter: config.HideFooter ?? true,
-        showLogo: config.ShowLogo ?? true,
-        showModel: config.ShowModel ?? 'smart',
-        multiTagsCache: config.MultiTagsCache ?? false,
-        stretch: config.Stretch ?? false,
-      },
-    });
+    resetLocalUiPreferences(createDefaultUiPreferences());
     message(t('account.preferences.resetSuccess'), { type: 'success' });
     window.location.reload();
   } catch (error: unknown) {

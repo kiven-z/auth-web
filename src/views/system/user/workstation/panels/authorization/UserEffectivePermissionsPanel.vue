@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import type { PermissionReference } from '@/api/system/_shared/grant-table';
 import type { UserEffectivePermissionPageQuery } from '@/api/system/user/user-authorization';
-import AuthPagedTable, { usePaginationState } from '@/components/business/AuthPagedTable';
+import PagedTable, { usePaginationState } from '@/components/table/PagedTable';
 import { useFormPlaceholder } from '@/shared/composables/i18n/useFormPlaceholder';
 import type { AuthorizationSurfacePanelProps } from '@/views/system/_shared/authorization/types';
 import usePermissionColumns from '@/views/system/_shared/columns/usePermissionColumns';
@@ -69,6 +69,6 @@ onMounted(() => {
       </el-form-item>
     </el-form>
 
-    <AuthPagedTable :columns="permissionColumns" :state="permissionState" :title="title" show-overflow-tooltip />
+    <PagedTable :columns="permissionColumns" :state="permissionState" :title="title" show-overflow-tooltip />
   </div>
 </template>

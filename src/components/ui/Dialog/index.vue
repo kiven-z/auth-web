@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { isFunction } from '@pureadmin/utils';
+import isFunction from 'lodash/isFunction';
 import { computed, ref } from 'vue';
 import ExitFullscreen from '~icons/ri/fullscreen-exit-fill';
 import Fullscreen from '~icons/ri/fullscreen-fill';
@@ -63,7 +63,7 @@ const footerButtons = computed(() => {
 });
 
 const fullscreenClass = computed(() => {
-  return ['el-icon', 'el-dialog__close', '-translate-x-2', 'cursor-pointer', 'hover:text-[red]!'];
+  return ['el-icon', 'el-dialog__close', 'auth-dialog__fullscreen-icon', '-translate-x-2', 'cursor-pointer'];
 });
 
 function eventsCallBack(event: EventType, options: DialogOptions, index: number, isClickFullScreen = false) {

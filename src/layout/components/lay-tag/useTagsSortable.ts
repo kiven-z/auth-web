@@ -1,6 +1,6 @@
 import type { RouteConfigs } from '@/layout/types';
 import { useMultiTagsStore } from '@/store/modules/app/multiTags';
-import { isBoolean } from '@pureadmin/utils';
+import isBoolean from 'lodash/isBoolean';
 import Sortable from 'sortablejs';
 import { storeToRefs } from 'pinia';
 import { nextTick, onBeforeUnmount, type Ref, watch } from 'vue';

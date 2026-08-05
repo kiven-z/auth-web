@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { type ChannelDeliveryPageQuery, getChannelDeliveryPage } from '@/api/message/channel-delivery';
-import AuthPagedTable, { usePaginationState } from '@/components/business/AuthPagedTable';
+import PagedTable, { usePaginationState } from '@/components/table/PagedTable';
 import { useFormPlaceholder } from '@/shared/composables/i18n/useFormPlaceholder';
 import { SEND_RECORD_PERMS } from '@/views/message/send-record/constants/permissions';
 import useSendRecordOptions from '@/views/message/send-record/hooks/options/useSendRecordOptions';
@@ -90,12 +90,7 @@ onMounted(() => {
       </el-form-item>
     </el-form>
 
-    <AuthPagedTable
-      :columns="columns"
-      :state="sendRecordState"
-      :title="t('sendRecord.title.table')"
-      show-overflow-tooltip
-    >
+    <PagedTable :columns="columns" :state="sendRecordState" :title="t('sendRecord.title.table')" show-overflow-tooltip>
       <template #buttons>
         <Perms :value="SEND_RECORD_PERMS.DELETE">
           <el-dropdown trigger="click">
@@ -120,6 +115,6 @@ onMounted(() => {
           {{ t('buttons.actionDelete') }}
         </el-button>
       </template>
-    </AuthPagedTable>
+    </PagedTable>
   </div>
 </template>

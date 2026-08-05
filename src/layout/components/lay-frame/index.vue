@@ -5,6 +5,10 @@ import { useMultiTagsStore } from '@/store/modules/app/multiTags';
 import { type Component, computed, shallowRef, watch } from 'vue';
 import { RouteLocationNormalizedLoaded, type RouteRecordRaw } from 'vue-router';
 
+defineOptions({
+  name: 'LayMultiFrame',
+});
+
 const props = defineProps<{
   currRoute: RouteLocationNormalizedLoaded;
   currComp: Component;

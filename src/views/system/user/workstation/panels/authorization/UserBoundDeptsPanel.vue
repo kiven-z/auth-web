@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import type { UserDeptPageQuery, UserDeptPageRow } from '@/api/system/user/user-dept';
-import AuthPagedTable, { usePaginationState } from '@/components/business/AuthPagedTable';
-import useUserProfileColumns from '@/components/business/UserProfile/src/useUserProfileColumns';
+import PagedTable, { usePaginationState } from '@/components/table/PagedTable';
+import { useUserProfileColumns } from '@/components/domain/user/UserProfile';
 import { useFormPlaceholder } from '@/shared/composables/i18n/useFormPlaceholder';
 import type { AuthorizationSurfacePanelProps } from '@/views/system/_shared/authorization/types';
 import useUserOptions from '@/views/system/user/hooks/options/useUserOptions';
@@ -83,6 +83,6 @@ onMounted(() => {
       </el-form-item>
     </el-form>
 
-    <AuthPagedTable :columns="userDeptBindingColumns" :state="deptState" :title="title" show-overflow-tooltip />
+    <PagedTable :columns="userDeptBindingColumns" :state="deptState" :title="title" show-overflow-tooltip />
   </div>
 </template>

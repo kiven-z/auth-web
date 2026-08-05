@@ -1,4 +1,4 @@
-import { TREE_ROOT_PARENT_ID } from '@/shared/utils/tree';
+import { TREE_ROOT_PARENT_ID } from '@/shared/utils/tree/tree';
 
 /** Element Plus 树拖拽落点类型 */
 export type TreeDropType = 'prev' | 'next' | 'inner';

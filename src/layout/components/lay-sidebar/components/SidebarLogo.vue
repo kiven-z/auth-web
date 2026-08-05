@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { getAppTitle, getLogoUrl } from '@/layout/utils/brand';
+import { getAppTitle, getLogoUrl } from '@/layout/utils/platform';
 import { getTopMenu } from '@/router/utils/misc';
 
 defineProps({
@@ -42,12 +42,13 @@ const logoUrl = getLogoUrl();
     display: flex;
     flex-wrap: nowrap;
     align-items: center;
+    padding: 0 0 0 10px;
     height: 100%;
-    padding-left: 10px;
 
     img {
       display: inline-block;
       height: 32px;
+      margin: 5px 0 0 0;
     }
 
     .sidebar-logo__title {

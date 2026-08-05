@@ -1,6 +1,6 @@
 import { satisfiesAllRequired } from '@/auth/permission/permissionMatcher';
 import { useUserStore } from '@/store/modules/auth/user';
-import { isString } from '@pureadmin/utils';
+import isString from 'lodash/isString';
 
 /**
  * 将权限入参规范为所需权限列表

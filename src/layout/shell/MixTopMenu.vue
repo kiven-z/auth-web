@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { useRenderIcon } from '@/components/ui/Icon/src/hooks';
+import { useRenderIcon } from '@/components/ui/Icon';
 import HeaderToolbar from '@/layout/shell/HeaderToolbar.vue';
 import { MENU_TITLE_ROW_STYLE, resolveMixMenuIndexPath } from '@/layout/utils/menu-path';
 import { transformI18n } from '@/app/plugins/i18n';

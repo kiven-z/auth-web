@@ -1,9 +1,8 @@
 <script lang="ts" setup>
 import type { Props } from '../types';
 import { transformI18n } from '@/app/plugins/i18n';
-import { useResizeObserver } from '@pureadmin/utils';
-import { useEpThemeStore } from '@/store/modules/app/epTheme';
-import { useRenderIcon } from '@/components/ui/Icon/src/hooks';
+import { useResizeObserver } from '@vueuse/core';
+import { useRenderIcon } from '@/components/ui/Icon';
 import { computed, getCurrentInstance, onMounted, ref } from 'vue';
 import EnterOutlined from '@/assets/svg/enter_outlined.svg?component';
 
@@ -21,8 +20,8 @@ const props = withDefaults(defineProps<Props>(), {});
 const itemStyle = computed(() => {
   return (item) => {
     return {
-      background: item?.path === active.value ? useEpThemeStore().epThemeColor : '',
-      color: item.path === active.value ? '#fff' : '',
+      background: item?.path === active.value ? 'var(--el-color-primary)' : '',
+      color: item.path === active.value ? 'var(--auth-text-anti)' : '',
       fontSize: item.path === active.value ? '16px' : '14px',
     };
   };
@@ -75,7 +74,7 @@ defineExpose({ handleScroll });
       :key="item.path"
       :ref="'resultItemRef' + index"
       :style="itemStyle(item)"
-      class="search-result__item dark:bg-[#1d1d1d]"
+      class="search-result__item dark:bg-auth-component"
       @click="handleTo"
       @mouseenter="handleMouse(item)"
     >
@@ -99,7 +98,7 @@ defineExpose({ handleScroll });
     padding: 14px;
     margin-top: 8px;
     cursor: pointer;
-    border: 0.1px solid #ccc;
+    border: 0.1px solid var(--auth-color-border);
     border-radius: 4px;
     transition: font-size 0.16s;
 

@@ -1,8 +1,8 @@
 declare module 'vue' {
   export interface GlobalComponents {
-    AuthDataTable: (typeof import('@/components/ui/AuthDataTable'))['default'];
-    AuthPagedTable: (typeof import('@/components/business/AuthPagedTable'))['default'];
-    TableBar: (typeof import('@/components/ui/TableBar'))['default'];
+    DataTable: (typeof import('@/components/table/DataTable'))['default'];
+    PagedTable: (typeof import('@/components/table/PagedTable'))['default'];
+    TableBar: (typeof import('@/components/table/TableBar'))['default'];
   }
 }
 export {};

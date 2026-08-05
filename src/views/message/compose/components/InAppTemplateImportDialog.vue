@@ -6,7 +6,7 @@ import {
   type MessageTemplatePageQuery,
   type MessageTemplatePageRow,
 } from '@/api/message/message-template';
-import AuthPagedTable, { usePaginationState } from '@/components/business/AuthPagedTable';
+import PagedTable, { usePaginationState } from '@/components/table/PagedTable';
 import { addDialog } from '@/components/ui/Dialog';
 import { errorMessage } from '@/services/feedback/message';
 import { useFormPlaceholder } from '@/shared/composables/i18n/useFormPlaceholder';
@@ -151,7 +151,7 @@ onMounted(() => {
       </el-form-item>
     </el-form>
 
-    <AuthPagedTable
+    <PagedTable
       :columns="columns"
       :state="templateImportState"
       :title="t('inAppCompose.importTemplateDialogTitle')"
@@ -173,6 +173,6 @@ onMounted(() => {
           </template>
         </el-dropdown>
       </template>
-    </AuthPagedTable>
+    </PagedTable>
   </div>
 </template>

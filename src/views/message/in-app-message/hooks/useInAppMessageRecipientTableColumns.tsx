@@ -1,5 +1,5 @@
 import type { InAppSendTaskRecipientPageRow } from '@/api/message/in-app-message';
-import { selectUserinfo } from '@/components/business/UserProfile';
+import { selectUserinfo } from '@/components/domain/user/UserProfile';
 import { formatDateTime } from '@/shared/utils/date/dateTime';
 import { ElButton, ElTag } from 'element-plus';
 import { computed } from 'vue';

@@ -2,15 +2,15 @@ import { hasAuth, isOneOfArray } from '@/auth/permission';
 import { ApiConflictError } from '@/core/http/apiError';
 import { isLoggedIn } from '@/core/session/sessionAuth';
 import { ensureAuthenticatedSession } from '@/core/session/sessionBootstrap';
-import { removeToken } from '@/core/session/sessionToken';
-import { readUserProfileFromStorage } from '@/core/session/userProfileStorage';
+import { removeToken } from '@/core/session/token/sessionToken';
+import { readUserProfileFromStorage } from '@/core/session/profile/userProfileStorage';
 import { getTopMenu } from '@/router/utils/misc';
 import { initRouter } from '@/router/utils/route-registry';
 import { findRouteByPath } from '@/router/utils/route-tree';
 import { errorMessage } from '@/services/feedback/message';
 import { useMultiTagsStore } from '@/store/modules/app/multiTags';
 import { usePermissionStore } from '@/store/modules/auth/permission';
-import { isUrl, openLink } from '@pureadmin/utils';
+import { isUrl, openLink } from '@/shared/utils/url/url';
 import isEmpty from 'lodash/isEmpty';
 import type { NavigationGuardNext, RouteLocationNormalized, Router } from 'vue-router';
 

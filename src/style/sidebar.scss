@@ -48,7 +48,7 @@
     height: 100vh;
     min-height: 100%;
     margin-left: $sideBarWidth;
-    background: #f0f2f5;
+    background: var(--auth-bg-page);
 
     /* main-content 属性动画 */
     transition: margin-left var(--auth-transition-duration);
@@ -181,7 +181,7 @@
 
     .el-menu-item.is-active.layout-menu__nest > * {
       z-index: 1;
-      color: #fff;
+      color: var(--auth-text-anti);
     }
 
     .el-menu-item.is-active.layout-menu__nest::before {
@@ -191,7 +191,7 @@
       margin: 4px 0;
       content: '';
       background: var(--el-color-primary) !important;
-      border-radius: var(--auth-menu-item-radius, 8px);
+      border-radius: var(--auth-menu-item-radius);
     }
 
     .el-menu .el-menu--inline .el-sub-menu__title,
@@ -228,7 +228,7 @@
     /* 无子集的激活菜单背景 */
     .is-active.layout-menu__title--leaf.layout-menu__outer > * {
       z-index: 1;
-      color: #fff;
+      color: var(--auth-text-anti);
     }
 
     .is-active.layout-menu__title--leaf.layout-menu__outer::before {
@@ -238,7 +238,7 @@
       margin: 4px 0;
       content: '';
       background: var(--el-color-primary) !important;
-      border-radius: var(--auth-menu-item-radius, 8px);
+      border-radius: var(--auth-menu-item-radius);
     }
   }
 
@@ -292,7 +292,7 @@
 
     .el-menu-item.is-active.layout-menu__nest > * {
       z-index: 1;
-      color: #fff;
+      color: var(--auth-text-anti);
     }
 
     .el-menu-item.is-active.layout-menu__nest::before {
@@ -301,7 +301,7 @@
       clear: both;
       content: '';
       background: var(--el-color-primary) !important;
-      border-radius: var(--auth-menu-item-radius, 8px);
+      border-radius: var(--auth-menu-item-radius);
     }
 
     .el-menu-item,
@@ -380,7 +380,7 @@
 
     .el-menu-item.is-active.layout-menu__nest > * {
       z-index: 1;
-      color: #fff;
+      color: var(--auth-text-anti);
     }
 
     .el-menu-item.is-active.layout-menu__nest::before {
@@ -389,7 +389,7 @@
       clear: both;
       content: '';
       background: var(--el-color-primary) !important;
-      border-radius: var(--auth-menu-item-radius, 8px);
+      border-radius: var(--auth-menu-item-radius);
     }
   }
 
@@ -638,7 +638,7 @@ body[layout='vertical'] {
     /* 设置 */
   .layout-toolbar__settings {
     &:hover {
-      background: #f6f6f6;
+      background: var(--auth-bg-secondary);
     }
   }
 }
@@ -650,11 +650,6 @@ body[layout='horizontal'] {
 
   .el-menu {
     --el-menu-hover-text-color: var(--auth-theme-menu-text) !important;
-  }
-
-  .layout-header,
-  .layout__main {
-    transition: none !important;
   }
 
   .layout-header {

@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import type { RoleGrantSubjectPageQuery } from '@/api/system/role/role-authorization';
 import type { GrantSubjectItem } from '@/api/system/role/role-grant-subjects';
-import AuthPagedTable, { usePaginationState } from '@/components/business/AuthPagedTable';
+import PagedTable, { usePaginationState } from '@/components/table/PagedTable';
 import { useCommonBooleanStatusOptions } from '@/shared/composables/i18n/useCommonBooleanStatusOptions';
 import { useFormPlaceholder } from '@/shared/composables/i18n/useFormPlaceholder';
 import type { AuthorizationSurfacePanelProps } from '@/views/system/_shared/authorization/types';
@@ -91,6 +91,6 @@ onMounted(() => {
       </el-form-item>
     </el-form>
 
-    <AuthPagedTable :columns="grantSubjectColumns" :state="subjectState" :title="title" show-overflow-tooltip />
+    <PagedTable :columns="grantSubjectColumns" :state="subjectState" :title="title" show-overflow-tooltip />
   </div>
 </template>

@@ -5,7 +5,7 @@ import { mergePagedExportParams } from '@/api/common/export';
 import type { SpreadsheetImportResult } from '@/api/common/import';
 import type { IdsEnableStatusRequest } from '@/api/common/request';
 import { http } from '@/core/http/client';
-import { TREE_ROOT_PARENT_ID } from '@/shared/utils/tree';
+import { TREE_ROOT_PARENT_ID } from '@/shared/utils/tree/tree';
 import type { AxiosRequestConfig } from 'axios';
 
 export type { SpreadsheetImportResult };

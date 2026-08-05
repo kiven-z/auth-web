@@ -1,19 +1,19 @@
 <script lang="ts" setup>
 import { getInAppInboxPage, type InAppInboxPageQuery, type InAppInboxPageRow } from '@/api/message/in-app-inbox';
-import { usePaginationState } from '@/components/business/AuthPagedTable';
+import { usePaginationState } from '@/components/table/PagedTable';
 import {
   DEFAULT_ADAPTIVE_PAGINATION_RESERVE_PX,
   DEFAULT_PAGE_SIZES,
   DEFAULT_PAGINATION_LAYOUT,
   useAdaptiveFillHeight,
-} from '@/components/ui/AuthDataTable';
+} from '@/components/table/DataTable';
 import { useFormPlaceholder } from '@/shared/composables/i18n/useFormPlaceholder';
 import { useHomePageNavigation } from '@/shared/composables/layout/useHomePageNavigation';
 import { useInAppInboxStore } from '@/store/modules/message/inAppInbox';
 import HomePageToolbar from '@/views/home/_shared/components/HomePageToolbar.vue';
 import InboxMessageList from '@/views/home/inbox/components/InboxMessageList.vue';
 import useInboxTableAction from '@/views/home/inbox/hooks/useInboxTableAction';
-import { useInAppCategorySubOptions } from '@/shared/composables/message/useInAppCategorySubOptions';
+import { useInAppCategorySubOptions } from '@/views/message/_shared/hooks/options/useInAppCategorySubOptions';
 import type { FormInstance } from 'element-plus';
 import { storeToRefs } from 'pinia';
 import { computed, onMounted, reactive, ref, toRef } from 'vue';

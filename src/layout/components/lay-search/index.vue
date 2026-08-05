@@ -2,6 +2,10 @@
 import { ref } from 'vue';
 import SearchModal from './components/SearchModal.vue';
 
+defineOptions({
+  name: 'LaySearch',
+});
+
 const show = ref(false);
 
 /** 打开 / 关闭菜单搜索 */

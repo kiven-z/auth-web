@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import type { LocaleType } from '@/auth/config/locales';
-import { UserAvatar } from '@/components/business/UserProfile';
+import { UserAvatar } from '@/components/domain/user/UserProfile';
 import { useTranslationLang } from '@/layout/hooks/locale/useTranslationLang';
 import { useLayoutUiStore } from '@/store/modules/app/layout-ui';
 import { useUserStore } from '@/store/modules/auth/user';
@@ -153,7 +153,7 @@ watch(
   justify-content: space-around;
   height: 48px;
   padding: 10px;
-  color: #000000d9;
+  color: var(--auth-text-primary);
   cursor: pointer;
 
   p {

@@ -2,9 +2,12 @@
 import Segmented, { type OptionsType } from '@/components/ui/Segmented';
 import { useUiConfigure } from '@/layout/hooks/configure/useUiConfigure';
 import { useUiLayout } from '@/layout/hooks/layout/useUiLayout';
-import { getConfigureSnapshot, getUiPreferenceState } from '@/core/preferences/storage';
+import { getConfigureSnapshot, getUiPreferenceState } from '@/core/preferences/persistence/storage';
 import { useAppStore } from '@/store/modules/app/app';
-import { debounce, isNumber, toggleClass } from '@pureadmin/utils';
+import { toggleClass } from '@/shared/utils/dom/className';
+import { LAYOUT_MODES, type LayoutMode, toLayoutMode } from '@/shared/utils/layout/layout-mode';
+import debounce from 'lodash/debounce';
+import isNumber from 'lodash/isNumber';
 import { storeToRefs } from 'pinia';
 import { computed, reactive, ref, unref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
@@ -21,6 +24,12 @@ const { setLayoutMode, layoutTheme } = useUiLayout();
 const mixRef = ref();
 const verticalRef = ref();
 const horizontalRef = ref();
+
+const layoutPreviewRefs: Record<LayoutMode, typeof verticalRef> = {
+  vertical: verticalRef,
+  horizontal: horizontalRef,
+  mix: mixRef,
+};
 
 const settings = reactive({
   stretch: getConfigureSnapshot().stretch,
@@ -76,30 +85,18 @@ function stretchTypeChange({ option }: { option: { value: string } }): void {
  * 设置导航布局模式
  * @param layout 布局模式
  */
-function setLayoutModel(layout: string): void {
+function setLayoutModel(layout: LayoutMode): void {
   setLayoutMode(layout);
 }
 
 watch(
   () => preferenceState.layout?.layout,
-  (layoutMode) => {
-    switch (layoutMode) {
-      case 'vertical':
-        toggleClass(true, 'settings-layout__preview--selected', unref(verticalRef));
-        debounce(() => clearLayoutSelect([horizontalRef]), 50)();
-        debounce(() => clearLayoutSelect([mixRef]), 50)();
-        break;
-      case 'horizontal':
-        toggleClass(true, 'settings-layout__preview--selected', unref(horizontalRef));
-        debounce(() => clearLayoutSelect([verticalRef]), 50)();
-        debounce(() => clearLayoutSelect([mixRef]), 50)();
-        break;
-      case 'mix':
-        toggleClass(true, 'settings-layout__preview--selected', unref(mixRef));
-        debounce(() => clearLayoutSelect([verticalRef]), 50)();
-        debounce(() => clearLayoutSelect([horizontalRef]), 50)();
-        break;
-    }
+  (rawMode) => {
+    const layoutMode = toLayoutMode(rawMode);
+    const selectedRef = layoutPreviewRefs[layoutMode];
+    toggleClass(true, 'settings-layout__preview--selected', unref(selectedRef));
+    const others = LAYOUT_MODES.filter((mode) => mode !== layoutMode).map((mode) => layoutPreviewRefs[mode]);
+    debounce(() => clearLayoutSelect(others), 50)();
   },
   { immediate: true }
 );
@@ -197,16 +194,16 @@ watch(
     height: 36px;
     overflow: hidden;
     cursor: pointer;
-    background: #f0f2f5;
-    border-radius: 4px;
-    box-shadow: 0 1px 2.5px 0 rgb(0 0 0 / 18%);
+    background: var(--auth-bg-page);
+    border-radius: var(--auth-radius-extra-large);
+    box-shadow: var(--auth-shadow-1);
 
     &:nth-child(1) {
       div {
         &:nth-child(1) {
           width: 30%;
           height: 100%;
-          background: #1b2a47;
+          background: var(--auth-color-gray-12);
         }
 
         &:nth-child(2) {
@@ -215,8 +212,8 @@ watch(
           right: 0;
           width: 70%;
           height: 30%;
-          background: #fff;
-          box-shadow: 0 0 1px #888;
+          background: var(--auth-bg-container);
+          box-shadow: 0 0 1px var(--auth-color-border);
         }
       }
     }
@@ -226,8 +223,8 @@ watch(
         &:nth-child(1) {
           width: 100%;
           height: 30%;
-          background: #1b2a47;
-          box-shadow: 0 0 1px #888;
+          background: var(--auth-color-gray-12);
+          box-shadow: 0 0 1px var(--auth-color-border);
         }
       }
     }
@@ -237,8 +234,8 @@ watch(
         &:nth-child(1) {
           width: 100%;
           height: 30%;
-          background: #1b2a47;
-          box-shadow: 0 0 1px #888;
+          background: var(--auth-color-gray-12);
+          box-shadow: 0 0 1px var(--auth-color-border);
         }
 
         &:nth-child(2) {
@@ -247,8 +244,8 @@ watch(
           left: 0;
           width: 30%;
           height: 70%;
-          background: #fff;
-          box-shadow: 0 0 1px #888;
+          background: var(--auth-bg-container);
+          box-shadow: 0 0 1px var(--auth-color-border);
         }
       }
     }

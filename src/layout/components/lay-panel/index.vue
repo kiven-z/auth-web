@@ -3,9 +3,13 @@ import { useI18n } from 'vue-i18n';
 import { onClickOutside } from '@vueuse/core';
 import { computed, ref } from 'vue';
 import { storeToRefs } from 'pinia';
-import { resetUiPreferences } from '@/core/preferences/actions';
+import { resetUiPreferences } from '@/core/preferences/runtime/actions';
 import { useLayoutUiStore } from '@/store/modules/app/layout-ui';
 import CloseIcon from '~icons/ep/close';
+
+defineOptions({
+  name: 'LayPanel',
+});
 
 const target = ref(null);
 const layoutUiStore = useLayoutUiStore();
@@ -27,9 +31,9 @@ const iconClass = computed(() => {
     'rounded-[4px]',
     'cursor-pointer',
     'transition-colors',
-    'hover:bg-[#0000000f]',
-    'dark:hover:bg-[#ffffff1f]',
-    'dark:hover:text-[#ffffffd9]',
+    'hover:bg-black/6',
+    'dark:hover:bg-white/12',
+    'dark:hover:text-auth-text',
   ];
 });
 

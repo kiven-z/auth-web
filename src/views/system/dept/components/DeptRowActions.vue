@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { treeRowActionsLockKey } from '@/components/business/AuthElTreePanel/src/treeRowActionsLock';
+import { treeRowActionsLockKey } from '@/components/domain/tree/ElTreePanel';
 import { SYS_DEPT_PERMS } from '@/views/system/dept/constants/permissions';
 import useDeptMoreAction from '@/views/system/dept/hooks/actions/useDeptMoreAction';
 import useDeptTableAction from '@/views/system/dept/hooks/actions/useDeptTableAction';

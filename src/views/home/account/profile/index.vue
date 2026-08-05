@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { getUserProfile, type SysUserProfileResponse } from '@/api/system/user/user-base';
 import type { MeProfileUpdateRequest } from '@/api/system/user/user-me';
-import { readStoredUserProfileEntry, writeUserProfileToStorage } from '@/core/session/userProfileStorage';
+import { readStoredUserProfileEntry, writeUserProfileToStorage } from '@/core/session/profile/userProfileStorage';
 import { errorMessage } from '@/services/feedback/message';
 import { useUserStore } from '@/store/modules/auth/user';
 import { onMounted, ref } from 'vue';
@@ -39,10 +39,10 @@ async function loadProfileData() {
  */
 function syncStoreAndCache(updates: { nickname?: string; avatar?: string | null }) {
   if (updates.nickname !== undefined) {
-    userStore.SET_NICKNAME(updates.nickname);
+    userStore.nickname = updates.nickname;
   }
   if (updates.avatar !== undefined) {
-    userStore.SET_AVATAR(updates.avatar);
+    userStore.avatar = updates.avatar ?? '';
   }
 
   const stored = readStoredUserProfileEntry();

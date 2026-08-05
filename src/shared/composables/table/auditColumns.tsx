@@ -1,6 +1,6 @@
 import { transformI18n } from '@/app/plugins/i18n';
 import { formatDateTime } from '@/shared/utils/date/dateTime';
-import { selectUserinfo } from '@/components/business/UserProfile';
+import { selectUserinfo } from '@/components/domain/user/UserProfile';
 import { ElButton } from 'element-plus';
 
 /**

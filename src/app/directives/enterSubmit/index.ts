@@ -1,4 +1,4 @@
-import { isFunction } from '@pureadmin/utils';
+import isFunction from 'lodash/isFunction';
 import { useEventListener } from '@vueuse/core';
 import type { Directive, DirectiveBinding } from 'vue';
 

@@ -1,5 +1,5 @@
 import Widget from './index.vue';
-import { withInstall } from '@pureadmin/utils';
+import { withInstall } from '@/shared/vue/withInstall';
 
 export const ActionRow = withInstall(Widget);
 export default ActionRow;

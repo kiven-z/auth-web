@@ -1,8 +1,7 @@
 <script lang="ts" setup>
-import '@/components/ui/Icon/src/offline/shell';
-import { getLayoutSnapshot } from '@/core/preferences/storage';
+import { getLayoutSnapshot } from '@/core/preferences/persistence/storage';
 import { useBreakpointLayout } from '@/layout/composables/useBreakpointLayout';
-import { useLayout } from '@/layout/hooks/layout/useLayout';
+import { useLayoutCapabilities } from '@/layout/hooks/layout/useLayoutCapabilities';
 import { useUiTheme } from '@/layout/hooks/theme/useUiTheme';
 import LayoutHeader from '@/layout/shell/LayoutHeader.vue';
 import LayoutSidebar from '@/layout/shell/LayoutSidebar.vue';
@@ -16,9 +15,13 @@ import BackTopIcon from '@/assets/svg/back_top.svg?component';
 import LayContent from './components/lay-content/index.vue';
 import LaySetting from './components/lay-setting/index.vue';
 
+defineOptions({
+  name: 'LayLayout',
+});
+
 const { t } = useI18n();
-const { layout } = useLayout();
-const { dataThemeChange } = useUiTheme();
+const { capabilities } = useLayoutCapabilities();
+const { setColorScheme } = useUiTheme();
 const appStore = useAppStore();
 const settingStore = useSettingStore();
 
@@ -37,21 +40,25 @@ const wrapperClasses = computed(() => ({
   'layout--mobile': isMobile.value,
 }));
 
-const showVerticalSidebar = computed(
-  () => !hideSidebar.value && (layout.value.includes('vertical') || layout.value.includes('mix'))
+const showVerticalSidebar = computed(() => !hideSidebar.value && capabilities.value.showSideNav);
+
+const showMobileMask = computed(
+  () => isMobile.value && sidebarOpened.value && capabilities.value.mobileMaskUsesSideNav
 );
 
-const showMobileMask = computed(() => isMobile.value && sidebarOpened.value && layout.value.includes('vertical'));
-
 onBeforeMount(() => {
-  dataThemeChange(getLayoutSnapshot().overallStyle);
+  setColorScheme(getLayoutSnapshot().colorScheme);
 });
 </script>
 
 <template>
   <div ref="appWrapperRef" :class="['layout', wrapperClasses]">
-    <div v-show="showMobileMask" class="layout__mask" @click="appStore.toggleSideBar()" />
-    <LayoutSidebar v-show="showVerticalSidebar" />
+    <Transition name="layout-mask">
+      <div v-if="showMobileMask" class="layout__mask" @click="appStore.toggleSideBar()" />
+    </Transition>
+    <Transition name="layout-side">
+      <LayoutSidebar v-if="showVerticalSidebar" />
+    </Transition>
     <div :class="['layout__main', hideSidebar ? 'layout__main--hidden' : '']">
       <div v-if="fixedHeader">
         <LayoutHeader />
@@ -93,7 +100,7 @@ onBeforeMount(() => {
   z-index: 2001;
   width: 100%;
   height: 100%;
-  background: #000;
+  background: var(--auth-mask-overlay);
   opacity: 0.3;
 }
 

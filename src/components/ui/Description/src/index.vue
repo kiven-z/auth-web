@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { copyToClipboard } from '@/shared/lib/clipboard';
+import { copyToClipboard } from '@/shared/utils/clipboard';
 import { CopyDocument } from '@element-plus/icons-vue';
 import get from 'lodash/get';
 import { computed, isVNode } from 'vue';

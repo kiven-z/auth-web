@@ -3,7 +3,7 @@ import { formatDateTime } from '@/shared/utils/date/dateTime';
  * 操作日志表格列
  */
 import type { OperationLogPageRow } from '@/api/log/operation-log';
-import { selectUserinfo } from '@/components/business/UserProfile';
+import { selectUserinfo } from '@/components/domain/user/UserProfile';
 import { ElButton } from 'element-plus';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';

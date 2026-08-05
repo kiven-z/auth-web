@@ -8,7 +8,7 @@ import {
   refreshUserAuthorization,
   type SysUserPageQuery,
 } from '@/api/system/user/user';
-import { usePagedTableExport } from '@/components/business/ExportDialog';
+import { usePagedTableExport } from '@/components/domain/file/ExportDialog';
 import useBatchDeleteAction from '@/shared/composables/table/useBatchDeleteAction';
 import useSpreadsheetImportAction from '@/views/system/_shared/import/useSpreadsheetImportAction';
 import { operationConfirm } from '@/services/feedback/dialog';

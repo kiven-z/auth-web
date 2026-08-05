@@ -1,4 +1,4 @@
-import { copyToClipboard } from '@/shared/lib/clipboard';
+import { copyToClipboard } from '@/shared/utils/clipboard';
 import { useEventListener } from '@vueuse/core';
 import type { Directive, DirectiveBinding } from 'vue';
 

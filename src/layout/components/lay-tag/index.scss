@@ -25,8 +25,8 @@
   width: 100%;
   font-size: 14px;
   color: var(--el-text-color-primary);
-  background: #fff;
-  box-shadow: 0 0 1px #888;
+  background: var(--el-bg-color);
+  box-shadow: 0 0 1px var(--auth-color-border);
 
   .scroll-item {
     position: relative;
@@ -76,8 +76,8 @@
         color 0.12s;
 
       &:hover {
-        color: rgb(0 0 0 / 88%) !important;
-        background-color: rgb(0 0 0 / 6%);
+        color: var(--auth-text-primary) !important;
+        background-color: var(--auth-bg-component-hover);
       }
     }
   }
@@ -137,8 +137,8 @@
 }
 
 .el-dropdown-menu__item:not(.is-disabled):hover {
-  color: #606266;
-  background: #f0f0f0;
+  color: var(--el-text-color-regular);
+  background: var(--el-fill-color-light);
 }
 
 :deep(.el-dropdown-menu__item) i {
@@ -159,7 +159,7 @@
 
 .scroll-item.is-active {
   position: relative;
-  box-shadow: 0 0 0.7px #888;
+  box-shadow: 0 0 0.7px var(--auth-color-border);
 
   .chrome-tab {
     z-index: 10;
@@ -205,12 +205,12 @@
 }
 
 .arrow-left {
-  box-shadow: 5px 0 5px -6px #ccc;
+  box-shadow: 5px 0 5px -6px var(--auth-color-border);
 }
 
 .arrow-right {
-  border-right: 0.5px solid #ccc;
-  box-shadow: -5px 0 5px -6px #ccc;
+  border-right: 0.5px solid var(--auth-color-border);
+  box-shadow: -5px 0 5px -6px var(--auth-color-border);
 }
 
 /* 卡片模式下鼠标移入显示蓝色边框 */
@@ -224,11 +224,11 @@
 
 /* 卡片模式下鼠标移出隐藏蓝色边框 */
 .card-out {
-  color: #666;
+  color: var(--el-text-color-secondary);
   border: none;
 
   .tag-title {
-    color: #666;
+    color: var(--el-text-color-secondary);
   }
 }
 
@@ -284,18 +284,18 @@
     right: 7px;
     width: 1px;
     height: 14px;
-    background-color: #2b2d2f;
+    background-color: var(--auth-color-border);
   }
 
   &:hover {
     z-index: 10;
 
     .chrome-tab__bg {
-      color: #dee1e6;
+      color: var(--auth-bg-component-hover);
     }
 
     .tag-title {
-      color: #1f1f1f;
+      color: var(--auth-text-primary);
     }
 
     .chrome-tab-divider {
@@ -320,12 +320,12 @@
     justify-content: center;
     width: 16px;
     height: 16px;
-    color: #666;
-    border-radius: 50%;
+    color: var(--el-text-color-secondary);
+    border-radius: var(--auth-radius-circle);
 
     &:hover {
-      color: white;
-      background-color: #b1b3b8;
+      color: var(--auth-text-anti);
+      background-color: var(--auth-bg-component-active);
     }
   }
 }

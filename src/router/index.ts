@@ -1,6 +1,6 @@
-import { buildHierarchyTree } from '@/shared/utils/tree';
+import { buildHierarchyTree } from '@/shared/utils/tree/tree';
 import { usePermissionStore } from '@/store/modules/auth/permission';
-import { cloneDeep } from '@pureadmin/utils';
+import cloneDeep from 'lodash/cloneDeep';
 import { createRouter, type RouteComponent, type Router, type RouteRecordRaw } from 'vue-router';
 import remainingRouter from './remaining';
 import { ascending } from './utils/menu-sort';

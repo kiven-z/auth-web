@@ -2,7 +2,7 @@ import { AUTH_RECOVERY_RULE_IDS } from '@/auth/config/auth/auth-recovery-rule-id
 import { ASYNC_ROUTES_STORAGE_KEY } from '@/auth/config/http-config';
 import { transformI18n } from '@/app/plugins/i18n';
 import { message } from '@/services/feedback/message';
-import { storageLocal } from '@pureadmin/utils';
+import { storageLocal } from '@/core/storage/storageLocal';
 
 /** 恢复提示 Toast 展示时长（毫秒） */
 const RECOVERY_TOAST_DURATION_MS = 5000;

@@ -1,4 +1,4 @@
-import { isFunction, subAfter, subBefore } from '@pureadmin/utils';
+import isFunction from 'lodash/isFunction';
 import { useEventListener } from '@vueuse/core';
 import type { Directive, DirectiveBinding } from 'vue';
 
@@ -17,9 +17,10 @@ export const longpress: Directive = {
       let interNum = null;
       const isInter = binding?.arg?.includes(':') ?? false;
 
-      if (isInter) {
-        num = Number(subBefore(binding.arg, ':'));
-        interNum = Number(subAfter(binding.arg, ':'));
+      if (isInter && binding.arg) {
+        const separatorIndex = binding.arg.indexOf(':');
+        num = Number(binding.arg.substring(0, separatorIndex));
+        interNum = Number(binding.arg.substring(separatorIndex + 1));
       } else if (binding.arg) {
         num = Number(binding.arg);
       }

@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { type ButtonProps, closeDrawer, type DrawerOptions, drawerStore, type EventType } from './index';
-import { isFunction } from '@pureadmin/utils';
+import isFunction from 'lodash/isFunction';
 import { useI18n } from 'vue-i18n';
 import { computed, ref } from 'vue';
 

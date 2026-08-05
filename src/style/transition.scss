@@ -1,77 +1,42 @@
-// 强制开启 GPU 加速，防止后台系统文字、图标在动画时发虚或抖动
-.fade-transform-enter-active,
-.fade-transform-leave-active,
+/* ------------------------------------
+  fade
+  效果：淡入淡出
+  ------------------------------------ */
 .fade-enter-active,
 .fade-leave-active {
-  will-change: transform, opacity;
-  transform-style: preserve-3d;
-  backface-visibility: hidden;
+  transition: opacity 0.28s;
 }
 
-/* ------------------------------------
-   1. 炫酷3D翻转与缩放
-   效果：页面折叠缩小并淡出
-   ------------------------------------ */
-.fade-enter-active {
-  transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1); // 经典的弹性曲线
-  perspective: 1000px;
-  backface-visibility: hidden;
-}
-
+.fade-enter,
 .fade-leave-active {
-  transition: all 0.5s cubic-bezier(0.25, 1, 0.5, 1);
-  perspective: 1000px;
-  backface-visibility: hidden;
-  position: absolute; // 离开时绝对定位，防止撑开上下空间
-  width: 100%;
-}
-
-.fade-enter-from {
   opacity: 0;
-  transform: scale(0.85) rotateX(15deg) translateZ(-100px);
-  filter: blur(10px); // 增加模糊滤镜，极具现代感
-}
-
-.fade-leave-to {
-  opacity: 0;
-  transform: scale(1.05) rotateX(-15deg) translateZ(100px);
-  filter: blur(10px);
 }
 
 /* ------------------------------------
-   2. 赛博朋克流光平移
-   效果：横向错位滑入，并带有快速拉伸的“瞬移”视觉差，且完美控制在屏幕内
-   ------------------------------------ */
+  fade-transform
+  效果：从右侧带有轻微斜切（Skew）滑入，像拉开幕布
+  ------------------------------------ */
+.fade-transform-leave-active,
 .fade-transform-enter-active {
-  transition: all 0.55s cubic-bezier(0.25, 1, 0.5, 1);
-  backface-visibility: hidden;
+  transition:
+    opacity 0.33s cubic-bezier(0.4, 0, 0.2, 1),
+    transform 0.33s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.fade-transform-leave-active {
-  transition: all 0.45s cubic-bezier(0.5, 0, 0.75, 0);
-  position: absolute;
-  width: 100%;
-  backface-visibility: hidden;
-}
-
-// 进入：从右侧带有轻微斜切（Skew）滑入，像拉开幕布
 .fade-transform-enter-from {
   opacity: 0;
-  transform: translateX(50px) skewX(-5deg);
-  filter: blur(8px);
+  transform: translateY(16px);
 }
 
-// 离开：向左侧带有轻微斜切滑出
 .fade-transform-leave-to {
   opacity: 0;
-  transform: translateX(-50px) skewX(5deg);
-  filter: blur(8px);
+  transform: translateX(30px);
 }
 
 /* ------------------------------------
-   3. 灵动跳跃面包屑 (原 breadcrumb 升级版)
-   效果：文字像果冻一样从下方弹跳出来
-   ------------------------------------ */
+  breadcrumb transition 
+  效果：文字像果冻一样从下方弹跳出来，逐个落位
+  ------------------------------------ */
 .breadcrumb-enter-active {
   transition: all 0.45s cubic-bezier(0.175, 0.885, 0.32, 1.275); // 果冻弹性
 }
@@ -91,17 +56,68 @@
   transform: translateY(-15px) scale(0.8); // 向上方缩放消失
 }
 
-/* ------------------------------------
-   4. Element Plus 组件动画优化
-   ------------------------------------ */
 /**
- * @description 重置el-menu的展开收起动画时长（丝滑流体效果）
+ * @description 重置el-menu的展开收起动画时长
  */
-.layout-menu__outer .el-collapse-transition-leave-active,
-.layout-menu__outer .el-collapse-transition-enter-active {
-  transition: 0.28s all cubic-bezier(0.4, 0, 0.2, 1) !important;
+.outer-most .el-collapse-transition-leave-active,
+.outer-most .el-collapse-transition-enter-active {
+  transition: 0.2s all ease-in-out !important;
 }
 
 .horizontal-collapse-transition {
-  transition: var(--auth-transition-duration, 0.3s) all cubic-bezier(0.4, 0, 0.2, 1) !important;
+  transition: var(--pure-transition-duration) all !important;
+}
+
+/* --------------------------------------------------------------------------
+   壳层：布局模式切换（侧栏 / 顶栏），与路由 fade-transform 无关
+   -------------------------------------------------------------------------- */
+.layout-side-enter-active,
+.layout-side-leave-active {
+  transition:
+    opacity var(--auth-transition-duration) cubic-bezier(0.4, 0, 0.2, 1),
+    transform var(--auth-transition-duration) cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.layout-side-enter-from,
+.layout-side-leave-to {
+  opacity: 0;
+  transform: translateX(-24px);
+}
+
+.layout-chrome-enter-active,
+.layout-chrome-leave-active {
+  transition: opacity 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.layout-chrome-enter-from,
+.layout-chrome-leave-to {
+  opacity: 0;
+}
+
+.layout-mask-enter-active,
+.layout-mask-leave-active {
+  transition: opacity 0.22s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.layout-mask-enter-from,
+.layout-mask-leave-to {
+  opacity: 0;
+}
+
+/* 视口 resize 时关掉壳过渡，避免断点抖动 */
+.layout--no-animation {
+  .layout-side-enter-active,
+  .layout-side-leave-active,
+  .layout-chrome-enter-active,
+  .layout-chrome-leave-active,
+  .layout-mask-enter-active,
+  .layout-mask-leave-active {
+    transition: none !important;
+  }
+
+  .layout-sidebar,
+  .layout-header,
+  .layout__main {
+    transition: none !important;
+  }
 }

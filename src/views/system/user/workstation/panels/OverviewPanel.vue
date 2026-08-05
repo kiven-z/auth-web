@@ -1,8 +1,7 @@
 <script lang="tsx" setup>
 import { getUserDetail, type SysUserDetail } from '@/api/system/user/user-base';
-import DetailRelationCountBar from '@/components/business/DetailRelationCountBar/index.vue';
-import { UserAvatar } from '@/components/business/UserProfile';
-import useUserProfileDisplay from '@/components/business/UserProfile/src/hooks/useUserProfileDisplay';
+import DetailRelationCountBar from '@/components/domain/detail/DetailRelationCountBar';
+import { UserAvatar, useUserProfileDisplay } from '@/components/domain/user/UserProfile';
 import Description from '@/components/ui/Description';
 import { errorMessage } from '@/services/feedback/message';
 import { createAuditDetailColumns } from '@/shared/composables/table/auditColumns';

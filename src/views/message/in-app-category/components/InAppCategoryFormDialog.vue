@@ -3,7 +3,7 @@ import type { FormDialog } from '@/shared/types/dialog';
 import type { InAppMessageCategoryFormModel } from '@/api/message/in-app-category';
 import { useCommonBooleanStatusOptions } from '@/shared/composables/i18n/useCommonBooleanStatusOptions';
 import { useFormPlaceholder } from '@/shared/composables/i18n/useFormPlaceholder';
-import { useInAppCategoryMajorOptions } from '@/shared/composables/message/useInAppCategoryMajorOptions';
+import { useInAppCategoryMajorOptions } from '@/views/message/_shared/hooks/options/useInAppCategoryMajorOptions';
 import type { FormInstance, FormRules } from 'element-plus';
 import { computed, onMounted, reactive, ref } from 'vue';
 import { useI18n } from 'vue-i18n';

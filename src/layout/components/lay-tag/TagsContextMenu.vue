@@ -55,9 +55,9 @@ function handleSelect(key: number, item: tagsViewsType): void {
   white-space: nowrap;
   outline: 0;
   list-style-type: none;
-  background: #fff;
-  border-radius: 4px;
-  box-shadow: 0 2px 8px rgb(0 0 0 / 15%);
+  background: var(--el-bg-color);
+  border-radius: var(--auth-radius-extra-large);
+  box-shadow: var(--auth-shadow-1);
 
   &__item {
     display: flex;

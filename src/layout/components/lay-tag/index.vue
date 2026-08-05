@@ -1,8 +1,9 @@
 <script lang="ts" setup>
+import { useResizeObserver, onClickOutside } from '@vueuse/core';
 import { useTags } from '@/layout/hooks/navigation/useTag';
-import { delay, isEqual, useResizeObserver } from '@pureadmin/utils';
+import { delay } from '@/shared/utils/async/delay';
+import isEqual from 'lodash/isEqual';
 import isEmpty from 'lodash/isEmpty';
-import { onClickOutside } from '@vueuse/core';
 import { computed, nextTick, onMounted as vueOnMounted, ref, watch } from 'vue';
 import type { tagsViewsType } from '../../types';
 import TagChrome from './components/TagChrome.vue';
@@ -12,6 +13,10 @@ import { useTagsScroll } from './useTagsScroll';
 import { getTagItemKey, useTagsSortable } from './useTagsSortable';
 
 import ArrowDown from '~icons/ri/arrow-down-s-line';
+
+defineOptions({
+  name: 'LayTag',
+});
 import ArrowLeftSLine from '~icons/ri/arrow-left-s-line';
 import ArrowRightSLine from '~icons/ri/arrow-right-s-line';
 

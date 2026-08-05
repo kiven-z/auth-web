@@ -1,6 +1,10 @@
 import { getConfig, responsiveStorageNameSpace } from '@/auth/config';
 import { type RouteConfigs, routerArrays } from '@/layout/types';
-import { isBoolean, isEqual, isNumber, isUrl, storageLocal } from '@pureadmin/utils';
+import { storageLocal } from '@/core/storage/storageLocal';
+import { isUrl } from '@/shared/utils/url/url';
+import isBoolean from 'lodash/isBoolean';
+import isEqual from 'lodash/isEqual';
+import isNumber from 'lodash/isNumber';
 import { defineStore } from 'pinia';
 import type { multiType, positionType } from '../../types';
 import { usePermissionStore } from '../auth/permission';

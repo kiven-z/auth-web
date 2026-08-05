@@ -6,7 +6,7 @@ const mocks = vi.hoisted(() => ({
   mockRemoveItem: vi.fn(),
 }));
 
-vi.mock('@pureadmin/utils', () => ({
+vi.mock('@/core/storage/storageLocal', () => ({
   storageLocal: () => ({
     getItem: mocks.mockGetItem,
     setItem: mocks.mockSetItem,
@@ -22,14 +22,14 @@ describe('sessionPreferences', () => {
 
   it('returns defaults when preferences are not stored', async () => {
     mocks.mockGetItem.mockReturnValue(null);
-    const { readSessionPreferences } = await import('@/core/session/sessionPreferences');
+    const { readSessionPreferences } = await import('@/core/session/remember/sessionPreferences');
 
     expect(readSessionPreferences()).toEqual({ isRemembered: false, loginDay: 7 });
   });
 
   it('merges partial updates when writing preferences', async () => {
     mocks.mockGetItem.mockReturnValue({ isRemembered: false, loginDay: 7 });
-    const { writeSessionPreferences } = await import('@/core/session/sessionPreferences');
+    const { writeSessionPreferences } = await import('@/core/session/remember/sessionPreferences');
 
     writeSessionPreferences({ isRemembered: true, loginDay: 30 });
 

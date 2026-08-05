@@ -68,7 +68,7 @@ interface PopConfirm {
   cancelButtonType?: ButtonType;
   /** 自定义图标，默认 `QuestionFilled` */
   icon?: string | Component;
-  /** `Icon` 颜色，默认 `#f90` */
+  /** `Icon` 颜色，默认跟 warning token */
   iconColor?: string;
   /** 是否隐藏 `Icon`，默认 `false` */
   hideIcon?: boolean;

@@ -1,5 +1,5 @@
 import './index.scss';
-import { isObject } from '@pureadmin/utils';
+import isObject from 'lodash/isObject';
 import type { Directive, DirectiveBinding } from 'vue';
 
 /**

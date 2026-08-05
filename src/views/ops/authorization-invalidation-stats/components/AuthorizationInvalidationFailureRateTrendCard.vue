@@ -5,7 +5,7 @@ import {
   getAuthorizationInvalidationFailureRateTrend,
 } from '@/api/ops/authorization-invalidation-summary';
 import { errorMessage } from '@/services/feedback/message';
-import { useECharts } from '@pureadmin/utils';
+import { useECharts } from '@/shared/composables/charts/useECharts';
 import { computed, onMounted, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 

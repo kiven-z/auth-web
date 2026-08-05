@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { getOperationLogPage } from '@/api/log/operation-log';
-import AuthPagedTable, { usePaginationState } from '@/components/business/AuthPagedTable';
+import PagedTable, { usePaginationState } from '@/components/table/PagedTable';
 import useRemoteUserSearch from '@/shared/composables/dialog/useRemoteUserSearch';
 import { OPERATION_TYPES, REQUEST_METHODS } from '@/views/log/operation-log/constants/operation-log-enums';
 import { SYS_LOG_OPERATION_PERMS } from '@/views/log/operation-log/constants/permissions';
@@ -139,7 +139,7 @@ onMounted(() => {
       </el-form-item>
     </el-form>
 
-    <AuthPagedTable
+    <PagedTable
       :columns="columns"
       :state="operationLogState"
       :title="t('operationLog.tableTitle')"
@@ -169,6 +169,6 @@ onMounted(() => {
           {{ t('buttons.actionDelete') }}
         </el-button>
       </template>
-    </AuthPagedTable>
+    </PagedTable>
   </div>
 </template>

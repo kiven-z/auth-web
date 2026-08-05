@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import type { PostReference } from '@/api/system/_shared/grant-table';
 import type { DeptPostPageQuery } from '@/api/system/dept/dept-authorization';
-import AuthPagedTable, { usePaginationState } from '@/components/business/AuthPagedTable';
+import PagedTable, { usePaginationState } from '@/components/table/PagedTable';
 import { useFormPlaceholder } from '@/shared/composables/i18n/useFormPlaceholder';
 import { useCommonBooleanStatusOptions } from '@/shared/composables/i18n/useCommonBooleanStatusOptions';
 import type { AuthorizationSurfacePanelProps } from '@/views/system/_shared/authorization/types';
@@ -84,6 +84,6 @@ onMounted(() => {
       </el-form-item>
     </el-form>
 
-    <AuthPagedTable :columns="postColumns" :state="postState" :title="title" show-overflow-tooltip />
+    <PagedTable :columns="postColumns" :state="postState" :title="title" show-overflow-tooltip />
   </div>
 </template>

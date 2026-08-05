@@ -5,8 +5,10 @@ import { $t, transformI18n } from '@/app/plugins/i18n';
 import { useUiConfigure } from '@/layout/hooks/configure/useUiConfigure';
 import { useSettingStore } from '@/store/modules/app/settings';
 import { useMultiTagsStore } from '@/store/modules/app/multiTags';
-import { getUiPreferenceState } from '@/core/preferences/storage';
-import { hasClass, isBoolean, isEqual, toggleClass } from '@pureadmin/utils';
+import { getUiPreferenceState } from '@/core/preferences/persistence/storage';
+import { hasClass, toggleClass } from '@/shared/utils/dom/className';
+import isBoolean from 'lodash/isBoolean';
+import isEqual from 'lodash/isEqual';
 
 import Fullscreen from '~icons/ri/fullscreen-fill';
 import CloseAllTags from '~icons/ri/subtract-line';

@@ -1,6 +1,6 @@
 <script lang="ts" setup>
-import AuthElTreePanel from '@/components/business/AuthElTreePanel';
-import { useRenderIcon } from '@/components/ui/Icon/src/hooks';
+import ElTreePanel from '@/components/domain/tree/ElTreePanel';
+import { useRenderIcon } from '@/components/ui/Icon';
 import DeptHeadButtons from '@/views/system/dept/components/DeptHeadButtons.vue';
 import DeptRowActions from '@/views/system/dept/components/DeptRowActions.vue';
 import useDeptPageState from '@/views/system/dept/hooks/useDeptPageState';
@@ -41,7 +41,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <AuthElTreePanel
+  <ElTreePanel
     :allow-drag="allowDrag"
     :allow-drop="allowDrop"
     :collapse-all-label="t('dept.page.tree.collapseAll')"
@@ -79,5 +79,5 @@ onMounted(() => {
     <template #actions="{ data }">
       <DeptRowActions :row="data" show-add-child />
     </template>
-  </AuthElTreePanel>
+  </ElTreePanel>
 </template>

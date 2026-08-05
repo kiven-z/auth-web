@@ -1,19 +1,19 @@
 .auth-segmented {
-  --auth-control-padding-horizontal: 12px;
-  --auth-control-padding-horizontal-sm: 8px;
-  --auth-segmented-track-padding: 2px;
+  --auth-control-padding-horizontal: var(--auth-space-m);
+  --auth-control-padding-horizontal-sm: var(--auth-size-3);
+  --auth-segmented-track-padding: var(--auth-size-1);
   --auth-segmented-line-width: 1px;
 
-  --auth-segmented-border-radius-small: 4px;
-  --auth-segmented-border-radius-base: 6px;
-  --auth-segmented-border-radius-large: 8px;
+  --auth-segmented-border-radius-small: var(--auth-radius-small);
+  --auth-segmented-border-radius-base: var(--auth-radius-default);
+  --auth-segmented-border-radius-large: var(--auth-radius-medium);
 
   box-sizing: border-box;
   display: inline-block;
   padding: var(--auth-segmented-track-padding);
   font-size: var(--el-font-size-base);
-  color: rgba(0, 0, 0, 0.65);
-  background-color: rgb(0 0 0 / 4%);
+  color: var(--auth-text-secondary);
+  background-color: var(--auth-bg-secondary);
   border-radius: var(--auth-segmented-border-radius-base);
 }
 
@@ -32,7 +32,6 @@
   text-overflow: ellipsis;
 }
 
-/* small */
 .auth-segmented.auth-segmented--small {
   border-radius: var(--auth-segmented-border-radius-small);
 }
@@ -47,7 +46,6 @@
   padding: 0 calc(var(--auth-control-padding-horizontal-sm) - var(--auth-segmented-line-width));
 }
 
-/* large */
 .auth-segmented.auth-segmented--large {
   border-radius: var(--auth-segmented-border-radius-large);
 }
@@ -63,7 +61,6 @@
   font-size: var(--el-font-size-medium);
 }
 
-/* default */
 .auth-segmented-item {
   position: relative;
   text-align: center;
@@ -97,13 +94,10 @@
   display: none;
   width: 0;
   height: 100%;
-  padding: 4px 0;
-  background-color: #fff;
-  border-radius: 4px;
-  box-shadow:
-    0 2px 8px -2px rgb(0 0 0 / 5%),
-    0 1px 4px -1px rgb(0 0 0 / 7%),
-    0 0 1px rgb(0 0 0 / 7%);
+  padding: var(--auth-size-2) 0;
+  background-color: var(--auth-bg-container);
+  border-radius: var(--auth-radius-default);
+  box-shadow: var(--auth-shadow-1);
   transition:
     transform 0.5s cubic-bezier(0.645, 0.045, 0.355, 1),
     width 0.5s cubic-bezier(0.645, 0.045, 0.355, 1);
@@ -127,11 +121,11 @@
 }
 
 .auth-segmented-item-icon svg {
-  width: 16px;
-  height: 16px;
+  width: var(--auth-space-l);
+  height: var(--auth-space-l);
 }
 
 .auth-segmented-item-disabled {
-  color: rgba(0, 0, 0, 0.25);
+  color: var(--auth-text-disabled);
   cursor: not-allowed;
 }

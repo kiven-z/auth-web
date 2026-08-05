@@ -1,6 +1,6 @@
 import { formatDateTime } from '@/shared/utils/date/dateTime';
 import type { AuthorizationAuditPageRow } from '@/api/log/authorization-audit';
-import { selectUserinfo } from '@/components/business/UserProfile';
+import { selectUserinfo } from '@/components/domain/user/UserProfile';
 import useAuthorizationAuditOptions from '@/views/log/authorization-audit-log/hooks/options/useAuthorizationAuditOptions';
 import { ElButton, ElTag } from 'element-plus';
 import { computed } from 'vue';

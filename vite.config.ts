@@ -18,7 +18,6 @@ const optimizeDepsInclude = [
   'vue-tippy',
   'sortablejs',
   '@vueuse/core',
-  '@pureadmin/utils',
   'responsive-storage',
 ];
 

@@ -1,12 +1,12 @@
 <script lang="ts" setup>
 import { getRolePage } from '@/api/system/role/role';
-import type { AssignSeedItem } from '@/components/business/AssignManagePanel';
+import type { AssignSeedItem } from '@/components/domain/assign/AssignPanel';
 import AssignPanel, {
   createAssignCheckboxColumn,
   useAssignChecked,
   useAssignTableLabels,
-} from '@/components/business/AssignManagePanel';
-import AuthPagedTable, { usePaginationState } from '@/components/business/AuthPagedTable';
+} from '@/components/domain/assign/AssignPanel';
+import PagedTable, { usePaginationState } from '@/components/table/PagedTable';
 import { errorMessage } from '@/services/feedback/message';
 import { useFormPlaceholder } from '@/shared/composables/i18n/useFormPlaceholder';
 import type { FormInstance } from 'element-plus';
@@ -128,7 +128,7 @@ defineExpose({
       </el-form-item>
     </el-form>
 
-    <AuthPagedTable
+    <PagedTable
       :columns="roleAssignDataColumns"
       :state="roleState"
       :title="tableTitle ?? t('roles.title.module')"

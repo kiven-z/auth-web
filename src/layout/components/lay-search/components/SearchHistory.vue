@@ -3,9 +3,10 @@ import Sortable from 'sortablejs';
 import { useI18n } from 'vue-i18n';
 import type { dragItem, optionsItem, Props } from '../types';
 import { transformI18n } from '@/app/plugins/i18n';
-import { useRenderIcon } from '@/components/ui/Icon/src/hooks';
-import { useEpThemeStore } from '@/store/modules/app/epTheme';
-import { delay, isArray, useResizeObserver } from '@pureadmin/utils';
+import { useRenderIcon } from '@/components/ui/Icon';
+import { delay } from '@/shared/utils/async/delay';
+import isArray from 'lodash/isArray';
+import { useResizeObserver } from '@vueuse/core';
 import { computed, getCurrentInstance, nextTick, ref, watch } from 'vue';
 import StarIcon from '~icons/ep/star';
 import CloseIcon from '~icons/ep/close';
@@ -31,19 +32,17 @@ const props = withDefaults(defineProps<Props>(), {});
 const itemStyle = computed(() => {
   return (item) => {
     return {
-      background: item?.path === active.value ? useEpThemeStore().epThemeColor : '',
-      color: item.path === active.value ? '#fff' : '',
+      background: item?.path === active.value ? 'var(--el-color-primary)' : '',
+      color: item.path === active.value ? 'var(--auth-text-anti)' : '',
       fontSize: item.path === active.value ? '16px' : '14px',
     };
   };
 });
 
-const titleStyle = computed(() => {
-  return {
-    color: useEpThemeStore().epThemeColor,
-    fontWeight: 500,
-  };
-});
+const titleStyle = {
+  color: 'var(--el-color-primary)',
+  fontWeight: 500,
+};
 
 const active = computed({
   get() {
@@ -150,7 +149,7 @@ defineExpose({ handleScroll });
         :key="item.path"
         :ref="'historyItemRef' + index"
         :style="itemStyle(item)"
-        class="search-history__item dark:bg-[#1d1d1d]"
+        class="search-history__item dark:bg-auth-component"
         @click="handleTo"
         @mouseenter="handleMouse(item)"
       >
@@ -161,12 +160,12 @@ defineExpose({ handleScroll });
         <IconifyIconOffline
           v-show="item.type === 'history'"
           :icon="StarIcon"
-          class="w-[18px] h-[18px] mr-2 hover:text-[#d7d5d4]"
+          class="w-[18px] h-[18px] mr-2 hover:text-auth-text-secondary"
           @click.stop="handleCollect(item)"
         />
         <IconifyIconOffline
           :icon="CloseIcon"
-          class="w-[18px] h-[18px] hover:text-[#d7d5d4] cursor-pointer"
+          class="w-[18px] h-[18px] hover:text-auth-text-secondary cursor-pointer"
           @click.stop="handleDelete(item)"
         />
       </div>
@@ -181,7 +180,7 @@ defineExpose({ handleScroll });
           :key="item.path"
           :ref="'historyItemRef' + (index + historyList.length)"
           :style="itemStyle(item)"
-          class="search-history__item dark:bg-[#1d1d1d]"
+          class="search-history__item dark:bg-auth-component"
           @click="handleTo"
           @mouseenter="handleMouse(item)"
         >
@@ -191,7 +190,7 @@ defineExpose({ handleScroll });
           </span>
           <IconifyIconOffline
             :icon="CloseIcon"
-            class="w-[18px] h-[18px] hover:text-[#d7d5d4] cursor-pointer"
+            class="w-[18px] h-[18px] hover:text-auth-text-secondary cursor-pointer"
             @click.stop="handleDelete(item)"
           />
         </div>
@@ -211,7 +210,7 @@ defineExpose({ handleScroll });
     padding: 14px;
     margin: 8px auto 10px;
     cursor: pointer;
-    border: 0.1px solid #ccc;
+    border: 0.1px solid var(--auth-color-border);
     border-radius: 4px;
     transition: font-size 0.16s;
   }

@@ -4,7 +4,7 @@ import {
   type InAppMessageCategoryQuery,
 } from '@/api/message/in-app-category';
 import { errorMessage } from '@/services/feedback/message';
-import { handleTree } from '@/shared/utils/tree';
+import { handleTree } from '@/shared/utils/tree/tree';
 import type { FormInstance } from 'element-plus';
 import { reactive, ref } from 'vue';
 

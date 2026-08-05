@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import AuthPagedTable, { usePaginationState } from '@/components/business/AuthPagedTable';
+import PagedTable, { usePaginationState } from '@/components/table/PagedTable';
 import { getUserProfile } from '@/api/system/user/user-base';
 import { getUserPostPage, type UserPostPageQuery, type UserPostPageRow } from '@/api/system/user/user-post';
 import { errorMessage } from '@/services/feedback/message';
@@ -122,7 +122,7 @@ watch(
       </el-form-item>
     </el-form>
 
-    <AuthPagedTable :columns="columns" :state="postAssignState" :title="tableTitle" show-overflow-tooltip>
+    <PagedTable :columns="columns" :state="postAssignState" :title="tableTitle" show-overflow-tooltip>
       <template #buttons>
         <el-button-group>
           <el-button v-perms="SYS_USER_POST_PERMS.CREATE" type="primary" @click="openCreateDialog">
@@ -150,6 +150,6 @@ watch(
           {{ t('buttons.actionDelete') }}
         </el-button>
       </template>
-    </AuthPagedTable>
+    </PagedTable>
   </div>
 </template>

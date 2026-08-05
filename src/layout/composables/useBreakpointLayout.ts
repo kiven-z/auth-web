@@ -1,7 +1,9 @@
-import { getLayoutSnapshot } from '@/core/preferences/storage';
+import { getLayoutSnapshot } from '@/core/preferences/persistence/storage';
 import { useUiLayout } from '@/layout/hooks/layout/useUiLayout';
 import { useAppStore } from '@/store/modules/app/app';
-import { deviceDetection, useResizeObserver } from '@pureadmin/utils';
+import { deviceDetection } from '@/shared/utils/device/deviceDetection';
+import { DEFAULT_LAYOUT_MODE, toLayoutMode } from '@/shared/utils/layout/layout-mode';
+import { useResizeObserver } from '@vueuse/core';
 import { onMounted, type Ref } from 'vue';
 
 /** 窄屏阈值：侧栏隐藏并视为 mobile */
@@ -37,9 +39,9 @@ export function useBreakpointLayout(appWrapperRef: Ref<HTMLDivElement | undefine
     const [{ inlineSize: width, blockSize: height }] = entry.borderBoxSize;
     appStore.setViewportSize({ width, height });
 
-    const preferredLayout = getLayoutSnapshot().layout ?? appStore.layout;
+    const preferredLayout = toLayoutMode(getLayoutSnapshot().layout ?? appStore.layout);
     if (width <= VIEWPORT_MOBILE_MAX) {
-      setResponsiveLayoutTheme('vertical');
+      setResponsiveLayoutTheme(DEFAULT_LAYOUT_MODE);
     } else {
       setResponsiveLayoutTheme(preferredLayout);
     }

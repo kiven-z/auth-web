@@ -5,8 +5,8 @@ import AssignPanel, {
   createAssignCheckboxColumn,
   useAssignChecked,
   useAssignTableLabels,
-} from '@/components/business/AssignManagePanel';
-import AuthPagedTable, { usePaginationState } from '@/components/business/AuthPagedTable';
+} from '@/components/domain/assign/AssignPanel';
+import PagedTable, { usePaginationState } from '@/components/table/PagedTable';
 import { errorMessage, message } from '@/services/feedback/message';
 import { useFormPlaceholder } from '@/shared/composables/i18n/useFormPlaceholder';
 import type { GrantSubjectPanelProps } from '@/views/system/role/types/grant-subject';
@@ -134,7 +134,7 @@ onMounted(() => {
         </el-form-item>
       </el-form>
 
-      <AuthPagedTable
+      <PagedTable
         :columns="columns"
         :state="state"
         :title="t('roles.bound.depts.title')"

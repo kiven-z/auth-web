@@ -1,5 +1,5 @@
 import type { JobLogPageRow } from '@/api/log/job-log';
-import { selectUserinfo } from '@/components/business/UserProfile';
+import { selectUserinfo } from '@/components/domain/user/UserProfile';
 import { formatDateTime } from '@/shared/utils/date/dateTime';
 import useJobLogOptions from '@/views/schedule/schedule-log/hooks/options/useJobLogOptions';
 import { ElButton, ElTag } from 'element-plus';

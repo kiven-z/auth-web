@@ -1,7 +1,7 @@
 import { isNoAuthRequestPath } from '@/auth/config/http-config';
-import { ensureAccessTokenReady } from '@/core/session/accessTokenReady';
+import { ensureAccessTokenReady } from '@/core/session/token/accessTokenReady';
 import { isLoggedIn } from '@/core/session/sessionAuth';
-import { formatToken, getToken, hasAccessToken } from '@/core/session/sessionToken';
+import { formatToken, getToken, hasAccessToken } from '@/core/session/token/sessionToken';
 import type { AxiosInstance, InternalAxiosRequestConfig } from 'axios';
 
 /**

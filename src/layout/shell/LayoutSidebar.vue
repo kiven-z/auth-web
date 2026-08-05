@@ -1,9 +1,9 @@
 <script lang="ts" setup>
-import { useLayout } from '@/layout/hooks/layout/useLayout';
+import { useLayoutCapabilities } from '@/layout/hooks/layout/useLayoutCapabilities';
 import SidebarCollapse from '@/layout/menu/SidebarCollapse.vue';
-import { getMenuTooltipEffect } from '@/layout/utils/tooltip-effect';
+import { getMenuTooltipEffect } from '@/layout/utils/platform';
 import { findRouteByPath, getParentPaths } from '@/router/utils/route-tree';
-import { getUiPreferenceState } from '@/core/preferences/storage';
+import { getUiPreferenceState } from '@/core/preferences/persistence/storage';
 import { useAppStore } from '@/store/modules/app/app';
 import { usePermissionStore } from '@/store/modules/auth/permission';
 import { computed, ref, watch } from 'vue';
@@ -14,7 +14,7 @@ import LaySidebarLogo from '../components/lay-sidebar/components/SidebarLogo.vue
 const route = useRoute();
 const isShow = ref(false);
 const appStore = useAppStore();
-const { layout } = useLayout();
+const { capabilities } = useLayoutCapabilities();
 const preferenceState = getUiPreferenceState();
 const showLogo = computed(() => preferenceState.configure?.showLogo ?? true);
 const isCollapse = computed(() => !appStore.getSidebarStatus);
@@ -22,11 +22,13 @@ const tooltipEffect = getMenuTooltipEffect();
 
 const subMenuData = ref([]);
 
+const useMixSideMenu = computed(() => capabilities.value.useMixSideMenu && appStore.device !== 'mobile');
+
 const menuData = computed(() => {
-  return layout.value === 'mix' && appStore.device !== 'mobile' ? subMenuData.value : usePermissionStore().wholeMenus;
+  return useMixSideMenu.value ? subMenuData.value : usePermissionStore().wholeMenus;
 });
 
-const loading = computed(() => (layout.value === 'mix' ? false : menuData.value.length === 0));
+const loading = computed(() => (capabilities.value.useMixSideMenu ? false : menuData.value.length === 0));
 
 const defaultActive = computed(() => (route.meta?.activePath ? route.meta.activePath : route.path));
 

@@ -1,7 +1,7 @@
 import { getDeptList, type SysDeptListVO } from '@/api/system/dept/dept';
 import { getUserPage, type SysUserPageRow } from '@/api/system/user/user';
-import { type PaginationTableState, usePaginationState } from '@/components/business/AuthPagedTable';
-import { handleTree, TREE_ROOT_PARENT_ID } from '@/shared/utils/tree';
+import { type PaginationTableState, usePaginationState } from '@/components/table/PagedTable';
+import { handleTree, TREE_ROOT_PARENT_ID } from '@/shared/utils/tree/tree';
 import { USER_DEPT_ALL_NODE_ID } from '@/views/system/user/constants/user-enums';
 import { useDebounceFn } from '@vueuse/core';
 import type { FormInstance } from 'element-plus';

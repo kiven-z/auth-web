@@ -4,7 +4,7 @@ import {
   exportPermissionExcel,
   importPermissionExcel,
 } from '@/api/system/permission/permission';
-import { usePagedTableExport } from '@/components/business/ExportDialog';
+import { usePagedTableExport } from '@/components/domain/file/ExportDialog';
 import useSpreadsheetImportAction from '@/views/system/_shared/import/useSpreadsheetImportAction';
 import { useI18n } from 'vue-i18n';
 

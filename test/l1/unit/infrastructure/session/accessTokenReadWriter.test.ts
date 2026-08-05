@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
-import { DevLocalStorageAccessTokenStore, MemoryAccessTokenStore } from '@/core/session/accessTokenReadWriter';
+import { DevLocalStorageAccessTokenStore, MemoryAccessTokenStore } from '@/core/session/token/accessTokenReadWriter';
 
 const mocks = vi.hoisted(() => ({
   mockGetItem: vi.fn(),
@@ -9,7 +9,7 @@ const mocks = vi.hoisted(() => ({
   cookiesRemove: vi.fn(),
 }));
 
-vi.mock('@pureadmin/utils', () => ({
+vi.mock('@/core/storage/storageLocal', () => ({
   storageLocal: () => ({
     getItem: mocks.mockGetItem,
     setItem: mocks.mockSetItem,

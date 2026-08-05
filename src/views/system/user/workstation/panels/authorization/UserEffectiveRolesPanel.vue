@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import type { RoleReference } from '@/api/system/_shared/grant-table';
 import type { UserEffectiveRolePageQuery } from '@/api/system/user/user-authorization';
-import AuthPagedTable, { usePaginationState } from '@/components/business/AuthPagedTable';
+import PagedTable, { usePaginationState } from '@/components/table/PagedTable';
 import { useFormPlaceholder } from '@/shared/composables/i18n/useFormPlaceholder';
 import type { AuthorizationSurfacePanelProps } from '@/views/system/_shared/authorization/types';
 import useRoleColumns from '@/views/system/_shared/columns/useRoleColumns';
@@ -66,6 +66,6 @@ onMounted(() => {
       </el-form-item>
     </el-form>
 
-    <AuthPagedTable :columns="roleColumns" :state="roleState" :title="title" show-overflow-tooltip />
+    <PagedTable :columns="roleColumns" :state="roleState" :title="title" show-overflow-tooltip />
   </div>
 </template>

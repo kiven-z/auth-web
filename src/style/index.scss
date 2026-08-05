@@ -1,24 +1,23 @@
-@use 'theme';
+@use 'tokens';
+@use 'themes';
 @use 'transition';
 @use 'element-plus';
 @use 'sidebar';
 @use 'dark';
 
-/* 自定义全局 CssVar */
+/* 壳层 / 布局专用 CssVar（侧栏皮肤由 themes/ 按 data-theme 覆盖） */
 :root {
-  /* 左侧菜单展开、收起动画时长 */
   --auth-transition-duration: 0.3s;
 
-  /* 菜单叶子激活胶囊圆角（主侧栏 ::before / 页内导航共用） */
-  --auth-menu-item-radius: 8px;
+  /* 菜单叶子激活胶囊：对齐 radius token */
+  --auth-menu-item-radius: var(--auth-radius-extra-large);
 
-  /* 常用border-color 需要时可取用 */
-  --auth-border-color: rgb(5 5 5 / 6%);
+  /* 壳层分割线（layout/sidebar）；与 token 的 --auth-color-border* 区分 */
+  --auth-border-color: var(--auth-color-border-light);
 
-  /* switch关闭状态下的color 需要时可取用 */
-  --auth-switch-off-color: #a6a6a6;
+  --auth-switch-off-color: var(--auth-color-gray-5);
 
-  /** 主题色 */
+  /** 导航主题（侧栏）占位，由 themes/ 按 data-theme 覆盖 */
   --auth-theme-sub-menu-active-text: initial;
   --auth-theme-menu-bg: none;
   --auth-theme-menu-hover: none;
@@ -27,6 +26,10 @@
   --auth-theme-sidebar-logo: none;
   --auth-theme-menu-title-hover: initial;
   --auth-theme-menu-active-before: transparent;
+}
+
+html.dark {
+  --auth-switch-off-color: rgb(255 255 255 / 25%);
 }
 
 /* 灰色模式 */

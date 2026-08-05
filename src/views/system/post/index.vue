@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { getPostPage } from '@/api/system/post/post';
-import AuthPagedTable, { usePaginationState } from '@/components/business/AuthPagedTable';
+import PagedTable, { usePaginationState } from '@/components/table/PagedTable';
 import { useFormPlaceholder } from '@/shared/composables/i18n/useFormPlaceholder';
 import { SYS_POST_PERMS } from '@/views/system/post/constants/permissions';
 import usePostAdvanceAction from '@/views/system/post/hooks/actions/usePostAdvanceAction';
@@ -116,7 +116,7 @@ onMounted(() => {
       </el-form-item>
     </el-form>
 
-    <AuthPagedTable :columns="columns" :state="postState" :title="t('post.page.title')">
+    <PagedTable :columns="columns" :state="postState" :title="t('post.page.title')">
       <template #buttons>
         <el-button-group type="primary">
           <el-button v-perms="SYS_POST_PERMS.CREATE" type="primary" @click="openCreateDialog">
@@ -196,6 +196,6 @@ onMounted(() => {
           </template>
         </el-dropdown>
       </template>
-    </AuthPagedTable>
+    </PagedTable>
   </div>
 </template>

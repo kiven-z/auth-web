@@ -1,9 +1,8 @@
 <script lang="ts" setup>
 import { getUserProfile, type SysUserProfileResponse } from '@/api/system/user/user-base';
-import { UserAvatar } from '@/components/business/UserProfile';
-import { useRenderIcon } from '@/components/ui/Icon/src/hooks';
-import '@/components/ui/Icon/src/offline';
-import { getMenuTooltipEffect } from '@/layout/utils/tooltip-effect';
+import { UserAvatar } from '@/components/domain/user/UserProfile';
+import { useRenderIcon } from '@/components/ui/Icon';
+import { getMenuTooltipEffect } from '@/layout/utils/platform';
 import { errorMessage } from '@/services/feedback/message';
 import useWorkstationNav from '@/views/system/user/workstation/hooks/shell/useWorkstationNav';
 import { WORKSTATION_PROFILE_KEY } from '@/views/system/user/workstation/hooks/shell/useWorkstationProfileContext';

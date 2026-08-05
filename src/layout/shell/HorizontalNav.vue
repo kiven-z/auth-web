@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import HeaderToolbar from '@/layout/shell/HeaderToolbar.vue';
-import { getAppTitle, getLogoUrl } from '@/layout/utils/brand';
-import { getUiPreferenceState } from '@/core/preferences/storage';
+import { getAppTitle, getLogoUrl } from '@/layout/utils/platform';
+import { getUiPreferenceState } from '@/core/preferences/persistence/storage';
 import { usePermissionStore } from '@/store/modules/auth/permission';
 import { router } from '@/router';
 import { getTopMenu } from '@/router/utils/misc';

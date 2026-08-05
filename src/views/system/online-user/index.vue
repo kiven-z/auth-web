@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { getOnlineUserPage, type OnlineUserPageRow } from '@/api/auth/online-user';
-import AuthPagedTable, { usePaginationState } from '@/components/business/AuthPagedTable';
+import PagedTable, { usePaginationState } from '@/components/table/PagedTable';
 import useRemoteUserSearch from '@/shared/composables/dialog/useRemoteUserSearch';
 import { useFormPlaceholder } from '@/shared/composables/i18n/useFormPlaceholder';
 import { SYS_ONLINE_USER_PERMS } from '@/views/system/online-user/constants/permissions';
@@ -76,7 +76,7 @@ onMounted(() => {
       </el-form-item>
     </el-form>
 
-    <AuthPagedTable
+    <PagedTable
       :columns="columns"
       :state="tableState"
       :title="t('routes.onlineUser')"
@@ -109,6 +109,6 @@ onMounted(() => {
           {{ t('onlineUser.action.kickAll') }}
         </el-button>
       </template>
-    </AuthPagedTable>
+    </PagedTable>
   </div>
 </template>

@@ -1,6 +1,6 @@
 import { AUTH_ERROR_CODES } from '@/auth/config/auth/auth-error-codes';
-import type { AuthRecoveryRule } from './types';
 import { AUTH_RECOVERY_RULE_IDS } from '@/auth/config/auth/auth-recovery-rule-ids';
+import type { AuthRecoveryRule } from './types';
 
 const PRIORITY = {
   EXPIRED_REFRESH: 100,
@@ -76,19 +76,3 @@ export const LOCAL_AUTH_RECOVERY_RULES: readonly AuthRecoveryRule[] = [
     action: 'pass_through',
   },
 ];
-
-/**
- * 鉴权恢复策略选项
- */
-export interface AuthRecoveryPolicyOptions {
-  overrideRules?: readonly AuthRecoveryRule[];
-}
-
-/**
- * 获取生效规则集：未提供覆盖规则时使用默认规则。
- * @param options 选项
- * @returns 生效规则集
- */
-export function resolveAuthRecoveryRules(options?: AuthRecoveryPolicyOptions): readonly AuthRecoveryRule[] {
-  return options?.overrideRules ?? LOCAL_AUTH_RECOVERY_RULES;
-}

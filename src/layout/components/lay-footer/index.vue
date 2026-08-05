@@ -1,6 +1,10 @@
 <script lang="ts" setup>
 import { getConfig } from '@/auth/config';
 
+defineOptions({
+  name: 'LayFooter',
+});
+
 const TITLE = getConfig('Title');
 </script>
 

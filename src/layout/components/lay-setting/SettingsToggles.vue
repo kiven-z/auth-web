@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { useUiConfigure } from '@/layout/hooks/configure/useUiConfigure';
-import { getConfigureSnapshot } from '@/core/preferences/storage';
+import { getConfigureSnapshot } from '@/core/preferences/persistence/storage';
 import { nextTick, onBeforeMount, reactive, ref, unref } from 'vue';
 import { useI18n } from 'vue-i18n';
 

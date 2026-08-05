@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import type { SpreadsheetImportResult } from '@/api/common/import';
-import AuthDataTable from '@/components/ui/AuthDataTable';
+import DataTable from '@/components/table/DataTable';
 import { errorMessage, message } from '@/services/feedback/message';
 import { buildExportFilenameStamp } from '@/shared/utils/date/dateTime';
 import {
@@ -185,7 +185,7 @@ defineExpose<SpreadsheetImportDialogExpose>({ submitImport: handleImport });
         </el-button>
       </el-button-group>
 
-      <AuthDataTable
+      <DataTable
         :adaptive="false"
         :columns="errorColumns"
         :data="importResult.errors"

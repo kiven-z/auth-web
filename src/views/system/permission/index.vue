@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { getPermissionPage } from '@/api/system/permission/permission';
-import AuthPagedTable, { usePaginationState } from '@/components/business/AuthPagedTable';
+import PagedTable, { usePaginationState } from '@/components/table/PagedTable';
 import { useCommonBooleanStatusOptions } from '@/shared/composables/i18n/useCommonBooleanStatusOptions';
 import { useFormPlaceholder } from '@/shared/composables/i18n/useFormPlaceholder';
 import { SYS_PERMISSION_PERMS } from '@/views/system/permission/constants/permissions';
@@ -107,7 +107,7 @@ onMounted(() => {
       </el-form-item>
     </el-form>
 
-    <AuthPagedTable :columns="columns" :state="permissionState" :title="t('permissions.page.title')">
+    <PagedTable :columns="columns" :state="permissionState" :title="t('permissions.page.title')">
       <template #buttons>
         <el-button-group type="primary">
           <el-button v-perms="SYS_PERMISSION_PERMS.CREATE" type="primary" @click="openCreateDialog">
@@ -182,6 +182,6 @@ onMounted(() => {
           </template>
         </el-dropdown>
       </template>
-    </AuthPagedTable>
+    </PagedTable>
   </div>
 </template>
