@@ -4,7 +4,7 @@ import { transformI18n } from '@/app/plugins/i18n';
 import { useResizeObserver } from '@vueuse/core';
 import { useRenderIcon } from '@/components/ui/Icon';
 import { computed, getCurrentInstance, onMounted, ref } from 'vue';
-import EnterOutlined from '@/assets/svg/enter_outlined.svg?component';
+import EnterOutlined from '~icons/ri/corner-down-left-line';
 
 interface Emits {
   (e: 'update:value', val: string): void;
@@ -82,7 +82,7 @@ defineExpose({ handleScroll });
       <span class="search-result__title">
         {{ transformI18n(item.meta?.title) }}
       </span>
-      <EnterOutlined />
+      <IconifyIconOffline :icon="EnterOutlined" />
     </div>
   </div>
 </template>

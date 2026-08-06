@@ -10,8 +10,8 @@ import { useFullscreen } from '@vueuse/core';
 import LayNotice from '../components/lay-notice/index.vue';
 import LaySearch from '../components/lay-search/index.vue';
 
-import GlobalizationIcon from '@/assets/svg/globalization.svg?component';
 import Check from '~icons/ep/check';
+import TranslateIcon from '~icons/ri/translate';
 import LogoutCircleRLine from '~icons/ri/logout-circle-r-line';
 import Setting from '~icons/ri/settings-3-line';
 import UserSettingsLine from '~icons/ri/user-settings-line';
@@ -80,7 +80,7 @@ watch(
 <template>
   <LaySearch id="header-search" />
   <el-dropdown id="header-translation" trigger="click">
-    <GlobalizationIcon class="navbar-bg-hover w-10 h-12 p-2.75 cursor-pointer outline-hidden" />
+    <IconifyIconOffline :icon="TranslateIcon" class="navbar-bg-hover w-10 h-12 p-2.75 cursor-pointer outline-hidden" />
     <template #dropdown>
       <el-dropdown-menu class="layout-toolbar__locale-menu">
         <el-dropdown-item

@@ -6,10 +6,10 @@ import { useDark } from '@/shared/composables/theme/useDark';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 
-import DarkIcon from '@/assets/svg/dark.svg?component';
-import DayIcon from '@/assets/svg/day.svg?component';
-import SystemIcon from '@/assets/svg/system.svg?component';
 import Check from '~icons/ep/check';
+import ComputerIcon from '~icons/ri/computer-line';
+import MoonIcon from '~icons/ri/moon-line';
+import SunIcon from '~icons/ri/sun-line';
 
 const { t } = useI18n();
 const { isDark } = useDark();
@@ -52,21 +52,21 @@ const themeOptions = computed<Array<OptionsType>>(() => {
   return [
     {
       label: t('panel.overallStyleLight'),
-      icon: DayIcon,
+      icon: SunIcon,
       theme: 'light',
       tip: t('panel.overallStyleLightTip'),
       iconAttrs: { fill: isDark.value ? 'var(--auth-text-anti)' : 'var(--auth-text-primary)' },
     },
     {
       label: t('panel.overallStyleDark'),
-      icon: DarkIcon,
+      icon: MoonIcon,
       theme: 'dark',
       tip: t('panel.overallStyleDarkTip'),
       iconAttrs: { fill: isDark.value ? 'var(--auth-text-anti)' : 'var(--auth-text-primary)' },
     },
     {
       label: t('panel.overallStyleSystem'),
-      icon: SystemIcon,
+      icon: ComputerIcon,
       theme: 'system',
       tip: t('panel.overallStyleSystemTip'),
       iconAttrs: { fill: isDark.value ? 'var(--auth-text-anti)' : 'var(--auth-text-primary)' },

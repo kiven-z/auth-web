@@ -8,10 +8,10 @@ import useLogin from './hooks/useLogin';
 import IllustrationDark from '@/assets/login/illustration-dark.svg?component';
 import IllustrationLight from '@/assets/login/illustration-light.svg?component';
 import LoginBackground from '@/assets/login/login-bg.png';
-import globalization from '@/assets/svg/globalization.svg?component';
 import Check from '~icons/ep/check';
 import MoonIcon from '~icons/ri/moon-line';
 import SunIcon from '~icons/ri/sun-line';
+import TranslateIcon from '~icons/ri/translate';
 
 import Segmented from '@/components/ui/Segmented';
 import { formComponentMap } from '@/views/home/login/constants/login-registry';
@@ -64,7 +64,8 @@ setColorScheme(colorScheme.value);
         />
       </span>
       <el-dropdown trigger="click">
-        <globalization
+        <IconifyIconOffline
+          :icon="TranslateIcon"
           class="hover:text-primary hover:bg-transparent! w-5 h-5 ml-1.5 cursor-pointer outline-hidden duration-300"
         />
         <template #dropdown>

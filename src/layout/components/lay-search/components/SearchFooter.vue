@@ -2,8 +2,8 @@
 import { useI18n } from 'vue-i18n';
 import { storeToRefs } from 'pinia';
 import { useAppStore } from '@/store/modules/app/app';
-import MdiKeyboardEsc from '@/assets/svg/keyboard_esc.svg?component';
-import EnterOutlined from '@/assets/svg/enter_outlined.svg?component';
+import KeyboardEsc from '~icons/mdi/keyboard-esc';
+import EnterOutlined from '~icons/ri/corner-down-left-line';
 import ArrowUpLine from '~icons/ri/arrow-up-line';
 import ArrowDownLine from '~icons/ri/arrow-down-line';
 
@@ -18,7 +18,7 @@ const { device } = storeToRefs(useAppStore());
 <template>
   <div class="search-footer text-auth-text dark:text-auth-text">
     <span class="search-footer__item">
-      <EnterOutlined class="search-footer__icon" />
+      <IconifyIconOffline :icon="EnterOutlined" class="search-footer__icon" />
       {{ t('buttons.confirm') }}
     </span>
     <span class="search-footer__item">
@@ -27,7 +27,7 @@ const { device } = storeToRefs(useAppStore());
       {{ t('buttons.switch') }}
     </span>
     <span class="search-footer__item">
-      <MdiKeyboardEsc class="search-footer__icon" />
+      <IconifyIconOffline :icon="KeyboardEsc" class="search-footer__icon" />
       {{ t('buttons.close') }}
     </span>
     <p v-if="device !== 'mobile' && total > 0" class="search-footer__total">

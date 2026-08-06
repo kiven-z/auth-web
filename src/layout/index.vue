@@ -11,7 +11,7 @@ import 'animate.css';
 import { computed, onBeforeMount, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 
-import BackTopIcon from '@/assets/svg/back_top.svg?component';
+import RocketIcon from '~icons/ri/rocket-line';
 import LayContent from './components/lay-content/index.vue';
 import LaySetting from './components/lay-setting/index.vue';
 
@@ -66,7 +66,7 @@ onBeforeMount(() => {
       </div>
       <el-scrollbar v-else>
         <el-backtop :title="t('buttons.backTop')" target=".layout__main .el-scrollbar__wrap">
-          <BackTopIcon />
+          <IconifyIconOffline :icon="RocketIcon" />
         </el-backtop>
         <LayoutHeader />
         <LayContent :fixed-header="fixedHeader" />

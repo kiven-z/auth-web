@@ -6,7 +6,7 @@ import { getConfig } from '@/auth/config';
 import { getUiPreferenceState } from '@/core/preferences/persistence/storage';
 import { useLayoutCapabilities } from '@/layout/hooks/layout/useLayoutCapabilities';
 import isNumber from 'lodash/isNumber';
-import BackTopIcon from '@/assets/svg/back_top.svg?component';
+import RocketIcon from '~icons/ri/rocket-line';
 import { computed, defineComponent, h, Transition } from 'vue';
 import { usePermissionStore } from '@/store/modules/auth/permission';
 
@@ -117,7 +117,7 @@ const transitionMain = defineComponent({
                 }"
               >
                 <el-backtop :title="t('buttons.backTop')" target=".layout__content .el-scrollbar__wrap">
-                  <BackTopIcon />
+                  <IconifyIconOffline :icon="RocketIcon" />
                 </el-backtop>
                 <div class="grow">
                   <transitionMain :route="route">
