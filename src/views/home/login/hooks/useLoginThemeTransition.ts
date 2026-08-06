@@ -1,6 +1,5 @@
 import type { Ref } from 'vue';
 import { nextTick, ref } from 'vue';
-import type { SwitchInstance } from 'element-plus';
 
 /**
  * 是否支持圆形剪裁主题过渡（View Transitions API，且未开启减弱动效）
@@ -14,12 +13,12 @@ function canUseThemeTransition(): boolean {
 }
 
 /**
- * 按开关中心写入圆形过渡 CSS 变量与方向标记（Element Plus 文档站同款算法）
- * @param switchEl 开关根节点
+ * 按触发点中心写入圆形过渡 CSS 变量与方向标记（Element Plus 文档站同款算法）
+ * @param originEl 过渡圆心所在节点
  * @param toLight 是否切向浅色
  */
-function prepareThemeTransitionVars(switchEl: HTMLElement, toLight: boolean): void {
-  const rect = switchEl.getBoundingClientRect();
+function prepareThemeTransitionVars(originEl: HTMLElement, toLight: boolean): void {
+  const rect = originEl.getBoundingClientRect();
   const x = rect.left + rect.width / 2;
   const y = rect.top + rect.height / 2;
   const endRadius = Math.hypot(Math.max(x, innerWidth - x), Math.max(y, innerHeight - y));
@@ -49,54 +48,63 @@ function clearThemeTransitionVars(): void {
 }
 
 /**
- * 登录页亮暗切换：圆形 clip-path 全屏过渡（仅本页 before-change 触发）
+ * 登录页亮暗切换：圆形 clip-path 全屏过渡（图标点击触发）
  * @param dataTheme 当前是否深色（切换前的值）
- * @param applyTheme 在 View Transition 回调内应用主题（写 storage + DOM）
+ * @param applyTheme 在 View Transition 回调内应用主题（写 storage + DOM）；调用前 dataTheme 已翻转
  */
 export function useLoginThemeTransition(dataTheme: Ref<boolean>, applyTheme: () => void) {
-  const switchRef = ref<SwitchInstance>();
+  const themeToggleRef = ref<HTMLElement>();
   let latestTransitionId = 0;
+  let transitioning = false;
 
   /**
-   * el-switch before-change：有 View Transition 时先铺垫再放行；否则直接放行
+   * 翻转 dataTheme 并落盘 / 同步 DOM
    */
-  function beforeThemeChange(): Promise<boolean> {
-    return new Promise((resolve) => {
-      const finishWithoutTransition = () => {
-        resolve(true);
-        void nextTick().then(() => applyTheme());
-      };
+  function commitThemeToggle(): void {
+    dataTheme.value = !dataTheme.value;
+    applyTheme();
+  }
 
-      if (!canUseThemeTransition()) {
-        finishWithoutTransition();
+  /**
+   * 点击主题图标：有 View Transition 时先铺垫再切换；否则直接切换
+   */
+  function onThemeToggle(): void {
+    if (transitioning) {
+      return;
+    }
+
+    if (!canUseThemeTransition()) {
+      commitThemeToggle();
+      return;
+    }
+
+    const originEl = themeToggleRef.value;
+    if (!originEl) {
+      commitThemeToggle();
+      return;
+    }
+
+    // dataTheme 尚未翻转：true(深) → 切浅；false(浅) → 切深
+    prepareThemeTransitionVars(originEl, dataTheme.value);
+    const transitionId = ++latestTransitionId;
+    transitioning = true;
+
+    const transition = document.startViewTransition(async () => {
+      commitThemeToggle();
+      await nextTick();
+    });
+
+    transition.finished.finally(() => {
+      transitioning = false;
+      if (transitionId !== latestTransitionId) {
         return;
       }
-
-      const switchEl = switchRef.value?.$el as HTMLElement | undefined;
-      if (!switchEl) {
-        finishWithoutTransition();
-        return;
-      }
-
-      // dataTheme 尚未翻转：true(深) → 切浅；false(浅) → 切深
-      prepareThemeTransitionVars(switchEl, dataTheme.value);
-      const transitionId = ++latestTransitionId;
-
-      const transition = document.startViewTransition(async () => {
-        resolve(true);
-        await nextTick();
-        applyTheme();
-      });
-
-      transition.finished.finally(() => {
-        if (transitionId !== latestTransitionId) return;
-        clearThemeTransitionVars();
-      });
+      clearThemeTransitionVars();
     });
   }
 
   return {
-    switchRef,
-    beforeThemeChange,
+    themeToggleRef,
+    onThemeToggle,
   };
 }

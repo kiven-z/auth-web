@@ -8,10 +8,10 @@ import useLogin from './hooks/useLogin';
 import IllustrationDark from '@/assets/login/illustration-dark.svg?component';
 import IllustrationLight from '@/assets/login/illustration-light.svg?component';
 import LoginBackground from '@/assets/login/login-bg.png';
-import darkIcon from '@/assets/svg/dark.svg?component';
-import dayIcon from '@/assets/svg/day.svg?component';
 import globalization from '@/assets/svg/globalization.svg?component';
 import Check from '~icons/ep/check';
+import MoonIcon from '~icons/ri/moon-line';
+import SunIcon from '~icons/ri/sun-line';
 
 import Segmented from '@/components/ui/Segmented';
 import { formComponentMap } from '@/views/home/login/constants/login-registry';
@@ -27,7 +27,7 @@ defineOptions({
 const { initStorage } = useLayout();
 
 const { dataTheme, colorScheme, setColorScheme } = useUiTheme();
-const { switchRef, beforeThemeChange } = useLoginThemeTransition(dataTheme, () => setColorScheme());
+const { themeToggleRef, onThemeToggle } = useLoginThemeTransition(dataTheme, () => setColorScheme());
 const title = getAppTitle();
 const logoUrl = getLogoUrl();
 const { locale, translation, localeOptions, getDropdownItemStyle, getDropdownItemClass } = useTranslationLang();
@@ -37,8 +37,10 @@ const loginModeOptions = useLoginModeOptions();
 
 const activeFormComponent = computed(() => formComponentMap[currentMode.value]);
 const currentModeIndex = computed(() => loginModeOptions.value.findIndex((item) => item.value === currentMode.value));
-/** 浅色人物插画 / 深色科技拓扑，随登录页开关切换 */
+/** 浅色人物插画 / 深色科技拓扑，随登录页主题切换 */
 const loginIllustration = computed(() => (dataTheme.value ? IllustrationDark : IllustrationLight));
+/** 亮色显示月亮、暗色显示太阳：点击切到另一侧 */
+const themeToggleIcon = computed(() => (dataTheme.value ? SunIcon : MoonIcon));
 
 initStorage();
 setColorScheme(colorScheme.value);
@@ -48,16 +50,19 @@ setColorScheme(colorScheme.value);
   <div class="select-none h-full">
     <img :src="LoginBackground" alt="bg" class="wave" />
     <div class="flex-c absolute right-5 top-3">
-      <div class="theme-toggler-content theme-toggler">
-        <el-switch
-          ref="switchRef"
-          v-model="dataTheme"
-          :active-icon="dayIcon"
-          :before-change="beforeThemeChange"
-          :inactive-icon="darkIcon"
-          inline-prompt
+      <span
+        ref="themeToggleRef"
+        class="theme-toggler-content theme-toggler inline-flex cursor-pointer outline-hidden"
+        role="button"
+        tabindex="0"
+        @click="onThemeToggle"
+        @keydown.enter.prevent="onThemeToggle"
+      >
+        <IconifyIconOffline
+          :icon="themeToggleIcon"
+          class="hover:text-primary hover:bg-transparent! w-5 h-5 duration-300"
         />
-      </div>
+      </span>
       <el-dropdown trigger="click">
         <globalization
           class="hover:text-primary hover:bg-transparent! w-5 h-5 ml-1.5 cursor-pointer outline-hidden duration-300"
