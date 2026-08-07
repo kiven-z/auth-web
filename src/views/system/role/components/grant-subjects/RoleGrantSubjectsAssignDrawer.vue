@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import type { GrantTableSubjectType } from '@/api/system/_shared/grant-table';
+import type { GrantTableSubjectType } from '@/api/system/models/grant-table';
 import { ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import DeptGrantSubjectPanel from './DeptGrantSubjectPanel.vue';

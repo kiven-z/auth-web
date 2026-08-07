@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import type { MessageChannelCode, MessageTemplateRequireFieldRow } from '@/api/message/message-template';
+import type { MessageChannelCode, MessageTemplateRequireFieldRow } from '@/api/message/models/message-template';
 import { getMessageTemplateRequireFields, updateMessageTemplateRequireFields } from '@/api/message/message-template';
 import { errorMessage, message } from '@/services/feedback/message';
 import { MESSAGE_TEMPLATE_PERMS } from '@/views/message/_shared/constants/permissions';

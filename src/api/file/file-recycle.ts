@@ -1,7 +1,7 @@
 import { http } from '@/core/http/client';
 import type { PageResponse } from '@/api/common/page';
 import type { AxiosRequestConfig } from 'axios';
-import type { FileRecordDetail, FileRecordPageQuery, FileRecordPageRow } from '@/api/file/models/file-record.types';
+import type { FileRecordDetail, FileRecordPageQuery, FileRecordPageRow } from '@/api/file/models/file-record';
 
 /**
  * 回收站分页查询

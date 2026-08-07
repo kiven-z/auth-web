@@ -1,7 +1,4 @@
-import type {
-  SysJobLastExecutionStatus,
-  SysJobQuartzRuntimeStatus,
-} from '@/views/schedule/schedule-task/types/job-runtime-status';
+import type { SysJobLastExecutionStatus, SysJobQuartzRuntimeStatus } from '@/api/schedule/models/job-runtime-status';
 import type { TagSelectOption } from '@/shared/types/select-option';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';

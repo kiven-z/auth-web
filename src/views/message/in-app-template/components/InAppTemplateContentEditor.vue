@@ -3,7 +3,7 @@ import { uploadFile } from '@/api/file/file-upload';
 import { errorMessage } from '@/services/feedback/message';
 import { useEditorTheme } from '@/shared/composables/editor/useEditorTheme';
 import { validateUploadFile } from '@/shared/utils/file/validateUploadFile';
-import type { InAppTemplateContentType } from '@/api/message/in-app-template';
+import type { InAppTemplateContentType } from '@/api/message/models/in-app-template';
 import { MdEditor, type ToolbarNames, type UploadImgCallBack } from 'md-editor-v3';
 import 'md-editor-v3/lib/style.css';
 import { useI18n } from 'vue-i18n';

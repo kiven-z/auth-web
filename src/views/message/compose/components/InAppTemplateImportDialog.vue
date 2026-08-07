@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import type { InAppTemplateContentType } from '@/api/message/in-app-template';
+import type { InAppTemplateContentType } from '@/api/message/models/in-app-template';
 import {
   getMessageTemplateById,
   getMessageTemplatePage,

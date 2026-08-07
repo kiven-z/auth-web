@@ -1,4 +1,4 @@
-import type { DataScopeType } from '@/api/system/_shared/data-scope';
+import type { DataScopeType } from '@/api/system/models/data-scope';
 import type { SelectOption } from '@/shared/types/select-option';
 import { computed, type ComputedRef } from 'vue';
 import { useI18n } from 'vue-i18n';

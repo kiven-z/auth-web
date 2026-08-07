@@ -4,7 +4,7 @@ import type {
   UserDeptReference,
   UserPostReference,
   UserReference,
-} from '@/api/system/_shared/grant-table';
+} from '@/api/system/models/grant-table';
 import type { UserDeptPageRow } from '@/api/system/user/user-dept';
 import type { UserPostPageRow } from '@/api/system/user/user-post';
 import UserAvatar from '@/components/domain/user/UserAvatar';

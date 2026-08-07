@@ -1,4 +1,4 @@
-import type { FileExportTaskPageRow } from '@/api/file/models/file-export-task.types';
+import type { FileExportTaskPageRow } from '@/api/file/models/file-export-task';
 import { createAuditTableColumns } from '@/shared/composables/table/auditColumns';
 import { formatDateTime } from '@/shared/utils/date/dateTime';
 import usePersonalFileExportTaskOptions from '@/views/file/me/export-task/hooks/options/usePersonalFileExportTaskOptions';

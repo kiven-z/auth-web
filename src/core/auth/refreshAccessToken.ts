@@ -1,5 +1,5 @@
 import { AUTH_API_PATHS } from '@/api/auth/paths';
-import type { RefreshTokenResponse } from '@/api/auth/types';
+import type { RefreshTokenResponse } from '@/api/auth/models/auth';
 import { API_SUCCESS_CODE } from '@/auth/config/http-config';
 import { ApiBusinessError } from '@/core/http/apiError';
 import { isApiResultEnvelope } from '@/core/http/apiResult';

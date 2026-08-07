@@ -1,4 +1,4 @@
-import type { FileExportFormat, FileExportTaskStatus } from '@/api/file/models/file-export-task.types';
+import type { FileExportFormat, FileExportTaskStatus } from '@/api/file/models/file-export-task';
 import type { SelectOption, TagSelectOption } from '@/shared/types/select-option';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';

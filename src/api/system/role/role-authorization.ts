@@ -1,7 +1,7 @@
 import type { PageResponse } from '@/api/common/page';
-import type { GrantTableSubjectType, PermissionReference } from '@/api/system/_shared/grant-table';
-import type { RoleBoundMenuItem } from '@/api/system/role/role';
-import type { GrantSubjectItem } from '@/api/system/role/role-grant-subjects';
+import type { GrantTableSubjectType, PermissionReference } from '@/api/system/models/grant-table';
+import type { RoleBoundMenuItem } from '@/api/system/models/role';
+import type { GrantSubjectItem } from '@/api/system/models/role-grant-subjects';
 import { http } from '@/core/http/client';
 import type { AxiosRequestConfig } from 'axios';
 

@@ -59,18 +59,6 @@ export function exportRoleExcel(filter: SysRolePageQuery, scope: ExportScopeQuer
 }
 
 /**
- * 角色已绑定菜单项（授权面分页行）
- */
-export interface RoleBoundMenuItem {
-  id: string;
-  title: string;
-  name?: string;
-  path?: string;
-  menuType: number;
-  status: boolean;
-}
-
-/**
  * 角色详情（标量 + 授权关系计数）
  */
 export interface SysRoleDetail extends BaseResponse {

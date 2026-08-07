@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import type { DeptBoundUserReference, PostBoundUserReference } from '@/api/system/_shared/grant-table';
+import type { DeptBoundUserReference, PostBoundUserReference } from '@/api/system/models/grant-table';
 import type { DeptUserPageQuery } from '@/api/system/dept/dept-authorization';
 import PagedTable, { usePaginationState } from '@/components/table/PagedTable';
 import { useUserProfileColumns } from '@/components/domain/user/UserProfile';

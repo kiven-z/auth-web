@@ -1,6 +1,11 @@
 import { http } from '@/core/http/client';
 import { AUTH_API_PATHS } from './paths';
-import type { EmailLoginRequest, SmsLoginRequest, UserLoginResponse, UsernamePasswordLoginRequest } from './types';
+import type {
+  EmailLoginRequest,
+  SmsLoginRequest,
+  UserLoginResponse,
+  UsernamePasswordLoginRequest,
+} from './models/auth';
 
 export { AUTH_API_PATHS, AUTH_PUBLIC_API_PATH_SUFFIXES } from './paths';
 export type {
@@ -9,7 +14,7 @@ export type {
   SmsLoginRequest,
   UserLoginResponse,
   UsernamePasswordLoginRequest,
-} from './types';
+} from './models/auth';
 
 /**
  * 用户名密码登录

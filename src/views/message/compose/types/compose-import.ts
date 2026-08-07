@@ -1,4 +1,4 @@
-import type { InAppTemplateContentType } from '@/api/message/in-app-template';
+import type { InAppTemplateContentType } from '@/api/message/models/in-app-template';
 
 /** 写入撰写表单的定稿字段（模板 / 历史导入共用；不回填分类与链接） */
 export interface InAppComposeImportPayload {

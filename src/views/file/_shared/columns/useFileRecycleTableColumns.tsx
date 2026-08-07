@@ -1,4 +1,4 @@
-import type { FileRecordPageRow } from '@/api/file/models/file-record.types';
+import type { FileRecordPageRow } from '@/api/file/models/file-record';
 import { createAuditTableColumns } from '@/shared/composables/table/auditColumns';
 import { formatFileSize } from '@/shared/utils/file/fileSize';
 import { ElTag } from 'element-plus';

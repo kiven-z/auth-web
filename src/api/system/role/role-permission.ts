@@ -1,4 +1,4 @@
-import type { PermissionReference } from '@/api/system/_shared/grant-table';
+import type { PermissionReference } from '@/api/system/models/grant-table';
 import { http } from '@/core/http/client';
 
 /**

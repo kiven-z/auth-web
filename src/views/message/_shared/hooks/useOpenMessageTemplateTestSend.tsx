@@ -1,4 +1,4 @@
-import type { MessageChannelCode } from '@/api/message/message-template';
+import type { MessageChannelCode } from '@/api/message/models/message-template';
 import { testSendMessageTemplate } from '@/api/message/message-template';
 import { addDialog } from '@/components/ui/Dialog';
 import { type FormOverlayExpose, useFormOverlaySubmit } from '@/shared/composables/dialog/useFormOverlaySubmit';

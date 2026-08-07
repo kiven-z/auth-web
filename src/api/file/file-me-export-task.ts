@@ -3,7 +3,7 @@ import type {
   FileExportTaskDetail,
   FileExportTaskPageQuery,
   FileExportTaskPageRow,
-} from '@/api/file/models/file-export-task.types';
+} from '@/api/file/models/file-export-task';
 import { http } from '@/core/http/client';
 import type { AxiosRequestConfig } from 'axios';
 

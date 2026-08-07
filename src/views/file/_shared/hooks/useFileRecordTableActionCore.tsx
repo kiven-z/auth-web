@@ -1,5 +1,5 @@
 import type { TableActionWithSelectionDeps } from '@/shared/types/table-action';
-import type { FileRecordDetail, FileRecordPageRow } from '@/api/file/models/file-record.types';
+import type { FileRecordDetail, FileRecordPageRow } from '@/api/file/models/file-record';
 import { Description } from '@/components/ui/Description';
 import { addDialog } from '@/components/ui/Dialog';
 import { errorMessage, message } from '@/services/feedback/message';

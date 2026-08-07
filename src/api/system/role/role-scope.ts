@@ -1,5 +1,5 @@
 import { http } from '@/core/http/client';
-import type { DataScopeType, SysDataScopeForm } from '@/api/system/_shared/data-scope';
+import type { DataScopeType, SysDataScopeForm } from '@/api/system/models/data-scope';
 import type { AxiosRequestConfig } from 'axios';
 
 export type { DataScopeType, SysDataScopeForm };

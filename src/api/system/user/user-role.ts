@@ -1,5 +1,5 @@
 import type { PageResponse } from '@/api/common/page';
-import type { GrantTableAssignRoleRequest, RoleReference } from '@/api/system/_shared/grant-table';
+import type { GrantTableAssignRoleRequest, RoleReference } from '@/api/system/models/grant-table';
 import { http } from '@/core/http/client';
 import type { AxiosRequestConfig } from 'axios';
 

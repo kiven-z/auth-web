@@ -2,19 +2,8 @@ import type { AxiosRequestConfig } from 'axios';
 
 import type { PageResponse, SortSpec } from '@/api/common/page';
 import type { BaseResponseDetail, BaseResponsePageRow } from '@/api/common/response';
+import type { MessageChannelCode, MessageTemplateRequireFieldRow } from '@/api/message/models/message-template';
 import { http } from '@/core/http/client';
-
-/** 消息渠道*/
-export type MessageChannelCode = 'EMAIL' | 'SMS' | 'DING_TALK' | 'IN_APP';
-
-/**
- * 变量声明行
- */
-export interface MessageTemplateRequireFieldRow {
-  key: string;
-  description?: string;
-  exampleValue: unknown;
-}
 
 /**
  * 分页查询参数

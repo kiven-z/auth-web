@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import type { RoleReference } from '@/api/system/_shared/grant-table';
+import type { RoleReference } from '@/api/system/models/grant-table';
 import type { UserEffectiveRolePageQuery } from '@/api/system/user/user-authorization';
 import PagedTable, { usePaginationState } from '@/components/table/PagedTable';
 import { useFormPlaceholder } from '@/shared/composables/i18n/useFormPlaceholder';

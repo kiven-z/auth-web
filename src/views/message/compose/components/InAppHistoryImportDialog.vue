@@ -5,7 +5,7 @@ import {
   type InAppSendTaskPageQuery,
   type InAppSendTaskPageRow,
 } from '@/api/message/in-app-message';
-import type { InAppTemplateContentType } from '@/api/message/in-app-template';
+import type { InAppTemplateContentType } from '@/api/message/models/in-app-template';
 import PagedTable, { usePaginationState } from '@/components/table/PagedTable';
 import { addDialog } from '@/components/ui/Dialog';
 import { errorMessage } from '@/services/feedback/message';

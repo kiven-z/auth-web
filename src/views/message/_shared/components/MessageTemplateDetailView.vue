@@ -1,5 +1,6 @@
 <script lang="ts" setup>
-import type { MessageChannelCode, MessageTemplateDetailVO } from '@/api/message/message-template';
+import type { MessageChannelCode } from '@/api/message/models/message-template';
+import type { MessageTemplateDetailVO } from '@/api/message/message-template';
 import { getMessageTemplateById } from '@/api/message/message-template';
 import type { TypedContentTypeCode } from '@/components/domain/content/TypedContentView';
 import TypedContentView from '@/components/domain/content/TypedContentView';

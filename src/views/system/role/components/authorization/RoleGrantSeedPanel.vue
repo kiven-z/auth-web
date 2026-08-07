@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import type { RoleGrantSubjectPageQuery } from '@/api/system/role/role-authorization';
-import type { GrantSubjectItem } from '@/api/system/role/role-grant-subjects';
+import type { GrantSubjectItem } from '@/api/system/models/role-grant-subjects';
 import PagedTable, { usePaginationState } from '@/components/table/PagedTable';
 import { useCommonBooleanStatusOptions } from '@/shared/composables/i18n/useCommonBooleanStatusOptions';
 import { useFormPlaceholder } from '@/shared/composables/i18n/useFormPlaceholder';

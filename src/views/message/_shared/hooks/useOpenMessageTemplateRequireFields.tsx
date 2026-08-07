@@ -1,4 +1,4 @@
-import type { MessageChannelCode } from '@/api/message/message-template';
+import type { MessageChannelCode } from '@/api/message/models/message-template';
 import { addDrawer } from '@/components/ui/Drawer';
 import MessageTemplateRequireFieldsDialog from '@/views/message/_shared/components/MessageTemplateRequireFieldsDialog.vue';
 import { ref } from 'vue';

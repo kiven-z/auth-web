@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import type { RoleBoundMenuItem } from '@/api/system/role/role';
+import type { RoleBoundMenuItem } from '@/api/system/models/role';
 import type { RoleMenuPageQuery } from '@/api/system/role/role-authorization';
 import PagedTable, { usePaginationState } from '@/components/table/PagedTable';
 import { useFormPlaceholder } from '@/shared/composables/i18n/useFormPlaceholder';

@@ -1,5 +1,5 @@
 import type { MessageDeliveryStatusCode } from '@/api/message/channel-delivery';
-import type { MessageChannelCode } from '@/api/message/message-template';
+import type { MessageChannelCode } from '@/api/message/models/message-template';
 import type { SelectOption, TagSelectOption } from '@/shared/types/select-option';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';

@@ -1,4 +1,4 @@
-import type { FileExportTaskPageRow } from '@/api/file/models/file-export-task.types';
+import type { FileExportTaskPageRow } from '@/api/file/models/file-export-task';
 import { getPersonalFileExportTaskDetail } from '@/api/file/file-me-export-task';
 import { Description } from '@/components/ui/Description';
 import { addDialog } from '@/components/ui/Dialog';

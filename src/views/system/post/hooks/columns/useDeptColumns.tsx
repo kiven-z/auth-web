@@ -1,4 +1,4 @@
-import type { DeptReference } from '@/api/system/_shared/grant-table';
+import type { DeptReference } from '@/api/system/models/grant-table';
 import { renderBooleanStatusTag } from '@/shared/composables/layout/renderBooleanStatusTag';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';

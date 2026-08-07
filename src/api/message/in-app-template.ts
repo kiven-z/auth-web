@@ -1,7 +1,5 @@
+import type { InAppTemplateContentType } from '@/api/message/models/in-app-template';
 import { http } from '@/core/http/client';
-
-/** 站内信正文类型 */
-export type InAppTemplateContentType = 'TEXT' | 'MARKDOWN';
 
 /**
  * 站内信模板新增/编辑表单

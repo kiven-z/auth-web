@@ -1,14 +1,7 @@
-import type { GrantTableSubjectType } from '@/api/system/_shared/grant-table';
+import type { GrantTableSubjectType } from '@/api/system/models/grant-table';
+import type { GrantSubjectItem } from '@/api/system/models/role-grant-subjects';
 import { http } from '@/core/http/client';
 import type { AxiosRequestConfig } from 'axios';
-
-/**
- * 角色授权对象种子项（勾选回显）
- */
-export interface GrantSubjectItem {
-  id: string;
-  label: string;
-}
 
 /**
  * 查询角色授权对象种子（Assign 灌种：id + label）

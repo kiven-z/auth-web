@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import type { UserReference } from '@/api/system/_shared/grant-table';
+import type { UserReference } from '@/api/system/models/grant-table';
 import {
   getRoleImpactSummary,
   getRoleImpactUsersPage,

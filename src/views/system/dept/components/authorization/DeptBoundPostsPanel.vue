@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import type { PostReference } from '@/api/system/_shared/grant-table';
+import type { PostReference } from '@/api/system/models/grant-table';
 import type { DeptPostPageQuery } from '@/api/system/dept/dept-authorization';
 import PagedTable, { usePaginationState } from '@/components/table/PagedTable';
 import { useFormPlaceholder } from '@/shared/composables/i18n/useFormPlaceholder';
