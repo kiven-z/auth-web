@@ -95,39 +95,41 @@ export function useTags() {
   function conditionHandle(item, previous, next) {
     const currentName = route.name || '';
     const itemName = item.name || '';
-
-    if (isBoolean(route?.meta?.showLink) && route?.meta?.showLink === false) {
-      if (Object.keys(route.query).length > 0) {
-        return currentName === itemName && isEqual(route.query, item.query) ? previous : next;
-      } else {
-        return currentName === itemName && isEqual(route.params, item.params) ? previous : next;
-      }
-    } else {
-      return currentName === itemName ? previous : next;
+    if (currentName !== itemName) {
+      return next;
     }
+
+    const hideFromMenu = isBoolean(route?.meta?.showLink) && route?.meta?.showLink === false;
+    if (!hideFromMenu) {
+      return previous;
+    }
+
+    const compareByQuery = Object.keys(route.query).length > 0;
+    const matched = compareByQuery ? isEqual(route.query, item.query) : isEqual(route.params, item.params);
+    return matched ? previous : next;
   }
 
   const isFixedTag = computed(() => {
-    return (item) => {
+    return (item: { meta: { fixedTag: boolean } }) => {
       return isBoolean(item?.meta?.fixedTag) && item?.meta?.fixedTag === true;
     };
   });
 
   const iconIsActive = computed(() => {
-    return (item, index) => {
+    return (item: any, index: number) => {
       if (index === 0) return;
       return conditionHandle(item, true, false);
     };
   });
 
   const linkIsActive = computed(() => {
-    return (item) => {
+    return (item: any) => {
       return conditionHandle(item, 'is-active', '');
     };
   });
 
   const scheduleIsActive = computed(() => {
-    return (item) => {
+    return (item: any) => {
       return conditionHandle(item, 'schedule-active', '');
     };
   });

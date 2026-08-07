@@ -41,8 +41,32 @@ export interface UserWorkstationNavGroupConfig {
   items: UserWorkstationNavItem[];
 }
 
+type NavItemDraft = UserWorkstationNavItem & { auth?: string; anyAuth?: string[] };
+
+interface NavGroupDraft {
+  key: UserWorkstationNavGroup;
+  title: string;
+  items: NavItemDraft[];
+}
+
 /** 默认激活分区 */
 export const USER_WORKSTATION_DEFAULT_SECTION: UserWorkstationSection = 'overview';
+
+function filterNavGroup(group: NavGroupDraft): UserWorkstationNavGroupConfig | null {
+  const items = group.items
+    .filter((item) => {
+      if (item.anyAuth?.length) {
+        return item.anyAuth.some((code) => hasAuth(code));
+      }
+      return !item.auth || hasAuth(item.auth);
+    })
+    .map(({ key, label, icon }: NavItemDraft) => ({ key, label, icon }));
+
+  if (items.length === 0) {
+    return null;
+  }
+  return { key: group.key, title: group.title, items };
+}
 
 /**
  * 用户工作台侧栏导航（i18n + 权限过滤）
@@ -51,12 +75,8 @@ export const USER_WORKSTATION_DEFAULT_SECTION: UserWorkstationSection = 'overvie
 function useWorkstationNav() {
   const { t } = useI18n();
 
-  const navGroups = computed<UserWorkstationNavGroupConfig[]>(() => {
-    const groups: Array<{
-      key: UserWorkstationNavGroup;
-      title: string;
-      items: Array<UserWorkstationNavItem & { auth?: string; anyAuth?: string[] }>;
-    }> = [
+  function buildNavGroupDrafts(): NavGroupDraft[] {
+    return [
       {
         key: 'overview',
         title: t('users.workstation.nav.group.overview'),
@@ -130,22 +150,13 @@ function useWorkstationNav() {
         ],
       },
     ];
+  }
 
-    return groups
-      .map((group) => ({
-        key: group.key,
-        title: group.title,
-        items: group.items
-          .filter((item) => {
-            if (item.anyAuth?.length) {
-              return item.anyAuth.some((code) => hasAuth(code));
-            }
-            return !item.auth || hasAuth(item.auth);
-          })
-          .map(({ key, label, icon }) => ({ key, label, icon })),
-      }))
-      .filter((group) => group.items.length > 0);
-  });
+  const navGroups = computed<UserWorkstationNavGroupConfig[]>(() =>
+    buildNavGroupDrafts()
+      .map(filterNavGroup)
+      .filter((group): group is UserWorkstationNavGroupConfig => group != null)
+  );
 
   return { navGroups };
 }

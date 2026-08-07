@@ -2,6 +2,7 @@
 import RiApps2Line from '~icons/ri/apps-2-line?raw';
 import RiBriefcaseLine from '~icons/ri/briefcase-line?raw';
 import RiCodeBoxLine from '~icons/ri/code-box-line?raw';
+import RiExportLine from '~icons/ri/export-line?raw';
 import RiFile2Line from '~icons/ri/file-2-line?raw';
 import RiFileChartLine from '~icons/ri/file-chart-line?raw';
 import RiFileCloudLine from '~icons/ri/file-cloud-line?raw';
@@ -66,4 +67,5 @@ registerOfflineIcons([
   ['ri/file-cloud-line', RiFileCloudLine],
   ['ri/recycle-line', RiRecycleLine],
   ['ri/recycle-fill', RiRecycleFill],
+  ['ri/export-line', RiExportLine],
 ]);

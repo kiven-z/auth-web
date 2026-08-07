@@ -54,14 +54,14 @@ const isFillMode = computed(() => props.adaptive === 'fill');
  * 工具栏刷新：委托给分页状态重新拉取。
  */
 function handleRefresh() {
-  void props.state.fetchTableData();
+  props.state.fetchTableData();
 }
 
 /**
  * 全屏切换后重算表格高度。
  */
 function handleFullscreen() {
-  void tableRef.value?.setAdaptive();
+  tableRef.value?.setAdaptive();
 }
 
 /**

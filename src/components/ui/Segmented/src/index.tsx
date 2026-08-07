@@ -39,6 +39,50 @@ const props = {
   },
 };
 
+function resolveHoverBackground(isDark: boolean, optionDisabled: boolean | undefined, isCurrent: boolean) {
+  if (optionDisabled || isCurrent) {
+    return '';
+  }
+  return isDark ? '#1f1f1f' : 'rgba(0, 0, 0, 0.06)';
+}
+
+function resolveItemColor(
+  disabled: boolean,
+  optionDisabled: boolean | undefined,
+  highlighted: boolean,
+  isDark: boolean
+) {
+  if (disabled) {
+    return null;
+  }
+  if (optionDisabled || !highlighted) {
+    return '';
+  }
+  return isDark ? 'rgba(255, 255, 255, 0.85)' : 'rgba(0,0,0,.88)';
+}
+
+function renderOptionLabel(option: OptionsType) {
+  if (!option.label) {
+    return null;
+  }
+  return isFunction(option.label) ? h(option.label) : <span>{option.label}</span>;
+}
+
+function renderOptionIcon(option: OptionsType) {
+  if (!option.icon || isFunction(option.label)) {
+    return null;
+  }
+  return (
+    <span class="auth-segmented-item-icon" style={{ marginRight: option.label ? '6px' : 0 }}>
+      {h(
+        useRenderIcon(option.icon, {
+          ...option?.iconAttrs,
+        })
+      )}
+    </span>
+  );
+}
+
 export default defineComponent({
   name: 'ReSegmented',
   props,
@@ -66,11 +110,7 @@ export default defineComponent({
       if (props.disabled) return;
       event.preventDefault();
       curMouseActive.value = index;
-      if (option.disabled || curIndex.value === index) {
-        segmentedItembg.value = '';
-      } else {
-        segmentedItembg.value = isDark.value ? '#1f1f1f' : 'rgba(0, 0, 0, 0.06)';
-      }
+      segmentedItembg.value = resolveHoverBackground(isDark.value, option.disabled, curIndex.value === index);
     }
 
     function handleMouseleave(_, event: Event) {
@@ -118,19 +158,14 @@ export default defineComponent({
 
     const rendLabel = () => {
       return props.options.map((option, index) => {
+        const highlighted = curIndex.value === index || curMouseActive.value === index;
         return (
           <label
             ref={`labelRef${index}`}
             class={['auth-segmented-item', (props.disabled || option?.disabled) && 'auth-segmented-item-disabled']}
             style={{
               background: curMouseActive.value === index ? segmentedItembg.value : '',
-              color: props.disabled
-                ? null
-                : !option.disabled && (curIndex.value === index || curMouseActive.value === index)
-                  ? isDark.value
-                    ? 'rgba(255, 255, 255, 0.85)'
-                    : 'rgba(0,0,0,.88)'
-                  : '',
+              color: resolveItemColor(props.disabled, option.disabled, highlighted, isDark.value),
             }}
             onMouseenter={(event) => handleMouseenter({ option, index }, event)}
             onMouseleave={(event) => handleMouseleave({ option, index }, event)}
@@ -144,16 +179,8 @@ export default defineComponent({
                 zIndex: 41000,
               }}
             >
-              {option.icon && !isFunction(option.label) ? (
-                <span class="auth-segmented-item-icon" style={{ marginRight: option.label ? '6px' : 0 }}>
-                  {h(
-                    useRenderIcon(option.icon, {
-                      ...option?.iconAttrs,
-                    })
-                  )}
-                </span>
-              ) : null}
-              {option.label ? isFunction(option.label) ? h(option.label) : <span>{option.label}</span> : null}
+              {renderOptionIcon(option)}
+              {renderOptionLabel(option)}
             </div>
           </label>
         );

@@ -39,4 +39,5 @@ routes:
   fileRecycle: File Recycle
   myFiles: My Files
   myFileRecycle: My Recycle Bin
+  myFileExportTask: My Export Tasks
   myInbox: My Messages

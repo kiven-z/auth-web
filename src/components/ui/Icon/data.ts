@@ -1078,6 +1078,8 @@ export const IconJson = {
     'expand-right-line',
     'expand-up-down-fill',
     'expand-up-down-line',
+    'export-fill',
+    'export-line',
     'external-link-fill',
     'external-link-line',
     'eye-2-fill',

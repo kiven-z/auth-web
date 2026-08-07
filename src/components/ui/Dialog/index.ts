@@ -49,7 +49,7 @@ const confirmDialog = (options: DialogOptions, index: number) => {
     closeDialog(options, index, { command: 'sure' });
   };
   if (options?.beforeSure && isFunction(options.beforeSure)) {
-    void options.beforeSure(done, { options, index, closeLoading });
+    Promise.resolve(options.beforeSure(done, { options, index, closeLoading })).catch(() => undefined);
     return;
   }
   done();

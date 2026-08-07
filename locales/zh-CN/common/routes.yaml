@@ -39,4 +39,5 @@ routes:
   fileRecycle: 文件回收站
   myFiles: 我的文件
   myFileRecycle: 我的回收站
+  myFileExportTask: 我的导出任务
   myInbox: 我的消息

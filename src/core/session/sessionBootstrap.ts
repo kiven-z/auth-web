@@ -28,14 +28,12 @@ export function hydrateAuthenticatedSessionSideEffects(): Promise<void> {
   if (!hasAccessToken()) {
     return Promise.resolve();
   }
-  if (!sideEffectsPromise) {
-    sideEffectsPromise = (async () => {
-      await hydrateUserDisplayProfileOnSession().catch(() => undefined);
-      if (!hasSessionHydrated()) {
-        void hydrateUiPreferencesOnSession().catch(() => undefined);
-      }
-    })();
-  }
+  sideEffectsPromise ??= (async () => {
+    await hydrateUserDisplayProfileOnSession().catch(() => undefined);
+    if (!hasSessionHydrated()) {
+      void hydrateUiPreferencesOnSession().catch(() => undefined);
+    }
+  })();
   return sideEffectsPromise;
 }
 

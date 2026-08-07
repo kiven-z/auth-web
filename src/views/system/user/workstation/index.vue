@@ -95,17 +95,23 @@ async function loadProfile() {
 function handleBack() {
   const from = history.state?.UserWorkstation;
   if (typeof from === 'string' && from.startsWith('/')) {
-    void router.push(from);
+    router.push(from);
     return;
   }
   if (router.hasRoute('SystemUser')) {
-    void router.push({ name: 'SystemUser' });
+    router.push({ name: 'SystemUser' });
     return;
   }
-  void router.push('/');
+  router.push('/');
 }
 
-watch(userId, () => void loadProfile(), { immediate: true });
+watch(
+  userId,
+  () => {
+    loadProfile();
+  },
+  { immediate: true }
+);
 </script>
 
 <template>

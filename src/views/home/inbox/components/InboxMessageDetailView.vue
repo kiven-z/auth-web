@@ -43,7 +43,7 @@ async function loadDetail(): Promise<void> {
   try {
     loading.value = true;
     detail.value = await getInAppInboxDetail(messageId.value);
-    void inboxStore.refreshUnreadCount();
+    inboxStore.refreshUnreadCount().catch(() => undefined);
   } catch (error: unknown) {
     errorMessage(error);
     detail.value = null;
@@ -53,7 +53,7 @@ async function loadDetail(): Promise<void> {
 }
 
 onMounted(() => {
-  void loadDetail();
+  loadDetail();
 });
 </script>
 

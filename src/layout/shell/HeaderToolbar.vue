@@ -37,7 +37,7 @@ const primaryDeptName = computed(() => userStore.primaryDeptName ?? '');
  * 退出登录并清理本地会话
  */
 function logout(): void {
-  void userStore.logoutAndClear();
+  userStore.logoutAndClear();
 }
 
 const {

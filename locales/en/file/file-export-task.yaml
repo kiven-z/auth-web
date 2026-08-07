@@ -1,0 +1,38 @@
+fileExportTask:
+  page:
+    tableTitle: Export Tasks
+  dialog:
+    detailTitle: Export Task Detail
+  fields:
+    bizType: Business Type
+    status: Status
+    exportFormat: Export Format
+    progressPercent: Progress
+    processedRows: Processed Rows
+    totalRows: Total Rows
+    priority: Priority
+    fileRecordId: File Record ID
+    requestId: Request ID
+    retryCount: Retry Count
+    nextRetryAt: Next Retry At
+    cancelRequested: Cancel Requested
+    lockedBy: Locked By
+    leaseUntil: Lease Until
+    errorCode: Error Code
+    errorMessage: Error Message
+    bizParamsJson: Filter Snapshot
+    dataScopeJson: Data Scope Snapshot
+    startedAt: Started At
+    finishedAt: Finished At
+    expireAt: Expire At
+    remark: Remark
+    createdAtRange: Created Time Range
+  status:
+    PENDING: Pending
+    RUNNING: Running
+    SUCCESS: Success
+    FAILED: Failed
+    CANCELLED: Cancelled
+    EXPIRED: Expired
+  exportFormat:
+    XLSX: Excel

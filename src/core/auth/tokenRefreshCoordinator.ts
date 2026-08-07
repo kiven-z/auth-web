@@ -9,10 +9,7 @@ let refreshInFlight: Promise<string> | null = null;
  * 单飞刷新 accessToken：并发场景仅触发一次 refreshAccessToken 请求。
  */
 export function refreshAccessTokenSingleFlight(): Promise<string> {
-  if (refreshInFlight) {
-    return refreshInFlight;
-  }
-  refreshInFlight = doRefreshAccessToken().finally(() => {
+  refreshInFlight ??= doRefreshAccessToken().finally(() => {
     refreshInFlight = null;
   });
   return refreshInFlight;

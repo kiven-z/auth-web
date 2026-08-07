@@ -1,6 +1,6 @@
+import { useDebounceFn, useEventListener, useResizeObserver } from '@vueuse/core';
 import type { Ref } from 'vue';
 import { nextTick, ref, watch } from 'vue';
-import { useDebounceFn, useEventListener, useResizeObserver } from '@vueuse/core';
 
 import { DEFAULT_ADAPTIVE_DEBOUNCE_MS } from '../constants';
 
@@ -31,7 +31,7 @@ export function useHeightBinding(targetRef: Ref<HTMLElement | null>, options: He
   const debouncedRecalculate = useDebounceFn(
     () => {
       if (isEnabled()) {
-        void recalculate();
+        recalculate();
       }
     },
     () => options.debounceMs?.() ?? DEFAULT_ADAPTIVE_DEBOUNCE_MS
@@ -46,12 +46,12 @@ export function useHeightBinding(targetRef: Ref<HTMLElement | null>, options: He
 
   useEventListener(window, 'resize', () => {
     if (isEnabled()) {
-      void debouncedRecalculate();
+      debouncedRecalculate();
     }
   });
 
   useResizeObserver(observeTargets, () => {
-    void debouncedRecalculate();
+    debouncedRecalculate();
   });
 
   async function activate() {
@@ -68,7 +68,7 @@ export function useHeightBinding(targetRef: Ref<HTMLElement | null>, options: He
     targetRef,
     (element) => {
       if (element) {
-        void activate();
+        activate().catch(() => undefined);
       }
     },
     { immediate: true }
@@ -82,7 +82,7 @@ export function useHeightBinding(targetRef: Ref<HTMLElement | null>, options: He
           return;
         }
         syncObserveTargets();
-        void recalculate();
+        recalculate();
       }
     );
   }

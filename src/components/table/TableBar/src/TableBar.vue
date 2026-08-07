@@ -83,7 +83,7 @@ function onRefresh() {
   if (props.refreshLoading === undefined) {
     loading.value = true;
     emit('refresh');
-    void delay(TABLE_BAR_FAKE_REFRESH_MS).then(() => {
+    delay(TABLE_BAR_FAKE_REFRESH_MS).then(() => {
       loading.value = false;
     });
     return;

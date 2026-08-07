@@ -91,7 +91,7 @@ async function handleSave() {
 }
 
 onMounted(() => {
-  void Promise.all([loadSeed(), fetchTableData()]);
+  Promise.all([loadSeed(), fetchTableData()]);
 });
 </script>
 

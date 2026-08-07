@@ -86,8 +86,8 @@ const isCurrentPageIndeterminate = computed(
  * 刷新列表与大类角标（保持当前页，不重置分页）
  */
 function refreshListAndMajors() {
-  void fetchTableData();
-  void inboxStore.refreshUnreadCount();
+  fetchTableData();
+  inboxStore.refreshUnreadCount();
 }
 
 /**
@@ -98,7 +98,7 @@ function syncMajorCategoryQuery(majorCategoryId: string) {
   if (route.query.majorCategoryId === majorCategoryId) {
     return;
   }
-  void router.replace({ query: { ...route.query, majorCategoryId } });
+  router.replace({ query: { ...route.query, majorCategoryId } });
 }
 
 /**
@@ -106,8 +106,8 @@ function syncMajorCategoryQuery(majorCategoryId: string) {
  * @param formRef 搜索表单实例
  */
 function handleResetQuery(formRef?: FormInstance) {
-  void resetQuery(formRef);
-  void inboxStore.refreshUnreadCount();
+  resetQuery(formRef);
+  inboxStore.refreshUnreadCount();
 }
 
 /**

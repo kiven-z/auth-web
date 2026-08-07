@@ -132,7 +132,7 @@ interface ButtonProps {
   dark?: boolean;
   /** 自定义元素标签 */
   tag?: string | Component;
-  /** 点击按钮后触发的回调 */
+  /** 点击按钮后触发的回调（允许异步；调用方不 await） */
   btnClick?: ({
     dialog,
     button,
@@ -141,7 +141,7 @@ interface ButtonProps {
     dialog: BtnClickDialog;
     /** 当前 `button` 信息 */
     button: BtnClickButton;
-  }) => void;
+  }) => void | Promise<void>;
 }
 
 interface DialogOptions extends DialogProps {

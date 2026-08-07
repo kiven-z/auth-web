@@ -22,7 +22,8 @@ const defaultActive = computed(() => (route.meta?.activePath ? route.meta.active
  * 回到顶层菜单路由
  */
 function backTopMenu(): void {
-  void router.push(getTopMenu()?.path);
+  const path = getTopMenu()?.path;
+  router.push(path);
 }
 
 nextTick(() => {

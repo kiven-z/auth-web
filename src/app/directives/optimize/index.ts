@@ -22,43 +22,46 @@ export interface OptimizeOptions {
   params?: any;
 }
 
+const OPTIMIZE_TYPES = ['debounce', 'throttle'] as const;
+type OptimizeType = (typeof OPTIMIZE_TYPES)[number];
+
+function isOptimizeType(value: string): value is OptimizeType {
+  return (OPTIMIZE_TYPES as readonly string[]).includes(value);
+}
+
+/** 将指令 params 规范为可展开的参数列表 */
+function normalizeParams(params: unknown): unknown[] | undefined {
+  if (!params) {
+    return undefined;
+  }
+  if (!(isArray(params) || isObject(params))) {
+    throw new Error('[Directive: optimize]: `params` must be an array or object');
+  }
+  return isObject(params) ? Array.of(params) : (params as unknown[]);
+}
+
+function createOptimizedListener(type: OptimizeType, value: OptimizeOptions) {
+  const params = normalizeParams(value?.params);
+  const handler = params ? () => value.fn(...params) : value.fn;
+  if (type === 'debounce') {
+    return debounce(handler, value?.timeout ?? 200, value?.immediate ? { leading: true, trailing: false } : {});
+  }
+  return throttle(handler, value?.timeout ?? 1000);
+}
+
 /**
  * 防抖（v-optimize或v-optimize:debounce）、节流（v-optimize:throttle）指令
- * @param el 元素
- * @param binding 绑定
  */
 export const optimize: Directive = {
   mounted(el: HTMLElement, binding: DirectiveBinding<OptimizeOptions>) {
     const { value } = binding;
     const optimizeType = binding.arg ?? 'debounce';
-    const type = ['debounce', 'throttle'].find((t) => t === optimizeType);
-    if (type) {
-      if (value && value.event && isFunction(value.fn)) {
-        let params = value?.params;
-        if (params) {
-          if (isArray(params) || isObject(params)) {
-            params = isObject(params) ? Array.of(params) : params;
-          } else {
-            throw new Error('[Directive: optimize]: `params` must be an array or object');
-          }
-        }
-        // Register using addEventListener on mounted, and removeEventListener automatically on unmounted
-        useEventListener(
-          el,
-          value.event,
-          type === 'debounce'
-            ? debounce(
-                params ? () => value.fn(...params) : value.fn,
-                value?.timeout ?? 200,
-                value?.immediate ? { leading: true, trailing: false } : {}
-              )
-            : throttle(params ? () => value.fn(...params) : value.fn, value?.timeout ?? 1000)
-        );
-      } else {
-        throw new Error('[Directive: optimize]: `event` and `fn` are required, and `fn` must be a function');
-      }
-    } else {
+    if (!isOptimizeType(optimizeType)) {
       throw new Error('[Directive: optimize]: only `debounce` and `throttle` are supported');
     }
+    if (!value?.event || !isFunction(value.fn)) {
+      throw new Error('[Directive: optimize]: `event` and `fn` are required, and `fn` must be a function');
+    }
+    useEventListener(el, value.event, createOptimizedListener(optimizeType, value));
   },
 };

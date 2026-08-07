@@ -18,7 +18,7 @@ const router = useRouter();
  * 回到欢迎页。
  */
 function handleBackHome() {
-  void router.push({ name: 'Welcome' });
+  router.push({ name: 'Welcome' });
 }
 </script>
 

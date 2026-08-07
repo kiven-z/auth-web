@@ -52,16 +52,13 @@ const MAX_FILE_SIZE_BYTES = 10 * 1024 * 1024;
 /**
  * el-upload beforeUpload 钩子：仅做校验，禁止自动上传
  * @param rawFile 待上传文件
- * @returns false 阻止自动上传
+ * @returns false 阻止自动上传（选中文件由 @change 承接）
  */
 const handleBeforeUpload: UploadProps['beforeUpload'] = (rawFile: UploadRawFile) => {
   if (!rawFile.name.endsWith('.xlsx')) {
     errorMessage(null, { message: t('import.fileTypeInvalid') });
-    return false;
-  }
-  if (rawFile.size > MAX_FILE_SIZE_BYTES) {
+  } else if (rawFile.size > MAX_FILE_SIZE_BYTES) {
     errorMessage(null, { message: t('import.fileLimitExceeded') });
-    return false;
   }
   return false;
 };

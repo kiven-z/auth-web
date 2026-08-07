@@ -5,7 +5,7 @@ import isBoolean from 'lodash/isBoolean';
 import isFunction from 'lodash/isFunction';
 import Sortable from 'sortablejs';
 import type { Ref } from 'vue';
-import { onBeforeUnmount, ref, nextTick as vueNextTick, watch } from 'vue';
+import { nextTick as vueNextTick, onBeforeUnmount, ref, watch } from 'vue';
 
 import { TABLE_BAR_UNMANAGED_COLUMN_TYPES } from '../constants';
 
@@ -49,6 +49,59 @@ export function useTableBarColumns(columnsRef: Ref<TableColumnList>) {
     checkColumnList.value = getKeyList(dynamicColumns.value.filter(isSettingManagedColumn), 'label');
   }
 
+  /** 拖拽结束：固定列还原 DOM；业务列写回 dynamicColumns */
+  function applySortableReorder(evt: Sortable.SortableEvent) {
+    const { newIndex, oldIndex, item } = evt;
+    if (newIndex == null || oldIndex == null || !item?.parentNode) {
+      return;
+    }
+
+    const managedIndices = dynamicColumns.value
+      .map((column, index) => (isSettingManagedColumn(column) ? index : -1))
+      .filter((index) => index >= 0);
+    const oldDynIndex = managedIndices[oldIndex];
+    const newDynIndex = managedIndices[newIndex];
+    if (oldDynIndex == null || newDynIndex == null) {
+      return;
+    }
+
+    const oldColumn = dynamicColumns.value[oldDynIndex];
+    const newColumn = dynamicColumns.value[newDynIndex];
+    const targetThElem = item;
+    const wrapperElem = targetThElem.parentNode as HTMLElement;
+
+    if (oldColumn?.fixed || newColumn?.fixed) {
+      const oldThElem = wrapperElem.children[oldIndex] as HTMLElement;
+      if (newIndex > oldIndex) {
+        wrapperElem.insertBefore(targetThElem, oldThElem);
+      } else {
+        wrapperElem.insertBefore(targetThElem, oldThElem ? oldThElem.nextElementSibling : oldThElem);
+      }
+      return;
+    }
+
+    const managed = managedIndices.map((index) => dynamicColumns.value[index]);
+    const [moved] = managed.splice(oldIndex, 1);
+    managed.splice(newIndex, 0, moved);
+    managedIndices.forEach((dynIndex, i) => {
+      dynamicColumns.value[dynIndex] = managed[i]!;
+    });
+    syncCheckColumnListFromDynamic();
+  }
+
+  function handleSortableEnd(evt: Sortable.SortableEvent) {
+    // 延后修改 Vue 数据，避免 Sortable._onDrop 尚未完成时列表被 patch 替换导致内部解绑读到 null
+    void vueNextTick(() => applySortableReorder(evt));
+  }
+
+  function bindSortable(wrapper: HTMLElement) {
+    sortableInstance = Sortable.create(wrapper, {
+      animation: 300,
+      handle: '.drag-btn',
+      onEnd: handleSortableEnd,
+    });
+  }
+
   /**
    * 在列设置 Popover 打开后绑定 Sortable（勿在 mouseenter 中反复 destroy/create，否则拖拽中 teardown 会触发 Sortable 对 null 调 removeEventListener）。
    */
@@ -59,51 +112,7 @@ export function useTableBarColumns(columnsRef: Ref<TableColumnList>) {
       if (!wrapper) {
         return;
       }
-      sortableInstance = Sortable.create(wrapper, {
-        animation: 300,
-        handle: '.drag-btn',
-        onEnd: (evt) => {
-          // 延后修改 Vue 数据，避免 Sortable._onDrop 尚未完成时列表被 patch 替换导致内部解绑读到 null
-          void vueNextTick(() => {
-            const { newIndex, oldIndex, item } = evt;
-            if (newIndex == null || oldIndex == null || !item?.parentNode) {
-              return;
-            }
-
-            const managedIndices = dynamicColumns.value
-              .map((column, index) => (isSettingManagedColumn(column) ? index : -1))
-              .filter((index) => index >= 0);
-            const oldDynIndex = managedIndices[oldIndex];
-            const newDynIndex = managedIndices[newIndex];
-            if (oldDynIndex == null || newDynIndex == null) {
-              return;
-            }
-
-            const oldColumn = dynamicColumns.value[oldDynIndex];
-            const newColumn = dynamicColumns.value[newDynIndex];
-            const targetThElem = item;
-            const wrapperElem = targetThElem.parentNode as HTMLElement;
-
-            if (oldColumn?.fixed || newColumn?.fixed) {
-              const oldThElem = wrapperElem.children[oldIndex] as HTMLElement;
-              if (newIndex > oldIndex) {
-                wrapperElem.insertBefore(targetThElem, oldThElem);
-              } else {
-                wrapperElem.insertBefore(targetThElem, oldThElem ? oldThElem.nextElementSibling : oldThElem);
-              }
-              return;
-            }
-
-            const managed = managedIndices.map((index) => dynamicColumns.value[index]);
-            const [moved] = managed.splice(oldIndex, 1);
-            managed.splice(newIndex, 0, moved);
-            managedIndices.forEach((dynIndex, i) => {
-              dynamicColumns.value[dynIndex] = managed[i]!;
-            });
-            syncCheckColumnListFromDynamic();
-          });
-        },
-      });
+      bindSortable(wrapper);
     });
   }
 

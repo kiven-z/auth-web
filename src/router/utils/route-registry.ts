@@ -54,35 +54,27 @@ function handleAsyncRoutes(routeList) {
 }
 
 /**
- * 初始化路由（`new Promise` 写法防止在异步请求中造成无限循环）
- * @returns 路由
+ * 初始化动态路由（调用方须 await，避免守卫内重复触发）
+ * @returns 路由实例
  */
-function initRouter() {
+async function initRouter() {
   if (getConfig()?.CachingAsyncRoutes) {
-    // 开启动态路由缓存本地localStorage
     const asyncRouteList = storageLocal().getItem(ASYNC_ROUTES_STORAGE_KEY) as Array<unknown> | null;
-    if (asyncRouteList && asyncRouteList?.length > 0) {
-      return new Promise((resolve) => {
-        handleAsyncRoutes(asyncRouteList);
-        resolve(router);
-      });
-    } else {
-      return new Promise(async (resolve) => {
-        const response = await fetchAsyncRoutes();
-        handleAsyncRoutes(cloneDeep(response));
-        if (response.length > 0) {
-          storageLocal().setItem(ASYNC_ROUTES_STORAGE_KEY, response);
-        }
-        resolve(router);
-      });
+    if (asyncRouteList && asyncRouteList.length > 0) {
+      handleAsyncRoutes(asyncRouteList);
+      return router;
     }
-  } else {
-    return new Promise(async (resolve) => {
-      const response = await fetchAsyncRoutes();
-      handleAsyncRoutes(cloneDeep(response));
-      resolve(router);
-    });
+    const response = await fetchAsyncRoutes();
+    handleAsyncRoutes(cloneDeep(response));
+    if (response.length > 0) {
+      storageLocal().setItem(ASYNC_ROUTES_STORAGE_KEY, response);
+    }
+    return router;
   }
+
+  const response = await fetchAsyncRoutes();
+  handleAsyncRoutes(cloneDeep(response));
+  return router;
 }
 
 /**

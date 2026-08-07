@@ -33,7 +33,7 @@ function useSmsTemplateTableColumns() {
     {
       label: t('table.actions'),
       fixed: 'right',
-      width: 200,
+      width: 220,
       slot: 'actions',
     },
   ]);

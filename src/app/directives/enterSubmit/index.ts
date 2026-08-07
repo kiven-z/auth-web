@@ -61,7 +61,7 @@ export const enterSubmit: Directive = {
 
     useEventListener(el, 'submit', (event: Event) => {
       event.preventDefault();
-      void el.enterSubmitHandler?.();
+      el.enterSubmitHandler?.();
     });
 
     useEventListener(el, 'keydown', (event: KeyboardEvent) => {
@@ -73,7 +73,7 @@ export const enterSubmit: Directive = {
       }
       // 阻止原生 submit，避免与 submit 监听重复触发
       event.preventDefault();
-      void el.enterSubmitHandler?.();
+      el.enterSubmitHandler?.();
     });
   },
   updated(el: EnterSubmitEl, binding: DirectiveBinding<EnterSubmitHandler>) {

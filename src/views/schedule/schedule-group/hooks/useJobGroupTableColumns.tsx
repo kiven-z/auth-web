@@ -1,6 +1,3 @@
-/**
- * 任务分组表格列定义
- */
 import type { SysJobGroupPageRow } from '@/api/schedule/job-group';
 import { renderBooleanStatusTag } from '@/shared/composables/layout/renderBooleanStatusTag';
 import { createAuditTableColumns } from '@/shared/composables/table/auditColumns';
@@ -47,7 +44,7 @@ function useJobGroupTableColumns() {
     {
       label: t('table.actions'),
       fixed: 'right',
-      width: 200,
+      width: 220,
       slot: 'actions',
     },
   ]);

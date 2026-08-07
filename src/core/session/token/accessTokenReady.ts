@@ -18,18 +18,16 @@ export async function ensureAccessTokenReady(): Promise<boolean> {
     return false;
   }
 
-  if (!accessTokenReadyPromise) {
-    accessTokenReadyPromise = (async () => {
-      try {
-        await refreshAccessTokenSingleFlight();
-        return hasAccessToken();
-      } catch {
-        return false;
-      } finally {
-        accessTokenReadyPromise = null;
-      }
-    })();
-  }
+  accessTokenReadyPromise ??= (async () => {
+    try {
+      await refreshAccessTokenSingleFlight();
+      return hasAccessToken();
+    } catch {
+      return false;
+    } finally {
+      accessTokenReadyPromise = null;
+    }
+  })();
 
   return accessTokenReadyPromise;
 }

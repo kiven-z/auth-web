@@ -1,19 +1,13 @@
-import type { TableActionDeps } from '@/shared/types/table-action';
 import type { SysPostPageRow } from '@/api/system/post/post';
 import { getPostRoles, putPostRoles } from '@/api/system/post/post-role';
-import { addDrawer } from '@/components/ui/Drawer';
-import { errorMessage, message } from '@/services/feedback/message';
+import { openAssignDrawer } from '@/components/domain/assign/AssignPanel';
+import type { TableActionDeps } from '@/shared/types/table-action';
 import RoleAssignPanel from '@/views/system/_shared/assign/RoleAssignPanel.vue';
 import useOpenPostAuthorizationSurface from '@/views/system/post/hooks/authorization/useOpenPostAuthorizationSurface';
-import { ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 /** 岗位「更多」操作依赖 */
 export type PostMoreActionDeps = TableActionDeps;
-
-interface AssignPanelExpose {
-  getSelectedKeys: () => string[];
-}
 
 /**
  * 岗位「更多」操作（授权面、分配角色）
@@ -27,42 +21,29 @@ function usePostMoreAction(deps: PostMoreActionDeps) {
 
   /**
    * 打开分配角色抽屉
+   * @param row 岗位行
    */
   const openAssignRoleDrawer = (row: SysPostPageRow) => {
-    const drawerRef = ref<AssignPanelExpose | null>(null);
+    const loadAssigned = async () => {
+      const rows = await getPostRoles(row.id);
+      return rows.map((roleRow) => ({
+        key: roleRow.id,
+        label: roleRow.roleName,
+      }));
+    };
 
-    addDrawer({
+    openAssignDrawer({
       title: t('assign.role'),
-      size: '100%',
-      resizable: true,
-      closeOnClickModal: false,
-      closeOnPressEscape: false,
-      showClose: true,
-      contentRenderer: () => (
+      contentRenderer: (panelRef) => (
         <RoleAssignPanel
-          ref={drawerRef}
+          ref={panelRef}
           leftTitle={t('post.assign.current')}
           leftSubtitle={`${row.postName}（${row.postCode}）`}
-          loadAssigned={async () => {
-            const rows = await getPostRoles(row.id);
-            return rows.map((roleRow) => ({
-              key: roleRow.id,
-              label: roleRow.roleName,
-            }));
-          }}
+          loadAssigned={loadAssigned}
         />
       ),
-      beforeSure: async (done) => {
-        try {
-          const roleIds = drawerRef.value?.getSelectedKeys() ?? [];
-          await putPostRoles(row.id, { roleIds });
-          message(t('tips.assignSaveSuccess'), { type: 'success' });
-          await fetchTableData();
-          done();
-        } catch (error: unknown) {
-          errorMessage(error);
-        }
-      },
+      onSubmit: (roleIds) => putPostRoles(row.id, { roleIds }),
+      afterSave: fetchTableData,
     });
   };
 

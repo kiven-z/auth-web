@@ -1,21 +1,15 @@
-import type { TableActionDeps } from '@/shared/types/table-action';
 import type { SysDeptListVO } from '@/api/system/dept/dept';
 import { getDeptRoles, putDeptRoles } from '@/api/system/dept/dept-role';
-import { addDrawer } from '@/components/ui/Drawer';
-import { errorMessage, message } from '@/services/feedback/message';
+import { openAssignDrawer } from '@/components/domain/assign/AssignPanel';
+import type { TableActionDeps } from '@/shared/types/table-action';
 import RoleAssignPanel from '@/views/system/_shared/assign/RoleAssignPanel.vue';
 import useOpenDeptAuthorizationSurface from '@/views/system/dept/hooks/authorization/useOpenDeptAuthorizationSurface';
-import { ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 /** 部门「更多」操作依赖 */
 export interface DeptMoreActionDeps extends TableActionDeps {
   fetchTreeData: () => Promise<void>;
   refresh: () => Promise<void>;
-}
-
-interface AssignPanelExpose {
-  getSelectedKeys: () => string[];
 }
 
 /**
@@ -30,42 +24,29 @@ function useDeptMoreAction(deps: DeptMoreActionDeps) {
 
   /**
    * 打开分配角色抽屉
+   * @param row 部门行
    */
   const openAssignRoleDrawer = (row: SysDeptListVO) => {
-    const drawerRef = ref<AssignPanelExpose | null>(null);
+    const loadAssigned = async () => {
+      const rows = await getDeptRoles(row.id);
+      return rows.map((roleRow) => ({
+        key: roleRow.id,
+        label: roleRow.roleName,
+      }));
+    };
 
-    addDrawer({
+    openAssignDrawer({
       title: t('assign.role'),
-      size: '100%',
-      resizable: true,
-      closeOnClickModal: false,
-      closeOnPressEscape: false,
-      showClose: true,
-      contentRenderer: () => (
+      contentRenderer: (panelRef) => (
         <RoleAssignPanel
-          ref={drawerRef}
+          ref={panelRef}
           leftTitle={t('dept.assignRole.currentDept')}
           leftSubtitle={`${row.deptName}（${row.deptCode}）`}
-          loadAssigned={async () => {
-            const rows = await getDeptRoles(row.id);
-            return rows.map((roleRow) => ({
-              key: roleRow.id,
-              label: roleRow.roleName,
-            }));
-          }}
+          loadAssigned={loadAssigned}
         />
       ),
-      beforeSure: async (done) => {
-        try {
-          const roleIds = drawerRef.value?.getSelectedKeys() ?? [];
-          await putDeptRoles(row.id, { roleIds });
-          message(t('tips.assignSaveSuccess'), { type: 'success' });
-          await refresh();
-          done();
-        } catch (error: unknown) {
-          errorMessage(error);
-        }
-      },
+      onSubmit: (roleIds) => putDeptRoles(row.id, { roleIds }),
+      afterSave: refresh,
     });
   };
 

@@ -43,7 +43,7 @@ const toggleRow = (messageId: string, checked: boolean) => {
  * @param messageId 消息 ID
  */
 const openDetail = (messageId: string) => {
-  void router.push({ name: 'HomeInboxDetail', params: { id: messageId } });
+  router.push({ name: 'HomeInboxDetail', params: { id: messageId } });
 };
 </script>
 

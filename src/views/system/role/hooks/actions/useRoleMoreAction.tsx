@@ -1,19 +1,15 @@
 import type { SysRolePageRow } from '@/api/system/role/role';
 import { assignRolePermissions, getRolePermissions } from '@/api/system/role/role-permission';
 import { type SysDataScopeForm, upsertRoleScope } from '@/api/system/role/role-scope';
+import { openAssignDrawer } from '@/components/domain/assign/AssignPanel';
 import { addDialog } from '@/components/ui/Dialog';
 import { addDrawer } from '@/components/ui/Drawer';
-import { errorMessage, message } from '@/services/feedback/message';
 import { type FormOverlayExpose, useFormOverlaySubmit } from '@/shared/composables/dialog/useFormOverlaySubmit';
 import PermissionAssignDrawer from '@/views/system/role/components/PermissionAssignDrawer.vue';
 import RoleDataScopeDialog from '@/views/system/role/components/RoleDataScopeDialog.vue';
 import RoleGrantSubjectsAssignDrawer from '@/views/system/role/components/grant-subjects/RoleGrantSubjectsAssignDrawer.vue';
 import { ref } from 'vue';
 import { useI18n } from 'vue-i18n';
-
-interface AssignPanelExpose {
-  getSelectedKeys: () => string[];
-}
 
 /**
  * 角色表格「更多」操作：分配权限、数据范围、授权对象等
@@ -28,40 +24,26 @@ function useRoleMoreAction() {
    * @param row 表格行
    */
   const openAssignPermissionDrawer = (row: SysRolePageRow) => {
-    const drawerRef = ref<AssignPanelExpose | null>(null);
+    const loadAssigned = async () => {
+      const rows = await getRolePermissions(row.id);
+      return rows.map((permissionRow) => ({
+        key: permissionRow.id,
+        label: permissionRow.permissionName,
+      }));
+    };
 
-    addDrawer({
+    openAssignDrawer({
       title: t('roles.assign.permission'),
-      size: '100%',
-      resizable: true,
-      closeOnClickModal: false,
-      closeOnPressEscape: false,
-      showClose: true,
-      contentRenderer: () => (
+      contentRenderer: (panelRef) => (
         <PermissionAssignDrawer
-          ref={drawerRef}
+          ref={panelRef}
           leftTitle={t('roles.assign.current')}
           leftSubtitle={`${row.roleName} (${row.roleCode})`}
-          loadAssigned={async () => {
-            const rows = await getRolePermissions(row.id);
-            return rows.map((permissionRow) => ({
-              key: permissionRow.id,
-              label: permissionRow.permissionName,
-            }));
-          }}
+          loadAssigned={loadAssigned}
           tableTitle={t('roles.assign.permission')}
         />
       ),
-      beforeSure: async (done) => {
-        try {
-          const permissionIds = drawerRef.value?.getSelectedKeys() ?? [];
-          await assignRolePermissions(row.id, { permissionIds });
-          message(t('tips.assignSaveSuccess'), { type: 'success' });
-          done();
-        } catch (error: unknown) {
-          errorMessage(error);
-        }
-      },
+      onSubmit: (permissionIds) => assignRolePermissions(row.id, { permissionIds }),
     });
   };
 

@@ -8,6 +8,37 @@ export interface SvgInfo {
   body: string;
 }
 
+const EMPTY_SVG_INFO: SvgInfo = { width: 0, height: 0, body: '' };
+
+function parseNumericAttr(value: string | null | undefined): number {
+  if (!value) {
+    return 0;
+  }
+  const parsed = Number.parseFloat(value);
+  return Number.isNaN(parsed) ? 0 : parsed;
+}
+
+function parseViewBoxSize(viewBox: string | null): { width: number; height: number } {
+  if (!viewBox) {
+    return { width: 0, height: 0 };
+  }
+  const parts = viewBox.trim().split(/\s+/);
+  if (parts.length < 4) {
+    return { width: 0, height: 0 };
+  }
+  return {
+    width: parseNumericAttr(parts[2]),
+    height: parseNumericAttr(parts[3]),
+  };
+}
+
+function resolveSvgSize(svgElement: SVGSVGElement): { width: number; height: number } {
+  const fromViewBox = parseViewBoxSize(svgElement.getAttribute('viewBox'));
+  const width = fromViewBox.width || parseNumericAttr(svgElement.getAttribute('width'));
+  const height = fromViewBox.height || parseNumericAttr(svgElement.getAttribute('height'));
+  return { width, height };
+}
+
 /**
  * 解析 SVG 字符串为 Iconify 离线图标所需结构
  * @param svgString SVG XML 字符串
@@ -15,58 +46,24 @@ export interface SvgInfo {
  */
 export function getSvgInfo(svgString: string): SvgInfo {
   if (typeof DOMParser === 'undefined') {
-    return { width: 0, height: 0, body: '' };
+    return EMPTY_SVG_INFO;
   }
   try {
     const document = new DOMParser().parseFromString(svgString, 'image/svg+xml');
     if (document.querySelector('parsererror')) {
-      return { width: 0, height: 0, body: '' };
+      return EMPTY_SVG_INFO;
     }
     const svgElement = document.querySelector('svg');
     if (!svgElement) {
-      return { width: 0, height: 0, body: '' };
+      return EMPTY_SVG_INFO;
     }
-
-    let width = 0;
-    let height = 0;
-    const viewBox = svgElement.getAttribute('viewBox');
-    if (viewBox) {
-      const parts = viewBox.trim().split(/\s+/);
-      if (parts.length >= 4) {
-        const parsedWidth = parseFloat(parts[2]);
-        const parsedHeight = parseFloat(parts[3]);
-        if (!Number.isNaN(parsedWidth)) {
-          width = parsedWidth;
-        }
-        if (!Number.isNaN(parsedHeight)) {
-          height = parsedHeight;
-        }
-      }
-    }
-
-    if (width === 0 || height === 0) {
-      const widthAttribute = svgElement.getAttribute('width');
-      const heightAttribute = svgElement.getAttribute('height');
-      if (widthAttribute && width === 0) {
-        const parsed = parseFloat(widthAttribute);
-        if (!Number.isNaN(parsed)) {
-          width = parsed;
-        }
-      }
-      if (heightAttribute && height === 0) {
-        const parsed = parseFloat(heightAttribute);
-        if (!Number.isNaN(parsed)) {
-          height = parsed;
-        }
-      }
-    }
-
+    const { width, height } = resolveSvgSize(svgElement);
     return {
-      width: Number.isNaN(width) ? 0 : width,
-      height: Number.isNaN(height) ? 0 : height,
+      width,
+      height,
       body: svgElement.innerHTML || '',
     };
   } catch {
-    return { width: 0, height: 0, body: '' };
+    return EMPTY_SVG_INFO;
   }
 }

@@ -74,27 +74,36 @@ function getParentPaths(value: string, routes: RouteRecordRaw[], key = 'path') {
   return dfs(routes, value, []);
 }
 
+function unwrapRoute(route: RouteRecordRaw | undefined | null): RouteRecordRaw | null {
+  if (!route) {
+    return null;
+  }
+  return isProxy(route) ? toRaw(route) : route;
+}
+
 /**
  * 查找对应 `path` 的路由信息
  * @param path 路径
  * @param routes 路由
  * @returns 路由信息
  */
-function findRouteByPath(path: string, routes: RouteRecordRaw[]) {
-  let res = routes.find((item: { path: string }) => item.path == path);
-  if (res) {
-    return isProxy(res) ? toRaw(res) : res;
-  } else {
-    for (let i = 0; i < routes.length; i++) {
-      if (routes[i].children instanceof Array && routes[i].children.length > 0) {
-        res = findRouteByPath(path, routes[i].children);
-        if (res) {
-          return isProxy(res) ? toRaw(res) : res;
-        }
-      }
-    }
-    return null;
+function findRouteByPath(path: string, routes: RouteRecordRaw[]): RouteRecordRaw | null {
+  const direct = routes.find((item) => item.path == path);
+  if (direct) {
+    return unwrapRoute(direct);
   }
+
+  for (const route of routes) {
+    const children = route.children;
+    if (!Array.isArray(children) || children.length === 0) {
+      continue;
+    }
+    const nested = findRouteByPath(path, children);
+    if (nested) {
+      return nested;
+    }
+  }
+  return null;
 }
 
 export { findRouteByPath, formatFlatteningRoutes, formatTwoStageRoutes, getParentPaths };

@@ -1,0 +1,38 @@
+fileExportTask:
+  page:
+    tableTitle: 导出任务
+  dialog:
+    detailTitle: 导出任务详情
+  fields:
+    bizType: 业务类型
+    status: 任务状态
+    exportFormat: 导出格式
+    progressPercent: 进度
+    processedRows: 处理行数
+    totalRows: 总行数
+    priority: 优先级
+    fileRecordId: 产物文件ID
+    requestId: 幂等请求ID
+    retryCount: 重试次数
+    nextRetryAt: 下次重试时间
+    cancelRequested: 是否请求取消
+    lockedBy: 租约持有者
+    leaseUntil: 租约到期时间
+    errorCode: 错误码
+    errorMessage: 错误信息
+    bizParamsJson: 筛选条件快照
+    dataScopeJson: 数据权限快照
+    startedAt: 开始时间
+    finishedAt: 结束时间
+    expireAt: 过期时间
+    remark: 备注
+    createdAtRange: 创建时间范围
+  status:
+    PENDING: 待处理
+    RUNNING: 执行中
+    SUCCESS: 成功
+    FAILED: 失败
+    CANCELLED: 已取消
+    EXPIRED: 已过期
+  exportFormat:
+    XLSX: Excel
