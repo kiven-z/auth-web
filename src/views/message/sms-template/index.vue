@@ -55,7 +55,7 @@ onMounted(() => {
       ref="searchFormRef"
       v-enter-submit="fetchTableData"
       :model="searchForm"
-      class="bg-bg_color w-[99/100] overflow-auto pl-8 pt-3"
+      class="bg-auth-container w-[99/100] overflow-auto pl-8 pt-3"
       inline
     >
       <!-- 场景编码（scene_code） -->
@@ -103,7 +103,7 @@ onMounted(() => {
       </el-form-item>
     </el-form>
 
-    <PagedTable :columns="columns" :state="smsTemplateState" :title="t('smsTemplate.tableTitle')" show-overflow-tooltip>
+    <PagedTable :columns="columns" :state="smsTemplateState" :title="t('smsTemplate.tableTitle')">
       <template #buttons>
         <el-button-group type="primary">
           <el-button v-perms="SMS_TEMPLATE_PERMS.CREATE" @click="openCreateDialog">

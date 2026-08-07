@@ -14,7 +14,7 @@ import { addDialog } from '@/components/ui/Dialog';
 import { operationConfirm } from '@/services/feedback/dialog';
 import { errorMessage, message } from '@/services/feedback/message';
 import useBatchDeleteAction from '@/shared/composables/table/useBatchDeleteAction';
-import { type FormOverlayExpose, useFormOverlaySubmit } from '@/shared/composables/table/useFormOverlaySubmit';
+import { type FormOverlayExpose, useFormOverlaySubmit } from '@/shared/composables/dialog/useFormOverlaySubmit';
 import ScheduleGroupFormDialog from '@/views/schedule/schedule-group/components/ScheduleGroupFormDialog.vue';
 import useJobGroupDetailColumns from '@/views/schedule/schedule-group/hooks/useJobGroupDetailColumns';
 import { h, ref } from 'vue';

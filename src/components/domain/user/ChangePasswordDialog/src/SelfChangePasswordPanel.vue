@@ -1,46 +1,35 @@
 <script lang="ts" setup>
-import type { ChangePasswordDialogPanelProps } from './types';
-import { useChangePasswordRules } from './hooks/useChangePasswordRules';
-import type { FormInstance } from 'element-plus';
-import { computed, ref, toRef } from 'vue';
+import type { SelfChangePasswordForm } from './types';
+import { usePasswordConfirmRules } from './hooks/usePasswordConfirmRules';
+import type { FormInstance, FormRules } from 'element-plus';
+import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 
-defineOptions({ name: 'ChangePasswordDialogPanel' });
-
-const props = defineProps<ChangePasswordDialogPanelProps>();
+defineOptions({ name: 'SelfChangePasswordPanel' });
 
 const { t } = useI18n();
 const formRef = ref<FormInstance>();
-const modeRef = toRef(props, 'mode');
-
-const form = ref({
+const form = ref<SelfChangePasswordForm>({
   oldPassword: '',
   newPassword: '',
   confirmPassword: '',
 });
 
-const newPasswordRef = computed({
-  get: () => form.value.newPassword,
-  set: (value: string) => {
-    form.value.newPassword = value;
-  },
-});
+const newPasswordRef = computed(() => form.value.newPassword);
 
-const confirmPasswordRef = computed({
-  get: () => form.value.confirmPassword,
-  set: (value: string) => {
-    form.value.confirmPassword = value;
-  },
-});
+const { rules: passwordConfirmRules } = usePasswordConfirmRules(newPasswordRef);
 
-const { rules } = useChangePasswordRules(modeRef, newPasswordRef, confirmPasswordRef);
+const rules = computed<FormRules>(() => ({
+  oldPassword: [{ required: true, message: t('users.password.old'), trigger: 'blur' }],
+  ...passwordConfirmRules.value,
+}));
 
 defineExpose({ formRef, form });
 </script>
 
 <template>
   <el-form ref="formRef" :model="form" :rules="rules" label-width="auto">
-    <el-form-item v-if="mode === 'self-change'" :label="t('users.password.old')" prop="oldPassword">
+    <el-form-item :label="t('users.password.old')" prop="oldPassword">
       <el-input
         v-model="form.oldPassword"
         :placeholder="t('users.password.old')"

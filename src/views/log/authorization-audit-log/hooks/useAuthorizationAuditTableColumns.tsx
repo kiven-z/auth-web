@@ -29,7 +29,7 @@ function useAuthorizationAuditTableColumns() {
       label: t('authorizationAudit.eventType'),
       prop: 'eventType',
       minWidth: 110,
-      formatter: (row: AuthorizationAuditPageRow) => {
+      render: ({ row }: { row: AuthorizationAuditPageRow }) => {
         if (!row.eventType) {
           return <span>—</span>;
         }
@@ -64,13 +64,13 @@ function useAuthorizationAuditTableColumns() {
       prop: 'createdAt',
       sortable: true,
       minWidth: 170,
-      formatter: (row: AuthorizationAuditPageRow) => formatDateTime(row.createdAt),
+      render: ({ row }: { row: AuthorizationAuditPageRow }) => formatDateTime(row.createdAt),
     },
     {
       label: t('table.createdByName'),
       prop: 'createdBy',
       minWidth: 130,
-      formatter: (row: AuthorizationAuditPageRow) => {
+      render: ({ row }: { row: AuthorizationAuditPageRow }) => {
         return (
           row.createdBy && (
             <ElButton link type="primary" onClick={() => selectUserinfo(row.createdBy, row.createdByName)}>
@@ -84,7 +84,7 @@ function useAuthorizationAuditTableColumns() {
       label: t('table.updatedByName'),
       prop: 'updatedBy',
       minWidth: 130,
-      formatter: (row: AuthorizationAuditPageRow) => {
+      render: ({ row }: { row: AuthorizationAuditPageRow }) => {
         return (
           row.updatedBy && (
             <ElButton link type="primary" onClick={() => selectUserinfo(row.updatedBy, row.updatedByName)}>
@@ -96,7 +96,7 @@ function useAuthorizationAuditTableColumns() {
     },
     {
       label: t('table.actions'),
-      fixed: 'right' as const,
+      fixed: 'right',
       width: 120,
       slot: 'actions',
     },

@@ -116,10 +116,10 @@ onMounted(load);
   }
 
   &__letter-header {
-    margin-bottom: 16px;
     padding-bottom: 16px;
-    border-bottom: 1px solid var(--el-border-color-lighter);
+    margin-bottom: 16px;
     text-align: center;
+    border-bottom: 1px solid var(--el-border-color-lighter);
 
     h2 {
       margin: 0;
@@ -129,8 +129,8 @@ onMounted(load);
 
     div {
       margin-top: 8px;
-      color: var(--el-text-color-secondary);
       font-size: 13px;
+      color: var(--el-text-color-secondary);
     }
   }
 }

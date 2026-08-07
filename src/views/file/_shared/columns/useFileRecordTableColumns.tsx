@@ -46,7 +46,7 @@ function useFileRecordTableColumns() {
       label: t('fileRecord.fields.size'),
       prop: 'size',
       minWidth: 120,
-      formatter: (row: FileRecordPageRow) => formatFileSize(row.size),
+      render: ({ row }: { row: FileRecordPageRow }) => formatFileSize(row.size),
     },
     // 文件类型
     {
@@ -59,7 +59,7 @@ function useFileRecordTableColumns() {
       label: t('fileRecord.fields.isPrivate'),
       prop: 'isPrivate',
       minWidth: 110,
-      formatter: (row: FileRecordPageRow) => {
+      render: ({ row }: { row: FileRecordPageRow }) => {
         return (
           <ElTag type={row.isPrivate ? 'warning' : 'success'} effect="plain">
             {row.isPrivate ? t('status.yes') : t('status.no')}
@@ -82,7 +82,7 @@ function useFileRecordTableColumns() {
     ...createAuditTableColumns(),
     {
       label: t('table.actions'),
-      fixed: 'right' as const,
+      fixed: 'right',
       width: 200,
       slot: 'actions',
     },

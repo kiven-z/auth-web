@@ -70,6 +70,10 @@ menus:
   enterTransition: Enter transition
   leaveTransition: Leave transition
   transitionName: Page transition
+  sections:
+    basic: Basic
+    route: Route & display
+    animation: Transition
   rules:
     menuType: Please select menu type
     title: Please enter menu title
@@ -92,10 +96,4 @@ menus:
   tips:
     simpleAnimation: Simple
     detailAnimation: Detailed
-    useAnimationCautionaryNotes: Please read before enabling transitions
-    displayProblem: Display
-    displayProblemTips: Some transitions may flicker on low-end devices or heavy pages.
-    performanceProblem: Performance
-    performanceProblemTips: Heavy animation may increase GPU and layout cost.
-    functionException: Compatibility
-    functionExceptionTips: Verify with keep-alive and route cache on a small page first.
+    animationAlert: Page transitions may affect display, performance, and keep-alive. Verify on a small page first.

@@ -22,8 +22,7 @@ function useUserTableColumns() {
       label: t('users.field.username'),
       prop: 'username',
       minWidth: 120,
-      showOverflowTooltip: true,
-      formatter: (row: SysUserPageRow) => (
+      render: ({ row }: { row: SysUserPageRow }) => (
         <Perms value={SYS_USER_PERMS.QUERY}>
           <ElButton link type="primary" onClick={() => selectUserinfo(row.id, row.username)}>
             {row.username}
@@ -31,28 +30,28 @@ function useUserTableColumns() {
         </Perms>
       ),
     },
-    { label: t('users.field.nickname'), prop: 'nickname', minWidth: 120, showOverflowTooltip: true },
+    { label: t('users.field.nickname'), prop: 'nickname', minWidth: 120 },
     {
       label: t('users.field.avatarURL'),
       prop: 'avatar',
       minWidth: 72,
-      formatter: (row: SysUserPageRow) => (
+      render: ({ row }: { row: SysUserPageRow }) => (
         <UserAvatar avatar={row.avatar} name={row.nickname || row.username} size={32} />
       ),
     },
-    { label: t('users.field.phone'), prop: 'phone', minWidth: 130, showOverflowTooltip: true },
-    { label: t('users.field.email'), prop: 'email', minWidth: 160, showOverflowTooltip: true },
-    { label: t('relation.employeeNo'), prop: 'employeeNo', minWidth: 100, showOverflowTooltip: true },
+    { label: t('users.field.phone'), prop: 'phone', minWidth: 130 },
+    { label: t('users.field.email'), prop: 'email', minWidth: 160 },
+    { label: t('relation.employeeNo'), prop: 'employeeNo', minWidth: 100 },
     {
       label: t('users.field.status'),
       prop: 'status',
       minWidth: 100,
-      formatter: (row: SysUserPageRow) => renderUserAccountStatus(row.status),
+      render: ({ row }: { row: SysUserPageRow }) => renderUserAccountStatus(row.status),
     },
     ...createAuditTableColumns(),
     {
       label: t('table.actions'),
-      fixed: 'right' as const,
+      fixed: 'right',
       minWidth: 100,
       slot: 'actions',
     },

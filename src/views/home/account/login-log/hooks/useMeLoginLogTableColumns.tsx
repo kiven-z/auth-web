@@ -19,7 +19,7 @@ function useMeLoginLogTableColumns() {
       prop: 'loginTime',
       sortable: true,
       minWidth: 170,
-      formatter: (row: MeLoginLogPageRow) => formatDateTime(row.loginTime),
+      render: ({ row }: { row: MeLoginLogPageRow }) => formatDateTime(row.loginTime),
     },
     {
       label: t('loginLog.field.loginRegion'),
@@ -30,7 +30,7 @@ function useMeLoginLogTableColumns() {
       label: t('loginLog.field.loginResult'),
       prop: 'loginResult',
       minWidth: 140,
-      formatter: (row: MeLoginLogPageRow) => {
+      render: ({ row }: { row: MeLoginLogPageRow }) => {
         const code = row.loginResult;
         if (code === undefined || code === null) return <span>—</span>;
         const option = loginResultOptions.value.find((item) => item.value === code);
@@ -47,7 +47,7 @@ function useMeLoginLogTableColumns() {
       label: t('loginLog.field.loginType'),
       prop: 'loginType',
       minWidth: 130,
-      formatter: (row: MeLoginLogPageRow) => {
+      render: ({ row }: { row: MeLoginLogPageRow }) => {
         if (!row.loginType) return '';
         const option = loginTypeOptions.value.find((item) => item.value === row.loginType);
         return option?.label ?? row.loginType;

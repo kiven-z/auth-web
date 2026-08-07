@@ -51,7 +51,7 @@ onMounted(() => {
       ref="searchFormRef"
       v-enter-submit="fetchTableData"
       :model="searchForm"
-      class="bg-bg_color w-[99/100] overflow-auto pl-8 pt-3"
+      class="bg-auth-container w-[99/100] overflow-auto pl-8 pt-3"
       inline
     >
       <el-form-item :label="t('logJob.field.jobId')" prop="jobId">
@@ -133,7 +133,7 @@ onMounted(() => {
       </el-form-item>
     </el-form>
 
-    <PagedTable :columns="columns" :state="jobLogState" :title="t('logJob.title.table')" show-overflow-tooltip>
+    <PagedTable :columns="columns" :state="jobLogState" :title="t('logJob.title.table')">
       <template #buttons>
         <el-dropdown trigger="click">
           <el-button type="danger">

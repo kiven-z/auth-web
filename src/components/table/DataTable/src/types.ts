@@ -1,4 +1,4 @@
-/** 分页对象（与列表页 reactive 结构一致，可就地修改） */
+/** 分页对象（只读展示；页码变更由事件交给父级） */
 export interface DataTablePagination {
   total: number;
   pageSize: number;
@@ -13,19 +13,17 @@ export interface DataTablePagination {
 /**
  * 表格高度模式：
  * - `false`：不定高（弹窗等）
- * - `viewport`：按视口剩余高度写入（普通列表页）
- * - `fill`：填满已定高的父级（分栏页）；不读 vh，不靠 paginationReserve 对账
+ * - `viewport`：根节点按视口剩余高度定高，表体再吃满根内剩余（含分页）
+ * - `fill`：填满已定高的父级
  */
 export type DataTableAdaptiveMode = false | 'viewport' | 'fill';
 
-/** 自适应高度配置（主要服务 `viewport`；`fill` 不依赖 reserve） */
+/** 自适应高度配置 */
 export interface DataTableAdaptiveConfig {
+  /** 距视口底部偏移（仅 viewport） */
   offsetBottom?: number;
-  fixHeader?: boolean;
-  timeout?: number;
-  zIndex?: number;
-  /** 仅 `viewport`：有分页时从可用高度中预留的像素 */
-  paginationReserve?: number;
-  /** 仅 `viewport`：表体最小高度 */
+  /** resize 防抖毫秒 */
+  debounceMs?: number;
+  /** 表体最小高度（仅 viewport 写根高时） */
   minHeight?: number;
 }

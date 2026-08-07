@@ -30,7 +30,7 @@ function useDeptTableColumns() {
       label: t('dept.field.status'),
       prop: 'status',
       width: 100,
-      formatter: (row: SysDeptRow) => renderBooleanStatusTag(row.status),
+      render: ({ row }: { row: SysDeptRow }) => renderBooleanStatusTag(row.status),
     },
     ...createAuditTableColumns(),
     { label: t('table.actions'), fixed: 'right', width: 220, slot: 'actions' },

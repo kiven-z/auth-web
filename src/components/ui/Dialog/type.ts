@@ -1,7 +1,7 @@
 import type { Component, CSSProperties, VNode } from 'vue';
 
 type DoneFn = (cancel?: boolean) => void;
-type EventType = 'open' | 'close' | 'openAutoFocus' | 'closeAutoFocus' | 'fullscreenCallBack';
+type EventType = 'open' | 'close' | 'fullscreenCallBack';
 interface ArgsType {
   /** `cancel` 点击取消按钮、`sure` 点击确定按钮、`close` 点击右上角关闭按钮或空白页或按下了esc键 */
   command: 'cancel' | 'sure' | 'close';
@@ -24,7 +24,7 @@ interface DialogProps {
   top?: string;
   /** 是否需要遮罩层，默认 `true` */
   modal?: boolean;
-  /** `Dialog` 自身是否插入至 `body` 元素上。嵌套的 `Dialog` 必须指定该属性并赋值为 `true`，默认 `false` */
+  /** `Dialog` 自身是否插入至 `body` 元素上嵌套的 `Dialog` 必须指定该属性并赋值为 `true`，默认 `false` */
   appendToBody?: boolean;
   /** 是否在 `Dialog` 出现时将 `body` 滚动锁定，默认 `true` */
   lockScroll?: boolean;
@@ -151,8 +151,21 @@ interface DialogOptions extends DialogProps {
   hideFooter?: boolean;
   /** 确定按钮的 `Popconfirm` 气泡确认框相关配置 */
   popconfirm?: Popconfirm;
-  /** 点击确定按钮后是否开启 `loading` 加载动画 */
-  sureBtnLoading?: boolean;
+  /** 确定时是否显示 loading；未配置时有 beforeSure 则默认开启 */
+  confirmLoadingEnabled?: boolean;
+  /** 确定按钮当前是否 loading（运行时，由 `confirmDialog` 维护） */
+  confirmLoading?: boolean;
+  /**
+   * 打开动画结束后聚焦内容区首个可聚焦控件（或内容 expose.focusTarget）
+   * 在 FocusTrap 完成之后执行，避免与 EP 抢焦点
+   */
+  focusOnOpen?: boolean;
+  /**
+   * 内容区回车触发确定（与底部确定同一 `confirmDialog` 入口）
+   * 默认：存在 `beforeSure` 时开启；显式传 `false` 可关闭
+   * textarea / 下拉面板 / 按钮等按 `shouldIgnoreEnterTarget` 忽略
+   */
+  enterConfirm?: boolean;
   /**
    * @description 自定义对话框标题的内容渲染器
    * @see {@link https://element-plus.org/zh-CN/component/dialog.html#%E8%87%AA%E5%AE%9A%E4%B9%89%E5%A4%B4%E9%83%A8}
@@ -172,18 +185,14 @@ interface DialogOptions extends DialogProps {
   footerRenderer?: ({ options, index }: { options: DialogOptions; index: number }) => VNode | Component;
   /** 自定义底部按钮操作 */
   footerButtons?: Array<ButtonProps>;
-  /** `Dialog` 打开后的回调 */
+  /** `Dialog` 打开动画结束后的回调（对应 EP `opened`） */
   open?: ({ options, index }: { options: DialogOptions; index: number }) => void;
   /** `Dialog` 关闭后的回调（只有点击右上角关闭按钮或空白页或按下了esc键关闭页面时才会触发） */
   close?: ({ options, index }: { options: DialogOptions; index: number }) => void;
-  /** `Dialog` 关闭后的回调。 `args` 返回的 `command` 值解析：`cancel` 点击取消按钮、`sure` 点击确定按钮、`close` 点击右上角关闭按钮或空白页或按下了esc键  */
+  /** `Dialog` 关闭后的回调 `args` 返回的 `command` 值解析：`cancel` 点击取消按钮、`sure` 点击确定按钮、`close` 点击右上角关闭按钮或空白页或按下了esc键  */
   closeCallBack?: ({ options, index, args }: { options: DialogOptions; index: number; args: any }) => void;
   /** 点击全屏按钮时的回调 */
   fullscreenCallBack?: ({ options, index }: { options: DialogOptions; index: number }) => void;
-  /** 输入焦点聚焦在 `Dialog` 内容时的回调 */
-  openAutoFocus?: ({ options, index }: { options: DialogOptions; index: number }) => void;
-  /** 输入焦点从 `Dialog` 内容失焦时的回调 */
-  closeAutoFocus?: ({ options, index }: { options: DialogOptions; index: number }) => void;
   /** 点击底部取消按钮的回调，会暂停 `Dialog` 的关闭. 回调函数内执行 `done` 参数方法的时候才是真正关闭对话框的时候 */
   beforeCancel?: (
     done: Function,
@@ -197,18 +206,14 @@ interface DialogOptions extends DialogProps {
   ) => void;
   /** 点击底部确定按钮的回调，会暂停 `Dialog` 的关闭. 回调函数内执行 `done` 参数方法的时候才是真正关闭对话框的时候 */
   beforeSure?: (
-    done: Function,
-    {
-      options,
-      index,
-      closeLoading,
-    }: {
+    done: (cancel?: boolean) => void,
+    context: {
       options: DialogOptions;
       index: number;
       /** 关闭确定按钮的 `loading` 加载动画 */
-      closeLoading: Function;
+      closeLoading: () => void;
     }
-  ) => void;
+  ) => void | Promise<void>;
 }
 
 export type { EventType, ArgsType, DialogProps, ButtonProps, DialogOptions };

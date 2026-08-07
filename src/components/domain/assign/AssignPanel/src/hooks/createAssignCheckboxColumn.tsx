@@ -27,7 +27,7 @@ export function createAssignCheckboxColumn(
     prop: '__assign',
     align: 'center',
     width: 80,
-    formatter: (row: Record<string, unknown>) => {
+    render: ({ row }: { row: Record<string, unknown> }) => {
       return (
         <ElCheckbox
           model-value={assign.isSelected(row)}

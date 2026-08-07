@@ -21,12 +21,14 @@ export interface PagedTableProps<TData = unknown, TQuery extends Record<string, 
   title?: string;
   /** 行主键，默认 id */
   rowKey?: string | ((row: TData) => string);
-  /** 高度模式，默认 viewport */
+  /** 高度模式，默认 viewport；分栏定高页用 fill */
   adaptive?: DataTableAdaptiveMode;
   adaptiveConfig?: DataTableAdaptiveConfig;
   border?: boolean;
   highlightCurrentRow?: boolean;
   alignWhole?: 'left' | 'center' | 'right';
+  /** 列宽布局，默认 fixed */
   tableLayout?: 'fixed' | 'auto';
+  /** 溢出 tooltip，默认 true */
   showOverflowTooltip?: boolean;
 }

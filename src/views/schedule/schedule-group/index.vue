@@ -47,7 +47,7 @@ onMounted(() => {
       ref="searchFormRef"
       v-enter-submit="fetchTableData"
       :model="searchForm"
-      class="bg-bg_color w-[99/100] overflow-auto pl-8 pt-3"
+      class="bg-auth-container w-[99/100] overflow-auto pl-8 pt-3"
       inline
     >
       <el-form-item :label="t('scheduleGroup.code')" prop="groupCode">
@@ -94,7 +94,7 @@ onMounted(() => {
       </el-form-item>
     </el-form>
 
-    <PagedTable :columns="columns" :state="jobGroupState" :title="t('scheduleGroup.tableTitle')" show-overflow-tooltip>
+    <PagedTable :columns="columns" :state="jobGroupState" :title="t('scheduleGroup.tableTitle')">
       <template #buttons>
         <el-button v-perms="SYS_JOB_GROUP_PERMS.CREATE" type="primary" @click="openCreateDialog">
           {{ t('buttons.actionAdd') }}

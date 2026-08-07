@@ -1,16 +1,24 @@
 <script lang="ts" setup>
-import { type ButtonProps, closeDrawer, type DrawerOptions, drawerStore, type EventType } from './index';
+import {
+  focusOverlayContent,
+  isEnterConfirmEnabled,
+  type OverlayContentExpose,
+  shouldEnterConfirm,
+} from '@/shared/composables/dialog/overlayShell';
 import isFunction from 'lodash/isFunction';
+import { computed, nextTick, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { computed, ref } from 'vue';
+import { type ButtonProps, closeDrawer, confirmDrawer, type DrawerOptions, drawerStore, type EventType } from './index';
 
 defineOptions({
   name: 'AuthDrawer',
 });
 
 const { t } = useI18n();
-
-const sureBtnMap = ref({});
+/** 各抽屉内容根节点（用于首焦 / 回车） */
+const bodyEls = ref<Array<HTMLElement | null>>([]);
+/** 各抽屉内容组件实例 */
+const contentExposes = ref<Array<OverlayContentExpose | null>>([]);
 
 const footerButtons = computed(() => {
   return (options: DrawerOptions) => {
@@ -37,25 +45,7 @@ const footerButtons = computed(() => {
             bg: true,
             popConfirm: options?.popConfirm,
             btnClick: ({ drawer: { options, index } }) => {
-              if (options?.sureBtnLoading) {
-                sureBtnMap.value[index] = Object.assign({}, sureBtnMap.value[index], {
-                  loading: true,
-                });
-              }
-              const closeLoading = () => {
-                if (options?.sureBtnLoading) {
-                  sureBtnMap.value[index].loading = false;
-                }
-              };
-              const done = () => {
-                closeLoading();
-                closeDrawer(options, index, { command: 'sure' });
-              };
-              if (options?.beforeSure && isFunction(options?.beforeSure)) {
-                options.beforeSure(done, { options, index, closeLoading });
-              } else {
-                done();
-              }
+              confirmDrawer(options, index);
             },
           },
         ] as Array<ButtonProps>);
@@ -69,15 +59,48 @@ function eventsCallBack(event: EventType, options: DrawerOptions, index: number)
 }
 
 /**
- *
- * @param {DrawerOptions} options - 包含抽屉相关配置的对象
- * @param {number} index - 抽屉的索引
- * @param {Object} args - 传递给关闭抽屉操作的参数对象，默认为 { command: 'close' }
- * @returns {void} 这个函数不返回任何值
+ * @param options 抽屉配置
+ * @param index 抽屉索引
+ * @param args 关闭参数
  */
 function handleClose(options: DrawerOptions, index: number, args = { command: 'close' }) {
   closeDrawer(options, index, args);
   eventsCallBack('close', options, index);
+}
+
+/**
+ * 打开动画结束：业务 open 回调 + 可选首焦（此时 FocusTrap 已完成）
+ */
+function handleOpened(options: DrawerOptions, index: number) {
+  eventsCallBack('open', options, index);
+  if (!options.focusOnOpen) {
+    return;
+  }
+  void nextTick(() => {
+    focusOverlayContent(bodyEls.value[index], contentExposes.value[index]);
+  });
+}
+
+/**
+ * 内容区回车 → 与底部确定同一入口（有 beforeSure 时默认开启）
+ */
+function handleEnterConfirm(event: KeyboardEvent, options: DrawerOptions, index: number) {
+  if (!isEnterConfirmEnabled(options) || options.confirmLoading) {
+    return;
+  }
+  if (!shouldEnterConfirm(event)) {
+    return;
+  }
+  event.preventDefault();
+  confirmDrawer(options, index);
+}
+
+function bindBodyEl(index: number, el: Element | null) {
+  bodyEls.value[index] = el instanceof HTMLElement ? el : null;
+}
+
+function bindContentExpose(index: number, el: unknown) {
+  contentExposes.value[index] = (el as OverlayContentExpose | null) ?? null;
 }
 </script>
 
@@ -93,18 +116,18 @@ function handleClose(options: DrawerOptions, index: number, args = { command: 'c
     class="auth-drawer"
     v-bind="options"
     @closed="handleClose(options, index)"
-    @opened="eventsCallBack('open', options, index)"
-    @open-auto-focus="eventsCallBack('openAutoFocus', options, index)"
-    @close-auto-focus="eventsCallBack('closeAutoFocus', options, index)"
+    @opened="handleOpened(options, index)"
   >
     <template v-if="options?.headerRenderer" #header="{ close, titleId, titleClass }">
       <component :is="options?.headerRenderer({ close, titleId, titleClass })" />
     </template>
-    <component
-      :is="options.contentRenderer({ options, index })"
-      v-bind="options?.props"
-      @close="(args) => handleClose(options, index, args)"
-    />
+    <div :ref="(el) => bindBodyEl(index, el as Element | null)" @keydown="handleEnterConfirm($event, options, index)">
+      <component
+        :is="options.contentRenderer({ options, index })"
+        :ref="(el: unknown) => bindContentExpose(index, el)"
+        v-bind="options?.props"
+      />
+    </div>
     <template v-if="!options?.hideFooter" #footer>
       <template v-if="options?.footerRenderer">
         <component :is="options?.footerRenderer({ options, index })" />
@@ -127,7 +150,7 @@ function handleClose(options: DrawerOptions, index: number, args = { command: 'c
           </el-popconfirm>
           <el-button
             v-else
-            :loading="key === 1 && sureBtnMap[index]?.loading"
+            :loading="key === 1 && !!options.confirmLoading"
             v-bind="btn"
             @click="
               btn.btnClick({

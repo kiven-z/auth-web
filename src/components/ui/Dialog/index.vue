@@ -1,16 +1,27 @@
 <script lang="ts" setup>
+import {
+  focusOverlayContent,
+  isEnterConfirmEnabled,
+  type OverlayContentExpose,
+  shouldEnterConfirm,
+} from '@/shared/composables/dialog/overlayShell';
 import isFunction from 'lodash/isFunction';
-import { computed, ref } from 'vue';
+import { computed, nextTick, ref } from 'vue';
 import ExitFullscreen from '~icons/ri/fullscreen-exit-fill';
 import Fullscreen from '~icons/ri/fullscreen-fill';
-import { type ButtonProps, closeDialog, type DialogOptions, dialogStore, type EventType } from './index';
+import { type ButtonProps, closeDialog, confirmDialog, type DialogOptions, dialogStore, type EventType } from './index';
+import { useI18n } from 'vue-i18n';
 
 defineOptions({
   name: 'AuthDialog',
 });
 
-const sureBtnMap = ref({});
+const { t } = useI18n();
 const fullscreen = ref(false);
+/** 各弹层内容根节点（用于首焦 / 回车） */
+const bodyEls = ref<Array<HTMLElement | null>>([]);
+/** 各弹层内容组件实例 */
+const contentExposes = ref<Array<OverlayContentExpose | null>>([]);
 
 const footerButtons = computed(() => {
   return (options: DialogOptions) => {
@@ -18,7 +29,7 @@ const footerButtons = computed(() => {
       ? options.footerButtons
       : ([
           {
-            label: '取消',
+            label: t('buttons.close'),
             text: true,
             bg: true,
             btnClick: ({ dialog: { options, index } }) => {
@@ -31,31 +42,13 @@ const footerButtons = computed(() => {
             },
           },
           {
-            label: '确定',
+            label: t('buttons.confirm'),
             type: 'primary',
             text: true,
             bg: true,
             popconfirm: options?.popconfirm,
             btnClick: ({ dialog: { options, index } }) => {
-              if (options?.sureBtnLoading) {
-                sureBtnMap.value[index] = Object.assign({}, sureBtnMap.value[index], {
-                  loading: true,
-                });
-              }
-              const closeLoading = () => {
-                if (options?.sureBtnLoading) {
-                  sureBtnMap.value[index].loading = false;
-                }
-              };
-              const done = () => {
-                closeLoading();
-                closeDialog(options, index, { command: 'sure' });
-              };
-              if (options?.beforeSure && isFunction(options?.beforeSure)) {
-                options.beforeSure(done, { options, index, closeLoading });
-              } else {
-                done();
-              }
+              confirmDialog(options, index);
             },
           },
         ] as Array<ButtonProps>);
@@ -77,6 +70,41 @@ function handleClose(options: DialogOptions, index: number, args = { command: 'c
   closeDialog(options, index, args);
   eventsCallBack('close', options, index);
 }
+
+/**
+ * 打开动画结束：业务 open 回调 + 可选首焦（此时 FocusTrap 已完成）
+ */
+function handleOpened(options: DialogOptions, index: number) {
+  eventsCallBack('open', options, index);
+  if (!options.focusOnOpen) {
+    return;
+  }
+  void nextTick(() => {
+    focusOverlayContent(bodyEls.value[index], contentExposes.value[index]);
+  });
+}
+
+/**
+ * 内容区回车 → 与底部确定同一入口（有 beforeSure 时默认开启）
+ */
+function handleEnterConfirm(event: KeyboardEvent, options: DialogOptions, index: number) {
+  if (!isEnterConfirmEnabled(options) || options.confirmLoading) {
+    return;
+  }
+  if (!shouldEnterConfirm(event)) {
+    return;
+  }
+  event.preventDefault();
+  confirmDialog(options, index);
+}
+
+function bindBodyEl(index: number, el: Element | null) {
+  bodyEls.value[index] = el instanceof HTMLElement ? el : null;
+}
+
+function bindContentExpose(index: number, el: unknown) {
+  contentExposes.value[index] = (el as OverlayContentExpose | null) ?? null;
+}
 </script>
 
 <template>
@@ -84,13 +112,11 @@ function handleClose(options: DialogOptions, index: number, args = { command: 'c
     v-for="(options, index) in dialogStore"
     :key="index"
     v-model="options.visible"
-    :fullscreen="fullscreen ? true : options?.fullscreen ? true : false"
+    :fullscreen="fullscreen ? true : options?.fullscreen"
     class="auth-dialog"
     v-bind="options"
-    @closeAutoFocus="eventsCallBack('closeAutoFocus', options, index)"
     @closed="handleClose(options, index)"
-    @openAutoFocus="eventsCallBack('openAutoFocus', options, index)"
-    @opened="eventsCallBack('open', options, index)"
+    @opened="handleOpened(options, index)"
   >
     <template v-if="options?.fullscreenIcon || options?.headerRenderer" #header="{ close, titleId, titleClass }">
       <div v-if="options?.fullscreenIcon" class="flex items-center justify-between">
@@ -113,11 +139,13 @@ function handleClose(options: DialogOptions, index: number, args = { command: 'c
       </div>
       <component :is="options?.headerRenderer({ close, titleId, titleClass })" v-else />
     </template>
-    <component
-      :is="options.contentRenderer({ options, index })"
-      v-bind="options?.props"
-      @close="(args) => handleClose(options, index, args)"
-    />
+    <div :ref="(el) => bindBodyEl(index, el as Element | null)" @keydown="handleEnterConfirm($event, options, index)">
+      <component
+        :is="options.contentRenderer({ options, index })"
+        :ref="(el: unknown) => bindContentExpose(index, el)"
+        v-bind="options?.props"
+      />
+    </div>
     <template v-if="!options?.hideFooter" #footer>
       <template v-if="options?.footerRenderer">
         <component :is="options?.footerRenderer({ options, index })" />
@@ -140,7 +168,7 @@ function handleClose(options: DialogOptions, index: number, args = { command: 'c
           </el-popconfirm>
           <el-button
             v-else
-            :loading="key === 1 && sureBtnMap[index]?.loading"
+            :loading="key === 1 && !!options.confirmLoading"
             v-bind="btn"
             @click="
               btn.btnClick({

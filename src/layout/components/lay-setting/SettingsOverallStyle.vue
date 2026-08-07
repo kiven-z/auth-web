@@ -126,6 +126,7 @@ function handleColorSchemeChange(theme: { index: number; option: { theme: string
   gap: 10px;
 
   &__swatch {
+    box-sizing: border-box;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -133,7 +134,6 @@ function handleColorSchemeChange(theme: { index: number; option: { theme: string
     height: 28px;
     cursor: pointer;
     border-radius: 6px;
-    box-sizing: border-box;
     transition: transform 0.15s ease;
 
     &:hover {

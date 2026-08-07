@@ -42,13 +42,13 @@ const logoUrl = getLogoUrl();
     display: flex;
     flex-wrap: nowrap;
     align-items: center;
-    padding: 0 0 0 10px;
     height: 100%;
+    padding: 0 0 0 10px;
 
     img {
       display: inline-block;
       height: 32px;
-      margin: 5px 0 0 0;
+      margin: 5px 0 0;
     }
 
     .sidebar-logo__title {
@@ -60,7 +60,7 @@ const logoUrl = getLogoUrl();
       font-size: 18px;
       font-weight: 600;
       line-height: 32px;
-      color: var(--auth-theme-sub-menu-active-text);
+      color: var(--auth-theme-chrome-text);
       white-space: nowrap;
     }
   }

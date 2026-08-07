@@ -11,13 +11,13 @@ function useDeptColumns() {
   const { t } = useI18n();
 
   const deptColumns = computed<TableColumnList>(() => [
-    { label: t('dept.field.deptCode'), prop: 'deptCode', minWidth: 120, showOverflowTooltip: true },
-    { label: t('dept.field.deptName'), prop: 'deptName', minWidth: 120, showOverflowTooltip: true },
+    { label: t('dept.field.deptCode'), prop: 'deptCode', minWidth: 120 },
+    { label: t('dept.field.deptName'), prop: 'deptName', minWidth: 120 },
     {
       label: t('dept.field.status'),
       prop: 'status',
       minWidth: 90,
-      formatter: (row: DeptReference) => renderBooleanStatusTag(row.status),
+      render: ({ row }: { row: DeptReference }) => renderBooleanStatusTag(row.status),
     },
   ]);
 

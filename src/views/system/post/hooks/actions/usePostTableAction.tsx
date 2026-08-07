@@ -1,8 +1,8 @@
 import type { TableActionDeps } from '@/shared/types/table-action';
 import type { SysPostCreateForm, SysPostPageRow, SysPostUpdateForm } from '@/api/system/post/post';
 import { batchUpdatePostStatus, createPost, deletePost, getPostDetail, updatePost } from '@/api/system/post/post';
-import { addDialog } from '@/components/ui/Dialog/index';
-import { type FormOverlayExpose, useFormOverlaySubmit } from '@/shared/composables/table/useFormOverlaySubmit';
+import { addDialog } from '@/components/ui/Dialog';
+import { type FormOverlayExpose, useFormOverlaySubmit } from '@/shared/composables/dialog/useFormOverlaySubmit';
 import { deleteConfirm, operationConfirm } from '@/services/feedback/dialog';
 import { errorMessage, message } from '@/services/feedback/message';
 import PostDescriptionDialog from '@/views/system/post/components/PostDescriptionDialog.vue';

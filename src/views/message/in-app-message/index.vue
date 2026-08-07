@@ -52,7 +52,7 @@ onMounted(() => {
       ref="searchFormRef"
       v-enter-submit="fetchTableData"
       :model="searchForm"
-      class="bg-bg_color w-[99/100] overflow-auto pl-8 pt-3"
+      class="bg-auth-container w-[99/100] overflow-auto pl-8 pt-3"
       inline
     >
       <el-form-item :label="t('inAppMessage.field.title')" prop="title">
@@ -106,12 +106,7 @@ onMounted(() => {
       </el-form-item>
     </el-form>
 
-    <PagedTable
-      :columns="columns"
-      :state="inAppMessageState"
-      :title="t('inAppMessage.title.table')"
-      show-overflow-tooltip
-    >
+    <PagedTable :columns="columns" :state="inAppMessageState" :title="t('inAppMessage.title.table')">
       <template #buttons>
         <Perms :value="IN_APP_MESSAGE_PERMS.DELETE">
           <el-dropdown trigger="click">

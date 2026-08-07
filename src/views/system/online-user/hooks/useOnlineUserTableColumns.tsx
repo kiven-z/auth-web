@@ -17,8 +17,8 @@ function useOnlineUserTableColumns() {
       label: t('table.idx'),
       minWidth: 60,
     },
-    { label: t('users.field.username'), prop: 'username', minWidth: 120, showOverflowTooltip: true },
-    { label: t('users.field.nickname'), prop: 'nickname', minWidth: 120, showOverflowTooltip: true },
+    { label: t('users.field.username'), prop: 'username', minWidth: 120 },
+    { label: t('users.field.nickname'), prop: 'nickname', minWidth: 120 },
     {
       label: t('onlineUser.field.sessionCount'),
       prop: 'activeSessionCount',
@@ -27,7 +27,7 @@ function useOnlineUserTableColumns() {
     {
       label: t('onlineUser.field.loginAt'),
       minWidth: 170,
-      formatter: (row: OnlineUserPageRow) => formatMillisTimestamp(row.lastLoginAt),
+      render: ({ row }: { row: OnlineUserPageRow }) => formatMillisTimestamp(row.lastLoginAt),
     },
     { label: t('table.actions'), fixed: 'right', minWidth: 160, slot: 'actions' },
   ]);

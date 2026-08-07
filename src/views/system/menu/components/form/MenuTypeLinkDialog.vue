@@ -12,7 +12,7 @@ const { t } = useI18n();
 </script>
 
 <template>
-  <el-row :gutter="14" class="w-full">
+  <el-row :gutter="16" class="w-full">
     <el-col :lg="8" :md="12" :sm="12" :xs="24">
       <el-form-item :label="t('menus.showLink')" prop="showLink">
         <el-switch
@@ -58,8 +58,8 @@ const { t } = useI18n();
           :disabled="formDisabled"
           :inactive-text="t('buttons.statusInactiveText')"
           :inactive-value="false"
+          class="status-switch"
           inline-prompt
-          style="--el-switch-on-color: var(--el-color-success); --el-switch-off-color: var(--el-color-danger)"
         />
       </el-form-item>
     </el-col>

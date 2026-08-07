@@ -76,7 +76,7 @@ async function onShow() {
                 :value="item"
                 @change="(value: boolean | string | number) => checkColumnListChange(!!value, item)"
               >
-                <span :title="transformI18n(item)" class="inline-block w-30 truncate hover:text-text_color_primary">
+                <span :title="transformI18n(item)" class="inline-block w-30 truncate hover:text-auth-text">
                   {{ transformI18n(item) }}
                 </span>
               </el-checkbox>

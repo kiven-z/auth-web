@@ -27,18 +27,18 @@ function useMenuTableColumns() {
     {
       label: t('sysMenu.menuTitle'),
       prop: 'title',
-      formatter: (row: SysMenuRow) => {
+      render: ({ row }: { row: SysMenuRow }) => {
         return <ElText>{transformI18n(row.title)}</ElText>;
       },
       minWidth: 160,
     },
     { label: t('sysMenu.routeName'), prop: 'name', minWidth: 160 },
-    { label: t('sysMenu.path'), prop: 'path', minWidth: 180, showOverflowTooltip: true },
+    { label: t('sysMenu.path'), prop: 'path', minWidth: 180 },
     {
       label: t('sysMenu.menuType'),
       prop: 'menuType',
       width: 100,
-      formatter: (row: SysMenuRow) => {
+      render: ({ row }: { row: SysMenuRow }) => {
         const option = menuTypeOptions.value.find((item) => item.value === row.menuType);
         if (!option) return '-';
         return (
@@ -53,7 +53,7 @@ function useMenuTableColumns() {
       label: t('menus.icon'),
       prop: 'icon',
       width: 80,
-      formatter: (row: SysMenuRow) => {
+      render: ({ row }: { row: SysMenuRow }) => {
         if (!row.icon) {
           return '';
         }
@@ -64,13 +64,13 @@ function useMenuTableColumns() {
       label: t('sysMenu.status'),
       prop: 'status',
       width: 95,
-      formatter: (row: SysMenuRow) => renderBooleanStatusTag(row.status),
+      render: ({ row }: { row: SysMenuRow }) => renderBooleanStatusTag(row.status),
     },
     {
       label: t('sysMenu.showLink'),
       prop: 'showLink',
       width: 90,
-      formatter: (row: SysMenuRow) => (
+      render: ({ row }: { row: SysMenuRow }) => (
         <ElTag type={row.showLink ? 'success' : 'info'} effect="plain">
           {row.showLink ? t('sysMenu.showLinkYes') : t('sysMenu.showLinkNo')}
         </ElTag>
@@ -80,7 +80,7 @@ function useMenuTableColumns() {
       label: t('sysMenu.keepAlive'),
       prop: 'keepAlive',
       width: 90,
-      formatter: (row: SysMenuRow) => (
+      render: ({ row }: { row: SysMenuRow }) => (
         <ElTag type={row.keepAlive ? 'success' : 'info'} effect="plain">
           {row.keepAlive ? t('sysMenu.keepAliveYes') : t('sysMenu.keepAliveNo')}
         </ElTag>
@@ -91,18 +91,18 @@ function useMenuTableColumns() {
       prop: 'updatedAt',
       sortable: true,
       minWidth: 170,
-      formatter: (row: SysMenuRow) => formatDateTime(row.updatedAt),
+      render: ({ row }: { row: SysMenuRow }) => formatDateTime(row.updatedAt),
     },
     {
       label: t('table.createdAt'),
       prop: 'createdAt',
       sortable: true,
       minWidth: 170,
-      formatter: (row: SysMenuRow) => formatDateTime(row.createdAt),
+      render: ({ row }: { row: SysMenuRow }) => formatDateTime(row.createdAt),
     },
     {
       label: t('table.actions'),
-      fixed: 'right' as const,
+      fixed: 'right',
       width: 220,
       slot: 'actions',
     },

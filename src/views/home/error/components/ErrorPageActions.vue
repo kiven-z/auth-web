@@ -41,7 +41,7 @@ const router = useRouter();
   justify-content: center;
 }
 
-@media (min-width: 768px) {
+@media (width >= 768px) {
   .error-page-actions {
     justify-content: flex-start;
   }

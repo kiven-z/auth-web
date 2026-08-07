@@ -46,7 +46,7 @@ onMounted(() => {
       ref="searchFormRef"
       v-enter-submit="fetchTableData"
       :model="searchForm"
-      class="bg-bg_color w-[99/100] overflow-auto pl-8 pt-3"
+      class="bg-auth-container w-[99/100] overflow-auto pl-8 pt-3"
       inline
     >
       <el-form-item :label="t('onlineUser.field.user')" prop="userId">
@@ -76,13 +76,7 @@ onMounted(() => {
       </el-form-item>
     </el-form>
 
-    <PagedTable
-      :columns="columns"
-      :state="tableState"
-      :title="t('routes.onlineUser')"
-      row-key="userId"
-      show-overflow-tooltip
-    >
+    <PagedTable :columns="columns" :state="tableState" :title="t('routes.onlineUser')" row-key="userId">
       <template #title>
         <h4>{{ t('routes.onlineUser') }}</h4>
         <el-text v-if="!loading" class="ml-3!" type="info">

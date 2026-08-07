@@ -258,8 +258,8 @@ watch(userId, () => void loadProfile(), { immediate: true });
 .profile-panel {
   &__actions {
     display: flex;
-    justify-content: flex-end;
     gap: 8px;
+    justify-content: flex-end;
   }
 }
 </style>

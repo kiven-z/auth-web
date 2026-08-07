@@ -10,7 +10,7 @@ import {
 import type { TableActionDeps } from '@/shared/types/table-action';
 import { addDialog } from '@/components/ui/Dialog';
 import useBatchDeleteAction from '@/shared/composables/table/useBatchDeleteAction';
-import { type FormOverlayExpose, useFormOverlaySubmit } from '@/shared/composables/table/useFormOverlaySubmit';
+import { type FormOverlayExpose, useFormOverlaySubmit } from '@/shared/composables/dialog/useFormOverlaySubmit';
 import { errorMessage, message } from '@/services/feedback/message';
 import { multiConfirm } from '@/services/feedback/dialog';
 import UserPostAssignFormDialog from '@/views/system/user/workstation/panels/assign/post/UserPostAssignFormDialog.vue';

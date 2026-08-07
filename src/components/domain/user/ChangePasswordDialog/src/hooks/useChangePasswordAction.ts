@@ -1,18 +1,12 @@
 import { changeOwnPassword } from '@/api/system/user/user-me';
 import { resetUserPassword } from '@/api/system/user/user';
-import ChangePasswordDialogPanel from '../ChangePasswordDialogPanel.vue';
-import type { ChangePasswordMode } from '../types';
+import AdminResetPasswordPanel from '../AdminResetPasswordPanel.vue';
+import SelfChangePasswordPanel from '../SelfChangePasswordPanel.vue';
+import type { AdminResetPasswordForm, SelfChangePasswordForm } from '../types';
 import { addDialog } from '@/components/ui/Dialog';
-import { type FormOverlayExpose, useFormOverlaySubmit } from '@/shared/composables/table/useFormOverlaySubmit';
+import { type FormOverlayExpose, useFormOverlaySubmit } from '@/shared/composables/dialog/useFormOverlaySubmit';
 import { h, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
-
-/** 修改密码弹窗表单 */
-interface ChangePasswordDialogForm {
-  oldPassword: string;
-  newPassword: string;
-  confirmPassword: string;
-}
 
 /**
  * 修改密码弹窗操作
@@ -23,38 +17,48 @@ function useChangePasswordAction() {
   const { createFormBeforeSure } = useFormOverlaySubmit();
 
   /**
-   * 打开修改密码弹窗
-   * @param mode 弹窗模式
-   * @param options 管理员重置时传入目标用户
+   * 管理员重置他人密码
+   * @param userId 目标用户主键
+   * @param username 目标用户名
    */
-  const openChangePasswordDialog = (mode: ChangePasswordMode, options?: { userId?: string; username?: string }) => {
-    const dialogFormRef = ref<FormOverlayExpose<ChangePasswordDialogForm> | null>(null);
-    const title =
-      mode === 'admin-reset' && options?.username
-        ? `${t('users.password.reset')} - ${options.username}`
-        : t('users.password.reset');
+  const openAdminResetPasswordDialog = (userId: string, username: string) => {
+    const dialogFormRef = ref<FormOverlayExpose<AdminResetPasswordForm> | null>(null);
 
     addDialog({
-      title,
+      title: `${t('users.password.reset')} - ${username}`,
       draggable: true,
       closeOnClickModal: false,
       closeOnPressEscape: false,
-      contentRenderer: () => h(ChangePasswordDialogPanel, { ref: dialogFormRef, mode }),
-      beforeSure: createFormBeforeSure<ChangePasswordDialogForm>({
+      contentRenderer: () => h(AdminResetPasswordPanel, { ref: dialogFormRef }),
+      beforeSure: createFormBeforeSure<AdminResetPasswordForm>({
         formExposeRef: dialogFormRef,
         successI18nKey: 'tips.editSuccess',
         onSubmit: async (formPayload) => {
-          if (mode === 'admin-reset') {
-            if (!options?.userId) {
-              return false;
-            }
-            await resetUserPassword(options.userId, {
-              newPassword: formPayload.newPassword,
-              confirmPassword: formPayload.confirmPassword,
-            });
-            return;
-          }
+          await resetUserPassword(userId, {
+            newPassword: formPayload.newPassword,
+            confirmPassword: formPayload.confirmPassword,
+          });
+        },
+      }),
+    });
+  };
 
+  /**
+   * 当前用户修改自己的密码
+   */
+  const openSelfChangePasswordDialog = () => {
+    const dialogFormRef = ref<FormOverlayExpose<SelfChangePasswordForm> | null>(null);
+
+    addDialog({
+      title: t('users.password.reset'),
+      draggable: true,
+      closeOnClickModal: false,
+      closeOnPressEscape: false,
+      contentRenderer: () => h(SelfChangePasswordPanel, { ref: dialogFormRef }),
+      beforeSure: createFormBeforeSure<SelfChangePasswordForm>({
+        formExposeRef: dialogFormRef,
+        successI18nKey: 'tips.editSuccess',
+        onSubmit: async (formPayload) => {
           await changeOwnPassword({
             oldPassword: formPayload.oldPassword,
             newPassword: formPayload.newPassword,
@@ -65,24 +69,7 @@ function useChangePasswordAction() {
     });
   };
 
-  /**
-   * 管理员重置他人密码
-   * @param userId 目标用户主键
-   * @param username 目标用户名
-   */
-  const openAdminResetPasswordDialog = (userId: string, username: string) => {
-    openChangePasswordDialog('admin-reset', { userId, username });
-  };
-
-  /**
-   * 当前用户修改自己的密码
-   */
-  const openSelfChangePasswordDialog = () => {
-    openChangePasswordDialog('self-change');
-  };
-
   return {
-    openChangePasswordDialog,
     openAdminResetPasswordDialog,
     openSelfChangePasswordDialog,
   };

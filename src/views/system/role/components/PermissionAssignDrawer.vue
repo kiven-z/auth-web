@@ -129,7 +129,6 @@ defineExpose({ getSelectedKeys });
       :columns="permissionDrawerColumns"
       :state="permissionState"
       :title="tableTitle"
-      row-key="id"
       @row-dblclick="(row: Record<string, unknown>) => toggle(row)"
     />
   </AssignPanel>

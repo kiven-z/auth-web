@@ -24,9 +24,9 @@ defineProps<{
 <style lang="scss" scoped>
 .theme-lab-section {
   padding: 16px;
+  background: var(--auth-bg-container);
   border: 1px solid var(--auth-color-border);
   border-radius: var(--auth-radius-default);
-  background: var(--auth-bg-container);
 
   &__header {
     margin-bottom: 12px;

@@ -24,7 +24,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="user-dept-tree bg-bg_color">
+  <div class="user-dept-tree bg-auth-container">
     <div class="user-dept-tree__search p-2">
       <el-input v-model="treeKeyword" :placeholder="t('dept.placeholder.treeKeyword')" clearable />
     </div>
@@ -68,8 +68,7 @@ onMounted(() => {
     flex: 1;
     min-height: 0;
     padding: 0 4px 8px;
-    overflow-x: hidden;
-    overflow-y: auto;
+    overflow: hidden auto;
   }
 }
 </style>

@@ -61,17 +61,17 @@ function handlePrimaryPick(color: string): void {
 
 <style lang="scss" scoped>
 .theme-lab-toolbar {
+  position: sticky;
+  top: 0;
+  z-index: 10;
   display: flex;
   flex-wrap: wrap;
   gap: 16px 24px;
   align-items: center;
   padding: 12px 16px;
+  background: var(--auth-bg-container);
   border: 1px solid var(--auth-color-border);
   border-radius: var(--auth-radius-default);
-  background: var(--auth-bg-container);
-  position: sticky;
-  top: 0;
-  z-index: 10;
 
   &__group {
     display: flex;
@@ -96,14 +96,14 @@ function handlePrimaryPick(color: string): void {
     width: 22px;
     height: 22px;
     padding: 0;
-    border: 2px solid transparent;
-    border-radius: 4px;
     cursor: pointer;
     outline: 1px solid var(--auth-color-border);
+    border: 2px solid transparent;
+    border-radius: 4px;
 
     &--active {
-      border-color: var(--auth-text-primary);
       outline-color: var(--auth-text-primary);
+      border-color: var(--auth-text-primary);
     }
   }
 }

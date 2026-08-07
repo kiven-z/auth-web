@@ -84,6 +84,6 @@ onMounted(() => {
       </el-form-item>
     </el-form>
 
-    <PagedTable :columns="permissionColumns" :state="permissionState" :title="title" show-overflow-tooltip />
+    <PagedTable :columns="permissionColumns" :state="permissionState" :title="title" />
   </div>
 </template>

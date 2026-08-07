@@ -172,11 +172,6 @@ onMounted(() => {
       </el-form-item>
     </el-form>
 
-    <PagedTable
-      :columns="impactUserColumns"
-      :state="impactUserState"
-      :title="t('roles.impact.impactedUsers')"
-      show-overflow-tooltip
-    />
+    <PagedTable :columns="impactUserColumns" :state="impactUserState" :title="t('roles.impact.impactedUsers')" />
   </AuthorizationSurfaceShell>
 </template>

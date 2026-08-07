@@ -23,10 +23,9 @@ describe('resolveEffectiveNavTheme', () => {
 });
 
 describe('resolvePrimaryColorForNavTheme', () => {
-  it('白侧栏 / default / 腾讯蓝均重置为默认主色', () => {
+  it('白侧栏 / default 均重置为默认主色', () => {
     expect(resolvePrimaryColorForNavTheme('light')).toBe(DEFAULT_PRIMARY_COLOR);
     expect(resolvePrimaryColorForNavTheme('default')).toBe(DEFAULT_PRIMARY_COLOR);
-    expect(resolvePrimaryColorForNavTheme('tencentBlue')).toBe(DEFAULT_PRIMARY_COLOR);
   });
 
   it('彩色皮肤写入对应预览色', () => {

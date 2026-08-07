@@ -151,12 +151,7 @@ onMounted(() => {
       </el-form-item>
     </el-form>
 
-    <PagedTable
-      :columns="columns"
-      :state="templateImportState"
-      :title="t('inAppCompose.importTemplateDialogTitle')"
-      show-overflow-tooltip
-    >
+    <PagedTable :columns="columns" :state="templateImportState" :title="t('inAppCompose.importTemplateDialogTitle')">
       <template #actions="{ row }">
         <el-button link type="primary" @click="openDetailDialog(row)">
           {{ t('buttons.actionView') }}

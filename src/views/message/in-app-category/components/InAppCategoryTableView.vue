@@ -97,7 +97,6 @@ const onSelectionChange = (rows: InAppMessageCategoryPageRow[]) => {
           default-expand-all
           highlight-current-row
           row-key="id"
-          show-overflow-tooltip
           @selection-change="onSelectionChange"
         >
           <template #actions="{ row }">

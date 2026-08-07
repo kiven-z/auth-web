@@ -69,6 +69,6 @@ onMounted(() => {
       </el-form-item>
     </el-form>
 
-    <PagedTable :columns="menuColumns" :state="menuState" :title="title" show-overflow-tooltip />
+    <PagedTable :columns="menuColumns" :state="menuState" :title="title" />
   </div>
 </template>

@@ -26,7 +26,7 @@ function useJobTableColumns() {
       label: t('scheduleTask.fields.taskType'),
       prop: 'taskType',
       minWidth: 120,
-      formatter: (row: SysJobPageRow) => {
+      render: ({ row }: { row: SysJobPageRow }) => {
         const option = taskTypeOptions.value.find((item) => item.value === row.taskType);
         return option?.label ?? row.taskType ?? '-';
       },
@@ -36,7 +36,7 @@ function useJobTableColumns() {
       label: t('scheduleTask.fields.misfirePolicy'),
       prop: 'misfirePolicy',
       minWidth: 140,
-      formatter: (row: SysJobPageRow) => {
+      render: ({ row }: { row: SysJobPageRow }) => {
         const option = misfirePolicyOptions.value.find((item) => item.value === row.misfirePolicy);
         return option?.label ?? '-';
       },
@@ -45,7 +45,7 @@ function useJobTableColumns() {
       label: t('scheduleTask.fields.concurrent'),
       prop: 'concurrent',
       minWidth: 110,
-      formatter: (row: SysJobPageRow) => {
+      render: ({ row }: { row: SysJobPageRow }) => {
         if (row.concurrent == null) {
           return '-';
         }
@@ -60,7 +60,7 @@ function useJobTableColumns() {
       label: t('scheduleTask.fields.status'),
       prop: 'status',
       minWidth: 100,
-      formatter: (row: SysJobPageRow) => {
+      render: ({ row }: { row: SysJobPageRow }) => {
         if (row.status == null) {
           return '-';
         }
@@ -71,7 +71,7 @@ function useJobTableColumns() {
       label: t('scheduleTask.fields.lastExecutionStatus'),
       prop: 'lastExecutionStatus',
       minWidth: 110,
-      formatter: (row: SysJobPageRow) => {
+      render: ({ row }: { row: SysJobPageRow }) => {
         const option = lastExecutionStatusOptions.value.find((item) => item.value === row.lastExecutionStatus);
         if (!option) {
           return row.lastExecutionStatus ?? '-';
@@ -87,13 +87,13 @@ function useJobTableColumns() {
       label: t('scheduleTask.fields.lastExecutionTime'),
       prop: 'lastExecutionTime',
       minWidth: 170,
-      formatter: (row: SysJobPageRow) => formatDateTime(row.lastExecutionTime),
+      render: ({ row }: { row: SysJobPageRow }) => formatDateTime(row.lastExecutionTime),
     },
     { label: t('scheduleTask.fields.invokeTarget'), prop: 'invokeTarget', minWidth: 180 },
     ...createAuditTableColumns(),
     {
       label: t('table.actions'),
-      fixed: 'right' as const,
+      fixed: 'right',
       width: 280,
       slot: 'actions',
     },

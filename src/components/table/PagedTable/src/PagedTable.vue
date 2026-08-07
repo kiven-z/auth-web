@@ -34,8 +34,8 @@ const props = withDefaults(
     border: true,
     highlightCurrentRow: true,
     alignWhole: 'center',
-    tableLayout: 'auto',
-    showOverflowTooltip: false,
+    tableLayout: 'fixed',
+    showOverflowTooltip: true,
   }
 );
 

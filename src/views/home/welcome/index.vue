@@ -14,7 +14,7 @@ defineOptions({
 </script>
 
 <template>
-  <div class="theme-lab">
+  <div class="theme-lab bg-auth-container">
     <header class="theme-lab__header">
       <h1 class="theme-lab__title">色阶冒烟（开发期）</h1>
       <p class="theme-lab__desc">
@@ -42,7 +42,6 @@ defineOptions({
   flex-direction: column;
   gap: 16px;
   padding: 24px;
-  background-color: var(--color-bg_color);
   overflow: auto;
 
   &__header {

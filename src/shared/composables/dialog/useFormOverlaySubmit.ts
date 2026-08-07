@@ -9,6 +9,8 @@ import { useI18n } from 'vue-i18n';
 export interface FormOverlayExpose<TForm> {
   formRef?: FormInstance;
   form: TForm;
+  /** 可选：特殊首焦；未实现时壳层 focusOnOpen 聚焦内容区第一个可聚焦控件 */
+  focusTarget?: () => void;
 }
 
 /** {@link useFormOverlaySubmit.createFormBeforeSure} 配置 */
@@ -37,42 +39,40 @@ export function useFormOverlaySubmit() {
    * 生成 beforeSure 回调
    */
   function createFormBeforeSure<TForm>(options: CreateFormBeforeSureOptions<TForm>) {
-    return async (done: (cancel?: boolean) => void) => {
+    return async (done: (cancel?: boolean) => void, ctx?: { closeLoading?: () => void }) => {
+      const closeLoading = ctx?.closeLoading;
       try {
-        // 获取表单实例
         const formInstance = options.formExposeRef.value?.formRef;
-        // 校验表单
         const isValid = await formInstance?.validate().catch(() => false);
-        // 如果校验不通过，则返回
         if (!isValid) {
+          closeLoading?.();
           return;
         }
 
-        // 获取表单数据
         const formPayload = options.formExposeRef.value?.form;
         if (!formPayload) {
+          closeLoading?.();
           return;
         }
 
-        // 如果编辑场景要求 formData 含 id，但 formData 不含 id，则返回
         if (options.requireId && !(formPayload as { id?: string }).id) {
+          closeLoading?.();
           return;
         }
 
-        // 提交表单
         const submitResult = await options.onSubmit(formPayload);
         if (submitResult === false) {
+          closeLoading?.();
           return;
         }
 
-        // 如果提交成功，则提示
         if (options.successI18nKey) {
           message(t(options.successI18nKey), { type: 'success' });
         }
 
-        // 关闭弹层
         done();
       } catch (error: unknown) {
+        closeLoading?.();
         errorMessage(error);
       }
     };

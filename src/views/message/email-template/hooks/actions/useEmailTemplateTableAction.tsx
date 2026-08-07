@@ -9,13 +9,13 @@ import {
 import { addDialog } from '@/components/ui/Dialog';
 import { addDrawer } from '@/components/ui/Drawer';
 import useBatchDeleteAction from '@/shared/composables/table/useBatchDeleteAction';
-import { type FormOverlayExpose, useFormOverlaySubmit } from '@/shared/composables/table/useFormOverlaySubmit';
+import { type FormOverlayExpose, useFormOverlaySubmit } from '@/shared/composables/dialog/useFormOverlaySubmit';
 import { operationConfirm } from '@/services/feedback/dialog';
 import { errorMessage, message } from '@/services/feedback/message';
 import MessageTemplateDetailView from '@/views/message/_shared/components/MessageTemplateDetailView.vue';
 import EmailTemplateDrawer from '@/views/message/email-template/components/EmailTemplateDrawer.vue';
 import { EMAIL_TEMPLATE_CHANNEL } from '@/views/message/_shared/constants/channel';
-import useEmailTemplateDetailColumns from '@/views/message/email-template/hooks/useEmailTemplateDetailColumns';
+import useEmailTemplateDetailColumns from '@/views/message/email-template/hooks/columns/useEmailTemplateDetailColumns';
 import { ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 

@@ -1,11 +1,11 @@
 <script lang="ts" setup>
 import type { MenuFormModel } from '@/api/system/menu/menu';
 import { getMenuList } from '@/api/system/menu/menu';
+import { transformI18n } from '@/app/plugins/i18n';
 import AnimateSelector from '@/components/ui/AnimateSelecto';
 import { IconSelect, useRenderIcon } from '@/components/ui/Icon';
-import { handleTree, TREE_ROOT_PARENT_ID } from '@/shared/utils/tree/tree';
-import { transformI18n } from '@/app/plugins/i18n';
 import { errorMessage } from '@/services/feedback/message';
+import { handleTree, TREE_ROOT_PARENT_ID } from '@/shared/utils/tree/tree';
 import MenuTypeIframeDialog from '@/views/system/menu/components/form/MenuTypeIframeDialog.vue';
 import MenuTypeLinkDialog from '@/views/system/menu/components/form/MenuTypeLinkDialog.vue';
 import MenuTypeMenuDialog from '@/views/system/menu/components/form/MenuTypeMenuDialog.vue';
@@ -31,6 +31,8 @@ interface DeptNode {
   children?: DeptNode[];
 }
 
+type MenuCollapseSection = 'basic' | 'route' | 'animation';
+
 const props = withDefaults(defineProps<MenuDialogProps>(), {
   isFormDisabled: false,
   form: () => ({}) as MenuFormModel,
@@ -38,8 +40,6 @@ const props = withDefaults(defineProps<MenuDialogProps>(), {
 
 /** 菜单图标仅允许 ri/*、ep/* */
 const ALLOWED_ICON_PREFIXES = ['ri/', 'ep/'] as const;
-
-const animationType = ref<'all' | 'detail'>('all');
 
 /**
  * 非允许集合时清空
@@ -77,7 +77,9 @@ const form = ref<MenuFormModel>({
   extraIcon: sanitizeMenuIcon(props.form?.extraIcon),
 } as MenuFormModel);
 
-// 表单规则
+const animationType = ref<'all' | 'detail'>('all');
+const activeCollapseNames = ref<MenuCollapseSection[]>(['basic']);
+
 const rules = computed<FormRules>(() => ({
   menuType: [{ required: true, message: t('menus.rules.menuType'), trigger: 'change' }],
   title: [{ required: true, message: t('menus.rules.title'), trigger: 'blur' }],
@@ -135,180 +137,161 @@ defineExpose({ formRef, form });
 
 <template>
   <el-form ref="formRef" :model="form" :rules="rules" label-position="top" label-width="auto">
-    <el-form-item :label="t('menus.menuType')" prop="menuType">
-      <el-segmented v-model="form.menuType" :options="typeSegmentOptions" class="w-full" />
-    </el-form-item>
-
-    <el-row :gutter="14">
-      <el-col :span="24">
-        <el-form-item :label="t('menus.parentId')" prop="parentId">
-          <el-cascader
-            v-model="parentIdPath"
-            :debounce="400"
-            :disabled="isFormDisabled"
-            :options="deptTree"
-            :placeholder="t('menus.placeholder.parentId')"
-            :props="menuCascaderProps"
-            class="w-full"
-            clearable
-            filterable
-            separator="/"
-          >
-            <template #default="{ node, data: { name } }">
-              {{ node.label }}
-              <el-text v-show="name" type="info">({{ name }})</el-text>
-            </template>
-          </el-cascader>
-        </el-form-item>
-      </el-col>
-
-      <el-col :lg="8" :md="12" :sm="12" :xs="24">
-        <el-form-item :label="t('menus.dialogTitle')" prop="title">
-          <el-input
-            v-model="form.title"
-            :disabled="isFormDisabled"
-            :placeholder="t('menus.placeholder.title')"
-            clearable
-          />
-          <el-text type="info">🌐I18n：{{ transformI18n(form.title) }}</el-text>
-        </el-form-item>
-      </el-col>
-
-      <el-col :lg="8" :md="12" :sm="12" :xs="24">
-        <el-form-item
-          v-if="form.menuType === MenuTypeEnums.EXTERNAL_LINK"
-          :label="t('menus.outsideChainName')"
-          prop="name"
-        >
-          <el-input
-            v-model="form.name"
-            :disabled="isFormDisabled"
-            :placeholder="t('menus.placeholder.outsideChainName')"
-            clearable
-          />
+    <el-collapse v-model="activeCollapseNames" class="menu-form-collapse">
+      <el-collapse-item :title="t('menus.sections.basic')" name="basic">
+        <el-form-item :label="t('menus.menuType')" prop="menuType">
+          <el-segmented v-model="form.menuType" :options="typeSegmentOptions" class="w-full" />
         </el-form-item>
 
-        <el-form-item v-else :label="t('menus.dialogName')" prop="name">
-          <el-input
-            v-model="form.name"
-            :disabled="isFormDisabled"
-            :placeholder="t('menus.placeholder.routerName')"
-            clearable
-          />
-        </el-form-item>
-      </el-col>
+        <el-row :gutter="16">
+          <el-col :span="24">
+            <el-form-item :label="t('menus.parentId')" prop="parentId">
+              <el-cascader
+                v-model="parentIdPath"
+                :debounce="400"
+                :disabled="isFormDisabled"
+                :options="deptTree"
+                :placeholder="t('menus.placeholder.parentId')"
+                :props="menuCascaderProps"
+                class="w-full"
+                clearable
+                filterable
+                separator="/"
+              >
+                <template #default="{ node, data: { name } }">
+                  {{ node.label }}
+                  <el-text v-show="name" type="info">({{ name }})</el-text>
+                </template>
+              </el-cascader>
+            </el-form-item>
+          </el-col>
 
-      <el-col :lg="8" :md="12" :sm="12" :xs="24">
-        <el-form-item :label="t('menus.dialogPath')" prop="path">
-          <el-input
-            v-model="form.path"
-            :disabled="isFormDisabled"
-            :placeholder="t('menus.placeholder.path')"
-            clearable
-          />
-        </el-form-item>
-      </el-col>
+          <el-col :lg="8" :md="12" :sm="12" :xs="24">
+            <el-form-item :label="t('menus.dialogTitle')" prop="title">
+              <el-input
+                v-model="form.title"
+                :disabled="isFormDisabled"
+                :placeholder="t('menus.placeholder.title')"
+                clearable
+              />
+              <el-text type="info">🌐I18n：{{ transformI18n(form.title) }}</el-text>
+            </el-form-item>
+          </el-col>
 
-      <el-col :lg="8" :md="12" :sm="12" :xs="24">
-        <el-form-item :label="t('menus.menuRank')" prop="menuRank">
-          <el-input-number
-            v-model="form.menuRank"
-            :disabled="isFormDisabled"
-            :min="0"
-            controls-position="right"
-            style="width: 100%"
-          />
-        </el-form-item>
-      </el-col>
+          <el-col :lg="8" :md="12" :sm="12" :xs="24">
+            <el-form-item
+              v-if="form.menuType === MenuTypeEnums.EXTERNAL_LINK"
+              :label="t('menus.outsideChainName')"
+              prop="name"
+            >
+              <el-input
+                v-model="form.name"
+                :disabled="isFormDisabled"
+                :placeholder="t('menus.placeholder.outsideChainName')"
+                clearable
+              />
+            </el-form-item>
 
-      <el-col :lg="8" :md="12" :sm="12" :xs="24">
-        <el-form-item :label="t('menus.icon')" prop="icon">
-          <div class="flex w-full flex-col gap-2">
-            <div v-if="form.icon" class="flex items-center gap-2">
-              <component :is="useRenderIcon(form.icon)" class="shrink-0 text-lg" />
-              <span class="text-xs text-[var(--el-text-color-secondary)]">{{ form.icon }}</span>
-            </div>
-            <IconSelect v-model="form.icon" class="w-full!" />
-          </div>
-        </el-form-item>
-      </el-col>
+            <el-form-item v-else :label="t('menus.dialogName')" prop="name">
+              <el-input
+                v-model="form.name"
+                :disabled="isFormDisabled"
+                :placeholder="t('menus.placeholder.routerName')"
+                clearable
+              />
+            </el-form-item>
+          </el-col>
 
-      <el-col :lg="8" :md="12" :sm="12" :xs="24">
-        <el-form-item :label="t('menus.rightExtraIcon')" prop="extraIcon">
-          <div class="flex w-full flex-col gap-2">
-            <div v-if="form.extraIcon" class="flex items-center gap-2">
-              <component :is="useRenderIcon(form.extraIcon)" class="shrink-0 text-lg" />
-              <span class="text-xs text-[var(--el-text-color-secondary)]">{{ form.extraIcon }}</span>
-            </div>
-            <IconSelect v-model="form.extraIcon" class="w-full!" />
-          </div>
-        </el-form-item>
-      </el-col>
+          <el-col :lg="8" :md="12" :sm="12" :xs="24">
+            <el-form-item :label="t('menus.dialogPath')" prop="path">
+              <el-input
+                v-model="form.path"
+                :disabled="isFormDisabled"
+                :placeholder="t('menus.placeholder.path')"
+                clearable
+              />
+            </el-form-item>
+          </el-col>
 
-      <menu-type-menu-dialog
-        v-show="form.menuType === MenuTypeEnums.MENU"
-        v-model:form="form"
-        :formDisabled="isFormDisabled"
-      />
+          <el-col :lg="8" :md="12" :sm="12" :xs="24">
+            <el-form-item :label="t('menus.menuRank')" prop="menuRank">
+              <el-input-number
+                v-model="form.menuRank"
+                :disabled="isFormDisabled"
+                :min="0"
+                controls-position="right"
+                style="width: 100%"
+              />
+            </el-form-item>
+          </el-col>
 
-      <menu-type-iframe-dialog
-        v-show="form.menuType === MenuTypeEnums.IFRAME"
-        v-model:form="form"
-        :formDisabled="isFormDisabled"
-      />
+          <el-col :lg="8" :md="12" :sm="12" :xs="24">
+            <el-form-item :label="t('menus.icon')" prop="icon">
+              <div class="flex w-full flex-col gap-2">
+                <div v-if="form.icon" class="flex items-center gap-2">
+                  <component :is="useRenderIcon(form.icon)" class="shrink-0 text-lg" />
+                  <span class="text-xs text-(--el-text-color-secondary)">{{ form.icon }}</span>
+                </div>
+                <IconSelect v-model="form.icon" class="w-full!" />
+              </div>
+            </el-form-item>
+          </el-col>
 
-      <menu-type-link-dialog
-        v-show="form.menuType === MenuTypeEnums.EXTERNAL_LINK"
-        v-model:form="form"
-        :formDisabled="isFormDisabled"
-      />
+          <el-col :lg="8" :md="12" :sm="12" :xs="24">
+            <el-form-item :label="t('menus.rightExtraIcon')" prop="extraIcon">
+              <div class="flex w-full flex-col gap-2">
+                <div v-if="form.extraIcon" class="flex items-center gap-2">
+                  <component :is="useRenderIcon(form.extraIcon)" class="shrink-0 text-lg" />
+                  <span class="text-xs text-(--el-text-color-secondary)">{{ form.extraIcon }}</span>
+                </div>
+                <IconSelect v-model="form.extraIcon" class="w-full!" />
+              </div>
+            </el-form-item>
+          </el-col>
 
-      <el-col :span="24">
-        <el-form-item :label="t('menus.remark')" prop="remark">
-          <el-input
-            v-model="form.remark"
-            :disabled="isFormDisabled"
-            :placeholder="t('menus.placeholder.remark')"
-            :rows="3"
-            maxlength="200"
-            show-word-limit
-            type="textarea"
-          />
-        </el-form-item>
-      </el-col>
+          <el-col :span="24">
+            <el-form-item :label="t('menus.remark')" prop="remark">
+              <el-input
+                v-model="form.remark"
+                :disabled="isFormDisabled"
+                :placeholder="t('menus.placeholder.remark')"
+                :rows="3"
+                maxlength="200"
+                show-word-limit
+                type="textarea"
+              />
+            </el-form-item>
+          </el-col>
+        </el-row>
+      </el-collapse-item>
 
-      <el-space class="w-full" direction="vertical">
-        <el-radio-group v-model="animationType">
+      <el-collapse-item :title="t('menus.sections.route')" name="route">
+        <menu-type-menu-dialog
+          v-show="form.menuType === MenuTypeEnums.MENU"
+          v-model:form="form"
+          :formDisabled="isFormDisabled"
+        />
+
+        <menu-type-iframe-dialog
+          v-show="form.menuType === MenuTypeEnums.IFRAME"
+          v-model:form="form"
+          :formDisabled="isFormDisabled"
+        />
+
+        <menu-type-link-dialog
+          v-show="form.menuType === MenuTypeEnums.EXTERNAL_LINK"
+          v-model:form="form"
+          :formDisabled="isFormDisabled"
+        />
+      </el-collapse-item>
+
+      <el-collapse-item :title="t('menus.sections.animation')" name="animation">
+        <el-alert :closable="false" :title="t('menus.tips.animationAlert')" class="mb-4!" show-icon type="warning" />
+
+        <el-radio-group v-model="animationType" class="mb-4">
           <el-radio-button value="all">{{ t('menus.tips.simpleAnimation') }}</el-radio-button>
           <el-radio-button value="detail">{{ t('menus.tips.detailAnimation') }}</el-radio-button>
         </el-radio-group>
-
-        <div class="warning-container">
-          <el-text
-            class="warning-title animate__animated animate__headShake animate__infinite"
-            size="large"
-            type="danger"
-          >
-            {{ t('menus.tips.useAnimationCautionaryNotes') }}
-          </el-text>
-
-          <div class="warning-content">
-            <el-text class="warning-item">
-              <span class="warning-label">{{ t('menus.tips.displayProblem') }}</span>
-              {{ t('menus.tips.displayProblemTips') }}
-            </el-text>
-
-            <el-text class="warning-item">
-              <span class="warning-label">{{ t('menus.tips.performanceProblem') }}</span>
-              {{ t('menus.tips.performanceProblemTips') }}
-            </el-text>
-
-            <el-text class="warning-item">
-              <span class="warning-label">{{ t('menus.tips.functionException') }}</span>
-              {{ t('menus.tips.functionExceptionTips') }}
-            </el-text>
-          </div>
-        </div>
 
         <el-form-item v-show="animationType === 'all'" :label="t('menus.transitionName')" prop="transitionName">
           <el-input
@@ -325,7 +308,7 @@ defineExpose({ formRef, form });
               <AnimateSelector
                 v-model="form.enterTransition"
                 :placeholder="t('menus.placeholder.enterTransition')"
-                class="w-[320px]!"
+                class="w-full"
               />
             </el-form-item>
           </el-col>
@@ -334,52 +317,35 @@ defineExpose({ formRef, form });
               <AnimateSelector
                 v-model="form.leaveTransition"
                 :placeholder="t('menus.placeholder.leaveTransition')"
-                class="w-[320px]!"
+                class="w-full"
               />
             </el-form-item>
           </el-col>
         </el-row>
-      </el-space>
-    </el-row>
+      </el-collapse-item>
+    </el-collapse>
   </el-form>
 </template>
 
 <style lang="scss" scoped>
-.warning-container {
-  padding: 16px;
-  margin: 16px 0;
-  background-color: var(--el-color-danger-light-9);
-  border: 1px solid var(--el-color-danger-light-5);
-  border-radius: 8px;
-
-  .warning-title {
-    display: flex;
-    align-items: center;
-    margin-bottom: 12px;
-    font-weight: bold;
-
-    .warning-icon {
-      margin-right: 8px;
-      font-size: 20px;
-    }
+.menu-form-collapse {
+  /* 抵消 el-row 负边距，避免抽屉 overflow 裁切首列 label */
+  :deep(.el-collapse-item__content) {
+    padding: 4px 8px 16px;
+    overflow: visible;
   }
 
-  .warning-content {
-    .warning-item {
-      display: flex;
-      align-items: flex-start;
-      margin-bottom: 8px;
-      line-height: 1.6;
+  :deep(.el-collapse-item__header) {
+    height: 48px;
+    font-size: var(--el-font-size-large);
+    font-weight: 800;
+    line-height: 48px;
+    color: var(--el-text-color-primary);
+  }
 
-      &:last-child {
-        margin-bottom: 0;
-      }
-
-      .warning-label {
-        font-weight: 500;
-        color: var(--el-text-color-primary);
-      }
-    }
+  :deep(.el-form-item__label) {
+    line-height: 1.4;
+    white-space: normal;
   }
 }
 </style>

@@ -29,7 +29,7 @@ function useInAppHistoryImportTableColumns() {
       label: t('inAppMessage.field.status'),
       prop: 'status',
       minWidth: 120,
-      formatter: (row: InAppSendTaskPageRow) => {
+      render: ({ row }: { row: InAppSendTaskPageRow }) => {
         const option = statusOptions.value.find((item) => item.value === row.status);
         if (!option) {
           return <span>{row.status || '—'}</span>;
@@ -45,7 +45,7 @@ function useInAppHistoryImportTableColumns() {
       label: t('inAppMessage.field.recipientScopeType'),
       prop: 'recipientScopeType',
       minWidth: 120,
-      formatter: (row: InAppSendTaskPageRow) => {
+      render: ({ row }: { row: InAppSendTaskPageRow }) => {
         const option = scopeOptions.value.find((item) => item.value === row.recipientScopeType);
         return option?.label ?? row.recipientScopeType ?? '—';
       },
@@ -54,7 +54,7 @@ function useInAppHistoryImportTableColumns() {
       label: t('inAppMessage.field.sourceType'),
       prop: 'sourceType',
       minWidth: 130,
-      formatter: (row: InAppSendTaskPageRow) => {
+      render: ({ row }: { row: InAppSendTaskPageRow }) => {
         const option = sourceOptions.value.find((item) => item.value === row.sourceType);
         return option?.label ?? row.sourceType ?? '—';
       },
@@ -74,11 +74,11 @@ function useInAppHistoryImportTableColumns() {
       prop: 'createdAt',
       sortable: true,
       minWidth: 170,
-      formatter: (row: InAppSendTaskPageRow) => formatDateTime(row.createdAt),
+      render: ({ row }: { row: InAppSendTaskPageRow }) => formatDateTime(row.createdAt),
     },
     {
       label: t('table.actions'),
-      fixed: 'right' as const,
+      fixed: 'right',
       width: 150,
       slot: 'actions',
     },

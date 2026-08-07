@@ -31,7 +31,7 @@ function usePasswordHistoryTableColumns() {
       label: t('passwordHistory.userId'),
       prop: 'username',
       minWidth: 130,
-      formatter: (row: PasswordHistoryPageRow) => {
+      render: ({ row }: { row: PasswordHistoryPageRow }) => {
         const uid = row.userId;
         if (!uid) {
           return <span>—</span>;
@@ -55,7 +55,7 @@ function usePasswordHistoryTableColumns() {
       prop: 'changeTime',
       sortable: true,
       minWidth: 160,
-      formatter: (row: PasswordHistoryPageRow) => formatDateTime(row.changeTime),
+      render: ({ row }: { row: PasswordHistoryPageRow }) => formatDateTime(row.changeTime),
     },
     // 创建时间
     {
@@ -63,14 +63,14 @@ function usePasswordHistoryTableColumns() {
       prop: 'createdAt',
       sortable: true,
       minWidth: 170,
-      formatter: (row: PasswordHistoryPageRow) => formatDateTime(row.createdAt),
+      render: ({ row }: { row: PasswordHistoryPageRow }) => formatDateTime(row.createdAt),
     },
     // 创建人
     {
       label: t('table.createdByName'),
       prop: 'createdBy',
       minWidth: 130,
-      formatter: (row: PasswordHistoryPageRow) => {
+      render: ({ row }: { row: PasswordHistoryPageRow }) => {
         if (!row.createdBy) {
           return <span>—</span>;
         }
@@ -86,7 +86,7 @@ function usePasswordHistoryTableColumns() {
       label: t('table.updatedByName'),
       prop: 'updatedBy',
       minWidth: 130,
-      formatter: (row: PasswordHistoryPageRow) => {
+      render: ({ row }: { row: PasswordHistoryPageRow }) => {
         if (!row.updatedBy) {
           return <span>—</span>;
         }
@@ -99,7 +99,7 @@ function usePasswordHistoryTableColumns() {
     },
     {
       label: t('table.actions'),
-      fixed: 'right' as const,
+      fixed: 'right',
       width: 120,
       slot: 'actions',
     },

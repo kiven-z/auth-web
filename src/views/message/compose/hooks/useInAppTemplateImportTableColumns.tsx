@@ -22,7 +22,7 @@ function useInAppTemplateImportTableColumns() {
     { label: t('inAppTemplate.description'), prop: 'description', minWidth: 180 },
     {
       label: t('table.actions'),
-      fixed: 'right' as const,
+      fixed: 'right',
       width: 150,
       slot: 'actions',
     },

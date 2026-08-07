@@ -9,10 +9,7 @@
  * 用法示例：bg-auth-page、text-auth-secondary、border-auth-border、bg-primary
  */
 @theme {
-  --color-bg_color: var(--el-bg-color);
   --color-primary: var(--el-color-primary);
-  --color-text_color_primary: var(--el-text-color-primary);
-  --color-text_color_regular: var(--el-text-color-regular);
 
   --color-auth-page: var(--auth-bg-page);
   --color-auth-container: var(--auth-bg-container);

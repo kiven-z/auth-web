@@ -89,15 +89,7 @@ defineExpose({ loadSessions });
     </div>
 
     <el-empty v-if="!loading && sessions.length <= 0" :description="t('users.session.empty')" />
-    <DataTable
-      v-else
-      :adaptive="false"
-      :columns="columns"
-      :data="sessions"
-      border
-      row-key="sessionId"
-      show-overflow-tooltip
-    >
+    <DataTable v-else :columns="columns" :data="sessions" border row-key="sessionId">
       <template #actions="{ row }">
         <el-button
           v-perms="SYS_SESSION_PERMS.KICK_SESSION"

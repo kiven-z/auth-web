@@ -29,7 +29,7 @@ function useInAppCategoryTableColumns() {
       label: t('inAppCategory.field.parentName'),
       prop: 'parentName',
       minWidth: 140,
-      formatter: (row: InAppMessageCategoryPageRow) =>
+      render: ({ row }: { row: InAppMessageCategoryPageRow }) =>
         row.parentId === TREE_ROOT_PARENT_ID ? t('inAppCategory.rootLabel') : row.parentName || '—',
     },
     {
@@ -41,7 +41,7 @@ function useInAppCategoryTableColumns() {
       label: t('inAppCategory.field.status'),
       prop: 'status',
       minWidth: 100,
-      formatter: (row: InAppMessageCategoryPageRow) => renderBooleanStatusTag(row.status),
+      render: ({ row }: { row: InAppMessageCategoryPageRow }) => renderBooleanStatusTag(row.status),
     },
     ...createAuditTableColumns(),
     {

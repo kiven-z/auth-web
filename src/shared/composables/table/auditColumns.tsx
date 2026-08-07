@@ -14,20 +14,20 @@ export function createAuditTableColumns() {
       prop: 'createdAt',
       sortable: true,
       minWidth: 170,
-      formatter: (row: { createdAt?: unknown }) => formatDateTime(row.createdAt),
+      render: ({ row }: { row: { createdAt?: unknown } }) => formatDateTime(row.createdAt),
     },
     {
       label: transformI18n('table.updatedAt'),
       prop: 'updatedAt',
       sortable: true,
       minWidth: 170,
-      formatter: (row: { updatedAt?: unknown }) => formatDateTime(row.updatedAt),
+      render: ({ row }: { row: { updatedAt?: unknown } }) => formatDateTime(row.updatedAt),
     },
     {
       label: transformI18n('table.createdByName'),
       prop: 'createdByName',
       minWidth: 130,
-      formatter: (row: { createdBy?: string | null; createdByName?: string | null }) => {
+      render: ({ row }: { row: { createdBy?: string | null; createdByName?: string | null } }) => {
         if (!row.createdBy) {
           return null;
         }
@@ -42,7 +42,7 @@ export function createAuditTableColumns() {
       label: transformI18n('table.updatedByName'),
       prop: 'updatedByName',
       minWidth: 130,
-      formatter: (row: { updatedBy?: string | null; updatedByName?: string | null }) => {
+      render: ({ row }: { row: { updatedBy?: string | null; updatedByName?: string | null } }) => {
         if (!row.updatedBy) {
           return null;
         }

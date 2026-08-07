@@ -3,7 +3,7 @@ import type { EmailTemplateMonacoFormModel } from '@/api/message/email-template'
 import { type EmailTemplatePageRow, updateEmailTemplateContent } from '@/api/message/email-template';
 import { getMessageTemplateById } from '@/api/message/message-template';
 import { addDrawer } from '@/components/ui/Drawer';
-import { type FormOverlayExpose, useFormOverlaySubmit } from '@/shared/composables/table/useFormOverlaySubmit';
+import { type FormOverlayExpose, useFormOverlaySubmit } from '@/shared/composables/dialog/useFormOverlaySubmit';
 import { errorMessage } from '@/services/feedback/message';
 import { useOpenMessageTemplateRequireFields } from '@/views/message/_shared/hooks/useOpenMessageTemplateRequireFields';
 import { useOpenMessageTemplateTestSend } from '@/views/message/_shared/hooks/useOpenMessageTemplateTestSend';

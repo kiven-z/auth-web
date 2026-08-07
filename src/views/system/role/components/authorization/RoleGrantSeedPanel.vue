@@ -29,13 +29,11 @@ const grantSubjectColumns = computed<TableColumnList>(() => [
     label: t('roles.authorizationSurface.subjectLabel'),
     prop: 'label',
     minWidth: 220,
-    showOverflowTooltip: true,
   },
   {
     label: t('roles.authorizationSurface.subjectId'),
     prop: 'id',
     minWidth: 180,
-    showOverflowTooltip: true,
   },
 ]);
 
@@ -91,6 +89,6 @@ onMounted(() => {
       </el-form-item>
     </el-form>
 
-    <PagedTable :columns="grantSubjectColumns" :state="subjectState" :title="title" show-overflow-tooltip />
+    <PagedTable :columns="grantSubjectColumns" :state="subjectState" :title="title" />
   </div>
 </template>

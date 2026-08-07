@@ -1,5 +1,6 @@
 import type { Ref } from 'vue';
-import { nextTick, onBeforeUnmount, onMounted, watch } from 'vue';
+import { nextTick, ref, watch } from 'vue';
+import { useDebounceFn, useEventListener, useResizeObserver } from '@vueuse/core';
 
 import { DEFAULT_ADAPTIVE_DEBOUNCE_MS } from '../constants';
 
@@ -24,78 +25,54 @@ export interface HeightBindingOptions {
  * @returns recalculate 手动重算（即传入的策略）
  */
 export function useHeightBinding(targetRef: Ref<HTMLElement | null>, options: HeightBindingOptions) {
-  let debounceTimer: ReturnType<typeof setTimeout> | null = null;
-  let resizeObserver: ResizeObserver | null = null;
-  let resizeListenerAttached = false;
-
   const isEnabled = () => options.enabled?.() ?? true;
-  const getDebounceMs = () => options.debounceMs?.() ?? DEFAULT_ADAPTIVE_DEBOUNCE_MS;
   const { recalculate } = options;
 
-  function debouncedRecalculate() {
-    if (debounceTimer) {
-      clearTimeout(debounceTimer);
-    }
-    debounceTimer = setTimeout(() => {
-      debounceTimer = null;
-      void recalculate();
-    }, getDebounceMs());
+  const debouncedRecalculate = useDebounceFn(
+    () => {
+      if (isEnabled()) {
+        void recalculate();
+      }
+    },
+    () => options.debounceMs?.() ?? DEFAULT_ADAPTIVE_DEBOUNCE_MS
+  );
+
+  // 用 ref 承接，避免 computed 每次 new array 导致 observer 反复重建
+  const observeTargets = ref<HTMLElement[]>([]);
+
+  function syncObserveTargets() {
+    observeTargets.value = isEnabled() ? options.getObserveTargets() : [];
   }
 
-  function syncResizeObserver() {
-    resizeObserver?.disconnect();
-    if (!isEnabled() || typeof ResizeObserver === 'undefined') {
-      return;
+  useEventListener(window, 'resize', () => {
+    if (isEnabled()) {
+      void debouncedRecalculate();
     }
-    const targets = options.getObserveTargets();
-    if (targets.length === 0) {
-      return;
-    }
-    resizeObserver = new ResizeObserver(() => {
-      debouncedRecalculate();
-    });
-    for (const target of targets) {
-      resizeObserver.observe(target);
-    }
-  }
+  });
 
-  function attachWindowResize() {
-    if (resizeListenerAttached || !isEnabled()) {
-      return;
-    }
-    window.addEventListener('resize', debouncedRecalculate);
-    resizeListenerAttached = true;
-  }
+  useResizeObserver(observeTargets, () => {
+    void debouncedRecalculate();
+  });
 
-  function detachWindowResize() {
-    if (!resizeListenerAttached) {
-      return;
-    }
-    window.removeEventListener('resize', debouncedRecalculate);
-    resizeListenerAttached = false;
-  }
-
-  function activate() {
+  async function activate() {
     if (!isEnabled()) {
       return;
     }
-    void nextTick(() => {
-      void recalculate();
-      attachWindowResize();
-      syncResizeObserver();
-    });
+    await nextTick();
+    syncObserveTargets();
+    await recalculate();
   }
 
-  onMounted(() => {
-    activate();
-  });
-
-  // 目标节点可能因 v-if / 异步数据晚于 composable 挂载才出现
-  watch(targetRef, (element) => {
-    if (element) {
-      activate();
-    }
-  });
+  // immediate 覆盖挂载与 target 晚到（v-if / 异步）
+  watch(
+    targetRef,
+    (element) => {
+      if (element) {
+        void activate();
+      }
+    },
+    { immediate: true }
+  );
 
   if (options.observe?.length) {
     watch(
@@ -104,20 +81,11 @@ export function useHeightBinding(targetRef: Ref<HTMLElement | null>, options: He
         if (!isEnabled()) {
           return;
         }
-        syncResizeObserver();
+        syncObserveTargets();
         void recalculate();
       }
     );
   }
-
-  onBeforeUnmount(() => {
-    detachWindowResize();
-    resizeObserver?.disconnect();
-    resizeObserver = null;
-    if (debounceTimer) {
-      clearTimeout(debounceTimer);
-    }
-  });
 
   return { recalculate };
 }

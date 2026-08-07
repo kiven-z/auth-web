@@ -30,14 +30,14 @@ function useJobGroupTableColumns() {
       label: t('scheduleGroup.status'),
       prop: 'status',
       minWidth: 100,
-      formatter: (row: SysJobGroupPageRow) => renderBooleanStatusTag(row.status),
+      render: ({ row }: { row: SysJobGroupPageRow }) => renderBooleanStatusTag(row.status),
     },
     // 是否系统内置
     {
       label: t('scheduleGroup.isSystem'),
       prop: 'isSystem',
       minWidth: 110,
-      formatter: (row: SysJobGroupPageRow) => {
+      render: ({ row }: { row: SysJobGroupPageRow }) => {
         return row.isSystem ? 'Y' : 'N';
       },
     },

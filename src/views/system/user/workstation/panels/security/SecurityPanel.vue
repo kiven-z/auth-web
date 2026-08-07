@@ -167,8 +167,8 @@ watch(userId, () => void loadUsername(), { immediate: true });
     flex-direction: column;
 
     > .action-row + .action-row {
-      margin-top: 24px;
       padding-top: 24px;
+      margin-top: 24px;
       border-top: 1px solid var(--el-border-color-lighter);
     }
   }

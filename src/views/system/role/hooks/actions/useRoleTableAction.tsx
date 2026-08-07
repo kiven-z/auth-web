@@ -1,8 +1,8 @@
 import type { TableActionDeps } from '@/shared/types/table-action';
 import type { SysRoleCreateForm, SysRolePageRow, SysRoleUpdateForm } from '@/api/system/role/role';
 import { batchUpdateRoleStatus, createRole, deleteRole, getRoleDetail, updateRole } from '@/api/system/role/role';
-import { addDialog } from '@/components/ui/Dialog/index';
-import { type FormOverlayExpose, useFormOverlaySubmit } from '@/shared/composables/table/useFormOverlaySubmit';
+import { addDialog } from '@/components/ui/Dialog';
+import { type FormOverlayExpose, useFormOverlaySubmit } from '@/shared/composables/dialog/useFormOverlaySubmit';
 import { deleteConfirm, operationConfirm } from '@/services/feedback/dialog';
 import { errorMessage, message } from '@/services/feedback/message';
 import RoleDescriptionDialog from '@/views/system/role/components/RoleDescriptionDialog.vue';

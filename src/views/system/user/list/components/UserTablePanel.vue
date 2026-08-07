@@ -52,7 +52,7 @@ const hasSelection = computed(() => selectedRows.value.length > 0);
         ref="searchFormRef"
         v-enter-submit="fetchUserTable"
         :model="searchForm"
-        class="user-table-panel__form bg-bg_color overflow-auto pl-8 pt-3"
+        class="user-table-panel__form bg-auth-container overflow-auto pl-8 pt-3"
         inline
       >
         <el-form-item :label="t('users.field.username')" prop="username">
@@ -115,7 +115,7 @@ const hasSelection = computed(() => selectedRows.value.length > 0);
     </div>
 
     <div class="user-table-panel__table">
-      <PagedTable adaptive="fill" :columns="columns" :state="tableState" :title="t('routes.userManagement')">
+      <PagedTable :columns="columns" :state="tableState" :title="t('routes.userManagement')" adaptive="fill">
         <template #buttons>
           <el-button-group type="primary">
             <el-button v-perms="SYS_USER_PERMS.CREATE" type="primary" @click="openCreateDialog">

@@ -13,7 +13,7 @@ import { addDrawer } from '@/components/ui/Drawer';
 import { operationConfirm } from '@/services/feedback/dialog';
 import { errorMessage, message } from '@/services/feedback/message';
 import useBatchDeleteAction from '@/shared/composables/table/useBatchDeleteAction';
-import { type FormOverlayExpose, useFormOverlaySubmit } from '@/shared/composables/table/useFormOverlaySubmit';
+import { type FormOverlayExpose, useFormOverlaySubmit } from '@/shared/composables/dialog/useFormOverlaySubmit';
 import MenuDescriptionDialog from '@/views/system/menu/components/MenuDescriptionDialog.vue';
 import MenuDialog from '@/views/system/menu/components/MenuDialog.vue';
 import type { MenuViewMode, SysMenuRow } from '@/views/system/menu/hooks/useMenuPageState';

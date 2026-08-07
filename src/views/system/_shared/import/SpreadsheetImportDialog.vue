@@ -186,7 +186,6 @@ defineExpose<SpreadsheetImportDialogExpose>({ submitImport: handleImport });
       </el-button-group>
 
       <DataTable
-        :adaptive="false"
         :columns="errorColumns"
         :data="importResult.errors"
         :max-height="240"

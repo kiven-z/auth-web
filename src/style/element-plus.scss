@@ -29,6 +29,14 @@
   padding: 0 !important;
 }
 
+/* 启用/停用开关：开=success，关=danger
+ * 必须压过 EP 在 .el-switch 上声明的 --el-switch-*-color 默认值（见 theme-chalk）
+ */
+.el-switch.status-switch {
+  --el-switch-on-color: var(--el-color-success);
+  --el-switch-off-color: var(--el-color-danger);
+}
+
 #nprogress {
   & .bar {
     background-color: var(--el-color-primary) !important;

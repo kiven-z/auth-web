@@ -11,13 +11,13 @@ function usePostColumns() {
   const { t } = useI18n();
 
   const postColumns = computed<TableColumnList>(() => [
-    { label: t('post.field.postCode'), prop: 'postCode', minWidth: 120, showOverflowTooltip: true },
-    { label: t('post.field.postName'), prop: 'postName', minWidth: 120, showOverflowTooltip: true },
+    { label: t('post.field.postCode'), prop: 'postCode', minWidth: 120 },
+    { label: t('post.field.postName'), prop: 'postName', minWidth: 120 },
     {
       label: t('post.field.status'),
       prop: 'status',
       minWidth: 90,
-      formatter: (row: PostReference) => renderBooleanStatusTag(row.status),
+      render: ({ row }: { row: PostReference }) => renderBooleanStatusTag(row.status),
     },
   ]);
 

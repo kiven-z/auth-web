@@ -80,12 +80,7 @@ onMounted(() => {
       {{ t('account.hint.loginLogRetention') }}
     </el-alert>
 
-    <PagedTable
-      :columns="meLoginLogTableColumns"
-      :state="loginLogState"
-      :title="t('account.loginLog')"
-      show-overflow-tooltip
-    />
+    <PagedTable :columns="meLoginLogTableColumns" :state="loginLogState" :title="t('account.loginLog')" />
   </div>
 </template>
 

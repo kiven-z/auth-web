@@ -48,7 +48,7 @@ onMounted(() => {
       ref="searchFormRef"
       v-enter-submit="fetchTableData"
       :model="searchForm"
-      class="bg-bg_color w-[99/100] overflow-auto pl-8 pt-3"
+      class="bg-auth-container w-[99/100] overflow-auto pl-8 pt-3"
       inline
     >
       <el-form-item :label="t('scheduleTask.fields.jobName')" prop="jobName">
@@ -95,7 +95,7 @@ onMounted(() => {
       </el-form-item>
     </el-form>
 
-    <PagedTable :columns="columns" :state="jobState" :title="t('scheduleTask.page.tableTitle')" show-overflow-tooltip>
+    <PagedTable :columns="columns" :state="jobState" :title="t('scheduleTask.page.tableTitle')">
       <template #buttons>
         <el-button-group type="primary">
           <el-button v-perms="SYS_JOB_PERMS.CREATE" @click="openCreateDialog">{{ t('buttons.actionAdd') }}</el-button>

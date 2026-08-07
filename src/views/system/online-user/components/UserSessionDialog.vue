@@ -111,17 +111,7 @@ onMounted(() => {
 
     <el-empty v-if="!loading && sessions.length <= 0" :description="t('users.session.empty')" />
 
-    <DataTable
-      v-else
-      :adaptive="false"
-      :columns="columns"
-      :data="sessions"
-      :loading="loading"
-      border
-      row-key="sessionId"
-      show-overflow-tooltip
-      size="small"
-    >
+    <DataTable v-else :columns="columns" :data="sessions" :loading="loading" border row-key="sessionId" size="small">
       <template #actions="{ row }">
         <el-button
           v-perms="SYS_SESSION_PERMS.KICK_SESSION"

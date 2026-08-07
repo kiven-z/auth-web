@@ -39,15 +39,16 @@
 
   &__logo {
     display: block;
-    margin: 0 auto;
     height: 72px;
+    margin: 0 auto;
   }
 
   h2 {
     margin: 15px 0;
-    font: bold 200% Consolas,
-    Monaco,
-    monospace;
+    font:
+      bold 200% Consolas,
+      Monaco,
+      monospace;
     color: var(--auth-text-placeholder);
     text-transform: uppercase;
   }

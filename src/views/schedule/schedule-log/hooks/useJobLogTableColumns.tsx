@@ -25,7 +25,7 @@ function useJobLogTableColumns() {
       label: t('logJob.field.triggerType'),
       prop: 'triggerType',
       minWidth: 120,
-      formatter: (row: JobLogPageRow) => {
+      render: ({ row }: { row: JobLogPageRow }) => {
         const option = triggerTypeOptions.value.find((item) => item.value === row.triggerType);
         return option?.label ?? row.triggerType ?? '-';
       },
@@ -34,7 +34,7 @@ function useJobLogTableColumns() {
       label: t('logJob.field.status'),
       prop: 'status',
       minWidth: 100,
-      formatter: (row: JobLogPageRow) => {
+      render: ({ row }: { row: JobLogPageRow }) => {
         const meta = statusOptions.value.find((item) => item.value === row.status) ?? statusOptions.value[1];
         return (
           <ElTag type={meta.tagType} effect="plain">
@@ -49,13 +49,13 @@ function useJobLogTableColumns() {
       prop: 'createdAt',
       sortable: true,
       minWidth: 170,
-      formatter: (row: JobLogPageRow) => formatDateTime(row.createdAt),
+      render: ({ row }: { row: JobLogPageRow }) => formatDateTime(row.createdAt),
     },
     {
       label: t('table.createdByName'),
       prop: 'createdBy',
       minWidth: 130,
-      formatter: (row: JobLogPageRow) => {
+      render: ({ row }: { row: JobLogPageRow }) => {
         return (
           row.createdBy && (
             <ElButton link type="primary" onClick={() => selectUserinfo(row.createdBy, row.createdByName)}>
@@ -67,7 +67,7 @@ function useJobLogTableColumns() {
     },
     {
       label: t('table.actions'),
-      fixed: 'right' as const,
+      fixed: 'right',
       width: 120,
       slot: 'actions',
     },

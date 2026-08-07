@@ -16,13 +16,13 @@ function useUserPostAssignTableColumns() {
   const columns = computed<TableColumnList>(() => [
     { type: 'selection', align: 'left', width: 48 },
     { type: 'index', index: (index: number) => index + 1, label: t('table.idx'), minWidth: 60 },
-    { label: t('post.field.postCode'), prop: 'postCode', minWidth: 120, showOverflowTooltip: true },
-    { label: t('post.field.postName'), prop: 'postName', minWidth: 140, showOverflowTooltip: true },
+    { label: t('post.field.postCode'), prop: 'postCode', minWidth: 120 },
+    { label: t('post.field.postName'), prop: 'postName', minWidth: 140 },
     {
       label: t('post.field.isPrimaryPosition'),
       prop: 'isPrimary',
       minWidth: 110,
-      formatter: (row: UserPostPageRow) =>
+      render: ({ row }: { row: UserPostPageRow }) =>
         row.isPrimary ? (
           <ElCheckTag checked type="danger">
             {t('post.enums.primary.yes')}
@@ -37,7 +37,7 @@ function useUserPostAssignTableColumns() {
       label: t('relation.status'),
       prop: 'status',
       minWidth: 100,
-      formatter: (row: UserPostPageRow) => renderRelationStatus(row.status),
+      render: ({ row }: { row: UserPostPageRow }) => renderRelationStatus(row.status),
     },
     ...createAuditTableColumns(),
     {

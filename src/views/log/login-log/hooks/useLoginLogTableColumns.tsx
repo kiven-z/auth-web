@@ -29,7 +29,7 @@ function useLoginLogTableColumns() {
       label: t('loginLog.field.user'),
       prop: 'username',
       minWidth: 130,
-      formatter: (row: LoginLogPageRow) => {
+      render: ({ row }: { row: LoginLogPageRow }) => {
         const uid = row.userId;
         const displayName = row.username?.trim() || '—';
         if (!uid) {
@@ -46,7 +46,7 @@ function useLoginLogTableColumns() {
       label: t('loginLog.field.loginResult'),
       prop: 'loginResult',
       minWidth: 140,
-      formatter: (row: LoginLogPageRow) => {
+      render: ({ row }: { row: LoginLogPageRow }) => {
         const code = row.loginResult;
         if (code === undefined || code === null) return <span>—</span>;
         const option = loginResultOptions.value.find((item) => item.value === code);
@@ -64,7 +64,7 @@ function useLoginLogTableColumns() {
       prop: 'loginTime',
       sortable: true,
       minWidth: 170,
-      formatter: (row: LoginLogPageRow) => formatDateTime(row.loginTime),
+      render: ({ row }: { row: LoginLogPageRow }) => formatDateTime(row.loginTime),
     },
     {
       label: t('loginLog.field.loginRegion'),
@@ -75,7 +75,7 @@ function useLoginLogTableColumns() {
       label: t('loginLog.field.loginType'),
       prop: 'loginType',
       minWidth: 130,
-      formatter: (row: LoginLogPageRow) => {
+      render: ({ row }: { row: LoginLogPageRow }) => {
         if (!row.loginType) return '';
         const option = loginTypeOptions.value.find((item) => item.value === row.loginType);
         return option?.label ?? row.loginType;
@@ -86,13 +86,13 @@ function useLoginLogTableColumns() {
       prop: 'createdAt',
       sortable: true,
       minWidth: 170,
-      formatter: (row: LoginLogPageRow) => formatDateTime(row.createdAt),
+      render: ({ row }: { row: LoginLogPageRow }) => formatDateTime(row.createdAt),
     },
     {
       label: t('table.createdByName'),
       prop: 'createdBy',
       minWidth: 130,
-      formatter: (row: LoginLogPageRow) => {
+      render: ({ row }: { row: LoginLogPageRow }) => {
         if (!row.createdBy) {
           return <span>—</span>;
         }
@@ -107,7 +107,7 @@ function useLoginLogTableColumns() {
     },
     {
       label: t('table.actions'),
-      fixed: 'right' as const,
+      fixed: 'right',
       width: 120,
       slot: 'actions',
     },

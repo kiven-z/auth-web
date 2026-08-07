@@ -30,7 +30,7 @@ function useAuthorizationInvalidationEventTableColumns() {
       label: t('authorizationInvalidation.changeKind'),
       prop: 'changeKind',
       minWidth: 120,
-      formatter: (row: AuthorizationInvalidationEventPageRow) => {
+      render: ({ row }: { row: AuthorizationInvalidationEventPageRow }) => {
         const option = changeKindOptions.value.find((item) => item.value === row.changeKind);
         return option?.label ?? row.changeKind ?? '-';
       },
@@ -39,7 +39,7 @@ function useAuthorizationInvalidationEventTableColumns() {
       label: t('authorizationInvalidation.processing'),
       prop: 'processing',
       minWidth: 110,
-      formatter: (row: AuthorizationInvalidationEventPageRow) => {
+      render: ({ row }: { row: AuthorizationInvalidationEventPageRow }) => {
         if (!row.processing) {
           return '-';
         }
@@ -58,45 +58,45 @@ function useAuthorizationInvalidationEventTableColumns() {
       label: t('authorizationInvalidation.impactedUserCount'),
       prop: 'impactedUserCount',
       minWidth: 110,
-      formatter: (row: AuthorizationInvalidationEventPageRow) => row.impactedUserCount ?? '-',
+      render: ({ row }: { row: AuthorizationInvalidationEventPageRow }) => row.impactedUserCount ?? '-',
     },
     {
       label: t('authorizationInvalidation.versionBumpedCount'),
       prop: 'versionBumpedCount',
       minWidth: 130,
-      formatter: (row: AuthorizationInvalidationEventPageRow) => row.versionBumpedCount ?? '-',
+      render: ({ row }: { row: AuthorizationInvalidationEventPageRow }) => row.versionBumpedCount ?? '-',
     },
     {
       label: t('authorizationInvalidation.profileRefreshedCount'),
       prop: 'profileRefreshedCount',
       minWidth: 130,
-      formatter: (row: AuthorizationInvalidationEventPageRow) => row.profileRefreshedCount ?? '-',
+      render: ({ row }: { row: AuthorizationInvalidationEventPageRow }) => row.profileRefreshedCount ?? '-',
     },
     {
       label: t('authorizationInvalidation.profileEvictedCount'),
       prop: 'profileEvictedCount',
       minWidth: 130,
-      formatter: (row: AuthorizationInvalidationEventPageRow) => row.profileEvictedCount ?? '-',
+      render: ({ row }: { row: AuthorizationInvalidationEventPageRow }) => row.profileEvictedCount ?? '-',
     },
     {
       label: t('authorizationInvalidation.processedAt'),
       prop: 'processedAt',
       sortable: true,
       minWidth: 170,
-      formatter: (row: AuthorizationInvalidationEventPageRow) => formatDateTime(row.processedAt),
+      render: ({ row }: { row: AuthorizationInvalidationEventPageRow }) => formatDateTime(row.processedAt),
     },
     {
       label: t('table.createdAt'),
       prop: 'createdAt',
       sortable: true,
       minWidth: 170,
-      formatter: (row: AuthorizationInvalidationEventPageRow) => formatDateTime(row.createdAt),
+      render: ({ row }: { row: AuthorizationInvalidationEventPageRow }) => formatDateTime(row.createdAt),
     },
     {
       label: t('table.createdByName'),
       prop: 'createdBy',
       minWidth: 130,
-      formatter: (row: AuthorizationInvalidationEventPageRow) => {
+      render: ({ row }: { row: AuthorizationInvalidationEventPageRow }) => {
         if (!row.createdBy) {
           return '-';
         }
@@ -109,7 +109,7 @@ function useAuthorizationInvalidationEventTableColumns() {
     },
     {
       label: t('table.actions'),
-      fixed: 'right' as const,
+      fixed: 'right',
       width: 160,
       slot: 'actions',
     },

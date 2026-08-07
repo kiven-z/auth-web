@@ -17,27 +17,24 @@ function useMenuColumns() {
       label: t('sysMenu.menuTitle'),
       prop: 'title',
       minWidth: 120,
-      showOverflowTooltip: true,
-      formatter: (row: RoleBoundMenuItem) => t(row.title),
+      render: ({ row }: { row: RoleBoundMenuItem }) => t(row.title),
     },
     {
       label: t('sysMenu.routeName'),
       prop: 'name',
       minWidth: 140,
-      showOverflowTooltip: true,
-      formatter: (row: RoleBoundMenuItem) => row.name ?? '-',
+      render: ({ row }: { row: RoleBoundMenuItem }) => row.name ?? '-',
     },
     {
       label: t('sysMenu.path'),
       prop: 'path',
       minWidth: 140,
-      showOverflowTooltip: true,
     },
     {
       label: t('sysMenu.menuType'),
       prop: 'menuType',
       minWidth: 100,
-      formatter: (row: RoleBoundMenuItem) => {
+      render: ({ row }: { row: RoleBoundMenuItem }) => {
         const option = menuTypeOptions.value.find((item) => item.value === row.menuType);
         return option?.label ?? String(row.menuType ?? '');
       },
@@ -46,7 +43,7 @@ function useMenuColumns() {
       label: t('sysMenu.status'),
       prop: 'status',
       minWidth: 90,
-      formatter: (row: RoleBoundMenuItem) => renderBooleanStatusTag(row.status),
+      render: ({ row }: { row: RoleBoundMenuItem }) => renderBooleanStatusTag(row.status),
     },
   ]);
 

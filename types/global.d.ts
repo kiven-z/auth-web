@@ -2,6 +2,14 @@
  * 全局类型声明，无需引入直接在 `.vue` 、`.ts` 、`.tsx` 文件使用即可获得类型提示
  */
 declare global {
+  /** 表格单元格 render 上下文 */
+  interface TableColumnRenderContext<T = any> {
+    row: T;
+    value: unknown;
+    index: number;
+    column: TableColumns;
+  }
+
   /**
    * 表格列定义（DataTable、TableBar 列配置共用）
    */
@@ -16,11 +24,13 @@ declare global {
     headerAlign?: 'left' | 'center' | 'right';
     hide?: boolean | ((row?: unknown) => boolean);
     showOverflowTooltip?: boolean | Record<string, unknown>;
-    formatter?: (row: any, column?: any, cellValue?: any, index?: number) => unknown;
-    cellRenderer?: (params: Record<string, unknown>) => unknown;
+    /** 函数渲染；与 slot 同时存在时优先 render */
+    render?: (ctx: TableColumnRenderContext) => unknown;
+    /** 具名插槽，由使用方 `<template #name>` 提供 */
     slot?: string;
     index?: (index: number) => number;
     children?: TableColumns[];
+    sortable?: boolean | 'custom';
     [key: string]: unknown;
   }
 

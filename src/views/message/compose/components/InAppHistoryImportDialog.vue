@@ -155,12 +155,7 @@ onMounted(() => {
       </el-form-item>
     </el-form>
 
-    <PagedTable
-      :columns="columns"
-      :state="historyImportState"
-      :title="t('inAppCompose.importHistoryDialogTitle')"
-      show-overflow-tooltip
-    >
+    <PagedTable :columns="columns" :state="historyImportState" :title="t('inAppCompose.importHistoryDialogTitle')">
       <template #actions="{ row }">
         <el-button v-perms="IN_APP_MESSAGE_PERMS.DETAIL" link type="primary" @click="openDetailDialog(row)">
           {{ t('buttons.actionView') }}

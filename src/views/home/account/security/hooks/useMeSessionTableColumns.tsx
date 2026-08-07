@@ -12,19 +12,19 @@ function useMeSessionTableColumns() {
   const { t } = useI18n();
 
   const meSessionTableColumns = computed<TableColumnList>(() => [
-    { label: t('account.session.device'), prop: 'deviceType', minWidth: 90, showOverflowTooltip: true },
-    { label: t('users.session.browser'), prop: 'browserType', minWidth: 100, showOverflowTooltip: true },
-    { label: t('users.session.os'), prop: 'osType', minWidth: 100, showOverflowTooltip: true },
-    { label: t('account.session.region'), prop: 'ipRegion', minWidth: 120, showOverflowTooltip: true },
+    { label: t('account.session.device'), prop: 'deviceType', minWidth: 90 },
+    { label: t('users.session.browser'), prop: 'browserType', minWidth: 100 },
+    { label: t('users.session.os'), prop: 'osType', minWidth: 100 },
+    { label: t('account.session.region'), prop: 'ipRegion', minWidth: 120 },
     {
       label: t('account.session.loginAt'),
       minWidth: 170,
-      formatter: (row: MeUserSession) => formatMillisTimestamp(row.loginAt),
+      render: ({ row }: { row: MeUserSession }) => formatMillisTimestamp(row.loginAt),
     },
     {
       label: t('account.session.current'),
       minWidth: 100,
-      formatter: (row: MeUserSession) =>
+      render: ({ row }: { row: MeUserSession }) =>
         row.current ? (
           <ElTag type="success" effect="plain">
             {t('account.session.current')}

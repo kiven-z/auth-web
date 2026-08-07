@@ -31,7 +31,7 @@ function useInAppMessageTableColumns() {
       label: t('inAppMessage.field.status'),
       prop: 'status',
       minWidth: 120,
-      formatter: (row: InAppSendTaskPageRow) => {
+      render: ({ row }: { row: InAppSendTaskPageRow }) => {
         const option = statusOptions.value.find((item) => item.value === row.status);
         if (!option) {
           return <span>{row.status || '—'}</span>;
@@ -47,7 +47,7 @@ function useInAppMessageTableColumns() {
       label: t('inAppMessage.field.recipientScopeType'),
       prop: 'recipientScopeType',
       minWidth: 120,
-      formatter: (row: InAppSendTaskPageRow) => {
+      render: ({ row }: { row: InAppSendTaskPageRow }) => {
         const option = scopeOptions.value.find((item) => item.value === row.recipientScopeType);
         return option?.label ?? row.recipientScopeType ?? '—';
       },
@@ -56,7 +56,7 @@ function useInAppMessageTableColumns() {
       label: t('inAppMessage.field.sourceType'),
       prop: 'sourceType',
       minWidth: 130,
-      formatter: (row: InAppSendTaskPageRow) => {
+      render: ({ row }: { row: InAppSendTaskPageRow }) => {
         const option = sourceOptions.value.find((item) => item.value === row.sourceType);
         return option?.label ?? row.sourceType ?? '—';
       },
@@ -95,12 +95,12 @@ function useInAppMessageTableColumns() {
       label: t('inAppMessage.field.recalledAt'),
       prop: 'recalledAt',
       minWidth: 170,
-      formatter: (row: InAppSendTaskPageRow) => formatDateTime(row.recalledAt),
+      render: ({ row }: { row: InAppSendTaskPageRow }) => formatDateTime(row.recalledAt),
     },
     ...createAuditTableColumns(),
     {
       label: t('table.actions'),
-      fixed: 'right' as const,
+      fixed: 'right',
       width: 220,
       slot: 'actions',
     },

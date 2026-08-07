@@ -25,8 +25,8 @@ show_help() {
 
 示例:
   ./dockerctl.sh build-up
-  export AUTH_IMAGE_PREFIX=registry.cn-hangzhou.aliyuncs.com/bunny-company
-  export AUTH_IMAGE_TAG=prod-latest
+  export IMAGE_PREFIX=registry.cn-hangzhou.aliyuncs.com/bunny-company
+  export IMAGE_TAG=prod-latest
   ./dockerctl.sh up
 EOF
 }

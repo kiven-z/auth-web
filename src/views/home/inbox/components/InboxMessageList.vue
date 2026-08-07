@@ -85,8 +85,8 @@ const openDetail = (messageId: string) => {
 <style lang="scss" scoped>
 .inbox-message-list {
   height: 100%;
-  overflow-y: auto;
   padding: 4px 8px 24px 0;
+  overflow-y: auto;
 
   &__row {
     display: grid;
@@ -94,15 +94,15 @@ const openDetail = (messageId: string) => {
     gap: 16px 24px;
     align-items: center;
     padding: 8px;
-    border-bottom: 1px solid var(--el-border-color-lighter);
     cursor: pointer;
+    border-bottom: 1px solid var(--el-border-color-lighter);
 
     &:hover {
       background: var(--el-fill-color-light);
 
       .inbox-message-list__actions {
-        opacity: 1;
         pointer-events: auto;
+        opacity: 1;
       }
 
       .inbox-message-list__time {
@@ -118,19 +118,19 @@ const openDetail = (messageId: string) => {
 
   &__category,
   &__title {
-    overflow: hidden;
     min-width: 0;
-    color: var(--el-text-color-regular);
-    font-size: 14px;
+    overflow: hidden;
     text-overflow: ellipsis;
+    font-size: 14px;
+    color: var(--el-text-color-regular);
     white-space: nowrap;
   }
 
   &__trailing {
     position: relative;
     display: flex;
-    justify-content: flex-end;
     align-items: center;
+    justify-content: flex-end;
     min-width: 120px;
     min-height: 24px;
   }
@@ -140,15 +140,15 @@ const openDetail = (messageId: string) => {
     inset: 0;
     display: flex;
     gap: 4px;
-    justify-content: flex-end;
     align-items: center;
-    opacity: 0;
+    justify-content: flex-end;
     pointer-events: none;
+    opacity: 0;
   }
 
   &__time {
-    color: var(--el-text-color-secondary);
     font-size: 13px;
+    color: var(--el-text-color-secondary);
     white-space: nowrap;
   }
 }

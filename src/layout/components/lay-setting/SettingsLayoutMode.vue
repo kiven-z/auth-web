@@ -146,7 +146,7 @@ watch(
       </li>
     </ul>
 
-    <span v-if="useAppStore().getViewportWidth > 1280">
+    <div v-if="useAppStore().getViewportWidth > 1280">
       <p :class="['mt-5!', sectionTitleClass]">{{ t('panel.stretch') }}</p>
       <Segmented
         :modelValue="isNumber(settings.stretch) ? 1 : 0"
@@ -169,22 +169,28 @@ watch(
         class="bg-transparent flex-c w-full h-20 rounded-md border border-(--auth-border-color)"
         @click="setStretch(!settings.stretch)"
       >
-        <div
+        <span
           :class="[settings.stretch ? 'w-[24%]' : 'w-[50%]']"
           class="flex-bc transition-all duration-300"
           style="color: var(--el-color-primary)"
         >
           <IconifyIconOffline :icon="settings.stretch ? RightArrow : LeftArrow" />
-          <div class="grow border-0 border-b border-dashed" style="border-color: var(--el-color-primary)" />
+          <span class="grow border-0 border-b border-dashed" style="border-color: var(--el-color-primary)" />
           <IconifyIconOffline :icon="settings.stretch ? LeftArrow : RightArrow" />
-        </div>
+        </span>
       </button>
-    </span>
+    </div>
   </div>
 </template>
 
 <style lang="scss" scoped>
 .settings-layout {
+  /* 布局示意色：固定亮色块，不跟 html.dark 翻转（与 PureAdmin 一致） */
+  --settings-layout-page: #ebeef2;
+  --settings-layout-chrome: #292c3d;
+  --settings-layout-panel: #fff;
+  --settings-layout-edge: rgb(0 0 0 / 12%);
+
   display: flex;
   gap: 12px;
 
@@ -194,7 +200,7 @@ watch(
     height: 36px;
     overflow: hidden;
     cursor: pointer;
-    background: var(--auth-bg-page);
+    background: var(--settings-layout-page);
     border-radius: var(--auth-radius-extra-large);
     box-shadow: var(--auth-shadow-1);
 
@@ -203,7 +209,7 @@ watch(
         &:nth-child(1) {
           width: 30%;
           height: 100%;
-          background: var(--auth-color-gray-12);
+          background: var(--settings-layout-chrome);
         }
 
         &:nth-child(2) {
@@ -212,8 +218,8 @@ watch(
           right: 0;
           width: 70%;
           height: 30%;
-          background: var(--auth-bg-container);
-          box-shadow: 0 0 1px var(--auth-color-border);
+          background: var(--settings-layout-panel);
+          box-shadow: 0 0 1px var(--settings-layout-edge);
         }
       }
     }
@@ -223,8 +229,8 @@ watch(
         &:nth-child(1) {
           width: 100%;
           height: 30%;
-          background: var(--auth-color-gray-12);
-          box-shadow: 0 0 1px var(--auth-color-border);
+          background: var(--settings-layout-chrome);
+          box-shadow: 0 0 1px var(--settings-layout-edge);
         }
       }
     }
@@ -234,8 +240,8 @@ watch(
         &:nth-child(1) {
           width: 100%;
           height: 30%;
-          background: var(--auth-color-gray-12);
-          box-shadow: 0 0 1px var(--auth-color-border);
+          background: var(--settings-layout-chrome);
+          box-shadow: 0 0 1px var(--settings-layout-edge);
         }
 
         &:nth-child(2) {
@@ -244,8 +250,8 @@ watch(
           left: 0;
           width: 30%;
           height: 70%;
-          background: var(--auth-bg-container);
-          box-shadow: 0 0 1px var(--auth-color-border);
+          background: var(--settings-layout-panel);
+          box-shadow: 0 0 1px var(--settings-layout-edge);
         }
       }
     }

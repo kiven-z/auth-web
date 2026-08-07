@@ -58,7 +58,7 @@ onMounted(() => {
       ref="searchFormRef"
       v-enter-submit="fetchTableData"
       :model="searchForm"
-      class="bg-bg_color w-[99/100] overflow-auto pl-8 pt-3"
+      class="bg-auth-container w-[99/100] overflow-auto pl-8 pt-3"
       inline
     >
       <!-- 场景编码（scene_code） -->
@@ -125,12 +125,7 @@ onMounted(() => {
       </el-form-item>
     </el-form>
 
-    <PagedTable
-      :columns="columns"
-      :state="inAppTemplateState"
-      :title="t('inAppTemplate.tableTitle')"
-      show-overflow-tooltip
-    >
+    <PagedTable :columns="columns" :state="inAppTemplateState" :title="t('inAppTemplate.tableTitle')">
       <template #buttons>
         <el-button-group type="primary">
           <el-button v-perms="IN_APP_TEMPLATE_PERMS.CREATE" @click="openCreateDrawer">

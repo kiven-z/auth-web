@@ -2,6 +2,7 @@ import { ref } from 'vue';
 import reDialog from './index.vue';
 import { useTimeoutFn } from '@vueuse/core';
 import { withInstall } from '@/shared/vue/withInstall';
+import isFunction from 'lodash/isFunction';
 import type { ArgsType, ButtonProps, DialogOptions, DialogProps, EventType } from './type';
 
 const dialogStore = ref<Array<DialogOptions>>([]);
@@ -30,6 +31,31 @@ const closeDialog = (options: DialogOptions, index: number, args?: any) => {
 };
 
 /**
+ * 触发确定：loading → beforeSure → done/closeLoading
+ * 底部确定按钮与表单回车共用此入口
+ */
+const confirmDialog = (options: DialogOptions, index: number) => {
+  const loadingEnabled = options.confirmLoadingEnabled ?? Boolean(options.beforeSure);
+  if (loadingEnabled) {
+    options.confirmLoading = true;
+  }
+  const closeLoading = () => {
+    if (loadingEnabled) {
+      options.confirmLoading = false;
+    }
+  };
+  const done = () => {
+    closeLoading();
+    closeDialog(options, index, { command: 'sure' });
+  };
+  if (options?.beforeSure && isFunction(options.beforeSure)) {
+    void options.beforeSure(done, { options, index, closeLoading });
+    return;
+  }
+  done();
+};
+
+/**
  * @description 更改弹框自身属性值
  * @param value 属性值
  * @param key 属性，默认`title`
@@ -44,9 +70,7 @@ const closeAllDialog = () => {
   dialogStore.value = [];
 };
 
-/** 千万别忘了在下面这三处引入并注册下，放心注册，不使用`addDialog`调用就不会被挂载
- */
 const AuthDialog = withInstall(reDialog);
 
 export type { EventType, ArgsType, DialogProps, ButtonProps, DialogOptions };
-export { AuthDialog, dialogStore, addDialog, closeDialog, updateDialog, closeAllDialog };
+export { AuthDialog, dialogStore, addDialog, closeDialog, confirmDialog, updateDialog, closeAllDialog };

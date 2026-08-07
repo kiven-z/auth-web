@@ -3,13 +3,13 @@ import { nextTick, type Ref } from 'vue';
 const TAG_SCROLL_PADDING = 10;
 const TAG_ARROW_SCROLL_OFFSET = 200;
 
-type TagsScrollDeps = {
+interface TagsScrollDeps {
   scrollbarRef: Ref<HTMLElement | undefined>;
   tabListRef: Ref<HTMLElement | undefined>;
   isShowArrow: Ref<boolean>;
   /** 按索引取标签 DOM（沿用 string ref: dynamic0 / dynamic1） */
   getTagElement: (index: number) => HTMLElement | undefined;
-};
+}
 
 /**
  * 标签栏横向滚动（scrollLeft，避免父级 transform 干扰 Sortable 动画）

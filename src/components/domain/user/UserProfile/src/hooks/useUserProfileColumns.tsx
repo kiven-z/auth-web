@@ -139,14 +139,14 @@ function useUserProfileColumns() {
   ]);
 
   const userBindingColumns = computed<TableColumnList>(() => [
-    { label: t('users.field.username'), prop: 'username', minWidth: 120, showOverflowTooltip: true },
-    { label: t('users.field.nickname'), prop: 'nickname', minWidth: 120, showOverflowTooltip: true },
-    { label: t('post.field.employeeNo'), prop: 'employeeNo', minWidth: 100, showOverflowTooltip: true },
+    { label: t('users.field.username'), prop: 'username', minWidth: 120 },
+    { label: t('users.field.nickname'), prop: 'nickname', minWidth: 120 },
+    { label: t('post.field.employeeNo'), prop: 'employeeNo', minWidth: 100 },
     {
       label: t('users.field.status'),
       prop: 'status',
       minWidth: 90,
-      formatter: (row: UserReference) => renderUserAccountStatus(row.status),
+      render: ({ row }: { row: UserReference }) => renderUserAccountStatus(row.status),
     },
   ]);
 
@@ -156,48 +156,50 @@ function useUserProfileColumns() {
       label: t('relation.isPrimary'),
       prop: 'isPrimary',
       minWidth: 110,
-      formatter: (row: DeptBoundUserReference | PostBoundUserReference) => renderIsPrimary(row.isPrimary),
+      render: ({ row }: { row: DeptBoundUserReference | PostBoundUserReference }) => renderIsPrimary(row.isPrimary),
     },
     {
       label: t('relation.status'),
       prop: 'relationStatus',
       minWidth: 100,
-      formatter: (row: DeptBoundUserReference | PostBoundUserReference) =>
+      render: ({ row }: { row: DeptBoundUserReference | PostBoundUserReference }) =>
         renderRelationStatus(resolveRelationStatus(row)),
     },
   ]);
 
   const userDeptBindingColumns = computed<TableColumnList>(() => [
-    { label: t('dept.field.deptCode'), prop: 'deptCode', minWidth: 120, showOverflowTooltip: true },
-    { label: t('dept.field.deptName'), prop: 'deptName', minWidth: 140, showOverflowTooltip: true },
+    { label: t('dept.field.deptCode'), prop: 'deptCode', minWidth: 120 },
+    { label: t('dept.field.deptName'), prop: 'deptName', minWidth: 140 },
     {
       label: t('relation.isPrimary'),
       prop: 'isPrimary',
       minWidth: 110,
-      formatter: (row: UserDeptReference | UserDeptPageRow) => renderIsPrimary(row.isPrimary),
+      render: ({ row }: { row: UserDeptReference | UserDeptPageRow }) => renderIsPrimary(row.isPrimary),
     },
     {
       label: t('relation.status'),
       prop: 'relationStatus',
       minWidth: 100,
-      formatter: (row: UserDeptReference | UserDeptPageRow) => renderRelationStatus(resolveRelationStatus(row)),
+      render: ({ row }: { row: UserDeptReference | UserDeptPageRow }) =>
+        renderRelationStatus(resolveRelationStatus(row)),
     },
   ]);
 
   const userPostBindingColumns = computed<TableColumnList>(() => [
-    { label: t('post.field.postCode'), prop: 'postCode', minWidth: 120, showOverflowTooltip: true },
-    { label: t('post.field.postName'), prop: 'postName', minWidth: 140, showOverflowTooltip: true },
+    { label: t('post.field.postCode'), prop: 'postCode', minWidth: 120 },
+    { label: t('post.field.postName'), prop: 'postName', minWidth: 140 },
     {
       label: t('post.field.isPrimaryPosition'),
       prop: 'isPrimary',
       minWidth: 110,
-      formatter: (row: UserPostReference | UserPostPageRow) => renderPostIsPrimary(row.isPrimary),
+      render: ({ row }: { row: UserPostReference | UserPostPageRow }) => renderPostIsPrimary(row.isPrimary),
     },
     {
       label: t('relation.status'),
       prop: 'relationStatus',
       minWidth: 100,
-      formatter: (row: UserPostReference | UserPostPageRow) => renderRelationStatus(resolveRelationStatus(row)),
+      render: ({ row }: { row: UserPostReference | UserPostPageRow }) =>
+        renderRelationStatus(resolveRelationStatus(row)),
     },
   ]);
 

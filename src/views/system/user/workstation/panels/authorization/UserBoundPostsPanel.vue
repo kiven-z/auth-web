@@ -83,6 +83,6 @@ onMounted(() => {
       </el-form-item>
     </el-form>
 
-    <PagedTable :columns="userPostBindingColumns" :state="postState" :title="title" show-overflow-tooltip />
+    <PagedTable :columns="userPostBindingColumns" :state="postState" :title="title" />
   </div>
 </template>

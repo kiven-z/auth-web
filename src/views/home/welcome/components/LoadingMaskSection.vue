@@ -28,9 +28,9 @@ const loading = ref(true);
   &__panel {
     min-height: 120px;
     padding: 16px;
+    color: var(--auth-text-secondary);
     border: 1px dashed var(--auth-color-border);
     border-radius: var(--auth-radius-default);
-    color: var(--auth-text-secondary);
   }
 }
 </style>

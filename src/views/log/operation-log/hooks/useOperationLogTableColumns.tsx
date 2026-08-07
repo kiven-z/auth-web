@@ -31,7 +31,7 @@ function useOperationLogTableColumns() {
       label: t('operationLog.user'),
       prop: 'username',
       minWidth: 130,
-      formatter: (row: OperationLogPageRow) => {
+      render: ({ row }: { row: OperationLogPageRow }) => {
         const uid = row.userId;
         if (!uid) {
           return <span>—</span>;
@@ -97,14 +97,14 @@ function useOperationLogTableColumns() {
       prop: 'createdAt',
       sortable: true,
       minWidth: 170,
-      formatter: (row: OperationLogPageRow) => formatDateTime(row.createdAt),
+      render: ({ row }: { row: OperationLogPageRow }) => formatDateTime(row.createdAt),
     },
     // 创建人
     {
       label: t('table.createdByName'),
       prop: 'createdBy',
       minWidth: 130,
-      formatter: (row: OperationLogPageRow) => {
+      render: ({ row }: { row: OperationLogPageRow }) => {
         return (
           row.createdBy && (
             <ElButton link type="primary" onClick={() => selectUserinfo(row.createdBy, row.createdByName)}>
@@ -119,7 +119,7 @@ function useOperationLogTableColumns() {
       label: t('table.updatedByName'),
       prop: 'updatedBy',
       minWidth: 130,
-      formatter: (row: OperationLogPageRow) => {
+      render: ({ row }: { row: OperationLogPageRow }) => {
         return (
           row.updatedBy && (
             <ElButton link type="primary" onClick={() => selectUserinfo(row.updatedBy, row.updatedByName)}>
@@ -132,7 +132,7 @@ function useOperationLogTableColumns() {
     // 操作
     {
       label: t('table.actions'),
-      fixed: 'right' as const,
+      fixed: 'right',
       width: 120,
       slot: 'actions',
     },

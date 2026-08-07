@@ -2,6 +2,7 @@ import reDrawer from './index.vue';
 import type { ArgsType, ButtonProps, DrawerOptions, DrawerProps, EventType } from './type';
 import { withInstall } from '@/shared/vue/withInstall';
 import { useTimeoutFn } from '@vueuse/core';
+import isFunction from 'lodash/isFunction';
 import { ref } from 'vue';
 
 const drawerStore = ref<Array<DrawerOptions>>([]);
@@ -30,6 +31,31 @@ const closeDrawer = (options: DrawerOptions, index: number, args?: any) => {
 };
 
 /**
+ * 触发确定：loading → beforeSure → done/closeLoading
+ * 底部确定按钮与表单回车共用此入口
+ */
+const confirmDrawer = (options: DrawerOptions, index: number) => {
+  const loadingEnabled = options.confirmLoadingEnabled ?? Boolean(options.beforeSure);
+  if (loadingEnabled) {
+    options.confirmLoading = true;
+  }
+  const closeLoading = () => {
+    if (loadingEnabled) {
+      options.confirmLoading = false;
+    }
+  };
+  const done = () => {
+    closeLoading();
+    closeDrawer(options, index, { command: 'sure' });
+  };
+  if (options?.beforeSure && isFunction(options.beforeSure)) {
+    void options.beforeSure(done, { options, index, closeLoading });
+    return;
+  }
+  done();
+};
+
+/**
  * @description 更改抽屉自身属性值
  * @param value 属性值
  * @param key 属性，默认`title`
@@ -47,4 +73,4 @@ const closeAllDrawer = () => {
 const AuthDrawer = withInstall(reDrawer);
 
 export type { EventType, ArgsType, DrawerOptions, DrawerProps, ButtonProps };
-export { AuthDrawer, drawerStore, addDrawer, closeDrawer, updateDrawer, closeAllDrawer };
+export { AuthDrawer, drawerStore, addDrawer, closeDrawer, confirmDrawer, updateDrawer, closeAllDrawer };

@@ -122,7 +122,7 @@ watch(
       </el-form-item>
     </el-form>
 
-    <PagedTable :columns="columns" :state="postAssignState" :title="tableTitle" show-overflow-tooltip>
+    <PagedTable :columns="columns" :state="postAssignState" :title="tableTitle">
       <template #buttons>
         <el-button-group>
           <el-button v-perms="SYS_USER_POST_PERMS.CREATE" type="primary" @click="openCreateDialog">

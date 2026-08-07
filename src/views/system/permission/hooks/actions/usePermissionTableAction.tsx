@@ -12,7 +12,7 @@ import {
   updatePermission,
 } from '@/api/system/permission/permission';
 import { addDialog } from '@/components/ui/Dialog';
-import { type FormOverlayExpose, useFormOverlaySubmit } from '@/shared/composables/table/useFormOverlaySubmit';
+import { type FormOverlayExpose, useFormOverlaySubmit } from '@/shared/composables/dialog/useFormOverlaySubmit';
 import { deleteConfirm, operationConfirm } from '@/services/feedback/dialog';
 import { errorMessage, message } from '@/services/feedback/message';
 import PermissionDescriptionDialog from '@/views/system/permission/components/PermissionDescriptionDialog.vue';

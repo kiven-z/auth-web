@@ -42,31 +42,42 @@ const hasSelection = computed(() => props.assign.hasSelection.value);
           </div>
         </template>
 
-        <div class="flex justify-between">
+        <div class="mb-2 flex items-center justify-between gap-2">
           <el-text v-if="sectionLabel" class="text-xs font-semibold" type="info">
-            {{ sectionLabel }}
+            <el-badge :max="999" :offset="[0, -2]" :value="assignedTags.length" type="primary">
+              {{ sectionLabel }}
+            </el-badge>
           </el-text>
+
           <el-button :disabled="saving || !hasSelection" link type="danger" @click="assign.clearAll()">
             {{ t('buttons.assignClearAll') }}
           </el-button>
         </div>
 
-        <div v-if="assignedTags.length">
-          <el-tag
-            v-for="tag in assignedTags"
-            :key="tag.key"
-            :closable="!saving"
-            class="mx-1"
-            effect="light"
-            type="success"
-            @close="assign.removeKey(tag.key)"
-          >
-            <el-tooltip :content="tag.key" :show-after="400" placement="top">
-              <span>{{ tag.label }}</span>
+        <el-scrollbar v-if="assignedTags.length" max-height="60vh">
+          <div class="grid grid-cols-4 gap-1.5">
+            <el-tooltip
+              v-for="tag in assignedTags"
+              :key="tag.key"
+              :content="tag.label"
+              :show-after="400"
+              placement="top"
+            >
+              <div class="min-w-0">
+                <el-tag
+                  :closable="!saving"
+                  class="assign-panel__tag w-full"
+                  effect="light"
+                  type="success"
+                  @close="assign.removeKey(tag.key)"
+                >
+                  <span class="assign-panel__tag-text">{{ tag.label }}</span>
+                </el-tag>
+              </div>
             </el-tooltip>
-          </el-tag>
-        </div>
-        <div v-else class="flex items-center justify-center">
+          </div>
+        </el-scrollbar>
+        <div v-else class="flex items-center justify-center py-8">
           <el-text type="info">
             {{ t('tips.assignEmptySelected') }}
           </el-text>
@@ -79,3 +90,22 @@ const hasSelection = computed(() => props.assign.hasSelection.value);
     </el-col>
   </el-row>
 </template>
+
+<style scoped>
+.assign-panel__tag {
+  min-width: 0;
+  max-width: 100%;
+}
+
+.assign-panel__tag :deep(.el-tag__content) {
+  min-width: 0;
+  overflow: hidden;
+}
+
+.assign-panel__tag-text {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+</style>

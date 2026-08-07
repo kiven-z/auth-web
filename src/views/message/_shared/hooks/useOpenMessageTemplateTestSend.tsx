@@ -1,7 +1,7 @@
 import type { MessageChannelCode } from '@/api/message/message-template';
 import { testSendMessageTemplate } from '@/api/message/message-template';
 import { addDialog } from '@/components/ui/Dialog';
-import { type FormOverlayExpose, useFormOverlaySubmit } from '@/shared/composables/table/useFormOverlaySubmit';
+import { type FormOverlayExpose, useFormOverlaySubmit } from '@/shared/composables/dialog/useFormOverlaySubmit';
 import MessageTemplateTestSendDialog from '@/views/message/_shared/components/MessageTemplateTestSendDialog.vue';
 import { ref } from 'vue';
 import { useI18n } from 'vue-i18n';
@@ -55,6 +55,7 @@ export function useOpenMessageTemplateTestSend() {
       fullscreenIcon: true,
       closeOnClickModal: false,
       closeOnPressEscape: false,
+      focusOnOpen: true,
       contentRenderer: () => (
         <MessageTemplateTestSendDialog
           ref={sendFormRef}

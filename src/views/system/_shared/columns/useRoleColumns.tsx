@@ -11,13 +11,13 @@ function useRoleColumns() {
   const { t } = useI18n();
 
   const roleColumns = computed<TableColumnList>(() => [
-    { label: t('roles.field.roleCode'), prop: 'roleCode', minWidth: 120, showOverflowTooltip: true },
-    { label: t('roles.field.roleName'), prop: 'roleName', minWidth: 120, showOverflowTooltip: true },
+    { label: t('roles.field.roleCode'), prop: 'roleCode', minWidth: 120 },
+    { label: t('roles.field.roleName'), prop: 'roleName', minWidth: 120 },
     {
       label: t('roles.field.status'),
       prop: 'status',
       minWidth: 90,
-      formatter: (row: RoleReference) => renderBooleanStatusTag(row.status),
+      render: ({ row }: { row: RoleReference }) => renderBooleanStatusTag(row.status),
     },
   ]);
 

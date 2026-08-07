@@ -79,7 +79,7 @@ onMounted(() => {
       ref="searchFormRef"
       v-enter-submit="fetchTableData"
       :model="searchForm"
-      class="bg-bg_color w-[99/100] overflow-auto pl-8 pt-3"
+      class="bg-auth-container w-[99/100] overflow-auto pl-8 pt-3"
       inline
     >
       <el-form-item :label="t('authorizationInvalidation.eventId')" prop="eventId">
@@ -195,12 +195,7 @@ onMounted(() => {
       </el-form-item>
     </el-form>
 
-    <PagedTable
-      :columns="columns"
-      :state="outboxState"
-      :title="t('authorizationInvalidation.outboxTableTitle')"
-      show-overflow-tooltip
-    >
+    <PagedTable :columns="columns" :state="outboxState" :title="t('authorizationInvalidation.outboxTableTitle')">
       <template #actions="{ row }">
         <el-button
           v-perms="SYS_AUTH_INVALIDATION_OUTBOX_PERMS.DETAIL"

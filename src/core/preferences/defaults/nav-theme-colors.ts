@@ -10,12 +10,11 @@ export interface NavThemeColorItem {
 
 /**
  * 导航主题色单一事实来源（设置面板色板与选中逻辑共用）
- * 方案 A：点色板即整套主题；light / default / tencentBlue 主色均为腾讯蓝
+ * 方案 A：点色板即整套主题；light / default 主色均为品牌蓝
  */
 export const NAV_THEME_COLOR_ITEMS: readonly NavThemeColorItem[] = [
   { color: '#ffffff', navTheme: 'light' },
   { color: '#1b2a47', navTheme: 'default' },
-  { color: DEFAULT_PRIMARY_COLOR, navTheme: 'tencentBlue' },
   { color: '#722ed1', navTheme: 'saucePurple' },
   { color: '#eb2f96', navTheme: 'pink' },
   { color: '#f5222d', navTheme: 'dusk' },
@@ -34,8 +33,8 @@ export const NAV_THEME_COLORS: Readonly<Record<string, string>> = Object.fromEnt
   NAV_THEME_COLOR_ITEMS.map((item) => [item.navTheme, item.color])
 );
 
-/** 选中后主色固定为腾讯蓝的侧栏皮肤（预览色不是主色） */
-const BRAND_PRIMARY_NAV_THEMES = new Set(['light', 'default', 'tencentBlue']);
+/** 选中后主色固定为品牌蓝的侧栏皮肤（预览色不是主色） */
+const BRAND_PRIMARY_NAV_THEMES = new Set(['light', 'default']);
 
 /**
  * 选中侧栏皮肤时应写入的主色

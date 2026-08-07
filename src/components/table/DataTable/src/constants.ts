@@ -22,5 +22,8 @@ export const DEFAULT_ADAPTIVE_DEBOUNCE_MS = 60;
 /** 自适应高度：通用最小高度（px） */
 export const DEFAULT_ADAPTIVE_MIN_HEIGHT_PX = 300;
 
-/** 自适应高度：有分页时默认预留（px） */
+/**
+ * 视口定高时下方预留（px）。
+ * DataTable 自身用量兄弟节点，不再依赖本常量；独立列表（如收件箱）仍可传入 useAdaptiveFillHeight。
+ */
 export const DEFAULT_ADAPTIVE_PAGINATION_RESERVE_PX = 64;

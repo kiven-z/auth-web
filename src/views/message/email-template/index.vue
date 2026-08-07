@@ -5,15 +5,15 @@ import {
   type MessageTemplatePageRow,
 } from '@/api/message/message-template';
 import PagedTable, { usePaginationState } from '@/components/table/PagedTable';
-import useEmailTemplateTableAction from '@/views/message/email-template/hooks/useEmailTemplateTableAction';
-import useEmailTemplateTableColumns from '@/views/message/email-template/hooks/useEmailTemplateTableColumns';
+import useEmailTemplateTableAction from '@/views/message/email-template/hooks/actions/useEmailTemplateTableAction';
+import useEmailTemplateTableColumns from '@/views/message/email-template/hooks/columns/useEmailTemplateTableColumns';
 import { useCommonBooleanStatusOptions } from '@/shared/composables/i18n/useCommonBooleanStatusOptions';
 import { useFormPlaceholder } from '@/shared/composables/i18n/useFormPlaceholder';
 import type { FormInstance } from 'element-plus';
 import { onMounted, reactive, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { EMAIL_TEMPLATE_PERMS } from '@/views/message/email-template/constants/permissions';
-import { useEmailTemplateTableMoreAction } from '@/views/message/email-template/hooks/useEmailTemplateTableMoreAction';
+import { useEmailTemplateTableMoreAction } from '@/views/message/email-template/hooks/actions/useEmailTemplateTableMoreAction';
 import { EMAIL_TEMPLATE_CHANNEL } from '@/views/message/_shared/constants/channel';
 
 defineOptions({
@@ -56,7 +56,7 @@ onMounted(() => {
       ref="searchFormRef"
       v-enter-submit="fetchTableData"
       :model="searchForm"
-      class="bg-bg_color w-[99/100] overflow-auto pl-8 pt-3"
+      class="bg-auth-container w-[99/100] overflow-auto pl-8 pt-3"
       inline
     >
       <!-- 场景编码（scene_code） -->
@@ -112,12 +112,7 @@ onMounted(() => {
       </el-form-item>
     </el-form>
 
-    <PagedTable
-      :columns="columns"
-      :state="emailTemplateState"
-      :title="t('emailTemplate.tableTitle')"
-      show-overflow-tooltip
-    >
+    <PagedTable :columns="columns" :state="emailTemplateState" :title="t('emailTemplate.tableTitle')">
       <template #buttons>
         <el-button-group type="primary">
           <el-button v-perms="EMAIL_TEMPLATE_PERMS.CREATE" @click="openCreateDialog">

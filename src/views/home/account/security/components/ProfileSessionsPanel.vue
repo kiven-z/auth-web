@@ -56,13 +56,11 @@ async function handleRevokeSession(sessionId: string) {
     <el-empty v-if="sessionList.length <= 0" :description="t('users.session.empty')" />
     <DataTable
       v-else
-      :adaptive="false"
       :columns="meSessionTableColumns"
       :data="sessionList"
       :row-class-name="resolveSessionRowClassName"
       border
       row-key="sessionId"
-      show-overflow-tooltip
     >
       <template #actions="{ row }">
         <el-button

@@ -8,7 +8,7 @@ import {
 } from '@/api/system/user/user-dept';
 import { addDialog } from '@/components/ui/Dialog';
 import useBatchDeleteAction from '@/shared/composables/table/useBatchDeleteAction';
-import { type FormOverlayExpose, useFormOverlaySubmit } from '@/shared/composables/table/useFormOverlaySubmit';
+import { type FormOverlayExpose, useFormOverlaySubmit } from '@/shared/composables/dialog/useFormOverlaySubmit';
 import { errorMessage, message } from '@/services/feedback/message';
 import { multiConfirm } from '@/services/feedback/dialog';
 import UserDeptAssignFormDialog from '@/views/system/user/workstation/panels/assign/dept/UserDeptAssignFormDialog.vue';

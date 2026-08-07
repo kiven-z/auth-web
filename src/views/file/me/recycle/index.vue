@@ -33,7 +33,7 @@ const personalFileRecycleState = usePaginationState({
     bizId: undefined,
     contentType: undefined,
     originalName: undefined,
-    createdAtRange: undefined as [string, string] | undefined,
+    createdAtRange: undefined,
   }),
 });
 
@@ -56,7 +56,7 @@ onMounted(() => {
       ref="searchFormRef"
       v-enter-submit="fetchTableData"
       :model="searchForm"
-      class="bg-bg_color w-[99/100] overflow-auto pl-8 pt-3"
+      class="bg-auth-container w-[99/100] overflow-auto pl-8 pt-3"
       inline
     >
       <el-form-item :label="t('fileRecycle.fields.bizType')" prop="bizType">
@@ -119,12 +119,7 @@ onMounted(() => {
       </el-form-item>
     </el-form>
 
-    <PagedTable
-      :columns="columns"
-      :state="personalFileRecycleState"
-      :title="t('fileRecycle.page.tableTitle')"
-      show-overflow-tooltip
-    >
+    <PagedTable :columns="columns" :state="personalFileRecycleState" :title="t('fileRecycle.page.tableTitle')">
       <template #buttons>
         <el-button-group type="primary">
           <el-button :disabled="selectedRows.length <= 0" type="primary" @click="restoreBatchRows()">

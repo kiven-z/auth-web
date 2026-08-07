@@ -110,11 +110,6 @@ onMounted(() => {
       </el-form-item>
     </el-form>
 
-    <PagedTable
-      :columns="columns"
-      :state="recipientState"
-      :title="title || t('inAppMessage.title.recipients')"
-      show-overflow-tooltip
-    />
+    <PagedTable :columns="columns" :state="recipientState" :title="title || t('inAppMessage.title.recipients')" />
   </div>
 </template>

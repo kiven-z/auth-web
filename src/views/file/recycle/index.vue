@@ -61,7 +61,7 @@ onMounted(() => {
       ref="searchFormRef"
       v-enter-submit="fetchTableData"
       :model="searchForm"
-      class="bg-bg_color w-[99/100] overflow-auto pl-8 pt-3"
+      class="bg-auth-container w-[99/100] overflow-auto pl-8 pt-3"
       inline
     >
       <el-form-item :label="t('fileRecycle.fields.ownerUserId')" prop="ownerUserId">
@@ -138,12 +138,7 @@ onMounted(() => {
       </el-form-item>
     </el-form>
 
-    <PagedTable
-      :columns="columns"
-      :state="fileRecycleState"
-      :title="t('fileRecycle.page.tableTitle')"
-      show-overflow-tooltip
-    >
+    <PagedTable :columns="columns" :state="fileRecycleState" :title="t('fileRecycle.page.tableTitle')">
       <template #buttons>
         <el-button-group type="primary">
           <el-button

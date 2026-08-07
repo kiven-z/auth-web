@@ -23,14 +23,14 @@ function usePermissionTableColumns() {
       label: t('permissions.field.status'),
       prop: 'status',
       minWidth: 100,
-      formatter: (row: SysPermissionPageRow) => renderBooleanStatusTag(row.status),
+      render: ({ row }: { row: SysPermissionPageRow }) => renderBooleanStatusTag(row.status),
     },
     // 排序号
     { label: t('permissions.field.orderNum'), prop: 'orderNum', width: 100 },
     ...createAuditTableColumns(),
     {
       label: t('table.actions'),
-      fixed: 'right' as const,
+      fixed: 'right',
       minWidth: 160,
       slot: 'actions',
     },

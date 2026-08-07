@@ -5,33 +5,6 @@
 @use 'sidebar';
 @use 'dark';
 
-/* 壳层 / 布局专用 CssVar（侧栏皮肤由 themes/ 按 data-theme 覆盖） */
-:root {
-  --auth-transition-duration: 0.3s;
-
-  /* 菜单叶子激活胶囊：对齐 radius token */
-  --auth-menu-item-radius: var(--auth-radius-extra-large);
-
-  /* 壳层分割线（layout/sidebar）；与 token 的 --auth-color-border* 区分 */
-  --auth-border-color: var(--auth-color-border-light);
-
-  --auth-switch-off-color: var(--auth-color-gray-5);
-
-  /** 导航主题（侧栏）占位，由 themes/ 按 data-theme 覆盖 */
-  --auth-theme-sub-menu-active-text: initial;
-  --auth-theme-menu-bg: none;
-  --auth-theme-menu-hover: none;
-  --auth-theme-sub-menu-bg: transparent;
-  --auth-theme-menu-text: initial;
-  --auth-theme-sidebar-logo: none;
-  --auth-theme-menu-title-hover: initial;
-  --auth-theme-menu-active-before: transparent;
-}
-
-html.dark {
-  --auth-switch-off-color: rgb(255 255 255 / 25%);
-}
-
 /* 灰色模式 */
 .html-grey {
   filter: grayscale(100%);

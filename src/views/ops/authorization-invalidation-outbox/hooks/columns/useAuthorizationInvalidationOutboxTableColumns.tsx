@@ -30,7 +30,7 @@ function useAuthorizationInvalidationOutboxTableColumns() {
       label: t('authorizationInvalidation.changeKind'),
       prop: 'changeKind',
       minWidth: 120,
-      formatter: (row: AuthorizationInvalidationOutboxPageRow) => {
+      render: ({ row }: { row: AuthorizationInvalidationOutboxPageRow }) => {
         const option = changeKindOptions.value.find((item) => item.value === row.changeKind);
         return option?.label ?? row.changeKind ?? '-';
       },
@@ -39,7 +39,7 @@ function useAuthorizationInvalidationOutboxTableColumns() {
       label: t('authorizationInvalidation.outboxStatus'),
       prop: 'status',
       minWidth: 110,
-      formatter: (row: AuthorizationInvalidationOutboxPageRow) => {
+      render: ({ row }: { row: AuthorizationInvalidationOutboxPageRow }) => {
         if (!row.status) {
           return '-';
         }
@@ -58,7 +58,7 @@ function useAuthorizationInvalidationOutboxTableColumns() {
       label: t('authorizationInvalidation.retryCount'),
       prop: 'retryCount',
       minWidth: 90,
-      formatter: (row: AuthorizationInvalidationOutboxPageRow) => {
+      render: ({ row }: { row: AuthorizationInvalidationOutboxPageRow }) => {
         return `${row.retryCount}/${row.maxRetry}`;
       },
     },
@@ -66,13 +66,13 @@ function useAuthorizationInvalidationOutboxTableColumns() {
       label: t('authorizationInvalidation.nextRetryAt'),
       prop: 'nextRetryAt',
       minWidth: 170,
-      formatter: (row: AuthorizationInvalidationOutboxPageRow) => formatDateTime(row.nextRetryAt),
+      render: ({ row }: { row: AuthorizationInvalidationOutboxPageRow }) => formatDateTime(row.nextRetryAt),
     },
     {
       label: t('authorizationInvalidation.lastError'),
       prop: 'lastError',
       minWidth: 180,
-      formatter: (row: AuthorizationInvalidationOutboxPageRow) => {
+      render: ({ row }: { row: AuthorizationInvalidationOutboxPageRow }) => {
         const error = row.lastError;
         if (!error) return '-';
         return error.length > 40 ? `${error.slice(0, 40)}…` : error;
@@ -93,20 +93,20 @@ function useAuthorizationInvalidationOutboxTableColumns() {
       prop: 'processedAt',
       sortable: true,
       minWidth: 170,
-      formatter: (row: AuthorizationInvalidationOutboxPageRow) => formatDateTime(row.processedAt),
+      render: ({ row }: { row: AuthorizationInvalidationOutboxPageRow }) => formatDateTime(row.processedAt),
     },
     {
       label: t('table.createdAt'),
       prop: 'createdAt',
       sortable: true,
       minWidth: 170,
-      formatter: (row: AuthorizationInvalidationOutboxPageRow) => formatDateTime(row.createdAt),
+      render: ({ row }: { row: AuthorizationInvalidationOutboxPageRow }) => formatDateTime(row.createdAt),
     },
     {
       label: t('table.createdByName'),
       prop: 'createdBy',
       minWidth: 130,
-      formatter: (row: AuthorizationInvalidationOutboxPageRow) => {
+      render: ({ row }: { row: AuthorizationInvalidationOutboxPageRow }) => {
         return row.createdBy ? (
           <ElButton link type="primary" onClick={() => selectUserinfo(row.createdBy, row.createdByName)}>
             {row.createdByName}
@@ -118,7 +118,7 @@ function useAuthorizationInvalidationOutboxTableColumns() {
     },
     {
       label: t('table.actions'),
-      fixed: 'right' as const,
+      fixed: 'right',
       width: 140,
       slot: 'actions',
     },

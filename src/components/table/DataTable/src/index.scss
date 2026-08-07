@@ -20,15 +20,20 @@
   overflow: auto hidden;
 }
 
-/** 填满定高父级：整条 flex 链把剩余高度交给表体 */
+/** viewport / fill：整条 flex 链把剩余高度交给表体；分页为兄弟节点由 fill 测量 */
+.data-table--viewport,
 .data-table--fill {
   display: flex;
-  flex: 1;
   flex-direction: column;
-  height: 100%;
   min-height: 0;
 }
 
+.data-table--fill {
+  flex: 1;
+  height: 100%;
+}
+
+.data-table--viewport .data-table-inner,
 .data-table--fill .data-table-inner {
   display: flex;
   flex: 1;

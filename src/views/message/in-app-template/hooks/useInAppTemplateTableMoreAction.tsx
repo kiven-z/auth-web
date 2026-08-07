@@ -1,7 +1,7 @@
 import type { TableActionDeps } from '@/shared/types/table-action';
 import { type MessageTemplatePageRow, testSendMessageTemplate } from '@/api/message/message-template';
 import { addDialog } from '@/components/ui/Dialog';
-import { type FormOverlayExpose, useFormOverlaySubmit } from '@/shared/composables/table/useFormOverlaySubmit';
+import { type FormOverlayExpose, useFormOverlaySubmit } from '@/shared/composables/dialog/useFormOverlaySubmit';
 import { IN_APP_TEMPLATE_CHANNEL } from '@/views/message/_shared/constants/channel';
 import { useOpenMessageTemplateRequireFields } from '@/views/message/_shared/hooks/useOpenMessageTemplateRequireFields';
 import InAppTemplateTestSendDialog from '@/views/message/in-app-template/components/InAppTemplateTestSendDialog.vue';

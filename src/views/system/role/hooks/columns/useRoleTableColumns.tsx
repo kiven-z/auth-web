@@ -23,14 +23,14 @@ function useRoleTableColumns() {
       label: t('roles.field.status'),
       prop: 'status',
       minWidth: 100,
-      formatter: (row: SysRolePageRow) => renderBooleanStatusTag(row.status),
+      render: ({ row }: { row: SysRolePageRow }) => renderBooleanStatusTag(row.status),
     },
     // 排序号
     { label: t('roles.field.orderNum'), prop: 'orderNum', width: 100 },
     ...createAuditTableColumns(),
     {
       label: t('table.actions'),
-      fixed: 'right' as const,
+      fixed: 'right',
       minWidth: 220,
       slot: 'actions',
     },

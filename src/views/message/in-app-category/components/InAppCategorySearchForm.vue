@@ -24,7 +24,7 @@ const { loading, searchForm, fetchTreeData, resetQuery } = useInAppCategoryPageS
     ref="searchFormRef"
     v-enter-submit="fetchTreeData"
     :model="searchForm"
-    class="bg-bg_color w-[99/100] overflow-auto pl-8 pt-3"
+    class="bg-auth-container w-[99/100] overflow-auto pl-8 pt-3"
     inline
   >
     <el-form-item :label="t('inAppCategory.field.code')" prop="code">

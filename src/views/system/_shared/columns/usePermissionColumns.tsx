@@ -11,13 +11,13 @@ function usePermissionColumns() {
   const { t } = useI18n();
 
   const permissionColumns = computed<TableColumnList>(() => [
-    { label: t('permissions.field.permissionCode'), prop: 'permissionCode', minWidth: 140, showOverflowTooltip: true },
-    { label: t('permissions.field.permissionName'), prop: 'permissionName', minWidth: 120, showOverflowTooltip: true },
+    { label: t('permissions.field.permissionCode'), prop: 'permissionCode', minWidth: 140 },
+    { label: t('permissions.field.permissionName'), prop: 'permissionName', minWidth: 120 },
     {
       label: t('permissions.field.status'),
       prop: 'status',
       minWidth: 90,
-      formatter: (row: PermissionReference) => renderBooleanStatusTag(row.status),
+      render: ({ row }: { row: PermissionReference }) => renderBooleanStatusTag(row.status),
     },
   ]);
 

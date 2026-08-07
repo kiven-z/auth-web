@@ -169,7 +169,7 @@ function onDropdownCommand(command: { key: number; item: tagsViewsType }): void 
           @mouseleave.prevent="onMouseleave(index)"
         >
           <template v-if="showModel !== 'chrome'">
-            <span class="tag-title dark:text-text_color_primary! dark:hover:text-primary!">
+            <span class="tag-title dark:text-auth-text! dark:hover:text-primary!">
               {{ transformI18n(item.meta.title) }}
             </span>
             <span

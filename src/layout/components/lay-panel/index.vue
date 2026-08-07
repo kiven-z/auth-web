@@ -49,7 +49,7 @@ onClickOutside(target, (event: any) => {
 <template>
   <div :class="['settings-panel', { 'settings-panel--open': show }]">
     <div class="settings-panel__backdrop" />
-    <div ref="target" class="settings-panel__drawer bg-bg_color">
+    <div ref="target" class="settings-panel__drawer bg-auth-container">
       <div class="settings-panel__header border-0 border-b border-solid border-(--auth-border-color)">
         <h4 class="dark:text-white">
           {{ t('panel.systemSettings') }}

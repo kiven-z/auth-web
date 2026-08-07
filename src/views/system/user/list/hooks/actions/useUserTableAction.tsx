@@ -1,7 +1,7 @@
 import type { TableActionDeps } from '@/shared/types/table-action';
 import { batchUpdateUserStatus, createUser, type SysUserCreateForm } from '@/api/system/user/user';
 import { addDialog } from '@/components/ui/Dialog';
-import { type FormOverlayExpose, useFormOverlaySubmit } from '@/shared/composables/table/useFormOverlaySubmit';
+import { type FormOverlayExpose, useFormOverlaySubmit } from '@/shared/composables/dialog/useFormOverlaySubmit';
 import { operationConfirm } from '@/services/feedback/dialog';
 import { errorMessage, message } from '@/services/feedback/message';
 import UserCreateFormDialog from '@/views/system/user/list/components/UserCreateFormDialog.vue';

@@ -70,6 +70,10 @@ menus:
   enterTransition: 进场动画
   leaveTransition: 离场动画
   transitionName: 页面过渡
+  sections:
+    basic: 基础信息
+    route: 路由与显示
+    animation: 过渡动画
   rules:
     menuType: 请选择菜单类型
     title: 请输入菜单标题
@@ -92,10 +96,4 @@ menus:
   tips:
     simpleAnimation: 简单动画
     detailAnimation: 详细动画
-    useAnimationCautionaryNotes: 使用页面过渡动画前请阅读以下说明
-    displayProblem: 显示问题
-    displayProblemTips: 部分动画在低端设备或复杂页面上可能导致闪烁或布局异常。
-    performanceProblem: 性能影响
-    performanceProblemTips: 频繁或重度动画可能增加 GPU 与重排开销。
-    functionException: 功能异常
-    functionExceptionTips: 若与 keep-alive、路由缓存组合使用，请先在小范围页面验证。
+    animationAlert: 页面过渡可能影响显示、性能与 keep-alive 兼容性，请在小范围验证后再启用。

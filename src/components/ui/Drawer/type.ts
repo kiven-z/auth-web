@@ -1,7 +1,7 @@
 import type { Component, CSSProperties, VNode } from 'vue';
 
 type DoneFn = (cancel?: boolean) => void;
-type EventType = 'open' | 'close' | 'openAutoFocus' | 'closeAutoFocus';
+type EventType = 'open' | 'close';
 interface ArgsType {
   /** `cancel` 点击取消按钮、`sure` 点击确定按钮、`close` 点击右上角关闭按钮或空白页或按下了 `esc` 键 */
   command: 'cancel' | 'sure' | 'close';
@@ -152,8 +152,21 @@ interface DrawerOptions extends DrawerProps {
   /** 确认按钮的 `PopConfirm` 气泡确认框相关配置 */
   popConfirm?: PopConfirm;
   resizable?: boolean;
-  /** 点击确定按钮后是否开启 `loading` 加载动画 */
-  sureBtnLoading?: boolean;
+  /** 确定时是否显示 loading；未配置时有 beforeSure 则默认开启 */
+  confirmLoadingEnabled?: boolean;
+  /** 确定按钮当前是否 loading（运行时，由 `confirmDrawer` 维护） */
+  confirmLoading?: boolean;
+  /**
+   * 打开动画结束后聚焦内容区首个可聚焦控件（或内容 expose.focusTarget）。
+   * 在 FocusTrap 完成之后执行，避免与 EP 抢焦点。
+   */
+  focusOnOpen?: boolean;
+  /**
+   * 内容区回车触发确定（与底部确定同一 `confirmDrawer` 入口）。
+   * 默认：存在 `beforeSure` 时开启；显式传 `false` 可关闭。
+   * textarea / 下拉面板 / 按钮等按 `shouldIgnoreEnterTarget` 忽略。
+   */
+  enterConfirm?: boolean;
   /**
    * @description 自定义抽屉标题的内容渲染器
    * @see {@link https://element-plus.org/zh-CN/component/drawer.html#%E6%8F%92%E6%A7%BD}
@@ -173,16 +186,12 @@ interface DrawerOptions extends DrawerProps {
   footerRenderer?: ({ options, index }: { options: DrawerOptions; index: number }) => VNode | Component;
   /** 自定义底部按钮操作 */
   footerButtons?: Array<ButtonProps>;
-  /** `Drawer` 打开后的回调 */
+  /** `Drawer` 打开动画结束后的回调（对应 EP `opened`） */
   open?: ({ options, index }: { options: DrawerOptions; index: number }) => void;
   /** `Drawer` 关闭后的回调（只有点击右上角关闭按钮或空白页或按下了esc键关闭页面时才会触发） */
   close?: ({ options, index }: { options: DrawerOptions; index: number }) => void;
   /** `Drawer` 关闭后的回调。 `args` 返回的 `command` 值解析：`cancel` 点击取消按钮、`sure` 点击确定按钮、`close` 点击右上角关闭按钮或空白页或按下了esc键  */
   closeCallBack?: ({ options, index, args }: { options: DrawerOptions; index: number; args: any }) => void;
-  /** 输入焦点聚焦在 `Drawer` 内容时的回调 */
-  openAutoFocus?: ({ options, index }: { options: DrawerOptions; index: number }) => void;
-  /** 输入焦点从 `Drawer` 内容失焦时的回调 */
-  closeAutoFocus?: ({ options, index }: { options: DrawerOptions; index: number }) => void;
 
   /** 点击底部取消按钮的回调，会暂停 `Drawer` 的关闭. 回调函数内执行 `done` 参数方法的时候才是真正关闭对话框的时候 */
   beforeCancel?: (
@@ -197,17 +206,13 @@ interface DrawerOptions extends DrawerProps {
   ) => void;
   /** 点击底部确定按钮的回调，会暂停 `Drawer` 的关闭. 回调函数内执行 `done` 参数方法的时候才是真正关闭对话框的时候 */
   beforeSure?: (
-    done: Function,
-    {
-      options,
-      index,
-      closeLoading,
-    }: {
+    done: (cancel?: boolean) => void,
+    context: {
       options: DrawerOptions;
       index: number;
-      closeLoading: Function;
+      closeLoading: () => void;
     }
-  ) => void;
+  ) => void | Promise<void>;
 }
 
 export type { ButtonProps, DrawerOptions, ArgsType, DrawerProps, EventType };

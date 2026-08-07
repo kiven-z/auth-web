@@ -142,8 +142,8 @@ watch(
   .layout-toolbar__dept-text {
     font-size: 14px;
     font-weight: 600;
-    letter-spacing: 0.02em;
     line-height: 1;
+    letter-spacing: 0.02em;
   }
 }
 

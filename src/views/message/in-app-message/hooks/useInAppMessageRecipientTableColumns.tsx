@@ -23,7 +23,7 @@ function useInAppMessageRecipientTableColumns() {
       label: t('inAppMessage.field.username'),
       prop: 'username',
       minWidth: 140,
-      formatter: (row: InAppSendTaskRecipientPageRow) => {
+      render: ({ row }: { row: InAppSendTaskRecipientPageRow }) => {
         return (
           row.userId && (
             <ElButton link type="primary" onClick={() => selectUserinfo(row.userId, row.username)}>
@@ -37,7 +37,7 @@ function useInAppMessageRecipientTableColumns() {
       label: t('inAppMessage.field.isRead'),
       prop: 'isRead',
       minWidth: 100,
-      formatter: (row: InAppSendTaskRecipientPageRow) => {
+      render: ({ row }: { row: InAppSendTaskRecipientPageRow }) => {
         return (
           <ElTag type={row.isRead ? 'success' : 'info'} effect="plain">
             {row.isRead ? t('inAppMessage.readStatus.read') : t('inAppMessage.readStatus.unread')}
@@ -49,13 +49,13 @@ function useInAppMessageRecipientTableColumns() {
       label: t('inAppMessage.field.readTime'),
       prop: 'readTime',
       minWidth: 170,
-      formatter: (row: InAppSendTaskRecipientPageRow) => formatDateTime(row.readTime),
+      render: ({ row }: { row: InAppSendTaskRecipientPageRow }) => formatDateTime(row.readTime),
     },
     {
       label: t('inAppMessage.field.isDeleted'),
       prop: 'isDeleted',
       minWidth: 110,
-      formatter: (row: InAppSendTaskRecipientPageRow) => {
+      render: ({ row }: { row: InAppSendTaskRecipientPageRow }) => {
         return (
           <ElTag type={row.isDeleted ? 'danger' : 'success'} effect="plain">
             {row.isDeleted ? t('inAppMessage.deletedStatus.deleted') : t('inAppMessage.deletedStatus.active')}
@@ -67,13 +67,13 @@ function useInAppMessageRecipientTableColumns() {
       label: t('table.createdAt'),
       prop: 'createdAt',
       minWidth: 170,
-      formatter: (row: InAppSendTaskRecipientPageRow) => formatDateTime(row.createdAt),
+      render: ({ row }: { row: InAppSendTaskRecipientPageRow }) => formatDateTime(row.createdAt),
     },
     {
       label: t('table.updatedAt'),
       prop: 'updatedAt',
       minWidth: 170,
-      formatter: (row: InAppSendTaskRecipientPageRow) => formatDateTime(row.updatedAt),
+      render: ({ row }: { row: InAppSendTaskRecipientPageRow }) => formatDateTime(row.updatedAt),
     },
   ]);
 

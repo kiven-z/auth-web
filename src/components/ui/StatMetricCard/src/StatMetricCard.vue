@@ -76,9 +76,9 @@ function handleClick() {
 .stat-metric-card {
   height: 100%;
   padding: 16px;
-  border-radius: 4px;
   background-color: var(--el-bg-color-overlay);
   border: 1px solid var(--el-border-color-lighter);
+  border-radius: 4px;
 
   &--clickable {
     cursor: pointer;
@@ -98,8 +98,8 @@ function handleClick() {
 
   &__title {
     display: inline-flex;
-    align-items: center;
     gap: 4px;
+    align-items: center;
   }
 
   &__tip {

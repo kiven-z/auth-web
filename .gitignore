@@ -17,6 +17,7 @@ tests/**/coverage/
 .idea
 .vscode
 .cursor
+.scannerwork
 *.suo
 *.ntvs*
 *.njsproj

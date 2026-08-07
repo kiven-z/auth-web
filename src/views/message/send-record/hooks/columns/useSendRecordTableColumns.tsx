@@ -31,7 +31,7 @@ function useSendRecordTableColumns() {
       label: t('sendRecord.field.channel'),
       prop: 'channel',
       minWidth: 120,
-      formatter: (row: ChannelDeliveryPageRow) => {
+      render: ({ row }: { row: ChannelDeliveryPageRow }) => {
         const option = channelOptions.value.find((item) => item.value === row.channel);
         return option?.label ?? row.channel ?? '—';
       },
@@ -40,7 +40,7 @@ function useSendRecordTableColumns() {
       label: t('sendRecord.field.status'),
       prop: 'status',
       minWidth: 110,
-      formatter: (row: ChannelDeliveryPageRow) => {
+      render: ({ row }: { row: ChannelDeliveryPageRow }) => {
         const option = statusOptions.value.find((item) => item.value === row.status);
         if (!option) {
           return <span>{row.status || '—'}</span>;
@@ -67,12 +67,12 @@ function useSendRecordTableColumns() {
       prop: 'sentAt',
       sortable: true,
       minWidth: 170,
-      formatter: (row: ChannelDeliveryPageRow) => formatDateTime(row.sentAt),
+      render: ({ row }: { row: ChannelDeliveryPageRow }) => formatDateTime(row.sentAt),
     },
     ...createAuditTableColumns(),
     {
       label: t('table.actions'),
-      fixed: 'right' as const,
+      fixed: 'right',
       width: 120,
       slot: 'actions',
     },

@@ -103,7 +103,7 @@ function onFullscreen() {
       'table-bar--fullscreen': isFullscreen,
       'table-bar--fill': fill,
     }"
-    class="table-bar bg-bg_color"
+    class="table-bar bg-auth-container"
     v-bind="attrs"
   >
     <div class="table-bar__toolbar">

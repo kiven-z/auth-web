@@ -11,46 +11,43 @@ function useUserSessionTableColumns() {
   const { t } = useI18n();
 
   const columns = computed<TableColumnList>(() => [
-    { label: t('users.session.device'), prop: 'deviceType', minWidth: 90, align: 'center', showOverflowTooltip: true },
+    { label: t('users.session.device'), prop: 'deviceType', minWidth: 90, align: 'center' },
     {
       label: t('users.session.browser'),
       prop: 'browserType',
       minWidth: 100,
       align: 'center',
-      showOverflowTooltip: true,
     },
-    { label: t('users.session.os'), prop: 'osType', minWidth: 100, align: 'center', showOverflowTooltip: true },
+    { label: t('users.session.os'), prop: 'osType', minWidth: 100, align: 'center' },
     {
       label: t('users.field.lastLoginIp'),
       prop: 'ipAddress',
       minWidth: 120,
       align: 'center',
-      showOverflowTooltip: true,
     },
     {
       label: t('users.field.lastLoginRegion'),
       prop: 'ipRegion',
       minWidth: 120,
       align: 'center',
-      showOverflowTooltip: true,
     },
     {
       label: t('users.session.loginAt'),
       minWidth: 170,
       align: 'center',
-      formatter: (row: UserSessionIndex) => formatMillisTimestamp(row.loginAt),
+      render: ({ row }: { row: UserSessionIndex }) => formatMillisTimestamp(row.loginAt),
     },
     {
       label: t('users.session.rememberMe'),
       minWidth: 80,
       align: 'center',
-      formatter: (row: UserSessionIndex) => (row.rememberMe ? t('status.yes') : t('status.no')),
+      render: ({ row }: { row: UserSessionIndex }) => (row.rememberMe ? t('status.yes') : t('status.no')),
     },
     {
       label: t('users.session.expiresAt'),
       minWidth: 160,
       align: 'center',
-      formatter: (row: UserSessionIndex) => formatMillisTimestamp(row.refreshTokenExpiresAt),
+      render: ({ row }: { row: UserSessionIndex }) => formatMillisTimestamp(row.refreshTokenExpiresAt),
     },
     { label: t('table.actions'), fixed: 'right', align: 'center', slot: 'actions' },
   ]);

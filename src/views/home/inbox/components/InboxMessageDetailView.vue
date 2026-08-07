@@ -92,8 +92,7 @@ onMounted(() => {
 <style lang="scss" scoped>
 .inbox-message-detail {
   height: 100vh;
-  overflow-x: hidden;
-  overflow-y: auto;
+  overflow: hidden auto;
 
   &__header {
     position: sticky;
@@ -108,8 +107,8 @@ onMounted(() => {
   }
 
   &__meta {
-    margin-bottom: 20px;
     padding-bottom: 16px;
+    margin-bottom: 20px;
     border-bottom: 1px solid var(--el-border-color-lighter);
   }
 
@@ -125,8 +124,8 @@ onMounted(() => {
     flex-wrap: wrap;
     gap: 12px;
     margin-top: 8px;
-    color: var(--el-text-color-secondary);
     font-size: 13px;
+    color: var(--el-text-color-secondary);
   }
 
   &__link {
