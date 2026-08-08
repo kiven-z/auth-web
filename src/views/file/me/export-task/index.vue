@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { INSTANT_PICKER_VALUE_FORMAT } from '@/shared/utils/date/dateTime';
 import { queryPersonalFileExportTaskPage } from '@/api/file/file-me-export-task';
-import PagedTable, { usePaginationState } from '@/components/table/PagedTable';
+import ListTable, { usePaginationState } from '@/components/table/ListTable';
 import { useFormPlaceholder } from '@/shared/composables/i18n/useFormPlaceholder';
 import usePersonalFileExportTaskTableColumns from '@/views/file/me/export-task/hooks/columns/usePersonalFileExportTaskTableColumns';
 import usePersonalFileExportTaskOptions from '@/views/file/me/export-task/hooks/options/usePersonalFileExportTaskOptions';
@@ -94,23 +94,21 @@ onMounted(() => {
       </el-form-item>
 
       <el-form-item>
-        <el-button-group>
-          <el-button :loading="loading" type="primary" @click="fetchTableData">
-            {{ t('buttons.actionSearch') }}
-          </el-button>
-          <el-button @click="resetQuery(searchFormRef)">
-            {{ t('buttons.actionReset') }}
-          </el-button>
-        </el-button-group>
+        <el-button :loading="loading" type="primary" @click="fetchTableData">
+          {{ t('buttons.actionSearch') }}
+        </el-button>
+        <el-button @click="resetQuery(searchFormRef)">
+          {{ t('buttons.actionReset') }}
+        </el-button>
       </el-form-item>
     </el-form>
 
-    <PagedTable :columns="columns" :state="personalFileExportTaskState" :title="t('fileExportTask.page.tableTitle')">
+    <ListTable :columns="columns" :state="personalFileExportTaskState" :title="t('fileExportTask.page.tableTitle')">
       <template #actions="{ row }">
         <el-button link type="primary" @click="openDetailDialog(row)">
           {{ t('buttons.actionView') }}
         </el-button>
       </template>
-    </PagedTable>
+    </ListTable>
   </div>
 </template>

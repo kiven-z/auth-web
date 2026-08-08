@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import type { PermissionReference } from '@/api/system/models/grant-table';
 import type { RolePermissionPageQuery } from '@/api/system/role/role-authorization';
-import PagedTable, { usePaginationState } from '@/components/table/PagedTable';
+import ListTable, { usePaginationState } from '@/components/table/ListTable';
 import { useFormPlaceholder } from '@/shared/composables/i18n/useFormPlaceholder';
 import { useCommonBooleanStatusOptions } from '@/shared/composables/i18n/useCommonBooleanStatusOptions';
 import type { AuthorizationSurfacePanelProps } from '@/views/system/_shared/authorization/types';
@@ -73,17 +73,15 @@ onMounted(() => {
         </el-select>
       </el-form-item>
       <el-form-item>
-        <el-button-group>
-          <el-button v-perms="queryPerm" :loading="loading" type="primary" @click="fetchTableData">
-            {{ t('buttons.actionSearch') }}
-          </el-button>
-          <el-button v-perms="queryPerm" @click="resetQuery(searchFormRef)">
-            {{ t('buttons.actionReset') }}
-          </el-button>
-        </el-button-group>
+        <el-button v-perms="queryPerm" :loading="loading" type="primary" @click="fetchTableData">
+          {{ t('buttons.actionSearch') }}
+        </el-button>
+        <el-button v-perms="queryPerm" @click="resetQuery(searchFormRef)">
+          {{ t('buttons.actionReset') }}
+        </el-button>
       </el-form-item>
     </el-form>
 
-    <PagedTable :columns="permissionColumns" :state="permissionState" :title="title" />
+    <ListTable :columns="permissionColumns" :state="permissionState" :title="title" />
   </div>
 </template>

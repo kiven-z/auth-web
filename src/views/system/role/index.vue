@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { getRolePage } from '@/api/system/role/role';
-import PagedTable, { usePaginationState } from '@/components/table/PagedTable';
+import ListTable, { usePaginationState } from '@/components/table/ListTable';
 import { useFormPlaceholder } from '@/shared/composables/i18n/useFormPlaceholder';
 import { SYS_ROLE_PERMS } from '@/views/system/role/constants/permissions';
 import useRoleAdvanceAction from '@/views/system/role/hooks/actions/useRoleAdvanceAction';
@@ -100,58 +100,54 @@ onMounted(() => {
       </el-form-item>
 
       <el-form-item>
-        <el-button-group>
-          <el-button v-perms="SYS_ROLE_PERMS.QUERY" :loading="loading" type="primary" @click="fetchTableData">
-            {{ t('buttons.actionSearch') }}
-          </el-button>
-          <el-button v-perms="SYS_ROLE_PERMS.QUERY" @click="resetQuery(searchFormRef)">
-            {{ t('buttons.actionReset') }}
-          </el-button>
-        </el-button-group>
+        <el-button v-perms="SYS_ROLE_PERMS.QUERY" :loading="loading" type="primary" @click="fetchTableData">
+          {{ t('buttons.actionSearch') }}
+        </el-button>
+        <el-button v-perms="SYS_ROLE_PERMS.QUERY" @click="resetQuery(searchFormRef)">
+          {{ t('buttons.actionReset') }}
+        </el-button>
       </el-form-item>
     </el-form>
 
-    <PagedTable :columns="columns" :state="roleState" :title="t('roles.title.page')">
+    <ListTable :columns="columns" :state="roleState" :title="t('roles.title.page')">
       <template #buttons>
-        <el-button-group type="primary">
-          <el-button v-perms="SYS_ROLE_PERMS.CREATE" type="primary" @click="openCreateDialog">
-            {{ t('buttons.actionAdd') }}
-          </el-button>
+        <el-button v-perms="SYS_ROLE_PERMS.CREATE" type="primary" @click="openCreateDialog">
+          {{ t('buttons.actionAdd') }}
+        </el-button>
 
-          <Perms :value="SYS_ROLE_PERMS.UPDATE">
-            <el-dropdown trigger="click">
-              <el-button :disabled="!hasSelection" type="warning">
-                {{ t('buttons.actionBatchStatus') }}
-              </el-button>
-              <template #dropdown>
-                <el-dropdown-item :disabled="!hasSelection" @click="batchUpdateStatus(selectedRows, true)">
-                  {{ t('buttons.actionBatchEnable') }}
-                </el-dropdown-item>
-                <el-dropdown-item :disabled="!hasSelection" @click="batchUpdateStatus(selectedRows, false)">
-                  {{ t('buttons.actionBatchDisable') }}
-                </el-dropdown-item>
-              </template>
-            </el-dropdown>
-          </Perms>
-
+        <Perms :value="SYS_ROLE_PERMS.UPDATE">
           <el-dropdown trigger="click">
-            <el-button type="danger">
-              {{ t('buttons.actionAdvanced') }}
+            <el-button :disabled="!hasSelection" type="warning">
+              {{ t('buttons.actionBatchStatus') }}
             </el-button>
             <template #dropdown>
-              <Perms :value="SYS_ROLE_PERMS.IMPORT">
-                <el-dropdown-item @click="openImportDialog">
-                  {{ t('buttons.importExcel') }}
-                </el-dropdown-item>
-              </Perms>
-              <Perms :value="SYS_ROLE_PERMS.EXPORT">
-                <el-dropdown-item :disabled="exporting" @click="openExportDialog">
-                  {{ t('buttons.exportExcel') }}
-                </el-dropdown-item>
-              </Perms>
+              <el-dropdown-item :disabled="!hasSelection" @click="batchUpdateStatus(selectedRows, true)">
+                {{ t('buttons.actionBatchEnable') }}
+              </el-dropdown-item>
+              <el-dropdown-item :disabled="!hasSelection" @click="batchUpdateStatus(selectedRows, false)">
+                {{ t('buttons.actionBatchDisable') }}
+              </el-dropdown-item>
             </template>
           </el-dropdown>
-        </el-button-group>
+        </Perms>
+
+        <el-dropdown trigger="click">
+          <el-button type="danger">
+            {{ t('buttons.actionAdvanced') }}
+          </el-button>
+          <template #dropdown>
+            <Perms :value="SYS_ROLE_PERMS.IMPORT">
+              <el-dropdown-item @click="openImportDialog">
+                {{ t('buttons.importExcel') }}
+              </el-dropdown-item>
+            </Perms>
+            <Perms :value="SYS_ROLE_PERMS.EXPORT">
+              <el-dropdown-item :disabled="exporting" @click="openExportDialog">
+                {{ t('buttons.exportExcel') }}
+              </el-dropdown-item>
+            </Perms>
+          </template>
+        </el-dropdown>
       </template>
 
       <template #actions="{ row }">
@@ -208,6 +204,6 @@ onMounted(() => {
           </template>
         </el-dropdown>
       </template>
-    </PagedTable>
+    </ListTable>
   </div>
 </template>

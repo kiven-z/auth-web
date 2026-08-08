@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { getMyLoginLogPage } from '@/api/system/user/user-me';
-import PagedTable, { usePaginationState } from '@/components/table/PagedTable';
+import ListTable, { usePaginationState } from '@/components/table/ListTable';
 import { useFormPlaceholder } from '@/shared/composables/i18n/useFormPlaceholder';
 import useMeLoginLogTableColumns from '@/views/home/account/login-log/hooks/useMeLoginLogTableColumns';
 import useLoginLogOptions from '@/views/log/login-log/hooks/options/useLoginLogOptions';
@@ -65,14 +65,12 @@ onMounted(() => {
       </el-form-item>
 
       <el-form-item>
-        <el-button-group>
-          <el-button :loading="loading" type="primary" @click="fetchTableData">
-            {{ t('buttons.actionSearch') }}
-          </el-button>
-          <el-button @click="resetQuery(searchFormRef)">
-            {{ t('buttons.actionReset') }}
-          </el-button>
-        </el-button-group>
+        <el-button :loading="loading" type="primary" @click="fetchTableData">
+          {{ t('buttons.actionSearch') }}
+        </el-button>
+        <el-button @click="resetQuery(searchFormRef)">
+          {{ t('buttons.actionReset') }}
+        </el-button>
       </el-form-item>
     </el-form>
 
@@ -80,7 +78,7 @@ onMounted(() => {
       {{ t('account.hint.loginLogRetention') }}
     </el-alert>
 
-    <PagedTable :columns="meLoginLogTableColumns" :state="loginLogState" :title="t('account.loginLog')" />
+    <ListTable :columns="meLoginLogTableColumns" :state="loginLogState" :title="t('account.loginLog')" />
   </div>
 </template>
 

@@ -1,17 +1,17 @@
 <script lang="ts" setup>
-import { INSTANT_PICKER_VALUE_FORMAT } from '@/shared/utils/date/dateTime';
 import { queryFileRecordPage } from '@/api/file/file-record';
-import PagedTable, { usePaginationState } from '@/components/table/PagedTable';
+import { hasAuth } from '@/auth/permission';
+import ListTable, { usePaginationState } from '@/components/table/ListTable';
 import useRemoteUserSearch from '@/shared/composables/dialog/useRemoteUserSearch';
 import { useFormPlaceholder } from '@/shared/composables/i18n/useFormPlaceholder';
 import { useCollapsibleSearchForm } from '@/shared/composables/search/useCollapsibleSearchForm';
+import { INSTANT_PICKER_VALUE_FORMAT } from '@/shared/utils/date/dateTime';
+import useFileRecordTableColumns from '@/views/file/_shared/columns/useFileRecordTableColumns';
 import { FILE_RECORD_PERMS } from '@/views/file/record/constants/permissions';
 import useFileRecordTableAction from '@/views/file/record/hooks/useFileRecordTableAction';
-import useFileRecordTableColumns from '@/views/file/_shared/columns/useFileRecordTableColumns';
 import type { FormInstance } from 'element-plus';
 import { onMounted, reactive, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { hasAuth } from '@/auth/permission';
 
 defineOptions({
   name: 'FileRecord',
@@ -138,63 +138,59 @@ onMounted(() => {
       </template>
 
       <el-form-item>
-        <el-button-group>
-          <el-button v-perms="FILE_RECORD_PERMS.QUERY" :loading="loading" type="primary" @click="fetchTableData">
-            {{ t('buttons.actionSearch') }}
-          </el-button>
-          <el-button v-perms="FILE_RECORD_PERMS.QUERY" @click="resetQuery(searchFormRef)">
-            {{ t('buttons.actionReset') }}
-          </el-button>
-          <el-button v-if="showAdvancedSearchToggle" @click="toggleAdvancedSearch">
-            {{ searchExpanded ? t('buttons.actionCollapseSearch') : t('buttons.actionAdvancedSearch') }}
-          </el-button>
-        </el-button-group>
+        <el-button v-perms="FILE_RECORD_PERMS.QUERY" :loading="loading" type="primary" @click="fetchTableData">
+          {{ t('buttons.actionSearch') }}
+        </el-button>
+        <el-button v-perms="FILE_RECORD_PERMS.QUERY" @click="resetQuery(searchFormRef)">
+          {{ t('buttons.actionReset') }}
+        </el-button>
+        <el-button v-if="showAdvancedSearchToggle" @click="toggleAdvancedSearch">
+          {{ searchExpanded ? t('buttons.actionCollapseSearch') : t('buttons.actionAdvancedSearch') }}
+        </el-button>
       </el-form-item>
     </el-form>
 
-    <PagedTable :columns="columns" :state="fileRecordState" :title="t('fileRecord.page.tableTitle')">
+    <ListTable :columns="columns" :state="fileRecordState" :title="t('fileRecord.page.tableTitle')">
       <template #buttons>
-        <el-button-group type="primary">
-          <el-button
-            v-perms="FILE_RECORD_PERMS.DOWNLOAD"
-            :disabled="selectedRows.length <= 0"
-            :loading="batchDownloadLoading"
-            type="primary"
-            @click="downloadBatchRows"
-          >
-            {{ t('buttons.actionBatchDownload') }}
-          </el-button>
+        <el-button
+          v-perms="FILE_RECORD_PERMS.DOWNLOAD"
+          :disabled="selectedRows.length <= 0"
+          :loading="batchDownloadLoading"
+          type="primary"
+          @click="downloadBatchRows"
+        >
+          {{ t('buttons.actionBatchDownload') }}
+        </el-button>
 
-          <el-dropdown trigger="click">
-            <el-button type="danger">
-              {{ t('buttons.actionAdvanced') }}
-            </el-button>
-            <template #dropdown>
+        <el-dropdown trigger="click">
+          <el-button type="danger">
+            {{ t('buttons.actionAdvanced') }}
+          </el-button>
+          <template #dropdown>
+            <el-dropdown-item
+              v-if="hasAuth(FILE_RECORD_PERMS.DELETE)"
+              :disabled="selectedRows.length <= 0"
+              @click="deleteBatchRows()"
+            >
+              {{ t('buttons.actionBatchDelete') }}
+            </el-dropdown-item>
+            <el-dropdown-item
+              v-if="hasAuth(FILE_RECORD_PERMS.PRIVACY)"
+              :disabled="selectedRows.length <= 0 || privacyUpdateLoading"
+              @click="updatePrivacyRows(true)"
+            >
+              {{ t('fileRecord.actions.batchSetPrivate') }}
+            </el-dropdown-item>
+            <Perms :value="FILE_RECORD_PERMS.PRIVACY">
               <el-dropdown-item
-                v-if="hasAuth(FILE_RECORD_PERMS.DELETE)"
-                :disabled="selectedRows.length <= 0"
-                @click="deleteBatchRows()"
-              >
-                {{ t('buttons.actionBatchDelete') }}
-              </el-dropdown-item>
-              <el-dropdown-item
-                v-if="hasAuth(FILE_RECORD_PERMS.PRIVACY)"
                 :disabled="selectedRows.length <= 0 || privacyUpdateLoading"
-                @click="updatePrivacyRows(true)"
+                @click="updatePrivacyRows(false)"
               >
-                {{ t('fileRecord.actions.batchSetPrivate') }}
+                {{ t('fileRecord.actions.batchSetPublic') }}
               </el-dropdown-item>
-              <Perms :value="FILE_RECORD_PERMS.PRIVACY">
-                <el-dropdown-item
-                  :disabled="selectedRows.length <= 0 || privacyUpdateLoading"
-                  @click="updatePrivacyRows(false)"
-                >
-                  {{ t('fileRecord.actions.batchSetPublic') }}
-                </el-dropdown-item>
-              </Perms>
-            </template>
-          </el-dropdown>
-        </el-button-group>
+            </Perms>
+          </template>
+        </el-dropdown>
       </template>
 
       <template #actions="{ row }">
@@ -234,6 +230,6 @@ onMounted(() => {
           </el-dropdown>
         </Perms>
       </template>
-    </PagedTable>
+    </ListTable>
   </div>
 </template>

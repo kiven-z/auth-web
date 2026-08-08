@@ -74,11 +74,11 @@ function getParentPaths(value: string, routes: RouteRecordRaw[], key = 'path') {
   return dfs(routes, value, []);
 }
 
-function unwrapRoute(route: RouteRecordRaw | undefined | null): RouteRecordRaw | null {
+function unwrapRoute(route: RouteRecordRaw | undefined | null): AppRouteRecord | null {
   if (!route) {
     return null;
   }
-  return isProxy(route) ? toRaw(route) : route;
+  return (isProxy(route) ? toRaw(route) : route) as AppRouteRecord;
 }
 
 /**
@@ -87,7 +87,7 @@ function unwrapRoute(route: RouteRecordRaw | undefined | null): RouteRecordRaw |
  * @param routes 路由
  * @returns 路由信息
  */
-function findRouteByPath(path: string, routes: RouteRecordRaw[]): RouteRecordRaw | null {
+function findRouteByPath(path: string, routes: RouteRecordRaw[]): AppRouteRecord | null {
   const direct = routes.find((item) => item.path == path);
   if (direct) {
     return unwrapRoute(direct);

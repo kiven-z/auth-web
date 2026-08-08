@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { getAuthorizationAuditPage } from '@/api/log/authorization-audit';
-import PagedTable, { usePaginationState } from '@/components/table/PagedTable';
+import ListTable, { usePaginationState } from '@/components/table/ListTable';
 import useRemoteUserSearch from '@/shared/composables/dialog/useRemoteUserSearch';
 import { SYS_LOG_AUTHORIZATION_AUDIT_PERMS } from '@/views/log/authorization-audit-log/constants/permissions';
 import useAuthorizationAuditOptions from '@/views/log/authorization-audit-log/hooks/options/useAuthorizationAuditOptions';
@@ -99,23 +99,21 @@ onMounted(() => {
       </el-form-item>
 
       <el-form-item>
-        <el-button-group>
-          <el-button
-            v-perms="SYS_LOG_AUTHORIZATION_AUDIT_PERMS.QUERY"
-            :loading="loading"
-            type="primary"
-            @click="fetchTableData"
-          >
-            {{ t('buttons.actionSearch') }}
-          </el-button>
-          <el-button v-perms="SYS_LOG_AUTHORIZATION_AUDIT_PERMS.QUERY" @click="resetQuery(searchFormRef)">
-            {{ t('buttons.actionReset') }}
-          </el-button>
-        </el-button-group>
+        <el-button
+          v-perms="SYS_LOG_AUTHORIZATION_AUDIT_PERMS.QUERY"
+          :loading="loading"
+          type="primary"
+          @click="fetchTableData"
+        >
+          {{ t('buttons.actionSearch') }}
+        </el-button>
+        <el-button v-perms="SYS_LOG_AUTHORIZATION_AUDIT_PERMS.QUERY" @click="resetQuery(searchFormRef)">
+          {{ t('buttons.actionReset') }}
+        </el-button>
       </el-form-item>
     </el-form>
 
-    <PagedTable :columns="columns" :state="auditState" :title="t('authorizationAudit.tableTitle')">
+    <ListTable :columns="columns" :state="auditState" :title="t('authorizationAudit.tableTitle')">
       <template #buttons>
         <Perms :value="SYS_LOG_AUTHORIZATION_AUDIT_PERMS.DELETE">
           <el-dropdown trigger="click">
@@ -150,6 +148,6 @@ onMounted(() => {
           {{ t('buttons.actionDelete') }}
         </el-button>
       </template>
-    </PagedTable>
+    </ListTable>
   </div>
 </template>

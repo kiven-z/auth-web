@@ -11,7 +11,7 @@ declare global {
   }
 
   /**
-   * 表格列定义（DataTable、TableBar 列配置共用）
+   * 表格列定义（DataTable、ListTable 列配置共用）
    */
   interface TableColumns {
     type?: 'selection' | 'index' | 'expand';

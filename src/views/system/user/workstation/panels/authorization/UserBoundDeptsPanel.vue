@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import type { UserDeptPageQuery, UserDeptPageRow } from '@/api/system/user/user-dept';
-import PagedTable, { usePaginationState } from '@/components/table/PagedTable';
+import ListTable, { usePaginationState } from '@/components/table/ListTable';
 import { useUserProfileColumns } from '@/components/domain/user/UserProfile';
 import { useFormPlaceholder } from '@/shared/composables/i18n/useFormPlaceholder';
 import type { AuthorizationSurfacePanelProps } from '@/views/system/_shared/authorization/types';
@@ -72,17 +72,15 @@ onMounted(() => {
         </el-select>
       </el-form-item>
       <el-form-item>
-        <el-button-group>
-          <el-button v-perms="queryPerm" :loading="loading" type="primary" @click="fetchTableData">
-            {{ t('buttons.actionSearch') }}
-          </el-button>
-          <el-button v-perms="queryPerm" @click="resetQuery(searchFormRef)">
-            {{ t('buttons.actionReset') }}
-          </el-button>
-        </el-button-group>
+        <el-button v-perms="queryPerm" :loading="loading" type="primary" @click="fetchTableData">
+          {{ t('buttons.actionSearch') }}
+        </el-button>
+        <el-button v-perms="queryPerm" @click="resetQuery(searchFormRef)">
+          {{ t('buttons.actionReset') }}
+        </el-button>
       </el-form-item>
     </el-form>
 
-    <PagedTable :columns="userDeptBindingColumns" :state="deptState" :title="title" />
+    <ListTable :columns="userDeptBindingColumns" :state="deptState" :title="title" />
   </div>
 </template>

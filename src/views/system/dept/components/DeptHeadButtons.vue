@@ -34,7 +34,7 @@ const hasSelection = computed(() => selectedRows.value.length > 0);
 </script>
 
 <template>
-  <el-button-group type="primary">
+  <div class="dept-head-buttons">
     <el-button v-perms="SYS_DEPT_PERMS.CREATE" type="primary" @click="openCreateDialog()">
       {{ t('buttons.actionAdd') }}
     </el-button>
@@ -77,5 +77,17 @@ const hasSelection = computed(() => selectedRows.value.length > 0);
         </el-dropdown-menu>
       </template>
     </el-dropdown>
-  </el-button-group>
+  </div>
 </template>
+
+<style lang="scss" scoped>
+.dept-head-buttons {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  > .el-button + .el-button {
+    margin-left: 0;
+  }
+}
+</style>

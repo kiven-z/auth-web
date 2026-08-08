@@ -173,14 +173,14 @@ defineExpose<SpreadsheetImportDialogExpose>({ submitImport: handleImport });
     <template v-if="importResult && !importResult.success">
       <el-divider>{{ t('import.importFailureWithRows', { count: importResult.errors.length }) }}</el-divider>
 
-      <el-button-group class="spreadsheet-import-dialog__error-actions" type="primary">
-        <el-button size="small" @click="handleDownloadErrorReport">
+      <div class="spreadsheet-import-dialog__error-actions">
+        <el-button size="small" type="primary" @click="handleDownloadErrorReport">
           {{ t('import.downloadErrorReport') }}
         </el-button>
-        <el-button size="small" type="default" @click="handleClearErrors">
+        <el-button size="small" @click="handleClearErrors">
           {{ t('import.clearErrors') }}
         </el-button>
-      </el-button-group>
+      </div>
 
       <DataTable
         :columns="errorColumns"
@@ -198,7 +198,13 @@ defineExpose<SpreadsheetImportDialogExpose>({ submitImport: handleImport });
 <style lang="scss" scoped>
 .spreadsheet-import-dialog {
   &__error-actions {
+    display: flex;
+    gap: 12px;
     margin-bottom: 18px;
+
+    .el-button + .el-button {
+      margin-left: 0;
+    }
   }
 
   &__error-table {

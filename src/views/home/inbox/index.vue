@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { getInAppInboxPage, type InAppInboxPageQuery, type InAppInboxPageRow } from '@/api/message/in-app-inbox';
-import { usePaginationState } from '@/components/table/PagedTable';
+import { usePaginationState } from '@/components/table/ListTable';
 import {
   DEFAULT_ADAPTIVE_PAGINATION_RESERVE_PX,
   DEFAULT_PAGE_SIZES,
@@ -204,14 +204,12 @@ onMounted(async () => {
             </el-form-item>
 
             <el-form-item>
-              <el-button-group>
-                <el-button :loading="loading" type="primary" @click="refreshListAndMajors">
-                  {{ t('buttons.actionSearch') }}
-                </el-button>
-                <el-button @click="handleResetQuery(searchFormRef)">
-                  {{ t('buttons.actionReset') }}
-                </el-button>
-              </el-button-group>
+              <el-button :loading="loading" type="primary" @click="refreshListAndMajors">
+                {{ t('buttons.actionSearch') }}
+              </el-button>
+              <el-button @click="handleResetQuery(searchFormRef)">
+                {{ t('buttons.actionReset') }}
+              </el-button>
             </el-form-item>
           </el-form>
         </div>

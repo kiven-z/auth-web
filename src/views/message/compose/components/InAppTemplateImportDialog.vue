@@ -6,7 +6,7 @@ import {
   type MessageTemplatePageQuery,
   type MessageTemplatePageRow,
 } from '@/api/message/message-template';
-import PagedTable, { usePaginationState } from '@/components/table/PagedTable';
+import ListTable, { usePaginationState } from '@/components/table/ListTable';
 import { addDialog } from '@/components/ui/Dialog';
 import { errorMessage } from '@/services/feedback/message';
 import { useFormPlaceholder } from '@/shared/composables/i18n/useFormPlaceholder';
@@ -142,16 +142,14 @@ onMounted(() => {
       </el-form-item>
 
       <el-form-item>
-        <el-button-group>
-          <el-button :loading="loading" type="primary" @click="fetchTableData">
-            {{ t('buttons.actionSearch') }}
-          </el-button>
-          <el-button @click="resetQuery(searchFormRef)">{{ t('buttons.actionReset') }}</el-button>
-        </el-button-group>
+        <el-button :loading="loading" type="primary" @click="fetchTableData">
+          {{ t('buttons.actionSearch') }}
+        </el-button>
+        <el-button @click="resetQuery(searchFormRef)">{{ t('buttons.actionReset') }}</el-button>
       </el-form-item>
     </el-form>
 
-    <PagedTable :columns="columns" :state="templateImportState" :title="t('inAppCompose.importTemplateDialogTitle')">
+    <ListTable :columns="columns" :state="templateImportState" :title="t('inAppCompose.importTemplateDialogTitle')">
       <template #actions="{ row }">
         <el-button link type="primary" @click="openDetailDialog(row)">
           {{ t('buttons.actionView') }}
@@ -168,6 +166,6 @@ onMounted(() => {
           </template>
         </el-dropdown>
       </template>
-    </PagedTable>
+    </ListTable>
   </div>
 </template>

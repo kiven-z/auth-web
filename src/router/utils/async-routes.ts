@@ -32,7 +32,7 @@ function addAsyncRoutes(arrRoutes: Array<RouteRecordRaw>) {
   if (!arrRoutes || !arrRoutes.length) return;
   arrRoutes.forEach((v: RouteRecordRaw) => {
     // 将backstage属性加入meta，标识此路由为后端返回路由
-    v.meta.backstage = true;
+    v.meta = { ...(v.meta ?? { title: v.path }), backstage: true };
     // 父级的redirect属性取值：如果子级存在且父级的redirect属性不存在，默认取第一个子级的path
     if (v?.children && v.children.length && !v.redirect) v.redirect = v.children[0].path;
     // 父级的name属性取值：如果子级存在且父级的name属性不存在，默认取第一个子级的name并追加Parent后缀避免重复

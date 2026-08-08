@@ -116,8 +116,8 @@ export function useTags() {
   });
 
   const iconIsActive = computed(() => {
-    return (item: any, index: number) => {
-      if (index === 0) return;
+    return (item: any, index: number | string) => {
+      if (Number(index) === 0) return;
       return conditionHandle(item, true, false);
     };
   });

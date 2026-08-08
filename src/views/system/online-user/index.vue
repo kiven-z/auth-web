@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { getOnlineUserPage, type OnlineUserPageRow } from '@/api/auth/online-user';
-import PagedTable, { usePaginationState } from '@/components/table/PagedTable';
+import ListTable, { usePaginationState } from '@/components/table/ListTable';
 import useRemoteUserSearch from '@/shared/composables/dialog/useRemoteUserSearch';
 import { useFormPlaceholder } from '@/shared/composables/i18n/useFormPlaceholder';
 import { SYS_ONLINE_USER_PERMS } from '@/views/system/online-user/constants/permissions';
@@ -65,18 +65,16 @@ onMounted(() => {
       </el-form-item>
 
       <el-form-item>
-        <el-button-group>
-          <el-button v-perms="SYS_ONLINE_USER_PERMS.QUERY" :loading="loading" type="primary" @click="fetchTableData">
-            {{ t('buttons.actionSearch') }}
-          </el-button>
-          <el-button v-perms="SYS_ONLINE_USER_PERMS.QUERY" @click="resetQuery(searchFormRef)">
-            {{ t('buttons.actionReset') }}
-          </el-button>
-        </el-button-group>
+        <el-button v-perms="SYS_ONLINE_USER_PERMS.QUERY" :loading="loading" type="primary" @click="fetchTableData">
+          {{ t('buttons.actionSearch') }}
+        </el-button>
+        <el-button v-perms="SYS_ONLINE_USER_PERMS.QUERY" @click="resetQuery(searchFormRef)">
+          {{ t('buttons.actionReset') }}
+        </el-button>
       </el-form-item>
     </el-form>
 
-    <PagedTable :columns="columns" :state="tableState" :title="t('routes.onlineUser')" row-key="userId">
+    <ListTable :columns="columns" :state="tableState" :title="t('routes.onlineUser')" row-key="userId">
       <template #title>
         <h4>{{ t('routes.onlineUser') }}</h4>
         <el-text v-if="!loading" class="ml-3!" type="info">
@@ -103,6 +101,6 @@ onMounted(() => {
           {{ t('onlineUser.action.kickAll') }}
         </el-button>
       </template>
-    </PagedTable>
+    </ListTable>
   </div>
 </template>

@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { INSTANT_PICKER_VALUE_FORMAT } from '@/shared/utils/date/dateTime';
 import { queryPersonalFileRecyclePage } from '@/api/file/file-me-recycle';
-import PagedTable, { usePaginationState } from '@/components/table/PagedTable';
+import ListTable, { usePaginationState } from '@/components/table/ListTable';
 import { useFormPlaceholder } from '@/shared/composables/i18n/useFormPlaceholder';
 import { useCollapsibleSearchForm } from '@/shared/composables/search/useCollapsibleSearchForm';
 import useFileRecycleTableColumns from '@/views/file/_shared/columns/useFileRecycleTableColumns';
@@ -105,30 +105,26 @@ onMounted(() => {
       </template>
 
       <el-form-item>
-        <el-button-group>
-          <el-button :loading="loading" type="primary" @click="fetchTableData">
-            {{ t('buttons.actionSearch') }}
-          </el-button>
-          <el-button @click="resetQuery(searchFormRef)">
-            {{ t('buttons.actionReset') }}
-          </el-button>
-          <el-button v-if="showAdvancedSearchToggle" @click="toggleAdvancedSearch">
-            {{ searchExpanded ? t('buttons.actionCollapseSearch') : t('buttons.actionAdvancedSearch') }}
-          </el-button>
-        </el-button-group>
+        <el-button :loading="loading" type="primary" @click="fetchTableData">
+          {{ t('buttons.actionSearch') }}
+        </el-button>
+        <el-button @click="resetQuery(searchFormRef)">
+          {{ t('buttons.actionReset') }}
+        </el-button>
+        <el-button v-if="showAdvancedSearchToggle" @click="toggleAdvancedSearch">
+          {{ searchExpanded ? t('buttons.actionCollapseSearch') : t('buttons.actionAdvancedSearch') }}
+        </el-button>
       </el-form-item>
     </el-form>
 
-    <PagedTable :columns="columns" :state="personalFileRecycleState" :title="t('fileRecycle.page.tableTitle')">
+    <ListTable :columns="columns" :state="personalFileRecycleState" :title="t('fileRecycle.page.tableTitle')">
       <template #buttons>
-        <el-button-group type="primary">
-          <el-button :disabled="selectedRows.length <= 0" type="primary" @click="restoreBatchRows()">
-            {{ t('buttons.actionBatchRestore') }}
-          </el-button>
-          <el-button :disabled="selectedRows.length <= 0" type="danger" @click="deleteBatchRows()">
-            {{ t('buttons.actionBatchDelete') }}
-          </el-button>
-        </el-button-group>
+        <el-button :disabled="selectedRows.length <= 0" type="primary" @click="restoreBatchRows()">
+          {{ t('buttons.actionBatchRestore') }}
+        </el-button>
+        <el-button :disabled="selectedRows.length <= 0" type="danger" @click="deleteBatchRows()">
+          {{ t('buttons.actionBatchDelete') }}
+        </el-button>
       </template>
 
       <template #actions="{ row }">
@@ -142,6 +138,6 @@ onMounted(() => {
           {{ t('buttons.actionDelete') }}
         </el-button>
       </template>
-    </PagedTable>
+    </ListTable>
   </div>
 </template>

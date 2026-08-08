@@ -4,7 +4,7 @@ import cloneDeep from 'lodash/cloneDeep';
 import isEmpty from 'lodash/isEmpty';
 import type { RouteComponent } from 'vue-router';
 
-function handRank(routeInfo: any) {
+function handRank(routeInfo: AppRouteRecord) {
   const { name, path, parentId, meta } = routeInfo;
   return isEmpty(parentId) ? isEmpty(meta?.rank) || (meta?.rank === 0 && name !== 'Home' && path !== '/') : false;
 }

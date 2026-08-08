@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { getAuthorizationInvalidationEventPage } from '@/api/ops/authorization-invalidation-event';
-import PagedTable, { usePaginationState } from '@/components/table/PagedTable';
+import ListTable, { usePaginationState } from '@/components/table/ListTable';
 import { useFormPlaceholder } from '@/shared/composables/i18n/useFormPlaceholder';
 import { INSTANT_PICKER_VALUE_FORMAT } from '@/shared/utils/date/dateTime';
 import { SYS_AUTH_INVALIDATION_EVENT_PERMS } from '@/views/ops/_shared/constants/permissions';
@@ -136,23 +136,21 @@ onMounted(() => {
       </el-form-item>
 
       <el-form-item>
-        <el-button-group>
-          <el-button
-            v-perms="SYS_AUTH_INVALIDATION_EVENT_PERMS.QUERY"
-            :loading="loading"
-            type="primary"
-            @click="fetchTableData"
-          >
-            {{ t('buttons.actionSearch') }}
-          </el-button>
-          <el-button v-perms="SYS_AUTH_INVALIDATION_EVENT_PERMS.QUERY" @click="handleReset(searchFormRef)">
-            {{ t('buttons.actionReset') }}
-          </el-button>
-        </el-button-group>
+        <el-button
+          v-perms="SYS_AUTH_INVALIDATION_EVENT_PERMS.QUERY"
+          :loading="loading"
+          type="primary"
+          @click="fetchTableData"
+        >
+          {{ t('buttons.actionSearch') }}
+        </el-button>
+        <el-button v-perms="SYS_AUTH_INVALIDATION_EVENT_PERMS.QUERY" @click="handleReset(searchFormRef)">
+          {{ t('buttons.actionReset') }}
+        </el-button>
       </el-form-item>
     </el-form>
 
-    <PagedTable :columns="columns" :state="eventState" :title="t('authorizationInvalidation.tableTitle')">
+    <ListTable :columns="columns" :state="eventState" :title="t('authorizationInvalidation.tableTitle')">
       <template #actions="{ row }">
         <el-button
           v-perms="SYS_AUTH_INVALIDATION_EVENT_PERMS.DETAIL"
@@ -172,6 +170,6 @@ onMounted(() => {
           {{ t('authorizationInvalidation.releaseClaimAction') }}
         </el-button>
       </template>
-    </PagedTable>
+    </ListTable>
   </div>
 </template>

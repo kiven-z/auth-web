@@ -3,9 +3,8 @@ import {
   type InAppMessageCategoryPageRow,
   type InAppMessageCategoryQuery,
 } from '@/api/message/in-app-category';
-import { errorMessage } from '@/services/feedback/message';
+import { useListTableState } from '@/components/table/ListTable';
 import { handleTree } from '@/shared/utils/tree/tree';
-import type { FormInstance } from 'element-plus';
 import { reactive, ref } from 'vue';
 
 /** 视图模式 */
@@ -21,55 +20,30 @@ const searchForm = reactive<InAppMessageCategoryQuery>({
   rootOnly: undefined,
 });
 
-const treeData = ref<InAppMessageCategoryPageRow[]>([]);
-const selectedRows = ref<string[]>([]);
-const loading = ref(false);
 const viewMode = ref<InAppCategoryViewMode>('table');
 
-/**
- * 按当前筛选拉取扁平列表并建树（树表与树视图共用）
- */
-async function fetchTreeData() {
-  loading.value = true;
-  try {
+const listState = useListTableState<InAppMessageCategoryPageRow, InAppMessageCategoryQuery>({
+  searchForm,
+  fetchApi: async (query) => {
     const list = await getInAppMessageCategoryList({
-      code: searchForm.code,
-      name: searchForm.name,
-      status: searchForm.status,
-      rootOnly: searchForm.rootOnly,
+      code: query.code,
+      name: query.name,
+      status: query.status,
+      rootOnly: query.rootOnly,
     });
-    treeData.value = handleTree([...(list ?? [])], 'id', 'parentId') as InAppMessageCategoryPageRow[];
-  } catch (error: unknown) {
-    errorMessage(error);
-    treeData.value = [];
-  } finally {
-    loading.value = false;
-  }
-}
-
-/**
- * 重置筛选并重新拉取
- * @param formRef 可选表单实例，用于 resetFields
- */
-async function resetQuery(formRef?: FormInstance) {
-  formRef?.resetFields();
-  await fetchTreeData();
-}
+    return handleTree([...(list ?? [])], 'id', 'parentId') as InAppMessageCategoryPageRow[];
+  },
+});
 
 /**
  * 站内信业务分类页状态（全量建树，不分页）
- * @returns 树数据、筛选与刷新方法
+ * @returns 列表壳 state、视图模式与刷新
  */
 function useInAppCategoryPageState() {
   return {
-    loading,
-    treeData,
-    selectedRows,
-    searchForm,
+    ...listState,
     viewMode,
-    fetchTreeData,
-    resetQuery,
-    refresh: fetchTreeData,
+    refresh: listState.fetchTableData,
   };
 }
 

@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import PagedTable from '@/components/table/PagedTable';
+import ListTable from '@/components/table/ListTable';
 import { useFormPlaceholder } from '@/shared/composables/i18n/useFormPlaceholder';
 import DeptRowActions from '@/views/system/dept/components/DeptRowActions.vue';
 import useDeptPageState from '@/views/system/dept/hooks/useDeptPageState';
@@ -72,16 +72,14 @@ onMounted(() => {
       </el-form-item>
 
       <el-form-item>
-        <el-button-group>
-          <el-button :loading="loading" type="primary" @click="fetchTableData">
-            {{ t('buttons.actionSearch') }}
-          </el-button>
-          <el-button @click="resetQuery(searchFormRef)">{{ t('buttons.actionReset') }}</el-button>
-        </el-button-group>
+        <el-button :loading="loading" type="primary" @click="fetchTableData">
+          {{ t('buttons.actionSearch') }}
+        </el-button>
+        <el-button @click="resetQuery(searchFormRef)">{{ t('buttons.actionReset') }}</el-button>
       </el-form-item>
     </el-form>
 
-    <PagedTable :columns="tableColumns" :state="deptState" :title="t('dept.page.title')">
+    <ListTable :columns="tableColumns" :state="deptState" :title="t('dept.page.title')">
       <template #buttons>
         <DeptHeadButtons />
       </template>
@@ -89,6 +87,6 @@ onMounted(() => {
       <template #actions="{ row }">
         <DeptRowActions :row="row" />
       </template>
-    </PagedTable>
+    </ListTable>
   </div>
 </template>

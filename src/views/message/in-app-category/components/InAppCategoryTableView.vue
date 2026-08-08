@@ -1,7 +1,5 @@
 <script lang="ts" setup>
-import type { InAppMessageCategoryPageRow } from '@/api/message/in-app-category';
-import DataTable from '@/components/table/DataTable';
-import TableBar from '@/components/table/TableBar';
+import ListTable from '@/components/table/ListTable';
 import InAppCategoryRowActions from '@/views/message/in-app-category/components/InAppCategoryRowActions.vue';
 import InAppCategorySearchForm from '@/views/message/in-app-category/components/InAppCategorySearchForm.vue';
 import { IN_APP_CATEGORY_PERMS } from '@/views/message/in-app-category/constants/permissions';
@@ -22,88 +20,65 @@ const treeProps = {
 
 const { t } = useI18n();
 const { columns } = useInAppCategoryTableColumns();
-const { loading, treeData, selectedRows, fetchTreeData, refresh } = useInAppCategoryPageState();
+const categoryState = useInAppCategoryPageState();
+const { selectedRows, fetchTableData, refresh } = categoryState;
 const { openCreateDialog, batchUpdateStatus, deleteBatchRows } = useInAppCategoryTableAction({
   refresh,
   selectedRows,
 });
 
 onMounted(() => {
-  fetchTreeData();
+  fetchTableData();
 });
-
-/** 表格多选 → id 列表（仅表格视图） */
-const onSelectionChange = (rows: InAppMessageCategoryPageRow[]) => {
-  selectedRows.value = rows.map((row) => row.id);
-};
 </script>
 
 <template>
   <div>
     <InAppCategorySearchForm />
 
-    <TableBar
+    <ListTable
       :columns="columns"
-      :refresh-loading="loading"
+      :default-expand-all="true"
+      :state="categoryState"
       :title="t('inAppCategory.page.title')"
-      @refresh="fetchTreeData"
+      :tree-props="treeProps"
     >
       <template #buttons>
-        <el-button-group type="primary">
-          <el-button v-perms="IN_APP_CATEGORY_PERMS.CREATE" @click="openCreateDialog()">
-            {{ t('buttons.actionAdd') }}
-          </el-button>
+        <el-button v-perms="IN_APP_CATEGORY_PERMS.CREATE" type="primary" @click="openCreateDialog()">
+          {{ t('buttons.actionAdd') }}
+        </el-button>
 
-          <Perms :value="IN_APP_CATEGORY_PERMS.UPDATE">
-            <el-dropdown trigger="click">
-              <el-button :disabled="selectedRows.length <= 0" type="warning">
-                {{ t('buttons.actionBatchStatus') }}
-              </el-button>
-              <template #dropdown>
-                <el-dropdown-item :disabled="selectedRows.length <= 0" @click="batchUpdateStatus(selectedRows, true)">
-                  {{ t('buttons.actionBatchEnable') }}
-                </el-dropdown-item>
-                <el-dropdown-item :disabled="selectedRows.length <= 0" @click="batchUpdateStatus(selectedRows, false)">
-                  {{ t('buttons.actionBatchDisable') }}
-                </el-dropdown-item>
-              </template>
-            </el-dropdown>
-          </Perms>
+        <Perms :value="IN_APP_CATEGORY_PERMS.UPDATE">
+          <el-dropdown trigger="click">
+            <el-button :disabled="selectedRows.length <= 0" type="warning">
+              {{ t('buttons.actionBatchStatus') }}
+            </el-button>
+            <template #dropdown>
+              <el-dropdown-item :disabled="selectedRows.length <= 0" @click="batchUpdateStatus(selectedRows, true)">
+                {{ t('buttons.actionBatchEnable') }}
+              </el-dropdown-item>
+              <el-dropdown-item :disabled="selectedRows.length <= 0" @click="batchUpdateStatus(selectedRows, false)">
+                {{ t('buttons.actionBatchDisable') }}
+              </el-dropdown-item>
+            </template>
+          </el-dropdown>
+        </Perms>
 
-          <Perms :value="IN_APP_CATEGORY_PERMS.DELETE">
-            <el-dropdown trigger="click">
-              <el-button type="danger">{{ t('buttons.actionAdvanced') }}</el-button>
-              <template #dropdown>
-                <el-dropdown-item :disabled="selectedRows.length <= 0" @click="deleteBatchRows()">
-                  {{ t('buttons.actionBatchDelete') }}
-                </el-dropdown-item>
-              </template>
-            </el-dropdown>
-          </Perms>
-        </el-button-group>
+        <Perms :value="IN_APP_CATEGORY_PERMS.DELETE">
+          <el-dropdown trigger="click">
+            <el-button type="danger">{{ t('buttons.actionAdvanced') }}</el-button>
+            <template #dropdown>
+              <el-dropdown-item :disabled="selectedRows.length <= 0" @click="deleteBatchRows()">
+                {{ t('buttons.actionBatchDelete') }}
+              </el-dropdown-item>
+            </template>
+          </el-dropdown>
+        </Perms>
       </template>
 
-      <template #default="{ size, dynamicColumns }">
-        <DataTable
-          :columns="dynamicColumns"
-          :data="treeData"
-          :loading="loading"
-          :pagination="null"
-          :size="size"
-          :tree-props="treeProps"
-          adaptive="viewport"
-          align-whole="center"
-          border
-          default-expand-all
-          highlight-current-row
-          row-key="id"
-          @selection-change="onSelectionChange"
-        >
-          <template #actions="{ row }">
-            <InAppCategoryRowActions :row="row" />
-          </template>
-        </DataTable>
+      <template #actions="{ row }">
+        <InAppCategoryRowActions :row="row" />
       </template>
-    </TableBar>
+    </ListTable>
   </div>
 </template>

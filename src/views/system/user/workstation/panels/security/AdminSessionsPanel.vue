@@ -84,7 +84,7 @@ defineExpose({ loadSessions });
     <div class="admin-sessions-panel__toolbar">
       <el-text type="info">{{ subtitle }}</el-text>
       <el-button v-perms="SYS_SESSION_PERMS.VIEW_SESSIONS" :loading="loading" link type="primary" @click="loadSessions">
-        {{ t('tableBar.refresh') }}
+        {{ t('listTable.refresh') }}
       </el-button>
     </div>
 

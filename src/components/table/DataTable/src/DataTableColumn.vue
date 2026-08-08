@@ -64,28 +64,28 @@ function cellContent(scope: TableCellScope) {
   <el-table-column
     v-if="column.type === 'selection'"
     :key="`sel-${columnKey}`"
-    type="selection"
     :align="(column.align as any) ?? alignDefault"
     :width="column.width as any"
+    type="selection"
   />
 
   <el-table-column
     v-else-if="column.type === 'index'"
     :key="`idx-${columnKey}`"
-    type="index"
+    :align="(column.align as any) ?? alignDefault"
     :index="column.index as any"
     :label="column.label"
-    :width="column.width as any"
     :min-width="column.minWidth as any"
-    :align="(column.align as any) ?? alignDefault"
+    :width="column.width as any"
+    type="index"
   />
 
   <el-table-column
     v-else-if="hasChildren"
     :key="`grp-${columnKey}`"
-    :label="column.label"
     :align="(column.align as any) ?? alignDefault"
     :header-align="headerAlignVal"
+    :label="column.label"
   >
     <DataTableColumn
       v-for="(child, childIdx) in visibleChildren"
@@ -101,15 +101,15 @@ function cellContent(scope: TableCellScope) {
   <el-table-column
     v-else
     :key="columnKey"
-    v-bind="passthroughProps"
-    :prop="column.prop as any"
-    :label="column.label"
-    :width="column.width as any"
-    :min-width="column.minWidth as any"
-    :fixed="column.fixed as any"
     :align="(column.align as any) ?? alignDefault"
+    :fixed="column.fixed as any"
     :header-align="headerAlignVal"
+    :label="column.label"
+    :min-width="column.minWidth as any"
+    :prop="column.prop as any"
     :show-overflow-tooltip="showTip"
+    :width="column.width as any"
+    v-bind="passthroughProps"
   >
     <template #default="scope">
       <DataTableCell :content="cellContent(scope)" />

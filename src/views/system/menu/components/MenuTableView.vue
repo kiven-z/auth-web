@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import PagedTable from '@/components/table/PagedTable';
+import ListTable from '@/components/table/ListTable';
 import { useCommonBooleanStatusOptions } from '@/shared/composables/i18n/useCommonBooleanStatusOptions';
 import { useFormPlaceholder } from '@/shared/composables/i18n/useFormPlaceholder';
 import MenuRowActions from '@/views/system/menu/components/MenuRowActions.vue';
@@ -85,54 +85,50 @@ onMounted(() => {
       </el-form-item>
 
       <el-form-item>
-        <el-button-group>
-          <el-button :loading="loading" type="primary" @click="fetchTableData">
-            {{ t('buttons.actionSearch') }}
-          </el-button>
-          <el-button @click="resetQuery(searchFormRef)">{{ t('buttons.actionReset') }}</el-button>
-        </el-button-group>
+        <el-button :loading="loading" type="primary" @click="fetchTableData">
+          {{ t('buttons.actionSearch') }}
+        </el-button>
+        <el-button @click="resetQuery(searchFormRef)">{{ t('buttons.actionReset') }}</el-button>
       </el-form-item>
     </el-form>
 
-    <PagedTable :columns="tableColumns" :state="menuPageState" :title="t('sysMenu.tableTitle')">
+    <ListTable :columns="tableColumns" :state="menuPageState" :title="t('sysMenu.tableTitle')">
       <template #buttons>
-        <el-button-group type="primary">
-          <el-button v-perms="SYS_MENU_PERMS.CREATE" type="primary" @click="openCreateDialog()">
-            {{ t('buttons.actionAdd') }}
-          </el-button>
+        <el-button v-perms="SYS_MENU_PERMS.CREATE" type="primary" @click="openCreateDialog()">
+          {{ t('buttons.actionAdd') }}
+        </el-button>
 
-          <Perms :value="SYS_MENU_PERMS.UPDATE">
-            <el-dropdown trigger="click">
-              <el-button :disabled="selectedRows.length <= 0" type="warning">
-                {{ t('buttons.actionBatchStatus') }}
-              </el-button>
-              <template #dropdown>
-                <el-dropdown-item @click="batchUpdateStatus(selectedRows, true)">
-                  {{ t('buttons.actionBatchEnable') }}
-                </el-dropdown-item>
-                <el-dropdown-item @click="batchUpdateStatus(selectedRows, false)">
-                  {{ t('buttons.actionBatchDisable') }}
-                </el-dropdown-item>
-              </template>
-            </el-dropdown>
-          </Perms>
+        <Perms :value="SYS_MENU_PERMS.UPDATE">
+          <el-dropdown trigger="click">
+            <el-button :disabled="selectedRows.length <= 0" type="warning">
+              {{ t('buttons.actionBatchStatus') }}
+            </el-button>
+            <template #dropdown>
+              <el-dropdown-item @click="batchUpdateStatus(selectedRows, true)">
+                {{ t('buttons.actionBatchEnable') }}
+              </el-dropdown-item>
+              <el-dropdown-item @click="batchUpdateStatus(selectedRows, false)">
+                {{ t('buttons.actionBatchDisable') }}
+              </el-dropdown-item>
+            </template>
+          </el-dropdown>
+        </Perms>
 
-          <Perms :value="SYS_MENU_PERMS.DELETE">
-            <el-dropdown trigger="click">
-              <el-button type="danger">{{ t('buttons.actionAdvanced') }}</el-button>
-              <template #dropdown>
-                <el-dropdown-item :disabled="selectedRows.length <= 0" @click="deleteBatchRows()">
-                  {{ t('buttons.actionBatchDelete') }}
-                </el-dropdown-item>
-              </template>
-            </el-dropdown>
-          </Perms>
-        </el-button-group>
+        <Perms :value="SYS_MENU_PERMS.DELETE">
+          <el-dropdown trigger="click">
+            <el-button type="danger">{{ t('buttons.actionAdvanced') }}</el-button>
+            <template #dropdown>
+              <el-dropdown-item :disabled="selectedRows.length <= 0" @click="deleteBatchRows()">
+                {{ t('buttons.actionBatchDelete') }}
+              </el-dropdown-item>
+            </template>
+          </el-dropdown>
+        </Perms>
       </template>
 
       <template #actions="{ row }">
         <MenuRowActions :row="row" />
       </template>
-    </PagedTable>
+    </ListTable>
   </div>
 </template>

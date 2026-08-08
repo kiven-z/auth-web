@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { getOperationLogPage } from '@/api/log/operation-log';
-import PagedTable, { usePaginationState } from '@/components/table/PagedTable';
+import ListTable, { usePaginationState } from '@/components/table/ListTable';
 import useRemoteUserSearch from '@/shared/composables/dialog/useRemoteUserSearch';
 import { OPERATION_TYPES, REQUEST_METHODS } from '@/views/log/operation-log/constants/operation-log-enums';
 import { SYS_LOG_OPERATION_PERMS } from '@/views/log/operation-log/constants/permissions';
@@ -125,21 +125,19 @@ onMounted(() => {
       </template>
 
       <el-form-item>
-        <el-button-group>
-          <el-button v-perms="SYS_LOG_OPERATION_PERMS.QUERY" :loading="loading" type="primary" @click="fetchTableData">
-            {{ t('buttons.actionSearch') }}
-          </el-button>
-          <el-button v-perms="SYS_LOG_OPERATION_PERMS.QUERY" @click="resetQuery(searchFormRef)">
-            {{ t('buttons.actionReset') }}
-          </el-button>
-          <el-button v-if="showAdvancedSearchToggle" @click="toggleAdvancedSearch">
-            {{ searchExpanded ? t('buttons.actionCollapseSearch') : t('buttons.actionAdvancedSearch') }}
-          </el-button>
-        </el-button-group>
+        <el-button v-perms="SYS_LOG_OPERATION_PERMS.QUERY" :loading="loading" type="primary" @click="fetchTableData">
+          {{ t('buttons.actionSearch') }}
+        </el-button>
+        <el-button v-perms="SYS_LOG_OPERATION_PERMS.QUERY" @click="resetQuery(searchFormRef)">
+          {{ t('buttons.actionReset') }}
+        </el-button>
+        <el-button v-if="showAdvancedSearchToggle" @click="toggleAdvancedSearch">
+          {{ searchExpanded ? t('buttons.actionCollapseSearch') : t('buttons.actionAdvancedSearch') }}
+        </el-button>
       </el-form-item>
     </el-form>
 
-    <PagedTable :columns="columns" :state="operationLogState" :title="t('operationLog.tableTitle')">
+    <ListTable :columns="columns" :state="operationLogState" :title="t('operationLog.tableTitle')">
       <template #buttons>
         <Perms :value="SYS_LOG_OPERATION_PERMS.DELETE">
           <el-dropdown trigger="click">
@@ -164,6 +162,6 @@ onMounted(() => {
           {{ t('buttons.actionDelete') }}
         </el-button>
       </template>
-    </PagedTable>
+    </ListTable>
   </div>
 </template>

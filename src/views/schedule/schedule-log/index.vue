@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { getJobLogPage } from '@/api/log/job-log';
-import PagedTable, { usePaginationState } from '@/components/table/PagedTable';
+import ListTable, { usePaginationState } from '@/components/table/ListTable';
 import { useFormPlaceholder } from '@/shared/composables/i18n/useFormPlaceholder';
 import { useCollapsibleSearchForm } from '@/shared/composables/search/useCollapsibleSearchForm';
 import { SYS_JOB_LOG_PERMS } from '@/views/schedule/schedule-log/constants/permissions';
@@ -119,21 +119,19 @@ onMounted(() => {
       </template>
 
       <el-form-item>
-        <el-button-group>
-          <el-button v-perms="SYS_JOB_LOG_PERMS.QUERY" :loading="loading" type="primary" @click="fetchTableData">
-            {{ t('buttons.actionSearch') }}
-          </el-button>
-          <el-button v-perms="SYS_JOB_LOG_PERMS.QUERY" @click="resetQuery(searchFormRef)">
-            {{ t('buttons.actionReset') }}
-          </el-button>
-          <el-button v-if="showAdvancedSearchToggle" @click="toggleAdvancedSearch">
-            {{ searchExpanded ? t('buttons.actionCollapseSearch') : t('buttons.actionAdvancedSearch') }}
-          </el-button>
-        </el-button-group>
+        <el-button v-perms="SYS_JOB_LOG_PERMS.QUERY" :loading="loading" type="primary" @click="fetchTableData">
+          {{ t('buttons.actionSearch') }}
+        </el-button>
+        <el-button v-perms="SYS_JOB_LOG_PERMS.QUERY" @click="resetQuery(searchFormRef)">
+          {{ t('buttons.actionReset') }}
+        </el-button>
+        <el-button v-if="showAdvancedSearchToggle" @click="toggleAdvancedSearch">
+          {{ searchExpanded ? t('buttons.actionCollapseSearch') : t('buttons.actionAdvancedSearch') }}
+        </el-button>
       </el-form-item>
     </el-form>
 
-    <PagedTable :columns="columns" :state="jobLogState" :title="t('logJob.title.table')">
+    <ListTable :columns="columns" :state="jobLogState" :title="t('logJob.title.table')">
       <template #buttons>
         <el-dropdown trigger="click">
           <el-button type="danger">
@@ -158,6 +156,6 @@ onMounted(() => {
           {{ t('buttons.actionDelete') }}
         </el-button>
       </template>
-    </PagedTable>
+    </ListTable>
   </div>
 </template>

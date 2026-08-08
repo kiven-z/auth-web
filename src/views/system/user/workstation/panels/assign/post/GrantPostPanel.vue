@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import PagedTable, { usePaginationState } from '@/components/table/PagedTable';
+import ListTable, { usePaginationState } from '@/components/table/ListTable';
 import { getUserProfile } from '@/api/system/user/user-base';
 import { getUserPostPage, type UserPostPageQuery, type UserPostPageRow } from '@/api/system/user/user-post';
 import { errorMessage } from '@/services/feedback/message';
@@ -111,35 +111,31 @@ watch(
       </el-form-item>
 
       <el-form-item>
-        <el-button-group>
-          <el-button v-perms="SYS_USER_POST_PERMS.QUERY" :loading="loading" type="primary" @click="fetchTableData">
-            {{ t('buttons.actionSearch') }}
-          </el-button>
-          <el-button v-perms="SYS_USER_POST_PERMS.QUERY" @click="resetQuery(searchFormRef)">
-            {{ t('buttons.actionReset') }}
-          </el-button>
-        </el-button-group>
+        <el-button v-perms="SYS_USER_POST_PERMS.QUERY" :loading="loading" type="primary" @click="fetchTableData">
+          {{ t('buttons.actionSearch') }}
+        </el-button>
+        <el-button v-perms="SYS_USER_POST_PERMS.QUERY" @click="resetQuery(searchFormRef)">
+          {{ t('buttons.actionReset') }}
+        </el-button>
       </el-form-item>
     </el-form>
 
-    <PagedTable :columns="columns" :state="postAssignState" :title="tableTitle">
+    <ListTable :columns="columns" :state="postAssignState" :title="tableTitle">
       <template #buttons>
-        <el-button-group>
-          <el-button v-perms="SYS_USER_POST_PERMS.CREATE" type="primary" @click="openCreateDialog">
-            {{ t('buttons.actionAdd') }}
-          </el-button>
-          <el-button
-            v-perms="SYS_USER_POST_PERMS.DELETE"
-            :disabled="!hasSelection"
-            type="danger"
-            @click="deleteBatchRows()"
-          >
-            {{ t('buttons.actionBatchDelete') }}
-          </el-button>
-          <el-button v-perms="SYS_USER_POST_PERMS.DELETE" type="danger" @click="clearAllPosts">
-            {{ t('buttons.assignClearAll') }}
-          </el-button>
-        </el-button-group>
+        <el-button v-perms="SYS_USER_POST_PERMS.CREATE" type="primary" @click="openCreateDialog">
+          {{ t('buttons.actionAdd') }}
+        </el-button>
+        <el-button
+          v-perms="SYS_USER_POST_PERMS.DELETE"
+          :disabled="!hasSelection"
+          type="danger"
+          @click="deleteBatchRows()"
+        >
+          {{ t('buttons.actionBatchDelete') }}
+        </el-button>
+        <el-button v-perms="SYS_USER_POST_PERMS.DELETE" type="danger" @click="clearAllPosts">
+          {{ t('buttons.assignClearAll') }}
+        </el-button>
       </template>
 
       <template #actions="{ row }">
@@ -150,6 +146,6 @@ watch(
           {{ t('buttons.actionDelete') }}
         </el-button>
       </template>
-    </PagedTable>
+    </ListTable>
   </div>
 </template>

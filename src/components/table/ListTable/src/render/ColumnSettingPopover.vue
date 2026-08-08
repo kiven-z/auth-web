@@ -3,9 +3,10 @@ import { transformI18n } from '@/app/plugins/i18n';
 import { nextTick, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 
-import DragIcon from '../images/drag.svg?component';
-import SettingIcon from '../images/settings.svg?component';
-import { TABLE_BAR_ICON_CLASS } from '../constants';
+import DragIcon from '~icons/ri/draggable';
+import SettingIcon from '~icons/ri/settings-3-line';
+
+import { LIST_TABLE_ICON_CLASS } from '../constants';
 import { tippyOptions } from '../utils/tippyOptions';
 
 defineOptions({ name: 'ColumnSettingPopover' });
@@ -44,44 +45,47 @@ async function onShow() {
     @show="onShow"
   >
     <template #reference>
-      <SettingIcon v-tippy="tippyOptions(t, 'tableBar.tippyColumnSettings')" :class="['w-4', TABLE_BAR_ICON_CLASS]" />
+      <IconifyIconOffline
+        v-tippy="tippyOptions(t, 'listTable.tippyColumnSettings')"
+        :class="['w-4', LIST_TABLE_ICON_CLASS]"
+        :icon="SettingIcon"
+      />
     </template>
 
-    <div class="table-bar__popover-head">
+    <div class="list-table__popover-head">
       <el-checkbox
         v-model="checkAll"
         :indeterminate="isIndeterminate"
-        :label="t('tableBar.columnShowAll')"
-        class="-mr-1!"
+        :label="t('listTable.columnShowAll')"
         @change="(value: boolean | string | number) => checkAllChange(!!value)"
       />
       <el-button link type="primary" @click="reset">
-        {{ t('tableBar.reset') }}
+        {{ t('listTable.reset') }}
       </el-button>
     </div>
 
-    <div class="table-bar__column-body">
+    <div class="list-table__column-body">
       <el-scrollbar max-height="36vh">
         <el-checkbox-group
           ref="columnGroupRef"
           :model-value="checkedColumns"
           @update:model-value="(value: Array<string | number>) => checkedColumnsChange(value as string[])"
         >
-          <el-space :size="0" alignment="flex-start" direction="vertical">
-            <div v-for="(item, index) in checkColumnList" :key="item" class="flex items-center">
-              <DragIcon :class="['drag-btn mr-2 w-4', isFixedColumn(item) ? 'cursor-no-drop!' : 'cursor-grab!']" />
-              <el-checkbox
-                :key="index"
-                :label="item"
-                :value="item"
-                @change="(value: boolean | string | number) => checkColumnListChange(!!value, item)"
-              >
-                <span :title="transformI18n(item)" class="inline-block w-30 truncate hover:text-auth-text">
-                  {{ transformI18n(item) }}
-                </span>
-              </el-checkbox>
-            </div>
-          </el-space>
+          <!-- text-sm/leading-normal：抵消 el-checkbox-group 的 font-size:0 / line-height:0，否则拖拽图标与裸文本不可见 -->
+          <div v-for="item in checkColumnList" :key="item" class="flex items-center text-sm leading-normal">
+            <span :class="['drag-btn mr-2 inline-flex', isFixedColumn(item) ? 'cursor-no-drop!' : 'cursor-grab!']">
+              <IconifyIconOffline :icon="DragIcon" class="h-4 w-4" />
+            </span>
+            <el-checkbox
+              :label="item"
+              :value="item"
+              @change="(value: boolean | string | number) => checkColumnListChange(!!value, item)"
+            >
+              <span :title="transformI18n(item)" class="inline-block w-30 truncate hover:text-auth-text">
+                {{ transformI18n(item) }}
+              </span>
+            </el-checkbox>
+          </div>
         </el-checkbox-group>
       </el-scrollbar>
     </div>

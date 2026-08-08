@@ -51,7 +51,7 @@ const buildPaginationQuery = <TQuery extends Record<string, any>>(
  * 执行表格分页请求（失败清空列表与 total）。
  * @param options 选项
  */
-export async function runPagedTableFetch<TRow, TQuery extends Record<string, any> = Record<string, any>>(options: {
+export async function runListTableFetch<TRow, TQuery extends Record<string, any> = Record<string, any>>(options: {
   loading: Ref<boolean>;
   searchForm: TQuery;
   pagination: { total: number; pageSize: number; currentPage: number };

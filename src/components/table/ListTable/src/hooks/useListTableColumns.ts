@@ -7,7 +7,7 @@ import Sortable from 'sortablejs';
 import type { Ref } from 'vue';
 import { nextTick as vueNextTick, onBeforeUnmount, ref, watch } from 'vue';
 
-import { TABLE_BAR_UNMANAGED_COLUMN_TYPES } from '../constants';
+import { LIST_TABLE_UNMANAGED_COLUMN_TYPES } from '../constants';
 
 function filterVisibleColumns(columns: TableColumnList): TableColumns[] {
   return cloneDeep(columns).filter((column) =>
@@ -18,7 +18,7 @@ function filterVisibleColumns(columns: TableColumnList): TableColumns[] {
 /** 可进列设置面板的业务列（排除 selection / index / expand） */
 function isSettingManagedColumn(column: TableColumns): boolean {
   const type = column.type as string | undefined;
-  return !type || !(TABLE_BAR_UNMANAGED_COLUMN_TYPES as readonly string[]).includes(type);
+  return !type || !(LIST_TABLE_UNMANAGED_COLUMN_TYPES as readonly string[]).includes(type);
 }
 
 /**
@@ -26,7 +26,7 @@ function isSettingManagedColumn(column: TableColumns): boolean {
  * @param columnsRef 表格列配置 ref
  * @returns 列显隐状态及操作方法
  */
-export function useTableBarColumns(columnsRef: Ref<TableColumnList>) {
+export function useListTableColumns(columnsRef: Ref<TableColumnList>) {
   const checkAll = ref(true);
   const isIndeterminate = ref(false);
 
@@ -104,15 +104,15 @@ export function useTableBarColumns(columnsRef: Ref<TableColumnList>) {
 
   /**
    * 在列设置 Popover 打开后绑定 Sortable（勿在 mouseenter 中反复 destroy/create，否则拖拽中 teardown 会触发 Sortable 对 null 调 removeEventListener）。
+   * @param columnGroupRoot 列勾选列表根节点（直接作为 Sortable 容器）
    */
   function initSortable(columnGroupRoot: HTMLElement | null | undefined) {
     void vueNextTick(() => {
       destroySortable();
-      const wrapper = columnGroupRoot?.firstElementChild as HTMLElement | null | undefined;
-      if (!wrapper) {
+      if (!columnGroupRoot) {
         return;
       }
-      bindSortable(wrapper);
+      bindSortable(columnGroupRoot);
     });
   }
 

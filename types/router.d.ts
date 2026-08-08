@@ -63,7 +63,20 @@ declare global {
     activePath?: string;
     /** 当前页面是否已经加载过 */
     loaded?: boolean;
+    /** 后端动态下发的路由标记 */
+    backstage?: boolean;
+    /** 菜单升序排序，值越小越靠前 */
+    rank?: number;
   }
+
+  /**
+   * 经层级处理后的路由节点（`buildHierarchyTree` 会写入 parentId / pathList）
+   */
+  type AppRouteRecord = import('vue-router').RouteRecordRaw & {
+    parentId?: number | null;
+    id?: number;
+    pathList?: number[];
+  };
 
   /**
    * @description 完整子路由配置表

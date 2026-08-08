@@ -80,7 +80,7 @@ function cancelOverrideDraft() {
 
       <DataScopeFormFields v-model="form" :dept-tree="deptTree" />
 
-      <el-button-group class="grant-scope-panel__actions">
+      <div class="grant-scope-panel__actions">
         <el-button v-perms="SYS_USER_PERMS.UPDATE" :loading="submitting" type="primary" @click="handleSave">
           {{ t('account.action.save') }}
         </el-button>
@@ -99,7 +99,7 @@ function cancelOverrideDraft() {
         >
           {{ t('users.scope.action.clearOverride') }}
         </el-button>
-      </el-button-group>
+      </div>
     </el-form>
   </div>
 </template>
@@ -114,10 +114,15 @@ function cancelOverrideDraft() {
 
   &__actions {
     display: flex;
+    gap: 12px;
     justify-content: flex-end;
 
     .el-button {
       padding: 0 36px;
+    }
+
+    .el-button + .el-button {
+      margin-left: 0;
     }
   }
 

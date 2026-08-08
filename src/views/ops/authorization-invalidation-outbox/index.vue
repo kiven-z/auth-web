@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { getAuthorizationInvalidationOutboxPage } from '@/api/ops/authorization-invalidation-outbox';
-import PagedTable, { usePaginationState } from '@/components/table/PagedTable';
+import ListTable, { usePaginationState } from '@/components/table/ListTable';
 import { useFormPlaceholder } from '@/shared/composables/i18n/useFormPlaceholder';
 import { useCollapsibleSearchForm } from '@/shared/composables/search/useCollapsibleSearchForm';
 import { INSTANT_PICKER_VALUE_FORMAT } from '@/shared/utils/date/dateTime';
@@ -176,26 +176,24 @@ onMounted(() => {
       </template>
 
       <el-form-item>
-        <el-button-group>
-          <el-button
-            v-perms="SYS_AUTH_INVALIDATION_OUTBOX_PERMS.QUERY"
-            :loading="loading"
-            type="primary"
-            @click="fetchTableData"
-          >
-            {{ t('buttons.actionSearch') }}
-          </el-button>
-          <el-button v-perms="SYS_AUTH_INVALIDATION_OUTBOX_PERMS.QUERY" @click="handleReset(searchFormRef)">
-            {{ t('buttons.actionReset') }}
-          </el-button>
-          <el-button v-if="showAdvancedSearchToggle" @click="toggleAdvancedSearch">
-            {{ searchExpanded ? t('buttons.actionCollapseSearch') : t('buttons.actionAdvancedSearch') }}
-          </el-button>
-        </el-button-group>
+        <el-button
+          v-perms="SYS_AUTH_INVALIDATION_OUTBOX_PERMS.QUERY"
+          :loading="loading"
+          type="primary"
+          @click="fetchTableData"
+        >
+          {{ t('buttons.actionSearch') }}
+        </el-button>
+        <el-button v-perms="SYS_AUTH_INVALIDATION_OUTBOX_PERMS.QUERY" @click="handleReset(searchFormRef)">
+          {{ t('buttons.actionReset') }}
+        </el-button>
+        <el-button v-if="showAdvancedSearchToggle" @click="toggleAdvancedSearch">
+          {{ searchExpanded ? t('buttons.actionCollapseSearch') : t('buttons.actionAdvancedSearch') }}
+        </el-button>
       </el-form-item>
     </el-form>
 
-    <PagedTable :columns="columns" :state="outboxState" :title="t('authorizationInvalidation.outboxTableTitle')">
+    <ListTable :columns="columns" :state="outboxState" :title="t('authorizationInvalidation.outboxTableTitle')">
       <template #actions="{ row }">
         <el-button
           v-perms="SYS_AUTH_INVALIDATION_OUTBOX_PERMS.DETAIL"
@@ -215,6 +213,6 @@ onMounted(() => {
           {{ t('authorizationInvalidation.retryAction') }}
         </el-button>
       </template>
-    </PagedTable>
+    </ListTable>
   </div>
 </template>

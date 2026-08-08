@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { INSTANT_PICKER_VALUE_FORMAT } from '@/shared/utils/date/dateTime';
 import { getPasswordHistoryPage } from '@/api/log/password-history';
-import PagedTable, { usePaginationState } from '@/components/table/PagedTable';
+import ListTable, { usePaginationState } from '@/components/table/ListTable';
 import useRemoteUserSearch from '@/shared/composables/dialog/useRemoteUserSearch';
 import { SYS_LOG_PASSWORD_HISTORY_PERMS } from '@/views/log/password-history/constants/permissions';
 import usePasswordHistoryTableAction from '@/views/log/password-history/hooks/usePasswordHistoryTableAction';
@@ -95,23 +95,21 @@ onMounted(() => {
       </el-form-item>
 
       <el-form-item>
-        <el-button-group>
-          <el-button
-            v-perms="SYS_LOG_PASSWORD_HISTORY_PERMS.QUERY"
-            :loading="loading"
-            type="primary"
-            @click="fetchTableData"
-          >
-            {{ t('buttons.actionSearch') }}
-          </el-button>
-          <el-button v-perms="SYS_LOG_PASSWORD_HISTORY_PERMS.QUERY" @click="resetQuery(searchFormRef)">
-            {{ t('buttons.actionReset') }}
-          </el-button>
-        </el-button-group>
+        <el-button
+          v-perms="SYS_LOG_PASSWORD_HISTORY_PERMS.QUERY"
+          :loading="loading"
+          type="primary"
+          @click="fetchTableData"
+        >
+          {{ t('buttons.actionSearch') }}
+        </el-button>
+        <el-button v-perms="SYS_LOG_PASSWORD_HISTORY_PERMS.QUERY" @click="resetQuery(searchFormRef)">
+          {{ t('buttons.actionReset') }}
+        </el-button>
       </el-form-item>
     </el-form>
 
-    <PagedTable :columns="columns" :state="passwordHistoryState" :title="t('passwordHistory.tableTitle')">
+    <ListTable :columns="columns" :state="passwordHistoryState" :title="t('passwordHistory.tableTitle')">
       <template #buttons>
         <Perms :value="SYS_LOG_PASSWORD_HISTORY_PERMS.DELETE">
           <el-dropdown trigger="click">
@@ -141,6 +139,6 @@ onMounted(() => {
           {{ t('buttons.actionDelete') }}
         </el-button>
       </template>
-    </PagedTable>
+    </ListTable>
   </div>
 </template>

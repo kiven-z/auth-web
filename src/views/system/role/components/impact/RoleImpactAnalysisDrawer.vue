@@ -7,7 +7,7 @@ import {
   type RoleImpactSummary,
   type RoleImpactUserPageQuery,
 } from '@/api/system/role/role-impact';
-import PagedTable, { usePaginationState } from '@/components/table/PagedTable';
+import ListTable, { usePaginationState } from '@/components/table/ListTable';
 import { useUserProfileColumns } from '@/components/domain/user/UserProfile';
 import { operationConfirm } from '@/services/feedback/dialog';
 import { errorMessage, message } from '@/services/feedback/message';
@@ -113,25 +113,18 @@ onMounted(() => {
 <template>
   <AuthorizationSurfaceShell :items="impactCountItems" :loading="summaryLoading">
     <template #actions>
-      <el-button-group>
-        <el-button
-          v-perms="SYS_ROLE_PERMS.UPDATE"
-          :disabled="!hasSelection"
-          :loading="refreshLoading"
-          type="warning"
-          @click="handleRefresh(true)"
-        >
-          {{ t('roles.impact.refreshSelected') }}
-        </el-button>
-        <el-button
-          v-perms="SYS_ROLE_PERMS.UPDATE"
-          :loading="refreshLoading"
-          type="danger"
-          @click="handleRefresh(false)"
-        >
-          {{ t('roles.impact.refreshAll') }}
-        </el-button>
-      </el-button-group>
+      <el-button
+        v-perms="SYS_ROLE_PERMS.UPDATE"
+        :disabled="!hasSelection"
+        :loading="refreshLoading"
+        type="warning"
+        @click="handleRefresh(true)"
+      >
+        {{ t('roles.impact.refreshSelected') }}
+      </el-button>
+      <el-button v-perms="SYS_ROLE_PERMS.UPDATE" :loading="refreshLoading" type="danger" @click="handleRefresh(false)">
+        {{ t('roles.impact.refreshAll') }}
+      </el-button>
     </template>
 
     <el-alert :closable="false" :title="t('roles.impact.tip')" class="mb-3" show-icon type="info" />
@@ -161,17 +154,15 @@ onMounted(() => {
         </el-select>
       </el-form-item>
       <el-form-item>
-        <el-button-group>
-          <el-button v-perms="SYS_ROLE_PERMS.QUERY" :loading="loading" type="primary" @click="fetchTableData">
-            {{ t('buttons.actionSearch') }}
-          </el-button>
-          <el-button v-perms="SYS_ROLE_PERMS.QUERY" @click="resetQuery(searchFormRef)">
-            {{ t('buttons.actionReset') }}
-          </el-button>
-        </el-button-group>
+        <el-button v-perms="SYS_ROLE_PERMS.QUERY" :loading="loading" type="primary" @click="fetchTableData">
+          {{ t('buttons.actionSearch') }}
+        </el-button>
+        <el-button v-perms="SYS_ROLE_PERMS.QUERY" @click="resetQuery(searchFormRef)">
+          {{ t('buttons.actionReset') }}
+        </el-button>
       </el-form-item>
     </el-form>
 
-    <PagedTable :columns="impactUserColumns" :state="impactUserState" :title="t('roles.impact.impactedUsers')" />
+    <ListTable :columns="impactUserColumns" :state="impactUserState" :title="t('roles.impact.impactedUsers')" />
   </AuthorizationSurfaceShell>
 </template>

@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { INSTANT_PICKER_VALUE_FORMAT } from '@/shared/utils/date/dateTime';
 import { getFileRecyclePage } from '@/api/file/file-recycle';
-import PagedTable, { usePaginationState } from '@/components/table/PagedTable';
+import ListTable, { usePaginationState } from '@/components/table/ListTable';
 import useRemoteUserSearch from '@/shared/composables/dialog/useRemoteUserSearch';
 import { useFormPlaceholder } from '@/shared/composables/i18n/useFormPlaceholder';
 import { useCollapsibleSearchForm } from '@/shared/composables/search/useCollapsibleSearchForm';
@@ -124,40 +124,36 @@ onMounted(() => {
       </template>
 
       <el-form-item>
-        <el-button-group>
-          <el-button v-perms="FILE_RECYCLE_PERMS.QUERY" :loading="loading" type="primary" @click="fetchTableData">
-            {{ t('buttons.actionSearch') }}
-          </el-button>
-          <el-button v-perms="FILE_RECYCLE_PERMS.QUERY" @click="resetQuery(searchFormRef)">
-            {{ t('buttons.actionReset') }}
-          </el-button>
-          <el-button v-if="showAdvancedSearchToggle" @click="toggleAdvancedSearch">
-            {{ searchExpanded ? t('buttons.actionCollapseSearch') : t('buttons.actionAdvancedSearch') }}
-          </el-button>
-        </el-button-group>
+        <el-button v-perms="FILE_RECYCLE_PERMS.QUERY" :loading="loading" type="primary" @click="fetchTableData">
+          {{ t('buttons.actionSearch') }}
+        </el-button>
+        <el-button v-perms="FILE_RECYCLE_PERMS.QUERY" @click="resetQuery(searchFormRef)">
+          {{ t('buttons.actionReset') }}
+        </el-button>
+        <el-button v-if="showAdvancedSearchToggle" @click="toggleAdvancedSearch">
+          {{ searchExpanded ? t('buttons.actionCollapseSearch') : t('buttons.actionAdvancedSearch') }}
+        </el-button>
       </el-form-item>
     </el-form>
 
-    <PagedTable :columns="columns" :state="fileRecycleState" :title="t('fileRecycle.page.tableTitle')">
+    <ListTable :columns="columns" :state="fileRecycleState" :title="t('fileRecycle.page.tableTitle')">
       <template #buttons>
-        <el-button-group type="primary">
-          <el-button
-            v-perms="FILE_RECYCLE_PERMS.RESTORE"
-            :disabled="selectedRows.length <= 0"
-            type="primary"
-            @click="restoreBatchRows()"
-          >
-            {{ t('buttons.actionBatchRestore') }}
-          </el-button>
-          <el-button
-            v-perms="FILE_RECYCLE_PERMS.PURGE"
-            :disabled="selectedRows.length <= 0"
-            type="danger"
-            @click="deleteBatchRows()"
-          >
-            {{ t('buttons.actionBatchDelete') }}
-          </el-button>
-        </el-button-group>
+        <el-button
+          v-perms="FILE_RECYCLE_PERMS.RESTORE"
+          :disabled="selectedRows.length <= 0"
+          type="primary"
+          @click="restoreBatchRows()"
+        >
+          {{ t('buttons.actionBatchRestore') }}
+        </el-button>
+        <el-button
+          v-perms="FILE_RECYCLE_PERMS.PURGE"
+          :disabled="selectedRows.length <= 0"
+          type="danger"
+          @click="deleteBatchRows()"
+        >
+          {{ t('buttons.actionBatchDelete') }}
+        </el-button>
       </template>
 
       <template #actions="{ row }">
@@ -171,6 +167,6 @@ onMounted(() => {
           {{ t('buttons.actionDelete') }}
         </el-button>
       </template>
-    </PagedTable>
+    </ListTable>
   </div>
 </template>

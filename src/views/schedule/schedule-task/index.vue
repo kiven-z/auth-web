@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { getJobPage } from '@/api/schedule/job';
-import PagedTable, { usePaginationState } from '@/components/table/PagedTable';
+import ListTable, { usePaginationState } from '@/components/table/ListTable';
 import { useCommonBooleanStatusOptions } from '@/shared/composables/i18n/useCommonBooleanStatusOptions';
 import { useFormPlaceholder } from '@/shared/composables/i18n/useFormPlaceholder';
 import { SYS_JOB_PERMS } from '@/views/schedule/schedule-task/constants/permissions';
@@ -84,38 +84,34 @@ onMounted(() => {
       </el-form-item>
 
       <el-form-item>
-        <el-button-group>
-          <el-button v-perms="SYS_JOB_PERMS.QUERY" :loading="loading" type="primary" @click="fetchTableData">
-            {{ t('buttons.actionSearch') }}
-          </el-button>
-          <el-button v-perms="SYS_JOB_PERMS.QUERY" @click="resetQuery(searchFormRef)">
-            {{ t('buttons.actionReset') }}
-          </el-button>
-        </el-button-group>
+        <el-button v-perms="SYS_JOB_PERMS.QUERY" :loading="loading" type="primary" @click="fetchTableData">
+          {{ t('buttons.actionSearch') }}
+        </el-button>
+        <el-button v-perms="SYS_JOB_PERMS.QUERY" @click="resetQuery(searchFormRef)">
+          {{ t('buttons.actionReset') }}
+        </el-button>
       </el-form-item>
     </el-form>
 
-    <PagedTable :columns="columns" :state="jobState" :title="t('scheduleTask.page.tableTitle')">
+    <ListTable :columns="columns" :state="jobState" :title="t('scheduleTask.page.tableTitle')">
       <template #buttons>
-        <el-button-group type="primary">
-          <el-button v-perms="SYS_JOB_PERMS.CREATE" @click="openCreateDialog">{{ t('buttons.actionAdd') }}</el-button>
+        <el-button v-perms="SYS_JOB_PERMS.CREATE" @click="openCreateDialog">{{ t('buttons.actionAdd') }}</el-button>
 
-          <Perms :value="SYS_JOB_PERMS.UPDATE">
-            <el-dropdown trigger="click">
-              <el-button :disabled="selectedRows.length <= 0" type="warning">
-                {{ t('buttons.actionBatchStatus') }}
-              </el-button>
-              <template #dropdown>
-                <el-dropdown-item :disabled="selectedRows.length <= 0" @click="batchUpdateStatus(selectedRows, true)">
-                  {{ t('buttons.actionBatchEnable') }}
-                </el-dropdown-item>
-                <el-dropdown-item :disabled="selectedRows.length <= 0" @click="batchUpdateStatus(selectedRows, false)">
-                  {{ t('buttons.actionBatchDisable') }}
-                </el-dropdown-item>
-              </template>
-            </el-dropdown>
-          </Perms>
-        </el-button-group>
+        <Perms :value="SYS_JOB_PERMS.UPDATE">
+          <el-dropdown trigger="click">
+            <el-button :disabled="selectedRows.length <= 0" type="warning">
+              {{ t('buttons.actionBatchStatus') }}
+            </el-button>
+            <template #dropdown>
+              <el-dropdown-item :disabled="selectedRows.length <= 0" @click="batchUpdateStatus(selectedRows, true)">
+                {{ t('buttons.actionBatchEnable') }}
+              </el-dropdown-item>
+              <el-dropdown-item :disabled="selectedRows.length <= 0" @click="batchUpdateStatus(selectedRows, false)">
+                {{ t('buttons.actionBatchDisable') }}
+              </el-dropdown-item>
+            </template>
+          </el-dropdown>
+        </Perms>
       </template>
 
       <template #actions="{ row }">
@@ -147,6 +143,6 @@ onMounted(() => {
           </el-dropdown>
         </Perms>
       </template>
-    </PagedTable>
+    </ListTable>
   </div>
 </template>

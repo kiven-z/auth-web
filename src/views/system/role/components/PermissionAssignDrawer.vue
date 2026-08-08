@@ -10,7 +10,7 @@ import AssignPanel, {
   useAssignChecked,
   useAssignTableLabels,
 } from '@/components/domain/assign/AssignPanel';
-import PagedTable, { usePaginationState } from '@/components/table/PagedTable';
+import ListTable, { usePaginationState } from '@/components/table/ListTable';
 import { useFormPlaceholder } from '@/shared/composables/i18n/useFormPlaceholder';
 import { errorMessage } from '@/services/feedback/message';
 import type { FormInstance } from 'element-plus';
@@ -116,16 +116,14 @@ defineExpose({ getSelectedKeys });
       </el-form-item>
 
       <el-form-item>
-        <el-button-group>
-          <el-button :loading="loading" type="primary" @click="fetchTableData">
-            {{ t('buttons.actionSearch') }}
-          </el-button>
-          <el-button @click="resetQuery(searchFormRef)">{{ t('buttons.actionReset') }}</el-button>
-        </el-button-group>
+        <el-button :loading="loading" type="primary" @click="fetchTableData">
+          {{ t('buttons.actionSearch') }}
+        </el-button>
+        <el-button @click="resetQuery(searchFormRef)">{{ t('buttons.actionReset') }}</el-button>
       </el-form-item>
     </el-form>
 
-    <PagedTable
+    <ListTable
       :columns="permissionDrawerColumns"
       :state="permissionState"
       :title="tableTitle"

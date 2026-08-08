@@ -138,7 +138,7 @@ status:
   no: 'No'
   passedYes: Passed
   passedNo: Failed
-tableBar:
+listTable:
   defaultTitle: List
   densityLarge: Wide
   densityDefault: Default

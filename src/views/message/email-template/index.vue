@@ -4,7 +4,7 @@ import {
   type MessageTemplatePageQuery,
   type MessageTemplatePageRow,
 } from '@/api/message/message-template';
-import PagedTable, { usePaginationState } from '@/components/table/PagedTable';
+import ListTable, { usePaginationState } from '@/components/table/ListTable';
 import useEmailTemplateTableAction from '@/views/message/email-template/hooks/actions/useEmailTemplateTableAction';
 import useEmailTemplateTableColumns from '@/views/message/email-template/hooks/columns/useEmailTemplateTableColumns';
 import { useCommonBooleanStatusOptions } from '@/shared/composables/i18n/useCommonBooleanStatusOptions';
@@ -101,48 +101,44 @@ onMounted(() => {
       </el-form-item>
 
       <el-form-item>
-        <el-button-group>
-          <el-button v-perms="EMAIL_TEMPLATE_PERMS.QUERY" :loading="loading" type="primary" @click="fetchTableData">
-            {{ t('buttons.actionSearch') }}
-          </el-button>
-          <el-button v-perms="EMAIL_TEMPLATE_PERMS.QUERY" @click="resetQuery(searchFormRef)">
-            {{ t('buttons.actionReset') }}
-          </el-button>
-        </el-button-group>
+        <el-button v-perms="EMAIL_TEMPLATE_PERMS.QUERY" :loading="loading" type="primary" @click="fetchTableData">
+          {{ t('buttons.actionSearch') }}
+        </el-button>
+        <el-button v-perms="EMAIL_TEMPLATE_PERMS.QUERY" @click="resetQuery(searchFormRef)">
+          {{ t('buttons.actionReset') }}
+        </el-button>
       </el-form-item>
     </el-form>
 
-    <PagedTable :columns="columns" :state="emailTemplateState" :title="t('emailTemplate.tableTitle')">
+    <ListTable :columns="columns" :state="emailTemplateState" :title="t('emailTemplate.tableTitle')">
       <template #buttons>
-        <el-button-group type="primary">
-          <el-button v-perms="EMAIL_TEMPLATE_PERMS.CREATE" @click="openCreateDialog">
-            {{ t('buttons.actionAdd') }}
+        <el-button v-perms="EMAIL_TEMPLATE_PERMS.CREATE" @click="openCreateDialog">
+          {{ t('buttons.actionAdd') }}
+        </el-button>
+
+        <el-dropdown trigger="click">
+          <el-button type="danger">
+            {{ t('buttons.actionAdvanced') }}
           </el-button>
 
-          <el-dropdown trigger="click">
-            <el-button type="danger">
-              {{ t('buttons.actionAdvanced') }}
-            </el-button>
-
-            <template #dropdown>
-              <Perms :value="EMAIL_TEMPLATE_PERMS.DELETE">
-                <el-dropdown-item :disabled="selectedRows.length <= 0" @click="deleteBatchRows()">
-                  {{ t('buttons.actionBatchDelete') }}
-                </el-dropdown-item>
-              </Perms>
-              <Perms :value="EMAIL_TEMPLATE_PERMS.UPDATE">
-                <el-dropdown-item :disabled="selectedRows.length <= 0" @click="batchUpdateStatus(true)">
-                  {{ t('buttons.actionBatchEnable') }}
-                </el-dropdown-item>
-              </Perms>
-              <Perms :value="EMAIL_TEMPLATE_PERMS.UPDATE">
-                <el-dropdown-item :disabled="selectedRows.length <= 0" @click="batchUpdateStatus(false)">
-                  {{ t('buttons.actionBatchDisable') }}
-                </el-dropdown-item>
-              </Perms>
-            </template>
-          </el-dropdown>
-        </el-button-group>
+          <template #dropdown>
+            <Perms :value="EMAIL_TEMPLATE_PERMS.DELETE">
+              <el-dropdown-item :disabled="selectedRows.length <= 0" @click="deleteBatchRows()">
+                {{ t('buttons.actionBatchDelete') }}
+              </el-dropdown-item>
+            </Perms>
+            <Perms :value="EMAIL_TEMPLATE_PERMS.UPDATE">
+              <el-dropdown-item :disabled="selectedRows.length <= 0" @click="batchUpdateStatus(true)">
+                {{ t('buttons.actionBatchEnable') }}
+              </el-dropdown-item>
+            </Perms>
+            <Perms :value="EMAIL_TEMPLATE_PERMS.UPDATE">
+              <el-dropdown-item :disabled="selectedRows.length <= 0" @click="batchUpdateStatus(false)">
+                {{ t('buttons.actionBatchDisable') }}
+              </el-dropdown-item>
+            </Perms>
+          </template>
+        </el-dropdown>
       </template>
 
       <template #actions="{ row }">
@@ -178,6 +174,6 @@ onMounted(() => {
           </template>
         </el-dropdown>
       </template>
-    </PagedTable>
+    </ListTable>
   </div>
 </template>

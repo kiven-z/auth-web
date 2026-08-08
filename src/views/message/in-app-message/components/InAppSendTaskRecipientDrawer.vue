@@ -5,7 +5,7 @@ import {
   type InAppSendTaskRecipientPageQuery,
   type InAppSendTaskRecipientPageRow,
 } from '@/api/message/in-app-message';
-import PagedTable, { usePaginationState } from '@/components/table/PagedTable';
+import ListTable, { usePaginationState } from '@/components/table/ListTable';
 import useRemoteUserSearch from '@/shared/composables/dialog/useRemoteUserSearch';
 import { useFormPlaceholder } from '@/shared/composables/i18n/useFormPlaceholder';
 import { IN_APP_MESSAGE_PERMS } from '@/views/message/in-app-message/constants/permissions';
@@ -99,17 +99,15 @@ onMounted(() => {
       </el-form-item>
 
       <el-form-item>
-        <el-button-group>
-          <el-button v-perms="IN_APP_MESSAGE_PERMS.DETAIL" :loading="loading" type="primary" @click="fetchTableData">
-            {{ t('buttons.actionSearch') }}
-          </el-button>
-          <el-button v-perms="IN_APP_MESSAGE_PERMS.DETAIL" @click="resetQuery(searchFormRef)">
-            {{ t('buttons.actionReset') }}
-          </el-button>
-        </el-button-group>
+        <el-button v-perms="IN_APP_MESSAGE_PERMS.DETAIL" :loading="loading" type="primary" @click="fetchTableData">
+          {{ t('buttons.actionSearch') }}
+        </el-button>
+        <el-button v-perms="IN_APP_MESSAGE_PERMS.DETAIL" @click="resetQuery(searchFormRef)">
+          {{ t('buttons.actionReset') }}
+        </el-button>
       </el-form-item>
     </el-form>
 
-    <PagedTable :columns="columns" :state="recipientState" :title="title || t('inAppMessage.title.recipients')" />
+    <ListTable :columns="columns" :state="recipientState" :title="title || t('inAppMessage.title.recipients')" />
   </div>
 </template>

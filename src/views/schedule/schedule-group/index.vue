@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { getJobGroupPage } from '@/api/schedule/job-group';
 import { SYS_JOB_GROUP_PERMS } from '@/views/schedule/schedule-group/constants/permissions';
-import PagedTable, { usePaginationState } from '@/components/table/PagedTable';
+import ListTable, { usePaginationState } from '@/components/table/ListTable';
 import { useCommonBooleanStatusOptions } from '@/shared/composables/i18n/useCommonBooleanStatusOptions';
 import { useFormPlaceholder } from '@/shared/composables/i18n/useFormPlaceholder';
 import useJobGroupTableAction from '@/views/schedule/schedule-group/hooks/useJobGroupTableAction';
@@ -83,18 +83,16 @@ onMounted(() => {
       </el-form-item>
 
       <el-form-item>
-        <el-button-group>
-          <el-button v-perms="SYS_JOB_GROUP_PERMS.QUERY" :loading="loading" type="primary" @click="fetchTableData">
-            {{ t('buttons.actionSearch') }}
-          </el-button>
-          <el-button v-perms="SYS_JOB_GROUP_PERMS.QUERY" @click="resetQuery(searchFormRef)">
-            {{ t('buttons.actionReset') }}
-          </el-button>
-        </el-button-group>
+        <el-button v-perms="SYS_JOB_GROUP_PERMS.QUERY" :loading="loading" type="primary" @click="fetchTableData">
+          {{ t('buttons.actionSearch') }}
+        </el-button>
+        <el-button v-perms="SYS_JOB_GROUP_PERMS.QUERY" @click="resetQuery(searchFormRef)">
+          {{ t('buttons.actionReset') }}
+        </el-button>
       </el-form-item>
     </el-form>
 
-    <PagedTable :columns="columns" :state="jobGroupState" :title="t('scheduleGroup.tableTitle')">
+    <ListTable :columns="columns" :state="jobGroupState" :title="t('scheduleGroup.tableTitle')">
       <template #buttons>
         <el-button v-perms="SYS_JOB_GROUP_PERMS.CREATE" type="primary" @click="openCreateDialog">
           {{ t('buttons.actionAdd') }}
@@ -134,6 +132,6 @@ onMounted(() => {
           </el-dropdown>
         </Perms>
       </template>
-    </PagedTable>
+    </ListTable>
   </div>
 </template>

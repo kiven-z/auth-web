@@ -104,7 +104,7 @@ onMounted(() => {
           type="primary"
           @click="loadSessions"
         >
-          {{ t('tableBar.refresh') }}
+          {{ t('listTable.refresh') }}
         </el-button>
       </div>
     </div>

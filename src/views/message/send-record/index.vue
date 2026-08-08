@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { type ChannelDeliveryPageQuery, getChannelDeliveryPage } from '@/api/message/channel-delivery';
-import PagedTable, { usePaginationState } from '@/components/table/PagedTable';
+import ListTable, { usePaginationState } from '@/components/table/ListTable';
 import { useFormPlaceholder } from '@/shared/composables/i18n/useFormPlaceholder';
 import { SEND_RECORD_PERMS } from '@/views/message/send-record/constants/permissions';
 import useSendRecordOptions from '@/views/message/send-record/hooks/options/useSendRecordOptions';
@@ -79,18 +79,16 @@ onMounted(() => {
       </el-form-item>
 
       <el-form-item>
-        <el-button-group>
-          <el-button v-perms="SEND_RECORD_PERMS.QUERY" :loading="loading" type="primary" @click="fetchTableData">
-            {{ t('buttons.actionSearch') }}
-          </el-button>
-          <el-button v-perms="SEND_RECORD_PERMS.QUERY" @click="resetQuery(searchFormRef)">
-            {{ t('buttons.actionReset') }}
-          </el-button>
-        </el-button-group>
+        <el-button v-perms="SEND_RECORD_PERMS.QUERY" :loading="loading" type="primary" @click="fetchTableData">
+          {{ t('buttons.actionSearch') }}
+        </el-button>
+        <el-button v-perms="SEND_RECORD_PERMS.QUERY" @click="resetQuery(searchFormRef)">
+          {{ t('buttons.actionReset') }}
+        </el-button>
       </el-form-item>
     </el-form>
 
-    <PagedTable :columns="columns" :state="sendRecordState" :title="t('sendRecord.title.table')">
+    <ListTable :columns="columns" :state="sendRecordState" :title="t('sendRecord.title.table')">
       <template #buttons>
         <Perms :value="SEND_RECORD_PERMS.DELETE">
           <el-dropdown trigger="click">
@@ -115,6 +113,6 @@ onMounted(() => {
           {{ t('buttons.actionDelete') }}
         </el-button>
       </template>
-    </PagedTable>
+    </ListTable>
   </div>
 </template>

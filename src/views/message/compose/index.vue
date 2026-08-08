@@ -151,12 +151,10 @@ async function handleSend() {
           </template>
         </el-dropdown>
 
-        <el-button-group>
-          <el-button @click="resetForm">{{ t('buttons.actionReset') }}</el-button>
-          <el-button v-perms="IN_APP_COMPOSE_PERMS.SEND" :loading="sending" type="primary" @click="handleSend">
-            {{ t('inAppCompose.sendButton') }}
-          </el-button>
-        </el-button-group>
+        <el-button @click="resetForm">{{ t('buttons.actionReset') }}</el-button>
+        <el-button v-perms="IN_APP_COMPOSE_PERMS.SEND" :loading="sending" type="primary" @click="handleSend">
+          {{ t('inAppCompose.sendButton') }}
+        </el-button>
       </div>
     </div>
 

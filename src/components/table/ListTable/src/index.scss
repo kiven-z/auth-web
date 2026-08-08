@@ -1,10 +1,10 @@
-.table-bar {
+.list-table {
   width: 100%;
   padding: 0 var(--auth-size-3) var(--auth-size-3);
   background: var(--auth-bg-container);
 }
 
-.table-bar--fullscreen {
+.list-table--fullscreen {
   position: fixed;
   inset: 0;
   z-index: 2002;
@@ -14,12 +14,12 @@
   min-height: 0;
 }
 
-.table-bar:not(.table-bar--fullscreen) {
+.list-table:not(.list-table--fullscreen) {
   margin-top: var(--auth-size-3);
 }
 
 /** 填满定高父级：工具栏固定，表体区吃剩余高度 */
-.table-bar--fill {
+.list-table--fill {
   display: flex;
   flex: 1;
   flex-direction: column;
@@ -27,13 +27,13 @@
   min-height: 0;
 }
 
-.table-bar--fill .table-bar__toolbar,
-.table-bar--fullscreen .table-bar__toolbar {
+.list-table--fill .list-table__toolbar,
+.list-table--fullscreen .list-table__toolbar {
   flex-shrink: 0;
 }
 
-.table-bar--fill .table-bar__body,
-.table-bar--fullscreen .table-bar__body {
+.list-table--fill .list-table__body,
+.list-table--fullscreen .list-table__body {
   display: flex;
   flex: 1;
   flex-direction: column;
@@ -41,7 +41,7 @@
   overflow: hidden;
 }
 
-.table-bar__toolbar {
+.list-table__toolbar {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -50,22 +50,29 @@
   padding: var(--auth-space-l);
 }
 
-.table-bar__actions {
+.list-table__actions {
   display: flex;
   align-items: center;
-  justify-content: space-around;
 }
 
-.table-bar__popover-head {
+.list-table__buttons {
   display: flex;
+  align-items: center;
+  gap: 12px;
+
+  > .el-button + .el-button {
+    margin-left: 0;
+  }
+}
+
+.list-table__popover-head {
+  display: flex;
+  align-items: center;
   justify-content: space-between;
-  padding-top: 3px;
-  padding-right: 11px;
-  padding-left: 11px;
+  padding: 8px 12px;
   border-bottom: 1px solid var(--auth-color-border);
 }
 
-.table-bar__column-body {
-  padding-top: 6px;
-  padding-left: 11px;
+.list-table__column-body {
+  padding: 8px 12px;
 }

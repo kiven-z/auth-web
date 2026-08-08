@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { getInAppSendTaskPage, type InAppSendTaskPageQuery } from '@/api/message/in-app-message';
-import PagedTable, { usePaginationState } from '@/components/table/PagedTable';
+import ListTable, { usePaginationState } from '@/components/table/ListTable';
 import { useFormPlaceholder } from '@/shared/composables/i18n/useFormPlaceholder';
 import { IN_APP_MESSAGE_PERMS } from '@/views/message/in-app-message/constants/permissions';
 import {
@@ -95,18 +95,16 @@ onMounted(() => {
       </el-form-item>
 
       <el-form-item>
-        <el-button-group>
-          <el-button v-perms="IN_APP_MESSAGE_PERMS.QUERY" :loading="loading" type="primary" @click="fetchTableData">
-            {{ t('buttons.actionSearch') }}
-          </el-button>
-          <el-button v-perms="IN_APP_MESSAGE_PERMS.QUERY" @click="resetQuery(searchFormRef)">
-            {{ t('buttons.actionReset') }}
-          </el-button>
-        </el-button-group>
+        <el-button v-perms="IN_APP_MESSAGE_PERMS.QUERY" :loading="loading" type="primary" @click="fetchTableData">
+          {{ t('buttons.actionSearch') }}
+        </el-button>
+        <el-button v-perms="IN_APP_MESSAGE_PERMS.QUERY" @click="resetQuery(searchFormRef)">
+          {{ t('buttons.actionReset') }}
+        </el-button>
       </el-form-item>
     </el-form>
 
-    <PagedTable :columns="columns" :state="inAppMessageState" :title="t('inAppMessage.title.table')">
+    <ListTable :columns="columns" :state="inAppMessageState" :title="t('inAppMessage.title.table')">
       <template #buttons>
         <Perms :value="IN_APP_MESSAGE_PERMS.DELETE">
           <el-dropdown trigger="click">
@@ -165,6 +163,6 @@ onMounted(() => {
           {{ t('buttons.actionDelete') }}
         </el-button>
       </template>
-    </PagedTable>
+    </ListTable>
   </div>
 </template>

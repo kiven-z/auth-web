@@ -1,5 +1,5 @@
 import type { PageResponse } from '@/api/common/page';
-import { runPagedTableFetch } from '../pagination';
+import { runListTableFetch } from '../pagination';
 import type { FormInstance } from 'element-plus';
 import { reactive, ref } from 'vue';
 
@@ -51,7 +51,7 @@ export function usePaginationState<TData = unknown, TQuery extends Record<string
    * 获取表格数据。构造 query 后调用 fetchApi，更新 tableData 与 pagination。
    */
   const fetchTableData = async () => {
-    await runPagedTableFetch<TData, TQuery>({
+    await runListTableFetch<TData, TQuery>({
       loading,
       searchForm,
       pagination,
@@ -111,7 +111,7 @@ export function usePaginationState<TData = unknown, TQuery extends Record<string
   };
 }
 
-/** {@link usePaginationState} 返回值类型，供 PagedTable 等组件 props 标注 */
+/** {@link usePaginationState} 返回值类型，供 ListTable 等组件 props 标注 */
 export type PaginationTableState<
   TData = unknown,
   TQuery extends Record<string, any> = Record<string, any>,

@@ -137,7 +137,7 @@ status:
   no: 否
   passedYes: 通过
   passedNo: 未通过
-tableBar:
+listTable:
   defaultTitle: 列表
   densityLarge: 宽松
   densityDefault: 默认

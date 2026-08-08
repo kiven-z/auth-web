@@ -19,11 +19,11 @@ const treeProps = {
 } as const;
 
 const { t } = useI18n();
-const { loading, treeData, selectedRows, fetchTreeData, refresh } = useInAppCategoryPageState();
+const { loading, tableData, selectedRows, fetchTableData, refresh } = useInAppCategoryPageState();
 const { openCreateDialog } = useInAppCategoryTableAction({ refresh, selectedRows });
 
 onMounted(() => {
-  fetchTreeData();
+  fetchTableData();
 });
 </script>
 
@@ -37,16 +37,14 @@ onMounted(() => {
       :loading="loading"
       :show-actions-on-hover="true"
       :title="t('inAppCategory.page.title')"
-      :tree-data="treeData"
+      :tree-data="tableData"
       :tree-props="treeProps"
-      @refresh="fetchTreeData"
+      @refresh="fetchTableData"
     >
       <template #toolbar>
-        <el-button-group type="primary">
-          <el-button v-perms="IN_APP_CATEGORY_PERMS.CREATE" @click="openCreateDialog()">
-            {{ t('buttons.actionAdd') }}
-          </el-button>
-        </el-button-group>
+        <el-button v-perms="IN_APP_CATEGORY_PERMS.CREATE" type="primary" @click="openCreateDialog()">
+          {{ t('buttons.actionAdd') }}
+        </el-button>
       </template>
 
       <template #meta="{ data }">

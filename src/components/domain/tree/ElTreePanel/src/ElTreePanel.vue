@@ -1,9 +1,16 @@
 <script lang="ts" setup>
-import TableBar from '@/components/table/TableBar';
+import { computed, provide, ref, toRef, useAttrs } from 'vue';
+import { useI18n } from 'vue-i18n';
 import type { TreeInstance } from 'element-plus';
-import { provide, ref, toRef, useAttrs } from 'vue';
+
+import ExitFullscreen from '~icons/ri/fullscreen-exit-fill';
+import Fullscreen from '~icons/ri/fullscreen-fill';
+import RefreshIcon from '~icons/ri/refresh-line';
+
 import { useElTreeExpandCollapse } from './hooks/useElTreeExpandCollapse';
 import { type TreeRowActionsLockContext, treeRowActionsLockKey } from './treeRowActionsLock';
+
+import './index.scss';
 
 defineOptions({
   name: 'ElTreePanel',
@@ -39,11 +46,13 @@ const emit = defineEmits<{
   refresh: [];
 }>();
 
+const { t } = useI18n();
 const treeRef = ref<TreeInstance>();
 const treeDataRef = toRef(props, 'treeData');
 const attrs = useAttrs();
 const hoveredNodeKey = ref<string | null>(null);
 const lockedNodeKey = ref<string | null>(null);
+const isFullscreen = ref(false);
 
 const treeRowActionsLock: TreeRowActionsLockContext = {
   lock(nodeKey: string) {
@@ -63,6 +72,9 @@ const { expandedKeys, expandAll, collapseAll } = useElTreeExpandCollapse({
   treeData: treeDataRef,
   nodeIdKey: props.nodeKey,
 });
+
+const fullscreenIcon = computed(() => (isFullscreen.value ? ExitFullscreen : Fullscreen));
+const panelTitle = computed(() => props.title || t('listTable.defaultTitle'));
 
 /**
  * 解析树节点主键
@@ -115,6 +127,10 @@ function handleRefresh() {
   emit('refresh');
 }
 
+function handleFullscreen() {
+  isFullscreen.value = !isFullscreen.value;
+}
+
 defineExpose({
   filterTree(keyword: string) {
     treeRef.value?.filter(keyword);
@@ -123,16 +139,36 @@ defineExpose({
 </script>
 
 <template>
-  <TableBar :columns="[]" :title="title" @refresh="handleRefresh">
-    <template #buttons>
-      <slot name="toolbar" />
-      <el-button-group class="ml-1" type="primary">
-        <el-button type="info" @click="expandAll">{{ expandAllLabel }}</el-button>
-        <el-button type="info" @click="collapseAll">{{ collapseAllLabel }}</el-button>
-      </el-button-group>
-    </template>
+  <div :class="{ 'el-tree-panel--fullscreen': isFullscreen }" class="el-tree-panel bg-auth-container">
+    <div class="el-tree-panel__toolbar">
+      <p class="m-0 truncate text-base font-bold">{{ panelTitle }}</p>
 
-    <template #default>
+      <div class="el-tree-panel__actions">
+        <div class="mr-4 flex">
+          <slot name="toolbar" />
+          <el-button-group class="ml-3" type="primary">
+            <el-button type="info" @click="expandAll">{{ expandAllLabel }}</el-button>
+            <el-button type="info" @click="collapseAll">{{ collapseAllLabel }}</el-button>
+          </el-button-group>
+        </div>
+
+        <IconifyIconOffline
+          :class="['w-4', 'cursor-pointer', 'outline-hidden', 'hover:text-primary!', loading ? 'animate-spin' : '']"
+          :icon="RefreshIcon"
+          :title="t('listTable.refresh')"
+          @click="handleRefresh"
+        />
+        <el-divider direction="vertical" />
+        <IconifyIconOffline
+          :class="['w-4', 'cursor-pointer', 'outline-hidden', 'hover:text-primary!']"
+          :icon="fullscreenIcon"
+          :title="t(isFullscreen ? 'listTable.tippyExitFullscreen' : 'listTable.tippyFullscreen')"
+          @click="handleFullscreen"
+        />
+      </div>
+    </div>
+
+    <div class="el-tree-panel__body">
       <div v-if="$slots.search" class="px-2 pb-2">
         <slot name="search" />
       </div>
@@ -166,6 +202,6 @@ defineExpose({
           </template>
         </el-tree>
       </div>
-    </template>
-  </TableBar>
+    </div>
+  </div>
 </template>

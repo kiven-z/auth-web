@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import type { RoleBoundMenuItem } from '@/api/system/models/role';
 import type { RoleMenuPageQuery } from '@/api/system/role/role-authorization';
-import PagedTable, { usePaginationState } from '@/components/table/PagedTable';
+import ListTable, { usePaginationState } from '@/components/table/ListTable';
 import { useFormPlaceholder } from '@/shared/composables/i18n/useFormPlaceholder';
 import { useCommonBooleanStatusOptions } from '@/shared/composables/i18n/useCommonBooleanStatusOptions';
 import type { AuthorizationSurfacePanelProps } from '@/views/system/_shared/authorization/types';
@@ -58,17 +58,15 @@ onMounted(() => {
         </el-select>
       </el-form-item>
       <el-form-item>
-        <el-button-group>
-          <el-button v-perms="queryPerm" :loading="loading" type="primary" @click="fetchTableData">
-            {{ t('buttons.actionSearch') }}
-          </el-button>
-          <el-button v-perms="queryPerm" @click="resetQuery(searchFormRef)">
-            {{ t('buttons.actionReset') }}
-          </el-button>
-        </el-button-group>
+        <el-button v-perms="queryPerm" :loading="loading" type="primary" @click="fetchTableData">
+          {{ t('buttons.actionSearch') }}
+        </el-button>
+        <el-button v-perms="queryPerm" @click="resetQuery(searchFormRef)">
+          {{ t('buttons.actionReset') }}
+        </el-button>
       </el-form-item>
     </el-form>
 
-    <PagedTable :columns="menuColumns" :state="menuState" :title="title" />
+    <ListTable :columns="menuColumns" :state="menuState" :title="title" />
   </div>
 </template>

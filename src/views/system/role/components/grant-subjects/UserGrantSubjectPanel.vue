@@ -6,7 +6,7 @@ import AssignPanel, {
   useAssignChecked,
   useAssignTableLabels,
 } from '@/components/domain/assign/AssignPanel';
-import PagedTable, { usePaginationState } from '@/components/table/PagedTable';
+import ListTable, { usePaginationState } from '@/components/table/ListTable';
 import { errorMessage, message } from '@/services/feedback/message';
 import { useFormPlaceholder } from '@/shared/composables/i18n/useFormPlaceholder';
 import type { GrantSubjectPanelProps } from '@/views/system/role/types/grant-subject';
@@ -128,20 +128,18 @@ onMounted(() => {
           />
         </el-form-item>
         <el-form-item>
-          <el-button-group>
-            <el-button :loading="loading" type="primary" @click="fetchTableData">
-              {{ t('buttons.actionSearch') }}
-            </el-button>
-            <el-button @click="resetQuery(searchFormRef)">
-              {{ t('buttons.actionReset') }}
-            </el-button>
-            <el-button :loading="saving" type="primary" @click="handleSave">
-              {{ t('roles.grantSubjects.saveCurrent') }}
-            </el-button>
-          </el-button-group>
+          <el-button :loading="loading" type="primary" @click="fetchTableData">
+            {{ t('buttons.actionSearch') }}
+          </el-button>
+          <el-button @click="resetQuery(searchFormRef)">
+            {{ t('buttons.actionReset') }}
+          </el-button>
+          <el-button :loading="saving" type="primary" @click="handleSave">
+            {{ t('roles.grantSubjects.saveCurrent') }}
+          </el-button>
         </el-form-item>
       </el-form>
-      <PagedTable
+      <ListTable
         :columns="columns"
         :state="state"
         :title="t('roles.bound.users.title')"

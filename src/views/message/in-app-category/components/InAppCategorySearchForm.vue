@@ -16,13 +16,13 @@ const ph = useFormPlaceholder();
 const booleanStatusOptions = useCommonBooleanStatusOptions();
 const searchFormRef = ref<FormInstance>();
 
-const { loading, searchForm, fetchTreeData, resetQuery } = useInAppCategoryPageState();
+const { loading, searchForm, fetchTableData, resetQuery } = useInAppCategoryPageState();
 </script>
 
 <template>
   <el-form
     ref="searchFormRef"
-    v-enter-submit="fetchTreeData"
+    v-enter-submit="fetchTableData"
     :model="searchForm"
     class="bg-auth-container w-[99/100] overflow-auto pl-8 pt-3"
     inline
@@ -56,14 +56,12 @@ const { loading, searchForm, fetchTreeData, resetQuery } = useInAppCategoryPageS
     </el-form-item>
 
     <el-form-item>
-      <el-button-group>
-        <el-button v-perms="IN_APP_CATEGORY_PERMS.QUERY" :loading="loading" type="primary" @click="fetchTreeData">
-          {{ t('buttons.actionSearch') }}
-        </el-button>
-        <el-button v-perms="IN_APP_CATEGORY_PERMS.QUERY" @click="resetQuery(searchFormRef)">
-          {{ t('buttons.actionReset') }}
-        </el-button>
-      </el-button-group>
+      <el-button v-perms="IN_APP_CATEGORY_PERMS.QUERY" :loading="loading" type="primary" @click="fetchTableData">
+        {{ t('buttons.actionSearch') }}
+      </el-button>
+      <el-button v-perms="IN_APP_CATEGORY_PERMS.QUERY" @click="resetQuery(searchFormRef)">
+        {{ t('buttons.actionReset') }}
+      </el-button>
     </el-form-item>
   </el-form>
 </template>
