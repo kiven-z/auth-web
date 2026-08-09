@@ -1,5 +1,10 @@
 import type { SysPostPageQuery } from '@/api/system/post/post';
-import { downloadPostImportTemplate, exportPostExcel, importPostExcel } from '@/api/system/post/post';
+import {
+  downloadPostImportTemplate,
+  exportPostExcel,
+  exportPostExcelAsync,
+  importPostExcel,
+} from '@/api/system/post/post';
 import { usePagedTableExport } from '@/components/domain/file/ExportDialog';
 import useSpreadsheetImportAction from '@/views/system/_shared/import/useSpreadsheetImportAction';
 import { useI18n } from 'vue-i18n';
@@ -29,17 +34,12 @@ function usePostAdvanceAction(options: UsePostExportActionOptions) {
     onSuccess: options.fetchTableData,
   });
 
-  const { exporting, openExportDialog } = usePagedTableExport<SysPostPageQuery, SysPostPageQuery>({
+  const { exporting, openExportDialog } = usePagedTableExport<SysPostPageQuery>({
     searchForm: options.searchForm,
     pagination: options.pagination,
     fileNamePrefix: t('post.moduleName'),
     exportApi: exportPostExcel,
-    buildFilter: ({ searchForm }) => ({
-      postCode: searchForm.postCode,
-      postName: searchForm.postName,
-      deptName: searchForm.deptName,
-      status: searchForm.status,
-    }),
+    asyncExportApi: exportPostExcelAsync,
   });
 
   return {

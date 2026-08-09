@@ -1,0 +1,16 @@
+fileExportDialog:
+  dialogTitle: Export data
+  scopeCurrentPage: Current page
+  scopePageRange: Page range
+  scopeFullAsync: Async export
+  fromPage: From page
+  toPage: To page
+  currentPageSummary: Page {page}, {size} rows per page
+  estimatedRows: About {count} rows (max {max})
+  pageRangeInvalid: Invalid page range
+  rowLimitExceeded: Export row count exceeds limit {max}
+  asyncUnavailable: Async export is not enabled on this page
+  asyncPoints:
+    filter: Export using the current filters
+    delivery: Generated in the background. Download later from My Exports.
+  asyncSubmitted: Task submitted

@@ -5,7 +5,7 @@ import TypedContentView from '@/components/domain/content/TypedContentView';
 import { errorMessage } from '@/services/feedback/message';
 import { formatDateTime } from '@/shared/utils/date/dateTime';
 import { useInAppInboxStore } from '@/store/modules/message/inAppInbox';
-import HomePageToolbar from '@/views/home/_shared/components/HomePageToolbar.vue';
+import { ArrowLeft } from '@element-plus/icons-vue';
 import { computed, onMounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRoute, useRouter } from 'vue-router';
@@ -60,7 +60,9 @@ onMounted(() => {
 <template>
   <div v-loading="loading" class="inbox-message-detail">
     <div class="inbox-message-detail__header">
-      <HomePageToolbar @back="router.back()" />
+      <el-button :icon="ArrowLeft" link type="primary" @click="router.push({ name: 'PersonalInbox' })">
+        {{ t('personal.nav.inbox') }}
+      </el-button>
     </div>
 
     <div v-if="detail" class="inbox-message-detail__body">
@@ -91,19 +93,14 @@ onMounted(() => {
 
 <style lang="scss" scoped>
 .inbox-message-detail {
-  height: 100vh;
-  overflow: hidden auto;
+  min-height: 100%;
 
   &__header {
-    position: sticky;
-    top: 0;
-    z-index: 10;
-    background: var(--el-bg-color);
+    margin-bottom: 12px;
   }
 
   &__body {
     max-width: 880px;
-    margin: 0 auto;
   }
 
   &__meta {

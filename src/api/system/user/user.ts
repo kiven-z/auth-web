@@ -60,6 +60,22 @@ export function exportUserExcel(filter: SysUserPageQuery, scope: ExportScopeQuer
 }
 
 /**
+ * 异步导出用户
+ * @param filter 列表筛选（不含分页）
+ * @param requestId 幂等请求 ID
+ * @returns 异步任务创建结果
+ */
+export function exportUserExcelAsync(
+  filter: SysUserPageQuery,
+  requestId: string
+): Promise<{ taskId: string | number }> {
+  return http.post<{ taskId: string | number }, SysUserPageQuery>('/system/user/export/async', {
+    data: filter,
+    params: { requestId },
+  });
+}
+
+/**
  * 上传用户 Excel 批量导入
  * @param file Excel 文件
  * @returns 导入结果

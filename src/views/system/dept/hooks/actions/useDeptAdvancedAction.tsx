@@ -1,7 +1,12 @@
 import type { DialogOptions } from '@/components/ui/Dialog';
 import { addDialog, closeDialog } from '@/components/ui/Dialog';
 import type { SysDeptPageQuery } from '@/api/system/dept/dept';
-import { downloadDeptImportTemplate, exportDeptExcel, importDeptExcel } from '@/api/system/dept/dept';
+import {
+  downloadDeptImportTemplate,
+  exportDeptExcel,
+  exportDeptExcelAsync,
+  importDeptExcel,
+} from '@/api/system/dept/dept';
 import { usePagedTableExport } from '@/components/domain/file/ExportDialog';
 import useSpreadsheetImportAction from '@/views/system/_shared/import/useSpreadsheetImportAction';
 import DeptClosureHealthDialog from '@/views/system/dept/components/DeptClosureHealthDialog.vue';
@@ -14,7 +19,7 @@ interface ClosureHealthDialogExpose {
 
 /** 部门高级操作配置 */
 export interface UseDeptAdvancedActionOptions {
-  searchForm: Record<string, unknown>;
+  searchForm: SysDeptPageQuery;
   pagination: {
     currentPage: number;
     pageSize: number;
@@ -42,11 +47,7 @@ function useDeptAdvancedAction(options: UseDeptAdvancedActionOptions) {
     pagination: options.pagination,
     fileNamePrefix: t('dept.page.moduleName'),
     exportApi: exportDeptExcel,
-    buildFilter: ({ searchForm }) => ({
-      deptName: searchForm.deptName as string | undefined,
-      deptCode: searchForm.deptCode as string | undefined,
-      status: searchForm.status as boolean | undefined,
-    }),
+    asyncExportApi: exportDeptExcelAsync,
   });
 
   /**

@@ -125,7 +125,7 @@ onMounted(() => {
 
     <ListTable :columns="columns" :state="inAppTemplateState" :title="t('inAppTemplate.tableTitle')">
       <template #buttons>
-        <el-button v-perms="IN_APP_TEMPLATE_PERMS.CREATE" @click="openCreateDrawer">
+        <el-button v-perms="IN_APP_TEMPLATE_PERMS.CREATE" type="primary" @click="openCreateDrawer">
           {{ t('buttons.actionAdd') }}
         </el-button>
 

@@ -40,4 +40,6 @@ routes:
   myFiles: My Files
   myFileRecycle: My Recycle Bin
   myFileExportTask: My Export Tasks
+  fileExportTask: Export Task Ops
   myInbox: My Messages
+  personalSpace: Personal Space

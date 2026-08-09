@@ -2,6 +2,7 @@ import type { SysPermissionPageQuery } from '@/api/system/permission/permission'
 import {
   downloadPermissionImportTemplate,
   exportPermissionExcel,
+  exportPermissionExcelAsync,
   importPermissionExcel,
 } from '@/api/system/permission/permission';
 import { usePagedTableExport } from '@/components/domain/file/ExportDialog';
@@ -33,16 +34,12 @@ function usePermissionAdvanceAction(options: UsePermissionExportActionOptions) {
     onSuccess: options.fetchTableData,
   });
 
-  const { exporting, openExportDialog } = usePagedTableExport<SysPermissionPageQuery, SysPermissionPageQuery>({
+  const { exporting, openExportDialog } = usePagedTableExport<SysPermissionPageQuery>({
     searchForm: options.searchForm,
     pagination: options.pagination,
     fileNamePrefix: t('permissions.moduleName'),
     exportApi: exportPermissionExcel,
-    buildFilter: ({ searchForm }) => ({
-      permissionCode: searchForm.permissionCode,
-      permissionName: searchForm.permissionName,
-      status: searchForm.status,
-    }),
+    asyncExportApi: exportPermissionExcelAsync,
   });
 
   return {

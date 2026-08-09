@@ -1,0 +1,16 @@
+personal:
+  title: Personal Space
+  back: Back
+  unknownUser: Current user
+  nav:
+    group:
+      account: Account
+      message: Messages
+      files: My Files
+    profile: Profile
+    security: Security
+    loginLog: Login Log
+    inbox: Inbox
+    files: My Files
+    exportTask: Export Tasks
+    recycle: Recycle Bin

@@ -103,7 +103,7 @@ onMounted(() => {
 
     <ListTable :columns="columns" :state="smsTemplateState" :title="t('smsTemplate.tableTitle')">
       <template #buttons>
-        <el-button v-perms="SMS_TEMPLATE_PERMS.CREATE" @click="openCreateDialog">
+        <el-button v-perms="SMS_TEMPLATE_PERMS.CREATE" type="primary" @click="openCreateDialog">
           {{ t('buttons.actionAdd') }}
         </el-button>
 

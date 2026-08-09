@@ -1,6 +1,6 @@
 <script lang="ts" setup>
-import { useHomePageNavigation } from '@/shared/composables/layout/useHomePageNavigation';
 import { useInAppInboxStore } from '@/store/modules/message/inAppInbox';
+import { useOpenPersonalWorkspace } from '@/views/home/personal/hooks/useOpenPersonalWorkspace';
 import { storeToRefs } from 'pinia';
 import { onMounted } from 'vue';
 import { useI18n } from 'vue-i18n';
@@ -11,7 +11,7 @@ defineOptions({
 });
 
 const { t } = useI18n();
-const { openWithReturn } = useHomePageNavigation();
+const { openPersonalWorkspace } = useOpenPersonalWorkspace();
 const inboxStore = useInAppInboxStore();
 const { totalUnreadCount } = storeToRefs(inboxStore);
 
@@ -24,7 +24,7 @@ onMounted(() => {
   <span
     :class="['notice-badge', 'navbar-bg-hover', 'select-none', totalUnreadCount > 0 && 'mr-2.5']"
     :title="t('inAppInbox.badgeTitle')"
-    @click="openWithReturn('HomeInbox')"
+    @click="openPersonalWorkspace('PersonalInbox')"
   >
     <el-badge
       :class="totalUnreadCount > 0 && 'animate__animated animate__tada animate__infinite'"

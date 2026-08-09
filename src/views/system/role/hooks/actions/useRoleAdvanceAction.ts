@@ -1,5 +1,10 @@
 import type { SysRolePageQuery } from '@/api/system/role/role';
-import { downloadRoleImportTemplate, exportRoleExcel, importRoleExcel } from '@/api/system/role/role';
+import {
+  downloadRoleImportTemplate,
+  exportRoleExcel,
+  exportRoleExcelAsync,
+  importRoleExcel,
+} from '@/api/system/role/role';
 import { usePagedTableExport } from '@/components/domain/file/ExportDialog';
 import useSpreadsheetImportAction from '@/views/system/_shared/import/useSpreadsheetImportAction';
 import { useI18n } from 'vue-i18n';
@@ -29,16 +34,12 @@ function useRoleAdvanceAction(options: UseRoleExportActionOptions) {
     onSuccess: options.fetchTableData,
   });
 
-  const { exporting, openExportDialog } = usePagedTableExport<SysRolePageQuery, SysRolePageQuery>({
+  const { exporting, openExportDialog } = usePagedTableExport<SysRolePageQuery>({
     searchForm: options.searchForm,
     pagination: options.pagination,
     fileNamePrefix: t('roles.title.module'),
     exportApi: exportRoleExcel,
-    buildFilter: ({ searchForm }) => ({
-      roleCode: searchForm.roleCode,
-      roleName: searchForm.roleName,
-      status: searchForm.status,
-    }),
+    asyncExportApi: exportRoleExcelAsync,
   });
 
   return {

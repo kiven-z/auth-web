@@ -4,6 +4,7 @@ import {
   deleteUsers,
   downloadUserImportTemplate,
   exportUserExcel,
+  exportUserExcelAsync,
   importUserExcel,
   refreshUserAuthorization,
   type SysUserPageQuery,
@@ -17,7 +18,7 @@ import { useI18n } from 'vue-i18n';
 
 /** 用户页高级功能 composable 配置 */
 export interface UseUserAdvanceActionOptions extends TableActionWithSelectionDeps {
-  searchForm: Record<string, unknown>;
+  searchForm: SysUserPageQuery;
   pagination: {
     currentPage: number;
     pageSize: number;
@@ -52,15 +53,7 @@ function useUserAdvanceAction(options: UseUserAdvanceActionOptions) {
     pagination,
     fileNamePrefix: t('users.title.module'),
     exportApi: exportUserExcel,
-    buildFilter: ({ searchForm: form }) => ({
-      username: form.username as string,
-      nickname: form.nickname as string,
-      phone: form.phone as string,
-      email: form.email as string,
-      employeeNo: form.employeeNo as string,
-      status: form.status as number,
-      deptId: form.deptId as string,
-    }),
+    asyncExportApi: exportUserExcelAsync,
   });
 
   /**

@@ -8,9 +8,7 @@ import {
   useAdaptiveFillHeight,
 } from '@/components/table/DataTable';
 import { useFormPlaceholder } from '@/shared/composables/i18n/useFormPlaceholder';
-import { useHomePageNavigation } from '@/shared/composables/layout/useHomePageNavigation';
 import { useInAppInboxStore } from '@/store/modules/message/inAppInbox';
-import HomePageToolbar from '@/views/home/_shared/components/HomePageToolbar.vue';
 import InboxMessageList from '@/views/home/inbox/components/InboxMessageList.vue';
 import useInboxTableAction from '@/views/home/inbox/hooks/useInboxTableAction';
 import { useInAppCategorySubOptions } from '@/views/message/_shared/hooks/options/useInAppCategorySubOptions';
@@ -28,7 +26,6 @@ const { t } = useI18n();
 const ph = useFormPlaceholder();
 const route = useRoute();
 const router = useRouter();
-const { backWithReturn } = useHomePageNavigation();
 const inboxStore = useInAppInboxStore();
 const { majors, loadingMajors } = storeToRefs(inboxStore);
 
@@ -142,8 +139,6 @@ onMounted(async () => {
 <template>
   <div class="inbox-page">
     <div ref="headerRef" class="inbox-page__header">
-      <HomePageToolbar @back="backWithReturn('HomeInbox')" />
-
       <!-- 大类 Tab：数据来自未读接口 majors -->
       <el-tabs
         v-loading="loadingMajors"
@@ -276,7 +271,7 @@ onMounted(async () => {
   }
 
   &__tabs {
-    padding: 8px 50px 0;
+    padding: 0;
 
     :deep(.el-tabs__header) {
       margin-bottom: 0;
@@ -288,7 +283,7 @@ onMounted(async () => {
   }
 
   &__body {
-    padding: 16px 50px 24px;
+    padding: 16px 0 0;
   }
 
   &__filter {

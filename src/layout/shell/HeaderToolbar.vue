@@ -4,7 +4,7 @@ import { UserAvatar } from '@/components/domain/user/UserProfile';
 import { useTranslationLang } from '@/layout/hooks/locale/useTranslationLang';
 import { useLayoutUiStore } from '@/store/modules/app/layout-ui';
 import { useUserStore } from '@/store/modules/auth/user';
-import { useHomePageNavigation } from '@/shared/composables/layout/useHomePageNavigation';
+import { useOpenPersonalWorkspace } from '@/views/home/personal/hooks/useOpenPersonalWorkspace';
 import { computed, ref, watch } from 'vue';
 import { useFullscreen } from '@vueuse/core';
 import LayNotice from '../components/lay-notice/index.vue';
@@ -25,7 +25,7 @@ interface Props {
 
 const props = defineProps<Props>();
 
-const { openWithReturn } = useHomePageNavigation();
+const { openPersonalWorkspace } = useOpenPersonalWorkspace();
 const layoutUiStore = useLayoutUiStore();
 const userStore = useUserStore();
 
@@ -111,9 +111,9 @@ watch(
     </span>
     <template #dropdown>
       <el-dropdown-menu class="layout-toolbar__logout-menu">
-        <el-dropdown-item @click="openWithReturn('AccountProfile')">
+        <el-dropdown-item @click="openPersonalWorkspace('PersonalProfile')">
           <IconifyIconOffline :icon="UserSettingsLine" style="margin: 5px" />
-          {{ t('account.title') }}
+          {{ t('personal.title') }}
         </el-dropdown-item>
         <el-dropdown-item @click="logout">
           <IconifyIconOffline :icon="LogoutCircleRLine" style="margin: 5px" />

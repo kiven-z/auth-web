@@ -83,6 +83,22 @@ export function exportDeptExcel(filter: SysDeptPageQuery, scope: ExportScopeQuer
   );
 }
 
+/**
+ * 异步导出部门
+ * @param filter 列表筛选（不含分页）
+ * @param requestId 幂等请求 ID
+ * @returns 异步任务创建结果
+ */
+export function exportDeptExcelAsync(
+  filter: SysDeptPageQuery,
+  requestId: string
+): Promise<{ taskId: string | number }> {
+  return http.post<{ taskId: string | number }, SysDeptPageQuery>('/system/dept/export/async', {
+    data: filter,
+    params: { requestId },
+  });
+}
+
 /** 部门新增表单 */
 export interface SysDeptCreateForm {
   /** 父部门 ID；空或未选=顶级 */

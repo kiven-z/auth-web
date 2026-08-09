@@ -94,6 +94,22 @@ export function exportPostExcel(filter: SysPostPageQuery, scope: ExportScopeQuer
 }
 
 /**
+ * 异步导出岗位
+ * @param filter 列表筛选（不含分页）
+ * @param requestId 幂等请求 ID
+ * @returns 异步任务创建结果
+ */
+export function exportPostExcelAsync(
+  filter: SysPostPageQuery,
+  requestId: string
+): Promise<{ taskId: string | number }> {
+  return http.post<{ taskId: string | number }, SysPostPageQuery>('/system/post/export/async', {
+    data: filter,
+    params: { requestId },
+  });
+}
+
+/**
  * 岗位详情
  */
 export interface SysPostDetail extends BaseResponseDetail {

@@ -95,7 +95,9 @@ onMounted(() => {
 
     <ListTable :columns="columns" :state="jobState" :title="t('scheduleTask.page.tableTitle')">
       <template #buttons>
-        <el-button v-perms="SYS_JOB_PERMS.CREATE" @click="openCreateDialog">{{ t('buttons.actionAdd') }}</el-button>
+        <el-button v-perms="SYS_JOB_PERMS.CREATE" type="primary" @click="openCreateDialog">
+          {{ t('buttons.actionAdd') }}
+        </el-button>
 
         <Perms :value="SYS_JOB_PERMS.UPDATE">
           <el-dropdown trigger="click">

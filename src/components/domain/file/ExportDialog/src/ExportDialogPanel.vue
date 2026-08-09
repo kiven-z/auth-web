@@ -1,117 +1,79 @@
 <script lang="ts" setup>
-import type { FormInstance, FormRules } from 'element-plus';
-import { computed, reactive, ref } from 'vue';
+import { type Component, computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { message } from '@/services/feedback/message';
+import CurrentPageExportPane from './components/CurrentPageExportPane.vue';
+import FullAsyncExportPane from './components/FullAsyncExportPane.vue';
+import PageRangeExportPane from './components/PageRangeExportPane.vue';
 import { DEFAULT_MAX_EXPORT_ROWS } from './constants';
-import type { ExportDialogFormState, ExportDialogPanelExpose, ExportDialogPanelProps, ExportScope } from './types';
+import type {
+  ExportDialogFormState,
+  ExportDialogPanelExpose,
+  ExportDialogPanelProps,
+  ExportPaneExpose,
+  ExportScope,
+} from './types';
 
 defineOptions({ name: 'ExportDialogPanel' });
 
 const props = withDefaults(defineProps<ExportDialogPanelProps>(), {
   maxExportRows: DEFAULT_MAX_EXPORT_ROWS,
+  asyncExportEnabled: false,
 });
 
 const { t } = useI18n();
-const formRef = ref<FormInstance>();
+const activeScope = ref<ExportScope>('CURRENT_PAGE');
+const activePaneRef = ref<ExportPaneExpose | null>(null);
 
-const form = reactive({
-  exportScope: 'CURRENT_PAGE' as ExportScope,
-  fromPage: props.currentPage,
-  toPage: props.currentPage,
-});
+const paneMap: Record<ExportScope, Component> = {
+  CURRENT_PAGE: CurrentPageExportPane,
+  PAGE_RANGE: PageRangeExportPane,
+  FULL_ASYNC: FullAsyncExportPane,
+};
 
-const maxPage = computed(() => Math.max(1, Math.ceil(props.total / props.pageSize)));
-const estimatedRowCount = computed(() => {
-  if (form.exportScope !== 'PAGE_RANGE') {
-    return props.pageSize;
-  }
-  return (form.toPage - form.fromPage + 1) * props.pageSize;
-});
-const rowLimitExceeded = computed(() => estimatedRowCount.value > props.maxExportRows);
-
-const rules = computed<FormRules>(() => ({
-  toPage: [
-    {
-      validator: (_rule, value: number, callback) => {
-        if (form.exportScope !== 'PAGE_RANGE') {
-          callback();
-          return;
-        }
-        if (value < form.fromPage) {
-          callback(new Error(t('export.pageRangeInvalid')));
-          return;
-        }
-        if (rowLimitExceeded.value) {
-          callback(new Error(t('export.rowLimitExceeded', { max: props.maxExportRows })));
-          return;
-        }
-        callback();
-      },
-      trigger: 'change',
-    },
-  ],
+const paneProps = computed(() => ({
+  currentPage: props.currentPage,
+  pageSize: props.pageSize,
+  total: props.total,
+  maxExportRows: props.maxExportRows,
 }));
 
 /**
- * 校验导出表单
+ * 转发当前 pane 的校验
  * @returns 校验通过为 `true`
  */
 const validate = async (): Promise<boolean> => {
-  if (form.exportScope === 'FULL_ASYNC') {
+  const pane = activePaneRef.value;
+  if (!pane) {
     return false;
   }
-  if (form.exportScope === 'CURRENT_PAGE' && props.pageSize > props.maxExportRows) {
-    message(t('export.rowLimitExceeded', { max: props.maxExportRows }));
-    return false;
-  }
-  const formInstance = formRef.value;
-  if (!formInstance) {
-    return false;
-  }
-  return formInstance.validate().catch(() => false);
+  return pane.validate();
 };
 
 /**
- * 读取当前表单状态
+ * 转发当前 pane 的表单状态
  * @returns 导出范围与页码区间
  */
-const getFormState = (): ExportDialogFormState => ({
-  exportScope: form.exportScope,
-  fromPage: form.fromPage,
-  toPage: form.toPage,
-});
+const getFormState = (): ExportDialogFormState => {
+  return (
+    activePaneRef.value?.getFormState() ?? {
+      exportScope: activeScope.value,
+      fromPage: props.currentPage,
+      toPage: props.currentPage,
+    }
+  );
+};
 
 defineExpose<ExportDialogPanelExpose>({ validate, getFormState });
 </script>
 
 <template>
-  <el-form ref="formRef" :model="form" :rules="rules" label-width="96px">
-    <el-form-item :label="t('export.scopeLabel')">
-      <el-radio-group v-model="form.exportScope">
-        <el-radio value="CURRENT_PAGE">{{ t('export.scopeCurrentPage') }}</el-radio>
-        <el-radio value="PAGE_RANGE">{{ t('export.scopePageRange') }}</el-radio>
-        <!-- 全量异步（预留，未开发；提示文案故意不走 i18n） -->
-        <el-tooltip content="敬请期待，全量异步导出将在后续版本提供" placement="top">
-          <span>
-            <el-radio disabled value="FULL_ASYNC">{{ t('export.scopeFullAsync') }}</el-radio>
-          </span>
-        </el-tooltip>
-      </el-radio-group>
-    </el-form-item>
+  <div>
+    <el-tabs v-model="activeScope">
+      <el-tab-pane :label="t('fileExportDialog.scopeCurrentPage')" name="CURRENT_PAGE" />
+      <el-tab-pane :label="t('fileExportDialog.scopePageRange')" name="PAGE_RANGE" />
+      <el-tab-pane :disabled="!asyncExportEnabled" :label="t('fileExportDialog.scopeFullAsync')" name="FULL_ASYNC" />
+    </el-tabs>
 
-    <p v-if="form.exportScope === 'CURRENT_PAGE'">
-      {{ t('export.currentPageSummary', { page: props.currentPage, size: props.pageSize }) }}
-    </p>
-
-    <template v-if="form.exportScope === 'PAGE_RANGE'">
-      <el-form-item :label="t('export.fromPage')" prop="fromPage">
-        <el-input-number v-model="form.fromPage" :max="maxPage" :min="1" />
-      </el-form-item>
-      <el-form-item :label="t('export.toPage')" prop="toPage">
-        <el-input-number v-model="form.toPage" :max="maxPage" :min="1" />
-      </el-form-item>
-      <p>{{ t('export.estimatedRows', { count: estimatedRowCount, max: props.maxExportRows }) }}</p>
-    </template>
-  </el-form>
+    <component :is="paneMap[activeScope]" ref="activePaneRef" v-bind="paneProps" />
+  </div>
 </template>

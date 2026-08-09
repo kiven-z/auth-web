@@ -1,0 +1,16 @@
+fileExportDialog:
+  dialogTitle: 导出数据
+  scopeCurrentPage: 当前页
+  scopePageRange: 指定页码范围
+  scopeFullAsync: 异步导出
+  fromPage: 起始页
+  toPage: 结束页
+  currentPageSummary: 第 {page} 页，每页 {size} 条
+  estimatedRows: 预计导出 {count} 条（上限 {max}）
+  pageRangeInvalid: 页码区间无效
+  rowLimitExceeded: 导出行数超过上限 {max}
+  asyncUnavailable: 当前页面未开通异步导出
+  asyncPoints:
+    filter: 按当前筛选条件导出
+    delivery: 后台生成，不立刻下载，完成后在「我的导出」查看/下载
+  asyncSubmitted: 任务已提交

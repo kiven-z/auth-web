@@ -15,18 +15,6 @@ tips:
   assignSaveSuccess: Assignment saved successfully
   exportSuccess: Export succeeded
   exportFailed: Export failed
-export:
-  dialogTitle: Export data
-  scopeLabel: Export mode
-  scopeCurrentPage: Current page
-  scopePageRange: Page range
-  scopeFullAsync: Full export (async)
-  fromPage: From page
-  toPage: To page
-  currentPageSummary: Page {page}, {size} rows per page
-  estimatedRows: About {count} rows (max {max})
-  pageRangeInvalid: Invalid page range
-  rowLimitExceeded: Export row count exceeds limit {max}
 import:
   dialogTitle: Import from Excel
   dropOrClickHint: Drop file here or click to upload

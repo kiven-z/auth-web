@@ -93,7 +93,7 @@ defineExpose({ submit });
         background: 'var(--el-fill-color-light)',
         color: 'var(--el-text-color-primary)',
       }"
-      :row-key="(row: MessageTemplateRequireFieldRow & { _id: number }) => String(row._id)"
+      :row-key="(row) => String(row._id)"
       border
       class="w-full"
     >
@@ -129,7 +129,7 @@ defineExpose({ submit });
         </template>
       </el-table-column>
     </el-table>
-    <el-button v-perms="MESSAGE_TEMPLATE_PERMS.UPDATE" class="w-full mt-2" plain @click="onAdd">
+    <el-button v-perms="MESSAGE_TEMPLATE_PERMS.UPDATE" class="w-full mt-2!" plain type="primary" @click="onAdd">
       {{ t('buttons.actionAdd') }}
     </el-button>
   </div>

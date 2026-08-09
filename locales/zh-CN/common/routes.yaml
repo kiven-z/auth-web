@@ -40,4 +40,6 @@ routes:
   myFiles: 我的文件
   myFileRecycle: 我的回收站
   myFileExportTask: 我的导出任务
+  fileExportTask: 导出任务运维
   myInbox: 我的消息
+  personalSpace: 个人空间

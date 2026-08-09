@@ -59,6 +59,22 @@ export function exportRoleExcel(filter: SysRolePageQuery, scope: ExportScopeQuer
 }
 
 /**
+ * 异步导出角色
+ * @param filter 列表筛选（不含分页）
+ * @param requestId 幂等请求 ID
+ * @returns 异步任务创建结果
+ */
+export function exportRoleExcelAsync(
+  filter: SysRolePageQuery,
+  requestId: string
+): Promise<{ taskId: string | number }> {
+  return http.post<{ taskId: string | number }, SysRolePageQuery>('/system/role/export/async', {
+    data: filter,
+    params: { requestId },
+  });
+}
+
+/**
  * 角色详情（标量 + 授权关系计数）
  */
 export interface SysRoleDetail extends BaseResponse {

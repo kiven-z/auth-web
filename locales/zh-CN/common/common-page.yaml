@@ -15,18 +15,6 @@ tips:
   assignSaveSuccess: 分配保存成功
   exportSuccess: 导出成功
   exportFailed: 导出失败
-export:
-  dialogTitle: 导出数据
-  scopeLabel: 导出方式
-  scopeCurrentPage: 当前页
-  scopePageRange: 指定页码范围
-  scopeFullAsync: 全量导出（异步）
-  fromPage: 起始页
-  toPage: 结束页
-  currentPageSummary: 第 {page} 页，每页 {size} 条
-  estimatedRows: 预计导出 {count} 条（上限 {max}）
-  pageRangeInvalid: 页码区间无效
-  rowLimitExceeded: 导出行数超过上限 {max}
 import:
   dialogTitle: 从 Excel 导入
   dropOrClickHint: 将文件拖拽到此处，或点击上传

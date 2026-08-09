@@ -1,12 +1,17 @@
 <script lang="ts" setup>
 import { INSTANT_PICKER_VALUE_FORMAT } from '@/shared/utils/date/dateTime';
-import { getFileRecyclePage } from '@/api/file/file-recycle';
+import {
+  getFileRecycleDetail,
+  getFileRecyclePage,
+  purgeFileRecycle,
+  restoreFileRecycle,
+} from '@/api/file/file-recycle';
 import ListTable, { usePaginationState } from '@/components/table/ListTable';
 import useRemoteUserSearch from '@/shared/composables/dialog/useRemoteUserSearch';
 import { useFormPlaceholder } from '@/shared/composables/i18n/useFormPlaceholder';
 import { useCollapsibleSearchForm } from '@/shared/composables/search/useCollapsibleSearchForm';
 import { FILE_RECYCLE_PERMS } from '@/views/file/recycle/constants/permissions';
-import useFileRecycleTableAction from '@/views/file/recycle/hooks/useFileRecycleTableAction';
+import useFileRecycleTableActionCore from '@/views/file/_shared/hooks/useFileRecycleTableActionCore';
 import useFileRecycleTableColumns from '@/views/file/_shared/columns/useFileRecycleTableColumns';
 import type { FormInstance } from 'element-plus';
 import { onMounted, reactive, ref } from 'vue';
@@ -41,9 +46,12 @@ const fileRecycleState = usePaginationState({
 });
 
 const { loading, selectedRows, searchForm, fetchTableData, resetQuery } = fileRecycleState;
-const { openDetailDialog, deleteBatchRows, restoreBatchRows } = useFileRecycleTableAction({
+const { openDetailDialog, deleteBatchRows, restoreBatchRows } = useFileRecycleTableActionCore({
   fetchTableData,
   selectedRows,
+  restoreApi: restoreFileRecycle,
+  purgeApi: purgeFileRecycle,
+  detailApi: getFileRecycleDetail,
 });
 
 const { userOptions, userSearchLoading, loadUserListByKeyword } = useRemoteUserSearch();
