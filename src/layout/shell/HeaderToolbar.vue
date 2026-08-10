@@ -4,7 +4,7 @@ import { UserAvatar } from '@/components/domain/user/UserProfile';
 import { useTranslationLang } from '@/layout/hooks/locale/useTranslationLang';
 import { useLayoutUiStore } from '@/store/modules/app/layout-ui';
 import { useUserStore } from '@/store/modules/auth/user';
-import { useOpenPersonalWorkspace } from '@/views/home/personal/hooks/useOpenPersonalWorkspace';
+import { useOpenPersonalWorkspace } from '@/features/home/personal/hooks/useOpenPersonalWorkspace';
 import { computed, ref, watch } from 'vue';
 import { useFullscreen } from '@vueuse/core';
 import LayNotice from '../components/lay-notice/index.vue';

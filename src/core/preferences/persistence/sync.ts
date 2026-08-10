@@ -1,4 +1,4 @@
-import { listMyPreferences, upsertMyPreference } from '@/api/system/user/user-preferences';
+import { listMyPreferences, upsertMyPreference } from '@/features/system/api/user/user-preferences';
 import debounce from 'lodash/debounce';
 import { UI_PREFERENCE_KEYS, type UiPreferenceKey } from './keys';
 import {

@@ -13,7 +13,7 @@ export default {
     {
       path: '/error/403',
       name: 'ForbiddenPage',
-      component: () => import('@/views/home/error/403.vue'),
+      component: () => import('@/features/home/error/403.vue'),
       meta: {
         title: $t('menus.accessDenied'),
       },
@@ -21,7 +21,7 @@ export default {
     {
       path: '/error/404',
       name: 'NotFoundPage',
-      component: () => import('@/views/home/error/404.vue'),
+      component: () => import('@/features/home/error/404.vue'),
       meta: {
         title: $t('menus.pageNotFound'),
       },
@@ -29,7 +29,7 @@ export default {
     {
       path: '/error/500',
       name: 'ServerErrorPage',
-      component: () => import('@/views/home/error/500.vue'),
+      component: () => import('@/features/home/error/500.vue'),
       meta: {
         title: $t('menus.serverError'),
       },

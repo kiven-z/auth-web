@@ -61,6 +61,11 @@ declare global {
      * 而通过设置`activePath`指定激活菜单即可获得高亮，`activePath`为指定激活菜单的`path`）
      */
     activePath?: string;
+    /**
+     * 工作空间侧栏分区键（个人空间 / 用户工作台）。
+     * 嵌套页与列表页写同一值即可高亮同一侧栏项。
+     */
+    section?: string;
     /** 当前页面是否已经加载过 */
     loaded?: boolean;
     /** 后端动态下发的路由标记 */

@@ -23,9 +23,5 @@ inAppTemplate:
     description: 请输入模板描述
     priority: 请选择优先级
     content: 请输入模板正文
-    contentMd: 请输入 Markdown 正文
-  image:
-    fileTypeInvalid: 仅支持 JPG/PNG/GIF/WEBP 图片
-    fileSizeExceeded: 图片大小不能超过 5MB
   rules:
     templateCodeReg: 仅允许字母、下划线、连字符，且须包含至少一个字母

@@ -1,4 +1,4 @@
-import { USER_GENDER } from '@/views/system/user/constants/user-enums';
+import { USER_GENDER } from '../constants/user-enums';
 import { ElCheckTag, ElTag } from 'element-plus';
 import { useI18n } from 'vue-i18n';
 

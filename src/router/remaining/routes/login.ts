@@ -5,7 +5,7 @@ export default [
   {
     path: '/login',
     name: 'Login',
-    component: () => import('@/views/home/login/index.vue'),
+    component: () => import('@/features/home/login/index.vue'),
     meta: {
       title: $t('menus.login'),
       showLink: false,

@@ -4,12 +4,12 @@ import type {
   UserDeptReference,
   UserPostReference,
   UserReference,
-} from '@/api/system/models/grant-table';
-import type { UserDeptPageRow } from '@/api/system/user/user-dept';
-import type { UserPostPageRow } from '@/api/system/user/user-post';
+} from '@/features/system/api/models/grant-table';
+import type { UserDeptPageRow } from '@/features/system/api/user/user-dept';
+import type { UserPostPageRow } from '@/features/system/api/user/user-post';
 import UserAvatar from '@/components/domain/user/UserAvatar';
 import useUserProfileDisplay from './useUserProfileDisplay';
-import { renderBooleanStatusTag } from '@/shared/composables/layout/renderBooleanStatusTag';
+import { renderBooleanStatusTag } from '@/components/table/BooleanStatusTag';
 import { ElCheckTag } from 'element-plus';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';

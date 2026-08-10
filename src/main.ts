@@ -33,7 +33,7 @@ import * as directives from '@/app/directives';
 // 全局注册@iconify/vue图标库
 import { FontIcon, IconifyIconOffline, IconifyIconOnline } from './components/ui/Icon';
 // 全局注册按钮级别权限组件
-import { Perms } from '@/auth/permission';
+import { Auth, AuthDropdown } from '@/auth/permission';
 // 全局注册vue-tippy
 import 'tippy.js/dist/tippy.css';
 import 'tippy.js/themes/light.css';
@@ -49,7 +49,8 @@ app.component('IconifyIconOffline', IconifyIconOffline);
 app.component('IconifyIconOnline', IconifyIconOnline);
 app.component('FontIcon', FontIcon);
 
-app.component('Perms', Perms);
+app.component('Auth', Auth);
+app.component('AuthDropdown', AuthDropdown);
 
 app.use(VueTippy);
 

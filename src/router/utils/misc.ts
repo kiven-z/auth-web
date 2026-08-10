@@ -13,7 +13,7 @@ function addPathMatch() {
     router.addRoute({
       path: '/:pathMatch(.*)*',
       name: 'PageNotFound',
-      component: () => import('@/views/home/error/404.vue'),
+      component: () => import('@/features/home/error/404.vue'),
       meta: {
         title: 'menus.pageNotFound',
         showLink: false,

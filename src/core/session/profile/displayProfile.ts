@@ -1,4 +1,4 @@
-import { getMyProfile, type MeProfileResponse } from '@/api/system/user/user-me';
+import { getMyProfile, type MeProfileResponse } from '@/features/system/api/user/user-me';
 import { readStoredUserProfileEntry, writeUserProfileToStorage } from './userProfileStorage';
 import { syncUserProfileToStore } from './userProfileSync';
 import type { UserProfileSnapshot } from '../types';

@@ -5,7 +5,7 @@ export default [
   {
     path: '/personal',
     name: 'Personal',
-    component: () => import('@/views/home/personal/index.vue'),
+    component: () => import('@/features/home/personal/index.vue'),
     redirect: '/personal/profile',
     meta: {
       showLink: false,
@@ -16,73 +16,81 @@ export default [
       {
         path: 'profile',
         name: 'PersonalProfile',
-        component: () => import('@/views/home/account/profile/index.vue'),
+        component: () => import('@/features/home/personal/panels/profile/ProfilePanel.vue'),
         meta: {
           title: $t('personal.nav.profile'),
           showLink: false,
+          section: 'profile',
         },
       },
       {
         path: 'security',
         name: 'PersonalSecurity',
-        component: () => import('@/views/home/account/security/index.vue'),
+        component: () => import('@/features/home/personal/panels/security/SecurityPanel.vue'),
         meta: {
           title: $t('personal.nav.security'),
           showLink: false,
+          section: 'security',
         },
       },
       {
         path: 'login-log',
         name: 'PersonalLoginLog',
-        component: () => import('@/views/home/account/login-log/index.vue'),
+        component: () => import('@/features/home/personal/panels/login-log/LoginLogPanel.vue'),
         meta: {
           title: $t('personal.nav.loginLog'),
           showLink: false,
+          section: 'login-log',
         },
       },
       {
         path: 'inbox',
         name: 'PersonalInbox',
-        component: () => import('@/views/home/inbox/index.vue'),
+        component: () => import('@/features/home/personal/panels/inbox/InboxPanel.vue'),
         meta: {
           title: $t('personal.nav.inbox'),
           showLink: false,
+          section: 'inbox',
         },
       },
       {
         path: 'inbox/detail/:id',
         name: 'PersonalInboxDetail',
-        component: () => import('@/views/home/inbox/components/InboxMessageDetailView.vue'),
+        component: () => import('@/features/home/personal/panels/inbox/InboxMessageDetailView.vue'),
         meta: {
           title: $t('inAppInbox.detail.title'),
           showLink: false,
+          section: 'inbox',
         },
       },
       {
         path: 'files',
         name: 'PersonalFiles',
-        component: () => import('@/views/home/file/record/index.vue'),
+        component: () => import('@/features/home/personal/panels/files/FilesPanel.vue'),
         meta: {
           title: $t('personal.nav.files'),
           showLink: false,
+          section: 'files',
         },
       },
       {
         path: 'export-task',
         name: 'PersonalFileExportTask',
-        component: () => import('@/views/home/file/export-task/index.vue'),
+        component: () => import('@/features/home/personal/panels/export-task/ExportTaskPanel.vue'),
         meta: {
           title: $t('personal.nav.exportTask'),
           showLink: false,
+          section: 'export-task',
         },
       },
       {
         path: 'recycle',
         name: 'PersonalFileRecycle',
-        component: () => import('@/views/home/file/recycle/index.vue'),
+        component: () => import('@/features/home/personal/panels/recycle/RecyclePanel.vue'),
         meta: {
           title: $t('personal.nav.recycle'),
           showLink: false,
+          section: 'recycle',
         },
       },
     ],

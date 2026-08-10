@@ -3,7 +3,7 @@ import 'cropperjs/dist/cropper.css';
 import { computed, unref } from 'vue';
 import { useCropper } from 'vue-picture-cropper';
 import 'vue-picture-cropper/style.css';
-import type { ImageCropperPanelExpose, ImageCropperPanelProps } from '../types';
+import type { ImageCropperPanelExpose, ImageCropperPanelProps } from './types';
 
 defineOptions({
   name: 'ImageCropperPanel',

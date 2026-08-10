@@ -1,0 +1,4 @@
+fileExport:
+  confirmTitle: 确认导出
+  confirmMessage: 将按当前筛选导出约 {count} 条，提交后请到「我的导出」查看
+  submitted: 任务已提交

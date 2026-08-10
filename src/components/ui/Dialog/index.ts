@@ -1,9 +1,9 @@
 import { ref } from 'vue';
-import reDialog from './index.vue';
+import reDialog from './src/Dialog.vue';
 import { useTimeoutFn } from '@vueuse/core';
 import { withInstall } from '@/shared/vue/withInstall';
 import isFunction from 'lodash/isFunction';
-import type { ArgsType, ButtonProps, DialogOptions, DialogProps, EventType } from './type';
+import type { ArgsType, ButtonProps, DialogOptions, DialogProps, EventType } from './src/type';
 
 const dialogStore = ref<Array<DialogOptions>>([]);
 

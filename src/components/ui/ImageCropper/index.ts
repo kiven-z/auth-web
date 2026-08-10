@@ -7,4 +7,4 @@ export type {
   ImageCropperPanelProps,
   OpenImageCropDialogLabels,
   OpenImageCropDialogOptions,
-} from './types';
+} from './src/types';

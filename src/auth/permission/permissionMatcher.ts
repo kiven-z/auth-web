@@ -89,4 +89,24 @@ function satisfiesAllRequired(required: string[], granted: string[]): boolean {
   );
 }
 
-export { isAdminPermission, matchPermission, satisfiesAllRequired };
+/**
+ * 所需权限是否任一被授予列表覆盖（数组表示 OR）
+ * @param required 所需权限列表
+ * @param granted 授予权限列表
+ * @returns 是否至少满足一条
+ */
+function satisfiesAnyRequired(required: string[], granted: string[]): boolean {
+  if (required.length === 0 || granted.length === 0) {
+    return false;
+  }
+
+  if (isAdminPermission(granted)) {
+    return true;
+  }
+
+  return required.some((requiredPermission) =>
+    granted.some((grantedPermission) => matchPermission(grantedPermission, requiredPermission))
+  );
+}
+
+export { isAdminPermission, matchPermission, satisfiesAllRequired, satisfiesAnyRequired };

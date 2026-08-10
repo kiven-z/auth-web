@@ -1,0 +1,4 @@
+fileExport:
+  confirmTitle: Confirm export
+  confirmMessage: Export about {count} rows with the current filters. Check My Exports after submission.
+  submitted: Task submitted

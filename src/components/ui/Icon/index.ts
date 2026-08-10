@@ -7,7 +7,7 @@ import './src/offline/shell';
 
 export { useRenderIcon } from './src/hooks';
 export type { iconType } from './src/types';
-export { IconJson } from './data';
+export { IconJson } from './src/data';
 
 /** 本地图标组件 */
 const IconifyIconOffline = iconifyIconOffline;

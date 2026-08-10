@@ -23,9 +23,5 @@ inAppTemplate:
     description: Enter description
     priority: Select priority
     content: Enter template body
-    contentMd: Enter Markdown body
-  image:
-    fileTypeInvalid: Only JPG/PNG/GIF/WEBP images are supported
-    fileSizeExceeded: Image size must not exceed 5MB
   rules:
     templateCodeReg: Letters, underscores and hyphens only; at least one letter required

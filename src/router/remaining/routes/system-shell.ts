@@ -7,7 +7,7 @@ export default [
   {
     path: '/access-denied',
     name: 'AccessDenied',
-    component: () => import('@/views/home/error/403.vue'),
+    component: () => import('@/features/home/error/403.vue'),
     meta: {
       title: $t('menus.accessDenied'),
       showLink: false,
@@ -16,7 +16,7 @@ export default [
   {
     path: '/server-error',
     name: 'ServerError',
-    component: () => import('@/views/home/error/500.vue'),
+    component: () => import('@/features/home/error/500.vue'),
     meta: {
       title: $t('menus.serverError'),
       showLink: false,

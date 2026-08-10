@@ -7,7 +7,7 @@ type AuthDirective = Directive<HTMLElement, string | Array<string>>;
 declare module 'vue' {
   interface GlobalDirectives {
     /** 按钮权限指令（根据登录接口返回的 `permissions` 字段进行判断） */
-    vPerms: AuthDirective;
+    vAuth: AuthDirective;
     /** 文本复制指令（默认双击复制） */
     vCopy: Directive<CopyEl, string>;
     /** 长按指令 */

@@ -3,7 +3,7 @@ import cloneDeep from 'lodash/cloneDeep';
 import isEmpty from 'lodash/isEmpty';
 import Search from '~icons/ri/search-eye-line';
 import { computed, CSSProperties, ref, watch } from 'vue';
-import { IconJson } from '../data';
+import { IconJson } from './data';
 
 type ParameterCSSProperties = (item?: string) => CSSProperties | undefined;
 

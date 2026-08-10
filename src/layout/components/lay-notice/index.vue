@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { useInAppInboxStore } from '@/store/modules/message/inAppInbox';
-import { useOpenPersonalWorkspace } from '@/views/home/personal/hooks/useOpenPersonalWorkspace';
+import { useOpenPersonalWorkspace } from '@/features/home/personal/hooks/useOpenPersonalWorkspace';
 import { storeToRefs } from 'pinia';
 import { onMounted } from 'vue';
 import { useI18n } from 'vue-i18n';

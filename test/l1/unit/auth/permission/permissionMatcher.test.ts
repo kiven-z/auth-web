@@ -1,5 +1,10 @@
 import { describe, expect, it } from 'vitest';
-import { isAdminPermission, matchPermission, satisfiesAllRequired } from '@/auth/permission/permissionMatcher';
+import {
+  isAdminPermission,
+  matchPermission,
+  satisfiesAllRequired,
+  satisfiesAnyRequired,
+} from '@/auth/permission/permissionMatcher';
 
 describe('permissionMatcher', () => {
   it('admin wildcards grant any required permission', () => {
@@ -27,5 +32,12 @@ describe('permissionMatcher', () => {
   it('requires every permission when required is an array', () => {
     expect(satisfiesAllRequired(['sys:user:add', 'sys:user:del'], ['sys:user:*'])).toBe(true);
     expect(satisfiesAllRequired(['sys:user:add', 'sys:role:add'], ['sys:user:*'])).toBe(false);
+  });
+
+  it('accepts any permission when mode is OR', () => {
+    expect(satisfiesAnyRequired(['sys:user:add', 'sys:role:add'], ['sys:user:*'])).toBe(true);
+    expect(satisfiesAnyRequired(['sys:dept:add', 'sys:role:add'], ['sys:user:*'])).toBe(false);
+    expect(satisfiesAnyRequired(['sys:role:add'], ['*'])).toBe(true);
+    expect(satisfiesAnyRequired([], ['sys:user:add'])).toBe(false);
   });
 });

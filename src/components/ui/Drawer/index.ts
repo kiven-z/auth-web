@@ -1,5 +1,5 @@
-import reDrawer from './index.vue';
-import type { ArgsType, ButtonProps, DrawerOptions, DrawerProps, EventType } from './type';
+import reDrawer from './src/Drawer.vue';
+import type { ArgsType, ButtonProps, DrawerOptions, DrawerProps, EventType } from './src/type';
 import { withInstall } from '@/shared/vue/withInstall';
 import { useTimeoutFn } from '@vueuse/core';
 import isFunction from 'lodash/isFunction';

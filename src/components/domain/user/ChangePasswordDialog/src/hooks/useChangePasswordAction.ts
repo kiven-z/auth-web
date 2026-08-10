@@ -1,10 +1,10 @@
-import { changeOwnPassword } from '@/api/system/user/user-me';
-import { resetUserPassword } from '@/api/system/user/user';
+import { changeOwnPassword } from '@/features/system/api/user/user-me';
+import { resetUserPassword } from '@/features/system/api/user/user';
 import AdminResetPasswordPanel from '../AdminResetPasswordPanel.vue';
 import SelfChangePasswordPanel from '../SelfChangePasswordPanel.vue';
 import type { AdminResetPasswordForm, SelfChangePasswordForm } from '../types';
 import { addDialog } from '@/components/ui/Dialog';
-import { type FormOverlayExpose, useFormOverlaySubmit } from '@/shared/composables/dialog/useFormOverlaySubmit';
+import { type FormOverlayExpose, useFormOverlaySubmit } from '@/components/ui/Overlay';
 import { h, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 

@@ -10,4 +10,6 @@ function isOneOfArray(first: Array<string>, second: Array<string>): boolean {
 
 export { hasAuth } from './hasAuth';
 export { isOneOfArray };
-export { default as Perms } from './PermsGuard';
+export { default as Auth } from './Auth';
+export { default as AuthDropdown } from './AuthDropdown.vue';
+export type { AuthCode, AuthDropdownItem, AuthMode } from './types';

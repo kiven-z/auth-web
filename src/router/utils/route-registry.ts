@@ -11,7 +11,7 @@ import { ascending } from './menu-sort';
 import { addPathMatch } from './misc';
 import { formatFlatteningRoutes } from './route-tree';
 import { ASYNC_ROUTES_STORAGE_KEY } from '@/auth/config/http-config';
-import { getAsyncRoutes } from '@/api/system/routes';
+import { getAsyncRoutes } from '@/features/system/api/routes';
 import { message } from '@/services/feedback/message';
 import { transformI18n } from '@/app/plugins/i18n';
 

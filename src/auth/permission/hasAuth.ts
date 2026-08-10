@@ -1,4 +1,5 @@
-import { satisfiesAllRequired } from '@/auth/permission/permissionMatcher';
+import { satisfiesAllRequired, satisfiesAnyRequired } from '@/auth/permission/permissionMatcher';
+import type { AuthCode, AuthMode } from '@/auth/permission/types';
 import { useUserStore } from '@/store/modules/auth/user';
 import isString from 'lodash/isString';
 
@@ -7,7 +8,7 @@ import isString from 'lodash/isString';
  * @param value 权限入参
  * @returns 所需权限列表
  */
-function normalizeRequiredPermissions(value: string | Array<string>): string[] {
+function normalizeRequiredPermissions(value: AuthCode): string[] {
   if (!value) {
     return [];
   }
@@ -18,20 +19,25 @@ function normalizeRequiredPermissions(value: string | Array<string>): string[] {
  * 是否有按钮级别的权限。
  *
  * 仅依据当前用户 `permissions` 判断。
- * 数组入参表示 AND（需同时满足）；用户无权限或未登录时全部按钮隐藏。
+ * 默认数组入参表示 AND（需同时满足）；`mode: 'any'` 表示 OR。
+ * 用户无权限或未登录时返回 false。
  *
- * @param value 单个权限标识或数组（数组表示 AND）
+ * @param value 单个权限标识或数组
+ * @param mode 多权限匹配模式，默认 `all`
  * @returns 是否拥有权限
  */
-function hasAuth(value: string | Array<string>): boolean {
+function hasAuth(value: AuthCode, mode: AuthMode = 'all'): boolean {
   const required = normalizeRequiredPermissions(value);
   if (required.length === 0) {
     return false;
   }
 
   const { permissions } = useUserStore();
+  if (!permissions?.length) {
+    return false;
+  }
 
-  return Boolean(permissions?.length) && satisfiesAllRequired(required, permissions);
+  return mode === 'any' ? satisfiesAnyRequired(required, permissions) : satisfiesAllRequired(required, permissions);
 }
 
 export { hasAuth };
