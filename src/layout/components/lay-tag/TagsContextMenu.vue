@@ -1,26 +1,24 @@
 <script lang="ts" setup>
-import type { tagsViewsType } from '../../types';
+import type { TagContextMenuItem } from '../../types';
 import type { CSSProperties } from 'vue';
 
 interface Props {
   visible: boolean;
   menuStyle: CSSProperties;
-  tagsViews: Array<tagsViewsType>;
-}
-
-interface Emits {
-  (event: 'select', key: number, item: tagsViewsType): void;
+  tagsViews: Array<TagContextMenuItem>;
 }
 
 defineProps<Props>();
-const emit = defineEmits<Emits>();
+const emit = defineEmits<{
+  select: [key: number, item: TagContextMenuItem];
+}>();
 
 /**
  * 右键菜单项点击
  * @param key 索引
  * @param item 菜单项
  */
-function handleSelect(key: number, item: tagsViewsType): void {
+function handleSelect(key: number, item: TagContextMenuItem): void {
   emit('select', key, item);
 }
 </script>

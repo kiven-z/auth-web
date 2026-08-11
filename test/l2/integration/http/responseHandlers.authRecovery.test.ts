@@ -21,6 +21,10 @@ vi.mock('@/core/http/errorAdapter', () => ({
   rejectWithApiEnvelopeError: rejectWithApiEnvelopeErrorMock,
 }));
 
+vi.mock('@/app/plugins/i18n', () => ({
+  transformI18n: (key: string) => key,
+}));
+
 function rejectedAdapter(status: number, data: unknown): AxiosAdapter {
   return async (config: AxiosRequestConfig) => {
     throw {

@@ -11,7 +11,7 @@ const ASTERISK = '*';
 function isAdminPermission(userPermissions: string[]): boolean {
   const permissions = userPermissions.filter((permission) => permission?.trim()).map((permission) => permission.trim());
 
-  return ADMIN_WILDCARD_PERMISSIONS.some((wildcard) => permissions.some((permission) => permission === wildcard));
+  return ADMIN_WILDCARD_PERMISSIONS.some((wildcard) => permissions.includes(wildcard));
 }
 
 /**

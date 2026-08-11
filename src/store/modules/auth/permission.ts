@@ -3,7 +3,7 @@ import { ascending, filterNoPermissionTree, filterTree } from '@/router/utils/me
 import { formatFlatteningRoutes } from '@/router/utils/route-tree';
 import { getKeyList } from '@/shared/utils/array/getKeyList';
 import { defineStore } from 'pinia';
-import type { cacheType } from '../../types';
+import type { KeepAliveCacheOp } from '../../types';
 import { useMultiTagsStore } from '../app/multiTags';
 
 export const usePermissionStore = defineStore('auth-permission', {
@@ -30,16 +30,11 @@ export const usePermissionStore = defineStore('auth-permission', {
      * 监听缓存页面是否存在于标签页，不存在则删除
      */
     clearCache() {
-      let cacheLength = this.cachePageList.length;
-      const nameList = getKeyList(useMultiTagsStore().multiTags, 'name');
-      while (cacheLength > 0) {
-        nameList.findIndex((v) => v === this.cachePageList[cacheLength - 1]) === -1 &&
-          this.cachePageList.splice(this.cachePageList.indexOf(this.cachePageList[cacheLength - 1]), 1);
-        cacheLength--;
-      }
+      const nameSet = new Set(getKeyList(useMultiTagsStore().multiTags, 'name'));
+      this.cachePageList = this.cachePageList.filter((name) => nameSet.has(name));
     },
-    cacheOperate({ mode, name }: cacheType) {
-      const delIndex = this.cachePageList.findIndex((v) => v === name);
+    cacheOperate({ mode, name }: KeepAliveCacheOp) {
+      const delIndex = this.cachePageList.indexOf(name);
       switch (mode) {
         case 'refresh':
           this.cachePageList = this.cachePageList.filter((v) => v !== name);

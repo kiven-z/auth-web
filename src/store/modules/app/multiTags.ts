@@ -6,7 +6,7 @@ import isBoolean from 'lodash/isBoolean';
 import isEqual from 'lodash/isEqual';
 import isNumber from 'lodash/isNumber';
 import { defineStore } from 'pinia';
-import type { multiType, positionType } from '../../types';
+import type { TagRouteItem, TagSplicePosition } from '../../types';
 import { usePermissionStore } from '../auth/permission';
 
 export const useMultiTagsStore = defineStore('multi-tags', {
@@ -37,7 +37,7 @@ export const useMultiTagsStore = defineStore('multi-tags', {
     tagsCache(multiTags) {
       this.getMultiTagsCache && storageLocal().setItem(`${responsiveStorageNameSpace()}tags`, multiTags);
     },
-    handleTags<T = Array<RouteConfigs>>(mode: string, value?: T | multiType, position?: positionType): T {
+    handleTags<T = Array<RouteConfigs>>(mode: string, value?: T | TagRouteItem, position?: TagSplicePosition): T {
       switch (mode) {
         case 'equal':
           this.multiTags = value as unknown as Array<RouteConfigs>;
@@ -45,7 +45,7 @@ export const useMultiTagsStore = defineStore('multi-tags', {
           break;
         case 'push':
           {
-            const tagVal = value as multiType;
+            const tagVal = value as TagRouteItem;
             // 不添加到标签页
             if (tagVal?.meta?.hiddenTag) return;
             // 如果是外链无需添加信息到标签页
@@ -80,12 +80,12 @@ export const useMultiTagsStore = defineStore('multi-tags', {
           }
           break;
         case 'splice':
-          if (!position) {
+          if (position) {
+            this.multiTags.splice(position?.startIndex, position?.length);
+          } else {
             const index = this.multiTags.findIndex((v) => v.path === value);
             if (index === -1) return;
             this.multiTags.splice(index, 1);
-          } else {
-            this.multiTags.splice(position?.startIndex, position?.length);
           }
           this.tagsCache(this.multiTags);
           return this.multiTags as unknown as T;

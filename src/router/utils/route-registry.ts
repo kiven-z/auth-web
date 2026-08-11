@@ -27,7 +27,7 @@ function handleAsyncRoutes(routeList) {
     // 将所有动态路由逐个注册到根路由中
     formattedRoutes.forEach((v: RouteRecordRaw) => {
       // 防止重复添加路由
-      if (router.options.routes[0].children.findIndex((value) => value.path === v.path) !== -1) {
+      if (router.options.routes[0].children.some((value) => value.path === v.path)) {
         return;
       }
       // 切记将路由push到routes后还需要使用addRoute，这样路由才能正常跳转
@@ -59,7 +59,7 @@ function handleAsyncRoutes(routeList) {
  */
 async function initRouter() {
   if (getConfig()?.CachingAsyncRoutes) {
-    const asyncRouteList = storageLocal().getItem(ASYNC_ROUTES_STORAGE_KEY) as Array<unknown> | null;
+    const asyncRouteList = storageLocal().getItem<Array<unknown>>(ASYNC_ROUTES_STORAGE_KEY);
     if (asyncRouteList && asyncRouteList.length > 0) {
       handleAsyncRoutes(asyncRouteList);
       return router;

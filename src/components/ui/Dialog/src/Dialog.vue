@@ -15,6 +15,7 @@ import {
   confirmDialog,
   type DialogOptions,
   dialogStore,
+  type ArgsType,
   type EventType,
 } from '@/components/ui/Dialog';
 import { useI18n } from 'vue-i18n';
@@ -73,8 +74,8 @@ function eventsCallBack(event: EventType, options: DialogOptions, index: number,
   }
 }
 
-function handleClose(options: DialogOptions, index: number, args = { command: 'close' }) {
-  closeDialog(options, index, args);
+function handleClose(options: DialogOptions, index: number, args?: ArgsType) {
+  closeDialog(options, index, args ?? { command: 'close' });
   eventsCallBack('close', options, index);
 }
 

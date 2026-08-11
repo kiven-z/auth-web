@@ -1,11 +1,11 @@
 <script lang="ts" setup>
-import { useResizeObserver, onClickOutside } from '@vueuse/core';
+import { onClickOutside, useResizeObserver } from '@vueuse/core';
 import { useTags } from '@/layout/hooks/navigation/useTag';
 import { delay } from '@/shared/utils/async/delay';
 import isEqual from 'lodash/isEqual';
 import isEmpty from 'lodash/isEmpty';
 import { computed, nextTick, onMounted as vueOnMounted, ref, watch } from 'vue';
-import type { tagsViewsType } from '../../types';
+import type { TagContextMenuItem } from '../../types';
 import TagChrome from './components/TagChrome.vue';
 import TagsContextMenu from './TagsContextMenu.vue';
 import { useTagsActions } from './useTagsActions';
@@ -13,12 +13,12 @@ import { useTagsScroll } from './useTagsScroll';
 import { getTagItemKey, useTagsSortable } from './useTagsSortable';
 
 import ArrowDown from '~icons/ri/arrow-down-s-line';
+import ArrowLeftSLine from '~icons/ri/arrow-left-s-line';
+import ArrowRightSLine from '~icons/ri/arrow-right-s-line';
 
 defineOptions({
   name: 'LayTag',
 });
-import ArrowLeftSLine from '~icons/ri/arrow-left-s-line';
-import ArrowRightSLine from '~icons/ri/arrow-right-s-line';
 
 const {
   Close,
@@ -128,7 +128,7 @@ vueOnMounted(() => {
  * @param key 索引
  * @param item 菜单项
  */
-function onContextSelect(key: number, item: tagsViewsType): void {
+function onContextSelect(key: number, item: TagContextMenuItem): void {
   selectTag(key, item);
 }
 
@@ -136,7 +136,7 @@ function onContextSelect(key: number, item: tagsViewsType): void {
  * 下拉命令
  * @param command 命令
  */
-function onDropdownCommand(command: { key: number; item: tagsViewsType }): void {
+function onDropdownCommand(command: { key: number; item: TagContextMenuItem }): void {
   handleCommand(command);
 }
 </script>

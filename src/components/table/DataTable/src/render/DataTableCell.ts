@@ -9,6 +9,6 @@ export default defineComponent({
     content: { type: null, required: true },
   },
   setup(props) {
-    return () => props.content as any;
+    return () => props.content;
   },
 });

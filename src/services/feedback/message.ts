@@ -77,12 +77,7 @@ export function resolveCaughtErrorText(
  * @returns 消息提示函数
  */
 const message = (message: string | VNode | (() => VNode), params?: MessageParams): MessageHandler => {
-  if (!params) {
-    return ElMessage({
-      message,
-      customClass: 'auth-message',
-    });
-  } else {
+  if (params) {
     const {
       icon,
       type = 'info',
@@ -115,6 +110,11 @@ const message = (message: string | VNode | (() => VNode), params?: MessageParams
       onClose: () => (isFunction(onClose) ? onClose() : null),
     });
   }
+
+  return ElMessage({
+    message,
+    customClass: 'auth-message',
+  });
 };
 
 /**

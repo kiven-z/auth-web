@@ -14,4 +14,4 @@ NProgress.configure({
   minimum: 0.1,
 });
 
-export default NProgress;
+export { default } from 'nprogress';

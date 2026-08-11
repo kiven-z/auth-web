@@ -80,7 +80,7 @@ const themeOptions = computed<Array<OptionsType>>(() => {
  */
 function handleColorSchemeChange(theme: { index: number; option: { theme: string } }): void {
   if (theme.index === 2) {
-    dataTheme.value = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    dataTheme.value = globalThis.matchMedia('(prefers-color-scheme: dark)').matches;
     setColorScheme(theme.option.theme);
     syncSystemThemeFromOs();
     return;

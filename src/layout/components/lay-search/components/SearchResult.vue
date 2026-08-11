@@ -7,8 +7,8 @@ import { computed, getCurrentInstance, onMounted, ref } from 'vue';
 import EnterOutlined from '~icons/ri/corner-down-left-line';
 
 interface Emits {
-  (e: 'update:value', val: string): void;
-  (e: 'enter'): void;
+  'update:value': [val: string];
+  enter: [];
 }
 
 const resultRef = ref();

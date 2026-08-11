@@ -17,5 +17,5 @@ export function getKeyList<T extends object, K extends keyof T>(
       values.push(value as NonNullable<T[K]>);
     }
   }
-  return unique ? (Array.from(new Set(values)) as Array<NonNullable<T[K]>>) : values;
+  return unique ? Array.from(new Set(values)) : values;
 }

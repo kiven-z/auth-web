@@ -22,7 +22,8 @@ export const loginModeRegistry: LoginModeMeta[] = [
 ];
 
 /** 默认登录方式（注册表第一项） */
-export const defaultLoginMode = loginModeRegistry[0]!.mode;
+const [defaultLoginModeMeta] = loginModeRegistry;
+export const defaultLoginMode = defaultLoginModeMeta.mode;
 
 /** 供切换按钮顺序 / 下标查找使用（与注册表同源） */
 export const loginModes = loginModeRegistry;

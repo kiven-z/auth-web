@@ -1,4 +1,4 @@
-import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { storageLocal } from '@/core/storage/storageLocal';
 
 /**
@@ -30,10 +30,26 @@ function createMemoryStorage(): Storage {
 
 describe('storageLocal', () => {
   let memoryStorage: Storage;
+  let originalDescriptor: PropertyDescriptor | undefined;
 
   beforeEach(() => {
     memoryStorage = createMemoryStorage();
-    vi.stubGlobal('window', { localStorage: memoryStorage });
+    originalDescriptor = Object.getOwnPropertyDescriptor(globalThis, 'localStorage');
+    Object.defineProperty(globalThis, 'localStorage', {
+      configurable: true,
+      enumerable: true,
+      writable: true,
+      value: memoryStorage,
+    });
+  });
+
+  afterEach(() => {
+    if (originalDescriptor) {
+      Object.defineProperty(globalThis, 'localStorage', originalDescriptor);
+    } else {
+      Reflect.deleteProperty(globalThis, 'localStorage');
+    }
+    vi.unstubAllGlobals();
   });
 
   it('round-trips objects via JSON', () => {
@@ -76,8 +92,8 @@ describe('storageLocal', () => {
     expect(api.getItem('b')).toBeNull();
   });
 
-  it('no-ops when window is unavailable', () => {
-    vi.stubGlobal('window', undefined);
+  it('no-ops when localStorage is unavailable', () => {
+    Reflect.deleteProperty(globalThis, 'localStorage');
     const api = storageLocal();
     expect(() => api.setItem('x', 1)).not.toThrow();
     expect(api.getItem('x')).toBeNull();

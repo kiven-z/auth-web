@@ -19,7 +19,7 @@ interface VariableIssue {
  */
 export function getRootVariableName(inner: string): string | null {
   const normalized = inner.trim().replace(FREEMARKER_PREFIX_TRIM_PATTERN, '');
-  const match = normalized.match(/^([a-zA-Z_][a-zA-Z0-9_]*)/);
+  const match = /^([a-zA-Z_]\w*)/.exec(normalized);
   if (!match) {
     return null;
   }

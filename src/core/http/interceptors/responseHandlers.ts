@@ -31,7 +31,7 @@ function handleResponseSuccess(response: AxiosResponse) {
     if (raw.code !== API_SUCCESS_CODE) {
       return rejectWithApiEnvelopeError(raw, response.status);
     }
-    return raw.data as unknown;
+    return raw.data;
   }
 
   return raw;

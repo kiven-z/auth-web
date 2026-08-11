@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import Sortable from 'sortablejs';
 import { useI18n } from 'vue-i18n';
-import type { dragItem, optionsItem, Props } from '../types';
+import type { MenuSearchDrag, MenuSearchOption, Props } from '../types';
 import { transformI18n } from '@/app/plugins/i18n';
 import { useRenderIcon } from '@/components/ui/Icon';
 import { delay } from '@/shared/utils/async/delay';
@@ -12,11 +12,11 @@ import StarIcon from '~icons/ep/star';
 import CloseIcon from '~icons/ep/close';
 
 interface Emits {
-  (e: 'update:value', val: string): void;
-  (e: 'enter'): void;
-  (e: 'collect', val: optionsItem): void;
-  (e: 'delete', val: optionsItem): void;
-  (e: 'drag', val: dragItem): void;
+  'update:value': [val: string];
+  enter: [];
+  collect: [val: MenuSearchOption];
+  delete: [val: MenuSearchOption];
+  drag: [val: MenuSearchDrag];
 }
 
 const historyRef = ref();

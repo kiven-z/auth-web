@@ -54,12 +54,11 @@ function formatTwoStageRoutes(routesList: RouteRecordRaw[]) {
 function getParentPaths(value: string, routes: RouteRecordRaw[], key = 'path') {
   // 深度遍历查找
   function dfs(routes: RouteRecordRaw[], value: string, parents: string[]) {
-    for (let i = 0; i < routes.length; i++) {
-      const item = routes[i];
+    for (const item of routes) {
       // 返回父级path
       if (item[key] === value) return parents;
       // children不存在或为空则不递归
-      if (!item.children || !item.children.length) continue;
+      if (!item.children?.length) continue;
       // 往下查找时将当前path入栈
       parents.push(item.path);
 

@@ -69,6 +69,22 @@
   transition: all 0.1s cubic-bezier(0.645, 0.045, 0.355, 1);
 }
 
+.auth-segmented-item:not(.auth-segmented-item-disabled):not(.auth-segmented-item-active):hover {
+  background: rgb(0 0 0 / 6%);
+}
+
+.auth-segmented--dark .auth-segmented-item:not(.auth-segmented-item-disabled):not(.auth-segmented-item-active):hover {
+  background: #1f1f1f;
+}
+
+.auth-segmented-item-active:not(.auth-segmented-item-disabled) {
+  color: rgb(0 0 0 / 88%);
+}
+
+.auth-segmented--dark .auth-segmented-item-active:not(.auth-segmented-item-disabled) {
+  color: rgb(255 255 255 / 85%);
+}
+
 .auth-segmented .auth-segmented-item > div {
   min-height: calc(var(--el-component-size) - var(--auth-segmented-track-padding) * 2);
   line-height: calc(var(--el-component-size) - var(--auth-segmented-track-padding) * 2);

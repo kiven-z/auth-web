@@ -1,4 +1,4 @@
-import { type RouteConfigs, type routeMetaType, routerArrays, type tagsViewsType } from '@/layout/types';
+import { type RouteConfigs, type RouteMeta, routerArrays, type TagContextMenuItem } from '@/layout/types';
 import { $t } from '@/app/plugins/i18n';
 import { remainingPaths } from '@/router';
 import { getTopMenu, handleAliveRoute } from '@/router/utils/misc';
@@ -15,14 +15,14 @@ import ExitFullscreen from '~icons/ri/fullscreen-exit-fill';
 import Fullscreen from '~icons/ri/fullscreen-fill';
 
 /** 路由 meta 上的固定标签标记（类型未收口前局部读取） */
-type MetaWithFixedTag = routeMetaType & { fixedTag?: boolean };
+type MetaWithFixedTag = RouteMeta & { fixedTag?: boolean };
 
 /**
  * 是否固定标签
  * @param meta 路由 meta
  * @returns 是否固定
  */
-function isFixedTagMeta(meta?: routeMetaType): boolean {
+function isFixedTagMeta(meta?: RouteMeta): boolean {
   return Boolean((meta as MetaWithFixedTag | undefined)?.fixedTag);
 }
 
@@ -30,7 +30,7 @@ interface TagsActionsDeps {
   route: RouteLocationNormalizedLoaded;
   router: Router;
   multiTags: Ref<Array<RouteConfigs>>;
-  tagsViews: Array<tagsViewsType>;
+  tagsViews: Array<TagContextMenuItem>;
   currentSelect: Ref<RouteConfigs | Record<string, never>>;
   visible: Ref<boolean>;
   buttonTop: Ref<number>;
@@ -154,7 +154,7 @@ export function useTagsActions(deps: TagsActionsDeps) {
       spliceRoute(valueIndex, 1);
     }
 
-    const newRoute = useMultiTagsStore().handleTags('slice') as Array<RouteConfigs>;
+    const newRoute = useMultiTagsStore().handleTags('slice');
     if (current === route.path) {
       if (tag === 'left') {
         return;
@@ -204,8 +204,8 @@ export function useTagsActions(deps: TagsActionsDeps) {
    * @param item 菜单项
    * @param selectRoute 右键选中的标签
    */
-  function onClickDrop(key: number, item: tagsViewsType, selectRoute?: RouteConfigs): void {
-    if (item && item.disabled) {
+  function onClickDrop(key: number, item: TagContextMenuItem, selectRoute?: RouteConfigs): void {
+    if (item?.disabled) {
       return;
     }
 
@@ -270,7 +270,7 @@ export function useTagsActions(deps: TagsActionsDeps) {
    * 右侧下拉命令
    * @param command 命令载荷
    */
-  function handleCommand(command: { key: number; item: tagsViewsType }): void {
+  function handleCommand(command: { key: number; item: TagContextMenuItem }): void {
     const { key, item } = command;
     onClickDrop(key, item);
   }
@@ -280,7 +280,7 @@ export function useTagsActions(deps: TagsActionsDeps) {
    * @param key 菜单索引
    * @param item 菜单项
    */
-  function selectTag(key: number, item: tagsViewsType): void {
+  function selectTag(key: number, item: TagContextMenuItem): void {
     closeMenu();
     onClickDrop(key, item, currentSelect.value as RouteConfigs);
   }
@@ -323,10 +323,10 @@ export function useTagsActions(deps: TagsActionsDeps) {
     let currentIndex = -1;
     if (!isEmpty(params)) {
       currentIndex = allRoute.findIndex((item) => isEqual(item.params, params));
-    } else if (!isEmpty(query)) {
-      currentIndex = allRoute.findIndex((item) => isEqual(item.query, query));
-    } else {
+    } else if (isEmpty(query)) {
       currentIndex = allRoute.findIndex((item) => item.path === currentPath);
+    } else {
+      currentIndex = allRoute.findIndex((item) => isEqual(item.query, query));
     }
 
     function fixedTagDisabled() {
@@ -408,7 +408,7 @@ export function useTagsActions(deps: TagsActionsDeps) {
     } else {
       buttonLeft.value = left;
     }
-    useSettingStore().hiddenSideBar ? (buttonTop.value = event.clientY) : (buttonTop.value = event.clientY - 40);
+    buttonTop.value = useSettingStore().hiddenSideBar ? event.clientY : event.clientY - 40;
     nextTick(() => {
       visible.value = true;
     });

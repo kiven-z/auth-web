@@ -129,7 +129,7 @@ export async function hydrateFromServer(applySideEffects?: () => void): Promise<
     const response = await listMyPreferences();
     for (const item of response.items ?? []) {
       if (item.configValue && typeof item.configValue === 'object' && !Array.isArray(item.configValue)) {
-        applyServerPreference(item.configKey, item.configValue as Record<string, unknown>);
+        applyServerPreference(item.configKey, item.configValue);
       }
     }
     applySideEffects?.();

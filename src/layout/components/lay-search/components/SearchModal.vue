@@ -6,7 +6,7 @@ import SearchResult from './SearchResult.vue';
 import SearchFooter from './SearchFooter.vue';
 import { transformI18n } from '@/app/plugins/i18n';
 import SearchHistory from './SearchHistory.vue';
-import type { dragItem, optionsItem } from '../types';
+import type { MenuSearchDrag, MenuSearchOption } from '../types';
 import { computed, ref, shallowRef, watch } from 'vue';
 import { onKeyStroke, useDebounceFn } from '@vueuse/core';
 import { storeToRefs } from 'pinia';
@@ -21,12 +21,10 @@ interface Props {
   value: boolean;
 }
 
-interface Emits {
-  (e: 'update:value', val: boolean): void;
-}
-
 const { device } = storeToRefs(useAppStore());
-const emit = defineEmits<Emits>();
+const emit = defineEmits<{
+  'update:value': [val: boolean];
+}>();
 const props = withDefaults(defineProps<Props>(), {});
 
 const router = useRouter();
@@ -83,7 +81,7 @@ const showEmpty = computed(() => {
 });
 
 function getStorageItem(key) {
-  return storageLocal().getItem<optionsItem[]>(key) || [];
+  return storageLocal().getItem<MenuSearchOption[]>(key) || [];
 }
 
 function setStorageItem(key, value) {
@@ -238,7 +236,7 @@ function getHistory() {
 }
 
 /** 拖拽改变收藏顺序 */
-function handleDrag(item: dragItem) {
+function handleDrag(item: MenuSearchDrag) {
   const searchCollectList = getStorageItem(LOCALECOLLECTKEY);
   const [reorderedItem] = searchCollectList.splice(item.oldIndex, 1);
   searchCollectList.splice(item.newIndex, 0, reorderedItem);

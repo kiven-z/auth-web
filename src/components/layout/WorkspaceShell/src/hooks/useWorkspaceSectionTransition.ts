@@ -1,5 +1,4 @@
-import type { Ref } from 'vue';
-import { computed, type MaybeRefOrGetter, ref, toValue } from 'vue';
+import { computed, type MaybeRefOrGetter, type Ref, ref, toValue } from 'vue';
 import { onBeforeRouteUpdate, type RouteLocationNormalized } from 'vue-router';
 
 import type { WorkspaceNavGroup } from '../types';

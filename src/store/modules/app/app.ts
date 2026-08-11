@@ -4,10 +4,10 @@ import { deviceDetection } from '@/shared/utils/device/deviceDetection';
 import { type LayoutMode, toLayoutMode } from '@/shared/utils/layout/layout-mode';
 import { defineStore } from 'pinia';
 import { setSidebarOpened } from '@/core/preferences/runtime/actions';
-import type { appType } from '../../types';
+import type { AppLayoutState } from '../../types';
 
 export const useAppStore = defineStore('app', {
-  state: (): appType => ({
+  state: (): AppLayoutState => ({
     sidebar: {
       opened: getLayoutSnapshot().sidebarStatus ?? DEFAULT_SIDEBAR_OPENED,
       withoutAnimation: false,

@@ -7,11 +7,11 @@ const { mockSetToken, mockApplyRemember, mockHydrateSideEffects } = vi.hoisted((
   mockHydrateSideEffects: vi.fn().mockResolvedValue(undefined),
 }));
 
-vi.mock('@/core/session/sessionToken', () => ({
+vi.mock('@/core/session/token/sessionToken', () => ({
   setToken: mockSetToken,
 }));
 
-vi.mock('@/core/session/rememberPreferences', () => ({
+vi.mock('@/core/session/remember/rememberPreferences', () => ({
   applyRememberPreferencesFromResponse: mockApplyRemember,
 }));
 

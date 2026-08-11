@@ -16,13 +16,14 @@ const setConfig = (cfg?: unknown) => {
 const getConfig = (key?: string): PlatformConfigs => {
   if (typeof key === 'string') {
     const arr = key.split('.');
-    if (arr && arr.length) {
-      let data = config;
+    if (arr.length) {
+      let data: any = config;
       arr.forEach((v) => {
-        if (data && typeof data[v] !== 'undefined') {
-          data = data[v];
-        } else {
+        // 可选链表达式 + 直接比较 undefined，避免 typeof
+        if (data?.[v] === undefined) {
           data = null;
+        } else {
+          data = data[v];
         }
       });
       return data;

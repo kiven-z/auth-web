@@ -36,6 +36,6 @@ export function toExpiresTimestamp(expires: string | number | undefined | null):
  * @returns 毫秒时间戳
  */
 export function resolveSessionExpires(expires: string | number | undefined | null): number {
-  const source = expires !== undefined && expires !== null ? expires : Date.now() + 8 * 3600000;
+  const source = expires ?? Date.now() + 8 * 3600000;
   return toExpiresTimestamp(source);
 }

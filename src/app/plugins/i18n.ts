@@ -13,19 +13,21 @@ import { createI18n, type I18n } from 'vue-i18n';
 const siphonI18n = (function () {
   // 仅初始化一次国际化配置，递归扫描子目录（如 zh-CN/buttons.yaml, en/panel.yaml）
   const cache: Record<string, Record<string, any>> = {};
-  const modules = import.meta.glob('../../../locales/**/*.y(a)?ml', { eager: true }) as Record<string, any>;
+  const modules = import.meta.glob('../../../locales/**/*.y(a)?ml', { eager: true });
 
   for (const [filePath, module] of Object.entries(modules)) {
     // 从路径中提取 "locales/" 之后的第一个目录名作为语言标识（支持任意深度嵌套）
     // 例如: "../../../locales/zh-CN/common/buttons.yaml" → "zh-CN"
-    const lang = filePath.match(/locales\/([A-Za-z0-9_-]+)\//)?.[1];
+    const lang = /locales\/([A-Za-z0-9_-]+)\//.exec(filePath)?.[1];
     if (!lang) continue;
 
     if (!cache[lang]) {
       cache[lang] = {};
     }
     // 深合并：同名根 key（如 menus）可拆到多个文件而不互相覆盖
-    merge(cache[lang], module.default);
+    if (isObject(module) && 'default' in module) {
+      merge(cache[lang], module.default);
+    }
   }
 
   return (prefix = 'zh-CN') => {

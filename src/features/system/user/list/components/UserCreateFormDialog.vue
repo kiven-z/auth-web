@@ -67,6 +67,7 @@ defineExpose({ formRef, form });
             autocomplete="new-password"
             clearable
             show-password
+            type="password"
           />
         </el-form-item>
       </el-col>

@@ -8,7 +8,9 @@ export const auth: Directive = {
   mounted(el: HTMLElement, binding: DirectiveBinding<string | Array<string>>) {
     const { value } = binding;
     if (value) {
-      !hasAuth(value) && el.parentNode?.removeChild(el);
+      if (!hasAuth(value)) {
+        el.remove();
+      }
     } else {
       throw new Error('[Directive: auth]: need auth code! Like v-auth="sys:user:create"');
     }

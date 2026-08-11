@@ -1,6 +1,9 @@
 import type { TableActionDeps } from '@/shared/types/table-action';
-import type { EmailTemplateMonacoFormModel } from '@/features/message/api/email-template';
-import { type EmailTemplatePageRow, updateEmailTemplateContent } from '@/features/message/api/email-template';
+import {
+  type EmailTemplateMonacoFormModel,
+  type EmailTemplatePageRow,
+  updateEmailTemplateContent,
+} from '@/features/message/api/email-template';
 import { getMessageTemplateById } from '@/features/message/api/message-template';
 import { addDrawer } from '@/components/ui/Drawer';
 import { type FormOverlayExpose, useFormOverlaySubmit } from '@/components/ui/Overlay';

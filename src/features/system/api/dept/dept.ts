@@ -1,12 +1,12 @@
 import type { PageResponse, SortSpec } from '@/api/common/page';
 import type { BaseResponse, BaseResponseDetail } from '@/api/common/response';
-import type { SpreadsheetImportResult } from '@/api/common/import';
 import type { IdsEnableStatusRequest } from '@/api/common/request';
 import { http } from '@/core/http/client';
 import { TREE_ROOT_PARENT_ID } from '@/shared/utils/tree/tree';
 import type { AxiosRequestConfig } from 'axios';
+import type { SpreadsheetImportResult } from '@/api/common/import';
 
-export type { SpreadsheetImportResult };
+export type { SpreadsheetImportResult } from '@/api/common/import';
 
 /**
  * 部门扁平列表查询

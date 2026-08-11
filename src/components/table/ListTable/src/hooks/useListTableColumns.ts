@@ -73,9 +73,9 @@ export function useListTableColumns(columnsRef: Ref<TableColumnList>) {
     if (oldColumn?.fixed || newColumn?.fixed) {
       const oldThElem = wrapperElem.children[oldIndex] as HTMLElement;
       if (newIndex > oldIndex) {
-        wrapperElem.insertBefore(targetThElem, oldThElem);
+        oldThElem.before(targetThElem);
       } else {
-        wrapperElem.insertBefore(targetThElem, oldThElem ? oldThElem.nextElementSibling : oldThElem);
+        oldThElem.after(targetThElem);
       }
       return;
     }

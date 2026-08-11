@@ -1,5 +1,5 @@
 import { computed, type CSSProperties, getCurrentInstance, onMounted, reactive, ref, unref } from 'vue';
-import type { tagsViewsType } from '../../types';
+import type { TagContextMenuItem } from '../../types';
 import { useRoute, useRouter } from 'vue-router';
 import { $t, transformI18n } from '@/app/plugins/i18n';
 import { useUiConfigure } from '@/layout/hooks/configure/useUiConfigure';
@@ -40,7 +40,7 @@ export function useTags() {
     return useMultiTagsStore().multiTags;
   });
 
-  const tagsViews = reactive<Array<tagsViewsType>>([
+  const tagsViews = reactive<Array<TagContextMenuItem>>([
     {
       icon: RefreshRight,
       text: $t('buttons.reload'),

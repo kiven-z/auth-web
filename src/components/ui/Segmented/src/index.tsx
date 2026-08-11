@@ -5,7 +5,7 @@ import { useDark } from '@/shared/composables/theme/useDark';
 import isFunction from 'lodash/isFunction';
 import isNumber from 'lodash/isNumber';
 import { useResizeObserver } from '@vueuse/core';
-import { defineComponent, getCurrentInstance, h, nextTick, type PropType, ref, toRef, watch } from 'vue';
+import { defineComponent, getCurrentInstance, h, nextTick, type PropType, ref, toRef, useId, watch } from 'vue';
 
 const props = {
   options: {
@@ -39,28 +39,6 @@ const props = {
   },
 };
 
-function resolveHoverBackground(isDark: boolean, optionDisabled: boolean | undefined, isCurrent: boolean) {
-  if (optionDisabled || isCurrent) {
-    return '';
-  }
-  return isDark ? '#1f1f1f' : 'rgba(0, 0, 0, 0.06)';
-}
-
-function resolveItemColor(
-  disabled: boolean,
-  optionDisabled: boolean | undefined,
-  highlighted: boolean,
-  isDark: boolean
-) {
-  if (disabled) {
-    return null;
-  }
-  if (optionDisabled || !highlighted) {
-    return '';
-  }
-  return isDark ? 'rgba(255, 255, 255, 0.85)' : 'rgba(0,0,0,.88)';
-}
-
 function renderOptionLabel(option: OptionsType) {
   if (!option.label) {
     return null;
@@ -92,31 +70,27 @@ export default defineComponent({
     const translateX = ref(0);
     const { isDark } = useDark();
     const initStatus = ref(false);
-    const curMouseActive = ref(-1);
-    const segmentedItembg = ref('');
     const segmentedRootRef = ref<HTMLDivElement>();
-    const instance = getCurrentInstance()!;
+    const instance = getCurrentInstance();
+    if (!instance) {
+      throw new Error('Segmented must be used inside setup()');
+    }
     const curIndex = isNumber(props.modelValue) ? toRef(props, 'modelValue') : ref(0);
+    const groupName = `auth-segmented-${useId()}`;
 
-    function handleChange({ option, index }, event: Event) {
-      if (props.disabled || option.disabled) return;
-      event.preventDefault();
-      isNumber(props.modelValue) ? emit('update:modelValue', index) : (curIndex.value = index);
-      segmentedItembg.value = '';
+    function handleChange({ option, index }: { option: OptionsType; index: number }) {
+      if (props.disabled || option.disabled) {
+        return;
+      }
+      if (curIndex.value === index) {
+        return;
+      }
+      if (isNumber(props.modelValue)) {
+        emit('update:modelValue', index);
+      } else {
+        curIndex.value = index;
+      }
       emit('change', { index, option });
-    }
-
-    function handleMouseenter({ option, index }, event: Event) {
-      if (props.disabled) return;
-      event.preventDefault();
-      curMouseActive.value = index;
-      segmentedItembg.value = resolveHoverBackground(isDark.value, option.disabled, curIndex.value === index);
-    }
-
-    function handleMouseleave(_, event: Event) {
-      if (props.disabled) return;
-      event.preventDefault();
-      curMouseActive.value = -1;
     }
 
     function handleInit(index = curIndex.value) {
@@ -158,20 +132,24 @@ export default defineComponent({
 
     const rendLabel = () => {
       return props.options.map((option, index) => {
-        const highlighted = curIndex.value === index || curMouseActive.value === index;
+        const itemDisabled = props.disabled || option?.disabled;
+        const selected = curIndex.value === index;
         return (
           <label
             ref={`labelRef${index}`}
-            class={['auth-segmented-item', (props.disabled || option?.disabled) && 'auth-segmented-item-disabled']}
-            style={{
-              background: curMouseActive.value === index ? segmentedItembg.value : '',
-              color: resolveItemColor(props.disabled, option.disabled, highlighted, isDark.value),
-            }}
-            onMouseenter={(event) => handleMouseenter({ option, index }, event)}
-            onMouseleave={(event) => handleMouseleave({ option, index }, event)}
-            onClick={(event) => handleChange({ option, index }, event)}
+            class={[
+              'auth-segmented-item',
+              itemDisabled && 'auth-segmented-item-disabled',
+              selected && 'auth-segmented-item-active',
+            ]}
           >
-            <input type="radio" name="segmented" />
+            <input
+              type="radio"
+              name={groupName}
+              checked={selected}
+              disabled={itemDisabled}
+              onChange={() => handleChange({ option, index })}
+            />
             <div
               class="auth-segmented-item-label"
               v-tippy={{
@@ -195,6 +173,8 @@ export default defineComponent({
           'auth-segmented-block': props.block,
           'auth-segmented--large': props.size === 'large',
           'auth-segmented--small': props.size === 'small',
+          'auth-segmented--dark': isDark.value,
+          'auth-segmented--disabled': props.disabled,
         }}
       >
         <div class="auth-segmented-group">

@@ -132,16 +132,16 @@ watch(
 /**
  * 工具栏刷新：委托给列表状态重新拉取。
  */
-function handleRefresh() {
-  void props.state.fetchTableData();
+async function handleRefresh() {
+  await props.state.fetchTableData();
 }
 
 /**
  * 全屏切换后重算表格高度。
  */
-function handleFullscreen() {
+async function handleFullscreen() {
   isFullscreen.value = !isFullscreen.value;
-  void tableRef.value?.setAdaptive();
+  await tableRef.value?.setAdaptive();
 }
 
 /**
@@ -156,15 +156,15 @@ function handleSelectionChange(rows: unknown[]) {
 /**
  * 分页大小变化（无分页 state 时不绑定）。
  */
-function handlePageSizeChange(pageSize: number) {
-  void props.state.handlePageSizeChange?.(pageSize);
+async function handlePageSizeChange(pageSize: number) {
+  await props.state.handlePageSizeChange?.(pageSize);
 }
 
 /**
  * 当前页变化（无分页 state 时不绑定）。
  */
-function handlePageCurrentChange(page: number) {
-  void props.state.handlePageCurrentChange?.(page);
+async function handlePageCurrentChange(page: number) {
+  await props.state.handlePageCurrentChange?.(page);
 }
 
 defineExpose<ListTableExpose>({

@@ -27,15 +27,12 @@ export interface StorageLocalApi {
 }
 
 /**
- * 获取浏览器 localStorage；非浏览器环境返回 null
+ * 获取浏览器 localStorage；不可用时返回 null
  * @returns 原生 Storage，或不可用时为 null
  */
 function resolveNativeLocalStorage(): Storage | null {
-  if (typeof window === 'undefined') {
-    return null;
-  }
   try {
-    return window.localStorage;
+    return globalThis.localStorage ?? null;
   } catch {
     // 隐私模式等可能抛 SecurityError
     return null;

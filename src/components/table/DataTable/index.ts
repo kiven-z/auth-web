@@ -27,4 +27,4 @@ export function installDataTable(app: App) {
   app.component('data-table', DataTable);
 }
 
-export default DataTable;
+export { default } from './src/DataTable.vue';

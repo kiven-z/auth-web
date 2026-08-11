@@ -1,8 +1,8 @@
 import { http } from '@/core/http/client';
-import type { DataScopeType, SysDataScopeForm } from '@/features/system/api/models/data-scope';
 import type { AxiosRequestConfig } from 'axios';
+import type { DataScopeType, SysDataScopeForm } from '@/features/system/api/models/data-scope';
 
-export type { DataScopeType, SysDataScopeForm };
+export type { DataScopeType, SysDataScopeForm } from '@/features/system/api/models/data-scope';
 
 /**
  * 用户数据范围回显；无覆盖时接口返回 null

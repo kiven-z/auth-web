@@ -5,7 +5,7 @@ import { attachResponseInterceptors } from './interceptors/responseHandlers';
 import type { AuthHttpRequestConfig, RequestMethods } from './types';
 
 class AuthHttp {
-  private static axiosInstance: AxiosInstance = createHttpAxiosInstance();
+  private static readonly axiosInstance: AxiosInstance = createHttpAxiosInstance();
 
   constructor() {
     attachRequestAuthInterceptor(AuthHttp.axiosInstance);

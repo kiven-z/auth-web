@@ -1,14 +1,14 @@
 <script lang="ts" setup>
 import { computed } from 'vue';
 import { isUrl } from '@/shared/utils/url/url';
-import { menuType } from '@/layout/types';
+import type { SidebarMenuNode } from '@/layout/types';
 
 const props = defineProps<{
-  to: menuType;
+  to: SidebarMenuNode;
 }>();
 
 const isExternalLink = computed(() => isUrl(props.to.name));
-const getLinkProps = (item: menuType) => {
+const getLinkProps = (item: SidebarMenuNode) => {
   if (isExternalLink.value) {
     return {
       href: item.name,

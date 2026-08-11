@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { getConfig } from '@/auth/config';
-import { menuType } from '@/layout/types';
+import type { SidebarMenuNode } from '@/layout/types';
 import { useLayoutCapabilities } from '@/layout/hooks/layout/useLayoutCapabilities';
 import { MENU_TITLE_ROW_STYLE } from '@/layout/utils/menu-path';
 import { transformI18n } from '@/app/plugins/i18n';
@@ -22,7 +22,7 @@ const getDivStyle = MENU_TITLE_ROW_STYLE;
 
 const props = defineProps({
   item: {
-    type: Object as PropType<menuType>,
+    type: Object as PropType<SidebarMenuNode>,
   },
   isNest: {
     type: Boolean,
@@ -75,9 +75,9 @@ const expandCloseIcon = computed(() => {
   };
 });
 
-const onlyOneChild: menuType = ref(null);
+const onlyOneChild: SidebarMenuNode = ref(null);
 
-function hasOneShowingChild(children: menuType[] = [], parent: menuType) {
+function hasOneShowingChild(children: SidebarMenuNode[] = [], parent: SidebarMenuNode) {
   const showingChildren = children.filter((item: any) => {
     onlyOneChild.value = item;
     return true;

@@ -1,5 +1,5 @@
 import type { Component, VNode } from 'vue';
-import type { iconType } from '@/components/ui/Icon';
+import type { IconProps } from '@/components/ui/Icon';
 
 /** 分段控制器选项 */
 export interface OptionsType {
@@ -11,7 +11,7 @@ export interface OptionsType {
    */
   icon?: string | Component;
   /** 图标属性、样式配置 */
-  iconAttrs?: iconType;
+  iconAttrs?: IconProps;
   /** 值 */
   value?: any;
   /** 是否禁用 */

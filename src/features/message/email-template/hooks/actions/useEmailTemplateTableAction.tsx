@@ -1,7 +1,7 @@
 import type { TableActionWithSelectionDeps } from '@/shared/types/table-action';
-import type { EmailTemplateFormModel } from '@/features/message/api/email-template';
 import {
   createEmailTemplate,
+  type EmailTemplateFormModel,
   type EmailTemplatePageRow,
   updateEmailTemplate,
 } from '@/features/message/api/email-template';

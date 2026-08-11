@@ -39,10 +39,10 @@ export const FREEMARKER_ROOT_KEYWORDS = new Set([
  * FreeMarker 模板中的局部变量声明模式，匹配变量名用于误报豁免。
  */
 export const FREEMARKER_LOCAL_VARIABLE_PATTERNS = [
-  /<\s*#list\b[^>]*\bas\s+([a-zA-Z_][a-zA-Z0-9_]*)/g,
-  /<\s*#assign\b\s+([a-zA-Z_][a-zA-Z0-9_]*)\s*=/g,
-  /<\s*#local\b\s+([a-zA-Z_][a-zA-Z0-9_]*)\s*=/g,
-  /<\s*#global\b\s+([a-zA-Z_][a-zA-Z0-9_]*)\s*=/g,
+  /<\s*#list\b[^>]*\bas\s+([a-zA-Z_]\w*)/g,
+  /<\s*#assign\b\s+([a-zA-Z_]\w*)\s*=/g,
+  /<\s*#local\b\s+([a-zA-Z_]\w*)\s*=/g,
+  /<\s*#global\b\s+([a-zA-Z_]\w*)\s*=/g,
 ];
 
 /**

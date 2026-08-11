@@ -1,7 +1,8 @@
 <script lang="ts" setup>
 import WorkspaceShell from '@/components/layout/WorkspaceShell';
-import { useUserStore } from '@/store/modules/auth/user';
+import { resolvePersonalBackTarget } from '@/features/home/personal/hooks/resolvePersonalBackTarget';
 import usePersonalNav, { PERSONAL_DEFAULT_SECTION } from '@/features/home/personal/hooks/usePersonalNav';
+import { useUserStore } from '@/store/modules/auth/user';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRoute, useRouter } from 'vue-router';
@@ -36,21 +37,16 @@ const subtitle = computed(() => {
 /**
  * 返回打开个人空间前的来源页；无记录时回首页
  */
-function handleBack() {
-  const from = history.state?.Personal;
-  if (typeof from === 'string' && from.startsWith('/')) {
-    void router.push(from);
-    return;
-  }
-  void router.push('/');
+async function handleBack() {
+  await router.push(resolvePersonalBackTarget(history.state?.Personal));
 }
 
 /**
  * 侧栏选中：按分区键跳转子路由
  * @param index 分区键
  */
-function handleSelect(index: string) {
-  void router.push(`/personal/${index}`);
+async function handleSelect(index: string) {
+  await router.push(`/personal/${index}`);
 }
 </script>
 

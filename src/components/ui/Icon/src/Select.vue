@@ -4,6 +4,15 @@ import isEmpty from 'lodash/isEmpty';
 import Search from '~icons/ri/search-eye-line';
 import { computed, CSSProperties, ref, watch } from 'vue';
 import { IconJson } from './data';
+import {
+  filterIcons,
+  iconNamesOf,
+  pageForIcon,
+  paginateIcons,
+  parseIconModelValue,
+  type IconCollectionKey,
+  type IconCollectionMap,
+} from '../iconSelectModel';
 
 type ParameterCSSProperties = (item?: string) => CSSProperties | undefined;
 
@@ -13,30 +22,26 @@ defineOptions({
 
 const inputValue = defineModel({ type: String });
 
-const iconList = ref(IconJson);
 const icon = ref();
-const currentActiveType = ref('ri:');
-const copyIconList = cloneDeep(iconList.value);
-const totalPage = ref(0);
+const currentActiveType = ref<IconCollectionKey>('ri:');
+const copyIconList = cloneDeep(IconJson) as IconCollectionMap;
 const pageSize = ref(35);
 const currentPage = ref(1);
 const filterValue = ref('');
 
 /** 仅允许 Remix / Element Plus（Tab 键与 IconJson 一致，仍用冒号） */
-const tabsList = [
+const tabsList: Array<{ label: string; name: IconCollectionKey }> = [
   { label: 'Remix Icon', name: 'ri:' },
   { label: 'Element Plus', name: 'ep:' },
 ];
 
-const pageList = computed(() => {
-  try {
-    return copyIconList[currentActiveType.value]
-      .filter((i) => i.includes(filterValue.value))
-      .slice((currentPage.value - 1) * pageSize.value, currentPage.value * pageSize.value);
-  } catch (e) {
-    return [];
-  }
-});
+const filteredIcons = computed(() =>
+  filterIcons(iconNamesOf(copyIconList, currentActiveType.value), filterValue.value)
+);
+
+const pageList = computed(() => paginateIcons(filteredIcons.value, currentPage.value, pageSize.value));
+
+const totalPage = computed(() => filteredIcons.value.length);
 
 const iconItemStyle = computed((): ParameterCSSProperties => {
   return (item) => {
@@ -54,37 +59,30 @@ const iconItemStyle = computed((): ParameterCSSProperties => {
  * 从斜杠键名解析 Tab 与图标名（约定仅 `ri/xxx`、`ep/xxx`）
  */
 function setVal() {
-  const value = inputValue.value ?? '';
-  const slashIndex = value.indexOf('/');
-  if (slashIndex <= 0) {
+  const parsed = parseIconModelValue(inputValue.value ?? '');
+  if (!parsed) {
     return;
   }
-  const collection = value.slice(0, slashIndex);
-  currentActiveType.value = collection === 'ep' ? 'ep:' : 'ri:';
-  icon.value = value.slice(slashIndex + 1);
+  currentActiveType.value = parsed.collection;
+  icon.value = parsed.iconName;
 }
 
 /**
  * 打开选择器时定位到当前图标所在页
  */
 function onBeforeEnter() {
-  try {
-    if (isEmpty(icon.value)) return;
-    setVal();
-    const curIconIndex = copyIconList[currentActiveType.value].findIndex((i) => i === icon.value);
-    currentPage.value = Math.ceil((curIconIndex + 1) / pageSize.value);
-  } catch (e) {
-    currentPage.value = 1;
-    icon.value = '';
-    currentActiveType.value = tabsList[0].name;
+  if (isEmpty(icon.value)) {
+    return;
   }
+  setVal();
+  currentPage.value = pageForIcon(iconNamesOf(copyIconList, currentActiveType.value), icon.value, pageSize.value);
 }
 
 function onAfterLeave() {
   filterValue.value = '';
 }
 
-function handleClick({ props }) {
+function handleClick({ props }: { props: { name: IconCollectionKey } }) {
   currentPage.value = 1;
   currentActiveType.value = props.name;
 }
@@ -93,13 +91,13 @@ function handleClick({ props }) {
  * 选中后写入离线键名
  * @param item 图标名（不含集合前缀）
  */
-function onChangeIcon(item) {
+function onChangeIcon(item: string) {
   icon.value = item;
   const collection = currentActiveType.value.replace(/:$/, '');
   inputValue.value = `${collection}/${item}`;
 }
 
-function onCurrentChange(page) {
+function onCurrentChange(page: number) {
   currentPage.value = page;
 }
 
@@ -108,15 +106,6 @@ function onClear() {
   inputValue.value = '';
 }
 
-watch(
-  () => pageList.value,
-  () => {
-    try {
-      totalPage.value = copyIconList[currentActiveType.value].filter((i) => i.includes(filterValue.value)).length;
-    } catch (e) {}
-  },
-  { immediate: true }
-);
 watch(
   () => inputValue.value,
   (val) => val && setVal(),

@@ -45,7 +45,7 @@ export function registerEmailTemplateProviders(
         const hasClosingBrace = lineAfterCursor.startsWith('}');
         const range = new monacoApi.Range(position.lineNumber, dollarIdx + 3, position.lineNumber, position.column);
         const suggestions = getRequireFields()
-          .filter((field) => field.key && field.key.startsWith(inputWord))
+          .filter((field) => field.key?.startsWith(inputWord))
           .map((field) => ({
             label: field.key,
             kind: monacoApi.languages.CompletionItemKind.Variable,
@@ -56,13 +56,7 @@ export function registerEmailTemplateProviders(
 
         return { suggestions };
       },
-    })
-  );
-
-  /**
-   * 注册模板变量悬浮信息。
-   */
-  providerDisposables.push(
+    }),
     monacoApi.languages.registerHoverProvider('html', {
       provideHover(currentModel, position) {
         if (currentModel !== model) {

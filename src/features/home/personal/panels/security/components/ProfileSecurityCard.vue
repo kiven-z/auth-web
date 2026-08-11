@@ -37,7 +37,7 @@ async function handleResetPreferences() {
     await clearMyPreferences();
     resetLocalUiPreferences(createDefaultUiPreferences());
     message(t('account.preferences.resetSuccess'), { type: 'success' });
-    window.location.reload();
+    globalThis.location.reload();
   } catch (error: unknown) {
     errorMessage(error);
   } finally {

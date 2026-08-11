@@ -1,9 +1,11 @@
-import { ref } from 'vue';
-import reDialog from './src/Dialog.vue';
 import { useTimeoutFn } from '@vueuse/core';
-import { withInstall } from '@/shared/vue/withInstall';
 import isFunction from 'lodash/isFunction';
-import type { ArgsType, ButtonProps, DialogOptions, DialogProps, EventType } from './src/type';
+import { ref } from 'vue';
+import { withInstall } from '@/shared/vue/withInstall';
+import reDialog from './src/Dialog.vue';
+import type { DialogOptions } from './src/type';
+
+export type { ArgsType, ButtonProps, DialogOptions, DialogProps, EventType } from './src/type';
 
 const dialogStore = ref<Array<DialogOptions>>([]);
 
@@ -22,7 +24,7 @@ const addDialog = (options: DialogOptions) => {
 /** 关闭弹框 */
 const closeDialog = (options: DialogOptions, index: number, args?: any) => {
   dialogStore.value[index].visible = false;
-  options.closeCallBack && options.closeCallBack({ options, index, args });
+  options.closeCallBack?.({ options, index, args });
 
   const closeDelay = options?.closeDelay ?? 200;
   useTimeoutFn(() => {
@@ -72,5 +74,4 @@ const closeAllDialog = () => {
 
 const AuthDialog = withInstall(reDialog);
 
-export type { EventType, ArgsType, DialogProps, ButtonProps, DialogOptions };
 export { AuthDialog, dialogStore, addDialog, closeDialog, confirmDialog, updateDialog, closeAllDialog };

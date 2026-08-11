@@ -4,6 +4,7 @@ import { getUserProfile, type SysUserProfileResponse } from '@/features/system/a
 import useWorkstationNav, {
   USER_WORKSTATION_DEFAULT_SECTION,
 } from '@/features/system/user/workstation/hooks/shell/useWorkstationNav';
+import { resolveWorkstationBackTarget } from '@/features/system/user/workstation/hooks/shell/resolveWorkstationBackTarget';
 import { WORKSTATION_PROFILE_KEY } from '@/features/system/user/workstation/hooks/shell/useWorkstationProfileContext';
 import { errorMessage } from '@/services/feedback/message';
 import { computed, provide, ref, watch } from 'vue';
@@ -90,25 +91,17 @@ async function loadProfile() {
 /**
  * 返回用户列表：优先来源页，否则 SystemUser，再否则首页
  */
-function handleBack() {
-  const from = history.state?.UserWorkstation;
-  if (typeof from === 'string' && from.startsWith('/')) {
-    void router.push(from);
-    return;
-  }
-  if (router.hasRoute('SystemUser')) {
-    void router.push({ name: 'SystemUser' });
-    return;
-  }
-  void router.push('/');
+async function handleBack() {
+  const target = resolveWorkstationBackTarget(history.state?.UserWorkstation, router.hasRoute('SystemUser'));
+  await router.push(target);
 }
 
 /**
  * 侧栏选中：跳转工作台子路由
  * @param index 分区键
  */
-function handleSelect(index: string) {
-  void router.push(`/system/user-workstation/${userId.value}/${index}`);
+async function handleSelect(index: string) {
+  await router.push(`/system/user-workstation/${userId.value}/${index}`);
 }
 
 watch(

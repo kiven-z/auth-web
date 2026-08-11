@@ -1,9 +1,9 @@
 import { getConfig } from '@/auth/config';
 import { defineStore } from 'pinia';
-import type { setType } from '../../types';
+import type { AppSettingsState } from '../../types';
 
 export const useSettingStore = defineStore('auth-setting', {
-  state: (): setType => ({
+  state: (): AppSettingsState => ({
     title: getConfig().Title,
     fixedHeader: getConfig().FixedHeader,
     hiddenSideBar: getConfig().HiddenSideBar,

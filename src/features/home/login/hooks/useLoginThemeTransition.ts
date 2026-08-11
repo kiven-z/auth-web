@@ -8,7 +8,7 @@ function canUseThemeTransition(): boolean {
   return (
     typeof document !== 'undefined' &&
     'startViewTransition' in document &&
-    !window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    !globalThis.matchMedia('(prefers-reduced-motion: reduce)').matches
   );
 }
 

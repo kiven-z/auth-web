@@ -1,20 +1,20 @@
 import type { RouteRecordName } from 'vue-router';
 import type { LayoutMode } from '@/shared/utils/layout/layout-mode';
 
-/** 标签页缓存模式 */
-export interface cacheType {
+/** KeepAlive 缓存页操作参数 */
+export interface KeepAliveCacheOp {
   mode: string;
   name?: RouteRecordName;
 }
 
-/** 标签页滚动位置 */
-export interface positionType {
+/** 标签页 splice 位置 */
+export interface TagSplicePosition {
   startIndex?: number;
   length?: number;
 }
 
 /** 应用布局状态 */
-export interface appType {
+export interface AppLayoutState {
   sidebar: {
     opened: boolean;
     withoutAnimation: boolean;
@@ -27,7 +27,7 @@ export interface appType {
 }
 
 /** 多标签页路由项 */
-export interface multiType {
+export interface TagRouteItem {
   path: string;
   name: string;
   meta: any;
@@ -36,14 +36,14 @@ export interface multiType {
 }
 
 /** 系统设置项 */
-export interface setType {
+export interface AppSettingsState {
   title: string;
   fixedHeader: boolean;
   hiddenSideBar: boolean;
 }
 
 /** 当前登录用户状态 */
-export interface userType {
+export interface AuthUserState {
   avatar?: string;
   username?: string;
   nickname?: string;

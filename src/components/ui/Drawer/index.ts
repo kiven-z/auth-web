@@ -1,9 +1,11 @@
-import reDrawer from './src/Drawer.vue';
-import type { ArgsType, ButtonProps, DrawerOptions, DrawerProps, EventType } from './src/type';
-import { withInstall } from '@/shared/vue/withInstall';
 import { useTimeoutFn } from '@vueuse/core';
 import isFunction from 'lodash/isFunction';
 import { ref } from 'vue';
+import { withInstall } from '@/shared/vue/withInstall';
+import reDrawer from './src/Drawer.vue';
+import type { DrawerOptions } from './src/type';
+
+export type { ArgsType, ButtonProps, DrawerOptions, DrawerProps, EventType } from './src/type';
 
 const drawerStore = ref<Array<DrawerOptions>>([]);
 
@@ -22,7 +24,7 @@ const addDrawer = (options: DrawerOptions) => {
 /** 关闭抽屉 */
 const closeDrawer = (options: DrawerOptions, index: number, args?: any) => {
   drawerStore.value[index].visible = false;
-  options.closeCallBack && options.closeCallBack({ options, index, args });
+  options.closeCallBack?.({ options, index, args });
 
   const closeDelay = options?.closeDelay ?? 200;
   useTimeoutFn(() => {
@@ -72,5 +74,4 @@ const closeAllDrawer = () => {
 
 const AuthDrawer = withInstall(reDrawer);
 
-export type { EventType, ArgsType, DrawerOptions, DrawerProps, ButtonProps };
 export { AuthDrawer, drawerStore, addDrawer, closeDrawer, confirmDrawer, updateDrawer, closeAllDrawer };

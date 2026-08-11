@@ -44,7 +44,7 @@ export function useHeightBinding(targetRef: Ref<HTMLElement | null>, options: He
     observeTargets.value = isEnabled() ? options.getObserveTargets() : [];
   }
 
-  useEventListener(window, 'resize', () => {
+  useEventListener(globalThis, 'resize', () => {
     if (isEnabled()) {
       debouncedRecalculate();
     }
@@ -76,7 +76,7 @@ export function useHeightBinding(targetRef: Ref<HTMLElement | null>, options: He
 
   if (options.observe?.length) {
     watch(
-      () => options.observe!.map((item) => item.value),
+      () => options.observe.map((item) => item.value),
       () => {
         if (!isEnabled()) {
           return;

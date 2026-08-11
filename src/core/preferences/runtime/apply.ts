@@ -22,7 +22,7 @@ import {
 export function resolveEffectiveDarkMode(layout: ResponsiveStorage['layout']): boolean {
   const scheme = layout.colorScheme ?? DEFAULT_COLOR_SCHEME;
   if (scheme === 'system') {
-    return window.matchMedia('(prefers-color-scheme: dark)').matches;
+    return globalThis.matchMedia('(prefers-color-scheme: dark)').matches;
   }
   return scheme === 'dark';
 }
@@ -62,7 +62,7 @@ export function applyLocalePreferences(): void {
 export function applyLayoutPreferences(): void {
   const snapshot = getLayoutSnapshot();
   const layoutModel = resolveEffectiveLayout(snapshot.layout);
-  window.document.body.setAttribute('layout', layoutModel);
+  globalThis.document.body.setAttribute('layout', layoutModel);
   useAppStore().setLayout(layoutModel);
   if (snapshot.sidebarStatus !== undefined) {
     useAppStore().sidebar.opened = snapshot.sidebarStatus;
@@ -79,7 +79,7 @@ export function applyThemePreferences(): void {
   const effectiveNavTheme = resolveEffectiveNavTheme(preferredNavTheme, darkMode);
   const primaryColor = snapshot.primaryColor ?? DEFAULT_PRIMARY_COLOR;
 
-  document.documentElement.setAttribute('data-theme', effectiveNavTheme);
+  document.documentElement.dataset.theme = effectiveNavTheme;
   applyPrimaryColorToDom(primaryColor, effectiveNavTheme);
 
   if (darkMode) {

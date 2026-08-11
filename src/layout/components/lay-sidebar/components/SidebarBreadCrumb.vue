@@ -62,24 +62,22 @@ const handleLink = (item) => {
   const { redirect, name, path } = item;
   if (redirect) {
     router.push(redirect as any);
-  } else {
-    if (name) {
-      if (item.query) {
-        router.push({
-          name,
-          query: item.query,
-        });
-      } else if (item.params) {
-        router.push({
-          name,
-          params: item.params,
-        });
-      } else {
-        router.push({ name });
-      }
+  } else if (name) {
+    if (item.query) {
+      router.push({
+        name,
+        query: item.query,
+      });
+    } else if (item.params) {
+      router.push({
+        name,
+        params: item.params,
+      });
     } else {
-      router.push({ path });
+      router.push({ name });
     }
+  } else {
+    router.push({ path });
   }
 };
 

@@ -2,11 +2,11 @@ import type { AxiosRequestConfig } from 'axios';
 
 import type { PageResponse, SortSpec } from '@/api/common/page';
 import type { BaseResponseDetail, BaseResponsePageRow } from '@/api/common/response';
-import type { SpreadsheetImportResult } from '@/api/common/import';
 import type { IdsEnableStatusRequest } from '@/api/common/request';
 import { http } from '@/core/http/client';
+import type { SpreadsheetImportResult } from '@/api/common/import';
 
-export type { SpreadsheetImportResult };
+export type { SpreadsheetImportResult } from '@/api/common/import';
 
 /**
  * 权限分页查询参数

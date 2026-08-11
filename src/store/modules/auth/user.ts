@@ -9,11 +9,11 @@ import { readUserProfileFromStorage } from '@/core/session/profile/userProfileSt
 import { routerArrays } from '@/layout/types';
 import { resetRouter, router } from '@/router';
 import { defineStore } from 'pinia';
-import type { userType } from '../../types';
+import type { AuthUserState } from '../../types';
 import { useMultiTagsStore } from '../app/multiTags';
 
 export const useUserStore = defineStore('auth-user', {
-  state: (): userType => {
+  state: (): AuthUserState => {
     const u = readUserProfileFromStorage();
     const prefs = readSessionPreferences();
     return {

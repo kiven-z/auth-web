@@ -28,12 +28,13 @@ export function createAuditTableColumns() {
       prop: 'createdByName',
       minWidth: 130,
       render: ({ row }: { row: { createdBy?: string | null; createdByName?: string | null } }) => {
-        if (!row.createdBy) {
+        const createdBy = row.createdBy;
+        if (!createdBy) {
           return null;
         }
         return (
-          <ElButton link type="primary" onClick={() => selectUserinfo(row.createdBy!, row.createdByName)}>
-            {row.createdByName ?? row.createdBy}
+          <ElButton link type="primary" onClick={() => selectUserinfo(createdBy, row.createdByName)}>
+            {row.createdByName ?? createdBy}
           </ElButton>
         );
       },
@@ -43,12 +44,13 @@ export function createAuditTableColumns() {
       prop: 'updatedByName',
       minWidth: 130,
       render: ({ row }: { row: { updatedBy?: string | null; updatedByName?: string | null } }) => {
-        if (!row.updatedBy) {
+        const updatedBy = row.updatedBy;
+        if (!updatedBy) {
           return null;
         }
         return (
-          <ElButton link type="primary" onClick={() => selectUserinfo(row.updatedBy!, row.updatedByName)}>
-            {row.updatedByName ?? row.updatedBy}
+          <ElButton link type="primary" onClick={() => selectUserinfo(updatedBy, row.updatedByName)}>
+            {row.updatedByName ?? updatedBy}
           </ElButton>
         );
       },

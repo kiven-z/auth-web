@@ -1,8 +1,7 @@
 import type { DataTableAdaptiveConfig, DataTableAdaptiveMode } from '@/components/table/DataTable';
 import type { Ref } from 'vue';
-import type { PaginationTableState } from './hooks/usePaginationState';
 
-export type { PaginationTableState };
+export type { PaginationTableState } from './hooks/usePaginationState';
 
 /**
  * 树形表格展开/折叠所需的表格实例最小能力。

@@ -42,6 +42,6 @@ export function setRuntimeLayoutOverride(layoutModel: LayoutMode | null): void {
   }
   runtimeLayoutOverride.value = layoutModel;
   const effectiveLayout = getEffectiveLayoutModel();
-  window.document.body.setAttribute('layout', effectiveLayout);
+  globalThis.document.body.setAttribute('layout', effectiveLayout);
   useAppStore().setLayout(effectiveLayout);
 }

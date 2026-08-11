@@ -29,14 +29,14 @@ function resolveComponent(v: RouteRecordRaw): boolean {
  * @returns 规范路由
  */
 function addAsyncRoutes(arrRoutes: Array<RouteRecordRaw>) {
-  if (!arrRoutes || !arrRoutes.length) return;
+  if (!arrRoutes?.length) return;
   arrRoutes.forEach((v: RouteRecordRaw) => {
     // 将backstage属性加入meta，标识此路由为后端返回路由
     v.meta = { ...(v.meta ?? { title: v.path }), backstage: true };
     // 父级的redirect属性取值：如果子级存在且父级的redirect属性不存在，默认取第一个子级的path
-    if (v?.children && v.children.length && !v.redirect) v.redirect = v.children[0].path;
+    if (v?.children?.length && !v.redirect) v.redirect = v.children[0].path;
     // 父级的name属性取值：如果子级存在且父级的name属性不存在，默认取第一个子级的name并追加Parent后缀避免重复
-    if (v?.children && v.children.length && !v.name) v.name = (v.children[0].name as string) + 'Parent';
+    if (v?.children?.length && !v.name) v.name = `${v.children[0].name as string}Parent`;
     if (v.meta?.frameSrc) {
       // 内嵌iframe页面
       v.component = IFrame;
@@ -49,7 +49,7 @@ function addAsyncRoutes(arrRoutes: Array<RouteRecordRaw>) {
       v.component = undefined;
       // 子路由仍需要处理
     }
-    if (v?.children && v.children.length) {
+    if (v?.children?.length) {
       addAsyncRoutes(v.children);
     }
   });

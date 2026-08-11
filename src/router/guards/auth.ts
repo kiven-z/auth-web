@@ -15,7 +15,7 @@ import isEmpty from 'lodash/isEmpty';
 import type { NavigationGuardNext, RouteLocationNormalized, Router } from 'vue-router';
 
 /** 未登录可访问路径 */
-const whiteList = ['/login'];
+const whiteList = new Set(['/login']);
 
 const { VITE_HIDE_HOME } = import.meta.env;
 
@@ -76,7 +76,7 @@ export function createAuthGuard(router: Router): void {
  * 未登录：白名单放行，否则清会话去登录
  */
 function passGuest(to: RouteLocationNormalized, next: NavigationGuardNext): void {
-  if (to.path === '/login' || whiteList.includes(to.path)) {
+  if (to.path === '/login' || whiteList.has(to.path)) {
     next();
     return;
   }
@@ -92,7 +92,7 @@ function passAuthenticated(
   from: RouteLocationNormalized,
   next: NavigationGuardNext
 ): void {
-  if (whiteList.includes(to.fullPath)) {
+  if (whiteList.has(to.fullPath)) {
     next(from.fullPath);
     return;
   }
@@ -136,7 +136,7 @@ function needsDynamicRouteInit(to: RouteLocationNormalized): boolean {
  */
 async function initDynamicRoutesForColdStart(to: RouteLocationNormalized): Promise<boolean> {
   try {
-    const routerInstance = (await initRouter()) as Router;
+    const routerInstance = await initRouter();
     if (!useMultiTagsStore().getMultiTagsCache) {
       pushInitialTagFromRoute(to.path, routerInstance);
     }

@@ -1,4 +1,4 @@
-interface optionsItem {
+interface MenuSearchOption {
   path: string;
   type: 'history' | 'collect';
   meta: {
@@ -7,14 +7,14 @@ interface optionsItem {
   };
 }
 
-interface dragItem {
+interface MenuSearchDrag {
   oldIndex: number;
   newIndex: number;
 }
 
 interface Props {
   value: string;
-  options: Array<optionsItem>;
+  options: Array<MenuSearchOption>;
 }
 
-export type { optionsItem, dragItem, Props };
+export type { MenuSearchOption, MenuSearchDrag, Props };

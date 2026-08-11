@@ -24,7 +24,7 @@ const props = withDefaults(
 
 const avatarSource = computed(() => {
   const value = props.avatar?.trim();
-  return value ? value : undefined;
+  return value || undefined;
 });
 
 const fallbackInitial = computed(() => {

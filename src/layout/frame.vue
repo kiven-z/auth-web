@@ -1,7 +1,8 @@
 <script lang="ts" setup>
+import { transformI18n } from '@/app/plugins/i18n';
 import { useI18n } from 'vue-i18n';
 import { useRoute } from 'vue-router';
-import { nextTick, onMounted, ref, unref, watch } from 'vue';
+import { computed, nextTick, onMounted, ref, unref, watch } from 'vue';
 
 defineOptions({
   name: 'LayFrame',
@@ -19,7 +20,14 @@ const loading = ref(true);
 const currentRoute = useRoute();
 const frameSrc = ref<string>('');
 const frameRef = ref<HTMLElement | null>(null);
-const fallbackTimer = ref<number | null>(null);
+const fallbackTimer = ref<ReturnType<typeof setTimeout> | null>(null);
+const iframeTitle = computed(() => {
+  const title = unref(currentRoute.meta)?.title;
+  if (title) {
+    return transformI18n(title);
+  }
+  return t('menus.menuTypeIframe');
+});
 
 if (unref(currentRoute.meta)?.frameSrc) {
   frameSrc.value = unref(currentRoute.meta)?.frameSrc as string;
@@ -63,10 +71,10 @@ watch(
     if (props.frameInfo?.fullPath === path && isRedirect) {
       loading.value = true;
       clearFallbackTimer();
-      const url = new URL(props.frameInfo.frameSrc, window.location.origin);
+      const url = new URL(props.frameInfo.frameSrc, globalThis.location.origin);
       const joinChar = url.search ? '&' : '?';
       frameSrc.value = `${props.frameInfo.frameSrc}${joinChar}t=${Date.now()}`;
-      fallbackTimer.value = window.setTimeout(() => {
+      fallbackTimer.value = globalThis.setTimeout(() => {
         if (loading.value) {
           hideLoading();
         }
@@ -84,7 +92,7 @@ onMounted(() => {
 
 <template>
   <div v-loading="loading" :element-loading-text="t('status.loading')" class="layout-frame">
-    <iframe ref="frameRef" :src="frameSrc" class="layout-frame__iframe" />
+    <iframe ref="frameRef" :src="frameSrc" :title="iframeTitle" class="layout-frame__iframe" />
   </div>
 </template>
 

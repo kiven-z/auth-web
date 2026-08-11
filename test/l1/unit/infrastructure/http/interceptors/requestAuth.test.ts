@@ -9,7 +9,7 @@ const { getTokenMock, hasAccessTokenMock, isLoggedInMock, ensureAccessTokenReady
   ensureAccessTokenReadyMock: vi.fn(),
 }));
 
-vi.mock('@/core/session/sessionToken', () => ({
+vi.mock('@/core/session/token/sessionToken', () => ({
   getToken: getTokenMock,
   hasAccessToken: hasAccessTokenMock,
   formatToken: (token: string) => `Bearer ${token}`,
@@ -19,7 +19,7 @@ vi.mock('@/core/session/sessionAuth', () => ({
   isLoggedIn: isLoggedInMock,
 }));
 
-vi.mock('@/core/session/accessTokenReady', () => ({
+vi.mock('@/core/session/token/accessTokenReady', () => ({
   ensureAccessTokenReady: ensureAccessTokenReadyMock,
 }));
 

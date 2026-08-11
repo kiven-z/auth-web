@@ -17,7 +17,7 @@ export const routerArrays: Array<RouteConfigs> =
     : [];
 
 /** 路由 meta 扩展字段 */
-export interface routeMetaType {
+export interface RouteMeta {
   title?: string;
   icon?: string | FunctionalComponent;
   showLink?: boolean;
@@ -29,18 +29,13 @@ export interface RouteConfigs {
   path?: string;
   query?: object;
   params?: object;
-  meta?: routeMetaType;
+  meta?: RouteMeta;
   children?: RouteConfigs[];
   name?: string;
 }
 
-/** 多标签页集合 */
-export interface multiTagsType {
-  tags: Array<RouteConfigs>;
-}
-
-/** 标签页右键菜单项 */
-export interface tagsViewsType {
+/** 标签页右键 / 下拉菜单项 */
+export interface TagContextMenuItem {
   icon: string | FunctionalComponent;
   text: string;
   divided: boolean;
@@ -48,31 +43,13 @@ export interface tagsViewsType {
   show: boolean;
 }
 
-/** 布局设置状态 */
-export interface setType {
-  sidebar: {
-    opened: boolean;
-    withoutAnimation: boolean;
-    isClickCollapse: boolean;
-  };
-  device: string;
-  fixedHeader: boolean;
-  classes: {
-    hideSidebar: boolean;
-    openSidebar: boolean;
-    withoutAnimation: boolean;
-    mobile: boolean;
-  };
-  hideTabs: boolean;
-}
-
 /** 侧边栏菜单节点 */
-export interface menuType {
+export interface SidebarMenuNode {
   id?: number;
   name?: string;
   path?: string;
   noShowingChildren?: boolean;
-  children?: menuType[];
+  children?: SidebarMenuNode[];
   value: unknown;
   meta?: {
     icon?: string;
@@ -88,14 +65,7 @@ export interface menuType {
 }
 
 /** 侧栏主题色板项 */
-export interface themeColorsType {
+export interface NavThemeColorItem {
   color: string;
   navTheme: string;
-}
-
-/** 带 wrap 的滚动条 DOM */
-export interface scrollbarDomType extends HTMLElement {
-  wrap?: {
-    offsetWidth: number;
-  };
 }

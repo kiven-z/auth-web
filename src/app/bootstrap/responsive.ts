@@ -32,19 +32,17 @@ export function getResponsiveStorage(): ResponsiveStorage {
 
 export const injectResponsiveStorage = (app: App) => {
   const nameSpace = responsiveStorageNameSpace();
-  const configObj = Object.assign(
-    {
-      locale: Storage.getData('locale', nameSpace) ?? createDefaultLocale(),
-      layout: Storage.getData('layout', nameSpace) ?? createDefaultLayout(),
-      configure: Storage.getData('configure', nameSpace) ?? createDefaultConfigure(),
-    },
-    DEFAULT_MULTI_TAGS_CACHE
+  const configObj = {
+    locale: Storage.getData('locale', nameSpace) ?? createDefaultLocale(),
+    layout: Storage.getData('layout', nameSpace) ?? createDefaultLayout(),
+    configure: Storage.getData('configure', nameSpace) ?? createDefaultConfigure(),
+    ...(DEFAULT_MULTI_TAGS_CACHE
       ? {
           tags: Storage.getData('tags', nameSpace) ?? routerArrays,
         }
-      : {}
-  );
+      : {}),
+  };
 
   app.use(Storage, { nameSpace, memory: configObj });
-  responsiveStorageMemory = app.config.globalProperties.$storage as ResponsiveStorage;
+  responsiveStorageMemory = app.config.globalProperties.$storage;
 };

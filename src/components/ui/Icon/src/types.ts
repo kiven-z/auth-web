@@ -1,5 +1,5 @@
 /** Iconify 图标属性，见 https://docs.iconify.design/icon-components/vue/#properties */
-export interface iconType {
+export interface IconProps {
   inline?: boolean;
   width?: string | number;
   height?: string | number;

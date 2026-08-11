@@ -23,7 +23,7 @@ export function columnVisible(column: TableColumns): boolean {
  * 解析单元格内容：render → slot → prop 文本
  */
 export function resolveCell(column: TableColumns, scope: TableCellScope, slots: Slots) {
-  const value = column.prop != null ? scope.row?.[column.prop] : undefined;
+  const value = column.prop == null ? undefined : scope.row?.[column.prop];
   const ctx: TableColumnRenderContext = {
     row: scope.row,
     value,
@@ -35,7 +35,7 @@ export function resolveCell(column: TableColumns, scope: TableCellScope, slots: 
     return column.render(ctx);
   }
   if (column.slot && slots[column.slot]) {
-    return slots[column.slot]!(scope);
+    return slots[column.slot](scope);
   }
   if (column.prop != null) {
     return value;

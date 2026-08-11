@@ -18,7 +18,7 @@ export function useTreeExpandAll(tableRef: Ref<TableTreeControlRef | undefined>,
       return;
     }
     data.forEach((item) => {
-      table.toggleRowExpansion!(item, isExpansion);
+      table.toggleRowExpansion(item, isExpansion);
       const row = item as { children?: unknown[] };
       if (row.children !== undefined && row.children !== null) {
         toggleRowExpansionAll(row.children, isExpansion);

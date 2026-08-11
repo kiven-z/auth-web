@@ -34,7 +34,6 @@ export interface RippleDirectiveBinding extends Omit<DirectiveBinding, 'modifier
  */
 function transform(el: HTMLElement, value: string) {
   el.style.transform = value;
-  el.style.webkitTransform = value;
 }
 
 /**
@@ -57,9 +56,9 @@ const calculate = (e: PointerEvent, el: HTMLElement, value: RippleOptions = {}) 
   if (el._ripple?.circle) {
     scale = 0.15;
     radius = el.clientWidth / 2;
-    radius = value.center ? radius : radius + Math.sqrt((localX - radius) ** 2 + (localY - radius) ** 2) / 4;
+    radius = value.center ? radius : radius + Math.hypot(localX - radius, localY - radius) / 4;
   } else {
-    radius = Math.sqrt(el.clientWidth ** 2 + el.clientHeight ** 2) / 2;
+    radius = Math.hypot(el.clientWidth, el.clientHeight) / 2;
   }
 
   // 中心点坐标
@@ -102,15 +101,14 @@ const ripples = {
     el.appendChild(container);
 
     // 获取目标元素样式表
-    const computed = window.getComputedStyle(el);
+    const computed = globalThis.getComputedStyle(el);
     // 防止 position 被覆盖导致 ripple 位置有问题
-    if (computed && computed.position === 'static') {
+    if (computed?.position === 'static') {
       el.style.position = 'relative';
       el.dataset.previousPosition = 'static';
     }
 
-    animation.classList.add('v-ripple__animation--enter');
-    animation.classList.add('v-ripple__animation--visible');
+    animation.classList.add('v-ripple__animation--enter', 'v-ripple__animation--visible');
     transform(animation, `translate(${x}, ${y}) scale3d(${scale},${scale},${scale})`);
     animation.dataset.activated = String(performance.now());
 
@@ -146,14 +144,16 @@ const ripples = {
           delete el.dataset.previousPosition;
         }
 
-        if (animation.parentNode?.parentNode === el) el.removeChild(animation.parentNode);
+        if (animation.parentNode?.parentNode === el) {
+          (animation.parentNode as Element).remove();
+        }
       }, 300);
     }, delay);
   },
 };
 
 function isRippleEnabled(value: any): value is true {
-  return typeof value === 'undefined' || !!value;
+  return value === undefined || !!value;
 }
 
 function rippleShow(e: PointerEvent) {
@@ -174,7 +174,7 @@ function rippleHide(e: Event) {
   const element = e.currentTarget as HTMLElement | null;
   if (!element?._ripple) return;
 
-  window.setTimeout(() => {
+  globalThis.setTimeout(() => {
     if (element._ripple) {
       element._ripple.touched = false;
     }

@@ -31,5 +31,5 @@ export interface LoginModeMeta {
  * 父级不需要知道具体用哪种方式登录，只需要在成功时跳转页面。
  */
 export interface LoginFormEmits {
-  (e: 'login-success'): void;
+  'login-success': [];
 }

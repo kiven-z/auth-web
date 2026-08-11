@@ -67,12 +67,8 @@ const animateMap = ref({});
 
 function onMouseEnter(index: string | number) {
   animateMap.value[index] = animateMap.value[index]?.loading
-    ? Object.assign({}, animateMap.value[index], {
-        loading: false,
-      })
-    : Object.assign({}, animateMap.value[index], {
-        loading: true,
-      });
+    ? { ...animateMap.value[index], loading: false }
+    : { ...animateMap.value[index], loading: true };
 }
 
 function onMouseleave() {

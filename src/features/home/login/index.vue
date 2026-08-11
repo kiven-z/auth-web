@@ -16,6 +16,7 @@ import TranslateIcon from '~icons/ri/translate';
 import Segmented from '@/components/ui/Segmented';
 import { formComponentMap } from '@/features/home/login/constants/login-registry';
 import { computed } from 'vue';
+import { useI18n } from 'vue-i18n';
 import Motion from './components/Motion';
 import { useLoginModeOptions } from './hooks/useLoginModeOptions';
 import { useLoginThemeTransition } from './hooks/useLoginThemeTransition';
@@ -25,6 +26,7 @@ defineOptions({
 });
 
 const { initStorage } = useLayout();
+const { t } = useI18n();
 
 const { dataTheme, colorScheme, setColorScheme } = useUiTheme();
 const { themeToggleRef, onThemeToggle } = useLoginThemeTransition(dataTheme, () => setColorScheme());
@@ -50,19 +52,18 @@ setColorScheme(colorScheme.value);
   <div class="select-none h-full">
     <img :src="LoginBackground" alt="bg" class="wave" />
     <div class="flex-c absolute right-5 top-3">
-      <span
+      <button
         ref="themeToggleRef"
+        type="button"
         class="theme-toggler-content theme-toggler inline-flex cursor-pointer outline-hidden"
-        role="button"
-        tabindex="0"
+        :aria-label="dataTheme ? t('panel.overallStyleLight') : t('panel.overallStyleDark')"
         @click="onThemeToggle"
-        @keydown.enter.prevent="onThemeToggle"
       >
         <IconifyIconOffline
           :icon="themeToggleIcon"
           class="hover:text-primary hover:bg-transparent! w-5 h-5 duration-300"
         />
-      </span>
+      </button>
       <el-dropdown trigger="click">
         <IconifyIconOffline
           :icon="TranslateIcon"

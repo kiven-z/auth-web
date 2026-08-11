@@ -28,12 +28,12 @@ function useFileRecordDetailColumns() {
       prop: 'isPrivate',
       labelWidth: 120,
       cellRenderer: ({ value }: { value?: boolean | null }) =>
-        value != null ? (
+        value == null ? (
+          <span>—</span>
+        ) : (
           <ElTag type={value ? 'warning' : 'success'} effect="plain">
             {value ? t('status.yes') : t('status.no')}
           </ElTag>
-        ) : (
-          <span>—</span>
         ),
     },
     { label: t('fileRecord.fields.bucket'), prop: 'bucket', labelWidth: 120, span: 2, copy: true },

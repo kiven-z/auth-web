@@ -23,7 +23,7 @@ export function startSystemThemeWatch(): () => void {
     return stopWatch;
   }
 
-  const mediaQueryList = window.matchMedia('(prefers-color-scheme: dark)');
+  const mediaQueryList = globalThis.matchMedia('(prefers-color-scheme: dark)');
   const onChange = () => syncSystemThemeFromOs();
   mediaQueryList.addEventListener('change', onChange);
 

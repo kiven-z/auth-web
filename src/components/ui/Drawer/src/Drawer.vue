@@ -14,6 +14,7 @@ import {
   confirmDrawer,
   type DrawerOptions,
   drawerStore,
+  type ArgsType,
   type EventType,
 } from '@/components/ui/Drawer';
 
@@ -70,8 +71,8 @@ function eventsCallBack(event: EventType, options: DrawerOptions, index: number)
  * @param index 抽屉索引
  * @param args 关闭参数
  */
-function handleClose(options: DrawerOptions, index: number, args = { command: 'close' }) {
-  closeDrawer(options, index, args);
+function handleClose(options: DrawerOptions, index: number, args?: ArgsType) {
+  closeDrawer(options, index, args ?? { command: 'close' });
   eventsCallBack('close', options, index);
 }
 

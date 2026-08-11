@@ -1,4 +1,4 @@
-import type { menuType } from '@/layout/types';
+import type { SidebarMenuNode } from '@/layout/types';
 import { useMultiTagsStore } from '@/store/modules/app/multiTags';
 import { usePermissionStore } from '@/store/modules/auth/permission';
 import { useTimeoutFn } from '@vueuse/core';
@@ -69,7 +69,7 @@ function handleAliveRoute({ name }: ToRouteType, mode?: string) {
 function handleTopMenu(route) {
   if (route?.children && route.children.length > 1) {
     if (route.redirect) {
-      return route.children.filter((cur) => cur.path === route.redirect)[0];
+      return route.children.find((cur) => cur.path === route.redirect);
     } else {
       return route.children[0];
     }
@@ -83,7 +83,7 @@ function handleTopMenu(route) {
  * @param tag 是否添加到标签页
  * @returns 顶级菜单
  */
-function getTopMenu(tag = false): menuType | undefined {
+function getTopMenu(tag = false): SidebarMenuNode | undefined {
   const wholeMenus = usePermissionStore().wholeMenus;
   if (!wholeMenus?.length) return undefined;
   const topMenu = handleTopMenu(wholeMenus[0]?.children[0]);
