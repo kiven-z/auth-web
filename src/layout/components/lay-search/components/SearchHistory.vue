@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import Sortable from 'sortablejs';
 import { useI18n } from 'vue-i18n';
-import type { MenuSearchDrag, MenuSearchOption, Props } from '../types';
+import type { MenuSearchDrag, MenuSearchOption, SearchHistoryProps } from '../types';
 import { transformI18n } from '@/app/plugins/i18n';
 import { useRenderIcon } from '@/components/ui/Icon';
 import { delay } from '@/shared/utils/async/delay';
@@ -27,7 +27,7 @@ const stopMouseEvent = ref(false);
 const { t } = useI18n();
 const emit = defineEmits<Emits>();
 const instance = getCurrentInstance()!;
-const props = withDefaults(defineProps<Props>(), {});
+const props = withDefaults(defineProps<SearchHistoryProps>(), {});
 
 const itemStyle = computed(() => {
   return (item) => {

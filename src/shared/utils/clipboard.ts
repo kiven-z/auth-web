@@ -32,13 +32,12 @@ function toCopyText(value: unknown): string {
  * @returns 是否写入成功
  */
 async function copyTextToClipboard(text: string): Promise<boolean> {
-  if (typeof navigator === 'undefined') return false;
-
-  const writeText = navigator.clipboard?.writeText;
-  if (!writeText) return false;
+  if (typeof navigator === 'undefined' || !navigator.clipboard?.writeText) {
+    return false;
+  }
 
   try {
-    await writeText(text);
+    await navigator.clipboard.writeText(text);
     return true;
   } catch {
     return false;

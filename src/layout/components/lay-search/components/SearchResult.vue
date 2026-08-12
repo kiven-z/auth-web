@@ -4,7 +4,7 @@ import { useRenderIcon } from '@/components/ui/Icon';
 import { useResizeObserver } from '@vueuse/core';
 import { computed, getCurrentInstance, onMounted, ref } from 'vue';
 import EnterOutlined from '~icons/ri/corner-down-left-line';
-import type { Props } from '../types';
+import type { SearchListProps } from '../types';
 
 interface Emits {
   'update:value': [val: string];
@@ -15,7 +15,7 @@ const resultRef = ref();
 const innerHeight = ref();
 const emit = defineEmits<Emits>();
 const instance = getCurrentInstance()!;
-const props = withDefaults(defineProps<Props>(), {});
+const props = withDefaults(defineProps<SearchListProps>(), {});
 
 const itemStyle = computed(() => {
   return (item) => {

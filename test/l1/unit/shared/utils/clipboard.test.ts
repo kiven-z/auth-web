@@ -27,13 +27,27 @@ describe('copyToClipboard', () => {
   });
 
   it('copies plain string via Clipboard API and shows success feedback', async () => {
-    const writeText = vi.fn().mockResolvedValue(undefined);
-    vi.stubGlobal('navigator', { clipboard: { writeText } });
+    const clipboard = {
+      writeText: vi.fn().mockResolvedValue(undefined),
+    };
+    vi.stubGlobal('navigator', { clipboard });
 
     const ok = await copyToClipboard('hello');
     expect(ok).toBe(true);
-    expect(writeText).toHaveBeenCalledWith('hello');
+    expect(clipboard.writeText).toHaveBeenCalledWith('hello');
     expect(message).toHaveBeenCalledWith('复制成功', { type: 'success' });
+  });
+
+  it('invokes writeText on clipboard receiver to avoid illegal invocation', async () => {
+    const clipboard = {
+      writeText: vi.fn(function (this: unknown, text: string) {
+        expect(this).toBe(clipboard);
+        return Promise.resolve();
+      }),
+    };
+    vi.stubGlobal('navigator', { clipboard });
+
+    await expect(copyToClipboard('hello')).resolves.toBe(true);
   });
 
   it('serializes object values as JSON before copying', async () => {

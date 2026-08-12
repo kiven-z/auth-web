@@ -1,10 +1,13 @@
-interface MenuSearchOption {
+interface MenuSearchListItem {
   path: string;
-  type: 'history' | 'collect';
-  meta: {
+  meta?: {
     icon?: string;
     title?: string;
   };
+}
+
+interface MenuSearchOption extends MenuSearchListItem {
+  type: 'history' | 'collect';
 }
 
 interface MenuSearchDrag {
@@ -12,9 +15,14 @@ interface MenuSearchDrag {
   newIndex: number;
 }
 
-interface Props {
+interface SearchListProps {
   value: string;
-  options: Array<MenuSearchOption>;
+  options: MenuSearchListItem[];
 }
 
-export type { MenuSearchDrag, MenuSearchOption, Props };
+interface SearchHistoryProps {
+  value: string;
+  options: MenuSearchOption[];
+}
+
+export type { MenuSearchDrag, MenuSearchListItem, MenuSearchOption, SearchHistoryProps, SearchListProps };
