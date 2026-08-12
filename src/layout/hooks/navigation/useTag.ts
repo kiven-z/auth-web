@@ -2,7 +2,7 @@ import { computed, type CSSProperties, getCurrentInstance, onMounted, reactive, 
 import type { TagContextMenuItem } from '../../types';
 import { useRoute, useRouter } from 'vue-router';
 import { $t, transformI18n } from '@/app/plugins/i18n';
-import { useUiConfigure } from '@/layout/hooks/configure/useUiConfigure';
+import { patchConfigureField } from '@/layout/hooks/configure/useUiConfigure';
 import { useSettingStore } from '@/store/modules/app/settings';
 import { useMultiTagsStore } from '@/store/modules/app/multiTags';
 import { getUiPreferenceState } from '@/core/preferences/persistence/storage';
@@ -175,8 +175,6 @@ export function useTags() {
       ? settingStore.changeSetting({ key: 'hiddenSideBar', value: false })
       : settingStore.changeSetting({ key: 'hiddenSideBar', value: true });
   }
-
-  const { patchConfigureField } = useUiConfigure();
 
   onMounted(() => {
     if (!showModel.value) {

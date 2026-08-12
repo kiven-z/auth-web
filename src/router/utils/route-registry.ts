@@ -45,7 +45,7 @@ function handleAsyncRoutes(routeList) {
     usePermissionStore().handleWholeMenus(routeList);
   }
   if (!useMultiTagsStore().getMultiTagsCache) {
-    useMultiTagsStore().handleTags('equal', [
+    useMultiTagsStore().setTags([
       ...routerArrays,
       ...usePermissionStore().flatteningRoutes.filter((v) => v?.meta?.fixedTag),
     ]);

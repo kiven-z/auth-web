@@ -1,9 +1,9 @@
 import type { SidebarMenuNode } from '@/layout/types';
-import { useMultiTagsStore } from '@/store/modules/app/multiTags';
 import { usePermissionStore } from '@/store/modules/auth/permission';
 import { useTimeoutFn } from '@vueuse/core';
 import { createWebHashHistory, createWebHistory, type RouterHistory } from 'vue-router';
 import { router } from '../index';
+import { useMultiTagsStore } from '@/store/modules/app/multiTags';
 
 /**
  * 动态路由注册完成后，再添加全屏404（页面不存在）页面，避免刷新动态路由页面时误跳转到404页面
@@ -88,7 +88,7 @@ function getTopMenu(tag = false): SidebarMenuNode | undefined {
   if (!wholeMenus?.length) return undefined;
   const topMenu = handleTopMenu(wholeMenus[0]?.children[0]);
   if (!topMenu) return undefined;
-  tag && useMultiTagsStore().handleTags('push', topMenu);
+  tag && useMultiTagsStore().pushTag(topMenu);
   return topMenu;
 }
 

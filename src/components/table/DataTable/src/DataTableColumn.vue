@@ -4,7 +4,7 @@ import { computed, inject } from 'vue';
 
 import { DATA_TABLE_SLOTS_KEY } from './context';
 import DataTableCell from './render/DataTableCell';
-import { columnVisible, resolveCell, type TableCellScope } from './render/resolveCell';
+import { columnVisible, resolveCell } from './render/resolveCell';
 
 defineOptions({
   name: 'DataTableColumn',
@@ -51,13 +51,6 @@ const passthroughProps = computed(() => {
   } = props.column as TableColumns & Record<string, unknown>;
   return rest;
 });
-
-/**
- * 解析当前单元格
- */
-function cellContent(scope: TableCellScope) {
-  return resolveCell(props.column, scope, slots);
-}
 </script>
 
 <template>
@@ -112,7 +105,7 @@ function cellContent(scope: TableCellScope) {
     v-bind="passthroughProps"
   >
     <template #default="scope">
-      <DataTableCell :content="cellContent(scope)" />
+      <DataTableCell :content="resolveCell(column, scope, slots)" />
     </template>
   </el-table-column>
 </template>

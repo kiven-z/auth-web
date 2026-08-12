@@ -175,5 +175,5 @@ function pushInitialTagFromRoute(path: string, routerInstance: Router): void {
   }
 
   const { path: tagPath, name, meta } = tagRoute;
-  useMultiTagsStore().handleTags('push', { path: tagPath, name, meta });
+  useMultiTagsStore().pushTag({ path: tagPath, name, meta });
 }

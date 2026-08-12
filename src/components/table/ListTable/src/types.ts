@@ -20,7 +20,7 @@ export interface ListTableState<TData = unknown> {
   loading: Ref<boolean>;
   tableData: Ref<TData[]>;
   selectedRows: Ref<string[]>;
-  fetchTableData: () => Promise<void>;
+  fetchTableData: (options?: { silent?: boolean }) => Promise<void>;
   handleSelectionChange: (rows: TData[]) => void;
   pagination?: { total: number; pageSize: number; currentPage: number };
   handlePageSizeChange?: (size: number) => void | Promise<void>;
@@ -32,7 +32,7 @@ export interface ListTableExpose {
   /** 触发表格高度重算（全屏切换后调用） */
   setAdaptive: () => Promise<void>;
   /** 重新拉取当前数据 */
-  fetchTableData: () => Promise<void>;
+  fetchTableData: (options?: { silent?: boolean }) => Promise<void>;
 }
 
 /** 列表壳组件 props */

@@ -46,6 +46,26 @@ describe('copyToClipboard', () => {
     expect(message).toHaveBeenCalledWith('复制成功', { type: 'success' });
   });
 
+  it('copies number and boolean via Clipboard API', async () => {
+    const writeText = vi.fn().mockResolvedValue(undefined);
+    vi.stubGlobal('navigator', { clipboard: { writeText } });
+
+    await expect(copyToClipboard(42)).resolves.toBe(true);
+    expect(writeText).toHaveBeenCalledWith('42');
+
+    writeText.mockClear();
+    await expect(copyToClipboard(true)).resolves.toBe(true);
+    expect(writeText).toHaveBeenCalledWith('true');
+  });
+
+  it('returns false for non-serializable non-scalars', async () => {
+    const writeText = vi.fn().mockResolvedValue(undefined);
+    vi.stubGlobal('navigator', { clipboard: { writeText } });
+
+    await expect(copyToClipboard(Symbol('x'))).resolves.toBe(false);
+    expect(writeText).not.toHaveBeenCalled();
+  });
+
   it('shows failure feedback when Clipboard API rejects', async () => {
     const writeText = vi.fn().mockRejectedValue(new Error('no-permission'));
     vi.stubGlobal('navigator', { clipboard: { writeText } });

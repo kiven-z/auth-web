@@ -1,5 +1,5 @@
 import type { SysJobGroupPageRow } from '@/features/schedule/api/job-group';
-import { renderBooleanStatusTag } from '@/components/table/BooleanStatusTag';
+import { renderActiveStatusTag, renderInactiveStatusTag } from '@/components/table/BooleanStatusTag';
 import { createAuditTableColumns } from '@/components/table/AuditColumns';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
@@ -27,7 +27,8 @@ function useJobGroupTableColumns() {
       label: t('scheduleGroup.status'),
       prop: 'status',
       minWidth: 100,
-      render: ({ row }: { row: SysJobGroupPageRow }) => renderBooleanStatusTag(row.status),
+      render: ({ row }: { row: SysJobGroupPageRow }) =>
+        row.status ? renderActiveStatusTag() : renderInactiveStatusTag(),
     },
     // 是否系统内置
     {

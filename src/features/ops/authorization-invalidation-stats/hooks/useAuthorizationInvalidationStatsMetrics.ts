@@ -61,6 +61,16 @@ function resolveFailureRateTone(rate: number): StatMetricTone {
 }
 
 /**
+ * 将统计计数字段规范为有限数字（多处 KPI 共用）
+ * @param value 接口返回的计数
+ * @returns 非有限值时回落为 0
+ */
+function toCount(value: number | undefined | null): number {
+  const numeric = Number(value);
+  return Number.isFinite(numeric) ? numeric : 0;
+}
+
+/**
  * 授权失效统计 KPI 组装
  * @param outbox Outbox 统计
  * @param event 幂等事件统计
@@ -78,10 +88,6 @@ function useAuthorizationInvalidationStatsMetrics(
   function formatShare(part: number, total: number): string {
     const percent = total > 0 ? ((part / total) * 100).toFixed(2) : '0.00';
     return t('authorizationInvalidation.statsShareOfTotal', { percent });
-  }
-
-  function toCount(value: number | undefined | null): number {
-    return Number.isFinite(Number(value)) ? Number(value) : 0;
   }
 
   const outboxMetrics = computed<AuthorizationInvalidationStatMetric[]>(() => {

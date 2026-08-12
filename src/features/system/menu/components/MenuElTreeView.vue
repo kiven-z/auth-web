@@ -7,7 +7,7 @@ import { SYS_MENU_PERMS } from '@/features/system/menu/constants/permissions';
 import useMenuTableAction from '@/features/system/menu/hooks/actions/useMenuTableAction';
 import useMenuPageState from '@/features/system/menu/hooks/useMenuPageState';
 import { useMenuTreeDrag } from '@/features/system/menu/hooks/useMenuTreeDrag';
-import { useMenuTreeFilter } from '@/features/system/menu/hooks/useMenuTreeFilter';
+import { filterMenuNode } from '@/features/system/menu/hooks/useMenuTreeFilter';
 import { useMenuTypeOptions } from '@/features/system/_shared/hooks/useMenuTypeOptions';
 import { onMounted, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
@@ -27,7 +27,6 @@ const menuTypeOptions = useMenuTypeOptions();
 const { loading, selectedRows, treeData, treeKeyword, viewMode, fetchTableData, fetchTreeData, refresh } =
   useMenuPageState();
 
-const { filterMenuNode } = useMenuTreeFilter();
 const panelRef = ref<{ filterTree: (keyword: string) => void } | null>(null);
 
 // 监听树形视图关键词
@@ -66,7 +65,7 @@ onMounted(() => {
     :collapse-all-label="t('sysMenu.collapseAll')"
     :draggable="true"
     :expand-all-label="t('sysMenu.expandAll')"
-    :filter-node-method="(value, data) => filterMenuNode(value, data)"
+    :filter-node-method="filterMenuNode"
     :loading="loading"
     :show-actions-on-hover="true"
     :title="t('sysMenu.tableTitle')"

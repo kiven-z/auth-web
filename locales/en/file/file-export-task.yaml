@@ -4,11 +4,11 @@ fileExportTask:
     adminTableTitle: Export Task Ops
   dialog:
     detailTitle: Export Task Detail
-    attemptsTitle: Execution Attempts
+    attemptsTitle: Execution History
   actions:
     cancel: Cancel
     retry: Retry
-    viewAttempts: Attempts
+    viewAttempts: History
     forceCancel: Force Cancel
     forceRetry: Force Retry
   messages:
@@ -30,9 +30,9 @@ fileExportTask:
     errorMessage: Error Message
     lockedBy: Worker
     leaseUntil: Lease Until
-    attemptNo: Attempt No
+    attemptNo: Run No
     workerId: Worker ID
-    attemptResult: Attempt Result
+    attemptResult: Result
     querySnapshotJson: Query Snapshot
     startedAt: Started At
     finishedAt: Finished At

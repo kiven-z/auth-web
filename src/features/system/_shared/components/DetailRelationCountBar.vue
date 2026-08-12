@@ -23,30 +23,23 @@ const normalizedItems = computed(() =>
     count: Number(item.count ?? 0),
   }))
 );
-
-/**
- * 触发查看授权
- */
-function handleViewAuthorization() {
-  emit('viewAuthorization');
-}
 </script>
 
 <template>
   <section class="detail-relation-count-bar">
     <div class="detail-relation-count-bar__header">
       <span class="detail-relation-count-bar__title">{{ t('authorization.relationTitle') }}</span>
-      <el-button v-if="showViewAuthorization" link type="primary" @click="handleViewAuthorization">
+      <el-button v-if="showViewAuthorization" link type="primary" @click="emit('viewAuthorization')">
         {{ t('authorization.view') }}
       </el-button>
     </div>
 
-    <div class="detail-relation-count-bar__items" role="list">
-      <div v-for="item in normalizedItems" :key="item.label" class="detail-relation-count-bar__item" role="listitem">
+    <ul class="detail-relation-count-bar__items">
+      <li v-for="item in normalizedItems" :key="item.label" class="detail-relation-count-bar__item">
         <span class="detail-relation-count-bar__label">{{ item.label }}</span>
         <span class="detail-relation-count-bar__value">{{ item.count }}</span>
-      </div>
-    </div>
+      </li>
+    </ul>
   </section>
 </template>
 
@@ -69,6 +62,9 @@ function handleViewAuthorization() {
   display: flex;
   flex-wrap: wrap;
   gap: 8px 20px;
+  padding: 0;
+  margin: 0;
+  list-style: none;
 }
 
 .detail-relation-count-bar__item {

@@ -4,7 +4,6 @@ import { computed, ref } from 'vue';
 
 /** 表单可选的任务类调用模式 */
 export type JobCatalogInvokeMode = 'BEAN_INVOKE' | 'CUSTOM_CLASS';
-
 /**
  * 白名单任务类目录：加载、按调用模式分组、解析 job_params 示例
  */
@@ -25,14 +24,6 @@ function useJobCatalog() {
   }
 
   /**
-   * 将 catalog 中的 job_params 示例格式化为可编辑 JSON 文本
-   * @param example catalog 原始示例字符串
-   */
-  function formatJobParamsExample(example: string): string {
-    return JSON.stringify(JSON.parse(example), null, 2);
-  }
-
-  /**
    * 加载白名单任务类
    */
   async function loadCatalogClasses() {
@@ -43,7 +34,7 @@ function useJobCatalog() {
     }
   }
 
-  return { catalogClasses, catalogByMode, findJobParamsExample, formatJobParamsExample, loadCatalogClasses };
+  return { catalogClasses, catalogByMode, findJobParamsExample, loadCatalogClasses };
 }
 
 export default useJobCatalog;

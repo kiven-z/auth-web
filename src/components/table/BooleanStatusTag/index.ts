@@ -1,1 +1,1 @@
-export { renderBooleanStatusTag } from './src/renderBooleanStatusTag';
+export { renderActiveStatusTag, renderInactiveStatusTag } from './src/renderBooleanStatusTag';

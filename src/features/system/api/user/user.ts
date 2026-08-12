@@ -1,6 +1,7 @@
 import type { PageResponse } from '@/api/common/page';
 import type { BaseResponsePageRow } from '@/api/common/response';
 import type { SpreadsheetImportResult } from '@/api/common/import';
+import type { ExportPreCheckResult } from '@/features/file/api/models/export-precheck';
 import { http } from '@/core/http/client';
 import type { AxiosRequestConfig } from 'axios';
 
@@ -40,6 +41,17 @@ export interface SysUserPageRow extends BaseResponsePageRow {
 export function getUserPage(params: SysUserPageQuery): Promise<PageResponse<SysUserPageRow>> {
   return http.get<PageResponse<SysUserPageRow>, AxiosRequestConfig<SysUserPageQuery>>('/system/user/page', {
     params,
+  });
+}
+
+/**
+ * 导出用户前置检查（按当前筛选估算行数与产物格式）
+ * @param filter 列表筛选（不含分页）
+ * @returns 前置检查结果
+ */
+export function preCheckUserExport(filter: SysUserPageQuery): Promise<ExportPreCheckResult> {
+  return http.post<ExportPreCheckResult, SysUserPageQuery>('/system/user/export/pre-check', {
+    data: filter,
   });
 }
 

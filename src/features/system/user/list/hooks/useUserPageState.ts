@@ -1,6 +1,11 @@
 import { getDeptList, type SysDeptListVO } from '@/features/system/api/dept/dept';
 import { getUserPage, type SysUserPageRow } from '@/features/system/api/user/user';
-import { type PaginationTableState, usePaginationState } from '@/components/table/ListTable';
+import {
+  type FetchTableDataFn,
+  type FetchTableDataOptions,
+  type PaginationTableState,
+  usePaginationState,
+} from '@/components/table/ListTable';
 import { handleTree, TREE_ROOT_PARENT_ID } from '@/shared/utils/tree/tree';
 import { USER_DEPT_ALL_NODE_ID } from '@/features/system/user/constants/dept-tree';
 import { useDebounceFn } from '@vueuse/core';
@@ -86,15 +91,16 @@ watch(treeKeyword, () => {
 
 /**
  * 拉取用户表格；部门树未就绪时保持空表
+ * @param input 拉取选项；模板点击传入的 Event 视为普通刷新
  */
-async function fetchUserTable() {
+const fetchUserTable: FetchTableDataFn = async (input?: FetchTableDataOptions | Event) => {
   if (!deptTreeReady.value) {
     userState.tableData.value = [];
     userState.pagination.total = 0;
     return;
   }
-  await userState.fetchTableData();
-}
+  await userState.fetchTableData(input instanceof Event ? undefined : input);
+};
 
 watch(deptTreeReady, async (ready) => {
   if (ready) {

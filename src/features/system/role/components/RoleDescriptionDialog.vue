@@ -2,7 +2,7 @@
 import type { SysRoleDetail } from '@/features/system/api/role/role';
 import DetailRelationCountBar from '@/features/system/_shared/components/DetailRelationCountBar.vue';
 import Description from '@/components/ui/Description';
-import { renderBooleanStatusTag } from '@/components/table/BooleanStatusTag';
+import { renderActiveStatusTag, renderInactiveStatusTag } from '@/components/table/BooleanStatusTag';
 import { createAuditDetailColumns } from '@/components/table/AuditColumns';
 import type { DetailDialog } from '@/shared/types/dialog';
 import useOpenRoleAuthorizationSurface from '@/features/system/role/hooks/authorization/useOpenRoleAuthorizationSurface';
@@ -26,7 +26,7 @@ const descriptionColumns = computed(() => [
     label: t('roles.field.status'),
     prop: 'status',
     labelWidth: 120,
-    cellRenderer: ({ value }: { value: boolean }) => renderBooleanStatusTag(value),
+    cellRenderer: ({ value }: { value: boolean }) => (value ? renderActiveStatusTag() : renderInactiveStatusTag()),
   },
   { label: t('roles.field.orderNum'), prop: 'orderNum', labelWidth: 120 },
   { label: t('roles.field.remark'), prop: 'remark', labelWidth: 120, span: 2 },

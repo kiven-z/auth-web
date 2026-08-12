@@ -28,15 +28,6 @@ const visibleThemeColors = computed(() => {
 });
 
 /**
- * 是否为需要描边的浅色色板
- * @param navTheme 侧栏皮肤标识
- * @returns 是否浅色色板
- */
-function isLightThemeSwatch(navTheme: string): boolean {
-  return LIGHT_THEME_SWATCHES.has(navTheme);
-}
-
-/**
  * 主题色选中勾颜色（浅色板用深色勾，其余用白色勾）
  * @param current 侧栏皮肤标识
  * @returns 勾选图标颜色
@@ -45,7 +36,7 @@ function getThemeCheckColor(current: string): string {
   if (current !== layoutTheme.value.navTheme) {
     return 'transparent';
   }
-  return isLightThemeSwatch(current) ? 'var(--auth-color-gray-12)' : 'var(--auth-text-anti)';
+  return LIGHT_THEME_SWATCHES.has(current) ? 'var(--auth-color-gray-12)' : 'var(--auth-text-anti)';
 }
 
 const themeOptions = computed<Array<OptionsType>>(() => {
@@ -106,7 +97,7 @@ function handleColorSchemeChange(theme: { index: number; option: { theme: string
       <li
         v-for="item in visibleThemeColors"
         :key="item.navTheme"
-        :class="{ 'theme-color__swatch--light': isLightThemeSwatch(item.navTheme) }"
+        :class="{ 'theme-color__swatch--light': LIGHT_THEME_SWATCHES.has(item.navTheme) }"
         :style="{ background: item.color }"
         class="theme-color__swatch"
         @click="setNavTheme(item.navTheme)"

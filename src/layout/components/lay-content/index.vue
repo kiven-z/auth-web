@@ -4,8 +4,7 @@ import LayFrame from '../lay-frame/index.vue';
 import LayFooter from '../lay-footer/index.vue';
 import { getConfig } from '@/auth/config';
 import { getUiPreferenceState } from '@/core/preferences/persistence/storage';
-import { useLayoutCapabilities } from '@/layout/hooks/layout/useLayoutCapabilities';
-import isNumber from 'lodash/isNumber';
+import { resolveLayContentMainWidth, resolveLayContentSectionStyle } from '@/layout/utils/content-style';
 import RocketIcon from '~icons/ri/rocket-line';
 import { computed, defineComponent, h, Transition } from 'vue';
 import { usePermissionStore } from '@/store/modules/auth/permission';
@@ -20,7 +19,6 @@ const props = defineProps({
 
 const { t } = useI18n();
 const preferenceState = getUiPreferenceState();
-const { capabilities } = useLayoutCapabilities();
 const platformConfig = getConfig();
 const showModel = computed(() => preferenceState.configure?.showModel || 'smart');
 
@@ -29,41 +27,21 @@ const isKeepAlive = computed(() => {
 });
 
 const transitions = computed(() => {
-  return (route) => {
-    return route.meta.transition;
-  };
+  return (route) => route.meta.transition;
 });
 
-const hideTabs = computed(() => {
-  return preferenceState.configure.hideTabs;
-});
+const hideTabs = computed(() => preferenceState.configure.hideTabs);
+const hideFooter = computed(() => preferenceState.configure.hideFooter);
+const stretch = computed(() => preferenceState.configure.stretch);
+const getMainWidth = computed(() => resolveLayContentMainWidth(stretch.value));
 
-const hideFooter = computed(() => {
-  return preferenceState.configure.hideFooter;
-});
-
-const stretch = computed(() => {
-  return preferenceState.configure.stretch;
-});
-
-const isVerticalLayout = computed(() => capabilities.value.mode === 'vertical');
-
-const getMainWidth = computed(() => {
-  return isNumber(stretch.value) ? stretch.value + 'px' : stretch.value ? '1440px' : '100%';
-});
-
-const getSectionStyle = computed(() => {
-  const vertical = isVerticalLayout.value;
-  return [
-    hideTabs.value && vertical ? 'padding-top: 48px;' : '',
-    !hideTabs.value && vertical ? (showModel.value === 'chrome' ? 'padding-top: 85px;' : 'padding-top: 81px;') : '',
-    hideTabs.value && !vertical ? 'padding-top: 48px;' : '',
-    !hideTabs.value && !vertical ? (showModel.value === 'chrome' ? 'padding-top: 85px;' : 'padding-top: 81px;') : '',
-    props.fixedHeader
-      ? ''
-      : `padding-top: 0;${hideTabs.value ? 'min-height: calc(100vh - 48px);' : 'min-height: calc(100vh - 86px);'}`,
-  ];
-});
+const getSectionStyle = computed(() =>
+  resolveLayContentSectionStyle({
+    hideTabs: hideTabs.value,
+    showModel: showModel.value,
+    fixedHeader: props.fixedHeader,
+  })
+);
 
 const transitionMain = defineComponent({
   props: {

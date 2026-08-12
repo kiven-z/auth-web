@@ -1,6 +1,6 @@
 import { formatDateTime } from '@/shared/utils/date/dateTime';
 import { useRenderIcon } from '@/components/ui/Icon';
-import { renderBooleanStatusTag } from '@/components/table/BooleanStatusTag';
+import { renderActiveStatusTag, renderInactiveStatusTag } from '@/components/table/BooleanStatusTag';
 import { transformI18n } from '@/app/plugins/i18n';
 import type { SysMenuRow } from '@/features/system/menu/hooks/useMenuPageState';
 import { ElTag, ElText } from 'element-plus';
@@ -64,7 +64,7 @@ function useMenuTableColumns() {
       label: t('sysMenu.status'),
       prop: 'status',
       width: 95,
-      render: ({ row }: { row: SysMenuRow }) => renderBooleanStatusTag(row.status),
+      render: ({ row }: { row: SysMenuRow }) => (row.status ? renderActiveStatusTag() : renderInactiveStatusTag()),
     },
     {
       label: t('sysMenu.showLink'),

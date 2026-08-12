@@ -9,6 +9,7 @@ import {
   FILE_EXPORT_TASK_CANCELLABLE_STATUS,
   FILE_EXPORT_TASK_RETRYABLE_STATUS,
   useFileExportTaskOptions,
+  useInProgressTablePoll,
 } from '@/components/domain/file/FileExportTaskTable';
 import { FILE_EXPORT_TASK_PERMS } from '@/features/file/export-task/constants/permissions';
 import useAdminFileExportTaskTableColumns from '@/features/file/export-task/hooks/columns/useAdminFileExportTaskTableColumns';
@@ -46,12 +47,14 @@ const fileExportTaskState = usePaginationState({
   }),
 });
 
-const { loading, searchForm, fetchTableData, resetQuery } = fileExportTaskState;
+const { loading, searchForm, tableData, fetchTableData, resetQuery } = fileExportTaskState;
 const { userOptions, userSearchLoading, loadUserListByKeyword } = useRemoteUserSearch();
 const { openDetailDialog, openAttemptsDialog, forceCancelTask, forceRetryTask } = useAdminFileExportTaskTableAction({
   fetchTableData,
 });
 const { searchExpanded, showAdvancedSearchToggle, toggleAdvancedSearch } = useCollapsibleSearchForm(6);
+
+useInProgressTablePoll({ tableData, fetchTableData });
 
 onMounted(() => {
   fetchTableData();

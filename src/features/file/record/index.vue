@@ -198,7 +198,7 @@ onMounted(() => {
           :loading="currentDownloadingRowId === row.id"
           link
           type="primary"
-          @click="downloadRow(row.id)"
+          @click="downloadRow(row)"
         >
           {{ t('buttons.actionDownload') }}
         </el-button>

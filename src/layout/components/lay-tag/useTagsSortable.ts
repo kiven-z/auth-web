@@ -71,13 +71,13 @@ export function useTagsSortable(tabListRef: Ref<HTMLElement | undefined>, enable
           const target = nextTags[newIndex];
 
           if (!moved || isFixedTagItem(moved) || isFixedTagItem(target)) {
-            multiTagsStore.handleTags('equal', [...multiTagsStore.multiTags]);
+            multiTagsStore.setTags([...multiTagsStore.multiTags]);
             return;
           }
 
           const [row] = nextTags.splice(oldIndex, 1);
           nextTags.splice(newIndex, 0, row);
-          multiTagsStore.handleTags('equal', nextTags);
+          multiTagsStore.setTags(nextTags);
         });
       },
     });

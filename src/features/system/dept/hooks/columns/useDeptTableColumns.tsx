@@ -1,5 +1,5 @@
 import type { SysDeptRow } from '@/features/system/dept/hooks/useDeptPageState';
-import { renderBooleanStatusTag } from '@/components/table/BooleanStatusTag';
+import { renderActiveStatusTag, renderInactiveStatusTag } from '@/components/table/BooleanStatusTag';
 import { createAuditTableColumns } from '@/components/table/AuditColumns';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
@@ -30,7 +30,7 @@ function useDeptTableColumns() {
       label: t('dept.field.status'),
       prop: 'status',
       width: 100,
-      render: ({ row }: { row: SysDeptRow }) => renderBooleanStatusTag(row.status),
+      render: ({ row }: { row: SysDeptRow }) => (row.status ? renderActiveStatusTag() : renderInactiveStatusTag()),
     },
     ...createAuditTableColumns(),
     { label: t('table.actions'), fixed: 'right', width: 220, slot: 'actions' },

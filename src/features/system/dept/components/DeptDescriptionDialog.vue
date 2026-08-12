@@ -4,7 +4,7 @@ import type { DetailDialog } from '@/shared/types/dialog';
 import type { SysDeptDetail } from '@/features/system/api/dept/dept';
 import DetailRelationCountBar from '@/features/system/_shared/components/DetailRelationCountBar.vue';
 import Description from '@/components/ui/Description';
-import { renderBooleanStatusTag } from '@/components/table/BooleanStatusTag';
+import { renderActiveStatusTag, renderInactiveStatusTag } from '@/components/table/BooleanStatusTag';
 import { TREE_ROOT_PARENT_ID } from '@/shared/utils/tree/tree';
 import useOpenDeptAuthorizationSurface from '@/features/system/dept/hooks/authorization/useOpenDeptAuthorizationSurface';
 import { computed } from 'vue';
@@ -47,7 +47,7 @@ const descriptionColumns = computed(() => [
     label: t('dept.field.status'),
     prop: 'status',
     labelWidth: 120,
-    cellRenderer: ({ value }: { value: boolean }) => renderBooleanStatusTag(value),
+    cellRenderer: ({ value }: { value: boolean }) => (value ? renderActiveStatusTag() : renderInactiveStatusTag()),
   },
   { label: t('dept.field.orderNum'), prop: 'orderNum', labelWidth: 120 },
   { label: t('dept.field.remark'), prop: 'remark', labelWidth: 120, span: 2 },

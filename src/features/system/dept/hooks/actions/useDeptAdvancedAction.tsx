@@ -1,9 +1,14 @@
+import { useFilterAsyncExport } from '@/components/domain/file/FilterAsyncExport';
 import type { DialogOptions } from '@/components/ui/Dialog';
 import { addDialog, closeDialog } from '@/components/ui/Dialog';
-import type { SysDeptPageQuery } from '@/features/system/api/dept/dept';
-import { downloadDeptImportTemplate, exportDeptExcelAsync, importDeptExcel } from '@/features/system/api/dept/dept';
-import { useFilterAsyncExport } from '@/components/domain/file/FilterAsyncExport';
 import useSpreadsheetImportAction from '@/features/system/_shared/hooks/useSpreadsheetImportAction';
+import type { SysDeptPageQuery } from '@/features/system/api/dept/dept';
+import {
+  downloadDeptImportTemplate,
+  exportDeptExcelAsync,
+  importDeptExcel,
+  preCheckDeptExport,
+} from '@/features/system/api/dept/dept';
 import DeptClosureHealthDialog from '@/features/system/dept/components/DeptClosureHealthDialog.vue';
 import { h, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
@@ -15,9 +20,6 @@ interface ClosureHealthDialogExpose {
 /** 部门高级操作配置 */
 export interface UseDeptAdvancedActionOptions {
   searchForm: SysDeptPageQuery;
-  pagination: {
-    total: number;
-  };
   refresh: () => Promise<void>;
 }
 
@@ -37,8 +39,8 @@ function useDeptAdvancedAction(options: UseDeptAdvancedActionOptions) {
 
   const { exporting, exportByFilter } = useFilterAsyncExport<SysDeptPageQuery>({
     searchForm: options.searchForm,
-    pagination: options.pagination,
     asyncExportApi: exportDeptExcelAsync,
+    preCheckApi: preCheckDeptExport,
   });
 
   /**

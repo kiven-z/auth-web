@@ -4,7 +4,7 @@ import type { DetailDialog } from '@/shared/types/dialog';
 import type { SysPermissionDetail } from '@/features/system/api/permission/permission';
 import DetailRelationCountBar from '@/features/system/_shared/components/DetailRelationCountBar.vue';
 import Description from '@/components/ui/Description';
-import { renderBooleanStatusTag } from '@/components/table/BooleanStatusTag';
+import { renderActiveStatusTag, renderInactiveStatusTag } from '@/components/table/BooleanStatusTag';
 import useOpenPermissionAuthorizationSurface from '@/features/system/permission/hooks/authorization/useOpenPermissionAuthorizationSurface';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
@@ -26,7 +26,7 @@ const descriptionColumns = computed(() => [
     label: t('permissions.field.status'),
     prop: 'status',
     labelWidth: 120,
-    cellRenderer: ({ value }: { value: boolean }) => renderBooleanStatusTag(value),
+    cellRenderer: ({ value }: { value: boolean }) => (value ? renderActiveStatusTag() : renderInactiveStatusTag()),
   },
   { label: t('permissions.field.orderNum'), prop: 'orderNum', labelWidth: 120 },
   { label: t('permissions.field.remark'), prop: 'remark', labelWidth: 120, span: 2 },

@@ -1,4 +1,11 @@
 fileExport:
   confirmTitle: 确认导出
   confirmMessage: 将按当前筛选导出约 {count} 条，提交后请到「我的导出」查看
+  checking: 正在检查可导出数据…
+  normalTitle: 可以导出
+  normalSub: 将导出 {count} 条，格式 Excel，确认后提交任务
+  shardedTitle: 将打包为 ZIP
+  shardedSub: 将导出 {count} 条，分 {shards} 个文件打包为 ZIP，确认后提交任务
+  exceededTitle: 超出导出上限
+  exceededSub: 最多导出 {max} 条，当前约 {current} 条，请缩小筛选范围
   submitted: 任务已提交

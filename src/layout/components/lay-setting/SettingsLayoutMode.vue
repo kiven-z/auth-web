@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import Segmented, { type OptionsType } from '@/components/ui/Segmented';
-import { useUiConfigure } from '@/layout/hooks/configure/useUiConfigure';
+import { patchConfigureField } from '@/layout/hooks/configure/useUiConfigure';
 import { useUiLayout } from '@/layout/hooks/layout/useUiLayout';
 import { getConfigureSnapshot, getUiPreferenceState } from '@/core/preferences/persistence/storage';
 import { useAppStore } from '@/store/modules/app/app';
@@ -18,7 +18,6 @@ import RightArrow from '~icons/ri/arrow-right-s-line?width=20&height=20';
 const { t } = useI18n();
 const { device } = storeToRefs(useAppStore());
 const preferenceState = getUiPreferenceState();
-const { patchConfigureField } = useUiConfigure();
 const { setLayoutMode, layoutTheme } = useUiLayout();
 
 const mixRef = ref();

@@ -1,9 +1,9 @@
-import type { LocaleType } from '@/auth/config/locales';
 import { i18n } from '@/app/plugins/i18n';
+import type { LocaleType } from '@/auth/config/locales';
+import { buildPrimaryColorInlineStyle } from '@/shared/utils/color/primaryColorInline';
 import { useAppStore } from '@/store/modules/app/app';
 import { useEpThemeStore } from '@/store/modules/app/epTheme';
 import { useMultiTagsStore } from '@/store/modules/app/multiTags';
-import { buildPrimaryColorInlineStyle } from '@/shared/utils/color/primaryColorInline';
 import { DEFAULT_LOCALE } from '../defaults/preference-defaults';
 import { resolveEffectiveLayout } from '../defaults/runtime-layout';
 import { getConfigureSnapshot, getLayoutSnapshot, getLocaleSnapshot } from '../persistence/storage';

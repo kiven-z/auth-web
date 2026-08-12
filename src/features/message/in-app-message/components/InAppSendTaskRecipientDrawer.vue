@@ -25,7 +25,7 @@ interface InAppSendTaskRecipientDrawerProps {
   /** 任务标题（展示用） */
   title?: string | null;
   /** 接收范围类型，用于提示文案 */
-  recipientScopeType: InAppRecipientScopeType | string;
+  recipientScopeType: InAppRecipientScopeType;
 }
 
 const props = defineProps<InAppSendTaskRecipientDrawerProps>();

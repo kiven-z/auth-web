@@ -9,9 +9,11 @@ const ASTERISK = '*';
  * @returns 是否命中通配权限
  */
 function isAdminPermission(userPermissions: string[]): boolean {
-  const permissions = userPermissions.filter((permission) => permission?.trim()).map((permission) => permission.trim());
+  const permissions = new Set(
+    userPermissions.filter((permission) => permission?.trim()).map((permission) => permission.trim())
+  );
 
-  return ADMIN_WILDCARD_PERMISSIONS.some((wildcard) => permissions.includes(wildcard));
+  return ADMIN_WILDCARD_PERMISSIONS.some((wildcard) => permissions.has(wildcard));
 }
 
 /**

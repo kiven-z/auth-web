@@ -48,7 +48,7 @@ export function useEmailTemplateTableMoreAction(options: TableActionDeps) {
           successI18nKey: 'tips.editSuccess',
           requireId: true,
           onSubmit: async (formPayload) => {
-            await updateEmailTemplateContent({ id: formPayload.id!, content: formPayload.content ?? '' });
+            await updateEmailTemplateContent({ id: formPayload.id, content: formPayload.content ?? '' });
             await fetchTableData();
           },
         }),

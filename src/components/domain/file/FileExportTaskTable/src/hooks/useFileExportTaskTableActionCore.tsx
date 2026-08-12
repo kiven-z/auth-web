@@ -1,17 +1,19 @@
-import type { TableActionDeps } from '@/shared/types/table-action';
+import type { ColumnProps } from '@/components/ui/Description';
+import { addDialog } from '@/components/ui/Dialog';
 import type {
   FileExportTaskAdminDetail,
   FileExportTaskDetail,
   FileExportTaskDownloadLink,
   FileExportTaskPageRow,
 } from '@/features/file/api/models/file-export-task';
-import { type ColumnProps, Description } from '@/components/ui/Description';
-import { addDialog } from '@/components/ui/Dialog';
 import { operationConfirm } from '@/services/feedback/dialog';
 import { errorMessage, message } from '@/services/feedback/message';
+import type { TableActionDeps } from '@/shared/types/table-action';
+import { downloadUrlAsFile } from '@/shared/utils/file/fileExport';
 import { openLink } from '@/shared/utils/url/url';
 import { type ComputedRef, type Ref, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
+import FileExportTaskDetailView from '../FileExportTaskDetailView.vue';
 
 /** 导出任务表格动作核心配置 */
 interface UseFileExportTaskTableActionCoreOptions extends TableActionDeps {
@@ -50,7 +52,14 @@ function useFileExportTaskTableActionCore(options: UseFileExportTaskTableActionC
         width: '80%',
         draggable: false,
         hideFooter: true,
-        contentRenderer: () => <Description column={2} columns={detailColumns.value} data={detail} />,
+        contentRenderer: () => (
+          <FileExportTaskDetailView
+            taskId={row.id}
+            initialDetail={detail}
+            detailApi={detailApi}
+            columns={detailColumns.value}
+          />
+        ),
       });
     } catch (error: unknown) {
       errorMessage(error);
@@ -113,7 +122,12 @@ function useFileExportTaskTableActionCore(options: UseFileExportTaskTableActionC
         message(t('fileExportTask.messages.downloadLinkUnavailable'), { type: 'warning' });
         return;
       }
-      openLink(downloadLink.url);
+      const fileName = downloadLink.fileName?.trim() || 'export-artifact';
+      try {
+        await downloadUrlAsFile(downloadLink.url, fileName);
+      } catch {
+        openLink(downloadLink.url);
+      }
       message(t('fileExportTask.messages.downloadSuccess'), { type: 'success' });
     } catch (error: unknown) {
       errorMessage(error);

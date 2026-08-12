@@ -1,11 +1,11 @@
-import './index.css';
-import type { OptionsType } from './type';
 import { useRenderIcon } from '@/components/ui/Icon';
 import { useDark } from '@/shared/composables/theme/useDark';
+import { useResizeObserver } from '@vueuse/core';
 import isFunction from 'lodash/isFunction';
 import isNumber from 'lodash/isNumber';
-import { useResizeObserver } from '@vueuse/core';
 import { defineComponent, getCurrentInstance, h, nextTick, type PropType, ref, toRef, useId, watch } from 'vue';
+import './index.css';
+import type { OptionsType } from './type';
 
 const props = {
   options: {

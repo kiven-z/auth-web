@@ -1,13 +1,11 @@
 <script lang="ts" setup>
 import Segmented, { type OptionsType } from '@/components/ui/Segmented';
-import { useUiConfigure } from '@/layout/hooks/configure/useUiConfigure';
+import { patchConfigureField } from '@/layout/hooks/configure/useUiConfigure';
 import { getConfigureSnapshot } from '@/core/preferences/persistence/storage';
 import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 const { t } = useI18n();
-const { patchConfigureField } = useUiConfigure();
-
 /** 默认灵动模式 */
 const markValue = ref(getConfigureSnapshot().showModel ?? 'smart');
 

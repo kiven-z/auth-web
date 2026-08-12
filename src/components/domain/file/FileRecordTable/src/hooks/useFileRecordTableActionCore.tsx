@@ -4,7 +4,8 @@ import { Description } from '@/components/ui/Description';
 import { addDialog } from '@/components/ui/Dialog';
 import { errorMessage, message } from '@/services/feedback/message';
 import useBatchDeleteAction from '@/components/table/BatchDeleteAction';
-import { downloadBlob } from '@/shared/utils/file/fileExport';
+import { downloadBlob, sanitizeDownloadFilename } from '@/shared/utils/file/fileExport';
+import { buildExportFilenameStamp } from '@/shared/utils/date/dateTime';
 import useFileRecordDetailColumns from './useFileRecordDetailColumns';
 import { ref } from 'vue';
 import { useI18n } from 'vue-i18n';
@@ -17,6 +18,20 @@ export interface UseFileRecordTableActionCoreOptions extends TableActionWithSele
   downloadApi: (ids: string[]) => Promise<Blob>;
   /** 详情查询 API。 */
   detailApi: (id: string) => Promise<FileRecordDetail>;
+}
+
+/**
+ * 从原始文件名取不含扩展名的主干
+ * @param originalName 原始文件名
+ * @returns 主干名
+ */
+function fileNameStem(originalName?: string): string {
+  const cleaned = sanitizeDownloadFilename(originalName, 'file');
+  const lastDot = cleaned.lastIndexOf('.');
+  if (lastDot <= 0) {
+    return cleaned;
+  }
+  return cleaned.slice(0, lastDot);
 }
 
 /**
@@ -35,17 +50,17 @@ function useFileRecordTableActionCore(options: UseFileRecordTableActionCoreOptio
 
   /**
    * 下载单行文件记录。
-   * @param id 文件记录主键
+   * @param row 文件记录行
    * @returns 无返回值
    */
-  const downloadRow = async (id: string): Promise<void> => {
+  const downloadRow = async (row: FileRecordPageRow): Promise<void> => {
     if (currentDownloadingRowId.value || batchDownloadLoading.value) {
       return;
     }
-    currentDownloadingRowId.value = id;
+    currentDownloadingRowId.value = row.id;
     try {
-      const blob = await downloadApi([id]);
-      downloadBlob(blob, 'file-records.zip');
+      const blob = await downloadApi([row.id]);
+      downloadBlob(blob, `${fileNameStem(row.originalName)}.zip`);
       message(t('fileRecord.messages.downloadSuccess'), { type: 'success' });
     } catch (error: unknown) {
       errorMessage(error);
@@ -66,7 +81,7 @@ function useFileRecordTableActionCore(options: UseFileRecordTableActionCoreOptio
     batchDownloadLoading.value = true;
     try {
       const blob = await downloadApi(targetIds);
-      downloadBlob(blob, 'file-records.zip');
+      downloadBlob(blob, `file-records_${buildExportFilenameStamp()}.zip`);
       message(t('fileRecord.messages.batchDownloadSuccess', { count: targetIds.length }), { type: 'success' });
     } catch (error: unknown) {
       errorMessage(error);

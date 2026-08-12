@@ -5,7 +5,7 @@ import { useCommonBooleanStatusOptions } from '@/shared/composables/i18n/useComm
 import { useFormPlaceholder } from '@/shared/composables/i18n/useFormPlaceholder';
 import { SYS_JOB_PERMS } from '@/features/schedule/schedule-task/constants/permissions';
 import useJobTableAction from '@/features/schedule/schedule-task/hooks/useJobTableAction';
-import useJobTableColumns from '@/features/schedule/schedule-task/hooks/useJobTableColumns';
+import useJobTableColumns from '@/features/schedule/schedule-task/hooks/columns/useJobTableColumns';
 import type { FormInstance } from 'element-plus';
 import { computed, onMounted, reactive, ref } from 'vue';
 import { useI18n } from 'vue-i18n';

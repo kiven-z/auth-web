@@ -3,6 +3,7 @@ import type { AxiosRequestConfig } from 'axios';
 import type { PageResponse, SortSpec } from '@/api/common/page';
 import type { BaseResponse, BaseResponsePageRow } from '@/api/common/response';
 import type { IdsEnableStatusRequest } from '@/api/common/request';
+import type { ExportPreCheckResult } from '@/features/file/api/models/export-precheck';
 import { http } from '@/core/http/client';
 import type { SpreadsheetImportResult } from '@/api/common/import';
 
@@ -39,6 +40,17 @@ export interface SysRolePageRow extends BaseResponsePageRow {
 export function getRolePage(params: SysRolePageQuery): Promise<PageResponse<SysRolePageRow>> {
   return http.get<PageResponse<SysRolePageRow>, AxiosRequestConfig<SysRolePageQuery>>('/system/role/page', {
     params,
+  });
+}
+
+/**
+ * 导出角色前置检查（按当前筛选估算行数与产物格式）
+ * @param filter 列表筛选（不含分页）
+ * @returns 前置检查结果
+ */
+export function preCheckRoleExport(filter: SysRolePageQuery): Promise<ExportPreCheckResult> {
+  return http.post<ExportPreCheckResult, SysRolePageQuery>('/system/role/export/pre-check', {
+    data: filter,
   });
 }
 

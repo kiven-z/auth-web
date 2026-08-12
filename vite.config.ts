@@ -54,7 +54,8 @@ export default ({ mode }: ConfigEnv): UserConfigExport => {
       exclude: optimizeDepsExclude,
     },
     build: {
-      target: 'es2015',
+      // 入口使用 top-level await，需 ≥ es2022
+      target: 'es2022',
       sourcemap: false,
       chunkSizeWarningLimit: 4000,
       rollupOptions: {

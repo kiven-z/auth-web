@@ -15,6 +15,7 @@ import {
   FILE_EXPORT_TASK_RETRYABLE_STATUS,
   useFileExportTaskOptions,
   useFileExportTaskTableActionCore,
+  useInProgressTablePoll,
 } from '@/components/domain/file/FileExportTaskTable';
 import usePersonalFileExportTaskTableColumns from '@/features/home/personal/panels/export-task/columns/usePersonalFileExportTaskTableColumns';
 import type { FormInstance } from 'element-plus';
@@ -49,7 +50,7 @@ const personalFileExportTaskState = usePaginationState({
   }),
 });
 
-const { loading, searchForm, fetchTableData, resetQuery } = personalFileExportTaskState;
+const { loading, searchForm, tableData, fetchTableData, resetQuery } = personalFileExportTaskState;
 
 const { detailColumns } = usePersonalFileExportTaskDetailColumns();
 const { openDetailDialog, cancelTask, retryTask, downloadTask, currentDownloadingRowId } =
@@ -61,6 +62,8 @@ const { openDetailDialog, cancelTask, retryTask, downloadTask, currentDownloadin
     getDownloadLinkApi: getPersonalFileExportTaskDownloadLink,
     detailColumns,
   });
+
+useInProgressTablePoll({ tableData, fetchTableData });
 
 onMounted(() => {
   fetchTableData();

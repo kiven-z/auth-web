@@ -5,6 +5,7 @@ import {
   downloadUserImportTemplate,
   exportUserExcelAsync,
   importUserExcel,
+  preCheckUserExport,
   refreshUserAuthorization,
   type SysUserPageQuery,
 } from '@/features/system/api/user/user';
@@ -18,9 +19,6 @@ import { useI18n } from 'vue-i18n';
 /** 用户页高级功能 composable 配置 */
 export interface UseUserAdvanceActionOptions extends TableActionWithSelectionDeps {
   searchForm: SysUserPageQuery;
-  pagination: {
-    total: number;
-  };
 }
 
 /**
@@ -29,7 +27,7 @@ export interface UseUserAdvanceActionOptions extends TableActionWithSelectionDep
  * @returns 高级功能操作方法
  */
 function useUserAdvanceAction(options: UseUserAdvanceActionOptions) {
-  const { fetchTableData, selectedRows, searchForm, pagination } = options;
+  const { fetchTableData, selectedRows, searchForm } = options;
   const { t } = useI18n();
 
   const { openImportDialog } = useSpreadsheetImportAction({
@@ -47,8 +45,8 @@ function useUserAdvanceAction(options: UseUserAdvanceActionOptions) {
 
   const { exporting, exportByFilter } = useFilterAsyncExport<SysUserPageQuery>({
     searchForm,
-    pagination,
     asyncExportApi: exportUserExcelAsync,
+    preCheckApi: preCheckUserExport,
   });
 
   /**

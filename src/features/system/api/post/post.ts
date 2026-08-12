@@ -3,6 +3,7 @@ import type { AxiosRequestConfig } from 'axios';
 import type { PageResponse, SortSpec } from '@/api/common/page';
 import type { BaseResponseDetail, BaseResponsePageRow } from '@/api/common/response';
 import type { IdsEnableStatusRequest } from '@/api/common/request';
+import type { ExportPreCheckResult } from '@/features/file/api/models/export-precheck';
 import type { DeptReference } from '@/features/system/api/models/grant-table';
 import { http } from '@/core/http/client';
 import type { SpreadsheetImportResult } from '@/api/common/import';
@@ -74,6 +75,17 @@ export interface SysPostPageRow extends BaseResponsePageRow {
 export function getPostPage(params: SysPostPageQuery): Promise<PageResponse<SysPostPageRow>> {
   return http.get<PageResponse<SysPostPageRow>, AxiosRequestConfig<SysPostPageQuery>>('/system/post/page', {
     params,
+  });
+}
+
+/**
+ * 导出岗位前置检查（按当前筛选估算行数与产物格式）
+ * @param filter 列表筛选（不含分页）
+ * @returns 前置检查结果
+ */
+export function preCheckPostExport(filter: SysPostPageQuery): Promise<ExportPreCheckResult> {
+  return http.post<ExportPreCheckResult, SysPostPageQuery>('/system/post/export/pre-check', {
+    data: filter,
   });
 }
 

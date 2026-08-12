@@ -1,4 +1,11 @@
 fileExport:
   confirmTitle: Confirm export
   confirmMessage: Export about {count} rows with the current filters. Check My Exports after submission.
+  checking: Checking exportable data…
+  normalTitle: Ready to export
+  normalSub: Export {count} rows as Excel. Confirm to submit the task.
+  shardedTitle: Will download as ZIP
+  shardedSub: Export {count} rows in {shards} files packed as ZIP. Confirm to submit the task.
+  exceededTitle: Export limit exceeded
+  exceededSub: At most {max} rows allowed; about {current} rows match. Narrow your filters.
   submitted: Task submitted

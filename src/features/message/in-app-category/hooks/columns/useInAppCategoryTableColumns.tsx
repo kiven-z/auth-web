@@ -1,5 +1,5 @@
 import type { InAppMessageCategoryPageRow } from '@/features/message/api/in-app-category';
-import { renderBooleanStatusTag } from '@/components/table/BooleanStatusTag';
+import { renderActiveStatusTag, renderInactiveStatusTag } from '@/components/table/BooleanStatusTag';
 import { createAuditTableColumns } from '@/components/table/AuditColumns';
 import { TREE_ROOT_PARENT_ID } from '@/shared/utils/tree/tree';
 import { computed } from 'vue';
@@ -41,7 +41,8 @@ function useInAppCategoryTableColumns() {
       label: t('inAppCategory.field.status'),
       prop: 'status',
       minWidth: 100,
-      render: ({ row }: { row: InAppMessageCategoryPageRow }) => renderBooleanStatusTag(row.status),
+      render: ({ row }: { row: InAppMessageCategoryPageRow }) =>
+        row.status ? renderActiveStatusTag() : renderInactiveStatusTag(),
     },
     ...createAuditTableColumns(),
     {

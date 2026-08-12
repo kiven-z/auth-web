@@ -1,4 +1,5 @@
 import { message } from '@/services/feedback/message';
+import { toStableKey } from '@/shared/utils/string/toStableKey';
 
 /**
  * 判断值是否为空，不可复制。
@@ -22,8 +23,7 @@ function toCopyText(value: unknown): string {
     }
   }
 
-  // primitive 直接转字符串
-  return typeof value === 'string' ? value : String(value);
+  return toStableKey(value);
 }
 
 /**

@@ -72,7 +72,7 @@ export const useUserStore = defineStore('auth-user', {
       this.roles = [];
       this.permissions = [];
       removeToken();
-      useMultiTagsStore().handleTags('equal', [...routerArrays]);
+      useMultiTagsStore().setTags([...routerArrays]);
       resetRouter();
       await router.push('/login');
     },

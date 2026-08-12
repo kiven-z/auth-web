@@ -1,5 +1,5 @@
 import type { PermissionReference } from '@/features/system/api/models/grant-table';
-import { renderBooleanStatusTag } from '@/components/table/BooleanStatusTag';
+import { renderActiveStatusTag, renderInactiveStatusTag } from '@/components/table/BooleanStatusTag';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 
@@ -17,7 +17,8 @@ function usePermissionColumns() {
       label: t('permissions.field.status'),
       prop: 'status',
       minWidth: 90,
-      render: ({ row }: { row: PermissionReference }) => renderBooleanStatusTag(row.status),
+      render: ({ row }: { row: PermissionReference }) =>
+        row.status ? renderActiveStatusTag() : renderInactiveStatusTag(),
     },
   ]);
 

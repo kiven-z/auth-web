@@ -1,5 +1,5 @@
 import type { MessageTemplatePageRow } from '@/features/message/api/message-template';
-import { renderBooleanStatusTag } from '@/components/table/BooleanStatusTag';
+import { renderActiveStatusTag, renderInactiveStatusTag } from '@/components/table/BooleanStatusTag';
 import { createAuditTableColumns } from '@/components/table/AuditColumns';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
@@ -29,7 +29,9 @@ function useInAppTemplateTableColumns() {
       label: t('inAppTemplate.status'),
       prop: 'status',
       width: 110,
-      render: ({ row }: { row: MessageTemplatePageRow }) => renderBooleanStatusTag(row.status),
+      render: ({ row }: { row: MessageTemplatePageRow }) => {
+        return row.status ? renderActiveStatusTag() : renderInactiveStatusTag();
+      },
     },
     ...createAuditTableColumns(),
     {

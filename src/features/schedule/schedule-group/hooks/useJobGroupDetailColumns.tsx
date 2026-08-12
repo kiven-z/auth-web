@@ -1,5 +1,5 @@
 import { createAuditDetailColumns } from '@/components/table/AuditColumns';
-import { renderBooleanStatusTag } from '@/components/table/BooleanStatusTag';
+import { renderActiveStatusTag, renderInactiveStatusTag } from '@/components/table/BooleanStatusTag';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 
@@ -17,7 +17,7 @@ function useJobGroupDetailColumns() {
     {
       label: t('scheduleGroup.status'),
       prop: 'status',
-      cellRenderer: ({ value }: { value: boolean }) => renderBooleanStatusTag(value),
+      cellRenderer: ({ value }: { value: boolean }) => (value ? renderActiveStatusTag() : renderInactiveStatusTag()),
     },
     {
       label: t('scheduleGroup.isSystem'),

@@ -1,6 +1,7 @@
 import type { PageResponse, SortSpec } from '@/api/common/page';
 import type { BaseResponse, BaseResponseDetail } from '@/api/common/response';
 import type { IdsEnableStatusRequest } from '@/api/common/request';
+import type { ExportPreCheckResult } from '@/features/file/api/models/export-precheck';
 import { http } from '@/core/http/client';
 import { TREE_ROOT_PARENT_ID } from '@/shared/utils/tree/tree';
 import type { AxiosRequestConfig } from 'axios';
@@ -64,6 +65,17 @@ export interface SysDeptPageQuery extends SysDeptTableFilter {
 export function getDeptPage(params: SysDeptPageQuery): Promise<PageResponse<SysDeptListVO>> {
   return http.get<PageResponse<SysDeptListVO>, AxiosRequestConfig<SysDeptPageQuery>>('/system/dept/page', {
     params,
+  });
+}
+
+/**
+ * 导出部门前置检查（按当前筛选估算行数与产物格式）
+ * @param filter 列表筛选（不含分页）
+ * @returns 前置检查结果
+ */
+export function preCheckDeptExport(filter: SysDeptPageQuery): Promise<ExportPreCheckResult> {
+  return http.post<ExportPreCheckResult, SysDeptPageQuery>('/system/dept/export/pre-check', {
+    data: filter,
   });
 }
 

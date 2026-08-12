@@ -1,5 +1,5 @@
 import type { SysJobPageRow } from '@/features/schedule/api/job';
-import { renderBooleanStatusTag } from '@/components/table/BooleanStatusTag';
+import { renderActiveStatusTag, renderInactiveStatusTag } from '@/components/table/BooleanStatusTag';
 import { createAuditTableColumns } from '@/components/table/AuditColumns';
 import { formatDateTime } from '@/shared/utils/date/dateTime';
 import useJobFormOptions from '@/features/schedule/schedule-task/hooks/options/useJobFormOptions';
@@ -64,7 +64,7 @@ function useJobTableColumns() {
         if (row.status == null) {
           return '-';
         }
-        return renderBooleanStatusTag(row.status);
+        return row.status ? renderActiveStatusTag() : renderInactiveStatusTag();
       },
     },
     {

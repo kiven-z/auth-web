@@ -1,5 +1,5 @@
 import type { RoleBoundMenuItem } from '@/features/system/api/models/role';
-import { renderBooleanStatusTag } from '@/components/table/BooleanStatusTag';
+import { renderActiveStatusTag, renderInactiveStatusTag } from '@/components/table/BooleanStatusTag';
 import { useMenuTypeOptions } from '@/features/system/_shared/hooks/useMenuTypeOptions';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
@@ -43,7 +43,9 @@ function useMenuColumns() {
       label: t('sysMenu.status'),
       prop: 'status',
       minWidth: 90,
-      render: ({ row }: { row: RoleBoundMenuItem }) => renderBooleanStatusTag(row.status),
+      render: ({ row }: { row: RoleBoundMenuItem }) => {
+        return row.status ? renderActiveStatusTag() : renderInactiveStatusTag();
+      },
     },
   ]);
 

@@ -47,12 +47,7 @@ function handleClick() {
 </script>
 
 <template>
-  <div
-    :class="{ 'stat-metric-card--clickable': clickable }"
-    class="stat-metric-card"
-    role="presentation"
-    @click="handleClick"
-  >
+  <div :class="{ 'stat-metric-card--clickable': clickable }" class="stat-metric-card" @click="handleClick">
     <el-statistic :precision="precision" :suffix="suffix" :value="animatedValue" :value-style="valueStyle">
       <template #title>
         <div class="stat-metric-card__title">

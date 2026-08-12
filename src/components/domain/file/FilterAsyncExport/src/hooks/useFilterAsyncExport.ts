@@ -1,8 +1,9 @@
-import { multiConfirm } from '@/services/feedback/dialog';
+import { addDialog, closeDialog } from '@/components/ui/Dialog';
 import { errorMessage, message } from '@/services/feedback/message';
-import { ref, type Ref } from 'vue';
+import { h, ref, type Ref } from 'vue';
 import { useI18n } from 'vue-i18n';
-import type { UseFilterAsyncExportOptions } from '../types';
+import ExportPreCheckDialog from '../ExportPreCheckDialog.vue';
+import type { ExportPreCheckResult, UseFilterAsyncExportOptions } from '../types';
 
 /**
  * 生成幂等请求 ID
@@ -16,7 +17,7 @@ function createExportRequestId(): string {
 }
 
 /**
- * 按当前筛选提交异步导出（确认后创建任务）
+ * 按当前筛选提交异步导出（前置检查弹窗确认后创建任务）
  * @param options 导出配置
  * @returns `exporting` 加载状态与 `exportByFilter` 触发方法
  */
@@ -25,30 +26,53 @@ function useFilterAsyncExport<TFilter extends object>(options: UseFilterAsyncExp
   const exporting: Ref<boolean> = ref(false);
 
   /**
-   * 确认后按当前筛选提交异步导出任务
+   * 打开前置检查弹窗；确认后创建异步导出任务
    */
-  const exportByFilter = async () => {
-    const rawTotal = options.pagination.total;
-    const count = Number.isFinite(rawTotal) && rawTotal > 0 ? Math.floor(rawTotal) : 0;
-    const confirmed = await multiConfirm([
-      {
-        title: t('fileExport.confirmTitle'),
-        message: t('fileExport.confirmMessage', { count }),
-      },
-    ]);
-    if (!confirmed) {
+  const exportByFilter = () => {
+    if (exporting.value) {
       return;
     }
 
     exporting.value = true;
-    try {
-      await options.asyncExportApi({ ...options.searchForm }, createExportRequestId());
-      message(t('fileExport.submitted'), { type: 'success' });
-    } catch (error: unknown) {
-      errorMessage(error);
-    } finally {
-      exporting.value = false;
-    }
+    const resultRef = ref<ExportPreCheckResult | null>(null);
+
+    addDialog({
+      title: t('fileExport.confirmTitle'),
+      width: '480px',
+      draggable: true,
+      alignCenter: true,
+      closeOnClickModal: false,
+      destroyOnClose: true,
+      closeCallBack: () => {
+        exporting.value = false;
+      },
+      contentRenderer: ({ options: dialogOptions, index }) =>
+        h(ExportPreCheckDialog, {
+          runPreCheck: () => options.preCheckApi({ ...options.searchForm }),
+          onResult: (result: ExportPreCheckResult) => {
+            resultRef.value = result;
+          },
+          onFailed: (error: unknown) => {
+            closeDialog(dialogOptions, index, { command: 'close' });
+            errorMessage(error);
+          },
+        }),
+      beforeSure: async (done, { closeLoading }) => {
+        const result = resultRef.value;
+        if (!result || result.status === 'EXCEEDED') {
+          closeLoading();
+          return;
+        }
+        try {
+          await options.asyncExportApi({ ...options.searchForm }, createExportRequestId());
+          message(t('fileExport.submitted'), { type: 'success' });
+          done();
+        } catch (error: unknown) {
+          errorMessage(error);
+          closeLoading();
+        }
+      },
+    });
   };
 
   return {

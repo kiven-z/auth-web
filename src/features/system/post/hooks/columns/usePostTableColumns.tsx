@@ -1,5 +1,5 @@
 import type { SysPostPageRow } from '@/features/system/api/post/post';
-import { renderBooleanStatusTag } from '@/components/table/BooleanStatusTag';
+import { renderActiveStatusTag, renderInactiveStatusTag } from '@/components/table/BooleanStatusTag';
 import { createAuditTableColumns } from '@/components/table/AuditColumns';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
@@ -25,7 +25,7 @@ function usePostTableColumns() {
       label: t('post.field.status'),
       prop: 'status',
       minWidth: 100,
-      render: ({ row }: { row: SysPostPageRow }) => renderBooleanStatusTag(row.status),
+      render: ({ row }: { row: SysPostPageRow }) => (row.status ? renderActiveStatusTag() : renderInactiveStatusTag()),
     },
     // 排序号
     { label: t('post.field.orderNum'), prop: 'orderNum', width: 100 },

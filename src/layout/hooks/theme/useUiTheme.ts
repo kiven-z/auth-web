@@ -9,6 +9,27 @@ import { useLayout } from '@/layout/hooks/layout/useLayout';
 const COLOR_SCHEMES = new Set<ColorScheme>(['light', 'dark', 'system']);
 
 /**
+ * 设置 Element 主色并持久化
+ * @param color 色值
+ */
+function setPrimaryColor(color: string): void {
+  patchLayout({ primaryColor: color });
+  applyThemePreferences();
+}
+
+/**
+ * 设置侧栏皮肤并同步主色（方案 A：色板即整套主题）
+ * @param navTheme 侧栏皮肤标识
+ */
+function setNavTheme(navTheme = DEFAULT_NAV_THEME): void {
+  patchLayout({
+    navTheme,
+    primaryColor: resolvePrimaryColorForNavTheme(navTheme),
+  });
+  applyThemePreferences();
+}
+
+/**
  * UI 主题读写（经 preferences storage 网关）
  * @returns 主题读写与 DOM 副作用
  */
@@ -30,27 +51,6 @@ export function useUiTheme() {
       ? layoutSnapshot.colorScheme
       : DEFAULT_COLOR_SCHEME
   );
-
-  /**
-   * 设置 Element 主色并持久化
-   * @param color 色值
-   */
-  function setPrimaryColor(color: string): void {
-    patchLayout({ primaryColor: color });
-    applyThemePreferences();
-  }
-
-  /**
-   * 设置侧栏皮肤并同步主色（方案 A：色板即整套主题）
-   * @param navTheme 侧栏皮肤标识
-   */
-  function setNavTheme(navTheme = DEFAULT_NAV_THEME): void {
-    patchLayout({
-      navTheme,
-      primaryColor: resolvePrimaryColorForNavTheme(navTheme),
-    });
-    applyThemePreferences();
-  }
 
   /**
    * 浅色 / 深色 / 跟随系统

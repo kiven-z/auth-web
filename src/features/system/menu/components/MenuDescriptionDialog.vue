@@ -5,7 +5,7 @@ import type { SysMenuDetailVO } from '@/features/system/api/menu/menu';
 import { useRenderIcon } from '@/components/ui/Icon';
 import DetailRelationCountBar from '@/features/system/_shared/components/DetailRelationCountBar.vue';
 import Description from '@/components/ui/Description';
-import { renderBooleanStatusTag } from '@/components/table/BooleanStatusTag';
+import { renderActiveStatusTag, renderInactiveStatusTag } from '@/components/table/BooleanStatusTag';
 import { transformI18n } from '@/app/plugins/i18n';
 import { TREE_ROOT_PARENT_ID } from '@/shared/utils/tree/tree';
 import useOpenMenuAuthorizationSurface from '@/features/system/menu/hooks/authorization/useOpenMenuAuthorizationSurface';
@@ -89,7 +89,7 @@ const descriptionColumns = computed(() => [
     label: t('sysMenu.status'),
     prop: 'status',
     labelWidth: 120,
-    cellRenderer: ({ value }: { value: boolean }) => renderBooleanStatusTag(value),
+    cellRenderer: ({ value }: { value: boolean }) => (value ? renderActiveStatusTag() : renderInactiveStatusTag()),
   },
   { label: t('sysMenu.menuRank'), prop: 'menuRank', labelWidth: 120 },
   { label: t('menus.component'), prop: 'component', labelWidth: 120, copy: true },

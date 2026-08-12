@@ -35,11 +35,10 @@ const roleState = usePaginationState({
   }),
 });
 
-const { loading, searchForm, pagination, selectedRows, fetchTableData, resetQuery } = roleState;
+const { loading, searchForm, selectedRows, fetchTableData, resetQuery } = roleState;
 
 const { exporting, exportByFilter, openImportDialog } = useRoleAdvanceAction({
   searchForm,
-  pagination,
   fetchTableData,
 });
 

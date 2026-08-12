@@ -1,5 +1,5 @@
 import type { SysRolePageRow } from '@/features/system/api/role/role';
-import { renderBooleanStatusTag } from '@/components/table/BooleanStatusTag';
+import { renderActiveStatusTag, renderInactiveStatusTag } from '@/components/table/BooleanStatusTag';
 import { createAuditTableColumns } from '@/components/table/AuditColumns';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
@@ -23,7 +23,7 @@ function useRoleTableColumns() {
       label: t('roles.field.status'),
       prop: 'status',
       minWidth: 100,
-      render: ({ row }: { row: SysRolePageRow }) => renderBooleanStatusTag(row.status),
+      render: ({ row }: { row: SysRolePageRow }) => (row.status ? renderActiveStatusTag() : renderInactiveStatusTag()),
     },
     // 排序号
     { label: t('roles.field.orderNum'), prop: 'orderNum', width: 100 },

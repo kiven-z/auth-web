@@ -29,7 +29,7 @@ export interface MessageTemplatePageQuery {
  * 分页行
  */
 export interface MessageTemplatePageRow extends BaseResponsePageRow {
-  channel: MessageChannelCode | string;
+  channel: MessageChannelCode;
   /** 场景编码 */
   templateCode: string;
   templateName: string;
@@ -55,7 +55,7 @@ export function getMessageTemplatePage(params: MessageTemplatePageQuery) {
 
 /** 详情 */
 export interface MessageTemplateDetailVO extends BaseResponseDetail {
-  channel: MessageChannelCode | string;
+  channel: MessageChannelCode;
   /** 场景编码 */
   templateCode: string;
   templateName: string;

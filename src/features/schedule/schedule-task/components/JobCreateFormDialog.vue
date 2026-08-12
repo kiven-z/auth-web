@@ -37,7 +37,7 @@ const form = ref<SysJobCreateForm>({
 });
 
 const { jobGroupOptions, loadingJobGroups, loadJobGroupByKeyword } = useJobGroupRemoteSearch();
-const { catalogByMode, findJobParamsExample, formatJobParamsExample, loadCatalogClasses } = useJobCatalog();
+const { catalogByMode, findJobParamsExample, loadCatalogClasses } = useJobCatalog();
 const {
   selectedBeanClass,
   selectedBeanMethod,
@@ -106,7 +106,8 @@ watch(
     if (!example) {
       return;
     }
-    form.value.jobParams = formatJobParamsExample(example);
+
+    form.value.jobParams = JSON.stringify(JSON.parse(example), null, 2);
   }
 );
 

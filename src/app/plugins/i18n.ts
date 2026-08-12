@@ -3,8 +3,12 @@ import { getLocaleDef, locales } from '@/auth/config/locales';
 import { storageLocal } from '@/core/storage/storageLocal';
 import isObject from 'lodash/isObject';
 import merge from 'lodash/merge';
-import type { App, WritableComputedRef } from 'vue';
+import type { App } from 'vue';
+import { unref } from 'vue';
 import { createI18n, type I18n } from 'vue-i18n';
+
+/** transformI18n 可接受的文案：i18n key 或按 locale 映射的标题 */
+export type TransformI18nMessage = string | Record<string, string>;
 
 /**
  * 扫描子目录（如 zh-CN/buttons.yaml, en/panel.yaml）
@@ -83,36 +87,6 @@ const flatI18n = (prefix = 'zh-CN') => {
 };
 
 /**
- * 国际化转换工具函数（自动读取根目录locales文件夹下文件进行国际化匹配）
- * @param message message
- * @returns 转化后的message
- */
-export function transformI18n(message: any = '') {
-  if (!message) {
-    return '';
-  }
-
-  // 处理存储动态路由的title,格式 {zh:"",en:""}
-  if (typeof message === 'object') {
-    const locale: string | WritableComputedRef<string> | any = i18n.global.locale;
-    return message[locale?.value];
-  }
-
-  const key = message.match(/(\S*)\./)?.input;
-  const locale: string | WritableComputedRef<string> | any = i18n.global.locale;
-  const folder = getLocaleDef(locale?.value).folder;
-
-  if (key && flatI18n(folder).has(key)) {
-    return i18n.global.t.call(i18n.global.locale, message);
-  } else if (!key && Object.hasOwn(siphonI18n(folder), message)) {
-    // 扁平 key（非嵌套）也能命中翻译
-    return i18n.global.t.call(i18n.global.locale, message);
-  } else {
-    return message;
-  }
-}
-
-/**
  * 仅供 i18n Ally 做键名智能提示，运行时原样返回 key；不用国际化时可删
  * @param key 键
  * @returns 键
@@ -125,6 +99,35 @@ export const i18n: I18n = createI18n({
   fallbackLocale: 'en',
   messages: localesConfigs,
 });
+
+/**
+ * 国际化转换工具函数（自动读取根目录 locales 下文件进行匹配）
+ * @param message i18n key，或动态路由标题映射 `{ zh, en }`
+ * @returns 转化后的文案；空入参或映射缺当前语言时返回空串
+ */
+export function transformI18n(message: TransformI18nMessage | null | undefined = ''): string {
+  if (!message) {
+    return '';
+  }
+
+  const localeCode = unref(i18n.global.locale);
+
+  // 动态路由 title：{ zh: '', en: '' }
+  if (typeof message === 'object') {
+    return message[localeCode] ?? '';
+  }
+
+  const key = /(\S*)\./.exec(message)?.input;
+  const folder = getLocaleDef(localeCode).folder;
+
+  if (key && flatI18n(folder).has(key)) {
+    return String(i18n.global.t.call(i18n.global.locale, message));
+  }
+  if (!key && Object.hasOwn(siphonI18n(folder), message)) {
+    return String(i18n.global.t.call(i18n.global.locale, message));
+  }
+  return message;
+}
 
 export function useI18n(app: App) {
   app.use(i18n);

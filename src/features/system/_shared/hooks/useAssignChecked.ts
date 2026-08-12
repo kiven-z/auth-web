@@ -1,6 +1,7 @@
 import { computed, ref } from 'vue';
 
 import type { AssignGetRowLabel, AssignSeedItem } from '@/features/system/_shared/types';
+import { toStableKey } from '@/shared/utils/string/toStableKey';
 
 /** {@link useAssignChecked} 配置 */
 export interface UseAssignCheckedOptions {
@@ -21,21 +22,12 @@ export function useAssignChecked(options: UseAssignCheckedOptions) {
   const keyLabels = ref<Record<string, string>>({});
 
   /**
-   * 解析行 key
-   * @param row 行数据
-   * @returns 行 key
-   */
-  function resolveRowKey(row: Record<string, unknown>): string {
-    return String(row[options.rowKey] ?? '');
-  }
-
-  /**
    * 解析行 label
    * @param row 行数据
    * @returns 行 label
    */
   function resolveRowLabel(row: Record<string, unknown>): string {
-    return options.getRowLabel(row) || resolveRowKey(row);
+    return options.getRowLabel(row) || toStableKey(row[options.rowKey] ?? '');
   }
 
   /**
@@ -71,7 +63,7 @@ export function useAssignChecked(options: UseAssignCheckedOptions) {
     }
     const next = { ...keyLabels.value };
     for (const row of rows) {
-      const key = resolveRowKey(row);
+      const key = toStableKey(row[options.rowKey] ?? '');
       if (!key) {
         continue;
       }
@@ -89,7 +81,7 @@ export function useAssignChecked(options: UseAssignCheckedOptions) {
    * @returns 是否已选中
    */
   function isSelected(row: Record<string, unknown>): boolean {
-    const key = resolveRowKey(row);
+    const key = toStableKey(row[options.rowKey] ?? '');
     return key ? selectedKeys.value.includes(key) : false;
   }
 
@@ -98,7 +90,7 @@ export function useAssignChecked(options: UseAssignCheckedOptions) {
    * @param row 行数据
    */
   function toggle(row: Record<string, unknown>) {
-    const key = resolveRowKey(row);
+    const key = toStableKey(row[options.rowKey] ?? '');
     if (!key) {
       return;
     }

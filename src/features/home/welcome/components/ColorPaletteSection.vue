@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { buildAuthColorVar, THEME_LAB_PALETTE_ROWS } from '../constants/theme-lab-palettes';
+import { THEME_LAB_PALETTE_ROWS } from '../constants/theme-lab-palettes';
 import ThemeLabSection from './ThemeLabSection.vue';
 
 defineOptions({
@@ -18,7 +18,7 @@ defineOptions({
         <div
           v-for="step in row.steps"
           :key="`${row.tokenPrefix}-${step}`"
-          :style="{ background: buildAuthColorVar(row.tokenPrefix, step) }"
+          :style="{ background: `var(--auth-color-${row.tokenPrefix}-${step})` }"
           :title="`--auth-color-${row.tokenPrefix}-${step}`"
           class="color-palette-section__swatch"
         >

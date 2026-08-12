@@ -40,14 +40,7 @@ function logout(): void {
   userStore.logoutAndClear();
 }
 
-const {
-  t,
-  locale,
-  translation: applyLocale,
-  localeOptions,
-  getDropdownItemStyle,
-  getDropdownItemClass,
-} = useTranslationLang();
+const { t, locale, translation: applyLocale, localeOptions } = useTranslationLang();
 
 /**
  * 切换语言并刷新横向菜单尺寸
@@ -86,8 +79,11 @@ watch(
         <el-dropdown-item
           v-for="item in localeOptions"
           :key="item.locale"
-          :class="['dark:text-white!', getDropdownItemClass(locale, item.locale)]"
-          :style="getDropdownItemStyle(locale, item.locale)"
+          :class="['dark:text-white!', locale === item.locale ? '' : 'dark:hover:text-primary!']"
+          :style="{
+            background: locale === item.locale ? 'var(--el-color-primary)' : '',
+            color: locale === item.locale ? 'var(--auth-text-anti)' : 'var(--auth-text-primary)',
+          }"
           @click="translation(item.locale)"
         >
           <IconifyIconOffline v-show="locale === item.locale" :icon="Check" class="layout-toolbar__check" />

@@ -25,7 +25,7 @@ export interface FileExportTaskPageQuery {
   pageSize?: number;
   bizType?: string;
   status?: FileExportTaskStatus;
-  exportFormat?: FileExportFormat | string;
+  exportFormat?: FileExportFormat;
   startTime?: string;
   endTime?: string;
 }
@@ -35,8 +35,8 @@ export interface FileExportTaskPageQuery {
  */
 export interface FileExportTaskPageRow extends BaseResponsePageRow {
   bizType?: string;
-  exportFormat?: string;
-  status?: FileExportTaskStatus | string;
+  exportFormat?: FileExportFormat;
+  status?: FileExportTaskStatus;
   progressPercent?: number;
   processedRows?: number;
   totalRows?: number;
@@ -63,9 +63,9 @@ export interface FileExportTaskDownloadLink {
  */
 export interface FileExportTaskDetail extends BaseResponseDetail {
   bizType?: string;
-  exportFormat?: string;
+  exportFormat?: FileExportFormat;
   querySnapshotJson?: string;
-  status?: FileExportTaskStatus | string;
+  status?: FileExportTaskStatus;
   progressPercent?: number;
   processedRows?: number;
   totalRows?: number;
@@ -120,7 +120,7 @@ export interface FileExportAttempt {
   taskId?: string;
   attemptNo?: number;
   workerId?: string;
-  result?: FileExportAttemptResult | string;
+  result?: FileExportAttemptResult;
   processedRows?: number;
   errorCode?: string;
   errorMessage?: string;

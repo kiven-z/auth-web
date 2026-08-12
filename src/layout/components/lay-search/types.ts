@@ -17,4 +17,4 @@ interface Props {
   options: Array<MenuSearchOption>;
 }
 
-export type { MenuSearchOption, MenuSearchDrag, Props };
+export type { MenuSearchDrag, MenuSearchOption, Props };

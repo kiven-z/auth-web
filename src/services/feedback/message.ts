@@ -1,6 +1,6 @@
 import { transformI18n } from '@/app/plugins/i18n';
-import isFunction from 'lodash/isFunction';
 import { ElMessage, type MessageHandler } from 'element-plus';
+import isFunction from 'lodash/isFunction';
 import type { VNode } from 'vue';
 
 type messageStyle = 'el' | 'antd';

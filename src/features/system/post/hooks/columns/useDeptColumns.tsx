@@ -1,5 +1,5 @@
 import type { DeptReference } from '@/features/system/api/models/grant-table';
-import { renderBooleanStatusTag } from '@/components/table/BooleanStatusTag';
+import { renderActiveStatusTag, renderInactiveStatusTag } from '@/components/table/BooleanStatusTag';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 
@@ -17,7 +17,7 @@ function useDeptColumns() {
       label: t('dept.field.status'),
       prop: 'status',
       minWidth: 90,
-      render: ({ row }: { row: DeptReference }) => renderBooleanStatusTag(row.status),
+      render: ({ row }: { row: DeptReference }) => (row.status ? renderActiveStatusTag() : renderInactiveStatusTag()),
     },
   ]);
 
@@ -28,7 +28,7 @@ function useDeptColumns() {
       label: t('dept.field.status'),
       prop: 'status',
       labelWidth: 120,
-      cellRenderer: ({ value }: { value: boolean }) => renderBooleanStatusTag(value),
+      cellRenderer: ({ value }: { value: boolean }) => (value ? renderActiveStatusTag() : renderInactiveStatusTag()),
     },
   ]);
 

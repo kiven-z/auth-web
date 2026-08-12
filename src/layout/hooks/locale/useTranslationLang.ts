@@ -6,9 +6,9 @@ import { useI18n } from 'vue-i18n';
 import { useRoute } from 'vue-router';
 
 /**
- * 导航栏语言切换；附带语言下拉选中样式与偏好持久化
+ * 导航栏语言切换；附带偏好持久化
  * @param menuRef 可选菜单 ref，切换语言后触发 handleResize
- * @returns i18n、translation 与下拉样式
+ * @returns i18n、translation
  */
 export function useTranslationLang(menuRef?: Ref<{ handleResize?: () => void } | undefined>) {
   const { locale, t } = useI18n();
@@ -32,29 +32,6 @@ export function useTranslationLang(menuRef?: Ref<{ handleResize?: () => void } |
     menuRef?.value?.handleResize?.();
   }
 
-  /**
-   * 语言下拉项选中背景/文字色
-   * @param current 当前语言
-   * @param target 选项语言
-   * @returns 行内样式
-   */
-  function getDropdownItemStyle(current: string, target: string): Record<string, string> {
-    return {
-      background: current === target ? 'var(--el-color-primary)' : '',
-      color: current === target ? 'var(--auth-text-anti)' : 'var(--auth-text-primary)',
-    };
-  }
-
-  /**
-   * 语言下拉项未选中时的 class
-   * @param current 当前语言
-   * @param target 选项语言
-   * @returns class 字符串
-   */
-  function getDropdownItemClass(current: string, target: string): string {
-    return current === target ? '' : 'dark:hover:text-primary!';
-  }
-
   watch(
     () => locale.value,
     () => {
@@ -72,7 +49,5 @@ export function useTranslationLang(menuRef?: Ref<{ handleResize?: () => void } |
     locale,
     translation,
     localeOptions,
-    getDropdownItemStyle,
-    getDropdownItemClass,
   };
 }

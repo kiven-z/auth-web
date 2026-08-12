@@ -1,7 +1,7 @@
 import type { PageResponse } from '@/api/common/page';
-import { runListTableFetch } from '../pagination';
 import type { FormInstance } from 'element-plus';
 import { reactive, ref } from 'vue';
+import { runListTableFetch } from '../pagination';
 
 /** {@link usePaginationState} 配置 */
 export interface UsePaginationStateOptions<TData = unknown, TQuery extends Record<string, any> = Record<string, any>> {
@@ -13,6 +13,29 @@ export interface UsePaginationStateOptions<TData = unknown, TQuery extends Recor
   searchForm: TQuery;
   /** 每页条数，默认 30 */
   defaultPageSize?: number;
+}
+
+/** 表格拉取选项 */
+export interface FetchTableDataOptions {
+  /** 为 true 时不切换 loading（后台轮询） */
+  silent?: boolean;
+}
+
+/**
+ * 拉取表格数据（可静默）。
+ *
+ * 含 `(event: Event)` 重载：兼容模板 `@click="fetchTableData"`，DOM 事件会被忽略。
+ */
+export interface FetchTableDataFn {
+  (options?: FetchTableDataOptions): Promise<void>;
+  (event: Event): Promise<void>;
+}
+
+function resolveFetchSilent(input: unknown): boolean {
+  if (input == null || typeof input !== 'object' || input instanceof Event) {
+    return false;
+  }
+  return (input as FetchTableDataOptions).silent === true;
 }
 
 /**
@@ -49,14 +72,16 @@ export function usePaginationState<TData = unknown, TQuery extends Record<string
 
   /**
    * 获取表格数据。构造 query 后调用 fetchApi，更新 tableData 与 pagination。
+   * @param input 拉取选项；模板点击传入的 Event 视为普通刷新
    */
-  const fetchTableData = async () => {
+  const fetchTableData: FetchTableDataFn = async (input?: FetchTableDataOptions | Event) => {
     await runListTableFetch<TData, TQuery>({
       loading,
       searchForm,
       pagination,
       tableData,
       fetchApi,
+      silent: resolveFetchSilent(input),
     });
   };
 

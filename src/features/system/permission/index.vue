@@ -33,11 +33,10 @@ const permissionState = usePaginationState({
   }),
 });
 
-const { loading, searchForm, pagination, selectedRows, fetchTableData, resetQuery } = permissionState;
+const { loading, searchForm, selectedRows, fetchTableData, resetQuery } = permissionState;
 
 const { exporting, exportByFilter, openImportDialog } = usePermissionAdvanceAction({
   searchForm,
-  pagination,
   fetchTableData,
 });
 

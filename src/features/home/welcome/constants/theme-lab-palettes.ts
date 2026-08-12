@@ -25,13 +25,3 @@ export const THEME_LAB_PALETTE_ROWS: readonly ThemeLabPaletteRow[] = [
 export const THEME_LAB_PRIMARY_PRESETS: readonly string[] = [
   ...new Set(NAV_THEME_COLOR_ITEMS.map((item) => resolvePrimaryColorForNavTheme(item.navTheme))),
 ];
-
-/**
- * 拼 --auth-color-{prefix}-{step}
- * @param tokenPrefix 色板前缀
- * @param step 阶梯序号
- * @returns CSS 变量引用
- */
-export function buildAuthColorVar(tokenPrefix: string, step: number): string {
-  return `var(--auth-color-${tokenPrefix}-${step})`;
-}

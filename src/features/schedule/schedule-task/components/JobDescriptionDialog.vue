@@ -2,7 +2,7 @@
 import type { DetailDialog } from '@/shared/types/dialog';
 import type { SysJobDetailRow } from '@/features/schedule/api/job';
 import Description from '@/components/ui/Description';
-import { renderBooleanStatusTag } from '@/components/table/BooleanStatusTag';
+import { renderActiveStatusTag, renderInactiveStatusTag } from '@/components/table/BooleanStatusTag';
 import { createAuditDetailColumns } from '@/components/table/AuditColumns';
 import { formatDateTime } from '@/shared/utils/date/dateTime';
 import useJobFormOptions from '@/features/schedule/schedule-task/hooks/options/useJobFormOptions';
@@ -62,7 +62,7 @@ const descriptionColumns = computed(() => {
         if (value == null) {
           return <span>{'—'}</span>;
         }
-        return renderBooleanStatusTag(value);
+        return value ? renderActiveStatusTag() : renderInactiveStatusTag();
       },
     },
     { label: t('scheduleTask.fields.invokeTarget'), prop: 'invokeTarget', labelWidth: 120, span: 2, copy: true },

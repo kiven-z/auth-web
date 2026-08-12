@@ -3,6 +3,7 @@ import {
   downloadPermissionImportTemplate,
   exportPermissionExcelAsync,
   importPermissionExcel,
+  preCheckPermissionExport,
 } from '@/features/system/api/permission/permission';
 import { useFilterAsyncExport } from '@/components/domain/file/FilterAsyncExport';
 import useSpreadsheetImportAction from '@/features/system/_shared/hooks/useSpreadsheetImportAction';
@@ -10,9 +11,6 @@ import useSpreadsheetImportAction from '@/features/system/_shared/hooks/useSprea
 /** 权限页 Excel 导出 composable 配置 */
 export interface UsePermissionExportActionOptions {
   searchForm: SysPermissionPageQuery;
-  pagination: {
-    total: number;
-  };
   fetchTableData: () => Promise<void>;
 }
 
@@ -31,8 +29,8 @@ function usePermissionAdvanceAction(options: UsePermissionExportActionOptions) {
 
   const { exporting, exportByFilter } = useFilterAsyncExport<SysPermissionPageQuery>({
     searchForm: options.searchForm,
-    pagination: options.pagination,
     asyncExportApi: exportPermissionExcelAsync,
+    preCheckApi: preCheckPermissionExport,
   });
 
   return {

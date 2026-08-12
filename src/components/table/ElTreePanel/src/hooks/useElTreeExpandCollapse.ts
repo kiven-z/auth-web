@@ -1,5 +1,6 @@
 import type { TreeInstance } from 'element-plus';
 import { nextTick, ref, type Ref, unref } from 'vue';
+import { toStableKey } from '@/shared/utils/string/toStableKey';
 
 /** {@link useElTreeExpandCollapse} 配置 */
 export interface UseElTreeExpandCollapseOptions {
@@ -28,9 +29,9 @@ export function useElTreeExpandCollapse(options: UseElTreeExpandCollapseOptions)
     const walk = (list: unknown[]) => {
       for (const item of list) {
         const row = item as Record<string, unknown>;
-        const id = row[nodeIdKey];
-        if (id !== undefined && id !== null) {
-          ids.push(String(id));
+        const key = toStableKey(row[nodeIdKey]);
+        if (key) {
+          ids.push(key);
         }
         const children = row.children as unknown[] | undefined;
         if (children?.length) {

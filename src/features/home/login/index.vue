@@ -32,7 +32,7 @@ const { dataTheme, colorScheme, setColorScheme } = useUiTheme();
 const { themeToggleRef, onThemeToggle } = useLoginThemeTransition(dataTheme, () => setColorScheme());
 const title = getAppTitle();
 const logoUrl = getLogoUrl();
-const { locale, translation, localeOptions, getDropdownItemStyle, getDropdownItemClass } = useTranslationLang();
+const { locale, translation, localeOptions } = useTranslationLang();
 
 const { currentMode, formKey, switchMode, onLoginSuccess } = useLogin();
 const loginModeOptions = useLoginModeOptions();
@@ -74,8 +74,11 @@ setColorScheme(colorScheme.value);
             <el-dropdown-item
               v-for="item in localeOptions"
               :key="item.locale"
-              :class="['dark:text-white!', getDropdownItemClass(locale, item.locale)]"
-              :style="getDropdownItemStyle(locale, item.locale)"
+              :class="['dark:text-white!', locale === item.locale ? '' : 'dark:hover:text-primary!']"
+              :style="{
+                background: locale === item.locale ? 'var(--el-color-primary)' : '',
+                color: locale === item.locale ? 'var(--auth-text-anti)' : 'var(--auth-text-primary)',
+              }"
               @click="translation(item.locale)"
             >
               <IconifyIconOffline v-show="locale === item.locale" :icon="Check" class="check-icon" />

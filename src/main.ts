@@ -54,18 +54,20 @@ app.component('AuthDropdown', AuthDropdown);
 
 app.use(VueTippy);
 
-getPlatformConfig(app).then(async () => {
-  setupStore(app);
-  // 将会话能力桥接到 Pinia（须在 setupStore 之后、首次 setToken 之前）
-  registerUserProfileSync((profile) => useUserStore().applyUserProfile(profile));
-  registerSessionLogout(() => useUserStore().logOut());
-  app.use(router);
-  await router.isReady();
-  injectResponsiveStorage(app);
-  installDataTable(app);
-  app.use(MotionPlugin).use(useI18n).use(useElementPlus).use(Description).use(useEcharts);
-  applyHydratedUiPreferences();
-  syncSystemThemeFromOs();
-  startSystemThemeWatch();
-  app.mount('#app');
-});
+await getPlatformConfig(app);
+setupStore(app);
+// 将会话能力桥接到 Pinia（须在 setupStore 之后、首次 setToken 之前）
+registerUserProfileSync((profile) => useUserStore().applyUserProfile(profile));
+registerSessionLogout(() => useUserStore().logOut());
+app.use(router);
+
+await router.isReady();
+injectResponsiveStorage(app);
+installDataTable(app);
+
+app.use(MotionPlugin).use(useI18n).use(useElementPlus).use(Description).use(useEcharts);
+applyHydratedUiPreferences();
+syncSystemThemeFromOs();
+startSystemThemeWatch();
+
+app.mount('#app');

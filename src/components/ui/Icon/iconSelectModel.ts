@@ -26,23 +26,6 @@ export function parseIconModelValue(value: string): { collection: IconCollection
   };
 }
 
-/** 按 Tab 键取图标名列表（类型保证 key 合法） */
-export function iconNamesOf(map: IconCollectionMap, key: IconCollectionKey): readonly string[] {
-  return map[key];
-}
-
-/** 关键字过滤（子串匹配） */
-export function filterIcons(icons: readonly string[], filter: string): string[] {
-  return icons.filter((name) => name.includes(filter));
-}
-
-/**
- * 1-based 分页切片
- */
-export function paginateIcons(icons: readonly string[], page: number, pageSize: number): string[] {
-  return icons.slice((page - 1) * pageSize, page * pageSize);
-}
-
 /**
  * 图标名所在页（1-based）；不在列表中时回第 1 页。
  */

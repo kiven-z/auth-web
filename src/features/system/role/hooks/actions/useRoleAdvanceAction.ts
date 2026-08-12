@@ -1,14 +1,16 @@
 import type { SysRolePageQuery } from '@/features/system/api/role/role';
-import { downloadRoleImportTemplate, exportRoleExcelAsync, importRoleExcel } from '@/features/system/api/role/role';
+import {
+  downloadRoleImportTemplate,
+  exportRoleExcelAsync,
+  importRoleExcel,
+  preCheckRoleExport,
+} from '@/features/system/api/role/role';
 import { useFilterAsyncExport } from '@/components/domain/file/FilterAsyncExport';
 import useSpreadsheetImportAction from '@/features/system/_shared/hooks/useSpreadsheetImportAction';
 
 /** 角色页 Excel 导出 composable 配置 */
 export interface UseRoleExportActionOptions {
   searchForm: SysRolePageQuery;
-  pagination: {
-    total: number;
-  };
   fetchTableData: () => Promise<void>;
 }
 
@@ -27,8 +29,8 @@ function useRoleAdvanceAction(options: UseRoleExportActionOptions) {
 
   const { exporting, exportByFilter } = useFilterAsyncExport<SysRolePageQuery>({
     searchForm: options.searchForm,
-    pagination: options.pagination,
     asyncExportApi: exportRoleExcelAsync,
+    preCheckApi: preCheckRoleExport,
   });
 
   return {

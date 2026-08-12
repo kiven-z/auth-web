@@ -16,8 +16,8 @@ export interface ChannelDeliveryPageQuery {
   sort?: SortSpec[];
   /** 任务/批次 ID */
   taskId?: string;
-  channel?: MessageChannelCode | string;
-  status?: MessageDeliveryStatusCode | string;
+  channel?: MessageChannelCode;
+  status?: MessageDeliveryStatusCode;
 }
 
 /**
@@ -26,8 +26,8 @@ export interface ChannelDeliveryPageQuery {
 export interface ChannelDeliveryPageRow extends BaseResponsePageRow {
   /** 任务/批次 ID */
   taskId: string;
-  channel: MessageChannelCode | string;
-  status: MessageDeliveryStatusCode | string;
+  channel: MessageChannelCode;
+  status: MessageDeliveryStatusCode;
   providerMsgId?: string | null;
   errorCode?: string | null;
   sentAt?: string | null;
@@ -51,10 +51,10 @@ export function getChannelDeliveryPage(params: ChannelDeliveryPageQuery) {
 export interface ChannelDeliveryDetailVO extends BaseResponseDetail {
   /** 任务/批次 ID */
   taskId: string;
-  channel: MessageChannelCode | string;
+  channel: MessageChannelCode;
   /** 投递目标 */
   targetValue?: string | null;
-  status: MessageDeliveryStatusCode | string;
+  status: MessageDeliveryStatusCode;
   providerMsgId?: string | null;
   errorCode?: string | null;
   errorMessage?: string | null;

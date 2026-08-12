@@ -57,8 +57,12 @@ export async function runListTableFetch<TRow, TQuery extends Record<string, any>
   pagination: { total: number; pageSize: number; currentPage: number };
   tableData: Ref<unknown>;
   fetchApi: (query: TQuery) => Promise<PageResponse<TRow>>;
+  /** 为 true 时不切换 loading（用于后台轮询） */
+  silent?: boolean;
 }): Promise<void> {
-  options.loading.value = true;
+  if (!options.silent) {
+    options.loading.value = true;
+  }
   const query = buildPaginationQuery(options.searchForm, options.pagination.currentPage, options.pagination.pageSize);
   const rows = options.tableData as Ref<TRow[]>;
   try {
@@ -70,6 +74,8 @@ export async function runListTableFetch<TRow, TQuery extends Record<string, any>
     rows.value = [];
     options.pagination.total = 0;
   } finally {
-    options.loading.value = false;
+    if (!options.silent) {
+      options.loading.value = false;
+    }
   }
 }

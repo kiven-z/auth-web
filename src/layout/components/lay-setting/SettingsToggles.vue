@@ -1,11 +1,10 @@
 <script lang="ts" setup>
-import { useUiConfigure } from '@/layout/hooks/configure/useUiConfigure';
+import { patchConfigureField } from '@/layout/hooks/configure/useUiConfigure';
 import { getConfigureSnapshot } from '@/core/preferences/persistence/storage';
 import { nextTick, onBeforeMount, reactive, ref, unref } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 const { t } = useI18n();
-const { patchConfigureField } = useUiConfigure();
 const configureSnapshot = getConfigureSnapshot();
 
 const logoVal = ref(configureSnapshot.showLogo ?? true);

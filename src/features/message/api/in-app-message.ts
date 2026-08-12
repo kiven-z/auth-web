@@ -62,9 +62,9 @@ export interface InAppSendTaskPageQuery {
   pageIndex?: number;
   pageSize?: number;
   sort?: SortSpec[];
-  status?: InAppMessageStatusCode | string;
-  sourceType?: InAppMessageSourceType | string;
-  recipientScopeType?: InAppRecipientScopeType | string;
+  status?: InAppMessageStatusCode;
+  sourceType?: InAppMessageSourceType;
+  recipientScopeType?: InAppRecipientScopeType;
   /** 业务小类 ID */
   categoryId?: string;
   /** 标题关键字 */
@@ -75,21 +75,21 @@ export interface InAppSendTaskPageQuery {
  * 站内信发送任务分页行
  */
 export interface InAppSendTaskPageRow extends BaseResponsePageRow {
-  sourceType: InAppMessageSourceType | string;
+  sourceType: InAppMessageSourceType;
   sceneCode?: string | null;
   title: string;
-  contentType: InAppContentType | string;
+  contentType: InAppContentType;
   /** 业务小类 ID */
   categoryId?: string | null;
   /** 业务小类名称 */
   categoryName?: string | null;
   /** 发起人用户 ID */
   senderUserId?: string | null;
-  recipientScopeType: InAppRecipientScopeType | string;
+  recipientScopeType: InAppRecipientScopeType;
   totalCount: number;
   successCount: number;
   failCount: number;
-  status: InAppMessageStatusCode | string;
+  status: InAppMessageStatusCode;
   recalledAt?: string | null;
 }
 
@@ -109,10 +109,10 @@ export function getInAppSendTaskPage(params: InAppSendTaskPageQuery) {
  * 站内信发送任务详情
  */
 export interface InAppSendTaskDetailVO extends BaseResponseDetail {
-  sourceType: InAppMessageSourceType | string;
+  sourceType: InAppMessageSourceType;
   sceneCode?: string | null;
   title: string;
-  contentType: InAppContentType | string;
+  contentType: InAppContentType;
   /** 定稿正文 */
   content: string;
   /** 业务小类 ID */
@@ -122,7 +122,7 @@ export interface InAppSendTaskDetailVO extends BaseResponseDetail {
   linkUrl?: string | null;
   /** 发起人用户 ID */
   senderUserId?: string | null;
-  recipientScopeType: InAppRecipientScopeType | string;
+  recipientScopeType: InAppRecipientScopeType;
   /** 接收范围快照原始 JSON */
   recipientScopeJson?: string | null;
   /** 范围 ID 列表（由快照解析；ALL 为空） */
@@ -132,7 +132,7 @@ export interface InAppSendTaskDetailVO extends BaseResponseDetail {
   totalCount: number;
   successCount: number;
   failCount: number;
-  status: InAppMessageStatusCode | string;
+  status: InAppMessageStatusCode;
   recalledAt?: string | null;
   /** 撤回操作人用户 ID */
   recallUserId?: string | null;

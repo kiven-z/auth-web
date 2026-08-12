@@ -1,3 +1,5 @@
+import UserAvatar from '@/components/domain/user/UserAvatar';
+import { renderActiveStatusTag, renderInactiveStatusTag } from '@/components/table/BooleanStatusTag';
 import type {
   DeptBoundUserReference,
   PostBoundUserReference,
@@ -7,12 +9,10 @@ import type {
 } from '@/features/system/api/models/grant-table';
 import type { UserDeptPageRow } from '@/features/system/api/user/user-dept';
 import type { UserPostPageRow } from '@/features/system/api/user/user-post';
-import UserAvatar from '@/components/domain/user/UserAvatar';
-import useUserProfileDisplay from './useUserProfileDisplay';
-import { renderBooleanStatusTag } from '@/components/table/BooleanStatusTag';
 import { ElCheckTag } from 'element-plus';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
+import useUserProfileDisplay from './useUserProfileDisplay';
 
 interface RelationStatusRow {
   relationStatus?: number;
@@ -40,8 +40,39 @@ function resolveRelationStatus(row: RelationStatusRow): number | undefined {
  */
 function useUserProfileColumns() {
   const { t } = useI18n();
-  const { renderUserAccountStatus, renderUserGender, renderRelationStatus, renderIsPrimary, renderPostIsPrimary } =
-    useUserProfileDisplay();
+  const { renderUserAccountStatus, renderUserGender, renderRelationStatus } = useUserProfileDisplay();
+
+  function renderDeptPrimaryTag() {
+    return (
+      <ElCheckTag checked type="danger">
+        {t('relation.primary')}
+      </ElCheckTag>
+    );
+  }
+
+  function renderDeptNonPrimaryTag() {
+    return (
+      <ElCheckTag checked={false} type="info">
+        {t('relation.nonPrimary')}
+      </ElCheckTag>
+    );
+  }
+
+  function renderPostPrimaryTag() {
+    return (
+      <ElCheckTag checked type="danger">
+        {t('post.enums.primary.yes')}
+      </ElCheckTag>
+    );
+  }
+
+  function renderPostNonPrimaryTag() {
+    return (
+      <ElCheckTag checked type="primary">
+        {t('post.enums.primary.no')}
+      </ElCheckTag>
+    );
+  }
 
   const userColumns = computed(() => [
     { label: t('users.field.username'), prop: 'username', copy: true },
@@ -79,22 +110,12 @@ function useUserProfileColumns() {
     {
       label: t('relation.isPrimary'),
       prop: 'isPrimary',
-      cellRenderer: ({ value }: { value: boolean }) => {
-        return value ? (
-          <ElCheckTag checked type="danger">
-            {t('relation.primary')}
-          </ElCheckTag>
-        ) : (
-          <ElCheckTag checked={false} type="info">
-            {t('relation.nonPrimary')}
-          </ElCheckTag>
-        );
-      },
+      cellRenderer: ({ value }: { value: boolean }) => (value ? renderDeptPrimaryTag() : renderDeptNonPrimaryTag()),
     },
     {
       label: t('dept.field.status'),
       prop: 'status',
-      cellRenderer: ({ value }: { value: boolean }) => renderBooleanStatusTag(value),
+      cellRenderer: ({ value }: { value: boolean }) => (value ? renderActiveStatusTag() : renderInactiveStatusTag()),
     },
     {
       label: t('relation.status'),
@@ -113,21 +134,13 @@ function useUserProfileColumns() {
       prop: 'isPrimary',
       cellRenderer: ({ value }: { value: boolean | number }) => {
         const primary = value === true || value === 1;
-        return primary ? (
-          <ElCheckTag checked type="danger">
-            {t('post.enums.primary.yes')}
-          </ElCheckTag>
-        ) : (
-          <ElCheckTag checked type="primary">
-            {t('post.enums.primary.no')}
-          </ElCheckTag>
-        );
+        return primary ? renderPostPrimaryTag() : renderPostNonPrimaryTag();
       },
     },
     {
       label: t('post.field.status'),
       prop: 'status',
-      cellRenderer: ({ value }: { value: boolean }) => renderBooleanStatusTag(value),
+      cellRenderer: ({ value }: { value: boolean }) => (value ? renderActiveStatusTag() : renderInactiveStatusTag()),
     },
     {
       label: t('relation.status'),
@@ -156,7 +169,8 @@ function useUserProfileColumns() {
       label: t('relation.isPrimary'),
       prop: 'isPrimary',
       minWidth: 110,
-      render: ({ row }: { row: DeptBoundUserReference | PostBoundUserReference }) => renderIsPrimary(row.isPrimary),
+      render: ({ row }: { row: DeptBoundUserReference | PostBoundUserReference }) =>
+        row.isPrimary ? renderDeptPrimaryTag() : renderDeptNonPrimaryTag(),
     },
     {
       label: t('relation.status'),
@@ -174,7 +188,8 @@ function useUserProfileColumns() {
       label: t('relation.isPrimary'),
       prop: 'isPrimary',
       minWidth: 110,
-      render: ({ row }: { row: UserDeptReference | UserDeptPageRow }) => renderIsPrimary(row.isPrimary),
+      render: ({ row }: { row: UserDeptReference | UserDeptPageRow }) =>
+        row.isPrimary ? renderDeptPrimaryTag() : renderDeptNonPrimaryTag(),
     },
     {
       label: t('relation.status'),
@@ -192,7 +207,8 @@ function useUserProfileColumns() {
       label: t('post.field.isPrimaryPosition'),
       prop: 'isPrimary',
       minWidth: 110,
-      render: ({ row }: { row: UserPostReference | UserPostPageRow }) => renderPostIsPrimary(row.isPrimary),
+      render: ({ row }: { row: UserPostReference | UserPostPageRow }) =>
+        row.isPrimary ? renderPostPrimaryTag() : renderPostNonPrimaryTag(),
     },
     {
       label: t('relation.status'),

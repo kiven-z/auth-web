@@ -38,7 +38,6 @@ const { loading, searchForm, pagination, selectedRows, fetchTableData, resetQuer
 
 const { exporting, exportByFilter, openImportDialog } = usePostAdvanceAction({
   searchForm,
-  pagination,
   fetchTableData,
 });
 

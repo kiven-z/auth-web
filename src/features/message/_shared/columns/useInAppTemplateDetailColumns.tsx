@@ -1,4 +1,4 @@
-import { renderBooleanStatusTag } from '@/components/table/BooleanStatusTag';
+import { renderActiveStatusTag, renderInactiveStatusTag } from '@/components/table/BooleanStatusTag';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 
@@ -21,7 +21,7 @@ function useInAppTemplateDetailColumns() {
       label: t('inAppTemplate.status'),
       prop: 'status',
       labelWidth: 140,
-      cellRenderer: ({ value }: { value: boolean }) => renderBooleanStatusTag(value),
+      cellRenderer: ({ value }: { value: boolean }) => (value ? renderActiveStatusTag() : renderInactiveStatusTag()),
     },
     {
       label: t('messageTemplate.requireFieldsJson'),

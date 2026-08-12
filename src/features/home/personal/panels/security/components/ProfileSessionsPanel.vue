@@ -25,13 +25,6 @@ const revokingSessionId = ref<string | null>(null);
 const sessionList = computed(() => props.sessions);
 
 /**
- * 当前会话行高亮
- * @param param 行参数
- * @returns 行样式类名
- */
-const resolveSessionRowClassName = ({ row }) => (row.current ? 'session-row--current' : '');
-
-/**
  * 下线指定会话并刷新列表
  * @param sessionId 会话 ID
  */
@@ -58,7 +51,7 @@ async function handleRevokeSession(sessionId: string) {
       v-else
       :columns="meSessionTableColumns"
       :data="sessionList"
-      :row-class-name="resolveSessionRowClassName"
+      :row-class-name="({ row }) => (row.current ? 'session-row--current' : '')"
       border
       row-key="sessionId"
     >

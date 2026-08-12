@@ -29,7 +29,7 @@ export interface AppLayoutState {
 /** 多标签页路由项 */
 export interface TagRouteItem {
   path: string;
-  name: string;
+  name: RouteRecordName;
   meta: any;
   query?: object;
   params?: object;

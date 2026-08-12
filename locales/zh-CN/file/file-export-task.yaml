@@ -4,11 +4,11 @@ fileExportTask:
     adminTableTitle: 导出任务运维
   dialog:
     detailTitle: 导出任务详情
-    attemptsTitle: 执行尝试
+    attemptsTitle: 执行记录
   actions:
     cancel: 取消
     retry: 重试
-    viewAttempts: 执行尝试
+    viewAttempts: 执行记录
     forceCancel: 强制取消
     forceRetry: 强制重试
   messages:
@@ -30,9 +30,9 @@ fileExportTask:
     errorMessage: 错误信息
     lockedBy: Worker
     leaseUntil: 租约到期
-    attemptNo: 尝试序号
+    attemptNo: 执行序号
     workerId: 执行实例
-    attemptResult: 尝试结果
+    attemptResult: 执行结果
     querySnapshotJson: 筛选条件快照
     startedAt: 开始时间
     finishedAt: 结束时间

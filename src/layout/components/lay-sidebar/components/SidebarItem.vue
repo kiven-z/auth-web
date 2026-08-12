@@ -3,6 +3,7 @@ import { getConfig } from '@/auth/config';
 import type { SidebarMenuNode } from '@/layout/types';
 import { useLayoutCapabilities } from '@/layout/hooks/layout/useLayoutCapabilities';
 import { MENU_TITLE_ROW_STYLE } from '@/layout/utils/menu-path';
+import { resolveSubMenuIconMargin } from '@/layout/utils/sidebar-style';
 import { transformI18n } from '@/app/plugins/i18n';
 import { useAppStore } from '@/store/modules/app/app';
 import SidebarLinkItem from './SidebarLinkItem.vue';
@@ -47,7 +48,7 @@ const getSubMenuIconStyle = computed((): CSSProperties => {
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    margin: mode.value === 'horizontal' ? '0 5px 0 0' : isCollapse.value ? '0 auto' : '0 5px 0 0',
+    margin: resolveSubMenuIconMargin(mode.value, isCollapse.value),
   };
 });
 
@@ -77,7 +78,7 @@ const expandCloseIcon = computed(() => {
 
 const onlyOneChild: SidebarMenuNode = ref(null);
 
-function hasOneShowingChild(children: SidebarMenuNode[] = [], parent: SidebarMenuNode) {
+function hasOneShowingChild(children: SidebarMenuNode[], parent: SidebarMenuNode) {
   const showingChildren = children.filter((item: any) => {
     onlyOneChild.value = item;
     return true;
@@ -117,7 +118,7 @@ function resolvePath(routePath: string) {
 
 <template>
   <SidebarLinkItem
-    v-if="hasOneShowingChild(item.children, item) && (!onlyOneChild.children || onlyOneChild.noShowingChildren)"
+    v-if="hasOneShowingChild(item.children ?? [], item) && (!onlyOneChild.children || onlyOneChild.noShowingChildren)"
     :to="item"
   >
     <el-menu-item

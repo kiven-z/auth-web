@@ -1,10 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import {
-  filterIcons,
-  iconNamesOf,
   normalizeIconCollectionKey,
   pageForIcon,
-  paginateIcons,
   parseIconModelValue,
   type IconCollectionMap,
 } from '@/components/ui/Icon/iconSelectModel';
@@ -42,17 +39,7 @@ describe('parseIconModelValue', () => {
   });
 });
 
-describe('iconNamesOf / filter / paginate / pageForIcon', () => {
-  it('reads typed collection lists', () => {
-    expect(iconNamesOf(map, 'ep:')).toEqual(['plus', 'minus', 'edit']);
-  });
-
-  it('filters and paginates', () => {
-    expect(filterIcons(map['ri:'], 'sett')).toEqual(['settings']);
-    expect(paginateIcons(map['ri:'], 1, 2)).toEqual(['home', 'user']);
-    expect(paginateIcons(map['ri:'], 2, 2)).toEqual(['settings', 'search']);
-  });
-
+describe('pageForIcon', () => {
   it('resolves page for known icon and falls back to 1 when missing', () => {
     expect(pageForIcon(map['ri:'], 'settings', 2)).toBe(2);
     expect(pageForIcon(map['ri:'], 'missing', 2)).toBe(1);

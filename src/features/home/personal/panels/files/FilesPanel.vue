@@ -154,7 +154,7 @@ onMounted(() => {
       </template>
 
       <template #actions="{ row }">
-        <el-button :loading="currentDownloadingRowId === row.id" link type="primary" @click="downloadRow(row.id)">
+        <el-button :loading="currentDownloadingRowId === row.id" link type="primary" @click="downloadRow(row)">
           {{ t('buttons.actionDownload') }}
         </el-button>
         <el-button link type="primary" @click="openDetailDialog(row)">

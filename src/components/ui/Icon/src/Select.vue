@@ -4,15 +4,7 @@ import isEmpty from 'lodash/isEmpty';
 import Search from '~icons/ri/search-eye-line';
 import { computed, CSSProperties, ref, watch } from 'vue';
 import { IconJson } from './data';
-import {
-  filterIcons,
-  iconNamesOf,
-  pageForIcon,
-  paginateIcons,
-  parseIconModelValue,
-  type IconCollectionKey,
-  type IconCollectionMap,
-} from '../iconSelectModel';
+import { type IconCollectionKey, type IconCollectionMap, pageForIcon, parseIconModelValue } from '../iconSelectModel';
 
 type ParameterCSSProperties = (item?: string) => CSSProperties | undefined;
 
@@ -35,11 +27,17 @@ const tabsList: Array<{ label: string; name: IconCollectionKey }> = [
   { label: 'Element Plus', name: 'ep:' },
 ];
 
-const filteredIcons = computed(() =>
-  filterIcons(iconNamesOf(copyIconList, currentActiveType.value), filterValue.value)
-);
+const filteredIcons = computed(() => {
+  const icons = copyIconList[currentActiveType.value];
+  const keyword = filterValue.value;
+  return keyword ? icons.filter((name) => name.includes(keyword)) : [...icons];
+});
 
-const pageList = computed(() => paginateIcons(filteredIcons.value, currentPage.value, pageSize.value));
+const pageList = computed(() => {
+  const page = currentPage.value;
+  const size = pageSize.value;
+  return filteredIcons.value.slice((page - 1) * size, page * size);
+});
 
 const totalPage = computed(() => filteredIcons.value.length);
 
@@ -75,14 +73,14 @@ function onBeforeEnter() {
     return;
   }
   setVal();
-  currentPage.value = pageForIcon(iconNamesOf(copyIconList, currentActiveType.value), icon.value, pageSize.value);
+  currentPage.value = pageForIcon(copyIconList[currentActiveType.value], icon.value, pageSize.value);
 }
 
 function onAfterLeave() {
   filterValue.value = '';
 }
 
-function handleClick({ props }: { props: { name: IconCollectionKey } }) {
+function handleClick({ props }) {
   currentPage.value = 1;
   currentActiveType.value = props.name;
 }
@@ -132,7 +130,7 @@ watch(
           @after-leave="onAfterLeave"
         >
           <template #reference>
-            <div class="w-[40px] h-[32px] cursor-pointer flex justify-center items-center">
+            <div class="w-10 h-8 cursor-pointer flex justify-center items-center">
               <IconifyIconOffline v-if="!icon" :icon="Search" />
               <IconifyIconOnline v-else :icon="(inputValue || '').replace('/', ':')" />
             </div>

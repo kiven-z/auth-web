@@ -12,7 +12,7 @@ defineOptions({
 
 const { t } = useI18n();
 
-const { searchForm, pagination, refresh, fetchTableData, fetchTreeData, viewMode, selectedRows } = useDeptPageState();
+const { searchForm, refresh, fetchTableData, fetchTreeData, viewMode, selectedRows } = useDeptPageState();
 
 const tableActionDeps = {
   fetchTableData,
@@ -26,7 +26,6 @@ const { openCreateDialog, batchUpdateStatus } = useDeptTableAction(tableActionDe
 
 const { exporting, exportByFilter, openImportDialog, openClosureHealthDialog } = useDeptAdvancedAction({
   searchForm,
-  pagination,
   refresh,
 });
 

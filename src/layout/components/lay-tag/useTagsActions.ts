@@ -1,13 +1,13 @@
-import { type RouteConfigs, type RouteMeta, routerArrays, type TagContextMenuItem } from '@/layout/types';
 import { $t } from '@/app/plugins/i18n';
+import { type RouteConfigs, type RouteMeta, routerArrays, type TagContextMenuItem } from '@/layout/types';
 import { remainingPaths } from '@/router';
 import { getTopMenu, handleAliveRoute } from '@/router/utils/misc';
 import NProgress from '@/services/progress';
 import { useMultiTagsStore } from '@/store/modules/app/multiTags';
-import { usePermissionStore } from '@/store/modules/auth/permission';
 import { useSettingStore } from '@/store/modules/app/settings';
-import isEqual from 'lodash/isEqual';
+import { usePermissionStore } from '@/store/modules/auth/permission';
 import isEmpty from 'lodash/isEmpty';
+import isEqual from 'lodash/isEqual';
 import { nextTick, type Ref, toRaw } from 'vue';
 import type { RouteLocationNormalizedLoaded, Router } from 'vue-router';
 
@@ -82,7 +82,7 @@ export function useTagsActions(deps: TagsActionsDeps) {
       }
       arr.forEach((arrItem: RouteConfigs) => {
         if (arrItem.path === pathValue) {
-          useMultiTagsStore().handleTags('push', {
+          useMultiTagsStore().pushTag({
             path: pathValue,
             meta: arrItem.meta,
             name: arrItem.name,
@@ -131,12 +131,9 @@ export function useTagsActions(deps: TagsActionsDeps) {
 
     const spliceRoute = (startIndex?: number, length?: number, other?: boolean): void => {
       if (other) {
-        useMultiTagsStore().handleTags(
-          'equal',
-          [VITE_HIDE_HOME === 'false' ? fixedTags : toRaw(getTopMenu()), obj].flat()
-        );
+        useMultiTagsStore().setTags([VITE_HIDE_HOME === 'false' ? fixedTags : toRaw(getTopMenu()), obj].flat());
       } else {
-        useMultiTagsStore().handleTags('splice', '', {
+        useMultiTagsStore().removeTags({
           startIndex,
           length,
         });
@@ -154,7 +151,7 @@ export function useTagsActions(deps: TagsActionsDeps) {
       spliceRoute(valueIndex, 1);
     }
 
-    const newRoute = useMultiTagsStore().handleTags('slice');
+    const newRoute = useMultiTagsStore().getLastTag();
     if (current === route.path) {
       if (tag === 'left') {
         return;
@@ -239,7 +236,7 @@ export function useTagsActions(deps: TagsActionsDeps) {
         deleteMenu(selectTagRoute, 'other');
         break;
       case 5:
-        useMultiTagsStore().handleTags('splice', '', {
+        useMultiTagsStore().removeTags({
           startIndex: fixedTags.length,
           length: multiTags.value.length,
         });

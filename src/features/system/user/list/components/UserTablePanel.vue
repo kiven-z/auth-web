@@ -24,7 +24,7 @@ const { columns } = useUserTableColumns();
 const searchFormRef = ref<FormInstance>();
 
 const { tableState, fetchUserTable, resetUserSearch } = useUserPageState();
-const { loading, searchForm, selectedRows, pagination } = tableState;
+const { loading, searchForm, selectedRows } = tableState;
 
 const { openCreateDialog, batchUpdateStatus } = useUserTableAction({
   fetchTableData: fetchUserTable,
@@ -35,7 +35,6 @@ const { exporting, exportByFilter, openImportDialog, deleteBatchRows, batchKickA
     fetchTableData: fetchUserTable,
     selectedRows,
     searchForm,
-    pagination,
   });
 
 const { openUserWorkstation } = useOpenUserWorkstation();

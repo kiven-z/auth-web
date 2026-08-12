@@ -5,7 +5,7 @@ import type { SysPostDetail } from '@/features/system/api/post/post';
 import DetailRelationCountBar from '@/features/system/_shared/components/DetailRelationCountBar.vue';
 import Description from '@/components/ui/Description';
 import useDeptColumns from '@/features/system/post/hooks/columns/useDeptColumns';
-import { renderBooleanStatusTag } from '@/components/table/BooleanStatusTag';
+import { renderActiveStatusTag, renderInactiveStatusTag } from '@/components/table/BooleanStatusTag';
 import useOpenPostAuthorizationSurface from '@/features/system/post/hooks/authorization/useOpenPostAuthorizationSurface';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
@@ -29,7 +29,7 @@ const descriptionColumns = computed(() => [
     label: t('post.field.status'),
     prop: 'status',
     labelWidth: 120,
-    cellRenderer: ({ value }: { value: boolean }) => renderBooleanStatusTag(value),
+    cellRenderer: ({ value }: { value: boolean }) => (value ? renderActiveStatusTag() : renderInactiveStatusTag()),
   },
   { label: t('post.field.orderNum'), prop: 'orderNum', labelWidth: 120 },
   { label: t('post.field.remark'), prop: 'remark', labelWidth: 120, span: 2 },

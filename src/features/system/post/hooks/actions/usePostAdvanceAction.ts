@@ -1,14 +1,16 @@
 import type { SysPostPageQuery } from '@/features/system/api/post/post';
-import { downloadPostImportTemplate, exportPostExcelAsync, importPostExcel } from '@/features/system/api/post/post';
+import {
+  downloadPostImportTemplate,
+  exportPostExcelAsync,
+  importPostExcel,
+  preCheckPostExport,
+} from '@/features/system/api/post/post';
 import { useFilterAsyncExport } from '@/components/domain/file/FilterAsyncExport';
 import useSpreadsheetImportAction from '@/features/system/_shared/hooks/useSpreadsheetImportAction';
 
 /** 岗位页 Excel 导出 composable 配置 */
 export interface UsePostExportActionOptions {
   searchForm: SysPostPageQuery;
-  pagination: {
-    total: number;
-  };
   fetchTableData: () => Promise<void>;
 }
 
@@ -27,8 +29,8 @@ function usePostAdvanceAction(options: UsePostExportActionOptions) {
 
   const { exporting, exportByFilter } = useFilterAsyncExport<SysPostPageQuery>({
     searchForm: options.searchForm,
-    pagination: options.pagination,
     asyncExportApi: exportPostExcelAsync,
+    preCheckApi: preCheckPostExport,
   });
 
   return {

@@ -3,6 +3,7 @@ import type { AxiosRequestConfig } from 'axios';
 import type { PageResponse, SortSpec } from '@/api/common/page';
 import type { BaseResponseDetail, BaseResponsePageRow } from '@/api/common/response';
 import type { IdsEnableStatusRequest } from '@/api/common/request';
+import type { ExportPreCheckResult } from '@/features/file/api/models/export-precheck';
 import { http } from '@/core/http/client';
 import type { SpreadsheetImportResult } from '@/api/common/import';
 
@@ -41,6 +42,17 @@ export function getPermissionPage(params: SysPermissionPageQuery): Promise<PageR
     '/system/permission/page',
     { params }
   );
+}
+
+/**
+ * 导出权限前置检查（按当前筛选估算行数与产物格式）
+ * @param filter 列表筛选（不含分页）
+ * @returns 前置检查结果
+ */
+export function preCheckPermissionExport(filter: SysPermissionPageQuery): Promise<ExportPreCheckResult> {
+  return http.post<ExportPreCheckResult, SysPermissionPageQuery>('/system/permission/export/pre-check', {
+    data: filter,
+  });
 }
 
 /**

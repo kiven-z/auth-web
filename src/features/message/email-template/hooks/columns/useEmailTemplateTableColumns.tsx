@@ -1,5 +1,5 @@
 import type { EmailTemplatePageRow } from '@/features/message/api/email-template';
-import { renderBooleanStatusTag } from '@/components/table/BooleanStatusTag';
+import { renderActiveStatusTag, renderInactiveStatusTag } from '@/components/table/BooleanStatusTag';
 import { createAuditTableColumns } from '@/components/table/AuditColumns';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
@@ -32,7 +32,8 @@ function useEmailTemplateTableColumns() {
       label: t('emailTemplate.status'),
       prop: 'status',
       width: 110,
-      render: ({ row }: { row: EmailTemplatePageRow }) => renderBooleanStatusTag(row.status),
+      render: ({ row }: { row: EmailTemplatePageRow }) =>
+        row.status ? renderActiveStatusTag() : renderInactiveStatusTag(),
     },
     ...createAuditTableColumns(),
     {
