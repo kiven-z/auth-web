@@ -15,7 +15,7 @@ import { operationConfirm } from '@/services/feedback/dialog';
 import { errorMessage, message } from '@/services/feedback/message';
 import useBatchDeleteAction from '@/components/table/BatchDeleteAction';
 import { type FormOverlayExpose, useFormOverlaySubmit } from '@/components/ui/Overlay';
-import { TREE_ROOT_PARENT_ID } from '@/shared/utils/tree/tree';
+import { TREE_ROOT_PARENT_ID } from '@/shared/utils/tree';
 import InAppCategoryFormDialog from '@/features/message/in-app-category/components/InAppCategoryFormDialog.vue';
 import useInAppCategoryDetailColumns from '@/features/message/in-app-category/hooks/columns/useInAppCategoryDetailColumns';
 import type { Ref } from 'vue';

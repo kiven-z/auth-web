@@ -8,7 +8,20 @@ import {
   getNodeByUniqueId,
   handleTree,
   TREE_ROOT_PARENT_ID,
-} from '@/shared/utils/tree/tree';
+} from '@/shared/utils/tree';
+
+describe('normalizeTreeInput (via public APIs)', () => {
+  it('returns empty array for null, undefined, non-array and empty array', () => {
+    expect(extractPathList(null)).toEqual([]);
+    expect(extractPathList(undefined)).toEqual([]);
+    expect(extractPathList('bad' as unknown as [])).toEqual([]);
+    expect(extractPathList([])).toEqual([]);
+    expect(buildHierarchyTree(null)).toEqual([]);
+    expect(deleteChildren([])).toEqual([]);
+    expect(getNodeByUniqueId([], 'x')).toEqual([]);
+    expect(appendFieldByUniqueId(null, 'x', {})).toEqual([]);
+  });
+});
 
 describe('handleTree', () => {
   it('builds nested tree from flat parentId rows', () => {

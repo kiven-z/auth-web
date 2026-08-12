@@ -1,4 +1,4 @@
-import { buildHierarchyTree } from '@/shared/utils/tree/tree';
+import { buildHierarchyTree } from '@/shared/utils/tree';
 import { isProxy, toRaw } from 'vue';
 import type { RouteRecordRaw } from 'vue-router';
 

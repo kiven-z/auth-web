@@ -1,16 +1,9 @@
 import { kickAllUserSessions } from '@/api/auth/session';
 import { refreshUserAuthorization } from '@/features/system/api/user/user';
+import type { KickAllForUserOptions } from '@/features/system/_shared/types';
 import { operationConfirm } from '@/services/feedback/dialog';
 import { errorMessage, message } from '@/services/feedback/message';
 import { useI18n } from 'vue-i18n';
-
-/** 踢出用户全部会话的可选配置 */
-export interface KickAllForUserOptions {
-  /** 成功后回调（如刷新会话列表） */
-  onSuccess?: () => void | Promise<void>;
-  /** 成功提示 i18n key */
-  successI18nKey?: string;
-}
 
 /**
  * 用户工作台账号安全操作：踢下线、刷新授权

@@ -27,7 +27,14 @@ export function applyCloseScope(
 
   switch (scope) {
     case 'other': {
-      const base = keepHomeFixedTags ? tags.slice(0, fixedTagCount) : topMenuTag ? [topMenuTag] : [];
+      let base: RouteConfigs[];
+      if (keepHomeFixedTags) {
+        base = tags.slice(0, fixedTagCount);
+      } else if (topMenuTag) {
+        base = [topMenuTag];
+      } else {
+        base = [];
+      }
       return [...base, targetTag];
     }
     case 'left':

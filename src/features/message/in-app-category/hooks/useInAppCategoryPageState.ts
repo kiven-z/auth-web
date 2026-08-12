@@ -4,7 +4,7 @@ import {
   type InAppMessageCategoryQuery,
 } from '@/features/message/api/in-app-category';
 import { useListTableState } from '@/components/table/ListTable';
-import { handleTree } from '@/shared/utils/tree/tree';
+import { handleTree } from '@/shared/utils/tree';
 import { reactive, ref } from 'vue';
 
 /** 视图模式 */

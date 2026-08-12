@@ -1,7 +1,7 @@
 import type { InAppMessageCategoryPageRow } from '@/features/message/api/in-app-category';
 import { renderActiveStatusTag, renderInactiveStatusTag } from '@/components/table/BooleanStatusTag';
 import { createAuditTableColumns } from '@/components/table/AuditColumns';
-import { TREE_ROOT_PARENT_ID } from '@/shared/utils/tree/tree';
+import { TREE_ROOT_PARENT_ID } from '@/shared/utils/tree';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 

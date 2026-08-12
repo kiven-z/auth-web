@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import ElTreePanel from '@/components/table/ElTreePanel';
-import { TREE_ROOT_PARENT_ID } from '@/shared/utils/tree/tree';
+import { TREE_ROOT_PARENT_ID } from '@/shared/utils/tree';
 import InAppCategoryRowActions from '@/features/message/in-app-category/components/InAppCategoryRowActions.vue';
 import InAppCategorySearchForm from '@/features/message/in-app-category/components/InAppCategorySearchForm.vue';
 import { IN_APP_CATEGORY_PERMS } from '@/features/message/in-app-category/constants/permissions';

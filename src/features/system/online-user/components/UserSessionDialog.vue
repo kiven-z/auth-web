@@ -1,63 +1,22 @@
 <script lang="ts" setup>
-import { kickUserSession, listUserSessions, type UserSessionIndex } from '@/api/auth/session';
 import DataTable from '@/components/table/DataTable';
-import { operationConfirm } from '@/services/feedback/dialog';
-import { errorMessage, message } from '@/services/feedback/message';
 import useUserSessionTableColumns from '@/features/system/_shared/columns/useUserSessionTableColumns';
 import { SYS_SESSION_PERMS } from '@/features/system/_shared/constants/session-permissions';
+import { useAdminUserSessions } from '@/features/system/_shared/hooks/useAdminUserSessions';
+import type { KickAllForUserOptions } from '@/features/system/_shared/types';
 import { onMounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 const props = defineProps<{
   userId: string;
   username: string;
-  kickAllForUser: Function;
+  kickAllForUser: (userId: string, options?: KickAllForUserOptions) => void | Promise<void>;
 }>();
 
 const { t } = useI18n();
 const { columns } = useUserSessionTableColumns();
-
-const loading = ref(false);
+const { loading, sessions, kickingSessionId, loadSessions, kickSession } = useAdminUserSessions(() => props.userId);
 const kickingAll = ref(false);
-const kickingSessionId = ref<string | null>(null);
-const sessions = ref<UserSessionIndex[]>([]);
-
-/**
- * 拉取活跃会话列表
- */
-async function loadSessions() {
-  loading.value = true;
-  try {
-    sessions.value = await listUserSessions(props.userId);
-  } catch (error: unknown) {
-    errorMessage(error);
-    sessions.value = [];
-  } finally {
-    loading.value = false;
-  }
-}
-
-/**
- * 踢出单条会话并刷新列表
- * @param sessionId 会话 ID
- */
-async function handleKickSession(sessionId: string) {
-  const confirmed = await operationConfirm();
-  if (!confirmed) {
-    return;
-  }
-
-  kickingSessionId.value = sessionId;
-  try {
-    await kickUserSession(props.userId, sessionId);
-    message(t('users.session.kickSuccess'), { type: 'success' });
-    await loadSessions();
-  } catch (error: unknown) {
-    errorMessage(error);
-  } finally {
-    kickingSessionId.value = null;
-  }
-}
 
 /**
  * 踢出该用户全部会话并刷新列表
@@ -118,7 +77,7 @@ onMounted(() => {
           :loading="kickingSessionId === row.sessionId"
           link
           type="danger"
-          @click="handleKickSession(row.sessionId)"
+          @click="kickSession(row.sessionId)"
         >
           {{ t('users.session.kickOne') }}
         </el-button>

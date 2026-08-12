@@ -5,7 +5,7 @@ import type { SysDeptDetail } from '@/features/system/api/dept/dept';
 import DetailRelationCountBar from '@/features/system/_shared/components/DetailRelationCountBar.vue';
 import Description from '@/components/ui/Description';
 import { renderActiveStatusTag, renderInactiveStatusTag } from '@/components/table/BooleanStatusTag';
-import { TREE_ROOT_PARENT_ID } from '@/shared/utils/tree/tree';
+import { TREE_ROOT_PARENT_ID } from '@/shared/utils/tree';
 import useOpenDeptAuthorizationSurface from '@/features/system/dept/hooks/authorization/useOpenDeptAuthorizationSurface';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';

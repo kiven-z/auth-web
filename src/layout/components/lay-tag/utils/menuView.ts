@@ -30,5 +30,5 @@ export function resolveContextMenuLeft(
 ): number {
   const maxLeft = containerWidth - menuMinWidth;
   const left = clientX - containerLeft + 5;
-  return left > maxLeft ? maxLeft : left;
+  return Math.min(left, maxLeft);
 }

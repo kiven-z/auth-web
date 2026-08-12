@@ -7,7 +7,7 @@ import DetailRelationCountBar from '@/features/system/_shared/components/DetailR
 import Description from '@/components/ui/Description';
 import { renderActiveStatusTag, renderInactiveStatusTag } from '@/components/table/BooleanStatusTag';
 import { transformI18n } from '@/app/plugins/i18n';
-import { TREE_ROOT_PARENT_ID } from '@/shared/utils/tree/tree';
+import { TREE_ROOT_PARENT_ID } from '@/shared/utils/tree';
 import useOpenMenuAuthorizationSurface from '@/features/system/menu/hooks/authorization/useOpenMenuAuthorizationSurface';
 import { useMenuTypeOptions } from '@/features/system/_shared/hooks/useMenuTypeOptions';
 import { ElTag } from 'element-plus';

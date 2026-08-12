@@ -33,3 +33,11 @@ export interface AssignSeedItem {
 
 /** 行展示文案，由业务注入 */
 export type AssignGetRowLabel = (row: Record<string, unknown>) => string;
+
+/** 踢出用户全部会话的可选配置 */
+export interface KickAllForUserOptions {
+  /** 成功后回调（如刷新会话列表） */
+  onSuccess?: () => void | Promise<void>;
+  /** 成功提示 i18n key */
+  successI18nKey?: string;
+}

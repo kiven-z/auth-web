@@ -3,7 +3,7 @@ import type { BaseResponse, BaseResponseDetail } from '@/api/common/response';
 import type { IdsEnableStatusRequest } from '@/api/common/request';
 import type { ExportPreCheckResult } from '@/features/file/api/models/export-precheck';
 import { http } from '@/core/http/client';
-import { TREE_ROOT_PARENT_ID } from '@/shared/utils/tree/tree';
+import { TREE_ROOT_PARENT_ID } from '@/shared/utils/tree';
 import type { AxiosRequestConfig } from 'axios';
 import type { SpreadsheetImportResult } from '@/api/common/import';
 

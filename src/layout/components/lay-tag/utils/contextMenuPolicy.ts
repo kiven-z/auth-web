@@ -36,6 +36,60 @@ function setCloseAction(state: TagMenuState, action: TagMenuAction, itemState: T
   state[action] = { ...itemState };
 }
 
+const ALL_CLOSE_ACTIONS = [
+  TagMenuAction.Close,
+  TagMenuAction.CloseLeft,
+  TagMenuAction.CloseRight,
+  TagMenuAction.CloseOther,
+  TagMenuAction.CloseAll,
+] as const;
+
+function enableCloseActions(state: TagMenuState, actions: readonly TagMenuAction[]): void {
+  for (const action of actions) {
+    state[action].disabled = false;
+  }
+}
+
+function applySecondTagWithMoreTabsRules(state: TagMenuState): void {
+  setCloseAction(state, TagMenuAction.CloseLeft, HIDDEN);
+  disableCloseActions(state);
+  enableCloseActions(state, [
+    TagMenuAction.Close,
+    TagMenuAction.CloseRight,
+    TagMenuAction.CloseOther,
+    TagMenuAction.CloseAll,
+  ]);
+}
+
+function applyTwoTabsSecondTagRules(state: TagMenuState): void {
+  enableCloseActions(state, ALL_CLOSE_ACTIONS);
+  for (const action of [TagMenuAction.CloseLeft, TagMenuAction.CloseRight, TagMenuAction.CloseOther]) {
+    setCloseAction(state, action, HIDDEN);
+  }
+}
+
+function applyLastTagRules(state: TagMenuState, tags: RouteConfigs[], currentIndex: number): void {
+  setCloseAction(state, TagMenuAction.CloseRight, HIDDEN);
+  disableCloseActions(state);
+  enableCloseActions(state, [
+    TagMenuAction.Close,
+    TagMenuAction.CloseLeft,
+    TagMenuAction.CloseOther,
+    TagMenuAction.CloseAll,
+  ]);
+  if (isFixedTagMeta(tags[currentIndex - 1]?.meta)) {
+    setCloseAction(state, TagMenuAction.CloseLeft, HIDDEN);
+  }
+}
+
+function applyMiddleTagRules(state: TagMenuState, tags: RouteConfigs[], currentIndex: number): void {
+  disableCloseActions(state);
+  enableCloseActions(state, ALL_CLOSE_ACTIONS);
+  if (isFixedTagMeta(tags[currentIndex - 1]?.meta)) {
+    setCloseAction(state, TagMenuAction.CloseLeft, HIDDEN);
+  }
+}
+
 interface ComputeMenuStateInput {
   tags: RouteConfigs[];
   currentPath: string;
@@ -84,59 +138,15 @@ export function computeMenuState(input: ComputeMenuStateInput): TagMenuState {
   }
 
   if (currentIndex === 1 && routeLength !== 2) {
-    setCloseAction(state, TagMenuAction.CloseLeft, HIDDEN);
-    disableCloseActions(state);
-    for (const action of [
-      TagMenuAction.Close,
-      TagMenuAction.CloseRight,
-      TagMenuAction.CloseOther,
-      TagMenuAction.CloseAll,
-    ]) {
-      state[action].disabled = false;
-    }
+    applySecondTagWithMoreTabsRules(state);
   } else if (currentIndex === 1 && routeLength === 2) {
-    for (const action of [
-      TagMenuAction.Close,
-      TagMenuAction.CloseLeft,
-      TagMenuAction.CloseRight,
-      TagMenuAction.CloseOther,
-      TagMenuAction.CloseAll,
-    ]) {
-      state[action].disabled = false;
-    }
-    for (const action of [TagMenuAction.CloseLeft, TagMenuAction.CloseRight, TagMenuAction.CloseOther]) {
-      setCloseAction(state, action, HIDDEN);
-    }
+    applyTwoTabsSecondTagRules(state);
   } else if (routeLength - 1 === currentIndex && currentIndex !== 0) {
-    setCloseAction(state, TagMenuAction.CloseRight, HIDDEN);
-    disableCloseActions(state);
-    for (const action of [
-      TagMenuAction.Close,
-      TagMenuAction.CloseLeft,
-      TagMenuAction.CloseOther,
-      TagMenuAction.CloseAll,
-    ]) {
-      state[action].disabled = false;
-    }
-    if (isFixedTagMeta(tags[currentIndex - 1]?.meta)) {
-      setCloseAction(state, TagMenuAction.CloseLeft, HIDDEN);
-    }
+    applyLastTagRules(state, tags, currentIndex);
   } else if (currentIndex === 0 || (topPath && currentPath === `/redirect${topPath}`)) {
     disableCloseActions(state);
   } else {
-    disableCloseActions(state);
-    for (const action of [
-      TagMenuAction.Close,
-      TagMenuAction.CloseLeft,
-      TagMenuAction.CloseRight,
-      TagMenuAction.CloseOther,
-      TagMenuAction.CloseAll,
-    ]) {
-      state[action].disabled = false;
-    }
-    if (isFixedTagMeta(tags[currentIndex - 1]?.meta)) {
-      setCloseAction(state, TagMenuAction.CloseLeft, HIDDEN);
-    }
+    applyMiddleTagRules(state, tags, currentIndex);
   }
 
   if (isFixedTagMeta(tags[currentIndex]?.meta)) {
