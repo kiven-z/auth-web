@@ -35,13 +35,14 @@ export interface UseElTreeMoveDragOptions<T extends TreeMoveNode> {
   messages: ElTreeMoveDragMessages<T>;
 }
 
+/** Element Plus 树 allow-drag 回调：始终允许拖拽 */
+const allowDrag = () => true;
+
 /**
  * 树节点拖拽移动（变更父节点）
  */
 export function useElTreeMoveDrag<T extends TreeMoveNode>(options: UseElTreeMoveDragOptions<T>) {
   const { treeData, rootParentId = TREE_ROOT_PARENT_ID, getNodeLabel, onMoved, moveNode, messages } = options;
-
-  const allowDrag = () => true;
 
   /**
    * 是否允许放置：禁止自身/后代落点

@@ -24,7 +24,7 @@ export const extractPathList = (tree: any): any => {
     if (hasTreeChildren(node)) {
       extractPathList(node.children);
     }
-    expandedPaths.push(node.uniqueId!);
+    expandedPaths.push(node.uniqueId);
   }
   return expandedPaths;
 };

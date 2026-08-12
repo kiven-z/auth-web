@@ -20,12 +20,12 @@ const monacoEditorPlugin =
     ? monacoEditorPluginImport
     : (monacoEditorPluginImport as { default: typeof monacoEditorPluginImport }).default;
 
-export function getPluginsList(VITE_CDN: boolean, VITE_COMPRESSION: ViteCompression): PluginOption[] {
+export function getPluginsList(VITE_CDN: boolean, VITE_COMPRESSION: ViteCompression, isDev: boolean): PluginOption[] {
   const lifecycle = process.env.npm_lifecycle_event;
   return [
     tailwindcss(),
     vue(),
-    VueDevTools(),
+    isDev ? VueDevTools() : null,
     vueJsx(),
     VueI18nPlugin({
       include: [pathResolve('../locales/**')],
@@ -40,12 +40,14 @@ export function getPluginsList(VITE_CDN: boolean, VITE_COMPRESSION: ViteCompress
       publicPath: 'monacoeditorwork',
       globalAPI: false,
     }),
-    vitePluginFakeServer({
-      logger: false,
-      include: 'mock',
-      infixName: false,
-      enableProd: true,
-    }),
+    isDev
+      ? vitePluginFakeServer({
+          logger: false,
+          include: 'mock',
+          infixName: false,
+          enableProd: false,
+        })
+      : null,
     svgLoader(),
     Icons({
       compiler: 'vue3',

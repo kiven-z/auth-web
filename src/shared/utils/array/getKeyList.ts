@@ -14,7 +14,7 @@ export function getKeyList<T extends object, K extends keyof T>(
   for (const item of list) {
     const value = item[key];
     if (value !== undefined && value !== null) {
-      values.push(value as NonNullable<T[K]>);
+      values.push(value);
     }
   }
   return unique ? Array.from(new Set(values)) : values;

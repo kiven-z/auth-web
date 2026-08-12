@@ -77,7 +77,7 @@ function unwrapRoute(route: RouteRecordRaw | undefined | null): AppRouteRecord |
   if (!route) {
     return null;
   }
-  return (isProxy(route) ? toRaw(route) : route) as AppRouteRecord;
+  return isProxy(route) ? toRaw(route) : route;
 }
 
 /**

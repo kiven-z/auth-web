@@ -92,7 +92,7 @@ export function useTagsBar(deps: TagsBarDeps) {
       path: '/redirect' + fullPath,
       query,
     });
-    handleAliveRoute(route as ToRouteType, 'refresh');
+    handleAliveRoute(route, 'refresh');
     NProgress.done();
   }
 
@@ -118,13 +118,13 @@ export function useTagsBar(deps: TagsBarDeps) {
 
   function deleteMenu(item: RouteConfigs, scope?: CloseScope): void {
     closeTagsByScope(item, scope ?? 'current');
-    handleAliveRoute(route as ToRouteType);
+    handleAliveRoute(route);
   }
 
   function closeAllTags(): void {
     useMultiTagsStore().setTags(multiTags.value.slice(0, fixedTags.length));
     router.push(topPath);
-    handleAliveRoute(route as ToRouteType);
+    handleAliveRoute(route);
     void dynamicTagView();
   }
 
@@ -186,7 +186,7 @@ export function useTagsBar(deps: TagsBarDeps) {
 
   function selectTag(key: number, item: TagContextMenuItem): void {
     closeMenu();
-    onClickDrop(key, item, currentSelect.value as RouteConfigs);
+    onClickDrop(key, item, currentSelect.value);
   }
 
   function openMenu(tag: RouteConfigs, event: MouseEvent): void {

@@ -59,6 +59,9 @@ export function cycleListIndex(currentIndex: number, length: number, direction: 
   }
 
   const delta = direction === 'prev' ? -1 : 1;
-  const base = currentIndex < 0 ? (direction === 'next' ? -1 : 0) : currentIndex;
+  let base = currentIndex;
+  if (currentIndex < 0) {
+    base = direction === 'next' ? -1 : 0;
+  }
   return (base + delta + length) % length;
 }

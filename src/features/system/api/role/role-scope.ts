@@ -1,5 +1,4 @@
 import { http } from '@/core/http/client';
-import type { AxiosRequestConfig } from 'axios';
 import type { DataScopeType, SysDataScopeForm } from '@/features/system/api/models/data-scope';
 
 export type { DataScopeType, SysDataScopeForm } from '@/features/system/api/models/data-scope';
@@ -32,5 +31,5 @@ export function getRoleScope(roleId: string): Promise<SysRoleScopeVO | null> {
 export function upsertRoleScope(roleId: string, data: SysDataScopeForm): Promise<void> {
   return http.put<void, SysDataScopeForm>(`/system/role/${roleId}/scope`, {
     data,
-  } as AxiosRequestConfig<SysDataScopeForm>);
+  });
 }

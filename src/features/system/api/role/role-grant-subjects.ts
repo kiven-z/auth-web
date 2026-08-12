@@ -1,7 +1,6 @@
 import type { GrantTableSubjectType } from '@/features/system/api/models/grant-table';
 import type { GrantSubjectItem } from '@/features/system/api/models/role-grant-subjects';
 import { http } from '@/core/http/client';
-import type { AxiosRequestConfig } from 'axios';
 
 /**
  * 查询角色授权对象种子（Assign 灌种：id + label）
@@ -36,5 +35,5 @@ export interface SysRoleGrantSubjectsForm {
 export function putRoleGrantSubjects(roleId: string, data: SysRoleGrantSubjectsForm): Promise<void> {
   return http.put<void, SysRoleGrantSubjectsForm>(`/system/role/${roleId}/grant-subjects`, {
     data,
-  } as AxiosRequestConfig<SysRoleGrantSubjectsForm>);
+  });
 }

@@ -3,7 +3,7 @@ FROM node:20-alpine AS build-stage
 WORKDIR /app
 
 RUN npm config set registry https://registry.npmmirror.com \
- && npm install -g pnpm@9.15.4
+ && npm install -g pnpm
 
 COPY .npmrc package.json pnpm-lock.yaml ./
 RUN pnpm config set registry https://registry.npmmirror.com \

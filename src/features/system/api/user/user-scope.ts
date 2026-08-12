@@ -1,5 +1,4 @@
 import { http } from '@/core/http/client';
-import type { AxiosRequestConfig } from 'axios';
 import type { DataScopeType, SysDataScopeForm } from '@/features/system/api/models/data-scope';
 
 export type { DataScopeType, SysDataScopeForm } from '@/features/system/api/models/data-scope';
@@ -34,7 +33,7 @@ export function getUserScope(userId: string): Promise<SysUserScopeVO | null> {
 export function upsertUserScope(userId: string, data: SysDataScopeForm): Promise<void> {
   return http.put<void, SysDataScopeForm>(`/system/user/${userId}/scope`, {
     data,
-  } as AxiosRequestConfig<SysDataScopeForm>);
+  });
 }
 
 /**

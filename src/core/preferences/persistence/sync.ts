@@ -32,13 +32,13 @@ const SYNC_DEBOUNCE_MS = 650;
 function applyServerPreference(configKey: string, configValue: Record<string, unknown>): void {
   switch (configKey) {
     case UI_PREFERENCE_KEYS.LOCALE:
-      patchLocale(configValue as ResponsiveStorage['locale']);
+      patchLocale(configValue);
       break;
     case UI_PREFERENCE_KEYS.LAYOUT:
-      patchLayout(configValue as ResponsiveStorage['layout']);
+      patchLayout(configValue);
       break;
     case UI_PREFERENCE_KEYS.CONFIGURE:
-      patchConfigure(configValue as ResponsiveStorage['configure']);
+      patchConfigure(configValue);
       break;
     default:
       break;

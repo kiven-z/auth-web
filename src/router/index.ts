@@ -58,15 +58,15 @@ export const router: Router = createRouter({
   history: getHistoryMode(import.meta.env.VITE_ROUTER_HISTORY),
   routes: constantRoutes.concat(...(remainingRouter as Array<RouteRecordRaw>)),
   strict: true,
-  scrollBehavior(to, from, savedPosition) {
-    return new Promise((resolve) => {
-      if (savedPosition) {
-        return savedPosition;
-      } else if (from.meta.saveSrollTop) {
-        const top: number = document.documentElement.scrollTop || document.body.scrollTop;
-        resolve({ left: 0, top });
-      }
-    });
+  scrollBehavior(_to, from, savedPosition) {
+    if (savedPosition) {
+      return savedPosition;
+    }
+    if (from.meta.saveSrollTop) {
+      const top: number = document.documentElement.scrollTop || document.body.scrollTop;
+      return { left: 0, top };
+    }
+    return undefined;
   },
 });
 

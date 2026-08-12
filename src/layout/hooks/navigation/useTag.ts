@@ -1,8 +1,10 @@
 import { computed, type CSSProperties, getCurrentInstance, onMounted, reactive, ref, unref } from 'vue';
+import type { RouteLocationNormalizedLoaded } from 'vue-router';
 import type { TagContextMenuItem } from '../../types';
 import { useRoute, useRouter } from 'vue-router';
 import { $t, transformI18n } from '@/app/plugins/i18n';
 import { patchConfigureField } from '@/layout/hooks/configure/useUiConfigure';
+import { isFixedTagItem } from '@/layout/components/lay-tag/utils/fixedTag';
 import { useSettingStore } from '@/store/modules/app/settings';
 import { useMultiTagsStore } from '@/store/modules/app/multiTags';
 import { getUiPreferenceState } from '@/core/preferences/persistence/storage';
@@ -17,6 +19,73 @@ import CloseRightTags from '~icons/ri/text-direction-l';
 import CloseLeftTags from '~icons/ri/text-direction-r';
 import RefreshRight from '~icons/ep/refresh-right';
 import Close from '~icons/ep/close';
+
+function conditionHandle(
+  route: RouteLocationNormalizedLoaded,
+  item: {
+    name?: string;
+    query?: Record<string, unknown>;
+    params?: Record<string, unknown>;
+    meta?: { showLink?: boolean };
+  },
+  previous: unknown,
+  next: unknown
+) {
+  const currentName = route.name || '';
+  const itemName = item.name || '';
+  if (currentName !== itemName) {
+    return next;
+  }
+
+  const hideFromMenu = isBoolean(route?.meta?.showLink) && route?.meta?.showLink === false;
+  if (!hideFromMenu) {
+    return previous;
+  }
+
+  const compareByQuery = Object.keys(route.query).length > 0;
+  const matched = compareByQuery ? isEqual(route.query, item.query) : isEqual(route.params, item.params);
+  return matched ? previous : next;
+}
+
+function checkIconIsActive(
+  route: RouteLocationNormalizedLoaded,
+  item: {
+    name?: string;
+    query?: Record<string, unknown>;
+    params?: Record<string, unknown>;
+    meta?: { showLink?: boolean };
+  },
+  index: number | string
+) {
+  if (Number(index) === 0) {
+    return;
+  }
+  return conditionHandle(route, item, true, false);
+}
+
+function checkLinkIsActive(
+  route: RouteLocationNormalizedLoaded,
+  item: {
+    name?: string;
+    query?: Record<string, unknown>;
+    params?: Record<string, unknown>;
+    meta?: { showLink?: boolean };
+  }
+) {
+  return conditionHandle(route, item, 'is-active', '');
+}
+
+function checkScheduleIsActive(
+  route: RouteLocationNormalizedLoaded,
+  item: {
+    name?: string;
+    query?: Record<string, unknown>;
+    params?: Record<string, unknown>;
+    meta?: { showLink?: boolean };
+  }
+) {
+  return conditionHandle(route, item, 'schedule-active', '');
+}
 
 export function useTags() {
   const route = useRoute();
@@ -92,47 +161,9 @@ export function useTags() {
     },
   ]);
 
-  function conditionHandle(item, previous, next) {
-    const currentName = route.name || '';
-    const itemName = item.name || '';
-    if (currentName !== itemName) {
-      return next;
-    }
-
-    const hideFromMenu = isBoolean(route?.meta?.showLink) && route?.meta?.showLink === false;
-    if (!hideFromMenu) {
-      return previous;
-    }
-
-    const compareByQuery = Object.keys(route.query).length > 0;
-    const matched = compareByQuery ? isEqual(route.query, item.query) : isEqual(route.params, item.params);
-    return matched ? previous : next;
-  }
-
-  const isFixedTag = computed(() => {
-    return (item: { meta: { fixedTag: boolean } }) => {
-      return isBoolean(item?.meta?.fixedTag) && item?.meta?.fixedTag === true;
-    };
-  });
-
-  const iconIsActive = computed(() => {
-    return (item: any, index: number | string) => {
-      if (Number(index) === 0) return;
-      return conditionHandle(item, true, false);
-    };
-  });
-
-  const linkIsActive = computed(() => {
-    return (item: any) => {
-      return conditionHandle(item, 'is-active', '');
-    };
-  });
-
-  const scheduleIsActive = computed(() => {
-    return (item: any) => {
-      return conditionHandle(item, 'schedule-active', '');
-    };
-  });
+  const iconIsActive = computed(() => checkIconIsActive.bind(undefined, route));
+  const linkIsActive = computed(() => checkLinkIsActive.bind(undefined, route));
+  const scheduleIsActive = computed(() => checkScheduleIsActive.bind(undefined, route));
 
   const getContextMenuStyle = computed((): CSSProperties => {
     return { left: buttonLeft.value + 'px', top: buttonTop.value + 'px' };
@@ -194,7 +225,7 @@ export function useTags() {
     tagsViews,
     buttonTop,
     buttonLeft,
-    isFixedTag,
+    isFixedTag: isFixedTagItem,
     settingStore,
     activeIndex,
     iconIsActive,

@@ -19,6 +19,11 @@ function writeStorage(key: string, value: MenuSearchOption[]) {
   storageLocal().setItem(key, value);
 }
 
+function bumpHistoryAccess(path: string) {
+  const next = promoteHistoryEntry(readStorage(MENU_SEARCH_HISTORY_KEY), path);
+  writeStorage(MENU_SEARCH_HISTORY_KEY, next);
+}
+
 interface UseMenuSearchHistoryOptions {
   historyOptions: ShallowRef<MenuSearchOption[]>;
   historyPath: Ref<string>;
@@ -61,11 +66,6 @@ export function useMenuSearchHistory(options: UseMenuSearchHistoryOptions) {
     const history = readStorage(MENU_SEARCH_HISTORY_KEY);
     const collect = readStorage(MENU_SEARCH_COLLECT_KEY);
     const next = recordSearchHistory(history, collect, { path, meta }, historyLimit);
-    writeStorage(MENU_SEARCH_HISTORY_KEY, next);
-  }
-
-  function bumpHistoryAccess(path: string) {
-    const next = promoteHistoryEntry(readStorage(MENU_SEARCH_HISTORY_KEY), path);
     writeStorage(MENU_SEARCH_HISTORY_KEY, next);
   }
 

@@ -23,7 +23,7 @@ const optimizeDepsInclude = [
 
 const optimizeDepsExclude = ['@iconify/json', 'monaco-editor'];
 
-export default ({ mode }: ConfigEnv): UserConfigExport => {
+export default ({ mode, command }: ConfigEnv): UserConfigExport => {
   const { VITE_CDN, VITE_PORT, VITE_COMPRESSION, VITE_PUBLIC_PATH, VITE_PROXY_TARGET } = wrapperEnv(
     loadEnv(mode, root)
   );
@@ -48,14 +48,14 @@ export default ({ mode }: ConfigEnv): UserConfigExport => {
         clientFiles: ['./index.html', './src/components/**/*', './src/features/**/*'],
       },
     },
-    plugins: getPluginsList(VITE_CDN, VITE_COMPRESSION),
+    plugins: getPluginsList(VITE_CDN, VITE_COMPRESSION, command === 'serve'),
     optimizeDeps: {
       include: optimizeDepsInclude,
       exclude: optimizeDepsExclude,
     },
     build: {
-      // 入口使用 top-level await，需 ≥ es2022
-      target: 'es2022',
+      // 兼容较旧浏览器与内网演示环境；入口用 bootstrap()，勿用顶层 await（见 sonar S7785 豁免）
+      target: 'es2015',
       sourcemap: false,
       chunkSizeWarningLimit: 4000,
       rollupOptions: {

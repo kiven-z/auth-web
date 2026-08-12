@@ -4,6 +4,7 @@ import { fileURLToPath } from 'node:url';
 import js from '@eslint/js';
 import configPrettier from 'eslint-config-prettier';
 import pluginPrettier from 'eslint-plugin-prettier';
+import pluginUnicorn from 'eslint-plugin-unicorn';
 import pluginVue from 'eslint-plugin-vue';
 import { defineConfig, globalIgnores } from 'eslint/config';
 import tseslint from 'typescript-eslint';
@@ -88,6 +89,9 @@ export default defineConfig([
   ...tseslint.config({
     extends: [...tseslint.configs.recommended],
     files: ['**/*.?([cm])ts', '**/*.?([cm])tsx'],
+    plugins: {
+      unicorn: pluginUnicorn,
+    },
     rules: {
       '@typescript-eslint/no-redeclare': 'error',
       '@typescript-eslint/ban-ts-comment': 'off',
@@ -112,7 +116,21 @@ export default defineConfig([
           varsIgnorePattern: '^_',
         },
       ],
+      'no-nested-ternary': 'error',
       'no-restricted-imports': restrictedImports(),
+      'unicorn/consistent-function-scoping': 'error',
+    },
+  }),
+  ...tseslint.config({
+    files: ['**/*.?([cm])ts', '**/*.?([cm])tsx'],
+    languageOptions: {
+      parserOptions: {
+        projectService: true,
+        tsconfigRootDir: projectRoot,
+      },
+    },
+    rules: {
+      '@typescript-eslint/no-unnecessary-type-assertion': 'error',
     },
   }),
   {
@@ -170,6 +188,7 @@ export default defineConfig([
       'vue/component-definition-name-casing': ['error', 'PascalCase'],
       'vue/no-setup-props-reactivity-loss': 'off',
       '@typescript-eslint/consistent-type-definitions': ['error', 'interface'],
+      'no-nested-ternary': 'error',
       'no-restricted-imports': restrictedImports(),
       'vue/html-self-closing': [
         'error',

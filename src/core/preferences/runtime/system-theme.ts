@@ -3,6 +3,10 @@ import { getLayoutSnapshot } from '../persistence/storage';
 
 let stopWatch: (() => void) | null = null;
 
+function onSystemThemeChange() {
+  syncSystemThemeFromOs();
+}
+
 /**
  * 在 colorScheme 为 system 时按 OS 偏好刷新 DOM（不改写 navTheme 偏好）
  */
@@ -24,11 +28,10 @@ export function startSystemThemeWatch(): () => void {
   }
 
   const mediaQueryList = globalThis.matchMedia('(prefers-color-scheme: dark)');
-  const onChange = () => syncSystemThemeFromOs();
-  mediaQueryList.addEventListener('change', onChange);
+  mediaQueryList.addEventListener('change', onSystemThemeChange);
 
   stopWatch = () => {
-    mediaQueryList.removeEventListener('change', onChange);
+    mediaQueryList.removeEventListener('change', onSystemThemeChange);
     stopWatch = null;
   };
   return stopWatch;

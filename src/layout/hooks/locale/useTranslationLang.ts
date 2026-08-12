@@ -40,7 +40,7 @@ export function useTranslationLang(menuRef?: Ref<{ handleResize?: () => void } |
   );
 
   onBeforeMount(() => {
-    locale.value = (getLocaleSnapshot().locale ?? 'zh') as LocaleType;
+    locale.value = getLocaleSnapshot().locale ?? 'zh';
   });
 
   return {

@@ -54,20 +54,30 @@ app.component('AuthDropdown', AuthDropdown);
 
 app.use(VueTippy);
 
-await getPlatformConfig(app);
-setupStore(app);
-// 将会话能力桥接到 Pinia（须在 setupStore 之后、首次 setToken 之前）
-registerUserProfileSync((profile) => useUserStore().applyUserProfile(profile));
-registerSessionLogout(() => useUserStore().logOut());
-app.use(router);
+async function bootstrap() {
+  try {
+    await getPlatformConfig(app);
+    setupStore(app);
+    // 将会话能力桥接到 Pinia（须在 setupStore 之后、首次 setToken 之前）
+    registerUserProfileSync((profile) => useUserStore().applyUserProfile(profile));
+    registerSessionLogout(() => useUserStore().logOut());
+    app.use(router);
+    await router.isReady();
+    injectResponsiveStorage(app);
+    installDataTable(app);
+    app.use(MotionPlugin).use(useI18n).use(useElementPlus).use(Description).use(useEcharts);
+    applyHydratedUiPreferences();
+    syncSystemThemeFromOs();
+    startSystemThemeWatch();
+    app.mount('#app');
+  } catch (error: unknown) {
+    console.error('[bootstrap] Application failed to start', error);
+    const root = document.querySelector('#app');
+    if (root) {
+      root.innerHTML =
+        '<p style="padding:24px;font-size:14px;color:#606266">应用启动失败，请刷新页面或联系管理员。</p>';
+    }
+  }
+}
 
-await router.isReady();
-injectResponsiveStorage(app);
-installDataTable(app);
-
-app.use(MotionPlugin).use(useI18n).use(useElementPlus).use(Description).use(useEcharts);
-applyHydratedUiPreferences();
-syncSystemThemeFromOs();
-startSystemThemeWatch();
-
-app.mount('#app');
+bootstrap();

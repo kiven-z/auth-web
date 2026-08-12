@@ -16,7 +16,7 @@ export function columnVisible(column: TableColumns): boolean {
   if (isBoolean(column.hide) && column.hide) {
     return false;
   }
-  return !(isFunction(column.hide) && (column.hide as () => boolean)());
+  return !(isFunction(column.hide) && column.hide());
 }
 
 /**
