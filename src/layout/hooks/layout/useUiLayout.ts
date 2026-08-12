@@ -1,10 +1,9 @@
-import { setSidebarOpened } from '@/core/preferences/runtime/actions';
-import { applyLayoutPreferences } from '@/core/preferences/runtime/apply';
 import { setRuntimeLayoutOverride } from '@/core/preferences/defaults/runtime-layout';
 import { getLayoutSnapshot, patchLayout } from '@/core/preferences/persistence/storage';
+import { applyLayoutPreferences } from '@/core/preferences/runtime/apply';
 import { useLayout } from '@/layout/hooks/layout/useLayout';
-import { useAppStore } from '@/store/modules/app/app';
 import { type LayoutMode, toLayoutMode } from '@/shared/utils/layout/layout-mode';
+import { useAppStore } from '@/store/modules/app/app';
 
 /**
  * 设置导航布局模式（vertical / horizontal / mix）
@@ -37,7 +36,6 @@ export function useUiLayout() {
     layout,
     layoutTheme,
     setLayoutMode,
-    setSidebarOpened,
     setResponsiveLayoutTheme,
   };
 }

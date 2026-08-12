@@ -1,14 +1,14 @@
-import type { TableActionWithSelectionDeps } from '@/shared/types/table-action';
-import type { FileRecordDetail, FileRecordPageRow } from '@/features/file/api/models/file-record';
+import useBatchDeleteAction from '@/components/table/BatchDeleteAction';
 import { Description } from '@/components/ui/Description';
 import { addDialog } from '@/components/ui/Dialog';
+import type { FileRecordDetail, FileRecordPageRow } from '@/features/file/api/models/file-record';
 import { errorMessage, message } from '@/services/feedback/message';
-import useBatchDeleteAction from '@/components/table/BatchDeleteAction';
-import { downloadBlob, sanitizeDownloadFilename } from '@/shared/utils/file/fileExport';
+import type { TableActionWithSelectionDeps } from '@/shared/types/table-action';
 import { buildExportFilenameStamp } from '@/shared/utils/date/dateTime';
-import useFileRecordDetailColumns from './useFileRecordDetailColumns';
+import { downloadBlob, sanitizeDownloadFilename } from '@/shared/utils/file/download';
 import { ref } from 'vue';
 import { useI18n } from 'vue-i18n';
+import useFileRecordDetailColumns from './useFileRecordDetailColumns';
 
 /** 文件记录表格动作核心配置。 */
 export interface UseFileRecordTableActionCoreOptions extends TableActionWithSelectionDeps {

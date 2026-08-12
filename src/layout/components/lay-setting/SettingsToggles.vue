@@ -1,7 +1,7 @@
 <script lang="ts" setup>
-import { patchConfigureField } from '@/layout/hooks/configure/useUiConfigure';
 import { getConfigureSnapshot } from '@/core/preferences/persistence/storage';
-import { nextTick, onBeforeMount, reactive, ref, unref } from 'vue';
+import { patchConfigureField } from '@/layout/hooks/configure/useUiConfigure';
+import { nextTick, onBeforeMount, reactive, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 const { t } = useI18n();
@@ -17,48 +17,18 @@ const settings = reactive({
   multiTagsCache: configureSnapshot.multiTagsCache,
 });
 
-/**
- * 灰色模式
- * @param value 是否开启
- */
-function greyChange(value: boolean): void {
-  patchConfigureField({ grey: value });
-}
+type BooleanConfigureKey = 'grey' | 'weak' | 'hideTabs' | 'hideFooter' | 'showLogo' | 'multiTagsCache';
 
-/**
- * 色弱模式
- * @param value 是否开启
- */
-function weakChange(value: boolean): void {
-  patchConfigureField({ weak: value });
-}
-
-/** 隐藏标签页 */
-function tagsChange(): void {
-  patchConfigureField({ hideTabs: settings.tabsVal });
-}
-
-/** 隐藏页脚 */
-function hideFooterChange(): void {
-  patchConfigureField({ hideFooter: settings.hideFooter });
-}
-
-/** 标签页持久化 */
-function multiTagsCacheChange(): void {
-  patchConfigureField({ multiTagsCache: settings.multiTagsCache });
-}
-
-/** 侧边栏 Logo */
-function logoChange(): void {
-  patchConfigureField({ showLogo: unref(logoVal) });
+function patchBooleanConfigure(key: BooleanConfigureKey, value: string | number | boolean): void {
+  patchConfigureField({ [key]: value as boolean });
 }
 
 onBeforeMount(() => {
   nextTick(() => {
     settings.greyVal && document.querySelector('html')?.classList.add('html-grey');
     settings.weakVal && document.querySelector('html')?.classList.add('html-weakness');
-    settings.tabsVal && tagsChange();
-    settings.hideFooter && hideFooterChange();
+    settings.tabsVal && patchConfigureField({ hideTabs: settings.tabsVal });
+    settings.hideFooter && patchConfigureField({ hideFooter: settings.hideFooter });
   });
 });
 </script>
@@ -76,7 +46,7 @@ onBeforeMount(() => {
           :active-text="t('buttons.switchOnText')"
           :inactive-text="t('buttons.switchOffText')"
           inline-prompt
-          @change="greyChange"
+          @change="(value) => patchBooleanConfigure('grey', value)"
         />
       </li>
       <li>
@@ -86,7 +56,7 @@ onBeforeMount(() => {
           :active-text="t('buttons.switchOnText')"
           :inactive-text="t('buttons.switchOffText')"
           inline-prompt
-          @change="weakChange"
+          @change="(value) => patchBooleanConfigure('weak', value)"
         />
       </li>
       <li>
@@ -96,7 +66,7 @@ onBeforeMount(() => {
           :active-text="t('buttons.switchOnText')"
           :inactive-text="t('buttons.switchOffText')"
           inline-prompt
-          @change="tagsChange"
+          @change="(value) => patchBooleanConfigure('hideTabs', value)"
         />
       </li>
       <li>
@@ -106,7 +76,7 @@ onBeforeMount(() => {
           :active-text="t('buttons.switchOnText')"
           :inactive-text="t('buttons.switchOffText')"
           inline-prompt
-          @change="hideFooterChange"
+          @change="(value) => patchBooleanConfigure('hideFooter', value)"
         />
       </li>
       <li>
@@ -118,7 +88,7 @@ onBeforeMount(() => {
           :inactive-text="t('buttons.switchOffText')"
           :inactive-value="false"
           inline-prompt
-          @change="logoChange"
+          @change="(value) => patchBooleanConfigure('showLogo', value)"
         />
       </li>
       <li>
@@ -130,7 +100,7 @@ onBeforeMount(() => {
           :active-text="t('buttons.switchOnText')"
           :inactive-text="t('buttons.switchOffText')"
           inline-prompt
-          @change="multiTagsCacheChange"
+          @change="(value) => patchBooleanConfigure('multiTagsCache', value)"
         />
       </li>
     </ul>
