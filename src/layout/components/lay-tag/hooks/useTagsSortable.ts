@@ -1,33 +1,10 @@
-import type { RouteConfigs } from '@/layout/types';
 import { useMultiTagsStore } from '@/store/modules/app/multiTags';
-import isBoolean from 'lodash/isBoolean';
 import Sortable from 'sortablejs';
 import { storeToRefs } from 'pinia';
 import { nextTick, onBeforeUnmount, type Ref, watch } from 'vue';
+import { isFixedTagItem } from '../utils/fixedTag';
 
-/** 路由 meta 上的固定标签标记 */
-interface MetaWithFixedTag {
-  fixedTag?: boolean;
-}
-
-/**
- * 标签稳定 key（path + query + params）
- * @param item 标签路由项
- * @returns key
- */
-export function getTagItemKey(item: RouteConfigs): string {
-  return `${item.path ?? ''}::${JSON.stringify(item.query ?? {})}::${JSON.stringify(item.params ?? {})}`;
-}
-
-/**
- * 是否固定标签
- * @param item 标签项
- * @returns 是否固定
- */
-function isFixedTagItem(item: RouteConfigs | undefined): boolean {
-  const fixedTag = (item?.meta as MetaWithFixedTag | undefined)?.fixedTag;
-  return isBoolean(fixedTag) && fixedTag === true;
-}
+export { getTagItemKey } from '../utils/tagIdentity';
 
 /**
  * 标签栏横向拖拽排序（SortableJS）；固定标签不可拖、不可作为落点

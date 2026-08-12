@@ -2,15 +2,14 @@
 import { onClickOutside, useResizeObserver } from '@vueuse/core';
 import { useTags } from '@/layout/hooks/navigation/useTag';
 import { delay } from '@/shared/utils/async/delay';
-import isEqual from 'lodash/isEqual';
-import isEmpty from 'lodash/isEmpty';
 import { computed, nextTick, onMounted as vueOnMounted, ref, watch } from 'vue';
 import type { TagContextMenuItem } from '../../types';
 import TagChrome from './components/TagChrome.vue';
 import TagsContextMenu from './TagsContextMenu.vue';
-import { useTagsActions } from './useTagsActions';
-import { useTagsScroll } from './useTagsScroll';
-import { getTagItemKey, useTagsSortable } from './useTagsSortable';
+import { useTagsBar } from './hooks/useTagsBar';
+import { useTagsScroll } from './hooks/useTagsScroll';
+import { getTagItemKey, useTagsSortable } from './hooks/useTagsSortable';
+import { findTagIndex } from './utils/tagIdentity';
 
 import ArrowDown from '~icons/ri/arrow-down-s-line';
 import ArrowLeftSLine from '~icons/ri/arrow-left-s-line';
@@ -73,20 +72,16 @@ useTagsSortable(tabDom, tagsSortableEnabled);
  */
 async function dynamicTagView(): Promise<void> {
   await nextTick();
-  const index = multiTags.value.findIndex((item) => {
-    if (!isEmpty(route.query)) {
-      return isEqual(route.query, item.query);
-    }
-    if (!isEmpty(route.params)) {
-      return isEqual(route.params, item.params);
-    }
-    return route.path === item.path;
+  const index = findTagIndex(multiTags.value, {
+    path: route.path,
+    query: route.query,
+    params: route.params,
   });
   await scrollTagIntoView(index);
 }
 
-const { deleteMenu, handleCommand, selectTag, openMenu, tagOnClick, syncTagsWithRoute, initTagsFromRoute } =
-  useTagsActions({
+const { deleteMenu, handleCommand, selectTag, openMenu, tagOnClick, syncTagsWithRoute, initTagsFromRoute } = useTagsBar(
+  {
     route,
     router,
     multiTags,
@@ -99,7 +94,8 @@ const { deleteMenu, handleCommand, selectTag, openMenu, tagOnClick, syncTagsWith
     closeMenu,
     onContentFullScreen,
     dynamicTagView,
-  });
+  }
+);
 
 onClickOutside(contextmenuRef, closeMenu, {
   detectIframe: true,

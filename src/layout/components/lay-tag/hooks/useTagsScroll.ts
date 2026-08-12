@@ -19,9 +19,6 @@ interface TagsScrollDeps {
 export function useTagsScroll(deps: TagsScrollDeps) {
   const { scrollbarRef, tabListRef, isShowArrow, getTagElement } = deps;
 
-  /**
-   * 根据内容宽度同步左右箭头显隐
-   */
   function syncArrowVisible(): void {
     const scrollbar = scrollbarRef.value;
     const tabList = tabListRef.value;
@@ -32,10 +29,6 @@ export function useTagsScroll(deps: TagsScrollDeps) {
     isShowArrow.value = tabList.scrollWidth > scrollbar.clientWidth + 1;
   }
 
-  /**
-   * 将指定索引标签滚入可视区
-   * @param index 标签索引
-   */
   async function scrollTagIntoView(index: number): Promise<void> {
     await nextTick();
     syncArrowVisible();
@@ -65,10 +58,6 @@ export function useTagsScroll(deps: TagsScrollDeps) {
     }
   }
 
-  /**
-   * 箭头点击滚动
-   * @param direction 左为 -1，右为 1
-   */
   function scrollByArrow(direction: -1 | 1): void {
     scrollbarRef.value?.scrollBy({
       left: direction * TAG_ARROW_SCROLL_OFFSET,
@@ -76,10 +65,6 @@ export function useTagsScroll(deps: TagsScrollDeps) {
     });
   }
 
-  /**
-   * 滚轮横向滚动标签栏
-   * @param event 滚轮事件
-   */
   function handleWheel(event: WheelEvent): void {
     const scrollbar = scrollbarRef.value;
     if (!scrollbar) {
