@@ -3,17 +3,13 @@ import { storageLocal } from '@/core/storage/storageLocal';
 import { type RouteConfigs, routerArrays } from '@/layout/types';
 import { defineStore } from 'pinia';
 import type { TagRouteItem, TagSplicePosition } from '@/store/types';
-import { usePermissionStore } from '../../auth/permission';
 import { applyPushTag } from './tagPushRules';
 
 export const useMultiTagsStore = defineStore('multi-tags', {
   state: () => ({
     multiTags: (storageLocal().getItem<StorageConfigs>(`${responsiveStorageNameSpace()}configure`)?.multiTagsCache
       ? storageLocal().getItem<StorageConfigs>(`${responsiveStorageNameSpace()}tags`)
-      : [
-          ...routerArrays,
-          ...usePermissionStore().flatteningRoutes.filter((v) => v?.meta?.fixedTag),
-        ]) as Array<RouteConfigs>,
+      : [...routerArrays]) as Array<RouteConfigs>,
     multiTagsCache: storageLocal().getItem<StorageConfigs>(`${responsiveStorageNameSpace()}configure`)?.multiTagsCache,
   }),
   getters: {

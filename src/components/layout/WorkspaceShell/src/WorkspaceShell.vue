@@ -7,7 +7,7 @@ import 'animate.css';
 import { ref, toRef } from 'vue';
 import { useI18n } from 'vue-i18n';
 
-import { useWorkspaceSectionTransition } from '@/components/layout/WorkspaceShell';
+import { useWorkspaceSectionTransition } from './hooks/useWorkspaceSectionTransition';
 import type { WorkspaceNavGroup } from './types';
 
 defineOptions({
