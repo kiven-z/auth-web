@@ -5,8 +5,11 @@ import { blockByAccessIfNeeded, isBlockedByAuths, isBlockedByRoles } from '@/rou
 import { resolveColdStartNavigation } from '@/router/guards/auth/coldStart';
 import { passAuthenticated, passGuest } from '@/router/guards/auth/guest';
 
-vi.mock('@/auth/permission', () => ({
+vi.mock('@/auth/permission/hasAuth', () => ({
   hasAuth: vi.fn(),
+}));
+
+vi.mock('@/auth/permission/isOneOfArray', () => ({
   isOneOfArray: vi.fn(),
 }));
 
@@ -42,7 +45,8 @@ vi.mock('@/store/modules/app/multiTags', () => ({
   useMultiTagsStore: vi.fn(() => ({ getMultiTagsCache: true })),
 }));
 
-import { hasAuth, isOneOfArray } from '@/auth/permission';
+import { hasAuth } from '@/auth/permission/hasAuth';
+import { isOneOfArray } from '@/auth/permission/isOneOfArray';
 import { readUserProfileFromStorage } from '@/core/session/profile/userProfileStorage';
 import { removeToken } from '@/core/session/token/sessionToken';
 import { initRouter } from '@/router/utils/route-registry';

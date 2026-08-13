@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { deleteUsers } from '@/features/system/api/user/user';
 import { getUserProfile } from '@/features/system/api/user/user-base';
-import { hasAuth } from '@/auth/permission';
+import { hasAuth } from '@/auth/permission/hasAuth';
 import { useChangePasswordAction } from '@/components/domain/user/ChangePasswordDialog';
 import ActionRow from '@/components/ui/ActionRow';
 import { deleteConfirm } from '@/services/feedback/dialog';

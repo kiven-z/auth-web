@@ -1,4 +1,4 @@
-import { hasAuth } from '@/auth/permission';
+import { hasAuth } from '@/auth/permission/hasAuth';
 import {
   SYS_USER_DEPT_PERMS,
   SYS_USER_PERMS,

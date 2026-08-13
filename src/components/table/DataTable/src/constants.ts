@@ -14,7 +14,7 @@ export const DEFAULT_PAGE_SIZES = [10, 20, 30, 50, 100, 150, 200, 300, 400, 500]
 export const MIN_ADAPTIVE_TABLE_HEIGHT_PX = 480;
 
 /** 自适应高度：距视口底部默认偏移（px） */
-export const DEFAULT_ADAPTIVE_OFFSET_BOTTOM = 45;
+export const DEFAULT_ADAPTIVE_OFFSET_BOTTOM = 54;
 
 /** 自适应高度：resize 默认防抖（ms） */
 export const DEFAULT_ADAPTIVE_DEBOUNCE_MS = 60;

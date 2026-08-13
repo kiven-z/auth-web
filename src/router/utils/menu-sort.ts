@@ -1,5 +1,4 @@
-import { isOneOfArray } from '@/auth/permission';
-import { useUserStore } from '@/store/modules/auth/user';
+import { isOneOfArray } from '@/auth/permission/isOneOfArray';
 import cloneDeep from 'lodash/cloneDeep';
 import isEmpty from 'lodash/isEmpty';
 import type { RouteComponent } from 'vue-router';
@@ -37,21 +36,21 @@ function filterTree(data: RouteComponent[]) {
 
 /**
  * 按角色过滤菜单；publicAccess 为 true 时对所有登录用户可见，不校验角色。
- * roles 为空数组仍不可见（isOneOfArray 语义不变）。
+ * 未配置 roles 的菜单可见；已配置但当前角色为空则不可见。
  * @param data 菜单数据
+ * @param roles 当前用户角色
  * @returns 过滤后的菜单数据
  */
-function filterNoPermissionTree(data: RouteComponent[]) {
-  const currentRoles = useUserStore().roles ?? [];
+function filterNoPermissionTree(data: RouteComponent[], roles: string[]) {
   const newTree = cloneDeep(data).filter((v: any) => {
     if (v.meta?.publicAccess === true) {
       return true;
     }
-    return isOneOfArray(v.meta?.roles, currentRoles);
+    return isOneOfArray(v.meta?.roles, roles);
   });
   newTree.forEach((v: any) => {
     if (v.children) {
-      v.children = filterNoPermissionTree(v.children);
+      v.children = filterNoPermissionTree(v.children, roles);
     }
   });
   return newTree;

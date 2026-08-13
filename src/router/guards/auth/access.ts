@@ -1,4 +1,5 @@
-import { hasAuth, isOneOfArray } from '@/auth/permission';
+import { hasAuth } from '@/auth/permission/hasAuth';
+import { isOneOfArray } from '@/auth/permission/isOneOfArray';
 import { readUserProfileFromStorage } from '@/core/session/profile/userProfileStorage';
 import type { NavigationGuardNext, RouteLocationNormalized } from 'vue-router';
 

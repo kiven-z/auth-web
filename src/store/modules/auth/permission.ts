@@ -1,10 +1,11 @@
-import { constantMenus } from '@/router';
+import { constantMenus } from '@/router/routes';
 import { ascending, filterNoPermissionTree, filterTree } from '@/router/utils/menu-sort';
 import { formatFlatteningRoutes } from '@/router/utils/route-tree';
 import { getKeyList } from '@/shared/utils/array/getKeyList';
 import { defineStore } from 'pinia';
 import type { KeepAliveCacheOp } from '../../types';
 import { useMultiTagsStore } from '@/store/modules/app/multiTags';
+import { useUserStore } from '@/store/modules/auth/user';
 
 export const usePermissionStore = defineStore('auth-permission', {
   state: () => ({
@@ -23,7 +24,8 @@ export const usePermissionStore = defineStore('auth-permission', {
      * @param routes
      */
     handleWholeMenus(routes: any[]) {
-      this.wholeMenus = filterNoPermissionTree(filterTree(ascending(this.constantMenus.concat(routes))));
+      const roles = useUserStore().roles ?? [];
+      this.wholeMenus = filterNoPermissionTree(filterTree(ascending(this.constantMenus.concat(routes))), roles);
       this.flatteningRoutes = formatFlatteningRoutes(this.constantMenus.concat(routes) as any);
     },
     /**
