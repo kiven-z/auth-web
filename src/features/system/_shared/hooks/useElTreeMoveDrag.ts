@@ -8,7 +8,7 @@ import {
   resolveNewParentIdFromDrop,
   type TreeDropType,
   type TreeMoveNode,
-} from '@/features/system/_shared/hooks/tree-drag';
+} from '@/features/system/_shared/hooks/treeDrag';
 import type { Ref } from 'vue';
 
 /** Element Plus 树节点（拖拽回调入参，仅使用 data） */

@@ -1,6 +1,6 @@
 import type { RoleBoundMenuItem } from '@/features/system/api/models/role';
 import { renderActiveStatusTag, renderInactiveStatusTag } from '@/components/table/BooleanStatusTag';
-import { useMenuTypeOptions } from '@/features/system/_shared/hooks/useMenuTypeOptions';
+import { useMenuTypeOptions } from '@/features/system/_shared/hooks/options/useMenuTypeOptions';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 

@@ -6,7 +6,7 @@ import type { SysMenuRow } from '@/features/system/menu/hooks/useMenuPageState';
 import { ElTag, ElText } from 'element-plus';
 import { computed, h } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { useMenuTypeOptions } from '@/features/system/_shared/hooks/useMenuTypeOptions';
+import { useMenuTypeOptions } from '@/features/system/_shared/hooks/options/useMenuTypeOptions';
 
 /**
  * 菜单管理表格列（表格视图与树形视图共用）

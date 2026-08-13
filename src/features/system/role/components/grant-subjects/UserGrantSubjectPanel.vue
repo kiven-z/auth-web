@@ -2,7 +2,7 @@
 import { getRoleGrantSubjectSeeds, putRoleGrantSubjects } from '@/features/system/api/role/role-grant-subjects';
 import { getUserPage, type SysUserPageQuery, type SysUserPageRow } from '@/features/system/api/user/user';
 import AssignPanel from '@/features/system/_shared/components/AssignPanel.vue';
-import { createAssignCheckboxColumn } from '@/features/system/_shared/hooks/createAssignCheckboxColumn';
+import { createAssignCheckboxColumn } from '@/features/system/_shared/columns/createAssignCheckboxColumn';
 import { useAssignModel } from '@/features/system/_shared/hooks/useAssignModel';
 import ListTable, { usePaginationState } from '@/components/table/ListTable';
 import { errorMessage, message } from '@/services/feedback/message';

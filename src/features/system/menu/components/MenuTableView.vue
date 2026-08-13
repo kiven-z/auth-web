@@ -6,7 +6,7 @@ import MenuRowActions from '@/features/system/menu/components/MenuRowActions.vue
 import { SYS_MENU_PERMS } from '@/features/system/menu/constants/permissions';
 import useMenuTableAction from '@/features/system/menu/hooks/actions/useMenuTableAction';
 import useMenuTableColumns from '@/features/system/menu/hooks/columns/useMenuTableColumns';
-import { useMenuTypeOptions } from '@/features/system/_shared/hooks/useMenuTypeOptions';
+import { useMenuTypeOptions } from '@/features/system/_shared/hooks/options/useMenuTypeOptions';
 import useMenuPageState from '@/features/system/menu/hooks/useMenuPageState';
 import type { FormInstance } from 'element-plus';
 import { computed, onMounted, ref } from 'vue';

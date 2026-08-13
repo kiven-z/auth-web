@@ -10,7 +10,7 @@ import MenuTypeIframeDialog from '@/features/system/menu/components/form/MenuTyp
 import MenuTypeLinkDialog from '@/features/system/menu/components/form/MenuTypeLinkDialog.vue';
 import MenuTypeMenuDialog from '@/features/system/menu/components/form/MenuTypeMenuDialog.vue';
 import { MenuTypeEnums } from '@/features/system/_shared/constants/menu-type';
-import { useMenuTypeOptions } from '@/features/system/_shared/hooks/useMenuTypeOptions';
+import { useMenuTypeOptions } from '@/features/system/_shared/hooks/options/useMenuTypeOptions';
 import { findMenuIdPath } from '@/features/system/menu/utils/menu-tree';
 import type { CascaderProps, FormInstance, FormRules } from 'element-plus';
 import { computed, onMounted, ref, watch } from 'vue';

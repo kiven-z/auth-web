@@ -9,7 +9,7 @@ import { renderActiveStatusTag, renderInactiveStatusTag } from '@/components/tab
 import { transformI18n } from '@/app/plugins/i18n';
 import { TREE_ROOT_PARENT_ID } from '@/shared/utils/tree';
 import useOpenMenuAuthorizationSurface from '@/features/system/menu/hooks/authorization/useOpenMenuAuthorizationSurface';
-import { useMenuTypeOptions } from '@/features/system/_shared/hooks/useMenuTypeOptions';
+import { useMenuTypeOptions } from '@/features/system/_shared/hooks/options/useMenuTypeOptions';
 import { ElTag } from 'element-plus';
 import { computed, h } from 'vue';
 import { useI18n } from 'vue-i18n';

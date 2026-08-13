@@ -8,7 +8,7 @@ import useMenuTableAction from '@/features/system/menu/hooks/actions/useMenuTabl
 import useMenuPageState from '@/features/system/menu/hooks/useMenuPageState';
 import { useMenuTreeDrag } from '@/features/system/menu/hooks/useMenuTreeDrag';
 import { filterMenuNode } from '@/features/system/menu/hooks/useMenuTreeFilter';
-import { useMenuTypeOptions } from '@/features/system/_shared/hooks/useMenuTypeOptions';
+import { useMenuTypeOptions } from '@/features/system/_shared/hooks/options/useMenuTypeOptions';
 import { onMounted, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 
