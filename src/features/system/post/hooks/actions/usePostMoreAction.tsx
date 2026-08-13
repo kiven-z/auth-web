@@ -4,6 +4,7 @@ import { openAssignDrawer } from '@/features/system/_shared/components/openAssig
 import type { TableActionDeps } from '@/shared/types/table-action';
 import RoleAssignPanel from '@/features/system/_shared/components/RoleAssignPanel.vue';
 import useOpenPostAuthorizationSurface from '@/features/system/post/hooks/authorization/useOpenPostAuthorizationSurface';
+import { ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 /** 岗位「更多」操作依赖 */
@@ -32,11 +33,17 @@ function usePostMoreAction(deps: PostMoreActionDeps) {
       }));
     };
 
+    const selectedKeys = ref<string[]>([]);
+
     openAssignDrawer({
       title: t('assign.role'),
-      contentRenderer: (panelRef) => (
+      selectedKeys,
+      contentRenderer: () => (
         <RoleAssignPanel
-          ref={panelRef}
+          modelValue={selectedKeys.value}
+          onUpdate:modelValue={(value: string[]) => {
+            selectedKeys.value = value;
+          }}
           leftTitle={t('post.assign.current')}
           leftSubtitle={`${row.postName}（${row.postCode}）`}
           loadAssigned={loadAssigned}

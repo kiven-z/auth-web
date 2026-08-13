@@ -25,7 +25,7 @@ export interface DetailRelationCountBarProps {
   showViewAuthorization?: boolean;
 }
 
-/** 已分配种子：驱动初始勾选与左侧标签 */
+/** 已分配种子：id + 展示文案，灌入 v-model 与 label 缓存 */
 export interface AssignSeedItem {
   key: string;
   label: string;

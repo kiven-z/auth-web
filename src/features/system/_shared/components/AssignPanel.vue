@@ -2,13 +2,13 @@
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 
-import type { AssignCheckedApi } from '@/features/system/_shared/hooks/useAssignChecked';
-
 defineOptions({ name: 'AssignPanel' });
+
+const selectedKeys = defineModel<string[]>({ required: true });
 
 const props = withDefaults(
   defineProps<{
-    assign: AssignCheckedApi;
+    labels: Record<string, string>;
     leftTitle?: string;
     leftSubtitle?: string;
     sectionLabel?: string;
@@ -23,8 +23,23 @@ const props = withDefaults(
 
 const { t } = useI18n();
 
-const assignedTags = computed(() => props.assign.assignedTags.value);
-const hasSelection = computed(() => props.assign.hasSelection.value);
+const assignedItems = computed(() => selectedKeys.value.map((key) => ({ key, label: props.labels[key] ?? key })));
+const hasSelection = computed(() => selectedKeys.value.length > 0);
+
+/**
+ * 移除已选 key
+ * @param key 行 key
+ */
+function removeKey(key: string) {
+  selectedKeys.value = selectedKeys.value.filter((item) => item !== key);
+}
+
+/**
+ * 清空已选
+ */
+function clearAll() {
+  selectedKeys.value = [];
+}
 </script>
 
 <template>
@@ -44,22 +59,22 @@ const hasSelection = computed(() => props.assign.hasSelection.value);
 
         <div class="mb-2 flex items-center justify-between gap-2">
           <el-text v-if="sectionLabel" class="text-xs font-semibold" type="info">
-            <el-badge :max="999" :offset="[0, -2]" :value="assignedTags.length" type="primary">
+            <el-badge :max="999" :offset="[0, -2]" :value="assignedItems.length" type="primary">
               {{ sectionLabel }}
             </el-badge>
           </el-text>
 
-          <el-button :disabled="saving || !hasSelection" link type="danger" @click="assign.clearAll()">
+          <el-button :disabled="saving || !hasSelection" link type="danger" @click="clearAll()">
             {{ t('buttons.assignClearAll') }}
           </el-button>
         </div>
 
-        <el-scrollbar v-if="assignedTags.length" max-height="60vh">
-          <div class="grid grid-cols-4 gap-1.5">
+        <el-scrollbar v-if="hasSelection" max-height="60vh">
+          <div class="grid grid-cols-2 gap-1.5">
             <el-tooltip
-              v-for="tag in assignedTags"
-              :key="tag.key"
-              :content="tag.label"
+              v-for="item in assignedItems"
+              :key="item.key"
+              :content="item.label"
               :show-after="400"
               placement="top"
             >
@@ -69,9 +84,9 @@ const hasSelection = computed(() => props.assign.hasSelection.value);
                   class="assign-panel__tag w-full"
                   effect="light"
                   type="success"
-                  @close="assign.removeKey(tag.key)"
+                  @close="removeKey(item.key)"
                 >
-                  <span class="assign-panel__tag-text">{{ tag.label }}</span>
+                  <span class="assign-panel__tag-text">{{ item.label }}</span>
                 </el-tag>
               </div>
             </el-tooltip>

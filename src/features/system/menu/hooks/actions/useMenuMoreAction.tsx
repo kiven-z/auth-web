@@ -5,6 +5,7 @@ import type { TableActionDeps } from '@/shared/types/table-action';
 import RoleAssignPanel from '@/features/system/_shared/components/RoleAssignPanel.vue';
 import useOpenMenuAuthorizationSurface from '@/features/system/menu/hooks/authorization/useOpenMenuAuthorizationSurface';
 import type { SysMenuRow } from '@/features/system/menu/hooks/useMenuPageState';
+import { ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 /** 菜单「更多」操作依赖 */
@@ -33,11 +34,17 @@ function useMenuMoreAction(deps: MenuTableActionDeps) {
       return rows.map((roleRow) => ({ key: roleRow.id, label: roleRow.roleName }));
     };
 
+    const selectedKeys = ref<string[]>([]);
+
     openAssignDrawer({
       title: t('assign.role'),
-      contentRenderer: (panelRef) => (
+      selectedKeys,
+      contentRenderer: () => (
         <RoleAssignPanel
-          ref={panelRef}
+          modelValue={selectedKeys.value}
+          onUpdate:modelValue={(value: string[]) => {
+            selectedKeys.value = value;
+          }}
           leftTitle={t('sysMenu.name')}
           leftSubtitle={`${transformI18n(row.title)} (${row.name})`}
           loadAssigned={loadAssigned}

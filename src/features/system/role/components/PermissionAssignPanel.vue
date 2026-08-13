@@ -7,15 +7,17 @@ import {
 import AssignPanel from '@/features/system/_shared/components/AssignPanel.vue';
 import type { AssignSeedItem } from '@/features/system/_shared/types';
 import { createAssignCheckboxColumn } from '@/features/system/_shared/hooks/createAssignCheckboxColumn';
-import { useAssignChecked } from '@/features/system/_shared/hooks/useAssignChecked';
+import { useAssignModel } from '@/features/system/_shared/hooks/useAssignModel';
 import ListTable, { usePaginationState } from '@/components/table/ListTable';
 import { useFormPlaceholder } from '@/shared/composables/i18n/useFormPlaceholder';
 import { errorMessage } from '@/services/feedback/message';
 import type { FormInstance } from 'element-plus';
-import { computed, onMounted, reactive, ref, watch } from 'vue';
+import { computed, onMounted, reactive, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 
-defineOptions({ name: 'PermissionAssignDrawer' });
+defineOptions({ name: 'PermissionAssignPanel' });
+
+const selectedKeys = defineModel<string[]>({ required: true });
 
 const props = defineProps<{
   leftTitle: string;
@@ -29,14 +31,6 @@ const { t } = useI18n();
 const ph = useFormPlaceholder();
 const searchFormRef = ref<FormInstance>();
 
-const assign = useAssignChecked({
-  rowKey: 'id',
-  getRowLabel: (row) => String(row.permissionName ?? ''),
-});
-
-const { getSelectedKeys, toggle, applySeed } = assign;
-
-// 权限状态
 const permissionState = usePaginationState<SysPermissionPageRow, SysPermissionPageQuery>({
   searchForm: reactive({
     permissionName: undefined,
@@ -47,17 +41,14 @@ const permissionState = usePaginationState<SysPermissionPageRow, SysPermissionPa
 
 const { tableData, loading, searchForm, fetchTableData, resetQuery } = permissionState;
 
-watch(
-  tableData,
-  (rows) => {
-    assign.mergeLabels(rows as Record<string, unknown>[]);
-  },
-  { immediate: true }
-);
+const { labels, toggle, isSelected, applyAssigned } = useAssignModel({
+  selectedKeys,
+  getRowLabel: (row) => String(row.permissionName ?? ''),
+  rows: tableData,
+});
 
-// 权限分配列
-const permissionDrawerColumns = computed<TableColumnList>(() => [
-  createAssignCheckboxColumn(assign, 'id', { label: t('table.assigned') }),
+const permissionAssignColumns = computed<TableColumnList>(() => [
+  createAssignCheckboxColumn({ isSelected, toggle, label: t('table.assigned') }),
   {
     label: t('permissions.field.permissionName'),
     prop: 'permissionName',
@@ -69,28 +60,27 @@ const permissionDrawerColumns = computed<TableColumnList>(() => [
 ]);
 
 /**
- * 双击行切换分配状态
+ * 拉取已分配权限并写入 v-model
  */
-const refreshAssignedSeed = async () => {
+async function refreshAssigned() {
   try {
-    applySeed(await props.loadAssigned());
+    applyAssigned(await props.loadAssigned());
   } catch (error: unknown) {
     errorMessage(error);
-    applySeed([]);
+    applyAssigned([]);
   }
-};
+}
 
 onMounted(() => {
   fetchTableData();
-  refreshAssignedSeed();
+  refreshAssigned();
 });
-
-defineExpose({ getSelectedKeys });
 </script>
 
 <template>
   <AssignPanel
-    :assign="assign"
+    v-model="selectedKeys"
+    :labels="labels"
     :left-subtitle="leftSubtitle"
     :left-title="leftTitle"
     :section-label="sectionLabel ?? t('permissions.assign.sectionLabel')"
@@ -128,7 +118,7 @@ defineExpose({ getSelectedKeys });
     </el-form>
 
     <ListTable
-      :columns="permissionDrawerColumns"
+      :columns="permissionAssignColumns"
       :state="permissionState"
       :title="tableTitle"
       @row-dblclick="(row: Record<string, unknown>) => toggle(row)"

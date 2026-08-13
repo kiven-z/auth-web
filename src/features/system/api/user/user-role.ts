@@ -28,6 +28,15 @@ export function getUserRolePage(userId: string, params: UserRolePageQuery): Prom
 }
 
 /**
+ * 查询用户已分配角色（Assign 灌种：全量 id + 名称）
+ * @param userId 用户 ID
+ * @returns 已分配角色列表；无授权时为空数组
+ */
+export function getUserRoles(userId: string): Promise<RoleReference[]> {
+  return http.get<RoleReference[], unknown>(`/system/user-role/${userId}/roles`);
+}
+
+/**
  * 全量覆盖用户角色授权
  * @param userId 用户 ID
  * @param data 角色 ID 列表

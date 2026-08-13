@@ -4,6 +4,7 @@ import { openAssignDrawer } from '@/features/system/_shared/components/openAssig
 import type { TableActionDeps } from '@/shared/types/table-action';
 import RoleAssignPanel from '@/features/system/_shared/components/RoleAssignPanel.vue';
 import useOpenDeptAuthorizationSurface from '@/features/system/dept/hooks/authorization/useOpenDeptAuthorizationSurface';
+import { ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 /** 部门「更多」操作依赖 */
@@ -35,11 +36,17 @@ function useDeptMoreAction(deps: DeptMoreActionDeps) {
       }));
     };
 
+    const selectedKeys = ref<string[]>([]);
+
     openAssignDrawer({
       title: t('assign.role'),
-      contentRenderer: (panelRef) => (
+      selectedKeys,
+      contentRenderer: () => (
         <RoleAssignPanel
-          ref={panelRef}
+          modelValue={selectedKeys.value}
+          onUpdate:modelValue={(value: string[]) => {
+            selectedKeys.value = value;
+          }}
           leftTitle={t('dept.assignRole.currentDept')}
           leftSubtitle={`${row.deptName}（${row.deptCode}）`}
           loadAssigned={loadAssigned}

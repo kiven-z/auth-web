@@ -3,40 +3,29 @@ import { getRolePage } from '@/features/system/api/role/role';
 import AssignPanel from '@/features/system/_shared/components/AssignPanel.vue';
 import type { AssignSeedItem } from '@/features/system/_shared/types';
 import { createAssignCheckboxColumn } from '@/features/system/_shared/hooks/createAssignCheckboxColumn';
-import { useAssignChecked } from '@/features/system/_shared/hooks/useAssignChecked';
+import { useAssignModel } from '@/features/system/_shared/hooks/useAssignModel';
 import ListTable, { usePaginationState } from '@/components/table/ListTable';
 import { errorMessage } from '@/services/feedback/message';
 import { useFormPlaceholder } from '@/shared/composables/i18n/useFormPlaceholder';
 import type { FormInstance } from 'element-plus';
-import { computed, onMounted, reactive, ref, watch } from 'vue';
+import { computed, onMounted, reactive, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 defineOptions({ name: 'RoleAssignPanel' });
 
-const props = withDefaults(
-  defineProps<{
-    leftTitle: string;
-    leftSubtitle: string;
-    loadAssigned: () => Promise<AssignSeedItem[]>;
-    sectionLabel?: string;
-    tableTitle?: string;
-    assignRowKey?: string;
-  }>(),
-  {
-    assignRowKey: 'id',
-  }
-);
+const selectedKeys = defineModel<string[]>({ required: true });
+
+const props = defineProps<{
+  leftTitle: string;
+  leftSubtitle: string;
+  loadAssigned: () => Promise<AssignSeedItem[]>;
+  sectionLabel?: string;
+  tableTitle?: string;
+}>();
 
 const { t } = useI18n();
 const ph = useFormPlaceholder();
 const searchFormRef = ref<FormInstance>();
-
-const assign = useAssignChecked({
-  rowKey: props.assignRowKey,
-  getRowLabel: (row) => String(row.roleName ?? ''),
-});
-
-const { toggle, applySeed } = assign;
 
 const roleState = usePaginationState({
   fetchApi: getRolePage,
@@ -49,16 +38,14 @@ const roleState = usePaginationState({
 
 const { tableData, loading, searchForm, fetchTableData, resetQuery } = roleState;
 
-watch(
-  tableData,
-  (rows) => {
-    assign.mergeLabels(rows as Record<string, unknown>[]);
-  },
-  { immediate: true }
-);
+const { labels, toggle, isSelected, applyAssigned } = useAssignModel({
+  selectedKeys,
+  getRowLabel: (row) => String(row.roleName ?? ''),
+  rows: tableData,
+});
 
 const roleAssignDataColumns = computed<TableColumnList>(() => [
-  createAssignCheckboxColumn(assign, props.assignRowKey, { label: t('table.assigned') }),
+  createAssignCheckboxColumn({ isSelected, toggle, label: t('table.assigned') }),
   {
     label: t('roles.field.roleCode'),
     prop: 'roleCode',
@@ -70,30 +57,27 @@ const roleAssignDataColumns = computed<TableColumnList>(() => [
 ]);
 
 /**
- * 刷新已分配角色
+ * 拉取已分配角色并写入 v-model
  */
-const refreshAssignedSeed = async () => {
+async function refreshAssigned() {
   try {
-    applySeed(await props.loadAssigned());
+    applyAssigned(await props.loadAssigned());
   } catch (error: unknown) {
     errorMessage(error);
-    applySeed([]);
+    applyAssigned([]);
   }
-};
+}
 
 onMounted(() => {
   fetchTableData();
-  refreshAssignedSeed();
-});
-
-defineExpose({
-  getSelectedKeys: assign.getSelectedKeys,
+  refreshAssigned();
 });
 </script>
 
 <template>
   <AssignPanel
-    :assign="assign"
+    v-model="selectedKeys"
+    :labels="labels"
     :left-subtitle="leftSubtitle"
     :left-title="leftTitle"
     :section-label="sectionLabel ?? t('roles.assign.section')"

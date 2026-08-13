@@ -3,13 +3,13 @@ import { getPostPage, type SysPostPageQuery, type SysPostPageRow } from '@/featu
 import { getRoleGrantSubjectSeeds, putRoleGrantSubjects } from '@/features/system/api/role/role-grant-subjects';
 import AssignPanel from '@/features/system/_shared/components/AssignPanel.vue';
 import { createAssignCheckboxColumn } from '@/features/system/_shared/hooks/createAssignCheckboxColumn';
-import { useAssignChecked } from '@/features/system/_shared/hooks/useAssignChecked';
+import { useAssignModel } from '@/features/system/_shared/hooks/useAssignModel';
 import ListTable, { usePaginationState } from '@/components/table/ListTable';
 import { errorMessage, message } from '@/services/feedback/message';
 import { useFormPlaceholder } from '@/shared/composables/i18n/useFormPlaceholder';
 import type { GrantSubjectPanelProps } from '@/features/system/role/types/grant-subject';
 import type { FormInstance } from 'element-plus';
-import { computed, onMounted, reactive, ref, watch } from 'vue';
+import { computed, onMounted, reactive, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 defineOptions({ name: 'PostGrantSubjectPanel' });
@@ -22,11 +22,6 @@ const searchFormRef = ref<FormInstance>();
 const seedLoading = ref(false);
 const saving = ref(false);
 
-const assign = useAssignChecked({
-  rowKey: 'id',
-  getRowLabel: (row) => String(row.postName ?? ''),
-});
-
 const state = usePaginationState<SysPostPageRow, SysPostPageQuery>({
   fetchApi: (query) => getPostPage({ ...query, status: true }),
   searchForm: reactive({
@@ -37,16 +32,13 @@ const state = usePaginationState<SysPostPageRow, SysPostPageQuery>({
 
 const { tableData, loading, searchForm, fetchTableData, resetQuery } = state;
 
-watch(
-  tableData,
-  (rows) => {
-    assign.mergeLabels(rows as Record<string, unknown>[]);
-  },
-  { immediate: true }
-);
+const { selectedKeys, labels, toggle, isSelected, applyAssigned } = useAssignModel({
+  getRowLabel: (row) => String(row.postName ?? ''),
+  rows: tableData,
+});
 
 const columns = computed<TableColumnList>(() => [
-  createAssignCheckboxColumn(assign, 'id', { label: t('table.assigned') }),
+  createAssignCheckboxColumn({ isSelected, toggle, saving, label: t('table.assigned') }),
   { label: t('post.field.postCode'), prop: 'postCode' },
   { label: t('post.field.postName'), prop: 'postName' },
 ]);
@@ -58,10 +50,10 @@ async function loadSeed() {
   seedLoading.value = true;
   try {
     const subjects = await getRoleGrantSubjectSeeds(props.roleId, 'POST');
-    assign.applySeed(subjects.map((item) => ({ key: item.id, label: item.label })));
+    applyAssigned(subjects.map((item) => ({ key: item.id, label: item.label })));
   } catch (error: unknown) {
     errorMessage(error);
-    assign.applySeed([]);
+    applyAssigned([]);
   } finally {
     seedLoading.value = false;
   }
@@ -76,8 +68,7 @@ async function handleSave() {
   }
   saving.value = true;
   try {
-    const subjectIds = assign.getSelectedKeys();
-    await putRoleGrantSubjects(props.roleId, { subjectType: 'POST', subjectIds });
+    await putRoleGrantSubjects(props.roleId, { subjectType: 'POST', subjectIds: selectedKeys.value });
     message(t('tips.assignSaveSuccess'), { type: 'success' });
   } catch (error: unknown) {
     errorMessage(error);
@@ -94,7 +85,8 @@ onMounted(() => {
 <template>
   <div v-loading="seedLoading">
     <AssignPanel
-      :assign="assign"
+      v-model="selectedKeys"
+      :labels="labels"
       :left-subtitle="leftSubtitle"
       :left-title="leftTitle"
       :saving="saving"
@@ -139,7 +131,7 @@ onMounted(() => {
         :columns="columns"
         :state="state"
         :title="t('roles.bound.posts.title')"
-        @row-dblclick="(row: Record<string, unknown>) => assign.toggle(row)"
+        @row-dblclick="(row: Record<string, unknown>) => toggle(row)"
       />
     </AssignPanel>
   </div>

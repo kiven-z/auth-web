@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { getUserProfile } from '@/features/system/api/user/user-base';
-import { getUserRolePage, putUserRoles } from '@/features/system/api/user/user-role';
+import { getUserRoles, putUserRoles } from '@/features/system/api/user/user-role';
 import { errorMessage, message } from '@/services/feedback/message';
 import RoleAssignPanel from '@/features/system/_shared/components/RoleAssignPanel.vue';
 import { SYS_USER_ROLE_PERMS } from '@/features/system/user/constants/permissions';
@@ -10,10 +10,6 @@ import { useRoute } from 'vue-router';
 
 defineOptions({ name: 'UserWorkstationGrantRolePanel' });
 
-interface GrantRoleAssignExpose {
-  getSelectedKeys: () => string[];
-}
-
 const route = useRoute();
 const { t } = useI18n();
 
@@ -22,7 +18,7 @@ const loading = ref(false);
 const saving = ref(false);
 const username = ref('');
 const nickname = ref<string | null>(null);
-const assignRef = ref<GrantRoleAssignExpose | null>(null);
+const selectedKeys = ref<string[]>([]);
 /** 递增以重挂载分配台账（重置本地勾选） */
 const assignPanelKey = ref(0);
 
@@ -31,8 +27,8 @@ const assignPanelKey = ref(0);
  * @returns 已分配角色种子
  */
 async function loadAssigned() {
-  const page = await getUserRolePage(userId.value, {});
-  return (page.list ?? []).map((roleRow) => ({ key: roleRow.id, label: roleRow.roleName }));
+  const rows = await getUserRoles(userId.value);
+  return rows.map((roleRow) => ({ key: roleRow.id, label: roleRow.roleName }));
 }
 
 /**
@@ -62,13 +58,12 @@ async function loadUserTitle() {
  * 全量覆盖保存角色分配
  */
 async function handleSave() {
-  if (!userId.value || !assignRef.value) {
+  if (!userId.value) {
     return;
   }
   saving.value = true;
   try {
-    const roleIds = assignRef.value.getSelectedKeys();
-    await putUserRoles(userId.value, { roleIds });
+    await putUserRoles(userId.value, { roleIds: selectedKeys.value });
     message(t('tips.assignSaveSuccess'), { type: 'success' });
   } catch (error: unknown) {
     errorMessage(error);
@@ -94,7 +89,7 @@ watch(userId, () => void loadUserTitle(), { immediate: true });
     <RoleAssignPanel
       v-if="userId"
       :key="assignPanelKey"
-      ref="assignRef"
+      v-model="selectedKeys"
       :left-subtitle="nickname || username"
       :left-title="t('users.assign.current')"
       :load-assigned="loadAssigned"

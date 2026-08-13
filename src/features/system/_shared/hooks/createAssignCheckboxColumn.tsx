@@ -1,27 +1,24 @@
 import { ElCheckbox } from 'element-plus';
-
-import type { AssignCheckedApi } from './useAssignChecked';
+import { unref, type MaybeRef } from 'vue';
 
 /** {@link createAssignCheckboxColumn} 列配置 */
 export interface CreateAssignCheckboxColumnOptions {
+  /** 行是否已选 */
+  isSelected: (row: Record<string, unknown>) => boolean;
+  /** 切换行勾选 */
+  toggle: (row: Record<string, unknown>) => void;
   /** 保存中时禁用勾选 */
-  saving?: boolean;
+  saving?: MaybeRef<boolean>;
   /** 列标题 */
   label: string;
 }
 
 /**
  * 生成分配勾选列
- * @param assign 分配勾选 API
- * @param _rowKey 行主键字段名（保留扩展）
- * @param options 列配置
+ * @param options 勾选判定、切换与列标题
  * @returns 表格列定义
  */
-export function createAssignCheckboxColumn(
-  assign: AssignCheckedApi,
-  _rowKey: string,
-  options: CreateAssignCheckboxColumnOptions
-): TableColumns {
+export function createAssignCheckboxColumn(options: CreateAssignCheckboxColumnOptions): TableColumns {
   return {
     label: options.label,
     prop: '__assign',
@@ -30,9 +27,9 @@ export function createAssignCheckboxColumn(
     render: ({ row }: { row: Record<string, unknown> }) => {
       return (
         <ElCheckbox
-          model-value={assign.isSelected(row)}
-          disabled={options.saving}
-          onChange={() => assign.toggle(row)}
+          model-value={options.isSelected(row)}
+          disabled={unref(options.saving) === true}
+          onChange={() => options.toggle(row)}
         />
       );
     },

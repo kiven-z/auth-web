@@ -5,7 +5,7 @@ import { openAssignDrawer } from '@/features/system/_shared/components/openAssig
 import { addDialog } from '@/components/ui/Dialog';
 import { addDrawer } from '@/components/ui/Drawer';
 import { type FormOverlayExpose, useFormOverlaySubmit } from '@/components/ui/Overlay';
-import PermissionAssignDrawer from '@/features/system/role/components/PermissionAssignDrawer.vue';
+import PermissionAssignPanel from '@/features/system/role/components/PermissionAssignPanel.vue';
 import RoleDataScopeDialog from '@/features/system/role/components/RoleDataScopeDialog.vue';
 import RoleGrantSubjectsAssignDrawer from '@/features/system/role/components/grant-subjects/RoleGrantSubjectsAssignDrawer.vue';
 import { ref } from 'vue';
@@ -32,11 +32,17 @@ function useRoleMoreAction() {
       }));
     };
 
+    const selectedKeys = ref<string[]>([]);
+
     openAssignDrawer({
       title: t('roles.assign.permission'),
-      contentRenderer: (panelRef) => (
-        <PermissionAssignDrawer
-          ref={panelRef}
+      selectedKeys,
+      contentRenderer: () => (
+        <PermissionAssignPanel
+          modelValue={selectedKeys.value}
+          onUpdate:modelValue={(value: string[]) => {
+            selectedKeys.value = value;
+          }}
           leftTitle={t('roles.assign.current')}
           leftSubtitle={`${row.roleName} (${row.roleCode})`}
           loadAssigned={loadAssigned}
