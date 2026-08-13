@@ -54,8 +54,7 @@ export default ({ mode, command }: ConfigEnv): UserConfigExport => {
       exclude: optimizeDepsExclude,
     },
     build: {
-      // 兼容较旧浏览器与内网演示环境；入口用 bootstrap()，勿用顶层 await（见 sonar S7785 豁免）
-      target: 'es2015',
+      target: 'es2022',
       sourcemap: false,
       chunkSizeWarningLimit: 4000,
       rollupOptions: {
