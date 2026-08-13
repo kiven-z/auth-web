@@ -83,6 +83,8 @@ async function handleImport(row: MessageTemplatePageRow, source: string): Promis
       title: usePreview ? detail.previewSubject : detail.subject,
       body: usePreview ? detail.previewContent : detail.content,
       contentType: detail.contentType as InAppContentType,
+      categoryId: detail.categoryId,
+      linkUrl: detail.linkUrl,
     });
   } catch (error: unknown) {
     errorMessage(error);

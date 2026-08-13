@@ -82,6 +82,8 @@ async function handleImport(row: InAppSendTaskPageRow): Promise<void> {
       title: detail.title,
       body: detail.content,
       contentType: detail.contentType as InAppContentType,
+      categoryId: detail.categoryId,
+      linkUrl: detail.linkUrl,
     });
   } catch (error: unknown) {
     errorMessage(error);

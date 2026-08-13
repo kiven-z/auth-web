@@ -1,9 +1,9 @@
-import { ElTag } from 'element-plus';
+import { ElCheckTag, ElTag } from 'element-plus';
 import { useI18n } from 'vue-i18n';
 import { USER_GENDER } from '../constants/user-enums';
 
 /**
- * 用户档案相关字段展示（账号状态、性别、组织关联状态）
+ * 用户档案相关字段展示（账号状态、性别、组织关联状态、主岗标签）
  * @returns 字段渲染函数
  */
 function useUserProfileDisplay() {
@@ -86,10 +86,46 @@ function useUserProfileDisplay() {
     }
   }
 
+  function renderDeptPrimaryTag() {
+    return (
+      <ElCheckTag checked type="danger">
+        {t('relation.primary')}
+      </ElCheckTag>
+    );
+  }
+
+  function renderDeptNonPrimaryTag() {
+    return (
+      <ElCheckTag checked={false} type="info">
+        {t('relation.nonPrimary')}
+      </ElCheckTag>
+    );
+  }
+
+  function renderPostPrimaryTag() {
+    return (
+      <ElCheckTag checked type="danger">
+        {t('post.enums.primary.yes')}
+      </ElCheckTag>
+    );
+  }
+
+  function renderPostNonPrimaryTag() {
+    return (
+      <ElCheckTag checked type="primary">
+        {t('post.enums.primary.no')}
+      </ElCheckTag>
+    );
+  }
+
   return {
     renderUserAccountStatus,
     renderUserGender,
     renderRelationStatus,
+    renderDeptPrimaryTag,
+    renderDeptNonPrimaryTag,
+    renderPostPrimaryTag,
+    renderPostNonPrimaryTag,
   };
 }
 

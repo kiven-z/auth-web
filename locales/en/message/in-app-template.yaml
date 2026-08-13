@@ -11,6 +11,9 @@ inAppTemplate:
   contentType: Content type
   priority: Send priority
   status: Status
+  majorCategory: Major category
+  categoryId: Minor category
+  linkUrl: Link URL
   testSendDialogTitle: Test send
   testSendUser: Recipient
   testSendUserPlaceholder: Search and select a recipient
@@ -23,5 +26,9 @@ inAppTemplate:
     description: Enter description
     priority: Select priority
     content: Enter template body
+    majorCategory: Select a major category first
+    categoryId: Select a minor category
+    linkUrl: Optional URL when notification is clicked
   rules:
     templateCodeReg: Letters, underscores and hyphens only; at least one letter required
+    categoryId: Minor category is required

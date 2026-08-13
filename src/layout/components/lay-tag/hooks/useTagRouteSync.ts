@@ -11,6 +11,7 @@ interface TagRouteSyncDeps {
   route: RouteLocationNormalizedLoaded;
   router: Router;
   multiTags: Ref<RouteConfigs[]>;
+  tagsViews: TagContextMenuItem[];
   topPath?: string;
 }
 
@@ -20,7 +21,7 @@ interface TagRouteSyncDeps {
  * @returns 同步方法
  */
 export function useTagRouteSync(deps: TagRouteSyncDeps) {
-  const { route, router, multiTags, topPath } = deps;
+  const { route, router, multiTags, tagsViews, topPath } = deps;
 
   function dynamicRouteTag(value: string): void {
     if (multiTags.value.some((item) => item.path === value)) {
@@ -50,7 +51,7 @@ export function useTagRouteSync(deps: TagRouteSyncDeps) {
     return usePermissionStore().wholeMenus.length > 0 && !remainingPaths.includes(route.path);
   }
 
-  function syncTagsWithRoute(tagsViews: TagContextMenuItem[]): void {
+  function syncTagsWithRoute(): void {
     if (route.path.includes('/redirect')) {
       return;
     }
@@ -71,7 +72,7 @@ export function useTagRouteSync(deps: TagRouteSyncDeps) {
     });
   }
 
-  function initTagsFromRoute(tagsViews: TagContextMenuItem[]): void {
+  function initTagsFromRoute(): void {
     applyMenuState(
       tagsViews,
       computeMenuState({

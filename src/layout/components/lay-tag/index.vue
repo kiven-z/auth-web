@@ -3,13 +3,13 @@ import { onClickOutside, useResizeObserver } from '@vueuse/core';
 import { useTags } from '@/layout/hooks/navigation/useTag';
 import { delay } from '@/shared/utils/async/delay';
 import { computed, nextTick, onMounted as vueOnMounted, ref, watch } from 'vue';
-import type { TagContextMenuItem } from '../../types';
 import TagChrome from './components/TagChrome.vue';
 import TagsContextMenu from './TagsContextMenu.vue';
 import { useTagsBar } from './hooks/useTagsBar';
 import { useTagsScroll } from './hooks/useTagsScroll';
 import { getTagItemKey, useTagsSortable } from './hooks/useTagsSortable';
 import { findTagIndex } from './utils/tagIdentity';
+import { navigateToTag } from './utils/tagNavigate';
 
 import ArrowDown from '~icons/ri/arrow-down-s-line';
 import ArrowLeftSLine from '~icons/ri/arrow-left-s-line';
@@ -80,22 +80,20 @@ async function dynamicTagView(): Promise<void> {
   await scrollTagIntoView(index);
 }
 
-const { deleteMenu, handleCommand, selectTag, openMenu, tagOnClick, syncTagsWithRoute, initTagsFromRoute } = useTagsBar(
-  {
-    route,
-    router,
-    multiTags,
-    tagsViews,
-    currentSelect: currentSelect as never,
-    visible,
-    buttonTop,
-    buttonLeft,
-    containerDom,
-    closeMenu,
-    onContentFullScreen,
-    dynamicTagView,
-  }
-);
+const { deleteMenu, handleCommand, selectTag, openMenu, syncTagsWithRoute, initTagsFromRoute } = useTagsBar({
+  route,
+  router,
+  multiTags,
+  tagsViews,
+  currentSelect: currentSelect as never,
+  visible,
+  buttonTop,
+  buttonLeft,
+  containerDom,
+  closeMenu,
+  onContentFullScreen,
+  dynamicTagView,
+});
 
 onClickOutside(contextmenuRef, closeMenu, {
   detectIframe: true,
@@ -118,23 +116,6 @@ vueOnMounted(() => {
   });
   delay().then(() => dynamicTagView());
 });
-
-/**
- * 右键菜单选择
- * @param key 索引
- * @param item 菜单项
- */
-function onContextSelect(key: number, item: TagContextMenuItem): void {
-  selectTag(key, item);
-}
-
-/**
- * 下拉命令
- * @param command 命令
- */
-function onDropdownCommand(command: { key: number; item: TagContextMenuItem }): void {
-  handleCommand(command);
-}
 </script>
 
 <template>
@@ -159,7 +140,7 @@ function onDropdownCommand(command: { key: number; item: TagContextMenuItem }): 
             showModel === 'chrome' && 'chrome-item',
             isFixedTag(item) && 'fixed-tag',
           ]"
-          @click="tagOnClick(item)"
+          @click="navigateToTag(router, item)"
           @contextmenu.prevent="openMenu(item, $event)"
           @mouseenter.prevent="onMouseenter(index)"
           @mouseleave.prevent="onMouseleave(index)"
@@ -197,19 +178,14 @@ function onDropdownCommand(command: { key: number; item: TagContextMenuItem }): 
     </span>
 
     <div ref="contextmenuRef">
-      <TagsContextMenu
-        :menu-style="getContextMenuStyle"
-        :tags-views="tagsViews"
-        :visible="visible"
-        @select="onContextSelect"
-      >
+      <TagsContextMenu :menu-style="getContextMenuStyle" :tags-views="tagsViews" :visible="visible" @select="selectTag">
         <template #label="{ item }">
           {{ transformI18n(item.text) }}
         </template>
       </TagsContextMenu>
     </div>
 
-    <el-dropdown placement="bottom-end" trigger="click" @command="onDropdownCommand">
+    <el-dropdown placement="bottom-end" trigger="click" @command="handleCommand">
       <span class="arrow-down">
         <IconifyIconOffline :icon="ArrowDown" class="dark:text-white" />
       </span>

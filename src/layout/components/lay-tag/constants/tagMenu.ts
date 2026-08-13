@@ -28,3 +28,8 @@ export const CLOSE_MENU_ACTIONS: TagMenuAction[] = [
   TagMenuAction.CloseOther,
   TagMenuAction.CloseAll,
 ];
+
+/** 菜单下标 → 动作（用于下拉 / 右键命令分发） */
+export const TAG_MENU_ACTION_BY_INDEX = Object.fromEntries(
+  Object.entries(TAG_MENU_INDEX).map(([action, index]) => [index, action as TagMenuAction])
+) as Record<number, TagMenuAction>;

@@ -11,6 +11,9 @@ inAppTemplate:
   contentType: 正文类型
   priority: 发送优先级
   status: 状态
+  majorCategory: 业务大类
+  categoryId: 业务小类
+  linkUrl: 跳转链接
   testSendDialogTitle: 测试发送
   testSendUser: 接收用户
   testSendUserPlaceholder: 请搜索并选择接收用户
@@ -23,5 +26,9 @@ inAppTemplate:
     description: 请输入模板描述
     priority: 请选择优先级
     content: 请输入模板正文
+    majorCategory: 请先选择业务大类
+    categoryId: 请选择业务小类
+    linkUrl: 可选，点击通知后跳转的链接
   rules:
     templateCodeReg: 仅允许字母、下划线、连字符，且须包含至少一个字母
+    categoryId: 请选择业务小类

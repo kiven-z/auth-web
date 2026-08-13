@@ -1,12 +1,16 @@
 <script lang="ts" setup>
-import type { FormDialog } from '@/shared/types/dialog';
-import type { InAppTemplateFormModel } from '@/features/message/api/in-app-template';
-import type { FormInstance, FormRules } from 'element-plus';
+import { useInAppCategorySubOptions } from '@/components/domain/message/InAppCategorySubOptions';
 import InAppContentEditor from '@/features/message/_shared/components/InAppContentEditor.vue';
-import { useCommonBooleanStatusOptions } from '@/shared/composables/i18n/useCommonBooleanStatusOptions';
-import { reactive, ref } from 'vue';
-import { useI18n } from 'vue-i18n';
+import { getInAppMessageCategoryById } from '@/features/message/api/in-app-category';
+import type { InAppTemplateFormModel } from '@/features/message/api/in-app-template';
+import { useInAppCategoryMajorOptions } from '@/features/message/_shared/hooks/options/useInAppCategoryMajorOptions';
 import { IN_APP_CONTENT_TYPES } from '@/features/message/api/models/content-type';
+import { errorMessage } from '@/services/feedback/message';
+import { useCommonBooleanStatusOptions } from '@/shared/composables/i18n/useCommonBooleanStatusOptions';
+import type { FormDialog } from '@/shared/types/dialog';
+import type { FormInstance, FormRules } from 'element-plus';
+import { onMounted, reactive, ref } from 'vue';
+import { useI18n } from 'vue-i18n';
 
 defineOptions({
   name: 'InAppTemplateDrawer',
@@ -21,6 +25,8 @@ const props = withDefaults(defineProps<InAppTemplateDrawerProps>(), {
 const { t } = useI18n();
 const booleanStatusOptions = useCommonBooleanStatusOptions();
 const formRef = ref<FormInstance>();
+/** 大类仅用于级联选小类，不提交 */
+const majorCategoryId = ref<string>();
 
 const form = ref<InAppTemplateFormModel>({
   status: true,
@@ -30,8 +36,10 @@ const form = ref<InAppTemplateFormModel>({
   ...props.form,
 });
 
+const { majorOptions, loadingMajors, loadMajors } = useInAppCategoryMajorOptions(true);
+const { subOptions, loadingSubs, loadSubs } = useInAppCategorySubOptions(true);
+
 const rules = reactive<FormRules>({
-  // 场景编码
   templateCode: [
     { required: true, message: t('inAppTemplate.placeholder.templateCode'), trigger: 'blur' },
     {
@@ -40,18 +48,45 @@ const rules = reactive<FormRules>({
       trigger: 'change',
     },
   ],
-  // 模板名称
   templateName: [{ required: true, message: t('inAppTemplate.placeholder.templateName'), trigger: 'blur' }],
-  // 标题
   subject: [{ required: true, message: t('inAppTemplate.placeholder.subject'), trigger: 'blur' }],
-  // 正文类型
   contentType: [{ required: true, message: t('inAppTemplate.placeholder.contentType'), trigger: 'change' }],
-  // 正文
   content: [{ required: true, message: t('inAppTemplate.placeholder.content'), trigger: 'blur' }],
-  // 状态
   status: [{ required: true, message: t('inAppTemplate.placeholder.status'), trigger: 'change' }],
-  // 优先级
   priority: [{ required: true, message: t('inAppTemplate.placeholder.priority'), trigger: 'change' }],
+  categoryId: [{ required: true, message: t('inAppTemplate.rules.categoryId'), trigger: 'change' }],
+});
+
+/**
+ * 切换大类：清空小类并拉取对应小类列表
+ * @param majorId 大类主键
+ */
+function handleMajorChange(majorId: string | undefined) {
+  form.value.categoryId = undefined;
+  if (!majorId) {
+    subOptions.value = [];
+    return;
+  }
+  loadSubs(majorId);
+}
+
+onMounted(async () => {
+  const categoryId = form.value.categoryId;
+  if (!categoryId) {
+    return;
+  }
+  try {
+    const minor = await getInAppMessageCategoryById(categoryId);
+    const parentId = minor.parentId;
+    if (parentId && parentId !== '0') {
+      await loadMajors();
+      majorCategoryId.value = parentId;
+      await loadSubs(parentId);
+    }
+  } catch (error: unknown) {
+    errorMessage(error);
+    form.value.categoryId = undefined;
+  }
 });
 
 defineExpose({ formRef, form });
@@ -60,7 +95,6 @@ defineExpose({ formRef, form });
 <template>
   <el-form ref="formRef" :model="form" :rules="rules" label-width="auto">
     <el-row :gutter="14">
-      <!-- 场景编码（scene_code） -->
       <el-col :lg="12" :md="12" :sm="12" :xs="24">
         <el-form-item :label="t('inAppTemplate.templateCode')" prop="templateCode">
           <el-input
@@ -83,7 +117,6 @@ defineExpose({ formRef, form });
         </el-form-item>
       </el-col>
 
-      <!-- 标题模板（subject） -->
       <el-col :span="24">
         <el-form-item :label="t('inAppTemplate.subject')" prop="subject">
           <el-input
@@ -121,6 +154,50 @@ defineExpose({ formRef, form });
         </el-form-item>
       </el-col>
 
+      <el-col :lg="12" :md="12" :sm="12" :xs="24">
+        <el-form-item :label="t('inAppTemplate.majorCategory')" required>
+          <el-select
+            v-model="majorCategoryId"
+            :loading="loadingMajors"
+            :placeholder="t('inAppTemplate.placeholder.majorCategory')"
+            clearable
+            filterable
+            @change="handleMajorChange"
+            @focus="loadMajors"
+          >
+            <el-option v-for="item in majorOptions" :key="item.id" :label="item.name" :value="item.id" />
+          </el-select>
+        </el-form-item>
+      </el-col>
+
+      <el-col :lg="12" :md="12" :sm="12" :xs="24">
+        <el-form-item :label="t('inAppTemplate.categoryId')" prop="categoryId">
+          <el-select
+            v-model="form.categoryId"
+            :disabled="!majorCategoryId"
+            :loading="loadingSubs"
+            :placeholder="t('inAppTemplate.placeholder.categoryId')"
+            clearable
+            filterable
+          >
+            <el-option v-for="item in subOptions" :key="item.id" :label="item.name" :value="item.id" />
+          </el-select>
+        </el-form-item>
+      </el-col>
+
+      <el-col :span="24">
+        <el-form-item :label="t('inAppTemplate.linkUrl')" prop="linkUrl">
+          <el-input
+            v-model="form.linkUrl"
+            :placeholder="t('inAppTemplate.placeholder.linkUrl')"
+            autocomplete="off"
+            clearable
+            maxlength="500"
+            show-word-limit
+          />
+        </el-form-item>
+      </el-col>
+
       <el-col :span="24">
         <el-form-item :label="t('inAppTemplate.description')" prop="description">
           <el-input
@@ -135,7 +212,6 @@ defineExpose({ formRef, form });
       </el-col>
 
       <el-col :span="24">
-        <!-- 模板正文：按 contentType 切换编辑器 -->
         <el-form-item :label="t('inAppTemplate.content')" prop="content">
           <InAppContentEditor v-model="form.content" :content-type="form.contentType" />
         </el-form-item>

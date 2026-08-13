@@ -38,7 +38,13 @@ const form = reactive<InAppComposeRequest>({
 
 const { majorOptions, loadingMajors, loadMajors } = useInAppCategoryMajorOptions(true);
 const { subOptions, loadingSubs, loadSubs } = useInAppCategorySubOptions(true);
-const { openTemplateImportDialog, openHistoryImportDialog } = useInAppComposeImport(form);
+const { openTemplateImportDialog, openHistoryImportDialog } = useInAppComposeImport({
+  form,
+  majorCategoryId,
+  subOptions,
+  loadSubs,
+  loadMajors,
+});
 
 const rules = reactive<FormRules>({
   recipientScopeType: [{ required: true, message: t('inAppCompose.recipientScope'), trigger: 'change' }],

@@ -2,19 +2,24 @@ import type { RouteConfigs } from '@/layout/types';
 import { describe, expect, it } from 'vitest';
 import { TagMenuAction } from '@/layout/components/lay-tag/constants/tagMenu';
 import {
-  applyOpenMenuPreset,
   computeMenuState,
+  resolveContextMenuState,
   resolveTagIndex,
 } from '@/layout/components/lay-tag/utils/contextMenuPolicy';
+import type { TagMenuItemState } from '@/layout/components/lay-tag/types';
 
 const home: RouteConfigs = { path: '/home', name: 'Home', meta: { title: 'Home' } };
 const user: RouteConfigs = { path: '/user', name: 'User', meta: { title: 'User' } };
 const role: RouteConfigs = { path: '/role', name: 'Role', meta: { title: 'Role' } };
+const dept: RouteConfigs = { path: '/dept', name: 'Dept', meta: { title: 'Dept' } };
 const fixed: RouteConfigs = {
   path: '/fixed',
   name: 'Fixed',
   meta: { title: 'Fixed', fixedTag: true } as RouteConfigs['meta'],
 };
+
+const on: TagMenuItemState = { show: true, disabled: false };
+const off: TagMenuItemState = { show: true, disabled: true };
 
 function closeState(state: ReturnType<typeof computeMenuState>) {
   return {
@@ -27,85 +32,173 @@ function closeState(state: ReturnType<typeof computeMenuState>) {
   };
 }
 
-describe('resolveTagIndex', () => {
-  const tags = [home, { ...user, query: { id: '1' } }];
+function asRoute(tag: RouteConfigs) {
+  return { path: tag.path, name: tag.name } as never;
+}
 
+describe('resolveTagIndex', () => {
   it('matches by path when query empty', () => {
-    expect(resolveTagIndex(tags, '/home')).toBe(0);
+    expect(resolveTagIndex([home, user], '/home')).toBe(0);
   });
 
   it('matches by query when provided', () => {
-    expect(resolveTagIndex(tags, '/user', { id: '1' })).toBe(1);
+    expect(resolveTagIndex([home, { ...user, query: { id: '1' } }], '/user', { id: '1' })).toBe(1);
+  });
+
+  it('matches by params when provided', () => {
+    expect(resolveTagIndex([home, { ...user, params: { id: '1' } }], '/user', {}, { id: '1' })).toBe(1);
+  });
+
+  it('returns -1 when not found', () => {
+    expect(resolveTagIndex([home], '/missing')).toBe(-1);
   });
 });
 
 describe('computeMenuState', () => {
-  it('disables all close actions on first tag', () => {
-    const state = closeState(computeMenuState({ tags: [home, user, role], currentPath: '/home', topPath: '/home' }));
-    expect(state.close.disabled).toBe(true);
-    expect(state.closeLeft.disabled).toBe(true);
-    expect(state.closeRight.disabled).toBe(true);
-  });
-
-  it('hides close left on second tag when more than two tabs', () => {
-    const state = closeState(computeMenuState({ tags: [home, user, role], currentPath: '/user', topPath: '/home' }));
-    expect(state.closeLeft).toEqual({ show: false, disabled: true });
-    expect(state.close.disabled).toBe(false);
-    expect(state.closeRight.disabled).toBe(false);
-  });
-
-  it('hides left right other when only two tabs and current is second', () => {
-    const state = closeState(computeMenuState({ tags: [home, user], currentPath: '/user', topPath: '/home' }));
-    expect(state.closeLeft.show).toBe(false);
-    expect(state.closeRight.show).toBe(false);
-    expect(state.closeOther.show).toBe(false);
-    expect(state.close.disabled).toBe(false);
-  });
-
-  it('hides close right on last tag', () => {
-    const state = closeState(computeMenuState({ tags: [home, user, role], currentPath: '/role', topPath: '/home' }));
-    expect(state.closeRight).toEqual({ show: false, disabled: true });
-    expect(state.closeLeft.disabled).toBe(false);
-  });
-
-  it('hides close left when immediate previous tag is fixed on last tab', () => {
-    const state = closeState(computeMenuState({ tags: [home, fixed, role], currentPath: '/role', topPath: '/home' }));
-    expect(state.closeLeft).toEqual({ show: false, disabled: true });
-  });
-
-  it('disables close actions on fixed tag', () => {
-    const state = closeState(computeMenuState({ tags: [fixed, user], currentPath: '/fixed', topPath: '/fixed' }));
-    expect(state.close.disabled).toBe(true);
-    expect(state.closeLeft.disabled).toBe(true);
-  });
-
-  it('forces reload visible when requested', () => {
-    const state = computeMenuState({
-      tags: [home, user],
-      currentPath: '/user',
+  it.each([
+    {
+      name: 'home disables all close',
+      tags: [home, user, role],
+      path: '/home',
       topPath: '/home',
-      forceShowReload: true,
-    });
-    expect(state[TagMenuAction.Reload].show).toBe(true);
+      want: { close: off, closeLeft: off, closeRight: off, closeOther: off, closeAll: off, reload: on },
+    },
+    {
+      name: 'missing tag is treated as home',
+      tags: [home, user],
+      path: '/missing',
+      topPath: '/home',
+      want: { close: off, closeLeft: off, closeRight: off, closeOther: off, closeAll: off },
+    },
+    {
+      name: 'redirect of top path is treated as home',
+      tags: [home, user, role],
+      path: '/redirect/home',
+      topPath: '/home',
+      want: { close: off, closeLeft: off, closeRight: off, closeOther: off, closeAll: off },
+    },
+    {
+      name: 'second of many cannot close left',
+      tags: [home, user, role],
+      path: '/user',
+      topPath: '/home',
+      want: { close: on, closeLeft: off, closeRight: on, closeOther: on, closeAll: on },
+    },
+    {
+      name: 'two tabs: only close and closeAll',
+      tags: [home, user],
+      path: '/user',
+      topPath: '/home',
+      want: { close: on, closeLeft: off, closeRight: off, closeOther: off, closeAll: on },
+    },
+    {
+      name: 'last cannot close right',
+      tags: [home, user, role],
+      path: '/role',
+      topPath: '/home',
+      want: { close: on, closeLeft: on, closeRight: off, closeOther: on, closeAll: on },
+    },
+    {
+      name: 'last with previous fixed cannot close left',
+      tags: [home, fixed, role],
+      path: '/role',
+      topPath: '/home',
+      want: { closeLeft: off, closeRight: off, close: on, closeOther: off, closeAll: on },
+    },
+    {
+      name: 'middle enables all close',
+      tags: [home, user, role, dept],
+      path: '/role',
+      topPath: '/home',
+      want: { close: on, closeLeft: on, closeRight: on, closeOther: on, closeAll: on },
+    },
+    {
+      name: 'middle with previous fixed cannot close left',
+      tags: [home, fixed, role, dept],
+      path: '/role',
+      topPath: '/home',
+      want: { closeLeft: off, closeRight: on, closeOther: on, close: on },
+    },
+    {
+      name: 'fixed tag disables all close',
+      tags: [fixed, user],
+      path: '/fixed',
+      topPath: '/fixed',
+      want: { close: off, closeLeft: off, closeRight: off, closeOther: off, closeAll: off },
+    },
+  ])('$name', ({ tags, path, topPath, want }) => {
+    expect(closeState(computeMenuState({ tags, currentPath: path, topPath }))).toMatchObject(want);
   });
 });
 
-describe('applyOpenMenuPreset', () => {
-  const base = computeMenuState({ tags: [home, user, role], currentPath: '/user', topPath: '/home' });
-
-  it('shows only reload for fixed tags', () => {
-    const state = applyOpenMenuPreset(base, 'fixed-only-reload');
-    expect(state[TagMenuAction.Reload].show).toBe(true);
-    expect(state[TagMenuAction.Close].show).toBe(false);
-  });
-
-  it('hides reload preset', () => {
-    const state = applyOpenMenuPreset(base, 'hide-reload');
-    expect(state[TagMenuAction.Reload].show).toBe(false);
-  });
-
-  it('hides close other preset', () => {
-    const state = applyOpenMenuPreset(base, 'hide-close-other');
-    expect(state[TagMenuAction.CloseOther].show).toBe(false);
+describe('resolveContextMenuState', () => {
+  it.each([
+    {
+      name: 'home shows only reload',
+      tag: home,
+      route: home,
+      tags: [home, user, role],
+      topPath: '/home',
+      want: {
+        reloadShow: true,
+        closeShow: false,
+        closeLeftShow: false,
+        closeRightShow: false,
+        closeOtherShow: false,
+      },
+    },
+    {
+      name: 'inactive tag hides reload',
+      tag: user,
+      route: role,
+      tags: [home, user, role],
+      topPath: '/home',
+      want: { reloadShow: false, closeShow: true },
+    },
+    {
+      name: 'active tag shows reload',
+      tag: user,
+      route: user,
+      tags: [home, user, role],
+      topPath: '/home',
+      want: { reloadShow: true, closeShow: true, closeLeftShow: false, closeRightShow: true },
+    },
+    {
+      name: 'fixed tag hides close',
+      tag: fixed,
+      route: fixed,
+      tags: [fixed, user],
+      topPath: '/fixed',
+      want: { reloadShow: true, closeShow: false, closeLeftShow: false },
+    },
+    {
+      name: 'two tabs hides unavailable close directions',
+      tag: user,
+      route: user,
+      tags: [home, user],
+      topPath: '/home',
+      want: {
+        reloadShow: true,
+        closeShow: true,
+        closeLeftShow: false,
+        closeRightShow: false,
+        closeOtherShow: false,
+      },
+    },
+  ])('$name', ({ tag, route, tags, topPath, want }) => {
+    const state = resolveContextMenuState({ tag, route: asRoute(route), tags, topPath });
+    expect(state[TagMenuAction.Reload].show).toBe(want.reloadShow);
+    if (want.closeShow !== undefined) {
+      expect(state[TagMenuAction.Close].show).toBe(want.closeShow);
+    }
+    if (want.closeLeftShow !== undefined) {
+      expect(state[TagMenuAction.CloseLeft].show).toBe(want.closeLeftShow);
+    }
+    if (want.closeRightShow !== undefined) {
+      expect(state[TagMenuAction.CloseRight].show).toBe(want.closeRightShow);
+    }
+    if (want.closeOtherShow !== undefined) {
+      expect(state[TagMenuAction.CloseOther].show).toBe(want.closeOtherShow);
+    }
   });
 });

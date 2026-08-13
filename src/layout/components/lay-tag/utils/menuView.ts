@@ -32,3 +32,26 @@ export function resolveContextMenuLeft(
   const left = clientX - containerLeft + 5;
   return Math.min(left, maxLeft);
 }
+
+/**
+ * 根据鼠标与容器计算右键菜单定位
+ * @param event 鼠标事件
+ * @param container 标签栏容器
+ * @param hiddenSideBar 是否隐藏侧栏（全屏内容区）
+ * @returns left / top；无容器时 left 为 0
+ */
+export function positionContextMenu(
+  event: MouseEvent,
+  container: HTMLElement | undefined,
+  hiddenSideBar: boolean
+): { left: number; top: number } {
+  let left = 0;
+  if (container) {
+    const rect = container.getBoundingClientRect();
+    left = resolveContextMenuLeft(event.clientX, rect.left, container.offsetWidth);
+  }
+  return {
+    left,
+    top: hiddenSideBar ? event.clientY : event.clientY - 40,
+  };
+}

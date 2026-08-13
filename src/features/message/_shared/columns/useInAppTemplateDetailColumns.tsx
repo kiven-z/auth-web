@@ -16,6 +16,7 @@ function useInAppTemplateDetailColumns() {
     { label: t('messageTemplate.previewSubject'), prop: 'previewSubject', labelWidth: 140, copy: true, span: 2 },
     { label: t('inAppTemplate.description'), prop: 'description', labelWidth: 140, copy: true, span: 2 },
     { label: t('inAppTemplate.contentType'), prop: 'imMessageType', labelWidth: 140, copy: true },
+    { label: t('inAppTemplate.linkUrl'), prop: 'linkUrl', labelWidth: 140, copy: true, span: 2 },
     { label: t('inAppTemplate.priority'), prop: 'priority', labelWidth: 140, copy: true },
     {
       label: t('inAppTemplate.status'),

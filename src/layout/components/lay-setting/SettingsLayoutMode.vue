@@ -164,8 +164,8 @@ watch(
       />
       <button
         v-else
-        v-ripple="{ class: 'text-gray-300' }"
-        class="bg-transparent flex-c w-full h-20 rounded-md border border-(--auth-border-color)"
+        class="bg-transparent flex-c w-full h-20 rounded-md border border-(--auth-border-color) cursor-pointer transition-transform duration-150 active:scale-[0.99]"
+        type="button"
         @click="setStretch(!settings.stretch)"
       >
         <span

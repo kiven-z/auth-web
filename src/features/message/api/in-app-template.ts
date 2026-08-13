@@ -16,6 +16,10 @@ export interface InAppTemplateFormModel {
   description?: string;
   status: boolean;
   priority: number;
+  /** 默认业务小类 ID */
+  categoryId?: string;
+  /** 默认跳转链接 */
+  linkUrl?: string;
 }
 
 /**

@@ -150,20 +150,6 @@ declare global {
     };
     tags?: Array<any>;
   }
-
-  /**
-   * 扩展 `Element`
-   */
-  interface Element {
-    // v-ripple 作用于 src/app/directives/ripple/index.ts 文件
-    _ripple?: {
-      enabled?: boolean;
-      centered?: boolean;
-      class?: string;
-      circle?: boolean;
-      touched?: boolean;
-    };
-  }
 }
 
 export {};

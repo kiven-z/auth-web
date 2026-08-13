@@ -72,6 +72,10 @@ export interface MessageTemplateDetailVO extends BaseResponseDetail {
   imMessageType?: string;
   priority: number;
   status: boolean;
+  /** 站内信默认业务小类 ID */
+  categoryId?: string;
+  /** 站内信默认跳转链接 */
+  linkUrl?: string;
 }
 
 /**
