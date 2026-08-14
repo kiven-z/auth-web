@@ -1,4 +1,4 @@
-import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { copyToClipboard } from '@/shared/utils/clipboard';
 import { message } from '@/services/feedback/message';
 
@@ -6,9 +6,38 @@ vi.mock('@/services/feedback/message', () => ({
   message: vi.fn(),
 }));
 
+function stubExecCommandCopy(success: boolean) {
+  const execCommand = vi.fn().mockReturnValue(success);
+  vi.stubGlobal('document', {
+    createElement: (tag: string) => {
+      if (tag !== 'textarea') {
+        throw new Error(`unexpected tag: ${tag}`);
+      }
+      return {
+        value: '',
+        style: {},
+        setAttribute: vi.fn(),
+        select: vi.fn(),
+        setSelectionRange: vi.fn(),
+      };
+    },
+    body: {
+      appendChild: vi.fn(),
+      removeChild: vi.fn(),
+    },
+    execCommand,
+  });
+  return execCommand;
+}
+
 describe('copyToClipboard', () => {
   beforeEach(() => {
     vi.clearAllMocks();
+    vi.unstubAllGlobals();
+  });
+
+  afterEach(() => {
+    vi.unstubAllGlobals();
   });
 
   it('returns false for empty values without showing feedback', () => {
@@ -80,17 +109,32 @@ describe('copyToClipboard', () => {
     expect(writeText).not.toHaveBeenCalled();
   });
 
-  it('shows failure feedback when Clipboard API rejects', async () => {
+  it('falls back to execCommand when Clipboard API rejects', async () => {
     const writeText = vi.fn().mockRejectedValue(new Error('no-permission'));
     vi.stubGlobal('navigator', { clipboard: { writeText } });
+    const execCommand = stubExecCommandCopy(true);
 
     const ok = await copyToClipboard('hello');
-    expect(ok).toBe(false);
-    expect(message).toHaveBeenCalledWith('复制失败', { type: 'error' });
+    expect(ok).toBe(true);
+    expect(writeText).toHaveBeenCalledWith('hello');
+    expect(execCommand).toHaveBeenCalledWith('copy');
+    expect(message).toHaveBeenCalledWith('复制成功', { type: 'success' });
   });
 
-  it('returns false when Clipboard API is unavailable', async () => {
+  it('falls back to execCommand when Clipboard API is unavailable', async () => {
     vi.stubGlobal('navigator', undefined as unknown as Navigator);
+    const execCommand = stubExecCommandCopy(true);
+
+    const ok = await copyToClipboard('hello');
+    expect(ok).toBe(true);
+    expect(execCommand).toHaveBeenCalledWith('copy');
+    expect(message).toHaveBeenCalledWith('复制成功', { type: 'success' });
+  });
+
+  it('shows failure feedback when both clipboard strategies fail', async () => {
+    const writeText = vi.fn().mockRejectedValue(new Error('no-permission'));
+    vi.stubGlobal('navigator', { clipboard: { writeText } });
+    stubExecCommandCopy(false);
 
     const ok = await copyToClipboard('hello');
     expect(ok).toBe(false);

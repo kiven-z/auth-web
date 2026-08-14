@@ -9,7 +9,7 @@ import {
   importDeptExcel,
   preCheckDeptExport,
 } from '@/features/system/api/dept/dept';
-import DeptClosureHealthDialog from '@/features/system/dept/components/DeptClosureHealthDialog.vue';
+import DeptClosureHealthDialog from '@/features/system/dept/components/tools/DeptClosureHealthDialog.vue';
 import { h, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 

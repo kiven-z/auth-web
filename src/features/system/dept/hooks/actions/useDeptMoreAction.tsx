@@ -9,7 +9,6 @@ import { useI18n } from 'vue-i18n';
 
 /** 部门「更多」操作依赖 */
 export interface DeptMoreActionDeps extends TableActionDeps {
-  fetchTreeData: () => Promise<void>;
   refresh: () => Promise<void>;
 }
 

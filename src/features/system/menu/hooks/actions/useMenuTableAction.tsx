@@ -1,4 +1,7 @@
-import type { TableActionDeps } from '@/shared/types/table-action';
+import useBatchDeleteAction from '@/components/table/BatchDeleteAction';
+import { addDialog } from '@/components/ui/Dialog';
+import { addDrawer } from '@/components/ui/Drawer';
+import { type FormOverlayExpose, useFormOverlaySubmit } from '@/components/ui/Overlay';
 import {
   createMenu,
   deleteMenus,
@@ -8,22 +11,18 @@ import {
   updateMenu,
   updateMenuBatchStatus,
 } from '@/features/system/api/menu/menu';
-import { addDialog } from '@/components/ui/Dialog';
-import { addDrawer } from '@/components/ui/Drawer';
+import MenuDescriptionDialog from '@/features/system/menu/components/detail/MenuDescriptionDialog.vue';
+import MenuDialog from '@/features/system/menu/components/form/MenuDialog.vue';
+import type { MenuViewMode, SysMenuRow } from '@/features/system/menu/hooks/useMenuPageState';
 import { operationConfirm } from '@/services/feedback/dialog';
 import { errorMessage, message } from '@/services/feedback/message';
-import useBatchDeleteAction from '@/components/table/BatchDeleteAction';
-import { type FormOverlayExpose, useFormOverlaySubmit } from '@/components/ui/Overlay';
-import MenuDescriptionDialog from '@/features/system/menu/components/MenuDescriptionDialog.vue';
-import MenuDialog from '@/features/system/menu/components/MenuDialog.vue';
-import type { MenuViewMode, SysMenuRow } from '@/features/system/menu/hooks/useMenuPageState';
+import type { TableActionDeps } from '@/shared/types/table-action';
 import type { Ref } from 'vue';
 import { h, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 /** 菜单表格操作依赖 */
 interface MenuTableActionDeps extends TableActionDeps {
-  fetchTreeData: () => Promise<void>;
   refresh: () => Promise<void>;
   viewMode: Ref<MenuViewMode>;
   selectedRows: Ref<string[]>;

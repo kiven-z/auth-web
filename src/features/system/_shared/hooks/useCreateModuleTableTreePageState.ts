@@ -1,7 +1,8 @@
 import type { PageResponse } from '@/api/common/page';
-import { usePaginationState } from '@/components/table/ListTable';
+import { usePaginationState, type ListTableState } from '@/components/table/ListTable';
 import { errorMessage } from '@/services/feedback/message';
 import { handleTree } from '@/shared/utils/tree';
+import type { FormInstance } from 'element-plus';
 import { ref, type Ref } from 'vue';
 
 /**
@@ -14,10 +15,8 @@ export interface CreateModuleTableTreePageStateConfig<TRow, TFlat, TViewMode ext
   defaultPageSize?: number;
   /** 表格分页接口 */
   fetchPage: (query: Record<string, unknown>) => Promise<PageResponse<TRow>>;
-  /** 建树用扁平列表接口 */
-  fetchFlatList: (params?: Record<string, unknown>) => Promise<TFlat[]>;
-  /** 调用 {@link fetchFlatList} 时附带的查询参数 */
-  flatListParams?: Record<string, unknown>;
+  /** 树表 / 树形共用扁平列表接口（传入 searchForm，由调用方映射为 API 参数） */
+  fetchFlatList: (query: Record<string, unknown>) => Promise<TFlat[]>;
   /** handleTree 的 id 字段名，默认 id */
   treeIdKey?: string;
   /** handleTree 的 parentId 字段名，默认 parentId */
@@ -60,31 +59,69 @@ export function useCreateModuleTableTreePageState<
   const treeIdKey = config.treeIdKey ?? 'id';
   const treeParentKey = config.treeParentKey ?? 'parentId';
 
+  type TreeListTarget = 'tree' | 'table';
+
   /**
-   * 拉取扁平列表并建树（不带表格筛选，保证结构完整）。
+   * 按 searchForm 拉扁平列表并建树，写入 treeData 或 tableData。
+   * @param target 树形 treeData / 树表 tableData
    */
-  const fetchTreeData = async () => {
+  const loadTreeListInto = async (target: TreeListTarget) => {
+    const dataRef = target === 'tree' ? treeData : tableData;
     loading.value = true;
     try {
-      const list = await config.fetchFlatList(config.flatListParams ?? {});
-      treeData.value = handleTree([...(list ?? [])], treeIdKey, treeParentKey) as TNode[];
+      const list = await config.fetchFlatList(config.searchForm);
+      dataRef.value = handleTree([...(list ?? [])], treeIdKey, treeParentKey) as typeof dataRef.value;
     } catch (error: unknown) {
       errorMessage(error);
-      treeData.value = [];
+      dataRef.value = [];
     } finally {
       loading.value = false;
     }
   };
 
   /**
-   * 刷新：按当前展示模式拉取对应数据。
+   * 树表视图重置筛选后重新拉取。
+   * @param formRef 搜索表单实例
+   */
+  const resetTreeTableQuery = async (formRef?: FormInstance) => {
+    formRef?.resetFields();
+    await loadTreeListInto('table');
+  };
+
+  const treeTableListState = {
+    loading,
+    tableData,
+    selectedRows,
+    searchForm,
+    fetchTableData: () => loadTreeListInto('table'),
+    handleSelectionChange,
+    resetQuery: resetTreeTableQuery,
+  } as ListTableState<TRow>;
+
+  /**
+   * 按当前视图模式拉取数据（查询 / 刷新共用）。
    */
   const refresh = async () => {
-    if (viewMode.value === 'table') {
-      await fetchTableData();
-    } else {
-      await fetchTreeData();
+    switch (viewMode.value) {
+      case 'table':
+        await fetchTableData();
+        break;
+      case 'treeTable':
+        await loadTreeListInto('table');
+        break;
+      default:
+        await loadTreeListInto('tree');
+        break;
     }
+  };
+
+  /**
+   * 重置筛选并按当前视图重新拉取。
+   * @param formRef 搜索表单实例
+   */
+  const resetCurrentViewQuery = async (formRef?: FormInstance) => {
+    formRef?.resetFields();
+    await refresh();
   };
 
   function usePageState() {
@@ -96,9 +133,12 @@ export function useCreateModuleTableTreePageState<
       searchForm,
       viewMode,
       pagination,
+      treeTableListState,
+      loadTreeListInto,
       fetchTableData,
-      fetchTreeData,
       resetQuery,
+      resetTreeTableQuery,
+      resetCurrentViewQuery,
       handlePageSizeChange,
       handlePageCurrentChange,
       handleSelectionChange,

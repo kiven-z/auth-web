@@ -1,14 +1,14 @@
+import { useCreateModuleTableTreePageState } from '@/features/system/_shared/hooks/useCreateModuleTableTreePageState';
 import type { SysMenuListQuery, SysMenuListVO, SysMenuTreeNode } from '@/features/system/api/menu/menu';
 import { getMenuList, getMenuPage } from '@/features/system/api/menu/menu';
-import { useCreateModuleTableTreePageState } from '@/features/system/_shared/hooks/useCreateModuleTableTreePageState';
-import { reactive, ref } from 'vue';
+import { reactive } from 'vue';
 
 /**
  * 列表行
  */
 export type SysMenuRow = SysMenuListVO;
 
-export type MenuViewMode = 'table' | 'tree';
+export type MenuViewMode = 'table' | 'treeTable' | 'tree';
 
 /**
  * 菜单页状态挂在模块级，供 `index`、表格视图、树视图共用。
@@ -23,20 +23,15 @@ const searchForm = reactive<SysMenuListQuery>({
   component: undefined,
 });
 
-/** 树形视图关键词（与表格筛选独立） */
-const treeKeyword = ref('');
-
 const innerPageState = useCreateModuleTableTreePageState<SysMenuRow, SysMenuListVO, SysMenuTreeNode, MenuViewMode>({
   searchForm,
   fetchPage: (q) => getMenuPage(q),
-  fetchFlatList: () => getMenuList({}),
-  flatListParams: {},
+  fetchFlatList: (query) => getMenuList(query),
   initialViewMode: 'table',
 });
 
 function useMenuPageState() {
-  const state = innerPageState();
-  return { ...state, treeKeyword };
+  return innerPageState();
 }
 
 export default useMenuPageState;

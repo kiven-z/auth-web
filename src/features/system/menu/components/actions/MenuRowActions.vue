@@ -1,6 +1,6 @@
 <script lang="ts" setup>
-import { treeRowActionsLockKey } from '@/components/table/ElTreePanel';
 import { transformI18n } from '@/app/plugins/i18n';
+import { treeRowActionsLockKey } from '@/components/table/ElTreePanel';
 import { SYS_MENU_PERMS } from '@/features/system/menu/constants/permissions';
 import useMenuMoreAction from '@/features/system/menu/hooks/actions/useMenuMoreAction';
 import useMenuTableAction from '@/features/system/menu/hooks/actions/useMenuTableAction';
@@ -29,17 +29,15 @@ const props = withDefaults(defineProps<MenuRowActionsProps>(), {
 });
 
 const { t } = useI18n();
-const { fetchTableData, fetchTreeData, refresh, viewMode, selectedRows } = useMenuPageState();
+const { fetchTableData, refresh, viewMode, selectedRows } = useMenuPageState();
 const { openDetailDialog, openEditDialog, openCreateDialog, deleteBatchRows } = useMenuTableAction({
   fetchTableData,
-  fetchTreeData,
   refresh,
   viewMode,
   selectedRows,
 });
 const { openMenuAuthorizationSurface, openAssignRoleDrawer } = useMenuMoreAction({
   fetchTableData,
-  fetchTreeData,
   refresh,
 });
 

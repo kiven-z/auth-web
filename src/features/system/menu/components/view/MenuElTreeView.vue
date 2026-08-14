@@ -1,15 +1,13 @@
 <script lang="ts" setup>
 import ElTreePanel from '@/components/table/ElTreePanel';
-import { useRenderIcon } from '@/components/ui/Icon';
 import { transformI18n } from '@/app/plugins/i18n';
-import MenuRowActions from '@/features/system/menu/components/MenuRowActions.vue';
+import MenuRowActions from '@/features/system/menu/components/actions/MenuRowActions.vue';
 import { SYS_MENU_PERMS } from '@/features/system/menu/constants/permissions';
 import useMenuTableAction from '@/features/system/menu/hooks/actions/useMenuTableAction';
 import useMenuPageState from '@/features/system/menu/hooks/useMenuPageState';
 import { useMenuTreeDrag } from '@/features/system/menu/hooks/useMenuTreeDrag';
-import { filterMenuNode } from '@/features/system/menu/hooks/useMenuTreeFilter';
 import { useMenuTypeOptions } from '@/features/system/_shared/hooks/options/useMenuTypeOptions';
-import { onMounted, ref, watch } from 'vue';
+import { onMounted } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 defineOptions({
@@ -21,27 +19,13 @@ const treeProps = {
   children: 'children',
 } as const;
 
-const { t, locale } = useI18n();
+const { t } = useI18n();
 const menuTypeOptions = useMenuTypeOptions();
 
-const { loading, selectedRows, treeData, treeKeyword, viewMode, fetchTableData, fetchTreeData, refresh } =
-  useMenuPageState();
-
-const panelRef = ref<{ filterTree: (keyword: string) => void } | null>(null);
-
-// 监听树形视图关键词
-watch(treeKeyword, (val) => {
-  panelRef.value?.filterTree(val);
-});
-
-// 监听语言
-watch(locale, () => {
-  panelRef.value?.filterTree(treeKeyword.value);
-});
+const { loading, selectedRows, treeData, viewMode, fetchTableData, loadTreeListInto, refresh } = useMenuPageState();
 
 const { openCreateDialog } = useMenuTableAction({
   fetchTableData,
-  fetchTreeData,
   refresh,
   viewMode,
   selectedRows,
@@ -49,44 +33,33 @@ const { openCreateDialog } = useMenuTableAction({
 
 const { allowDrag, allowDrop, handleNodeDrop } = useMenuTreeDrag({
   treeData,
-  onMoved: fetchTreeData,
+  onMoved: () => loadTreeListInto('tree'),
 });
 
 onMounted(() => {
-  fetchTreeData();
+  loadTreeListInto('tree');
 });
 </script>
 
 <template>
   <ElTreePanel
-    ref="panelRef"
     :allow-drag="allowDrag"
     :allow-drop="allowDrop"
     :collapse-all-label="t('sysMenu.collapseAll')"
     :draggable="true"
     :expand-all-label="t('sysMenu.expandAll')"
-    :filter-node-method="filterMenuNode"
     :loading="loading"
     :show-actions-on-hover="true"
     :title="t('sysMenu.tableTitle')"
     :tree-data="treeData"
     :tree-props="treeProps"
-    @refresh="fetchTreeData"
+    @refresh="loadTreeListInto('tree')"
     @node-drop="handleNodeDrop"
   >
     <template #toolbar>
       <el-button v-auth="SYS_MENU_PERMS.CREATE" type="primary" @click="openCreateDialog()">
         {{ t('buttons.actionAdd') }}
       </el-button>
-    </template>
-
-    <template #search>
-      <el-input
-        v-model="treeKeyword"
-        :placeholder="t('sysMenu.treeKeyword')"
-        :prefix-icon="useRenderIcon('ri/search-line')"
-        clearable
-      />
     </template>
 
     <template #meta="{ data }">

@@ -12,11 +12,10 @@ defineOptions({
 
 const { t } = useI18n();
 
-const { searchForm, refresh, fetchTableData, fetchTreeData, viewMode, selectedRows } = useDeptPageState();
+const { searchForm, refresh, fetchTableData, viewMode, selectedRows } = useDeptPageState();
 
 const tableActionDeps = {
   fetchTableData,
-  fetchTreeData,
   refresh,
   viewMode,
   selectedRows,

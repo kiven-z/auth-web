@@ -4,6 +4,7 @@ dept:
     moduleName: Departments
     view:
       table: Table View
+      treeTable: Tree Table View
       tree: Tree View
     tree:
       expandAll: Expand All

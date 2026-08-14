@@ -2,7 +2,7 @@
 import type { MenuFormModel } from '@/features/system/api/menu/menu';
 import { getMenuList } from '@/features/system/api/menu/menu';
 import { transformI18n } from '@/app/plugins/i18n';
-import AnimateSelector from '@/features/system/menu/components/AnimateSelector.vue';
+import AnimateSelector from '@/features/system/menu/components/form/AnimateSelector.vue';
 import { IconSelect, useRenderIcon } from '@/components/ui/Icon';
 import { errorMessage } from '@/services/feedback/message';
 import { handleTree, TREE_ROOT_PARENT_ID } from '@/shared/utils/tree';

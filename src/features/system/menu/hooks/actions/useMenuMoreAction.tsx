@@ -10,7 +10,6 @@ import { useI18n } from 'vue-i18n';
 
 /** 菜单「更多」操作依赖 */
 export interface MenuTableActionDeps extends TableActionDeps {
-  fetchTreeData: () => Promise<void>;
   refresh: () => Promise<void>;
 }
 

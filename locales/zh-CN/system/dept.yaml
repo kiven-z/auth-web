@@ -4,6 +4,7 @@ dept:
     moduleName: 部门
     view:
       table: 表格视图
+      treeTable: 树表视图
       tree: 树形视图
     tree:
       expandAll: 展开全部

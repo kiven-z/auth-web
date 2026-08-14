@@ -25,7 +25,7 @@ const { isRemembered, loginAndEstablishSession } = useLoginRemember();
 
 // 登录表单
 const formData = reactive({
-  email: '14x_hbt58i3x1a@dingtalk.com',
+  email: '',
   code: '',
 });
 

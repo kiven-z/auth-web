@@ -28,17 +28,15 @@ const props = withDefaults(defineProps<DeptRowActionsProps>(), {
 });
 
 const { t } = useI18n();
-const { fetchTableData, fetchTreeData, refresh, viewMode, selectedRows } = useDeptPageState();
+const { fetchTableData, refresh, viewMode, selectedRows } = useDeptPageState();
 const { openDetailDialog, openEditDialog, openCreateDialog, deleteBatchRows } = useDeptTableAction({
   fetchTableData,
-  fetchTreeData,
   refresh,
   viewMode,
   selectedRows,
 });
 const { openDeptAuthorizationSurface, openAssignRoleDrawer } = useDeptMoreAction({
   fetchTableData,
-  fetchTreeData,
   refresh,
 });
 const treeRowActionsLock = inject(treeRowActionsLockKey, null);

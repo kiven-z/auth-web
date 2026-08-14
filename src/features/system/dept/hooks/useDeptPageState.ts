@@ -1,40 +1,49 @@
-import { getDeptList, getDeptPage, type SysDeptListVO, type SysDeptTreeNode } from '@/features/system/api/dept/dept';
 import { useCreateModuleTableTreePageState } from '@/features/system/_shared/hooks/useCreateModuleTableTreePageState';
-import { reactive, ref } from 'vue';
+import {
+  getDeptList,
+  getDeptPage,
+  type SysDeptListQuery,
+  type SysDeptListVO,
+  type SysDeptTableFilter,
+  type SysDeptTreeNode,
+} from '@/features/system/api/dept/dept';
+import { reactive } from 'vue';
 
 /**
  * 列表行
  */
 export type SysDeptRow = SysDeptListVO;
 
-export type DeptViewMode = 'table' | 'tree';
+export type DeptViewMode = 'table' | 'treeTable' | 'tree';
 
 /**
  * 部门页状态挂在模块级，供 `index`、表格视图、树视图共用。
  */
-const searchForm = reactive({
+const searchForm = reactive<SysDeptTableFilter>({
   deptName: undefined,
   deptCode: undefined,
   status: undefined,
 });
 
-/** 树形视图关键词（与表格筛选独立） */
-const treeKeyword = ref('');
-
 const innerPageState = useCreateModuleTableTreePageState<SysDeptRow, SysDeptListVO, SysDeptTreeNode, DeptViewMode>({
   searchForm,
   fetchPage: (query) => getDeptPage(query),
-  fetchFlatList: () => {
-    const keyword = treeKeyword.value;
-    return getDeptList(keyword ? { keyword } : {});
+  fetchFlatList: (query) => {
+    const keyword = query.deptName || query.deptCode;
+    const params: SysDeptListQuery = {};
+    if (keyword) {
+      params.keyword = keyword as string;
+    }
+    if (query.status !== undefined) {
+      params.status = query.status as boolean;
+    }
+    return getDeptList(params);
   },
-  flatListParams: {},
   initialViewMode: 'table',
 });
 
 function useDeptPageState() {
-  const state = innerPageState();
-  return { ...state, treeKeyword };
+  return innerPageState();
 }
 
 export default useDeptPageState;

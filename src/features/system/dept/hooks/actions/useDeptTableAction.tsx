@@ -16,15 +16,14 @@ import { errorMessage, message } from '@/services/feedback/message';
 import useBatchDeleteAction from '@/components/table/BatchDeleteAction';
 import { type FormOverlayExpose, useFormOverlaySubmit } from '@/components/ui/Overlay';
 import { TREE_ROOT_PARENT_ID } from '@/shared/utils/tree';
-import DeptDescriptionDialog from '@/features/system/dept/components/DeptDescriptionDialog.vue';
-import DeptFormDialog from '@/features/system/dept/components/DeptFormDialog.vue';
+import DeptDescriptionDialog from '@/features/system/dept/components/detail/DeptDescriptionDialog.vue';
+import DeptFormDialog from '@/features/system/dept/components/form/DeptFormDialog.vue';
 import type { DeptViewMode, SysDeptRow } from '@/features/system/dept/hooks/useDeptPageState';
 import type { Ref } from 'vue';
 import { h, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 export interface DeptTableActionDeps extends TableActionDeps {
-  fetchTreeData: () => Promise<void>;
   refresh: () => Promise<void>;
   viewMode: Ref<DeptViewMode>;
   selectedRows: Ref<string[]>;

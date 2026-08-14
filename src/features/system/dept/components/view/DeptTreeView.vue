@@ -1,12 +1,10 @@
 <script lang="ts" setup>
 import ElTreePanel from '@/components/table/ElTreePanel';
-import { useRenderIcon } from '@/components/ui/Icon';
-import DeptHeadButtons from '@/features/system/dept/components/DeptHeadButtons.vue';
-import DeptRowActions from '@/features/system/dept/components/DeptRowActions.vue';
+import DeptHeadButtons from '@/features/system/dept/components/actions/DeptHeadButtons.vue';
+import DeptRowActions from '@/features/system/dept/components/actions/DeptRowActions.vue';
 import useDeptPageState from '@/features/system/dept/hooks/useDeptPageState';
 import { useDeptTreeDrag } from '@/features/system/dept/hooks/useDeptTreeDrag';
-import { useDebounceFn } from '@vueuse/core';
-import { onMounted, watch } from 'vue';
+import { onMounted } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 defineOptions({
@@ -20,23 +18,15 @@ const treeProps = {
 
 const { t } = useI18n();
 
-const { loading, treeData, treeKeyword, fetchTreeData } = useDeptPageState();
-
-const debouncedFetchTree = useDebounceFn(() => {
-  fetchTreeData();
-}, 300);
-
-watch(treeKeyword, () => {
-  debouncedFetchTree();
-});
+const { loading, treeData, loadTreeListInto } = useDeptPageState();
 
 const { allowDrag, allowDrop, handleNodeDrop } = useDeptTreeDrag({
   treeData,
-  onMoved: fetchTreeData,
+  onMoved: () => loadTreeListInto('tree'),
 });
 
 onMounted(() => {
-  fetchTreeData();
+  loadTreeListInto('tree');
 });
 </script>
 
@@ -52,20 +42,11 @@ onMounted(() => {
     :title="t('dept.page.title')"
     :tree-data="treeData"
     :tree-props="treeProps"
-    @refresh="fetchTreeData"
+    @refresh="loadTreeListInto('tree')"
     @node-drop="handleNodeDrop"
   >
     <template #toolbar>
       <DeptHeadButtons />
-    </template>
-
-    <template #search>
-      <el-input
-        v-model="treeKeyword"
-        :placeholder="t('dept.placeholder.treeKeyword')"
-        :prefix-icon="useRenderIcon('ri/search-line')"
-        clearable
-      />
     </template>
 
     <template #meta="{ data }">

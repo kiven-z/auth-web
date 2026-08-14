@@ -26,6 +26,7 @@ sysMenu:
   keepAliveYes: Cached
   keepAliveNo: Not cached
   viewTableTitle: Table view
+  viewTreeTableTitle: Tree table view
   viewTreeTitle: Tree view
   expandAll: Expand all
   collapseAll: Collapse all
