@@ -2,6 +2,7 @@
 import type { FormDialog } from '@/shared/types/dialog';
 import type { SysPermissionCreateForm, SysPermissionUpdateForm } from '@/features/system/api/permission/permission';
 import { PERMISSION_CODE_REGEX } from '@/features/system/permission/constants/permission-code-convention';
+import { useOverlayConfirm } from '@/components/ui/Overlay';
 import { useFormPlaceholder } from '@/shared/composables/i18n/useFormPlaceholder';
 import type { FormInstance, FormRules } from 'element-plus';
 import { computed, ref } from 'vue';
@@ -14,6 +15,7 @@ const props = withDefaults(defineProps<FormDialog<PermissionFormModel>>(), {
 });
 
 const { t } = useI18n();
+const confirmOverlay = useOverlayConfirm();
 const ph = useFormPlaceholder();
 const formRef = ref<FormInstance>();
 const form = ref<PermissionFormModel>({
@@ -40,7 +42,7 @@ defineExpose({ formRef, form });
 </script>
 
 <template>
-  <el-form ref="formRef" :model="form" :rules="rules" label-width="auto">
+  <el-form ref="formRef" v-enter-submit="() => confirmOverlay?.()" :model="form" :rules="rules" label-width="auto">
     <el-row :gutter="14">
       <el-col :lg="12" :md="12" :sm="12" :xs="24">
         <el-form-item :label="t('permissions.field.permissionCode')" prop="permissionCode">

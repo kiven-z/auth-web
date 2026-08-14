@@ -34,7 +34,7 @@
 }
 
 /* ------------------------------------
-  breadcrumb transition 
+  breadcrumb transition
   效果：文字像果冻一样从下方弹跳出来，逐个落位
   ------------------------------------ */
 .breadcrumb-enter-active {
@@ -57,15 +57,23 @@
 }
 
 /**
- * @description 重置el-menu的展开收起动画时长
+ * 竖向侧栏子菜单 inline 展开/收起（ElCollapseTransition）
+ * 与侧栏 icon 折叠（horizontal-collapse-transition）无关
  */
-.outer-most .el-collapse-transition-leave-active,
-.outer-most .el-collapse-transition-enter-active {
-  transition: 0.2s all ease-in-out !important;
+.layout-sidebar .el-collapse-transition-enter-active,
+.layout-sidebar .el-collapse-transition-leave-active {
+  transition:
+    var(--auth-menu-sub-expand-duration) max-height ease-in-out,
+    var(--auth-menu-sub-expand-duration) padding-top ease-in-out,
+    var(--auth-menu-sub-expand-duration) padding-bottom ease-in-out !important;
 }
 
+/* 侧栏 icon 折叠时整棵菜单宽度过渡 */
 .horizontal-collapse-transition {
-  transition: var(--pure-transition-duration) all !important;
+  transition:
+    var(--auth-transition-duration) width ease-in-out,
+    var(--auth-transition-duration) padding-left ease-in-out,
+    var(--auth-transition-duration) padding-right ease-in-out !important;
 }
 
 /* --------------------------------------------------------------------------

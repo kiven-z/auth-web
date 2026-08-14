@@ -2,6 +2,7 @@
 import type { FormDialog } from '@/shared/types/dialog';
 import type { SysUserCreateForm } from '@/features/system/api/user/user';
 import { USER_ACCOUNT_STATUS, USER_GENDER, useUserOptions } from '@/components/domain/user/UserProfile';
+import { useOverlayConfirm } from '@/components/ui/Overlay';
 import type { FormInstance, FormRules } from 'element-plus';
 import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
@@ -13,6 +14,7 @@ const props = withDefaults(defineProps<FormDialog<SysUserCreateForm>>(), {
 });
 
 const { t } = useI18n();
+const confirmOverlay = useOverlayConfirm();
 const { statusFilterOptions: userStatusOptions, genderOptions: userGenderOptions } = useUserOptions();
 const formRef = ref<FormInstance>();
 const form = ref<SysUserCreateForm>({
@@ -52,7 +54,7 @@ defineExpose({ formRef, form });
 </script>
 
 <template>
-  <el-form ref="formRef" :model="form" :rules="rules" label-width="auto">
+  <el-form ref="formRef" v-enter-submit="() => confirmOverlay?.()" :model="form" :rules="rules" label-width="auto">
     <el-row :gutter="14">
       <el-col :lg="12" :md="12" :sm="12" :xs="24">
         <el-form-item :label="t('users.field.username')" prop="username">

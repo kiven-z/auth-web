@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import type { FormDialog } from '@/shared/types/dialog';
 import type { SmsTemplateFormModel } from '@/features/message/api/sms-template';
+import { useOverlayConfirm } from '@/components/ui/Overlay';
 import type { FormInstance, FormRules } from 'element-plus';
 import { useCommonBooleanStatusOptions } from '@/shared/composables/i18n/useCommonBooleanStatusOptions';
 import { reactive, ref } from 'vue';
@@ -17,6 +18,7 @@ const props = withDefaults(defineProps<SmsTemplateDialogProps>(), {
 });
 
 const { t } = useI18n();
+const confirmOverlay = useOverlayConfirm();
 const booleanStatusOptions = useCommonBooleanStatusOptions();
 const formRef = ref<FormInstance>();
 
@@ -53,7 +55,7 @@ defineExpose({ formRef, form });
 </script>
 
 <template>
-  <el-form ref="formRef" :model="form" :rules="rules" label-width="auto">
+  <el-form ref="formRef" v-enter-submit="() => confirmOverlay?.()" :model="form" :rules="rules" label-width="auto">
     <el-row :gutter="14">
       <!-- 场景编码（scene_code） -->
       <el-col :lg="12" :md="12" :sm="12" :xs="24">

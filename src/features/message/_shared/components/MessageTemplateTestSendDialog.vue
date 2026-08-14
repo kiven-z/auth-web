@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import type { FormDialog } from '@/shared/types/dialog';
+import { useOverlayConfirm } from '@/components/ui/Overlay';
 import type { FormInstance, FormRules } from 'element-plus';
 import { reactive, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
@@ -31,6 +32,7 @@ const props = withDefaults(defineProps<MessageTemplateTestSendDialogProps>(), {
 });
 
 const { t } = useI18n();
+const confirmOverlay = useOverlayConfirm();
 const formRef = ref<FormInstance>();
 const form = ref<MessageTemplateTestSendForm>(props.form);
 
@@ -42,7 +44,7 @@ defineExpose({ formRef, form });
 </script>
 
 <template>
-  <el-form ref="formRef" :model="form" :rules="rules" label-width="auto">
+  <el-form ref="formRef" v-enter-submit="() => confirmOverlay?.()" :model="form" :rules="rules" label-width="auto">
     <!-- 接收目标：邮箱 / 手机号 / 用户 ID 等，由渠道解释；不做格式校验 -->
     <el-form-item :label="t(targetLabelI18nKey)" prop="target">
       <el-input v-model="form.target" :placeholder="t(targetPlaceholderI18nKey)" clearable />

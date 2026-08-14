@@ -2,6 +2,7 @@
 import type { FormDialog } from '@/shared/types/dialog';
 import { getDeptList } from '@/features/system/api/dept/dept';
 import type { SysPostFormModel } from '@/features/system/api/post/post';
+import { useOverlayConfirm } from '@/components/ui/Overlay';
 import { errorMessage } from '@/services/feedback/message';
 import { buildDeptSelectTree, type DeptSelectTreeNode } from '@/components/domain/dept/DeptSelectTree';
 import type { CascaderProps, FormInstance, FormRules } from 'element-plus';
@@ -15,6 +16,7 @@ const props = withDefaults(defineProps<PostFormDialogProps>(), {
 });
 
 const { t } = useI18n();
+const confirmOverlay = useOverlayConfirm();
 const formRef = ref<FormInstance>();
 const form = ref<SysPostFormModel>({
   status: true,
@@ -61,7 +63,7 @@ defineExpose({ formRef, form });
 </script>
 
 <template>
-  <el-form ref="formRef" :model="form" :rules="rules" label-width="auto">
+  <el-form ref="formRef" v-enter-submit="() => confirmOverlay?.()" :model="form" :rules="rules" label-width="auto">
     <el-row :gutter="14">
       <el-col :lg="12" :md="12" :sm="12" :xs="24">
         <el-form-item :label="t('post.field.postCode')" prop="postCode">

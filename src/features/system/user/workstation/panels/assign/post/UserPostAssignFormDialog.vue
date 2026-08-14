@@ -2,6 +2,7 @@
 import type { FormDialog } from '@/shared/types/dialog';
 import type { UserPostAssignForm, UserPostRelationUpdateForm } from '@/features/system/api/user/user-post';
 import useRemotePostSearch from '@/components/domain/post/RemotePostSearch';
+import { useOverlayConfirm } from '@/components/ui/Overlay';
 import { useUserOptions } from '@/components/domain/user/UserProfile';
 import type { FormInstance, FormRules } from 'element-plus';
 import { computed, ref } from 'vue';
@@ -18,6 +19,7 @@ const props = withDefaults(defineProps<UserPostAssignFormDialogProps>(), {
 });
 
 const { t } = useI18n();
+const confirmOverlay = useOverlayConfirm();
 const { relationStatusOptions } = useUserOptions();
 const formRef = ref<FormInstance>();
 const form = ref<UserPostAssignForm>({
@@ -43,7 +45,7 @@ defineExpose({ formRef, form });
 </script>
 
 <template>
-  <el-form ref="formRef" :model="form" :rules="rules" label-width="auto">
+  <el-form ref="formRef" v-enter-submit="() => confirmOverlay?.()" :model="form" :rules="rules" label-width="auto">
     <el-row :gutter="14">
       <!-- 岗位（仅新增） -->
       <el-col v-if="!editMode" :span="24">

@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import type { FormDialog } from '@/shared/types/dialog';
 import type { InAppMessageCategoryFormModel } from '@/features/message/api/in-app-category';
+import { useOverlayConfirm } from '@/components/ui/Overlay';
 import { useCommonBooleanStatusOptions } from '@/shared/composables/i18n/useCommonBooleanStatusOptions';
 import { useFormPlaceholder } from '@/shared/composables/i18n/useFormPlaceholder';
 import { useInAppCategoryMajorOptions } from '@/features/message/_shared/hooks/options/useInAppCategoryMajorOptions';
@@ -17,6 +18,7 @@ const props = withDefaults(defineProps<FormDialog<InAppMessageCategoryFormModel>
 });
 
 const { t } = useI18n();
+const confirmOverlay = useOverlayConfirm();
 const ph = useFormPlaceholder();
 const booleanStatusOptions = useCommonBooleanStatusOptions();
 const formRef = ref<FormInstance>();
@@ -53,7 +55,7 @@ defineExpose({ formRef, form });
 </script>
 
 <template>
-  <el-form ref="formRef" :model="form" :rules="rules" label-width="auto">
+  <el-form ref="formRef" v-enter-submit="() => confirmOverlay?.()" :model="form" :rules="rules" label-width="auto">
     <el-row :gutter="14">
       <!-- 父分类：空=大类；选中大类=小类 -->
       <el-col :span="24">

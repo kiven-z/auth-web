@@ -1,9 +1,6 @@
-export {
-  focusOverlayContent,
-  isEnterConfirmEnabled,
-  shouldEnterConfirm,
-  type OverlayContentExpose,
-} from './src/overlayShell';
+export { focusOverlayContent, type OverlayContentExpose } from './src/overlayShell';
+export { OVERLAY_CONFIRM_KEY, useOverlayConfirm } from './src/overlayConfirm';
+export { default as OverlayConfirmScope } from './src/OverlayConfirmScope.vue';
 export {
   useFormOverlaySubmit,
   type CreateFormBeforeSureOptions,

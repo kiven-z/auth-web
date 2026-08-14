@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import { getDeptList } from '@/features/system/api/dept/dept';
 import { getRoleScope, type SysDataScopeForm } from '@/features/system/api/role/role-scope';
+import { useOverlayConfirm } from '@/components/ui/Overlay';
 import { errorMessage } from '@/services/feedback/message';
 import DataScopeFormFields from '@/features/system/_shared/components/DataScopeFormFields.vue';
 import { buildDeptSelectTree, type DeptSelectTreeNode } from '@/components/domain/dept/DeptSelectTree';
@@ -16,6 +17,7 @@ const props = defineProps<{
 }>();
 
 const { t } = useI18n();
+const confirmOverlay = useOverlayConfirm();
 
 const formRef = ref<FormInstance>();
 const loading = ref(true);
@@ -82,7 +84,7 @@ defineExpose({ formRef, form });
 <template>
   <div v-loading="loading" class="role-data-scope-dialog">
     <el-alert :closable="false" :title="t('roles.scope.tip')" class="mb-4" show-icon type="info" />
-    <el-form ref="formRef" :model="form" :rules="rules" label-position="top">
+    <el-form ref="formRef" v-enter-submit="() => confirmOverlay?.()" :model="form" :rules="rules" label-position="top">
       <DataScopeFormFields v-model="form" :dept-tree="deptTree" />
     </el-form>
   </div>

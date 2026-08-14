@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import type { SelfChangePasswordForm } from './types';
 import { usePasswordConfirmRules } from './hooks/usePasswordConfirmRules';
+import { useOverlayConfirm } from '@/components/ui/Overlay';
 import type { FormInstance, FormRules } from 'element-plus';
 import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
@@ -8,6 +9,7 @@ import { useI18n } from 'vue-i18n';
 defineOptions({ name: 'SelfChangePasswordPanel' });
 
 const { t } = useI18n();
+const confirmOverlay = useOverlayConfirm();
 const formRef = ref<FormInstance>();
 const form = ref<SelfChangePasswordForm>({
   oldPassword: '',
@@ -28,7 +30,7 @@ defineExpose({ formRef, form });
 </script>
 
 <template>
-  <el-form ref="formRef" :model="form" :rules="rules" label-width="auto">
+  <el-form ref="formRef" v-enter-submit="() => confirmOverlay?.()" :model="form" :rules="rules" label-width="auto">
     <el-form-item :label="t('users.password.old')" prop="oldPassword">
       <el-input
         v-model="form.oldPassword"

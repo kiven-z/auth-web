@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import type { AdminResetPasswordForm } from './types';
 import { usePasswordConfirmRules } from './hooks/usePasswordConfirmRules';
+import { useOverlayConfirm } from '@/components/ui/Overlay';
 import type { FormInstance } from 'element-plus';
 import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
@@ -8,6 +9,7 @@ import { useI18n } from 'vue-i18n';
 defineOptions({ name: 'AdminResetPasswordPanel' });
 
 const { t } = useI18n();
+const confirmOverlay = useOverlayConfirm();
 const formRef = ref<FormInstance>();
 const form = ref<AdminResetPasswordForm>({
   newPassword: '',
@@ -22,7 +24,7 @@ defineExpose({ formRef, form });
 </script>
 
 <template>
-  <el-form ref="formRef" :model="form" :rules="rules" label-width="auto">
+  <el-form ref="formRef" v-enter-submit="() => confirmOverlay?.()" :model="form" :rules="rules" label-width="auto">
     <el-form-item :label="t('users.password.new')" prop="newPassword">
       <el-input
         v-model="form.newPassword"

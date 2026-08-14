@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import type { FormDialog } from '@/shared/types/dialog';
 import useRemoteUserSearch from '@/components/domain/user/RemoteUserSearch';
+import { useOverlayConfirm } from '@/components/ui/Overlay';
 import type { FormInstance, FormRules } from 'element-plus';
 import { reactive, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
@@ -32,6 +33,7 @@ const props = withDefaults(defineProps<InAppTemplateTestSendDialogProps>(), {
 });
 
 const { t } = useI18n();
+const confirmOverlay = useOverlayConfirm();
 const formRef = ref<FormInstance>();
 const form = ref<InAppTemplateTestSendForm>(props.form);
 
@@ -47,7 +49,7 @@ defineExpose({ formRef, form });
 </script>
 
 <template>
-  <el-form ref="formRef" :model="form" :rules="rules" label-width="auto">
+  <el-form ref="formRef" v-enter-submit="() => confirmOverlay?.()" :model="form" :rules="rules" label-width="auto">
     <el-form-item :label="t(targetLabelI18nKey)" prop="target">
       <el-select
         v-model="form.target"

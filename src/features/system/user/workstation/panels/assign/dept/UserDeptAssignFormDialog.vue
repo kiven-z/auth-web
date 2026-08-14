@@ -2,6 +2,7 @@
 import type { FormDialog } from '@/shared/types/dialog';
 import { getDeptList } from '@/features/system/api/dept/dept';
 import type { UserDeptAssignForm } from '@/features/system/api/user/user-dept';
+import { useOverlayConfirm } from '@/components/ui/Overlay';
 import { errorMessage } from '@/services/feedback/message';
 import { useUserOptions } from '@/components/domain/user/UserProfile';
 import { buildDeptSelectTree, type DeptSelectTreeNode } from '@/components/domain/dept/DeptSelectTree';
@@ -16,6 +17,7 @@ const props = withDefaults(defineProps<UserDeptAssignFormDialogProps>(), {
 });
 
 const { t } = useI18n();
+const confirmOverlay = useOverlayConfirm();
 const { relationStatusOptions } = useUserOptions();
 const formRef = ref<FormInstance>();
 const form = ref<UserDeptAssignForm>({
@@ -62,7 +64,7 @@ defineExpose({ formRef, form });
 </script>
 
 <template>
-  <el-form ref="formRef" :model="form" :rules="rules" label-width="auto">
+  <el-form ref="formRef" v-enter-submit="() => confirmOverlay?.()" :model="form" :rules="rules" label-width="auto">
     <el-row :gutter="14">
       <el-col :span="24">
         <el-form-item :label="t('dept.field.deptName')" prop="deptId">

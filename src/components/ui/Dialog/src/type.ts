@@ -161,12 +161,6 @@ interface DialogOptions extends DialogProps {
    */
   focusOnOpen?: boolean;
   /**
-   * 内容区回车触发确定（与底部确定同一 `confirmDialog` 入口）
-   * 默认：存在 `beforeSure` 时开启；显式传 `false` 可关闭
-   * textarea / 下拉面板 / 按钮等按 `shouldIgnoreEnterTarget` 忽略
-   */
-  enterConfirm?: boolean;
-  /**
    * @description 自定义对话框标题的内容渲染器
    * @see {@link https://element-plus.org/zh-CN/component/dialog.html#%E8%87%AA%E5%AE%9A%E4%B9%89%E5%A4%B4%E9%83%A8}
    */

@@ -1,10 +1,5 @@
 <script lang="ts" setup>
-import {
-  focusOverlayContent,
-  isEnterConfirmEnabled,
-  type OverlayContentExpose,
-  shouldEnterConfirm,
-} from '@/components/ui/Overlay';
+import { focusOverlayContent, OverlayConfirmScope, type OverlayContentExpose } from '@/components/ui/Overlay';
 import isFunction from 'lodash/isFunction';
 import { computed, nextTick, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
@@ -23,7 +18,7 @@ defineOptions({
 });
 
 const { t } = useI18n();
-/** 各抽屉内容根节点（用于首焦 / 回车） */
+/** 各抽屉内容根节点（用于首焦） */
 const bodyEls = ref<Array<HTMLElement | null>>([]);
 /** 各抽屉内容组件实例 */
 const contentExposes = ref<Array<OverlayContentExpose | null>>([]);
@@ -89,20 +84,6 @@ function handleOpened(options: DrawerOptions, index: number) {
   });
 }
 
-/**
- * 内容区回车 → 与底部确定同一入口（有 beforeSure 时默认开启）
- */
-function handleEnterConfirm(event: KeyboardEvent, options: DrawerOptions, index: number) {
-  if (!isEnterConfirmEnabled(options) || options.confirmLoading) {
-    return;
-  }
-  if (!shouldEnterConfirm(event)) {
-    return;
-  }
-  event.preventDefault();
-  confirmDrawer(options, index);
-}
-
 function bindBodyEl(index: number, el: Element | null) {
   bodyEls.value[index] = el instanceof HTMLElement ? el : null;
 }
@@ -129,12 +110,17 @@ function bindContentExpose(index: number, el: unknown) {
     <template v-if="options?.headerRenderer" #header="{ close, titleId, titleClass }">
       <component :is="options?.headerRenderer({ close, titleId, titleClass })" />
     </template>
-    <div :ref="(el) => bindBodyEl(index, el as Element | null)" @keydown="handleEnterConfirm($event, options, index)">
-      <component
-        :is="options.contentRenderer({ options, index })"
-        :ref="(el: unknown) => bindContentExpose(index, el)"
-        v-bind="options?.props"
-      />
+    <div :ref="(el) => bindBodyEl(index, el as Element | null)">
+      <OverlayConfirmScope
+        :confirm="() => confirmDrawer(options, index)"
+        :enabled="Boolean(options.beforeSure && isFunction(options.beforeSure))"
+      >
+        <component
+          :is="options.contentRenderer({ options, index })"
+          :ref="(el: unknown) => bindContentExpose(index, el)"
+          v-bind="options?.props"
+        />
+      </OverlayConfirmScope>
     </div>
     <template v-if="!options?.hideFooter" #footer>
       <template v-if="options?.footerRenderer">

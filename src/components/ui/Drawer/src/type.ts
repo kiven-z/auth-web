@@ -162,12 +162,6 @@ interface DrawerOptions extends DrawerProps {
    */
   focusOnOpen?: boolean;
   /**
-   * 内容区回车触发确定（与底部确定同一 `confirmDrawer` 入口）。
-   * 默认：存在 `beforeSure` 时开启；显式传 `false` 可关闭。
-   * textarea / 下拉面板 / 按钮等按 `shouldIgnoreEnterTarget` 忽略。
-   */
-  enterConfirm?: boolean;
-  /**
    * @description 自定义抽屉标题的内容渲染器
    * @see {@link https://element-plus.org/zh-CN/component/drawer.html#%E6%8F%92%E6%A7%BD}
    */

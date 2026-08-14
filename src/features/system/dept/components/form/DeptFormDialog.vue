@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import type { FormDialog } from '@/shared/types/dialog';
 import { getDeptList, SysDeptCreateForm, SysDeptUpdateForm } from '@/features/system/api/dept/dept';
+import { useOverlayConfirm } from '@/components/ui/Overlay';
 import { errorMessage } from '@/services/feedback/message';
 import { buildDeptParentTree, type DeptParentCascaderNode } from '@/features/system/dept/utils/dept-parent';
 import type { CascaderProps, FormInstance, FormRules } from 'element-plus';
@@ -16,6 +17,7 @@ const props = withDefaults(defineProps<DeptFormDialogProps>(), {
 });
 
 const { t } = useI18n();
+const confirmOverlay = useOverlayConfirm();
 const formRef = ref<FormInstance>();
 const form = ref<DeptFormModel>({
   status: true,
@@ -60,7 +62,7 @@ defineExpose({ formRef, form });
 </script>
 
 <template>
-  <el-form ref="formRef" :model="form" :rules="rules" label-width="auto">
+  <el-form ref="formRef" v-enter-submit="() => confirmOverlay?.()" :model="form" :rules="rules" label-width="auto">
     <el-row :gutter="14">
       <!-- 父部门：空=顶级 -->
       <el-col :span="24">

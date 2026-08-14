@@ -34,7 +34,7 @@ const closeDialog = (options: DialogOptions, index: number, args?: any) => {
 
 /**
  * 触发确定：loading → beforeSure → done/closeLoading
- * 底部确定按钮与表单回车共用此入口
+ * 内容区表单通过 `useOverlayConfirm` + `v-enter-submit` 触发此入口
  */
 const confirmDialog = (options: DialogOptions, index: number) => {
   const loadingEnabled = options.confirmLoadingEnabled ?? Boolean(options.beforeSure);

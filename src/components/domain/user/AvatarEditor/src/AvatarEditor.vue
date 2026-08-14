@@ -50,9 +50,11 @@ const { avatarUploadRef, avatarUploading, avatarCropping, handleAvatarChange } =
     <div v-show="avatarHovering && !avatarUploading && !avatarCropping" class="avatar-editor__mask">
       <el-icon :size="24"><Camera /></el-icon>
     </div>
-    <el-icon v-if="avatarUploading || avatarCropping" :size="24" class="avatar-editor__loading">
-      <Loading />
-    </el-icon>
+    <div v-if="avatarUploading || avatarCropping" class="avatar-editor__loading">
+      <el-icon :size="24" class="avatar-editor__loading-icon">
+        <Loading />
+      </el-icon>
+    </div>
     <el-upload
       ref="avatarUploadRef"
       :auto-upload="false"
@@ -94,10 +96,13 @@ const { avatarUploadRef, avatarUploading, avatarCropping, handleAvatarChange } =
     display: flex;
     align-items: center;
     justify-content: center;
-    color: var(--auth-text-anti);
     pointer-events: none;
     background: rgb(0 0 0 / 45%);
     border-radius: 50%;
+  }
+
+  &__loading-icon {
+    color: var(--auth-text-anti);
     animation: avatar-editor-rotating 1.5s linear infinite;
   }
 

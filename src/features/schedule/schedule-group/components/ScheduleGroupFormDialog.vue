@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import type { FormDialog } from '@/shared/types/dialog';
 import type { CreateJobGroupRequest, UpdateJobGroupRequest } from '@/features/schedule/api/job-group';
+import { useOverlayConfirm } from '@/components/ui/Overlay';
 import { useCommonBooleanStatusOptions } from '@/shared/composables/i18n/useCommonBooleanStatusOptions';
 import type { FormInstance, FormRules } from 'element-plus';
 import { computed, ref } from 'vue';
@@ -22,6 +23,7 @@ const props = withDefaults(defineProps<ScheduleGroupFormDialogProps>(), {
 });
 
 const { t } = useI18n();
+const confirmOverlay = useOverlayConfirm();
 const booleanStatusOptions = useCommonBooleanStatusOptions();
 const formRef = ref<FormInstance>();
 
@@ -49,7 +51,7 @@ defineExpose({ formRef, form });
 </script>
 
 <template>
-  <el-form ref="formRef" :model="form" :rules="rules" label-width="120px">
+  <el-form ref="formRef" v-enter-submit="() => confirmOverlay?.()" :model="form" :rules="rules" label-width="120px">
     <el-row :gutter="14">
       <el-col :lg="12" :md="12" :sm="24" :xs="24">
         <el-form-item v-if="mode === 'add'" :label="t('scheduleGroup.code')" prop="groupCode">
