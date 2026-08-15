@@ -9,7 +9,6 @@ import type { AxiosRequestConfig } from 'axios';
 export interface UserDeptPageQuery {
   deptName?: string;
   deptCode?: string;
-  status?: number;
   pageIndex?: number;
   pageSize?: number;
 }
@@ -23,7 +22,6 @@ export interface UserDeptPageRow extends BaseResponsePageRow {
   deptName: string;
   deptCode: string;
   isPrimary: boolean;
-  status: number;
   remark?: string | null;
 }
 
@@ -45,7 +43,6 @@ export function getUserDeptPage(userId: string, params: UserDeptPageQuery): Prom
  */
 export interface UserDeptAssignForm {
   deptId?: string;
-  status: number;
   isPrimary: boolean;
   remark?: string | null;
 }

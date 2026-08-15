@@ -1,5 +1,4 @@
 import type { UserPostPageRow } from '@/features/system/api/user/user-post';
-import { useUserProfileDisplay } from '@/components/domain/user/UserProfile';
 import { createAuditTableColumns } from '@/components/table/AuditColumns';
 import { ElCheckTag } from 'element-plus';
 import { computed } from 'vue';
@@ -11,7 +10,6 @@ import { useI18n } from 'vue-i18n';
  */
 function useUserPostAssignTableColumns() {
   const { t } = useI18n();
-  const { renderRelationStatus } = useUserProfileDisplay();
 
   const columns = computed<TableColumnList>(() => [
     { type: 'selection', align: 'left', width: 48 },
@@ -32,12 +30,6 @@ function useUserPostAssignTableColumns() {
             {t('post.enums.primary.no')}
           </ElCheckTag>
         ),
-    },
-    {
-      label: t('relation.status'),
-      prop: 'status',
-      minWidth: 100,
-      render: ({ row }: { row: UserPostPageRow }) => renderRelationStatus(row.status),
     },
     ...createAuditTableColumns(),
     {

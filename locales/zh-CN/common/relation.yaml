@@ -1,5 +1,4 @@
 relation:
-  status: 关联状态
   isPrimary: 是否主部门
   primary: 主部门
   nonPrimary: 非主部门

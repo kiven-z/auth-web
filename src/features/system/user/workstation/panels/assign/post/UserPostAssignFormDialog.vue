@@ -3,7 +3,6 @@ import type { FormDialog } from '@/shared/types/dialog';
 import type { UserPostAssignForm, UserPostRelationUpdateForm } from '@/features/system/api/user/user-post';
 import useRemotePostSearch from '@/components/domain/post/RemotePostSearch';
 import { useOverlayConfirm } from '@/components/ui/Overlay';
-import { useUserOptions } from '@/components/domain/user/UserProfile';
 import type { FormInstance, FormRules } from 'element-plus';
 import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
@@ -20,10 +19,8 @@ const props = withDefaults(defineProps<UserPostAssignFormDialogProps>(), {
 
 const { t } = useI18n();
 const confirmOverlay = useOverlayConfirm();
-const { relationStatusOptions } = useUserOptions();
 const formRef = ref<FormInstance>();
 const form = ref<UserPostAssignForm>({
-  status: 1,
   isPrimary: false,
   ...props.form,
 });
@@ -32,7 +29,6 @@ const { postOptions, postSearchLoading, loadPostListByKeyword } = useRemotePostS
 
 const rules = computed<FormRules>(() => {
   const baseRules: FormRules = {
-    status: [{ required: true, message: t('relation.status'), trigger: 'change' }],
     isPrimary: [{ required: true, message: t('post.field.isPrimaryPosition'), trigger: 'change' }],
   };
   if (!props.editMode) {
@@ -48,7 +44,7 @@ defineExpose({ formRef, form });
   <el-form ref="formRef" v-enter-submit="() => confirmOverlay?.()" :model="form" :rules="rules" label-width="auto">
     <el-row :gutter="14">
       <!-- 岗位（仅新增） -->
-      <el-col v-if="!editMode" :span="24">
+      <el-col v-if="!editMode" :span="12">
         <el-form-item :label="t('post.field.postName')" prop="postId">
           <el-select
             v-model="form.postId"
@@ -69,16 +65,7 @@ defineExpose({ formRef, form });
           </el-select>
         </el-form-item>
       </el-col>
-      <el-col :lg="12" :md="12" :sm="12" :xs="24">
-        <el-form-item :label="t('relation.status')" prop="status">
-          <el-radio-group v-model="form.status">
-            <el-radio-button v-for="option in relationStatusOptions" :key="String(option.value)" :value="option.value">
-              {{ option.label }}
-            </el-radio-button>
-          </el-radio-group>
-        </el-form-item>
-      </el-col>
-      <el-col :lg="12" :md="12" :sm="12" :xs="24">
+      <el-col :span="12">
         <el-form-item :label="t('post.field.isPrimaryPosition')" prop="isPrimary">
           <el-radio-group v-model="form.isPrimary">
             <el-radio :value="true">{{ t('post.enums.primary.yes') }}</el-radio>

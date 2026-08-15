@@ -61,35 +61,10 @@ export interface PermissionReference {
 }
 
 /**
- * 用户-部门关联回显
+ * 部门 / 岗位详情-关联用户回显
  */
-export type UserDeptReference = DeptReference & {
+export type BoundUserReference = UserReference & {
   isPrimary: boolean;
-  relationStatus: number;
-};
-
-/**
- * 用户-岗位关联回显
- */
-export type UserPostReference = PostReference & {
-  isPrimary: boolean;
-  relationStatus: number;
-};
-
-/**
- * 部门详情-关联用户回显
- */
-export type DeptBoundUserReference = UserReference & {
-  isPrimary: boolean;
-  relationStatus: number;
-};
-
-/**
- * 岗位详情-关联用户回显
- */
-export type PostBoundUserReference = UserReference & {
-  isPrimary: boolean;
-  relationStatus: number;
 };
 
 /**

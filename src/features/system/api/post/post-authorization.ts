@@ -1,5 +1,5 @@
 import type { PageResponse } from '@/api/common/page';
-import type { PostBoundUserReference, RoleReference } from '@/features/system/api/models/grant-table';
+import type { BoundUserReference, RoleReference } from '@/features/system/api/models/grant-table';
 import { http } from '@/core/http/client';
 import type { AxiosRequestConfig } from 'axios';
 
@@ -26,7 +26,6 @@ export function getPostAuthorizationSummary(postId: string): Promise<PostAuthori
 export interface PostUserPageQuery {
   keyword?: string;
   status?: number;
-  relationStatus?: number;
   isPrimary?: boolean;
   pageIndex?: number;
   pageSize?: number;
@@ -38,11 +37,8 @@ export interface PostUserPageQuery {
  * @param params 查询条件
  * @returns 分页结果
  */
-export function getPostUsersPage(
-  postId: string,
-  params: PostUserPageQuery
-): Promise<PageResponse<PostBoundUserReference>> {
-  return http.get<PageResponse<PostBoundUserReference>, AxiosRequestConfig<PostUserPageQuery>>(
+export function getPostUsersPage(postId: string, params: PostUserPageQuery): Promise<PageResponse<BoundUserReference>> {
+  return http.get<PageResponse<BoundUserReference>, AxiosRequestConfig<PostUserPageQuery>>(
     `/system/post/${postId}/users/page`,
     { params }
   );

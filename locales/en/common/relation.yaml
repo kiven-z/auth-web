@@ -1,5 +1,4 @@
 relation:
-  status: Relation Status
   isPrimary: Primary department
   primary: Primary
   nonPrimary: Non-primary

@@ -3,7 +3,7 @@ import { useI18n } from 'vue-i18n';
 import { USER_GENDER } from '../constants/user-enums';
 
 /**
- * 用户档案相关字段展示（账号状态、性别、组织关联状态、主岗标签）
+ * 用户档案相关字段展示（账号状态、性别、主岗标签）
  * @returns 字段渲染函数
  */
 function useUserProfileDisplay() {
@@ -55,37 +55,6 @@ function useUserProfileDisplay() {
     return <span>{t('users.genderLabel.unknown')}</span>;
   }
 
-  /**
-   * user_dept / user_post 关联状态
-   * @param value 关联状态码
-   * @returns 关联状态标签
-   */
-  function renderRelationStatus(value: number | undefined | null) {
-    if (value === undefined || value === null) {
-      return <span>-</span>;
-    }
-    switch (value) {
-      case 1:
-        return (
-          <ElTag type="success" effect="plain">
-            {t('users.relationStatus.normal')}
-          </ElTag>
-        );
-      case 2:
-        return (
-          <ElTag type="warning" effect="plain">
-            {t('users.relationStatus.partTime')}
-          </ElTag>
-        );
-      default:
-        return (
-          <ElTag type="info" effect="plain">
-            {t('users.relationStatus.transferred')}
-          </ElTag>
-        );
-    }
-  }
-
   function renderDeptPrimaryTag() {
     return (
       <ElCheckTag checked type="danger">
@@ -121,7 +90,6 @@ function useUserProfileDisplay() {
   return {
     renderUserAccountStatus,
     renderUserGender,
-    renderRelationStatus,
     renderDeptPrimaryTag,
     renderDeptNonPrimaryTag,
     renderPostPrimaryTag,

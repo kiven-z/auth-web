@@ -1,5 +1,3 @@
-import { renderActiveStatusTag, renderInactiveStatusTag } from '@/components/table/BooleanStatusTag';
-import type { UserPostReference } from '@/features/system/api/models/grant-table';
 import type { UserPostPageRow } from '@/features/system/api/user/user-post';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
@@ -11,7 +9,7 @@ import useUserProfileDisplay from '../hooks/useUserProfileDisplay';
  */
 function useProfilePostColumns() {
   const { t } = useI18n();
-  const { renderRelationStatus, renderPostPrimaryTag, renderPostNonPrimaryTag } = useUserProfileDisplay();
+  const { renderPostPrimaryTag, renderPostNonPrimaryTag } = useUserProfileDisplay();
 
   const postColumns = computed(() => [
     { label: t('post.field.postName'), prop: 'postName', copy: true },
@@ -24,16 +22,6 @@ function useProfilePostColumns() {
         return primary ? renderPostPrimaryTag() : renderPostNonPrimaryTag();
       },
     },
-    {
-      label: t('post.field.status'),
-      prop: 'status',
-      cellRenderer: ({ value }: { value: boolean }) => (value ? renderActiveStatusTag() : renderInactiveStatusTag()),
-    },
-    {
-      label: t('relation.status'),
-      prop: 'relationStatus',
-      cellRenderer: ({ value }: { value: number }) => renderRelationStatus(value),
-    },
   ]);
 
   const userPostBindingColumns = computed<TableColumnList>(() => [
@@ -43,15 +31,9 @@ function useProfilePostColumns() {
       label: t('post.field.isPrimaryPosition'),
       prop: 'isPrimary',
       minWidth: 110,
-      render: ({ row }: { row: UserPostReference | UserPostPageRow }) =>
-        row.isPrimary ? renderPostPrimaryTag() : renderPostNonPrimaryTag(),
-    },
-    {
-      label: t('relation.status'),
-      prop: 'relationStatus',
-      minWidth: 100,
-      render: ({ row }: { row: UserPostReference | UserPostPageRow }) =>
-        renderRelationStatus('relationStatus' in row ? row.relationStatus : row.status),
+      render: ({ row }: { row: UserPostPageRow }) => {
+        return row.isPrimary ? renderPostPrimaryTag() : renderPostNonPrimaryTag();
+      },
     },
   ]);
 

@@ -58,7 +58,6 @@ function useGrantDeptAction(deps: GrantDeptActionDeps) {
           ref={dialogFormRef}
           form={{
             deptId: row.deptId,
-            status: row.status,
             isPrimary: row.isPrimary,
             remark: row.remark ?? undefined,
           }}

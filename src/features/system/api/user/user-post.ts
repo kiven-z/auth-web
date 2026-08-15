@@ -9,7 +9,6 @@ import type { AxiosRequestConfig } from 'axios';
 export interface UserPostPageQuery {
   postCode?: string;
   postName?: string;
-  status?: number;
   pageIndex?: number;
   pageSize?: number;
 }
@@ -23,7 +22,6 @@ export interface UserPostPageRow extends BaseResponsePageRow {
   postCode: string;
   postName: string;
   isPrimary: boolean;
-  status: number;
   remark?: string | null;
 }
 
@@ -45,7 +43,6 @@ export function getUserPostPage(userId: string, params: UserPostPageQuery): Prom
  */
 export interface UserPostAssignForm {
   postId?: string;
-  status: number;
   isPrimary: boolean;
   remark?: string | null;
 }
@@ -63,7 +60,6 @@ export function createUserPost(userId: string, form: UserPostAssignForm): Promis
  * 用户岗位关联更新表单
  */
 export interface UserPostRelationUpdateForm {
-  status: number;
   isPrimary: boolean;
   remark?: string | null;
 }

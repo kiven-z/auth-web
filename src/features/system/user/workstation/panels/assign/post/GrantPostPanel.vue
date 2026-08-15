@@ -5,7 +5,6 @@ import { getUserPostPage, type UserPostPageQuery, type UserPostPageRow } from '@
 import { errorMessage } from '@/services/feedback/message';
 import { useFormPlaceholder } from '@/shared/composables/i18n/useFormPlaceholder';
 import { SYS_USER_POST_PERMS } from '@/features/system/user/constants/permissions';
-import { useUserOptions } from '@/components/domain/user/UserProfile';
 import useGrantPostAction from '@/features/system/user/workstation/hooks/post/useGrantPostAction';
 import useUserPostAssignTableColumns from '@/features/system/user/workstation/hooks/post/useUserPostAssignTableColumns';
 import type { FormInstance } from 'element-plus';
@@ -18,7 +17,6 @@ defineOptions({ name: 'UserWorkstationGrantPostPanel' });
 const route = useRoute();
 const { t } = useI18n();
 const ph = useFormPlaceholder();
-const { relationStatusOptions } = useUserOptions();
 
 const userId = computed(() => String(route.params.userId ?? ''));
 const username = ref('');
@@ -29,7 +27,6 @@ const postAssignState = usePaginationState<UserPostPageRow, UserPostPageQuery>({
   searchForm: reactive({
     postCode: undefined,
     postName: undefined,
-    status: undefined,
   }),
   fetchApi: (query) => getUserPostPage(userId.value, query),
 });
@@ -93,21 +90,6 @@ watch(
           class="w-45!"
           clearable
         />
-      </el-form-item>
-      <el-form-item :label="t('relation.status')" prop="status">
-        <el-select
-          v-model="searchForm.status"
-          :placeholder="ph.selectFilter('relation.status')"
-          class="w-45!"
-          clearable
-        >
-          <el-option
-            v-for="option in relationStatusOptions"
-            :key="String(option.value)"
-            :label="option.label"
-            :value="option.value"
-          />
-        </el-select>
       </el-form-item>
 
       <el-form-item>

@@ -4,7 +4,6 @@ import { getDeptList } from '@/features/system/api/dept/dept';
 import type { UserDeptAssignForm } from '@/features/system/api/user/user-dept';
 import { useOverlayConfirm } from '@/components/ui/Overlay';
 import { errorMessage } from '@/services/feedback/message';
-import { useUserOptions } from '@/components/domain/user/UserProfile';
 import { buildDeptSelectTree, type DeptSelectTreeNode } from '@/components/domain/dept/DeptSelectTree';
 import type { CascaderProps, FormInstance, FormRules } from 'element-plus';
 import { onMounted, reactive, ref } from 'vue';
@@ -18,10 +17,8 @@ const props = withDefaults(defineProps<UserDeptAssignFormDialogProps>(), {
 
 const { t } = useI18n();
 const confirmOverlay = useOverlayConfirm();
-const { relationStatusOptions } = useUserOptions();
 const formRef = ref<FormInstance>();
 const form = ref<UserDeptAssignForm>({
-  status: 1,
   isPrimary: false,
   ...props.form,
 });
@@ -39,7 +36,6 @@ const deptTree = ref<DeptSelectTreeNode[]>([]);
 
 const rules = reactive<FormRules>({
   deptId: [{ required: true, message: t('dept.field.deptName'), trigger: 'change' }],
-  status: [{ required: true, message: t('relation.status'), trigger: 'change' }],
   isPrimary: [{ required: true, message: t('relation.isPrimary'), trigger: 'change' }],
 });
 
@@ -85,16 +81,7 @@ defineExpose({ formRef, form });
           </el-cascader>
         </el-form-item>
       </el-col>
-      <el-col :lg="12" :md="12" :sm="12" :xs="24">
-        <el-form-item :label="t('relation.status')" prop="status">
-          <el-radio-group v-model="form.status">
-            <el-radio-button v-for="option in relationStatusOptions" :key="String(option.value)" :value="option.value">
-              {{ option.label }}
-            </el-radio-button>
-          </el-radio-group>
-        </el-form-item>
-      </el-col>
-      <el-col :lg="12" :md="12" :sm="12" :xs="24">
+      <el-col :span="24">
         <el-form-item :label="t('relation.isPrimary')" prop="isPrimary">
           <el-radio-group v-model="form.isPrimary">
             <el-radio :value="true">{{ t('relation.primary') }}</el-radio>

@@ -131,10 +131,6 @@ users:
     unknown: Unknown
     male: Male
     female: Female
-  relationStatus:
-    normal: Active
-    transferred: Transferred
-    partTime: Part-time
   scope:
     tips:
       inheritRole: "Current: inheriting role data scope (no user override)."

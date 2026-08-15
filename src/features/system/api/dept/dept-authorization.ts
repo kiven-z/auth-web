@@ -1,5 +1,5 @@
 import type { PageResponse } from '@/api/common/page';
-import type { DeptBoundUserReference, PostReference, RoleReference } from '@/features/system/api/models/grant-table';
+import type { BoundUserReference, PostReference, RoleReference } from '@/features/system/api/models/grant-table';
 import { http } from '@/core/http/client';
 import type { AxiosRequestConfig } from 'axios';
 
@@ -27,7 +27,6 @@ export function getDeptAuthorizationSummary(deptId: string): Promise<DeptAuthori
 export interface DeptUserPageQuery {
   keyword?: string;
   status?: number;
-  relationStatus?: number;
   isPrimary?: boolean;
   pageIndex?: number;
   pageSize?: number;
@@ -39,11 +38,8 @@ export interface DeptUserPageQuery {
  * @param params 查询条件
  * @returns 分页结果
  */
-export function getDeptUsersPage(
-  deptId: string,
-  params: DeptUserPageQuery
-): Promise<PageResponse<DeptBoundUserReference>> {
-  return http.get<PageResponse<DeptBoundUserReference>, AxiosRequestConfig<DeptUserPageQuery>>(
+export function getDeptUsersPage(deptId: string, params: DeptUserPageQuery): Promise<PageResponse<BoundUserReference>> {
+  return http.get<PageResponse<BoundUserReference>, AxiosRequestConfig<DeptUserPageQuery>>(
     `/system/dept/${deptId}/users/page`,
     { params }
   );

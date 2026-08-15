@@ -1,9 +1,5 @@
 import UserAvatar from '@/components/domain/user/UserAvatar';
-import type {
-  DeptBoundUserReference,
-  PostBoundUserReference,
-  UserReference,
-} from '@/features/system/api/models/grant-table';
+import type { BoundUserReference, UserReference } from '@/features/system/api/models/grant-table';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import useUserProfileDisplay from '../hooks/useUserProfileDisplay';
@@ -14,13 +10,8 @@ import useUserProfileDisplay from '../hooks/useUserProfileDisplay';
  */
 function useProfileUserColumns() {
   const { t } = useI18n();
-  const {
-    renderUserAccountStatus,
-    renderUserGender,
-    renderRelationStatus,
-    renderDeptPrimaryTag,
-    renderDeptNonPrimaryTag,
-  } = useUserProfileDisplay();
+  const { renderUserAccountStatus, renderUserGender, renderDeptPrimaryTag, renderDeptNonPrimaryTag } =
+    useUserProfileDisplay();
 
   const userColumns = computed(() => [
     { label: t('users.field.username'), prop: 'username', copy: true },
@@ -66,15 +57,9 @@ function useProfileUserColumns() {
       label: t('relation.isPrimary'),
       prop: 'isPrimary',
       minWidth: 110,
-      render: ({ row }: { row: DeptBoundUserReference | PostBoundUserReference }) =>
-        row.isPrimary ? renderDeptPrimaryTag() : renderDeptNonPrimaryTag(),
-    },
-    {
-      label: t('relation.status'),
-      prop: 'relationStatus',
-      minWidth: 100,
-      render: ({ row }: { row: DeptBoundUserReference | PostBoundUserReference }) =>
-        renderRelationStatus(row.relationStatus),
+      render: ({ row }: { row: BoundUserReference }) => {
+        return row.isPrimary ? renderDeptPrimaryTag() : renderDeptNonPrimaryTag();
+      },
     },
   ]);
 

@@ -1,5 +1,3 @@
-import { renderActiveStatusTag, renderInactiveStatusTag } from '@/components/table/BooleanStatusTag';
-import type { UserDeptReference } from '@/features/system/api/models/grant-table';
 import type { UserDeptPageRow } from '@/features/system/api/user/user-dept';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
@@ -11,7 +9,7 @@ import useUserProfileDisplay from '../hooks/useUserProfileDisplay';
  */
 function useProfileDeptColumns() {
   const { t } = useI18n();
-  const { renderRelationStatus, renderDeptPrimaryTag, renderDeptNonPrimaryTag } = useUserProfileDisplay();
+  const { renderDeptPrimaryTag, renderDeptNonPrimaryTag } = useUserProfileDisplay();
 
   const deptColumns = computed(() => [
     { label: t('dept.field.deptName'), prop: 'deptName', copy: true },
@@ -20,16 +18,6 @@ function useProfileDeptColumns() {
       label: t('relation.isPrimary'),
       prop: 'isPrimary',
       cellRenderer: ({ value }: { value: boolean }) => (value ? renderDeptPrimaryTag() : renderDeptNonPrimaryTag()),
-    },
-    {
-      label: t('dept.field.status'),
-      prop: 'status',
-      cellRenderer: ({ value }: { value: boolean }) => (value ? renderActiveStatusTag() : renderInactiveStatusTag()),
-    },
-    {
-      label: t('relation.status'),
-      prop: 'relationStatus',
-      cellRenderer: ({ value }: { value: number }) => renderRelationStatus(value),
     },
   ]);
 
@@ -40,15 +28,9 @@ function useProfileDeptColumns() {
       label: t('relation.isPrimary'),
       prop: 'isPrimary',
       minWidth: 110,
-      render: ({ row }: { row: UserDeptReference | UserDeptPageRow }) =>
-        row.isPrimary ? renderDeptPrimaryTag() : renderDeptNonPrimaryTag(),
-    },
-    {
-      label: t('relation.status'),
-      prop: 'relationStatus',
-      minWidth: 100,
-      render: ({ row }: { row: UserDeptReference | UserDeptPageRow }) =>
-        renderRelationStatus('relationStatus' in row ? row.relationStatus : row.status),
+      render: ({ row }: { row: UserDeptPageRow }) => {
+        return row.isPrimary ? renderDeptPrimaryTag() : renderDeptNonPrimaryTag();
+      },
     },
   ]);
 

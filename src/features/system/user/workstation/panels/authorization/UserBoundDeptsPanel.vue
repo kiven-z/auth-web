@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import type { UserDeptPageQuery, UserDeptPageRow } from '@/features/system/api/user/user-dept';
 import ListTable, { usePaginationState } from '@/components/table/ListTable';
-import { useUserOptions, useUserProfileColumns } from '@/components/domain/user/UserProfile';
+import { useUserProfileColumns } from '@/components/domain/user/UserProfile';
 import { useFormPlaceholder } from '@/shared/composables/i18n/useFormPlaceholder';
 import type { AuthorizationSurfacePanelProps } from '@/features/system/_shared/types';
 import type { FormInstance } from 'element-plus';
@@ -17,7 +17,6 @@ const props = defineProps<UserBoundDeptsPanelProps>();
 
 const { t } = useI18n();
 const ph = useFormPlaceholder();
-const { relationStatusOptions } = useUserOptions();
 const { userDeptBindingColumns } = useUserProfileColumns();
 const searchFormRef = ref<FormInstance>();
 
@@ -25,7 +24,6 @@ const deptState = usePaginationState<UserDeptPageRow, UserDeptPageQuery>({
   searchForm: reactive({
     deptName: undefined,
     deptCode: undefined,
-    status: undefined,
   }),
   fetchApi: (query) => props.fetchPage(query),
 });
@@ -54,21 +52,6 @@ onMounted(() => {
           class="w-45!"
           clearable
         />
-      </el-form-item>
-      <el-form-item :label="t('relation.status')" prop="status">
-        <el-select
-          v-model="searchForm.status"
-          :placeholder="ph.selectFilter('relation.status')"
-          class="w-45!"
-          clearable
-        >
-          <el-option
-            v-for="option in relationStatusOptions"
-            :key="String(option.value)"
-            :label="option.label"
-            :value="option.value"
-          />
-        </el-select>
       </el-form-item>
       <el-form-item>
         <el-button v-auth="queryPerm" :loading="loading" type="primary" @click="fetchTableData">

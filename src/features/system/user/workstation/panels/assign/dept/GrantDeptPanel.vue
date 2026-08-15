@@ -5,7 +5,6 @@ import ListTable, { usePaginationState } from '@/components/table/ListTable';
 import { errorMessage } from '@/services/feedback/message';
 import { useFormPlaceholder } from '@/shared/composables/i18n/useFormPlaceholder';
 import { SYS_USER_DEPT_PERMS } from '@/features/system/user/constants/permissions';
-import { useUserOptions } from '@/components/domain/user/UserProfile';
 import useGrantDeptAction from '@/features/system/user/workstation/hooks/dept/useGrantDeptAction';
 import useUserDeptAssignTableColumns from '@/features/system/user/workstation/hooks/dept/useUserDeptAssignTableColumns';
 import type { FormInstance } from 'element-plus';
@@ -18,7 +17,6 @@ defineOptions({ name: 'UserWorkstationGrantDeptPanel' });
 const route = useRoute();
 const { t } = useI18n();
 const ph = useFormPlaceholder();
-const { relationStatusOptions } = useUserOptions();
 
 const userId = computed(() => String(route.params.userId ?? ''));
 const username = ref('');
@@ -29,7 +27,6 @@ const deptAssignState = usePaginationState<UserDeptPageRow, UserDeptPageQuery>({
   searchForm: reactive({
     deptName: undefined,
     deptCode: undefined,
-    status: undefined,
   }),
   fetchApi: (query) => getUserDeptPage(userId.value, query),
 });
@@ -93,21 +90,6 @@ watch(
           class="w-45!"
           clearable
         />
-      </el-form-item>
-      <el-form-item :label="t('relation.status')" prop="status">
-        <el-select
-          v-model="searchForm.status"
-          :placeholder="ph.selectFilter('relation.status')"
-          class="w-45!"
-          clearable
-        >
-          <el-option
-            v-for="opt in relationStatusOptions"
-            :key="String(opt.value)"
-            :label="opt.label"
-            :value="opt.value"
-          />
-        </el-select>
       </el-form-item>
 
       <el-form-item>

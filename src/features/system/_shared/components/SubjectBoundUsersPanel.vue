@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import type { DeptBoundUserReference, PostBoundUserReference } from '@/features/system/api/models/grant-table';
+import type { BoundUserReference } from '@/features/system/api/models/grant-table';
 import type { DeptUserPageQuery } from '@/features/system/api/dept/dept-authorization';
 import ListTable, { usePaginationState } from '@/components/table/ListTable';
 import { useUserOptions, useUserProfileColumns } from '@/components/domain/user/UserProfile';
@@ -11,24 +11,21 @@ import { useI18n } from 'vue-i18n';
 
 defineOptions({ name: 'SubjectBoundUsersPanel' });
 
-type SubjectBoundUserRow = DeptBoundUserReference | PostBoundUserReference;
-
 /** 主体关联用户分页面板（部门 / 岗位） */
-type SubjectBoundUsersPanelProps = AuthorizationSurfacePanelProps<SubjectBoundUserRow, DeptUserPageQuery>;
+type SubjectBoundUsersPanelProps = AuthorizationSurfacePanelProps<BoundUserReference, DeptUserPageQuery>;
 
 const props = defineProps<SubjectBoundUsersPanelProps>();
 
 const { t } = useI18n();
 const ph = useFormPlaceholder();
-const { statusFilterOptions, relationStatusOptions } = useUserOptions();
+const { statusFilterOptions } = useUserOptions();
 const { userRelationBindingColumns } = useUserProfileColumns();
 const searchFormRef = ref<FormInstance>();
 
-const userState = usePaginationState<SubjectBoundUserRow, DeptUserPageQuery>({
+const userState = usePaginationState<BoundUserReference, DeptUserPageQuery>({
   searchForm: reactive({
     keyword: undefined,
     status: undefined,
-    relationStatus: undefined,
     isPrimary: undefined,
   }),
   fetchApi: (query) => props.fetchPage(query),
@@ -60,21 +57,6 @@ onMounted(() => {
         >
           <el-option
             v-for="option in statusFilterOptions"
-            :key="String(option.value)"
-            :label="option.label"
-            :value="option.value"
-          />
-        </el-select>
-      </el-form-item>
-      <el-form-item :label="t('relation.status')" prop="relationStatus">
-        <el-select
-          v-model="searchForm.relationStatus"
-          :placeholder="ph.selectFilter('relation.status')"
-          class="w-45!"
-          clearable
-        >
-          <el-option
-            v-for="option in relationStatusOptions"
             :key="String(option.value)"
             :label="option.label"
             :value="option.value"

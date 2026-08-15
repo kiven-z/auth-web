@@ -131,10 +131,6 @@ users:
     unknown: 未知
     male: 男
     female: 女
-  relationStatus:
-    normal: 正常
-    transferred: 已调离
-    partTime: 兼职
   scope:
     tips:
       inheritRole: 当前：继承角色数据范围（无用户级覆盖）。

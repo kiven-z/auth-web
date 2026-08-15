@@ -58,11 +58,7 @@ function useGrantPostAction(deps: GrantPostActionDeps) {
         <UserPostAssignFormDialog
           ref={dialogFormRef}
           editMode={true}
-          form={{
-            status: row.status,
-            isPrimary: row.isPrimary,
-            remark: row.remark ?? undefined,
-          }}
+          form={{ isPrimary: row.isPrimary, remark: row.remark }}
         />
       ),
       beforeSure: createFormBeforeSure<UserPostRelationUpdateForm>({

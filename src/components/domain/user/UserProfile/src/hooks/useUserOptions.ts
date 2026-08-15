@@ -5,7 +5,7 @@ import { useI18n } from 'vue-i18n';
 
 /**
  * 用户模块枚举选项（文案随 locale 更新）
- * @returns 账号状态 / 性别 / 组织关联状态
+ * @returns 账号状态 / 性别
  */
 function useUserOptions() {
   const { t } = useI18n();
@@ -22,16 +22,9 @@ function useUserOptions() {
     { value: USER_GENDER.female, label: t('users.genderLabel.female') },
   ]);
 
-  const relationStatusOptions = computed<SelectOption<number>[]>(() => [
-    { value: 1, label: t('users.relationStatus.normal') },
-    { value: 0, label: t('users.relationStatus.transferred') },
-    { value: 2, label: t('users.relationStatus.partTime') },
-  ]);
-
   return {
     statusFilterOptions,
     genderOptions,
-    relationStatusOptions,
   };
 }
 

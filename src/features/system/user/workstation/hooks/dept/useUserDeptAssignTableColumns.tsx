@@ -1,5 +1,4 @@
 import type { UserDeptPageRow } from '@/features/system/api/user/user-dept';
-import { useUserProfileDisplay } from '@/components/domain/user/UserProfile';
 import { createAuditTableColumns } from '@/components/table/AuditColumns';
 import { ElCheckTag } from 'element-plus';
 import { computed } from 'vue';
@@ -11,7 +10,6 @@ import { useI18n } from 'vue-i18n';
  */
 function useUserDeptAssignTableColumns() {
   const { t } = useI18n();
-  const { renderRelationStatus } = useUserProfileDisplay();
 
   const columns = computed<TableColumnList>(() => [
     { type: 'selection', align: 'left', width: 48 },
@@ -32,12 +30,6 @@ function useUserDeptAssignTableColumns() {
             {t('relation.secondary')}
           </ElCheckTag>
         ),
-    },
-    {
-      label: t('relation.status'),
-      prop: 'status',
-      minWidth: 100,
-      render: ({ row }: { row: UserDeptPageRow }) => renderRelationStatus(row.status),
     },
     ...createAuditTableColumns(),
     {
