@@ -32,4 +32,4 @@ panel:
   weakModel: Weak Model
   hiddenTags: Hidden Tags
   hiddenFooter: Hidden Footer
-  multiTagsCache: MultiTags Cache
+  multiTagsCache: Remember tabs across devices

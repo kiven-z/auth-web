@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import type { SysUserProfileResponse } from '@/features/system/api/user/user-base';
+import type { MeOrgBindingsResponse } from '@/features/system/api/user/user-me';
 import { updateMyAvatar } from '@/features/system/api/user/user-me';
 import AvatarUpdateCard from '@/components/domain/user/AvatarUpdateCard';
 import { computed } from 'vue';
@@ -11,6 +12,7 @@ defineOptions({
 
 const props = defineProps<{
   profile: SysUserProfileResponse;
+  orgBindings: MeOrgBindingsResponse | null;
 }>();
 
 const emit = defineEmits<{
@@ -19,8 +21,13 @@ const emit = defineEmits<{
 
 const { t } = useI18n();
 
-const deptCount = computed(() => Number(props.profile.deptCount ?? 0));
-const postCount = computed(() => Number(props.profile.postCount ?? 0));
+const primaryDeptName = computed(() => {
+  const depts = props.orgBindings?.depts;
+  if (!depts?.length) {
+    return '';
+  }
+  return depts.find((dept) => dept.isPrimary)?.deptName ?? depts[0].deptName;
+});
 
 /**
  * 持久化当前用户头像
@@ -41,17 +48,10 @@ async function persistAvatar(avatarUrl: string): Promise<void> {
             <el-text type="info">@{{ profile.username }}</el-text>
           </div>
 
-          <div class="profile-personal-info-card__meta">
-            <div class="profile-personal-info-card__meta-row">
-              <span class="profile-personal-info-card__metric">
-                <span class="profile-personal-info-card__metric-label">{{ t('users.bound.depts.title') }}</span>
-                <span class="profile-personal-info-card__metric-value">{{ deptCount }}</span>
-              </span>
-              <span class="profile-personal-info-card__metric">
-                <span class="profile-personal-info-card__metric-label">{{ t('users.bound.posts.title') }}</span>
-                <span class="profile-personal-info-card__metric-value">{{ postCount }}</span>
-              </span>
-            </div>
+          <div v-if="primaryDeptName" class="profile-personal-info-card__meta">
+            <el-text class="profile-personal-info-card__primary-dept" truncated type="primary">
+              {{ t('account.orgBindings.primaryDept', { name: primaryDeptName }) }}
+            </el-text>
           </div>
         </div>
       </template>
@@ -80,37 +80,12 @@ async function persistAvatar(avatarUrl: string): Promise<void> {
   }
 
   &__meta {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
     margin-top: 8px;
-    font-size: 14px;
   }
 
-  &__meta-row {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px 20px;
-    align-items: baseline;
-  }
-
-  &__metric {
-    display: inline-flex;
-    gap: 8px;
-    align-items: baseline;
-    cursor: default;
-  }
-
-  &__metric-label {
+  &__primary-dept {
+    max-width: 100%;
     font-size: 13px;
-    color: var(--el-text-color-secondary);
-  }
-
-  &__metric-value {
-    font-size: 16px;
-    font-weight: 600;
-    font-variant-numeric: tabular-nums;
-    color: var(--el-text-color-primary);
   }
 }
 </style>

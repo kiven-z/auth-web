@@ -12,6 +12,14 @@ account:
     username: Username
     employeeNo: Employee No.
     basicInfo: Basic Information
+  orgBindings:
+    title: Affiliations
+    depts: Departments
+    posts: Posts
+    primaryMark: Primary
+    primaryDept: Primary dept · {name}
+    emptyDepts: No departments assigned
+    emptyPosts: No posts assigned
   avatar:
     uploadHint: JPG/PNG/WEBP only, up to 2MB
     fileTypeInvalid: Only JPG/PNG/WEBP images are supported

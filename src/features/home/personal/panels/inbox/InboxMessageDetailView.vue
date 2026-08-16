@@ -89,7 +89,7 @@ onMounted(() => {
         </el-link>
       </div>
 
-      <TypedContentView :content="detail.content" :content-type="contentType" />
+      <TypedContentView :content="detail.content" :content-type="contentType" fluid />
     </div>
 
     <el-empty v-else-if="!loading" :description="t('inAppInbox.empty')" />
@@ -105,10 +105,12 @@ onMounted(() => {
   }
 
   &__body {
-    max-width: 880px;
+    width: 100%;
   }
 
   &__meta {
+    padding-bottom: 16px;
+    margin-bottom: 16px;
     border-bottom: 1px solid var(--el-border-color-lighter);
   }
 

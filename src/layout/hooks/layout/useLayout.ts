@@ -7,10 +7,8 @@ import {
 import { getUiPreferenceState } from '@/core/preferences/persistence/storage';
 import { getRuntimeLayoutOverrideRef } from '@/core/preferences/defaults/runtime-layout';
 import { toLayoutMode } from '@/shared/utils/layout/layout-mode';
-import { useMultiTagsStore } from '@/store/modules/app/multiTags';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { routerArrays } from '../../types';
 
 /**
  * 布局模式与本地偏好初始化
@@ -21,9 +19,6 @@ export function useLayout() {
   const runtimeLayoutOverride = getRuntimeLayoutOverrideRef();
 
   const initStorage = () => {
-    if (useMultiTagsStore().multiTagsCache && (!preferenceState.tags || preferenceState.tags.length === 0)) {
-      preferenceState.tags = routerArrays;
-    }
     if (!preferenceState.locale) {
       preferenceState.locale = createDefaultLocale();
       useI18n().locale.value = DEFAULT_LOCALE;

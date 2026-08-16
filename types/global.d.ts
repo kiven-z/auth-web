@@ -121,7 +121,7 @@ declare global {
   }
 
   /**
-   * `responsive-storage` 本地响应式 `storage` 的类型声明
+   * UI 偏好内存态（locale / layout / configure / tags）；持久化只走服务端，不落 localStorage
    */
   interface ResponsiveStorage {
     locale: {
@@ -145,10 +145,12 @@ declare global {
       hideFooter?: boolean;
       showLogo?: boolean;
       showModel?: string;
+      /** 是否将打开的标签同步到服务端（跨浏览器恢复） */
       multiTagsCache?: boolean;
       stretch?: boolean | number;
     };
-    tags?: Array<any>;
+    /** 多标签快照（仅在开启 multiTagsCache 时与服务端 ui.tags 同步） */
+    tags?: Array<Record<string, unknown>>;
   }
 }
 

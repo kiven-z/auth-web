@@ -1,12 +1,17 @@
 <script lang="ts" setup>
-import { getUserProfile, type SysUserProfileResponse } from '@/features/system/api/user/user-base';
-import type { MeProfileUpdateRequest } from '@/features/system/api/user/user-me';
 import { readStoredUserProfileEntry, writeUserProfileToStorage } from '@/core/session/profile/userProfileStorage';
+import { getUserProfile, type SysUserProfileResponse } from '@/features/system/api/user/user-base';
+import {
+  getMyOrgBindings,
+  type MeOrgBindingsResponse,
+  type MeProfileUpdateRequest,
+} from '@/features/system/api/user/user-me';
 import { errorMessage } from '@/services/feedback/message';
 import { useUserStore } from '@/store/modules/auth/user';
 import { onMounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import ProfileBasicInfoCard from './components/ProfileBasicInfoCard.vue';
+import ProfileOrgBindingsCard from './components/ProfileOrgBindingsCard.vue';
 import ProfilePersonalInfoCard from './components/ProfilePersonalInfoCard.vue';
 
 defineOptions({
@@ -18,17 +23,21 @@ const userStore = useUserStore();
 
 const loading = ref(false);
 const profile = ref<SysUserProfileResponse | null>(null);
+const orgBindings = ref<MeOrgBindingsResponse | null>(null);
 
 /**
- * 拉取个人档案
+ * 拉取个人档案与组织任职
  */
 async function loadProfileData() {
   loading.value = true;
   try {
-    profile.value = await getUserProfile(userStore.userId);
+    const [nextProfile, nextBindings] = await Promise.all([getUserProfile(userStore.userId), getMyOrgBindings()]);
+    profile.value = nextProfile;
+    orgBindings.value = nextBindings;
   } catch (error: unknown) {
     errorMessage(error);
     profile.value = null;
+    orgBindings.value = null;
   } finally {
     loading.value = false;
   }
@@ -96,7 +105,12 @@ onMounted(() => {
   <div v-loading="loading" class="account-profile">
     <template v-if="profile">
       <el-divider content-position="left">{{ t('account.profile') }}</el-divider>
-      <ProfilePersonalInfoCard :profile="profile" @avatar-updated="handleAvatarUpdated" />
+      <ProfilePersonalInfoCard :org-bindings="orgBindings" :profile="profile" @avatar-updated="handleAvatarUpdated" />
+
+      <template v-if="orgBindings">
+        <el-divider content-position="left">{{ t('account.orgBindings.title') }}</el-divider>
+        <ProfileOrgBindingsCard :bindings="orgBindings" />
+      </template>
 
       <el-divider content-position="left">{{ t('account.field.basicInfo') }}</el-divider>
       <ProfileBasicInfoCard :profile="profile" @saved="handleProfileSaved" />

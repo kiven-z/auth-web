@@ -1,48 +1,48 @@
-// 响应式storage
 import type { App } from 'vue';
-import Storage from 'responsive-storage';
-import { routerArrays } from '@/layout/types';
+import { reactive } from 'vue';
 import { responsiveStorageNameSpace } from '@/auth/config';
-import {
-  createDefaultConfigure,
-  createDefaultLayout,
-  createDefaultLocale,
-  DEFAULT_MULTI_TAGS_CACHE,
-} from '@/core/preferences/defaults/preference-defaults';
+import { createDefaultUiPreferences } from '@/core/preferences/defaults/preference-defaults';
+import { storageLocal } from '@/core/storage/storageLocal';
 
-/** 注入后的响应式 $storage，供 preferences 网关在无组件实例时读写 */
-let responsiveStorageMemory: ResponsiveStorage | null = null;
+/** UI 偏好内存态（不落盘；持久化只走服务端 ui.*） */
+let uiPreferenceState: ResponsiveStorage | null = null;
+
+/** 历史 UI 偏好落盘键（迁移期清除） */
+const LEGACY_UI_PREFERENCE_STORAGE_SUFFIXES = ['locale', 'layout', 'configure', 'tags'] as const;
 
 /**
- * 获取 responsive-storage 内存对象（优先已注入实例，否则从 localStorage 回退）
- * @returns layout / locale / configure 响应式或快照对象
+ * 清除历史 UI 偏好 localStorage（locale / layout / configure / tags）
  */
-export function getResponsiveStorage(): ResponsiveStorage {
-  if (responsiveStorageMemory) {
-    return responsiveStorageMemory;
-  }
-
+function clearLegacyUiPreferenceLocalStorage(): void {
   const nameSpace = responsiveStorageNameSpace();
-  return {
-    locale: Storage.getData('locale', nameSpace) ?? createDefaultLocale(),
-    layout: Storage.getData('layout', nameSpace) ?? createDefaultLayout(),
-    configure: Storage.getData('configure', nameSpace) ?? createDefaultConfigure(),
-  };
+  const local = storageLocal();
+  for (const suffix of LEGACY_UI_PREFERENCE_STORAGE_SUFFIXES) {
+    local.removeItem(`${nameSpace}${suffix}`);
+  }
 }
 
-export const injectResponsiveStorage = (app: App) => {
-  const nameSpace = responsiveStorageNameSpace();
-  const configObj = {
-    locale: Storage.getData('locale', nameSpace) ?? createDefaultLocale(),
-    layout: Storage.getData('layout', nameSpace) ?? createDefaultLayout(),
-    configure: Storage.getData('configure', nameSpace) ?? createDefaultConfigure(),
-    ...(DEFAULT_MULTI_TAGS_CACHE
-      ? {
-          tags: Storage.getData('tags', nameSpace) ?? routerArrays,
-        }
-      : {}),
-  };
+/**
+ * 获取已注入的 UI 偏好内存态（须先 {@link injectResponsiveStorage}）
+ * @returns locale / layout / configure 响应式对象
+ */
+export function getResponsiveStorage(): ResponsiveStorage {
+  if (!uiPreferenceState) {
+    throw new Error('UI preference state is not injected');
+  }
+  return uiPreferenceState;
+}
 
-  app.use(Storage, { nameSpace, memory: configObj });
-  responsiveStorageMemory = app.config.globalProperties.$storage;
-};
+/**
+ * 注入 UI 偏好内存态（平台默认），并清除历史 LS 偏好键。
+ * 须在 setupStore / router 之前调用；已登录后由服务端 hydrate 覆盖。
+ * @param app Vue 应用实例
+ */
+export function injectResponsiveStorage(app: App): void {
+  if (uiPreferenceState) {
+    return;
+  }
+
+  clearLegacyUiPreferenceLocalStorage();
+  uiPreferenceState = reactive(createDefaultUiPreferences());
+  app.config.globalProperties.$storage = uiPreferenceState;
+}

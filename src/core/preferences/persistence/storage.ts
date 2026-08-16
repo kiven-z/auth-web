@@ -1,9 +1,11 @@
 import { getResponsiveStorage } from '@/app/bootstrap/responsive';
+import type { RouteConfigs } from '@/layout/types';
 import { UI_PREFERENCE_KEYS } from './keys';
 import { getIsHydrating, schedulePreferenceSync } from './sync';
+import { toPersistedTag } from './tags';
 
 /**
- * 获取 responsive-storage 全局实例
+ * 获取 UI 偏好内存态
  * @returns 响应式 storage
  */
 function getStorage(): ResponsiveStorage {
@@ -11,9 +13,9 @@ function getStorage(): ResponsiveStorage {
 }
 
 /**
- * 供 layout / App 读取的响应式偏好根对象（与注入后的 $storage 同一引用）
+ * 供 layout / App 读取的响应式偏好根对象（内存态，不落盘）
  * 组件应通过本函数 + computed 读偏好，禁止再 useGlobal().$storage
- * @returns 响应式 locale / layout / configure
+ * @returns 响应式 locale / layout / configure / tags
  */
 export function getUiPreferenceState(): ResponsiveStorage {
   return getStorage();
@@ -56,6 +58,18 @@ export function getLayoutSnapshot(): ResponsiveStorage['layout'] {
  */
 export function getConfigureSnapshot(): ResponsiveStorage['configure'] {
   return { ...getStorage().configure };
+}
+
+/**
+ * 读取当前多标签快照（已规范化）
+ * @returns 标签列表
+ */
+export function getTagsSnapshot(): RouteConfigs[] {
+  const tags = getStorage().tags;
+  if (!Array.isArray(tags)) {
+    return [];
+  }
+  return tags.map((tag) => toPersistedTag(tag as RouteConfigs));
 }
 
 /**
@@ -107,16 +121,30 @@ export function patchConfigure(patch: Partial<ResponsiveStorage['configure']>): 
 }
 
 /**
- * 重置本地 UI 偏好为平台默认（不触发服务端同步）
- * @param defaults 默认 locale / layout / configure
+ * 覆盖写入多标签内存快照；开启「记住标签」时调度服务端同步
+ * @param tags 标签列表
+ */
+export function replaceTags(tags: RouteConfigs[]): void {
+  const state = getStorage();
+  state.tags = tags.map(toPersistedTag) as ResponsiveStorage['tags'];
+  if (!getIsHydrating() && state.configure.multiTagsCache) {
+    schedulePreferenceSync(UI_PREFERENCE_KEYS.TAGS);
+  }
+}
+
+/**
+ * 重置内存中的 UI 偏好为平台默认（不触发服务端同步）
+ * @param defaults 默认 locale / layout / configure / tags
  */
 export function resetLocalUiPreferences(defaults: {
   locale: ResponsiveStorage['locale'];
   layout: ResponsiveStorage['layout'];
   configure: ResponsiveStorage['configure'];
+  tags?: RouteConfigs[];
 }): void {
-  const $storage = getStorage();
-  $storage.locale = { ...defaults.locale };
-  $storage.layout = { ...defaults.layout };
-  $storage.configure = { ...defaults.configure };
+  const state = getStorage();
+  state.locale = { ...defaults.locale };
+  state.layout = { ...defaults.layout };
+  state.configure = { ...defaults.configure };
+  state.tags = [...(defaults.tags ?? [])] as ResponsiveStorage['tags'];
 }

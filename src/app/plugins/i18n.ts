@@ -1,6 +1,5 @@
-import { responsiveStorageNameSpace } from '@/auth/config';
 import { getLocaleDef, locales } from '@/auth/config/locales';
-import { storageLocal } from '@/core/storage/storageLocal';
+import { DEFAULT_LOCALE } from '@/core/preferences/defaults/preference-defaults';
 import isObject from 'lodash/isObject';
 import merge from 'lodash/merge';
 import type { App } from 'vue';
@@ -95,7 +94,7 @@ export const $t = (key: string) => key;
 
 export const i18n: I18n = createI18n({
   legacy: false,
-  locale: storageLocal().getItem<StorageConfigs>(`${responsiveStorageNameSpace()}locale`)?.locale ?? 'zh',
+  locale: DEFAULT_LOCALE,
   fallbackLocale: 'en',
   messages: localesConfigs,
 });

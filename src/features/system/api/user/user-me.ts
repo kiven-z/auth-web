@@ -2,6 +2,7 @@ import type { AxiosRequestConfig } from 'axios';
 
 import type { PageResponse } from '@/api/common/page';
 import { http } from '@/core/http/client';
+import type { DeptReference, PostReference } from '@/features/system/api/models/grant-table';
 
 /**
  * 当前用户展示资料（顶栏 / 会话校准）
@@ -21,6 +22,35 @@ export interface MeProfileResponse {
  */
 export function getMyProfile(): Promise<MeProfileResponse> {
   return http.get<MeProfileResponse, AxiosRequestConfig>('/system/me/profile');
+}
+
+/**
+ * 当前用户有效任职部门
+ */
+export type MeOrgDeptBinding = DeptReference & {
+  isPrimary: boolean;
+};
+
+/**
+ * 当前用户有效任职岗位
+ */
+export type MeOrgPostBinding = PostReference & {
+  isPrimary: boolean;
+};
+
+/**
+ * 当前用户组织任职（有效部门与岗位）
+ */
+export interface MeOrgBindingsResponse {
+  depts: MeOrgDeptBinding[];
+  posts: MeOrgPostBinding[];
+}
+
+/**
+ * 查询当前用户组织任职
+ */
+export function getMyOrgBindings(): Promise<MeOrgBindingsResponse> {
+  return http.get<MeOrgBindingsResponse, AxiosRequestConfig>('/system/me/org-bindings');
 }
 
 /**

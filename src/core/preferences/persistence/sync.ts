@@ -5,10 +5,13 @@ import {
   getConfigureSnapshot,
   getLayoutSnapshot,
   getLocaleSnapshot,
+  getTagsSnapshot,
   patchConfigure,
   patchLayout,
   patchLocale,
+  replaceTags,
 } from './storage';
+import { buildTagsPreferenceValue, parseTagsPreferenceValue } from './tags';
 
 /** 服务端拉取偏好时置位，避免写回循环 */
 let isHydrating = false;
@@ -25,7 +28,7 @@ let sessionHydrated = false;
 const SYNC_DEBOUNCE_MS = 650;
 
 /**
- * 将单条服务端偏好写入本地 storage（不触发 upsert）
+ * 将单条服务端偏好写入内存态（不触发 upsert）
  * @param configKey 配置键
  * @param configValue 配置值对象
  */
@@ -39,6 +42,9 @@ function applyServerPreference(configKey: string, configValue: Record<string, un
       break;
     case UI_PREFERENCE_KEYS.CONFIGURE:
       patchConfigure(configValue);
+      break;
+    case UI_PREFERENCE_KEYS.TAGS:
+      replaceTags(parseTagsPreferenceValue(configValue));
       break;
     default:
       break;
@@ -60,6 +66,9 @@ async function flushPreferenceKey(configKey: UiPreferenceKey): Promise<void> {
       break;
     case UI_PREFERENCE_KEYS.CONFIGURE:
       configValue = { ...getConfigureSnapshot() };
+      break;
+    case UI_PREFERENCE_KEYS.TAGS:
+      configValue = { ...buildTagsPreferenceValue(getTagsSnapshot()) };
       break;
     default:
       return;
@@ -120,7 +129,7 @@ export function schedulePreferenceSync(configKey: UiPreferenceKey): void {
 }
 
 /**
- * 从服务端拉取偏好并覆盖本地 storage（不触发写回）
+ * 从服务端拉取偏好并覆盖内存态（不触发写回）
  * @param applySideEffects 灌入后应用 DOM / store 副作用
  */
 export async function hydrateFromServer(applySideEffects?: () => void): Promise<void> {

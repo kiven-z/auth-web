@@ -1,5 +1,8 @@
 import { logoutApi } from '@/api/auth';
+import { createDefaultUiPreferences } from '@/core/preferences/defaults/preference-defaults';
+import { resetLocalUiPreferences } from '@/core/preferences/persistence/storage';
 import { stopSync } from '@/core/preferences/persistence/sync';
+import { applyHydratedUiPreferences } from '@/core/preferences/runtime/apply';
 import { resetUserDisplayProfileHydration } from '@/core/session/profile/displayProfile';
 import { resetSessionBootstrap } from '@/core/session/sessionBootstrap';
 import { readSessionPreferences, writeSessionPreferences } from '@/core/session/remember/sessionPreferences';
@@ -61,6 +64,8 @@ export const useUserStore = defineStore('auth-user', {
      */
     async clearLocalSession() {
       stopSync();
+      resetLocalUiPreferences(createDefaultUiPreferences());
+      applyHydratedUiPreferences();
       resetUserDisplayProfileHydration();
       resetSessionBootstrap();
       this.avatar = '';

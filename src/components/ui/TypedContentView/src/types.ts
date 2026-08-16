@@ -7,4 +7,6 @@ export interface TypedContentViewProps {
   content?: string | null;
   /** 正文类型 */
   contentType: TypedContentTypeCode;
+  /** 铺满父级宽度，且去掉默认内边距（站内信详情等全宽阅读场景） */
+  fluid?: boolean;
 }

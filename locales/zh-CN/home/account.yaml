@@ -12,6 +12,14 @@ account:
     username: 用户名
     employeeNo: 工号
     basicInfo: 基本信息
+  orgBindings:
+    title: 组织任职
+    depts: 任职部门
+    posts: 任职岗位
+    primaryMark: 主
+    primaryDept: 主部门 · {name}
+    emptyDepts: 暂无任职部门
+    emptyPosts: 暂无任职岗位
   avatar:
     uploadHint: 仅支持 JPG/PNG/WEBP，大小不超过 2MB
     fileTypeInvalid: 仅支持 JPG/PNG/WEBP 图片

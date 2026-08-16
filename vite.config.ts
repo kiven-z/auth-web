@@ -18,7 +18,6 @@ const optimizeDepsInclude = [
   'vue-tippy',
   'sortablejs',
   '@vueuse/core',
-  'responsive-storage',
 ];
 
 const optimizeDepsExclude = ['@iconify/json', 'monaco-editor'];

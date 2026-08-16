@@ -19,7 +19,7 @@ const resetting = ref(false);
 const { openSelfChangePasswordDialog } = useChangePasswordAction();
 
 /**
- * 二次确认后清空服务端 UI 偏好、重置本地 storage 并刷新页面
+ * 二次确认后清空服务端 UI 偏好、重置内存态并刷新页面
  */
 async function handleResetPreferences() {
   const confirmed = await multiConfirm([

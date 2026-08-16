@@ -64,7 +64,7 @@ export function setSidebarOpened(opened?: boolean, options?: SetSidebarOpenedOpt
 }
 
 /**
- * 清空本地 UI 偏好缓存并返回登录（布局偏好全清 + 统一会话清理）
+ * 清空 UI 偏好内存态、本地会话相关缓存并返回登录
  */
 export async function resetUiPreferences(): Promise<void> {
   storageLocal().clear();

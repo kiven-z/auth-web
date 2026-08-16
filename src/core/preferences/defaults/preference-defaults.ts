@@ -10,8 +10,8 @@ export const DEFAULT_LAYOUT: LayoutMode = DEFAULT_LAYOUT_MODE;
 /** 默认侧栏展开 */
 export const DEFAULT_SIDEBAR_OPENED = true;
 
-/** 默认是否缓存多标签 */
-export const DEFAULT_MULTI_TAGS_CACHE = false;
+/** 默认是否将打开的标签同步到服务端（跨浏览器恢复） */
+export const DEFAULT_MULTI_TAGS_CACHE = true;
 
 /**
  * 用户偏好出厂默认（locale / layout 壳字段 / configure）
@@ -50,13 +50,14 @@ export function createDefaultConfigure(): ResponsiveStorage['configure'] {
 }
 
 /**
- * 组装完整 UI 偏好出厂快照（重置本地 / 无缓存首启）
- * @returns locale + layout + configure
+ * 组装完整 UI 偏好出厂快照（首启内存默认 / 登出重置）
+ * @returns locale + layout + configure + tags
  */
-export function createDefaultUiPreferences(): Pick<ResponsiveStorage, 'locale' | 'layout' | 'configure'> {
+export function createDefaultUiPreferences(): Pick<ResponsiveStorage, 'locale' | 'layout' | 'configure' | 'tags'> {
   return {
     locale: createDefaultLocale(),
     layout: createDefaultLayout(),
     configure: createDefaultConfigure(),
+    tags: [],
   };
 }

@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import { uploadFile } from '@/features/file/api/file-upload';
 import { errorMessage } from '@/services/feedback/message';
+import { MD_PREVIEW_THEME } from '@/shared/constants/mdPreview';
 import { useEditorTheme } from '@/shared/composables/editor/useEditorTheme';
 import { validateUploadFile } from '@/shared/utils/file/validateUploadFile';
 import { MdEditor, type ToolbarNames, type UploadImgCallBack } from 'md-editor-v3';
@@ -100,7 +101,7 @@ async function handleUploadImg(files: File[], callback: UploadImgCallBack): Prom
     :toolbars-exclude="MARKDOWN_TOOLBARS_EXCLUDE"
     class="in-app-content-editor__markdown"
     language="zh-CN"
-    preview-theme="default"
+    :preview-theme="MD_PREVIEW_THEME"
     style="height: 520px"
     @on-upload-img="handleUploadImg"
   />

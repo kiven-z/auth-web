@@ -32,4 +32,4 @@ panel:
   weakModel: 色弱模式
   hiddenTags: 隐藏标签页
   hiddenFooter: 隐藏页脚
-  multiTagsCache: 页签持久化
+  multiTagsCache: 跨设备记住页签

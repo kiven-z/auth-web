@@ -4,9 +4,10 @@ import { buildPrimaryColorInlineStyle } from '@/shared/utils/color/primaryColorI
 import { useAppStore } from '@/store/modules/app/app';
 import { useEpThemeStore } from '@/store/modules/app/epTheme';
 import { useMultiTagsStore } from '@/store/modules/app/multiTags';
-import { DEFAULT_LOCALE } from '../defaults/preference-defaults';
+import { DEFAULT_LOCALE, DEFAULT_MULTI_TAGS_CACHE } from '../defaults/preference-defaults';
 import { resolveEffectiveLayout } from '../defaults/runtime-layout';
-import { getConfigureSnapshot, getLayoutSnapshot, getLocaleSnapshot } from '../persistence/storage';
+import { getConfigureSnapshot, getLayoutSnapshot, getLocaleSnapshot, getTagsSnapshot } from '../persistence/storage';
+import { getIsHydrating } from '../persistence/sync';
 import {
   DEFAULT_COLOR_SCHEME,
   DEFAULT_NAV_THEME,
@@ -104,7 +105,13 @@ export function applyConfigureSideEffects(patch: Partial<ResponsiveStorage['conf
     html?.classList.toggle('html-weakness', Boolean(patch.weak));
   }
   if ('multiTagsCache' in patch && patch.multiTagsCache !== undefined) {
-    useMultiTagsStore().multiTagsCacheChange(patch.multiTagsCache);
+    const enabled = Boolean(patch.multiTagsCache);
+    const tagsStore = useMultiTagsStore();
+    tagsStore.multiTagsCache = enabled;
+    // hydrate 期间勿用当前（可能仍是首页）标签覆盖刚灌入的服务端快照
+    if (enabled && !getIsHydrating()) {
+      tagsStore.persistTagsCache();
+    }
   }
 }
 
@@ -116,6 +123,14 @@ export function applyConfigurePreferences(): void {
 }
 
 /**
+ * 将服务端多标签快照灌入 multiTags store（须在 configure 应用之后）
+ */
+export function applyTagsPreferences(): void {
+  const enabled = getConfigureSnapshot().multiTagsCache ?? DEFAULT_MULTI_TAGS_CACHE;
+  useMultiTagsStore().hydrateTags(enabled, getTagsSnapshot());
+}
+
+/**
  * hydrate 完成后将 storage 中的 UI 偏好应用到 DOM、i18n 与 store
  */
 export function applyHydratedUiPreferences(): void {
@@ -123,4 +138,5 @@ export function applyHydratedUiPreferences(): void {
   applyThemePreferences();
   applyLayoutPreferences();
   applyConfigurePreferences();
+  applyTagsPreferences();
 }

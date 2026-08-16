@@ -21,8 +21,8 @@ async function hydrateUiPreferencesOnSession(): Promise<void> {
 }
 
 /**
- * Token 已就绪后灌入展示资料与 UI 偏好（单飞；资料 await，偏好后台）。
- * @returns 资料 hydrate 完成的 Promise（偏好可能仍在进行）
+ * Token 已就绪后灌入展示资料与 UI 偏好（单飞；两者均 await）。
+ * @returns 资料与偏好 hydrate 均完成的 Promise
  */
 export function hydrateAuthenticatedSessionSideEffects(): Promise<void> {
   if (!hasAccessToken()) {
@@ -30,15 +30,21 @@ export function hydrateAuthenticatedSessionSideEffects(): Promise<void> {
   }
   sideEffectsPromise ??= (async () => {
     await hydrateUserDisplayProfileOnSession().catch(() => undefined);
-    if (!hasSessionHydrated()) {
-      void hydrateUiPreferencesOnSession().catch(() => undefined);
+    if (hasSessionHydrated()) {
+      return;
+    }
+    try {
+      await hydrateUiPreferencesOnSession();
+    } catch {
+      // 失败时放开单飞，下次会话就绪可重试；内存态保持当前值
+      sideEffectsPromise = null;
     }
   })();
   return sideEffectsPromise;
 }
 
 /**
- * 已登录场景的会话就绪：恢复 accessToken 并启动副作用 hydrate。
+ * 已登录场景的会话就绪：恢复 accessToken 并完成资料 / 偏好 hydrate。
  * 供路由守卫使用；HTTP 层仅调用 {@link ensureAccessTokenReady}。
  * @returns 是否已具备可用 accessToken
  */
@@ -47,7 +53,7 @@ export async function ensureAuthenticatedSession(): Promise<boolean> {
   if (!ready) {
     return false;
   }
-  void hydrateAuthenticatedSessionSideEffects();
+  await hydrateAuthenticatedSessionSideEffects();
   return true;
 }
 
