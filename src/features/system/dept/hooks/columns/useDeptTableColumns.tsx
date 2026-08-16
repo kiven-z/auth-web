@@ -1,5 +1,5 @@
+import { renderDeptStatusTag } from '@/components/domain/dept/DeptStatusTag';
 import type { SysDeptRow } from '@/features/system/dept/hooks/useDeptPageState';
-import { renderActiveStatusTag, renderInactiveStatusTag } from '@/components/table/BooleanStatusTag';
 import { createAuditTableColumns } from '@/components/table/AuditColumns';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
@@ -25,12 +25,12 @@ function useDeptTableColumns() {
     { label: t('dept.field.deptCode'), prop: 'deptCode', minWidth: 140 },
     // 显示顺序
     { label: t('dept.field.orderNum'), prop: 'orderNum', width: 100 },
-    // 状态
+    // 状态（含祖先停用传播）
     {
       label: t('dept.field.status'),
       prop: 'status',
-      width: 100,
-      render: ({ row }: { row: SysDeptRow }) => (row.status ? renderActiveStatusTag() : renderInactiveStatusTag()),
+      width: 150,
+      render: ({ row }: { row: SysDeptRow }) => renderDeptStatusTag(row),
     },
     ...createAuditTableColumns(),
     { label: t('table.actions'), fixed: 'right', width: 220, slot: 'actions' },

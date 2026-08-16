@@ -4,7 +4,11 @@ import { getDeptList } from '@/features/system/api/dept/dept';
 import type { UserDeptAssignForm } from '@/features/system/api/user/user-dept';
 import { useOverlayConfirm } from '@/components/ui/Overlay';
 import { errorMessage } from '@/services/feedback/message';
-import { buildDeptSelectTree, type DeptSelectTreeNode } from '@/components/domain/dept/DeptSelectTree';
+import {
+  buildDeptSelectTree,
+  DeptSelectOptionLabel,
+  type DeptSelectTreeNode,
+} from '@/components/domain/dept/DeptSelectTree';
 import type { CascaderProps, FormInstance, FormRules } from 'element-plus';
 import { onMounted, reactive, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
@@ -40,7 +44,7 @@ const rules = reactive<FormRules>({
 });
 
 /**
- * 加载部门树（含停用部门，节点 disabled 不可选）
+ * 加载部门树（含停用与祖先停用节点；不可选但仍展示）
  */
 const loadDeptTree = async () => {
   try {
@@ -75,8 +79,7 @@ defineExpose({ formRef, form });
             separator="/"
           >
             <template #default="{ data }">
-              <span>{{ data.label }}</span>
-              <el-text type="info">({{ data.deptCode }})</el-text>
+              <DeptSelectOptionLabel :data="data" />
             </template>
           </el-cascader>
         </el-form-item>

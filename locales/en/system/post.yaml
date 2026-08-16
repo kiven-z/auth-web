@@ -21,6 +21,8 @@ post:
     remark: Remark
     employeeNo: Employee No.
     isPrimaryPosition: Primary Post
+  status:
+    propagatedInactive: Disabled (department inactive)
   enums:
     primary:
       yes: Primary

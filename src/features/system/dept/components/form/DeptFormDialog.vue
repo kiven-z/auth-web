@@ -3,7 +3,11 @@ import type { FormDialog } from '@/shared/types/dialog';
 import { getDeptList, SysDeptCreateForm, SysDeptUpdateForm } from '@/features/system/api/dept/dept';
 import { useOverlayConfirm } from '@/components/ui/Overlay';
 import { errorMessage } from '@/services/feedback/message';
-import { buildDeptParentTree, type DeptParentCascaderNode } from '@/features/system/dept/utils/dept-parent';
+import {
+  buildDeptSelectTree,
+  DeptSelectOptionLabel,
+  type DeptSelectTreeNode,
+} from '@/components/domain/dept/DeptSelectTree';
 import type { CascaderProps, FormInstance, FormRules } from 'element-plus';
 import { onMounted, reactive, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
@@ -33,7 +37,7 @@ const parentCascaderProps: CascaderProps = {
   children: 'children',
 };
 
-const parentTree = ref<DeptParentCascaderNode[]>([]);
+const parentTree = ref<DeptSelectTreeNode[]>([]);
 
 const rules = reactive<FormRules>({
   deptName: [{ required: true, message: t('dept.field.deptName'), trigger: 'blur' }],
@@ -42,12 +46,12 @@ const rules = reactive<FormRules>({
 });
 
 /**
- * 加载父级部门树
+ * 加载父级部门树（结构编辑：含停用/传播禁用，均可选）
  */
 const loadParentTree = async () => {
   try {
     const list = await getDeptList();
-    parentTree.value = buildDeptParentTree(list ?? []);
+    parentTree.value = buildDeptSelectTree(list ?? [], { disableMode: 'none' });
   } catch (e: unknown) {
     errorMessage(e);
     parentTree.value = [];
@@ -78,8 +82,7 @@ defineExpose({ formRef, form });
             separator="/"
           >
             <template #default="{ data }">
-              <span>{{ data.label }}</span>
-              <el-text v-if="data.deptCode" type="info">({{ data.deptCode }})</el-text>
+              <DeptSelectOptionLabel :data="data" />
             </template>
           </el-cascader>
         </el-form-item>

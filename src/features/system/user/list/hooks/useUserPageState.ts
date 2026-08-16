@@ -52,6 +52,7 @@ function buildDeptTreeWithAllRoot(list: SysDeptListVO[]): UserDeptTreeNode[] {
       deptName: '',
       deptCode: '',
       status: true,
+      effective: true,
       orderNum: -1,
       children: forest,
       createdAt: '',

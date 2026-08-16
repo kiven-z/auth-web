@@ -64,6 +64,8 @@ export interface SysPostPageRow extends BaseResponsePageRow {
   postCode: string;
   postName: string;
   status: boolean;
+  /** 计算有效（本节点启用且所属部门有效） */
+  effective: boolean;
   orderNum: number;
 }
 
@@ -113,6 +115,8 @@ export interface SysPostDetail extends BaseResponseDetail {
   postCode: string;
   postName: string;
   status: boolean;
+  /** 计算有效（本节点启用且所属部门有效） */
+  effective: boolean;
   orderNum: number;
   remark?: string;
   boundDept?: DeptReference | null;

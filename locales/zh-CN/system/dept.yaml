@@ -21,6 +21,8 @@ dept:
     remark: 备注
     parentDept: 上级部门
     parentTopLevel: 顶级部门
+  status:
+    propagatedInactive: 禁用（祖先停用）
   action:
     addChild: 新增下级
   message:

@@ -21,6 +21,8 @@ dept:
     remark: Remark
     parentDept: Parent Department
     parentTopLevel: Top Level
+  status:
+    propagatedInactive: Disabled (ancestor inactive)
   action:
     addChild: Add Child
   message:

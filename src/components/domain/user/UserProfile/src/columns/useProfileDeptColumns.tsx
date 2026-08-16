@@ -1,4 +1,5 @@
 import type { UserDeptPageRow } from '@/features/system/api/user/user-dept';
+import { renderDeptStatusTag } from '@/components/domain/dept/DeptStatusTag';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import useUserProfileDisplay from '../hooks/useUserProfileDisplay';
@@ -23,7 +24,24 @@ function useProfileDeptColumns() {
 
   const userDeptBindingColumns = computed<TableColumnList>(() => [
     { label: t('dept.field.deptCode'), prop: 'deptCode', minWidth: 120 },
-    { label: t('dept.field.deptName'), prop: 'deptName', minWidth: 140 },
+    {
+      label: t('dept.field.deptName'),
+      prop: 'deptName',
+      minWidth: 140,
+      render: ({ row }: { row: UserDeptPageRow }) => (
+        <span class={row.deptEffective === false ? 'text-(--el-text-color-secondary)' : undefined}>{row.deptName}</span>
+      ),
+    },
+    {
+      label: t('dept.field.status'),
+      prop: 'deptStatus',
+      minWidth: 140,
+      render: ({ row }: { row: UserDeptPageRow }) =>
+        renderDeptStatusTag({
+          status: row.deptStatus,
+          effective: row.deptEffective,
+        }),
+    },
     {
       label: t('relation.isPrimary'),
       prop: 'isPrimary',

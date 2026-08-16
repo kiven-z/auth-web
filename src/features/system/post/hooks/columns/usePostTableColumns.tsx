@@ -1,5 +1,5 @@
 import type { SysPostPageRow } from '@/features/system/api/post/post';
-import { renderActiveStatusTag, renderInactiveStatusTag } from '@/components/table/BooleanStatusTag';
+import { renderPostStatusTag } from '@/components/domain/post/PostStatusTag';
 import { createAuditTableColumns } from '@/components/table/AuditColumns';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
@@ -14,20 +14,20 @@ function usePostTableColumns() {
   const columns = computed<TableColumnList>(() => [
     { type: 'selection', align: 'left' },
     { type: 'index', index: (index: number) => index + 1, label: t('table.idx'), minWidth: 60 },
-    // 岗位编码
     { label: t('post.field.postCode'), prop: 'postCode', minWidth: 130 },
-    // 岗位名称
     { label: t('post.field.postName'), prop: 'postName', minWidth: 140 },
-    // 所属部门
     { label: t('post.field.deptName'), prop: 'deptName', minWidth: 140 },
-    // 状态
     {
       label: t('post.field.status'),
       prop: 'status',
-      minWidth: 100,
-      render: ({ row }: { row: SysPostPageRow }) => (row.status ? renderActiveStatusTag() : renderInactiveStatusTag()),
+      minWidth: 150,
+      render: ({ row }: { row: SysPostPageRow }) => {
+        return renderPostStatusTag({
+          status: row.status === true,
+          effective: row.effective,
+        });
+      },
     },
-    // 排序号
     { label: t('post.field.orderNum'), prop: 'orderNum', width: 100 },
     ...createAuditTableColumns(),
     {

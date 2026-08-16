@@ -71,7 +71,8 @@ function useUserScopePanel(userId: MaybeRefOrGetter<string>, formRef: Ref<FormIn
     loading.value = true;
     try {
       const [deptList, scope] = await Promise.all([getDeptList(), getUserScope(resolvedUserId.value)]);
-      deptTree.value = buildDeptSelectTree(deptList ?? []);
+      // 数据范围：存在性校验（含停用），非计算有效门槛
+      deptTree.value = buildDeptSelectTree(deptList ?? [], { disableMode: 'inactive' });
 
       if (scope) {
         form.value = {

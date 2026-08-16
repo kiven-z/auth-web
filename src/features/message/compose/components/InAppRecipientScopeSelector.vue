@@ -48,7 +48,7 @@ const scopeSegmentedOptions = computed(() => [
 ]);
 
 /**
- * 加载部门树（启用部门可选，停用节点 disabled）
+ * 加载部门树（启用节点；计算无效则 disabled，与 requireEffective 选型一致）
  */
 async function loadDeptTree(): Promise<void> {
   deptTreeLoading.value = true;

@@ -27,6 +27,8 @@ export interface SysDeptListVO extends BaseResponse {
   deptName: string;
   deptCode: string;
   status: boolean;
+  /** 计算有效：本节点及全部祖先均启用（后端投影） */
+  effective: boolean;
   orderNum: number;
   remark?: string;
 }
@@ -143,6 +145,8 @@ export interface SysDeptDetail extends BaseResponseDetail {
   deptName: string;
   deptCode: string;
   status: boolean;
+  /** 计算有效：本节点及全部祖先均启用（后端投影） */
+  effective: boolean;
   orderNum: number;
   remark?: string;
   boundUserCount: number;

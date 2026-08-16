@@ -1,10 +1,10 @@
 <script lang="tsx" setup>
 import { createAuditDetailColumns } from '@/components/table/AuditColumns';
+import { renderDeptStatusTag } from '@/components/domain/dept/DeptStatusTag';
 import type { DetailDialog } from '@/shared/types/dialog';
 import type { SysDeptDetail } from '@/features/system/api/dept/dept';
 import DetailRelationCountBar from '@/features/system/_shared/components/DetailRelationCountBar.vue';
 import Description from '@/components/ui/Description';
-import { renderActiveStatusTag, renderInactiveStatusTag } from '@/components/table/BooleanStatusTag';
 import { TREE_ROOT_PARENT_ID } from '@/shared/utils/tree';
 import useOpenDeptAuthorizationSurface from '@/features/system/dept/hooks/authorization/useOpenDeptAuthorizationSurface';
 import { computed } from 'vue';
@@ -46,8 +46,13 @@ const descriptionColumns = computed(() => [
   {
     label: t('dept.field.status'),
     prop: 'status',
-    labelWidth: 120,
-    cellRenderer: ({ value }: { value: boolean }) => (value ? renderActiveStatusTag() : renderInactiveStatusTag()),
+    labelWidth: 150,
+    cellRenderer: () => {
+      return renderDeptStatusTag({
+        status: props.data?.status,
+        effective: props.data?.effective,
+      });
+    },
   },
   { label: t('dept.field.orderNum'), prop: 'orderNum', labelWidth: 120 },
   { label: t('dept.field.remark'), prop: 'remark', labelWidth: 120, span: 2 },

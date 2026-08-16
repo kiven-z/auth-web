@@ -1,2 +1,3 @@
 export { buildDeptSelectTree } from './src/buildDeptSelectTree';
-export type { DeptSelectTreeNode } from './src/types';
+export { default as DeptSelectOptionLabel } from './src/DeptSelectOptionLabel.vue';
+export type { BuildDeptSelectTreeOptions, DeptSelectDisableMode, DeptSelectTreeNode } from './src/types';

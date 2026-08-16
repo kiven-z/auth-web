@@ -21,6 +21,10 @@ export interface UserPostPageRow extends BaseResponsePageRow {
   postId: string;
   postCode: string;
   postName: string;
+  /** 岗位本节点启用状态 */
+  postStatus: boolean;
+  /** 岗位计算有效 */
+  postEffective: boolean;
   isPrimary: boolean;
   remark?: string | null;
 }

@@ -1,4 +1,5 @@
 import type { UserDeptPageRow } from '@/features/system/api/user/user-dept';
+import { renderDeptStatusTag } from '@/components/domain/dept/DeptStatusTag';
 import { createAuditTableColumns } from '@/components/table/AuditColumns';
 import { ElCheckTag } from 'element-plus';
 import { computed } from 'vue';
@@ -15,7 +16,24 @@ function useUserDeptAssignTableColumns() {
     { type: 'selection', align: 'left', width: 48 },
     { type: 'index', index: (index: number) => index + 1, label: t('table.idx'), minWidth: 60 },
     { label: t('dept.field.deptCode'), prop: 'deptCode', minWidth: 120 },
-    { label: t('dept.field.deptName'), prop: 'deptName', minWidth: 140 },
+    {
+      label: t('dept.field.deptName'),
+      prop: 'deptName',
+      minWidth: 140,
+      render: ({ row }: { row: UserDeptPageRow }) => (
+        <span class={row.deptEffective === false ? 'text-(--el-text-color-secondary)' : undefined}>{row.deptName}</span>
+      ),
+    },
+    {
+      label: t('dept.field.status'),
+      prop: 'deptStatus',
+      minWidth: 140,
+      render: ({ row }: { row: UserDeptPageRow }) =>
+        renderDeptStatusTag({
+          status: row.deptStatus,
+          effective: row.deptEffective,
+        }),
+    },
     {
       label: t('relation.isPrimary'),
       prop: 'isPrimary',

@@ -1,4 +1,5 @@
 import type { UserPostPageRow } from '@/features/system/api/user/user-post';
+import { renderPostStatusTag } from '@/components/domain/post/PostStatusTag';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import useUserProfileDisplay from '../hooks/useUserProfileDisplay';
@@ -26,7 +27,25 @@ function useProfilePostColumns() {
 
   const userPostBindingColumns = computed<TableColumnList>(() => [
     { label: t('post.field.postCode'), prop: 'postCode', minWidth: 120 },
-    { label: t('post.field.postName'), prop: 'postName', minWidth: 140 },
+    {
+      label: t('post.field.postName'),
+      prop: 'postName',
+      minWidth: 140,
+      render: ({ row }: { row: UserPostPageRow }) => (
+        <span class={row.postEffective === false ? 'text-(--el-text-color-secondary)' : undefined}>{row.postName}</span>
+      ),
+    },
+    {
+      label: t('post.field.status'),
+      prop: 'postStatus',
+      minWidth: 150,
+      render: ({ row }: { row: UserPostPageRow }) => {
+        return renderPostStatusTag({
+          status: row.postStatus === true,
+          effective: row.postEffective,
+        });
+      },
+    },
     {
       label: t('post.field.isPrimaryPosition'),
       prop: 'isPrimary',

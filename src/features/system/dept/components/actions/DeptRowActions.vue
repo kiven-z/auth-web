@@ -75,14 +75,8 @@ onUnmounted(() => {
       {{ t('buttons.actionView') }}
     </el-button>
 
-    <!-- 新增下级（树视图） -->
-    <el-button
-      v-if="showAddChild && row.status"
-      v-auth="SYS_DEPT_PERMS.CREATE"
-      link
-      type="primary"
-      @click="openCreateDialog(row)"
-    >
+    <!-- 新增下级（树视图）：停用部门仍可挂载子节点 -->
+    <el-button v-if="showAddChild" v-auth="SYS_DEPT_PERMS.CREATE" link type="primary" @click="openCreateDialog(row)">
       {{ t('dept.action.addChild') }}
     </el-button>
 
