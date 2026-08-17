@@ -7,7 +7,7 @@ import 'markdown-it-github-alerts/styles/github-colors-light.css';
 import '@/style/md/md-github-alerts.scss';
 
 /**
- * 全局配置 md-editor-v3：本地扩展、Mermaid 主题、GitHub Alerts
+ * 全局配置 md-editor-v3：本地扩展、Mermaid 主题、GitHub Alerts、预览图懒加载
  * @description 须在应用挂载前调用一次，勿在组件内重复 config
  */
 export function setupMdEditor(): void {
@@ -24,8 +24,21 @@ export function setupMdEditor(): void {
       };
     },
     markdownItPlugins(plugins) {
+      const withImageLazy = plugins.map((item) => {
+        if (item.type === 'image') {
+          return {
+            ...item,
+            options: {
+              ...item.options,
+              lazy: true,
+              async: true,
+            },
+          };
+        }
+        return item;
+      });
       return [
-        ...plugins,
+        ...withImageLazy,
         {
           type: 'githubAlerts',
           plugin: MarkdownItGitHubAlerts,

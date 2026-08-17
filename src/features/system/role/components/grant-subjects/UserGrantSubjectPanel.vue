@@ -2,7 +2,7 @@
 import { getRoleGrantSubjectSeeds, putRoleGrantSubjects } from '@/features/system/api/role/role-grant-subjects';
 import { getUserPage, type SysUserPageQuery, type SysUserPageRow } from '@/features/system/api/user/user';
 import AssignPanel from '@/features/system/_shared/components/AssignPanel.vue';
-import { createAssignCheckboxColumn } from '@/features/system/_shared/columns/createAssignCheckboxColumn';
+import { createAssignCheckboxColumnFromModel } from '@/features/system/_shared/columns/createAssignCheckboxColumn';
 import { useAssignModel } from '@/features/system/_shared/hooks/useAssignModel';
 import ListTable, { usePaginationState } from '@/components/table/ListTable';
 import { errorMessage, message } from '@/services/feedback/message';
@@ -33,7 +33,7 @@ const state = usePaginationState<SysUserPageRow, SysUserPageQuery>({
 
 const { tableData, loading, searchForm, fetchTableData, resetQuery } = state;
 
-const { selectedKeys, labels, toggle, isSelected, applyAssigned } = useAssignModel({
+const assignModel = useAssignModel({
   getRowLabel: (row) => {
     const nickname = row.nickname;
     const username = row.username;
@@ -43,10 +43,13 @@ const { selectedKeys, labels, toggle, isSelected, applyAssigned } = useAssignMod
     return String(username ?? '');
   },
   rows: tableData,
+  disabled: saving,
 });
 
+const { selectedKeys, labels, applyAssigned, handleRowClick } = assignModel;
+
 const columns = computed<TableColumnList>(() => [
-  createAssignCheckboxColumn({ isSelected, toggle, saving, label: t('table.assigned') }),
+  createAssignCheckboxColumnFromModel(assignModel, { saving, label: t('table.assigned') }),
   { label: t('users.field.username'), prop: 'username' },
   { label: t('users.field.nickname'), prop: 'nickname' },
 ]);
@@ -137,9 +140,10 @@ onMounted(() => {
       </el-form>
       <ListTable
         :columns="columns"
+        :row-class-name="() => 'cursor-pointer'"
         :state="state"
         :title="t('roles.bound.users.title')"
-        @row-dblclick="(row: Record<string, unknown>) => toggle(row)"
+        @row-click="handleRowClick"
       />
     </AssignPanel>
   </div>

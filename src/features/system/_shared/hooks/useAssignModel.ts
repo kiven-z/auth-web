@@ -1,4 +1,4 @@
-import { ref, watch, type Ref } from 'vue';
+import { computed, ref, unref, watch, type ComputedRef, type MaybeRef, type Ref } from 'vue';
 
 import type { AssignGetRowLabel, AssignSeedItem } from '@/features/system/_shared/types';
 import { toStableKey } from '@/shared/utils/string/toStableKey';
@@ -10,8 +10,10 @@ export interface UseAssignModelOptions {
   rowKey?: string;
   /** 与面板 v-model 共用的已选 key */
   selectedKeys?: Ref<string[]>;
-  /** 候选表当前页，用于补 label */
+  /** 候选表当前页，用于补 label 与本页全选 */
   rows?: { readonly value: readonly unknown[] };
+  /** 禁用勾选（如保存中） */
+  disabled?: MaybeRef<boolean>;
 }
 
 /**
@@ -24,6 +26,22 @@ export function useAssignModel(options: UseAssignModelOptions) {
   const selectedKeys = options.selectedKeys ?? ref<string[]>([]);
   const labels = ref<Record<string, string>>({});
 
+  const pageRows = computed(() => (options.rows?.value ?? []) as Record<string, unknown>[]);
+
+  const isPageFullySelected = computed(() => {
+    const rows = pageRows.value;
+    return rows.length > 0 && rows.every((row) => isSelected(row));
+  });
+
+  const isPageIndeterminate = computed(() => {
+    const rows = pageRows.value;
+    if (!rows.length) {
+      return false;
+    }
+    const selectedCount = rows.filter((row) => isSelected(row)).length;
+    return selectedCount > 0 && selectedCount < rows.length;
+  });
+
   /**
    * 解析行展示文案
    * @param row 行数据
@@ -31,6 +49,15 @@ export function useAssignModel(options: UseAssignModelOptions) {
    */
   function resolveRowLabel(row: Record<string, unknown>): string {
     return options.getRowLabel(row) || toStableKey(row[rowKey] ?? '');
+  }
+
+  /**
+   * 解析行主键
+   * @param row 行数据
+   * @returns 行 key
+   */
+  function resolveRowKey(row: Record<string, unknown>): string {
+    return toStableKey(row[rowKey] ?? '');
   }
 
   /**
@@ -54,9 +81,8 @@ export function useAssignModel(options: UseAssignModelOptions) {
 
     selectedKeys.value = keys;
     labels.value = nextLabels;
-    const currentRows = options.rows?.value;
-    if (currentRows?.length) {
-      mergeLabels(currentRows as Record<string, unknown>[]);
+    if (pageRows.value.length) {
+      mergeLabels(pageRows.value);
     }
   }
 
@@ -70,7 +96,7 @@ export function useAssignModel(options: UseAssignModelOptions) {
     }
     const next = { ...labels.value };
     for (const row of rows) {
-      const key = toStableKey(row[rowKey] ?? '');
+      const key = resolveRowKey(row);
       if (!key) {
         continue;
       }
@@ -88,7 +114,7 @@ export function useAssignModel(options: UseAssignModelOptions) {
    * @returns 是否已选
    */
   function isSelected(row: Record<string, unknown>): boolean {
-    const key = toStableKey(row[rowKey] ?? '');
+    const key = resolveRowKey(row);
     return key ? selectedKeys.value.includes(key) : false;
   }
 
@@ -97,14 +123,62 @@ export function useAssignModel(options: UseAssignModelOptions) {
    * @param row 行数据
    */
   function toggle(row: Record<string, unknown>) {
-    const key = toStableKey(row[rowKey] ?? '');
+    const key = resolveRowKey(row);
     if (!key) {
       return;
     }
+    if (isSelected(row)) {
+      selectedKeys.value = selectedKeys.value.filter((item) => item !== key);
+      return;
+    }
     labels.value = { ...labels.value, [key]: resolveRowLabel(row) };
-    selectedKeys.value = selectedKeys.value.includes(key)
-      ? selectedKeys.value.filter((item) => item !== key)
-      : [...selectedKeys.value, key];
+    selectedKeys.value = [...selectedKeys.value, key];
+  }
+
+  /**
+   * 切换本页全选
+   */
+  function togglePage() {
+    if (unref(options.disabled) === true) {
+      return;
+    }
+    const rows = pageRows.value;
+    if (!rows.length) {
+      return;
+    }
+    if (isPageFullySelected.value) {
+      const pageKeys = new Set(rows.map((row) => resolveRowKey(row)).filter(Boolean));
+      selectedKeys.value = selectedKeys.value.filter((key) => !pageKeys.has(key));
+      return;
+    }
+    const nextLabels = { ...labels.value };
+    const nextKeys = new Set(selectedKeys.value);
+    for (const row of rows) {
+      const key = resolveRowKey(row);
+      if (!key) {
+        continue;
+      }
+      nextKeys.add(key);
+      nextLabels[key] = resolveRowLabel(row);
+    }
+    labels.value = nextLabels;
+    selectedKeys.value = [...nextKeys];
+  }
+
+  /**
+   * 行点击切换勾选（忽略 checkbox 等控件点击）
+   * @param row 行数据
+   * @param _column 列
+   * @param event 鼠标事件
+   */
+  function handleRowClick(row: Record<string, unknown>, _column: unknown, event: Event) {
+    if (unref(options.disabled) === true) {
+      return;
+    }
+    if ((event.target as HTMLElement).closest('.el-checkbox, .el-checkbox__input, button, a')) {
+      return;
+    }
+    toggle(row);
   }
 
   watch(
@@ -123,5 +197,17 @@ export function useAssignModel(options: UseAssignModelOptions) {
     applyAssigned,
     isSelected,
     toggle,
+    togglePage,
+    handleRowClick,
+    isPageFullySelected,
+    isPageIndeterminate,
   };
+}
+
+export interface AssignModel {
+  isSelected: (row: Record<string, unknown>) => boolean;
+  toggle: (row: Record<string, unknown>) => void;
+  togglePage: () => void;
+  isPageFullySelected: ComputedRef<boolean>;
+  isPageIndeterminate: ComputedRef<boolean>;
 }

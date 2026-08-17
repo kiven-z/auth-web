@@ -2,7 +2,7 @@
 import { getRolePage } from '@/features/system/api/role/role';
 import AssignPanel from '@/features/system/_shared/components/AssignPanel.vue';
 import type { AssignSeedItem } from '@/features/system/_shared/types';
-import { createAssignCheckboxColumn } from '@/features/system/_shared/columns/createAssignCheckboxColumn';
+import { createAssignCheckboxColumnFromModel } from '@/features/system/_shared/columns/createAssignCheckboxColumn';
 import { useAssignModel } from '@/features/system/_shared/hooks/useAssignModel';
 import ListTable, { usePaginationState } from '@/components/table/ListTable';
 import { errorMessage } from '@/services/feedback/message';
@@ -38,14 +38,16 @@ const roleState = usePaginationState({
 
 const { tableData, loading, searchForm, fetchTableData, resetQuery } = roleState;
 
-const { labels, toggle, isSelected, applyAssigned } = useAssignModel({
+const assignModel = useAssignModel({
   selectedKeys,
   getRowLabel: (row) => String(row.roleName ?? ''),
   rows: tableData,
 });
 
+const { labels, applyAssigned, handleRowClick } = assignModel;
+
 const roleAssignDataColumns = computed<TableColumnList>(() => [
-  createAssignCheckboxColumn({ isSelected, toggle, label: t('table.assigned') }),
+  createAssignCheckboxColumnFromModel(assignModel, { label: t('table.assigned') }),
   {
     label: t('roles.field.roleCode'),
     prop: 'roleCode',
@@ -118,7 +120,8 @@ onMounted(() => {
       :columns="roleAssignDataColumns"
       :state="roleState"
       :title="tableTitle ?? t('roles.title.module')"
-      @row-dblclick="(row: Record<string, unknown>) => toggle(row)"
+      :row-class-name="() => 'cursor-pointer'"
+      @row-click="handleRowClick"
     />
   </AssignPanel>
 </template>

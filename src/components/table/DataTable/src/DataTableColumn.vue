@@ -42,6 +42,7 @@ const showTip = computed(() => (props.column.showOverflowTooltip ?? props.showOv
 const passthroughProps = computed(() => {
   const {
     render: _render,
+    headerRender: _headerRender,
     slot: _slot,
     children: _children,
     hide: _hide,
@@ -104,6 +105,9 @@ const passthroughProps = computed(() => {
     :width="column.width as any"
     v-bind="passthroughProps"
   >
+    <template v-if="column.headerRender" #header>
+      <DataTableCell :content="column.headerRender()" />
+    </template>
     <template #default="scope">
       <DataTableCell :content="resolveCell(column, scope, slots)" />
     </template>

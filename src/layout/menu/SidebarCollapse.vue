@@ -82,7 +82,7 @@ const foldIcon = computed(() => (props.variant === 'left' ? MenuFold : ArrowLeft
   width: 100%;
   height: 40px;
   line-height: 40px;
-  box-shadow: 0 0 6px -3px var(--el-color-primary);
+  border-top: 1px solid var(--auth-theme-border, var(--auth-border-color));
 }
 
 .sidebar-collapse--center {

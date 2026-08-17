@@ -43,34 +43,40 @@ function clearAll() {
 </script>
 
 <template>
-  <el-row :gutter="16">
-    <el-col :span="leftSpan">
-      <el-card shadow="never">
+  <el-row :gutter="16" class="assign-panel">
+    <el-col :span="leftSpan" class="assign-panel__selected">
+      <el-card class="assign-panel__card" shadow="never">
         <template #header>
-          <div>
-            <div v-if="leftTitle" class="font-semibold">
+          <div class="assign-panel__header">
+            <div v-if="leftTitle" class="assign-panel__title">
               {{ leftTitle }}
             </div>
-            <el-text v-if="leftSubtitle" type="info">
+            <el-text v-if="leftSubtitle" class="assign-panel__subtitle" type="info">
               {{ leftSubtitle }}
             </el-text>
           </div>
         </template>
 
-        <div class="mb-2 flex items-center justify-between gap-2">
-          <el-text v-if="sectionLabel" class="text-xs font-semibold" type="info">
-            <el-badge :max="999" :offset="[0, -2]" :value="assignedItems.length" type="primary">
+        <div class="assign-panel__toolbar">
+          <el-text v-if="sectionLabel" class="assign-panel__section-label" type="info">
+            <el-badge :max="999" :offset="[6, -6]" :value="assignedItems.length" type="primary">
               {{ sectionLabel }}
             </el-badge>
           </el-text>
 
-          <el-button :disabled="saving || !hasSelection" link type="danger" @click="clearAll()">
+          <el-button
+            :disabled="saving || !hasSelection"
+            class="assign-panel__clear"
+            link
+            type="danger"
+            @click="clearAll()"
+          >
             {{ t('buttons.assignClearAll') }}
           </el-button>
         </div>
 
-        <el-scrollbar v-if="hasSelection" max-height="60vh">
-          <div class="grid grid-cols-2 gap-1.5">
+        <el-scrollbar v-if="hasSelection" class="assign-panel__list" max-height="60vh">
+          <div class="assign-panel__tags">
             <el-tooltip
               v-for="item in assignedItems"
               :key="item.key"
@@ -78,10 +84,10 @@ function clearAll() {
               :show-after="400"
               placement="top"
             >
-              <div class="min-w-0">
+              <div class="assign-panel__tag-item">
                 <el-tag
                   :closable="!saving"
-                  class="assign-panel__tag w-full"
+                  class="assign-panel__tag"
                   effect="light"
                   type="success"
                   @close="removeKey(item.key)"
@@ -92,7 +98,8 @@ function clearAll() {
             </el-tooltip>
           </div>
         </el-scrollbar>
-        <div v-else class="flex items-center justify-center py-8">
+
+        <div v-else class="assign-panel__empty">
           <el-text type="info">
             {{ t('tips.assignEmptySelected') }}
           </el-text>
@@ -100,27 +107,83 @@ function clearAll() {
       </el-card>
     </el-col>
 
-    <el-col :span="24 - leftSpan">
+    <el-col :span="24 - leftSpan" class="assign-panel__content">
       <slot />
     </el-col>
   </el-row>
 </template>
 
-<style scoped>
-.assign-panel__tag {
-  min-width: 0;
-  max-width: 100%;
-}
+<style lang="scss" scoped>
+.assign-panel {
+  &__selected {
+    min-width: 0;
+  }
 
-.assign-panel__tag :deep(.el-tag__content) {
-  min-width: 0;
-  overflow: hidden;
-}
+  &__header {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
 
-.assign-panel__tag-text {
-  display: block;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  &__title {
+    font-weight: 600;
+  }
+
+  &__toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    margin-bottom: 8px;
+  }
+
+  &__section-label {
+    font-size: 12px;
+    font-weight: 600;
+  }
+
+  &__tags {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 4px;
+  }
+
+  &__tag-item {
+    min-width: 0;
+  }
+
+  &__tag {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    min-width: 0;
+    max-width: 100%;
+
+    :deep(.el-tag__content) {
+      flex: 1;
+      min-width: 0;
+      overflow: hidden;
+      text-align: left;
+    }
+  }
+
+  &__tag-text {
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  &__empty {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 32px 0;
+  }
+
+  &__content {
+    min-width: 0;
+  }
 }
 </style>

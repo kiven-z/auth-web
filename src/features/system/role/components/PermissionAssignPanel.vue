@@ -6,7 +6,7 @@ import {
 } from '@/features/system/api/permission/permission';
 import AssignPanel from '@/features/system/_shared/components/AssignPanel.vue';
 import type { AssignSeedItem } from '@/features/system/_shared/types';
-import { createAssignCheckboxColumn } from '@/features/system/_shared/columns/createAssignCheckboxColumn';
+import { createAssignCheckboxColumnFromModel } from '@/features/system/_shared/columns/createAssignCheckboxColumn';
 import { useAssignModel } from '@/features/system/_shared/hooks/useAssignModel';
 import ListTable, { usePaginationState } from '@/components/table/ListTable';
 import { useFormPlaceholder } from '@/shared/composables/i18n/useFormPlaceholder';
@@ -41,14 +41,16 @@ const permissionState = usePaginationState<SysPermissionPageRow, SysPermissionPa
 
 const { tableData, loading, searchForm, fetchTableData, resetQuery } = permissionState;
 
-const { labels, toggle, isSelected, applyAssigned } = useAssignModel({
+const assignModel = useAssignModel({
   selectedKeys,
   getRowLabel: (row) => String(row.permissionName ?? ''),
   rows: tableData,
 });
 
+const { labels, applyAssigned, handleRowClick } = assignModel;
+
 const permissionAssignColumns = computed<TableColumnList>(() => [
-  createAssignCheckboxColumn({ isSelected, toggle, label: t('table.assigned') }),
+  createAssignCheckboxColumnFromModel(assignModel, { label: t('table.assigned') }),
   {
     label: t('permissions.field.permissionName'),
     prop: 'permissionName',
@@ -121,7 +123,8 @@ onMounted(() => {
       :columns="permissionAssignColumns"
       :state="permissionState"
       :title="tableTitle"
-      @row-dblclick="(row: Record<string, unknown>) => toggle(row)"
+      :row-class-name="() => 'cursor-pointer'"
+      @row-click="handleRowClick"
     />
   </AssignPanel>
 </template>

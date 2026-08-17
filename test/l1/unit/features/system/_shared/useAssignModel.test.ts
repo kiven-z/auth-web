@@ -3,6 +3,12 @@ import { nextTick, ref } from 'vue';
 
 import { useAssignModel } from '@/features/system/_shared/hooks/useAssignModel';
 
+function clickEvent(): Event {
+  return {
+    target: { closest: () => null },
+  } as unknown as Event;
+}
+
 describe('useAssignModel', () => {
   it('rebuilds keys and labels from assigned seed', () => {
     const { selectedKeys, labels, applyAssigned } = useAssignModel({
@@ -62,6 +68,56 @@ describe('useAssignModel', () => {
 
     expect(model.selectedKeys).toBe(selectedKeys);
     model.toggle({ id: 'keep', name: 'Keep' });
+    expect(selectedKeys.value).toEqual([]);
+  });
+
+  it('selects and deselects the current page', () => {
+    const rows = ref<Record<string, unknown>[]>([
+      { id: '1', name: 'One' },
+      { id: '2', name: 'Two' },
+    ]);
+    const { selectedKeys, isPageFullySelected, isPageIndeterminate, togglePage } = useAssignModel({
+      getRowLabel: (row) => String(row.name ?? ''),
+      rows,
+    });
+
+    expect(isPageFullySelected.value).toBe(false);
+    expect(isPageIndeterminate.value).toBe(false);
+
+    togglePage();
+    expect(selectedKeys.value).toEqual(['1', '2']);
+    expect(isPageFullySelected.value).toBe(true);
+    expect(isPageIndeterminate.value).toBe(false);
+
+    togglePage();
+    expect(selectedKeys.value).toEqual([]);
+  });
+
+  it('toggles selection on row click', () => {
+    const rows = ref<Record<string, unknown>[]>([{ id: '1', name: 'One' }]);
+    const { selectedKeys, handleRowClick } = useAssignModel({
+      getRowLabel: (row) => String(row.name ?? ''),
+      rows,
+    });
+
+    handleRowClick(rows.value[0]!, null, clickEvent());
+    expect(selectedKeys.value).toEqual(['1']);
+
+    handleRowClick(rows.value[0]!, null, clickEvent());
+    expect(selectedKeys.value).toEqual([]);
+  });
+
+  it('ignores row click while disabled', () => {
+    const rows = ref<Record<string, unknown>[]>([{ id: '1', name: 'One' }]);
+    const disabled = ref(true);
+    const { selectedKeys, handleRowClick, togglePage } = useAssignModel({
+      getRowLabel: (row) => String(row.name ?? ''),
+      rows,
+      disabled,
+    });
+
+    handleRowClick(rows.value[0]!, null, clickEvent());
+    togglePage();
     expect(selectedKeys.value).toEqual([]);
   });
 });

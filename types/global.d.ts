@@ -26,6 +26,8 @@ declare global {
     showOverflowTooltip?: boolean | Record<string, unknown>;
     /** 函数渲染；与 slot 同时存在时优先 render */
     render?: (ctx: TableColumnRenderContext) => unknown;
+    /** 表头渲染 */
+    headerRender?: () => unknown;
     /** 具名插槽，由使用方 `<template #name>` 提供 */
     slot?: string;
     index?: (index: number) => number;
