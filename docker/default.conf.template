@@ -31,14 +31,14 @@ server {
         application/font-woff
         application/font-woff2;
 
-    # 带 hash 的静态资源可长期缓存；index.html 禁止缓存以免 SPA 升级卡住旧壳
+    # 文件名带 content hash 的静态资源可长期缓存；index.html 禁止缓存以免 SPA 升级卡住旧壳
     location ^~ /static/ {
         expires 1y;
         add_header Cache-Control "public, immutable";
         try_files $uri =404;
     }
 
-    # Monaco worker 文件名固定无 hash（如 editor.worker.bundle.js），升级后路径不变；
+    # Monaco worker 文件名固定无 content hash（如 editor.worker.bundle.js），升级后路径不变；
     # 禁止 immutable 长缓存，改为每次协商校验，避免升包后仍用旧 worker
     location ^~ /monacoeditorwork/ {
         add_header Cache-Control "no-cache";
@@ -60,6 +60,7 @@ server {
         proxy_read_timeout 60s;
     }
 
+    # History 路由：深链刷新回退 index.html，由前端路由接管
     location / {
         try_files $uri $uri/ /index.html;
     }

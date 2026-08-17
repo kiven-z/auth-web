@@ -131,9 +131,9 @@ function clearAll() {
 
   &__toolbar {
     display: flex;
+    gap: 8px;
     align-items: center;
     justify-content: space-between;
-    gap: 8px;
     margin-bottom: 8px;
   }
 

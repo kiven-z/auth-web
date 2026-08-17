@@ -20,6 +20,10 @@
     "lint": "pnpm lint:eslint && pnpm lint:prettier && pnpm lint:stylelint",
     "test": "vitest run",
     "test:watch": "vitest",
+    "test:e2e": "playwright test",
+    "test:e2e:local": "PLAYWRIGHT_CHANNEL=chrome playwright test",
+    "test:e2e:ui": "playwright test --ui",
+    "test:e2e:install": "playwright install chromium",
     "preinstall": "npx only-allow pnpm"
   },
   "keywords": [
@@ -83,6 +87,7 @@
     "@iconify/json": "^2.2.400",
     "@iconify/vue": "4.2.0",
     "@intlify/unplugin-vue-i18n": "^11.0.1",
+    "@playwright/test": "1.62.1",
     "@tailwindcss/vite": "^4.1.16",
     "@types/js-cookie": "^3.0.6",
     "@types/lodash": "^4.17.24",

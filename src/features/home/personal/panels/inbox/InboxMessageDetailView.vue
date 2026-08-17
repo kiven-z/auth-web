@@ -4,6 +4,7 @@ import type { TypedContentTypeCode } from '@/components/ui/TypedContentView';
 import TypedContentView from '@/components/ui/TypedContentView';
 import { errorMessage } from '@/services/feedback/message';
 import { formatDateTime } from '@/shared/utils/date/dateTime';
+import { isUrl, openLink } from '@/shared/utils/url/url';
 import { useInAppInboxStore } from '@/store/modules/message/inAppInbox';
 import { ArrowLeft } from '@element-plus/icons-vue';
 import { computed, onMounted, ref } from 'vue';
@@ -31,6 +32,14 @@ const contentType = computed(() => {
 });
 
 const displayCreatedAt = computed(() => formatDateTime(detail.value?.createdAt));
+
+function openMessageLink(linkUrl: string): void {
+  if (isUrl(linkUrl)) {
+    openLink(linkUrl);
+    return;
+  }
+  router.push(linkUrl);
+}
 
 /**
  * 拉取详情（后端打开即标已读），并刷新未读角标
@@ -79,11 +88,9 @@ onMounted(() => {
         </div>
         <el-link
           v-if="detail.linkUrl"
-          :href="detail.linkUrl"
           class="inbox-message-detail__link"
-          rel="noopener noreferrer"
-          target="_blank"
           type="primary"
+          @click="openMessageLink(detail.linkUrl)"
         >
           {{ t('inAppInbox.field.linkUrl') }}
         </el-link>

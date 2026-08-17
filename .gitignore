@@ -13,6 +13,13 @@ npm-debug.log*
 .pnpm-debug.log
 tests/**/coverage/
 
+# Playwright E2E
+/e2e/.auth/
+/e2e/.backend-ready
+/playwright-report/
+/test-results/
+/blob-report/
+
 # Editor directories and files
 .idea
 .vscode

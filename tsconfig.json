@@ -32,7 +32,9 @@
     "src/**/*.vue",
     "types/*.d.ts",
     "vite.config.ts",
-    "test/**/*.ts"
+    "test/**/*.ts",
+    "e2e/**/*.ts",
+    "playwright.config.ts"
   ],
   "exclude": ["dist", "**/*.js", "node_modules"]
 }

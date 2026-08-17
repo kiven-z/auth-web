@@ -1,9 +1,8 @@
 import { buildHierarchyTree } from '@/shared/utils/tree';
 import { usePermissionStore } from '@/store/modules/auth/permission';
-import { createRouter, type Router, type RouteRecordRaw } from 'vue-router';
+import { createRouter, createWebHistory, type Router, type RouteRecordRaw } from 'vue-router';
 import { constantRoutes, initConstantRoutes, moduleRouteRecords, remainingRouter } from './routes';
 import { ascending } from './utils/menu-sort';
-import { getHistoryMode } from './utils/misc';
 import { formatFlatteningRoutes, formatTwoStageRoutes } from './utils/route-tree';
 
 import { createAuthGuard } from './guards/auth';
@@ -18,7 +17,7 @@ export { constantMenus, constantRoutes, remainingPaths } from './routes';
  * @returns 路由实例
  */
 export const router: Router = createRouter({
-  history: getHistoryMode(import.meta.env.VITE_ROUTER_HISTORY),
+  history: createWebHistory(import.meta.env.BASE_URL),
   routes: constantRoutes.concat(...(remainingRouter as Array<RouteRecordRaw>)),
   strict: true,
   scrollBehavior(_to, from, savedPosition) {

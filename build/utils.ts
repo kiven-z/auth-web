@@ -33,7 +33,6 @@ const wrapperEnv = (envConf: Recordable): ViteEnv => {
   const ret: ViteEnv = {
     VITE_PORT: 5173,
     VITE_PUBLIC_PATH: '',
-    VITE_ROUTER_HISTORY: '',
     VITE_PROXY_TARGET: 'http://localhost:8080',
     VITE_CDN: false,
     VITE_HIDE_HOME: 'false',
