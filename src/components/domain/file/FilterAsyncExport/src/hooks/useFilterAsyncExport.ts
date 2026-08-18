@@ -57,10 +57,9 @@ function useFilterAsyncExport<TFilter extends object>(options: UseFilterAsyncExp
             errorMessage(error);
           },
         }),
-      beforeSure: async (done, { closeLoading }) => {
+      beforeSure: async (done) => {
         const result = resultRef.value;
         if (!result || result.status === 'EXCEEDED') {
-          closeLoading();
           return;
         }
         try {
@@ -69,7 +68,6 @@ function useFilterAsyncExport<TFilter extends object>(options: UseFilterAsyncExp
           done();
         } catch (error: unknown) {
           errorMessage(error);
-          closeLoading();
         }
       },
     });

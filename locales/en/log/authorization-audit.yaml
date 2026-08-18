@@ -15,8 +15,8 @@ authorizationAudit:
   methodParams: Method Params
   exceptionMessage: Exception
   remark: Remark
-  tableTitle: Authorization Audit Logs
-  detailTitle: Authorization Audit Detail
+  tableTitle: Access Audit
+  detailTitle: Detail
   createdBy: Operator
   eventTypeEnum:
     GRANTED: Granted

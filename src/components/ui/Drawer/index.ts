@@ -1,13 +1,19 @@
 import { useTimeoutFn } from '@vueuse/core';
 import isFunction from 'lodash/isFunction';
 import { ref } from 'vue';
+import { runOverlayBeforeSure } from '@/components/ui/Overlay';
 import { withInstall } from '@/shared/vue/withInstall';
 import reDrawer from './src/Drawer.vue';
-import type { DrawerOptions } from './src/type';
+import type { ArgsType, DrawerOptions } from './src/type';
 
 export type { ArgsType, ButtonProps, DrawerOptions, DrawerProps, EventType } from './src/type';
 
-const drawerStore = ref<Array<DrawerOptions>>([]);
+type DrawerStoreItem = DrawerOptions & {
+  _closeArgs?: ArgsType;
+  _finalizeScheduled?: boolean;
+};
+
+const drawerStore = ref<Array<DrawerStoreItem>>([]);
 
 /** 打开抽屉 */
 const addDrawer = (options: DrawerOptions) => {
@@ -21,14 +27,33 @@ const addDrawer = (options: DrawerOptions) => {
   }
 };
 
-/** 关闭抽屉 */
-const closeDrawer = (options: DrawerOptions, index: number, args?: any) => {
-  drawerStore.value[index].visible = false;
+/** 发起关闭：仅置 visible=false，清理在动画结束后的 finalizeDrawerClose */
+const closeDrawer = (options: DrawerOptions, index: number, args?: ArgsType) => {
+  const item = drawerStore.value[index];
+  if (!item?.visible) {
+    return;
+  }
+  item._closeArgs = args ?? { command: 'close' };
+  item.visible = false;
+};
+
+/** 关闭动画结束后：回调 + 从 store 移除（@closed 唯一入口） */
+const finalizeDrawerClose = (options: DrawerOptions, index: number) => {
+  const item = drawerStore.value[index];
+  if (!item || item._finalizeScheduled) {
+    return;
+  }
+  item._finalizeScheduled = true;
+
+  const args = item._closeArgs ?? { command: 'close' };
   options.closeCallBack?.({ options, index, args });
 
   const closeDelay = options?.closeDelay ?? 200;
   useTimeoutFn(() => {
-    drawerStore.value.splice(index, 1);
+    const currentIndex = drawerStore.value.indexOf(item);
+    if (currentIndex !== -1) {
+      drawerStore.value.splice(currentIndex, 1);
+    }
   }, closeDelay);
 };
 
@@ -38,23 +63,20 @@ const closeDrawer = (options: DrawerOptions, index: number, args?: any) => {
  */
 const confirmDrawer = (options: DrawerOptions, index: number) => {
   const loadingEnabled = options.confirmLoadingEnabled ?? Boolean(options.beforeSure);
-  if (loadingEnabled) {
-    options.confirmLoading = true;
-  }
-  const closeLoading = () => {
-    if (loadingEnabled) {
-      options.confirmLoading = false;
-    }
-  };
-  const done = () => {
-    closeLoading();
-    closeDrawer(options, index, { command: 'sure' });
-  };
   if (options?.beforeSure && isFunction(options.beforeSure)) {
-    Promise.resolve(options.beforeSure(done, { options, index, closeLoading })).catch(() => undefined);
+    runOverlayBeforeSure({
+      beforeSure: options.beforeSure,
+      loadingEnabled,
+      setConfirmLoading: (loading) => {
+        options.confirmLoading = loading;
+      },
+      onDone: () => closeDrawer(options, index, { command: 'sure' }),
+      options,
+      index,
+    });
     return;
   }
-  done();
+  closeDrawer(options, index, { command: 'sure' });
 };
 
 /**
@@ -74,4 +96,13 @@ const closeAllDrawer = () => {
 
 const AuthDrawer = withInstall(reDrawer);
 
-export { AuthDrawer, drawerStore, addDrawer, closeDrawer, confirmDrawer, updateDrawer, closeAllDrawer };
+export {
+  AuthDrawer,
+  drawerStore,
+  addDrawer,
+  closeDrawer,
+  confirmDrawer,
+  finalizeDrawerClose,
+  updateDrawer,
+  closeAllDrawer,
+};

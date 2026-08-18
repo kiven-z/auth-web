@@ -204,7 +204,7 @@ interface DialogOptions extends DialogProps {
     context: {
       options: DialogOptions;
       index: number;
-      /** 关闭确定按钮的 `loading` 加载动画 */
+      /** 手动关闭确定按钮 loading；未调用 `done` 时壳层会在 `beforeSure` 结束后自动关闭 */
       closeLoading: () => void;
     }
   ) => void | Promise<void>;

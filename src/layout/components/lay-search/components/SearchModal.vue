@@ -92,6 +92,7 @@ const { handleEnter } = useMenuSearchNavigation({
   resultRef,
   historyRef,
   scrollbarRef,
+  visible: computed(() => props.value),
   onConfirm: ({ options, index, isResultOptions }) => {
     const target = options[index];
     if (isResultOptions) {

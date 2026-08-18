@@ -5,12 +5,12 @@ scheduleGroup:
   status: Status
   isSystem: System Default
   orderNum: Order
-  tableTitle: Schedule Groups
-  addTitle: Add Schedule Group
-  editTitle: Edit Schedule Group
-  detailTitle: View Schedule Group Details
-  actionPauseAllJobs: Pause all jobs in this group
-  actionResumeAllJobs: Resume all jobs in this group
+  tableTitle: Groups
+  addTitle: Add
+  editTitle: Edit
+  detailTitle: Detail
+  actionPauseAllJobs: Pause all
+  actionResumeAllJobs: Resume all
   placeholder:
     code: Enter group code (uppercase, digits, underscore)
     name: Enter group name

@@ -28,4 +28,4 @@ loginLog:
     LOGIN_SMS: SMS login
     LOGIN_PASSWORD: Password login
     REFRESH_TOKEN: Refresh token
-    LOGOUT: Logout
+    LOGOUT: Sign out

@@ -40,12 +40,12 @@ onMounted(() => {
 
 <template>
   <div class="user-session-dialog">
-    <div class="mb-3 flex items-center justify-between gap-2">
+    <div class="mb-3 flex flex-wrap items-center justify-between gap-2">
       <el-text type="info">
         {{ t('users.session.subtitle', { username }) }}
       </el-text>
 
-      <div class="flex items-center gap-2">
+      <div class="flex flex-wrap items-center gap-2">
         <el-button
           v-auth="SYS_SESSION_PERMS.KICK_ALL"
           :disabled="sessions.length <= 0"

@@ -46,7 +46,6 @@ export function getPasswordHistoryPage(
 export interface PasswordHistoryDetailRow extends BaseResponsePageRow {
   userId?: string | null;
   username?: string | null;
-  changeTime: string;
   changeIp: string;
 }
 

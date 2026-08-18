@@ -1,23 +1,23 @@
 authorizationInvalidation:
-  statsRefresh: Refresh Stats
+  statsRefresh: Refresh
   statsLastRefreshed: 'Last refreshed: {time}'
-  statsOutboxSection: Outbox Queue Stats
-  statsEventSection: Idempotency Event Stats
-  statsTotalCount: Total Records
-  statsFailureRate: Failure Rate
+  statsOutboxSection: Outbox
+  statsEventSection: Events
+  statsTotalCount: Total
+  statsFailureRate: Failure rate
   statsShareOfTotal: '{percent}% of total'
   statsAbnormalCount: 'Abnormal (failed + dead): {count}'
   statsDeadTooltip: Deliveries that exceeded retry limits or were terminated; needs attention
   statsFailureRateTooltip: 'Failure rate = (failed + dead) / total'
-  statsTrendSection: Failure Rate Trend
+  statsTrendSection: Failure trend
   statsTrendGranularityDay: Daily
   statsTrendGranularityWeek: Weekly
-  statsTrendRange7Days: Last 7 Days
-  statsTrendRange30Days: Last 30 Days
-  statsTrendRange60Days: Last 60 Days
-  statsTrendRange90Days: Last 90 Days
-  statsTrendYAxis: Failure Rate (%)
-  statsTrendTooltipFailureRate: Failure Rate
+  statsTrendRange7Days: 7 days
+  statsTrendRange30Days: 30 days
+  statsTrendRange60Days: 60 days
+  statsTrendRange90Days: 90 days
+  statsTrendYAxis: Failure rate (%)
+  statsTrendTooltipFailureRate: Failure rate
   statsTrendTooltipTotal: Total
   statsTrendTooltipFailed: Failed
   statsTrendTooltipDead: Dead Letter
@@ -39,16 +39,16 @@ authorizationInvalidation:
   profileEvictedCount: Profile Evicted Users
   processedAt: Processed At
   remark: Remark
-  tableTitle: Authorization Invalidation Events
-  detailTitle: Authorization Invalidation Event Detail
-  outboxTableTitle: Authorization Invalidation Outbox
-  outboxDetailTitle: Authorization Invalidation Outbox Detail
+  tableTitle: Idempotency Events
+  detailTitle: Event Detail
+  outboxTableTitle: Delivery Queue
+  outboxDetailTitle: Outbox Detail
   retryAction: Retry
-  releaseClaimAction: Release Claim
+  releaseClaimAction: Release
   retrySuccess: Manual retry dispatched successfully
   retryFailed: Manual retry executed but dispatch still failed
   releaseClaimSuccess: Processing placeholder released
-  viewLinkedOutbox: View linked outbox record
+  viewLinkedOutbox: Linked outbox
   linkedOutboxNotFound: No linked outbox record found
   processingEnum:
     'true': Processing
@@ -65,5 +65,5 @@ authorizationInvalidation:
     POLICY: Policy
     GRANT: Grant
     USER_DEPT: User-Dept
-    USER_POST: User-Post
+    USER_POST: User-Position
     USER: User

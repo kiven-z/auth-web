@@ -1,10 +1,9 @@
 <script lang="ts" setup>
 import type { FormDialog } from '@/shared/types/dialog';
-import type { EmailTemplateFormModel } from '@/features/message/api/email-template';
-import type { FormInstance, FormRules } from 'element-plus';
-import { useEditorTheme } from '@/shared/composables/editor/useEditorTheme';
+import type { EmailTemplateFormModel, EmailTemplateRequireFieldRow } from '@/features/message/api/email-template';
 import { useCommonBooleanStatusOptions } from '@/shared/composables/i18n/useCommonBooleanStatusOptions';
-import { CodeEditor } from 'monaco-editor-vue3';
+import EmailTemplateContentEditor from '@/features/message/email-template/components/EmailTemplateContentEditor.vue';
+import type { FormInstance, FormRules } from 'element-plus';
 import { reactive, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 
@@ -12,15 +11,18 @@ defineOptions({
   name: 'EmailTemplateDrawer',
 });
 
-type EmailTemplateDrawerProps = FormDialog<EmailTemplateFormModel>;
+type EmailTemplateDrawerProps = FormDialog<EmailTemplateFormModel> & {
+  /** 变量声明，供正文 ${} 补全；不参与保存 */
+  requireFields?: EmailTemplateRequireFieldRow[];
+};
 
 const props = withDefaults(defineProps<EmailTemplateDrawerProps>(), {
   form: () => ({}) as EmailTemplateFormModel,
+  requireFields: () => [],
 });
 
 const { t } = useI18n();
 const booleanStatusOptions = useCommonBooleanStatusOptions();
-const { monacoTheme } = useEditorTheme();
 const formRef = ref<FormInstance>();
 
 const form = ref<EmailTemplateFormModel>({
@@ -122,7 +124,7 @@ defineExpose({ formRef, form });
       <el-col :span="24">
         <!-- 模板正文（body_content）；复杂编辑可用「更多 → 模板编辑」 -->
         <el-form-item :label="t('emailTemplate.content')" prop="content">
-          <CodeEditor v-model:value="form.content" :theme="monacoTheme" class="min-h-[65vh] border" language="html" />
+          <EmailTemplateContentEditor v-model:value="form.content" :require-fields="requireFields" />
         </el-form-item>
       </el-col>
     </el-row>

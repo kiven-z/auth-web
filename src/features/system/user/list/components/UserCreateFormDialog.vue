@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import type { FormDialog } from '@/shared/types/dialog';
 import type { SysUserCreateForm } from '@/features/system/api/user/user';
+import { passwordComplexityRule } from '@/components/domain/user/ChangePasswordDialog';
 import { USER_ACCOUNT_STATUS, USER_GENDER, useUserOptions } from '@/components/domain/user/UserProfile';
 import { useOverlayConfirm } from '@/components/ui/Overlay';
 import type { FormInstance, FormRules } from 'element-plus';
@@ -28,10 +29,7 @@ const rules = computed<FormRules>(() => ({
     { required: true, message: t('users.field.username'), trigger: 'blur' },
     { max: 64, message: t('users.validation.usernameMaxLength'), trigger: 'blur' },
   ],
-  initialPassword: [
-    { required: true, message: t('users.password.initial'), trigger: 'blur' },
-    { min: 8, max: 18, message: t('users.validation.initialPasswordMinLength'), trigger: 'blur' },
-  ],
+  initialPassword: [{ required: true, message: t('users.password.initial'), trigger: 'blur' }, passwordComplexityRule],
   email: [
     { required: true, message: t('users.field.email'), trigger: 'blur' },
     { type: 'email', message: t('users.validation.emailInvalid'), trigger: 'blur' },

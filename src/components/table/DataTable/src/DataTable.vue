@@ -140,9 +140,17 @@ function handleSelectionChange(rows: any[]) {
   emit('selection-change', rows);
 }
 
+/**
+ * 清空表格多选（与业务层 selectedRows 解耦，由 ListTable 在清空 selectedRows 时调用）。
+ */
+function clearSelection() {
+  innerTableRef.value?.clearSelection();
+}
+
 defineExpose({
   setAdaptive,
   getTableRef: () => innerTableRef.value,
+  clearSelection,
 });
 </script>
 

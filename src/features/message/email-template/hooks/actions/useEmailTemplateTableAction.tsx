@@ -82,7 +82,13 @@ function useEmailTemplateTableAction(deps: TableActionWithSelectionDeps) {
         closeOnClickModal: false,
         closeOnPressEscape: false,
         showClose: true,
-        contentRenderer: () => <EmailTemplateDrawer ref={dialogFormRef} form={detail as EmailTemplateFormModel} />,
+        contentRenderer: () => (
+          <EmailTemplateDrawer
+            ref={dialogFormRef}
+            form={detail as EmailTemplateFormModel}
+            requireFields={detail.requireFields ?? []}
+          />
+        ),
         beforeSure: createFormBeforeSure<EmailTemplateFormModel>({
           formExposeRef: dialogFormRef,
           successI18nKey: 'tips.editSuccess',

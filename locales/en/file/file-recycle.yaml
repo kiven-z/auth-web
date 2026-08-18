@@ -1,23 +1,23 @@
 fileRecycle:
   page:
-    tableTitle: File Recycle Bin
+    tableTitle: Recycle Bin
   dialog:
-    detailTitle: File Details
+    detailTitle: Detail
   fields:
-    ownerUserId: Owner User ID
-    bizType: Business Type
-    bizId: Business ID
-    originalName: Original File Name
-    createdAtRange: Created Time Range
-    storagePlatform: Storage Platform
-    uploadMode: Upload Mode
+    ownerUserId: Owner
+    bizType: Biz type
+    bizId: Biz ID
+    originalName: Name
+    createdAtRange: Created
+    storagePlatform: Storage
+    uploadMode: Upload
     bucket: Bucket
-    objectKey: Object Key
-    url: Access URL
-    accessUrl: Temporary Access URL
-    contentType: Content Type
-    isPrivate: Private File
-    size: File Size
+    objectKey: Object key
+    url: URL
+    accessUrl: Temp URL
+    contentType: Type
+    isPrivate: Private
+    size: Size
     remark: Remark
   messages:
     batchRestoreSuccess: Restored {count} files

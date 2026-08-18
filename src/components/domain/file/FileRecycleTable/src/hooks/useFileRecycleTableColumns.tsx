@@ -83,7 +83,7 @@ function useFileRecycleTableColumns() {
     {
       label: t('table.actions'),
       fixed: 'right',
-      width: 220,
+      minWidth: 240,
       slot: 'actions',
     },
   ]);

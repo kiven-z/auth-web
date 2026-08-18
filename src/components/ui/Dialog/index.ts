@@ -1,13 +1,19 @@
 import { useTimeoutFn } from '@vueuse/core';
 import isFunction from 'lodash/isFunction';
 import { ref } from 'vue';
+import { runOverlayBeforeSure } from '@/components/ui/Overlay';
 import { withInstall } from '@/shared/vue/withInstall';
 import reDialog from './src/Dialog.vue';
-import type { DialogOptions } from './src/type';
+import type { ArgsType, DialogOptions } from './src/type';
 
 export type { ArgsType, ButtonProps, DialogOptions, DialogProps, EventType } from './src/type';
 
-const dialogStore = ref<Array<DialogOptions>>([]);
+type DialogStoreItem = DialogOptions & {
+  _closeArgs?: ArgsType;
+  _finalizeScheduled?: boolean;
+};
+
+const dialogStore = ref<Array<DialogStoreItem>>([]);
 
 /** 打开弹框 */
 const addDialog = (options: DialogOptions) => {
@@ -21,14 +27,33 @@ const addDialog = (options: DialogOptions) => {
   }
 };
 
-/** 关闭弹框 */
-const closeDialog = (options: DialogOptions, index: number, args?: any) => {
-  dialogStore.value[index].visible = false;
+/** 发起关闭：仅置 visible=false，清理在动画结束后的 finalizeDialogClose */
+const closeDialog = (options: DialogOptions, index: number, args?: ArgsType) => {
+  const item = dialogStore.value[index];
+  if (!item?.visible) {
+    return;
+  }
+  item._closeArgs = args ?? { command: 'close' };
+  item.visible = false;
+};
+
+/** 关闭动画结束后：回调 + 从 store 移除（@closed 唯一入口） */
+const finalizeDialogClose = (options: DialogOptions, index: number) => {
+  const item = dialogStore.value[index];
+  if (!item || item._finalizeScheduled) {
+    return;
+  }
+  item._finalizeScheduled = true;
+
+  const args = item._closeArgs ?? { command: 'close' };
   options.closeCallBack?.({ options, index, args });
 
   const closeDelay = options?.closeDelay ?? 200;
   useTimeoutFn(() => {
-    dialogStore.value.splice(index, 1);
+    const currentIndex = dialogStore.value.indexOf(item);
+    if (currentIndex !== -1) {
+      dialogStore.value.splice(currentIndex, 1);
+    }
   }, closeDelay);
 };
 
@@ -38,23 +63,20 @@ const closeDialog = (options: DialogOptions, index: number, args?: any) => {
  */
 const confirmDialog = (options: DialogOptions, index: number) => {
   const loadingEnabled = options.confirmLoadingEnabled ?? Boolean(options.beforeSure);
-  if (loadingEnabled) {
-    options.confirmLoading = true;
-  }
-  const closeLoading = () => {
-    if (loadingEnabled) {
-      options.confirmLoading = false;
-    }
-  };
-  const done = () => {
-    closeLoading();
-    closeDialog(options, index, { command: 'sure' });
-  };
   if (options?.beforeSure && isFunction(options.beforeSure)) {
-    Promise.resolve(options.beforeSure(done, { options, index, closeLoading })).catch(() => undefined);
+    runOverlayBeforeSure({
+      beforeSure: options.beforeSure,
+      loadingEnabled,
+      setConfirmLoading: (loading) => {
+        options.confirmLoading = loading;
+      },
+      onDone: () => closeDialog(options, index, { command: 'sure' }),
+      options,
+      index,
+    });
     return;
   }
-  done();
+  closeDialog(options, index, { command: 'sure' });
 };
 
 /**
@@ -74,4 +96,13 @@ const closeAllDialog = () => {
 
 const AuthDialog = withInstall(reDialog);
 
-export { AuthDialog, dialogStore, addDialog, closeDialog, confirmDialog, updateDialog, closeAllDialog };
+export {
+  AuthDialog,
+  dialogStore,
+  addDialog,
+  closeDialog,
+  confirmDialog,
+  finalizeDialogClose,
+  updateDialog,
+  closeAllDialog,
+};

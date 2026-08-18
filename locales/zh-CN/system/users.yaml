@@ -118,7 +118,6 @@ users:
     phoneMaxLength: 手机号长度不能超过32个字符
     employeeNoMaxLength: 工号长度不能超过64个字符
     remarkMaxLength: 备注长度不能超过500个字符
-    initialPasswordMinLength: 初始密码长度应为8-18位
   tips:
     showUserPostInfoTip: 展示该用户在各岗位上的任职信息
     currentUserHasNotPostInfo: 该用户暂无岗位信息

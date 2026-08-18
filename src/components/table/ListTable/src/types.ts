@@ -33,6 +33,8 @@ export interface ListTableExpose {
   setAdaptive: () => Promise<void>;
   /** 重新拉取当前数据 */
   fetchTableData: (options?: { silent?: boolean }) => Promise<void>;
+  /** 清空 el-table 多选 UI（业务层 selectedRows 清空时由壳层自动同步） */
+  clearSelection: () => void;
 }
 
 /** 列表壳组件 props */

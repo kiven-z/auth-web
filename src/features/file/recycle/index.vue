@@ -164,15 +164,17 @@ onMounted(() => {
       </template>
 
       <template #actions="{ row }">
-        <el-button v-auth="FILE_RECYCLE_PERMS.RESTORE" link type="primary" @click="restoreBatchRows([row.id])">
-          {{ t('buttons.actionRestore') }}
-        </el-button>
-        <el-button v-auth="FILE_RECYCLE_PERMS.QUERY" link type="primary" @click="openDetailDialog(row)">
-          {{ t('buttons.actionView') }}
-        </el-button>
-        <el-button v-auth="FILE_RECYCLE_PERMS.PURGE" link type="danger" @click="deleteBatchRows([row.id])">
-          {{ t('buttons.actionDelete') }}
-        </el-button>
+        <div class="flex flex-wrap items-center gap-x-1">
+          <el-button v-auth="FILE_RECYCLE_PERMS.RESTORE" link type="primary" @click="restoreBatchRows([row.id])">
+            {{ t('buttons.actionRestore') }}
+          </el-button>
+          <el-button v-auth="FILE_RECYCLE_PERMS.QUERY" link type="primary" @click="openDetailDialog(row)">
+            {{ t('buttons.actionView') }}
+          </el-button>
+          <el-button v-auth="FILE_RECYCLE_PERMS.PURGE" link type="danger" @click="deleteBatchRows([row.id])">
+            {{ t('buttons.actionDelete') }}
+          </el-button>
+        </div>
       </template>
     </ListTable>
   </div>

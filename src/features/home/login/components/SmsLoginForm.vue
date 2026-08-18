@@ -5,7 +5,7 @@ import { errorMessage, message } from '@/services/feedback/message';
 import { LoginFormEmits } from '@/features/home/login/types/login-mode';
 import { useLoginRemember } from '@/features/home/login/hooks/useLoginRemember';
 import { useSendCodeCountdown } from '@/features/home/login/hooks/useSendCodeCountdown';
-import { smsLoginRules } from '@/features/home/login/rules/sms.rules';
+import { useSmsLoginRules } from '@/features/home/login/rules/sms.rules';
 import type { FormInstance } from 'element-plus';
 import { reactive, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
@@ -21,6 +21,7 @@ const emit = defineEmits<LoginFormEmits>();
 const { t } = useI18n();
 const formRef = ref<FormInstance>();
 const loading = ref(false);
+const rules = useSmsLoginRules();
 const { isRemembered, loginAndEstablishSession } = useLoginRemember();
 
 // 登录表单
@@ -76,7 +77,7 @@ const handleSubmit = async () => {
 </script>
 
 <template>
-  <el-form ref="formRef" v-enter-submit="handleSubmit" :model="formData" :rules="smsLoginRules" size="large">
+  <el-form ref="formRef" v-enter-submit="handleSubmit" :model="formData" :rules="rules" size="large">
     <Motion :delay="100">
       <el-form-item prop="phone">
         <el-input

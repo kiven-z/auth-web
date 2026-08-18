@@ -1,45 +1,45 @@
 routes:
-  systemManagement: System Management
-  userManagement: User Management
-  roleManagement: Role Management
-  permissionManagement: Permission Management
-  deptManagement: Department Management
-  postManagement: Post Management
-  menuManagement: Menu Management
-  onlineUser: Session Users
+  systemManagement: System
+  userManagement: Users
+  roleManagement: Roles
+  permissionManagement: Permissions
+  deptManagement: Departments
+  postManagement: Positions
+  menuManagement: Menus
+  onlineUser: Sessions
 
-  messageManagement: Message Management
-  emailTemplate: Email message templates
-  smsTemplate: SMS message templates
-  inAppTemplate: In-app message templates
-  messageCompose: Compose in-app message
-  inAppMessage: In-app send tasks
-  inAppCategory: In-app message categories
-  sendRecord: Message send records
+  messageManagement: Messages
+  emailTemplate: Email Templates
+  smsTemplate: SMS Templates
+  inAppTemplate: In-app Templates
+  messageCompose: Compose
+  inAppMessage: Send Tasks
+  inAppCategory: Categories
+  sendRecord: Send Records
 
-  schedule: Task Scheduling
-  scheduleGroup: Schedule Groups
-  scheduleTask: Scheduled Tasks
+  schedule: Scheduling
+  scheduleGroup: Groups
+  scheduleTask: Tasks
 
-  authorizationAudit: Authorization Audit
-  logManagement: Log Management
+  authorizationAudit: Access Audit
+  logManagement: Logs
   scheduleLog: Schedule Logs
-  passwordHistory: Password History
+  passwordHistory: Passwords
   loginLog: Login Logs
   operationLog: Operation Logs
-  authLog: Authorization Logs
+  authLog: Access Logs
 
-  opsManagement: Operations Center
-  authorizationInvalidationEvent: Idempotency Events
+  opsManagement: Ops
+  authorizationInvalidationEvent: Idempotency
   authorizationInvalidationOutbox: Delivery Queue
-  authorizationInvalidationStats: Failure Rate Stats
+  authorizationInvalidationStats: Failure Stats
 
-  fileManagement: File Management
-  fileRecord: File Record
-  fileRecycle: File Recycle
+  fileManagement: Files
+  fileRecord: Records
+  fileRecycle: Recycle Bin
   myFiles: My Files
-  myFileRecycle: My Recycle Bin
-  myFileExportTask: My Export Tasks
-  fileExportTask: Export Task Ops
-  myInbox: My Messages
-  personalSpace: Personal Space
+  myFileRecycle: My Recycle
+  myFileExportTask: My Exports
+  fileExportTask: Export Ops
+  myInbox: Inbox
+  personalSpace: Personal

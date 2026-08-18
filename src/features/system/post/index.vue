@@ -158,37 +158,39 @@ onMounted(() => {
       </template>
 
       <template #actions="{ row }">
-        <el-button v-auth="SYS_POST_PERMS.QUERY" link type="primary" @click="openDetailDialog(row)">
-          {{ t('buttons.actionView') }}
-        </el-button>
-        <el-button v-auth="SYS_POST_PERMS.UPDATE" link type="primary" @click="openEditDialog(row)">
-          {{ t('buttons.actionEdit') }}
-        </el-button>
-        <el-button v-auth="SYS_POST_PERMS.DELETE" link type="danger" @click="deleteRow(row)">
-          {{ t('buttons.actionDelete') }}
-        </el-button>
+        <div class="flex flex-wrap items-center gap-x-1">
+          <el-button v-auth="SYS_POST_PERMS.QUERY" link type="primary" @click="openDetailDialog(row)">
+            {{ t('buttons.actionView') }}
+          </el-button>
+          <el-button v-auth="SYS_POST_PERMS.UPDATE" link type="primary" @click="openEditDialog(row)">
+            {{ t('buttons.actionEdit') }}
+          </el-button>
+          <el-button v-auth="SYS_POST_PERMS.DELETE" link type="danger" @click="deleteRow(row)">
+            {{ t('buttons.actionDelete') }}
+          </el-button>
 
-        <AuthDropdown
-          :items="[
-            {
-              label: t('post.menu.authorizationSurface'),
-              permission: SYS_POST_PERMS.QUERY,
-              onClick: () =>
-                openPostAuthorizationSurface({
-                  postId: row.id,
-                  postCode: row.postCode,
-                  postName: row.postName,
-                }),
-            },
-            {
-              label: t('assign.role'),
-              permission: SYS_POST_PERMS.UPDATE,
-              onClick: () => openAssignRoleDrawer(row),
-            },
-          ]"
-        >
-          <el-button class="ml-2!" link type="primary">{{ t('buttons.actionMore') }}</el-button>
-        </AuthDropdown>
+          <AuthDropdown
+            :items="[
+              {
+                label: t('post.menu.authorizationSurface'),
+                permission: SYS_POST_PERMS.QUERY,
+                onClick: () =>
+                  openPostAuthorizationSurface({
+                    postId: row.id,
+                    postCode: row.postCode,
+                    postName: row.postName,
+                  }),
+              },
+              {
+                label: t('assign.role'),
+                permission: SYS_POST_PERMS.UPDATE,
+                onClick: () => openAssignRoleDrawer(row),
+              },
+            ]"
+          >
+            <el-button class="ml-2!" link type="primary">{{ t('buttons.actionMore') }}</el-button>
+          </AuthDropdown>
+        </div>
       </template>
     </ListTable>
   </div>

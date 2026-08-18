@@ -149,32 +149,34 @@ onMounted(() => {
       </template>
 
       <template #actions="{ row }">
-        <el-button v-auth="SYS_PERMISSION_PERMS.DETAIL" link type="primary" @click="openDetailDialog(row)">
-          {{ t('buttons.actionView') }}
-        </el-button>
-        <el-button v-auth="SYS_PERMISSION_PERMS.UPDATE" link type="primary" @click="openEditDialog(row)">
-          {{ t('buttons.actionEdit') }}
-        </el-button>
-        <el-button v-auth="SYS_PERMISSION_PERMS.DELETE" link type="danger" @click="deleteRow(row)">
-          {{ t('buttons.actionDelete') }}
-        </el-button>
+        <div class="flex flex-wrap items-center gap-x-1">
+          <el-button v-auth="SYS_PERMISSION_PERMS.DETAIL" link type="primary" @click="openDetailDialog(row)">
+            {{ t('buttons.actionView') }}
+          </el-button>
+          <el-button v-auth="SYS_PERMISSION_PERMS.UPDATE" link type="primary" @click="openEditDialog(row)">
+            {{ t('buttons.actionEdit') }}
+          </el-button>
+          <el-button v-auth="SYS_PERMISSION_PERMS.DELETE" link type="danger" @click="deleteRow(row)">
+            {{ t('buttons.actionDelete') }}
+          </el-button>
 
-        <AuthDropdown
-          :items="[
-            {
-              label: t('permissions.menu.authorizationSurface'),
-              permission: SYS_PERMISSION_PERMS.QUERY,
-              onClick: () =>
-                openPermissionAuthorizationSurface({
-                  permissionId: row.id,
-                  permissionCode: row.permissionCode,
-                  permissionName: row.permissionName,
-                }),
-            },
-          ]"
-        >
-          <el-button class="ml-2!" link type="primary">{{ t('buttons.actionMore') }}</el-button>
-        </AuthDropdown>
+          <AuthDropdown
+            :items="[
+              {
+                label: t('permissions.menu.authorizationSurface'),
+                permission: SYS_PERMISSION_PERMS.QUERY,
+                onClick: () =>
+                  openPermissionAuthorizationSurface({
+                    permissionId: row.id,
+                    permissionCode: row.permissionCode,
+                    permissionName: row.permissionName,
+                  }),
+              },
+            ]"
+          >
+            <el-button class="ml-2!" link type="primary">{{ t('buttons.actionMore') }}</el-button>
+          </AuthDropdown>
+        </div>
       </template>
     </ListTable>
   </div>

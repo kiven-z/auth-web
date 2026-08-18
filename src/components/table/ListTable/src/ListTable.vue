@@ -64,6 +64,7 @@ const { t } = useI18n();
 const tableRef = ref<{
   setAdaptive: () => Promise<void>;
   getTableRef: () => TableTreeControlRef | null;
+  clearSelection: () => void;
 } | null>(null);
 
 /** 树表展开/折叠所需的 el-table 实例（挂载后同步） */
@@ -154,6 +155,23 @@ function handleSelectionChange(rows: unknown[]) {
 }
 
 /**
+ * 清空 el-table 多选 UI。
+ */
+function clearSelection() {
+  tableRef.value?.clearSelection();
+}
+
+/** 业务层 selectedRows 清空时同步清除表格勾选，避免 UI 与 hasSelection 不一致 */
+watch(
+  () => props.state.selectedRows.value,
+  (rows) => {
+    if (rows.length === 0) {
+      clearSelection();
+    }
+  }
+);
+
+/**
  * 分页大小变化（无分页 state 时不绑定）。
  */
 async function handlePageSizeChange(pageSize: number) {
@@ -170,6 +188,7 @@ async function handlePageCurrentChange(page: number) {
 defineExpose<ListTableExpose>({
   setAdaptive: () => tableRef.value?.setAdaptive() ?? Promise.resolve(),
   fetchTableData: () => props.state.fetchTableData(),
+  clearSelection,
 });
 </script>
 

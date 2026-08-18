@@ -29,7 +29,7 @@ function useOnlineUserTableColumns() {
       minWidth: 170,
       render: ({ row }: { row: OnlineUserPageRow }) => formatMillisTimestamp(row.lastLoginAt),
     },
-    { label: t('table.actions'), fixed: 'right', minWidth: 160, slot: 'actions' },
+    { label: t('table.actions'), fixed: 'right', minWidth: 200, slot: 'actions' },
   ]);
 
   return { columns };

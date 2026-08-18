@@ -1,55 +1,55 @@
 roles:
   title:
     module: Roles
-    page: Role Management
-    create: Add Role
-    edit: Edit Role
-    view: View role details
+    page: Roles
+    create: Add
+    edit: Edit
+    view: Details
   field:
-    roleCode: Role Code
-    roleName: Role Name
+    roleCode: Code
+    roleName: Name
     status: Status
     orderNum: Order
     remark: Remark
   assign:
-    permission: Assign permissions
+    permission: Permissions
     current: Current role
-    section: Assigned roles
+    section: Roles
   bound:
-    permissionsTitle: Assigned Permissions
+    permissionsTitle: Permissions
     permissionsEmpty: No permissions assigned
     menus:
-      title: Bound Menus
+      title: Menus
       empty: No menus bound
     users:
-      title: Granted Users
+      title: Users
     depts:
-      title: Granted Departments
+      title: Departments
     posts:
-      title: Granted Posts
+      title: Positions
   validation:
     roleCodeLengthLimit: Role code cannot exceed 64 characters
     roleCodeFormat: Role code must use uppercase letters and underscores, starting with a letter
     roleNameLengthLimit: Role name cannot exceed 128 characters
     remarkLengthLimit: Remark cannot exceed 500 characters
   menu:
-    authorizationSurface: View authorization surface
-    dataScope: Data scope
-    grantSubjects: Grant subject management
-    impactAnalysis: Impact analysis and refresh
+    authorizationSurface: Access
+    dataScope: Data access
+    grantSubjects: Subjects
+    impactAnalysis: Impact
   authorizationSurface:
-    title: Role authorization surface
+    title: Access
     keyword: Keyword
-    subjectLabel: Subject label
+    subjectLabel: Subject
     subjectId: Subject ID
   scope:
     tip: When unset, profile falls back to SELF; user_scope overrides this role config
   grantSubjects:
-    saveCurrent: Save grants
+    saveCurrent: Save
   impact:
-    title: Role impact analysis
-    impactedUsers: Impacted users
-    tip: Impacted users expand from USER / DEPT / POST grants (deduped). Manual refresh only rematerializes AuthProfile; normal grant changes already invalidate automatically
-    refreshSelected: Refresh selected profiles
-    refreshAll: Refresh impacted user authorization
+    title: Impact
+    impactedUsers: Users
+    tip: Impacted users expand from USER / DEPT / POSITION grants (deduped). Manual refresh only rematerializes AuthProfile; normal grant changes already invalidate automatically
+    refreshSelected: Refresh selected
+    refreshAll: Refresh all
     refreshSuccess: Submitted refresh for {count} user profile(s)

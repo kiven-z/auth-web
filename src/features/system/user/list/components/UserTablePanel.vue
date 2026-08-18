@@ -28,6 +28,7 @@ const { loading, searchForm, selectedRows } = tableState;
 
 const { openCreateDialog, batchUpdateStatus } = useUserTableAction({
   fetchTableData: fetchUserTable,
+  selectedRows,
 });
 
 const { exporting, exportByFilter, openImportDialog, deleteBatchRows, batchKickAll, batchRefreshAuth } =

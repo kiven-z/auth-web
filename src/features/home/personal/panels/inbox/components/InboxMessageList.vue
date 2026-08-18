@@ -105,6 +105,7 @@ const toggleRow = (messageId: string, checked: boolean) => {
       }
 
       .inbox-message-list__time {
+        pointer-events: none;
         opacity: 0;
       }
     }

@@ -7,7 +7,7 @@ import { useRenderIcon } from '@/components/ui/Icon';
 import { delay } from '@/shared/utils/async/delay';
 import isArray from 'lodash/isArray';
 import { useResizeObserver } from '@vueuse/core';
-import { computed, getCurrentInstance, nextTick, ref, watch } from 'vue';
+import { computed, getCurrentInstance, nextTick, onBeforeUnmount, ref, watch } from 'vue';
 import StarIcon from '~icons/ep/star';
 import CloseIcon from '~icons/ep/close';
 
@@ -20,6 +20,7 @@ interface Emits {
 }
 
 const historyRef = ref();
+const collectRef = ref<HTMLElement>();
 const innerHeight = ref();
 /** 判断是否停止鼠标移入事件处理 */
 const stopMouseEvent = ref(false);
@@ -109,31 +110,44 @@ const handleChangeIndex = (evt): void => {
   emit('drag', { oldIndex: evt.oldIndex, newIndex: evt.newIndex });
 };
 
-let sortableInstance = null;
+let sortableInstance: ReturnType<typeof Sortable.create> | null = null;
+
+function destroyCollectSortable() {
+  sortableInstance?.destroy();
+  sortableInstance = null;
+}
 
 watch(
   collectList,
   (val) => {
-    if (val.length > 1) {
-      nextTick(() => {
-        const wrapper: HTMLElement = document.querySelector('.collect-container');
-        if (!wrapper || sortableInstance) return;
-        sortableInstance = Sortable.create(wrapper, {
-          animation: 160,
-          onStart: (event) => {
-            event.item.style.cursor = 'move';
-          },
-          onEnd: (event) => {
-            event.item.style.cursor = 'pointer';
-          },
-          onUpdate: handleChangeIndex,
-        });
-        resizeResult();
-      });
+    if (val.length <= 1) {
+      destroyCollectSortable();
+      return;
     }
+
+    nextTick(() => {
+      const wrapper = collectRef.value;
+      if (!wrapper || sortableInstance) {
+        return;
+      }
+
+      sortableInstance = Sortable.create(wrapper, {
+        animation: 160,
+        onStart: (event) => {
+          event.item.style.cursor = 'move';
+        },
+        onEnd: (event) => {
+          event.item.style.cursor = 'pointer';
+        },
+        onUpdate: handleChangeIndex,
+      });
+      resizeResult();
+    });
   },
   { deep: true, immediate: true }
 );
+
+onBeforeUnmount(destroyCollectSortable);
 
 defineExpose({ handleScroll });
 </script>
@@ -174,7 +188,7 @@ defineExpose({ handleScroll });
       <div :style="titleStyle">
         {{ `${t('search.collect')}${collectList.length > 1 ? t('search.dragSort') : ''}` }}
       </div>
-      <div class="search-history__collect">
+      <div ref="collectRef" class="search-history__collect">
         <div
           v-for="(item, index) in collectList"
           :key="item.path"

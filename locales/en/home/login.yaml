@@ -2,22 +2,22 @@ login:
   authUsername: Username
   authPassword: Password
   authLogin: Login
-  authLoginSuccess: Login Success
-  authLoginFail: Login Fail
-  authUsernameReg: Please enter username
-  authPassWordReg: Please enter password
-  authPassWordRuleReg: The password format should be any combination of 8-18 digits, letters, and symbols
-  authEmailLogin: Email Login
-  authUsernamePasswordLogin: Password Login
-  authSmsLogin: SMS Login
+  authLoginSuccess: Signed in
+  authLoginFail: Login failed
+  authUsernameReg: Enter username
+  authPassWordReg: Enter password
+  authPassWordRuleReg: "Use 8–18 characters with at least two of: digits, letters, symbols"
+  authEmailLogin: Email
+  authUsernamePasswordLogin: Password
+  authSmsLogin: SMS
   authEmail: Email
-  authEmailReg: Please enter email
-  authEmailFormatReg: Incorrect email format
+  authEmailReg: Enter email
+  authEmailFormatReg: Invalid email
   authPhone: Phone
-  authPhoneReg: Please enter phone number
-  authPhoneFormatReg: Incorrect phone number format
-  authCode: Verification Code
-  authCodeReg: Please enter verification code
-  authSendCode: Send Code
-  authSendCodeSuccess: Verification code has been sent
+  authPhoneReg: Enter phone
+  authPhoneFormatReg: Invalid phone
+  authCode: Code
+  authCodeReg: Enter code
+  authSendCode: Send
+  authSendCodeSuccess: Code sent
   authRememberMe: Remember me

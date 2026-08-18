@@ -1,4 +1,4 @@
-import type { TableActionDeps } from '@/shared/types/table-action';
+import type { TableActionWithSelectionDeps } from '@/shared/types/table-action';
 import { batchUpdateUserStatus, createUser, type SysUserCreateForm } from '@/features/system/api/user/user';
 import { addDialog } from '@/components/ui/Dialog';
 import { type FormOverlayExpose, useFormOverlaySubmit } from '@/components/ui/Overlay';
@@ -13,8 +13,8 @@ import { useI18n } from 'vue-i18n';
  * @param deps 表格操作依赖
  * @returns 表格操作方法
  */
-function useUserTableAction(deps: TableActionDeps) {
-  const { fetchTableData } = deps;
+function useUserTableAction(deps: TableActionWithSelectionDeps) {
+  const { fetchTableData, selectedRows } = deps;
   const { t } = useI18n();
   const { createFormBeforeSure } = useFormOverlaySubmit();
 
@@ -60,6 +60,7 @@ function useUserTableAction(deps: TableActionDeps) {
     try {
       await batchUpdateUserStatus({ ids, status });
       message(t('tips.editSuccess'), { type: 'success' });
+      selectedRows.value = [];
       await fetchTableData();
     } catch (error: unknown) {
       errorMessage(error);

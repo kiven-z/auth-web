@@ -1,6 +1,7 @@
 import type { PageResponse } from '@/api/common/page';
 import type { FileRecordDetail, FileRecordPageQuery, FileRecordPageRow } from '@/features/file/api/models/file-record';
 import { http } from '@/core/http/client';
+import type { BlobDownloadPayload } from '@/shared/utils/file/download';
 import type { AxiosRequestConfig } from 'axios';
 
 /**
@@ -35,8 +36,12 @@ export function deletePersonalFileRecord(ids: string[]): Promise<string> {
 /**
  * 个人文件记录批量下载。
  * @param ids 文件记录主键列表
- * @returns ZIP 文件 Blob
+ * @returns ZIP Blob 及服务端文件名
  */
-export function downloadPersonalFileRecord(ids: string[]): Promise<Blob> {
-  return http.post<Blob, string[]>('/system/me/file/download', { data: ids }, { responseType: 'blob' });
+export function downloadPersonalFileRecord(ids: string[]): Promise<BlobDownloadPayload> {
+  return http.post<BlobDownloadPayload, string[]>(
+    '/system/me/file/download',
+    { data: ids },
+    { responseType: 'blob', blobWithFilename: true }
+  );
 }

@@ -24,8 +24,8 @@ const { t } = useI18n();
 const { genderOptions: userGenderOptions } = useUserOptions();
 const formRef = ref<FormInstance>();
 const submitting = ref(false);
-const initialEmail = ref<string | null | undefined>();
-const initialPhone = ref<string | null | undefined>();
+const initialEmail = ref<string | null | undefined>(props.profile.email);
+const initialPhone = ref<string | null | undefined>(props.profile.phone);
 
 const form = ref<MeProfileUpdateRequest>({
   nickname: props.profile.nickname,

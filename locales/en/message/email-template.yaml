@@ -1,17 +1,17 @@
 emailTemplate:
-  tableTitle: Email templates
+  tableTitle: Email Templates
   templateCode: Scene code
-  templateName: Template name
-  subject: Email subject
+  templateName: Name
+  subject: Subject
   description: Description
-  priority: Send priority
+  priority: Priority
   status: Status
-  content: Template body
-  liveRenderPreview: Live render preview
-  addDialogTitle: New email template
-  editDialogTitle: Edit email template
-  templateEditDialogTitle: Edit template body
-  detailDialogTitle: Email template detail
+  content: Body
+  liveRenderPreview: Preview
+  addDialogTitle: New
+  editDialogTitle: Edit
+  templateEditDialogTitle: Edit body
+  detailDialogTitle: Detail
   templateEditMenu: Edit body
   testSendEmail: Recipient email
   testSendEmailPlaceholder: Enter recipient email

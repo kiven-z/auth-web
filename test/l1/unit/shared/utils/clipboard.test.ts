@@ -19,6 +19,7 @@ function stubExecCommandCopy(success: boolean) {
         setAttribute: vi.fn(),
         select: vi.fn(),
         setSelectionRange: vi.fn(),
+        remove: vi.fn(),
       };
     },
     body: {

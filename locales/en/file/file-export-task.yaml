@@ -1,44 +1,44 @@
 fileExportTask:
   page:
-    tableTitle: Export Tasks
-    adminTableTitle: Export Task Ops
+    tableTitle: Exports
+    adminTableTitle: Export Ops
   dialog:
-    detailTitle: Export Task Detail
-    attemptsTitle: Execution History
+    detailTitle: Detail
+    attemptsTitle: History
   actions:
     cancel: Cancel
     retry: Retry
     viewAttempts: History
-    forceCancel: Force Cancel
-    forceRetry: Force Retry
+    forceCancel: Force cancel
+    forceRetry: Force retry
   messages:
     downloadSuccess: Download started
     downloadLinkUnavailable: Download link unavailable
   fields:
-    createdBy: Created By
-    bizType: Business Type
+    createdBy: Creator
+    bizType: Biz type
     status: Status
-    exportFormat: Export Format
+    exportFormat: Format
     progressPercent: Progress
-    processedRows: Processed Rows
-    totalRows: Total Rows
-    fileRecordId: File Record ID
+    processedRows: Processed
+    totalRows: Total
+    fileRecordId: File ID
     requestId: Request ID
-    retryCount: Retry Count
-    nextRetryAt: Next Retry At
-    errorCode: Error Code
-    errorMessage: Error Message
+    retryCount: Retries
+    nextRetryAt: Next retry
+    errorCode: Error code
+    errorMessage: Error
     lockedBy: Worker
-    leaseUntil: Lease Until
+    leaseUntil: Lease until
     attemptNo: Run No
     workerId: Worker ID
     attemptResult: Result
-    querySnapshotJson: Query Snapshot
-    startedAt: Started At
-    finishedAt: Finished At
-    expireAt: Expire At
+    querySnapshotJson: Query snapshot
+    startedAt: Started
+    finishedAt: Finished
+    expireAt: Expires
     remark: Remark
-    createdAtRange: Created Time Range
+    createdAtRange: Created
   status:
     PENDING: Pending
     RUNNING: Running

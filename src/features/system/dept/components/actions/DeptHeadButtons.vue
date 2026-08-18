@@ -82,6 +82,7 @@ const hasSelection = computed(() => selectedRows.value.length > 0);
 <style lang="scss" scoped>
 .dept-head-buttons {
   display: flex;
+  flex-wrap: wrap;
   gap: 12px;
   align-items: center;
 

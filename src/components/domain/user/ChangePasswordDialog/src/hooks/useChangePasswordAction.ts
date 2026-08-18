@@ -5,6 +5,7 @@ import SelfChangePasswordPanel from '../SelfChangePasswordPanel.vue';
 import type { AdminResetPasswordForm, SelfChangePasswordForm } from '../types';
 import { addDialog } from '@/components/ui/Dialog';
 import { type FormOverlayExpose, useFormOverlaySubmit } from '@/components/ui/Overlay';
+import { useUserStore } from '@/store/modules/auth/user';
 import { h, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 
@@ -14,6 +15,7 @@ import { useI18n } from 'vue-i18n';
  */
 function useChangePasswordAction() {
   const { t } = useI18n();
+  const userStore = useUserStore();
   const { createFormBeforeSure } = useFormOverlaySubmit();
 
   /**
@@ -64,6 +66,7 @@ function useChangePasswordAction() {
             newPassword: formPayload.newPassword,
             confirmPassword: formPayload.confirmPassword,
           });
+          await userStore.logoutAndClear();
         },
       }),
     });

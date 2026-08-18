@@ -1,54 +1,54 @@
 tips:
   requestFailed: Request failed. Please try again later.
-  deleteConfirm: Confirm deletion?
-  lastTimeConfirmDeleteTitle: Last confirmation
-  confirmTitle: Confirm to continue?
-  operationSuccess: Operation successful
-  addSuccess: Added successfully
-  editSuccess: Updated successfully
-  deleteSuccess: Deleted successfully
+  deleteConfirm: Delete this item?
+  lastTimeConfirmDeleteTitle: This can’t be undone
+  confirmTitle: Continue?
+  operationSuccess: Done
+  addSuccess: Added
+  editSuccess: Saved
+  deleteSuccess: Deleted
   animationIsNotExist: That animation doesn’t exist
-  assignEmptySelected: No items selected. Please choose.
+  assignEmptySelected: Nothing selected. Choose at least one item.
   asyncRoutesDegraded: Menu failed to load. Only basic pages are shown—refresh later or contact an administrator.
-  tokenExpiredRefreshRetry: Access token expired or invalid. If refresh fails, please log in again and retry.
-  permissionMismatchRefreshRetry: Permissions have been updated. If refresh fails, please log in again and retry.
-  assignSaveSuccess: Assignment saved successfully
-  exportSuccess: Export succeeded
+  tokenExpiredRefreshRetry: Your session expired. If refresh fails, sign in again and retry.
+  permissionMismatchRefreshRetry: Your permissions changed. If refresh fails, sign in again and retry.
+  assignSaveSuccess: Assignment saved
+  exportSuccess: Export complete
   exportFailed: Export failed
 import:
   dialogTitle: Import from Excel
-  dropOrClickHint: Drop file here or click to upload
-  fileTypeHint: Only .xlsx files are supported, max 500 rows per import
-  downloadTemplate: Download Template
-  submitButton: Start Import
-  importSuccess: Successfully imported {count} records
-  importFailureWithRows: Import failed. Please fix and retry ({count} rows with errors).
+  dropOrClickHint: Drop a file here, or click to upload
+  fileTypeHint: .xlsx only, up to 500 rows per import
+  downloadTemplate: Template
+  submitButton: Import
+  importSuccess: Imported {count} records
+  importFailureWithRows: Import failed. Fix the errors and retry ({count} rows).
   errorRowIndex: Row
   errorMessage: Error
-  downloadErrorReport: Download Error Report
-  clearErrors: Clear Errors
-  errorsCleared: Error records cleared
-  fileRequired: Please select a file first
-  fileLimitExceeded: File size cannot exceed 10MB
+  downloadErrorReport: Error report
+  clearErrors: Clear
+  errorsCleared: Error list cleared
+  fileRequired: Select a file first
+  fileLimitExceeded: File must be 10MB or smaller
   fileTypeInvalid: Only .xlsx files are supported
 authorization:
-  view: View authorization
-  relationTitle: Authorization relations
+  view: Access
+  relationTitle: Relations
   surface:
     keyword: Keyword
 buttons:
-  loginOut: Logout
-  openSystemSet: Open system config
+  loginOut: Sign out
+  openSystemSet: Settings
   reload: Reload
-  closeCurrentTab: Close current tab
-  closeLeftTabs: Close left tabs
-  closeRightTabs: Close right tabs
-  closeOtherTabs: Close other tabs
-  closeAllTabs: Close all tabs
-  contentFullScreen: Full screen
-  contentExitFullScreen: Exit full screen
-  clickCollapse: Click to collapse
-  clickExpand: Click to expand
+  closeCurrentTab: Close tab
+  closeLeftTabs: Close left
+  closeRightTabs: Close right
+  closeOtherTabs: Close others
+  closeAllTabs: Close all
+  contentFullScreen: Fullscreen
+  contentExitFullScreen: Exit fullscreen
+  clickCollapse: Collapse
+  clickExpand: Expand
   confirm: Confirm
   switch: Switch
   close: Close
@@ -60,60 +60,60 @@ buttons:
   actionAdd: Add
   actionEdit: Edit
   actionView: View
-  actionRetry: Retry
+  actionRetry: Resend
   actionRecall: Recall
   actionDownload: Download
   actionDelete: Delete
-  actionBatchDownload: Batch download
+  actionBatchDownload: Download selected
   actionRestore: Restore
-  actionBatchRestore: Batch restore
-  actionBatchDelete: Batch delete
+  actionBatchRestore: Restore selected
+  actionBatchDelete: Delete selected
   actionMore: More
   actionBatchStatus: Change status
-  actionBatchEnable: Enable selected
-  actionBatchLock: Lock selected
-  actionBatchDisable: Disable selected
-  actionAdvanced: Advanced
-  actionAdvancedSearch: Advanced Search
-  actionCollapseSearch: Collapse
-  exportExcel: Export to Excel
-  importExcel: Import from Excel
-  forbidText: Forbid
+  actionBatchEnable: Enable
+  actionBatchLock: Lock
+  actionBatchDisable: Disable
+  actionAdvanced: More
+  actionAdvancedSearch: Filters
+  actionCollapseSearch: Hide filters
+  exportExcel: Export
+  importExcel: Import
+  forbidText: Block
   permitText: Allow
-  fixedText: Fixed
-  unFixedText: Unfixed
+  fixedText: Pin
+  unFixedText: Unpin
   statusActiveText: Enabled
   statusInactiveText: Disabled
   assignClearAll: Clear all
 assign:
-  role: Assign roles
-  dept: Dept membership
-  post: Post assignment
+  role: Roles
+  dept: Departments
+  post: Positions
 
 table:
   idx: No
   id: ID
   assigned: Assigned
   actions: Actions
-  createdAt: Created At
-  updatedAt: Updated At
-  createdByName: Created by
-  updatedByName: Updated by
+  createdAt: Created
+  updatedAt: Updated
+  createdByName: Creator
+  updatedByName: Updater
 placeholder:
-  input: Enter {field}
-  selectFilter: All {field}
-  select: Select {field}
-  keyword: Search {field} by keyword
-  prefix: Enter {field} prefix
-  rangeStart: Start time
-  rangeEnd: End time
+  input: 'Enter {field}'
+  selectFilter: 'All {field}'
+  select: 'Select {field}'
+  keyword: 'Search {field}'
+  prefix: '{field} prefix'
+  rangeStart: Start
+  rangeEnd: End
 search:
   total: Total
-  history: Search history
+  history: History
   collect: Favorites
   dragSort: (Draggable)
   empty: No results
-  placeholder: Search menu (supports pinyin)
+  placeholder: Search menu
 status:
   loading: Loading...
   open: On
@@ -131,12 +131,12 @@ listTable:
   densityLarge: Wide
   densityDefault: Default
   densitySmall: Compact
-  tippyColumnSettings: Column settings
+  tippyColumnSettings: Columns
   tippyDensity: Density
   tippyExpand: Expand
   tippyCollapse: Collapse
   tippyFullscreen: Fullscreen
-  tippyExitFullscreen: Exit fullscreen
-  columnShowAll: Show all columns
+  tippyExitFullscreen: Exit
+  columnShowAll: All columns
   refresh: Refresh
   reset: Reset

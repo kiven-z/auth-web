@@ -1,7 +1,7 @@
 inAppMessage:
   title:
-    table: In-app send tasks
-    detail: Send task detail
+    table: Send Tasks
+    detail: Detail
     recipients: Recipients
   action:
     recipients: Recipients
@@ -12,9 +12,9 @@ inAppMessage:
     title: Title
     status: Status
     sourceType: Source
-    recipientScopeType: Recipient scope
+    recipientScopeType: Scope
     recipientScopeIds: Scope IDs
-    includeChildren: Include sub-departments
+    includeChildren: Sub-depts
     contentType: Content type
     content: Content
     linkUrl: Link URL

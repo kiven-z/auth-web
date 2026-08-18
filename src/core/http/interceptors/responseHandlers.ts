@@ -4,6 +4,7 @@ import { API_SUCCESS_CODE, isNoAuthRequestPath } from '@/auth/config/http-config
 import { executeAuthRecovery } from '@/core/auth/recovery/executor';
 import { isApiResultEnvelope } from '@/core/http/apiResult';
 import { rejectWithApiEnvelopeError } from '@/core/http/errorAdapter';
+import { parseContentDispositionFilename } from '@/shared/utils/file/download';
 import Axios, { type AxiosInstance, type AxiosResponse } from 'axios';
 import type { AuthHttpError, AuthHttpRequestConfig } from '../types';
 
@@ -24,6 +25,12 @@ function handleResponseSuccess(response: AxiosResponse) {
   const raw = response.data;
 
   if (config.responseType === 'blob' || config.responseType === 'arraybuffer') {
+    if (config.blobWithFilename) {
+      return {
+        blob: raw,
+        filename: parseContentDispositionFilename(response.headers['content-disposition']),
+      };
+    }
     return raw;
   }
 

@@ -6,7 +6,7 @@ onlineUser:
   summary:
     userCount: ~{count} user(s) with valid session(s)
   action:
-    viewSessions: View sessions
-    kickAll: Kick all
+    viewSessions: Sessions
+    kickAll: Sign out all
   message:
-    kickAllSuccess: All sessions kicked successfully
+    kickAllSuccess: All sessions signed out

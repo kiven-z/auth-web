@@ -1,18 +1,18 @@
 inAppCategory:
   page:
-    title: In-app message categories
+    title: Categories
     view:
       table: Tree table
       tree: Tree
     tree:
-      expandAll: Expand all
-      collapseAll: Collapse all
+      expandAll: Expand
+      collapseAll: Collapse
   dialog:
-    create: Create category
-    edit: Edit category
-    view: Category detail
+    create: Create
+    edit: Edit
+    view: Detail
   action:
-    addChild: Add Child
+    addChild: Add child
   rootLabel: Major
   enum:
     rootOnly:

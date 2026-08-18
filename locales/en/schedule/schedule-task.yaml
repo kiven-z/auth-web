@@ -22,10 +22,10 @@ scheduleTask:
     lastExecutionStatus: Last Result
     lastExecutionTime: Last Execution Time
   page:
-    tableTitle: Scheduled Tasks
-    dialogCreateTitle: Add Schedule Task
-    dialogEditTitle: Edit Schedule Task
-    dialogViewTitle: View Schedule Task Details
+    tableTitle: Tasks
+    dialogCreateTitle: Add
+    dialogEditTitle: Edit
+    dialogViewTitle: Detail
   enums:
     taskType:
       BEAN_INVOKE: Bean Invoke

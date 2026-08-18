@@ -39,30 +39,25 @@ export function useFormOverlaySubmit() {
    * 生成 beforeSure 回调
    */
   function createFormBeforeSure<TForm>(options: CreateFormBeforeSureOptions<TForm>) {
-    return async (done: (cancel?: boolean) => void, ctx?: { closeLoading?: () => void }) => {
-      const closeLoading = ctx?.closeLoading;
+    return async (done: (cancel?: boolean) => void) => {
       try {
         const formInstance = options.formExposeRef.value?.formRef;
         const isValid = await formInstance?.validate().catch(() => false);
         if (!isValid) {
-          closeLoading?.();
           return;
         }
 
         const formPayload = options.formExposeRef.value?.form;
         if (!formPayload) {
-          closeLoading?.();
           return;
         }
 
         if (options.requireId && !(formPayload as { id?: string }).id) {
-          closeLoading?.();
           return;
         }
 
         const submitResult = await options.onSubmit(formPayload);
         if (submitResult === false) {
-          closeLoading?.();
           return;
         }
 
@@ -72,7 +67,6 @@ export function useFormOverlaySubmit() {
 
         done();
       } catch (error: unknown) {
-        closeLoading?.();
         errorMessage(error);
       }
     };

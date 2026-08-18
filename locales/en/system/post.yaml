@@ -1,26 +1,26 @@
 post:
-  moduleName: Posts
+  moduleName: Positions
   page:
-    title: Post Management
+    title: Positions
   dialog:
-    create: Add Post
-    edit: Edit Post
-    view: View Post Details
+    create: Add
+    edit: Edit
+    view: Details
   assign:
-    current: Current post
+    current: Current position
   menu:
-    authorizationSurface: View authorization surface
+    authorizationSurface: Access
   authorizationSurface:
-    title: Post authorization surface
+    title: Access
   field:
-    postCode: Post Code
-    postName: Post Name
-    deptName: Owning department
+    postCode: Code
+    postName: Name
+    deptName: Department
     status: Status
     orderNum: Order
     remark: Remark
-    employeeNo: Employee No.
-    isPrimaryPosition: Primary Post
+    employeeNo: Emp. No.
+    isPrimaryPosition: Primary
   status:
     propagatedInactive: Disabled (department inactive)
   enums:
@@ -39,4 +39,4 @@ post:
       title: Granted Roles
       empty: No granted roles
   tips:
-    affiliatedPostInfo: Posts
+    affiliatedPostInfo: Positions

@@ -153,52 +153,55 @@ onMounted(() => {
       </template>
 
       <template #actions="{ row }">
-        <el-button v-auth="SYS_ROLE_PERMS.DETAIL" link type="primary" @click="openDetailDialog(row)">
-          {{ t('buttons.actionView') }}
-        </el-button>
-        <el-button v-auth="SYS_ROLE_PERMS.UPDATE" link type="primary" @click="openEditDialog(row)">
-          {{ t('buttons.actionEdit') }}
-        </el-button>
-        <el-button v-auth="SYS_ROLE_PERMS.DELETE" link type="danger" @click="deleteRow(row)">
-          {{ t('buttons.actionDelete') }}
-        </el-button>
+        <div class="flex flex-wrap items-center gap-x-1">
+          <el-button v-auth="SYS_ROLE_PERMS.DETAIL" link type="primary" @click="openDetailDialog(row)">
+            {{ t('buttons.actionView') }}
+          </el-button>
+          <el-button v-auth="SYS_ROLE_PERMS.UPDATE" link type="primary" @click="openEditDialog(row)">
+            {{ t('buttons.actionEdit') }}
+          </el-button>
+          <el-button v-auth="SYS_ROLE_PERMS.DELETE" link type="danger" @click="deleteRow(row)">
+            {{ t('buttons.actionDelete') }}
+          </el-button>
 
-        <AuthDropdown
-          :items="[
-            {
-              label: t('roles.menu.authorizationSurface'),
-              permission: SYS_ROLE_PERMS.QUERY,
-              onClick: () =>
-                openRoleAuthorizationSurface({
-                  roleId: row.id,
-                  roleCode: row.roleCode,
-                  roleName: row.roleName,
-                }),
-            },
-            {
-              label: t('roles.assign.permission'),
-              permission: SYS_ROLE_PERMS.UPDATE,
-              onClick: () => openAssignPermissionDrawer(row),
-            },
-            {
-              label: t('roles.menu.dataScope'),
-              permission: SYS_ROLE_PERMS.UPDATE,
-              onClick: () => openDataScopeDialog(row),
-            },
-            {
-              label: t('roles.menu.grantSubjects'),
-              permission: SYS_ROLE_PERMS.UPDATE,
-              onClick: () => openGrantSubjectsDrawer(row),
-            },
-            {
-              label: t('roles.menu.impactAnalysis'),
-              permission: SYS_ROLE_PERMS.QUERY,
-              onClick: () => openRoleImpactAnalysis({ roleId: row.id, roleCode: row.roleCode, roleName: row.roleName }),
-            },
-          ]"
-        >
-          <el-button class="ml-2!" link type="primary">{{ t('buttons.actionMore') }}</el-button>
-        </AuthDropdown>
+          <AuthDropdown
+            :items="[
+              {
+                label: t('roles.menu.authorizationSurface'),
+                permission: SYS_ROLE_PERMS.QUERY,
+                onClick: () =>
+                  openRoleAuthorizationSurface({
+                    roleId: row.id,
+                    roleCode: row.roleCode,
+                    roleName: row.roleName,
+                  }),
+              },
+              {
+                label: t('roles.assign.permission'),
+                permission: SYS_ROLE_PERMS.UPDATE,
+                onClick: () => openAssignPermissionDrawer(row),
+              },
+              {
+                label: t('roles.menu.dataScope'),
+                permission: SYS_ROLE_PERMS.UPDATE,
+                onClick: () => openDataScopeDialog(row),
+              },
+              {
+                label: t('roles.menu.grantSubjects'),
+                permission: SYS_ROLE_PERMS.UPDATE,
+                onClick: () => openGrantSubjectsDrawer(row),
+              },
+              {
+                label: t('roles.menu.impactAnalysis'),
+                permission: SYS_ROLE_PERMS.QUERY,
+                onClick: () =>
+                  openRoleImpactAnalysis({ roleId: row.id, roleCode: row.roleCode, roleName: row.roleName }),
+              },
+            ]"
+          >
+            <el-button class="ml-2!" link type="primary">{{ t('buttons.actionMore') }}</el-button>
+          </AuthDropdown>
+        </div>
       </template>
     </ListTable>
   </div>

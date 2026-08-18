@@ -55,7 +55,7 @@ function useUserPostAssignTableColumns() {
       label: t('table.actions'),
       fixed: 'right',
       slot: 'actions',
-      minWidth: 130,
+      minWidth: 140,
     },
   ]);
 

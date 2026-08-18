@@ -2,7 +2,7 @@
 import { loginByUsernameApi } from '@/api/auth';
 import { useRenderIcon } from '@/components/ui/Icon';
 import { LoginFormEmits } from '@/features/home/login/types/login-mode';
-import { usernamePasswordRules } from '@/features/home/login/rules/username-password.rules';
+import { useUsernamePasswordRules } from '@/features/home/login/rules/username-password.rules';
 import type { FormInstance } from 'element-plus';
 import { reactive, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
@@ -21,6 +21,7 @@ const emit = defineEmits<LoginFormEmits>();
 const { t } = useI18n();
 const formRef = ref<FormInstance>();
 const loading = ref(false);
+const rules = useUsernamePasswordRules();
 const { isRemembered, loginAndEstablishSession } = useLoginRemember();
 
 // 登录表单
@@ -55,7 +56,7 @@ const handleSubmit = async () => {
 </script>
 
 <template>
-  <el-form ref="formRef" v-enter-submit="handleSubmit" :model="formData" :rules="usernamePasswordRules" size="large">
+  <el-form ref="formRef" v-enter-submit="handleSubmit" :model="formData" :rules="rules" size="large">
     <Motion :delay="100">
       <el-form-item prop="username">
         <el-input

@@ -5,7 +5,7 @@ import type { FileRecordDetail, FileRecordPageRow } from '@/features/file/api/mo
 import { errorMessage, message } from '@/services/feedback/message';
 import type { TableActionWithSelectionDeps } from '@/shared/types/table-action';
 import { buildExportFilenameStamp } from '@/shared/utils/date/dateTime';
-import { downloadBlob, sanitizeDownloadFilename } from '@/shared/utils/file/download';
+import { downloadBlob, sanitizeDownloadFilename, type BlobDownloadPayload } from '@/shared/utils/file/download';
 import { ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import useFileRecordDetailColumns from './useFileRecordDetailColumns';
@@ -15,7 +15,7 @@ export interface UseFileRecordTableActionCoreOptions extends TableActionWithSele
   /** 批量删除 API。 */
   deleteApi: (ids: string[]) => Promise<unknown>;
   /** 批量下载 API。 */
-  downloadApi: (ids: string[]) => Promise<Blob>;
+  downloadApi: (ids: string[]) => Promise<BlobDownloadPayload>;
   /** 详情查询 API。 */
   detailApi: (id: string) => Promise<FileRecordDetail>;
 }
@@ -59,7 +59,7 @@ function useFileRecordTableActionCore(options: UseFileRecordTableActionCoreOptio
     }
     currentDownloadingRowId.value = row.id;
     try {
-      const blob = await downloadApi([row.id]);
+      const { blob } = await downloadApi([row.id]);
       downloadBlob(blob, `${fileNameStem(row.originalName)}.zip`);
       message(t('fileRecord.messages.downloadSuccess'), { type: 'success' });
     } catch (error: unknown) {
@@ -80,8 +80,8 @@ function useFileRecordTableActionCore(options: UseFileRecordTableActionCoreOptio
     }
     batchDownloadLoading.value = true;
     try {
-      const blob = await downloadApi(targetIds);
-      downloadBlob(blob, `file-records_${buildExportFilenameStamp()}.zip`);
+      const { blob, filename } = await downloadApi(targetIds);
+      downloadBlob(blob, filename ?? `file-records_${buildExportFilenameStamp()}.zip`);
       message(t('fileRecord.messages.batchDownloadSuccess', { count: targetIds.length }), { type: 'success' });
     } catch (error: unknown) {
       errorMessage(error);

@@ -46,6 +46,7 @@ const normalizedItems = computed(() =>
 <style scoped>
 .detail-relation-count-bar__header {
   display: flex;
+  flex-wrap: wrap;
   gap: 12px;
   align-items: center;
   justify-content: space-between;

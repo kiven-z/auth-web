@@ -123,7 +123,7 @@ function useAdminFileExportTaskTableColumns() {
     {
       label: t('table.actions'),
       fixed: 'right',
-      width: 260,
+      minWidth: 260,
       slot: 'actions',
     },
   ]);

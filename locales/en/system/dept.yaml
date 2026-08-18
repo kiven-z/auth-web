@@ -1,30 +1,30 @@
 dept:
   page:
-    title: Department Management
+    title: Departments
     moduleName: Departments
     view:
-      table: Table View
-      treeTable: Tree Table View
-      tree: Tree View
+      table: Table
+      treeTable: Tree table
+      tree: Tree
     tree:
-      expandAll: Expand All
-      collapseAll: Collapse All
+      expandAll: Expand
+      collapseAll: Collapse
   dialog:
-    view: Department Details
-    create: Add Department
-    edit: Edit Department
+    view: Details
+    create: Add
+    edit: Edit
   field:
-    deptName: Department Name
-    deptCode: Department Code
+    deptName: Name
+    deptCode: Code
     status: Status
     orderNum: Order
     remark: Remark
-    parentDept: Parent Department
+    parentDept: Parent
     parentTopLevel: Top Level
   status:
     propagatedInactive: Disabled (ancestor inactive)
   action:
-    addChild: Add Child
+    addChild: Add child
   message:
     moveSuccess: Department moved successfully
   move:
@@ -34,16 +34,16 @@ dept:
   assignRole:
     currentDept: Current department
   menu:
-    authorizationSurface: View authorization surface
+    authorizationSurface: Access
   authorizationSurface:
-    title: Department authorization surface
+    title: Access
   binding:
     users:
       title: Linked Users
       empty: No linked users
     posts:
-      title: Posts
-      empty: No posts
+      title: Positions
+      empty: No positions
     roles:
       title: Granted Roles
       empty: No granted roles

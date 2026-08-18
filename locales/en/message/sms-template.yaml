@@ -1,14 +1,14 @@
 smsTemplate:
-  tableTitle: SMS templates
-  addDialogTitle: Add SMS template
-  editDialogTitle: Edit SMS template
-  detailDialogTitle: SMS template detail
+  tableTitle: SMS Templates
+  addDialogTitle: Add
+  editDialogTitle: Edit
+  detailDialogTitle: Detail
   templateCode: Scene code
-  templateName: Template name
+  templateName: Name
   description: Description
-  providerTemplateCode: Provider template code
-  content: Template body
-  priority: Send priority
+  providerTemplateCode: Provider code
+  content: Body
+  priority: Priority
   status: Status
   testSendPhone: Recipient phone
   testSendPhonePlaceholder: Enter recipient phone number

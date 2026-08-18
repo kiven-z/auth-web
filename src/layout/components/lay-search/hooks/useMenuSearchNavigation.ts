@@ -26,6 +26,8 @@ interface UseMenuSearchNavigationOptions {
   resultRef: Ref<ScrollablePanelRef | undefined>;
   historyRef: Ref<ScrollablePanelRef | undefined>;
   scrollbarRef: Ref<MenuSearchScrollbarRef | undefined>;
+  /** 搜索弹窗打开时才响应键盘导航 */
+  visible: Ref<boolean>;
   onConfirm: (ctx: MenuSearchConfirmContext) => void;
 }
 
@@ -35,6 +37,10 @@ interface UseMenuSearchNavigationOptions {
  * @returns 确认与移动方法（供列表点击复用）
  */
 export function useMenuSearchNavigation(options: UseMenuSearchNavigationOptions) {
+  function isNavigationActive() {
+    return options.visible.value;
+  }
+
   function getCurrentOptionsAndPath() {
     const isResultOptions = options.resultOptions.value.length > 0;
     const listOptions = isResultOptions ? options.resultOptions.value : options.historyOptions.value;
@@ -68,6 +74,10 @@ export function useMenuSearchNavigation(options: UseMenuSearchNavigationOptions)
   }
 
   function moveSelection(direction: 'prev' | 'next') {
+    if (!isNavigationActive()) {
+      return;
+    }
+
     const { options: listOptions, currentPath, isResultOptions } = getCurrentOptionsAndPath();
     if (listOptions.length === 0) {
       return;
@@ -79,6 +89,10 @@ export function useMenuSearchNavigation(options: UseMenuSearchNavigationOptions)
   }
 
   function handleEnter() {
+    if (!isNavigationActive()) {
+      return;
+    }
+
     const { options: listOptions, currentPath, isResultOptions } = getCurrentOptionsAndPath();
     if (listOptions.length === 0 || currentPath === '') {
       return;

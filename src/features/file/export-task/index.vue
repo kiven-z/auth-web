@@ -148,31 +148,33 @@ onMounted(() => {
 
     <ListTable :columns="columns" :state="fileExportTaskState" :title="t('fileExportTask.page.adminTableTitle')">
       <template #actions="{ row }">
-        <el-button v-auth="FILE_EXPORT_TASK_PERMS.QUERY" link type="primary" @click="openDetailDialog(row)">
-          {{ t('buttons.actionView') }}
-        </el-button>
-        <el-button v-auth="FILE_EXPORT_TASK_PERMS.QUERY" link type="primary" @click="openAttemptsDialog(row)">
-          {{ t('fileExportTask.actions.viewAttempts') }}
-        </el-button>
+        <div class="flex flex-wrap items-center gap-x-1">
+          <el-button v-auth="FILE_EXPORT_TASK_PERMS.QUERY" link type="primary" @click="openDetailDialog(row)">
+            {{ t('buttons.actionView') }}
+          </el-button>
+          <el-button v-auth="FILE_EXPORT_TASK_PERMS.QUERY" link type="primary" @click="openAttemptsDialog(row)">
+            {{ t('fileExportTask.actions.viewAttempts') }}
+          </el-button>
 
-        <AuthDropdown
-          :items="[
-            {
-              label: t('fileExportTask.actions.forceCancel'),
-              permission: FILE_EXPORT_TASK_PERMS.CANCEL,
-              show: FILE_EXPORT_TASK_CANCELLABLE_STATUS.has(row.status),
-              onClick: () => forceCancelTask(row),
-            },
-            {
-              label: t('fileExportTask.actions.forceRetry'),
-              permission: FILE_EXPORT_TASK_PERMS.RETRY,
-              show: FILE_EXPORT_TASK_RETRYABLE_STATUS.has(row.status),
-              onClick: () => forceRetryTask(row),
-            },
-          ]"
-        >
-          <el-button class="ml-2!" link type="primary">{{ t('buttons.actionMore') }}</el-button>
-        </AuthDropdown>
+          <AuthDropdown
+            :items="[
+              {
+                label: t('fileExportTask.actions.forceCancel'),
+                permission: FILE_EXPORT_TASK_PERMS.CANCEL,
+                show: FILE_EXPORT_TASK_CANCELLABLE_STATUS.has(row.status),
+                onClick: () => forceCancelTask(row),
+              },
+              {
+                label: t('fileExportTask.actions.forceRetry'),
+                permission: FILE_EXPORT_TASK_PERMS.RETRY,
+                show: FILE_EXPORT_TASK_RETRYABLE_STATUS.has(row.status),
+                onClick: () => forceRetryTask(row),
+              },
+            ]"
+          >
+            <el-button class="ml-2!" link type="primary">{{ t('buttons.actionMore') }}</el-button>
+          </AuthDropdown>
+        </div>
       </template>
     </ListTable>
   </div>

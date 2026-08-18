@@ -1,22 +1,22 @@
 inAppTemplate:
-  tableTitle: In-app message templates
-  addDrawerTitle: Create in-app template
-  editDrawerTitle: Edit in-app template
-  detailDialogTitle: In-app template detail
+  tableTitle: In-app Templates
+  addDrawerTitle: Create
+  editDrawerTitle: Edit
+  detailDialogTitle: Detail
   templateCode: Scene code
-  templateName: Template name
+  templateName: Name
   subject: Title
   description: Description
-  content: Template body
-  contentType: Content type
-  priority: Send priority
+  content: Body
+  contentType: Type
+  priority: Priority
   status: Status
-  majorCategory: Major category
-  categoryId: Minor category
-  linkUrl: Link URL
+  majorCategory: Major
+  categoryId: Minor
+  linkUrl: Link
   testSendDialogTitle: Test send
   testSendUser: Recipient
-  testSendUserPlaceholder: Search and select a recipient
+  testSendUserPlaceholder: Search recipient
   placeholder:
     templateCode: Enter scene code, e.g. login-in-app-notice
     templateName: Enter template name

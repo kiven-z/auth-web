@@ -33,7 +33,7 @@ function useDeptTableColumns() {
       render: ({ row }: { row: SysDeptRow }) => renderDeptStatusTag(row),
     },
     ...createAuditTableColumns(),
-    { label: t('table.actions'), fixed: 'right', width: 220, slot: 'actions' },
+    { label: t('table.actions'), fixed: 'right', minWidth: 240, slot: 'actions' },
   ]);
 
   return { tableColumns };

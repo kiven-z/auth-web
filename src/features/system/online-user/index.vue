@@ -83,23 +83,25 @@ onMounted(() => {
       </template>
 
       <template #actions="{ row }">
-        <el-button
-          v-auth="SYS_ONLINE_USER_PERMS.VIEW_SESSIONS"
-          link
-          type="primary"
-          @click="openViewSessionsDialog(row)"
-        >
-          {{ t('onlineUser.action.viewSessions') }}
-        </el-button>
-        <el-button
-          v-auth="SYS_ONLINE_USER_PERMS.KICK_ALL"
-          :loading="kickingUserId === row.userId"
-          link
-          type="danger"
-          @click="kickAllSessionsRow(row)"
-        >
-          {{ t('onlineUser.action.kickAll') }}
-        </el-button>
+        <div class="flex flex-wrap items-center gap-x-1">
+          <el-button
+            v-auth="SYS_ONLINE_USER_PERMS.VIEW_SESSIONS"
+            link
+            type="primary"
+            @click="openViewSessionsDialog(row)"
+          >
+            {{ t('onlineUser.action.viewSessions') }}
+          </el-button>
+          <el-button
+            v-auth="SYS_ONLINE_USER_PERMS.KICK_ALL"
+            :loading="kickingUserId === row.userId"
+            link
+            type="danger"
+            @click="kickAllSessionsRow(row)"
+          >
+            {{ t('onlineUser.action.kickAll') }}
+          </el-button>
+        </div>
       </template>
     </ListTable>
   </div>

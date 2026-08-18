@@ -121,12 +121,14 @@ watch(
       </template>
 
       <template #actions="{ row }">
-        <el-button v-auth="SYS_USER_POST_PERMS.UPDATE" link type="primary" @click="openEditDialog(row)">
-          {{ t('buttons.actionEdit') }}
-        </el-button>
-        <el-button v-auth="SYS_USER_POST_PERMS.DELETE" link type="danger" @click="deleteBatchRows([row.id])">
-          {{ t('buttons.actionDelete') }}
-        </el-button>
+        <div class="flex flex-wrap items-center gap-x-1">
+          <el-button v-auth="SYS_USER_POST_PERMS.UPDATE" link type="primary" @click="openEditDialog(row)">
+            {{ t('buttons.actionEdit') }}
+          </el-button>
+          <el-button v-auth="SYS_USER_POST_PERMS.DELETE" link type="danger" @click="deleteBatchRows([row.id])">
+            {{ t('buttons.actionDelete') }}
+          </el-button>
+        </div>
       </template>
     </ListTable>
   </div>

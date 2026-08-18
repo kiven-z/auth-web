@@ -1,3 +1,41 @@
+/** Blob 下载载荷（可选携带服务端 Content-Disposition 文件名） */
+export interface BlobDownloadPayload {
+  blob: Blob;
+  filename?: string;
+}
+
+/**
+ * 从 Content-Disposition 响应头解析 attachment 文件名
+ * @param header Content-Disposition 原始值
+ * @returns 解析出的文件名；无法解析时返回 undefined
+ */
+export function parseContentDispositionFilename(header: string | undefined | null): string | undefined {
+  if (!header) {
+    return undefined;
+  }
+
+  const utf8Match = header.match(/filename\*=UTF-8''([^;]+)/i);
+  if (utf8Match?.[1]) {
+    try {
+      return decodeURIComponent(utf8Match[1].trim());
+    } catch {
+      // 解码失败时继续尝试 filename=
+    }
+  }
+
+  const quotedMatch = header.match(/filename="([^"]+)"/i);
+  if (quotedMatch?.[1]) {
+    return quotedMatch[1];
+  }
+
+  const plainMatch = header.match(/filename=([^;]+)/i);
+  if (plainMatch?.[1]) {
+    return plainMatch[1].trim().replace(/^"(.*)"$/, '$1');
+  }
+
+  return undefined;
+}
+
 /**
  * 清洗下载文件名（去掉路径分隔与控制字符）
  * @param filename 原始文件名

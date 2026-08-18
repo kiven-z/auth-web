@@ -32,7 +32,7 @@ function usePermissionTableColumns() {
     {
       label: t('table.actions'),
       fixed: 'right',
-      minWidth: 160,
+      minWidth: 240,
       slot: 'actions',
     },
   ]);

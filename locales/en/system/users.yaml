@@ -1,33 +1,33 @@
 users:
   title:
     module: Users
-    create: Add User
+    create: Add
   workstation:
-    title: User workstation
-    back: Back to users
+    title: User
+    back: Users
     loadingName: Loading…
     unknownUser: User not found
     loadFailedHint: Failed to load profile
-    open: Workstation
+    open: Open
     nav:
       group:
         overview: Overview
         profile: Profile
-        grant: Authorization
-        security: Account security
-      overview: User info
-      profile: Edit profile
-      grantRole: Assign roles
-      grantDept: Department membership
-      grantPost: Post assignment
-      grantScope: Data scope
-      security: Account security
+        grant: Access
+        security: Security
+      overview: Info
+      profile: Edit
+      grantRole: Roles
+      grantDept: Departments
+      grantPost: Positions
+      grantScope: Data access
+      security: Security
     security:
       passwordDesc: Reset this user's login password as an administrator
-      authRefresh: Refresh authorization
-      authRefreshDesc: Force rebuild of this user's authorization profile cache
+      authRefresh: Refresh access
+      authRefreshDesc: Force rebuild of this user's access profile cache
       kickDesc: Sign out all active sessions for this user
-      delete: Delete user
+      delete: Delete
       deleteDesc: Delete this user account; related grants will be revoked and cannot be undone
   field:
     username: Username
@@ -40,25 +40,25 @@ users:
     birthday: Birthday
     introduction: Bio
     remark: Remark
-    lastLoginIp: Last login IP
-    lastLoginRegion: Last login region
+    lastLoginIp: Last IP
+    lastLoginRegion: Last region
   section:
-    baseInfo: Basic information
-    postInfo: Post assignments
+    baseInfo: Basics
+    postInfo: Positions
     profile: Profile
   filter:
     allDepts: All
   assign:
     current: Current user
   authorizationSurface:
-    title: User authorization surface
+    title: Access
   bound:
     depts:
-      title: Department assignments
+      title: Departments
       empty: No department assignments
     posts:
-      title: Post assignments
-      empty: No post assignments
+      title: Positions
+      empty: No position assignments
     directRoles:
       title: Direct roles
       empty: No direct roles
@@ -86,29 +86,29 @@ users:
     rememberMe: Remember me
     loginAt: Login time
     expiresAt: Session expires at
-    kickOne: Kick
-    kickAll: Kick all
+    kickOne: Sign out
+    kickAll: Sign out all
     empty: No active sessions for this user
-    kickSuccess: Session kicked successfully
-    kickAllSuccess: All sessions kicked successfully
+    kickSuccess: Session signed out
+    kickAllSuccess: All sessions signed out
   kick:
-    batchAction: Batch sign out users
-    success: User signed out successfully
-    batchSuccess: Selected users signed out successfully
+    batchAction: Sign out
+    success: User signed out
+    batchSuccess: Selected users signed out
   authRefresh:
-    batchAction: Batch refresh authorization
-    success: Authorization refreshed successfully
+    batchAction: Refresh access
+    success: Access refreshed
   deptAssign:
     panelTip: Manage organizational membership; department roles apply accordingly.
-    createTitle: Add department assignment
-    editTitle: Edit department assignment
+    createTitle: Add department
+    editTitle: Edit department
     clearAllConfirm: This will remove all department assignments for this user. Continue?
   postAssign:
-    panelTip: Manage post assignments separately from dept membership; post roles apply accordingly.
-    createTitle: Add post assignment
-    editTitle: Edit post assignment
-    searchPlaceholder: Search by post name or code
-    clearAllConfirm: This will remove all post assignments for this user. Continue?
+    panelTip: Manage position assignments separately from department membership; position roles apply accordingly.
+    createTitle: Add position
+    editTitle: Edit position
+    searchPlaceholder: Search by position name or code
+    clearAllConfirm: This will remove all position assignments for this user. Continue?
   validation:
     passwordConfirmMismatch: Passwords do not match
     usernameMaxLength: Username must be at most 64 characters
@@ -118,10 +118,9 @@ users:
     phoneMaxLength: Phone must be at most 32 characters
     employeeNoMaxLength: Employee no. must be at most 64 characters
     remarkMaxLength: Remark must be at most 500 characters
-    initialPasswordMinLength: Initial password must be 8-18 characters
   tips:
-    showUserPostInfoTip: Post assignments for this user
-    currentUserHasNotPostInfo: No post information for this user
+    showUserPostInfoTip: Position assignments for this user
+    currentUserHasNotPostInfo: No position information for this user
     noDeptInfo: No department information for this user
   accountStatus:
     normal: Enabled
@@ -133,7 +132,7 @@ users:
     female: Female
   scope:
     tips:
-      inheritRole: "Current: inheriting role data scope (no user override)."
+      inheritRole: "Current: inheriting role data access (no user override)."
       overrideActive: "Current: user override is active; role scopes are ignored."
       cleared: User override cleared; role inheritance restored.
     action:

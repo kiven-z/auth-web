@@ -1,20 +1,20 @@
 permissions:
   moduleName: Permissions
   page:
-    title: Permission Management
+    title: Permissions
   dialog:
-    create: Add Permission
-    edit: Edit Permission
-    view: View Permission Details
+    create: Add
+    edit: Edit
+    view: Details
   assign:
-    sectionLabel: Assigned permissions
+    sectionLabel: Permissions
   menu:
-    authorizationSurface: View authorization surface
+    authorizationSurface: Access
   authorizationSurface:
-    title: Permission authorization surface
+    title: Access
   field:
-    permissionCode: Permission Code
-    permissionName: Permission Name
+    permissionCode: Code
+    permissionName: Name
     status: Status
     orderNum: Order
     remark: Remark

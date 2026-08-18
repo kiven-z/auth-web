@@ -25,4 +25,6 @@ export interface AuthHttpResponse extends AxiosResponse {
  */
 export interface AuthHttpRequestConfig extends AxiosRequestConfig {
   _authRecoveryRetryCount?: number;
+  /** Blob 响应时一并解析 Content-Disposition 文件名 */
+  blobWithFilename?: boolean;
 }

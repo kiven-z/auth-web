@@ -8,9 +8,16 @@ import '@/style/md/md-github-alerts.scss';
 
 /**
  * 全局配置 md-editor-v3：本地扩展、Mermaid 主题、GitHub Alerts、预览图懒加载
- * @description 须在应用挂载前调用一次，勿在组件内重复 config
+ * @description 须在应用挂载前调用一次，勿在组件内重复 config。
+ * 注入 mermaid instance 后库不会在首挂载走 CDN 加载分支，须自行 initialize，
+ * 否则首屏 flowchart 可能停在源码占位态。
  */
 export function setupMdEditor(): void {
+  mermaid.initialize({
+    startOnLoad: false,
+    logLevel: 'error',
+  });
+
   config({
     editorExtensions: {
       mermaid: {
@@ -20,6 +27,7 @@ export function setupMdEditor(): void {
     mermaidConfig(base) {
       return {
         ...base,
+        startOnLoad: false,
         logLevel: 'error',
       };
     },
