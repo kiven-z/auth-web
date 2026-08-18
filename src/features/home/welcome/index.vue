@@ -1,43 +1,38 @@
 <script lang="ts" setup>
-import ButtonStatesSection from './components/ButtonStatesSection.vue';
-import ColorPaletteSection from './components/ColorPaletteSection.vue';
-import FormFillSection from './components/FormFillSection.vue';
-import LoadingMaskSection from './components/LoadingMaskSection.vue';
-import OverlaySection from './components/OverlaySection.vue';
-import SemanticSurfacesSection from './components/SemanticSurfacesSection.vue';
-import TableHighlightSection from './components/TableHighlightSection.vue';
-import ThemeLabToolbar from './components/ThemeLabToolbar.vue';
+import { defineAsyncComponent, ref } from 'vue';
 
 defineOptions({
   name: 'AuthWelcome',
 });
+
+type WelcomeDevTab = 'theme' | 'data-scope';
+
+const ThemeLabTab = defineAsyncComponent(() => import('./tabs/ThemeLabTab.vue'));
+const DataScopeTab = defineAsyncComponent(() => import('./tabs/DataScopeTab.vue'));
+
+const activeTab = ref<WelcomeDevTab>('theme');
 </script>
 
 <template>
-  <div class="theme-lab bg-auth-container">
-    <header class="theme-lab__header">
-      <h1 class="theme-lab__title">色阶冒烟（开发期）</h1>
-      <p class="theme-lab__desc">
-        验 token → map-element → EP 组件。亮/暗 + 换主色三刀扫；壳层（侧栏/标签页）请用设置面板。
-      </p>
+  <div class="welcome-dev bg-auth-container">
+    <header class="welcome-dev__header">
+      <h1 class="welcome-dev__title">开发期烟囱页</h1>
+      <p class="welcome-dev__desc">色阶与数据权限演示；验收后可整包删除 welcome/tabs 与 welcome/api。</p>
     </header>
 
-    <ThemeLabToolbar />
-
-    <div class="theme-lab__sections">
-      <ColorPaletteSection />
-      <ButtonStatesSection />
-      <SemanticSurfacesSection />
-      <FormFillSection />
-      <TableHighlightSection />
-      <LoadingMaskSection />
-      <OverlaySection />
-    </div>
+    <el-tabs v-model="activeTab" class="welcome-dev__tabs">
+      <el-tab-pane label="色阶冒烟" lazy name="theme">
+        <ThemeLabTab />
+      </el-tab-pane>
+      <el-tab-pane label="数据权限订单" lazy name="data-scope">
+        <DataScopeTab />
+      </el-tab-pane>
+    </el-tabs>
   </div>
 </template>
 
 <style lang="scss" scoped>
-.theme-lab {
+.welcome-dev {
   display: flex;
   flex-direction: column;
   gap: 16px;
@@ -63,10 +58,10 @@ defineOptions({
     color: var(--auth-text-placeholder);
   }
 
-  &__sections {
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
+  &__tabs {
+    :deep(.el-tabs__content) {
+      padding-top: 16px;
+    }
   }
 }
 </style>

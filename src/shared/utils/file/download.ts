@@ -4,6 +4,10 @@ export interface BlobDownloadPayload {
   filename?: string;
 }
 
+const UTF8_FILENAME_RE = /filename\*=UTF-8''([^;]+)/i;
+const QUOTED_FILENAME_RE = /filename="([^"]+)"/i;
+const PLAIN_FILENAME_RE = /filename=([^;]+)/i;
+
 /**
  * 从 Content-Disposition 响应头解析 attachment 文件名
  * @param header Content-Disposition 原始值
@@ -14,7 +18,7 @@ export function parseContentDispositionFilename(header: string | undefined | nul
     return undefined;
   }
 
-  const utf8Match = header.match(/filename\*=UTF-8''([^;]+)/i);
+  const utf8Match = UTF8_FILENAME_RE.exec(header);
   if (utf8Match?.[1]) {
     try {
       return decodeURIComponent(utf8Match[1].trim());
@@ -23,12 +27,12 @@ export function parseContentDispositionFilename(header: string | undefined | nul
     }
   }
 
-  const quotedMatch = header.match(/filename="([^"]+)"/i);
+  const quotedMatch = QUOTED_FILENAME_RE.exec(header);
   if (quotedMatch?.[1]) {
     return quotedMatch[1];
   }
 
-  const plainMatch = header.match(/filename=([^;]+)/i);
+  const plainMatch = PLAIN_FILENAME_RE.exec(header);
   if (plainMatch?.[1]) {
     return plainMatch[1].trim().replace(/^"(.*)"$/, '$1');
   }

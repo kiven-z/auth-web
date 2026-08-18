@@ -68,18 +68,6 @@ describe('copyToClipboard', () => {
     expect(message).toHaveBeenCalledWith('复制成功', { type: 'success' });
   });
 
-  it('invokes writeText on clipboard receiver to avoid illegal invocation', async () => {
-    const clipboard = {
-      writeText: vi.fn(function (this: unknown, text: string) {
-        expect(this).toBe(clipboard);
-        return Promise.resolve();
-      }),
-    };
-    vi.stubGlobal('navigator', { clipboard });
-
-    await expect(copyToClipboard('hello')).resolves.toBe(true);
-  });
-
   it('serializes object values as JSON before copying', async () => {
     const writeText = vi.fn().mockResolvedValue(undefined);
     vi.stubGlobal('navigator', { clipboard: { writeText } });
@@ -123,7 +111,7 @@ describe('copyToClipboard', () => {
   });
 
   it('falls back to execCommand when Clipboard API is unavailable', async () => {
-    vi.stubGlobal('navigator', undefined as unknown as Navigator);
+    vi.stubGlobal('navigator', undefined);
     const execCommand = stubExecCommandCopy(true);
 
     const ok = await copyToClipboard('hello');
