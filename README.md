@@ -63,7 +63,8 @@ auth-web
 │   ├── store/          # Pinia store  
 │   └── style/          # 全局样式  
 ├── locales/           # i18n 文案  
-├── mock/               # 本地 mock├── e2e/                # Playwright 用例  
+├── mock/               # 本地 mock
+├── e2e/                # Playwright 用例  
 ├── build/              # 构建脚本  
 └── docker/             # 容器化  
 ```

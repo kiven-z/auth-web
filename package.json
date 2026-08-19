@@ -35,19 +35,19 @@
     "vite",
     "esm"
   ],
-  "homepage": "https://github.com/BunnyMaster/auth-web",
+  "homepage": "https://github.com/kiven-z/auth-web",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/BunnyMaster/auth-web.git"
+    "url": "git+https://github.com/kiven-z/auth-web.git"
   },
   "bugs": {
-    "url": "https://github.com/BunnyMaster/auth-web/issues"
+    "url": "https://github.com/kiven-z/auth-web/issues"
   },
   "license": "SEE LICENSE IN LICENSE",
   "author": {
     "name": "Bunny",
     "email": "1319900154@qq.com",
-    "url": "https://github.com/BunnyMaster"
+    "url": "https://github.com/kiven-z"
   },
   "dependencies": {
     "@vueuse/core": "^14.0.0",
