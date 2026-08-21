@@ -1,4 +1,4 @@
-# auth-web
+# auth-web-pro
 
 Auth 项目的前端工程，基于 Vue 3 + Vite + Element Plus + Tailwind CSS，TypeScript 全量接入。
 
@@ -48,7 +48,7 @@ pnpm preview        # 预览构建产物
 ## 目录结构
 
 ```  
-auth-web  
+auth-web-pro  
 ├── src/  
 │   ├── api/            # 接口封装  
 │   ├── app/            # 应用级初始化  

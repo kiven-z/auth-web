@@ -1,6 +1,6 @@
 {
-  "name": "auth-web",
-  "version": "1.0.0-beta.5",
+  "name": "auth-web-pro",
+  "version": "1.0.0-rc.1-pro",
   "private": true,
   "type": "module",
   "scripts": {
@@ -35,13 +35,13 @@
     "vite",
     "esm"
   ],
-  "homepage": "https://github.com/kiven-z/auth-web",
+  "homepage": "https://github.com/kiven-z/auth-web-pro",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/kiven-z/auth-web.git"
+    "url": "git+https://github.com/kiven-z/auth-web-pro.git"
   },
   "bugs": {
-    "url": "https://github.com/kiven-z/auth-web/issues"
+    "url": "https://github.com/kiven-z/auth-web-pro/issues"
   },
   "license": "SEE LICENSE IN LICENSE",
   "author": {
@@ -137,8 +137,9 @@
     "vue-eslint-parser": "^10.2.0",
     "vue-tsc": "^3.1.2"
   },
+  "packageManager": "pnpm@10.34.5",
   "engines": {
     "node": "^20.19.0 || >=22.13.0",
-    "pnpm": ">=9"
+    "pnpm": ">=10.26.0"
   }
 }

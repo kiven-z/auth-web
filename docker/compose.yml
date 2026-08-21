@@ -1,4 +1,4 @@
-name: auth-web
+name: auth-web-pro
 
 # 运行时定义（无 build）。服务器只需本文件即可拉 ACR 启动。
 #
@@ -9,9 +9,9 @@ name: auth-web
 # 本地构建使用同目录 compose.override.yml（docker compose up --build）。
 
 services:
-  auth-web:
-    image: ${IMAGE_PREFIX:-auth}/auth-web:${IMAGE_TAG:-local}
-    container_name: auth-web
+  auth-web-pro:
+    image: ${IMAGE_PREFIX:-auth}/auth-web-pro:${IMAGE_TAG:-local}
+    container_name: auth-web-pro
     mem_limit: 64m
     mem_reservation: 16m
     environment:

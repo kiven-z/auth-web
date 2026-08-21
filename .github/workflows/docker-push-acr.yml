@@ -1,7 +1,7 @@
 # 前端演示镜像推送到阿里云 ACR
-# Secrets 同 auth-server：ACR_REGISTRY / ACR_NAMESPACE / ACR_USERNAME / ACR_PASSWORD
+# Secrets 同 auth-server-pro：ACR_REGISTRY / ACR_NAMESPACE / ACR_USERNAME / ACR_PASSWORD
 
-name: Build and push auth-web to ACR
+name: Build and push auth-web-pro to ACR
 
 on:
   push:
@@ -31,7 +31,7 @@ jobs:
           SHA_SHORT="${GITHUB_SHA::7}"
           echo "tag_sha=${IMAGE_TAG_PREFIX}-${SHA_SHORT}" >> "$GITHUB_OUTPUT"
           echo "tag_latest=${IMAGE_TAG_PREFIX}-latest" >> "$GITHUB_OUTPUT"
-          echo "image=${{ secrets.ACR_REGISTRY }}/${{ secrets.ACR_NAMESPACE }}/auth-web" >> "$GITHUB_OUTPUT"
+          echo "image=${{ secrets.ACR_REGISTRY }}/${{ secrets.ACR_NAMESPACE }}/auth-web-pro" >> "$GITHUB_OUTPUT"
 
       - name: Build and push
         uses: docker/build-push-action@v7

@@ -1,8 +1,6 @@
 /**
  * 认证相关 URL 路径（相对 Axios baseURL `/api`，无首尾斜杠）。
  * 不引用 http，供 `http-config` 白名单与 API 层共用，避免循环依赖。
- *
- * @see auth-server AuthController — `@RequestMapping("/api/auth")`
  */
 export const AUTH_API_PATHS = {
   LOGIN_USERNAME: 'auth/login/username',

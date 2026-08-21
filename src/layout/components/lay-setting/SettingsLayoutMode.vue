@@ -184,7 +184,7 @@ watch(
 
 <style lang="scss" scoped>
 .settings-layout {
-  /* 布局示意色：固定亮色块，不跟 html.dark 翻转（与 PureAdmin 一致） */
+  /* 布局示意色：固定亮色块，不跟 html.dark 翻转 */
   --settings-layout-page: #ebeef2;
   --settings-layout-chrome: #292c3d;
   --settings-layout-panel: #fff;

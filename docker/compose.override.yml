@@ -1,7 +1,7 @@
 # 仅本地构建。服务器部署不要拷贝本文件。
 
 services:
-  auth-web:
+  auth-web-pro:
     build:
       context: ..
       dockerfile: docker/Dockerfile
