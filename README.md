@@ -4,21 +4,7 @@ Auth 项目的前端工程，基于 Vue 3 + Vite + Element Plus + Tailwind CSS�
 
 > 设计说明、环境搭建、排障记录见姊妹仓库 [auth-docs](../auth-docs)。
 
-## 技术栈
-
-| 类别     | 选型                                       |
-|--------|------------------------------------------|
-| 框架     | Vue 3.5、Vue Router 4、Pinia 3             |
-| 构建     | Vite 7、pnpm ≥ 9                          |
-| UI     | Element Plus 2.11、Tailwind CSS 4、Iconify |
-| 语言     | TypeScript 5.9                           |
-| 国际化    | Vue I18n 11                              |
-| HTTP   | Axios                                    |
-| 图表/编辑器 | ECharts 6、Monaco Editor、Mermaid          |
-| 测试     | Vitest（单测）、Playwright（E2E）               |
-| 质量     | ESLint 9、Prettier、Stylelint、SonarQube    |
-
-## 环境要求
+s## 环境要求
 
 - Node.js `^20.19.0` 或 `>=22.13.0`
 - pnpm `>=9`（已通过 `preinstall` 强制 pnpm，npm/yarn 会被拒绝）
