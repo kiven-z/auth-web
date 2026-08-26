@@ -1,8 +1,9 @@
 <script lang="ts" setup>
 import { computed, onMounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
+import type { ExportPreCheckResult } from '@/features/file/api/models/export-precheck';
 import resolvePreCheckView from './resolvePreCheckView';
-import type { ExportPreCheckResult, ExportPreCheckView } from './types';
+import type { ExportPreCheckView } from './types';
 
 defineOptions({
   name: 'ExportPreCheckDialog',

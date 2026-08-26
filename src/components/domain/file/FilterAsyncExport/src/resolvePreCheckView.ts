@@ -1,7 +1,8 @@
-import type { ExportPreCheckResult, ExportPreCheckView } from './types';
+import type { ExportPreCheckResult } from '@/features/file/api/models/export-precheck';
+import type { ExportPreCheckView } from './types';
 
 /** i18n 翻译函数（仅本包前置检查文案） */
-export type PreCheckTranslate = (key: string, params?: Record<string, unknown>) => string;
+type PreCheckTranslate = (key: string, params?: Record<string, unknown>) => string;
 
 /**
  * 将前置检查结果映射为 el-result 展示模型

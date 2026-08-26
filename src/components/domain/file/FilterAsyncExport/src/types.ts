@@ -1,9 +1,7 @@
 import type { ExportPreCheckResult } from '@/features/file/api/models/export-precheck';
 
-export type { ExportPreCheckResult, ExportPreCheckStatus } from '@/features/file/api/models/export-precheck';
-
 /** el-result 图标 */
-export type ExportPreCheckResultIcon = 'success' | 'warning' | 'info' | 'error';
+type ExportPreCheckResultIcon = 'success' | 'warning' | 'info' | 'error';
 
 /** 前置检查结果视图模型 */
 export interface ExportPreCheckView {

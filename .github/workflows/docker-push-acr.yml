@@ -1,5 +1,9 @@
-# 前端演示镜像推送到阿里云 ACR
+# 前端镜像推送到阿里云 ACR（镜像名 auth-web，tag 前缀 pro）
 # Secrets 同 auth-server-pro：ACR_REGISTRY / ACR_NAMESPACE / ACR_USERNAME / ACR_PASSWORD
+#
+# 推送结果示例：
+#   registry.cn-hangzhou.aliyuncs.com/kiven-z-auth/auth-web:pro-<sha>
+#   registry.cn-hangzhou.aliyuncs.com/kiven-z-auth/auth-web:pro-latest
 
 name: Build and push auth-web-pro to ACR
 
@@ -9,7 +13,7 @@ on:
   workflow_dispatch:
 
 env:
-  IMAGE_TAG_PREFIX: prod
+  IMAGE_TAG_PREFIX: pro
 
 jobs:
   build-push:
@@ -31,7 +35,7 @@ jobs:
           SHA_SHORT="${GITHUB_SHA::7}"
           echo "tag_sha=${IMAGE_TAG_PREFIX}-${SHA_SHORT}" >> "$GITHUB_OUTPUT"
           echo "tag_latest=${IMAGE_TAG_PREFIX}-latest" >> "$GITHUB_OUTPUT"
-          echo "image=${{ secrets.ACR_REGISTRY }}/${{ secrets.ACR_NAMESPACE }}/auth-web-pro" >> "$GITHUB_OUTPUT"
+          echo "image=${{ secrets.ACR_REGISTRY }}/${{ secrets.ACR_NAMESPACE }}/auth-web" >> "$GITHUB_OUTPUT"
 
       - name: Build and push
         uses: docker/build-push-action@v7

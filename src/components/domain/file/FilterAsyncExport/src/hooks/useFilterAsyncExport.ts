@@ -3,7 +3,8 @@ import { errorMessage, message } from '@/services/feedback/message';
 import { h, ref, type Ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import ExportPreCheckDialog from '../ExportPreCheckDialog.vue';
-import type { ExportPreCheckResult, UseFilterAsyncExportOptions } from '../types';
+import type { ExportPreCheckResult } from '@/features/file/api/models/export-precheck';
+import type { UseFilterAsyncExportOptions } from '../types';
 
 /**
  * 生成幂等请求 ID
