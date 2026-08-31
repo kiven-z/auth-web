@@ -8,11 +8,11 @@ import type { FileExportTaskAdminPageRow } from '@/features/file/api/models/file
 import DataTable from '@/components/table/DataTable';
 import { addDialog } from '@/components/ui/Dialog';
 import { errorMessage } from '@/services/feedback/message';
-import type { TableActionDeps } from '@/shared/types/table-action';
 import { useFileExportTaskTableActionCore } from '@/components/domain/file/FileExportTaskTable';
 import useAdminFileExportTaskAttemptColumns from '@/features/file/export-task/hooks/columns/useAdminFileExportTaskAttemptColumns';
 import useAdminFileExportTaskDetailColumns from '@/features/file/export-task/hooks/columns/useAdminFileExportTaskDetailColumns';
 import { useI18n } from 'vue-i18n';
+import type { TableActionDeps } from '@/shared/types/tableAction';
 
 /**
  * 管理端导出任务表格操作（详情、尝试、强制取消、强制重试）

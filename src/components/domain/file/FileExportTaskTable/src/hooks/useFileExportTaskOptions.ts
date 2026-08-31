@@ -3,9 +3,9 @@ import type {
   FileExportFormat,
   FileExportTaskStatus,
 } from '@/features/file/api/models/file-export-task';
-import type { SelectOption, TagSelectOption } from '@/shared/types/select-option';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
+import type { SelectOption, TagSelectOption } from '@/shared/types/selectOption';
 
 /**
  * 导出任务枚举选项（文案随 locale 更新）

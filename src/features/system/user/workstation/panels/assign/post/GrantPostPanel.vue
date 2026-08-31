@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import ListTable, { usePaginationState } from '@/components/table/ListTable';
-import { getUserProfile } from '@/features/system/api/user/user-base';
-import { getUserPostPage, type UserPostPageQuery, type UserPostPageRow } from '@/features/system/api/user/user-post';
+import { getUserProfile } from '@/features/system/api/user/userBase';
+import { getUserPostPage, type UserPostPageQuery, type UserPostPageRow } from '@/features/system/api/user/userPost';
 import { errorMessage } from '@/services/feedback/message';
 import { useFormPlaceholder } from '@/shared/composables/i18n/useFormPlaceholder';
 import { SYS_USER_POST_PERMS } from '@/features/system/user/constants/permissions';
@@ -72,9 +72,9 @@ watch(
 </script>
 
 <template>
-  <div class="flex flex-col">
-    <el-alert :title="t('users.postAssign.panelTip')" closable show-icon type="info" />
-    <el-form ref="searchFormRef" v-enter-submit="fetchTableData" :model="searchForm" class="pt-2 pl-6" inline>
+  <div class="list-table-host">
+    <el-alert :title="t('users.postAssign.panelTip')" class="shrink-0" closable show-icon type="info" />
+    <el-form ref="searchFormRef" v-enter-submit="fetchTableData" :model="searchForm" class="shrink-0 pt-2 pl-6" inline>
       <el-form-item :label="t('post.field.postCode')" prop="postCode">
         <el-input
           v-model="searchForm.postCode"
@@ -102,7 +102,7 @@ watch(
       </el-form-item>
     </el-form>
 
-    <ListTable :columns="columns" :state="postAssignState" :title="tableTitle">
+    <ListTable :columns="columns" :state="postAssignState" :title="tableTitle" adaptive="fill">
       <template #buttons>
         <el-button v-auth="SYS_USER_POST_PERMS.CREATE" type="primary" @click="openCreateDialog">
           {{ t('buttons.actionAdd') }}

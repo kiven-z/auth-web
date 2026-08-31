@@ -62,10 +62,11 @@ describe('requestAuth interceptor', () => {
     await client.request({
       url: 'auth/refresh-token',
       method: 'post',
+      skipAuth: true,
       adapter: resolvedAdapter((config) => {
         expect((config.headers as any)?.Authorization).toBeUndefined();
       }),
-    });
+    } as AxiosRequestConfig);
     expect(ensureAccessTokenReadyMock).not.toHaveBeenCalled();
   });
 
@@ -78,10 +79,11 @@ describe('requestAuth interceptor', () => {
     await client.request({
       url: 'auth/login/username',
       method: 'post',
+      skipAuth: true,
       adapter: resolvedAdapter((config) => {
         expect((config.headers as any)?.Authorization).toBeUndefined();
       }),
-    });
+    } as AxiosRequestConfig);
   });
 
   it('awaits accessToken restore before attaching Authorization on cold boot', async () => {

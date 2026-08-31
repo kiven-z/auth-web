@@ -8,12 +8,12 @@ import type {
 } from '@/features/file/api/models/file-export-task';
 import { operationConfirm } from '@/services/feedback/dialog';
 import { errorMessage, message } from '@/services/feedback/message';
-import type { TableActionDeps } from '@/shared/types/table-action';
 import { downloadUrlAsFile } from '@/shared/utils/file/download';
 import { openLink } from '@/shared/utils/url/url';
 import { type ComputedRef, type Ref, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import FileExportTaskDetailView from '../FileExportTaskDetailView.vue';
+import type { TableActionDeps } from '@/shared/types/tableAction';
 
 /** 导出任务表格动作核心配置 */
 interface UseFileExportTaskTableActionCoreOptions extends TableActionDeps {

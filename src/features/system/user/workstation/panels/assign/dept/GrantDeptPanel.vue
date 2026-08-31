@@ -1,6 +1,6 @@
 <script lang="ts" setup>
-import { getUserProfile } from '@/features/system/api/user/user-base';
-import { getUserDeptPage, type UserDeptPageQuery, type UserDeptPageRow } from '@/features/system/api/user/user-dept';
+import { getUserProfile } from '@/features/system/api/user/userBase';
+import { getUserDeptPage, type UserDeptPageQuery, type UserDeptPageRow } from '@/features/system/api/user/userDept';
 import ListTable, { usePaginationState } from '@/components/table/ListTable';
 import { errorMessage } from '@/services/feedback/message';
 import { useFormPlaceholder } from '@/shared/composables/i18n/useFormPlaceholder';
@@ -72,9 +72,9 @@ watch(
 </script>
 
 <template>
-  <div class="flex flex-col">
-    <el-alert :title="t('users.deptAssign.panelTip')" closable show-icon type="info" />
-    <el-form ref="searchFormRef" v-enter-submit="fetchTableData" :model="searchForm" class="pt-2 pl-6" inline>
+  <div class="list-table-host">
+    <el-alert :title="t('users.deptAssign.panelTip')" class="shrink-0" closable show-icon type="info" />
+    <el-form ref="searchFormRef" v-enter-submit="fetchTableData" :model="searchForm" class="shrink-0 pt-2 pl-6" inline>
       <el-form-item :label="t('dept.field.deptName')" prop="deptName">
         <el-input
           v-model="searchForm.deptName"
@@ -102,7 +102,7 @@ watch(
       </el-form-item>
     </el-form>
 
-    <ListTable :columns="columns" :state="deptAssignState" :title="tableTitle">
+    <ListTable :columns="columns" :state="deptAssignState" :title="tableTitle" adaptive="fill">
       <template #buttons>
         <el-button v-auth="SYS_USER_DEPT_PERMS.CREATE" type="primary" @click="openCreateDialog">
           {{ t('buttons.actionAdd') }}

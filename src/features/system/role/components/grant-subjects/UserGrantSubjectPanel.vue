@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { getRoleGrantSubjectSeeds, putRoleGrantSubjects } from '@/features/system/api/role/role-grant-subjects';
+import { getRoleGrantSubjectSeeds, putRoleGrantSubjects } from '@/features/system/api/role/roleGrantSubjects';
 import { getUserPage, type SysUserPageQuery, type SysUserPageRow } from '@/features/system/api/user/user';
 import AssignPanel from '@/features/system/_shared/components/AssignPanel.vue';
 import { createAssignCheckboxColumnFromModel } from '@/features/system/_shared/columns/createAssignCheckboxColumn';

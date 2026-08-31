@@ -1,11 +1,11 @@
 import type { SysDeptListVO } from '@/features/system/api/dept/dept';
-import { getDeptRoles, putDeptRoles } from '@/features/system/api/dept/dept-role';
+import { getDeptRoles, putDeptRoles } from '@/features/system/api/dept/deptRole';
 import { openAssignDrawer } from '@/features/system/_shared/components/openAssignDrawer';
-import type { TableActionDeps } from '@/shared/types/table-action';
 import RoleAssignPanel from '@/features/system/_shared/components/RoleAssignPanel.vue';
 import useOpenDeptAuthorizationSurface from '@/features/system/dept/hooks/authorization/useOpenDeptAuthorizationSurface';
 import { ref } from 'vue';
 import { useI18n } from 'vue-i18n';
+import type { TableActionDeps } from '@/shared/types/tableAction';
 
 /** 部门「更多」操作依赖 */
 export interface DeptMoreActionDeps extends TableActionDeps {

@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { getDeptPage, type SysDeptListVO, type SysDeptPageQuery } from '@/features/system/api/dept/dept';
-import { getRoleGrantSubjectSeeds, putRoleGrantSubjects } from '@/features/system/api/role/role-grant-subjects';
+import { getRoleGrantSubjectSeeds, putRoleGrantSubjects } from '@/features/system/api/role/roleGrantSubjects';
 import AssignPanel from '@/features/system/_shared/components/AssignPanel.vue';
 import { createAssignCheckboxColumnFromModel } from '@/features/system/_shared/columns/createAssignCheckboxColumn';
 import { useAssignModel } from '@/features/system/_shared/hooks/useAssignModel';

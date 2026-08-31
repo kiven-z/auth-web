@@ -1,12 +1,12 @@
 <script lang="ts" setup>
-import type { UserReference } from '@/features/system/api/models/grant-table';
+import type { UserReference } from '@/features/system/api/models/grantTable';
 import {
   getRoleImpactSummary,
   getRoleImpactUsersPage,
   refreshRoleImpactedProfiles,
   type RoleImpactSummary,
   type RoleImpactUserPageQuery,
-} from '@/features/system/api/role/role-impact';
+} from '@/features/system/api/role/roleImpact';
 import ListTable, { usePaginationState } from '@/components/table/ListTable';
 import { useUserOptions, useUserProfileColumns } from '@/components/domain/user/UserProfile';
 import { operationConfirm } from '@/services/feedback/dialog';

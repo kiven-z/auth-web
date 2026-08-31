@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { getPostPage, type SysPostPageQuery, type SysPostPageRow } from '@/features/system/api/post/post';
-import { getRoleGrantSubjectSeeds, putRoleGrantSubjects } from '@/features/system/api/role/role-grant-subjects';
+import { getRoleGrantSubjectSeeds, putRoleGrantSubjects } from '@/features/system/api/role/roleGrantSubjects';
 import AssignPanel from '@/features/system/_shared/components/AssignPanel.vue';
 import { createAssignCheckboxColumnFromModel } from '@/features/system/_shared/columns/createAssignCheckboxColumn';
 import { useAssignModel } from '@/features/system/_shared/hooks/useAssignModel';

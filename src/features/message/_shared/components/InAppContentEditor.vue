@@ -1,5 +1,6 @@
 <script lang="ts" setup>
-import { uploadFile } from '@/features/file/api/file-upload';
+import { setupMdEditor } from '@/app/plugins/mdEditor';
+import { uploadFile } from '@/features/file/api/fileUpload';
 import { errorMessage } from '@/services/feedback/message';
 import { MD_PREVIEW_THEME } from '@/shared/constants/mdPreview';
 import { useEditorTheme } from '@/shared/composables/editor/useEditorTheme';
@@ -7,7 +8,7 @@ import { validateUploadFile } from '@/shared/utils/file/validateUploadFile';
 import { MdEditor, type ToolbarNames, type UploadImgCallBack } from 'md-editor-v3';
 import 'md-editor-v3/lib/style.css';
 import { useI18n } from 'vue-i18n';
-import { InAppContentType } from '@/features/message/api/models/content-type';
+import { InAppContentType } from '@/features/message/api/models/contentType';
 
 defineOptions({
   name: 'InAppContentEditor',
@@ -21,6 +22,8 @@ interface InAppContentEditorProps {
 }
 
 defineProps<InAppContentEditorProps>();
+
+setupMdEditor();
 
 /** 站内信正文配图业务类型 */
 const MESSAGE_IMAGE_BIZ_TYPE = 'message-image';

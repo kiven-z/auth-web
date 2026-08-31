@@ -60,10 +60,6 @@ export default ({ mode, command }: ConfigEnv): UserConfigExport => {
         input: {
           index: pathResolve('./index.html', import.meta.url),
         },
-        onwarn(warning, warn) {
-          if (warning.message.includes('#__PURE__')) return;
-          warn(warning);
-        },
         output: {
           chunkFileNames: 'static/js/[name]-[hash].js',
           entryFileNames: 'static/js/[name]-[hash].js',
