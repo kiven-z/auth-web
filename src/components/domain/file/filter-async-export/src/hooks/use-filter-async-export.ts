@@ -1,4 +1,4 @@
-import { addDialog, closeDialog } from '@/components/ui/Dialog';
+import { addDialog, closeDialog } from '@/components/ui/dialog';
 import { errorMessage, message } from '@/services/feedback/message';
 import { h, ref, type Ref } from 'vue';
 import { useI18n } from 'vue-i18n';

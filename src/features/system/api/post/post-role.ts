@@ -1,5 +1,5 @@
 import { http } from '@/core/http/client';
-import type { GrantTableAssignRoleRequest, RoleReference } from '@/features/system/api/models/grantTable';
+import type { GrantTableAssignRoleRequest, RoleReference } from '@/features/system/api/models/grant-table';
 
 /**
  * 查询岗位已分配角色

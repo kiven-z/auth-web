@@ -1,7 +1,7 @@
 import type { PageResponse } from '@/api/common/page';
 import { http } from '@/core/http/client';
 import type { AxiosRequestConfig } from 'axios';
-import type { UserReference } from '@/features/system/api/models/grantTable';
+import type { UserReference } from '@/features/system/api/models/grant-table';
 
 /**
  * 角色影响面摘要（授权对象分项 + 展开后影响用户总数）

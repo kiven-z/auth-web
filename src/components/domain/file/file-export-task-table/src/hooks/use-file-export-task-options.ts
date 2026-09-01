@@ -5,7 +5,7 @@ import type {
 } from '@/features/file/api/models/file-export-task';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
-import type { SelectOption, TagSelectOption } from '@/shared/types/selectOption';
+import type { SelectOption, TagSelectOption } from '@/shared/types/select-option';
 
 /**
  * 导出任务枚举选项（文案随 locale 更新）

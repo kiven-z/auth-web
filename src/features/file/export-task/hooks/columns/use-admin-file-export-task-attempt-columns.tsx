@@ -1,6 +1,6 @@
 import type { FileExportAttempt } from '@/features/file/api/models/file-export-task';
-import { formatDateTime } from '@/shared/utils/date/dateTime';
-import { useFileExportTaskOptions } from '@/components/domain/file/FileExportTaskTable';
+import { formatDateTime } from '@/shared/utils/date/date-time';
+import { useFileExportTaskOptions } from '@/components/domain/file/file-export-task-table';
 import { ElTag } from 'element-plus';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';

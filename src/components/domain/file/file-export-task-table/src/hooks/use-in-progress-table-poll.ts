@@ -1,4 +1,4 @@
-import type { FetchTableDataOptions } from '@/components/table/ListTable';
+import type { FetchTableDataOptions } from '@/components/table/list-table';
 import { useDocumentVisibility, useIntervalFn } from '@vueuse/core';
 import { computed, type Ref, watch } from 'vue';
 import { FILE_EXPORT_TASK_IN_PROGRESS_STATUS, FILE_EXPORT_TASK_POLL_INTERVAL_MS } from '../constants';

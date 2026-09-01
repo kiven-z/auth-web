@@ -5,7 +5,7 @@ import {
   importPermissionExcel,
   preCheckPermissionExport,
 } from '@/features/system/api/permission/permission';
-import { useFilterAsyncExport } from '@/components/domain/file/FilterAsyncExport';
+import { useFilterAsyncExport } from '@/components/domain/file/filter-async-export';
 import useSpreadsheetImportAction from '@/features/system/_shared/hooks/use-spreadsheet-import-action';
 
 /** 权限页 Excel 导出 composable 配置 */

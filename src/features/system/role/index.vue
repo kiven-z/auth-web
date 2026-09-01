@@ -6,7 +6,7 @@ import { SYS_ROLE_PERMS } from '@/features/system/role/constants/permissions';
 import useRoleAdvanceAction from '@/features/system/role/hooks/actions/use-role-advance-action';
 import useRoleMoreAction from '@/features/system/role/hooks/actions/use-role-more-action';
 import useOpenRoleAuthorizationSurface from '@/features/system/role/hooks/authorization/use-open-role-authorization-surface';
-import useOpenRoleImpactAnalysis from '@/features/system/role/hooks/impact/useOpenRoleImpactAnalysis';
+import useOpenRoleImpactAnalysis from '@/features/system/role/hooks/impact/use-open-role-impact-analysis';
 import { useCommonBooleanStatusOptions } from '@/shared/composables/i18n/use-common-boolean-status-options';
 import useRoleTableAction from '@/features/system/role/hooks/actions/use-role-table-action';
 import useRoleTableColumns from '@/features/system/role/hooks/columns/use-role-table-columns';

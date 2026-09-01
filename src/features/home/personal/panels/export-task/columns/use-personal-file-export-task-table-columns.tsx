@@ -1,7 +1,7 @@
 import type { FileExportTaskPageRow } from '@/features/file/api/models/file-export-task';
-import { createAuditTableColumns } from '@/components/table/AuditColumns';
-import { formatDateTime } from '@/shared/utils/date/dateTime';
-import { useFileExportTaskOptions } from '@/components/domain/file/FileExportTaskTable';
+import { createAuditTableColumns } from '@/components/table/audit-columns';
+import { formatDateTime } from '@/shared/utils/date/date-time';
+import { useFileExportTaskOptions } from '@/components/domain/file/file-export-task-table';
 import { ElTag } from 'element-plus';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';

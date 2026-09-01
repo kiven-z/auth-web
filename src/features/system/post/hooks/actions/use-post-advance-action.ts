@@ -5,7 +5,7 @@ import {
   importPostExcel,
   preCheckPostExport,
 } from '@/features/system/api/post/post';
-import { useFilterAsyncExport } from '@/components/domain/file/FilterAsyncExport';
+import { useFilterAsyncExport } from '@/components/domain/file/filter-async-export';
 import useSpreadsheetImportAction from '@/features/system/_shared/hooks/use-spreadsheet-import-action';
 
 /** 岗位页 Excel 导出 composable 配置 */

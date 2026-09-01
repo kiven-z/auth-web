@@ -5,7 +5,7 @@ import {
   importRoleExcel,
   preCheckRoleExport,
 } from '@/features/system/api/role/role';
-import { useFilterAsyncExport } from '@/components/domain/file/FilterAsyncExport';
+import { useFilterAsyncExport } from '@/components/domain/file/filter-async-export';
 import useSpreadsheetImportAction from '@/features/system/_shared/hooks/use-spreadsheet-import-action';
 
 /** 角色页 Excel 导出 composable 配置 */

@@ -1,17 +1,17 @@
 <script lang="ts" setup>
-import type { UserReference } from '@/features/system/api/models/grantTable';
+import type { UserReference } from '@/features/system/api/models/grant-table';
 import {
   getRoleImpactSummary,
   getRoleImpactUsersPage,
   refreshRoleImpactedProfiles,
   type RoleImpactSummary,
   type RoleImpactUserPageQuery,
-} from '@/features/system/api/role/roleImpact';
-import ListTable, { usePaginationState } from '@/components/table/ListTable';
-import { useUserOptions, useUserProfileColumns } from '@/components/domain/user/UserProfile';
+} from '@/features/system/api/role/role-impact';
+import ListTable, { usePaginationState } from '@/components/table/list-table';
+import { useUserOptions, useUserProfileColumns } from '@/components/domain/user/user-profile';
 import { operationConfirm } from '@/services/feedback/dialog';
 import { errorMessage, message } from '@/services/feedback/message';
-import { useFormPlaceholder } from '@/shared/composables/i18n/useFormPlaceholder';
+import { useFormPlaceholder } from '@/shared/composables/i18n/use-form-placeholder';
 import AuthorizationSurfaceShell from '@/features/system/_shared/components/AuthorizationSurfaceShell.vue';
 import { SYS_ROLE_PERMS } from '@/features/system/role/constants/permissions';
 import type { FormInstance } from 'element-plus';

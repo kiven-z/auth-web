@@ -1,5 +1,5 @@
 import type { SysDeptListVO } from '@/features/system/api/dept/dept';
-import { getDeptRoles, putDeptRoles } from '@/features/system/api/dept/deptRole';
+import { getDeptRoles, putDeptRoles } from '@/features/system/api/dept/dept-role';
 import { openAssignDrawer } from '@/features/system/_shared/components/open-assign-drawer';
 import RoleAssignPanel from '@/features/system/_shared/components/RoleAssignPanel.vue';
 import useOpenDeptAuthorizationSurface from '@/features/system/dept/hooks/authorization/use-open-dept-authorization-surface';

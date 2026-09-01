@@ -12,7 +12,7 @@ import RoleBoundMenusPanel from '@/features/system/role/components/authorization
 import RoleBoundPermissionsPanel from '@/features/system/role/components/authorization/RoleBoundPermissionsPanel.vue';
 import RoleGrantSeedPanel from '@/features/system/role/components/authorization/RoleGrantSeedPanel.vue';
 import { SYS_ROLE_PERMS } from '@/features/system/role/constants/permissions';
-import useOpenRoleImpactAnalysis from '@/features/system/role/hooks/impact/useOpenRoleImpactAnalysis';
+import useOpenRoleImpactAnalysis from '@/features/system/role/hooks/impact/use-open-role-impact-analysis';
 import { computed, onMounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 

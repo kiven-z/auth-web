@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import type { FileExportTaskAdminDetail, FileExportTaskDetail } from '@/features/file/api/models/file-export-task';
-import { type ColumnProps, Description } from '@/components/ui/Description';
+import { type ColumnProps, Description } from '@/components/ui/description';
 import { errorMessage } from '@/services/feedback/message';
 import { useDocumentVisibility, useIntervalFn } from '@vueuse/core';
 import { computed, ref, watch } from 'vue';

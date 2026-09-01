@@ -1,5 +1,5 @@
-import type { ColumnProps } from '@/components/ui/Description';
-import { addDialog } from '@/components/ui/Dialog';
+import type { ColumnProps } from '@/components/ui/description';
+import { addDialog } from '@/components/ui/dialog';
 import type {
   FileExportTaskAdminDetail,
   FileExportTaskDetail,
@@ -13,7 +13,7 @@ import { openLink } from '@/shared/utils/url/url';
 import { type ComputedRef, type Ref, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import FileExportTaskDetailView from '../FileExportTaskDetailView.vue';
-import type { TableActionDeps } from '@/shared/types/tableAction';
+import type { TableActionDeps } from '@/shared/types/table-action';
 
 /** 导出任务表格动作核心配置 */
 interface UseFileExportTaskTableActionCoreOptions extends TableActionDeps {

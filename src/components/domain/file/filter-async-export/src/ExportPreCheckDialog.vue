@@ -2,7 +2,7 @@
 import { computed, onMounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import type { ExportPreCheckResult } from '@/features/file/api/models/export-precheck';
-import resolvePreCheckView from './resolvePreCheckView';
+import resolvePreCheckView from './resolve-pre-check-view';
 import type { ExportPreCheckView } from './types';
 
 defineOptions({

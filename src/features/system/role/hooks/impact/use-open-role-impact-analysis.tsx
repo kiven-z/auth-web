@@ -1,4 +1,4 @@
-import { addDrawer } from '@/components/ui/Drawer';
+import { addDrawer } from '@/components/ui/drawer';
 import RoleImpactAnalysisDrawer from '@/features/system/role/components/impact/RoleImpactAnalysisDrawer.vue';
 import { useI18n } from 'vue-i18n';
 

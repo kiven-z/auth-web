@@ -5,14 +5,14 @@ import {
   listAdminFileExportTaskAttempts,
 } from '@/features/file/api/file-admin-export-task';
 import type { FileExportTaskAdminPageRow } from '@/features/file/api/models/file-export-task';
-import DataTable from '@/components/table/DataTable';
-import { addDialog } from '@/components/ui/Dialog';
+import DataTable from '@/components/table/data-table';
+import { addDialog } from '@/components/ui/dialog';
 import { errorMessage } from '@/services/feedback/message';
-import { useFileExportTaskTableActionCore } from '@/components/domain/file/FileExportTaskTable';
-import useAdminFileExportTaskAttemptColumns from '@/features/file/export-task/hooks/columns/useAdminFileExportTaskAttemptColumns';
-import useAdminFileExportTaskDetailColumns from '@/features/file/export-task/hooks/columns/useAdminFileExportTaskDetailColumns';
+import { useFileExportTaskTableActionCore } from '@/components/domain/file/file-export-task-table';
+import useAdminFileExportTaskAttemptColumns from '@/features/file/export-task/hooks/columns/use-admin-file-export-task-attempt-columns';
+import useAdminFileExportTaskDetailColumns from '@/features/file/export-task/hooks/columns/use-admin-file-export-task-detail-columns';
 import { useI18n } from 'vue-i18n';
-import type { TableActionDeps } from '@/shared/types/tableAction';
+import type { TableActionDeps } from '@/shared/types/table-action';
 
 /**
  * 管理端导出任务表格操作（详情、尝试、强制取消、强制重试）

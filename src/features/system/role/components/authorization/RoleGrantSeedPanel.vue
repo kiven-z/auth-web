@@ -1,9 +1,9 @@
 <script lang="ts" setup>
-import type { RoleGrantSubjectPageQuery } from '@/features/system/api/role/roleAuthorization';
-import type { GrantSubjectItem } from '@/features/system/api/models/roleGrantSubjects';
-import ListTable, { usePaginationState } from '@/components/table/ListTable';
-import { useCommonBooleanStatusOptions } from '@/shared/composables/i18n/useCommonBooleanStatusOptions';
-import { useFormPlaceholder } from '@/shared/composables/i18n/useFormPlaceholder';
+import type { RoleGrantSubjectPageQuery } from '@/features/system/api/role/role-authorization';
+import type { GrantSubjectItem } from '@/features/system/api/models/role-grant-subjects';
+import ListTable, { usePaginationState } from '@/components/table/list-table';
+import { useCommonBooleanStatusOptions } from '@/shared/composables/i18n/use-common-boolean-status-options';
+import { useFormPlaceholder } from '@/shared/composables/i18n/use-form-placeholder';
 import type { AuthorizationSurfacePanelProps } from '@/features/system/_shared/types';
 import type { FormInstance } from 'element-plus';
 import { computed, onMounted, reactive, ref } from 'vue';

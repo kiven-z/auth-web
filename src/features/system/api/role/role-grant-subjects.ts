@@ -1,6 +1,6 @@
-import type { GrantSubjectItem } from '@/features/system/api/models/roleGrantSubjects';
+import type { GrantSubjectItem } from '@/features/system/api/models/role-grant-subjects';
 import { http } from '@/core/http/client';
-import type { GrantTableSubjectType } from '@/features/system/api/models/grantTable';
+import type { GrantTableSubjectType } from '@/features/system/api/models/grant-table';
 
 /**
  * 查询角色授权对象种子（Assign 灌种：id + label）
