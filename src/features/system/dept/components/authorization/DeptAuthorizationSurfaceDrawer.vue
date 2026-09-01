@@ -5,7 +5,7 @@ import {
   getDeptPostsPage,
   getDeptRolesPage,
   getDeptUsersPage,
-} from '@/features/system/api/dept/deptAuthorization';
+} from '@/features/system/api/dept/dept-authorization';
 import { errorMessage } from '@/services/feedback/message';
 import AuthorizationSurfaceShell from '@/features/system/_shared/components/AuthorizationSurfaceShell.vue';
 import SubjectBoundRolesPanel from '@/features/system/_shared/components/SubjectBoundRolesPanel.vue';

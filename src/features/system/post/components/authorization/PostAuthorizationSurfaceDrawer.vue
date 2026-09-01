@@ -4,7 +4,7 @@ import {
   getPostRolesPage,
   getPostUsersPage,
   type PostAuthorizationSummary,
-} from '@/features/system/api/post/postAuthorization';
+} from '@/features/system/api/post/post-authorization';
 import { errorMessage } from '@/services/feedback/message';
 import AuthorizationSurfaceShell from '@/features/system/_shared/components/AuthorizationSurfaceShell.vue';
 import SubjectBoundRolesPanel from '@/features/system/_shared/components/SubjectBoundRolesPanel.vue';
