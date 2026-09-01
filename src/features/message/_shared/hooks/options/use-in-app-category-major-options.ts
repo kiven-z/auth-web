@@ -1,4 +1,7 @@
-import { type InAppMessageCategoryOption, listInAppMessageCategoryMajors } from '@/features/message/api/in-app-category';
+import {
+  type InAppMessageCategoryOption,
+  listInAppMessageCategoryMajors,
+} from '@/features/message/api/in-app-category';
 import { errorMessage } from '@/services/feedback/message';
 import { ref } from 'vue';
 

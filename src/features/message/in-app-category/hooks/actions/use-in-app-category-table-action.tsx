@@ -1,4 +1,7 @@
-import type { InAppMessageCategoryFormModel, InAppMessageCategoryPageRow } from '@/features/message/api/in-app-category';
+import type {
+  InAppMessageCategoryFormModel,
+  InAppMessageCategoryPageRow,
+} from '@/features/message/api/in-app-category';
 import {
   batchDeleteInAppMessageCategories,
   batchUpdateInAppMessageCategoryStatus,

@@ -2,7 +2,10 @@ import type { AxiosRequestConfig } from 'axios';
 
 import type { PageResponse, SortSpec } from '@/api/common/page';
 import type { BaseResponseDetail, BaseResponsePageRow } from '@/api/common/response';
-import type { MessageChannelCode, MessageTemplateRequireFieldRow } from '@/features/message/api/models/message-template';
+import type {
+  MessageChannelCode,
+  MessageTemplateRequireFieldRow,
+} from '@/features/message/api/models/message-template';
 import { http } from '@/core/http/client';
 
 /**

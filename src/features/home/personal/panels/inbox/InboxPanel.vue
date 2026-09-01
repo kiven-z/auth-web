@@ -4,7 +4,11 @@ import { DEFAULT_PAGE_SIZES, DEFAULT_PAGINATION_LAYOUT } from '@/components/tabl
 import { usePaginationState } from '@/components/table/list-table';
 import InboxMessageList from '@/features/home/personal/panels/inbox/components/InboxMessageList.vue';
 import useInboxTableAction from '@/features/home/personal/panels/inbox/hooks/use-inbox-table-action';
-import { getInAppInboxPage, type InAppInboxPageQuery, type InAppInboxPageRow } from '@/features/message/api/in-app-inbox';
+import {
+  getInAppInboxPage,
+  type InAppInboxPageQuery,
+  type InAppInboxPageRow,
+} from '@/features/message/api/in-app-inbox';
 import { useFormPlaceholder } from '@/shared/composables/i18n/use-form-placeholder';
 import { useInAppInboxStore } from '@/store/modules/message/in-app-inbox';
 import type { FormInstance } from 'element-plus';
