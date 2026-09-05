@@ -105,7 +105,7 @@ function usePersonalFileExportTaskDetailColumns() {
       span: 2,
       copy: true,
       cellRenderer: ({ value }: { value?: string | null }) => (
-        <span class="whitespace-pre-wrap break-all text-left">{value ?? '—'}</span>
+        <span class="text-left break-all whitespace-pre-wrap">{value ?? '—'}</span>
       ),
     },
     {
