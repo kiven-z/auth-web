@@ -11,7 +11,7 @@ import type { GrantSubjectPanelProps } from '@/features/system/role/types/grant-
 import type { FormInstance } from 'element-plus';
 import { computed, onMounted, reactive, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { USER_ACCOUNT_STATUS } from '@/components/domain/system/constants/user-enums';
+import { USER_ACCOUNT_STATUS } from '@/components/domain/user/user-status';
 
 defineOptions({ name: 'UserGrantSubjectPanel' });
 

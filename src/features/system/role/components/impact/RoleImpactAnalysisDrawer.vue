@@ -1,5 +1,5 @@
 <script lang="tsx" setup>
-import useUserStatus from '@/components/domain/system/status/use-user-status';
+import useUserStatus from '@/components/domain/user/user-status';
 import ListTable, { usePaginationState } from '@/components/table/list-table';
 import AuthorizationSurfaceShell from '@/features/system/_shared/components/AuthorizationSurfaceShell.vue';
 import type { UserReference } from '@/features/system/api/models/grant-table';
