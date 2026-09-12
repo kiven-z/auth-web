@@ -38,7 +38,7 @@ export interface SysUserPageRow extends BaseResponsePageRow {
  * @param params 查询条件
  * @returns 分页结果
  */
-export function getUserPage(params: SysUserPageQuery): Promise<PageResponse<SysUserPageRow>> {
+export function getUserPage(params: SysUserPageQuery) {
   return http.get<PageResponse<SysUserPageRow>, AxiosRequestConfig<SysUserPageQuery>>('/system/user/page', {
     params,
   });
@@ -76,7 +76,7 @@ export function exportUserExcelAsync(
  * @param file Excel 文件
  * @returns 导入结果
  */
-export function importUserExcel(file: File): Promise<SpreadsheetImportResult> {
+export function importUserExcel(file: File) {
   const formData = new FormData();
   formData.append('file', file);
   return http.post<SpreadsheetImportResult, FormData>('/system/user/import', {
@@ -89,7 +89,7 @@ export function importUserExcel(file: File): Promise<SpreadsheetImportResult> {
  * 下载用户导入模板
  * @returns 模板 Blob
  */
-export function downloadUserImportTemplate(): Promise<Blob> {
+export function downloadUserImportTemplate() {
   return http.get<Blob, unknown>('/system/user/import/template', { responseType: 'blob' });
 }
 
@@ -114,7 +114,7 @@ export interface SysUserCreateForm {
  * 新增用户
  * @param data 用户表单
  */
-export function createUser(data: SysUserCreateForm): Promise<void> {
+export function createUser(data: SysUserCreateForm) {
   return http.post<void, SysUserCreateForm>('/system/user', { data });
 }
 
@@ -129,7 +129,7 @@ export interface SysUserUpdateForm extends SysUserCreateForm {
  * 更新用户基础资料
  * @param data 用户更新表单
  */
-export function updateUser(data: SysUserUpdateForm): Promise<void> {
+export function updateUser(data: SysUserUpdateForm) {
   return http.request<void>('put', '/system/user', { data });
 }
 
@@ -137,7 +137,7 @@ export function updateUser(data: SysUserUpdateForm): Promise<void> {
  * 批量删除用户
  * @param ids 用户主键列表
  */
-export function deleteUsers(ids: string[]): Promise<string> {
+export function deleteUsers(ids: string[]) {
   return http.request<string>('delete', '/system/user', { data: ids });
 }
 
@@ -153,7 +153,7 @@ export interface SysUserBatchStatusRequest {
  * 批量更新用户状态
  * @param data 用户主键与目标状态
  */
-export function batchUpdateUserStatus(data: SysUserBatchStatusRequest): Promise<string> {
+export function batchUpdateUserStatus(data: SysUserBatchStatusRequest) {
   return http.request<string>('put', '/system/user/status', { data });
 }
 
@@ -161,7 +161,7 @@ export function batchUpdateUserStatus(data: SysUserBatchStatusRequest): Promise<
  * 刷新用户授权画像缓存（重建 Redis AuthProfile）
  * @param ids 用户主键列表
  */
-export function refreshUserAuthorization(ids: string[]): Promise<void> {
+export function refreshUserAuthorization(ids: string[]) {
   return http.post<void, string[]>('auth/admin/users/authorization/refresh', { data: ids });
 }
 
@@ -177,7 +177,7 @@ export interface SysUserAvatarUpdateRequest {
  * 管理员更新用户头像
  * @param data 头像更新表单
  */
-export function updateUserAvatar(data: SysUserAvatarUpdateRequest): Promise<string> {
+export function updateUserAvatar(data: SysUserAvatarUpdateRequest) {
   return http.request<string>('put', '/system/user/avatar', { data });
 }
 
@@ -194,6 +194,6 @@ export interface SysUserAdminResetPasswordRequest {
  * @param id 用户主键
  * @param data 新密码表单
  */
-export function resetUserPassword(id: string, data: SysUserAdminResetPasswordRequest): Promise<string> {
+export function resetUserPassword(id: string, data: SysUserAdminResetPasswordRequest) {
   return http.request<string>('put', `/system/user/${id}/password`, { data });
 }

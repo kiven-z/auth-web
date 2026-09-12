@@ -22,10 +22,7 @@ export interface RolePermissionPageQuery {
  * @param params 查询条件
  * @returns 分页结果
  */
-export function getRolePermissionsPage(
-  roleId: string,
-  params: RolePermissionPageQuery
-): Promise<PageResponse<PermissionReference>> {
+export function getRolePermissionsPage(roleId: string, params: RolePermissionPageQuery) {
   return http.get<PageResponse<PermissionReference>, AxiosRequestConfig<RolePermissionPageQuery>>(
     `/system/role/${roleId}/permissions/page`,
     { params }
@@ -49,7 +46,7 @@ export interface RoleMenuPageQuery {
  * @param params 查询条件
  * @returns 分页结果
  */
-export function getRoleMenusPage(roleId: string, params: RoleMenuPageQuery): Promise<PageResponse<RoleBoundMenuItem>> {
+export function getRoleMenusPage(roleId: string, params: RoleMenuPageQuery) {
   return http.get<PageResponse<RoleBoundMenuItem>, AxiosRequestConfig<RoleMenuPageQuery>>(
     `/system/role/${roleId}/menus/page`,
     { params }
@@ -83,7 +80,7 @@ export interface RoleAuthorizationSummary {
  * @param roleId 角色 ID
  * @returns 关系计数摘要
  */
-export function getRoleAuthorizationSummary(roleId: string): Promise<RoleAuthorizationSummary> {
+export function getRoleAuthorizationSummary(roleId: string) {
   return http.get<RoleAuthorizationSummary, AxiosRequestConfig>(`/system/role/${roleId}/authorization-summary`);
 }
 

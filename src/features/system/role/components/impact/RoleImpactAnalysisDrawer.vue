@@ -8,7 +8,6 @@ import {
   type RoleImpactUserPageQuery,
 } from '@/features/system/api/role/role-impact';
 import ListTable, { usePaginationState } from '@/components/table/list-table';
-import { useUserOptions, useUserProfileColumns } from '@/components/domain/user/user-profile';
 import { operationConfirm } from '@/services/feedback/dialog';
 import { errorMessage, message } from '@/services/feedback/message';
 import { useFormPlaceholder } from '@/shared/composables/i18n/use-form-placeholder';

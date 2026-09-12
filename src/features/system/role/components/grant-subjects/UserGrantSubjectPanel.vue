@@ -8,10 +8,10 @@ import ListTable, { usePaginationState } from '@/components/table/list-table';
 import { errorMessage, message } from '@/services/feedback/message';
 import { useFormPlaceholder } from '@/shared/composables/i18n/use-form-placeholder';
 import type { GrantSubjectPanelProps } from '@/features/system/role/types/grant-subject';
-import { USER_ACCOUNT_STATUS } from '@/components/domain/user/user-profile';
 import type { FormInstance } from 'element-plus';
 import { computed, onMounted, reactive, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
+import { USER_ACCOUNT_STATUS } from '@/components/domain/system/constants/user-enums';
 
 defineOptions({ name: 'UserGrantSubjectPanel' });
 

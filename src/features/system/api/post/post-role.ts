@@ -6,7 +6,7 @@ import type { GrantTableAssignRoleRequest, RoleReference } from '@/features/syst
  * @param postId 岗位主键
  * @returns 已分配角色列表
  */
-export function getPostRoles(postId: string): Promise<RoleReference[]> {
+export function getPostRoles(postId: string) {
   return http.get<RoleReference[], unknown>(`/system/post/${postId}/roles`);
 }
 
@@ -15,6 +15,6 @@ export function getPostRoles(postId: string): Promise<RoleReference[]> {
  * @param postId 岗位主键
  * @param data 角色 ID 列表
  */
-export function putPostRoles(postId: string, data: GrantTableAssignRoleRequest): Promise<void> {
+export function putPostRoles(postId: string, data: GrantTableAssignRoleRequest) {
   return http.request<void>('put', `/system/post/${postId}/roles`, { data });
 }
