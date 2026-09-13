@@ -44,6 +44,7 @@ describe('preferenceDefaults（按域出厂值）', () => {
       colorScheme: THEME_DEFAULT_COLOR_SCHEME,
       navTheme: THEME_DEFAULT_NAV_THEME,
       primaryColor: THEME_DEFAULT_PRIMARY_COLOR,
+      osPrefersDark: false,
     });
   });
 

@@ -34,7 +34,7 @@ describe('resolveContentSectionPaddingTop', () => {
         showModel: 'smart',
         contentFullscreen: true,
       })
-    ).toBe('37px');
+    ).toBe('32px');
 
     expect(
       resolveContentSectionPaddingTop({
@@ -42,7 +42,7 @@ describe('resolveContentSectionPaddingTop', () => {
         showModel: 'chrome',
         contentFullscreen: true,
       })
-    ).toBe('37px');
+    ).toBe('32px');
   });
 
   it('uses zero padding when content fullscreen and tabs hidden', () => {

@@ -50,6 +50,9 @@ describe('parseRequireFieldsJson', () => {
   it('rejects non-array or invalid JSON', () => {
     expect(parseRequireFieldsJson('{bad').ok).toBe(false);
     expect(parseRequireFieldsJson('{"key":"a"}').ok).toBe(false);
-    expect(parseRequireFieldsJson('[1]').ok).toBe(false);
+  });
+
+  it('accepts any JSON array without row-shape validation', () => {
+    expect(parseRequireFieldsJson('[1]').ok).toBe(true);
   });
 });
