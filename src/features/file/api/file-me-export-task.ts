@@ -1,4 +1,4 @@
-import type { PageResponse } from '@/api/common/page';
+import type { PageResponse } from '@/api/models/page';
 import type {
   FileExportTaskDetail,
   FileExportTaskDownloadLink,

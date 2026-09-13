@@ -1,4 +1,4 @@
-import { logoutApi } from '@/api/auth/login';
+import { logoutApi } from '@/api/login';
 import { stopSync } from '@/core/preferences/persistence/sync';
 import { applyHydratedUiPreferences } from '@/core/preferences/runtime/apply';
 import { resetUserDisplayProfileHydration } from '@/core/session/profile/display-profile';

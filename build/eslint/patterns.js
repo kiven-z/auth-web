@@ -30,5 +30,5 @@ export const VIEWS_FORBIDDEN_PATTERN = {
 
 export const DOMAIN_API_AT_ROOT_PATTERN = {
   group: discoverDomainApiModules().flatMap((domain) => [`@/api/${domain}`, `@/api/${domain}/**`]),
-  message: '域 API 位于 @/features/<domain>/api/...；平台仅保留 @/api/common 与 @/api/auth',
+  message: '域 API 位于 @/features/<domain>/api/...；平台仅保留 @/api 与 @/api/models',
 };

@@ -1,4 +1,4 @@
-import type { BaseResponseDetail, BaseResponsePageRow } from '@/api/common/response';
+import type { BaseResponseDetail, BaseResponsePageRow } from '@/api/models/response';
 
 /**
  * 异步导出任务状态
