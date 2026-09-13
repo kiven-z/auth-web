@@ -1,5 +1,5 @@
-import { http } from '@/core/http/client';
 import type { GrantTableAssignRoleRequest, RoleReference } from '@/features/system/api/models/grant-table';
+import { http } from '@/core/http/client';
 
 /**
  * 查询岗位已分配角色
@@ -16,5 +16,5 @@ export function getPostRoles(postId: string) {
  * @param data 角色 ID 列表
  */
 export function putPostRoles(postId: string, data: GrantTableAssignRoleRequest) {
-  return http.request<void>('put', `/system/post/${postId}/roles`, { data });
+  return http.put<void, GrantTableAssignRoleRequest>(`/system/post/${postId}/roles`, { data });
 }

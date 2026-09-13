@@ -1,11 +1,11 @@
-import type { SysDeptListVO } from '@/features/system/api/dept/dept';
 import { getDeptRoles, putDeptRoles } from '@/features/system/api/dept/dept-role';
 import { openAssignDrawer } from '@/features/system/_shared/components/open-assign-drawer';
 import RoleAssignPanel from '@/features/system/_shared/components/RoleAssignPanel.vue';
 import useOpenDeptAuthorizationSurface from '@/features/system/dept/hooks/authorization/use-open-dept-authorization-surface';
+import type { SysDeptRow } from '@/features/system/dept/hooks/use-dept-page-state';
+import type { TableActionDeps } from '@/shared/types/table-action';
 import { ref } from 'vue';
 import { useI18n } from 'vue-i18n';
-import type { TableActionDeps } from '@/shared/types/table-action';
 
 /** 部门「更多」操作依赖 */
 export interface DeptMoreActionDeps extends TableActionDeps {
@@ -26,7 +26,7 @@ function useDeptMoreAction(deps: DeptMoreActionDeps) {
    * 打开分配角色抽屉
    * @param row 部门行
    */
-  const openAssignRoleDrawer = (row: SysDeptListVO) => {
+  const openAssignRoleDrawer = (row: SysDeptRow) => {
     const loadAssigned = async () => {
       const rows = await getDeptRoles(row.id);
       return rows.map((roleRow) => ({

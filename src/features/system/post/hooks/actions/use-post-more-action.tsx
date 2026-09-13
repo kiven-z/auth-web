@@ -3,9 +3,9 @@ import { getPostRoles, putPostRoles } from '@/features/system/api/post/post-role
 import { openAssignDrawer } from '@/features/system/_shared/components/open-assign-drawer';
 import RoleAssignPanel from '@/features/system/_shared/components/RoleAssignPanel.vue';
 import useOpenPostAuthorizationSurface from '@/features/system/post/hooks/authorization/use-open-post-authorization-surface';
+import type { TableActionDeps } from '@/shared/types/table-action';
 import { ref } from 'vue';
 import { useI18n } from 'vue-i18n';
-import type { TableActionDeps } from '@/shared/types/table-action';
 
 /** 岗位「更多」操作依赖 */
 export type PostMoreActionDeps = TableActionDeps;
