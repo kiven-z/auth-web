@@ -48,7 +48,7 @@ export function getRolePage(params: SysRolePageQuery) {
  * @param filter 列表筛选（不含分页）
  * @returns 前置检查结果
  */
-export function preCheckRoleExport(filter: SysRolePageQuery): Promise<ExportPreCheckResult> {
+export function preCheckRoleExport(filter: SysRolePageQuery) {
   return http.post<ExportPreCheckResult, SysRolePageQuery>('/system/role/export/pre-check', {
     data: filter,
   });
@@ -63,7 +63,7 @@ export function preCheckRoleExport(filter: SysRolePageQuery): Promise<ExportPreC
 export function exportRoleExcelAsync(
   filter: SysRolePageQuery,
   requestId: string
-): Promise<{ taskId: string | number }> {
+) {
   return http.post<{ taskId: string | number }, SysRolePageQuery>('/system/role/export/async', {
     data: filter,
     params: { requestId },

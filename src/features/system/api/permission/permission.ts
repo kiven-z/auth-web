@@ -49,7 +49,7 @@ export function getPermissionPage(params: SysPermissionPageQuery) {
  * @param filter 列表筛选（不含分页）
  * @returns 前置检查结果
  */
-export function preCheckPermissionExport(filter: SysPermissionPageQuery): Promise<ExportPreCheckResult> {
+export function preCheckPermissionExport(filter: SysPermissionPageQuery) {
   return http.post<ExportPreCheckResult, SysPermissionPageQuery>('/system/permission/export/pre-check', {
     data: filter,
   });
@@ -64,7 +64,7 @@ export function preCheckPermissionExport(filter: SysPermissionPageQuery): Promis
 export function exportPermissionExcelAsync(
   filter: SysPermissionPageQuery,
   requestId: string
-): Promise<{ taskId: string | number }> {
+) {
   return http.post<{ taskId: string | number }, SysPermissionPageQuery>('/system/permission/export/async', {
     data: filter,
     params: { requestId },

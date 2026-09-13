@@ -93,7 +93,7 @@ export function getRoleAuthorizationSummary(roleId: string) {
 export function getRoleGrantSubjectsPage(
   roleId: string,
   params: RoleGrantSubjectPageQuery
-): Promise<PageResponse<GrantSubjectItem>> {
+) {
   return http.get<PageResponse<GrantSubjectItem>, AxiosRequestConfig<RoleGrantSubjectPageQuery>>(
     `/system/role/${roleId}/grant-subjects/page`,
     { params }

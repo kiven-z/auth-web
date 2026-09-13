@@ -13,9 +13,7 @@ import type { AxiosRequestConfig } from 'axios';
  * @param parameters 分页与筛选参数
  * @returns 导出任务分页数据
  */
-export function queryAdminFileExportTaskPage(
-  parameters: FileExportTaskAdminPageQuery
-): Promise<PageResponse<FileExportTaskAdminPageRow>> {
+export function queryAdminFileExportTaskPage(parameters: FileExportTaskAdminPageQuery) {
   return http.get<PageResponse<FileExportTaskAdminPageRow>, AxiosRequestConfig<FileExportTaskAdminPageQuery>>(
     '/system/file/export-tasks/page',
     {
@@ -29,7 +27,7 @@ export function queryAdminFileExportTaskPage(
  * @param id 导出任务主键
  * @returns 导出任务详情
  */
-export function getAdminFileExportTaskDetail(id: string): Promise<FileExportTaskAdminDetail> {
+export function getAdminFileExportTaskDetail(id: string) {
   return http.get<FileExportTaskAdminDetail, AxiosRequestConfig>(`/system/file/export-tasks/${id}`);
 }
 
@@ -38,7 +36,7 @@ export function getAdminFileExportTaskDetail(id: string): Promise<FileExportTask
  * @param id 导出任务主键
  * @returns 执行尝试列表
  */
-export function listAdminFileExportTaskAttempts(id: string): Promise<FileExportAttempt[]> {
+export function listAdminFileExportTaskAttempts(id: string) {
   return http.get<FileExportAttempt[], AxiosRequestConfig>(`/system/file/export-tasks/${id}/attempts`);
 }
 
@@ -47,7 +45,7 @@ export function listAdminFileExportTaskAttempts(id: string): Promise<FileExportA
  * @param id 导出任务主键
  * @returns 无返回值
  */
-export function forceCancelAdminFileExportTask(id: string): Promise<void> {
+export function forceCancelAdminFileExportTask(id: string) {
   return http.post<void, undefined>(`/system/file/export-tasks/${id}/force-cancel`);
 }
 
@@ -56,6 +54,6 @@ export function forceCancelAdminFileExportTask(id: string): Promise<void> {
  * @param id 导出任务主键
  * @returns 无返回值
  */
-export function forceRetryAdminFileExportTask(id: string): Promise<void> {
+export function forceRetryAdminFileExportTask(id: string) {
   return http.post<void, undefined>(`/system/file/export-tasks/${id}/force-retry`);
 }

@@ -18,7 +18,7 @@ export interface RoleImpactSummary {
  * @param roleId 角色 ID
  * @returns 授权对象分项与影响用户总数
  */
-export function getRoleImpactSummary(roleId: string): Promise<RoleImpactSummary> {
+export function getRoleImpactSummary(roleId: string) {
   return http.get<RoleImpactSummary, AxiosRequestConfig>(`/system/role/${roleId}/impact/summary`);
 }
 
@@ -42,7 +42,7 @@ export interface RoleImpactUserPageQuery {
 export function getRoleImpactUsersPage(
   roleId: string,
   params: RoleImpactUserPageQuery
-): Promise<PageResponse<UserReference>> {
+) {
   return http.get<PageResponse<UserReference>, AxiosRequestConfig<RoleImpactUserPageQuery>>(
     `/system/role/${roleId}/impact/users/page`,
     { params }
@@ -62,7 +62,7 @@ export interface RoleImpactRefreshResult {
  * @param userIds 指定用户；省略则刷新全部影响用户
  * @returns 已提交刷新的用户数
  */
-export function refreshRoleImpactedProfiles(roleId: string, userIds?: string[]): Promise<RoleImpactRefreshResult> {
+export function refreshRoleImpactedProfiles(roleId: string, userIds?: string[]) {
   return http.post<RoleImpactRefreshResult, string[] | null>(`/system/role/${roleId}/impact/refresh`, {
     data: userIds ?? null,
   });

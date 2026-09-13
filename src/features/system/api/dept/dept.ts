@@ -75,7 +75,7 @@ export function getDeptPage(params: SysDeptPageQuery) {
  * @param filter 列表筛选（不含分页）
  * @returns 前置检查结果
  */
-export function preCheckDeptExport(filter: SysDeptPageQuery): Promise<ExportPreCheckResult> {
+export function preCheckDeptExport(filter: SysDeptPageQuery) {
   return http.post<ExportPreCheckResult, SysDeptPageQuery>('/system/dept/export/pre-check', {
     data: filter,
   });
@@ -90,7 +90,7 @@ export function preCheckDeptExport(filter: SysDeptPageQuery): Promise<ExportPreC
 export function exportDeptExcelAsync(
   filter: SysDeptPageQuery,
   requestId: string
-): Promise<{ taskId: string | number }> {
+) {
   return http.post<{ taskId: string | number }, SysDeptPageQuery>('/system/dept/export/async', {
     data: filter,
     params: { requestId },

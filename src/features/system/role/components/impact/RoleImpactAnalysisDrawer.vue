@@ -1,4 +1,7 @@
-<script lang="ts" setup>
+<script lang="tsx" setup>
+import useUserStatus from '@/components/domain/system/status/use-user-status';
+import ListTable, { usePaginationState } from '@/components/table/list-table';
+import AuthorizationSurfaceShell from '@/features/system/_shared/components/AuthorizationSurfaceShell.vue';
 import type { UserReference } from '@/features/system/api/models/grant-table';
 import {
   getRoleImpactSummary,
@@ -7,12 +10,10 @@ import {
   type RoleImpactSummary,
   type RoleImpactUserPageQuery,
 } from '@/features/system/api/role/role-impact';
-import ListTable, { usePaginationState } from '@/components/table/list-table';
+import { SYS_ROLE_PERMS } from '@/features/system/role/constants/permissions';
 import { operationConfirm } from '@/services/feedback/dialog';
 import { errorMessage, message } from '@/services/feedback/message';
 import { useFormPlaceholder } from '@/shared/composables/i18n/use-form-placeholder';
-import AuthorizationSurfaceShell from '@/features/system/_shared/components/AuthorizationSurfaceShell.vue';
-import { SYS_ROLE_PERMS } from '@/features/system/role/constants/permissions';
 import type { FormInstance } from 'element-plus';
 import { computed, onMounted, reactive, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
@@ -28,8 +29,7 @@ const props = defineProps<RoleImpactAnalysisDrawerProps>();
 
 const { t } = useI18n();
 const ph = useFormPlaceholder();
-const { statusFilterOptions } = useUserOptions();
-const { userBindingColumns } = useUserProfileColumns();
+const { statusFilterOptions, renderUserAccountStatus } = useUserStatus();
 
 const summaryLoading = ref(false);
 const refreshLoading = ref(false);
@@ -45,7 +45,15 @@ const impactCountItems = computed(() => [
 
 const impactUserColumns = computed<TableColumnList>(() => [
   { type: 'selection', align: 'left', width: 48 },
-  ...userBindingColumns.value,
+  { label: t('users.field.username'), prop: 'username', minWidth: 120 },
+  { label: t('users.field.nickname'), prop: 'nickname', minWidth: 120 },
+  { label: t('post.field.employeeNo'), prop: 'employeeNo', minWidth: 100 },
+  {
+    label: t('users.field.status'),
+    prop: 'status',
+    minWidth: 90,
+    render: ({ row }: { row: UserReference }) => renderUserAccountStatus(row.status),
+  },
 ]);
 
 const impactUserState = usePaginationState<UserReference, RoleImpactUserPageQuery>({

@@ -13,9 +13,7 @@ import type { AxiosRequestConfig } from 'axios';
  * @param parameters 分页与筛选参数
  * @returns 导出任务分页数据
  */
-export function queryPersonalFileExportTaskPage(
-  parameters: FileExportTaskPageQuery
-): Promise<PageResponse<FileExportTaskPageRow>> {
+export function queryPersonalFileExportTaskPage(parameters: FileExportTaskPageQuery) {
   return http.get<PageResponse<FileExportTaskPageRow>, AxiosRequestConfig<FileExportTaskPageQuery>>(
     '/system/me/file-export-tasks/page',
     {
@@ -29,7 +27,7 @@ export function queryPersonalFileExportTaskPage(
  * @param id 导出任务主键
  * @returns 导出任务详情
  */
-export function getPersonalFileExportTaskDetail(id: string): Promise<FileExportTaskDetail> {
+export function getPersonalFileExportTaskDetail(id: string) {
   return http.get<FileExportTaskDetail, AxiosRequestConfig>(`/system/me/file-export-tasks/${id}`);
 }
 
@@ -38,7 +36,7 @@ export function getPersonalFileExportTaskDetail(id: string): Promise<FileExportT
  * @param id 导出任务主键
  * @returns 无返回值
  */
-export function cancelPersonalFileExportTask(id: string): Promise<void> {
+export function cancelPersonalFileExportTask(id: string) {
   return http.post<void, undefined>(`/system/me/file-export-tasks/${id}/cancel`);
 }
 
@@ -47,7 +45,7 @@ export function cancelPersonalFileExportTask(id: string): Promise<void> {
  * @param id 导出任务主键
  * @returns 无返回值
  */
-export function retryPersonalFileExportTask(id: string): Promise<void> {
+export function retryPersonalFileExportTask(id: string) {
   return http.post<void, undefined>(`/system/me/file-export-tasks/${id}/retry`);
 }
 
@@ -56,6 +54,6 @@ export function retryPersonalFileExportTask(id: string): Promise<void> {
  * @param id 导出任务主键
  * @returns 临时下载链接
  */
-export function getPersonalFileExportTaskDownloadLink(id: string): Promise<FileExportTaskDownloadLink> {
+export function getPersonalFileExportTaskDownloadLink(id: string) {
   return http.get<FileExportTaskDownloadLink, AxiosRequestConfig>(`/system/me/file-export-tasks/${id}/download-link`);
 }

@@ -49,7 +49,7 @@ export function getUserPage(params: SysUserPageQuery) {
  * @param filter 列表筛选（不含分页）
  * @returns 前置检查结果
  */
-export function preCheckUserExport(filter: SysUserPageQuery): Promise<ExportPreCheckResult> {
+export function preCheckUserExport(filter: SysUserPageQuery) {
   return http.post<ExportPreCheckResult, SysUserPageQuery>('/system/user/export/pre-check', {
     data: filter,
   });
@@ -61,10 +61,7 @@ export function preCheckUserExport(filter: SysUserPageQuery): Promise<ExportPreC
  * @param requestId 幂等请求 ID
  * @returns 异步任务创建结果
  */
-export function exportUserExcelAsync(
-  filter: SysUserPageQuery,
-  requestId: string
-): Promise<{ taskId: string | number }> {
+export function exportUserExcelAsync(filter: SysUserPageQuery, requestId: string) {
   return http.post<{ taskId: string | number }, SysUserPageQuery>('/system/user/export/async', {
     data: filter,
     params: { requestId },

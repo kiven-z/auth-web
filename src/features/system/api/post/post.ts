@@ -85,7 +85,7 @@ export function getPostPage(params: SysPostPageQuery) {
  * @param filter 列表筛选（不含分页）
  * @returns 前置检查结果
  */
-export function preCheckPostExport(filter: SysPostPageQuery): Promise<ExportPreCheckResult> {
+export function preCheckPostExport(filter: SysPostPageQuery) {
   return http.post<ExportPreCheckResult, SysPostPageQuery>('/system/post/export/pre-check', {
     data: filter,
   });
@@ -100,7 +100,7 @@ export function preCheckPostExport(filter: SysPostPageQuery): Promise<ExportPreC
 export function exportPostExcelAsync(
   filter: SysPostPageQuery,
   requestId: string
-): Promise<{ taskId: string | number }> {
+) {
   return http.post<{ taskId: string | number }, SysPostPageQuery>('/system/post/export/async', {
     data: filter,
     params: { requestId },

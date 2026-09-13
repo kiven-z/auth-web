@@ -11,7 +11,7 @@ import type { GrantTableSubjectType } from '@/features/system/api/models/grant-t
 export function getRoleGrantSubjectSeeds(
   roleId: string,
   subjectType: GrantTableSubjectType
-): Promise<GrantSubjectItem[]> {
+) {
   return http.get<GrantSubjectItem[], { subjectType: GrantTableSubjectType }>(
     `/system/role/${roleId}/grant-subjects/ids`,
     { params: { subjectType } }
@@ -32,7 +32,7 @@ export interface SysRoleGrantSubjectsForm {
  * @param roleId 角色 ID
  * @param data 主体类型与 ID 列表
  */
-export function putRoleGrantSubjects(roleId: string, data: SysRoleGrantSubjectsForm): Promise<void> {
+export function putRoleGrantSubjects(roleId: string, data: SysRoleGrantSubjectsForm) {
   return http.put<void, SysRoleGrantSubjectsForm>(`/system/role/${roleId}/grant-subjects`, {
     data,
   });
