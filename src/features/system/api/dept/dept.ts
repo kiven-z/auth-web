@@ -87,10 +87,7 @@ export function preCheckDeptExport(filter: SysDeptPageQuery) {
  * @param requestId 幂等请求 ID
  * @returns 异步任务创建结果
  */
-export function exportDeptExcelAsync(
-  filter: SysDeptPageQuery,
-  requestId: string
-) {
+export function exportDeptExcelAsync(filter: SysDeptPageQuery, requestId: string) {
   return http.post<{ taskId: string | number }, SysDeptPageQuery>('/system/dept/export/async', {
     data: filter,
     params: { requestId },

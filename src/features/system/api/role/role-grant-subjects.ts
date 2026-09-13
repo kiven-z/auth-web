@@ -8,10 +8,7 @@ import type { GrantTableSubjectType } from '@/features/system/api/models/grant-t
  * @param subjectType 主体类型
  * @returns 种子列表；无授权时为空数组
  */
-export function getRoleGrantSubjectSeeds(
-  roleId: string,
-  subjectType: GrantTableSubjectType
-) {
+export function getRoleGrantSubjectSeeds(roleId: string, subjectType: GrantTableSubjectType) {
   return http.get<GrantSubjectItem[], { subjectType: GrantTableSubjectType }>(
     `/system/role/${roleId}/grant-subjects/ids`,
     { params: { subjectType } }

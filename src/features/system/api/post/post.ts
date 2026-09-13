@@ -97,10 +97,7 @@ export function preCheckPostExport(filter: SysPostPageQuery) {
  * @param requestId 幂等请求 ID
  * @returns 异步任务创建结果
  */
-export function exportPostExcelAsync(
-  filter: SysPostPageQuery,
-  requestId: string
-) {
+export function exportPostExcelAsync(filter: SysPostPageQuery, requestId: string) {
   return http.post<{ taskId: string | number }, SysPostPageQuery>('/system/post/export/async', {
     data: filter,
     params: { requestId },

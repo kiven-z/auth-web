@@ -60,10 +60,7 @@ export function preCheckRoleExport(filter: SysRolePageQuery) {
  * @param requestId 幂等请求 ID
  * @returns 异步任务创建结果
  */
-export function exportRoleExcelAsync(
-  filter: SysRolePageQuery,
-  requestId: string
-) {
+export function exportRoleExcelAsync(filter: SysRolePageQuery, requestId: string) {
   return http.post<{ taskId: string | number }, SysRolePageQuery>('/system/role/export/async', {
     data: filter,
     params: { requestId },

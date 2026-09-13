@@ -39,10 +39,7 @@ export interface RoleImpactUserPageQuery {
  * @param params 关键词 / 状态 / 分页
  * @returns 影响用户分页
  */
-export function getRoleImpactUsersPage(
-  roleId: string,
-  params: RoleImpactUserPageQuery
-) {
+export function getRoleImpactUsersPage(roleId: string, params: RoleImpactUserPageQuery) {
   return http.get<PageResponse<UserReference>, AxiosRequestConfig<RoleImpactUserPageQuery>>(
     `/system/role/${roleId}/impact/users/page`,
     { params }

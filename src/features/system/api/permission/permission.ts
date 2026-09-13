@@ -61,10 +61,7 @@ export function preCheckPermissionExport(filter: SysPermissionPageQuery) {
  * @param requestId 幂等请求 ID
  * @returns 异步任务创建结果
  */
-export function exportPermissionExcelAsync(
-  filter: SysPermissionPageQuery,
-  requestId: string
-) {
+export function exportPermissionExcelAsync(filter: SysPermissionPageQuery, requestId: string) {
   return http.post<{ taskId: string | number }, SysPermissionPageQuery>('/system/permission/export/async', {
     data: filter,
     params: { requestId },

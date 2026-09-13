@@ -90,10 +90,7 @@ export function getRoleAuthorizationSummary(roleId: string) {
  * @param params 主体类型与筛选条件
  * @returns 分页结果
  */
-export function getRoleGrantSubjectsPage(
-  roleId: string,
-  params: RoleGrantSubjectPageQuery
-) {
+export function getRoleGrantSubjectsPage(roleId: string, params: RoleGrantSubjectPageQuery) {
   return http.get<PageResponse<GrantSubjectItem>, AxiosRequestConfig<RoleGrantSubjectPageQuery>>(
     `/system/role/${roleId}/grant-subjects/page`,
     { params }
