@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import AuthorizationSurfaceShell from '@/features/system/_shared/components/AuthorizationSurfaceShell.vue';
 import {
   getRoleAuthorizationSummary,
   getRoleGrantSubjectsPage,
@@ -6,12 +7,11 @@ import {
   getRolePermissionsPage,
   type RoleAuthorizationSummary,
 } from '@/features/system/api/role/role-authorization';
-import { errorMessage } from '@/services/feedback/message';
-import AuthorizationSurfaceShell from '@/features/system/_shared/components/AuthorizationSurfaceShell.vue';
 import RoleBoundMenusPanel from '@/features/system/role/components/authorization/RoleBoundMenusPanel.vue';
 import RoleBoundPermissionsPanel from '@/features/system/role/components/authorization/RoleBoundPermissionsPanel.vue';
 import RoleGrantSeedPanel from '@/features/system/role/components/authorization/RoleGrantSeedPanel.vue';
 import { SYS_ROLE_PERMS } from '@/features/system/role/constants/permissions';
+import { errorMessage } from '@/services/feedback/message';
 import useOpenRoleImpactAnalysis from '@/features/system/role/hooks/impact/use-open-role-impact-analysis';
 import { computed, onMounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
@@ -83,6 +83,7 @@ onMounted(() => {
           :title="t('roles.bound.permissionsTitle')"
         />
       </el-tab-pane>
+
       <el-tab-pane :label="t('roles.bound.menus.title')" lazy name="menus">
         <RoleBoundMenusPanel
           :fetch-page="(query) => getRoleMenusPage(roleId, query)"
