@@ -8,7 +8,7 @@ import { useTranslationLang } from '@/shared/composables/i18n/use-translation-la
 import { useUserStore } from '@/store/modules/auth/user';
 import { useLayoutShellRuntimeStore } from '@/store/modules/layout-shell-runtime';
 import { useFullscreen } from '@vueuse/core';
-import { computed, defineProps, ref, toRef, watch } from 'vue';
+import { computed, ref, toRef, watch } from 'vue';
 
 import ExitFullscreen from '~icons/ri/fullscreen-exit-line';
 import Fullscreen from '~icons/ri/fullscreen-line';

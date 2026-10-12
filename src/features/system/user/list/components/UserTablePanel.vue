@@ -10,7 +10,7 @@ import useUserPageState from '@/features/system/user/list/hooks/use-user-page-st
 import { useFormPlaceholder } from '@/shared/composables/i18n/use-form-placeholder';
 import { useCollapsibleSearchForm } from '@/shared/composables/search/use-collapsible-search-form';
 import type { FormInstance } from 'element-plus';
-import { computed, defineOptions, ref } from 'vue';
+import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 defineOptions({

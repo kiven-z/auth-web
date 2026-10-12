@@ -15,7 +15,7 @@ type TransformI18nMessage = string | Record<string, string>;
 const siphonI18n = (function () {
   // 仅初始化一次国际化配置，递归扫描子目录（如 zh-CN/buttons.yaml, en/panel.yaml）
   const cache: Record<string, Record<string, any>> = {};
-  const modules = import.meta.glob('../../../locales/**/*.y(a)?ml', { eager: true });
+  const modules = import.meta.glob('../../../locales/**/*.{yaml,yml}', { eager: true });
 
   for (const [filePath, module] of Object.entries(modules)) {
     // 从路径中提取 "locales/" 之后的第一个目录名作为语言标识（支持任意深度嵌套）
