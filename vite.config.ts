@@ -57,6 +57,7 @@ export default ({ mode, command }: ConfigEnv): UserConfigExport => {
       sourcemap: false,
       chunkSizeWarningLimit: 4000,
       rolldownOptions: {
+        checks: { bundlerTimings: false },
         input: {
           index: pathResolve('./index.html', import.meta.url),
         },
