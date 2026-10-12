@@ -1,5 +1,5 @@
 # 前端镜像推送到阿里云 ACR（镜像名 auth-web）
-# Secrets 同 auth-server-pro：ACR_REGISTRY / ACR_NAMESPACE / ACR_USERNAME / ACR_PASSWORD
+# Secrets 同 auth-server：ACR_REGISTRY / ACR_NAMESPACE / ACR_USERNAME / ACR_PASSWORD
 #
 # 推送结果示例：
 #   registry.cn-hangzhou.aliyuncs.com/kiven-z-auth/auth-web:<sha>

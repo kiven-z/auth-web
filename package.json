@@ -1,5 +1,5 @@
 {
-  "name": "auth-web-pro",
+  "name": "auth-web",
   "version": "1.0.0-rc.7",
   "private": true,
   "type": "module",
@@ -36,13 +36,13 @@
     "vite",
     "esm"
   ],
-  "homepage": "https://github.com/kiven-z/auth-web-pro",
+  "homepage": "https://github.com/kiven-z/auth-web",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/kiven-z/auth-web-pro.git"
+    "url": "git+https://github.com/kiven-z/auth-web.git"
   },
   "bugs": {
-    "url": "https://github.com/kiven-z/auth-web-pro/issues"
+    "url": "https://github.com/kiven-z/auth-web/issues"
   },
   "license": "Apache-2.0",
   "author": {

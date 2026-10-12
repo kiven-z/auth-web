@@ -1,4 +1,4 @@
-# auth-web-community/pnpm-workspace.yaml
+# auth-web/pnpm-workspace.yaml
 # 单包项目也可只用此文件承载 pnpm 配置（pnpm 10.26+ / 11）
 
 shamefullyHoist: true

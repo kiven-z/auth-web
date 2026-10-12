@@ -1,8 +1,8 @@
-# auth-web-community
+# auth-web
 
 Auth 管理后台 **Community Edition** 前端仓库。基于 Vue 3、Vite、Element Plus、Tailwind CSS，TypeScript 。
 
-配套后端：[auth-server-community](https://github.com/kiven-z/auth-server-community)
+配套后端：[auth-server](https://github.com/kiven-z/auth-server)
 
 配套文档：https://github.com/kiven-z/auth-docs
 
@@ -37,7 +37,7 @@ pnpm preview        # 预览构建产物
 ## 目录结构
 
 ```
-auth-web-community
+auth-web
 ├── src/
 │   ├── api/            # 接口封装
 │   ├── app/            # 应用级初始化
