@@ -28,7 +28,7 @@ defineOptions({
 const { t } = useI18n();
 
 const { dataTheme, persistToggledTheme } = useLoginTheme();
-const { themeToggleRef, onThemeToggle } = useLoginThemeTransition(dataTheme, persistToggledTheme);
+const { onThemeToggle } = useLoginThemeTransition(dataTheme, persistToggledTheme);
 const logoUrl = getLogoUrl();
 const { locale, translation } = useTranslationLang();
 
@@ -59,7 +59,7 @@ const themeToggleIcon = computed(() => (dataTheme.value ? SunIcon : MoonIcon));
       <el-dropdown trigger="click">
         <span class="login__toolbar-item">
           <TranslateIcon />
-          {{ getLocaleDef(locale).label }}
+          <span class="font-bold">{{ getLocaleDef(locale).label }}</span>
         </span>
         <template #dropdown>
           <el-dropdown-menu>

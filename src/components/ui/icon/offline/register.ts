@@ -1,5 +1,5 @@
 import { convertParsedSVG, parseSVGContent } from '@iconify/utils';
-import { addIcon } from '@iconify/vue/dist/offline';
+import { addIcon } from '@iconify/vue/offline';
 
 /** 已打包的离线图标键名集合（`集合/图标名`），由各 pack 注册时写入 */
 const offlineIconNameSet = new Set<string>();

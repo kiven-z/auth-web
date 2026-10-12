@@ -1,4 +1,4 @@
-import { Icon as IconifyIcon } from '@iconify/vue/dist/offline';
+import { Icon as IconifyIcon } from '@iconify/vue/offline';
 import { defineComponent, h } from 'vue';
 
 // Iconify Icon在Vue里本地使用（用于内网环境）
