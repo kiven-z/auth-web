@@ -1,14 +1,14 @@
 <script lang="ts" setup>
 import NoticeBadge from '@/components/domain/message/notice-badge';
-import { UserAvatar } from '@/components/domain/user/user-profile';
-import { getLocaleDef, LOCALES } from '@/core/config/locale-config';
-import { useOpenPersonalWorkspace } from '@/features/home/personal/hooks/use-open-personal-workspace';
+import {UserAvatar} from '@/components/domain/user/user-profile';
+import {getLocaleDef, LOCALES} from '@/core/config/locale-config';
+import {useOpenPersonalWorkspace} from '@/features/home/personal/hooks/use-open-personal-workspace';
 import MenuSearch from '@/layout/chrome/search/MenuSearch.vue';
-import { useTranslationLang } from '@/shared/composables/i18n/use-translation-lang';
-import { useUserStore } from '@/store/modules/auth/user';
-import { useLayoutShellRuntimeStore } from '@/store/modules/layout-shell-runtime';
-import { useFullscreen } from '@vueuse/core';
-import { computed, ref, toRef, watch } from 'vue';
+import {useTranslationLang} from '@/shared/composables/i18n/use-translation-lang';
+import {useUserStore} from '@/store/modules/auth/user';
+import {useLayoutShellRuntimeStore} from '@/store/modules/layout-shell-runtime';
+import {useFullscreen} from '@vueuse/core';
+import {computed, ref, toRef, watch} from 'vue';
 
 import ExitFullscreen from '~icons/ri/fullscreen-exit-line';
 import Fullscreen from '~icons/ri/fullscreen-line';
@@ -24,7 +24,7 @@ interface Props {
 
 const props = defineProps<Props>();
 
-const { openPersonalWorkspace } = useOpenPersonalWorkspace();
+const {openPersonalWorkspace} = useOpenPersonalWorkspace();
 const layoutShellStore = useLayoutShellRuntimeStore();
 const userStore = useUserStore();
 
@@ -32,10 +32,10 @@ const userStore = useUserStore();
 const displayName = computed(() => userStore.nickname || userStore.username);
 const primaryDeptName = computed(() => userStore.primaryDeptName ?? '');
 
-const { t, locale: currentLocale, translation } = useTranslationLang(toRef(props, 'menuInstance'));
+const {t, locale: currentLocale, translation} = useTranslationLang(toRef(props, 'menuInstance'));
 
 const screenIcon = ref();
-const { isFullscreen, toggle: toggleFullscreen } = useFullscreen();
+const {isFullscreen, toggle: toggleFullscreen} = useFullscreen();
 
 isFullscreen.value = !!(
   document.fullscreenElement ||
@@ -49,16 +49,16 @@ watch(
   (full) => {
     screenIcon.value = full ? ExitFullscreen : Fullscreen;
   },
-  { immediate: true }
+  {immediate: true}
 );
 </script>
 
 <template>
-  <MenuSearch id="header-search" />
+  <MenuSearch id="header-search"/>
   <el-dropdown id="header-translation" trigger="click">
     <span class="layout-toolbar__locale">
-      <TranslateIcon />
-      <span>{{ getLocaleDef(currentLocale).label }}</span>
+      <TranslateIcon/>
+      <span class="font-bold">{{ getLocaleDef(currentLocale).label }}</span>
     </span>
     <template #dropdown>
       <el-dropdown-menu>
@@ -70,10 +70,10 @@ watch(
   </el-dropdown>
 
   <span id="full-screen" class="layout-toolbar__item" @click="toggleFullscreen">
-    <component :is="screenIcon" />
+    <component :is="screenIcon"/>
   </span>
 
-  <NoticeBadge id="header-notice" @click="openPersonalWorkspace('PersonalInbox')" />
+  <NoticeBadge id="header-notice" @click="openPersonalWorkspace('PersonalInbox')"/>
 
   <span v-if="primaryDeptName" class="layout-toolbar__dept">
     <el-text type="primary">{{ primaryDeptName }}</el-text>
@@ -81,18 +81,22 @@ watch(
 
   <el-dropdown trigger="click">
     <span class="layout-toolbar__user">
-      <UserAvatar :avatar="userStore.avatar" :name="displayName" :size="22" />
+      <UserAvatar :avatar="userStore.avatar" :name="displayName" :size="22"/>
       <span v-if="displayName">{{ displayName }}</span>
     </span>
     <template #dropdown>
       <el-dropdown-menu>
         <el-dropdown-item @click="openPersonalWorkspace('PersonalProfile')">
-          <el-icon><UserSettingsLine /></el-icon>
+          <el-icon>
+            <UserSettingsLine/>
+          </el-icon>
           {{ t('personal.title') }}
         </el-dropdown-item>
 
         <el-dropdown-item @click="userStore.logoutAndClear()">
-          <el-icon><LogoutCircleRLine /></el-icon>
+          <el-icon>
+            <LogoutCircleRLine/>
+          </el-icon>
           {{ t('buttons.loginOut') }}
         </el-dropdown-item>
       </el-dropdown-menu>
@@ -103,7 +107,7 @@ watch(
     class="layout-toolbar__item"
     @click="layoutShellStore.settingsPanelOpen = true"
   >
-    <Setting />
+    <Setting/>
   </span>
 </template>
 <style lang="scss" scoped>

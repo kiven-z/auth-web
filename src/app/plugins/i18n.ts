@@ -40,49 +40,6 @@ const siphonI18n = (function () {
 const localesConfigs = Object.fromEntries(LOCALES.map(({ locale, el }) => [locale, { ...siphonI18n(locale), ...el }]));
 
 /**
- * 获取对象中所有嵌套对象的key键，并将它们用点号分割组成字符串
- * @param obj 对象
- * @returns 所有嵌套对象的key键
- */
-function getObjectKeys(obj) {
-  const stack = [];
-  const keys: Set<string> = new Set();
-
-  stack.push({ obj, key: '' });
-
-  while (stack.length > 0) {
-    const { obj, key } = stack.pop();
-
-    for (const k in obj) {
-      const newKey = key ? `${key}.${k}` : k;
-
-      if (obj[k] && isObject(obj[k])) {
-        stack.push({ obj: obj[k], key: newKey });
-      } else {
-        keys.add(key);
-      }
-    }
-  }
-
-  return keys;
-}
-
-/**
- * 将展开的key缓存
- * @param prefix 前缀
- * @returns 展开的key缓存
- */
-const keysCache: Map<string, Set<string>> = new Map();
-const flatI18n = (prefix = 'zh-CN') => {
-  let cache = keysCache.get(prefix);
-  if (!cache) {
-    cache = getObjectKeys(siphonI18n(prefix));
-    keysCache.set(prefix, cache);
-  }
-  return cache;
-};
-
-/**
  * 仅供 i18n Ally 做键名智能提示，运行时原样返回 key；不用国际化时可删
  * @param key 键
  * @returns 键
@@ -113,13 +70,8 @@ export function transformI18n(message: TransformI18nMessage | null | undefined =
     return message[localeCode] ?? '';
   }
 
-  const key = /(\S*)\./.exec(message)?.input;
-
-  if (key && flatI18n(localeCode).has(key)) {
-    return String(i18n.global.t.call(i18n.global.locale, message));
-  }
-  if (!key && Object.hasOwn(siphonI18n(localeCode), message)) {
-    return String(i18n.global.t.call(i18n.global.locale, message));
+  if (i18n.global.te(message)) {
+    return String(i18n.global.t(message));
   }
   return message;
 }
