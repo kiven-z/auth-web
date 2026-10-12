@@ -43,6 +43,10 @@ describe('setupMdEditor', () => {
       logLevel: 'error',
     });
 
+    const md = { set: vi.fn() };
+    options.markdownItConfig(md);
+    expect(md.set).toHaveBeenCalledWith({ html: true });
+
     const imagePlugin = { type: 'image', options: { foo: 1 } };
     const otherPlugin = { type: 'link', options: {} };
     const plugins = options.markdownItPlugins([imagePlugin, otherPlugin]);

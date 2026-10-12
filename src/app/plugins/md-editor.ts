@@ -1,17 +1,18 @@
-import { config } from 'md-editor-v3';
 import MarkdownItGitHubAlerts from 'markdown-it-github-alerts';
+import { config } from 'md-editor-v3';
 import mermaid from 'mermaid';
 
+import '@/style/md/md-github-alerts.scss';
 import 'markdown-it-github-alerts/styles/github-base.css';
 import 'markdown-it-github-alerts/styles/github-colors-light.css';
-import '@/style/md/md-github-alerts.scss';
 
 let configured = false;
 
 /**
- * 配置 md-editor-v3：本地 Mermaid、GitHub Alerts、预览图懒加载。
- * 须在首次挂载 MdEditor / MdPreview 前调用；重复调用无效。
- * 注入 mermaid instance 后库不会走 CDN 加载分支，须自行 initialize，否则 flowchart 会停在源码占位态。
+ * 配置 md-editor-v3：本地 Mermaid、GitHub Alerts、预览图懒加载、原生 HTML
+ * 须在首次挂载 MdEditor / MdPreview 前调用；重复调用无效
+ * 注入 mermaid instance 后库不会走 CDN 加载分支，须自行 initialize，否则 flowchart 会停在源码占位态
+ * 下划线工具写入原生标签，预览须解析 HTML
  */
 export function setupMdEditor(): void {
   if (configured) {
@@ -29,6 +30,9 @@ export function setupMdEditor(): void {
       mermaid: {
         instance: mermaid,
       },
+    },
+    markdownItConfig(md) {
+      md.set({ html: true });
     },
     mermaidConfig(base) {
       return {
