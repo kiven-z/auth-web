@@ -1,9 +1,9 @@
-name: auth-web-pro
+name: auth-web
 
 # 运行时定义（无 build）。本地默认 tag=local；远程部署复制 docker/.env.example 为 docker/.env 或 export：
 #
 #   export IMAGE_PREFIX=registry.cn-hangzhou.aliyuncs.com/kiven-z-auth
-#   export IMAGE_TAG=pro-latest
+#   export IMAGE_TAG=latest
 #   docker compose pull && docker compose up -d --no-build
 #
 services:
