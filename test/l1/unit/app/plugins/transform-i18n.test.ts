@@ -1,14 +1,8 @@
 import { beforeEach, describe, expect, it } from 'vitest';
-import { isRef } from 'vue';
 import { i18n, transformI18n } from '@/app/plugins/i18n';
 
 function setLocale(locale: string) {
-  const current = i18n.global.locale;
-  if (isRef(current)) {
-    current.value = locale;
-  } else {
-    i18n.global.locale = locale;
-  }
+  i18n.global.locale.value = locale;
 }
 
 describe('transformI18n', () => {

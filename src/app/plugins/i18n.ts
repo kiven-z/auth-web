@@ -3,7 +3,7 @@ import isObject from 'lodash/isObject';
 import merge from 'lodash/merge';
 import type { App } from 'vue';
 import { unref } from 'vue';
-import { createI18n, type I18n } from 'vue-i18n';
+import { createI18n } from 'vue-i18n';
 
 /** transformI18n 可接受的文案：i18n key 或按 locale 映射的标题 */
 type TransformI18nMessage = string | Record<string, string>;
@@ -46,7 +46,7 @@ const localesConfigs = Object.fromEntries(LOCALES.map(({ locale, el }) => [local
  */
 export const $t = (key: string) => key;
 
-export const i18n: I18n = createI18n({
+export const i18n = createI18n({
   legacy: false,
   locale: DEFAULT_LOCALE,
   fallbackLocale: 'en',
@@ -71,7 +71,7 @@ export function transformI18n(message: TransformI18nMessage | null | undefined =
   }
 
   if (i18n.global.te(message)) {
-    return String(i18n.global.t(message));
+    return i18n.global.t(message);
   }
   return message;
 }

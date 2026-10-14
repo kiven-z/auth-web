@@ -22,8 +22,8 @@ vi.mock('@/core/preferences/runtime/layout-override', () => ({
   applyEffectiveLayoutToShell: vi.fn(),
 }));
 
-vi.mock('@/core/preferences/runtime/locale-effect', () => ({
-  applyLocaleToI18n: vi.fn(),
+vi.mock('@/app/plugins/i18n', () => ({
+  i18n: { global: { locale: { value: '' } } },
 }));
 
 vi.mock('@/core/storage/storage-local', () => ({

@@ -1,5 +1,5 @@
+import { i18n } from '@/app/plugins/i18n';
 import { DEFAULT_LOCALE, type LocaleType } from '@/core/config/locale-config';
-import { applyLocaleToI18n } from '@/core/preferences/runtime/locale-effect';
 import { defineStore } from 'pinia';
 import { readSavedPreferences } from './preferences-storage';
 
@@ -29,7 +29,7 @@ export const useLocalePreferencesStore = defineStore('locale-preferences', {
         return;
       }
       this.locale = value;
-      applyLocaleToI18n(value);
+      i18n.global.locale.value = value;
     },
   },
 });
