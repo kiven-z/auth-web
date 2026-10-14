@@ -1,8 +1,8 @@
-import { UI_PREFERENCE_KEYS } from '@/core/config/keys-config';
-import { schedulePreferenceSync } from '@/core/preferences/persistence/sync';
+import { LAYOUT_DEFAULT_MODE } from '@/core/config/ui-config';
 import { applyEffectiveLayoutToShell } from '@/core/preferences/runtime/layout-override';
 import type { LayoutMode } from '@/shared/utils/layout/layout-mode';
 import { defineStore } from 'pinia';
+import { readSavedPreferences } from './preferences-storage';
 
 /** 布局壳偏好状态 */
 interface LayoutPreferencesState {
@@ -13,28 +13,29 @@ interface LayoutPreferencesState {
 }
 
 /**
- * 布局壳偏好 Store（ui.layout）
+ * 布局壳偏好 Store
  *
- * 只管导航布局模式与侧栏展开状态；界面开关归 displayPreferences。
+ * 只管导航布局模式与侧栏展开状态。
  */
 export const useLayoutPreferencesStore = defineStore('layout-preferences', {
-  state: (): LayoutPreferencesState => ({
-    layout: 'vertical',
-    sidebarStatus: true,
-  }),
+  state: (): LayoutPreferencesState => {
+    const saved = readSavedPreferences();
+    return {
+      layout: saved?.layout ?? LAYOUT_DEFAULT_MODE,
+      sidebarStatus: saved?.sidebarStatus ?? true,
+    };
+  },
 
   actions: {
     /** 设置导航布局模式 */
     setLayout(value: LayoutMode): void {
       this.layout = value;
       applyEffectiveLayoutToShell(value);
-      schedulePreferenceSync(UI_PREFERENCE_KEYS.LAYOUT);
     },
 
     /** 设置侧栏展开状态 */
     setSidebarStatus(value: boolean): void {
       this.sidebarStatus = value;
-      schedulePreferenceSync(UI_PREFERENCE_KEYS.LAYOUT);
     },
 
     /** 应用生效布局到壳层 */

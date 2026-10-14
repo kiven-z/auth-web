@@ -6,22 +6,17 @@ import { useThemePreferencesStore } from '@/store/modules/preferences/theme-pref
 import { applyEffectiveLayoutToShell } from './layout-override';
 import { applyLocaleToI18n } from './locale-effect';
 
-/**
- * 将 layout 偏好应用到 DOM 与布局壳运行时
- */
+/** 将布局偏好应用到 body 与布局壳运行时 */
 export function applyLayoutPreferences(): void {
   const layoutStore = useLayoutPreferencesStore();
   applyEffectiveLayoutToShell(layoutStore.layout);
   useLayoutShellRuntimeStore().sidebar.opened = layoutStore.sidebarStatus;
 }
-/**
- * hydrate 完成后将 UI 偏好应用到 DOM、i18n 与 store
- */
+
+/** 将当前界面偏好应用到 DOM、i18n 与布局壳 */
 export function applyHydratedUiPreferences(): void {
   applyLocaleToI18n(useLocalePreferencesStore().locale);
-
   useThemePreferencesStore().$applyToDom();
-  applyLayoutPreferences();
-
   useDisplayPreferencesStore().$applyToDom();
+  applyLayoutPreferences();
 }

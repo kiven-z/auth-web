@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import { useDisplayPreferencesStore } from '@/store/modules/preferences/display-preferences';
 import { useLayoutPreferencesStore } from '@/store/modules/preferences/layout-preferences';
+import { useThemePreferencesStore } from '@/store/modules/preferences/theme-preferences';
 import { onMounted } from 'vue';
 import SettingPanel from '../SettingPanel.vue';
 import SettingsLayoutMode from './components/SettingsLayoutMode.vue';
@@ -11,10 +12,12 @@ defineOptions({
   name: 'LayoutSetting',
 });
 
+const themeStore = useThemePreferencesStore();
 const displayStore = useDisplayPreferencesStore();
 const layoutStore = useLayoutPreferencesStore();
 
 onMounted(() => {
+  themeStore.$applyToDom();
   displayStore.$applyToDom();
   layoutStore.$applyToShell();
 });

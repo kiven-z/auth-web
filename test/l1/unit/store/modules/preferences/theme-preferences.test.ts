@@ -1,15 +1,6 @@
 import { createPinia, setActivePinia } from 'pinia';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
-vi.mock('@/core/preferences/persistence/sync', () => ({
-  schedulePreferenceSync: vi.fn(),
-}));
-
-vi.mock('@/core/preferences/persistence/device-storage', () => ({
-  readDeviceUiPreferences: () => null,
-  writeDeviceUiPreferences: vi.fn(),
-}));
-
 import { useThemePreferencesStore } from '@/store/modules/preferences/theme-preferences';
 
 interface MockMediaQueryList {

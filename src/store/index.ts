@@ -1,7 +1,9 @@
+import { preferencesPersistencePlugin } from '@/store/modules/preferences/preferences-persistence';
 import type { App } from 'vue';
 import { createPinia } from 'pinia';
 
 const store = createPinia();
+store.use(preferencesPersistencePlugin);
 
 /**
  * 安装 Pinia。SPA 下安装后即可直接调用 useXxxStore()，无需再传 pinia 实例。

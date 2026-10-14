@@ -1,15 +1,11 @@
 <script lang="ts" setup>
 import { useDisplayPreferencesStore } from '@/store/modules/preferences/display-preferences';
-import { useTagsPreferencesStore } from '@/store/modules/preferences/tags/tags-preferences';
 import { storeToRefs } from 'pinia';
 import { useI18n } from 'vue-i18n';
 
 const { t } = useI18n();
 const store = useDisplayPreferencesStore();
 const { weak, hideFooter } = storeToRefs(store);
-
-const tagsStore = useTagsPreferencesStore();
-const { enabled: tagsEnabled } = storeToRefs(tagsStore);
 </script>
 
 <template>
@@ -25,10 +21,6 @@ const { enabled: tagsEnabled } = storeToRefs(tagsStore);
       <li>
         <span>{{ t('panel.hiddenFooter') }}</span>
         <el-switch v-model="hideFooter" @change="(value: boolean) => store.setHideFooter(value)" />
-      </li>
-      <li>
-        <span>{{ t('panel.multiTagsCache') }}</span>
-        <el-switch v-model="tagsEnabled" @change="(value: boolean) => tagsStore.setEnabled(value)" />
       </li>
     </ul>
   </div>

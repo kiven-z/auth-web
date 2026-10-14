@@ -17,7 +17,7 @@ const resetting = ref(false);
 const { openSelfChangePasswordDialog } = useChangePasswordAction();
 
 /**
- * 二次确认后重置本机与服务端出厂偏好并刷新页面
+ * 二次确认后重置本机外观与当前用户页签，并刷新页面
  */
 async function handleResetPreferences() {
   const confirmed = await multiConfirm([

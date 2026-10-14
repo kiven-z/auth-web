@@ -1,8 +1,17 @@
-import { clearMyPreferences, upsertMyPreference } from '@/features/system/api/user/user-preferences';
+import { DEFAULT_LOCALE } from '@/core/config/locale-config';
+import {
+  LAYOUT_DEFAULT_MODE,
+  THEME_DEFAULT_COLOR_SCHEME,
+  THEME_DEFAULT_NAV_THEME,
+  THEME_DEFAULT_PRIMARY_COLOR,
+} from '@/core/config/ui-config';
+import { routerArrays } from '@/router/types';
 import { useLayoutShellRuntimeStore } from '@/store/modules/layout-shell-runtime';
+import { useDisplayPreferencesStore } from '@/store/modules/preferences/display-preferences';
 import { useLayoutPreferencesStore } from '@/store/modules/preferences/layout-preferences';
-import { clearDeviceUiPreferences } from '../persistence/device-storage';
-import { PREFERENCE_MODULES } from '../registry';
+import { useLocalePreferencesStore } from '@/store/modules/preferences/locale-preferences';
+import { useTagsPreferencesStore } from '@/store/modules/preferences/tags/tags-preferences';
+import { useThemePreferencesStore } from '@/store/modules/preferences/theme-preferences';
 import { applyHydratedUiPreferences } from './apply';
 
 /** 侧栏展开状态写入选项 */
@@ -24,7 +33,7 @@ export function setSidebarOpened(opened?: boolean, options?: SetSidebarOpenedOpt
   const layoutShellStore = useLayoutShellRuntimeStore();
   const layoutStore = useLayoutPreferencesStore();
 
-  // 视口断点适配：只改运行时侧栏，不写入偏好、不同步服务端
+  // 视口断点适配：只改运行时侧栏，不写入偏好
   if (resize) {
     layoutShellStore.sidebar.withoutAnimation = true;
     layoutShellStore.sidebar.opened = Boolean(opened);
@@ -58,28 +67,25 @@ export function setSidebarOpened(opened?: boolean, options?: SetSidebarOpenedOpt
   layoutStore.setSidebarStatus(opened);
 }
 
-/**
- * 重置界面偏好：内存出厂 → 回写 Device LS → 服务端写入出厂快照
- * 服务端有键后，其他端 hydrate 可覆盖陈旧 Device LS
- */
-export async function resetAppearancePreferences(): Promise<void> {
-  for (const module of PREFERENCE_MODULES) {
-    module.resetLocal();
-  }
-
-  clearDeviceUiPreferences();
-  for (const module of PREFERENCE_MODULES) {
-    module.mirrorToDevice?.();
-  }
-
+/** 重置界面偏好到出厂值并写入本机，页签回到首页 */
+export function resetAppearancePreferences(): void {
+  useLocalePreferencesStore().$patch({ locale: DEFAULT_LOCALE });
+  useThemePreferencesStore().$patch({
+    colorScheme: THEME_DEFAULT_COLOR_SCHEME,
+    navTheme: THEME_DEFAULT_NAV_THEME,
+    primaryColor: THEME_DEFAULT_PRIMARY_COLOR,
+  });
+  useLayoutPreferencesStore().$patch({
+    layout: LAYOUT_DEFAULT_MODE,
+    sidebarStatus: true,
+  });
+  useDisplayPreferencesStore().$patch({
+    weak: false,
+    hideFooter: true,
+  });
+  useTagsPreferencesStore().$patch({
+    multiTags: [...routerArrays],
+    hasSavedTags: false,
+  });
   applyHydratedUiPreferences();
-
-  await clearMyPreferences();
-  for (const module of PREFERENCE_MODULES) {
-    const configValue = module.serialize();
-    if (!configValue || Object.keys(configValue).length === 0) {
-      continue;
-    }
-    await upsertMyPreference({ configKey: module.key, configValue });
-  }
 }

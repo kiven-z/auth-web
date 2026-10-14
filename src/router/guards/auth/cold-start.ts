@@ -11,7 +11,7 @@ import type { RouteLocationNormalized, RouteLocationRaw, Router } from 'vue-rout
 async function initDynamicRoutesForColdStart(to: RouteLocationNormalized): Promise<boolean> {
   try {
     const routerInstance = await initRouter();
-    if (!useTagsPreferencesStore().enabled) {
+    if (!useTagsPreferencesStore().hasSavedTags) {
       pushInitialTagFromRoute(to.path, routerInstance);
     }
     return true;

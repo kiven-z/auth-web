@@ -2,7 +2,7 @@ panel:
   systemSettings: Settings
   clearCache: Clear cache
   clearCacheConfirmTitle: Clear cache and sign out?
-  clearCacheConfirm: Local data on this device will be cleared and you will be signed out. Server-side UI preferences are unchanged and will restore after you sign in again.
+  clearCacheConfirm: Local data on this device will be cleared and you will be signed out.
   overallStyle: Style
   overallStyleLight: Light
   overallStyleLightTip: Set sail freshly and light up the comfortable work interface
@@ -18,4 +18,3 @@ panel:
   interfaceDisplay: Display
   weakModel: Colorblind
   hiddenFooter: Hide footer
-  multiTagsCache: Sync tabs

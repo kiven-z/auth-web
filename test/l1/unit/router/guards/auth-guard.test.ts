@@ -48,7 +48,7 @@ vi.mock('@/store/modules/auth/permission', () => ({
 }));
 
 vi.mock('@/store/modules/preferences/tags/tags-preferences', () => ({
-  useTagsPreferencesStore: vi.fn(() => ({ enabled: true })),
+  useTagsPreferencesStore: vi.fn(() => ({ hasSavedTags: true })),
 }));
 
 type RouteTestInput = Omit<Partial<RouteLocationNormalized>, 'meta'> & {

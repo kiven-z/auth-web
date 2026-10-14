@@ -1,69 +1,88 @@
-import { UI_PREFERENCE_KEYS } from '@/core/config/keys-config';
-import { schedulePreferenceSync } from '@/core/preferences/persistence/sync';
 import { type RouteConfigs, routerArrays } from '@/router/types';
+import type { TagRouteItem } from '@/store/types';
 import { defineStore } from 'pinia';
-import type { TagRouteItem, TagSplicePosition } from '@/store/types';
+import { readSavedPreferences } from '../preferences-storage';
 import { applyPushTag } from './tag-push-rules';
 
+/** 标签页偏好状态 */
+interface TagsPreferencesState {
+  /** 当前页签 */
+  multiTags: RouteConfigs[];
+  /** 本机已有页签，路由初始化时不覆盖 */
+  hasSavedTags: boolean;
+}
+
 /**
- * 标签页偏好 Store（ui.tags）：当前标签列表 + 是否跨浏览器恢复。
- * features / components 禁止直接依赖。
+ * 判断是否为可持久化的标签项
+ * @param value 未知值
+ * @returns 是否可写入偏好
+ */
+function isPersistedTag(value: unknown): value is RouteConfigs {
+  if (!value || typeof value !== 'object' || Array.isArray(value)) {
+    return false;
+  }
+  const path = (value as RouteConfigs).path;
+  return typeof path === 'string' && path.length > 0;
+}
+
+/**
+ * 去掉不可 JSON 序列化的字段
+ * @param tag 运行时标签
+ * @returns 可写入本机的标签
+ */
+export function toPersistedTag(tag: RouteConfigs): RouteConfigs {
+  const icon = tag.meta?.icon;
+  return {
+    path: tag.path,
+    name: tag.name,
+    query: tag.query,
+    params: tag.params,
+    meta: tag.meta
+      ? {
+          title: tag.meta.title,
+          icon: typeof icon === 'string' ? icon : undefined,
+          showLink: tag.meta.showLink,
+          savedPosition: tag.meta.savedPosition,
+        }
+      : undefined,
+  };
+}
+
+function readSavedTags(): Pick<TagsPreferencesState, 'multiTags' | 'hasSavedTags'> {
+  const items = readSavedPreferences()?.multiTags;
+  if (!Array.isArray(items)) {
+    return { multiTags: [...routerArrays], hasSavedTags: false };
+  }
+  const tags = items.filter(isPersistedTag).map(toPersistedTag);
+  if (tags.length === 0) {
+    return { multiTags: [...routerArrays], hasSavedTags: false };
+  }
+  return { multiTags: tags, hasSavedTags: true };
+}
+
+/**
+ * 标签页偏好 Store
+ *
+ * 当前标签列表放在本机，刷新后恢复。
  */
 export const useTagsPreferencesStore = defineStore('tags-preferences', {
-  state: () => ({
-    multiTags: [...routerArrays] as Array<RouteConfigs>,
-    enabled: true,
-  }),
+  state: (): TagsPreferencesState => readSavedTags(),
+
   actions: {
-    /**
-     * 切换是否记住页签并落库（enabled 由 tags 域持久化，关闭也写回）
-     * @param value 是否记住标签
-     */
-    setEnabled(value: boolean) {
-      this.enabled = value;
-      schedulePreferenceSync(UI_PREFERENCE_KEYS.TAGS);
-    },
-
-    /**
-     * hydrate 完成后灌入服务端标签（不触发写回；由调用方保证处于 hydrate 或已停同步）
-     * @param enabled 是否启用记住标签
-     * @param tags 服务端标签；缺省或空则保留当前（通常为首页）
-     */
-    hydrateTags(enabled: boolean, tags?: RouteConfigs[]) {
-      this.enabled = enabled;
-      if (enabled && tags && tags.length > 0) {
-        this.multiTags = tags;
-      }
-    },
-
-    setTags(tags: RouteConfigs[]) {
+    /** 替换页签列表 */
+    setTags(tags: RouteConfigs[]): void {
       this.multiTags = tags;
-      this.persistTagsCache();
+      this.hasSavedTags = true;
     },
-    pushTag(tag: TagRouteItem) {
+
+    /** 追加页签 */
+    pushTag(tag: TagRouteItem): void {
       const next = applyPushTag(this.multiTags, tag);
       if (!next) {
         return;
       }
       this.multiTags = next;
-      this.persistTagsCache();
-    },
-    removeTags(position: TagSplicePosition) {
-      this.multiTags.splice(position?.startIndex, position?.length);
-      this.persistTagsCache();
-      return this.multiTags;
-    },
-    getLastTag() {
-      return this.multiTags.slice(-1);
-    },
-    /**
-     * 开启记住标签时，调度服务端同步当前标签列表
-     */
-    persistTagsCache() {
-      if (!this.enabled) {
-        return;
-      }
-      schedulePreferenceSync(UI_PREFERENCE_KEYS.TAGS);
+      this.hasSavedTags = true;
     },
   },
 });

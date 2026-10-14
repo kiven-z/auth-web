@@ -1,21 +1,28 @@
+import { createPinia, setActivePinia } from 'pinia';
+import { createApp } from 'vue';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
-import { UI_PREFERENCE_KEYS } from '@/core/config/keys-config';
+import { UI_PREFERENCES_STORAGE_KEY } from '@/core/config/keys-config';
+import { resetAppearancePreferences } from '@/core/preferences/runtime/actions';
+import { preferencesPersistencePlugin } from '@/store/modules/preferences/preferences-persistence';
+import { useDisplayPreferencesStore } from '@/store/modules/preferences/display-preferences';
+import { useLayoutPreferencesStore } from '@/store/modules/preferences/layout-preferences';
+import { useLocalePreferencesStore } from '@/store/modules/preferences/locale-preferences';
+import { useTagsPreferencesStore } from '@/store/modules/preferences/tags/tags-preferences';
+import { useThemePreferencesStore } from '@/store/modules/preferences/theme-preferences';
 
 const memory = new Map<string, unknown>();
 
-vi.mock('@/core/config/app-config', () => ({
-  APP_TITLE: 'BunnyAdmin',
-  APP_STORAGE_PREFIX: 'test-',
-  APP_MENU_SEARCH_HISTORY: 6,
+vi.mock('@/core/preferences/runtime/apply', () => ({
+  applyHydratedUiPreferences: vi.fn(),
 }));
 
-vi.mock('@/core/config/keys-config', async (importOriginal) => {
-  const actual = await importOriginal<typeof import('@/core/config/keys-config')>();
-  return {
-    ...actual,
-    DEVICE_UI_STORAGE_KEY: 'test-device',
-  };
-});
+vi.mock('@/core/preferences/runtime/layout-override', () => ({
+  applyEffectiveLayoutToShell: vi.fn(),
+}));
+
+vi.mock('@/core/preferences/runtime/locale-effect', () => ({
+  applyLocaleToI18n: vi.fn(),
+}));
 
 vi.mock('@/core/storage/storage-local', () => ({
   storageLocal: () => ({
@@ -32,122 +39,61 @@ vi.mock('@/core/storage/storage-local', () => ({
   }),
 }));
 
-const applyHydratedUiPreferencesMock = vi.fn();
-const clearMyPreferences = vi.fn().mockResolvedValue(undefined);
-const upsertMyPreference = vi.fn().mockResolvedValue(undefined);
-
-const localePatch = vi.fn();
-const localeMirror = vi.fn();
-const themePatch = vi.fn();
-const themeMirror = vi.fn();
-const layoutReset = vi.fn();
-const displayReset = vi.fn();
-const tagsReset = vi.fn();
-
-vi.mock('@/core/preferences/runtime/apply', () => ({
-  applyLayoutPreferences: vi.fn(),
-  applyHydratedUiPreferences: (...args: unknown[]) => applyHydratedUiPreferencesMock(...args),
-}));
-
-vi.mock('@/features/system/api/user/user-preferences', () => ({
-  clearMyPreferences: (...args: unknown[]) => clearMyPreferences(...args),
-  upsertMyPreference: (...args: unknown[]) => upsertMyPreference(...args),
-  listMyPreferences: vi.fn(),
-}));
-
-vi.mock('@/core/preferences/persistence/sync', () => ({
-  schedulePreferenceSync: vi.fn(),
-  getIsHydrating: () => false,
-}));
-
-vi.mock('@/store/modules/preferences/locale-preferences', () => ({
-  useLocalePreferencesStore: () => ({
-    locale: 'zh-CN',
-    $patch: localePatch,
-    $mirrorToDevice: localeMirror,
-  }),
-}));
-
-vi.mock('@/store/modules/preferences/theme-preferences', () => ({
-  useThemePreferencesStore: () => ({
-    colorScheme: 'light',
-    navTheme: 'light',
-    primaryColor: '#006eff',
-    $patch: themePatch,
-    $mirrorToDevice: themeMirror,
-  }),
-}));
-
-vi.mock('@/store/modules/preferences/layout-preferences', () => ({
-  useLayoutPreferencesStore: () => ({
-    $state: { layout: 'vertical', sidebarStatus: true },
-    $reset: layoutReset,
-    setSidebarStatus: vi.fn(),
-  }),
-}));
-
-vi.mock('@/store/modules/preferences/display-preferences', () => ({
-  useDisplayPreferencesStore: () => ({
-    $state: {
-      weak: false,
-      hideFooter: true,
-    },
-    $reset: displayReset,
-  }),
-}));
-
-vi.mock('@/store/modules/preferences/tags/tags-preferences', () => ({
-  useTagsPreferencesStore: () => ({
-    $reset: tagsReset,
-    multiTags: [],
-    enabled: true,
-  }),
-}));
-
-vi.mock('@/store/modules/layout-shell-runtime', () => ({
-  useLayoutShellRuntimeStore: () => ({
-    layout: 'vertical',
-    sidebar: { opened: true, withoutAnimation: false, isClickCollapse: false },
-  }),
-}));
-
-import { resetAppearancePreferences } from '@/core/preferences/runtime/actions';
-import { writeDeviceUiPreferences, readDeviceUiPreferences } from '@/core/preferences/persistence/device-storage';
+function bootPreferences() {
+  const pinia = createPinia();
+  pinia.use(preferencesPersistencePlugin);
+  createApp({ render: () => null }).use(pinia);
+  setActivePinia(pinia);
+  return {
+    locale: useLocalePreferencesStore(),
+    theme: useThemePreferencesStore(),
+    layout: useLayoutPreferencesStore(),
+    display: useDisplayPreferencesStore(),
+    tags: useTagsPreferencesStore(),
+  };
+}
 
 describe('preferences actions（外观重置）', () => {
   beforeEach(() => {
     memory.clear();
-    localePatch.mockClear();
-    localeMirror.mockClear();
-    themePatch.mockClear();
-    themeMirror.mockClear();
-    layoutReset.mockClear();
-    displayReset.mockClear();
-    tagsReset.mockClear();
-    applyHydratedUiPreferencesMock.mockClear();
-    clearMyPreferences.mockClear();
-    upsertMyPreference.mockClear();
   });
 
-  it('resetAppearancePreferences：出厂内存 + Device 回写 + 服务端写默认快照', async () => {
-    writeDeviceUiPreferences({ locale: 'en', colorScheme: 'dark' });
-    expect(readDeviceUiPreferences()).not.toBeNull();
-
-    await resetAppearancePreferences();
-
-    expect(localePatch).toHaveBeenCalled();
-    expect(themePatch).toHaveBeenCalled();
-    expect(layoutReset).toHaveBeenCalled();
-    expect(displayReset).toHaveBeenCalled();
-    expect(tagsReset).toHaveBeenCalled();
-    expect(localeMirror).toHaveBeenCalled();
-    expect(themeMirror).toHaveBeenCalled();
-    expect(applyHydratedUiPreferencesMock).toHaveBeenCalled();
-    expect(clearMyPreferences).toHaveBeenCalled();
-    expect(upsertMyPreference).toHaveBeenCalledTimes(5);
-    expect(upsertMyPreference).toHaveBeenCalledWith({
-      configKey: UI_PREFERENCE_KEYS.LOCALE,
-      configValue: { locale: 'zh-CN' },
+  it('resetAppearancePreferences 把本机偏好写回出厂，并清掉页签', () => {
+    memory.set(UI_PREFERENCES_STORAGE_KEY, {
+      locale: 'en',
+      colorScheme: 'dark',
+      navTheme: 'pink',
+      primaryColor: '#eb2f96',
+      layout: 'mix',
+      sidebarStatus: false,
+      weak: true,
+      hideFooter: false,
+      multiTags: [{ path: '/a', name: 'A' }],
     });
+    const stores = bootPreferences();
+    expect(stores.tags.hasSavedTags).toBe(true);
+
+    resetAppearancePreferences();
+
+    expect(stores.locale.locale).toBe('zh-CN');
+    expect(stores.theme.colorScheme).toBe('light');
+    expect(stores.theme.navTheme).toBe('light');
+    expect(stores.theme.primaryColor).toBe('#006eff');
+    expect(stores.layout.layout).toBe('vertical');
+    expect(stores.layout.sidebarStatus).toBe(true);
+    expect(stores.display.weak).toBe(false);
+    expect(stores.display.hideFooter).toBe(true);
+    expect(stores.tags.hasSavedTags).toBe(false);
+    expect(memory.get(UI_PREFERENCES_STORAGE_KEY)).toMatchObject({
+      locale: 'zh-CN',
+      colorScheme: 'light',
+      navTheme: 'light',
+      primaryColor: '#006eff',
+      layout: 'vertical',
+      sidebarStatus: true,
+      weak: false,
+      hideFooter: true,
+    });
+    expect(memory.get(UI_PREFERENCES_STORAGE_KEY)).not.toHaveProperty('multiTags');
   });
 });

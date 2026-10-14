@@ -41,7 +41,7 @@ function handleAsyncRoutes(routeList) {
     }
     usePermissionStore().handleWholeMenus(routeList);
   }
-  if (!useTagsPreferencesStore().enabled) {
+  if (!useTagsPreferencesStore().hasSavedTags) {
     useTagsPreferencesStore().setTags([
       ...routerArrays,
       ...usePermissionStore().flatteningRoutes.filter((v) => v?.meta?.fixedTag),

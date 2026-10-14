@@ -1,5 +1,4 @@
 <script lang="ts" setup>
-import { storageLocal } from '@/core/storage/storage-local';
 import { multiConfirm } from '@/services/feedback/dialog';
 import { useUserStore } from '@/store/modules/auth/user';
 import { useLayoutShellRuntimeStore } from '@/store/modules/layout-shell-runtime';
@@ -19,8 +18,7 @@ const userStore = useUserStore();
 const { t } = useI18n();
 
 /**
- * 确认后吊销会话、清本机全部 localStorage
- * 返回登录页
+ * 确认后退出登录。退出会清空本机 localStorage
  */
 async function handleClearCache() {
   layoutShellStore.settingsPanelOpen = false;
@@ -31,7 +29,6 @@ async function handleClearCache() {
     return;
   }
   await userStore.logoutAndClear();
-  storageLocal().clear();
 }
 
 onClickOutside(target, (event: any) => {

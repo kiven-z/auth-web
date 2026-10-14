@@ -98,7 +98,7 @@ describe('requestAuth interceptor', () => {
     const client = buildClient();
 
     await client.request({
-      url: 'system/me/preferences',
+      url: '/system/me/profile',
       method: 'get',
       adapter: resolvedAdapter((config) => {
         expect((config.headers as any)?.Authorization).toBe('Bearer restored-token');
@@ -116,7 +116,7 @@ describe('requestAuth interceptor', () => {
     const client = buildClient();
 
     await client.request({
-      url: 'system/me/preferences',
+      url: '/system/me/profile',
       method: 'get',
       adapter: resolvedAdapter((config) => {
         expect((config.headers as any)?.Authorization).toBe('Bearer memory-token');

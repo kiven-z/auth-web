@@ -5,12 +5,10 @@ import {
   THEME_DEFAULT_NAV_THEME,
   THEME_DEFAULT_PRIMARY_COLOR,
 } from '@/core/config/ui-config';
-import { UI_PREFERENCE_KEYS } from '@/core/config/keys-config';
-import { readDeviceUiPreferences, writeDeviceUiPreferences } from '@/core/preferences/persistence/device-storage';
-import { schedulePreferenceSync } from '@/core/preferences/persistence/sync';
 import { resolveEffectiveNavTheme } from '@/core/preferences/runtime/theme-defaults';
 import { buildPrimaryColorInlineStyle } from '@/shared/utils/color/primary-color-inline';
 import { defineStore } from 'pinia';
+import { readSavedPreferences } from './preferences-storage';
 
 const COLOR_SCHEMES = new Set<ColorScheme>(['light', 'dark', 'system']);
 
@@ -29,17 +27,17 @@ interface ThemePreferencesState {
 }
 
 /**
- * 主题偏好 Store（ui.theme）
+ * 主题偏好 Store
  *
- * 未登录页刷新不回退：出厂值优先取 Device LS 缓存。
+ * 出厂值优先取本机缓存。
  */
 export const useThemePreferencesStore = defineStore('theme-preferences', {
   state: (): ThemePreferencesState => {
-    const device = readDeviceUiPreferences();
+    const saved = readSavedPreferences();
     return {
-      colorScheme: (device?.colorScheme as ColorScheme) ?? THEME_DEFAULT_COLOR_SCHEME,
-      navTheme: device?.navTheme ?? THEME_DEFAULT_NAV_THEME,
-      primaryColor: device?.primaryColor ?? THEME_DEFAULT_PRIMARY_COLOR,
+      colorScheme: saved?.colorScheme ?? THEME_DEFAULT_COLOR_SCHEME,
+      navTheme: saved?.navTheme ?? THEME_DEFAULT_NAV_THEME,
+      primaryColor: saved?.primaryColor ?? THEME_DEFAULT_PRIMARY_COLOR,
       osPrefersDark: globalThis.matchMedia?.('(prefers-color-scheme: dark)')?.matches ?? false,
     };
   },
@@ -62,8 +60,6 @@ export const useThemePreferencesStore = defineStore('theme-preferences', {
       }
       this.colorScheme = value;
       this.$applyToDom();
-      this.$mirrorToDevice();
-      schedulePreferenceSync(UI_PREFERENCE_KEYS.THEME);
     },
 
     /**
@@ -78,19 +74,15 @@ export const useThemePreferencesStore = defineStore('theme-preferences', {
       this.navTheme = value;
       this.primaryColor = themeItem.primaryColor;
       this.$applyToDom();
-      this.$mirrorToDevice();
-      schedulePreferenceSync(UI_PREFERENCE_KEYS.THEME);
     },
 
     /** 设置品牌主色 */
     setPrimaryColor(value: string): void {
       this.primaryColor = value;
       this.$applyToDom();
-      this.$mirrorToDevice();
-      schedulePreferenceSync(UI_PREFERENCE_KEYS.THEME);
     },
 
-    /** 应用主题到 DOM（主题副作用唯一入口） */
+    /** 应用主题到 DOM */
     $applyToDom(): void {
       const html = document.documentElement;
       const darkMode = this.isDarkMode;
@@ -103,15 +95,6 @@ export const useThemePreferencesStore = defineStore('theme-preferences', {
       for (const [cssVar, value] of Object.entries(inlineStyle)) {
         html.style.setProperty(cssVar, value);
       }
-    },
-
-    /** 回写主题字段到 Device LS（冷启动缓存） */
-    $mirrorToDevice(): void {
-      writeDeviceUiPreferences({
-        colorScheme: this.colorScheme,
-        navTheme: this.navTheme,
-        primaryColor: this.primaryColor,
-      });
     },
 
     /**

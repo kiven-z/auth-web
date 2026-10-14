@@ -1,19 +1,20 @@
-import { stopSync } from '@/core/preferences/persistence/sync';
-import { applyHydratedUiPreferences } from '@/core/preferences/runtime/apply';
+import { logoutApi } from '@/api/login';
 import { resetUserDisplayProfileHydration } from '@/core/session/profile/display-profile';
-import { resetSessionBootstrap } from '@/core/session/session-bootstrap';
+import { readUserProfileFromStorage } from '@/core/session/profile/user-profile-storage';
 import { readSessionPreferences, writeSessionPreferences } from '@/core/session/remember/session-preferences';
+import { resetSessionBootstrap } from '@/core/session/session-bootstrap';
 import { removeToken } from '@/core/session/token/session-token';
 import type { UserProfileSnapshot } from '@/core/session/types';
-import { readUserProfileFromStorage } from '@/core/session/profile/user-profile-storage';
-import { routerArrays } from '@/router/types';
+import { storageLocal } from '@/core/storage/storage-local';
 import { resetRouter, router } from '@/router';
 import { defineStore } from 'pinia';
 import type { AuthUserState } from '../../types';
 import { useDisplayPreferencesStore } from '../preferences/display-preferences';
 import { useLayoutPreferencesStore } from '../preferences/layout-preferences';
+import { useLocalePreferencesStore } from '../preferences/locale-preferences';
+import { pausePreferencesPersistence, resumePreferencesPersistence } from '../preferences/preferences-persistence';
 import { useTagsPreferencesStore } from '../preferences/tags/tags-preferences';
-import { logoutApi } from '@/api/login';
+import { useThemePreferencesStore } from '../preferences/theme-preferences';
 
 export const useUserStore = defineStore('auth-user', {
   state: (): AuthUserState => {
@@ -60,15 +61,16 @@ export const useUserStore = defineStore('auth-user', {
     },
 
     /**
-     * 清理本地用户态、Token、标签与动态路由，并跳转登录页。
-     * 保留本机语言 / 主题（Device LS + 内存）。
+     * 清空本机 localStorage、重置界面偏好，并跳转登录页。
      */
     async clearLocalSession() {
-      stopSync();
-      // 语言 / 主题由各自 store 保持（Device LS 仍在）；仅壳与开关回出厂默认
+      pausePreferencesPersistence();
+      storageLocal().clear();
+      useLocalePreferencesStore().$reset();
+      useThemePreferencesStore().$reset();
       useLayoutPreferencesStore().$reset();
       useDisplayPreferencesStore().$reset();
-      applyHydratedUiPreferences();
+      useTagsPreferencesStore().$reset();
       resetUserDisplayProfileHydration();
       resetSessionBootstrap();
       this.avatar = '';
@@ -79,9 +81,12 @@ export const useUserStore = defineStore('auth-user', {
       this.userId = '';
       this.roles = [];
       this.permissions = [];
+      const sessionPreferences = readSessionPreferences();
+      this.isRemembered = sessionPreferences.isRemembered;
+      this.loginDay = sessionPreferences.loginDay;
       removeToken();
-      useTagsPreferencesStore().setTags([...routerArrays]);
       resetRouter();
+      resumePreferencesPersistence();
       await router.push('/login');
     },
 

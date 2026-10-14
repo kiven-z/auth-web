@@ -1,15 +1,14 @@
 import { applyHydratedUiPreferences } from '@/core/preferences/runtime/apply';
-import { hasSessionHydrated, hydrateFromServer, startSync } from '@/core/preferences/persistence/sync';
-import { ensureAccessTokenReady, resetAccessTokenReady } from '@/core/session/token/access-token-ready';
 import { hydrateUserDisplayProfileOnSession } from '@/core/session/profile/display-profile';
+import { ensureAccessTokenReady, resetAccessTokenReady } from '@/core/session/token/access-token-ready';
 import { hasAccessToken } from '@/core/session/token/session-token';
 
 /** 会话副作用单飞，登出前保持同一 Promise */
 let sideEffectsPromise: Promise<void> | null = null;
 
 /**
- * Token 已就绪后灌入展示资料与 UI 偏好。
- * @returns 资料与偏好 hydrate 均完成的 Promise
+ * Token 已就绪后灌入展示资料，并应用界面偏好。
+ * @returns 资料灌入完成的 Promise
  */
 export function hydrateAuthenticatedSessionSideEffects(): Promise<void> {
   if (!hasAccessToken()) {
@@ -17,22 +16,13 @@ export function hydrateAuthenticatedSessionSideEffects(): Promise<void> {
   }
   sideEffectsPromise ??= (async () => {
     await hydrateUserDisplayProfileOnSession().catch(() => undefined);
-    if (hasSessionHydrated()) {
-      return;
-    }
-    try {
-      startSync();
-      await hydrateFromServer(() => applyHydratedUiPreferences());
-    } catch {
-      // 失败时放开单飞，下次会话就绪可重试；内存态保持当前值
-      sideEffectsPromise = null;
-    }
+    applyHydratedUiPreferences();
   })();
   return sideEffectsPromise;
 }
 
 /**
- * 已登录场景的会话就绪：恢复 accessToken 并完成资料 / 偏好 hydrate。
+ * 已登录场景的会话就绪：恢复 accessToken 并完成资料与界面偏好。
  * 供路由守卫使用；HTTP 层仅调用 {@link ensureAccessTokenReady}。
  * @returns 是否已具备可用 accessToken
  */

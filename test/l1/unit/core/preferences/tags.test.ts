@@ -1,9 +1,51 @@
-import { parseTagsPreferenceValue, toPersistedTag } from '@/core/preferences/persistence/tags';
-import { describe, expect, it } from 'vitest';
+import { createPinia, setActivePinia } from 'pinia';
+import { createApp } from 'vue';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { UI_PREFERENCES_STORAGE_KEY } from '@/core/config/keys-config';
+import { preferencesPersistencePlugin } from '@/store/modules/preferences/preferences-persistence';
+import { useTagsPreferencesStore } from '@/store/modules/preferences/tags/tags-preferences';
+
+const memory = new Map<string, unknown>();
+
+vi.mock('@/core/preferences/runtime/layout-override', () => ({
+  applyEffectiveLayoutToShell: vi.fn(),
+}));
+
+vi.mock('@/core/preferences/runtime/locale-effect', () => ({
+  applyLocaleToI18n: vi.fn(),
+}));
+
+vi.mock('@/core/storage/storage-local', () => ({
+  storageLocal: () => ({
+    getItem: <T>(key: string): T | null => (memory.has(key) ? (memory.get(key) as T) : null),
+    setItem: <T>(key: string, value: T): void => {
+      memory.set(key, value);
+    },
+    removeItem: (key: string): void => {
+      memory.delete(key);
+    },
+    clear: (): void => {
+      memory.clear();
+    },
+  }),
+}));
+
+function useFreshStore() {
+  const pinia = createPinia();
+  pinia.use(preferencesPersistencePlugin);
+  createApp({ render: () => null }).use(pinia);
+  setActivePinia(pinia);
+  return useTagsPreferencesStore();
+}
 
 describe('preferences tags', () => {
-  it('toPersistedTag 去掉函数型 icon', () => {
-    const persisted = toPersistedTag({
+  beforeEach(() => {
+    memory.clear();
+  });
+
+  it('页签写入时去掉函数型 icon，刷新后从同一键恢复', () => {
+    const store = useFreshStore();
+    store.pushTag({
       path: '/system/user',
       name: 'SystemUser',
       meta: {
@@ -11,32 +53,20 @@ describe('preferences tags', () => {
         icon: () => null,
       },
     });
-    expect(persisted).toEqual({
-      path: '/system/user',
-      name: 'SystemUser',
-      query: undefined,
-      params: undefined,
-      meta: {
-        title: 'menus.user',
-        icon: undefined,
-        showLink: undefined,
-        savedPosition: undefined,
-      },
-    });
+
+    const saved = memory.get(UI_PREFERENCES_STORAGE_KEY) as { multiTags: Array<{ meta?: { icon?: unknown } }> };
+    expect(saved.multiTags.at(-1)?.meta?.icon).toBeUndefined();
+
+    const restored = useFreshStore();
+    expect(restored.hasSavedTags).toBe(true);
+    expect(restored.multiTags.some((tag) => tag.path === '/system/user')).toBe(true);
   });
 
-  it('parseTagsPreferenceValue 过滤无效项', () => {
-    const tags = parseTagsPreferenceValue({
-      items: [{ path: '/a', name: 'A' }, { name: 'no-path' }, 'x', null],
+  it('无效页签不视为已保存', () => {
+    memory.set(UI_PREFERENCES_STORAGE_KEY, {
+      multiTags: [{ name: 'no-path' }],
     });
-    expect(tags).toEqual([
-      {
-        path: '/a',
-        name: 'A',
-        query: undefined,
-        params: undefined,
-        meta: undefined,
-      },
-    ]);
+    const store = useFreshStore();
+    expect(store.hasSavedTags).toBe(false);
   });
 });

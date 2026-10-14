@@ -1,5 +1,5 @@
-/** 本机 UI 偏好 localStorage 键 */
-export const DEVICE_UI_STORAGE_KEY = 'ui-device';
+/** 界面偏好 localStorage 键（语言、主题、布局、显示开关、页签） */
+export const UI_PREFERENCES_STORAGE_KEY = 'ui-preferences';
 
 /** 用户资料 localStorage 键 */
 export const USER_INFO_STORAGE_KEY = 'user-info';
@@ -14,23 +14,3 @@ export const MULTIPLE_TABS_COOKIE_KEY = 'multiple-tabs';
 
 /** 记住登录相关偏好 localStorage 键 */
 export const SESSION_PREFERENCES_KEY = 'session-preferences';
-
-/**
- * UI 偏好配置键。
- * 均可与服务端往返；Device LS 仅作本机冷启动缓存。
- */
-export const UI_PREFERENCE_KEYS = {
-  /** 界面语言 */
-  LOCALE: 'ui.locale',
-  /** 颜色方案 + 侧栏皮肤 + 品牌主色 */
-  THEME: 'ui.theme',
-  /** 导航布局模式 + 侧栏展开状态 */
-  LAYOUT: 'ui.layout',
-  /** 色弱模式与隐藏页脚 */
-  DISPLAY: 'ui.display',
-  /** 多标签页快照 */
-  TAGS: 'ui.tags',
-} as const;
-
-/** UI 偏好配置键联合类型 */
-export type UiPreferenceKey = (typeof UI_PREFERENCE_KEYS)[keyof typeof UI_PREFERENCE_KEYS];
