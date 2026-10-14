@@ -26,7 +26,7 @@ export const UI_PREFERENCE_KEYS = {
   THEME: 'ui.theme',
   /** 导航布局模式 + 侧栏展开状态 */
   LAYOUT: 'ui.layout',
-  /** 界面显示开关 + 标签风格 + 页宽 */
+  /** 色弱模式与隐藏页脚 */
   DISPLAY: 'ui.display',
   /** 多标签页快照 */
   TAGS: 'ui.tags',

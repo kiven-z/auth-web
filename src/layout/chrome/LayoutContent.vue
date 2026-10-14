@@ -1,5 +1,4 @@
 <script lang="ts" setup>
-import { resolveContentSectionPaddingTop } from '@/layout/utils/content-style';
 import { usePermissionStore } from '@/store/modules/auth/permission';
 import { useLayoutShellRuntimeStore } from '@/store/modules/layout-shell-runtime';
 import { useDisplayPreferencesStore } from '@/store/modules/preferences/display-preferences';
@@ -15,15 +14,11 @@ defineOptions({ name: 'LayoutContent' });
 const { t } = useI18n();
 const displayStore = useDisplayPreferencesStore();
 const layoutShellStore = useLayoutShellRuntimeStore();
-const { hideTabs, hideFooter, showModel } = storeToRefs(displayStore);
+const { hideFooter } = storeToRefs(displayStore);
 
 const transitions = computed(() => (route) => route.meta.transition);
 const contentStyleVars = computed(() => ({
-  '--layout-content-padding-top': resolveContentSectionPaddingTop({
-    hideTabs: hideTabs.value,
-    showModel: showModel.value,
-    contentFullscreen: layoutShellStore.hiddenSideBar,
-  }),
+  '--layout-content-padding-top': layoutShellStore.hiddenSideBar ? '32px' : '81px',
 }));
 
 const transitionMain = defineComponent({

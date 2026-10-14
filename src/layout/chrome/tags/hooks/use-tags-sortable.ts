@@ -7,9 +7,8 @@ import { isFixedTagItem } from '../utils/fixed-tag';
 /**
  * 标签栏横向拖拽排序（SortableJS）；固定标签不可拖、不可作为落点
  * @param tabListRef 标签列表根节点
- * @param enabled 是否启用（标签栏可见时）
  */
-export function useTagsSortable(tabListRef: Ref<HTMLElement | undefined>, enabled: Ref<boolean>): void {
+export function useTagsSortable(tabListRef: Ref<HTMLElement | undefined>): void {
   let sortableInstance: ReturnType<typeof Sortable.create> | null = null;
   const { multiTags } = storeToRefs(useTagsPreferencesStore());
 
@@ -21,7 +20,7 @@ export function useTagsSortable(tabListRef: Ref<HTMLElement | undefined>, enable
   function initSortable(): void {
     destroySortable();
     const wrapper = tabListRef.value;
-    if (!wrapper || !enabled.value) {
+    if (!wrapper) {
       return;
     }
 
@@ -59,7 +58,7 @@ export function useTagsSortable(tabListRef: Ref<HTMLElement | undefined>, enable
   }
 
   watch(
-    [tabListRef, enabled, () => multiTags.value.length],
+    [tabListRef, () => multiTags.value.length],
     () => {
       void nextTick(() => initSortable());
     },

@@ -4,17 +4,13 @@ import LayoutToolbar from '@/layout/shell/layout-header/components/LayoutToolbar
 import { getLogoUrl } from '@/shared/utils/platform';
 import { router } from '@/router';
 import { getTopMenu } from '@/router/utils/misc';
-import { useDisplayPreferencesStore } from '@/store/modules/preferences/display-preferences';
 import { usePermissionStore } from '@/store/modules/auth/permission';
-import { storeToRefs } from 'pinia';
 import { computed, nextTick, ref } from 'vue';
 import { useRoute } from 'vue-router';
 import SidebarItem from '@/layout/chrome/sidebar/SidebarItem.vue';
 
 const route = useRoute();
 const menuRef = ref();
-const displayStore = useDisplayPreferencesStore();
-const { showLogo } = storeToRefs(displayStore);
 const logoUrl = getLogoUrl();
 
 const defaultActive = computed(() => (route.meta?.activePath ? route.meta.activePath : route.path));
@@ -34,7 +30,7 @@ nextTick(() => {
 
 <template>
   <div v-loading="usePermissionStore().wholeMenus.length === 0" class="layout-horizontal">
-    <div v-if="showLogo" class="layout-horizontal__logo" @click="backTopMenu">
+    <div class="layout-horizontal__logo" @click="backTopMenu">
       <img :src="logoUrl" alt="logo" class="layout-horizontal__logo-img" />
       <span class="layout-horizontal__logo-title">{{ APP_TITLE }}</span>
     </div>

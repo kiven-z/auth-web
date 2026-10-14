@@ -89,13 +89,8 @@ vi.mock('@/store/modules/preferences/layout-preferences', () => ({
 vi.mock('@/store/modules/preferences/display-preferences', () => ({
   useDisplayPreferencesStore: () => ({
     $state: {
-      grey: false,
       weak: false,
-      hideTabs: false,
       hideFooter: true,
-      showLogo: true,
-      showModel: 'smart',
-      stretch: false,
     },
     $reset: displayReset,
   }),

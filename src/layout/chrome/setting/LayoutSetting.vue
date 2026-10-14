@@ -5,7 +5,6 @@ import { onMounted } from 'vue';
 import SettingPanel from '../SettingPanel.vue';
 import SettingsLayoutMode from './components/SettingsLayoutMode.vue';
 import SettingsOverallStyle from './components/SettingsOverallStyle.vue';
-import SettingsTagsStyle from './components/SettingsTagsStyle.vue';
 import SettingsToggles from './components/SettingsToggles.vue';
 
 defineOptions({
@@ -26,7 +25,6 @@ onMounted(() => {
     <div class="settings-panel__body">
       <SettingsOverallStyle />
       <SettingsLayoutMode />
-      <SettingsTagsStyle />
       <SettingsToggles />
     </div>
   </SettingPanel>
@@ -46,10 +44,6 @@ onMounted(() => {
 
 :deep(.settings-panel__title--spaced) {
   margin-top: 20px;
-}
-
-:deep(.settings-panel__title--spaced-sm) {
-  margin-top: 16px;
 }
 
 :deep(.el-divider__text) {

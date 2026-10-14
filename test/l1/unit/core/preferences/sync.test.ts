@@ -42,13 +42,8 @@ const layoutStore = {
 };
 
 const displayState = {
-  grey: false,
   weak: false,
-  hideTabs: false,
   hideFooter: true,
-  showLogo: true,
-  showModel: 'smart',
-  stretch: false as boolean | number,
 };
 const displayStore = {
   $state: displayState,
@@ -120,13 +115,8 @@ describe('preferences sync（按域拆键往返）', () => {
     Object.assign(themeState, { colorScheme: 'light', navTheme: 'light', primaryColor: '#006eff' });
     Object.assign(layoutState, { layout: 'vertical', sidebarStatus: true });
     Object.assign(displayState, {
-      grey: false,
       weak: false,
-      hideTabs: false,
       hideFooter: true,
-      showLogo: true,
-      showModel: 'smart',
-      stretch: false,
     });
     tagsState.multiTags = [];
     tagsState.enabled = true;
@@ -157,7 +147,7 @@ describe('preferences sync（按域拆键往返）', () => {
           configValue: { colorScheme: 'dark', navTheme: 'default', primaryColor: '#1b2a47' },
         },
         { configKey: UI_PREFERENCE_KEYS.LAYOUT, configValue: { layout: 'mix', sidebarStatus: false } },
-        { configKey: UI_PREFERENCE_KEYS.DISPLAY, configValue: { grey: true, hideTabs: true } },
+        { configKey: UI_PREFERENCE_KEYS.DISPLAY, configValue: { grey: true, hideTabs: true, weak: true } },
       ],
     });
 
@@ -170,7 +160,7 @@ describe('preferences sync（按域拆键往返）', () => {
       primaryColor: '#1b2a47',
     });
     expect(layoutStore.$patch).toHaveBeenCalledWith({ layout: 'mix', sidebarStatus: false });
-    expect(displayStore.$patch).toHaveBeenCalledWith({ grey: true, hideTabs: true });
+    expect(displayStore.$patch).toHaveBeenCalledWith({ weak: true });
     expect(localeStore.$mirrorToDevice).toHaveBeenCalled();
     expect(themeStore.$mirrorToDevice).toHaveBeenCalled();
   });
@@ -226,7 +216,7 @@ describe('preferences sync（按域拆键往返）', () => {
   });
 
   it('schedulePreferenceSync(DISPLAY) upsert 仅含界面开关字段', async () => {
-    Object.assign(displayState, { grey: true, hideTabs: true, showModel: 'card', stretch: 1440 });
+    Object.assign(displayState, { weak: true, hideFooter: false });
     startSync();
     schedulePreferenceSync(UI_PREFERENCE_KEYS.DISPLAY);
 
@@ -235,13 +225,8 @@ describe('preferences sync（按域拆键往返）', () => {
     expect(upsertMyPreference).toHaveBeenCalledWith({
       configKey: UI_PREFERENCE_KEYS.DISPLAY,
       configValue: {
-        grey: true,
-        weak: false,
-        hideTabs: true,
-        hideFooter: true,
-        showLogo: true,
-        showModel: 'card',
-        stretch: 1440,
+        weak: true,
+        hideFooter: false,
       },
     });
   });

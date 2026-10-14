@@ -4,13 +4,7 @@ import type { BaseResponseDetail, BaseResponsePageRow } from '@/api/models/respo
  * 异步导出任务状态
  */
 export type FileExportTaskStatus =
-  | 'PENDING'
-  | 'RUNNING'
-  | 'CANCELLING'
-  | 'SUCCESS'
-  | 'FAILED'
-  | 'CANCELLED'
-  | 'EXPIRED';
+  'PENDING' | 'RUNNING' | 'CANCELLING' | 'SUCCESS' | 'FAILED' | 'CANCELLED' | 'EXPIRED';
 
 /**
  * 异步导出格式

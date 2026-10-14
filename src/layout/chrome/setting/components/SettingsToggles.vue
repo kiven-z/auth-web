@@ -6,7 +6,7 @@ import { useI18n } from 'vue-i18n';
 
 const { t } = useI18n();
 const store = useDisplayPreferencesStore();
-const { grey, weak, hideTabs, hideFooter, showLogo } = storeToRefs(store);
+const { weak, hideFooter } = storeToRefs(store);
 
 const tagsStore = useTagsPreferencesStore();
 const { enabled: tagsEnabled } = storeToRefs(tagsStore);
@@ -19,24 +19,12 @@ const { enabled: tagsEnabled } = storeToRefs(tagsStore);
     </p>
     <ul class="settings-toggles">
       <li>
-        <span>{{ t('panel.greyModel') }}</span>
-        <el-switch v-model="grey" @change="(value: boolean) => store.setGrey(value)" />
-      </li>
-      <li>
         <span>{{ t('panel.weakModel') }}</span>
         <el-switch v-model="weak" @change="(value: boolean) => store.setWeak(value)" />
       </li>
       <li>
-        <span>{{ t('panel.hiddenTags') }}</span>
-        <el-switch v-model="hideTabs" @change="(value: boolean) => store.setHideTabs(value)" />
-      </li>
-      <li>
         <span>{{ t('panel.hiddenFooter') }}</span>
         <el-switch v-model="hideFooter" @change="(value: boolean) => store.setHideFooter(value)" />
-      </li>
-      <li>
-        <span>Logo</span>
-        <el-switch v-model="showLogo" @change="(value: boolean) => store.setShowLogo(value)" />
       </li>
       <li>
         <span>{{ t('panel.multiTagsCache') }}</span>

@@ -5,9 +5,7 @@ import { setSidebarOpened } from '@/core/preferences/runtime/actions';
 import { getMenuTooltipEffect } from '@/shared/utils/platform';
 import { findRouteByPath, getParentPaths } from '@/router/utils/route-tree';
 import { useLayoutShellRuntimeStore } from '@/store/modules/layout-shell-runtime';
-import { useDisplayPreferencesStore } from '@/store/modules/preferences/display-preferences';
 import { usePermissionStore } from '@/store/modules/auth/permission';
-import { storeToRefs } from 'pinia';
 import { computed, ref, watch } from 'vue';
 import { useRoute } from 'vue-router';
 import SidebarItem from '@/layout/chrome/sidebar/SidebarItem.vue';
@@ -17,8 +15,6 @@ const route = useRoute();
 const isShow = ref(false);
 const layoutShellStore = useLayoutShellRuntimeStore();
 const { capabilities } = useLayoutCapabilities();
-const displayStore = useDisplayPreferencesStore();
-const { showLogo } = storeToRefs(displayStore);
 const isCollapse = computed(() => !layoutShellStore.sidebar.opened);
 const tooltipEffect = getMenuTooltipEffect();
 
@@ -59,11 +55,11 @@ watch(
 <template>
   <div
     v-loading="loading"
-    :class="['layout-sidebar', showLogo ? 'layout-sidebar--has-logo' : 'layout-sidebar--no-logo']"
+    class="layout-sidebar"
     @mouseenter.prevent="isShow = true"
     @mouseleave.prevent="isShow = false"
   >
-    <SidebarLogo v-if="showLogo" :collapse="isCollapse" />
+    <SidebarLogo :collapse="isCollapse" />
     <el-scrollbar
       :class="[layoutShellStore.device === 'mobile' ? 'layout-sidebar__scroll--mobile' : 'layout-sidebar__scroll--pc']"
       wrap-class="scrollbar-wrapper"

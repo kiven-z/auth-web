@@ -57,13 +57,8 @@ describe('preferenceDefaults（按域出厂值）', () => {
 
   it('displayPreferences 出厂值含界面开关默认', () => {
     expect(useDisplayPreferencesStore().$state).toEqual({
-      grey: false,
       weak: false,
-      hideTabs: false,
       hideFooter: true,
-      showLogo: true,
-      showModel: 'smart',
-      stretch: false,
     });
   });
 

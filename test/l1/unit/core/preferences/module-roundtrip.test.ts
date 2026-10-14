@@ -72,37 +72,23 @@ describe('preferences module roundtrip（真实 store × 真实 module 互逆）
     expectRoundtrip(layoutModule, snapshot);
   });
 
-  it('display：serialize 含全部界面开关，hydrate 后互逆', () => {
+  it('display：serialize 仅含色弱与隐藏页脚，hydrate 后互逆', () => {
     useDisplayPreferencesStore().$patch({
-      grey: true,
       weak: true,
-      hideTabs: true,
       hideFooter: false,
-      showLogo: false,
-      showModel: 'card',
-      stretch: 1440,
     });
     const snapshot = displayModule.serialize();
 
-    expect(Object.keys(snapshot).sort()).toEqual([
-      'grey',
-      'hideFooter',
-      'hideTabs',
-      'showLogo',
-      'showModel',
-      'stretch',
-      'weak',
-    ]);
+    expect(Object.keys(snapshot).sort()).toEqual(['hideFooter', 'weak']);
     expect(snapshot).toEqual({
-      grey: true,
       weak: true,
-      hideTabs: true,
       hideFooter: false,
-      showLogo: false,
-      showModel: 'card',
-      stretch: 1440,
     });
     expectRoundtrip(displayModule, snapshot);
+
+    setActivePinia(createPinia());
+    displayModule.hydrate({ grey: true, hideTabs: true, showModel: 'card', stretch: 1440, weak: true });
+    expect(displayModule.serialize()).toEqual({ weak: true, hideFooter: true });
   });
 
   it('tags：serialize 含 enabled + items，hydrate 后互逆', () => {
@@ -132,7 +118,7 @@ describe('preferences module roundtrip（真实 store × 真实 module 互逆）
     useLocalePreferencesStore().$patch({ locale: 'en' });
     useThemePreferencesStore().$patch({ colorScheme: 'dark', navTheme: 'pink', primaryColor: '#eb2f96' });
     useLayoutPreferencesStore().$patch({ layout: 'horizontal', sidebarStatus: false });
-    useDisplayPreferencesStore().$patch({ grey: true, hideTabs: true });
+    useDisplayPreferencesStore().$patch({ weak: true, hideFooter: false });
     useTagsPreferencesStore().$patch({
       enabled: false,
       multiTags: [{ path: '/welcome', name: 'Welcome' }],
@@ -151,7 +137,7 @@ describe('preferences module roundtrip（真实 store × 真实 module 互逆）
       primaryColor: '#006eff',
     });
     expect(layoutModule.serialize()).toEqual({ layout: 'vertical', sidebarStatus: true });
-    expect(displayModule.serialize()).toMatchObject({ grey: false, hideTabs: false, hideFooter: true });
+    expect(displayModule.serialize()).toEqual({ weak: false, hideFooter: true });
     expect(tagsModule.serialize()).toMatchObject({ enabled: true });
   });
 });

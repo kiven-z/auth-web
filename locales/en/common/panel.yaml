@@ -15,21 +15,7 @@ panel:
   vertical: Left menu
   horizontal: Top menu
   mix: Mixed menu
-  stretch: Stretch
-  stretchFixed: Fixed
-  stretchFixedTip: Compact pages make it easy to find the information you need
-  stretchCustom: Custom
-  stretchCustomTip: Minimum 1280, maximum 1600
-  tagsStyle: Tag style
-  tagsStyleSmart: Line
-  tagsStyleSmartTip: Underline highlights the active tag
-  tagsStyleCard: Card
-  tagsStyleCardTip: Separate cards for clearer distinction
-  tagsStyleChrome: Browser
-  tagsStyleChromeTip: Curved tabs, similar to a browser tab bar
   interfaceDisplay: Display
-  greyModel: Greyscale
   weakModel: Colorblind
-  hiddenTags: Hide tags
   hiddenFooter: Hide footer
   multiTagsCache: Sync tabs

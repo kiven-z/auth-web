@@ -1,10 +1,9 @@
 <script lang="ts" setup>
 import { onClickOutside, useResizeObserver } from '@vueuse/core';
 import { delay } from '@/shared/utils/async/delay';
-import { useDisplayPreferencesStore } from '@/store/modules/preferences/display-preferences';
 import { useTagsPreferencesStore } from '@/store/modules/preferences/tags/tags-preferences';
 import { storeToRefs } from 'pinia';
-import { computed, nextTick, onMounted, ref, watch } from 'vue';
+import { nextTick, onMounted, ref, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import TagItem from './components/TagItem.vue';
 import TagsContextMenu from './TagsContextMenu.vue';
@@ -24,7 +23,6 @@ defineOptions({
 
 const route = useRoute();
 const router = useRouter();
-const { showModel, hideTabs } = storeToRefs(useDisplayPreferencesStore());
 const { multiTags } = storeToRefs(useTagsPreferencesStore());
 
 const containerDom = ref<HTMLElement>();
@@ -32,7 +30,6 @@ const tabDom = ref<HTMLElement>();
 const scrollbarDom = ref<HTMLDivElement>();
 const contextmenuRef = ref();
 const isShowArrow = ref(false);
-const tagsSortableEnabled = computed(() => !hideTabs.value);
 
 const { syncArrowVisible, scrollTagIntoView, scrollByArrow, handleWheel } = useTagsScroll({
   scrollbarRef: scrollbarDom,
@@ -40,7 +37,7 @@ const { syncArrowVisible, scrollTagIntoView, scrollByArrow, handleWheel } = useT
   isShowArrow,
 });
 
-useTagsSortable(tabDom, tagsSortableEnabled);
+useTagsSortable(tabDom);
 
 /**
  * 路由变化后滚动激活标签并刷新箭头
@@ -82,16 +79,11 @@ onMounted(() => {
 </script>
 
 <template>
-  <div v-if="!hideTabs" ref="containerDom" :class="['layout-tags', `layout-tags--${showModel}`]">
+  <div ref="containerDom" class="layout-tags">
     <span v-show="isShowArrow" class="arrow-left">
       <ArrowLeftSLine @click="scrollByArrow(-1)" />
     </span>
-    <div
-      ref="scrollbarDom"
-      :class="showModel === 'chrome' && 'chrome-scroll-container'"
-      class="scroll-container"
-      @wheel.prevent="handleWheel"
-    >
+    <div ref="scrollbarDom" class="scroll-container" @wheel.prevent="handleWheel">
       <div ref="tabDom" class="tab select-none">
         <TagItem
           v-for="(item, index) in multiTags"
@@ -100,7 +92,6 @@ onMounted(() => {
           :fixed="isFixedTagItem(item)"
           :index="index"
           :item="item"
-          :show-model="showModel"
           @click="navigateToTag(router, item)"
           @close="deleteMenu(item)"
           @contextmenu.prevent="openMenu(item, $event)"
